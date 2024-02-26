@@ -262,27 +262,28 @@ Public Class FrmProcessProductionIssueEntry
             ElseIf e.Alt AndAlso e.KeyCode = Keys.R AndAlso MyBase.isReverse AndAlso btnunpost.Visible Then
                 btnunpost.PerformClick()
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-                ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                                 "TSPL_PP_ISSUE_HEAD " + Environment.NewLine + _
-                                                 "TSPL_PP_ISSUE_ITEM_DETAIL " + Environment.NewLine + _
-                                                 "TSPL_PP_ISSUE_QC_DETAIL " + Environment.NewLine + _
-                                                 "Press Alt+P for Post Trasnaction " + Environment.NewLine + _
+                ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                 "TSPL_PP_ISSUE_HEAD " + Environment.NewLine +
+                                                 "TSPL_PP_ISSUE_ITEM_DETAIL " + Environment.NewLine +
+                                                 "TSPL_PP_ISSUE_QC_DETAIL " + Environment.NewLine +
+                                                 "Press Alt+P for Post Trasnaction " + Environment.NewLine +
                                                  "TSPL_PP_BATCH_ORDER_HEAD(Close) ")
 
                 If btnunpost.Visible Then
-                    btnunpost.Visible = False
-                Else
-                    Dim frm As New FrmPWD(Nothing)
-                    frm.strType = "SIRC"
-                    frm.strCode = "SIReversAndCreate"
-                    frm.ShowDialog()
-                    If frm.isPasswordCorrect Then
-                        btnunpost.Visible = True
+                        btnunpost.Visible = False
+                    Else
+                        Dim frm As New FrmPWD(Nothing)
+                        frm.strType = "SIRC"
+                        frm.strCode = "SIReversAndCreate"
+                        frm.ShowDialog()
+                        If frm.isPasswordCorrect Then
+                            btnunpost.Visible = True
+                        End If
+
                     End If
                 End If
-            End If
 
-            If e.KeyCode = Keys.F2 AndAlso gv.CurrentColumn IsNot Nothing AndAlso gv.CurrentColumn Is gv.Columns(colloc_code) Then
+                If e.KeyCode = Keys.F2 AndAlso gv.CurrentColumn IsNot Nothing AndAlso gv.CurrentColumn Is gv.Columns(colloc_code) Then
                 isCellValueChanged = True
                 OpenLocation(True)
                 isCellValueChanged = False

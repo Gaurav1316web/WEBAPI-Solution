@@ -53,6 +53,35 @@ Public Class frmMilkCollectionMCC
     Dim dtDefault As DataTable = Nothing
     '''''''''''''''''''''''''''''''''''''''''''''''''
 #End Region
+    Public Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmbookingdairy)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+            Me.Close()
+            Exit Sub
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnBlankSheetUploder.Visible = MyBase.isExport
+        btnBlankSheetImportUploder.Visible = MyBase.isExport
+
+        btnPost.Visible = MyBase.isPostFlag
+        If btnSave.Visible = True Then
+            btnBlankSheetImportUploder.Enabled = True
+            btnBlankSheetUploder.Enabled = True
+
+        Else
+            btnBlankSheetImportUploder.Enabled = False
+            btnBlankSheetUploder.Enabled = False
+
+        End If
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
+    End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
@@ -76,6 +105,7 @@ Public Class frmMilkCollectionMCC
         LoadLate()
         LoadFATSNFType()
         AddNew()
+        SetUserMgmtNew()
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtMDate.Value = clsCommon.GETSERVERDATE()
         If SettMilkCollectionFATSNFTypeHeader = 0 Then
@@ -1036,12 +1066,17 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 End If
             End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "MulProcDedReversAndCreate"
-            frm.strCode = "MulProcDedReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "MulProcDedReversAndCreate"
+                frm.strCode = "MulProcDedReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

@@ -316,6 +316,9 @@ Public Class FrmPaymentNew
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        btnprint.Visible = MyBase.isPrintFlag
+        RadMenu1.Visible = MyBase.isExport
+
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
@@ -4092,52 +4095,56 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnclose.Enabled Then
             Me.Close()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
-            End If
+            If MyBase.isReverse Then
 
-            ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                           "TSPL_PAYMENT_HEADER " + Environment.NewLine +
-                           "TSPL_PAYMENT_DETAIL " + Environment.NewLine +
-                           "TSPL_PAYMENT_DETAIL_GST  " + Environment.NewLine +
-                           "TSPL_PAYMENT_BANK_CHARGES_TAX " + Environment.NewLine +
-                           "TSPL_REMITTANCE (For Remmitance Entry)" + Environment.NewLine +
-                           "TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine +
-                           "TSPL_JOURNAL_MASTER ( For Journal Entry)" + Environment.NewLine +
-                           "TSPL_VENDOR_INVOICE_HEAD ( update during Journal Entry) " + Environment.NewLine +
-                           "TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD  ( update during Journal Entry)" + Environment.NewLine +
-                           "TSPL_MILK_PURCHASE_INVOICE_HEAD ( update during Journal Entry) " + Environment.NewLine +
-                           "TSPL_PI_HEAD ( update during Journal Entry) " + Environment.NewLine +
-                           "TSPL_VENDOR_INVOICE_HEAD ( update during Journal Entry) " + Environment.NewLine +
-                           "TSPL_PJC_EXPENSE_HEADER ")
-
-
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F10 Then
-            If Not isSettlementBankOnly Then
                 Dim frm As New FrmPWD(Nothing)
-                frm.strType = clsFixedParameterType.SettlementBankOnlyPWD
-                frm.strCode = clsFixedParameterCode.SettlementBankOnlyPWD
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
-                    isSettlementBankOnly = True
+                    btnReverse.Visible = True
                 End If
+
+                ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                               "TSPL_PAYMENT_HEADER " + Environment.NewLine +
+                               "TSPL_PAYMENT_DETAIL " + Environment.NewLine +
+                               "TSPL_PAYMENT_DETAIL_GST  " + Environment.NewLine +
+                               "TSPL_PAYMENT_BANK_CHARGES_TAX " + Environment.NewLine +
+                               "TSPL_REMITTANCE (For Remmitance Entry)" + Environment.NewLine +
+                               "TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine +
+                               "TSPL_JOURNAL_MASTER ( For Journal Entry)" + Environment.NewLine +
+                               "TSPL_VENDOR_INVOICE_HEAD ( update during Journal Entry) " + Environment.NewLine +
+                               "TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD  ( update during Journal Entry)" + Environment.NewLine +
+                               "TSPL_MILK_PURCHASE_INVOICE_HEAD ( update during Journal Entry) " + Environment.NewLine +
+                               "TSPL_PI_HEAD ( update during Journal Entry) " + Environment.NewLine +
+                               "TSPL_VENDOR_INVOICE_HEAD ( update during Journal Entry) " + Environment.NewLine +
+                               "TSPL_PJC_EXPENSE_HEADER ")
             Else
-                isSettlementBankOnly = False
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.I Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.StoreADJExportImportAfterPost
-            frm.strCode = clsFixedParameterCode.StoreADJExportImportAfterPost
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                rbtnImportPosted.Visible = True
-            End If
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.E Then
-            Dim frm As New FrmPWD(Nothing)
+
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F10 Then
+                If Not isSettlementBankOnly Then
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = clsFixedParameterType.SettlementBankOnlyPWD
+                    frm.strCode = clsFixedParameterCode.SettlementBankOnlyPWD
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        isSettlementBankOnly = True
+                    End If
+                Else
+                    isSettlementBankOnly = False
+                End If
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.I Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.StoreADJExportImportAfterPost
+                frm.strCode = clsFixedParameterCode.StoreADJExportImportAfterPost
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    rbtnImportPosted.Visible = True
+                End If
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.E Then
+                Dim frm As New FrmPWD(Nothing)
             frm.strType = clsFixedParameterType.StoreADJExportImportAfterPost
             frm.strCode = clsFixedParameterCode.StoreADJExportImportAfterPost
             frm.ShowDialog()

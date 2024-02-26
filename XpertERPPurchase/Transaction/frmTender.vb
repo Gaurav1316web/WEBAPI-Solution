@@ -57,6 +57,7 @@ Public Class frmTender
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnreverse.Enabled = True
         Else
@@ -526,8 +527,13 @@ Public Class frmTender
                             'Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
                             'Dim strIUOM As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
                             'ItemPrice(strICode, strIUOM, clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value), gv1.CurrentRow.Index)
+                            Dim whrCls As String = Nothing
                             Dim qry As String = "select Vendor_Code as Code,Vendor_Name as Name from TSPL_VENDOR_MASTER "
-                            Dim whrCls As String = " TSPL_VENDOR_MASTER.Status='N'"
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
+                                whrCls = " TSPL_VENDOR_MASTER.in_active_cf IS NULL OR TSPL_VENDOR_MASTER.in_active_cf = 'N'"
+                            End If
+                            whrCls += " TSPL_VENDOR_MASTER.Status='N'"
+
                             gv1.CurrentRow.Cells(colVCode).Value = clsCommon.ShowSelectForm("TenVendorFndr", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colVCode).Value), "Code", False)
                             If clsCommon.myLen(gv1.CurrentRow.Cells(colVCode).Value) > 0 Then
                                 gv1.CurrentRow.Cells(colVName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Vendor_Name from TSPL_VENDOR_MASTER where vendor_code='" + gv1.CurrentRow.Cells(colVCode).Value + "'"))
@@ -1121,17 +1127,22 @@ Public Class frmTender
             'SelectRequistionItems()
 
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnreverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnreverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
             ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                              "TSPL_TENDER_HEADER " + Environment.NewLine +
-                              "TSPL_TENDER_DETAIL ")
-        End If
+                                  "TSPL_TENDER_HEADER " + Environment.NewLine +
+                                  "TSPL_TENDER_DETAIL ")
+            End If
     End Sub
 
 

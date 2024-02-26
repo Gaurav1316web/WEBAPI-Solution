@@ -2142,6 +2142,7 @@ Public Class clsUserMgtCode
     Public Const frmProvisionEntry As String = "Prov-Entry"
     Public Const IncentiveEntry As String = "INC-ENT"
     Public Const frmPaymentProcess As String = "Pay-Pro"
+    Public Const frmBankAdvise As String = "BNK-ADVS"
     Public Const frmTransferToSaving As String = "TRA-SAV"
     Public Const frmTDSReport As String = "TDS-RPT"
     Public Const frmSendBillToDCS As String = "PMT-SND-DCS"
@@ -2513,6 +2514,7 @@ Public Class clsUserMgtCode
     Public Const frmPriceMasterPS As String = "PRC-MST-PS"
     Public Const rptDeleteHistoryReport As String = "DEL-HIST"
     Public Const RCDFDashboard As String = "RCDF-DSB"
+    Public Const Complainfeedback As String = "COMP-FEED"
     Public Const DashboardMilkUnion As String = "UN-DSB"
     'Public Const CardSale As String = "CRD_SALE"
 

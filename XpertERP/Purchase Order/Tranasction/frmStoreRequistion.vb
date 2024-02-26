@@ -72,6 +72,7 @@ Public Class frmStoreRequistion
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        RadMenu1.Visible = MyBase.isExport
         If MyBase.isReverse Then
             btnUnpost.Enabled = True
         Else
@@ -113,6 +114,7 @@ Public Class frmStoreRequistion
         IsFormLoad = False
         AddNew()
         SetLength()
+        btnUnpost.Visible = False
 
         ''For Custom Fields
         RadPageView1.Pages("pvpCustomFields").Item.Visibility = MyBase.customFieldTabProperty

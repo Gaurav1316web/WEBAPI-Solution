@@ -272,6 +272,15 @@ Public Class frmGRN
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btncancel.Visible = MyBase.isCancel_Flag_After_Posting
+        If MyBase.isReverse Then
+
+            btnUnpost.Enabled = True
+
+        Else
+
+            btnUnpost.Enabled = False
+
+        End If
     End Sub
 
     Private Sub LoadRGPType()
@@ -4926,12 +4935,16 @@ Public Class frmGRN
                     btn_Amendment.Visible = False
                 End If
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = "sirc"
-                frm.strCode = "sireversandcreate"
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnUnpost.Visible = True
+                If MyBase.isReverse Then
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = "sirc"
+                    frm.strCode = "sireversandcreate"
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnUnpost.Visible = True
+                    End If
+                Else
+                    MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             End If
         Catch ex As Exception
@@ -5101,6 +5114,9 @@ Public Class frmGRN
             whrCls = " tspl_vendor_master.vendor_code in (select vendor_code from tspl_rgp_head where TSPL_RGP_HEAD .Against_As_It_Is = 0 and TSPL_RGP_HEAD .Against_JobWork = 1 and TSPL_RGP_HEAD .Against_BOM = 0  and Status='1')  and tspl_vendor_master.Status='N' "
         Else
             whrCls = " tspl_vendor_master.Status='N'  and TSPL_VENDOR_MASTER.Form_Type<>'VSP'"
+        End If
+        If objCommonVar.RCDFCFP = True Then
+            whrCls += " and TSPL_VENDOR_MASTER.in_active_cf IS NULL OR TSPL_VENDOR_MASTER.in_active_cf = 'N'"
         End If
         Dim qry As String = "select Vendor_Code as Code,Vendor_Name as Name,ISNULL(TSPL_VENDOR_MASTER.alies_name,'') As [Alies Name],Terms_Code as [Term Code] ,Terms_Code_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description] from TSPL_VENDOR_MASTER"
         txtVendorNo.Value = clsCommon.ShowSelectForm("POVendorrFNDD", qry, "Code", whrCls, txtVendorNo.Value, "Code", isButtonClicked)

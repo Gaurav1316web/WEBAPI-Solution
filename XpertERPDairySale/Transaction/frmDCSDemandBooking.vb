@@ -31,7 +31,7 @@ Public Class frmDCSDemandBooking
             Exit Sub
         End If
         btnSave.Visible = MyBase.isModifyFlag
-        'btnPost.Visible = MyBase.isPostFlag
+        btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         If MyBase.isReverse Then
             btnreverse.Enabled = True
@@ -41,6 +41,7 @@ Public Class frmDCSDemandBooking
     End Sub
     Private Sub frmDCSDemandBooking_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AllowPlandDeptMCCLocation = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, Nothing)) = "1", True, False))
+        SetUserMgmtNew()
         CreateTable()
         AddNew()
     End Sub
@@ -64,12 +65,17 @@ Public Class frmDCSDemandBooking
         ElseIf e.KeyCode = Keys.End Then
             setGridFocusEnd()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnreverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnreverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

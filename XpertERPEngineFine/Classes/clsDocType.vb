@@ -620,6 +620,7 @@ Public Class clsDocType
     Public Const DispatchTransfer As String = "Dispatch Transfer"
     Public Const ConveyanceClaim As String = "ConveyanceClaim"
     Public Const PaymentProcess As String = "Payment Process"
+    Public Const BankAdvise As String = "Bank Advise"
     Public Const PaymentProcessWithoutLoc As String = "Payment Process without Loc"
     Public Const AssetWork As String = "Asset Work"
     Public Const ItemIssueReturnAsset As String = "ItemIssueAsset"
@@ -891,6 +892,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.SRN, clsDocTransactionType.POAsset, False, True)
             InsertDefaultValue(clsDocType.SRN, clsDocTransactionType.POTrading, False, True)
 
+            InsertDefaultValue(clsDocType.OutgoingProduction, "", False, False)
             InsertDefaultValue(clsDocType.SRNReturn, "", False, True)
             InsertDefaultValue(clsDocType.TransferReturn, "", False, True)
             InsertDefaultValue(clsDocType.GatePasstransfer, "", False, True)

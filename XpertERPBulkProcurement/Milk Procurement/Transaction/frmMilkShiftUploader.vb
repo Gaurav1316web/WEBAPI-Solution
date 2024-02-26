@@ -48,7 +48,24 @@ Public Class frmMilkShiftUploader
     Dim TotalFatKg As Decimal = 0
     Dim TotalSnfKg As Decimal = 0
 #End Region
-
+    Public Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmBookingProductSale)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+        RadMenu1.Visible = MyBase.isExport
+        'btnDelete.Visible = MyBase.isDeleteFlag
+        'btnPrint.Visible = MyBase.isPrintFlag
+        'btnImport.Visible = MyBase.isExport
+        'If btnSave.Visible = True Then
+        '    btnImport.Enabled = True
+        'Else
+        '    btnImport.Enabled = False
+        'End If
+    End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         MyBase.SetUserMgmt(clsUserMgtCode.MilkShiftUploader)
         settMilkProcurementBatchPosting = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcurementBatchPosting, clsFixedParameterCode.MilkProcurementBatchPosting, Nothing)) = 1)
@@ -65,6 +82,7 @@ Public Class frmMilkShiftUploader
         LoadShift()
         'LoadShiftFrom()
         AddNew()
+        SetUserMgmtNew()
     End Sub
 
     Public Sub LoadShift()

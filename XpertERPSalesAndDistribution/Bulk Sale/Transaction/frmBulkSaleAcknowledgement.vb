@@ -5,8 +5,25 @@ Public Class frmBulkSaleAcknowledgement
 #Region "Variable"
     Private isNewEntry As Boolean = False
 #End Region
+    Public Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmbookingdairy)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+            Me.Close()
+            Exit Sub
+        End If
+        btnsave.Visible = MyBase.isModifyFlag
+        btndelete.Visible = MyBase.isDeleteFlag
+        btnPost.Visible = MyBase.isPostFlag
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
+    End Sub
     Private Sub frmBulkSaleAcknowledgement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AddNew()
+        SetUserMgmtNew()
     End Sub
 
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
