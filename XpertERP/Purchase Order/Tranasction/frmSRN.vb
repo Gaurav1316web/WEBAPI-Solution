@@ -367,6 +367,7 @@ Public Class frmSRN
             btnReverse.Enabled = True
 
         Else
+
             btnReverse.Enabled = False
 
         End If

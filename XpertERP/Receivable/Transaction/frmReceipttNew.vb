@@ -3931,16 +3931,20 @@ Public Class FrmReceipttNew
                            "Journal Entry (On Post Button)  ")
 
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F10 Then
-            If Not isSettlementBankOnly Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = clsFixedParameterType.SettlementBankOnlyPWD
-                frm.strCode = clsFixedParameterCode.SettlementBankOnlyPWD
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    isSettlementBankOnly = True
+            If MyBase.isReverse Then
+                If Not isSettlementBankOnly Then
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = clsFixedParameterType.SettlementBankOnlyPWD
+                    frm.strCode = clsFixedParameterCode.SettlementBankOnlyPWD
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        isSettlementBankOnly = True
+                    End If
+                Else
+                    isSettlementBankOnly = False
                 End If
             Else
-                isSettlementBankOnly = False
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
 
