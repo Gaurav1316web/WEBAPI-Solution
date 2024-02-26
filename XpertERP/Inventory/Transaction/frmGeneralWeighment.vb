@@ -68,6 +68,7 @@ Public Class frmGeneralWeighment
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else

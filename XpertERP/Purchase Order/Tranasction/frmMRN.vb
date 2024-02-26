@@ -256,13 +256,9 @@ Public Class frmMRN
         btnPrint.Visible = MyBase.isPrintFlag
         btncancel.Visible = MyBase.isCancel_Flag_After_Posting
         If MyBase.isReverse Then
-
             RadButton1.Enabled = True
-
         Else
-
             RadButton1.Enabled = False
-
         End If
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

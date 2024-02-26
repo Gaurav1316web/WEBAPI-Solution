@@ -17,6 +17,17 @@ Public Class frmNIRQC
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnPost.Visible = MyBase.isPostFlag
+        If MyBase.isReverse Then
+
+            RadButton1.Enabled = True
+
+        Else
+
+            RadButton1.Enabled = False
+
+        End If
     End Sub
     Private Sub FrmCapexMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()

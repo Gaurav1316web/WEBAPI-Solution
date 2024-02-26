@@ -192,7 +192,7 @@ Public Class frmScrapSaleReturn
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-
+        RadDropDownButton1.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else

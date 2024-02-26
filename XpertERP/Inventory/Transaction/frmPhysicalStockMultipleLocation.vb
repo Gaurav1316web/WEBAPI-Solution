@@ -152,6 +152,8 @@ Public Class frmPhysicalStockMultipleLocation
         btnsave.Visible = MyBase.isModifyFlag
         btnpost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnexport.Visible = MyBase.isExport
+        btnimport.Visible = MyBase.isExport
     End Sub
 
     Sub LoadBlankGrid()
