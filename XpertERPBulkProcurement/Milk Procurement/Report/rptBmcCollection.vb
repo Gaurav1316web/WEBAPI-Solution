@@ -43,7 +43,7 @@ Public Class rptBmcCollection
 			and TSPL_VENDOR_MASTER.Form_Type='VSP'
 			 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.Zone_Code
                 where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
-				group by TSPL_MCC_MASTER.MCC_NAME order by Zone  "
+				group by TSPL_MCC_MASTER.MCC_NAME having round (COUNT(1)/2,0) >0 order by Zone  "
             Else
 
                 strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],max(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,max(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,max(TSPL_VLC_MASTER.vle_count) as Total_No_Of_Dcs,round (COUNT(1)/2,0) AS Entry_No_Of_Dcs,
@@ -58,18 +58,28 @@ Public Class rptBmcCollection
 				group by TSPL_MCC_MASTER.MCC_NAME"
             End If
             If Checkallmcc.Checked = True Then
-                strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],max(TSPL_ZONE_MASTER.Description) as Zone,max(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader,max(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,max(TSPL_VLC_MASTER.vle_count) as Total_No_Of_Dcs,round (COUNT(1)/2,0) AS Entry_No_Of_Dcs,
-                     Convert (decimal(18,2), sum (TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty)/1.03) as Qty_Ltr,sum (TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty) as Qty_Kg				 
-                        from TSPL_MILK_COLLECTION_BMCDCS
-                       left join TSPL_MILK_COLLECTION_BMCDCS_DCS on TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
-                        left join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code     	left join (select count(1) as vle_count,mcc from TSPL_VLC_MASTER_HEAD
-			group by mcc)TSPL_VLC_MASTER on TSPL_VLC_MASTER.mcc=TSPL_MCC_MASTER.mcc_Code
-			left join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code	
-			left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code 
-			and TSPL_VENDOR_MASTER.Form_Type='VSP'
-			 left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.Zone_Code
+                strQry = "select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MCC_MASTER.MCC_NAME
+,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,xx.Zone,isnull(TSPL_VLC_MASTER.vle_count,0) as Total_No_Of_Dcs,
+Isnull(xx.Entry_No_Of_Dcs,0)Entry_No_Of_Dcs,xx.Qty_Ltr,xx.Qty_Kg,xx.CreatedBy,xx.CreatedDate,xx.ModifyBy,xx.ModifyDate
+from TSPL_MCC_MASTER 
+left Outer join (
+select (TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader)Mcc_Code_VLC_Uploader
+,max(TSPL_ZONE_MASTER.Description) as Zone,
+round (COUNT(1)/2,0) AS Entry_No_Of_Dcs,Convert (decimal(18,2), sum (TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty)/1.03) as Qty_Ltr,
+sum (TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty) as Qty_Kg,max(TSPL_MILK_COLLECTION_BMCDCS.Created_By) as CreatedBy,
+max(TSPL_MILK_COLLECTION_BMCDCS.Created_Date) as CreatedDate,Max (TSPL_MILK_COLLECTION_BMCDCS.Modify_By) as ModifyBy,
+max(TSPL_MILK_COLLECTION_BMCDCS.Modify_Date) as ModifyDate				 
+from TSPL_MILK_COLLECTION_BMCDCS
+left Outer join TSPL_MILK_COLLECTION_BMCDCS_DCS on TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID
+left Outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION_BMCDCS.MCC_Code 
+left Outer join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code	
+left Outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code and TSPL_VENDOR_MASTER.Form_Type='VSP'
+left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MASTER.Zone_Code
                 where TSPL_MILK_COLLECTION_BMCDCS.IDate >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
-				group by TSPL_MCC_MASTER.MCC_NAME order by Zone  "
+				group by TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader 
+) xx on xx.Mcc_Code_VLC_Uploader=TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader
+left Outer join (select count(1) as vle_count,mcc from TSPL_VLC_MASTER_HEAD
+group by mcc)TSPL_VLC_MASTER on TSPL_VLC_MASTER.mcc=TSPL_MCC_MASTER.mcc_Code"
 
             End If
             dt = clsDBFuncationality.GetDataTable(strQry)
@@ -169,5 +179,4 @@ Public Class rptBmcCollection
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Reset()
     End Sub
-
 End Class
