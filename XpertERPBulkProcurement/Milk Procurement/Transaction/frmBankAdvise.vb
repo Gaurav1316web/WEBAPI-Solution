@@ -6,7 +6,19 @@ Public Class frmBankAdvise
 #Region "Variables"
     Dim IsBankAdviseStartDate As String
 #End Region
+    Private Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.mbtnMRN)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+    End Sub
     Private Sub frmBankAdvise_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SetUserMgmtNew()
         Try
             IsBankAdviseStartDate = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, Nothing))
         Catch ex As Exception

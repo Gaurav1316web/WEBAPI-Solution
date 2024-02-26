@@ -975,7 +975,7 @@ Public Class frmCorrectionforWrongEntry
                     Reason = frm.strRmks
                 End If
 
-                If clsSNInvoiceHead.UnpostData(txtSaleInvoice.Text, Me.Form_ID) Then
+                If clsSNInvoiceHead.ReverseAndUnpost(txtSaleInvoice.Text) Then
                     Dim obj As New clsCancelLog
                     obj.Program_Code = Me.Form_ID
                     obj.DOCUMENT_NO = clsCommon.myCstr(txtSaleInvoice.Text)

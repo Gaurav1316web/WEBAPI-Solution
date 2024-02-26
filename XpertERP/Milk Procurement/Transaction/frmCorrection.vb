@@ -270,6 +270,8 @@ Public Class frmCorrection
             Throw New Exception("Permission Denied")
         End If
         btnSave.Visible = MyBase.isModifyFlag
+        btnExport.Visible = MyBase.isExport
+        btnImport.Visible = MyBase.isExport
     End Sub
 
     Private Sub txtMCC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCC._MYValidating

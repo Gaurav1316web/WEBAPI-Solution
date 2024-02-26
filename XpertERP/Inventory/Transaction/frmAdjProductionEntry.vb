@@ -2364,37 +2364,42 @@ Public Class frmAdjProductionEntry
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
-            End If
-            'ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.E Then
-            '    Dim frm As New FrmPWD(Nothing)
-            '    frm.strType = clsFixedParameterType.StoreADJExportImportAfterPost
-            '    frm.strCode = clsFixedParameterCode.StoreADJExportImportAfterPost
-            '    frm.ShowDialog()
-            '    If frm.isPasswordCorrect Then
-            '        rbtnExportPosted.Visible = True
-            '    End If
-            'ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.I Then
-            '    Dim frm As New FrmPWD(Nothing)
-            '    frm.strType = clsFixedParameterType.StoreADJExportImportAfterPost
-            '    frm.strCode = clsFixedParameterCode.StoreADJExportImportAfterPost
-            '    frm.ShowDialog()
-            '    If frm.isPasswordCorrect Then
-            '        rbtnImportPosted.Visible = True
-            '    End If
-            'ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.U Then
-            '    Dim frm As New FrmPWD(Nothing)
-            '    frm.strType = clsFixedParameterType.StoreADJExportImportAfterPost
-            '    frm.strCode = clsFixedParameterCode.StoreADJExportImportAfterPost
-            '    frm.ShowDialog()
-            '    If frm.isPasswordCorrect Then
-            '        cmdEditAndPost.Visible = True
-            '    End If
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+        'ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.E Then
+        '    Dim frm As New FrmPWD(Nothing)
+        '    frm.strType = clsFixedParameterType.StoreADJExportImportAfterPost
+        '    frm.strCode = clsFixedParameterCode.StoreADJExportImportAfterPost
+        '    frm.ShowDialog()
+        '    If frm.isPasswordCorrect Then
+        '        rbtnExportPosted.Visible = True
+        '    End If
+        'ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.I Then
+        '    Dim frm As New FrmPWD(Nothing)
+        '    frm.strType = clsFixedParameterType.StoreADJExportImportAfterPost
+        '    frm.strCode = clsFixedParameterCode.StoreADJExportImportAfterPost
+        '    frm.ShowDialog()
+        '    If frm.isPasswordCorrect Then
+        '        rbtnImportPosted.Visible = True
+        '    End If
+        'ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.U Then
+        '    Dim frm As New FrmPWD(Nothing)
+        '    frm.strType = clsFixedParameterType.StoreADJExportImportAfterPost
+        '    frm.strCode = clsFixedParameterCode.StoreADJExportImportAfterPost
+        '    frm.ShowDialog()
+        '    If frm.isPasswordCorrect Then
+        '        cmdEditAndPost.Visible = True
+        '    End If
         End If
     End Sub
 

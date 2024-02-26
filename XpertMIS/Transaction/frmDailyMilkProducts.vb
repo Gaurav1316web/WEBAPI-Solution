@@ -137,7 +137,7 @@ Public Class frmDailyMilkProducts
         End Try
     End Sub
     Sub SetGridFormat(ByRef Gv1 As RadGridView)
-        Gv1.ShowGroupPanel = True
+        Gv1.ShowGroupPanel = False
         Gv1.ShowRowHeaderColumn = False
         Gv1.AllowAddNewRow = False
         Gv1.AllowDeleteRow = False

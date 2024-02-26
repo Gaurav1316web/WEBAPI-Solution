@@ -32,7 +32,22 @@ Public Class frmOutgoingQCEntry
     Dim isInsideLoadData As Boolean = False
     Public Template_Status As String = Nothing
     Public colNature As String = "Nature"
+    Private Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.mbtnMRN)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
 
+        End If
+        brnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btndelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
+    End Sub
     Private Sub frmOutgoingQCEntry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtlocation.Value = ""
         TxtFgcode.Value = ""
@@ -40,6 +55,7 @@ Public Class frmOutgoingQCEntry
         QcStartdata.Value = clsCommon.GETSERVERDATE()
         QCEnddate.Value = clsCommon.GETSERVERDATE()
         LoadBlankGrid()
+        SetUserMgmtNew()
         Addnew()
         brnSave.Enabled = True
         btnPost.Enabled = False
@@ -49,12 +65,16 @@ Public Class frmOutgoingQCEntry
     End Sub
     Private Sub frmOutgoingQCEntry_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "sirc"
-            frm.strCode = "sireversandcreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "sirc"
+                frm.strCode = "sireversandcreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
