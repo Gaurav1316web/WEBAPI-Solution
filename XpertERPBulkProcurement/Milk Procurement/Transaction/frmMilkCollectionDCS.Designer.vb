@@ -161,10 +161,13 @@ Partial Class frmMilkCollectionDCS
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1091, 199)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
@@ -774,10 +777,13 @@ Partial Class frmMilkCollectionDCS
         '
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
+        Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(1091, 61)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
@@ -1068,7 +1074,6 @@ Partial Class frmMilkCollectionDCS
     Friend WithEvents txtSlipNo As common.Controls.MyTextBox
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents Panel3 As Panel
-    Friend WithEvents gv2 As RadGridView
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents cboFATSNFType As common.Controls.MyComboBox
     Friend WithEvents txtTotPendingSNFPer As common.Controls.MyLabel
@@ -1083,5 +1088,6 @@ Partial Class frmMilkCollectionDCS
     Friend WithEvents RadGroupBox1 As RadGroupBox
     Friend WithEvents RadButton4 As RadButton
     Friend WithEvents RadButton3 As RadButton
+    Friend WithEvents gv2 As common.UserControls.MyRadGridView
 End Class
 

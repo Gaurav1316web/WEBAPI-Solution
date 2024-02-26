@@ -9186,32 +9186,18 @@ Public Class FrmUtility
                 Dim msg As String = str
                 If msg.Length > 0 Then
                     Try
-                        OldReading += msg
-                        Dim reading As String = System.Text.RegularExpressions.Regex.Replace(OldReading.Trim(), "[^0-9[.]", "")
-                        Dim strTempBreak As String() = reading.Split("[")
-                        If strTempBreak.Length > 2 Then
-                            Dim str1 As String = strTempBreak(1)
-                            If clsCommon.myLen(str1) = 7 Then
-                                Dim IntPart As String = String.Empty
-                                Dim FracPart As String = String.Empty
-                                Try
-                                    IntPart = Microsoft.VisualBasic.Mid(str1, 1, 5)
-                                    IntPart = (IIf(clsCommon.myCdbl(IntPart) > 0 And clsCommon.myCdbl(IntPart) <= 9, "0" & clsCommon.myCdbl(IntPart), clsCommon.myCdbl(IntPart))).ToString
-                                Catch ex As Exception
-                                End Try
-
-                                Try
-                                    FracPart = Microsoft.VisualBasic.Mid(str1, 6, 1) & "0"
-                                Catch ex As Exception
-                                End Try
-                                _weight = IntPart & "." & FracPart
-                                If IsNumeric(_weight) Then
-                                    clsCommon.MyMessageBoxShow(Me, _weight)
+                        msg = msg.Trim()
+                        If Not msg.EndsWith(".") Then
+                            If Not msg.StartsWith(".") Then
+                                If msg.Contains(".") Then
+                                    _weight = clsCommon.myCDecimal(msg)
+                                    If IsNumeric(_weight) Then
+                                        clsCommon.MyMessageBoxShow(Me, _weight)
+                                    End If
                                 End If
-                                OldReading = ""
                             End If
-
                         End If
+
 
                         'Dim strReading As String = ""
                         'For ii As Integer = 0 To msg.Length - 1

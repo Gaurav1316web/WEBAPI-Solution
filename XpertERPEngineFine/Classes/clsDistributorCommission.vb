@@ -5,9 +5,11 @@ Public Class clsDistributorCommission
     Public Document_Date As DateTime = Nothing
     Public Items As ArrayList = Nothing
     Public Applicable_Date As DateTime = Nothing
+    Public InActive_date As DateTime = Nothing
     Public Commision_UOM As String = Nothing
     Public IS_Transpotation As Boolean = False
     Public IS_Security As Boolean = False
+    Public IN_Active As Boolean = False
     Public IsPosted As Integer = 0
     Public Posted_Date As DateTime = Nothing
     Public Distributor_Tagging_Code As String = Nothing
@@ -37,6 +39,8 @@ Public Class clsDistributorCommission
             clsCommon.AddColumnsForChange(coll, "Distributor_Tagging_Code", obj.Distributor_Tagging_Code, True)
             clsCommon.AddColumnsForChange(coll, "IS_Transpotation", IIf(obj.IS_Transpotation, 1, 0))
             clsCommon.AddColumnsForChange(coll, "IS_Security", IIf(obj.IS_Security, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "IN_Active", IIf(obj.IN_Active, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "InActive_Date", clsCommon.GetPrintDate(obj.InActive_date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -65,7 +69,7 @@ Public Class clsDistributorCommission
 
         Try
             Dim Whrcls As String = ""
-            Dim strQry As String = "select Doc_No,Document_Date,Applicable_Date,Commision_UOM,Distributor_Tagging_Code,IsPosted,Posted_Date,IS_Transpotation,IS_Security from TSPL_Distributor_Commission_Head  where 2=2"
+            Dim strQry As String = "select Doc_No,Document_Date,Applicable_Date,Commision_UOM,Distributor_Tagging_Code,IsPosted,Posted_Date,IS_Transpotation,IS_Security,IN_Active,InActive_Date from TSPL_Distributor_Commission_Head  where 2=2"
 
             Select Case NavType
                 Case NavigatorType.First
@@ -86,12 +90,13 @@ Public Class clsDistributorCommission
                 obj = New clsDistributorCommission()
                 obj.Doc_No = clsCommon.myCstr(dt.Rows(0)("Doc_No"))
                 obj.Document_Date = clsCommon.GetPrintDate(dt.Rows(0)("Document_Date"), "dd/MMM/yyyy")
-
+                obj.InActive_date = clsCommon.GetPrintDate(dt.Rows(0)("InActive_Date"), "dd/MMM/yyyy")
                 obj.Applicable_Date = clsCommon.GetPrintDate(dt.Rows(0)("Applicable_Date"), "dd/MMM/yyyy")
                 obj.Commision_UOM = clsCommon.myCstr(dt.Rows(0)("Commision_UOM"))
                 obj.Distributor_Tagging_Code = clsCommon.myCstr(dt.Rows(0)("Distributor_Tagging_Code"))
                 obj.IS_Transpotation = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("IS_Transpotation")) = 1, True, False))
                 obj.IS_Security = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("IS_Security")) = 1, True, False))
+                obj.IN_Active = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("IN_Active")) = 1, True, False))
                 obj.IsPosted = IIf(clsCommon.myCDecimal(dt.Rows(0)("IsPosted")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
                 If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                     obj.Posted_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
@@ -115,7 +120,7 @@ Public Class clsDistributorCommission
                 obj.Arr = clsDistributorCommissionDetails.GetData(obj.Doc_No, trans)
 
 
-                End If
+            End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -161,11 +166,63 @@ Public Class clsDistributorCommission
         End Try
         Return True
     End Function
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            Dim obj As clsDistributorCommission = clsDistributorCommission.GetData(strCode, NavigatorType.Current, trans)
+            If (obj Is Nothing OrElse clsCommon.myLen(obj.Doc_No) <= 0) Then
+                Throw New Exception("Document No not found to Post")
+            End If
+            If Not (obj.IsPosted = ERPTransactionStatus.Approved) Then
+                Throw New Exception("Transaction status should be posted.")
+            End If
+            Dim qry As String
+            If obj.IsPosted = 1 Then
+                qry = "update TSPL_DISTRIBUTOR_COMMISSION_HEAD set IsPosted=0,Posted_Date=null,Posted_By=null where Doc_no='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function DeleteData(ByVal strCode As String) As Boolean
+        Dim isSaved As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Dim obj As New clsDistributorCommission()
+        Try
+            isSaved = False
 
+            If (clsCommon.myLen(strCode) <= 0) Then
+                Throw New Exception("Code not found to Delete")
+            End If
 
+            Dim isPosted As Integer = 0
+            isPosted = clsDBFuncationality.getSingleValue("SELECT Count(*) FROM TSPL_DISTRIBUTOR_COMMISSION_HEAD where Doc_no = '" & strCode & "' and isPosted=1", trans)
+            If (isPosted = 1) Then
+                Throw New Exception("Already Posted on :" + obj.Posted_Date)
+            End If
 
+            Dim qry As String
 
+            qry = "delete from TSPL_DISTRIBUTOR_COMMISSION_ITEMS where Doc_no ='" + strCode + "'"
+            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+            qry = "DELETE FROM TSPL_DISTRIBUTOR_COMMISSION_DETAIL WHERE Doc_no='" + strCode + "'"
+            isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_DISTRIBUTOR_COMMISSION_HEAD where Doc_no ='" + strCode + "'"
+            isSaved = clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message.ToString())
+        End Try
+        Return isSaved
+    End Function
 End Class
 Public Class clsDistributorCommissionDetails
 

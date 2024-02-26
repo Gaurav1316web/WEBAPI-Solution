@@ -511,16 +511,21 @@ Public Class FrmUnloading
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             btnClose_Click(sender, e)
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                              "TSPL_MILK_UNLOADING " + Environment.NewLine + _
-                                              "TSPL_Milk_Unloading_Chember_Details (  Only in case of chamber wise setting ON) " + Environment.NewLine + _
-                                              "TSPL_MILK_UNLOADING_History ( For History) ")
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                  "TSPL_MILK_UNLOADING " + Environment.NewLine +
+                                                  "TSPL_Milk_Unloading_Chember_Details (  Only in case of chamber wise setting ON) " + Environment.NewLine +
+                                                  "TSPL_MILK_UNLOADING_History ( For History) ")
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

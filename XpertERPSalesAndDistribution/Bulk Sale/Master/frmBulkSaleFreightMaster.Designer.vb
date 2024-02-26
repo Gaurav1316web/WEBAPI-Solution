@@ -21,7 +21,7 @@ Partial Class frmBulkSaleFreightMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lblStatus = New common.usLock()
@@ -44,10 +44,11 @@ Partial Class frmBulkSaleFreightMaster
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmimport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -70,8 +71,9 @@ Partial Class frmBulkSaleFreightMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SplitContainer1
@@ -89,6 +91,7 @@ Partial Class frmBulkSaleFreightMaster
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverseUnpost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -144,7 +147,7 @@ Partial Class frmBulkSaleFreightMaster
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(7, 54)
         Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(82, 16)
+        Me.MyLabel3.Size = New System.Drawing.Size(57, 16)
         Me.MyLabel3.TabIndex = 7
         Me.MyLabel3.Text = "Start Date"
         '
@@ -308,7 +311,7 @@ Partial Class frmBulkSaleFreightMaster
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(996, 350)
@@ -319,7 +322,7 @@ Partial Class frmBulkSaleFreightMaster
         '
         Me.btnReverseUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverseUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverseUnpost.Location = New System.Drawing.Point(220, 6)
+        Me.btnReverseUnpost.Location = New System.Drawing.Point(324, 6)
         Me.btnReverseUnpost.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
         Me.btnReverseUnpost.Name = "btnReverseUnpost"
         Me.btnReverseUnpost.Size = New System.Drawing.Size(122, 20)
@@ -366,39 +369,57 @@ Partial Class frmBulkSaleFreightMaster
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmExport, Me.rmimport, Me.RadMenuItem4, Me.RadMenuItem5, Me.RadMenuItem1, Me.RadMenuItem2})
+        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmExport, Me.rmimport, Me.btnSaveLayout, Me.btnDeleteLayout})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'rmExport
         '
         Me.rmExport.Name = "rmExport"
-        Me.rmExport.Text = "Export Grid"
+        Me.rmExport.Text = "Export Blank Grid"
         '
         'rmimport
         '
         Me.rmimport.Name = "rmimport"
         Me.rmimport.Text = "Import Grid"
         '
-        'RadMenuItem4
+        'btnSaveLayout
         '
-        Me.RadMenuItem4.Name = "RadMenuItem4"
-        Me.RadMenuItem4.Text = "Export"
+        Me.btnSaveLayout.Name = "btnSaveLayout"
+        Me.btnSaveLayout.Text = "Save Layout"
         '
-        'RadMenuItem5
+        'btnDeleteLayout
         '
-        Me.RadMenuItem5.Name = "RadMenuItem5"
-        Me.RadMenuItem5.Text = "Import"
+        Me.btnDeleteLayout.Name = "btnDeleteLayout"
+        Me.btnDeleteLayout.Text = "Delete Layout"
         '
-        'RadMenuItem1
+        'RadSplitButton1
         '
-        Me.RadMenuItem1.Name = "RadMenuItem1"
-        Me.RadMenuItem1.Text = "Save Layout"
+        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExcel, Me.btnPDF})
+        Me.RadSplitButton1.Location = New System.Drawing.Point(222, 6)
+        Me.RadSplitButton1.Name = "RadSplitButton1"
+        Me.RadSplitButton1.Size = New System.Drawing.Size(95, 22)
+        Me.RadSplitButton1.TabIndex = 155
+        Me.RadSplitButton1.Text = "Export"
         '
-        'RadMenuItem2
+        'btnExcel
         '
-        Me.RadMenuItem2.Name = "RadMenuItem2"
-        Me.RadMenuItem2.Text = "Delete Layout"
+        Me.btnExcel.Name = "btnExcel"
+        Me.btnExcel.Text = "Excel"
+        Me.btnExcel.UseCompatibleTextRendering = False
+        '
+        'btnPDF
+        '
+        Me.btnPDF.Name = "btnPDF"
+        Me.btnPDF.Text = "PDF"
+        Me.btnPDF.UseCompatibleTextRendering = False
+        '
+        'frmBulkSaleFreightMaster
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(996, 509)
         '
         'RadMenu1
         '
@@ -407,12 +428,6 @@ Partial Class frmBulkSaleFreightMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(996, 20)
         Me.RadMenu1.TabIndex = 12
-        '
-        'frmBulkSaleFreightMaster
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(996, 509)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "frmBulkSaleFreightMaster"
@@ -443,6 +458,7 @@ Partial Class frmBulkSaleFreightMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
@@ -469,12 +485,13 @@ Partial Class frmBulkSaleFreightMaster
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents txtStartDate As common.Controls.MyDateTimePicker
     Friend WithEvents btnPost As RadButton
-    Friend WithEvents RadMenu1 As RadMenu
-    Friend WithEvents RadMenuItem1 As RadMenuItem
-    Friend WithEvents RadMenuItem2 As RadMenuItem
-    Friend WithEvents RadMenuItem4 As RadMenuItem
-    Friend WithEvents RadMenuItem5 As RadMenuItem
+    Friend WithEvents btnSaveLayout As RadMenuItem
+    Friend WithEvents btnDeleteLayout As RadMenuItem
     Friend WithEvents btnReverseUnpost As RadButton
     Friend WithEvents lblStatus As common.usLock
+    Friend WithEvents RadSplitButton1 As RadSplitButton
+    Friend WithEvents btnExcel As RadMenuItem
+    Friend WithEvents btnPDF As RadMenuItem
+    Friend WithEvents RadMenu1 As RadMenu
 End Class
 
