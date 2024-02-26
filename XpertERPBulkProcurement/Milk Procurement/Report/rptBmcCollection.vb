@@ -79,7 +79,7 @@ left outer join TSPL_ZONE_MASTER on TSPL_ZONE_MASTER.Zone_Code = TSPL_VENDOR_MAS
 				group by TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader 
 ) xx on xx.Mcc_Code_VLC_Uploader=TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader
 left Outer join (select count(1) as vle_count,mcc from TSPL_VLC_MASTER_HEAD
-group by mcc)TSPL_VLC_MASTER on TSPL_VLC_MASTER.mcc=TSPL_MCC_MASTER.mcc_Code"
+group by mcc)TSPL_VLC_MASTER on TSPL_VLC_MASTER.mcc=TSPL_MCC_MASTER.mcc_Code where isnull(TSPL_VLC_MASTER.vle_count,0)>0"
 
             End If
             dt = clsDBFuncationality.GetDataTable(strQry)
