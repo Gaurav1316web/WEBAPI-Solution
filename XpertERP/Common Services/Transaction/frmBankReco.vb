@@ -160,6 +160,7 @@ Public Class FrmBankReco
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
                 End If
+
             End If
         End If
     End Sub

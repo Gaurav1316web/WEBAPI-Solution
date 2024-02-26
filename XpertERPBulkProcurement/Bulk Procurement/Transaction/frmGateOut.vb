@@ -375,6 +375,8 @@ Public Class FrmGateOut
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnAllocatePrint.Visible = MyBase.isPrintFlag
     End Sub
     Sub LoadGateEntryData(ByVal strGateEntryNo As String)
         Dim strDocNo As String = clsDBFuncationality.getSingleValue("select Doc_No from TSPL_Gate_Out where gate_entry_no='" & strGateEntryNo & "'")

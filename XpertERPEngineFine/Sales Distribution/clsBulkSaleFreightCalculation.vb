@@ -1,7 +1,7 @@
 ﻿Imports System.Data.SqlClient
 Imports common
 
-Public Class clsBulkSaleFreightMaster
+Public Class clsBulkSaleFreightCalculation
 
 #Region "Variables"
 
@@ -10,9 +10,9 @@ Public Class clsBulkSaleFreightMaster
     Public Document_date As Date? = Nothing
     Public Status As Integer = 0
     Public Customer_Code As String = Nothing
-    Public Arr As List(Of clsBulkSaleFreightDetail) = Nothing
+    Public Arr As List(Of clsBulkSaleFreightCalculationDetail) = Nothing
 #End Region
-    Public Function SaveData(ByVal obj As clsBulkSaleFreightMaster, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal AutoSave As Boolean) As Boolean
+    Public Function SaveData(ByVal obj As clsBulkSaleFreightCalculation, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal AutoSave As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             SaveData(obj, isNewEntry, Nothing, trans, AutoSave)
@@ -24,10 +24,10 @@ Public Class clsBulkSaleFreightMaster
         Return True
     End Function
 
-    Public Function SaveData(ByVal obj As clsBulkSaleFreightMaster, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal trans As SqlTransaction, ByVal AutoSave As Boolean) As Boolean
+    Public Function SaveData(ByVal obj As clsBulkSaleFreightCalculation, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal trans As SqlTransaction, ByVal AutoSave As Boolean) As Boolean
         Dim isSaved As Boolean = True
         Try
-            Dim qry As String = "delete from TSPL_BLK_FREIGHT_DETAIL where Document_Code='" + obj.Document_Code + "'"
+            Dim qry As String = "delete from TSPL_BLK_FREIGHT_CALC_DETAIL where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
@@ -47,12 +47,12 @@ Public Class clsBulkSaleFreightMaster
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
 
-                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BLK_FREIGHT_MASTER", OMInsertOrUpdate.Insert, "", trans)
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BLK_FREIGHT_CALC_HEAD", OMInsertOrUpdate.Insert, "", trans)
             Else
-                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BLK_FREIGHT_MASTER", OMInsertOrUpdate.Update, "TSPL_BLK_FREIGHT_MASTER.Document_Code='" + obj.Document_Code + "'", trans)
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BLK_FREIGHT_CALC_HEAD", OMInsertOrUpdate.Update, "TSPL_BLK_FREIGHT_CALC_HEAD.Document_Code='" + obj.Document_Code + "'", trans)
             End If
-            isSaved = isSaved AndAlso clsBulkSaleFreightDetail.SaveData(obj.Document_Code, obj.Arr, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BLK_FREIGHT_MASTER", "Document_Code", "TSPL_BLK_FREIGHT_DETAIL", "Document_Code", trans)
+            isSaved = isSaved AndAlso clsBulkSaleFreightCalculationDetail.SaveData(obj.Document_Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "TSPL_BLK_FREIGHT_CALC_DETAIL", "Document_Code", trans)
 
         Catch err As Exception
 
@@ -61,29 +61,29 @@ Public Class clsBulkSaleFreightMaster
         Return isSaved
     End Function
 
-    Public Shared Function GetData(ByVal strRetCode As String, ByVal NavType As NavigatorType, ByVal TransType As String) As clsBulkSaleFreightMaster
+    Public Shared Function GetData(ByVal strRetCode As String, ByVal NavType As NavigatorType, ByVal TransType As String) As clsBulkSaleFreightCalculation
         Return GetData(strRetCode, NavType, TransType, Nothing)
     End Function
 
-    Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal TransType As String, ByVal trans As SqlTransaction) As clsBulkSaleFreightMaster
-        Dim obj As clsBulkSaleFreightMaster = Nothing
-        Dim qry As String = "select Document_Code ,Customer_Code, Document_date,Start_Date ,ISNULL( Status,0) as Status from TSPL_BLK_FREIGHT_MASTER where 2=2 "
+    Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal TransType As String, ByVal trans As SqlTransaction) As clsBulkSaleFreightCalculation
+        Dim obj As clsBulkSaleFreightCalculation = Nothing
+        Dim qry As String = "select Document_Code ,Customer_Code, Document_date,Start_Date ,ISNULL( Status,0) as Status from TSPL_BLK_FREIGHT_CALC_HEAD where 2=2 "
         Select Case NavType
             Case NavigatorType.First
-                qry += " and TSPL_BLK_FREIGHT_MASTER.Document_Code = (select MIN(Document_Code) from TSPL_BLK_FREIGHT_MASTER)"
+                qry += " and TSPL_BLK_FREIGHT_CALC_HEAD.Document_Code = (select MIN(Document_Code) from TSPL_BLK_FREIGHT_CALC_HEAD)"
             Case NavigatorType.Last
-                qry += " and TSPL_BLK_FREIGHT_MASTER.Document_Code = (select Max(Document_Code) from TSPL_BLK_FREIGHT_MASTER)"
+                qry += " and TSPL_BLK_FREIGHT_CALC_HEAD.Document_Code = (select Max(Document_Code) from TSPL_BLK_FREIGHT_CALC_HEAD)"
             Case NavigatorType.Next
-                qry += " and TSPL_BLK_FREIGHT_MASTER.Document_Code = (select Min(Document_Code) from TSPL_BLK_FREIGHT_MASTER where Document_Code >'" + strCode + "')"
+                qry += " and TSPL_BLK_FREIGHT_CALC_HEAD.Document_Code = (select Min(Document_Code) from TSPL_BLK_FREIGHT_CALC_HEAD where Document_Code >'" + strCode + "')"
             Case NavigatorType.Previous
-                qry += " and TSPL_BLK_FREIGHT_MASTER.Document_Code = (select Max(Document_Code) from TSPL_BLK_FREIGHT_MASTER where Document_Code <'" + strCode + "')"
+                qry += " and TSPL_BLK_FREIGHT_CALC_HEAD.Document_Code = (select Max(Document_Code) from TSPL_BLK_FREIGHT_CALC_HEAD where Document_Code <'" + strCode + "')"
             Case NavigatorType.Current
-                qry += " and TSPL_BLK_FREIGHT_MASTER.Document_Code = '" + strCode + "'"
+                qry += " and TSPL_BLK_FREIGHT_CALC_HEAD.Document_Code = '" + strCode + "'"
         End Select
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            obj = New clsBulkSaleFreightMaster()
+            obj = New clsBulkSaleFreightCalculation()
             obj.Document_Code = clsCommon.myCstr(dt.Rows(0)("Document_Code"))
             obj.Customer_Code = clsCommon.myCstr(dt.Rows(0)("Customer_Code"))
 
@@ -91,12 +91,12 @@ Public Class clsBulkSaleFreightMaster
             obj.Start_Date = clsCommon.myCDate(dt.Rows(0)("Start_Date"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
 
-            qry = "select *  from TSPL_BLK_FREIGHT_DETAIL where Document_Code='" + obj.Document_Code + "' order by SNo "
+            qry = "select *  from TSPL_BLK_FREIGHT_CALC_DETAIL where Document_Code='" + obj.Document_Code + "' order by SNo "
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                obj.Arr = New List(Of clsBulkSaleFreightDetail)
+                obj.Arr = New List(Of clsBulkSaleFreightCalculationDetail)
                 For Each dr As DataRow In dt.Rows
-                    Dim objtr As New clsBulkSaleFreightDetail
+                    Dim objtr As New clsBulkSaleFreightCalculationDetail
                     objtr.SNO = clsCommon.myCdbl(dr("SNO"))
                     objtr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
                     objtr.Tender_Qty = clsCommon.myCstr(dr("Tender_Qty"))
@@ -117,7 +117,7 @@ Public Class clsBulkSaleFreightMaster
 
     Public Shared Function getFinder(ByVal strCode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim sql As String = "select Document_Code as DocumentNo ,convert(varchar(12),Start_Date,103) AS [Start Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'Posted' else 'Unposted' end as Posted from TSPL_BLK_FREIGHT_MASTER"
+        Dim sql As String = "select Document_Code as DocumentNo ,convert(varchar(12),Start_Date,103) AS [Start Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'Posted' else 'Unposted' end as Posted from TSPL_BLK_FREIGHT_CALC_HEAD"
         str = clsCommon.ShowSelectForm("BulkSaleFreightMaster", sql, "DocumentNo", "", strCode, "DocumentNo", isButtonClicked)
         Return str
     End Function
@@ -142,7 +142,7 @@ Public Class clsBulkSaleFreightMaster
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Docume nt No not found to Post")
             End If
-            Dim obj As clsBulkSaleFreightMaster = clsBulkSaleFreightMaster.GetData(strDocNo, NavigatorType.Current, "", trans)
+            Dim obj As clsBulkSaleFreightCalculation = clsBulkSaleFreightCalculation.GetData(strDocNo, NavigatorType.Current, "", trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
@@ -150,7 +150,7 @@ Public Class clsBulkSaleFreightMaster
                 Throw New Exception("Already Posted")
             End If
 
-            clsDBFuncationality.ExecuteNonQuery("Update TSPL_BLK_FREIGHT_MASTER set Status= 1, Posted_By = '" + objCommonVar.CurrentUserCode + "',Posted_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "'  where Document_Code='" & obj.Document_Code & "'", trans)
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_BLK_FREIGHT_CALC_HEAD set Status= 1, Posted_By = '" + objCommonVar.CurrentUserCode + "',Posted_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "'  where Document_Code='" & obj.Document_Code & "'", trans)
 
         Catch ex As Exception
 
@@ -180,7 +180,7 @@ Public Class clsBulkSaleFreightMaster
         Dim isResponse As Boolean = True
         Try
 
-            Dim obj As clsBulkSaleFreightMaster = clsBulkSaleFreightMaster.GetData(strCode, NavigatorType.Current, Nothing, trans)
+            Dim obj As clsBulkSaleFreightCalculation = clsBulkSaleFreightCalculation.GetData(strCode, NavigatorType.Current, Nothing, trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
                 clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
                 isResponse = False
@@ -195,7 +195,7 @@ Public Class clsBulkSaleFreightMaster
             clsCommon.AddColumnsForChange(coll, "Status", 0)
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
-            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BLK_FREIGHT_MASTER", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_Code + "'", trans)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BLK_FREIGHT_CALC_HEAD", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_Code + "'", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -218,7 +218,7 @@ Public Class clsBulkSaleFreightMaster
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Document No not found to Delete")
         End If
-        Dim obj As clsBulkSaleFreightMaster = clsBulkSaleFreightMaster.GetData(strCode, NavigatorType.Current, "", trans)
+        Dim obj As clsBulkSaleFreightCalculation = clsBulkSaleFreightCalculation.GetData(strCode, NavigatorType.Current, "", trans)
         Try
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("Document No not found to Delete")
@@ -227,10 +227,10 @@ Public Class clsBulkSaleFreightMaster
                 Throw New Exception("Already Posted")
             End If
             Dim qry As String = Nothing
-            qry = "delete from TSPL_BLK_FREIGHT_DETAIL where Document_Code='" + obj.Document_Code + "'"
+            qry = "delete from TSPL_BLK_FREIGHT_CALC_DETAIL where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_BLK_FREIGHT_MASTER where Document_Code='" + obj.Document_Code + "'"
+            qry = "delete from TSPL_BLK_FREIGHT_CALC_HEAD where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
 
@@ -243,7 +243,7 @@ Public Class clsBulkSaleFreightMaster
 
 End Class
 
-Public Class clsBulkSaleFreightDetail
+Public Class clsBulkSaleFreightCalculationDetail
 
 #Region "Variables"
     Public SNO As Integer
@@ -259,9 +259,9 @@ Public Class clsBulkSaleFreightDetail
 
 #End Region
 
-    Public Shared Function SaveData(ByVal strCode As String, ByVal Arr As List(Of clsBulkSaleFreightDetail), ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal strCode As String, ByVal Arr As List(Of clsBulkSaleFreightCalculationDetail), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-            For Each obj As clsBulkSaleFreightDetail In Arr
+            For Each obj As clsBulkSaleFreightCalculationDetail In Arr
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_Code", strCode)
                 clsCommon.AddColumnsForChange(coll, "SNO", obj.SNO)
@@ -273,7 +273,7 @@ Public Class clsBulkSaleFreightDetail
                 clsCommon.AddColumnsForChange(coll, "GPS_KM", obj.GPS_KM)
                 clsCommon.AddColumnsForChange(coll, "Payable_Amount", obj.Payable_Amount)
 
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BLK_FREIGHT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BLK_FREIGHT_CALC_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
         Return True

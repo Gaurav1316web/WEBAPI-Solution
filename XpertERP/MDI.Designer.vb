@@ -26,6 +26,7 @@ Partial Class MDI
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(MDI))
         Dim CarouselEllipsePath1 As Telerik.WinControls.UI.CarouselEllipsePath = New Telerik.WinControls.UI.CarouselEllipsePath()
         Me.RadStatusStrip1 = New Telerik.WinControls.UI.RadStatusStrip()
+        Me.RadLabel3 = New Telerik.WinControls.UI.RadLabel()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.RadMenuItem24 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
@@ -252,6 +253,7 @@ Partial Class MDI
         Me.PictureBox6 = New System.Windows.Forms.PictureBox()
         CType(Me.RadStatusStrip1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadStatusStrip1.SuspendLayout()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.__txtDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.__txtScreenID, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -388,12 +390,23 @@ Partial Class MDI
         '
         'RadStatusStrip1
         '
+        Me.RadStatusStrip1.Controls.Add(Me.RadLabel3)
         Me.RadStatusStrip1.Controls.Add(Me.RadSplitButton1)
         Me.RadStatusStrip1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadLabelElement2, Me.lblUser, Me.RadLabelElement3, Me.lblCompany, Me.RadLabelElement4, Me.lblLocation, Me.RadLabelElement5, Me.lblVersion, Me.RadLabelElement8, Me.lblServerDate, Me.RadLabelElement1, Me.lblDataBase, Me.lblCompanyCode, Me.lblUserCode})
         Me.RadStatusStrip1.Location = New System.Drawing.Point(0, 444)
         Me.RadStatusStrip1.Name = "RadStatusStrip1"
         Me.RadStatusStrip1.Size = New System.Drawing.Size(1057, 28)
         Me.RadStatusStrip1.TabIndex = 6
+        '
+        'RadLabel3
+        '
+        Me.RadLabel3.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel3.AutoSize = False
+        Me.RadLabel3.Image = Global.ERP.My.Resources.Resources.LogOff
+        Me.RadLabel3.Location = New System.Drawing.Point(943, 2)
+        Me.RadLabel3.Name = "RadLabel3"
+        Me.RadLabel3.Size = New System.Drawing.Size(25, 24)
+        Me.RadLabel3.TabIndex = 10
         '
         'RadSplitButton1
         '
@@ -2737,6 +2750,7 @@ Partial Class MDI
         Me.WindowState = System.Windows.Forms.FormWindowState.Maximized
         CType(Me.RadStatusStrip1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadStatusStrip1.ResumeLayout(False)
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.__txtDocNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.__txtScreenID, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3106,5 +3120,6 @@ Partial Class MDI
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents PictureBox7 As PictureBox
     Friend WithEvents PictureBox8 As PictureBox
+    Friend WithEvents RadLabel3 As RadLabel
 End Class
 

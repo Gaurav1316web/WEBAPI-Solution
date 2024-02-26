@@ -117,13 +117,18 @@ Public Class frmEmployee_Salary
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnPost.Enabled Then
             PostData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
-            End If
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
         End If
     End Sub
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click

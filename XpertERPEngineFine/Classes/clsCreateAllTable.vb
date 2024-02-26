@@ -34063,7 +34063,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("MCC_Name", "Varchar(50) NOT NULL")
             coll.Add("Dispatch_Date", "datetime not NULL")
             coll.Add("Chalan_NO", "Varchar(50) NOT NULL ")
-            coll.Add("Tanker_Dispatch_To", "Varchar(10) NOT NULL ")
+            coll.Add("Tanker_Dispatch_To", "Varchar(12) NOT NULL ")
             coll.Add("Mcc_Or_Plant_Code", "varchar(12) null references tspl_location_master(location_code)")
             coll.Add("Tanker_No", "varchar(20) null ")
             coll.Add("Tanker_KM_Reading", "varchar(20) null")
@@ -34126,6 +34126,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Closing_Date", "Datetime null")
 
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MCC_Dispatch_Challan_History", coll, Nothing, False, False)
+            clsDBFuncationality.ExecuteNonQuery("Alter table TSPL_MCC_Dispatch_Challan ALTER Column Tanker_Dispatch_To varchar(12) NOT NULL")
 
 
             coll = New Dictionary(Of String, String)
