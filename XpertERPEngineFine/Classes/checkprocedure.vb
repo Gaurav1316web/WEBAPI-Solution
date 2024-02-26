@@ -2774,11 +2774,13 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.SubModuleMISSetUp, "Setup", "1.47.01", clsUserMgtCode.ModuleMIS, "SM", 24)
         InsertDefaultValue(clsUserMgtCode.MISitemGroups, "MIS Item Group", "1.47.01.01", clsUserMgtCode.SubModuleMISSetUp, 27)
         InsertDefaultValue(clsUserMgtCode.MISitemMaster, "MIS Item Master", "1.47.01.02", clsUserMgtCode.SubModuleMISSetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.frmProductionTransactionType, "Production Transaction Type", "1.47.01.03", clsUserMgtCode.SubModuleMISSetUp, 27)
 
         ''Transaction
         ''============================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMISTransaction, "Transaction", "1.47.02", clsUserMgtCode.ModuleMIS, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.frmDailyMilkProducts, "Daily Milk Products", "1.47.02.01", clsUserMgtCode.SubModuleMISTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDailySMPProduction, "Daily SMP Production", "1.47.02.02", clsUserMgtCode.SubModuleMISTransaction, 8)
 
         'Try
         '    clsDBFuncationality.ExecuteNonQuery("insert into TSPL_MODULE_PERMISSION values ('1','" + clsUserMgtCode.ModuleReco + "')")
@@ -4256,6 +4258,8 @@ Public Class clsProgramIdFormNameMapping
         UpdateFormName(clsUserMgtCode.MISitemGroups, "frmMISItemGroup", "ERP.EXE")
         UpdateFormName(clsUserMgtCode.MISitemMaster, "frmMISItemMaster", "ERP.EXE")
         UpdateFormName(clsUserMgtCode.frmDailyMilkProducts, "frmDailyMilkProducts", "ERP.EXE")
+        UpdateFormName(clsUserMgtCode.frmProductionTransactionType, "frmProductionTransactionType", "ERP.EXE")
+        UpdateFormName(clsUserMgtCode.frmDailySMPProduction, "frmDailySMPProduction", "ERP.EXE")
 
     End Sub
 

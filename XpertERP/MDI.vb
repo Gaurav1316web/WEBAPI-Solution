@@ -9629,6 +9629,12 @@ Public Class MDI
                     Case clsUserMgtCode.frmDailyMilkProducts
                         frm = New frmDailyMilkProducts
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmProductionTransactionType
+                        frm = New frmProductionTransactionType
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDailySMPProduction
+                        frm = New frmDailySMPProduction
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 
                         ''-------------------- MIS Master---------------

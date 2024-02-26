@@ -727,6 +727,7 @@ Public Class clsDocType
     Public Const MISItemMaster As String = "MIS Item Master"
     Public Const MISItemGroupMaster As String = "MIS Item Group Master"
     Public Const frmDailyMilkProducts As String = "Daily Milk Products"
+    Public Const frmDailySMPProduction As String = "Daily SMP Production"
     Public Shared Function SetDefaultValues() As Boolean
         Try
 
