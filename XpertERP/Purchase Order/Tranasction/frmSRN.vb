@@ -6775,24 +6775,29 @@ Public Class frmSRN
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                            "TSPL_SRN_HEAD " + Environment.NewLine +
-                            "TSPL_SRN_DETAIL " + Environment.NewLine +
-                            "TSPL_ROADPERMIT_ISSUE_RECEIVE_DETAIL " + Environment.NewLine +
-                            "TSPL_CFORM_ISSUE_RECEIVE_DETAIL " + Environment.NewLine +
-                            "Press Alt+P for Post Trasnaction " + Environment.NewLine +
-                            "TSPL_MRN_DETAIL(Update balance Qty) " + Environment.NewLine +
-                            "TSPL_INVENTORY_MOVEMENT " + Environment.NewLine +
-                            "TSPL_RGP_BOM_DETAIL " + Environment.NewLine +
-                            "TSPL_JOURNAL_MASTER " + Environment.NewLine +
-                            "TSPL_JOURNAL_DETAILS")
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
-                RadButton1.Visible = True
+            If MyBase.isReverse Then
+
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                "TSPL_SRN_HEAD " + Environment.NewLine +
+                                "TSPL_SRN_DETAIL " + Environment.NewLine +
+                                "TSPL_ROADPERMIT_ISSUE_RECEIVE_DETAIL " + Environment.NewLine +
+                                "TSPL_CFORM_ISSUE_RECEIVE_DETAIL " + Environment.NewLine +
+                                "Press Alt+P for Post Trasnaction " + Environment.NewLine +
+                                "TSPL_MRN_DETAIL(Update balance Qty) " + Environment.NewLine +
+                                "TSPL_INVENTORY_MOVEMENT " + Environment.NewLine +
+                                "TSPL_RGP_BOM_DETAIL " + Environment.NewLine +
+                                "TSPL_JOURNAL_MASTER " + Environment.NewLine +
+                                "TSPL_JOURNAL_DETAILS")
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                    RadButton1.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

@@ -3893,14 +3893,19 @@ Public Class FrmReceipttNew
                 dgvmiscpayment.CurrentColumn = dgvmiscpayment.Columns(3)
             End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
-            End If
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                            "========Table Name=========" + Environment.NewLine +
                            "TSPL_RECEIPT_HEADER,TSPL_RECEIPT_DETAIL " + Environment.NewLine +
                            "TSPL_RECEIPT_DETAIL_GST , TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine +
