@@ -28850,6 +28850,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Modified_Date", "datetime  Not NULL")
             coll.Add("Posted_By", "varchar(12) NULL")
             coll.Add("Posted_Date", "datetime NULL")
+            coll.Add("IN_Active", "integer null default 0")
+            coll.Add("InActive_Date", "datetime null")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Head", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
