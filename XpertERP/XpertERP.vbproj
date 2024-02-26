@@ -7780,6 +7780,7 @@
     <None Include="Resources\Time.png" />
     <None Include="Resources\SARALog512.png" />
     <None Include="Resources\rcdf1.png" />
+    <None Include="Resources\LogOff1.png" />
     <Content Include="X.ico" />
     <None Include="Resources\pre2.png" />
     <None Include="Resources\Utility.png" />

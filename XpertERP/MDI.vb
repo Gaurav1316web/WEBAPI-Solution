@@ -5990,6 +5990,9 @@ Public Class MDI
                     Case clsUserMgtCode.BulkSaleFreightMaster
                         frm = New frmBulkSaleFreightMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBulkSaleFreightCalculation
+                        frm = New frmBulkSaleFreightCalculation()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.NIRQC
                         frm = New frmNIRQC()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9884,7 +9887,7 @@ Public Class MDI
 
         If Not IsDBRestored Then
             If Not isAutoClosing Then
-                If clsCommon.MyMessageBoxShow("Do you want to close the Xpert ERP", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button2) = System.Windows.Forms.DialogResult.No Then
+                If clsCommon.MyMessageBoxShow("Do you want to close/log off the Xpert ERP", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button2) = System.Windows.Forms.DialogResult.No Then
                     e.Cancel = True
                     'Else
                     '    'GC.Collect()
@@ -10797,5 +10800,15 @@ Public Class MDI
             LoadMenu()
         End If
 
+    End Sub
+
+    Private Sub RadLabel3_Click(sender As Object, e As EventArgs) Handles RadLabel3.Click
+        RadDock1.RemoveAllDocumentWindows()
+        SplitPanel3.Collapsed = True
+        SplitPanel1.Collapsed = True
+        SplitPanel4.Collapsed = True
+        SplitPanel2.Collapsed = False
+        txtUserName.Text = ""
+        txtPassword.Text = ""
     End Sub
 End Class
