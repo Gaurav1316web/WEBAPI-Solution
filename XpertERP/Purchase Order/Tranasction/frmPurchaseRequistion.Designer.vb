@@ -22,6 +22,7 @@ Partial Class frmPurchaseRequistion
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -95,9 +96,17 @@ Partial Class frmPurchaseRequistion
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.WorkOrder = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblSubmittedto = New common.Controls.MyLabel()
+        Me.lblContent = New common.Controls.MyLabel()
+        Me.lblSubject = New common.Controls.MyLabel()
+        Me.txtCopySubmit = New common.Controls.MyTextBox()
+        Me.txtContent = New common.Controls.MyTextBox()
+        Me.txtSubject = New common.Controls.MyTextBox()
+        Me.txtTo = New common.Controls.MyTextBox()
+        Me.lblTo = New common.Controls.MyLabel()
         Me.btnEmailsetting = New Telerik.WinControls.UI.RadSplitButton()
         Me.BtnMailPreview = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnMailSendemail = New Telerik.WinControls.UI.RadMenuItem()
@@ -113,15 +122,7 @@ Partial Class frmPurchaseRequistion
         Me.SaveLayoutbtn = New Telerik.WinControls.UI.RadMenuItem()
         Me.DeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RdEmailAndSmsSetting = New Telerik.WinControls.UI.RadMenuItem()
-        Me.WorkOrder = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.lblTo = New common.Controls.MyLabel()
-        Me.txtTo = New common.Controls.MyTextBox()
-        Me.txtSubject = New common.Controls.MyTextBox()
-        Me.txtContent = New common.Controls.MyTextBox()
-        Me.txtCopySubmit = New common.Controls.MyTextBox()
-        Me.lblSubject = New common.Controls.MyLabel()
-        Me.lblContent = New common.Controls.MyLabel()
-        Me.lblSubmittedto = New common.Controls.MyLabel()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -195,6 +196,15 @@ Partial Class frmPurchaseRequistion
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pvpCustomFields.SuspendLayout()
         Me.Attachments.SuspendLayout()
+        Me.WorkOrder.SuspendLayout()
+        CType(Me.lblSubmittedto, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblContent, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSubject, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCopySubmit, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtContent, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSubject, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnEmailsetting, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -203,15 +213,6 @@ Partial Class frmPurchaseRequistion
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.WorkOrder.SuspendLayout()
-        CType(Me.lblTo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtSubject, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtContent, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCopySubmit, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblSubject, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblContent, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblSubmittedto, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -256,7 +257,6 @@ Partial Class frmPurchaseRequistion
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(935, 465)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "Custom Fields"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -306,10 +306,10 @@ Partial Class frmPurchaseRequistion
         Me.RadPageViewPage1.Controls.Add(Me.txtDesc)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(99.0!, 26.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(95.0!, 22.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(914, 419)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(914, 423)
         Me.RadPageViewPage1.Text = "Purchase Indent"
         '
         'chkTender
@@ -340,7 +340,7 @@ Partial Class frmPurchaseRequistion
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.RadGroupBox2)
-        Me.SplitContainer3.Size = New System.Drawing.Size(908, 218)
+        Me.SplitContainer3.Size = New System.Drawing.Size(908, 222)
         Me.SplitContainer3.SplitterDistance = 92
         Me.SplitContainer3.TabIndex = 72
         '
@@ -457,7 +457,6 @@ Partial Class frmPurchaseRequistion
         Me.lbl_rebudgetamtwithtolerence.Name = "lbl_rebudgetamtwithtolerence"
         Me.lbl_rebudgetamtwithtolerence.Size = New System.Drawing.Size(100, 19)
         Me.lbl_rebudgetamtwithtolerence.TabIndex = 53
-        Me.lbl_rebudgetamtwithtolerence.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_rebudgetamtwithtolerence.TextWrap = False
         '
         'lbl_rebudgetamt
@@ -470,7 +469,6 @@ Partial Class frmPurchaseRequistion
         Me.lbl_rebudgetamt.Name = "lbl_rebudgetamt"
         Me.lbl_rebudgetamt.Size = New System.Drawing.Size(100, 19)
         Me.lbl_rebudgetamt.TabIndex = 51
-        Me.lbl_rebudgetamt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_rebudgetamt.TextWrap = False
         '
         'MyLabel35
@@ -493,7 +491,6 @@ Partial Class frmPurchaseRequistion
         Me.lbl_budgetamtwithtolerence.Name = "lbl_budgetamtwithtolerence"
         Me.lbl_budgetamtwithtolerence.Size = New System.Drawing.Size(100, 19)
         Me.lbl_budgetamtwithtolerence.TabIndex = 49
-        Me.lbl_budgetamtwithtolerence.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_budgetamtwithtolerence.TextWrap = False
         '
         'lbl_budgetamt
@@ -506,7 +503,6 @@ Partial Class frmPurchaseRequistion
         Me.lbl_budgetamt.Name = "lbl_budgetamt"
         Me.lbl_budgetamt.Size = New System.Drawing.Size(100, 19)
         Me.lbl_budgetamt.TabIndex = 47
-        Me.lbl_budgetamt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_budgetamt.TextWrap = False
         '
         'MyLabel3
@@ -529,7 +525,6 @@ Partial Class frmPurchaseRequistion
         Me.lblApprovalDate.Name = "lblApprovalDate"
         Me.lblApprovalDate.Size = New System.Drawing.Size(193, 19)
         Me.lblApprovalDate.TabIndex = 45
-        Me.lblApprovalDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblApprovalDate.TextWrap = False
         '
         'chk_emergency
@@ -548,6 +543,7 @@ Partial Class frmPurchaseRequistion
         Me.ddl_category.AutoCompleteDisplayMember = Nothing
         Me.ddl_category.AutoCompleteValueMember = Nothing
         Me.ddl_category.CalculationExpression = Nothing
+        Me.ddl_category.DropDownAnimationEnabled = True
         Me.ddl_category.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddl_category.FieldCode = Nothing
         Me.ddl_category.FieldDesc = Nothing
@@ -624,7 +620,6 @@ Partial Class frmPurchaseRequistion
         Me.lbl_capexsubcode.Name = "lbl_capexsubcode"
         Me.lbl_capexsubcode.Size = New System.Drawing.Size(205, 19)
         Me.lbl_capexsubcode.TabIndex = 8
-        Me.lbl_capexsubcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_capexsubcode.TextWrap = False
         '
         'MyLabel34
@@ -674,7 +669,6 @@ Partial Class frmPurchaseRequistion
         Me.lbl_capexcode.Name = "lbl_capexcode"
         Me.lbl_capexcode.Size = New System.Drawing.Size(192, 19)
         Me.lbl_capexcode.TabIndex = 5
-        Me.lbl_capexcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_capexcode.TextWrap = False
         '
         'RadGroupBox2
@@ -687,7 +681,7 @@ Partial Class frmPurchaseRequistion
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(908, 122)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(908, 126)
         Me.RadGroupBox2.TabIndex = 18
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -701,18 +695,19 @@ Partial Class frmPurchaseRequistion
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(888, 92)
+        Me.gv1.Size = New System.Drawing.Size(888, 96)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'chkOpenPO
         '
@@ -730,6 +725,7 @@ Partial Class frmPurchaseRequistion
         Me.cboItemType.AutoCompleteDisplayMember = Nothing
         Me.cboItemType.AutoCompleteValueMember = Nothing
         Me.cboItemType.CalculationExpression = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
         Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboItemType.FieldCode = Nothing
         Me.cboItemType.FieldDesc = Nothing
@@ -768,7 +764,7 @@ Partial Class frmPurchaseRequistion
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 353)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 357)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 65)
@@ -840,7 +836,6 @@ Partial Class frmPurchaseRequistion
         Me.lblProject.Name = "lblProject"
         Me.lblProject.Size = New System.Drawing.Size(193, 20)
         Me.lblProject.TabIndex = 2
-        Me.lblProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblProject.TextWrap = False
         '
         'cboPOType
@@ -848,6 +843,7 @@ Partial Class frmPurchaseRequistion
         Me.cboPOType.AutoCompleteDisplayMember = Nothing
         Me.cboPOType.AutoCompleteValueMember = Nothing
         Me.cboPOType.CalculationExpression = Nothing
+        Me.cboPOType.DropDownAnimationEnabled = True
         Me.cboPOType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboPOType.FieldCode = Nothing
         Me.cboPOType.FieldDesc = Nothing
@@ -912,7 +908,6 @@ Partial Class frmPurchaseRequistion
         Me.lblDept.Name = "lblDept"
         Me.lblDept.Size = New System.Drawing.Size(193, 20)
         Me.lblDept.TabIndex = 19
-        Me.lblDept.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel14
         '
@@ -1006,6 +1001,7 @@ Partial Class frmPurchaseRequistion
         Me.cboModeOfTransport.AutoCompleteDisplayMember = Nothing
         Me.cboModeOfTransport.AutoCompleteValueMember = Nothing
         Me.cboModeOfTransport.CalculationExpression = Nothing
+        Me.cboModeOfTransport.DropDownAnimationEnabled = True
         Me.cboModeOfTransport.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboModeOfTransport.FieldCode = Nothing
         Me.cboModeOfTransport.FieldDesc = Nothing
@@ -1051,7 +1047,7 @@ Partial Class frmPurchaseRequistion
         Me.RadLabel27.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadLabel27.FieldName = Nothing
         Me.RadLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel27.Location = New System.Drawing.Point(724, 402)
+        Me.RadLabel27.Location = New System.Drawing.Point(724, 406)
         Me.RadLabel27.Name = "RadLabel27"
         Me.RadLabel27.Size = New System.Drawing.Size(74, 16)
         Me.RadLabel27.TabIndex = 20
@@ -1064,7 +1060,7 @@ Partial Class frmPurchaseRequistion
         Me.lblTotRAmt.BorderVisible = True
         Me.lblTotRAmt.FieldName = Nothing
         Me.lblTotRAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt.Location = New System.Drawing.Point(803, 400)
+        Me.lblTotRAmt.Location = New System.Drawing.Point(803, 404)
         Me.lblTotRAmt.Name = "lblTotRAmt"
         Me.lblTotRAmt.Size = New System.Drawing.Size(110, 18)
         Me.lblTotRAmt.TabIndex = 19
@@ -1080,7 +1076,6 @@ Partial Class frmPurchaseRequistion
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(193, 20)
         Me.lblLocation.TabIndex = 20
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel5
         '
@@ -1408,24 +1403,16 @@ Partial Class frmPurchaseRequistion
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(914, 419)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(914, 419)
-        Me.UcCustomFields1.TabIndex = 0
-        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(914, 419)
@@ -1439,6 +1426,166 @@ Partial Class frmPurchaseRequistion
         Me.UcAttachment1.Size = New System.Drawing.Size(914, 419)
         Me.UcAttachment1.TabIndex = 0
         '
+        'WorkOrder
+        '
+        Me.WorkOrder.Controls.Add(Me.lblSubmittedto)
+        Me.WorkOrder.Controls.Add(Me.lblContent)
+        Me.WorkOrder.Controls.Add(Me.lblSubject)
+        Me.WorkOrder.Controls.Add(Me.txtCopySubmit)
+        Me.WorkOrder.Controls.Add(Me.txtContent)
+        Me.WorkOrder.Controls.Add(Me.txtSubject)
+        Me.WorkOrder.Controls.Add(Me.txtTo)
+        Me.WorkOrder.Controls.Add(Me.lblTo)
+        Me.WorkOrder.ItemSize = New System.Drawing.SizeF(71.0!, 22.0!)
+        Me.WorkOrder.Location = New System.Drawing.Point(10, 35)
+        Me.WorkOrder.Name = "WorkOrder"
+        Me.WorkOrder.Size = New System.Drawing.Size(914, 419)
+        Me.WorkOrder.Text = "Work Order"
+        '
+        'lblSubmittedto
+        '
+        Me.lblSubmittedto.FieldName = Nothing
+        Me.lblSubmittedto.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSubmittedto.Location = New System.Drawing.Point(16, 160)
+        Me.lblSubmittedto.Name = "lblSubmittedto"
+        Me.lblSubmittedto.Size = New System.Drawing.Size(99, 16)
+        Me.lblSubmittedto.TabIndex = 54
+        Me.lblSubmittedto.Text = "Copy Submitted to"
+        '
+        'lblContent
+        '
+        Me.lblContent.FieldName = Nothing
+        Me.lblContent.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblContent.Location = New System.Drawing.Point(16, 114)
+        Me.lblContent.Name = "lblContent"
+        Me.lblContent.Size = New System.Drawing.Size(46, 16)
+        Me.lblContent.TabIndex = 53
+        Me.lblContent.Text = "Content"
+        '
+        'lblSubject
+        '
+        Me.lblSubject.FieldName = Nothing
+        Me.lblSubject.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSubject.Location = New System.Drawing.Point(16, 66)
+        Me.lblSubject.Name = "lblSubject"
+        Me.lblSubject.Size = New System.Drawing.Size(44, 16)
+        Me.lblSubject.TabIndex = 52
+        Me.lblSubject.Text = "Subject"
+        '
+        'txtCopySubmit
+        '
+        Me.txtCopySubmit.AutoSize = False
+        Me.txtCopySubmit.CalculationExpression = Nothing
+        Me.txtCopySubmit.FieldCode = Nothing
+        Me.txtCopySubmit.FieldDesc = Nothing
+        Me.txtCopySubmit.FieldMaxLength = 0
+        Me.txtCopySubmit.FieldName = Nothing
+        Me.txtCopySubmit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCopySubmit.isCalculatedField = False
+        Me.txtCopySubmit.IsSourceFromTable = False
+        Me.txtCopySubmit.IsSourceFromValueList = False
+        Me.txtCopySubmit.IsUnique = False
+        Me.txtCopySubmit.Location = New System.Drawing.Point(118, 160)
+        Me.txtCopySubmit.MaxLength = 200
+        Me.txtCopySubmit.MendatroryField = False
+        Me.txtCopySubmit.Multiline = True
+        Me.txtCopySubmit.MyLinkLable1 = Me.MyLabel2
+        Me.txtCopySubmit.MyLinkLable2 = Nothing
+        Me.txtCopySubmit.Name = "txtCopySubmit"
+        Me.txtCopySubmit.ReferenceFieldDesc = Nothing
+        Me.txtCopySubmit.ReferenceFieldName = Nothing
+        Me.txtCopySubmit.ReferenceTableName = Nothing
+        Me.txtCopySubmit.Size = New System.Drawing.Size(536, 38)
+        Me.txtCopySubmit.TabIndex = 51
+        '
+        'txtContent
+        '
+        Me.txtContent.AutoSize = False
+        Me.txtContent.CalculationExpression = Nothing
+        Me.txtContent.FieldCode = Nothing
+        Me.txtContent.FieldDesc = Nothing
+        Me.txtContent.FieldMaxLength = 0
+        Me.txtContent.FieldName = Nothing
+        Me.txtContent.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtContent.isCalculatedField = False
+        Me.txtContent.IsSourceFromTable = False
+        Me.txtContent.IsSourceFromValueList = False
+        Me.txtContent.IsUnique = False
+        Me.txtContent.Location = New System.Drawing.Point(118, 114)
+        Me.txtContent.MaxLength = 200
+        Me.txtContent.MendatroryField = False
+        Me.txtContent.Multiline = True
+        Me.txtContent.MyLinkLable1 = Me.MyLabel2
+        Me.txtContent.MyLinkLable2 = Nothing
+        Me.txtContent.Name = "txtContent"
+        Me.txtContent.ReferenceFieldDesc = Nothing
+        Me.txtContent.ReferenceFieldName = Nothing
+        Me.txtContent.ReferenceTableName = Nothing
+        Me.txtContent.Size = New System.Drawing.Size(536, 38)
+        Me.txtContent.TabIndex = 50
+        '
+        'txtSubject
+        '
+        Me.txtSubject.AutoSize = False
+        Me.txtSubject.CalculationExpression = Nothing
+        Me.txtSubject.FieldCode = Nothing
+        Me.txtSubject.FieldDesc = Nothing
+        Me.txtSubject.FieldMaxLength = 0
+        Me.txtSubject.FieldName = Nothing
+        Me.txtSubject.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSubject.isCalculatedField = False
+        Me.txtSubject.IsSourceFromTable = False
+        Me.txtSubject.IsSourceFromValueList = False
+        Me.txtSubject.IsUnique = False
+        Me.txtSubject.Location = New System.Drawing.Point(118, 66)
+        Me.txtSubject.MaxLength = 200
+        Me.txtSubject.MendatroryField = False
+        Me.txtSubject.Multiline = True
+        Me.txtSubject.MyLinkLable1 = Me.MyLabel2
+        Me.txtSubject.MyLinkLable2 = Nothing
+        Me.txtSubject.Name = "txtSubject"
+        Me.txtSubject.ReferenceFieldDesc = Nothing
+        Me.txtSubject.ReferenceFieldName = Nothing
+        Me.txtSubject.ReferenceTableName = Nothing
+        Me.txtSubject.Size = New System.Drawing.Size(536, 38)
+        Me.txtSubject.TabIndex = 49
+        '
+        'txtTo
+        '
+        Me.txtTo.AutoSize = False
+        Me.txtTo.CalculationExpression = Nothing
+        Me.txtTo.FieldCode = Nothing
+        Me.txtTo.FieldDesc = Nothing
+        Me.txtTo.FieldMaxLength = 0
+        Me.txtTo.FieldName = Nothing
+        Me.txtTo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTo.isCalculatedField = False
+        Me.txtTo.IsSourceFromTable = False
+        Me.txtTo.IsSourceFromValueList = False
+        Me.txtTo.IsUnique = False
+        Me.txtTo.Location = New System.Drawing.Point(118, 19)
+        Me.txtTo.MaxLength = 200
+        Me.txtTo.MendatroryField = False
+        Me.txtTo.Multiline = True
+        Me.txtTo.MyLinkLable1 = Me.MyLabel2
+        Me.txtTo.MyLinkLable2 = Nothing
+        Me.txtTo.Name = "txtTo"
+        Me.txtTo.ReferenceFieldDesc = Nothing
+        Me.txtTo.ReferenceFieldName = Nothing
+        Me.txtTo.ReferenceTableName = Nothing
+        Me.txtTo.Size = New System.Drawing.Size(536, 38)
+        Me.txtTo.TabIndex = 48
+        '
+        'lblTo
+        '
+        Me.lblTo.FieldName = Nothing
+        Me.lblTo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTo.Location = New System.Drawing.Point(16, 19)
+        Me.lblTo.Name = "lblTo"
+        Me.lblTo.Size = New System.Drawing.Size(19, 16)
+        Me.lblTo.TabIndex = 43
+        Me.lblTo.Text = "To"
+        '
         'btnEmailsetting
         '
         Me.btnEmailsetting.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1451,15 +1598,11 @@ Partial Class frmPurchaseRequistion
         '
         'BtnMailPreview
         '
-        Me.BtnMailPreview.AccessibleDescription = "Preview"
-        Me.BtnMailPreview.AccessibleName = "Preview"
         Me.BtnMailPreview.Name = "BtnMailPreview"
         Me.BtnMailPreview.Text = "Preview"
         '
         'btnMailSendemail
         '
-        Me.btnMailSendemail.AccessibleDescription = "Send E-Mail/SMS"
-        Me.btnMailSendemail.AccessibleName = "Send E-Mail/SMS"
         Me.btnMailSendemail.Name = "btnMailSendemail"
         Me.btnMailSendemail.Text = "Send E-Mail/SMS"
         '
@@ -1542,7 +1685,6 @@ Partial Class frmPurchaseRequistion
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(935, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
@@ -1554,184 +1696,26 @@ Partial Class frmPurchaseRequistion
         '
         'SaveLayoutbtn
         '
-        Me.SaveLayoutbtn.AccessibleDescription = "Save Layout"
-        Me.SaveLayoutbtn.AccessibleName = "Save Layout"
         Me.SaveLayoutbtn.Name = "SaveLayoutbtn"
         Me.SaveLayoutbtn.Text = "Save Layout"
         '
         'DeleteLayout
         '
-        Me.DeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.DeleteLayout.AccessibleName = "Delete Layout"
         Me.DeleteLayout.Name = "DeleteLayout"
         Me.DeleteLayout.Text = "Delete Layout"
         '
         'RdEmailAndSmsSetting
         '
-        Me.RdEmailAndSmsSetting.AccessibleDescription = "Email And SMS Setting"
-        Me.RdEmailAndSmsSetting.AccessibleName = "Email And SMS Setting"
         Me.RdEmailAndSmsSetting.Name = "RdEmailAndSmsSetting"
         Me.RdEmailAndSmsSetting.Text = "Email And SMS Setting"
         '
-        'WorkOrder
+        'UcCustomFields1
         '
-        Me.WorkOrder.Controls.Add(Me.lblSubmittedto)
-        Me.WorkOrder.Controls.Add(Me.lblContent)
-        Me.WorkOrder.Controls.Add(Me.lblSubject)
-        Me.WorkOrder.Controls.Add(Me.txtCopySubmit)
-        Me.WorkOrder.Controls.Add(Me.txtContent)
-        Me.WorkOrder.Controls.Add(Me.txtSubject)
-        Me.WorkOrder.Controls.Add(Me.txtTo)
-        Me.WorkOrder.Controls.Add(Me.lblTo)
-        Me.WorkOrder.ItemSize = New System.Drawing.SizeF(75.0!, 26.0!)
-        Me.WorkOrder.Location = New System.Drawing.Point(10, 35)
-        Me.WorkOrder.Name = "WorkOrder"
-        Me.WorkOrder.Size = New System.Drawing.Size(914, 419)
-        Me.WorkOrder.Text = "Work Order"
-        '
-        'lblTo
-        '
-        Me.lblTo.FieldName = Nothing
-        Me.lblTo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTo.Location = New System.Drawing.Point(16, 19)
-        Me.lblTo.Name = "lblTo"
-        Me.lblTo.Size = New System.Drawing.Size(19, 16)
-        Me.lblTo.TabIndex = 43
-        Me.lblTo.Text = "To"
-        '
-        'txtTo
-        '
-        Me.txtTo.AutoSize = False
-        Me.txtTo.CalculationExpression = Nothing
-        Me.txtTo.FieldCode = Nothing
-        Me.txtTo.FieldDesc = Nothing
-        Me.txtTo.FieldMaxLength = 0
-        Me.txtTo.FieldName = Nothing
-        Me.txtTo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTo.isCalculatedField = False
-        Me.txtTo.IsSourceFromTable = False
-        Me.txtTo.IsSourceFromValueList = False
-        Me.txtTo.IsUnique = False
-        Me.txtTo.Location = New System.Drawing.Point(118, 19)
-        Me.txtTo.MaxLength = 200
-        Me.txtTo.MendatroryField = False
-        Me.txtTo.Multiline = True
-        Me.txtTo.MyLinkLable1 = Me.MyLabel2
-        Me.txtTo.MyLinkLable2 = Nothing
-        Me.txtTo.Name = "txtTo"
-        Me.txtTo.ReferenceFieldDesc = Nothing
-        Me.txtTo.ReferenceFieldName = Nothing
-        Me.txtTo.ReferenceTableName = Nothing
-        Me.txtTo.Size = New System.Drawing.Size(536, 38)
-        Me.txtTo.TabIndex = 48
-        '
-        'txtSubject
-        '
-        Me.txtSubject.AutoSize = False
-        Me.txtSubject.CalculationExpression = Nothing
-        Me.txtSubject.FieldCode = Nothing
-        Me.txtSubject.FieldDesc = Nothing
-        Me.txtSubject.FieldMaxLength = 0
-        Me.txtSubject.FieldName = Nothing
-        Me.txtSubject.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSubject.isCalculatedField = False
-        Me.txtSubject.IsSourceFromTable = False
-        Me.txtSubject.IsSourceFromValueList = False
-        Me.txtSubject.IsUnique = False
-        Me.txtSubject.Location = New System.Drawing.Point(118, 66)
-        Me.txtSubject.MaxLength = 200
-        Me.txtSubject.MendatroryField = False
-        Me.txtSubject.Multiline = True
-        Me.txtSubject.MyLinkLable1 = Me.MyLabel2
-        Me.txtSubject.MyLinkLable2 = Nothing
-        Me.txtSubject.Name = "txtSubject"
-        Me.txtSubject.ReferenceFieldDesc = Nothing
-        Me.txtSubject.ReferenceFieldName = Nothing
-        Me.txtSubject.ReferenceTableName = Nothing
-        Me.txtSubject.Size = New System.Drawing.Size(536, 38)
-        Me.txtSubject.TabIndex = 49
-        '
-        'txtContent
-        '
-        Me.txtContent.AutoSize = False
-        Me.txtContent.CalculationExpression = Nothing
-        Me.txtContent.FieldCode = Nothing
-        Me.txtContent.FieldDesc = Nothing
-        Me.txtContent.FieldMaxLength = 0
-        Me.txtContent.FieldName = Nothing
-        Me.txtContent.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtContent.isCalculatedField = False
-        Me.txtContent.IsSourceFromTable = False
-        Me.txtContent.IsSourceFromValueList = False
-        Me.txtContent.IsUnique = False
-        Me.txtContent.Location = New System.Drawing.Point(118, 114)
-        Me.txtContent.MaxLength = 200
-        Me.txtContent.MendatroryField = False
-        Me.txtContent.Multiline = True
-        Me.txtContent.MyLinkLable1 = Me.MyLabel2
-        Me.txtContent.MyLinkLable2 = Nothing
-        Me.txtContent.Name = "txtContent"
-        Me.txtContent.ReferenceFieldDesc = Nothing
-        Me.txtContent.ReferenceFieldName = Nothing
-        Me.txtContent.ReferenceTableName = Nothing
-        Me.txtContent.Size = New System.Drawing.Size(536, 38)
-        Me.txtContent.TabIndex = 50
-        '
-        'txtCopySubmit
-        '
-        Me.txtCopySubmit.AutoSize = False
-        Me.txtCopySubmit.CalculationExpression = Nothing
-        Me.txtCopySubmit.FieldCode = Nothing
-        Me.txtCopySubmit.FieldDesc = Nothing
-        Me.txtCopySubmit.FieldMaxLength = 0
-        Me.txtCopySubmit.FieldName = Nothing
-        Me.txtCopySubmit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCopySubmit.isCalculatedField = False
-        Me.txtCopySubmit.IsSourceFromTable = False
-        Me.txtCopySubmit.IsSourceFromValueList = False
-        Me.txtCopySubmit.IsUnique = False
-        Me.txtCopySubmit.Location = New System.Drawing.Point(118, 160)
-        Me.txtCopySubmit.MaxLength = 200
-        Me.txtCopySubmit.MendatroryField = False
-        Me.txtCopySubmit.Multiline = True
-        Me.txtCopySubmit.MyLinkLable1 = Me.MyLabel2
-        Me.txtCopySubmit.MyLinkLable2 = Nothing
-        Me.txtCopySubmit.Name = "txtCopySubmit"
-        Me.txtCopySubmit.ReferenceFieldDesc = Nothing
-        Me.txtCopySubmit.ReferenceFieldName = Nothing
-        Me.txtCopySubmit.ReferenceTableName = Nothing
-        Me.txtCopySubmit.Size = New System.Drawing.Size(536, 38)
-        Me.txtCopySubmit.TabIndex = 51
-        '
-        'lblSubject
-        '
-        Me.lblSubject.FieldName = Nothing
-        Me.lblSubject.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSubject.Location = New System.Drawing.Point(16, 66)
-        Me.lblSubject.Name = "lblSubject"
-        Me.lblSubject.Size = New System.Drawing.Size(44, 16)
-        Me.lblSubject.TabIndex = 52
-        Me.lblSubject.Text = "Subject"
-        '
-        'lblContent
-        '
-        Me.lblContent.FieldName = Nothing
-        Me.lblContent.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblContent.Location = New System.Drawing.Point(16, 114)
-        Me.lblContent.Name = "lblContent"
-        Me.lblContent.Size = New System.Drawing.Size(46, 16)
-        Me.lblContent.TabIndex = 53
-        Me.lblContent.Text = "Content"
-        '
-        'lblSubmittedto
-        '
-        Me.lblSubmittedto.FieldName = Nothing
-        Me.lblSubmittedto.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSubmittedto.Location = New System.Drawing.Point(16, 160)
-        Me.lblSubmittedto.Name = "lblSubmittedto"
-        Me.lblSubmittedto.Size = New System.Drawing.Size(99, 16)
-        Me.lblSubmittedto.TabIndex = 54
-        Me.lblSubmittedto.Text = "Copy Submitted to"
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(914, 419)
+        Me.UcCustomFields1.TabIndex = 0
         '
         'frmPurchaseRequistion
         '
@@ -1824,6 +1808,16 @@ Partial Class frmPurchaseRequistion
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pvpCustomFields.ResumeLayout(False)
         Me.Attachments.ResumeLayout(False)
+        Me.WorkOrder.ResumeLayout(False)
+        Me.WorkOrder.PerformLayout()
+        CType(Me.lblSubmittedto, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblContent, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSubject, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCopySubmit, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtContent, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSubject, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnEmailsetting, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1832,16 +1826,6 @@ Partial Class frmPurchaseRequistion
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.WorkOrder.ResumeLayout(False)
-        Me.WorkOrder.PerformLayout()
-        CType(Me.lblTo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtSubject, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtContent, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCopySubmit, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblSubject, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblContent, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblSubmittedto, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

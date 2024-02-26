@@ -5218,16 +5218,21 @@ Public Class frmEXPorformaInvoice
             ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
                 CloseForm()
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = clsFixedParameterType.SIRC
-                frm.strCode = clsFixedParameterCode.SIReversAndCreate
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnReverseAndUnpost.Visible = True
+                If MyBase.isReverse Then
+
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = clsFixedParameterType.SIRC
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnReverseAndUnpost.Visible = True
+                    End If
+                Else
+                    MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             End If
 
-            If e.KeyData = Keys.F2 AndAlso gv_Notify_Party.CurrentColumn IsNot Nothing AndAlso gv_Notify_Party.CurrentColumn Is gv_Notify_Party.Columns(colNT_Cust_Code) Then
+                If e.KeyData = Keys.F2 AndAlso gv_Notify_Party.CurrentColumn IsNot Nothing AndAlso gv_Notify_Party.CurrentColumn Is gv_Notify_Party.Columns(colNT_Cust_Code) Then
                 isCellValueChangedOpen = True
                 OpenNotify(True)
                 isCellValueChangedOpen = False

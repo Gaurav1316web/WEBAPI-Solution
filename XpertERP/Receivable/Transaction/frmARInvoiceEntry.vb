@@ -3362,29 +3362,33 @@ Public Class FrmARInvoiceEntry
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
-            End If
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                          "========Table Name=========" + Environment.NewLine + _
-                          "TSPL_Customer_Invoice_Head " + Environment.NewLine + _
-                          "TSPL_Customer_Invoice_Detail" + Environment.NewLine + _
-                          "TSPL_REMITTANCE, TSPL_CUSTOM_FIELD_VALUES" + Environment.NewLine + _
-                          "=========Setting Name======" + Environment.NewLine + _
-                          "AllowCreditNoteWithoutReference" + Environment.NewLine + _
-                          "AllowUseApplyDocSeriesForPayment" + Environment.NewLine + _
-                          "CreateSeperateSeriesforRefDocARinvforCreditdebit" + Environment.NewLine + _
-                          "ShowHierarchyAndCostCenterInARInvoiceEntry" + Environment.NewLine + _
-                          "EnableHirerachyCostCentre" + Environment.NewLine + _
-                          "ShowTaxRateColumnOnTransaction" + Environment.NewLine + _
-                          "SkipCogsEntry" + Environment.NewLine + _
-                          "DefaultRoundOffGLAccount " + Environment.NewLine + _
-                          "=========Function======" + Environment.NewLine + _
+            If MyBase.isReverse Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                          "========Table Name=========" + Environment.NewLine +
+                          "TSPL_Customer_Invoice_Head " + Environment.NewLine +
+                          "TSPL_Customer_Invoice_Detail" + Environment.NewLine +
+                          "TSPL_REMITTANCE, TSPL_CUSTOM_FIELD_VALUES" + Environment.NewLine +
+                          "=========Setting Name======" + Environment.NewLine +
+                          "AllowCreditNoteWithoutReference" + Environment.NewLine +
+                          "AllowUseApplyDocSeriesForPayment" + Environment.NewLine +
+                          "CreateSeperateSeriesforRefDocARinvforCreditdebit" + Environment.NewLine +
+                          "ShowHierarchyAndCostCenterInARInvoiceEntry" + Environment.NewLine +
+                          "EnableHirerachyCostCentre" + Environment.NewLine +
+                          "ShowTaxRateColumnOnTransaction" + Environment.NewLine +
+                          "SkipCogsEntry" + Environment.NewLine +
+                          "DefaultRoundOffGLAccount " + Environment.NewLine +
+                          "=========Function======" + Environment.NewLine +
                           "GL entry ")
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         End If
 
     End Sub

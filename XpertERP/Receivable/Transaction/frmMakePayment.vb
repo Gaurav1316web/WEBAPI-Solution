@@ -1521,15 +1521,19 @@ Public Class FrmMakePayment
             ElseIf e.Control And e.KeyCode = Keys.P AndAlso btnPrint.Enabled Then
                 funprint(txtEntryNo.Value)
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnReverse.Visible = True
-                End If
+                If MyBase.isReverse Then
 
-                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = "SIRC"
+                    frm.strCode = "SIReversAndCreate"
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnReverse.Visible = True
+                    End If
+                Else
+                    MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                           "========Table Name=========" + Environment.NewLine +
                           "TSPL_RECEIPT_HEADER, TSPL_RECEIPT_DETAIL, TSPL_RECEIPT_DETAIL_GST( For Receipt & Misc Receipt)" + Environment.NewLine +
                           "TSPL_PAYMENT_HEADER ,TSPL_PAYMENT_DETAIL,TSPL_PAYMENT_BANK_CHARGES_TAX,TSPL_PJC_EXPENSE_HEADER,TSPL_REMITTANCE(for Payment) " + Environment.NewLine +

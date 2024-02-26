@@ -38,6 +38,7 @@ Partial Class GroupProgramMapping
         Dim GridViewCheckBoxColumn11 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
         Dim GridViewCheckBoxColumn12 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
         Dim GridViewCheckBoxColumn13 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.dgvprogram = New common.UserControls.MyRadGridView()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
         Me.lblcode = New common.Controls.MyLabel()
@@ -105,7 +106,7 @@ Partial Class GroupProgramMapping
         Me.dgvprogram.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgvprogram.Location = New System.Drawing.Point(13, 83)
         '
-        'dgvprogram
+        '
         '
         Me.dgvprogram.MasterTemplate.AllowAddNewRow = False
         Me.dgvprogram.MasterTemplate.AllowColumnReorder = False
@@ -190,14 +191,15 @@ Partial Class GroupProgramMapping
         Me.dgvprogram.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewCheckBoxColumn1, GridViewCheckBoxColumn2, GridViewCheckBoxColumn3, GridViewCheckBoxColumn4, GridViewCheckBoxColumn5, GridViewCheckBoxColumn6, GridViewCheckBoxColumn7, GridViewCheckBoxColumn8, GridViewCheckBoxColumn9, GridViewCheckBoxColumn10, GridViewCheckBoxColumn11, GridViewCheckBoxColumn12, GridViewCheckBoxColumn13})
         Me.dgvprogram.MasterTemplate.EnableFiltering = True
         Me.dgvprogram.MasterTemplate.EnableGrouping = False
+        Me.dgvprogram.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvprogram.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvprogram.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.dgvprogram.Name = "dgvprogram"
         Me.dgvprogram.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvprogram.ShowHeaderCellButtons = True
-        Me.dgvprogram.Size = New System.Drawing.Size(1300, 486)
+        Me.dgvprogram.Size = New System.Drawing.Size(1279, 486)
         Me.dgvprogram.TabIndex = 0
         Me.dgvprogram.TabStop = False
-        Me.dgvprogram.Text = "RadGridView1"
         '
         'btnnew
         '
@@ -250,7 +252,7 @@ Partial Class GroupProgramMapping
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(1241, 4)
+        Me.btnclose.Location = New System.Drawing.Point(1220, 4)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(66, 18)
         Me.btnclose.TabIndex = 2
@@ -282,12 +284,9 @@ Partial Class GroupProgramMapping
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(776, 20)
         Me.RadMenu1.TabIndex = 50
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.menuImport, Me.menuExport, Me.menuClose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
@@ -301,15 +300,11 @@ Partial Class GroupProgramMapping
         '
         'menuExport
         '
-        Me.menuExport.AccessibleDescription = "Export"
-        Me.menuExport.AccessibleName = "Export"
         Me.menuExport.Name = "menuExport"
         Me.menuExport.Text = "Export"
         '
         'menuClose
         '
-        Me.menuClose.AccessibleDescription = "Close"
-        Me.menuClose.AccessibleName = "Close"
         Me.menuClose.Name = "menuClose"
         Me.menuClose.Text = "Close"
         '
@@ -333,7 +328,7 @@ Partial Class GroupProgramMapping
         Me.gbprogrammapping.Location = New System.Drawing.Point(0, 0)
         Me.gbprogrammapping.Name = "gbprogrammapping"
         Me.gbprogrammapping.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.gbprogrammapping.Size = New System.Drawing.Size(1313, 582)
+        Me.gbprogrammapping.Size = New System.Drawing.Size(1292, 582)
         Me.gbprogrammapping.TabIndex = 0
         '
         'txtDashBoardMult
@@ -385,6 +380,7 @@ Partial Class GroupProgramMapping
         'ddl_type
         '
         Me.ddl_type.CalculationExpression = Nothing
+        Me.ddl_type.DropDownAnimationEnabled = True
         Me.ddl_type.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddl_type.FieldCode = Nothing
         Me.ddl_type.FieldDesc = Nothing
@@ -419,6 +415,7 @@ Partial Class GroupProgramMapping
         'cboSubModule
         '
         Me.cboSubModule.CalculationExpression = Nothing
+        Me.cboSubModule.DropDownAnimationEnabled = True
         Me.cboSubModule.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboSubModule.FieldCode = Nothing
         Me.cboSubModule.FieldDesc = Nothing
@@ -453,6 +450,7 @@ Partial Class GroupProgramMapping
         'cboModule
         '
         Me.cboModule.CalculationExpression = Nothing
+        Me.cboModule.DropDownAnimationEnabled = True
         Me.cboModule.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboModule.FieldCode = Nothing
         Me.cboModule.FieldDesc = Nothing
@@ -506,7 +504,7 @@ Partial Class GroupProgramMapping
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1313, 25)
+        Me.Panel1.Size = New System.Drawing.Size(1292, 25)
         Me.Panel1.TabIndex = 51
         '
         'SplitContainer1
@@ -525,7 +523,7 @@ Partial Class GroupProgramMapping
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1313, 623)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1292, 623)
         Me.SplitContainer1.SplitterDistance = 582
         Me.SplitContainer1.TabIndex = 52
         '
@@ -533,7 +531,7 @@ Partial Class GroupProgramMapping
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1313, 648)
+        Me.ClientSize = New System.Drawing.Size(1292, 648)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.Panel1)
         Me.Name = "GroupProgramMapping"
