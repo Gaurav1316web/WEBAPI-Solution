@@ -2582,11 +2582,11 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
 
         LoadBlankGridDeduction()
         If clsCommon.myLen(strVendorCode) > 0 Then
-            Dim qry As String = " select cast(1 as bit) as Sel,ROW_NUMBER() over(order by"
+            Dim qry As String = " select cast(1 as bit) as Sel,ROW_NUMBER() over(order by "
             If PayableAmountZeroForMCCSale Then
                 qry += " max(Vendor_Code),max(Sequence_No),max(Posting_Date),max(Sequence_No2) "
             Else
-                qry += "Document_No"
+                qry += " Document_No "
             End If
 
 

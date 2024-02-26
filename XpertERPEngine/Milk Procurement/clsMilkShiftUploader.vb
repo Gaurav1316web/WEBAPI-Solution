@@ -1151,9 +1151,9 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
     End Function
 
     Public Shared Function DeleteCollectionData(arrMCC As ArrayList, FromDate As Date, ToDate As Date, strShift As String) As Boolean
-        Return DeleteCollectionData(arrMCC, FromDate, ToDate, strShift, True)
+        Return DeleteCollectionData(arrMCC, FromDate, ToDate, strShift, True, True)
     End Function
-    Public Shared Function DeleteCollectionData(arrMCC As ArrayList, FromDate As Date, ToDate As Date, strShift As String, DeleteBMCCollection As Boolean) As Boolean
+    Public Shared Function DeleteCollectionData(arrMCC As ArrayList, FromDate As Date, ToDate As Date, strShift As String, DeleteBMCCollection As Boolean, checkForPreviousShift As Boolean) As Boolean
         Try
             clsCommon.ProgressBarPercentShow()
             If arrMCC Is Nothing OrElse arrMCC.Count < 0 Then
@@ -1170,9 +1170,9 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
                 Dim TransDate As Date = clsCommon.myCDate(drDate(0))
                 For Each strMCCcode As String In arrMCC
                     ii = ii + 1
-                    clsCommon.ProgressBarPercentUpdate(((ii) * 100 / (Total)), "Date [" & clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") & "] DCS [" & strMCCcode & "]")
+                    clsCommon.ProgressBarPercentUpdate(((ii) * 100 / (Total)), "Date [" & clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") & "] BMC [" & strMCCcode & "]")
                     Dim strShiftCon As String = ""
-                    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+                    If checkForPreviousShift Then
                         strShiftCon = " and SHIFT='E'"
                         DeleteCollection(TransDate.AddDays(-1), strShiftCon, strMCCcode, DeleteBMCCollection)
                         strShiftCon = " and SHIFT='M'"
