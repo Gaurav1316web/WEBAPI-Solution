@@ -60,6 +60,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RCDFDashboard, "Dashboard", "1.00.03.11", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.Complainfeedback, "Complain feedback", "1.00.03.12", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.DashboardMilkUnion, "Union Dashboard", "1.00.03.13", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
+        InsertDefaultValue(clsUserMgtCode.DairySaleDashboard, "Dairy Dashboard", "1.00.03.14", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
 
         '-------------------------------------------------------------------End SYSTEM ADMINISTRATOR---------------------------------------
         '--------------Common Services----------------------------------

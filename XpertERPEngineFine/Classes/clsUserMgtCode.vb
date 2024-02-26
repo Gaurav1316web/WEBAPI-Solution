@@ -2516,6 +2516,7 @@ Public Class clsUserMgtCode
     Public Const RCDFDashboard As String = "RCDF-DSB"
     Public Const Complainfeedback As String = "COMP-FEED"
     Public Const DashboardMilkUnion As String = "UN-DSB"
+    Public Const DairySaleDashboard As String = "DAR-DSB"
     'Public Const CardSale As String = "CRD_SALE"
 
     'Eng. And Plant Management
