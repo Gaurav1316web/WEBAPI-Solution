@@ -521,15 +521,15 @@
     </Compile>
     <Compile Include="CrystalClases\rptCheque.vb">
       <DependentUpon>rptCheque.rpt</DependentUpon>
-      <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="CrystalClases\rptChequeMultiple.vb">
       <DependentUpon>rptChequeMultiple.rpt</DependentUpon>
-      <SubType>Component</SubType>
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="Export Sale\Report\frmCancelledTransactions_Exportsale.Designer.vb">
       <DependentUpon>frmCancelledTransactions_Exportsale.vb</DependentUpon>
@@ -1974,6 +1974,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Sale\Transaction\frmBulkSaleAcknowledgement.resx">
       <DependentUpon>frmBulkSaleAcknowledgement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Bulk Sale\Transaction\frmBulkSaleFreightCalculation.resx">
+      <DependentUpon>frmBulkSaleFreightCalculation.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Bulk Sale\Transaction\FrmBulkSaleReturn.resx">
       <DependentUpon>FrmBulkSaleReturn.vb</DependentUpon>
