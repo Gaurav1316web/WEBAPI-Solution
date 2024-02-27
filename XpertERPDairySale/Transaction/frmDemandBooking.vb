@@ -2262,7 +2262,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         End If
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
-        SaveData(0, True)
+        'SaveData(0, True)
         PostData()
     End Sub
     Sub PostData()
