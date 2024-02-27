@@ -2516,6 +2516,7 @@ Public Class clsUserMgtCode
     Public Const RCDFDashboard As String = "RCDF-DSB"
     Public Const Complainfeedback As String = "COMP-FEED"
     Public Const DashboardMilkUnion As String = "UN-DSB"
+    Public Const DairySaleDashboard As String = "DAR-DSB"
     'Public Const CardSale As String = "CRD_SALE"
 
     'Eng. And Plant Management
@@ -2566,10 +2567,12 @@ Public Class clsUserMgtCode
     Public Const SubModuleMISSetUp As String = "SMMIS"
     Public Const MISitemGroups As String = "MISITEM-GRP"
     Public Const MISitemMaster As String = "MISITEM-MST"
+    Public Const frmProductionTransactionType As String = "PRO-TRAN-TYP"
 
     ''=================Transaction==========
     Public Const SubModuleMISTransaction As String = "SMMIST"
     Public Const frmDailyMilkProducts As String = "DLY-MLK-PROD"
+    Public Const frmDailySMPProduction As String = "DLY-SMP-PROD"
 
 
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean

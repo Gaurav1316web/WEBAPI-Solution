@@ -270,6 +270,8 @@ Public Class frmCorrection
             Throw New Exception("Permission Denied")
         End If
         btnSave.Visible = MyBase.isModifyFlag
+        btnExport.Visible = MyBase.isExport
+        btnImport.Visible = MyBase.isExport
     End Sub
 
     Private Sub txtMCC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMCC._MYValidating
@@ -886,7 +888,7 @@ where TSPL_MILK_SRN_HEAD.Against_Reject_No is null and TSPL_MILK_SRN_HEAD.MCC_CO
             If clsCommon.MyMessageBoxShow("Delete the collection data", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
                 Exit Sub
             End If
-            clsMilkShiftUploaderHead.DeleteCollectionData(TxtMultiSelectFinder8.arrValueMember, txtMCCFromDate.Value, txtMCCToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), chkDeleteBMCCollection.Checked)
+            clsMilkShiftUploaderHead.DeleteCollectionData(TxtMultiSelectFinder8.arrValueMember, txtMCCFromDate.Value, txtMCCToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), chkDeleteBMCCollection.Checked, chkPreviousShift.Checked)
             clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

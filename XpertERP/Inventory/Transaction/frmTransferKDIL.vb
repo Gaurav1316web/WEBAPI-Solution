@@ -4427,22 +4427,27 @@ Public Class FrmTransferKDIL
         ElseIf e.Control AndAlso e.KeyCode = Keys.F7 AndAlso e.Alt = False Then
             SelectRequistionItems()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                                                  "TSPL_Transfer_ORDER_HEAD " + Environment.NewLine +
-                                                  "TSPL_TRANSFER_ORDER_DETAIL " + Environment.NewLine +
-                                                  "TSPL_BATCH_ITEM ( If Item is batch type) " + Environment.NewLine +
-                                                  "TSPL_SERIAL_ITEM ( If Item is Serial type)" + Environment.NewLine +
-                                                  "TSPL_PROVISION_ENTRY (If Provision Setting is On , Transfer type In and Transport Id entered, After Posting )  " + Environment.NewLine +
-                                                  "TSPL_JOURNAL_MASTER (Journal Voucher Entry - After Posting )  " + Environment.NewLine +
-                                                  "TSPL_JOURNAL_DETAILS  (After Posting) " + Environment.NewLine +
-                                                  "TSPL_INVENTORY_MOVEMENT  - After Posting ")
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.SIReversAndCreate
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverseAndUnpost.Visible = True
-            End If
+            If MyBase.isReverse Then
+
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                      "TSPL_Transfer_ORDER_HEAD " + Environment.NewLine +
+                                                      "TSPL_TRANSFER_ORDER_DETAIL " + Environment.NewLine +
+                                                      "TSPL_BATCH_ITEM ( If Item is batch type) " + Environment.NewLine +
+                                                      "TSPL_SERIAL_ITEM ( If Item is Serial type)" + Environment.NewLine +
+                                                      "TSPL_PROVISION_ENTRY (If Provision Setting is On , Transfer type In and Transport Id entered, After Posting )  " + Environment.NewLine +
+                                                      "TSPL_JOURNAL_MASTER (Journal Voucher Entry - After Posting )  " + Environment.NewLine +
+                                                      "TSPL_JOURNAL_DETAILS  (After Posting) " + Environment.NewLine +
+                                                      "TSPL_INVENTORY_MOVEMENT  - After Posting ")
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIRC
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverseAndUnpost.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F8 Then
             Dim frm As New FrmPWD(Nothing)
             frm.strType = clsFixedParameterType.SIRC

@@ -49,6 +49,8 @@ Public Class frmGazeReading
             btnImport.Enabled = False
         End If
         btnExport.Visible = MyBase.isExport
+        btnImport.Visible = MyBase.isExport
+
     End Sub
     Sub Reset()
         txtCode.Value = ""

@@ -12,6 +12,16 @@ Public Class PurchaseGateOut
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnAddNew, "Press Alt+N Adding New ")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P for Post ")
+        SetUserMgmtNew()
+    End Sub
+    Private Sub SetUserMgmtNew()
+        ''MyBase.SetUserMgmt(clsUserMgtCode.frmGateOut)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        btnsave.Visible = MyBase.isModifyFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+        btnPost.Visible = MyBase.isPostFlag
     End Sub
     Public Sub SaveData()
         Try

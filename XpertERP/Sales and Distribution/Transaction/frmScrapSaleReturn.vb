@@ -192,7 +192,7 @@ Public Class frmScrapSaleReturn
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-
+        RadDropDownButton1.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
@@ -4092,18 +4092,23 @@ Public Class frmScrapSaleReturn
         ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btnDelete.Enabled Then
             fundelete()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                              "TSPL_SCRAPSALE_HEAD_Return " + Environment.NewLine + _
-                                              "TSPL_SCRAPSALE_DETAIL_RETURN " + Environment.NewLine + _
-                                              "TSPL_BATCH_ITEM " + Environment.NewLine + _
-                                              "Press Alt+P for Post Trasnaction " + Environment.NewLine + _
-                                              "TSPL_INVENTORY_MOVEMENT ")
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                  "TSPL_SCRAPSALE_HEAD_Return " + Environment.NewLine +
+                                                  "TSPL_SCRAPSALE_DETAIL_RETURN " + Environment.NewLine +
+                                                  "TSPL_BATCH_ITEM " + Environment.NewLine +
+                                                  "Press Alt+P for Post Trasnaction " + Environment.NewLine +
+                                                  "TSPL_INVENTORY_MOVEMENT ")
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

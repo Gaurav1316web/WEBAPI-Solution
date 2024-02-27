@@ -440,6 +440,8 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                         frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdvice", "Bank Advice")
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewJPR", "Bank Advice")
                     Else
                         frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNew", "Bank Advice")
                         frmCRV = Nothing
@@ -1292,6 +1294,9 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
 
             Dim frmCRV As New frmCrystalReportViewer()
             'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            'frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewJPR", "Bank Advice")
+            ' Else
             frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNeww", "Bank Advice New")
             'End If
 

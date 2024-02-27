@@ -596,23 +596,27 @@ Public Class FrmQCSeparation
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             btnClose_Click(sender, e)
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                            "tspl_Quality_check " + Environment.NewLine + _
-                                            "TSPL_Quality_Chember_Details ( Only in case of chamber wise setting ON) " + Environment.NewLine + _
-                                            "TSPL_QC_Parameter_Detail ( For QC Parameters) " + Environment.NewLine + _
-                                            "tspl_Qquality_check_History ( For History) " + Environment.NewLine + _
-                                            "TSPL_QC_Paper_Seal_Details ( For Paper Seal) " + Environment.NewLine + _
-                                            "TSPL_QC_Manual_Seal_Details ( For Manual Seal.) ")
+            If MyBase.isReverse Then
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                "tspl_Quality_check " + Environment.NewLine +
+                                                "TSPL_Quality_Chember_Details ( Only in case of chamber wise setting ON) " + Environment.NewLine +
+                                                "TSPL_QC_Parameter_Detail ( For QC Parameters) " + Environment.NewLine +
+                                                "tspl_Qquality_check_History ( For History) " + Environment.NewLine +
+                                                "TSPL_QC_Paper_Seal_Details ( For Paper Seal) " + Environment.NewLine +
+                                                "TSPL_QC_Manual_Seal_Details ( For Manual Seal.) ")
 
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         ElseIf e.KeyCode = Keys.F2 Then
-            If (FinalChamberwise = 0) Then
+                If (FinalChamberwise = 0) Then
                 If gvParam.Rows.Count > 0 Then
                     gvParam.Rows(0).Cells(colAutoFat).Value = clsEkoPro.FAT
                     gvParam.Rows(0).Cells(colAutoSnf).Value = clsEkoPro.SNF
