@@ -22,12 +22,12 @@ Partial Class rptBmcCollection
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.Checkallmcc = New System.Windows.Forms.CheckBox()
-        Me.chkZone = New System.Windows.Forms.CheckBox()
+        Me.Checkallmcc = New System.Windows.Forms.RadioButton()
+        Me.chkZone = New System.Windows.Forms.RadioButton()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.dtpToDate = New Telerik.WinControls.UI.RadDateTimePicker()
@@ -83,8 +83,8 @@ Partial Class rptBmcCollection
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
-        Me.SplitContainer1.Size = New System.Drawing.Size(821, 434)
-        Me.SplitContainer1.SplitterDistance = 394
+        Me.SplitContainer1.Size = New System.Drawing.Size(821, 391)
+        Me.SplitContainer1.SplitterDistance = 354
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -95,7 +95,7 @@ Partial Class rptBmcCollection
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(821, 394)
+        Me.RadPageView1.Size = New System.Drawing.Size(821, 354)
         Me.RadPageView1.TabIndex = 12
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -107,26 +107,30 @@ Partial Class rptBmcCollection
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(800, 346)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(800, 306)
         Me.RadPageViewPage1.Text = "Filters"
         '
         'Checkallmcc
         '
         Me.Checkallmcc.AutoSize = True
-        Me.Checkallmcc.Location = New System.Drawing.Point(469, 22)
+        Me.Checkallmcc.Location = New System.Drawing.Point(549, 23)
+        Me.Checkallmcc.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Checkallmcc.Name = "Checkallmcc"
-        Me.Checkallmcc.Size = New System.Drawing.Size(62, 17)
-        Me.Checkallmcc.TabIndex = 421
+        Me.Checkallmcc.Size = New System.Drawing.Size(61, 17)
+        Me.Checkallmcc.TabIndex = 423
+        Me.Checkallmcc.TabStop = True
         Me.Checkallmcc.Text = "All Bmc"
         Me.Checkallmcc.UseVisualStyleBackColor = True
         '
         'chkZone
         '
         Me.chkZone.AutoSize = True
-        Me.chkZone.Location = New System.Drawing.Point(394, 22)
+        Me.chkZone.Location = New System.Drawing.Point(440, 23)
+        Me.chkZone.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.chkZone.Name = "chkZone"
-        Me.chkZone.Size = New System.Drawing.Size(52, 17)
-        Me.chkZone.TabIndex = 420
+        Me.chkZone.Size = New System.Drawing.Size(51, 17)
+        Me.chkZone.TabIndex = 422
+        Me.chkZone.TabStop = True
         Me.chkZone.Text = "Zone"
         Me.chkZone.UseVisualStyleBackColor = True
         '
@@ -214,7 +218,7 @@ Partial Class rptBmcCollection
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -225,7 +229,7 @@ Partial Class rptBmcCollection
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(726, 8)
+        Me.btnClose.Location = New System.Drawing.Point(725, 6)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(84, 22)
         Me.btnClose.TabIndex = 161
@@ -235,7 +239,7 @@ Partial Class rptBmcCollection
         '
         Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(12, 8)
+        Me.btnGo.Location = New System.Drawing.Point(12, 6)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(71, 22)
         Me.btnGo.TabIndex = 160
@@ -245,7 +249,7 @@ Partial Class rptBmcCollection
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(89, 8)
+        Me.RadButton1.Location = New System.Drawing.Point(89, 6)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(71, 22)
         Me.RadButton1.TabIndex = 159
@@ -255,7 +259,7 @@ Partial Class rptBmcCollection
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(583, -204)
+        Me.btnReset.Location = New System.Drawing.Point(583, -206)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 158
@@ -265,7 +269,7 @@ Partial Class rptBmcCollection
         '
         Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnSplitExport.Location = New System.Drawing.Point(166, 8)
+        Me.btnSplitExport.Location = New System.Drawing.Point(166, 6)
         Me.btnSplitExport.Name = "btnSplitExport"
         Me.btnSplitExport.Size = New System.Drawing.Size(95, 22)
         Me.btnSplitExport.TabIndex = 157
@@ -287,7 +291,7 @@ Partial Class rptBmcCollection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(821, 434)
+        Me.ClientSize = New System.Drawing.Size(821, 391)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "rptBmcCollection"
         '
@@ -339,6 +343,6 @@ Partial Class rptBmcCollection
     Friend WithEvents fromDate As RadDateTimePicker
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents Gv1 As common.UserControls.MyRadGridView
-    Friend WithEvents chkZone As CheckBox
-    Friend WithEvents Checkallmcc As CheckBox
+    Friend WithEvents Checkallmcc As RadioButton
+    Friend WithEvents chkZone As RadioButton
 End Class

@@ -5676,25 +5676,30 @@ Public Class frmSaleReturnDairy
             chkRateDefaultSetting.Visible = Not chkRateDefaultSetting.Visible
             chkRateUserCustomer.Visible = Not chkRateUserCustomer.Visible
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            'Add Tool tip Task No- TEC/18/05/18-000237
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                         "TSPL_SD_SALE_RETURN_HEAD " + Environment.NewLine + _
-                                         "TSPL_SD_SALE_RETURN_DETAIL " + Environment.NewLine + _
-                                         "TSPL_BATCH_ITEM ( If Item is batch type) " + Environment.NewLine + _
-                                         "TSPL_SERIAL_ITEM ( If Item is Serial type)" + Environment.NewLine + _
-                                         "TSPL_Customer_Invoice_Head ( For AR Credit Note Entry - After Posting)  " + Environment.NewLine + _
-                                         "TSPL_Customer_Invoice_Detail( After Posting)  " + Environment.NewLine + _
-                                         "TSPL_JOURNAL_MASTER (Journal Voucher Entry - For dispatch and invoice  - After Posting )  " + Environment.NewLine + _
-                                         "TSPL_JOURNAL_DETAILS ( After Posting) " + Environment.NewLine + _
-                                         "TSPL_INVENTORY_MOVEMENT  ( After Posting) ")
-            'Add Tool tip Task No- TEC/18/05/18-000237
+            If MyBase.isReverse Then
 
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.SIReversAndCreate
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverseAndUnpost.Visible = True
+                'Add Tool tip Task No- TEC/18/05/18-000237
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                             "TSPL_SD_SALE_RETURN_HEAD " + Environment.NewLine +
+                                             "TSPL_SD_SALE_RETURN_DETAIL " + Environment.NewLine +
+                                             "TSPL_BATCH_ITEM ( If Item is batch type) " + Environment.NewLine +
+                                             "TSPL_SERIAL_ITEM ( If Item is Serial type)" + Environment.NewLine +
+                                             "TSPL_Customer_Invoice_Head ( For AR Credit Note Entry - After Posting)  " + Environment.NewLine +
+                                             "TSPL_Customer_Invoice_Detail( After Posting)  " + Environment.NewLine +
+                                             "TSPL_JOURNAL_MASTER (Journal Voucher Entry - For dispatch and invoice  - After Posting )  " + Environment.NewLine +
+                                             "TSPL_JOURNAL_DETAILS ( After Posting) " + Environment.NewLine +
+                                             "TSPL_INVENTORY_MOVEMENT  ( After Posting) ")
+                'Add Tool tip Task No- TEC/18/05/18-000237
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIRC
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverseAndUnpost.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

@@ -370,7 +370,7 @@ Public Class MDI
 
         Try
             Dim strTempVersion As String = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertCommon.dll").FileVersion
-            If Not clsCommon.CompairString(strTempVersion, "2.1.6.69") = CompairStringResult.Equal Then
+            If Not clsCommon.CompairString(strTempVersion, "2.1.6.70") = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
             End If
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPBlankTableScript.dll").FileVersion
@@ -9285,6 +9285,10 @@ Public Class MDI
                     Case clsUserMgtCode.DashboardMilkUnion
                         frm = New DashboardMilkUnion
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.DairySaleDashboard
+                        frm = New DairySaleDashboard
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptSMSDetailsReport
                         frm = New rptSMSDetails
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9638,6 +9642,12 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDailyMilkProducts
                         frm = New frmDailyMilkProducts
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmProductionTransactionType
+                        frm = New frmProductionTransactionType
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDailySMPProduction
+                        frm = New frmDailySMPProduction
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 

@@ -1066,12 +1066,17 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 End If
             End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "MulProcDedReversAndCreate"
-            frm.strCode = "MulProcDedReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "MulProcDedReversAndCreate"
+                frm.strCode = "MulProcDedReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

@@ -1464,16 +1464,21 @@ Public Class FrmWeighment
                 End If
             End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                              "Tspl_Weighment_detail " + Environment.NewLine + _
-                                              "TSPL_Weighment_Chember_Details (  Only in case of chamber wise setting ON) " + Environment.NewLine + _
-                                              "tspl_weighment_detail_history  ( For History) .")
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                  "Tspl_Weighment_detail " + Environment.NewLine +
+                                                  "TSPL_Weighment_Chember_Details (  Only in case of chamber wise setting ON) " + Environment.NewLine +
+                                                  "tspl_weighment_detail_history  ( For History) .")
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

@@ -2582,11 +2582,11 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
 
         LoadBlankGridDeduction()
         If clsCommon.myLen(strVendorCode) > 0 Then
-            Dim qry As String = " select cast(1 as bit) as Sel,ROW_NUMBER() over(order by"
+            Dim qry As String = " select cast(1 as bit) as Sel,ROW_NUMBER() over(order by "
             If PayableAmountZeroForMCCSale Then
                 qry += " max(Vendor_Code),max(Sequence_No),max(Posting_Date),max(Sequence_No2) "
             Else
-                qry += "Document_No"
+                qry += " Document_No "
             End If
 
 
@@ -8160,13 +8160,18 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
 
     Private Sub FrmPaymentProcess_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
-                btnDeleteVSPBill.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                    btnDeleteVSPBill.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

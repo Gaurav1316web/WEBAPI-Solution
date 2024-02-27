@@ -1187,23 +1187,27 @@ Public Class FrmMilkTransferIn
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             btnClose_Click(sender, e)
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                             "tspl_Milk_Transfer_in " + Environment.NewLine + _
-                                             "TSPL_MILK_JOBWORK_TRANSFER_HEAD (If Document is Job Work type.System create auto document.) " + Environment.NewLine + _
-                                             "TSPL_MILK_JOBWORK_TRANSFER_DETAILS ( For JobWork Details) " + Environment.NewLine + _
-                                             "1.JE created only if CreateTransferInGL setting is ON . " + Environment.NewLine + _
-                                             "2.Adjustment Consumption Type created only if CreateConsumeEntry setting is ON for CreateConsumeEntry Code. " + Environment.NewLine + _
-                                             "3.Financial entry created of both Transfer In and Tanker dispatch if TankerDispatchFinancialImpactInTransferIn setting is ON . " + Environment.NewLine + _
-                                             "4.Financial entry created of Transfer In with adjustment of Difference amount. if TankerDispatchFinancialImpactInTransferIn setting is OFF . " + Environment.NewLine + _
-                                             "  Costing will be avgCost if isSkipCogsGL setting is OFF else 0 cost. . " + Environment.NewLine + _
-                                             "5.GIT Location entry created of Transfer In .If IGnoreGITAccount setting is OFF . ")
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
-            End If
+            If MyBase.isReverse Then
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                 "tspl_Milk_Transfer_in " + Environment.NewLine +
+                                                 "TSPL_MILK_JOBWORK_TRANSFER_HEAD (If Document is Job Work type.System create auto document.) " + Environment.NewLine +
+                                                 "TSPL_MILK_JOBWORK_TRANSFER_DETAILS ( For JobWork Details) " + Environment.NewLine +
+                                                 "1.JE created only if CreateTransferInGL setting is ON . " + Environment.NewLine +
+                                                 "2.Adjustment Consumption Type created only if CreateConsumeEntry setting is ON for CreateConsumeEntry Code. " + Environment.NewLine +
+                                                 "3.Financial entry created of both Transfer In and Tanker dispatch if TankerDispatchFinancialImpactInTransferIn setting is ON . " + Environment.NewLine +
+                                                 "4.Financial entry created of Transfer In with adjustment of Difference amount. if TankerDispatchFinancialImpactInTransferIn setting is OFF . " + Environment.NewLine +
+                                                 "  Costing will be avgCost if isSkipCogsGL setting is OFF else 0 cost. . " + Environment.NewLine +
+                                                 "5.GIT Location entry created of Transfer In .If IGnoreGITAccount setting is OFF . ")
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
         End If
     End Sub
 

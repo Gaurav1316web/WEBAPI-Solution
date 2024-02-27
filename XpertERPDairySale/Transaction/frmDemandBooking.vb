@@ -144,24 +144,29 @@ Public Class frmDemandBooking
         ElseIf e.KeyCode = Keys.End Then
             setGridFocusEnd()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnreverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnreverse.Visible = True
+                End If
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                  "TSPL_DEMAND_BOOKING_MASTER " + Environment.NewLine +
+                                  "TSPL_DEMAND_BOOKING_DETAIL " + Environment.NewLine +
+                "TSPL_BOOKING_MATSER " + Environment.NewLine +
+                                  "TSPL_BOOKING_DETAIL " + Environment.NewLine +
+                                  "TSPL_GATEPASS_MASTER_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
+                                  "TSPL_GATEPASS_DETAIL_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
+                                  "Press Alt+F for Create DO/Post DO Trasnaction" + Environment.NewLine +
+                                  "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE " + Environment.NewLine +
+                                  "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE " + Environment.NewLine +
+                                  "TSPL_TRANSACTION_APPROVAL (For Approving Pending Document) ")
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-              "TSPL_DEMAND_BOOKING_MASTER " + Environment.NewLine +
-                              "TSPL_DEMAND_BOOKING_DETAIL " + Environment.NewLine +
-            "TSPL_BOOKING_MATSER " + Environment.NewLine +
-                              "TSPL_BOOKING_DETAIL " + Environment.NewLine +
-                              "TSPL_GATEPASS_MASTER_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
-                              "TSPL_GATEPASS_DETAIL_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
-                              "Press Alt+F for Create DO/Post DO Trasnaction" + Environment.NewLine +
-                              "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE " + Environment.NewLine +
-                              "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE " + Environment.NewLine +
-                              "TSPL_TRANSACTION_APPROVAL (For Approving Pending Document) ")
         End If
     End Sub
     Sub CloseForm()
@@ -2262,7 +2267,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         End If
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
-        SaveData(0, True)
+        'SaveData(0, True)
         PostData()
     End Sub
     Sub PostData()
