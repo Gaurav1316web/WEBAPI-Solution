@@ -9397,6 +9397,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmSAC
                         frm = New frmSAC
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmSACWiseTax
+                        frm = New FrmSacWiseTaxMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FrmRackBinMaster
                         frm = New frmRackBinMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
