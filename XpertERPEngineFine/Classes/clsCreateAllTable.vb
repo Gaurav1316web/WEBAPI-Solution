@@ -54046,6 +54046,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Report_Date", "datetime  Not NULL")
             coll.Add("Reporting_Date", "datetime  Not NULL")
             coll.Add("Status", "integer not null default 0")
+            coll.Add("Posting_Date", "Datetime NULL")
+            coll.Add("Posted_By", "varchar(8) NULL")
             coll.Add("MILK_PROCUREMENT", "decimal(18,2) null")
             coll.Add("MILK_RECEIPT", "decimal(18,2) null")
             coll.Add("LOCAL_MILK", "decimal(18,2) null")
