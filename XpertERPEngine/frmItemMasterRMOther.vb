@@ -6163,6 +6163,7 @@ ExitLOOP:
     End Sub
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Try
+
             txtCode.Value = clsItemMaster.getFinderForActiveAndIncative("", txtCode.Value, True) 'Item_Type in ('R','O','A','F')
             LoadData(txtCode.Value, NavigatorType.Current)
             txtCode.Value = ""
@@ -6171,6 +6172,13 @@ ExitLOOP:
             txtAliesName.Text = ""
             txtAliesName2.Text = ""
             txtAliesName3.Text = ""
+            Dim str As String = "select count(*) from tspl_item_master where item_code ='" + txtCode.Value + "' "
+            Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
+            If no = 0 Then
+                txtCode.MyReadOnly = False
+            Else
+                txtCode.MyReadOnly = True
+            End If
             If AllowFinishGoodAsBatchItem AndAlso clsCommon.CompairString(cboItemType.SelectedValue, "F") = CompairStringResult.Equal Then
                 chkIsReqBatch.Checked = True
             Else

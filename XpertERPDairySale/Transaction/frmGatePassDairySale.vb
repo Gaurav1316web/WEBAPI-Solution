@@ -1234,7 +1234,7 @@ Public Class frmGatePassDairySale
                     If (clsCommon.myCdbl(grow.Cells(colBookQty).Value)) > 0 Then
                         objTr.Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
                         objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
-                        objTr.Delivery_Code = clsCommon.myCstr(grow.Cells(colHCode).Value)
+                        'objTr.Delivery_Code = clsCommon.myCstr(grow.Cells(colHCode).Value)
                         objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
                         objTr.Qty = clsCommon.myCdbl(grow.Cells(colBookQty).Value)
                         objTr.Document_No = txtDocNo.Value 'skg
@@ -2128,8 +2128,12 @@ TSPL_DEMAND_BOOKING_MASTER.location_code
 ,isnull(TSPL_DEMAND_BOOKING_MASTER.Route_No,'') as Route_No ,isnull(TSPL_ROUTE_MASTER.Route_Desc,'') as Route_Desc 
  ,TSPL_DEMAND_BOOKING_DETAIL.cust_code,TSPL_CUSTOMER_MASTER.Customer_Name_Hindi
 ,TSPL_DEMAND_BOOKING_DETAIL.Qty
-,TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise
-,TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise
+,TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise,TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise
+,(CASE
+    WHEN TSPL_DEMAND_BOOKING_DETAIL.unit_code = 'Pack'
+    THEN (TSPL_DEMAND_BOOKING_DETAIL.Qty * ItemConversionInPack.Conversion_Factor) / ItemConversionInKG.Conversion_Factor
+    ELSE 0  END) AS TotalKg_ItemWise
+,(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise+((case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Pack' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end)/2)) as TotalLtr_ItemWise1
 ,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount
 ,TSPL_DEMAND_BOOKING_DETAIL.unit_code
 ,'Crate' AS Unit_Code
@@ -2146,7 +2150,9 @@ left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Documen
  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_DEMAND_BOOKING_DETAIL.Cust_Code 
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
                            left join tspl_item_uom_detail CrateUnit on CrateUnit.item_code=TSPL_DEMAND_BOOKING_DETAIL.item_code  and 	CrateUnit.uom_code=	'Crate' 
+  left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='KG') as ItemConversionInKG on ItemConversionInKG.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_code
 						left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Pouch') as ItemConversionInPouch on ItemConversionInPouch.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+ left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Pack') as ItemConversionInPack on ItemConversionInPack.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
 						left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConversionInLTR on ItemConversionInLTR.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
 						left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Crate') as ItemConversionInCrate on ItemConversionInCrate.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
                            left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code 
@@ -2401,7 +2407,7 @@ LEFT OUTER JOIN  tspl_booking_detail ON TSPL_BOOKING_MATSER.Document_No=tspl_boo
     End Sub
     Sub GetDemandDetail(ByVal strBookingNo As String, ByVal StrvechilNo As String)
         LoadBlankGrid()
-        Dim Qry As String = " select max(code) AS code,max(Date) as Date,ICode,max(IName) as IName,max(HSN_Code) as HSN_Code,sum(Qty) as Qty,Unit ,MAX(Loc_Code) AS Loc_Code,max(Vehicle_Code) as Vehicle_Code,foc_item,Scheme_Item  from (select  TSPL_DEMAND_BOOKING_MASTER.Document_No as code, CONVERT(VARCHAR(15) ,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) AS Date,
+        Dim Qry As String = " select max(code) AS code,max(Date) as Date,ICode,max(IName) as IName,max(HSN_Code) as HSN_Code,Qty,Unit ,MAX(Loc_Code) AS Loc_Code,max(Vehicle_Code) as Vehicle_Code,foc_item,Scheme_Item  from (select  TSPL_DEMAND_BOOKING_MASTER.Document_No as code, CONVERT(VARCHAR(15) ,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) AS Date,
  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,tspl_booking_detail.Loc_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Code as ICode , tspl_item_master.Item_Desc as IName ,tspl_item_master.HSN_Code,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code as Unit, TSPL_DEMAND_BOOKING_DETAIL.Item_Rate  as Rate,TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,tspl_booking_detail.foc_item ,tspl_booking_detail.Scheme_Item 
  from TSPL_DEMAND_BOOKING_MASTER
  left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.Document_no=TSPL_DEMAND_BOOKING_MASTER.Document_No
@@ -2418,7 +2424,7 @@ LEFT OUTER JOIN  tspl_booking_detail ON TSPL_BOOKING_MATSER.Document_No=tspl_boo
         '  " LEFT OUTER join TSPL_VEHICLE_MASTER ON  tspl_booking_detail.Vehicle_Code=TSPL_VEHICLE_MASTER.Vehicle_Id left outer join TSPL_CUSTOMER_MASTER ON tspl_booking_detail.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code  left outer join tspl_item_master on tspl_booking_detail.item_code=tspl_item_master.item_code   "
         'Qry += " where tspl_booking_detail.Against_DemandBooking_No='" & strBookingNo & "'"
         'Qry += " where tspl_booking_detail.Document_No='" & strBookingNo & "' AND  tspl_booking_detail.Vehicle_Code='" + StrvechilNo + "'"
-        Qry += " ) as Final  group by  final.ICode,final.Unit,final.Vehicle_Code ,Final.foc_item,Final.Scheme_Item "
+        Qry += " ) as Final  group by  Qty,final.ICode,final.Unit,final.Vehicle_Code ,Final.foc_item,Final.Scheme_Item "
         Dim dtAllData As DataTable = clsDBFuncationality.GetDataTable(Qry)
         If dtAllData Is Nothing OrElse dtAllData.Rows.Count <= 0 Then
             common.clsCommon.MyMessageBoxShow(Me, "No record found.", Me.Text)

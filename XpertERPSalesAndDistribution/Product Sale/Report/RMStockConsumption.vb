@@ -54,7 +54,7 @@ Public Class RMStockConsumption
             Dim strItem As String = clsCommon.GetMulcallString(arrItem)
             Dim Production As String = " SELECT TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc,SUM(FINAL_PRODUCTION_QTY)/1000 AS QTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
                                          LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-                                         INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code AND FG_for_CF=1
+                                         INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code AND FG_for_CF=1 AND TSPL_SPP_PRODUCTION_ENTRY.POSTED=1
                                          WHERE convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "' ,103) AND convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(Slot3TD) + "' ,103)
                                          AND TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE IN ('" + clsCommon.myCstr(txtLocation.Value) + "') GROUP BY  TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE,Item_Desc"
 
@@ -946,9 +946,9 @@ select * from
 					 
 					 SELECT 0 as Issqty,0 AS ISSUCOST,SUM(FINAL_PRODUCTION_QTY)/1000 AS ProdQTY FROM TSPL_SPP_PRODUCTION_ENTRY_DETAIL 
                         LEFT OUTER JOIN TSPL_SPP_PRODUCTION_ENTRY ON TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-                        INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code AND FG_for_CF=1
+                        INNER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.Item_Code AND FG_for_CF=1 
                         WHERE convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate((Slot1FD), "dd/MMM/yyyy") + "',103) AND convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate((Slot3TD), "dd/MMM/yyyy") + "',103)
-                        AND TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE= '" + clsCommon.myCstr(txtLocation.Value) + "' ) final3 ) final4 "
+                        AND TSPL_SPP_PRODUCTION_ENTRY.POSTED=1 AND TSPL_SPP_PRODUCTION_ENTRY_DETAIL.LOCATION_CODE= '" + clsCommon.myCstr(txtLocation.Value) + "' ) final3 ) final4 "
 
             Dim dtSummary As DataTable = clsDBFuncationality.GetDataTable(Summary)
 

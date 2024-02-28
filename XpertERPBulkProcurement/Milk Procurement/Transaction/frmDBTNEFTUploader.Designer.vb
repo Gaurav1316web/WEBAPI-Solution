@@ -21,9 +21,9 @@ Partial Class frmDBTNEFTUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lblZone = New common.Controls.MyLabel()
@@ -67,6 +67,7 @@ Partial Class frmDBTNEFTUploader
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -111,6 +112,7 @@ Partial Class frmDBTNEFTUploader
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -129,6 +131,7 @@ Partial Class frmDBTNEFTUploader
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintBankLetter)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnNEFTUploader)
@@ -478,7 +481,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.Attachments
         Me.RadPageView1.Size = New System.Drawing.Size(825, 321)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -502,7 +505,8 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer.MasterTemplate.AllowAddNewRow = False
         Me.gvFarmer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFarmer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvFarmer.MyStopExport = False
         Me.gvFarmer.Name = "gvFarmer"
         Me.gvFarmer.ShowHeaderCellButtons = True
         Me.gvFarmer.Size = New System.Drawing.Size(804, 273)
@@ -528,7 +532,8 @@ Partial Class frmDBTNEFTUploader
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(804, 273)
@@ -555,7 +560,8 @@ Partial Class frmDBTNEFTUploader
         Me.gvInvalid.MasterTemplate.AllowAddNewRow = False
         Me.gvInvalid.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInvalid.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvInvalid.MyStopExport = False
         Me.gvInvalid.Name = "gvInvalid"
         Me.gvInvalid.ShowHeaderCellButtons = True
         Me.gvInvalid.Size = New System.Drawing.Size(804, 243)
@@ -629,7 +635,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.btnPrintBankLetter.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintBankLetter.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintBankLetter.Location = New System.Drawing.Point(390, 5)
+        Me.btnPrintBankLetter.Location = New System.Drawing.Point(386, 5)
         Me.btnPrintBankLetter.Name = "btnPrintBankLetter"
         Me.btnPrintBankLetter.Size = New System.Drawing.Size(100, 22)
         Me.btnPrintBankLetter.TabIndex = 160
@@ -639,7 +645,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(317, 5)
+        Me.btnPrint.Location = New System.Drawing.Point(313, 5)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(71, 22)
         Me.btnPrint.TabIndex = 159
@@ -649,7 +655,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.btnNEFTUploader.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnNEFTUploader.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
-        Me.btnNEFTUploader.Location = New System.Drawing.Point(231, 5)
+        Me.btnNEFTUploader.Location = New System.Drawing.Point(228, 5)
         Me.btnNEFTUploader.Name = "btnNEFTUploader"
         Me.btnNEFTUploader.Size = New System.Drawing.Size(83, 22)
         Me.btnNEFTUploader.TabIndex = 158
@@ -669,7 +675,7 @@ Partial Class frmDBTNEFTUploader
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(159, 6)
+        Me.btnPost.Location = New System.Drawing.Point(157, 6)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(69, 20)
         Me.btnPost.TabIndex = 4
@@ -687,7 +693,7 @@ Partial Class frmDBTNEFTUploader
         'btndelete
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btndelete.Location = New System.Drawing.Point(83, 6)
+        Me.btndelete.Location = New System.Drawing.Point(82, 6)
         Me.btndelete.Name = "btndelete"
         Me.btndelete.Size = New System.Drawing.Size(73, 20)
         Me.btndelete.TabIndex = 1
@@ -701,6 +707,16 @@ Partial Class frmDBTNEFTUploader
         Me.btnsave.Size = New System.Drawing.Size(73, 20)
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(488, 5)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(69, 22)
+        Me.btnReverse.TabIndex = 161
+        Me.btnReverse.Text = "Reverse"
+        Me.btnReverse.Visible = False
         '
         'frmDBTNEFTUploader
         '
@@ -759,6 +775,7 @@ Partial Class frmDBTNEFTUploader
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -806,5 +823,6 @@ Partial Class frmDBTNEFTUploader
     Friend WithEvents UcAttachment1 As ucAttachment
     Friend WithEvents SplitContainer3 As SplitContainer
     Friend WithEvents UcAttachment2 As ucAttachment
+    Friend WithEvents btnReverse As RadButton
 End Class
 

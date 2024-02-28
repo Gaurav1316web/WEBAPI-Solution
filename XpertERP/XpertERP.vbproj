@@ -1057,6 +1057,12 @@
     <Compile Include="Milk Procurement\Master\frmPriceChartUploaderCLR.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartUploader_MCC.Designer.vb">
+      <DependentUpon>frmPriceChartUploader_MCC.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmPriceChartUploader_MCC.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\frmTankerDispatchPrice Master.Designer.vb">
       <DependentUpon>frmTankerDispatchPrice Master.vb</DependentUpon>
     </Compile>
@@ -5304,6 +5310,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmPriceChartUploaderCLR.resx">
       <DependentUpon>frmPriceChartUploaderCLR.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmPriceChartUploader_MCC.resx">
+      <DependentUpon>frmPriceChartUploader_MCC.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmTankerDispatchPrice Master.resx">
       <DependentUpon>frmTankerDispatchPrice Master.vb</DependentUpon>
