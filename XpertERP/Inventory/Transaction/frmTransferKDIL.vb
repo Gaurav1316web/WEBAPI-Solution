@@ -255,6 +255,17 @@ Public Class FrmTransferKDIL
         Else
             btnReverseAndUnpost.Enabled = False
         End If
+        If MyBase.isExport = True Then
+            radExportTransferOut.Enabled = True
+            radExportTransferIn.Enabled = True
+            radImportTransferOut.Enabled = True
+            radImportTransferIn.Enabled = True
+        Else
+            radExportTransferOut.Enabled = False
+            radExportTransferIn.Enabled = False
+            radImportTransferOut.Enabled = False
+            radImportTransferIn.Enabled = False
+        End If
         btn_CancelDel.Visible = MyBase.isCancel_Flag_After_Posting
     End Sub
     Private Sub FrmTransferKDIL_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -4446,8 +4457,9 @@ Public Class FrmTransferKDIL
                     btnReverseAndUnpost.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F8 Then
             Dim frm As New FrmPWD(Nothing)
             frm.strType = clsFixedParameterType.SIRC

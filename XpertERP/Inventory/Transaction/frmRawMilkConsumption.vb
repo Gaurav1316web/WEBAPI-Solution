@@ -72,6 +72,7 @@ Public Class frmRawMilkConsumption
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        RadButton1.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
@@ -83,6 +84,13 @@ Public Class frmRawMilkConsumption
         Else
             RmiExport.Enabled = False
 
+        End If
+        If MyBase.isExport = True Then
+            rbtnExportPosted.Enabled = True
+            rbtnImportPosted.Enabled = True
+        Else
+            rbtnExportPosted.Enabled = False
+            rbtnImportPosted.Enabled = False
         End If
     End Sub
 
@@ -1759,7 +1767,8 @@ Public Class frmRawMilkConsumption
                     btnReverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.E Then
                 Dim frm As New FrmPWD(Nothing)

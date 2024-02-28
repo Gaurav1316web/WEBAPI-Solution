@@ -58,8 +58,15 @@ Public Class frmIncetiveEntryBySRN
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
-        RadButton3.Visible = MyBase.isPostFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        'RadButton3.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
+        btnExportExcel.Visible = MyBase.isExport
     End Sub
 
     Private Sub FrmMilkVSPPayment_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -105,8 +112,9 @@ Public Class frmIncetiveEntryBySRN
                     btnReverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         End If
     End Sub
 

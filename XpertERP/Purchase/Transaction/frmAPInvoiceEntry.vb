@@ -206,7 +206,6 @@ Public Class FrmAPInvoiceEntry
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        RadPageView1.Visible = MyBase.isExport
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
@@ -4965,7 +4964,8 @@ Public Class FrmAPInvoiceEntry
                           " TSPL_INVENTORY_MOVEMENT (For Store Adjustment) " + Environment.NewLine +
                           " TSPL_BATCH_ITEM (During Inventory Movement save) ")
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

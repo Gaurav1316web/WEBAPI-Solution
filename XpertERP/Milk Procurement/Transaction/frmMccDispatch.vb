@@ -983,8 +983,9 @@ Public Class FrmMccDispatch
                     btnReverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
                                      "========Table Name=========" + Environment.NewLine + _
                                      "tspl_mcc_dispatch_challan" + Environment.NewLine + _
@@ -1056,6 +1057,8 @@ Public Class FrmMccDispatch
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnPrint.Visible = MyBase.isPostFlag
         If MyBase.isReverse Then
 
             btnReverse.Enabled = True

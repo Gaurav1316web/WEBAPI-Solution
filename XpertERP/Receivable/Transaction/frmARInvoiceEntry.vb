@@ -201,17 +201,17 @@ Public Class FrmARInvoiceEntry
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
-        RadMenu1.Visible = MyBase.isExport
+        'RadMenu1.Visible = MyBase.isExport
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
             btnReverse.Enabled = False
         End If
-        If btnSave.Visible = True Then
+        If MyBase.isExport = True Then
             RadMenuItem2.Enabled = True
             RadMenuItem3.Enabled = True
         Else
-            RadMenuItem4.Enabled = False
+            RadMenuItem2.Enabled = False
             RadMenuItem3.Enabled = False
         End If
     End Sub
@@ -3387,7 +3387,8 @@ Public Class FrmARInvoiceEntry
                           "=========Function======" + Environment.NewLine +
                           "GL entry ")
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
 

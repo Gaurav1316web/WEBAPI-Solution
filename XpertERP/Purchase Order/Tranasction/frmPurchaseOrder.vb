@@ -589,6 +589,13 @@ Public Class frmPurchaseOrder
         Else
             btnUnpost.Enabled = False
         End If
+        If MyBase.isExport = True Then
+            rmImport.Enabled = True
+            rmExport.Enabled = True
+        Else
+            rmImport.Enabled = False
+            rmExport.Enabled = False
+        End If
     End Sub
 
     Private Sub LOCATIONRIGTHS()
@@ -7302,7 +7309,8 @@ Public Class frmPurchaseOrder
                     btnUnpost.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

@@ -159,6 +159,7 @@ Public Class frmDairyBookingCustomer
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnCreateAndPrintInvoice.Visible = MyBase.isPrintFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         'btnCreateAndPrintInvoice.Visible = MyBase.isQuickExportFlag
         If MyBase.isReverse Then
             btnreverse.Enabled = True
@@ -3169,7 +3170,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     btnreverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
             'Add Tool tip Task No- TEC/18/05/18-000237
             ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +

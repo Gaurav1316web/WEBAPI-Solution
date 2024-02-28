@@ -59,9 +59,16 @@ Public Class frmMilkCollectionDCS
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        btnExport.Visible = MyBase.isExport
-        btnImport.Visible = MyBase.isExport
+        'btnExport.Visible = MyBase.isExport
+        'btnImport.Visible = MyBase.isExport
         If btnSave.Visible = True Then
+            btnImport.Enabled = True
+            btnExport.Enabled = True
+        Else
+            btnImport.Enabled = False
+            btnExport.Enabled = False
+        End If
+        If MyBase.isExport = True Then
             btnImport.Enabled = True
             btnExport.Enabled = True
         Else

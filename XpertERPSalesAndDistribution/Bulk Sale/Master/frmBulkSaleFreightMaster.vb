@@ -67,6 +67,15 @@ Public Class frmBulkSaleFreightMaster
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        RadSplitButton1.Visible = MyBase.isExport
+        btnPost.Visible = MyBase.isPostFlag
+        If MyBase.isExport = True Then
+            rmExport.Enabled = True
+            rmimport.Enabled = True
+        Else
+            rmExport.Enabled = False
+            rmimport.Enabled = False
+        End If
 
     End Sub
 
@@ -124,8 +133,9 @@ Public Class frmBulkSaleFreightMaster
                     btnReverseUnpost.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         End If
     End Sub
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
