@@ -28,6 +28,35 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable("TSPL_TABLE_METADATA", coll)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_TABLE_METADATA")
 
+            coll = New Dictionary(Of String, String)
+            coll.Add("Code", "Varchar(30) not null primary key")
+            coll.Add("Date", "date not null")
+            coll.Add("App_Shift", "varchar(1) not null")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "date NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "date  NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_FAT_SNF_Uploader_MP", coll)
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("Code", "varchar(30) not null REFERENCES TSPL_FAT_SNF_Uploader_MP(Code)")
+            coll.Add("BMC_Code", "varchar(30) not null REFERENCES TSPL_MCC_MASTER(MCC_Code)")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_FAT_SNF_Uploader_MP_BMC", coll)
+
+            coll = New Dictionary(Of String, String)
+
+            coll.Add("Code", "varchar(30) not null REFERENCES TSPL_FAT_SNF_Uploader_MP(Code)")
+            coll.Add("DCS_Code", "varchar(30) not null REFERENCES TSPL_VLC_MASTER_HEAD(VLC_Code)")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_FAT_SNF_Uploader_MP_DCS", coll)
+
+            coll = New Dictionary(Of String, String)
+
+            coll.Add("Code", "varchar(30) not null REFERENCES TSPL_FAT_SNF_Uploader_MP(Code)")
+            coll.Add("FAT", "decimal(18,1) not null")
+            coll.Add("SNF", "decimal(18,1) not null")
+            coll.Add("Rate", "decimal(18,2) not null")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_FAT_SNF_Uploader_Rate", coll)
+
             coll = New Dictionary(Of String, String)()
             coll.Add("item_code", "VARCHAR(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TEMP_CREATE_ITEM_COST", coll)
@@ -54080,6 +54109,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Report_Date", "datetime  Not NULL")
             coll.Add("Reporting_Date", "datetime  Not NULL")
             coll.Add("Status", "integer not null default 0")
+            coll.Add("Posting_Date", "Datetime NULL")
+            coll.Add("Posted_By", "varchar(8) NULL")
             coll.Add("MILK_PROCUREMENT", "decimal(18,2) null")
             coll.Add("MILK_RECEIPT", "decimal(18,2) null")
             coll.Add("LOCAL_MILK", "decimal(18,2) null")

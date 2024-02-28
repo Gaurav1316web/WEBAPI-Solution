@@ -171,6 +171,7 @@ Public Class clsDailyMilkProducts
             obj.SMP_RECEIPT = clsCommon.myCstr(dt.Rows(0)("SMP_RECEIPT"))
             obj.TABLE_BUTTER = clsCommon.myCstr(dt.Rows(0)("TABLE_BUTTER"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
+            obj.Status = clsCommon.myCdbl(dt.Rows(0)("Status"))
 
             qry = "SELECT * from TSPL_MIS_DAILY_MILK_PRODUCT_DETAIL where Document_No=  '" + docno + "'"
             dt = New DataTable
@@ -227,6 +228,21 @@ Public Class clsDailyMilkProducts
         isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
         Return isSaved
+    End Function
+    Public Shared Function PostData(ByVal strDocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
+
+        Try
+            If (clsCommon.myLen(strDocNo) <= 0) Then
+                Throw New Exception("Document No. not found to Post")
+            End If
+            Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
+            Dim qry As String = "Update TSPL_MIS_DAILY_MILK_PRODUCT_HEAD set Status=1,Posting_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_No='" + strDocNo + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
     End Function
 End Class
 Public Class clsDailyMilkProductsDetails

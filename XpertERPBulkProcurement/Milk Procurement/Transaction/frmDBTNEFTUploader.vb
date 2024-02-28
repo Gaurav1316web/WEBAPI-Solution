@@ -102,11 +102,12 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnclose.Enabled Then
             PostData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                      "========Table Name=========" + Environment.NewLine +
-                      "TSPL_MP_INCENTIVE_ENTRY_HEAD" + Environment.NewLine +
-                      "TSPL_MP_INCENTIVE_ENTRY_DETAIL" + Environment.NewLine)
-            SplitContainer3.Panel2Collapsed = False
+            Dim frm As New frmPWDHighSecrity(Nothing)
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                btnReverse.Visible = True
+                SplitContainer3.Panel2Collapsed = False
+            End If
         End If
     End Sub
     Private Sub CloseForm()
@@ -129,6 +130,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
             btnNEFTUploader.Visible = True
         End If
         btnPost.Visible = MyBase.isPostFlag
+        btnReverse.Enabled = MyBase.isReverse
     End Sub
     Sub Reset()
         'loadBlankGrid()
@@ -873,5 +875,18 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
         objP.funPrintBankLetter(txtDocumentNo.Value, False)
     End Sub
 
+    Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            If clsCommon.myLen(txtDocumentNo.Value) > 0 Then
+                If clsCommon.MyMessageBoxShow(Me, "Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    clsDBTNEFT.ReverseAndUnpost(txtDocumentNo.Value)
+                    clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly", Me.Text)
+                    LoadData(txtDocumentNo.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 

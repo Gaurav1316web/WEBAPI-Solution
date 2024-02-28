@@ -248,7 +248,6 @@ Public Class clsBulkSaleFreightDetail
 #Region "Variables"
     Public SNO As Integer
     Public Document_Code As String = Nothing
-    Public Amount As Double = 0
     Public Tender_Qty As Double = 0
     Public Rate As Double = 0
     Public Applicable_Rate As Double = 0

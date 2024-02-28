@@ -10,6 +10,12 @@ Public Class frmBulkSaleFreightCalculation
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Const colSNo As String = "colSNo"
+    Const colDispatchDate As String = "colDispatchDate"
+    Const colDispatchNo As String = "colDispatchNo"
+    Const colTankerNo As String = "colTankerNo"
+    Const ColAckQty As String = "ColAckQty"
+    Const colAckFat As String = "colAckFat"
+    Const colAckSnf As String = "colAckSnf"
     Const colTenderQty As String = "colTenderQty"
     Const colRate As String = "colRate"
     Const colProRate As String = "colProRate"
@@ -17,40 +23,47 @@ Public Class frmBulkSaleFreightCalculation
     Const colApplicableRate As String = "colApplicableRate"
     Const colGPSKM As String = "colGPSKM"
     Const colPayableAmount As String = "colPayableAmount"
+
     Dim isLoadData As Boolean = False
     Dim isCopyData As Boolean = False
 #End Region
 
     Private Sub frmBulkSaleFreightCalculation_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Dim coll As Dictionary(Of String, String)
+        Dim coll As Dictionary(Of String, String)
 
-        'coll = New Dictionary(Of String, String)()
-        'coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
-        'coll.Add("Document_Date", "DateTime not NULL")
-        'coll.Add("Customer_Code", "varchar(12) NOT NULL")
-        'coll.Add("Status", "integer not null default 0")
-        'coll.Add("Start_Date", "Date Not null")
+        coll = New Dictionary(Of String, String)()
+        coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
+        coll.Add("Document_Date", "DateTime not NULL")
+        coll.Add("Customer_Code", "varchar(12) NOT NULL")
+        coll.Add("Status", "integer not null default 0")
+        coll.Add("From_Date", "Date Not null")
+        coll.Add("To_Date", "Date Not null")
+        coll.Add("Created_By", "varchar(12) NOT NULL")
+        coll.Add("Created_Date", "datetime NOT NULL")
+        coll.Add("Modified_By", "varchar(12) NOT NULL")
+        coll.Add("Modified_Date", "datetime NOT NULL")
+        coll.Add("Posted_By", "varchar(12) NULL")
+        coll.Add("Posted_Date", "datetime NULL")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_HEAD", coll, Nothing, True, False, Nothing, Nothing, Nothing, False)
 
-        'coll.Add("Created_By", "varchar(12) NOT NULL")
-        'coll.Add("Created_Date", "datetime NOT NULL")
-        'coll.Add("Modified_By", "varchar(12) NOT NULL")
-        'coll.Add("Modified_Date", "datetime NOT NULL")
-        'coll.Add("Posted_By", "varchar(12) NULL")
-        'coll.Add("Posted_Date", "datetime NULL")
-        'clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_HEAD", coll, Nothing, True, False, Nothing, Nothing, Nothing, True)
+        coll = New Dictionary(Of String, String)()
+        coll.Add("SNo", "integer null")
+        coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BLK_FREIGHT_CALC_HEAD(Document_Code)")
+        coll.Add("Dispatch_Date", "Date null ")
+        coll.Add("Bulk_Dispatch_Document", "Varchar(30) null ")
+        coll.Add("Bulk_Dispatch_Tanker", "Varchar(20) null ")
+        coll.Add("Ack_Qty", "decimal (18,2) NULL")
+        coll.Add("Ack_Fat", "decimal (18,2) NULL")
+        coll.Add("Ack_Snf", "decimal (18,2) NULL")
+        coll.Add("Tender_Qty", "decimal (18,2) NULL")
+        coll.Add("Rate", "decimal(18, 2) NULL")
+        coll.Add("Pro_Rate", "decimal(18, 2) NULL")
+        coll.Add("DieselPetrol", "decimal (18,2) NULL")
+        coll.Add("Applicable_Rate", "decimal (18,2) NULL")
+        coll.Add("GPS_KM", "decimal(18,2) NULL")
+        coll.Add("Payable_Amount", "decimal (18,2) NULL")
 
-        'coll = New Dictionary(Of String, String)()
-        'coll.Add("SNo", "integer null")
-        'coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BLK_FREIGHT_CALC_HEAD(Document_Code)")
-        'coll.Add("Tender_Qty", "decimal (18,2) NULL")
-        'coll.Add("Rate", "decimal(18, 2) NULL")
-        'coll.Add("Pro_Rate", "decimal(18, 2) NULL")
-        'coll.Add("DieselPetrol", "decimal (18,2) NULL")
-        'coll.Add("Applicable_Rate", "decimal (18,2) NULL")
-        'coll.Add("GPS_KM", "decimal(18,2) NULL")
-        'coll.Add("Payable_Amount", "decimal (18,2) NULL")
-
-        'clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "Document_Date", True)
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "Document_Date", False)
 
         SetUserMgmtNew()
         LoadBlankGrid()
@@ -95,7 +108,7 @@ Public Class frmBulkSaleFreightCalculation
         If clsCommon.myLen(txtDocumentNo) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "Document No can't be blank", Me.Text)
         End If
-        txtDocumentNo.Value = clsBulkSaleFreightMaster.getFinder(txtDocumentNo.Value, isButtonClicked)
+        txtDocumentNo.Value = clsBulkSaleFreightCalculation.getFinder(txtDocumentNo.Value, isButtonClicked)
         LoadData(txtDocumentNo.Value, NavigatorType.Current)
     End Sub
 
@@ -138,7 +151,7 @@ Public Class frmBulkSaleFreightCalculation
                 Else
                     Reason = frm.strRmks
                 End If
-                If clsBulkSaleFreightMaster.ReverseAndUnpost(txtDocumentNo.Value) Then
+                If clsBulkSaleFreightCalculation.ReverseAndUnpost(txtDocumentNo.Value) Then
                     clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtDocumentNo.Value, NavigatorType.Current)
                 End If
@@ -158,7 +171,7 @@ Public Class frmBulkSaleFreightCalculation
                 Throw New Exception("No document found to post")
             End If
             If clsCommon.MyMessageBoxShow(Me, "Post the Current Document [" + txtDocumentNo.Value + "]" + Environment.NewLine + "Are You Sure.", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-                clsBulkSaleFreightMaster.PostData(MyBase.Form_ID, txtDocumentNo.Value)
+                clsBulkSaleFreightCalculation.PostData(MyBase.Form_ID, txtDocumentNo.Value)
                 clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
                 LoadData(txtDocumentNo.Value, NavigatorType.Current)
             End If
@@ -184,15 +197,16 @@ Public Class frmBulkSaleFreightCalculation
     Sub SaveData()
         Try
             If (AllowToSave()) Then
-                Dim obj As New clsBulkSaleFreightMaster()
+                Dim obj As New clsBulkSaleFreightCalculation()
                 obj.Document_Code = clsCommon.myCstr(txtDocumentNo.Value)
                 obj.Document_date = clsCommon.myCDate(txtdate.Value)
                 obj.Customer_Code = clsCommon.myCstr(txtCustomer.Value)
-                obj.Start_Date = clsCommon.myCDate(txtStartDate.Value)
-                obj.Arr = New List(Of clsBulkSaleFreightDetail)
+                obj.From_Date = clsCommon.myCDate(txtFromDate.Value)
+                obj.To_Date = clsCommon.myCDate(txtToDate.Value)
+                obj.Arr = New List(Of clsBulkSaleFreightCalculationDetail)
 
                 For Each grow As GridViewRowInfo In gv1.Rows
-                    Dim objTr As New clsBulkSaleFreightDetail()
+                    Dim objTr As New clsBulkSaleFreightCalculationDetail()
                     If clsCommon.myCdbl((grow.Cells(colTenderQty).Value)) > 0 Then
                         objTr.SNO = grow.Cells(colSNo).Value
                         objTr.Tender_Qty = clsCommon.myCdbl((grow.Cells(colTenderQty).Value))
@@ -222,7 +236,8 @@ Public Class frmBulkSaleFreightCalculation
         btnsave.Enabled = True
         btnPost.Enabled = True
         txtdate.Value = clsCommon.GETSERVERDATE()
-        txtStartDate.Value = clsCommon.GETSERVERDATE()
+        txtFromDate.Value = clsCommon.GETSERVERDATE()
+        txtToDate.Value = clsCommon.GETSERVERDATE()
         btnsave.Text = "Save"
         isInsideLoadData = False
         btndelete.Enabled = True
@@ -247,12 +262,71 @@ Public Class frmBulkSaleFreightCalculation
         repoNumBox.HeaderText = "SNO"
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
+        Dim repoDate As GridViewDateTimeColumn = New GridViewDateTimeColumn()
+        repoDate.Format = DateTimePickerFormat.Custom
+        repoDate.CustomFormat = "dd/MM/yyyy"
+        repoDate.FormatString = "{0:dd/MM/yyyy}"
+        repoDate.HeaderText = "Date"
+        repoDate.Name = colDispatchDate
+        repoDate.ReadOnly = True
+        repoDate.IsVisible = True
+        repoDate.Width = 100
+        gv1.MasterTemplate.Columns.Add(repoDate)
+
+        Dim repoDispatchNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoDispatchNo.FormatString = ""
+        repoDispatchNo.HeaderText = "Dispatch No"
+        repoDispatchNo.Name = colDispatchNo
+        repoDispatchNo.Width = 150
+        repoDispatchNo.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoDispatchNo)
+
+        Dim repoTankerNo As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoTankerNo.FormatString = ""
+        repoTankerNo.HeaderText = "Tanker No"
+        repoTankerNo.Name = colTankerNo
+        repoTankerNo.Width = 150
+        repoTankerNo.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoTankerNo)
+
+        Dim repoColAckQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoColAckQty.FormatString = ""
+        repoColAckQty.HeaderText = "Qty"
+        repoColAckQty.Name = ColAckQty
+        repoColAckQty.Minimum = 0
+        repoColAckQty.ReadOnly = True
+        repoColAckQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoColAckQty.Width = 60
+        gv1.MasterTemplate.Columns.Add(repoColAckQty)
+
+        Dim repoColAckFat As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoColAckFat.FormatString = ""
+        repoColAckFat.HeaderText = "Fat"
+        repoColAckFat.Name = colAckFat
+        repoColAckFat.Width = 70
+        repoColAckFat.Minimum = 0
+        repoColAckFat.ReadOnly = True
+        repoColAckFat.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoColAckFat)
+
+        Dim repoColAckSnf As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoColAckSnf.FormatString = ""
+        repoColAckSnf.HeaderText = "Snf"
+        repoColAckSnf.Name = colAckSnf
+        repoColAckSnf.Minimum = 0
+        repoColAckSnf.ReadOnly = True
+        repoColAckSnf.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoColAckSnf.Width = 70
+        gv1.MasterTemplate.Columns.Add(repoColAckSnf)
+
+
         Dim repoTenderQty As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTenderQty.FormatString = ""
-        repoTenderQty.Width = 300
+        repoTenderQty.Width = 100
         repoTenderQty.HeaderText = "Tender Qty"
         repoTenderQty.Name = colTenderQty
         repoTenderQty.IsVisible = True
+        repoTenderQty.ReadOnly = True
         repoTenderQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoTenderQty)
 
@@ -263,6 +337,7 @@ Public Class frmBulkSaleFreightCalculation
         repoRate.Name = colRate
         repoRate.IsVisible = True
         repoRate.Minimum = 0
+        repoRate.ReadOnly = True
         repoRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoRate)
 
@@ -273,6 +348,7 @@ Public Class frmBulkSaleFreightCalculation
         repoProRate.Name = colProRate
         repoProRate.IsVisible = True
         repoProRate.Minimum = 0
+        repoProRate.ReadOnly = True
         repoProRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoProRate)
 
@@ -284,6 +360,7 @@ Public Class frmBulkSaleFreightCalculation
         repoDieselPetrol.Name = colDieselPetrol
         repoDieselPetrol.IsVisible = True
         repoDieselPetrol.Minimum = 0
+        repoDieselPetrol.ReadOnly = False
         repoDieselPetrol.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoDieselPetrol)
 
@@ -293,6 +370,7 @@ Public Class frmBulkSaleFreightCalculation
         repoApplicableRate.HeaderText = "Applicable Rate"
         repoApplicableRate.Name = colApplicableRate
         repoApplicableRate.IsVisible = True
+        repoApplicableRate.ReadOnly = True
         repoApplicableRate.Minimum = 0
         repoApplicableRate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoApplicableRate)
@@ -302,6 +380,7 @@ Public Class frmBulkSaleFreightCalculation
         repoGPSKM.Width = 90
         repoGPSKM.HeaderText = "GPS KM"
         repoGPSKM.Name = colGPSKM
+        repoGPSKM.ReadOnly = True
         repoGPSKM.IsVisible = True
         repoGPSKM.Minimum = 0
         repoGPSKM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
@@ -312,6 +391,7 @@ Public Class frmBulkSaleFreightCalculation
         repoPayableAmount.Width = 120
         repoPayableAmount.HeaderText = "Payable Amount"
         repoPayableAmount.Name = colPayableAmount
+        repoPayableAmount.ReadOnly = True
         repoPayableAmount.IsVisible = True
         repoPayableAmount.Minimum = 0
         repoPayableAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
@@ -335,12 +415,13 @@ Public Class frmBulkSaleFreightCalculation
             btnsave.Enabled = True
             btnPost.Enabled = True
             LoadBlankGrid()
-            Dim obj As New clsBulkSaleFreightMaster()
-            obj = clsBulkSaleFreightMaster.GetData(strCode, NavTyep, Nothing)
+            Dim obj As New clsBulkSaleFreightCalculation()
+            obj = clsBulkSaleFreightCalculation.GetData(strCode, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(clsCommon.myCstr(obj.Document_Code)) > 0) Then
                 txtDocumentNo.Value = obj.Document_Code
                 txtdate.Value = obj.Document_date
-                txtStartDate.Value = obj.Start_Date
+                txtFromDate.Value = obj.From_Date
+                txtToDate.Value = obj.To_Date
                 txtCustomer.Value = obj.Customer_Code
                 lblCustomerName.Text = clsDBFuncationality.getSingleValue("Select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code  ='" + txtCustomer.Value + "' ")
 
@@ -357,9 +438,15 @@ Public Class frmBulkSaleFreightCalculation
                 End If
 
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                    For Each objTr As clsBulkSaleFreightDetail In obj.Arr
+                    For Each objTr As clsBulkSaleFreightCalculationDetail In obj.Arr
                         gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSNo).Value = objTr.SNO
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDispatchDate).Value = objTr.Dispatch_Date
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDispatchNo).Value = objTr.Bulk_Dispatch_Document
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTankerNo).Value = objTr.Bulk_Dispatch_Tanker
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColAckQty).Value = objTr.Ack_Qty
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAckFat).Value = objTr.Ack_Fat
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAckSnf).Value = objTr.Ack_Snf
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTenderQty).Value = objTr.Tender_Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = objTr.Rate
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colProRate).Value = objTr.Pro_Rate
@@ -418,24 +505,24 @@ Public Class frmBulkSaleFreightCalculation
         End If
     End Sub
 
-    Private Sub gv1_UserAddedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserAddedRow
-        For i As Integer = 0 To gv1.Rows.Count - 1
-            gv1.Rows(0).Cells(0).Value = 1
-            If i <> 0 Then
-                gv1.Rows(i).Cells(colSNo).Value = i + 1
-            End If
-        Next
-    End Sub
-    Private Sub gv1_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
-        If gv1.RowCount > 0 Then
-            Dim intCurrRow As Integer = gv1.CurrentRow.Index
-            gv1.CurrentRow.Cells(colSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
-            If intCurrRow = gv1.Rows.Count - 1 Then
-                gv1.Rows.AddNew()
-                gv1.CurrentRow = gv1.Rows(intCurrRow)
-            End If
-        End If
-    End Sub
+    'Private Sub gv1_UserAddedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserAddedRow
+    '    For i As Integer = 0 To gv1.Rows.Count - 1
+    '        gv1.Rows(0).Cells(0).Value = 1
+    '        If i <> 0 Then
+    '            gv1.Rows(i).Cells(colSNo).Value = i + 1
+    '        End If
+    '    Next
+    'End Sub
+    'Private Sub gv1_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
+    '    If gv1.RowCount > 0 Then
+    '        Dim intCurrRow As Integer = gv1.CurrentRow.Index
+    '        gv1.CurrentRow.Cells(colSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+    '        If intCurrRow = gv1.Rows.Count - 1 Then
+    '            gv1.Rows.AddNew()
+    '            gv1.CurrentRow = gv1.Rows(intCurrRow)
+    '        End If
+    '    End If
+    'End Sub
 
     Private Sub btndelete_Click(sender As Object, e As EventArgs) Handles btndelete.Click
         Try
@@ -443,7 +530,7 @@ Public Class frmBulkSaleFreightCalculation
                 Throw New Exception("Document No not found to delete")
             End If
             If (myMessages.deleteConfirm()) Then
-                clsBulkSaleFreightMaster.DeleteData(txtDocumentNo.Value)
+                clsBulkSaleFreightCalculation.DeleteData(txtDocumentNo.Value)
                 clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 Addnew()
             End If
@@ -452,6 +539,30 @@ Public Class frmBulkSaleFreightCalculation
         End Try
     End Sub
 
+    Private Sub LoadDispatchAcknowledgeData()
+        Try
+            Dim qry As String = ""
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            gv1.Rows.Clear()
+            gv1.SummaryRowsBottom.Clear()
+            gv1.Columns.Clear()
+            gv1.DataSource = Nothing
+            If dt.Rows.Count > 0 Then
+                gv1.DataSource = dt
+                If txtDieselHike.Value > 0 Then
+                    For ii As Integer = 0 To dt.Rows.Count - 1
+                        gv1.Rows(ii).Cells(colDieselPetrol).Value = txtDieselHike.Value
+                    Next
+
+                End If
+            Else
+                    clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
 
     Private Sub rmimport_Click(sender As Object, e As EventArgs) Handles rmimport.Click
         Try
@@ -459,8 +570,8 @@ Public Class frmBulkSaleFreightCalculation
             Dim gvImport As New RadGridView()
             Me.Controls.Add(gvImport)
             Dim currentdate As Date = Date.Today
-            If transportSql.importExcel(gvImport, "SNO", "Tender Qty", "Rate", "Pro Rate", "Applicable Rate", "GPS KM", "Payable Amount") Then
-                Dim Arr As New List(Of clsBulkSaleFreightDetail)
+            If transportSql.importExcel(gvImport, "SNO", "Dispatch Date", "Dispatch No", "Tanker No", "Qty", "Fat", "Snf", "Tender Qty", "Rate", "Pro Rate", "Diesel Hike/Red.", "Applicable Rate", "GPS KM", "Payable Amount") Then
+                Dim Arr As New List(Of clsBulkSaleFreightCalculationDetail)
 
                 Try
                     clsCommon.ProgressBarPercentShow()
@@ -534,7 +645,7 @@ Public Class frmBulkSaleFreightCalculation
             If gv1.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
                 arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.BulkSaleFreightMaster & "'"))
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.frmBulkSaleFreightCalculation & "'"))
                 arrHeader.Add("Date : " & clsCommon.myCDate(txtdate.Value))
                 transportSql.QuickExportToExcel(gv1, "", Me.Text, , arrHeader)
             Else
@@ -549,7 +660,7 @@ Public Class frmBulkSaleFreightCalculation
         Try
             If gv1.Rows.Count >= 0 Then
 
-                clsCommon.MyExportToPDF("Bulk Sale Freight Master", gv1, Nothing, "Bulk Sale Freight Master", MyBase.Form_ID, objCommonVar.CurrentUserCode)
+                clsCommon.MyExportToPDF("Bulk Sale Freight Calculation", gv1, Nothing, "Bulk Sale Freight Calculation", MyBase.Form_ID, objCommonVar.CurrentUserCode)
             Else
                 Throw New Exception("no record found.")
             End If
@@ -559,7 +670,11 @@ Public Class frmBulkSaleFreightCalculation
     End Sub
 
     Private Sub rmExport_Click(sender As Object, e As EventArgs) Handles rmExport.Click
-        Dim qry As String = "select '' as SNO ,'' AS [Tender Qty] , '' AS Rate , '' as [Pro Rate] , '' as [Applicable Rate] , '' as [GPS KM] , '' [Payable Amount]"
+        Dim qry As String = "select '' as SNO ,'' as 'Dispatch Date' , '' as 'Dispatch No' , '' as 'Tanker No' , '' as Qty,'' as Fat , '' as Snf ,'' AS [Tender Qty] , '' AS Rate , '' as [Pro Rate] ,'' as [Diesel Hike/Red.], '' as [Applicable Rate] , '' as [GPS KM] , '' [Payable Amount]"
         transportSql.ExporttoExcelWithoutFilter(qry, "", "", Me)
+    End Sub
+
+    Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
+        LoadDispatchAcknowledgeData()
     End Sub
 End Class
