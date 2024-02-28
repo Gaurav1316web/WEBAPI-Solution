@@ -3296,7 +3296,7 @@ Public Class clsPSShipmentHead
             If clsCommon.myLen(strDairyGAtePassCount) > 0 Then
                 Throw New Exception("You cannot cancelled this document because Dairy GAte Pass (" + clsCommon.myCstr(strDairyGAtePassCount) + ") has been created.")
             End If
-            Dim strGatepassdoc = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select * from TSPL_SD_SHIPMENT_DETAIL left join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.PK_ID=TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID where TSPL_SD_SHIPMENT_DETAIL.PK_ID in (select top 1 PK_ID from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + strCode + "')", trans))
+            Dim strGatepassdoc = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.GPCode from TSPL_SD_SHIPMENT_DETAIL left join TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.PK_ID=TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL.PK_ID where TSPL_SD_SHIPMENT_DETAIL.PK_ID in (select top 1 PK_ID from TSPL_SD_SHIPMENT_DETAIL where Document_Code='" + strCode + "')", trans))
             If clsCommon.myLen(strGatepassdoc) > 0 Then
                 Throw New Exception("Shipment cannot be reverse because its GatePass has been generated.")
 
