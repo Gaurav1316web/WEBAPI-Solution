@@ -9,6 +9,7 @@ Public Class clsDBTNEFT
     Public Remarks As String = ""
     Public Zone_Code As String = ""
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
+    Public RCDF_Status As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Posted_Date As Date? = Nothing
     Public arr As List(Of clsDBTNEFTDetail) = Nothing
     Public arrInvalid As List(Of clsDBTNEFTDetailInvalid) = Nothing
@@ -96,6 +97,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Zone_Code = clsCommon.myCstr(dt.Rows(0)("Zone_Code"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
+            obj.RCDF_Status = IIf(clsCommon.myCdbl(dt.Rows(0)("RCDF_Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
             If dt.Rows(0)("Posted_Date") IsNot DBNull.Value Then
                 obj.Posted_Date = clsCommon.myCDate(dt.Rows(0)("Posted_Date"))
             End If
@@ -346,6 +348,58 @@ WHERE  TSPL_DBT_NEFT.document_code ='" + strDocNo + "'"
             End If
         End Try
         Return strPAth
+    End Function
+
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ReverseAndUnpost(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim obj As clsDBTNEFT = clsDBTNEFT.GetData(strCode, NavigatorType.Current, trans)
+            If obj.RCDF_Status = ERPTransactionStatus.Approved Then
+                Throw New Exception("Transaction Approved by RCDF can't reverse it.")
+            End If
+            If Not obj.Status = ERPTransactionStatus.Approved Then
+                Throw New Exception("Transaction should be Approved to reverse.")
+            End If
+            Dim flag As Boolean = False
+            Dim qry As String
+            Try
+                qry = "select 1 from TSPL_MASTER.dbo.TSPL_APP_LOCATION where  code not in ('5888','6888') and DataBase_Name in ('" + objCommonVar.CurrDatabase + "') "
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    flag = True
+                End If
+            Catch ex As Exception
+            End Try
+
+            If flag Then
+                qry = "delete from " + objCommonVar.RCDFDB + "TSPL_DBT_NEFT_RCDF where DB_Name='" + objCommonVar.CurrDatabase + "' and Document_Code='" + obj.Document_Code + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+
+            qry = "delete from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where Document_Code in ('" + obj.Document_Code + "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_ATTACHMENTS where TransactionId in ('" + obj.Document_Code + "') and FormId='" + clsUserMgtCode.DBTNEFTUploader + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "Update TSPL_DBT_NEFT set Status=0, Posted_Date=null,Posted_By=null where Document_Code='" + obj.Document_Code + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
     End Function
 End Class
 
