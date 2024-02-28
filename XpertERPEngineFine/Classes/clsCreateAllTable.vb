@@ -169,6 +169,37 @@ Public Class clsCreateAllTable
             coll.Add("Comp_code", "varchar(8)  Not NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_WISE_TAX", coll)
 
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("HCODE", "Varchar(30) Not null Primary key")
+            coll.Add("DOC_DATE", "Date Not NULL")
+            coll.Add("Status", "Integer Not null Default 0")
+            coll.Add("Description", "Varchar(100) NULL ")
+            coll.Add("Created_By", "varchar(12)  Not NULL")
+            coll.Add("Created_Date", "datetime  Not NULL")
+            coll.Add("Modify_By", "varchar(12)  Not NULL")
+            coll.Add("Modify_Date", "datetime  Not NULL")
+            coll.Add("Posted_By", "varchar(12)  NULL")
+            coll.Add("Posted_Date", "Datetime  NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_SAC_WISE_TAX", coll)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("DCODE", "Varchar(30) Not null Primary key")
+            coll.Add("SNO", "Integer null")
+            coll.Add("HCODE", "Varchar(30) Not null references TSPL_SAC_WISE_TAX(HCODE)")
+            coll.Add("SAC_Code", "Varchar(12) Not NULL References TSPL_SAC_MASTER(Code)")
+            coll.Add("Tax_Group_Code", "Varchar(12) Not null")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_SAC_WISE_TAX_GROUP", coll)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("DDCODE", "Varchar(30) Not null Primary key")
+            coll.Add("SNO", "Integer null")
+            coll.Add("DCODE", "Varchar(30) Not null references TSPL_SAC_WISE_TAX_GROUP(DCODE)")
+            coll.Add("HCODE", "Varchar(30) Not null references TSPL_SAC_WISE_TAX(HCODE)")
+            coll.Add("Tax_Authority", "varchar(12)  NULL")
+            coll.Add("TAX_Rate", "Decimal (18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_SAC_WISE_TAX_AUTHORITY", coll)
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "varchar(30) Not Null Primary Key")
             coll.Add("Document_Date", "datetime  Not Null")
@@ -53202,6 +53233,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Tax_Authority", "varchar(12)  NULL")
             coll.Add("TAX_Rate", "decimal (18,4) NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_WISE_TAX_AUTHORITY", coll)
+
             '==============================================================
 
             ' Inventory Management Tables
