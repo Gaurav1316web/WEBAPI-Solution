@@ -712,7 +712,16 @@ Public Class frmBillOfMaterialCosting
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        If MyBase.isExport = True Then
+            RadSplitButton1.Enabled = True
+            mnuExportBOM.Enabled = True
+            mnuImportBOM.Enabled = True
+        Else
+            RadSplitButton1.Enabled = False
+            mnuExportBOM.Enabled = False
+            mnuImportBOM.Enabled = False
 
+        End If
     End Sub
 
     Private Sub btnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click
