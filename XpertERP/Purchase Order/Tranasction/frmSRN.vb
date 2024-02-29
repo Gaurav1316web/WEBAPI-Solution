@@ -363,13 +363,9 @@ Public Class frmSRN
         btnPrint.Visible = MyBase.isPrintFlag
         btnrejetprint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
-
             btnReverse.Enabled = True
-
         Else
-
             btnReverse.Enabled = False
-
         End If
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
     End Sub
@@ -6797,7 +6793,8 @@ Public Class frmSRN
                     RadButton1.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
@@ -11554,6 +11551,7 @@ b:                          ' Next
     Private Sub btnJE_Click(sender As Object, e As EventArgs) Handles btnJE.Click
         ShowJE(MyBase.Form_ID, txtDocNo.Value)
     End Sub
+
 
     'Private Sub MyDateTimePicker1_ValueChanged(sender As Object, e As EventArgs) Handles MyDateTimePicker1.ValueChanged
     '    txtDate.Text = clsCommon.myCDate(MyDateTimePicker1.Text)

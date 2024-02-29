@@ -143,8 +143,9 @@ Public Class FrmProvisionEntry
                 End If
 
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         End If
 
     End Sub
@@ -155,12 +156,13 @@ Public Class FrmProvisionEntry
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPost.Visible = MyBase.isPostFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
-            GroupBox1.Enabled = True
+            'GroupBox1.Enabled = True
         Else
             btnReverse.Enabled = False
-            GroupBox1.Enabled = False
+            'GroupBox1.Enabled = False
         End If
     End Sub
 

@@ -56,7 +56,18 @@ Public Class frmMilkShiftUploader
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        RadMenu1.Visible = MyBase.isExport
+
+        If MyBase.isExport = True Then
+            RadMenuItem4.Enabled = True
+            RadMenuItem6.Enabled = True
+            RadMenuItem5.Enabled = True
+
+        Else
+            RadMenuItem4.Enabled = False
+            RadMenuItem6.Enabled = False
+            RadMenuItem5.Enabled = False
+        End If
+        'RadMenu1.Visible = MyBase.isExport
         'btnDelete.Visible = MyBase.isDeleteFlag
         'btnPrint.Visible = MyBase.isPrintFlag
         'btnImport.Visible = MyBase.isExport

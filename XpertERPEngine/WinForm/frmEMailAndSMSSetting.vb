@@ -225,6 +225,18 @@ Public Class frmEMailAndSMSSetting
         ContextMenuStrip2.Items.Add(SMSStringConstSMSText)
         If clsCommon.CompairString(Form_ID, clsUserMgtCode.ChangePwd) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(OTP)
+        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.ScrapSale) = CompairStringResult.Equal Then
+            ContextMenuStrip1.Items.Add(Doc_No)
+            ContextMenuStrip1.Items.Add(Doc_Date)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TotalAmount)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.CustomerNo)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.CustomerName)
+        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.FrmInvoiceBulkSale) = CompairStringResult.Equal Then
+            ContextMenuStrip1.Items.Add(Doc_No)
+            ContextMenuStrip1.Items.Add(Doc_Date)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.TotalAmount)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.CustomerNo)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.CustomerName)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.frmVlcdataUploadar) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(PlantCode)
             ContextMenuStrip1.Items.Add(PlantName)
@@ -1312,5 +1324,5 @@ Public Class frmEMailAndSMSSetting
         End If
     End Sub
 
-   
+
 End Class

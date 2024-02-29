@@ -184,7 +184,7 @@ Public Class FrmRecurringPayableInvoice
         Else
             btnReverse.Enabled = False
         End If
-        If btnSave.Visible = True Then
+        If MyBase.isExport = True Then
             RadMenuItem2.Enabled = True
             RadMenuItem3.Enabled = True
         Else
@@ -3797,8 +3797,9 @@ Public Class FrmRecurringPayableInvoice
                     btnReverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         ElseIf e.Alt AndAlso e.KeyCode = Keys.I Then
             If clsCommon.MyMessageBoxShow("Do you want to cancel This Document.?", "Cancel Document", MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                 Dim dbpwd As String = clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='USERPWD' and TYPE='PWD'")
@@ -5778,4 +5779,6 @@ Public Class FrmRecurringPayableInvoice
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
 End Class

@@ -54,6 +54,7 @@ Public Class frmDailyMilkProducts
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btnPost.Enabled = True
+        UsLock1.Status = ERPTransactionStatus.Pending
         btnDelete.Enabled = True
         txtReportDate.Focus()
         txtReportingDate.Focus()
@@ -157,9 +158,9 @@ Public Class frmDailyMilkProducts
     End Sub
 
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
-        SaveData()
+        SaveData(False)
     End Sub
-    Private Function SaveData() As Boolean
+    Private Function SaveData(ByVal ChekPostBtn As Boolean)
         Try
             Dim obj As New clsDailyMilkProducts()
             obj.Document_No = txtDocNo.Value
@@ -296,6 +297,12 @@ Public Class frmDailyMilkProducts
                 txtSMPReceipt.Value = obj.SMP_RECEIPT
                 txtTableButter.Value = obj.TABLE_BUTTER
                 txtRmrks.Text = obj.Remarks
+                If obj.Status = ERPTransactionStatus.Approved Then
+                    btnsave.Enabled = False
+                    btnPost.Enabled = False
+                    btnDelete.Enabled = False
+                End If
+                UsLock1.Status = obj.Status
                 'For Each objow As clsDailyMilkProductsDetails In obj.Arr
                 '    gv1.Rows(gv1.Rows.Count - 1).Cells("Products").Value = objow.Products
                 '    gv1.Rows(gv1.Rows.Count - 1).Cells("Unit").Value = objow.Item_UOM
@@ -342,5 +349,28 @@ Public Class frmDailyMilkProducts
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
+        PostData()
+    End Sub
+    Sub PostData()
+        Try
+            Dim msg As String = ""
+            If (myMessages.postConfirm()) Then
+                SaveData(True)
+                If (clsDailyMilkProducts.PostData(txtDocNo.Value)) Then
+                    msg = "Successfully Posted"
+
+                End If
+                If clsCommon.myLen(msg) > 0 Then
+                    common.clsCommon.MyMessageBoxShow(msg)
+                End If
+                LoadData(txtDocNo.Value, NavigatorType.Current)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
     End Sub
 End Class

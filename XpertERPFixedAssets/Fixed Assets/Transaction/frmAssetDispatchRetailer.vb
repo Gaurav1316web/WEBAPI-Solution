@@ -191,6 +191,15 @@ Public Class frmAssetDispatchRetailer
         Else
             btnReverse.Enabled = False
         End If
+        If MyBase.isExport = True Then
+            Btn_export.Enabled = True
+            rmUploderBlankSheet.Enabled = True
+            BtnImport.Enabled = True
+        Else
+            Btn_export.Enabled = False
+            rmUploderBlankSheet.Enabled = False
+            BtnImport.Enabled = False
+        End If
     End Sub
 
     Private Sub frmAssetDispatchRetailer_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -3099,8 +3108,9 @@ Public Class frmAssetDispatchRetailer
                     btnReverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         End If
     End Sub
 

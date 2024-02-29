@@ -68,6 +68,7 @@ Public Class frmPOWeighment
         BtnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        btnPrintWithGunnyBags.Visible = MyBase.isPrintFlag
     End Sub
 
     Sub LoadBlankGrid()

@@ -124,6 +124,13 @@ Public Class FrmBankReco
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        If MyBase.isExport = True Then
+            btnExcel.Enabled = True
+            BtnQuickExport.Enabled = True
+        Else
+            btnExcel.Enabled = False
+            BtnQuickExport.Enabled = False
+        End If
     End Sub
 
     Private Sub FrmBankReco_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
@@ -165,7 +172,8 @@ Public Class FrmBankReco
 
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

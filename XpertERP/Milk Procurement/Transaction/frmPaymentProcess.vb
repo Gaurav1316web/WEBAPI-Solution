@@ -3554,8 +3554,21 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         btnProcess.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnExport.Visible = MyBase.isExport
-        RadMenu1.Visible = MyBase.isExport
-
+        'RadMenu1.Visible = MyBase.isExport
+        If MyBase.isPrintFlag = True Then
+            btnDocPrint.Enabled = True
+            btnPrint.Enabled = True
+            btnDCPrint.Enabled = True
+        Else
+            btnDocPrint.Enabled = False
+            btnPrint.Enabled = False
+            btnDCPrint.Enabled = False
+        End If
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
     End Sub
 
     Function AllowToSave() As Boolean
@@ -8171,7 +8184,7 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
                     btnDeleteVSPBill.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
         End If
     End Sub

@@ -455,6 +455,12 @@ Public Class frmProcessProductionStandardization
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
+        If MyBase.isReverse Then
+            btnunpost.Enabled = True
+        Else
+            btnunpost.Enabled = False
+        End If
+
         '  btnPrint.Enabled = MyBase.isPrintFlag
     End Sub
 
