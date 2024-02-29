@@ -15,7 +15,7 @@ Public Class clsUserMgtCode
     Public Const ModuleSystemAdmin As String = "MSysAdmin"
     Public Const ModuleCommonServices As String = "MCommSer"
     Public Const ModuleReceivable As String = "MReceivable"
-    Public Const FrmPriceChartUploaderMCC As String = "PCU-MCC"
+    Public Const MPMilkPrice As String = "PCU-MCC"
     Public Const ModulePayable As String = "MPayable"
     Public Const ModuleGL As String = "MGenLedger"
     Public Const ModuleSales As String = "MSales"

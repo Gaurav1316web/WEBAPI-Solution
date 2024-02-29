@@ -28,34 +28,7 @@ Public Class clsCreateAllTable
             clsCommonFunctionality.CreateOrAlterTable("TSPL_TABLE_METADATA", coll)
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_TABLE_METADATA")
 
-            coll = New Dictionary(Of String, String)
-            coll.Add("Code", "Varchar(30) not null primary key")
-            coll.Add("Date", "date not null")
-            coll.Add("App_Shift", "varchar(1) not null")
-            coll.Add("Created_By", "varchar(12) NOT NULL")
-            coll.Add("Created_Date", "date NOT NULL")
-            coll.Add("Modified_By", "varchar(12) NOT NULL")
-            coll.Add("Modified_Date", "date  NOT NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_FAT_SNF_Uploader_MP", coll)
 
-            coll = New Dictionary(Of String, String)
-            coll.Add("Code", "varchar(30) not null REFERENCES TSPL_FAT_SNF_Uploader_MP(Code)")
-            coll.Add("BMC_Code", "varchar(30) not null REFERENCES TSPL_MCC_MASTER(MCC_Code)")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_FAT_SNF_Uploader_MP_BMC", coll)
-
-            coll = New Dictionary(Of String, String)
-
-            coll.Add("Code", "varchar(30) not null REFERENCES TSPL_FAT_SNF_Uploader_MP(Code)")
-            coll.Add("DCS_Code", "varchar(30) not null REFERENCES TSPL_VLC_MASTER_HEAD(VLC_Code)")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_FAT_SNF_Uploader_MP_DCS", coll)
-
-            coll = New Dictionary(Of String, String)
-
-            coll.Add("Code", "varchar(30) not null REFERENCES TSPL_FAT_SNF_Uploader_MP(Code)")
-            coll.Add("FAT", "decimal(18,1) not null")
-            coll.Add("SNF", "decimal(18,1) not null")
-            coll.Add("Rate", "decimal(18,2) not null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_FAT_SNF_Uploader_Rate", coll)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("item_code", "VARCHAR(30) NULL")
@@ -9934,6 +9907,40 @@ Public Class clsCreateAllTable
             coll.Add("Slab_Value", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MP_INCETIVE_DETAIL", coll)
 
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("Code", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Date", "Date not null")
+            coll.Add("App_Shift", "varchar(1) not null")
+            coll.Add("Status", "Integer Not null Default 0")
+            coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER(User_Code)")
+            coll.Add("Created_Date", "datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER(User_Code)")
+            coll.Add("Modified_Date", "datetime  NOT NULL")
+            coll.Add("Posted_By", "varchar(12) NULL REFERENCES TSPL_USER_MASTER(User_Code)")
+            coll.Add("Posted_Date", "datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_MP_MILK_PRICE", coll)
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Code", "integer not null REFERENCES TSPL_MP_MILK_PRICE(Code)")
+            coll.Add("BMC_Code", "varchar(30) not null REFERENCES TSPL_MCC_MASTER(MCC_Code)")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_MP_MILK_PRICE_BMC", coll)
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Code", "integer not null REFERENCES TSPL_MP_MILK_PRICE(Code)")
+            coll.Add("DCS_Code", "varchar(30) not null REFERENCES TSPL_VLC_MASTER_HEAD(VLC_Code)")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_MP_MILK_PRICE_DCS", coll)
+
+            coll = New Dictionary(Of String, String)
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Code", "integer not null REFERENCES TSPL_MP_MILK_PRICE(Code)")
+            coll.Add("FAT", "decimal(18,1) not null")
+            coll.Add("SNF", "decimal(18,1) not null")
+            coll.Add("Rate", "decimal(18,2) not null")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_MP_MILK_PRICE_RATE", coll)
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Doc_No", "Varchar(30)  not null ")
             coll.Add("Doc_Date", "Date not null")
@@ -9963,6 +9970,7 @@ Public Class clsCreateAllTable
             coll.Add("Incentive_TRCode", "Varchar(30) null references TSPL_MP_INCETIVE_DETAIL(TRCode)")
             coll.Add("Incentive_Amt", "decimal(18,2) null")
             coll.Add("Entry_Source", "varchar(12) NULL")
+            coll.Add("MP_MILK_PRICE_PK_ID", "INTEGER null REFERENCES TSPL_MP_MILK_PRICE_RATE(PK_ID)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER", coll, "Primary Key (Doc_No,PK_Id)", False, False, "", "Doc_No", "Doc_Date")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VLC_DATA_UPLOADER_SYNC", coll, "Primary Key (Doc_No,PK_Id)", False, False)
 
