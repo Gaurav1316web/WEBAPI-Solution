@@ -191,6 +191,15 @@ Public Class frmAssetDispatchRetailer
         Else
             btnReverse.Enabled = False
         End If
+        If MyBase.isExport = True Then
+            Btn_export.Enabled = True
+            rmUploderBlankSheet.Enabled = True
+            BtnImport.Enabled = True
+        Else
+            Btn_export.Enabled = False
+            rmUploderBlankSheet.Enabled = False
+            BtnImport.Enabled = False
+        End If
     End Sub
 
     Private Sub frmAssetDispatchRetailer_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

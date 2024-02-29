@@ -160,6 +160,7 @@ Public Class frmDairyBookingCustomer
         btnDelete.Visible = MyBase.isDeleteFlag
         btnCreateAndPrintInvoice.Visible = MyBase.isPrintFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        btnGatePassPrint.Visible = MyBase.isPrintFlag
         'btnCreateAndPrintInvoice.Visible = MyBase.isQuickExportFlag
         If MyBase.isReverse Then
             btnreverse.Enabled = True

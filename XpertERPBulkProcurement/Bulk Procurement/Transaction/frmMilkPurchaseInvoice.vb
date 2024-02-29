@@ -187,7 +187,7 @@ Public Class FrmMilkPurchaseInvoice
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnBillOfSupply.Visible = MyBase.isPrintFlag
-        RadMenu1.Visible = MyBase.isExport
+        'RadMenu1.Visible = MyBase.isExport
         btnPost.Visible = MyBase.isPostFlag
 
     End Sub

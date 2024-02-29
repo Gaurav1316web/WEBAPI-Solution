@@ -22,6 +22,12 @@ Partial Class frmMilkTransferInReturn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -406,7 +412,7 @@ Partial Class frmMilkTransferInReturn
         Me.txtSNFPercentage.TabIndex = 343
         Me.txtSNFPercentage.Text = "0"
         Me.txtSNFPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNFPercentage.Value = 0.0R
+        Me.txtSNFPercentage.Value = 0R
         '
         'TxtSNFWeightage
         '
@@ -434,7 +440,7 @@ Partial Class frmMilkTransferInReturn
         Me.TxtSNFWeightage.TabIndex = 336
         Me.TxtSNFWeightage.Text = "0"
         Me.TxtSNFWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSNFWeightage.Value = 0.0R
+        Me.TxtSNFWeightage.Value = 0R
         '
         'TxtFatWeightage
         '
@@ -462,7 +468,7 @@ Partial Class frmMilkTransferInReturn
         Me.TxtFatWeightage.TabIndex = 335
         Me.TxtFatWeightage.Text = "0"
         Me.TxtFatWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFatWeightage.Value = 0.0R
+        Me.TxtFatWeightage.Value = 0R
         '
         'MyLabel19
         '
@@ -520,7 +526,7 @@ Partial Class frmMilkTransferInReturn
         Me.txtfatPercentage.TabIndex = 337
         Me.txtfatPercentage.Text = "0"
         Me.txtfatPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtfatPercentage.Value = 0.0R
+        Me.txtfatPercentage.Value = 0R
         '
         'lblPriceChart
         '
@@ -668,7 +674,6 @@ Partial Class frmMilkTransferInReturn
         Me.lblMccPlantName.Name = "lblMccPlantName"
         Me.lblMccPlantName.Size = New System.Drawing.Size(261, 21)
         Me.lblMccPlantName.TabIndex = 326
-        Me.lblMccPlantName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblVendor
         '
@@ -731,7 +736,7 @@ Partial Class frmMilkTransferInReturn
         'btnReset
         '
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Image = My.Resources._new
+        Me.btnReset.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
         Me.btnReset.Location = New System.Drawing.Point(468, 9)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(13, 20)
@@ -774,7 +779,6 @@ Partial Class frmMilkTransferInReturn
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1122, 334)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         '
         'RadPageViewPage1
         '
@@ -839,7 +843,6 @@ Partial Class frmMilkTransferInReturn
         Me.lblSubLocation.Name = "lblSubLocation"
         Me.lblSubLocation.Size = New System.Drawing.Size(174, 19)
         Me.lblSubLocation.TabIndex = 276
-        Me.lblSubLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkJobWork
         '
@@ -911,7 +914,7 @@ Partial Class frmMilkTransferInReturn
         Me.txtTransferPrice.TabIndex = 361
         Me.txtTransferPrice.Text = "0"
         Me.txtTransferPrice.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTransferPrice.Value = 0.0R
+        Me.txtTransferPrice.Value = 0R
         '
         'txtDispatchFrom
         '
@@ -946,7 +949,6 @@ Partial Class frmMilkTransferInReturn
         Me.lblDispatchFromDesc.Name = "lblDispatchFromDesc"
         Me.lblDispatchFromDesc.Size = New System.Drawing.Size(357, 21)
         Me.lblDispatchFromDesc.TabIndex = 329
-        Me.lblDispatchFromDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel14
         '
@@ -1134,15 +1136,17 @@ Partial Class frmMilkTransferInReturn
         Me.gvOldSealPaper.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvOldSealPaper.Location = New System.Drawing.Point(3, 18)
         '
-        'gvOldSealPaper
         '
+        '
+        Me.gvOldSealPaper.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOldSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSealPaper.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvOldSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvOldSealPaper.MyStopExport = False
         Me.gvOldSealPaper.Name = "gvOldSealPaper"
         Me.gvOldSealPaper.ShowHeaderCellButtons = True
         Me.gvOldSealPaper.Size = New System.Drawing.Size(544, 186)
         Me.gvOldSealPaper.TabIndex = 203
-        Me.gvOldSealPaper.Text = "RadGridView1"
         '
         'GroupBox2
         '
@@ -1161,15 +1165,17 @@ Partial Class frmMilkTransferInReturn
         Me.gvOldSeal.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvOldSeal.Location = New System.Drawing.Point(3, 18)
         '
-        'gvOldSeal
         '
+        '
+        Me.gvOldSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOldSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSeal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvOldSeal.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvOldSeal.MyStopExport = False
         Me.gvOldSeal.Name = "gvOldSeal"
         Me.gvOldSeal.ShowHeaderCellButtons = True
         Me.gvOldSeal.Size = New System.Drawing.Size(541, 186)
         Me.gvOldSeal.TabIndex = 202
-        Me.gvOldSeal.Text = "RadGridView1"
         '
         'chkNewSealNo
         '
@@ -1508,13 +1514,15 @@ Partial Class frmMilkTransferInReturn
         '
         '
         '
+        Me.gvWeighment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvWeighment.MasterTemplate.ShowFilteringRow = False
         Me.gvWeighment.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvWeighment.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvWeighment.MyStopExport = False
         Me.gvWeighment.Name = "gvWeighment"
         Me.gvWeighment.ShowHeaderCellButtons = True
         Me.gvWeighment.Size = New System.Drawing.Size(1101, 212)
         Me.gvWeighment.TabIndex = 203
-        Me.gvWeighment.Text = "Milk Transfer In No."
         '
         'RadPageViewPage3
         '
@@ -1670,13 +1678,15 @@ Partial Class frmMilkTransferInReturn
         '
         '
         '
+        Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowFilteringRow = False
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(1101, 256)
         Me.gvParam.TabIndex = 203
-        Me.gvParam.Text = "RadGridView1"
         '
         'btnShowInventory
         '
@@ -1733,15 +1743,17 @@ Partial Class frmMilkTransferInReturn
         Me.gvNewSealPaper.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvNewSealPaper.Location = New System.Drawing.Point(3, 18)
         '
-        'gvNewSealPaper
         '
+        '
+        Me.gvNewSealPaper.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvNewSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSealPaper.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvNewSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvNewSealPaper.MyStopExport = False
         Me.gvNewSealPaper.Name = "gvNewSealPaper"
         Me.gvNewSealPaper.ShowHeaderCellButtons = True
         Me.gvNewSealPaper.Size = New System.Drawing.Size(19, 0)
         Me.gvNewSealPaper.TabIndex = 203
-        Me.gvNewSealPaper.Text = "RadGridView1"
         '
         'GroupBox4
         '
@@ -1759,15 +1771,17 @@ Partial Class frmMilkTransferInReturn
         Me.gvNewSeal.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvNewSeal.Location = New System.Drawing.Point(3, 18)
         '
-        'gvNewSeal
         '
+        '
+        Me.gvNewSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvNewSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSeal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvNewSeal.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvNewSeal.MyStopExport = False
         Me.gvNewSeal.Name = "gvNewSeal"
         Me.gvNewSeal.ShowHeaderCellButtons = True
         Me.gvNewSeal.Size = New System.Drawing.Size(19, 0)
         Me.gvNewSeal.TabIndex = 202
-        Me.gvNewSeal.Text = "RadGridView1"
         '
         'btnClose
         '

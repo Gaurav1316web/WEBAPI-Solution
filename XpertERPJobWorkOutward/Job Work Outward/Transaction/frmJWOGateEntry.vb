@@ -438,6 +438,8 @@ Public Class frmJWOGateEntry
             End If
             btnSave.Visible = MyBase.isModifyFlag
             btnDelete.Visible = MyBase.isDeleteFlag
+            btnPost.Visible = MyBase.isPostFlag
+            btnPrintNew.Visible = MyBase.isPainting
             If MyBase.isReverse Then
                 btnReverse.Enabled = True
             Else

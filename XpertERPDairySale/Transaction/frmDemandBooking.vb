@@ -186,7 +186,7 @@ Public Class frmDemandBooking
         btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
         'RadMenu1.Visible = MyBase.isExport
-        If RadMenu1.Visible = True Then
+        If MyBase.isExport = True Then
             btnExport.Enabled = True
             btnImport.Enabled = True
         Else

@@ -271,12 +271,20 @@ Public Class frmBookingDairyMultipleCustomer
             Exit Sub
         End If
         btnSave.Visible = MyBase.isModifyFlag
-        'btnPost.Visible = MyBase.isPostFlag
+        btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnreverse.Enabled = True
         Else
             btnreverse.Enabled = False
+        End If
+        If MyBase.isExport = True Then
+            btnExport.Enabled = True
+            btnImport.Enabled = True
+        Else
+            btnExport.Enabled = False
+            btnImport.Enabled = False
         End If
     End Sub
     Sub LoadBlankGrid()

@@ -59,6 +59,8 @@ Public Class frmMilkCollectionDCS
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        RadButton3.Visible = MyBase.isPrintFlag
+        RadButton4.Visible = MyBase.isPrintFlag
         'btnExport.Visible = MyBase.isExport
         'btnImport.Visible = MyBase.isExport
         If btnSave.Visible = True Then

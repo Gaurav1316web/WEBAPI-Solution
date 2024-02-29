@@ -72,9 +72,11 @@ Public Class FrmPriceChartUploader
         If MyBase.isExport = True Then
             btnimport.Enabled = True
             btnexport.Enabled = True
+            ExportSelectedCode.Enabled = True
         Else
             btnexport.Enabled = False
             btnimport.Enabled = False
+            ExportSelectedCode.Enabled = False
         End If
     End Sub
 

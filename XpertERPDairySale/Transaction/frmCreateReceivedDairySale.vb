@@ -78,6 +78,20 @@ Public Class frmCreateReceivedDairySale
         'Uncomment below lines
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        If MyBase.isExport = True Then
+            rmExport.Enabled = True
+            rmImport.Enabled = True
+        Else
+            rmExport.Enabled = False
+            rmImport.Enabled = False
+        End If
+        If MyBase.isReverse Then
+            btnDeleteInvoiceafterPost.Enabled = True
+        Else
+            btnDeleteInvoiceafterPost.Enabled = False
+        End If
+
     End Sub
     Sub LoadTypes()
         dt = New DataTable
