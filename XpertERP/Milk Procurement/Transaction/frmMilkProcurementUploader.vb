@@ -59,6 +59,13 @@ Public Class frmMilkProcurementUploader
         Else
             RadButton2.Enabled = False
         End If
+        If MyBase.isExport = True Then
+            RadMenuItem4.Enabled = True
+            RadMenuItem5.Enabled = True
+        Else
+            RadMenuItem4.Enabled = False
+            RadMenuItem5.Enabled = False
+        End If
         'btnPrint.Visible = MyBase.isPrintFlag
         'btnImport.Visible = MyBase.isExport
 

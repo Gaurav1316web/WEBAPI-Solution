@@ -46,13 +46,20 @@ Public Class FrmBankTransfer
             btnReverseAndRecreate.Enabled = False
 
         End If
-        If btn_save.Visible = True Then
+        If MyBase.isExport = True Then
             rmiIMport.Enabled = True
             rmiExport.Enabled = True
         Else
             rmiIMport.Enabled = False
             rmiExport.Enabled = False
         End If
+        'If btn_save.Visible = True Then
+        '    rmiIMport.Enabled = True
+        '    rmiExport.Enabled = True
+        'Else
+        '    rmiIMport.Enabled = False
+        '    rmiExport.Enabled = False
+        'End If
     End Sub
     Public Sub New(ByVal user As String, ByVal company As String)
         InitializeComponent()
@@ -1388,7 +1395,8 @@ Public Class FrmBankTransfer
                     'btnReCreateJE.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
