@@ -328,6 +328,7 @@ Public Class frmPurchaseOrder
     Dim dblPreviousTDSAmt As Double = 0
     Dim settCreatePOFromMultipleLocation As Boolean = True
     Dim CommentSetting As Boolean = False
+    Dim strPdfAttachmentPath As String = ""
 #End Region
 
     Public Sub New(ByVal formid As String)
@@ -7101,7 +7102,7 @@ Public Class frmPurchaseOrder
                     End If
                     objPO = Nothing
                     If clsCommon.myLen(msg) > 0 Then
-                        clsCommon.MyMessageBoxShow(Me, msg)
+                        clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     End If
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
@@ -10445,7 +10446,7 @@ Public Class frmPurchaseOrder
                 clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_HEAD", "TSPL_PURCHASE_ORDER_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_HEAD", "TSPL_PURCHASE_ORDER_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
