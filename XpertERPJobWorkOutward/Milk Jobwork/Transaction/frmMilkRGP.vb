@@ -117,6 +117,7 @@ Public Class frmMilkRGP
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnprint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
@@ -2349,15 +2350,21 @@ a:
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
-        If e.KeyCode = Keys.F2 AndAlso gv_qc.CurrentColumn IsNot Nothing AndAlso gv_qc.CurrentColumn Is gv_qc.Columns(colQCRange) Then
+            If e.KeyCode = Keys.F2 AndAlso gv_qc.CurrentColumn IsNot Nothing AndAlso gv_qc.CurrentColumn Is gv_qc.Columns(colQCRange) Then
             isCellValueChangedOpen = True
             Dim Icode As String = clsCommon.myCstr(gv_qc.CurrentRow.Cells(colQCitemcode).Value)
             Dim gvIcode As String = ""

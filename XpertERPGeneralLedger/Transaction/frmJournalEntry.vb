@@ -714,11 +714,11 @@ Public Class frmJournalEntry
 
         End If
         btnSave.Visible = MyBase.isModifyFlag
-        btnAuth.Visible = MyBase.isPostFlag
+        ' btnAuth.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnAuth.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        RadMenu2.Visible = MyBase.isExport
+        'RadMenu2.Visible = MyBase.isExport
         If MyBase.isReverse Then
             btnUnpostTransaction.Enabled = True
         Else
@@ -730,6 +730,15 @@ Public Class frmJournalEntry
         Else
             mItmExport.Enabled = False
             mItmImport.Enabled = False
+        End If
+        If MyBase.isExport = True Then
+            btnExportblank.Enabled = True
+            mItmImport.Enabled = True
+            RadMenuItem4.Enabled = True
+        Else
+            btnExportblank.Enabled = False
+            mItmImport.Enabled = False
+            RadMenuItem4.Enabled = False
         End If
 
     End Sub
@@ -1810,16 +1819,22 @@ Public Class frmJournalEntry
             closeform()
 
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F12 Then
+
             If clsCommon.myLen(fndVoucher.Value) > 0 Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnUnpostTransaction.Visible = True
+                If MyBase.isReverse Then
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = "SIRC"
+                    frm.strCode = "SIReversAndCreate"
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnUnpostTransaction.Visible = True
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                    'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             End If
-        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F11 Then
+            ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F11 Then
             Panel1.Visible = Not Panel1.Visible
         End If
         If gdAcc1.CurrentColumn.Index = 0 And e.KeyCode = Keys.Delete Then

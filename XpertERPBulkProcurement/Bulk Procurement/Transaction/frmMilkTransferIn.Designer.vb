@@ -1173,6 +1173,7 @@ Partial Class FrmMilkTransferIn
         Me.gvOldSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSealPaper.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvOldSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvOldSealPaper.MyStopExport = False
         Me.gvOldSealPaper.Name = "gvOldSealPaper"
         Me.gvOldSealPaper.ShowHeaderCellButtons = True
         Me.gvOldSealPaper.Size = New System.Drawing.Size(544, 161)
@@ -1201,6 +1202,7 @@ Partial Class FrmMilkTransferIn
         Me.gvOldSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSeal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvOldSeal.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvOldSeal.MyStopExport = False
         Me.gvOldSeal.Name = "gvOldSeal"
         Me.gvOldSeal.ShowHeaderCellButtons = True
         Me.gvOldSeal.Size = New System.Drawing.Size(541, 161)
@@ -1547,6 +1549,7 @@ Partial Class FrmMilkTransferIn
         Me.gvWeighment.MasterTemplate.ShowFilteringRow = False
         Me.gvWeighment.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvWeighment.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvWeighment.MyStopExport = False
         Me.gvWeighment.Name = "gvWeighment"
         Me.gvWeighment.ShowHeaderCellButtons = True
         Me.gvWeighment.Size = New System.Drawing.Size(1101, 208)
@@ -1710,6 +1713,7 @@ Partial Class FrmMilkTransferIn
         Me.gvParam.MasterTemplate.ShowFilteringRow = False
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(1101, 250)
@@ -1786,6 +1790,7 @@ Partial Class FrmMilkTransferIn
         Me.gvNewSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSealPaper.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvNewSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvNewSealPaper.MyStopExport = False
         Me.gvNewSealPaper.Name = "gvNewSealPaper"
         Me.gvNewSealPaper.ShowHeaderCellButtons = True
         Me.gvNewSealPaper.Size = New System.Drawing.Size(19, 0)
@@ -1813,6 +1818,7 @@ Partial Class FrmMilkTransferIn
         Me.gvNewSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSeal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvNewSeal.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvNewSeal.MyStopExport = False
         Me.gvNewSeal.Name = "gvNewSeal"
         Me.gvNewSeal.ShowHeaderCellButtons = True
         Me.gvNewSeal.Size = New System.Drawing.Size(19, 0)

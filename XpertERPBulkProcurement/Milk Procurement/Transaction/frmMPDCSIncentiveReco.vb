@@ -127,16 +127,20 @@ Public Class frmMPDCSIncentiveReco
         ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnclose.Enabled Then
             'PostData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+            If MyBase.isReverse Then
+                ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                       "========Table Name=========" + Environment.NewLine +
                       "TSPL_DCS_MP_INCENTIVE_RECO_HEAD" + Environment.NewLine +
                       "TSPL_DCS_MP_INCENTIVE_RECO_DETAIL" + Environment.NewLine)
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "MulProcDedReversAndCreate"
-            frm.strCode = "MulProcDedReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "MulProcDedReversAndCreate"
+                frm.strCode = "MulProcDedReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
         End If
     End Sub
@@ -816,7 +820,12 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
-        RadMenu1.Visible = MyBase.isExport
+        RadButton3.Visible = MyBase.isExport
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
     End Sub
     Sub Reset()
         loadBlankGrid()

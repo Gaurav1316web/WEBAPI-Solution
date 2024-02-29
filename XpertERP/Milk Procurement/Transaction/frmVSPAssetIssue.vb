@@ -163,6 +163,16 @@ Public Class frmVSPAssetIssue
         Else
             btnReverse.Enabled = False
         End If
+        If MyBase.isExport = True Then
+            Btn_export.Enabled = True
+            BtnImport.Enabled = True
+            rmUploderBlankSheet.Enabled = True
+        Else
+            Btn_export.Enabled = False
+            BtnImport.Enabled = False
+            rmUploderBlankSheet.Enabled = False
+
+        End If
     End Sub
 
     Private Sub FrmVSPAssetIssue_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -2644,12 +2654,18 @@ Public Class frmVSPAssetIssue
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

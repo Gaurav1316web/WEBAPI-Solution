@@ -2582,11 +2582,11 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
 
         LoadBlankGridDeduction()
         If clsCommon.myLen(strVendorCode) > 0 Then
-            Dim qry As String = " select cast(1 as bit) as Sel,ROW_NUMBER() over(order by"
+            Dim qry As String = " select cast(1 as bit) as Sel,ROW_NUMBER() over(order by "
             If PayableAmountZeroForMCCSale Then
                 qry += " max(Vendor_Code),max(Sequence_No),max(Posting_Date),max(Sequence_No2) "
             Else
-                qry += "Document_No"
+                qry += " Document_No "
             End If
 
 
@@ -3554,8 +3554,21 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         btnProcess.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnExport.Visible = MyBase.isExport
-        RadMenu1.Visible = MyBase.isExport
-
+        'RadMenu1.Visible = MyBase.isExport
+        If MyBase.isPrintFlag = True Then
+            btnDocPrint.Enabled = True
+            btnPrint.Enabled = True
+            btnDCPrint.Enabled = True
+        Else
+            btnDocPrint.Enabled = False
+            btnPrint.Enabled = False
+            btnDCPrint.Enabled = False
+        End If
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
     End Sub
 
     Function AllowToSave() As Boolean
@@ -8160,13 +8173,18 @@ From TSPL_PAYMENT_PROCESS_ADVANCE_PAYMENT
 
     Private Sub FrmPaymentProcess_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
-                btnDeleteVSPBill.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                    btnDeleteVSPBill.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
         End If
     End Sub

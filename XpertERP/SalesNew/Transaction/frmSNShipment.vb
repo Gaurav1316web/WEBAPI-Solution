@@ -248,8 +248,16 @@ Public Class frmSNShipment
             Export_details.Enabled = False
             Export_Head.Enabled = False
         End If
+        If MyBase.isExport = True Then
+            Import.Enabled = True
+            Export.Enabled = True
+        Else
+            Import.Enabled = False
+            Export.Enabled = False
+        End If
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrnt.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverseAndUnpost.Enabled = True
         Else

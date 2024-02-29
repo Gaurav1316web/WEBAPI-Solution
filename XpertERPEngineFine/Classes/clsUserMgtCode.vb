@@ -15,6 +15,7 @@ Public Class clsUserMgtCode
     Public Const ModuleSystemAdmin As String = "MSysAdmin"
     Public Const ModuleCommonServices As String = "MCommSer"
     Public Const ModuleReceivable As String = "MReceivable"
+    Public Const FrmPriceChartUploaderMCC As String = "PCU-MCC"
     Public Const ModulePayable As String = "MPayable"
     Public Const ModuleGL As String = "MGenLedger"
     Public Const ModuleSales As String = "MSales"
@@ -2263,6 +2264,7 @@ Public Class clsUserMgtCode
     Public Const RptMonthWiseSaleAnalysis As String = "MNTH_ANA_RPT"
     Public Const RptJobWorkDebitNoteReport As String = "JW_DBT_NOTE"
     Public Const FrmSAC As String = "SAC_MASTER"
+    Public Const FrmSACWiseTax As String = "SAC_WIS_TAX"
     Public Const FrmItemWiseTax As String = "ITEM_WIS_TAX"
 
     Public Const frmOverheadCostMaster As String = "OVER_COST_MT"
@@ -2516,6 +2518,7 @@ Public Class clsUserMgtCode
     Public Const RCDFDashboard As String = "RCDF-DSB"
     Public Const Complainfeedback As String = "COMP-FEED"
     Public Const DashboardMilkUnion As String = "UN-DSB"
+    Public Const DairySaleDashboard As String = "DAR-DSB"
     'Public Const CardSale As String = "CRD_SALE"
 
     'Eng. And Plant Management
@@ -2566,10 +2569,12 @@ Public Class clsUserMgtCode
     Public Const SubModuleMISSetUp As String = "SMMIS"
     Public Const MISitemGroups As String = "MISITEM-GRP"
     Public Const MISitemMaster As String = "MISITEM-MST"
+    Public Const frmProductionTransactionType As String = "PRO-TRAN-TYP"
 
     ''=================Transaction==========
     Public Const SubModuleMISTransaction As String = "SMMIST"
     Public Const frmDailyMilkProducts As String = "DLY-MLK-PROD"
+    Public Const frmDailySMPProduction As String = "DLY-SMP-PROD"
 
 
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean

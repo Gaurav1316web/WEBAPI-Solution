@@ -17,6 +17,13 @@ Public Class frmNIRQC
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnPost.Visible = MyBase.isPostFlag
+        If MyBase.isReverse Then
+            RadButton1.Enabled = True
+        Else
+            RadButton1.Enabled = False
+        End If
     End Sub
     Private Sub FrmCapexMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
@@ -184,12 +191,18 @@ Public Class frmNIRQC
         ElseIf e.Alt And e.KeyCode = Keys.C Then
             Me.Close()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "sirc"
-            frm.strCode = "sireversandcreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                RadButton1.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "sirc"
+                frm.strCode = "sireversandcreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    RadButton1.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

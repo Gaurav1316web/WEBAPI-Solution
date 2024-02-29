@@ -45,6 +45,7 @@ Public Class FrmItemWiseTax
     Private Sub FrmItemWiseTax_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Reset()
         gv1.Rows.AddNew()
+        SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnAdd, "Press Alt+S for Save/Update Trasnaction")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
@@ -61,10 +62,26 @@ Public Class FrmItemWiseTax
         End If
         btnAdd.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPost.Visible = MyBase.isPostFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
             btnReverse.Enabled = False
+        End If
+        If MyBase.isExport = True Then
+            RadMenuItem2.Enabled = True
+            RadMenuItem4.Enabled = True
+            RadMenuItem1.Enabled = True
+            RadMenuItem6.Enabled = True
+            RadMenuItem5.Enabled = True
+
+        Else
+            RadMenuItem2.Enabled = False
+            RadMenuItem4.Enabled = False
+            RadMenuItem1.Enabled = False
+            RadMenuItem6.Enabled = False
+            RadMenuItem5.Enabled = False
+
         End If
     End Sub
 
@@ -1099,12 +1116,18 @@ Public Class FrmItemWiseTax
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
             Me.Close()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

@@ -258,6 +258,7 @@ Public Class frmSaleInvoiceDairy
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverseAndUnpost.Enabled = True
         Else
@@ -4922,12 +4923,18 @@ Public Class frmSaleInvoiceDairy
                 pnlMannualInvoiceNo.Visible = True
             End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.SIReversAndCreate
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverseAndUnpost.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIRC
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverseAndUnpost.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

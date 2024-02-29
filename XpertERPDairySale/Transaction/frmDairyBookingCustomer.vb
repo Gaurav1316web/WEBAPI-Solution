@@ -159,6 +159,8 @@ Public Class frmDairyBookingCustomer
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnCreateAndPrintInvoice.Visible = MyBase.isPrintFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnGatePassPrint.Visible = MyBase.isPrintFlag
         'btnCreateAndPrintInvoice.Visible = MyBase.isQuickExportFlag
         If MyBase.isReverse Then
             btnreverse.Enabled = True
@@ -3159,24 +3161,30 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 PanelSearchItem.Visible = True
             End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnreverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnreverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
             'Add Tool tip Task No- TEC/18/05/18-000237
             ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                              "TSPL_BOOKING_MATSER " + Environment.NewLine +
-                              "TSPL_BOOKING_DETAIL " + Environment.NewLine +
-                              "TSPL_GATEPASS_MASTER_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
-                              "TSPL_GATEPASS_DETAIL_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
-                              "Press Alt+F for Create DO/Post DO Trasnaction" + Environment.NewLine +
-                              "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE " + Environment.NewLine +
-                              "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE " + Environment.NewLine +
-                              "TSPL_TRANSACTION_APPROVAL (For Approving Pending Document) ")
+                                  "TSPL_BOOKING_MATSER " + Environment.NewLine +
+                                  "TSPL_BOOKING_DETAIL " + Environment.NewLine +
+                                  "TSPL_GATEPASS_MASTER_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
+                                  "TSPL_GATEPASS_DETAIL_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
+                                  "Press Alt+F for Create DO/Post DO Trasnaction" + Environment.NewLine +
+                                  "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE " + Environment.NewLine +
+                                  "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE " + Environment.NewLine +
+                                  "TSPL_TRANSACTION_APPROVAL (For Approving Pending Document) ")
             'Add Tool tip Task No- TEC/18/05/18-000237
+
         End If
     End Sub
     Private Sub BlankControlOnCustomer()

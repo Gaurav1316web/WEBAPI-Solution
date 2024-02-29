@@ -73,16 +73,22 @@ Public Class FrmPhysicalStock
             ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
                 Me.Close()
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnReverse.Visible = True
+                If MyBase.isReverse Then
+
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = "SIRC"
+                    frm.strCode = "SIReversAndCreate"
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnReverse.Visible = True
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                    'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             End If
 
-            If e.KeyData = Keys.F2 AndAlso gv1.CurrentColumn IsNot Nothing AndAlso gv1.Columns Is gv1.Columns(colPhyQty) Then
+                If e.KeyData = Keys.F2 AndAlso gv1.CurrentColumn IsNot Nothing AndAlso gv1.Columns Is gv1.Columns(colPhyQty) Then
                 isCellvaluechanged = True
                 If Not clsCommon.myCBool(gv1.CurrentRow.Cells(colIsPickAutoSrNo).Value) AndAlso clsCommon.myCdbl(gv1.CurrentRow.Cells(colPhyQty).Value) <> 0 Then
                     OpenSerialItem()
@@ -172,9 +178,9 @@ Public Class FrmPhysicalStock
         btnsave.Visible = MyBase.isModifyFlag
         btnpost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        btnimport.Visible = MyBase.isExport
-        btnexport.Visible = MyBase.isExport
-        If btnsave.Visible = True Then
+        'btnimport.Visible = MyBase.isModifyFlag
+        'btnexport.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
             btnimport.Enabled = True
             btnexport.Enabled = True
         Else

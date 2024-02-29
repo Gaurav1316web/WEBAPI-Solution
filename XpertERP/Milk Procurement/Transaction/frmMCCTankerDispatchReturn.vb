@@ -1036,15 +1036,21 @@ Public Class FrmMccTankerDispatchReturn
         ElseIf e.Alt AndAlso e.KeyCode = Keys.R AndAlso btnReverse.Enabled Then
             btnReverse_Click(sender, e)
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "sirc"
-            frm.strCode = "sireversandcreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "sirc"
+                frm.strCode = "sireversandcreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         ElseIf e.KeyCode = Keys.F8 Then
-            If gv.Rows.Count > 0 Then
+                If gv.Rows.Count > 0 Then
                 gv.CurrentRow.Cells(colAutoFat).Value = LblSnf.Text
                 gv.CurrentRow.Cells(colAutoSnf).Value = LblFAT.Text
                 Try

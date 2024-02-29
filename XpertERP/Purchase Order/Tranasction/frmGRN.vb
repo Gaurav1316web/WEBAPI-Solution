@@ -272,6 +272,11 @@ Public Class frmGRN
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btncancel.Visible = MyBase.isCancel_Flag_After_Posting
+        If MyBase.isReverse Then
+            btnUnpost.Enabled = True
+        Else
+            btnUnpost.Enabled = False
+        End If
     End Sub
 
     Private Sub LoadRGPType()
@@ -4926,12 +4931,17 @@ Public Class frmGRN
                     btn_Amendment.Visible = False
                 End If
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = "sirc"
-                frm.strCode = "sireversandcreate"
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnUnpost.Visible = True
+                If MyBase.isReverse Then
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = "sirc"
+                    frm.strCode = "sireversandcreate"
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnUnpost.Visible = True
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                    'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             End If
         Catch ex As Exception

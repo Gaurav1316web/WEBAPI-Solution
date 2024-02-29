@@ -590,6 +590,13 @@ Public Class frmPurchaseOrder
         Else
             btnUnpost.Enabled = False
         End If
+        If MyBase.isExport = True Then
+            rmImport.Enabled = True
+            rmExport.Enabled = True
+        Else
+            rmImport.Enabled = False
+            rmExport.Enabled = False
+        End If
     End Sub
 
     Private Sub LOCATIONRIGTHS()
@@ -7269,36 +7276,42 @@ Public Class frmPurchaseOrder
                 btnAmendment.Visible = False
             End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            'Add Tool tip Task No- TEC/22/05/18-000245
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                                                  "TSPL_PURCHASE_ORDER_HEAD " + Environment.NewLine +
-                                                  "TSPL_PURCHASE_ORDER_DETAIL " + Environment.NewLine +
-                                                  "TSPL_ROADPERMIT_ISSUE_RECEIVE_DETAIL (If Road Permit) " + Environment.NewLine +
-                                                  "TSPL_CFORM_ISSUE_RECEIVE_DETAIL (If C Form) " + Environment.NewLine +
-                                                  "tspl_Purchase_Order_work_order " + Environment.NewLine +
-                                                  "TSPL_PURCHASE_ORDER_WORK_ORDER_Terms " + Environment.NewLine +
-                                                  "Press Alt+P for Post Trasnaction " + Environment.NewLine +
-                                                  "TSPL_REQUISITION_DETAIL (Set balance qty) " + Environment.NewLine +
-                                                  "TSPL_VENDOR_INVOICE_HEAD (Auto Vendor Invoice)" + Environment.NewLine +
-                                                  "TSPL_VENDOR_INVOICE_DETAIL " + Environment.NewLine +
-                                                  "TSPL_REMITTANCE " + Environment.NewLine +
-                                                  "TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine +
-                                                  "TSPL_AP_INVOICE_ADVANCE_INTEREST " + Environment.NewLine +
-                                                  "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL " + Environment.NewLine +
-                                                  "TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine +
-                                                  "TSPL_EXPIRY_DATE " + Environment.NewLine +
-                                                  "TSPL_EX_PI_HEAD (If Merchant Trade then update Against PO)" + Environment.NewLine +
-                                                  "Setting- AllowPOScheduling (For creating purchase schedule) " + Environment.NewLine +
-                                                  "TSPL_PO_SCH_HEAD " + Environment.NewLine +
-                                                  "TSPL_PO_SCH_DETAIL " + Environment.NewLine +
-                                                  "TSPL_PO_VENDOR_SCH_DETAIL ")
-            'Add Tool tip Task No- TEC/22/05/18-000245
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnUnpost.Visible = True
+            If MyBase.isReverse Then
+
+                'Add Tool tip Task No- TEC/22/05/18-000245
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                      "TSPL_PURCHASE_ORDER_HEAD " + Environment.NewLine +
+                                                      "TSPL_PURCHASE_ORDER_DETAIL " + Environment.NewLine +
+                                                      "TSPL_ROADPERMIT_ISSUE_RECEIVE_DETAIL (If Road Permit) " + Environment.NewLine +
+                                                      "TSPL_CFORM_ISSUE_RECEIVE_DETAIL (If C Form) " + Environment.NewLine +
+                                                      "tspl_Purchase_Order_work_order " + Environment.NewLine +
+                                                      "TSPL_PURCHASE_ORDER_WORK_ORDER_Terms " + Environment.NewLine +
+                                                      "Press Alt+P for Post Trasnaction " + Environment.NewLine +
+                                                      "TSPL_REQUISITION_DETAIL (Set balance qty) " + Environment.NewLine +
+                                                      "TSPL_VENDOR_INVOICE_HEAD (Auto Vendor Invoice)" + Environment.NewLine +
+                                                      "TSPL_VENDOR_INVOICE_DETAIL " + Environment.NewLine +
+                                                      "TSPL_REMITTANCE " + Environment.NewLine +
+                                                      "TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine +
+                                                      "TSPL_AP_INVOICE_ADVANCE_INTEREST " + Environment.NewLine +
+                                                      "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL " + Environment.NewLine +
+                                                      "TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine +
+                                                      "TSPL_EXPIRY_DATE " + Environment.NewLine +
+                                                      "TSPL_EX_PI_HEAD (If Merchant Trade then update Against PO)" + Environment.NewLine +
+                                                      "Setting- AllowPOScheduling (For creating purchase schedule) " + Environment.NewLine +
+                                                      "TSPL_PO_SCH_HEAD " + Environment.NewLine +
+                                                      "TSPL_PO_SCH_DETAIL " + Environment.NewLine +
+                                                      "TSPL_PO_VENDOR_SCH_DETAIL ")
+                'Add Tool tip Task No- TEC/22/05/18-000245
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnUnpost.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
@@ -8603,6 +8616,7 @@ Public Class frmPurchaseOrder
 
     Private Sub btnUnpost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUnpost.Click
         Try
+
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If clsCommon.MyMessageBoxShow(Me, "Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                     If clsCommon.myLen(lblConfirmatory_PO_SRN_No.Text) > 0 Then

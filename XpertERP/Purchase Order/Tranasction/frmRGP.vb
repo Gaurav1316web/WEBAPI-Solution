@@ -2254,20 +2254,26 @@ Public Class frmRGP
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            'Add Tool tip Task No- TEC/22/05/18-000245
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                                                  "TSPL_RGP_HEAD " + Environment.NewLine +
-                                                  "TSPL_RGP_DETAIL " + Environment.NewLine +
-                                                  "TSPL_RGP_JOB_WORK_DETAIL " + Environment.NewLine +
-                                                  "TSPL_SERIAL_ITEM " + Environment.NewLine +
-                                                  "TSPL_BATCH_ITEM")
-            'Add Tool tip Task No- TEC/22/05/18-000245
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                'Add Tool tip Task No- TEC/22/05/18-000245
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                      "TSPL_RGP_HEAD " + Environment.NewLine +
+                                                      "TSPL_RGP_DETAIL " + Environment.NewLine +
+                                                      "TSPL_RGP_JOB_WORK_DETAIL " + Environment.NewLine +
+                                                      "TSPL_SERIAL_ITEM " + Environment.NewLine +
+                                                      "TSPL_BATCH_ITEM")
+                'Add Tool tip Task No- TEC/22/05/18-000245
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
 

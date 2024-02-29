@@ -670,6 +670,7 @@ Public Class clsDocType
     Public Const ContraVoucher As String = "Contra Voucher"
     Public Const PricePlan As String = "Price Plan"
     Public Const ItemWiseTax As String = "Item Wise Tax"
+    Public Const SACWiseTax As String = "SAC Wise Tax"
     Public Const ItemCostMapping As String = "Item Cost Mapping"
     Public Const JobWorkTransferOther As String = "Job Work Transfer Other"
     Public Const JobWorkTransferOtherReturn As String = "Job Work Transfer Other Return"
@@ -728,6 +729,7 @@ Public Class clsDocType
     Public Const MISItemMaster As String = "MIS Item Master"
     Public Const MISItemGroupMaster As String = "MIS Item Group Master"
     Public Const frmDailyMilkProducts As String = "Daily Milk Products"
+    Public Const frmDailySMPProduction As String = "Daily SMP Production"
     Public Shared Function SetDefaultValues() As Boolean
         Try
 
@@ -1916,9 +1918,12 @@ Public Class clsDocType
             '' -----End
             InsertDefaultValue(clsDocType.PricePlan, "", False, True)
             'InsertDefaultValue(clsDocType.ItemWiseTax, "", False, False)
+
             InsertDefaultValue(clsDocType.ItemWiseTax, clsDocTransactionType.ItemPurchaseTax, False, False)
             InsertDefaultValue(clsDocType.ItemWiseTax, clsDocTransactionType.ItemSaleTax, False, False)
             InsertDefaultValue(clsDocType.ItemWiseTax, clsDocTransactionType.ItemTransferTax, False, False)
+
+            InsertDefaultValue(clsDocType.SACWiseTax, clsDocTransactionType.SACWiseTaxMaster, False, False)
 
             InsertDefaultValue(clsDocType.JobWorkTransferOther, "", False, True)
             InsertDefaultValue(clsDocType.JobWorkTransferOtherReturn, "", False, True)
@@ -2198,6 +2203,7 @@ Public Class clsDocTransactionType
     Public Const ItemPurchaseTax As String = "Item Purchase Tax"
     Public Const ItemSaleTax As String = "Item Sale Tax"
     Public Const ItemTransferTax As String = "Item Transfer Tax"
+    Public Const SACWiseTaxMaster As String = "Sac Wise tax Master"
     '======Sanjeet(PS RETURN)=====
     Public Const SaleReturnCancel As String = "Sale Return Cancel"
 

@@ -54,12 +54,25 @@ Public Class FrmMultipleProcDeduction
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        btnsetting.Visible = MyBase.isExport
-        RadMenu1.Visible = MyBase.isExport
+        'btnsetting.Visible = MyBase.isExport
+        'RadMenu1.Visible = MyBase.isExport
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
             btnReverse.Enabled = False
+        End If
+        If MyBase.isExport = True Then
+            btnExport.Enabled = True
+            'RadMenuItem2.Enabled = True
+            ' RadMenuItem3.Enabled = True
+            RadMenuItem11.Enabled = True
+            RadMenuItem12.Enabled = True
+        Else
+            btnExport.Enabled = False
+            'RadMenuItem2.Enabled = False
+            'RadMenuItem3.Enabled = False
+            RadMenuItem11.Enabled = False
+            RadMenuItem12.Enabled = False
         End If
     End Sub
 
@@ -820,33 +833,38 @@ Public Class FrmMultipleProcDeduction
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "MulProcDedReversAndCreate"
-            frm.strCode = "MulProcDedReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "MulProcDedReversAndCreate"
+                frm.strCode = "MulProcDedReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                              " TSPL_VENDOR_INVOICE_HEAD   " + Environment.NewLine +
+                              " TSPL_VENDOR_INVOICE_DETAIL  " + Environment.NewLine +
+                              " TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL (For AP Secondary Tranporter Deduction Detail) " + Environment.NewLine +
+                              " TSPL_REMITTANCE (For Remittance) " + Environment.NewLine +
+                              " TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine +
+                              " TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine +
+                              " TSPL_AP_Invoice_Advance_Interest " + Environment.NewLine +
+                              " TSPL_APPROVAL_LEVEL_SCREEN " + Environment.NewLine +
+                              " TSPL_APPROVAL_LEVEL_SCREEN_HISTORY " + Environment.NewLine +
+                              " TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine +
+                              " TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine +
+                              " TSPL_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine +
+                              " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine +
+                              " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine +
+                              " TSPL_ADJUSTMENT_HEADER  " + Environment.NewLine +
+                              " TSPL_ADJUSTMENT_DETAIL " + Environment.NewLine +
+                              " TSPL_SALE_INVOICE_HEAD " + Environment.NewLine +
+                              " TSPL_INVENTORY_MOVEMENT (For Store Adjustment) " + Environment.NewLine +
+                              " TSPL_BATCH_ITEM (During Inventory Movement save) ")
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                          " TSPL_VENDOR_INVOICE_HEAD   " + Environment.NewLine +
-                          " TSPL_VENDOR_INVOICE_DETAIL  " + Environment.NewLine +
-                          " TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL (For AP Secondary Tranporter Deduction Detail) " + Environment.NewLine +
-                          " TSPL_REMITTANCE (For Remittance) " + Environment.NewLine +
-                          " TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine +
-                          " TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine +
-                          " TSPL_AP_Invoice_Advance_Interest " + Environment.NewLine +
-                          " TSPL_APPROVAL_LEVEL_SCREEN " + Environment.NewLine +
-                          " TSPL_APPROVAL_LEVEL_SCREEN_HISTORY " + Environment.NewLine +
-                          " TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine +
-                          " TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine +
-                          " TSPL_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine +
-                          " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine +
-                          " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine +
-                          " TSPL_ADJUSTMENT_HEADER  " + Environment.NewLine +
-                          " TSPL_ADJUSTMENT_DETAIL " + Environment.NewLine +
-                          " TSPL_SALE_INVOICE_HEAD " + Environment.NewLine +
-                          " TSPL_INVENTORY_MOVEMENT (For Store Adjustment) " + Environment.NewLine +
-                          " TSPL_BATCH_ITEM (During Inventory Movement save) ")
 
         End If
     End Sub

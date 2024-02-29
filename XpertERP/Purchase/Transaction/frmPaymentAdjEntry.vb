@@ -271,6 +271,7 @@ Public Class frmPaymentAdjEntry
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
@@ -560,18 +561,24 @@ Public Class frmPaymentAdjEntry
         ElseIf e.Control And e.KeyCode = Keys.P Then
             PrintData()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.SIReversAndCreate
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIRC
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+             "TSPL_Payment_Adjustment_Header" + Environment.NewLine +
+             "TSPL_Payment_Adjustment_Detail" + Environment.NewLine +
+             "TSPL_VENDOR_INVOICE_HEAD (For update balance Amount when Post record)" + Environment.NewLine +
+             " Journal Entry (When Post record)")
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                         "TSPL_Payment_Adjustment_Header" + Environment.NewLine + _
-                         "TSPL_Payment_Adjustment_Detail" + Environment.NewLine + _
-                         "TSPL_VENDOR_INVOICE_HEAD (For update balance Amount when Post record)" + Environment.NewLine + _
-                         " Journal Entry (When Post record)")
         End If
     End Sub
 

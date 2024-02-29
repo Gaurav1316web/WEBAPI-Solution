@@ -275,6 +275,7 @@ Public Class frmDeliveryOrderProductSale
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnAmendment.Visible = False
+        btnPrint.Visible = MyBase.isPrintFlag
     End Sub
 
 

@@ -2281,6 +2281,7 @@ Partial Class frmRGP
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -2343,6 +2344,7 @@ Partial Class frmRGP
         Me.gv_PO.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_PO.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv_PO.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv_PO.MyStopExport = False
         Me.gv_PO.Name = "gv_PO"
         Me.gv_PO.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_PO.ShowGroupPanel = False

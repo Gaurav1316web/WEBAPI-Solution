@@ -63,9 +63,15 @@ Public Class frmDairyGatePass
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        RadSplitButton1.Visible = MyBase.isPrintFlag
         btnClKM.Visible = MyBase.isModifyFlag
         btnPrint2.Visible = MyBase.isPrintFlag
         btnGPCancel.Visible = MyBase.isCancel_Flag
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
     End Sub
     Private Sub FrmGatePassENtry1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         CreateTable()
@@ -951,30 +957,35 @@ Public Class frmDairyGatePass
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             Me.Close()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                                         "TSPL_DAIRYSALE_GATEPASS_MASTER " + Environment.NewLine +
-                                         "TSPL_DAIRYSALE_GATEPASS_DETAIL  ")
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                             "TSPL_DAIRYSALE_GATEPASS_MASTER " + Environment.NewLine +
+                                             "TSPL_DAIRYSALE_GATEPASS_DETAIL  ")
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F11 Then
-            If btnMultiGPReverse.Visible Then
-                multipleDelteVisible(False)
-            Else
-                Dim pwd As New FrmPWD(Nothing)
-                pwd.strCode = clsFixedParameterCode.MultiDairyGatePassReversePWD
-                pwd.strType = clsFixedParameterType.MultiDairyGatePassReversePWD
-                pwd.ShowDialog()
-                If pwd.isPasswordCorrect Then
-                    multipleDelteVisible(True)
+                If btnMultiGPReverse.Visible Then
+                    multipleDelteVisible(False)
+                Else
+                    Dim pwd As New FrmPWD(Nothing)
+                    pwd.strCode = clsFixedParameterCode.MultiDairyGatePassReversePWD
+                    pwd.strType = clsFixedParameterType.MultiDairyGatePassReversePWD
+                    pwd.ShowDialog()
+                    If pwd.isPasswordCorrect Then
+                        multipleDelteVisible(True)
+                    End If
                 End If
-            End If
-        ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.G Then
-            Dim frm As New FrmPWD(Nothing)
+            ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.G Then
+                Dim frm As New FrmPWD(Nothing)
             frm.strType = "SIRC"
             frm.strCode = "SIReversAndCreate"
             frm.ShowDialog()

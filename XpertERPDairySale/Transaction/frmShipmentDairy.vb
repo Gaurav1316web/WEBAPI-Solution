@@ -353,12 +353,24 @@ Public Class frmShipmentDairy
         btnDelete.Visible = MyBase.isDeleteFlag
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
         btnPrintsvl.Visible = MyBase.isPrintFlag
+        RadSplitExp.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
+            'btnExport.Enabled = True
+            'btnImport.Enabled = True
             btnReverseAndUnpost.Enabled = True
             btnReversewithSameNo.Enabled = True
         Else
+            'btnExport.Enabled = False
+            'btnImport.Enabled = False
             btnReverseAndUnpost.Enabled = False
             btnReversewithSameNo.Enabled = False
+        End If
+        If MyBase.isExport = True Then
+            btnExport.Enabled = True
+            btnImport.Enabled = True
+        Else
+            btnExport.Enabled = False
+            btnImport.Enabled = False
         End If
     End Sub
     Sub LoadParentSHipCode()

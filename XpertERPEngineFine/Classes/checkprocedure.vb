@@ -60,6 +60,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RCDFDashboard, "Dashboard", "1.00.03.11", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.Complainfeedback, "Complain feedback", "1.00.03.12", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
         InsertDefaultValue(clsUserMgtCode.DashboardMilkUnion, "Union Dashboard", "1.00.03.13", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
+        InsertDefaultValue(clsUserMgtCode.DairySaleDashboard, "Dairy Dashboard", "1.00.03.14", clsUserMgtCode.SubModuleSystemAdminSetupReport, 37)
 
         '-------------------------------------------------------------------End SYSTEM ADMINISTRATOR---------------------------------------
         '--------------Common Services----------------------------------
@@ -107,9 +108,10 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.AreaMaster, "Area Master", "1.01.01.35", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmPromptMsgRelatedtopending, "Prompt Message", "1.01.01.36", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
         InsertDefaultValue(clsUserMgtCode.FrmSAC, "SAC Master", "1.01.01.37", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.FrmSACWiseTax, "SAC Wise Tax Master", "1.01.01.38", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
         'InsertDefaultValue(clsUserMgtCode.frmItemTaxRate, "Item Tax Rate", "1.01.01.37", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
-        InsertDefaultValue(clsUserMgtCode.FrmItemWiseTax, "Item Wise Tax Master", "1.01.01.38", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
-        InsertDefaultValue(clsUserMgtCode.FrmRackBinMaster, "Rack/Bin Master", "1.01.01.39", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.FrmItemWiseTax, "Item Wise Tax Master", "1.01.01.39", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.FrmRackBinMaster, "Rack/Bin Master", "1.01.01.40", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
         'InsertDefaultValue(clsUserMgtCode.frmDeptHeadCustomerMapping, "Dept Head Customer Mapping", "1.01.01.40", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
         InsertDefaultValue(clsUserMgtCode.paymentTerms, "Payment Terms", "1.01.01.41", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmLocationDistanceMapping, "EWay Bill Distance Master", "1.01.01.42", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
@@ -1511,7 +1513,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.OwnBMCGainLossRate, "Own BMC Gain Loss Rate", "1.17.01.58", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.DCSFinancialHead, "DCS Financial Head", "1.17.01.59", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.DCSSupervisorTagging, "DCS Supervisor Tagging", "1.17.01.60", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
-
+        InsertDefaultValue(clsUserMgtCode.FrmPriceChartUploaderMCC, "Price Chart Uploader MCC", "1.17.01.61", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         '=============================Mcc Transaction===========================================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "MCC Transaction", "1.17.02", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.frmOpenMCCShift, "Open MCC Shift", "1.17.02.01", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
@@ -2776,11 +2778,13 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.SubModuleMISSetUp, "Setup", "1.47.01", clsUserMgtCode.ModuleMIS, "SM", 24)
         InsertDefaultValue(clsUserMgtCode.MISitemGroups, "MIS Item Group", "1.47.01.01", clsUserMgtCode.SubModuleMISSetUp, 27)
         InsertDefaultValue(clsUserMgtCode.MISitemMaster, "MIS Item Master", "1.47.01.02", clsUserMgtCode.SubModuleMISSetUp, 27)
+        InsertDefaultValue(clsUserMgtCode.frmProductionTransactionType, "Production Transaction Type", "1.47.01.03", clsUserMgtCode.SubModuleMISSetUp, 27)
 
         ''Transaction
         ''============================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMISTransaction, "Transaction", "1.47.02", clsUserMgtCode.ModuleMIS, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.frmDailyMilkProducts, "Daily Milk Products", "1.47.02.01", clsUserMgtCode.SubModuleMISTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDailySMPProduction, "Daily SMP Production", "1.47.02.02", clsUserMgtCode.SubModuleMISTransaction, 8)
 
         'Try
         '    clsDBFuncationality.ExecuteNonQuery("insert into TSPL_MODULE_PERMISSION values ('1','" + clsUserMgtCode.ModuleReco + "')")
@@ -4271,6 +4275,8 @@ Public Class clsProgramIdFormNameMapping
         UpdateFormName(clsUserMgtCode.MISitemGroups, "frmMISItemGroup", "ERP.EXE")
         UpdateFormName(clsUserMgtCode.MISitemMaster, "frmMISItemMaster", "ERP.EXE")
         UpdateFormName(clsUserMgtCode.frmDailyMilkProducts, "frmDailyMilkProducts", "ERP.EXE")
+        UpdateFormName(clsUserMgtCode.frmProductionTransactionType, "frmProductionTransactionType", "ERP.EXE")
+        UpdateFormName(clsUserMgtCode.frmDailySMPProduction, "frmDailySMPProduction", "ERP.EXE")
 
     End Sub
 

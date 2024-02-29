@@ -186,12 +186,13 @@ Public Class frmScrapSale
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
+        btnPrint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
             btnReverse.Enabled = False
         End If
-        If btnSave.Visible = True Then
+        If MyBase.isExport = True Then
             rmiImport.Enabled = True
             rmiExport.Enabled = True
         Else
@@ -4606,25 +4607,31 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btnDelete.Enabled Then
             fundelete()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            'Add Tool tip Task No- TEC/22/05/18-000245
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                                   "TSPL_SCRAPSALE_HEAD " + Environment.NewLine +
-                                   "TSPL_SCRAPSALE_DETAIL " + Environment.NewLine +
-                                   "TSPL_SCRAPINVOICE_HEAD " + Environment.NewLine +
-                                   "TSPL_SCRAPINVOICE_DETAIL " + Environment.NewLine +
-                                   "Press Alt+P for Post Trasnaction" + Environment.NewLine +
-                                   "TSPL_INVENTORY_MOVEMENT " + Environment.NewLine +
-                                   "TSPL_JOURNAL_MASTER " + Environment.NewLine +
-                                   "TSPL_JOURNAL_DETAILS " + Environment.NewLine +
-                                   "TSPL_Customer_Invoice_Head " + Environment.NewLine +
-                                   "TSPL_Customer_Invoice_Detail ")
-            'Add Tool tip Task No- TEC/22/05/18-000245
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                'Add Tool tip Task No- TEC/22/05/18-000245
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                       "TSPL_SCRAPSALE_HEAD " + Environment.NewLine +
+                                       "TSPL_SCRAPSALE_DETAIL " + Environment.NewLine +
+                                       "TSPL_SCRAPINVOICE_HEAD " + Environment.NewLine +
+                                       "TSPL_SCRAPINVOICE_DETAIL " + Environment.NewLine +
+                                       "Press Alt+P for Post Trasnaction" + Environment.NewLine +
+                                       "TSPL_INVENTORY_MOVEMENT " + Environment.NewLine +
+                                       "TSPL_JOURNAL_MASTER " + Environment.NewLine +
+                                       "TSPL_JOURNAL_DETAILS " + Environment.NewLine +
+                                       "TSPL_Customer_Invoice_Head " + Environment.NewLine +
+                                       "TSPL_Customer_Invoice_Detail ")
+                'Add Tool tip Task No- TEC/22/05/18-000245
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

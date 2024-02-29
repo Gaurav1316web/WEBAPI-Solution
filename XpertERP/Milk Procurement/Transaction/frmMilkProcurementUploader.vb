@@ -53,12 +53,28 @@ Public Class frmMilkProcurementUploader
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        RadMenu1.Visible = MyBase.isExport
+        'RadMenu1.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            RadMenuItem4.Enabled = True
+            RadMenuItem5.Enabled = True
+            RadMenuItem6.Enabled = True
+        Else
+            RadMenuItem4.Enabled = False
+            RadMenuItem5.Enabled = False
+            RadMenuItem6.Enabled = False
+        End If
         If MyBase.isReverse Then
             RadButton2.Enabled = True
         Else
             RadButton2.Enabled = False
         End If
+        'If MyBase.isExport = True Then
+        '    RadMenuItem4.Enabled = True
+        '    RadMenuItem5.Enabled = True
+        'Else
+        '    RadMenuItem4.Enabled = False
+        '    RadMenuItem5.Enabled = False
+        'End If
         'btnPrint.Visible = MyBase.isPrintFlag
         'btnImport.Visible = MyBase.isExport
 

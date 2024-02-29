@@ -32,6 +32,13 @@ Public Class frmVendorQuotation
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        If MyBase.isExport = True Then
+            btnexport.Enabled = True
+            btnimport.Enabled = True
+        Else
+            btnexport.Enabled = False
+            btnimport.Enabled = False
+        End If
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

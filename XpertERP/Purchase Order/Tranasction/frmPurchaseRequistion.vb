@@ -1550,16 +1550,23 @@ Public Class frmPurchaseRequistion
             ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
                 CloseForm()
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                             "TSPL_REQUISITION_HEAD " + Environment.NewLine + _
-                                             "TSPL_REQUISITION_DETAIL ")
+                'If MyBase.isReverse Then
+
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                 "TSPL_REQUISITION_HEAD " + Environment.NewLine +
+                                                 "TSPL_REQUISITION_DETAIL ")
                 'Ticket No- UDL/22/10/18-000234 Reverse button password protected
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnUnpost.Visible = True
+                If MyBase.isReverse Then
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = "SIRC"
+                    frm.strCode = "SIReversAndCreate"
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnUnpost.Visible = True
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                    'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             End If
         Catch ex As Exception

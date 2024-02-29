@@ -3050,24 +3050,30 @@ Public Class frmJobWorkBillig
         ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso MyBase.isDeleteFlag AndAlso btnDelete.Enabled Then
             fundelete()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            'Add Tool tip Task No- TEC/22/05/18-000245
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                                  "TSPL_JOBWORK_BILLING_HEAD " + Environment.NewLine + _
-                                                  "TSPL_JOBWORK_BILLING_DETAIL " + Environment.NewLine + _
-                                                  "TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine + _
-                                                  "Press Alt+P for Post Trasnaction " + Environment.NewLine + _
-                                                  "TSPL_BATCH_ITEM " + Environment.NewLine + _
-                                                  "TSPL_Customer_Invoice_Head " + Environment.NewLine + _
-                                                  "TSPL_Customer_Invoice_detail " + Environment.NewLine + _
-                                                  "TSPL_JOURNAL_MASTER " + Environment.NewLine + _
-                                                  "TSPL_JOURNAL_DETAILS")
-            'Add Tool tip Task No- TEC/22/05/18-000245
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                'Add Tool tip Task No- TEC/22/05/18-000245
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                      "TSPL_JOBWORK_BILLING_HEAD " + Environment.NewLine +
+                                                      "TSPL_JOBWORK_BILLING_DETAIL " + Environment.NewLine +
+                                                      "TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine +
+                                                      "Press Alt+P for Post Trasnaction " + Environment.NewLine +
+                                                      "TSPL_BATCH_ITEM " + Environment.NewLine +
+                                                      "TSPL_Customer_Invoice_Head " + Environment.NewLine +
+                                                      "TSPL_Customer_Invoice_detail " + Environment.NewLine +
+                                                      "TSPL_JOURNAL_MASTER " + Environment.NewLine +
+                                                      "TSPL_JOURNAL_DETAILS")
+                'Add Tool tip Task No- TEC/22/05/18-000245
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

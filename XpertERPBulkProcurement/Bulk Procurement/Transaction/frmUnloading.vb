@@ -511,16 +511,21 @@ Public Class FrmUnloading
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             btnClose_Click(sender, e)
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                              "TSPL_MILK_UNLOADING " + Environment.NewLine + _
-                                              "TSPL_Milk_Unloading_Chember_Details (  Only in case of chamber wise setting ON) " + Environment.NewLine + _
-                                              "TSPL_MILK_UNLOADING_History ( For History) ")
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                  "TSPL_MILK_UNLOADING " + Environment.NewLine +
+                                                  "TSPL_Milk_Unloading_Chember_Details (  Only in case of chamber wise setting ON) " + Environment.NewLine +
+                                                  "TSPL_MILK_UNLOADING_History ( For History) ")
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
         End If
     End Sub
@@ -711,6 +716,13 @@ Public Class FrmUnloading
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
     End Sub
     Sub LoadGateEntryData(ByVal strGateEntryNo As String)
         Dim strUnNo As String = clsDBFuncationality.getSingleValue("select unloading_No from TSPL_MILK_UNLOADING where gate_entry_no='" & strGateEntryNo & "'")

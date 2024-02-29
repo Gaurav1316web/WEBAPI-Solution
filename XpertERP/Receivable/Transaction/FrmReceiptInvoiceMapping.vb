@@ -54,21 +54,27 @@ Public Class FrmReceiptInvoiceMapping
         ElseIf e.Alt And e.KeyCode = Keys.C Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                         "========Table Name=========" + Environment.NewLine + _
-                         "TSPL_Receipt_InvoiceMapping_Head" + Environment.NewLine + _
-                         "TSPL_Receipt_InvoiceMapping_Detail" + Environment.NewLine + _
-                         "tspl_sd_sale_invoice_head (update on POST) " + Environment.NewLine + _
-                         "=========Setting Name======" + Environment.NewLine + _
-                         "ApplyBrachAccounting (For Apply Branch Accounting)")
-        End If
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                             "========Table Name=========" + Environment.NewLine +
+                             "TSPL_Receipt_InvoiceMapping_Head" + Environment.NewLine +
+                             "TSPL_Receipt_InvoiceMapping_Detail" + Environment.NewLine +
+                             "tspl_sd_sale_invoice_head (update on POST) " + Environment.NewLine +
+                             "=========Setting Name======" + Environment.NewLine +
+                             "ApplyBrachAccounting (For Apply Branch Accounting)")
+            End If
 
     End Sub
 

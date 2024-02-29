@@ -78,6 +78,20 @@ Public Class frmCreateReceivedDairySale
         'Uncomment below lines
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        If MyBase.isExport = True Then
+            rmExport.Enabled = True
+            rmImport.Enabled = True
+        Else
+            rmExport.Enabled = False
+            rmImport.Enabled = False
+        End If
+        If MyBase.isReverse Then
+            btnDeleteInvoiceafterPost.Enabled = True
+        Else
+            btnDeleteInvoiceafterPost.Enabled = False
+        End If
+
     End Sub
     Sub LoadTypes()
         dt = New DataTable
@@ -2009,19 +2023,24 @@ Public Class frmCreateReceivedDairySale
             CloseForm()
             'Add Tool tip Task No- TEC/18/05/18-000237
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = clsFixedParameterType.SIRC
-            frm.strCode = clsFixedParameterCode.SIReversAndCreate
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnDeleteInvoiceafterPost.Visible = True
-            End If
+            If MyBase.isReverse Then
 
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                         "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE " + Environment.NewLine + _
-                                         "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE ")
-            'Add Tool tip Task No- TEC/18/05/18-000237
-        End If
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = clsFixedParameterType.SIRC
+                frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnDeleteInvoiceafterPost.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                             "TSPL_CRATE_RECEIVED_HEAD_FRESHSALE " + Environment.NewLine +
+                                             "TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE ")
+                'Add Tool tip Task No- TEC/18/05/18-000237
+            End If
     End Sub
     Sub CloseForm()
         Me.Close()
