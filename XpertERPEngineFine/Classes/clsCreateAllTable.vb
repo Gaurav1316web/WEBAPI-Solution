@@ -14126,6 +14126,9 @@ Public Class clsCreateAllTable
             coll.Add("SecChequeNoLac1", "Varchar(30) NULL")
             coll.Add("SecChequeNoRs100", "Varchar(30) NULL")
             coll.Add("UANNo", "Varchar(12) null")
+            coll.Add("Transfer_PF", "integer null default 0")
+            coll.Add("TransferPF_Text", "Varchar(12) null")
+            coll.Add("GPF_No", "Varchar(50) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_EMPLOYEE_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
@@ -15170,6 +15173,9 @@ Public Class clsCreateAllTable
             coll.Add("ESI_Rate", "numeric(5,2) NULL ")
             coll.Add("PF_Calculation_Type", "varchar(12) NULL") '' Possible values 1. PF Rule(PR) 2.Formula Amount(FA) 3. Custom(C)
             coll.Add("Professional_Tax_Applicable", "integer not NULL DEFAULT 1")
+            coll.Add("Transfer_PF", "integer null default 0")
+            coll.Add("TransferPF_Remarks", "Varchar(100) null")
+            coll.Add("GPF_No", "Varchar(50) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_EMPLOYEE_STATUS", coll, "unique (EMP_CODE,REVISION_NO)")
 
             coll = New Dictionary(Of String, String)()
