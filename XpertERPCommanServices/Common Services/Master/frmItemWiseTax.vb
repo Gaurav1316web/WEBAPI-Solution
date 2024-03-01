@@ -45,6 +45,7 @@ Public Class FrmItemWiseTax
     Private Sub FrmItemWiseTax_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         Reset()
         gv1.Rows.AddNew()
+        SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnAdd, "Press Alt+S for Save/Update Trasnaction")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D Delete Trasnaction")
         ButtonToolTip.SetToolTip(btnClose, "Press Alt+C Close the Window")
@@ -61,10 +62,26 @@ Public Class FrmItemWiseTax
         End If
         btnAdd.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPost.Visible = MyBase.isPostFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
             btnReverse.Enabled = False
+        End If
+        If MyBase.isExport = True Then
+            RadMenuItem2.Enabled = True
+            RadMenuItem4.Enabled = True
+            RadMenuItem1.Enabled = True
+            RadMenuItem6.Enabled = True
+            RadMenuItem5.Enabled = True
+
+        Else
+            RadMenuItem2.Enabled = False
+            RadMenuItem4.Enabled = False
+            RadMenuItem1.Enabled = False
+            RadMenuItem6.Enabled = False
+            RadMenuItem5.Enabled = False
+
         End If
     End Sub
 

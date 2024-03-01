@@ -46,6 +46,13 @@ Public Class frmTankerProvision
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnClKM.Visible = MyBase.isModifyFlag
+        RadSplitButton1.Visible = MyBase.isPrintFlag
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
+
     End Sub
 
     Private Sub frmTankerProvision_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load

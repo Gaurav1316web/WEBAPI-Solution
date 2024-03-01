@@ -206,6 +206,12 @@ Public Class frmProductionEntry
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
+        If MyBase.isReverse Then
+            btnunpost.Enabled = True
+        Else
+            btnunpost.Enabled = False
+        End If
+
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

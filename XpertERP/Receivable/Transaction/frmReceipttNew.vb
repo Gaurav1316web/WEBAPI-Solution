@@ -2458,7 +2458,7 @@ Public Class FrmReceipttNew
         btnDelete.Visible = MyBase.isDeleteFlag
         btnprint.Visible = MyBase.isPrintFlag
         'RadMenu1.Visible = MyBase.isExport
-        If RadMenu1.Visible Then
+        If MyBase.isExport Then
             RadMenuItem1.Enabled = True
             RadMenuItem2.Enabled = True
         Else
@@ -3957,7 +3957,8 @@ Public Class FrmReceipttNew
                     isSettlementBankOnly = False
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
 

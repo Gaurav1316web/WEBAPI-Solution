@@ -72,6 +72,13 @@ Public Class frmJobWorkConsumption
         Else
             btnReverse.Enabled = False
         End If
+        If MyBase.isExport = True Then
+            RmiExport.Enabled = True
+            RadMenuItem2.Enabled = True
+        Else
+            RadMenuItem2.Enabled = False
+            RmiExport.Enabled = False
+        End If
         If btnSave.Visible = True Then
             RmiExport.Enabled = True
         Else

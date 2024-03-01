@@ -172,6 +172,7 @@ Public Class frmAssetScrapSale
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
+        btnPrintReport.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else

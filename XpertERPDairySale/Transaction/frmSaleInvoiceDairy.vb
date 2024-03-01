@@ -258,6 +258,7 @@ Public Class frmSaleInvoiceDairy
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverseAndUnpost.Enabled = True
         Else

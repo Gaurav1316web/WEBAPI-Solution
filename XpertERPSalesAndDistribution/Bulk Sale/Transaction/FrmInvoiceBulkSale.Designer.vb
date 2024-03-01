@@ -22,8 +22,8 @@ Partial Class FrmInvoiceBulkSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -90,6 +90,7 @@ Partial Class FrmInvoiceBulkSale
         Me.RMSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RMDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.EmailSMSSetting = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPrintJV = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
         Me.btnimportdocument = New Telerik.WinControls.UI.RadButton()
         Me.btnDeleteInvoiceafterPost = New Telerik.WinControls.UI.RadButton()
@@ -98,7 +99,6 @@ Partial Class FrmInvoiceBulkSale
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrintJV = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -162,6 +162,7 @@ Partial Class FrmInvoiceBulkSale
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintJV, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnimportdocument, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDeleteInvoiceafterPost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -170,7 +171,6 @@ Partial Class FrmInvoiceBulkSale
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrintJV, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -921,7 +921,7 @@ Partial Class FrmInvoiceBulkSale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1103,7 +1103,7 @@ Partial Class FrmInvoiceBulkSale
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -1157,6 +1157,15 @@ Partial Class FrmInvoiceBulkSale
         '
         Me.EmailSMSSetting.Name = "EmailSMSSetting"
         Me.EmailSMSSetting.Text = "Email/SMS Setting"
+        '
+        'btnPrintJV
+        '
+        Me.btnPrintJV.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintJV.Location = New System.Drawing.Point(405, 8)
+        Me.btnPrintJV.Name = "btnPrintJV"
+        Me.btnPrintJV.Size = New System.Drawing.Size(73, 20)
+        Me.btnPrintJV.TabIndex = 10
+        Me.btnPrintJV.Text = "Print JV"
         '
         'btnInvoiceJE
         '
@@ -1231,15 +1240,6 @@ Partial Class FrmInvoiceBulkSale
         Me.btnsave.Size = New System.Drawing.Size(73, 20)
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
-        '
-        'btnPrintJV
-        '
-        Me.btnPrintJV.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintJV.Location = New System.Drawing.Point(405, 8)
-        Me.btnPrintJV.Name = "btnPrintJV"
-        Me.btnPrintJV.Size = New System.Drawing.Size(73, 20)
-        Me.btnPrintJV.TabIndex = 10
-        Me.btnPrintJV.Text = "Print JV"
         '
         'FrmInvoiceBulkSale
         '
@@ -1323,6 +1323,7 @@ Partial Class FrmInvoiceBulkSale
         CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintJV, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnimportdocument, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDeleteInvoiceafterPost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1331,7 +1332,6 @@ Partial Class FrmInvoiceBulkSale
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrintJV, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

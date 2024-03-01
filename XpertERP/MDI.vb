@@ -7435,8 +7435,8 @@ Public Class MDI
                             frm = New FrmPriceChartUploader
                         End If
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.FrmPriceChartUploaderMCC
-                        frm = New FrmPriceChartUploader_MCC
+                    Case clsUserMgtCode.MPMilkPrice
+                        frm = New frmMPMilkPrice
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.GazeReading
                         frm = New frmGazeReading

@@ -273,13 +273,9 @@ Public Class frmGRN
         btnPrint.Visible = MyBase.isPrintFlag
         btncancel.Visible = MyBase.isCancel_Flag_After_Posting
         If MyBase.isReverse Then
-
             btnUnpost.Enabled = True
-
         Else
-
             btnUnpost.Enabled = False
-
         End If
     End Sub
 

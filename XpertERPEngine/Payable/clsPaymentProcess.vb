@@ -1668,7 +1668,11 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
             Dim dtMilkType As New DataTable
             Dim dt As New DataTable
             Dim Flag As Boolean = False
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
                 Flag = True
             End If
 
@@ -2506,6 +2510,8 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")
                     PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewRJS", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                     PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessUDP", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessCHT", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
                 Else
                     PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNew", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
                 End If

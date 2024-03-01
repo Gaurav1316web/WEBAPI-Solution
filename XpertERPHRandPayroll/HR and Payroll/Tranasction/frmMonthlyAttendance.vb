@@ -319,6 +319,14 @@ Public Class frmMonthlyAttendance
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        RadSplitButton1.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            Export.Enabled = True
+            Import.Enabled = True
+        Else
+            Export.Enabled = False
+            Import.Enabled = False
+        End If
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else

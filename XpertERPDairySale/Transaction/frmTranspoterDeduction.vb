@@ -51,6 +51,7 @@ Public Class frmTranspoterDeduction
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPost.Visible = MyBase.isPostFlag
         If MyBase.isReverse Then
             btnReverseAndUnpost.Enabled = True
         Else

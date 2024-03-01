@@ -94,6 +94,13 @@ Public Class frmCustomerIncetiveEntry
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnExportExcel.Visible = MyBase.isExport
+        btnPrint.Visible = MyBase.isPrintFlag
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
+
     End Sub
 
     Private Sub FrmMilkVSPPayment_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

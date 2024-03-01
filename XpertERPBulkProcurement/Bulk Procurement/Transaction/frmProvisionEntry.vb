@@ -156,12 +156,13 @@ Public Class FrmProvisionEntry
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPost.Visible = MyBase.isPostFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
-            GroupBox1.Enabled = True
+            'GroupBox1.Enabled = True
         Else
             btnReverse.Enabled = False
-            GroupBox1.Enabled = False
+            'GroupBox1.Enabled = False
         End If
     End Sub
 

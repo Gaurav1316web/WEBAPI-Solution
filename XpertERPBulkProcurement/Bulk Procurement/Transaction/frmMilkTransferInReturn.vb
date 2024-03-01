@@ -759,10 +759,12 @@ Public Class frmMilkTransferInReturn
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        ' btnPrint.Visible = MyBase.isPrintFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
+            btnReverse.Enabled = False
 
         End If
         'btnReverse.Enabled = False

@@ -67,7 +67,16 @@ Public Class frmMilkCollectionMCC
         btnBlankSheetImportUploder.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
 
-        If btnSave.Visible = True Then
+        'If btnSave.Visible = True Then
+        '    btnBlankSheetImportUploder.Enabled = True
+        '    btnBlankSheetUploder.Enabled = True
+
+        'Else
+        '    btnBlankSheetImportUploder.Enabled = False
+        '    btnBlankSheetUploder.Enabled = False
+
+        'End If
+        If MyBase.isExport = True Then
             btnBlankSheetImportUploder.Enabled = True
             btnBlankSheetUploder.Enabled = True
 
