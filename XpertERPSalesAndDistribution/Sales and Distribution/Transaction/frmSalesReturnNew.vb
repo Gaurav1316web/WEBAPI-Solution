@@ -156,6 +156,7 @@ Public Class frmSalesReturnNew
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
     End Sub
     Public Sub SetLength()
         txtDocNo.MyMaxLength = 30

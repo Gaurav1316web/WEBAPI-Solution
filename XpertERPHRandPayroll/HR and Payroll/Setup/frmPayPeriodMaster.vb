@@ -208,9 +208,22 @@ Public Class frmPayPeriodMaster
             MenuItemImport.Enabled = False
             MenuItemExport.Enabled = False
         End If
+        If MyBase.isExport = True Then
+            MenuItemImport.Enabled = True
+            MenuItemExport.Enabled = True
+        Else
+            MenuItemImport.Enabled = False
+            MenuItemExport.Enabled = False
+        End If
         '--------------------------------------------------
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
+
     End Sub
 
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
@@ -311,7 +324,8 @@ Public Class frmPayPeriodMaster
                     btnReverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

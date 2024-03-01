@@ -1260,7 +1260,8 @@ TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,
 TSPL_VENDOR_MASTER.Bank_Code, TSPL_VENDOR_MASTER.Account_No,
 TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SAMPLE_DETAIL.TYPE,'')='' then 'Mix' else TSPL_MILK_SAMPLE_DETAIL.TYPE end as Type ,TSPL_MILK_SAMPLE_DETAIL.CLR,TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
 TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name "
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
+            clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
             BaseQry += ",(case when TSPL_PRICE_CHART_PLANNING.Dock_Collection_Milk_Type='C' then 'Cow' else 'Buffalo' end) as CowBuffalo_Type"
         Else
             BaseQry += ",case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type "
@@ -2681,7 +2682,10 @@ inner join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DO
             'PDF
             If Gv1.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                arrHeader.Add("Union: " & objCommonVar.CurrentCompanyName)
+                ' arrHeader.Add("Union: " & objCommonVar.CurrentCompanyName)
+                If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+                    arrHeader.Add("MCC: " & clsCommon.GetMulcallString(txtMultiMCC.arrValueMember))
+                End If
                 arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(dtpFromDCS_Ledger.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDCS_Ledger.Value, "dd/MM/yyyy")) + " ")
                 clsCommon.MyExportToPDF("DCS LEDGER", Gv1, arrHeader, "DCS LEDGER", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If

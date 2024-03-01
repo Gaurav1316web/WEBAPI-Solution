@@ -6,6 +6,7 @@ Public Class clsEmployeeStatus
 
 #Region "Variables"
     Public Code As String
+    Public GPF_No As String
     Public EMP_CODE As String
     Public EMP_NAME As String
     Public APPLICABLE_FROM As String
@@ -51,6 +52,8 @@ Public Class clsEmployeeStatus
     Public ESI_Rate As Decimal = 0
     Public objList As New List(Of clsEmployeeStatusWeeklyOff)
     Public Pf_Calculation_Type As String
+    Public Transfer_PF As Boolean = False
+    Public transferText As String
 
 
 #End Region
@@ -85,7 +88,7 @@ Public Class clsEmployeeStatus
         Dim obj As clsEmployeeStatus = Nothing
         Dim qry = "select ST.*,EMP.EMP_NAME,EMP1.EMP_NAME AS REPORTING_PERSON_NAME,DEP.DEPARTMENT_NAME,DES.Designation_Desc AS DESIGNATION_NAME, " _
         & " BR.LOCATION_DESC,DV.DEVISION_NAME," _
-        & " GD.GRADE_NAME,ATTD.ATTENDANCE_NAME,BA.DESCRIPTION AS BANK_NAME,OT.OT_NAME,BO.BONUS_NAME,ST.Max_Amount_EPF,ST.Max_Amount_ESI from TSPL_EMPLOYEE_STATUS ST " _
+        & " GD.GRADE_NAME,ATTD.ATTENDANCE_NAME,BA.DESCRIPTION AS BANK_NAME,OT.OT_NAME,BO.BONUS_NAME,ST.Max_Amount_EPF,ST.Max_Amount_ESI,EMP.Transfer_PF,EMP.TransferPF_Text,EMP.GPF_No from TSPL_EMPLOYEE_STATUS ST " _
         & " LEFT JOIN  TSPL_DESIGNATION_MASTER DES ON ST.DESIGNATION_ID=DES.DESIGNATION_ID " _
         & " LEFT JOIN  TSPL_DEPARTMENT_MASTER DEP ON ST.DEPARTMENT_CODE=DEP.DEPARTMENT_CODE " _
         & " LEFT JOIN  TSPL_EMPLOYEE_MASTER EMP ON ST.EMP_CODE=EMP.EMP_CODE " _
@@ -149,6 +152,7 @@ Public Class clsEmployeeStatus
             obj.EPS_TO_EPF = clsCommon.myCBool(dt.Rows(0)("EPS_TO_EPF"))
             obj.WORKING_STATUS = clsCommon.myCstr(dt.Rows(0)("WORKING_STATUS"))
             '' for kdil and viney
+            obj.GPF_No = clsCommon.myCstr(dt.Rows(0)("GPF_No"))
             obj.SHIFT_CODE = clsCommon.myCstr(dt.Rows(0)("SHIFT_CODE"))
             obj.SHIFT_CHANG_TYPE = clsCommon.myCstr(dt.Rows(0)("SHIFT_CHANG_TYPE"))
             obj.CONV_RATE_CODE = clsCommon.myCstr(dt.Rows(0)("CONV_RATE_CODE"))
@@ -157,7 +161,8 @@ Public Class clsEmployeeStatus
             '' end for kdil and viney
             obj.Max_Amount_EPF = clsCommon.myCdbl(dt.Rows(0)("Max_Amount_EPF"))
             obj.Max_Amount_ESI = clsCommon.myCdbl(dt.Rows(0)("Max_Amount_ESI"))
-
+            obj.Transfer_PF = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("Transfer_PF")) = 1, True, False))
+            obj.transferText = clsCommon.myCstr(dt.Rows(0)("TransferPF_Text"))
             obj.EPF_Rate = clsCommon.myCdbl(dt.Rows(0)("EPF_Rate"))
             obj.ESI_Rate = clsCommon.myCdbl(dt.Rows(0)("ESI_Rate"))
             obj.Pf_Calculation_Type = clsCommon.myCstr(dt.Rows(0)("Pf_Calculation_Type"))
@@ -207,6 +212,9 @@ Public Class clsEmployeeStatus
         clsCommon.AddColumnsForChange(coll, "DESIGNATION_ID", obj.DESIGNATION_ID, True)
         clsCommon.AddColumnsForChange(coll, "DEPARTMENT_CODE", obj.DEPARTMENT_CODE, True)
         clsCommon.AddColumnsForChange(coll, "WORKING_STATUS", obj.WORKING_STATUS)
+        clsCommon.AddColumnsForChange(coll, "transfer_PF", IIf(obj.Transfer_PF, 1, 0))
+        clsCommon.AddColumnsForChange(coll, "transferPF_Remarks", obj.transferText)
+        clsCommon.AddColumnsForChange(coll, "GPF_No", obj.GPF_No)
         If clsCommon.myLen(obj.REPORTING_PERSON) > 0 Then
             clsCommon.AddColumnsForChange(coll, "REPORTING_PERSON_CODE", obj.REPORTING_PERSON)
         End If

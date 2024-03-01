@@ -380,6 +380,7 @@ Partial Class frmMonthlyAttendance
         Me.gvMonthlyAttendance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMonthlyAttendance.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvMonthlyAttendance.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvMonthlyAttendance.MyStopExport = False
         Me.gvMonthlyAttendance.Name = "gvMonthlyAttendance"
         Me.gvMonthlyAttendance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvMonthlyAttendance.ShowHeaderCellButtons = True
@@ -618,6 +619,7 @@ Partial Class frmMonthlyAttendance
         Me.gvAttendanceDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAttendanceDetail.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvAttendanceDetail.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvAttendanceDetail.MyStopExport = False
         Me.gvAttendanceDetail.Name = "gvAttendanceDetail"
         Me.gvAttendanceDetail.ShowHeaderCellButtons = True
         Me.gvAttendanceDetail.Size = New System.Drawing.Size(847, 433)
@@ -859,6 +861,7 @@ Partial Class frmMonthlyAttendance
         Me.gvAttendanceSummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAttendanceSummary.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvAttendanceSummary.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAttendanceSummary.MyStopExport = False
         Me.gvAttendanceSummary.Name = "gvAttendanceSummary"
         Me.gvAttendanceSummary.ShowHeaderCellButtons = True
         Me.gvAttendanceSummary.Size = New System.Drawing.Size(847, 359)

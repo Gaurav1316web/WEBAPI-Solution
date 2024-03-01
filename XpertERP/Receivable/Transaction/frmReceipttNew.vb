@@ -2457,7 +2457,14 @@ Public Class FrmReceipttNew
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnprint.Visible = MyBase.isPrintFlag
-        RadMenu1.Visible = MyBase.isExport
+        'RadMenu1.Visible = MyBase.isExport
+        If MyBase.isExport Then
+            RadMenuItem1.Enabled = True
+            RadMenuItem2.Enabled = True
+        Else
+            RadMenuItem1.Enabled = False
+            RadMenuItem2.Enabled = False
+        End If
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
@@ -3903,8 +3910,9 @@ Public Class FrmReceipttNew
                     btnReverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                            "========Table Name=========" + Environment.NewLine +
                            "TSPL_RECEIPT_HEADER,TSPL_RECEIPT_DETAIL " + Environment.NewLine +
@@ -3949,7 +3957,8 @@ Public Class FrmReceipttNew
                     isSettlementBankOnly = False
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
 

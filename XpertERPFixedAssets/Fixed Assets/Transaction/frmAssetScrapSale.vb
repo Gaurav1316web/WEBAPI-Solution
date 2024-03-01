@@ -172,6 +172,7 @@ Public Class frmAssetScrapSale
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
+        btnPrintReport.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
@@ -3024,7 +3025,8 @@ Public Class frmAssetScrapSale
                     btnReverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

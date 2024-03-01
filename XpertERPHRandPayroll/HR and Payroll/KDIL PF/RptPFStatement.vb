@@ -108,7 +108,11 @@ Public Class RptPFStatement
         If txtDivisionMult.arrValueMember IsNot Nothing AndAlso txtDivisionMult.arrValueMember.Count > 0 Then
             Qry += " and TSPL_GENERATE_SALARY.Devision_Code  in (" + clsCommon.GetMulcallString(txtDivisionMult.arrValueMember) + ") "
         End If
-
+        If chkTransPF.Checked = True Then
+            Qry += " and TSPL_EMPLOYEE_MASTER.Transfer_PF=1 "
+        Else
+            Qry += " and  TSPL_EMPLOYEE_MASTER.Transfer_PF=0 "
+        End If
         Qry += " )as d)as m)as ll"
         Qry += " order by PF_NO "
         Dim dtgv As New DataTable

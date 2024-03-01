@@ -364,14 +364,17 @@ Public Class frmEmployee_Master
                 obj.Comp_Code = txtCompanyCode.Value
                 obj.LOCATION_CODE = txtBranch.Value
                 obj.ATTENDANCE_CODE = txtAttendance.Value
-
+                obj.GPF_no = txtGPFNo.Text
                 If txtConfirmationDate.Checked Then
                     obj.CONFIRMATION_DATE = txtConfirmationDate.Value
                 End If
                 If txtAnniversaryDate.Checked Then
                     obj.ANNIVERSARY_DATE = txtAnniversaryDate.Value
                 End If
-
+                If chlTransPF.Checked Then
+                    obj.Transfer_PF = True
+                    obj.transferText = txtTransferPF.Text
+                End If
                 If txtProbationEndDate.Checked Then
                     obj.PROBATION_END_DATE = txtProbationEndDate.Value
                 End If
@@ -727,7 +730,7 @@ Public Class frmEmployee_Master
             btndelete.Enabled = True
             isNewEntry = False
             btnsave.Text = "Update"
-
+            txtGPFNo.Text = obj.GPF_no
             txtEmployeeBand.Value = obj.EMP_Band_Code
             fndcity.Value = obj.Working_City_Code
             txtCode.Value = obj.EMP_CODE
@@ -760,7 +763,10 @@ Public Class frmEmployee_Master
                 txtProbationEndDate.Checked = True
                 txtProbationEndDate.Value = obj.PROBATION_END_DATE
             End If
-
+            If obj.Transfer_PF Then
+                chlTransPF.Checked = True
+            End If
+            txtTransferPF.Text = obj.transferText
             txtDOB.Value = obj.Birth_date
             txtJoiningDate.Value = obj.Joining_date
             chkHoldsalary.Checked = obj.Hold_Slary
@@ -1244,6 +1250,9 @@ Public Class frmEmployee_Master
         txtCode.MyReadOnly = False
         txtCode.Value = Nothing
         BlankAllControl()
+        chlTransPF.Checked = False
+        txtTransferPF.Text = ""
+        txtGPFNo.Text = ""
         gvEmpFamily.Rows.AddNew()
         gvEmpLanguage.Rows.AddNew()
         gvEmpQuli.Rows.AddNew()

@@ -29,12 +29,19 @@ Public Class frmTransferToSaving
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        RadMenu1.Visible = MyBase.isExport
+        'RadMenu1.Visible = MyBase.isExport
         btnsetting.Visible = MyBase.isExport
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
             btnReverse.Enabled = False
+        End If
+        If MyBase.isExport = True Then
+            RadMenuItem2.Enabled = True
+            RadMenuItem3.Enabled = True
+        Else
+            RadMenuItem2.Enabled = False
+            RadMenuItem3.Enabled = False
         End If
     End Sub
 
@@ -473,7 +480,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
                     btnReverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
             ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                               " TSPL_VENDOR_INVOICE_HEAD   " + Environment.NewLine +

@@ -29,7 +29,7 @@ Public Class FrmCheckSlipEntry
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
-
+        RadSplitButton1.Visible = MyBase.isPrintFlag
     End Sub
     Private Sub txtVehicle__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtVehicle._MYValidating
         strQuery = "select Vehicle_Id as Code,Description from TSPL_VEHICLE_MASTER"

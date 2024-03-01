@@ -125,7 +125,8 @@ Public Class FrmDispatchBulkSale
                     btnReverseAndUnpost.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
@@ -198,7 +199,7 @@ Public Class FrmDispatchBulkSale
         btndelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        RadMenu1.Visible = MyBase.isExport
+        'RadMenu1.Visible = MyBase.isExport
         If MyBase.isReverse Then
             btnReverseAndUnpost.Enabled = True
         Else

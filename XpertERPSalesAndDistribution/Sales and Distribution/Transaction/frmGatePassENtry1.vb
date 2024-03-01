@@ -609,7 +609,7 @@ Public Class FrmGatePassENtry1
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
-
+        RadSplitButton1.Visible = MyBase.isPrintFlag
 
     End Sub
 

@@ -173,6 +173,7 @@ Public Class frmScrapSale
     Private PickCostOFMaterialSaleFromPriceMaster As Boolean = False
     Dim MaterialSaleInvoiceEnablePrintOnPost As Boolean = False
     Dim EInvoiceType As String = ""
+    Dim strPdfAttachmentPath As String = ""
 #End Region
 
     Public Sub SetUserMgmtNew()
@@ -191,7 +192,7 @@ Public Class frmScrapSale
         Else
             btnReverse.Enabled = False
         End If
-        If btnSave.Visible = True Then
+        If MyBase.isExport = True Then
             rmiImport.Enabled = True
             rmiExport.Enabled = True
         Else
@@ -4464,13 +4465,82 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                 If (ClsScrapSaleHead.PostData(txtDocNo.Value)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtDocNo.Value, NavigatorType.Current)
-
+                    Dim lstUsers As New List(Of String)
+                    lstUsers.Add(fndcustNo.Value)
+                    SendSMSandEmail(lstUsers, False)
                 End If
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
+    Private Sub SendSMSandEmail(ByVal lstUsers As List(Of String), ByVal isSendForApproval As Boolean)
+        Try
+            Dim strContactperson As String = ""
+            Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.ScrapSale + "'", Nothing)
+            If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
+
+                Dim objEmailH As New clsEMailHead()
+                objEmailH.arrEMail = New List(Of String)()
+                objEmailH.Email_Subject = clsCommon.myCstr(dtContent.Rows(0)("Email_subject"))
+                objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Doc_No, txtDocNo.Value)
+                objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(dtpshipment.Text, "dd/MMM/yyyy"))
+
+                objEmailH.Email_Text = clsCommon.myCstr(dtContent.Rows(0)("Email_Text"))
+                objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Doc_No, txtDocNo.Value)
+                objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(dtpshipment.Text, "dd/MMM/yyyy"))
+                objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerNo, fndcustNo.Value)
+                objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerName, txtcustdesc.Text)
+                objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.TotalAmount, lblDocAmount.Text)
+                objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Form_Code, clsUserMgtCode.ScrapSale)
+
+                '------------------------code for attchament-------------------------------------
+                strPdfAttachmentPath = ""
+                strPdfAttachmentPath = Print(True, False, True)
+                objEmailH.Attachment_1_Path = strPdfAttachmentPath
+                '---------------------------------------------------------------------------
+
+                For Each strUser As String In lstUsers
+                    Dim lstReceiptents As New List(Of String)
+                    Dim qry As String = ""
+                    Dim emailId As String = ""
+                    If isSendForApproval Then
+                        strContactperson = strUser
+                        qry = "select E_Mail from TSPL_USER_MASTER where User_Code in ('" + strUser + "') "
+                        emailId = clsDBFuncationality.getSingleValue(qry)
+                    Else
+                        strContactperson = clsDBFuncationality.getSingleValue("select upper(substring(Contact_Person_Name,1,1)) + lower(substring(Contact_Person_Name,2,49)) from TSPL_customer_MASTER where cust_code ='" & strUser & "' ")
+                        emailId = clsDBFuncationality.getSingleValue("select Email from TSPL_customer_MASTER where cust_code ='" & strUser & "' ")
+                    End If
+
+                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.ContactPerson, strContactperson)
+                    If clsCommon.myLen(emailId) > 0 Then
+                        objEmailH.arrEMail.Add(emailId)
+                    End If
+                Next
+
+                If objEmailH.SaveData(clsUserMgtCode.ScrapSale, objEmailH, Nothing) Then
+                    clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "E-Mail Send Failed !", Me.Text)
+                End If
+                objEmailH = Nothing
+                'SMSSENDONLY()
+
+
+            Else
+                clsCommon.MyMessageBoxShow(Me, "First do email and sms setting", Me.Text)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+    End Sub
+
+
+
 
     Private Sub layout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles layoutrbtn.Click
         If clsCommon.myLen(ReportID) > 0 Then
@@ -4560,12 +4630,14 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                     btnReverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         End If
     End Sub
 
-    Sub Print(ByVal isPrint As Boolean, ByVal ischallan As Boolean)
+    Public Function Print(ByVal isPrint As Boolean, ByVal ischallan As Boolean, ByVal isPDFPath As Boolean) As String
+        Dim filePath As String = ""
         Try
             Dim frmCRV As New frmCrystalReportViewer()
             Dim IsMandiTax As Double = 0
@@ -4578,54 +4650,54 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                         If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt3.Rows(0)("Invoice_Date"))) Then
                             If clsCommon.myCdbl(dt3.Rows(0)("Is_Taxable")) = 1 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("frm_State_name")), clsCommon.myCstr(dt3.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_Intrastate", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                    filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_Intrastate", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                                 Else
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_Interstate", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                    filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_Interstate", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                                 End If
                             Else
-                                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_NonTaxable", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo_NonTaxable", "Material sale cash Memo", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                             End If
                         Else
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo", "Material sale cash Memo")
+                            filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptMaterialSaleCashMemo", "Material sale cash Memo")
                         End If
                     ElseIf clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Is_Scrap")), "Y") = CompairStringResult.Equal Then
                         If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt3.Rows(0)("Invoice_Date"))) Then
                             If clsCommon.myCdbl(dt3.Rows(0)("Is_Taxable")) = 1 Then
                                 If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("frm_State_name")), clsCommon.myCstr(dt3.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_Intrastate", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                    filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_Intrastate", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                                 Else
-                                    frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_Interstate", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                    filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_Interstate", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                                 End If
                             Else
-                                frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_NonTaxable", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
+                                filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY_NonTaxable", "Material sale Scrap Invoice", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")))
                             End If
                         Else
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY", "Material sale Scrap Invoice")
+                            filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptScrapInvoiceIfY", "Material sale Scrap Invoice")
                         End If
 
                         'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal Then
                     ElseIf clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt3.Rows(0)("Invoice_Date"))) Then
                         If clsCommon.myCdbl(dt3.Rows(0)("Is_Taxable")) = 1 Then
                             If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("frm_State_name")), clsCommon.myCstr(dt3.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_Intrastate", "ScrapnSale Invoice Local", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
+                                filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_Intrastate", "ScrapnSale Invoice Local", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
                             Else
-                                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_Interstate", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
+                                filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_Interstate", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
                             End If
                         Else
-                            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
+                            filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, clsERPFuncationality.CompanyAddresShowinFooter(), "RptMaterialSale_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt3.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt")
                         End If
                         ' Else
-                        'frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
-                        ''PurchaseOrderViewer.funreport(dt1, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
+                        'frmCrystalReportViewer.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
+                        ''PurchaseOrderViewer.funreport(isPDFPath,dt1, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
                         'End If
                         'End If
                         'End If
 
                     Else
                         If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "E") = CompairStringResult.Equal Then
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "RptMaterialSaleExcisable", "Tax Invoice")
+                            filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "RptMaterialSaleExcisable", "Tax Invoice")
                         ElseIf clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "E") <> CompairStringResult.Equal Then
-                            frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt3, "rptScrapSalesInvoiceWithoutTinNo", "Tax Invoice")
+                            filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt3, "rptScrapSalesInvoiceWithoutTinNo", "Tax Invoice")
                         End If
                     End If
                 End If
@@ -4644,17 +4716,17 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                 '        If clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("VatInvoice_Type")), "T") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("VatInvoice_Type")), "R") = CompairStringResult.Equal Or clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("VatInvoice_Type")), "I") = CompairStringResult.Equal Then
                 '            If CreatVatSeriesOnExciseInvoice = 1 Then
                 '                If (btnPrint.Text = "Excise") Then
-                '                    frmCrystalReportViewer.funreport(CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleExciseInvoice", "Excise Invoice")
+                '                    frmCrystalReportViewer.funreport(isPDFPath,CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleExciseInvoice", "Excise Invoice")
                 '                Else
-                '                    frmCrystalReportViewer.funreport(CrystalReportFolder.NewSalesReports, dt3, "rptProductSalesTaxInvoice", "Vat Invoice")
+                '                    frmCrystalReportViewer.funreport(isPDFPath,CrystalReportFolder.NewSalesReports, dt3, "rptProductSalesTaxInvoice", "Vat Invoice")
                 '                End If
                 '            Else
-                '                frmCrystalReportViewer.funreport(CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleExciseInvoice", "Excise Invoice")
-                '                frmCrystalReportViewer.funreport(CrystalReportFolder.NewSalesReports, dt3, "rptProductSalesTaxInvoice", "Vat Invoice")
+                '                frmCrystalReportViewer.funreport(isPDFPath,CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleExciseInvoice", "Excise Invoice")
+                '                frmCrystalReportViewer.funreport(isPDFPath,CrystalReportFolder.NewSalesReports, dt3, "rptProductSalesTaxInvoice", "Vat Invoice")
                 '            End If
                 '        Else
 
-                '            frmCrystalReportViewer.funreport(CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleExciseInvoice", "Excise Invoice")
+                '            frmCrystalReportViewer.funreport(isPDFPath,CrystalReportFolder.NewSalesReports, dt3, "rptProductSaleExciseInvoice", "Excise Invoice")
 
                 '        End If
 
@@ -4662,9 +4734,9 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                 '           c
 
                 '        ElseIf clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "R") = CompairStringResult.Equal Then
-                '            frmCrystalReportViewer.funreport(CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoice", "Retail Invoice")
+                '            frmCrystalReportViewer.funreport(isPDFPath,CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoice", "Retail Invoice")
                 '        ElseIf clsCommon.CompairString(clsCommon.myCstr(dt3.Rows(0)("Invoice_Type")), "I") = CompairStringResult.Equal Then
-                '            frmCrystalReportViewer.funreport(CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoice", "Interstate Invoice")
+                '            frmCrystalReportViewer.funreport(isPDFPath,CrystalReportFolder.NewSalesReports, dt3, "rptCentralTaxInvoice", "Interstate Invoice")
                 '        End If
 
             Else
@@ -4800,53 +4872,53 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                             SetItemWiseTax(dt, InvoiceNo)
                             'If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Excisable")), "Y") = CompairStringResult.Equal Then
                             '    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "VIZAG") = CompairStringResult.Equal Then
-                            '        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapsaleInvoice4ExcisePrintfor VIZAG", "ScrapSaleInvoiceRpt")
+                            '        filePath=frmCRV.funreport(isPDFPath,CrystalReportFolder.PurchaseOrder, dt, "ScrapsaleInvoice4ExcisePrintfor VIZAG", "ScrapSaleInvoiceRpt")
                             '    Else
-                            '        frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice4ExcisePrint", "ScrapSaleInvoiceRpt")
+                            '        filePath=frmCRV.funreport(isPDFPath,CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice4ExcisePrint", "ScrapSaleInvoiceRpt")
                             '    End If
                             'Else
                             ' Ticket No : SHR/14/06/18-000030 By Prabhakar  , Add client-VIJAYA
                             If (clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDFCF") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "001") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "GK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal) Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "PSFI") = CompairStringResult.Equal Or clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "TSDDCF") = CompairStringResult.Equal Then
                                 'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "SPMMD") = CompairStringResult.Equal Then
-                                '    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, Nothing, "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), Nothing, "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                '    filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, Nothing, "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), Nothing, "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                                 '    Return
                                 'End If
 
                                 If clsERPFuncationality.GetGSTStatus(clsCommon.myCDate(dt1.Rows(0)("Invoice_Date"))) Then
                                     If clsCommon.myCdbl(dt1.Rows(0)("Is_Taxable")) = 1 Then
                                         'If clsCommon.CompairString(clsCommon.myCstr(dt1.Rows(0)("frm_State_name")), clsCommon.myCstr(dt1.Rows(0)("Cust_StateName"))) = CompairStringResult.Equal Then
-                                        '    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                        '    filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice", "ScrapnSale Invoice Local", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                                         'Else
                                         '    If IsMandiTax > 0 Then
-                                        '        frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState_WithMandi", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                        '        filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState_WithMandi", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                                         '    Else
-                                        '        'frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                        '        'filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_InterState", "ScrapnSale Invoice InterState", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
                                         If ischallan = True Then
-                                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                            filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
                                         Else
-                                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleChallan_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                            filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleChallan_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
                                         End If
 
                                         'End If
-                                        'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                        'filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
 
                                     Else
                                         If ischallan = False Then
-                                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleChallan_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                            filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleChallan_RCDFCF", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
                                         Else
-                                            'frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
-                                            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF_NT", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
+                                            'filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "rptMaterialSaleInvoice_NonTaxable", "ScrapnSale Invoice Non Taxable", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptCompanyAddress.rpt", "rptCustomerOutstandingErode.rpt", dtCustomerOutstanding)
+                                            filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt1, itemSummnary, "rptScrapSaleInvoice_RCDFCF_NT", "ScrapnSale Invoice ", clsCommon.myCDate(dt1.Rows(0)("Invoice_Date")), "rptSubItemSummary.rpt", )
                                         End If
                                     End If
                                     'Else
-                                    '    frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
-                                    '    'PurchaseOrderViewer.funreport(dt1, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
+                                    '    filePath=frmCRV.funsubreportWithdt(isPDFPath,CrystalReportFolder.PurchaseOrder, dt1, clsERPFuncationality.CompanyAddresShowinFooter(), "ScrapSaleInvoice", "ScrapnSale Invoice", "rptCompanyAddress.rpt")
+                                    '    'PurchaseOrderViewer.funreport(isPDFPath,dt1, "ScrapSaleInvoice", "ScrapSaleInvoiceRpt")
                                 End If
                             End If
                             'End If
                             'Else
                             'EnumTecxpertPaperSize.PaperSize10x12
-                            'frmCRV.funreport(CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice4Excise", "ScrapSaleInvoiceRpt")
+                            filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice4Excise", "ScrapSaleInvoiceRpt")
                         End If
                     End If
                 Else
@@ -4857,7 +4929,8 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-    End Sub
+        Return filePath
+    End Function
 
     'Done  by sanjay in UDL Plant 
     Public Function PrintMaterialSale() As String
@@ -5271,7 +5344,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
     Private Sub btnPrePrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         strPrintType = "Tax"
-        Print(False, False)
+        Print(False, False, False)
     End Sub
 
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
@@ -5786,13 +5859,13 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         strPrintType = "Excise"
-        Print(True, True)
+        Print(True, True, False)
 
     End Sub
 
     Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         strPrintType = "Excise"
-        Print(True, False)
+        Print(True, False, False)
 
     End Sub
 End Class

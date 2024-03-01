@@ -15,6 +15,7 @@ Public Class clsUserMgtCode
     Public Const ModuleSystemAdmin As String = "MSysAdmin"
     Public Const ModuleCommonServices As String = "MCommSer"
     Public Const ModuleReceivable As String = "MReceivable"
+    Public Const MPMilkPrice As String = "PCU-MCC"
     Public Const ModulePayable As String = "MPayable"
     Public Const ModuleGL As String = "MGenLedger"
     Public Const ModuleSales As String = "MSales"
@@ -2263,6 +2264,7 @@ Public Class clsUserMgtCode
     Public Const RptMonthWiseSaleAnalysis As String = "MNTH_ANA_RPT"
     Public Const RptJobWorkDebitNoteReport As String = "JW_DBT_NOTE"
     Public Const FrmSAC As String = "SAC_MASTER"
+    Public Const FrmSACWiseTax As String = "SAC_WIS_TAX"
     Public Const FrmItemWiseTax As String = "ITEM_WIS_TAX"
 
     Public Const frmOverheadCostMaster As String = "OVER_COST_MT"

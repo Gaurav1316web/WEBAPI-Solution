@@ -30,7 +30,15 @@ Public Class frmDistributorRouteTagging
         btnpost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        btnImport.Visible = MyBase.isExport
+        'btnImport.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            rmiImport.Enabled = True
+            rmiExport.Enabled = True
+        Else
+            rmiImport.Enabled = False
+            rmiExport.Enabled = False
+        End If
+
     End Sub
     Private Sub frmDistributeRateTagging_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()

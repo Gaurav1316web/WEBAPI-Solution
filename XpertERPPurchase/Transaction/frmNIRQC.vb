@@ -20,13 +20,9 @@ Public Class frmNIRQC
         btnPrint.Visible = MyBase.isPrintFlag
         btnPost.Visible = MyBase.isPostFlag
         If MyBase.isReverse Then
-
             RadButton1.Enabled = True
-
         Else
-
             RadButton1.Enabled = False
-
         End If
     End Sub
     Private Sub FrmCapexMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -205,8 +201,9 @@ Public Class frmNIRQC
                     RadButton1.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         End If
     End Sub
     Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs)

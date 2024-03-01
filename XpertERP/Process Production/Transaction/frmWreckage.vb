@@ -155,17 +155,24 @@ Public Class frmWreckage
 
     Private Sub frmWreckage_KeyDown(sender As Object, e As KeyEventArgs) Handles Me.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "TSPL_WRECKAGE_ENTRY" + Environment.NewLine + _
+            If MyBase.isReverse Then
+
+
+                ButtonToolTip.SetToolTip(btnSave, "TSPL_WRECKAGE_ENTRY" + Environment.NewLine +
                                               "TSPL_WRECKAGE_BOOKING ")
-            If btnPost.Enabled = False AndAlso btnSave.Enabled = False Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnunpost.Visible = True
+                If btnPost.Enabled = False AndAlso btnSave.Enabled = False Then
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = "SIRC"
+                    frm.strCode = "SIReversAndCreate"
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnunpost.Visible = True
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
                 End If
             End If
+
         End If
     End Sub
 
@@ -239,6 +246,11 @@ Public Class frmWreckage
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
+        If MyBase.isReverse Then
+            btnunpost.Enabled = True
+        Else
+            btnunpost.Enabled = False
+        End If
 
     End Sub
 

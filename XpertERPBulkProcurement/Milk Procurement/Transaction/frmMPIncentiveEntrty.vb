@@ -420,7 +420,19 @@ Public Class frmMPIncentiveEntrty
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
-        RadMenu1.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            rmimport.Enabled = True
+            rmExport.Enabled = True
+            RadMenuItem4.Enabled = True
+            RadMenuItem5.Enabled = True
+        Else
+            rmimport.Enabled = False
+            rmExport.Enabled = False
+            RadMenuItem4.Enabled = False
+            RadMenuItem5.Enabled = False
+        End If
+
+        'RadMenu1.Visible = MyBase.isExport
     End Sub
     Sub Reset()
         loadBlankGrid()

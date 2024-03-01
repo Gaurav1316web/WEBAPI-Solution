@@ -317,8 +317,14 @@ Public Class FrmPaymentNew
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnprint.Visible = MyBase.isPrintFlag
-        RadMenu1.Visible = MyBase.isExport
-
+        'RadMenu1.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            rmiExport.Enabled = True
+            rmiImport.Enabled = True
+        Else
+            rmiExport.Enabled = False
+            rmiImport.Enabled = False
+        End If
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
@@ -4120,7 +4126,8 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
                                "TSPL_VENDOR_INVOICE_HEAD ( update during Journal Entry) " + Environment.NewLine +
                                "TSPL_PJC_EXPENSE_HEADER ")
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
 
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F10 Then

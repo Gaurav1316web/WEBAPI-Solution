@@ -276,6 +276,7 @@ Public Class frmShipmentProductSale
             Throw New Exception("Permission Denied")
         End If
         btnSave.Visible = MyBase.isModifyFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         If btnSave.Visible = True Then
             Export_details.Enabled = True
             Export_Head.Enabled = True
@@ -285,6 +286,13 @@ Public Class frmShipmentProductSale
         End If
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        If MyBase.isExport = True Then
+            Export.Enabled = True
+            Import.Enabled = True
+        Else
+            Export.Enabled = False
+            Import.Enabled = False
+        End If
         If MyBase.isReverse Then
             btnReverseAndUnpost.Enabled = True
         Else

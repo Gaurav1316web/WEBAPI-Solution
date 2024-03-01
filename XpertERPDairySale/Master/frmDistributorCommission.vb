@@ -21,14 +21,27 @@ Public Class frmDistributorCommission
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
-        'btnDelete.Visible = MyBase.isDeleteFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        btnImport.Visible = MyBase.isExport
+        ' btnImport.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            rmiImport.Enabled = True
+            rmiExport.Enabled = True
+        Else
+            rmiImport.Enabled = False
+            rmiExport.Enabled = False
+        End If
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
         'If btnSave.Visible = True Then
         '    btnImport.Enabled = True
         'Else
         '    btnImport.Enabled = False
         'End If
+
     End Sub
     Private Sub frmDistributorCommission_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
@@ -40,12 +53,17 @@ Public Class frmDistributorCommission
     End Sub
     Private Sub frmDistributorCommission_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "sirc"
-            frm.strCode = "sireversandcreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "sirc"
+                frm.strCode = "sireversandcreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
         End If
     End Sub

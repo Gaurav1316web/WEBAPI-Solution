@@ -67,6 +67,15 @@ Public Class frmBulkSaleFreightMaster
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        RadSplitButton1.Visible = MyBase.isExport
+        btnPost.Visible = MyBase.isPostFlag
+        If MyBase.isExport = True Then
+            rmExport.Enabled = True
+            rmimport.Enabled = True
+        Else
+            rmExport.Enabled = False
+            rmimport.Enabled = False
+        End If
 
     End Sub
 
@@ -78,7 +87,7 @@ Public Class frmBulkSaleFreightMaster
 
     Private Sub txtDocumentNo__MYNavigator(sender As Object, e As EventArgs, NavType As common.NavigatorType) Handles txtDocumentNo._MYNavigator
         Try
-            Dim qry As String = "select count(*) from TSPL_HEAD_LOAD where Document_No='" + txtDocumentNo.Value + "' "
+            Dim qry As String = "select count(*) from TSPL_BLK_FREIGHT_MASTER where Document_Code='" + txtDocumentNo.Value + "' "
             Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
             If count = 0 Then
                 txtDocumentNo.MyReadOnly = False
@@ -124,8 +133,9 @@ Public Class frmBulkSaleFreightMaster
                     btnReverseUnpost.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         End If
     End Sub
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
@@ -222,7 +232,7 @@ Public Class frmBulkSaleFreightMaster
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub Addnew()
+    Private Sub FunReset()
         isNewEntry = True
         txtDocumentNo.Value = ""
         btnsave.Enabled = True
@@ -235,6 +245,9 @@ Public Class frmBulkSaleFreightMaster
         txtCustomer.Value = ""
         lblCustomerName.Text = ""
         lblStatus.Status = ERPTransactionStatus.Pending
+    End Sub
+    Private Sub Addnew()
+        FunReset()
         LoadBlankGrid()
         gv1.Rows.AddNew()
 
@@ -248,14 +261,14 @@ Public Class frmBulkSaleFreightMaster
         gv1.AddNewRowPosition = SystemRowPosition.Bottom
         Dim repoNumBox As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoNumBox.Name = colSNo
-        repoNumBox.Width = 40
+        repoNumBox.Width = 60
         repoNumBox.ReadOnly = True
         repoNumBox.HeaderText = "SNO"
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
         Dim repoTenderQty As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoTenderQty.FormatString = ""
-        repoTenderQty.Width = 300
+        repoTenderQty.Width = 100
         repoTenderQty.HeaderText = "Tender Qty"
         repoTenderQty.Name = colTenderQty
         repoTenderQty.IsVisible = True
@@ -333,13 +346,14 @@ Public Class frmBulkSaleFreightMaster
         ' gv1.TableElement.TableHeaderHeight = 40
         ' gv1.Rows.AddNew()
         ReStoreGridLayout()
-        ' RefreshSerialNo()
     End Sub
 
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
             btnsave.Enabled = True
             btnPost.Enabled = True
+
+            FunReset()
             LoadBlankGrid()
             Dim obj As New clsBulkSaleFreightMaster()
             obj = clsBulkSaleFreightMaster.GetData(strCode, NavTyep, Nothing)
@@ -353,14 +367,14 @@ Public Class frmBulkSaleFreightMaster
                 isNewEntry = False
                 btnsave.Text = "Update"
                 If obj.Status = 1 Then
-                        lblStatus.Status = ERPTransactionStatus.Approved
-                        btndelete.Enabled = False
-                        btnsave.Enabled = False
-                        btnPost.Enabled = False
-                    Else
-                        lblStatus.Status = ERPTransactionStatus.Pending
-                        btndelete.Enabled = True
-                    End If
+                    lblStatus.Status = ERPTransactionStatus.Approved
+                    btndelete.Enabled = False
+                    btnsave.Enabled = False
+                    btnPost.Enabled = False
+                Else
+                    lblStatus.Status = ERPTransactionStatus.Pending
+                    btndelete.Enabled = True
+                End If
 
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsBulkSaleFreightDetail In obj.Arr
@@ -382,7 +396,7 @@ Public Class frmBulkSaleFreightMaster
             isLoadData = True
             isInsideLoadData = True
             isInsideLoadData = False
-            'RefreshSerialNo()
+
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
@@ -465,7 +479,7 @@ Public Class frmBulkSaleFreightMaster
             Dim gvImport As New RadGridView()
             Me.Controls.Add(gvImport)
             Dim currentdate As Date = Date.Today
-            If transportSql.importExcel(gvImport, "SNO", "Tender Qty", "Rate", "Pro Rate", "Applicable Rate", "GPS KM", "Payable Amount") Then
+            If transportSql.importExcel(gvImport, "SNO", "Tender Qty", "Rate", "Pro Rate", "Diesel Hike/Red.", "Applicable Rate", "GPS KM", "Payable Amount") Then
                 Dim Arr As New List(Of clsBulkSaleFreightDetail)
 
                 Try
@@ -565,7 +579,7 @@ Public Class frmBulkSaleFreightMaster
     End Sub
 
     Private Sub rmExport_Click(sender As Object, e As EventArgs) Handles rmExport.Click
-        Dim qry As String = "select '' as SNO ,'' AS [Tender Qty] , '' AS Rate , '' as [Pro Rate] , '' as [Applicable Rate] , '' as [GPS KM] , '' [Payable Amount]"
+        Dim qry As String = "select '' as SNO ,'' AS [Tender Qty] , '' AS Rate , '' as [Pro Rate] ,'' as [Diesel Hike/Red.], '' as [Applicable Rate] , '' as [GPS KM] , '' [Payable Amount]"
         transportSql.ExporttoExcelWithoutFilter(qry, "", "", Me)
     End Sub
 End Class

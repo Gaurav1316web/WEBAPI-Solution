@@ -7435,6 +7435,9 @@ Public Class MDI
                             frm = New FrmPriceChartUploader
                         End If
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.MPMilkPrice
+                        frm = New frmMPMilkPrice
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.GazeReading
                         frm = New frmGazeReading
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9401,6 +9404,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmSAC
                         frm = New frmSAC
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmSACWiseTax
+                        frm = New FrmSacWiseTaxMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FrmRackBinMaster
                         frm = New frmRackBinMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9826,23 +9832,9 @@ Public Class MDI
         ShowForm(clsUserMgtCode.rptActiveUsers, "Active Users", True, "", True)
     End Sub
 
-    Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem2.Click
-        RadDock1.RemoveAllDocumentWindows()
-        SplitPanel3.Collapsed = True
-        SplitPanel1.Collapsed = True
-        SplitPanel4.Collapsed = True
-        SplitPanel2.Collapsed = False
 
-        txtUserName.Text = ""
-        txtPassword.Text = ""
-    End Sub
 
-    Private Sub RadMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem3.Click
-        Me.Close()
-        'txtPassword.Text = String.Empty
-        'txtUserName.Text = String.Empty
-        'LoadLoginScreen()
-    End Sub
+
 
     Private Sub RadDock1_DockStateChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Docking.DockWindowEventArgs) Handles RadDock1.DockStateChanged
         ' Set Image
@@ -10040,7 +10032,7 @@ Public Class MDI
         clsCommon.MyMessageBoxShow("Memory Refreshed ")
     End Sub
 
-    Private Sub RadMenuItem3_Disposing(ByVal sender As Object, ByVal e As System.EventArgs) Handles RadMenuItem3.Disposing
+    Private Sub RadMenuItem3_Disposing(ByVal sender As Object, ByVal e As System.EventArgs)
 
     End Sub
 
@@ -10812,13 +10804,23 @@ Public Class MDI
 
     End Sub
 
-    Private Sub RadLabel3_Click(sender As Object, e As EventArgs) Handles RadLabel3.Click
-        RadDock1.RemoveAllDocumentWindows()
-        SplitPanel3.Collapsed = True
-        SplitPanel1.Collapsed = True
-        SplitPanel4.Collapsed = True
-        SplitPanel2.Collapsed = False
-        txtUserName.Text = ""
-        txtPassword.Text = ""
+
+
+    Private Sub btnLogOff_Click(sender As Object, e As EventArgs) Handles btnLogOff.Click
+        If Not SplitPanel2.Collapsed Then
+            Me.Close()
+        Else
+            If clsCommon.MyMessageBoxShow(Me, "Logoff from [" + objCommonVar.CurrentUser + "]." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
+                RadDock1.RemoveAllDocumentWindows()
+                SplitPanel3.Collapsed = True
+                SplitPanel1.Collapsed = True
+                SplitPanel4.Collapsed = True
+                SplitPanel2.Collapsed = False
+                txtUserName.Text = ""
+                txtPassword.Text = ""
+            End If
+        End If
     End Sub
+
+
 End Class

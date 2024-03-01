@@ -22,10 +22,10 @@ Partial Class frmMRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -97,6 +97,8 @@ Partial Class frmMRN
         Me.lblTaxGrpName = New common.Controls.MyLabel()
         Me.RadLabel10 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel62 = New common.Controls.MyLabel()
+        Me.TxtRetention = New common.Controls.MyTextBox()
         Me.txtTermCode = New common.UserControls.txtFinder()
         Me.RadLabel16 = New common.Controls.MyLabel()
         Me.lblTermName = New common.Controls.MyLabel()
@@ -152,8 +154,6 @@ Partial Class frmMRN
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel62 = New common.Controls.MyLabel()
-        Me.TxtRetention = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -222,6 +222,8 @@ Partial Class frmMRN
         CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTermName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDueDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -281,8 +283,6 @@ Partial Class frmMRN
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1068,7 +1068,8 @@ Partial Class frmMRN
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1505,6 +1506,42 @@ Partial Class frmMRN
         Me.RadGroupBox1.TabIndex = 2
         Me.RadGroupBox1.Text = "Terms"
         '
+        'MyLabel62
+        '
+        Me.MyLabel62.AutoSize = False
+        Me.MyLabel62.FieldName = Nothing
+        Me.MyLabel62.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel62.Location = New System.Drawing.Point(220, 54)
+        Me.MyLabel62.Name = "MyLabel62"
+        Me.MyLabel62.Size = New System.Drawing.Size(72, 29)
+        Me.MyLabel62.TabIndex = 42
+        Me.MyLabel62.Text = "Retention"
+        '
+        'TxtRetention
+        '
+        Me.TxtRetention.CalculationExpression = Nothing
+        Me.TxtRetention.FieldCode = Nothing
+        Me.TxtRetention.FieldDesc = Nothing
+        Me.TxtRetention.FieldMaxLength = 0
+        Me.TxtRetention.FieldName = Nothing
+        Me.TxtRetention.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtRetention.isCalculatedField = False
+        Me.TxtRetention.IsSourceFromTable = False
+        Me.TxtRetention.IsSourceFromValueList = False
+        Me.TxtRetention.IsUnique = False
+        Me.TxtRetention.Location = New System.Drawing.Point(298, 59)
+        Me.TxtRetention.MaxLength = 200
+        Me.TxtRetention.MendatroryField = False
+        Me.TxtRetention.MyLinkLable1 = Me.MyLabel62
+        Me.TxtRetention.MyLinkLable2 = Nothing
+        Me.TxtRetention.Name = "TxtRetention"
+        Me.TxtRetention.ReadOnly = True
+        Me.TxtRetention.ReferenceFieldDesc = Nothing
+        Me.TxtRetention.ReferenceFieldName = Nothing
+        Me.TxtRetention.ReferenceTableName = Nothing
+        Me.TxtRetention.Size = New System.Drawing.Size(84, 18)
+        Me.TxtRetention.TabIndex = 41
+        '
         'txtTermCode
         '
         Me.txtTermCode.CalculationExpression = Nothing
@@ -1612,7 +1649,8 @@ Partial Class frmMRN
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -1672,7 +1710,8 @@ Partial Class frmMRN
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -1741,7 +1780,8 @@ Partial Class frmMRN
         Me.gvACInsurance.MasterTemplate.AllowDeleteRow = False
         Me.gvACInsurance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvACInsurance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvACInsurance.MyStopExport = False
         Me.gvACInsurance.Name = "gvACInsurance"
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvACInsurance.ShowGroupPanel = False
@@ -2229,42 +2269,6 @@ Partial Class frmMRN
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'MyLabel62
-        '
-        Me.MyLabel62.AutoSize = False
-        Me.MyLabel62.FieldName = Nothing
-        Me.MyLabel62.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel62.Location = New System.Drawing.Point(220, 54)
-        Me.MyLabel62.Name = "MyLabel62"
-        Me.MyLabel62.Size = New System.Drawing.Size(72, 29)
-        Me.MyLabel62.TabIndex = 42
-        Me.MyLabel62.Text = "Retention"
-        '
-        'TxtRetention
-        '
-        Me.TxtRetention.CalculationExpression = Nothing
-        Me.TxtRetention.FieldCode = Nothing
-        Me.TxtRetention.FieldDesc = Nothing
-        Me.TxtRetention.FieldMaxLength = 0
-        Me.TxtRetention.FieldName = Nothing
-        Me.TxtRetention.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtRetention.isCalculatedField = False
-        Me.TxtRetention.IsSourceFromTable = False
-        Me.TxtRetention.IsSourceFromValueList = False
-        Me.TxtRetention.IsUnique = False
-        Me.TxtRetention.Location = New System.Drawing.Point(298, 59)
-        Me.TxtRetention.MaxLength = 200
-        Me.TxtRetention.MendatroryField = False
-        Me.TxtRetention.MyLinkLable1 = Me.MyLabel62
-        Me.TxtRetention.MyLinkLable2 = Nothing
-        Me.TxtRetention.Name = "TxtRetention"
-        Me.TxtRetention.ReadOnly = True
-        Me.TxtRetention.ReferenceFieldDesc = Nothing
-        Me.TxtRetention.ReferenceFieldName = Nothing
-        Me.TxtRetention.ReferenceTableName = Nothing
-        Me.TxtRetention.Size = New System.Drawing.Size(84, 18)
-        Me.TxtRetention.TabIndex = 41
-        '
         'frmMRN
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2350,6 +2354,8 @@ Partial Class frmMRN
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTermName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDueDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2413,8 +2419,6 @@ Partial Class frmMRN
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TxtRetention, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
