@@ -1387,4 +1387,47 @@ TSPL_MCC_Dispatch_Challan On TSPL_MCC_Dispatch_Challan.Chalan_NO = Tspl_Gate_Ent
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnFatSnf_Click(sender As Object, e As EventArgs) Handles btnFatSnf.Click
+        Try
+            'If clsCommon.myLen(GateEntryNo) <= 0 Then
+            '    Throw New Exception("Not found anything to print")
+            'Else
+            ' Ticket No : BHA/03/07/18-000124 Create New Print Format For Bharat and Add Chamber_Qty , snf_Per , snf_Per column 
+            Dim qry As String = ""
+            '       If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Then
+            '       qry = " select g.Tanker_No ,g.Gate_Entry_No [Gate-In No] , isnull(o.Doc_No ,'') [Gate-Out No] , (CASE WHEN G.doc_type='MccProc' THEN G.Dispatched_From_Mcc ELSE g.Vendor_Code END) AS  [Vendor Code] ," &
+            '"(CASE WHEN G.Doc_Type='MccProc' then TSPL_MCC_MASTER.MCC_NAME else  g.Vendor_Desc end) as [Vendor Name] , COALESCE(G.Supplier_Code ,'')  AS Sub_Vendor_Code, COALESCE(S.DESCRIPTION ,'')  AS Sub_Vendor_Code_Desc, CONVERT (varchar, g.Date_And_Time,103)  [Gate-In Date] , " &
+            '"RIGHT(CONVERT(VARCHAR(26), g.Date_And_Time, 109),14) [Gate-In Time], CONVERT (varchar , O.Doc_Date ,103 ) [Gate-Out Date], RIGHT(CONVERT(VARCHAR(26),  O.Doc_Date, 109),14) [Gate-Out Time], CM.Item_Code [Item Code] , " &
+            '"TSPL_ITEM_MASTER.Item_Desc [Item Desc]  , g.location_Code [Location] , g.Location_Desc [Loc Desc] , g.comp_code [Company Code] , c.Comp_Name [Comp Desc] , CONCAT(c.Add1 , ' ' , c.Add2 , ' ', c.Add3 , ' , ', c.State ) as [Company Address] , " &
+            '"g.Doc_Type [Doc Type],G.snf_Per,g.fat_per,g.MIKL_TYPE_CODE,G.Gate_Entry_Type,G.Seal_Status,G.TotalQty_In_Kg ,CM.Chamber_Desc,tspl_item_master.HSN_Code as HSNCode,CM.UOM, CM.Chamber_Qty,CM.snf_Per as snf_Per_CM, CM.fat_per as fat_per_CM , CM.Line_No,C.Logo_img, isnull(G.No_Of_CAN,'') as No_Of_CAN from Tspl_Gate_Entry_Details G LEFT JOIN TSPL_SUPPLIER_MASTER S ON G.Supplier_Code = S.SUPPLIER_CODE   LEFT JOIN  TSPL_COMPANY_MASTER C on g.comp_code = c.Comp_Code LEFT JOIN TSPL_Gate_Out O ON G.Gate_Entry_No = O.Gate_Entry_No LEFT OUTER JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=G.Dispatched_From_Mcc LEFT JOIN TSPL_Gate_Entry_Chember_Details CM ON CM.GE_Code=G.Gate_Entry_No   left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_code=CM.item_code  where 1=1 and convert(date,G.Date_And_Time,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,G.Date_And_Time,103) <=convert(date,'" + txtToDate.Value + "',103) group by g.Gate_Entry_No"
+            '   Else
+            qry = "Select xxx.*,xxxxx.* from( select LAG(Sum(CM.Chamber_Qty)) OVER (ORDER BY (Select 1)) AS Chamber_Qtyy,LAG(Sum(CM.snf_Per)) OVER (ORDER BY (Select 1)) AS snf_Per_CMm,LAG(Sum(CM.fat_per)) OVER (ORDER BY (Select 1)) AS fat_per_CMm, 
+ max('In') as PrintType,max(g.Tanker_No)Tanker_No ,Max(g.Gate_Entry_No) [Gate-In No] , max(isnull(o.Doc_No ,'')) [Gate-Out No], 
+ max((CASE WHEN G.doc_type='MccProc' THEN G.Dispatched_From_Mcc ELSE g.Vendor_Code END)) AS  [Vendor Code] ,max((CASE WHEN G.Doc_Type='MccProc' then TSPL_MCC_MASTER.MCC_NAME else  g.Vendor_Desc end)) as [Vendor Name] , max(COALESCE(G.Supplier_Code ,''))  AS Sub_Vendor_Code, max(COALESCE(S.DESCRIPTION ,''))  AS Sub_Vendor_Code_Desc, max(CONVERT (varchar, g.Date_And_Time,103))  [Gate-In Date] , max(RIGHT(CONVERT(VARCHAR(26), g.Date_And_Time, 109),14)) [Gate-In Time], max(CONVERT (varchar , O.Doc_Date ,103 )) [Gate-Out Date], max(RIGHT(CONVERT(VARCHAR(26),  O.Doc_Date, 109),14)) [Gate-Out Time], max(g.Item_Code) [Item Code] , max(g.Item_Desc) [Item Desc]  , max(g.location_Code) [Location] , max(g.Location_Desc) [Loc Desc] , max(g.comp_code) [Company Code] , max(c.Comp_Name) [Comp Desc] , max(CONCAT(c.Add1 , ' ' , c.Add2 , ' ', c.Add3 , ' , ', c.State )) as [Company Address] , max(g.Doc_Type) [Doc Type],sum(G.snf_Per)snf_Per,sum(g.fat_per)fat_per,max(g.MIKL_TYPE_CODE)MIKL_TYPE_CODE,max(G.Gate_Entry_Type)Gate_Entry_Type,max(G.Seal_Status)Seal_Status,sum(G.TotalQty_In_Kg)TotalQty_In_Kg ,max(CM.Chamber_Desc)Chamber_Desc,max(tspl_item_master.HSN_Code) as HSNCode,max(CM.UOM)UOM, sum(CM.Chamber_Qty)Chamber_Qty, sum(CM.snf_Per) as snf_Per_CM, sum(CM.fat_Per) as fat_per_CM
+ 
+ from Tspl_Gate_Entry_Details G LEFT JOIN TSPL_SUPPLIER_MASTER S ON G.Supplier_Code = S.SUPPLIER_CODE left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_code=g.item_code LEFT JOIN  TSPL_COMPANY_MASTER C on g.comp_code = c.Comp_Code LEFT JOIN TSPL_Gate_Out O ON G.Gate_Entry_No = O.Gate_Entry_No LEFT OUTER JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=G.Dispatched_From_Mcc LEFT JOIN TSPL_Gate_Entry_Chember_Details CM ON CM.GE_Code=G.Gate_Entry_No
+ --left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+ where 1=1 and convert(date,G.Date_And_Time,103)>=convert(date,'01/01/2024',103) and convert(date,G.Date_And_Time,103) <=convert(date,'28/02/2024 16:47:25',103)
+   group by CONVERT (varchar, g.Date_And_Time,103)) As xxx
+   
+   left Join(
+   select TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.SNF_PER as snf_Per_rec,TSPL_MILK_SRN_DETAIL.FAT_PER as fat_per_rec,TSPL_MILK_SRN_DETAIL.Qty as Chamber_Qty_rec,TSPL_MILK_SRN_DETAIL.Item_Code As [Item Code]
+   from TSPL_MILK_SRN_DETAIL
+  inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE where 1=1 and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "',103)) As xxxxx 
+  On convert(date,xxx.[Gate-In Date],103)=xxxxx.DOC_DATE  "
+
+            '           = " select max('In') as PrintType,max(g.Tanker_No)Tanker_No ,Max(g.Gate_Entry_No) [Gate-In No] , max(isnull(o.Doc_No ,'')) [Gate-Out No] , 
+            'max((CASE WHEN G.doc_type='MccProc' THEN G.Dispatched_From_Mcc ELSE g.Vendor_Code END)) AS  [Vendor Code] ,max((CASE WHEN G.Doc_Type='MccProc' then TSPL_MCC_MASTER.MCC_NAME else  g.Vendor_Desc end)) as [Vendor Name] , max(COALESCE(G.Supplier_Code ,''))  AS Sub_Vendor_Code, max(COALESCE(S.DESCRIPTION ,''))  AS Sub_Vendor_Code_Desc, max(CONVERT (varchar, g.Date_And_Time,103))  [Gate-In Date] , max(RIGHT(CONVERT(VARCHAR(26), g.Date_And_Time, 109),14)) [Gate-In Time], max(CONVERT (varchar , O.Doc_Date ,103 )) [Gate-Out Date], max(RIGHT(CONVERT(VARCHAR(26),  O.Doc_Date, 109),14)) [Gate-Out Time], max(g.Item_Code) [Item Code] , max(g.Item_Desc) [Item Desc]  , max(g.location_Code) [Location] , max(g.Location_Desc) [Loc Desc] , max(g.comp_code) [Company Code] , max(c.Comp_Name) [Comp Desc] , max(CONCAT(c.Add1 , ' ' , c.Add2 , ' ', c.Add3 , ' , ', c.State )) as [Company Address] , max(g.Doc_Type) [Doc Type],sum(G.snf_Per)snf_Per,sum(g.fat_per)fat_per,max(g.MIKL_TYPE_CODE)MIKL_TYPE_CODE,max(G.Gate_Entry_Type)Gate_Entry_Type,max(G.Seal_Status)Seal_Status,sum(G.TotalQty_In_Kg)TotalQty_In_Kg ,max(CM.Chamber_Desc)Chamber_Desc,max(tspl_item_master.HSN_Code) as HSNCode,max(CM.UOM)UOM, sum(CM.Chamber_Qty)Chamber_Qty, sum(CM.snf_Per) as snf_Per_CM, sum(CM.fat_Per) as fat_per_CM from Tspl_Gate_Entry_Details G LEFT JOIN TSPL_SUPPLIER_MASTER S ON G.Supplier_Code = S.SUPPLIER_CODE left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_code=g.item_code LEFT JOIN  TSPL_COMPANY_MASTER C on g.comp_code = c.Comp_Code LEFT JOIN TSPL_Gate_Out O ON G.Gate_Entry_No = O.Gate_Entry_No LEFT OUTER JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=G.Dispatched_From_Mcc LEFT JOIN TSPL_Gate_Entry_Chember_Details CM ON CM.GE_Code=G.Gate_Entry_No where 1=1 and convert(date,G.Date_And_Time,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,G.Date_And_Time,103) <=convert(date,'" + txtToDate.Value + "',103) group by CONVERT (varchar, g.Date_And_Time,103)"
+            '           'End If
+
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim frmCRV As New frmCrystalReportViewer()
+            frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptGateInfatsnfcomparison", "Milk Procurement Bulk Gate In", clsCommon.myCDate(dt.Rows(0)("Gate-In Date")))
+            frmCRV = Nothing
+            'End If
+        Catch ex As Exception
+            RadMessageBox.Show(ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
