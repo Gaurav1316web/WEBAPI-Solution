@@ -4520,9 +4520,9 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
         DtError.Columns.Add("Error", GetType(String))
 
         If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Dairy Sale") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Demand") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Booking/DO") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Fresh Booking/DO") = CompairStringResult.Equal) Then
-            For trnsNo = 0 To gv1.Rows.Count - 1
-                If gv1.Rows(trnsNo).Cells("Status").Value = True Then
-                    trnsLst.Add(gv1.Rows(trnsNo).Cells("Document Id").Value)  '' Insert The Document_Id in The StringList
+            For trnsNo = 0 To gv1.ChildRows.Count - 1
+                If gv1.ChildRows(trnsNo).Cells("Status").Value = True Then
+                    trnsLst.Add(gv1.ChildRows(trnsNo).Cells("Document Id").Value)  '' Insert The Document_Id in The StringList
                     If clsCommon.CompairString(clsCommon.myCstr(cboTransaction.SelectedValue), "Demand") = CompairStringResult.Equal Then
                         trnsLstCustomer.Add(IIf(clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(trnsNo).Cells("ShiftType").Value), "Morning") = CompairStringResult.Equal, "1", IIf(clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(trnsNo).Cells("ShiftType").Value), "Evening") = CompairStringResult.Equal, "2", "3")))
                     Else
@@ -4532,9 +4532,9 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                 End If
             Next
         Else
-            For trnsNo = 0 To gv1.Rows.Count - 1
-                If gv1.Rows(trnsNo).Cells("Status").Value = True Then
-                    trnsLst.Add(gv1.Rows(trnsNo).Cells("Document Id").Value)  '' Insert The Document_Id in The StringList
+            For trnsNo = 0 To gv1.ChildRows.Count - 1
+                If gv1.ChildRows(trnsNo).Cells("Status").Value = True Then
+                    trnsLst.Add(gv1.ChildRows(trnsNo).Cells("Document Id").Value)  '' Insert The Document_Id in The StringList
                 End If
             Next
         End If
@@ -5990,8 +5990,8 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
     '' Function For Operating Select/UnSelect (btnSlctAll)----------
     ''---------------------------------------------------------------
     Sub SelectUnselectAll()
-        For i As Integer = 0 To gv1.Rows.Count - 1
-            gv1.Rows(i).Cells("Status").Value = False
+        For i As Integer = 0 To gv1.ChildRows.Count - 1
+            gv1.ChildRows(i).Cells("Status").Value = False
         Next
         If btnSlctAll.Text = "Select TOP 100" Then
             'If gv1.ChildRows.Count <= 100 Then
@@ -6466,8 +6466,8 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
     End Sub
 
     Private Sub btnSel1000_Click(sender As Object, e As EventArgs) Handles btnSel1000.Click
-        For i As Integer = 0 To gv1.Rows.Count - 1
-            gv1.Rows(i).Cells("Status").Value = False
+        For i As Integer = 0 To gv1.ChildRows.Count - 1
+            gv1.ChildRows(i).Cells("Status").Value = False
         Next
         If btnSel1000.Text = "Select TOP 1000" Then
             For i As Integer = 0 To gv1.ChildRows.Count - 1
@@ -6505,9 +6505,9 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
             FlagAllSelectWorking = True
             If clsCommon.CompairString(BtnSelAll.Text, "Select All") = CompairStringResult.Equal Then
                 Dim TempTotal As Double = 0
-                For i As Integer = 0 To gv1.Rows.Count - 1
-                    gv1.Rows(i).Cells("Status").Value = True
-                    TempTotal = TempTotal + clsCommon.myCdbl(gv1.Rows(i).Cells("Amount"))
+                For i As Integer = 0 To gv1.ChildRows.Count - 1
+                    gv1.ChildRows(i).Cells("Status").Value = True
+                    TempTotal = TempTotal + clsCommon.myCdbl(gv1.ChildRows(i).Cells("Amount"))
                 Next
                 txtGrandTotal.Text = TempTotal
                 IsSelected = True
@@ -6524,12 +6524,12 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
 
 
             ElseIf clsCommon.CompairString(BtnSelAll.Text, "UnSelect All") = CompairStringResult.Equal Then
-                For i As Integer = 0 To gv1.Rows.Count - 1
+                For i As Integer = 0 To gv1.ChildRows.Count - 1
                     'gv1.ChildRows(i).IsVisible = True
                     'If i > gv1.Rows.Count - 1 Then
                     '    Exit For
                     'End If
-                    gv1.Rows(i).Cells("Status").Value = False
+                    gv1.ChildRows(i).Cells("Status").Value = False
                 Next
                 IsSelected = False
                 BtnSelAll.Text = "Select All"
@@ -6556,5 +6556,9 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
         'BtnSelAll.Text = "Select All"
         'txtGrandTotal.Text = ""
         'End If
+    End Sub
+
+    Private Sub gv1_FilterChanged(sender As Object, e As GridViewCollectionChangedEventArgs) Handles gv1.FilterChanged
+        lblNoOfRecords.Text = "" + gv1.ChildRows.Count.ToString + " Records Found"
     End Sub
 End Class
