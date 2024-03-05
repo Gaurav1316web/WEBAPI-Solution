@@ -1022,10 +1022,11 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmODSheet, "OD Sheet", "1.11.02.34", clsUserMgtCode.SubModuleHRTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmConveyanceClaim, "Conveyance Claim", "1.11.02.35", clsUserMgtCode.SubModuleHRTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.FrmEmployeeTransfer, "Employee Transfer", "1.11.02.36", clsUserMgtCode.SubModuleHRTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.FrmEmpIncrement, "Employee Increment", "1.11.02.37", clsUserMgtCode.SubModuleHRTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.FrmSentSalarySlip, "Sent Salary Slip", "1.11.02.38", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, True, Nothing)
-        InsertDefaultValue(clsUserMgtCode.FrmAllotmentOfLeaves, "ALlotment Of Leaves", "1.11.02.39", clsUserMgtCode.SubModuleHRTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.EmployeeBandMaster, "Employee Band Master", "1.11.02.40", clsUserMgtCode.SubModuleHRTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmEPFund, "EPF", "1.11.02.37", clsUserMgtCode.SubModuleHRTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmEmpIncrement, "Employee Increment", "1.11.02.38", clsUserMgtCode.SubModuleHRTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmSentSalarySlip, "Sent Salary Slip", "1.11.02.39", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, True, Nothing)
+        InsertDefaultValue(clsUserMgtCode.FrmAllotmentOfLeaves, "ALlotment Of Leaves", "1.11.02.40", clsUserMgtCode.SubModuleHRTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.EmployeeBandMaster, "Employee Band Master", "1.11.02.41", clsUserMgtCode.SubModuleHRTransaction, 8)
         'Reports
         InsertDefaultValue(clsUserMgtCode.SubModuleHRReport, "Report", "1.11.03", clsUserMgtCode.ModuleHR, "SM", 30)
 

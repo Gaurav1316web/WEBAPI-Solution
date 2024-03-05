@@ -6443,6 +6443,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmEmployeeTransfer
                         frm = New FrmEmployeeTransfer()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmEPFund
+                        frm = New frmEPF()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmSkillMaster
                         frm = New frmSkillMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
