@@ -1301,6 +1301,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptAutoAdditionDeductionNewGNG.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNew.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewJPR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceneww.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankWiseSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />
