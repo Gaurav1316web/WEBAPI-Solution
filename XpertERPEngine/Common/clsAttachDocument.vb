@@ -134,9 +134,9 @@ where 1=1 "
         Try
             Dim url As String
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
-                url = "http://172.21.80.251:7888/api/FileUploads/FileUpload"
+                url = "http://172.21.80.251:7888/api/FileUploads/FileUpload"  ''Server Local IP
             Else
-                url = "http://103.122.38.34:7888/api/FileUploads/FileUpload"
+                url = "http://103.122.38.34:7888/api/FileUploads/FileUpload" ''Server Local IP
             End If
             Dim fileByteArray As Byte() = File.ReadAllBytes(filePath)
             Dim formDataBoundary As String = $"----------{Guid.NewGuid()}"

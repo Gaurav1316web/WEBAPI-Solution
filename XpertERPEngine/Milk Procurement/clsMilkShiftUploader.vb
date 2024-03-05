@@ -1384,7 +1384,7 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
         If isPickCLRInsteadOfSNF Then
             flag = transportSql.importExcel(gv, "Date", "Shift", "Route", "DCSNo", "MilkType", "Qty", "FAT", "CLR")
         Else
-            flag = transportSql.importExcel(gv, "Date", "Shift", "Route", "DCSNo", "MilkType", "Qty", "FAT", "SNF")
+            flag = transportSql.importExcel(gv, "Date", "Shift", "Route", "DCSNo", "Mix/Cow", "MilkType", "Qty", "FAT", "SNF")
         End If
         If flag Then
             Try
@@ -1473,7 +1473,12 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                             objtr.Milk_Weight = objtemp.Qty
                             objtr.FAT = objtemp.FAT
                             objtr.SNF = objtemp.SNF
-                            objtr.Dock_Collection_Milk_Type = "M"
+                            If objCommonVar.DisplayTypeInMilkReceipt Then
+                                objtr.Dock_Collection_Milk_Type = clsCommon.myCstr(grow.Cells("Milk/Cow").Value)
+                            Else
+                                objtr.Dock_Collection_Milk_Type = "M"
+                            End If
+                            'objtr.Dock_Collection_Milk_Type = "M"
                             arr(UniqueCombination).Arr.Add(objtr)
                             indxSuccess += 1
                         End If

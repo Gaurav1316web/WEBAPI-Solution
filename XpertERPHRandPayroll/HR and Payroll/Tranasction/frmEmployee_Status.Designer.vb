@@ -24,6 +24,7 @@ Partial Class frmEmployee_Status
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -41,6 +42,8 @@ Partial Class frmEmployee_Status
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtTransferPF = New common.Controls.MyTextBox()
+        Me.chkTransPF = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkProfessionalTaxApplicable = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkRevisionNo = New Telerik.WinControls.UI.RadCheckBox()
         Me.cboPFCalculatnType = New common.Controls.MyComboBox()
@@ -123,10 +126,14 @@ Partial Class frmEmployee_Status
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel43 = New common.Controls.MyLabel()
+        Me.txtGPFNo = New common.Controls.MyTextBox()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtTransferPF, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkTransPF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkProfessionalTaxApplicable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkRevisionNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboPFCalculatnType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -197,6 +204,8 @@ Partial Class frmEmployee_Status
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtGPFNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -207,27 +216,20 @@ Partial Class frmEmployee_Status
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(913, 20)
         Me.RadMenu2.TabIndex = 214
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Import"
-        Me.RadMenuItem1.AccessibleName = "Import"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Import"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Export"
-        Me.RadMenuItem2.AccessibleName = "Export"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Export"
         '
@@ -242,6 +244,10 @@ Partial Class frmEmployee_Status
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel43)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtGPFNo)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtTransferPF)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkTransPF)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkProfessionalTaxApplicable)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkRevisionNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.cboPFCalculatnType)
@@ -330,6 +336,38 @@ Partial Class frmEmployee_Status
         Me.SplitContainer1.SplitterDistance = 448
         Me.SplitContainer1.TabIndex = 215
         '
+        'txtTransferPF
+        '
+        Me.txtTransferPF.CalculationExpression = Nothing
+        Me.txtTransferPF.FieldCode = Nothing
+        Me.txtTransferPF.FieldDesc = Nothing
+        Me.txtTransferPF.FieldMaxLength = 0
+        Me.txtTransferPF.FieldName = Nothing
+        Me.txtTransferPF.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTransferPF.isCalculatedField = False
+        Me.txtTransferPF.IsSourceFromTable = False
+        Me.txtTransferPF.IsSourceFromValueList = False
+        Me.txtTransferPF.IsUnique = False
+        Me.txtTransferPF.Location = New System.Drawing.Point(669, 170)
+        Me.txtTransferPF.MaxLength = 49
+        Me.txtTransferPF.MendatroryField = False
+        Me.txtTransferPF.MyLinkLable1 = Nothing
+        Me.txtTransferPF.MyLinkLable2 = Nothing
+        Me.txtTransferPF.Name = "txtTransferPF"
+        Me.txtTransferPF.ReferenceFieldDesc = Nothing
+        Me.txtTransferPF.ReferenceFieldName = Nothing
+        Me.txtTransferPF.ReferenceTableName = Nothing
+        Me.txtTransferPF.Size = New System.Drawing.Size(228, 18)
+        Me.txtTransferPF.TabIndex = 175
+        '
+        'chkTransPF
+        '
+        Me.chkTransPF.Location = New System.Drawing.Point(586, 170)
+        Me.chkTransPF.Name = "chkTransPF"
+        Me.chkTransPF.Size = New System.Drawing.Size(75, 18)
+        Me.chkTransPF.TabIndex = 174
+        Me.chkTransPF.Text = "Transfer PF"
+        '
         'chkProfessionalTaxApplicable
         '
         Me.chkProfessionalTaxApplicable.Location = New System.Drawing.Point(586, 147)
@@ -358,6 +396,7 @@ Partial Class frmEmployee_Status
         Me.cboPFCalculatnType.AutoCompleteDisplayMember = Nothing
         Me.cboPFCalculatnType.AutoCompleteValueMember = Nothing
         Me.cboPFCalculatnType.CalculationExpression = Nothing
+        Me.cboPFCalculatnType.DropDownAnimationEnabled = True
         Me.cboPFCalculatnType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboPFCalculatnType.FieldCode = Nothing
         Me.cboPFCalculatnType.FieldDesc = Nothing
@@ -415,7 +454,7 @@ Partial Class frmEmployee_Status
         Me.txtEPFMaxLimit.TabIndex = 225
         Me.txtEPFMaxLimit.Text = "0"
         Me.txtEPFMaxLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtEPFMaxLimit.Value = 0.0R
+        Me.txtEPFMaxLimit.Value = 0R
         '
         'lblMaxLimit
         '
@@ -463,7 +502,7 @@ Partial Class frmEmployee_Status
         Me.txtESIRate.TabIndex = 230
         Me.txtESIRate.Text = "0"
         Me.txtESIRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtESIRate.Value = 0.0R
+        Me.txtESIRate.Value = 0R
         '
         'MyLabel4
         '
@@ -501,7 +540,7 @@ Partial Class frmEmployee_Status
         Me.txtEPFRate.TabIndex = 229
         Me.txtEPFRate.Text = "0"
         Me.txtEPFRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtEPFRate.Value = 0.0R
+        Me.txtEPFRate.Value = 0R
         '
         'txtESIMaxLim
         '
@@ -529,7 +568,7 @@ Partial Class frmEmployee_Status
         Me.txtESIMaxLim.TabIndex = 227
         Me.txtESIMaxLim.Text = "0"
         Me.txtESIMaxLim.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtESIMaxLim.Value = 0.0R
+        Me.txtESIMaxLim.Value = 0R
         '
         'RadGroupBox6
         '
@@ -553,20 +592,22 @@ Partial Class frmEmployee_Status
         Me.gvLoanGeneration.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvLoanGeneration.Location = New System.Drawing.Point(10, 20)
         '
-        'gvLoanGeneration
+        '
         '
         Me.gvLoanGeneration.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvLoanGeneration.MasterTemplate.AllowAddNewRow = False
         Me.gvLoanGeneration.MasterTemplate.AutoGenerateColumns = False
         Me.gvLoanGeneration.MasterTemplate.EnableGrouping = False
+        Me.gvLoanGeneration.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvLoanGeneration.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvLoanGeneration.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvLoanGeneration.MyStopExport = False
         Me.gvLoanGeneration.Name = "gvLoanGeneration"
         Me.gvLoanGeneration.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvLoanGeneration.ShowHeaderCellButtons = True
         Me.gvLoanGeneration.Size = New System.Drawing.Size(270, 107)
         Me.gvLoanGeneration.TabIndex = 223
         Me.gvLoanGeneration.TabStop = False
-        Me.gvLoanGeneration.Text = "RadGridView4"
         '
         'chkODApplicable
         '
@@ -581,6 +622,7 @@ Partial Class frmEmployee_Status
         Me.cboConveyanceType.AutoCompleteDisplayMember = Nothing
         Me.cboConveyanceType.AutoCompleteValueMember = Nothing
         Me.cboConveyanceType.CalculationExpression = Nothing
+        Me.cboConveyanceType.DropDownAnimationEnabled = True
         Me.cboConveyanceType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboConveyanceType.FieldCode = Nothing
         Me.cboConveyanceType.FieldDesc = Nothing
@@ -667,6 +709,7 @@ Partial Class frmEmployee_Status
         Me.cboShiftChangeType.AutoCompleteDisplayMember = Nothing
         Me.cboShiftChangeType.AutoCompleteValueMember = Nothing
         Me.cboShiftChangeType.CalculationExpression = Nothing
+        Me.cboShiftChangeType.DropDownAnimationEnabled = True
         Me.cboShiftChangeType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboShiftChangeType.FieldCode = Nothing
         Me.cboShiftChangeType.FieldDesc = Nothing
@@ -737,7 +780,6 @@ Partial Class frmEmployee_Status
         Me.lblBonusName.Name = "lblBonusName"
         Me.lblBonusName.Size = New System.Drawing.Size(230, 19)
         Me.lblBonusName.TabIndex = 212
-        Me.lblBonusName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBonusName.TextWrap = False
         '
         'chkEPStoEPF
@@ -762,7 +804,6 @@ Partial Class frmEmployee_Status
         Me.lblOTName.Name = "lblOTName"
         Me.lblOTName.Size = New System.Drawing.Size(230, 19)
         Me.lblOTName.TabIndex = 211
-        Me.lblOTName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblOTName.TextWrap = False
         '
         'cboWorkingStatus
@@ -770,6 +811,7 @@ Partial Class frmEmployee_Status
         Me.cboWorkingStatus.AutoCompleteDisplayMember = Nothing
         Me.cboWorkingStatus.AutoCompleteValueMember = Nothing
         Me.cboWorkingStatus.CalculationExpression = Nothing
+        Me.cboWorkingStatus.DropDownAnimationEnabled = True
         Me.cboWorkingStatus.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboWorkingStatus.FieldCode = Nothing
         Me.cboWorkingStatus.FieldDesc = Nothing
@@ -818,7 +860,6 @@ Partial Class frmEmployee_Status
         Me.lblBankName.Name = "lblBankName"
         Me.lblBankName.Size = New System.Drawing.Size(230, 19)
         Me.lblBankName.TabIndex = 210
-        Me.lblBankName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBankName.TextWrap = False
         '
         'lblAttendanceName
@@ -830,7 +871,6 @@ Partial Class frmEmployee_Status
         Me.lblAttendanceName.Name = "lblAttendanceName"
         Me.lblAttendanceName.Size = New System.Drawing.Size(230, 19)
         Me.lblAttendanceName.TabIndex = 209
-        Me.lblAttendanceName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblAttendanceName.TextWrap = False
         '
         'btnNew
@@ -852,7 +892,6 @@ Partial Class frmEmployee_Status
         Me.lblGradeName.Name = "lblGradeName"
         Me.lblGradeName.Size = New System.Drawing.Size(230, 19)
         Me.lblGradeName.TabIndex = 208
-        Me.lblGradeName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblGradeName.TextWrap = False
         '
         'lblBranch
@@ -874,7 +913,6 @@ Partial Class frmEmployee_Status
         Me.lblBranchName.Name = "lblBranchName"
         Me.lblBranchName.Size = New System.Drawing.Size(230, 19)
         Me.lblBranchName.TabIndex = 206
-        Me.lblBranchName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBranchName.TextWrap = False
         '
         'lblDevisionName
@@ -886,7 +924,6 @@ Partial Class frmEmployee_Status
         Me.lblDevisionName.Name = "lblDevisionName"
         Me.lblDevisionName.Size = New System.Drawing.Size(230, 19)
         Me.lblDevisionName.TabIndex = 207
-        Me.lblDevisionName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDevisionName.TextWrap = False
         '
         'lblReportingPersonName
@@ -898,7 +935,6 @@ Partial Class frmEmployee_Status
         Me.lblReportingPersonName.Name = "lblReportingPersonName"
         Me.lblReportingPersonName.Size = New System.Drawing.Size(230, 19)
         Me.lblReportingPersonName.TabIndex = 205
-        Me.lblReportingPersonName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblReportingPersonName.TextWrap = False
         '
         'lblNameinAcc
@@ -920,7 +956,6 @@ Partial Class frmEmployee_Status
         Me.lblDepartmentName.Name = "lblDepartmentName"
         Me.lblDepartmentName.Size = New System.Drawing.Size(230, 19)
         Me.lblDepartmentName.TabIndex = 204
-        Me.lblDepartmentName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDepartmentName.TextWrap = False
         '
         'lblESINo
@@ -942,7 +977,6 @@ Partial Class frmEmployee_Status
         Me.lblDesignationName.Name = "lblDesignationName"
         Me.lblDesignationName.Size = New System.Drawing.Size(230, 19)
         Me.lblDesignationName.TabIndex = 203
-        Me.lblDesignationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDesignationName.TextWrap = False
         '
         'lblPFNo
@@ -964,7 +998,6 @@ Partial Class frmEmployee_Status
         Me.lblEmpName.Name = "lblEmpName"
         Me.lblEmpName.Size = New System.Drawing.Size(230, 19)
         Me.lblEmpName.TabIndex = 202
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblEmpName.TextWrap = False
         '
         'lblBank
@@ -1085,7 +1118,7 @@ Partial Class frmEmployee_Status
         Me.txtRevisionNo.TabIndex = 114
         Me.txtRevisionNo.Text = "0"
         Me.txtRevisionNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRevisionNo.Value = 0.0R
+        Me.txtRevisionNo.Value = 0R
         '
         'dtpApplicableFrom
         '
@@ -1500,6 +1533,7 @@ Partial Class frmEmployee_Status
         Me.cboPaymentMode.AutoCompleteDisplayMember = Nothing
         Me.cboPaymentMode.AutoCompleteValueMember = Nothing
         Me.cboPaymentMode.CalculationExpression = Nothing
+        Me.cboPaymentMode.DropDownAnimationEnabled = True
         Me.cboPaymentMode.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboPaymentMode.FieldCode = Nothing
         Me.cboPaymentMode.FieldDesc = Nothing
@@ -1695,6 +1729,40 @@ Partial Class frmEmployee_Status
         Me.btnclose.TabIndex = 133
         Me.btnclose.Text = "Close"
         '
+        'MyLabel43
+        '
+        Me.MyLabel43.FieldName = Nothing
+        Me.MyLabel43.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel43.Location = New System.Drawing.Point(586, 192)
+        Me.MyLabel43.Name = "MyLabel43"
+        Me.MyLabel43.Size = New System.Drawing.Size(47, 16)
+        Me.MyLabel43.TabIndex = 237
+        Me.MyLabel43.Text = "GPF No"
+        '
+        'txtGPFNo
+        '
+        Me.txtGPFNo.CalculationExpression = Nothing
+        Me.txtGPFNo.FieldCode = Nothing
+        Me.txtGPFNo.FieldDesc = Nothing
+        Me.txtGPFNo.FieldMaxLength = 0
+        Me.txtGPFNo.FieldName = Nothing
+        Me.txtGPFNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGPFNo.isCalculatedField = False
+        Me.txtGPFNo.IsSourceFromTable = False
+        Me.txtGPFNo.IsSourceFromValueList = False
+        Me.txtGPFNo.IsUnique = False
+        Me.txtGPFNo.Location = New System.Drawing.Point(669, 191)
+        Me.txtGPFNo.MaxLength = 49
+        Me.txtGPFNo.MendatroryField = False
+        Me.txtGPFNo.MyLinkLable1 = Nothing
+        Me.txtGPFNo.MyLinkLable2 = Nothing
+        Me.txtGPFNo.Name = "txtGPFNo"
+        Me.txtGPFNo.ReferenceFieldDesc = Nothing
+        Me.txtGPFNo.ReferenceFieldName = Nothing
+        Me.txtGPFNo.ReferenceTableName = Nothing
+        Me.txtGPFNo.Size = New System.Drawing.Size(228, 18)
+        Me.txtGPFNo.TabIndex = 236
+        '
         'frmEmployee_Status
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1713,6 +1781,8 @@ Partial Class frmEmployee_Status
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtTransferPF, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkTransPF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkProfessionalTaxApplicable, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkRevisionNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboPFCalculatnType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1783,6 +1853,8 @@ Partial Class frmEmployee_Status
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtGPFNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1875,4 +1947,8 @@ Partial Class frmEmployee_Status
     Friend WithEvents cboPFCalculatnType As common.Controls.MyComboBox
     Friend WithEvents chkRevisionNo As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents chkProfessionalTaxApplicable As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents txtTransferPF As common.Controls.MyTextBox
+    Friend WithEvents chkTransPF As Telerik.WinControls.UI.RadCheckBox
+    Friend WithEvents MyLabel43 As common.Controls.MyLabel
+    Friend WithEvents txtGPFNo As common.Controls.MyTextBox
 End Class

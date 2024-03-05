@@ -403,6 +403,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\rptSubReportExciseTransferSaleInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptTrustReceiptMT.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\Address.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\crptGateInfatsnfcomparison.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\crptGateInMilkProc.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\CrptMCCMilkBillDetails%28MccWise%29.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\CrptMCCMilkBillDetails%28RouteWise%29.rpt" />

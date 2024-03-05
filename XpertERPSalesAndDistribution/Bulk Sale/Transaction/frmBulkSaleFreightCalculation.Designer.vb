@@ -21,12 +21,10 @@ Partial Class frmBulkSaleFreightCalculation
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lblStatus = New common.usLock()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.txtStartDate = New common.Controls.MyDateTimePicker()
         Me.lblCustomerName = New common.Controls.MyLabel()
         Me.txtCustomer = New common.UserControls.txtFinder()
         Me.MyLabel6 = New common.Controls.MyLabel()
@@ -36,6 +34,9 @@ Partial Class frmBulkSaleFreightCalculation
         Me.lblCode = New common.Controls.MyLabel()
         Me.txtDocumentNo = New common.UserControls.txtNavigator()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReverseUnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
@@ -46,18 +47,20 @@ Partial Class frmBulkSaleFreightCalculation
         Me.rmimport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
-        Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.txtToDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtFromDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtDieselHike = New common.MyNumBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -66,14 +69,21 @@ Partial Class frmBulkSaleFreightCalculation
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDieselHike, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SplitContainer1
@@ -112,9 +122,14 @@ Partial Class frmBulkSaleFreightCalculation
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.lblStatus)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.btnGo)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel1)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtDieselHike)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtToDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel4)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtFromDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel3)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.txtStartDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblStatus)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblCustomerName)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtCustomer)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel6)
@@ -134,51 +149,12 @@ Partial Class frmBulkSaleFreightCalculation
         'lblStatus
         '
         Me.lblStatus.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.lblStatus.Location = New System.Drawing.Point(529, 9)
+        Me.lblStatus.Location = New System.Drawing.Point(539, 9)
         Me.lblStatus.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatus.Name = "lblStatus"
         Me.lblStatus.Size = New System.Drawing.Size(147, 19)
         Me.lblStatus.Status = common.ERPTransactionStatus.Pending
         Me.lblStatus.TabIndex = 17
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(7, 54)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(57, 16)
-        Me.MyLabel3.TabIndex = 7
-        Me.MyLabel3.Text = "Start Date"
-        '
-        'txtStartDate
-        '
-        Me.txtStartDate.CalculationExpression = Nothing
-        Me.txtStartDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtStartDate.FieldCode = Nothing
-        Me.txtStartDate.FieldDesc = Nothing
-        Me.txtStartDate.FieldMaxLength = 0
-        Me.txtStartDate.FieldName = Nothing
-        Me.txtStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtStartDate.isCalculatedField = False
-        Me.txtStartDate.IsSourceFromTable = False
-        Me.txtStartDate.IsSourceFromValueList = False
-        Me.txtStartDate.IsUnique = False
-        Me.txtStartDate.Location = New System.Drawing.Point(94, 52)
-        Me.txtStartDate.MendatroryField = True
-        Me.txtStartDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtStartDate.MyLinkLable1 = Me.MyLabel3
-        Me.txtStartDate.MyLinkLable2 = Nothing
-        Me.txtStartDate.Name = "txtStartDate"
-        Me.txtStartDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtStartDate.ReferenceFieldDesc = Nothing
-        Me.txtStartDate.ReferenceFieldName = Nothing
-        Me.txtStartDate.ReferenceTableName = Nothing
-        Me.txtStartDate.Size = New System.Drawing.Size(87, 20)
-        Me.txtStartDate.TabIndex = 2
-        Me.txtStartDate.TabStop = False
-        Me.txtStartDate.Text = "10/06/2011"
-        Me.txtStartDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
         '
         'lblCustomerName
         '
@@ -187,7 +163,7 @@ Partial Class frmBulkSaleFreightCalculation
         Me.lblCustomerName.FieldName = Nothing
         Me.lblCustomerName.Location = New System.Drawing.Point(311, 30)
         Me.lblCustomerName.Name = "lblCustomerName"
-        Me.lblCustomerName.Size = New System.Drawing.Size(188, 19)
+        Me.lblCustomerName.Size = New System.Drawing.Size(212, 19)
         Me.lblCustomerName.TabIndex = 13
         '
         'txtCustomer
@@ -230,7 +206,7 @@ Partial Class frmBulkSaleFreightCalculation
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel2.Location = New System.Drawing.Point(373, 9)
+        Me.MyLabel2.Location = New System.Drawing.Point(386, 9)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(30, 16)
         Me.MyLabel2.TabIndex = 11
@@ -250,7 +226,7 @@ Partial Class frmBulkSaleFreightCalculation
         Me.txtdate.IsSourceFromTable = False
         Me.txtdate.IsSourceFromValueList = False
         Me.txtdate.IsUnique = False
-        Me.txtdate.Location = New System.Drawing.Point(409, 8)
+        Me.txtdate.Location = New System.Drawing.Point(427, 8)
         Me.txtdate.MendatroryField = True
         Me.txtdate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtdate.MyLinkLable1 = Me.MyLabel2
@@ -260,7 +236,7 @@ Partial Class frmBulkSaleFreightCalculation
         Me.txtdate.ReferenceFieldDesc = Nothing
         Me.txtdate.ReferenceFieldName = Nothing
         Me.txtdate.ReferenceTableName = Nothing
-        Me.txtdate.Size = New System.Drawing.Size(90, 18)
+        Me.txtdate.Size = New System.Drawing.Size(94, 18)
         Me.txtdate.TabIndex = 0
         Me.txtdate.TabStop = False
         Me.txtdate.Text = "13/06/2011"
@@ -311,12 +287,34 @@ Partial Class frmBulkSaleFreightCalculation
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition17
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(996, 350)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
+        '
+        'RadSplitButton1
+        '
+        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExcel, Me.btnPDF})
+        Me.RadSplitButton1.Location = New System.Drawing.Point(222, 6)
+        Me.RadSplitButton1.Name = "RadSplitButton1"
+        Me.RadSplitButton1.Size = New System.Drawing.Size(95, 22)
+        Me.RadSplitButton1.TabIndex = 155
+        Me.RadSplitButton1.Text = "Export"
+        '
+        'btnExcel
+        '
+        Me.btnExcel.Name = "btnExcel"
+        Me.btnExcel.Text = "Excel"
+        Me.btnExcel.UseCompatibleTextRendering = False
+        '
+        'btnPDF
+        '
+        Me.btnPDF.Name = "btnPDF"
+        Me.btnPDF.Text = "PDF"
+        Me.btnPDF.UseCompatibleTextRendering = False
         '
         'btnReverseUnpost
         '
@@ -393,34 +391,6 @@ Partial Class frmBulkSaleFreightCalculation
         Me.btnDeleteLayout.Name = "btnDeleteLayout"
         Me.btnDeleteLayout.Text = "Delete Layout"
         '
-        'RadSplitButton1
-        '
-        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExcel, Me.btnPDF})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(222, 6)
-        Me.RadSplitButton1.Name = "RadSplitButton1"
-        Me.RadSplitButton1.Size = New System.Drawing.Size(95, 22)
-        Me.RadSplitButton1.TabIndex = 155
-        Me.RadSplitButton1.Text = "Export"
-        '
-        'btnExcel
-        '
-        Me.btnExcel.Name = "btnExcel"
-        Me.btnExcel.Text = "Excel"
-        Me.btnExcel.UseCompatibleTextRendering = False
-        '
-        'btnPDF
-        '
-        Me.btnPDF.Name = "btnPDF"
-        Me.btnPDF.Text = "PDF"
-        Me.btnPDF.UseCompatibleTextRendering = False
-        '
-        'frmBulkSaleFreightMaster
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(996, 509)
-        '
         'RadMenu1
         '
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
@@ -428,9 +398,142 @@ Partial Class frmBulkSaleFreightCalculation
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(996, 20)
         Me.RadMenu1.TabIndex = 12
+        '
+        'txtToDate
+        '
+        Me.txtToDate.CalculationExpression = Nothing
+        Me.txtToDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtToDate.FieldCode = Nothing
+        Me.txtToDate.FieldDesc = Nothing
+        Me.txtToDate.FieldMaxLength = 0
+        Me.txtToDate.FieldName = Nothing
+        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtToDate.isCalculatedField = False
+        Me.txtToDate.IsSourceFromTable = False
+        Me.txtToDate.IsSourceFromValueList = False
+        Me.txtToDate.IsUnique = False
+        Me.txtToDate.Location = New System.Drawing.Point(250, 52)
+        Me.txtToDate.MendatroryField = False
+        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.MyLinkLable1 = Me.MyLabel4
+        Me.txtToDate.MyLinkLable2 = Nothing
+        Me.txtToDate.Name = "txtToDate"
+        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.ReferenceFieldDesc = Nothing
+        Me.txtToDate.ReferenceFieldName = Nothing
+        Me.txtToDate.ReferenceTableName = Nothing
+        Me.txtToDate.Size = New System.Drawing.Size(87, 20)
+        Me.txtToDate.TabIndex = 412
+        Me.txtToDate.TabStop = False
+        Me.txtToDate.Text = "28/06/2012"
+        Me.txtToDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(191, 53)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(45, 18)
+        Me.MyLabel4.TabIndex = 413
+        Me.MyLabel4.Text = "To Date"
+        '
+        'txtFromDate
+        '
+        Me.txtFromDate.CalculationExpression = Nothing
+        Me.txtFromDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtFromDate.FieldCode = Nothing
+        Me.txtFromDate.FieldDesc = Nothing
+        Me.txtFromDate.FieldMaxLength = 0
+        Me.txtFromDate.FieldName = Nothing
+        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.isCalculatedField = False
+        Me.txtFromDate.IsSourceFromTable = False
+        Me.txtFromDate.IsSourceFromValueList = False
+        Me.txtFromDate.IsUnique = False
+        Me.txtFromDate.Location = New System.Drawing.Point(94, 52)
+        Me.txtFromDate.MendatroryField = False
+        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.MyLinkLable1 = Me.MyLabel3
+        Me.txtFromDate.MyLinkLable2 = Nothing
+        Me.txtFromDate.Name = "txtFromDate"
+        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.ReferenceFieldDesc = Nothing
+        Me.txtFromDate.ReferenceFieldName = Nothing
+        Me.txtFromDate.ReferenceTableName = Nothing
+        Me.txtFromDate.Size = New System.Drawing.Size(86, 20)
+        Me.txtFromDate.TabIndex = 410
+        Me.txtFromDate.TabStop = False
+        Me.txtFromDate.Text = "28/06/2012"
+        Me.txtFromDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(7, 53)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(59, 18)
+        Me.MyLabel3.TabIndex = 411
+        Me.MyLabel3.Text = "From Date"
+        '
+        'txtDieselHike
+        '
+        Me.txtDieselHike.BackColor = System.Drawing.Color.Transparent
+        Me.txtDieselHike.CalculationExpression = Nothing
+        Me.txtDieselHike.DecimalPlaces = 2
+        Me.txtDieselHike.FieldCode = Nothing
+        Me.txtDieselHike.FieldDesc = Nothing
+        Me.txtDieselHike.FieldMaxLength = 0
+        Me.txtDieselHike.FieldName = Nothing
+        Me.txtDieselHike.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtDieselHike.isCalculatedField = False
+        Me.txtDieselHike.IsSourceFromTable = False
+        Me.txtDieselHike.IsSourceFromValueList = False
+        Me.txtDieselHike.IsUnique = False
+        Me.txtDieselHike.Location = New System.Drawing.Point(451, 52)
+        Me.txtDieselHike.MaxLength = 6
+        Me.txtDieselHike.MendatroryField = False
+        Me.txtDieselHike.MyLinkLable1 = Nothing
+        Me.txtDieselHike.MyLinkLable2 = Nothing
+        Me.txtDieselHike.Name = "txtDieselHike"
+        Me.txtDieselHike.ReferenceFieldDesc = Nothing
+        Me.txtDieselHike.ReferenceFieldName = Nothing
+        Me.txtDieselHike.ReferenceTableName = Nothing
+        Me.txtDieselHike.Size = New System.Drawing.Size(74, 21)
+        Me.txtDieselHike.TabIndex = 1094
+        Me.txtDieselHike.Text = "0"
+        Me.txtDieselHike.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtDieselHike.Value = 0R
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel1.Location = New System.Drawing.Point(351, 53)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(91, 16)
+        Me.MyLabel1.TabIndex = 1095
+        Me.MyLabel1.Text = "Diesel Hike/Red."
+        '
+        'btnGo
+        '
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.Location = New System.Drawing.Point(541, 54)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(76, 18)
+        Me.btnGo.TabIndex = 1096
+        Me.btnGo.Text = ">>>"
+        '
+        'frmBulkSaleFreightCalculation
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(996, 509)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
-        Me.Name = "frmBulkSaleFreightMaster"
+        Me.Name = "frmBulkSaleFreightCalculation"
         '
         '
         '
@@ -443,8 +546,6 @@ Partial Class frmBulkSaleFreightCalculation
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtStartDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -453,13 +554,20 @@ Partial Class frmBulkSaleFreightCalculation
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDieselHike, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -482,8 +590,6 @@ Partial Class frmBulkSaleFreightCalculation
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents rmimport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rmExport As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents MyLabel3 As common.Controls.MyLabel
-    Friend WithEvents txtStartDate As common.Controls.MyDateTimePicker
     Friend WithEvents btnPost As RadButton
     Friend WithEvents btnSaveLayout As RadMenuItem
     Friend WithEvents btnDeleteLayout As RadMenuItem
@@ -493,5 +599,12 @@ Partial Class frmBulkSaleFreightCalculation
     Friend WithEvents btnExcel As RadMenuItem
     Friend WithEvents btnPDF As RadMenuItem
     Friend WithEvents RadMenu1 As RadMenu
+    Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents txtDieselHike As common.MyNumBox
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents btnGo As RadButton
 End Class
 

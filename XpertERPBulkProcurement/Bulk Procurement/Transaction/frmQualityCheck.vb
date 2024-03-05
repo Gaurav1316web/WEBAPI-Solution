@@ -850,8 +850,9 @@ Public Class FrmQualityCheck
                     btnReverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         ElseIf e.KeyCode = Keys.F2 Then
             If (FinalChamberwise = 0) Then
                 If gvParam.Rows.Count > 0 Then

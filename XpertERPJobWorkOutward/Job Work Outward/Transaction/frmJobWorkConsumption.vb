@@ -72,6 +72,13 @@ Public Class frmJobWorkConsumption
         Else
             btnReverse.Enabled = False
         End If
+        If MyBase.isExport = True Then
+            RmiExport.Enabled = True
+            RadMenuItem2.Enabled = True
+        Else
+            RadMenuItem2.Enabled = False
+            RmiExport.Enabled = False
+        End If
         If btnSave.Visible = True Then
             RmiExport.Enabled = True
         Else
@@ -1960,8 +1967,9 @@ Public Class frmJobWorkConsumption
                     btnReverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.E Then
             Dim frm As New FrmPWD(Nothing)
             frm.strType = clsFixedParameterType.StoreADJExportImportAfterPost

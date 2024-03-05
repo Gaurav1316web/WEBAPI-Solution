@@ -1668,7 +1668,12 @@ select AP_Invoice_No from TSPL_PAYMENT_PROCESS_SAVING where Doc_No='" + strDocNo
             Dim dtMilkType As New DataTable
             Dim dt As New DataTable
             Dim Flag As Boolean = False
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
                 Flag = True
             End If
 
@@ -1837,7 +1842,7 @@ group by code,Sequence_No,Description order by  Sequence_No,code asc
 
 
             sQuery = " select CowBuffalo_Type,sum( Qty) as Qty, cast( sum (FATQTY) * 100 /sum( Qty) as decimal(18,2))  as FATPer, cast( sum (SNFQTY) * 100 / sum(Qty) as decimal(18,2)) as SNFPer,sum(SRN_NET_AMOUNT)+(sum(PPSRN_RO_Amount)*-1) AS Amt, "
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
                 sQuery += " (sum (FATQTY))  as FATKG,(sum (SNFQTY)) as SNFKG "
             Else
                 sQuery += " round(sum (FATQTY),2,1)  as FATKG,round(sum (SNFQTY),2,1) as SNFKG  "
@@ -1904,7 +1909,8 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>=convert(date,('" + CycleFromDate + "
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreGNG", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreJPR", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
-
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreJDH", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreRJS", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 Else
@@ -2506,6 +2512,8 @@ where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ")
                     PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNewRJS", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                     PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessUDP", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                    PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessCHT", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
                 Else
                     PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAddition, "crptMilkPurchaseBillPaymentProcessNew", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeduction, "subReduceDeduction.rpt", dtReduceDeduction)
                 End If

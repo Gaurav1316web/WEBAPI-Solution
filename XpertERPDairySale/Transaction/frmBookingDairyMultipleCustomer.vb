@@ -136,7 +136,8 @@ Public Class frmBookingDairyMultipleCustomer
                     btnreverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
             ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                                   "TSPL_BOOKING_MATSER " + Environment.NewLine +
@@ -270,12 +271,20 @@ Public Class frmBookingDairyMultipleCustomer
             Exit Sub
         End If
         btnSave.Visible = MyBase.isModifyFlag
-        'btnPost.Visible = MyBase.isPostFlag
+        btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnreverse.Enabled = True
         Else
             btnreverse.Enabled = False
+        End If
+        If MyBase.isExport = True Then
+            btnExport.Enabled = True
+            btnImport.Enabled = True
+        Else
+            btnExport.Enabled = False
+            btnImport.Enabled = False
         End If
     End Sub
     Sub LoadBlankGrid()

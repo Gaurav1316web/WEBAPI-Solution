@@ -68,7 +68,16 @@ Public Class FrmPriceChartUploader
             Exit Sub
         End If
         BtnPost.Visible = MyBase.isPostFlag
-        btnexcel.Visible = MyBase.isExport
+        ' btnexcel.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            btnimport.Enabled = True
+            btnexport.Enabled = True
+            ExportSelectedCode.Enabled = True
+        Else
+            btnexport.Enabled = False
+            btnimport.Enabled = False
+            ExportSelectedCode.Enabled = False
+        End If
     End Sub
 
     Private Sub FrmPriceChartUploader_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
