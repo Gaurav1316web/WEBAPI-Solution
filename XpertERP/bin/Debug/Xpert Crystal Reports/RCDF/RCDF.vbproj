@@ -403,6 +403,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\rptSubReportExciseTransferSaleInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptTrustReceiptMT.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\Address.rpt" />
+    <None Include="Crystal Reports GST\Milk Procurement\crptGateInfatsnfcomparison.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\crptGateInMilkProc.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\CrptMCCMilkBillDetails%28MccWise%29.rpt" />
     <None Include="Crystal Reports GST\Milk Procurement\CrptMCCMilkBillDetails%28RouteWise%29.rpt" />
@@ -1244,10 +1245,6 @@
     <None Include="Crystal Reports\Inventory Report\TransferPreprintedLORouteTAX.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptbulkinvoice.rpt" />
-    <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingAUDP9.rpt" />
-    <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingAUDP.rpt" />
-    <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingFUDP9.rpt" />
-    <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingFUDP.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingTruckSheet.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crpJobworkEstimate.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleReturn.rpt" />

@@ -22,6 +22,8 @@ Partial Class RptBulkMilkRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -47,6 +49,7 @@ Partial Class RptBulkMilkRegister
         Me.lblToDate = New common.Controls.MyLabel()
         Me.lblfromDate = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gv = New common.UserControls.MyRadGridView()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -59,7 +62,7 @@ Partial Class RptBulkMilkRegister
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.gv = New common.UserControls.MyRadGridView()
+        Me.btnFatSnf = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -90,13 +93,14 @@ Partial Class RptBulkMilkRegister
         CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.radbtnBulkExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnFatSnf, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -116,6 +120,7 @@ Partial Class RptBulkMilkRegister
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnFatSnf)
         Me.SplitContainer1.Panel2.Controls.Add(Me.radbtnBulkExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnReset)
@@ -136,12 +141,10 @@ Partial Class RptBulkMilkRegister
         '
         Me.RadPageView1.RootElement.AccessibleDescription = "Report1"
         Me.RadPageView1.RootElement.AccessibleName = "Report1"
-        Me.RadPageView1.RootElement.Text = "Report1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(760, 460)
         Me.RadPageView1.TabIndex = 3
         Me.RadPageView1.TabStop = False
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
         CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Filter"
@@ -380,14 +383,16 @@ Partial Class RptBulkMilkRegister
         '
         Me.gv1.Location = New System.Drawing.Point(249, 17)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(10, 10)
         Me.gv1.TabIndex = 1
-        Me.gv1.Text = "RadGridView1"
         Me.gv1.Visible = False
         '
         'txtFromDate
@@ -446,6 +451,32 @@ Partial Class RptBulkMilkRegister
         Me.RadPageViewPage2.Size = New System.Drawing.Size(739, 412)
         Me.RadPageViewPage2.Text = "Report"
         '
+        'gv
+        '
+        Me.gv.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.gv.ForeColor = System.Drawing.Color.Black
+        Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gv.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv.MasterTemplate.AllowAddNewRow = False
+        Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv.MyStopExport = False
+        Me.gv.Name = "gv"
+        Me.gv.ReadOnly = True
+        Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv.ShowGroupPanel = False
+        Me.gv.ShowHeaderCellButtons = True
+        Me.gv.Size = New System.Drawing.Size(739, 412)
+        Me.gv.TabIndex = 4
+        '
         'RadMenu1
         '
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
@@ -453,27 +484,20 @@ Partial Class RptBulkMilkRegister
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(760, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '
@@ -489,15 +513,11 @@ Partial Class RptBulkMilkRegister
         '
         'Excel
         '
-        Me.Excel.AccessibleDescription = "Excel"
-        Me.Excel.AccessibleName = "Excel"
         Me.Excel.Name = "Excel"
         Me.Excel.Text = "Excel"
         '
         'PDF
         '
-        Me.PDF.AccessibleDescription = "PDF"
-        Me.PDF.AccessibleName = "PDF"
         Me.PDF.Name = "PDF"
         Me.PDF.Text = "PDF"
         '
@@ -545,27 +565,15 @@ Partial Class RptBulkMilkRegister
         Me.btnGo.TabIndex = 8
         Me.btnGo.Text = ">>>"
         '
-        'gv
+        'btnFatSnf
         '
-        Me.gv.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gv.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.gv.ForeColor = System.Drawing.Color.Black
-        Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv.Location = New System.Drawing.Point(0, 0)
-        '
-        'gv
-        '
-        Me.gv.MasterTemplate.AllowAddNewRow = False
-        Me.gv.MasterTemplate.EnableFiltering = True
-        Me.gv.Name = "gv"
-        Me.gv.ReadOnly = True
-        Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gv.ShowGroupPanel = False
-        Me.gv.Size = New System.Drawing.Size(739, 412)
-        Me.gv.TabIndex = 4
-        Me.gv.Text = "RadGridView1"
+        Me.btnFatSnf.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnFatSnf.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnFatSnf.Location = New System.Drawing.Point(246, 7)
+        Me.btnFatSnf.Name = "btnFatSnf"
+        Me.btnFatSnf.Size = New System.Drawing.Size(112, 22)
+        Me.btnFatSnf.TabIndex = 6
+        Me.btnFatSnf.Text = "Fat\Snf Comparison"
         '
         'RptBulkMilkRegister
         '
@@ -614,13 +622,14 @@ Partial Class RptBulkMilkRegister
         CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblfromDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.radbtnBulkExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnFatSnf, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -663,4 +672,5 @@ Partial Class RptBulkMilkRegister
     Friend WithEvents Excel As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents PDF As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents gv As common.UserControls.MyRadGridView
+    Friend WithEvents btnFatSnf As RadButton
 End Class

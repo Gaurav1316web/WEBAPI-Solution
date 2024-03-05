@@ -3410,4 +3410,14 @@ Public Class FrmGateEntry
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub TxtFinder1__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtFinder1._MYValidating
+        Try
+            Dim qry As String = " select MCC_Code as Code,MCC_NAME as Name from  TSPL_MCC_MASTER "
+            Dim whrCls As String = "exists(select 1 from TSPL_MCC_MASTER where TSPL_MCC_MASTER.MCC_Code=TSPL_MCC_MASTER.MCC_Code )"
+            TxtFinder1.Value = clsCommon.ShowSelectForm("ddGEShUp", qry, "Code", whrCls, TxtFinder1.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

@@ -2362,9 +2362,23 @@ Public Class FrmVendorService
 
     End Sub
 
+    Public Function GetSAC() As String
+        Dim Qry As String = "SELECT top 1  TSPL_SAC_WISE_TAX.DOC_DATE,tspl_Additional_Charges.Code,tspl_Additional_Charges.Is_RoundOff, tspl_Additional_Charges.description,Account_Code,Account_Description ,freightCharges,specification,abatement,Reverse_Charge_Per,Service_Type,
+                                tspl_Additional_Charges.SAC_Code,TSPL_SAC_MASTER.
+                                Description as SAC_Description,TSPL_ADDITIONAL_CHARGES.RCM,TSPL_ADDITIONAL_CHARGES.NO_GST_Credit,tspl_Additional_Charges.Is_Insurance 
+                                from tspl_Additional_Charges 
+                                inner join TSPL_SAC_MASTER ON tspl_Additional_Charges.SAC_Code=TSPL_SAC_MASTER.Code
+                                inner join TSPL_SAC_WISE_TAX_GROUP ON TSPL_SAC_WISE_TAX_GROUP.SAC_Code=TSPL_SAC_MASTER.Code
+                                inner join TSPL_SAC_WISE_TAX ON TSPL_SAC_WISE_TAX.HCODE =TSPL_SAC_WISE_TAX_GROUP.HCODE
+                                where  2=2 and TSPL_SAC_WISE_TAX.DOC_DATE<=Convert(Date,'" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "',103) Order By TSPL_SAC_WISE_TAX.DOC_DATE desc"
+        Return Qry
+    End Function
+
+
+
     Private Sub OpenAdditionCharges(ByVal isButtonClick As Boolean)
         Try
-            Dim obj As clsAdditionalCharge = clsAdditionalCharge.GetFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colAChgCode).Value), isButtonClick, chkRCM.Checked, chkNoGSTCredit.Checked, txtDate.Value)
+            Dim obj As clsAdditionalCharge = clsAdditionalCharge.GetFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colAChgCode).Value), isButtonClick, chkRCM.Checked, chkNoGSTCredit.Checked, txtDate.Value, MyBase.Form_ID)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
                 gv1.CurrentRow.Cells(colAChgCode).Value = obj.Code
                 gv1.CurrentRow.Cells(colAChgName).Value = obj.desc
