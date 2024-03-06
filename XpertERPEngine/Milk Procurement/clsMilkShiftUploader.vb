@@ -1355,7 +1355,12 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
     Public Shared Sub MultipleDateSingleExport(ByRef frm As RadForm)
         Try
             Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
-            Dim qry As String = "select REPLACE( convert(varchar, GETDATE(),106),' ','/') as Date,'' as [Shift],'' as Route,'' as DCSNo,'Good' as MilkType,0.00 as Qty,0.0 as FAT"
+            Dim qry As String = "select REPLACE( convert(varchar, GETDATE(),106),' ','/') as Date,'' as [Shift],'' as Route,'' as DCSNo,"
+
+            If objCommonVar.DisplayTypeInMilkReceipt Then
+                qry += " '' As [Mix/Cow],"
+            End If
+            qry += "'Good' as MilkType,0.00 as Qty,0.0 as FAT"
 
             Dim ListImpExpColumnsMandatory As List(Of String) = New List(Of String)({"Date", "Shift", "DCSNo", "Qty", "FAT"})
             If isPickCLRInsteadOfSNF Then
@@ -1384,7 +1389,12 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
         If isPickCLRInsteadOfSNF Then
             flag = transportSql.importExcel(gv, "Date", "Shift", "Route", "DCSNo", "MilkType", "Qty", "FAT", "CLR")
         Else
-            flag = transportSql.importExcel(gv, "Date", "Shift", "Route", "DCSNo", "Mix/Cow", "MilkType", "Qty", "FAT", "SNF")
+            If objCommonVar.DisplayTypeInMilkReceipt Then
+                flag = transportSql.importExcel(gv, "Date", "Shift", "Route", "DCSNo", "Mix/Cow", "MilkType", "Qty", "FAT", "SNF")
+            Else
+                flag = transportSql.importExcel(gv, "Date", "Shift", "Route", "DCSNo", "MilkType", "Qty", "FAT", "SNF")
+            End If
+
         End If
         If flag Then
             Try
