@@ -75,13 +75,14 @@ Public Class frmBulkSaleAcknowledgementUploader
         Reset()
     End Sub
     Sub Reset()
+        ValidatedCount = 0
         btnSave.Enabled = True
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtCustomer.Value = ""
         isNewEntry = True
-        gv1.DataSource = Nothing
-        gv1.Rows.AddNew()
+        Gv1.DataSource = Nothing
+        Gv1.Rows.AddNew()
         btnSave.Text = "Save"
         LoadBlankGrid()
         Gv1.Rows.AddNew()
@@ -160,14 +161,19 @@ Public Class frmBulkSaleAcknowledgementUploader
             ValidatedCount = 0
             Dim strCellValue
 
-            For i As Integer = 0 To gv1.Rows.Count - 1
+            If clsCommon.myLen(Gv1.Rows(0).Cells("Customer").Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No data found to validate", Me.Text)
+                Exit Sub
+            End If
+            For i As Integer = 0 To Gv1.Rows.Count - 1
+
                 If i = 0 Then
                     clsCommon.ProgressBarPercentShow()
                 End If
-                clsCommon.ProgressBarPercentUpdate((i + 1) / gv1.Rows.Count * 100, "Validating  Record(s) " & (i + 1) & "   of  Total " & gv1.Rows.Count)
+                clsCommon.ProgressBarPercentUpdate((i + 1) / Gv1.Rows.Count * 100, "Validating  Record(s) " & (i + 1) & "   of  Total " & Gv1.Rows.Count)
                 ValidateStatus = ""
 
-                strCellValue = clsCommon.myCDate(gv1.Rows(i).Cells("Dispatch Date").Value)
+                strCellValue = clsCommon.myCDate(Gv1.Rows(i).Cells("Dispatch Date").Value)
                 If clsCommon.myLen(strCellValue) <= 0 Then
                     ValidateStatus = ValidateStatus & "Dispatch Date  Must not be Blank" & Environment.NewLine
                 End If
@@ -181,14 +187,14 @@ Public Class frmBulkSaleAcknowledgementUploader
                 If clsCommon.myLen(strCellValue) <= 0 Then
                     ValidateStatus = ValidateStatus & "Tanker No  Must not be Blank" & Environment.NewLine
                 End If
-                strCellValue = clsCommon.myCstr(gv1.Rows(i).Cells("Dispatch No").Value)
+                strCellValue = clsCommon.myCstr(Gv1.Rows(i).Cells("Dispatch No").Value)
                 If clsCommon.myLen(strCellValue) <= 0 Then
                     ValidateStatus = ValidateStatus & "Dispatch No  Must not be Blank" & Environment.NewLine
                 End If
                 If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_BULK_SALE_ACKNOWLEDGEMENT where Bulk_Dispatch_Document  = '" & strCellValue & "'")) > 0 Then
                     ValidateStatus = ValidateStatus & "Dispatch No (" & strCellValue & ") is already used " & Environment.NewLine
                 End If
-                strCellValue = clsCommon.myCstr(gv1.Rows(i).Cells("Customer").Value)
+                strCellValue = clsCommon.myCstr(Gv1.Rows(i).Cells("Customer").Value)
                 If clsCommon.myLen(strCellValue) <= 0 Then
                     ValidateStatus = ValidateStatus & "Customer Must not be Blank" & Environment.NewLine
                 End If
@@ -196,44 +202,54 @@ Public Class frmBulkSaleAcknowledgementUploader
                     ValidateStatus = ValidateStatus & "Customer not found in master" & Environment.NewLine
                 End If
 
-                Dim DispatchAmt As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("Dispatch Amount").Value)
-                Dim ACKAmt As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("ACK Amount").Value)
+
                 Dim ACKQty As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("ACK Qty").Value)
 
                 Dim jj As Integer = 0
                 jj = intStartParam
                 Dim intCOunt As Integer = intStartParam
 
-                Dim ACKFATPer As Double = clsCommon.myCdbl(gv1.Rows(i).Cells("ACK FatPer").Value)
-                Dim ACKSNFPer As Double = clsCommon.myCdbl(gv1.Rows(i).Cells("ACK SNFPer").Value)
+                Dim ACKFATPer As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("ACK FatPer").Value)
+                Dim ACKSNFPer As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("ACK SNFPer").Value)
                 If ACKFATPer > 0 Then
-                    gv1.Rows(i).Cells("ACK FAT Rate").Value = clsCommon.myCdbl(gv1.Rows(i).Cells("ACK FAT Rate").Value)
-                    gv1.Rows(i).Cells("ACK FATKG").Value = (ACKQty * ACKFATPer) / 100
-                    gv1.Rows(i).Cells("ACK FATPer").Value = clsCommon.myCdbl(gv1.Rows(i).Cells("ACK FATPer").Value)
+                    Gv1.Rows(i).Cells("ACK FAT Rate").Value = clsCommon.myCdbl(Gv1.Rows(i).Cells("ACK FAT Rate").Value)
+                    Gv1.Rows(i).Cells("ACK FATKG").Value = (ACKQty * ACKFATPer) / 100
+                    Gv1.Rows(i).Cells("ACK FATPer").Value = clsCommon.myCdbl(Gv1.Rows(i).Cells("ACK FATPer").Value)
+                Else
+                    Gv1.Rows(i).Cells("ACK FAT Rate").Value = clsCommon.myCdbl(Gv1.Rows(i).Cells("ACK FAT Rate").Value)
+                    Gv1.Rows(i).Cells("ACK FATKG").Value = (ACKQty * ACKFATPer) / 100
+                    Gv1.Rows(i).Cells("ACK FATPer").Value = ACKFATPer
+
                 End If
                 If ACKSNFPer > 0 Then
-                    gv1.Rows(i).Cells("ACK SNF Rate").Value = clsCommon.myCdbl(gv1.Rows(i).Cells("ACK SNF Rate").Value)
-                    gv1.Rows(i).Cells("ACK SNFKG").Value = (ACKQty * ACKSNFPer) / 100
-                    gv1.Rows(i).Cells("ACK SNFPer").Value = clsCommon.myCdbl(gv1.Rows(i).Cells("ACK SNFPer").Value)
+                    Gv1.Rows(i).Cells("ACK SNF Rate").Value = clsCommon.myCdbl(Gv1.Rows(i).Cells("ACK SNF Rate").Value)
+                    Gv1.Rows(i).Cells("ACK SNFKG").Value = clsCommon.myCdbl(ACKQty * ACKSNFPer) / 100
+                    Gv1.Rows(i).Cells("ACK SNFPer").Value = ACKSNFPer
+                Else
+                    Gv1.Rows(i).Cells("ACK SNF Rate").Value = clsCommon.myCdbl(Gv1.Rows(i).Cells("ACK SNF Rate").Value)
+                    Gv1.Rows(i).Cells("ACK SNFKG").Value = clsCommon.myCdbl(ACKQty * ACKSNFPer) / 100
+                    Gv1.Rows(i).Cells("ACK SNFPer").Value = ACKSNFPer
                 End If
-                gv1.Rows(i).Cells("ACK Amount").Value = Math.Round((gv1.Rows(i).Cells("ACK FAT Rate").Value * gv1.Rows(i).Cells("ACK FATKG").Value) + (gv1.Rows(i).Cells("ACK SNF Rate").Value * gv1.Rows(i).Cells("ACK SNFKG").Value), 2)
+                Gv1.Rows(i).Cells("ACK Amount").Value = Math.Round((Gv1.Rows(i).Cells("ACK FAT Rate").Value * Gv1.Rows(i).Cells("ACK FATKG").Value) + (Gv1.Rows(i).Cells("ACK SNF Rate").Value * Gv1.Rows(i).Cells("ACK SNFKG").Value), 2)
+                Dim DispatchAmt As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("Dispatch Amount").Value)
+                Dim ACKAmt As Double = clsCommon.myCdbl(Gv1.Rows(i).Cells("ACK Amount").Value)
                 Gv1.Rows(i).Cells("ACK Diff Amount").Value = DispatchAmt - ACKAmt
 
                 If clsCommon.myLen(ValidateStatus) <= 0 Then
-                    gv1.Rows(i).Cells(colIsValidated).Value = True
+                    Gv1.Rows(i).Cells(colIsValidated).Value = True
                     ValidatedCount = ValidatedCount + 1
-                    gv1.Rows(i).Cells(colErrorStatus).Style.ForeColor = Color.White
-                    gv1.Rows(i).Cells(colErrorStatus).Value = ValidateStatus
-                    gv1.Rows(i).Cells(colErrorStatus).Style.Font = New Font("Arial", 9, FontStyle.Regular)
+                    Gv1.Rows(i).Cells(colErrorStatus).Style.ForeColor = Color.White
+                    Gv1.Rows(i).Cells(colErrorStatus).Value = ValidateStatus
+                    Gv1.Rows(i).Cells(colErrorStatus).Style.Font = New Font("Arial", 9, FontStyle.Regular)
                 Else
-                    gv1.Rows(i).Cells(colIsValidated).Value = False
-                    gv1.Rows(i).Cells(colErrorStatus).Value = ValidateStatus
-                    gv1.Rows(i).Cells(colErrorStatus).Style.ForeColor = Color.Blue
-                    gv1.Rows(i).Cells(colErrorStatus).Style.Font = New Font("Arial", 9, FontStyle.Bold)
+                    Gv1.Rows(i).Cells(colIsValidated).Value = False
+                    Gv1.Rows(i).Cells(colErrorStatus).Value = ValidateStatus
+                    Gv1.Rows(i).Cells(colErrorStatus).Style.ForeColor = Color.Blue
+                    Gv1.Rows(i).Cells(colErrorStatus).Style.Font = New Font("Arial", 9, FontStyle.Bold)
                 End If
             Next
 
-            gv1.BestFitColumns()
+            Gv1.BestFitColumns()
             gv1.AutoSizeRows = True
 
             clsCommon.ProgressBarPercentHide()
