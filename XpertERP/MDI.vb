@@ -8260,6 +8260,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptCattleFeedSaleReport
                         frm = New rptCattleFeedSaleReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptTransferToSavingReport
+                        frm = New TransferToSavingReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAvgSaleDetailReport
                         frm = New rptAvgSaleDetailReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -10789,9 +10792,15 @@ Public Class MDI
     End Sub
 
     Private Sub RadButton18_Click(sender As Object, e As EventArgs) Handles RadButton18.Click
-        Dim frm As New frmDBTemp
-        frm.MdiParent = Me
-        frm.Show()
+        If objCommonVar.RCDFCFP = True Then
+            ShowForm(clsUserMgtCode.RCDFDashboard, "", True)
+        Else
+            ShowForm(clsUserMgtCode.DairySaleDashboard, "", True)
+        End If
+
+        'Dim frm As New frmDBTemp
+        'frm.MdiParent = Me
+        'frm.Show()
 
         'Dim frm As New frmVersion
         'frm.MdiParent = Me

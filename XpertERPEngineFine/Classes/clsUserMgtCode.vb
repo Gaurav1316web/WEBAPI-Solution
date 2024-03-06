@@ -436,6 +436,7 @@ Public Class clsUserMgtCode
     Public Const SubModuleMCCMilkProcurementTransaction As String = "SMCPROCTRAN"
     Public Const SubModuleMCCMilkProcurementReport As String = "SMMPROCRPT"
 
+
     Public Const SubModuleBULKMilkProcurementSetup As String = "SMBPROCSetup"
     Public Const SubModuleMilkProcurementTransaction As String = "SMMPROCTRANS"
     Public Const SubModuleBulkMilkProcurementReport As String = "SMBPROCRPT"
@@ -2111,6 +2112,7 @@ Public Class clsUserMgtCode
     Public Const rptBMCTankerTestingReport As String = "BMCTan_Tes_R"
     Public Const rptMilkPaymentSummary As String = "Milk-PS"
     Public Const rptCattleFeedSaleReport As String = "Cattle-F-S"
+    Public Const rptTransferToSavingReport As String = "Tran-Sv-Rt"
     Public Const frmBulkMilkSRNReturn As String = "M-BMSRN-R"
     'Public Const frmTranReverse As String = "M-TRN-R"
     'Public Const rptMDConversion As String = "MD_CONVERSIN"
