@@ -38,6 +38,7 @@ Public Class FrmERPStatusTrackingReport
     End Sub
     Private Sub FrmERPStatusTrackingReport_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         SetUserMgmtNew()
+
         buttontooltip.SetToolTip(btnReport, "Press Alt+R for Summary ")
         buttontooltip.SetToolTip(btnreset, "Press Alt+E for Reset ")
         buttontooltip.SetToolTip(btnclose, "Press Alt+C Close the Window")
@@ -49,12 +50,14 @@ Public Class FrmERPStatusTrackingReport
             rdbERPStatusMilkUnion.Visible = True
             rdbMilkProcurement.Visible = True
             rdbDBTStatus.Visible = True
+            rdbLastDBTStatus.Visible = True
             txtFinYr.Visible = False
             MyLabel1.Visible = False
             txtDate.Visible = False
             RadLabel3.Visible = False
             txtDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
             rdbDBTStatus.Location = New System.Drawing.Point(292, 4)
+            rdbLastDBTStatus.Location = New System.Drawing.Point(414, 5)
             MyLabel1.Location = New System.Drawing.Point(414, 5)
             txtFinYr.Location = New System.Drawing.Point(489, 5)
 
@@ -163,8 +166,8 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
                         Exit Sub
                     End If
 
-                    Dim frmDate As String = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select convert(date,Start_Date, 103) from TSPL_Fiscal_Year_Master where Fiscal_Name='" + txtFinYr.Value + "'"))
-                    Dim toDate As String = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select convert(date,End_Date, 103) from TSPL_Fiscal_Year_Master where Fiscal_Name='" + txtFinYr.Value + "'"))
+                    Dim frmDate As String = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select convert(date,Start_Date, 103) from TSPL_Fiscal_Year_Master where Fiscal_Code='" + txtFinYr.Value + "'"))
+                    Dim toDate As String = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select convert(date,End_Date, 103) from TSPL_Fiscal_Year_Master where Fiscal_Code='" + txtFinYr.Value + "'"))
 
                     Dim dtr As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_APP_LOCATION].Location_Name")
                     query = ""
@@ -193,7 +196,37 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
                         query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 2 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As February"
                         query += ",(SELECT STRING_AGG(CASE WHEN Status = 1 THEN 'Y' ELSE 'N' END, '+') FROM ( SELECT *, ROW_NUMBER() OVER (PARTITION BY From_Date ORDER BY From_Date) AS RowNum FROM [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT WHERE MONTH(From_Date) = 3 " & status & "  AND From_Date >= convert(date,'" + frmDate + "',103) AND From_Date < convert(date,'" + toDate + "',103) ) AS Subquery WHERE RowNum = 1 ) As March"
                     Next
+                ElseIf rdbLastDBTStatus.Checked Then
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
+                    If (dt Is Nothing OrElse dt.Rows.Count <= 0) Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
+                        gv1.DataSource = Nothing
+                        Exit Sub
+                    End If
 
+                    Dim docNo As String = ""
+                    query = ""
+                    dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        For ii As Integer = 0 To dt.Rows.Count - 1
+                            If ii > 0 Then
+                                query += " UNION ALL "
+                            End If
+
+                            Dim qry As String = "SELECT Top 1 Document_Code FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT where 2=2 "
+                            If rbtnTransactionPosted.Checked Then
+                                qry += " AND Status = 1"
+                            End If
+                            qry += " ORDER BY Document_date DESC"
+                            docNo = clsDBFuncationality.getSingleValue(qry)
+
+                            query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name]"
+                            query += ",(select COUNT(MP_Name) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL where Document_Code='" + docNo + "') As [No Of Farmer] "
+                            query += ",(select count(Jan_Aadhar_No_Verified) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code_VLC_Uploader where Jan_Aadhar_No_Verified=1 and Document_Code='" + docNo + "') As [Jan Aadhar Verified No]"
+                            query += ",(select count(Aadhar_No_Verified) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code_VLC_Uploader where Aadhar_No_Verified=1 and Document_Code='" + docNo + "') As [Addhar Verified]"
+                            query += ",(select Top 1 concat(From_Date, ' - ', To_Date)  FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT ORDER BY From_Date DESC, To_Date DESC ) AS [Last DBT Cycle]"
+                        Next
+                    End If
                 Else
                     Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
                     If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
@@ -250,7 +283,7 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
                 SetGridFormat(gv1)
                 ReStoreGridLayout()
                 If objCommonVar.RCDFCFP = False Then
-                    If rdbMilkProcurement.Checked = False AndAlso rdbDBTStatus.Checked = False Then
+                    If rdbMilkProcurement.Checked = False AndAlso rdbDBTStatus.Checked = False AndAlso rdbLastDBTStatus.Checked = False Then
                         GridFormate()
                     End If
                 End If
@@ -479,10 +512,12 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
             Label1.Text = "Milk Procurement"
             RadLabel3.Location = New System.Drawing.Point(292, 4)
             rdbDBTStatus.Location = New System.Drawing.Point(425, 5)
+            rdbLastDBTStatus.Location = New Point(525, 5)
             MyLabel1.Location = New System.Drawing.Point(500, 5)
             txtFinYr.Location = New System.Drawing.Point(574, 3)
         Else
             rdbDBTStatus.Location = New System.Drawing.Point(292, 4)
+            rdbLastDBTStatus.Location = New Point(414, 5)
             MyLabel1.Location = New System.Drawing.Point(392, 5)
             txtFinYr.Location = New System.Drawing.Point(478, 5)
             txtDate.Visible = False
@@ -663,15 +698,25 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
             txtFinYr.Visible = True
             MyLabel1.Visible = True
             Label1.Text = "DBT Status Report At Milk Unions"
+            rdbLastDBTStatus.Location = New Point(645, 5)
             txtFinYr.Value = clsDBFuncationality.getSingleValue("select Fiscal_Code as Code from TSPL_Fiscal_Year_Master WHERE Is_Current_Year = 1")
         Else
             txtFinYr.Visible = False
             MyLabel1.Visible = False
             Label1.Text = "ERP Status At Milk Unions"
+            rdbLastDBTStatus.Location = New Point(414, 5)
         End If
     End Sub
     Private Sub txtFinYr__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtFinYr._MYValidating
         Dim qry As String = "select Fiscal_Code as Code,Fiscal_Name as Name from TSPL_Fiscal_Year_Master"
         txtFinYr.Value = clsCommon.ShowSelectForm("fndFinancialYearMaster", qry, "Code", "", txtFinYr.Value, "Code", isButtonClicked)
+    End Sub
+
+    Private Sub rdbLastDBTStatus_CheckedChanged(sender As Object, e As EventArgs) Handles rdbLastDBTStatus.CheckedChanged
+        If rdbLastDBTStatus.Checked Then
+            Label1.Text = "Last DBT Status Report"
+        Else
+            Label1.Text = "ERP Status At Milk Unions"
+        End If
     End Sub
 End Class
