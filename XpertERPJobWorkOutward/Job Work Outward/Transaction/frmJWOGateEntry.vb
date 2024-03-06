@@ -440,11 +440,13 @@ Public Class frmJWOGateEntry
             btnDelete.Visible = MyBase.isDeleteFlag
             btnPost.Visible = MyBase.isPostFlag
             btnPrintNew.Visible = MyBase.isPainting
-            If MyBase.isReverse Then
-                btnReverse.Enabled = True
-            Else
-                btnReverse.Enabled = False
-            End If
+            'If MyBase.isReverse Then
+            '    btnReverse.Enabled = True
+            'Else
+            '    btnReverse.Enabled = False
+            'End If
+            btnReverse.Visible = False
+
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

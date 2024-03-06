@@ -736,6 +736,7 @@ Public Class frmMilkJobWorkTransfer
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        btnReverse.Visible = False
     End Sub
 
     Private Sub FrmBulkMilkSRN_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown

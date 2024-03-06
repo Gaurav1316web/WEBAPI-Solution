@@ -33,7 +33,7 @@ Public Class FrmReceiptInvoiceMapping
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        'btnReverse.Visible = MyBase.isReverse
+        btnReverse.Visible = False
     End Sub
 
 
