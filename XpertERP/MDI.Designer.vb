@@ -833,6 +833,7 @@ Partial Class MDI
         Me.RadDock1.Location = New System.Drawing.Point(0, 0)
         Me.RadDock1.MainDocumentContainer = Me.DocumentContainer1
         Me.RadDock1.Name = "RadDock1"
+        Me.RadDock1.Padding = New System.Windows.Forms.Padding(0)
         '
         '
         '
@@ -849,10 +850,10 @@ Partial Class MDI
         Me.ToolWindow1.Controls.Add(Me.SplitContainer3)
         Me.ToolWindow1.Controls.Add(Me.Panel1)
         Me.ToolWindow1.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ToolWindow1.Location = New System.Drawing.Point(1, 22)
+        Me.ToolWindow1.Location = New System.Drawing.Point(4, 4)
         Me.ToolWindow1.Name = "ToolWindow1"
         Me.ToolWindow1.PreviousDockState = Telerik.WinControls.UI.Docking.DockState.Docked
-        Me.ToolWindow1.Size = New System.Drawing.Size(245, 410)
+        Me.ToolWindow1.Size = New System.Drawing.Size(239, 436)
         Me.ToolWindow1.Text = "Menu"
         Me.ToolWindow1.ToolCaptionButtons = Telerik.WinControls.UI.Docking.ToolStripCaptionButtons.AutoHide
         '
@@ -872,7 +873,7 @@ Partial Class MDI
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.RTV2)
-        Me.SplitContainer3.Size = New System.Drawing.Size(245, 385)
+        Me.SplitContainer3.Size = New System.Drawing.Size(239, 411)
         Me.SplitContainer3.SplitterDistance = 25
         Me.SplitContainer3.TabIndex = 13
         '
@@ -886,7 +887,7 @@ Partial Class MDI
         Me.cboMenu.Location = New System.Drawing.Point(0, 0)
         Me.cboMenu.Name = "cboMenu"
         Me.cboMenu.NullText = "Quick Menu"
-        Me.cboMenu.Size = New System.Drawing.Size(245, 20)
+        Me.cboMenu.Size = New System.Drawing.Size(239, 20)
         Me.cboMenu.TabIndex = 0
         '
         'RTV2
@@ -898,7 +899,7 @@ Partial Class MDI
         Me.RTV2.ShowDragHint = False
         Me.RTV2.ShowDropHint = False
         Me.RTV2.ShowExpandCollapse = False
-        Me.RTV2.Size = New System.Drawing.Size(245, 356)
+        Me.RTV2.Size = New System.Drawing.Size(239, 382)
         Me.RTV2.SpacingBetweenNodes = -1
         Me.RTV2.TabIndex = 0
         '
@@ -913,9 +914,9 @@ Partial Class MDI
         Me.Panel1.Controls.Add(Me.RadButton2)
         Me.Panel1.Controls.Add(Me.btnEditCaption)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel1.Location = New System.Drawing.Point(0, 385)
+        Me.Panel1.Location = New System.Drawing.Point(0, 411)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(245, 25)
+        Me.Panel1.Size = New System.Drawing.Size(239, 25)
         Me.Panel1.TabIndex = 12
         '
         'btnOriginalName
@@ -962,14 +963,14 @@ Partial Class MDI
         '
         Me.ToolTabStrip1.CanUpdateChildIndex = True
         Me.ToolTabStrip1.Controls.Add(Me.ToolWindow1)
-        Me.ToolTabStrip1.Location = New System.Drawing.Point(5, 5)
+        Me.ToolTabStrip1.Location = New System.Drawing.Point(0, 0)
         Me.ToolTabStrip1.Name = "ToolTabStrip1"
         '
         '
         '
         Me.ToolTabStrip1.RootElement.MinSize = New System.Drawing.Size(0, 0)
         Me.ToolTabStrip1.SelectedIndex = 0
-        Me.ToolTabStrip1.Size = New System.Drawing.Size(247, 434)
+        Me.ToolTabStrip1.Size = New System.Drawing.Size(247, 444)
         Me.ToolTabStrip1.SizeInfo.AbsoluteSize = New System.Drawing.Size(247, 200)
         Me.ToolTabStrip1.SizeInfo.SplitterCorrection = New System.Drawing.Size(47, 0)
         Me.ToolTabStrip1.TabIndex = 0
