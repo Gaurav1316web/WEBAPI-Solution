@@ -669,6 +669,12 @@
     <Compile Include="HR and Payroll\Reports\rptEmployeeAdvanceLedger.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR and Payroll\Reports\rptLoanstatement.Designer.vb">
+      <DependentUpon>rptLoanstatement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Reports\rptLoanstatement.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HR and Payroll\Reports\RptPFForm11.Designer.vb">
       <DependentUpon>RptPFForm11.vb</DependentUpon>
     </Compile>
@@ -1969,6 +1975,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Reports\rptEmployeeAdvanceLedger.resx">
       <DependentUpon>rptEmployeeAdvanceLedger.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Reports\rptLoanstatement.resx">
+      <DependentUpon>rptLoanstatement.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Reports\RptPFForm11.resx">
       <DependentUpon>RptPFForm11.vb</DependentUpon>

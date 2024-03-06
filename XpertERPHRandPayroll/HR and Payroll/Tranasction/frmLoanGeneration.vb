@@ -491,7 +491,7 @@ Public Class frmLoanGeneration
             & " LEFT JOIN (SELECT TT1.LOAN_GENERATION_CODE,TT2.LOAN_CODE,TT2.EMP_CODE,TT2.EMI_NO " _
             & " FROM TSPL_LOAN_GENERATION TT1 JOIN TSPL_LOANGENERATION_DETAIL TT2 " _
             & " ON TT1.LOAN_GENERATION_CODE=TT2.LOAN_GENERATION_CODE WHERE TT1.PAY_PERIOD_CODE!='" & clsCommon.myCstr(Me.findPayperiod.Value) & "') AS T3 " _
-            & " ON T2.LOAN_CODE=T3.LOAN_CODE AND T2.EMI_NO=T3.EMI_NO WHERE T3.EMI_NO IS NULL and T1.PAID=0 and T1.POSTED =1 and t1.LOAN_DATE <=(select convert(date,DATE_TO,103) from TSPL_PAYPERIOD_MASTER where PAy_Period_Code='" & clsCommon.myCstr(Me.findPayperiod.Value) & "')  " _
+            & " ON T2.LOAN_CODE=T3.LOAN_CODE AND T2.EMI_NO=T3.EMI_NO WHERE T3.EMI_NO IS NULL and T1.PAID=1 and T1.POSTED =1 and t1.LOAN_DATE <=(select convert(date,DATE_TO,103) from TSPL_PAYPERIOD_MASTER where PAy_Period_Code='" & clsCommon.myCstr(Me.findPayperiod.Value) & "')  " _
             & " GROUP BY T1.LOAN_CODE,T1.LOAN_DATE,T1.EMP_CODE,T2.EMI_AMOUNT) AS LA " _
             & " LEFT JOIN (select  ADJ.EMP_CODE,ADJ.LOAN_CODE,SUM(ADJ.ADJUSTMENT_PLUS) AS ADJUSTMENT_PLUS," _
             & " SUM(ADJ.ADJUSTMENT_MINUS) AS ADJUSTMENT_MINUS " _
