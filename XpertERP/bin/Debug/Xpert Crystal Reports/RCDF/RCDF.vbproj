@@ -1316,6 +1316,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptMilkCollectionAsPerDataEntry.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBill.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcess.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessCHT.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNew.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewBKN.rpt" />
