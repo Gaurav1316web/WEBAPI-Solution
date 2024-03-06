@@ -479,7 +479,7 @@ Public Class frmEXPorformaInvoice
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
         btnPrint.Visible = MyBase.isPrintFlag
         RadSplitButton1.Visible = isPrintFlag
-
+        btnReverseAndUnpost.Visible = False
 
         If MyBase.isReverse Then
             btnReverseAndUnpost.Enabled = True

@@ -8257,6 +8257,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptCattleFeedSaleReport
                         frm = New rptCattleFeedSaleReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptTransferToSavingReport
+                        frm = New TransferToSavingReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAvgSaleDetailReport
                         frm = New rptAvgSaleDetailReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
