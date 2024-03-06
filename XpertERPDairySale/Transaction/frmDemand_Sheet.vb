@@ -25,18 +25,17 @@ Public Class frmDemand_Sheet
             Exit Sub
         End If
         btnSave.Visible = MyBase.isModifyFlag
-        btnExport.Visible = MyBase.isExport
+        'btnExport.Visible = MyBase.isExport
         'btnPost.Visible = MyBase.isPostFlag
-        'If btnSave.Visible = True Then
-        '    btnExport.Enabled = True
-        'Else
-        '    btnExport.Enabled = False
-        'End If
-        'If MyBase.isReverse Then
-        '    btnreverse.Enabled = True
-        'Else
-        '    btnreverse.Enabled = False
-        'End If
+        If MyBase.isExport = True Then
+            rmiImport.Enabled = True
+            rmiExcel.Enabled = True
+        Else
+            rmiImport.Enabled = False
+            rmiExcel.Enabled = False
+
+        End If
+
     End Sub
     Private Sub frmDemandSheet_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetShiftTimeOut = clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.SetShiftTimeOut, clsFixedParameterCode.SetShiftTimeOut, Nothing))

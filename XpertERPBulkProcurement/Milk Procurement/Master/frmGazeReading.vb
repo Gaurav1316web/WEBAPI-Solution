@@ -48,8 +48,15 @@ Public Class frmGazeReading
             btnExport.Enabled = False
             btnImport.Enabled = False
         End If
-        btnExport.Visible = MyBase.isExport
-        btnImport.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            btnExport.Enabled = True
+            btnImport.Enabled = True
+        Else
+            btnExport.Enabled = False
+            btnImport.Enabled = False
+        End If
+        'btnExport.Visible = MyBase.isExport
+        'btnImport.Visible = MyBase.isExport
 
     End Sub
     Sub Reset()

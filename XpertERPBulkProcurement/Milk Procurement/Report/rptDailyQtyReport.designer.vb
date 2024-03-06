@@ -22,7 +22,7 @@ Partial Class rptDailyQtyReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -38,6 +38,8 @@ Partial Class rptDailyQtyReport
         Me.rbtnBMCDock = New System.Windows.Forms.RadioButton()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbMultiple = New System.Windows.Forms.RadioButton()
+        Me.rdbCollectionWise = New System.Windows.Forms.RadioButton()
         Me.rbtnBmcSummary = New System.Windows.Forms.RadioButton()
         Me.rdbTankerWise = New System.Windows.Forms.RadioButton()
         Me.rbtnTranpoterGainLoss = New System.Windows.Forms.RadioButton()
@@ -73,8 +75,6 @@ Partial Class rptDailyQtyReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rdbCollectionWise = New System.Windows.Forms.RadioButton()
-        Me.rdbMultiple = New System.Windows.Forms.RadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -315,8 +315,28 @@ Partial Class rptDailyQtyReport
         Me.RadGroupBox1.Location = New System.Drawing.Point(369, 9)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(454, 63)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(552, 63)
         Me.RadGroupBox1.TabIndex = 406
+        '
+        'rdbMultiple
+        '
+        Me.rdbMultiple.AutoSize = True
+        Me.rdbMultiple.Location = New System.Drawing.Point(8, 36)
+        Me.rdbMultiple.Name = "rdbMultiple"
+        Me.rdbMultiple.Size = New System.Drawing.Size(123, 17)
+        Me.rdbMultiple.TabIndex = 454
+        Me.rdbMultiple.Text = "Multiple Collection"
+        Me.rdbMultiple.UseVisualStyleBackColor = True
+        '
+        'rdbCollectionWise
+        '
+        Me.rdbCollectionWise.AutoSize = True
+        Me.rdbCollectionWise.Location = New System.Drawing.Point(159, 37)
+        Me.rdbCollectionWise.Name = "rdbCollectionWise"
+        Me.rdbCollectionWise.Size = New System.Drawing.Size(104, 17)
+        Me.rdbCollectionWise.TabIndex = 453
+        Me.rdbCollectionWise.Text = "Collection Data"
+        Me.rdbCollectionWise.UseVisualStyleBackColor = True
         '
         'rbtnBmcSummary
         '
@@ -723,7 +743,8 @@ Partial Class rptDailyQtyReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -789,26 +810,6 @@ Partial Class rptDailyQtyReport
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
-        '
-        'rdbCollectionWise
-        '
-        Me.rdbCollectionWise.AutoSize = True
-        Me.rdbCollectionWise.Location = New System.Drawing.Point(159, 37)
-        Me.rdbCollectionWise.Name = "rdbCollectionWise"
-        Me.rdbCollectionWise.Size = New System.Drawing.Size(104, 17)
-        Me.rdbCollectionWise.TabIndex = 453
-        Me.rdbCollectionWise.Text = "Collection Data"
-        Me.rdbCollectionWise.UseVisualStyleBackColor = True
-        '
-        'rdbMultiple
-        '
-        Me.rdbMultiple.AutoSize = True
-        Me.rdbMultiple.Location = New System.Drawing.Point(8, 36)
-        Me.rdbMultiple.Name = "rdbMultiple"
-        Me.rdbMultiple.Size = New System.Drawing.Size(123, 17)
-        Me.rdbMultiple.TabIndex = 454
-        Me.rdbMultiple.Text = "Multiple Collection"
-        Me.rdbMultiple.UseVisualStyleBackColor = True
         '
         'rptDailyQtyReport
         '

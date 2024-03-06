@@ -5,6 +5,7 @@ Imports System.Data.SqlClient
 Public Class clsEmployeeMaster
 #Region "Variables"
     Public EMP_Band_Code As String
+    Public GPF_no As String
     Public Working_City_Code As String
     Public EMP_CODE As String
     Public Emp_Name As String
@@ -163,7 +164,8 @@ Public Class clsEmployeeMaster
     Public Pf_Calculation_Type As String
     Public Max_Amount_EPF As Double = 0
     Public EPF_Rate As Decimal = 0
-
+    Public Transfer_PF As Boolean = False
+    Public transferText As String
     Public Votercard_No As String
     Public Rationcard_No As String
     Public DL_No As String
@@ -235,6 +237,7 @@ Public Class clsEmployeeMaster
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             obj = New clsEmployeeMaster()
             obj.UANNo = clsCommon.myCstr(dt.Rows(0)("UANNo"))
+            obj.GPF_no = clsCommon.myCstr(dt.Rows(0)("GPF_No"))
             obj.Working_City_Code = clsCommon.myCstr(dt.Rows(0)("Working_City_Code"))
             obj.EMP_Band_Code = clsCommon.myCstr(dt.Rows(0)("Employee_BandCode"))
             obj.EMP_CODE = clsCommon.myCstr(dt.Rows(0)("EMP_CODE"))
@@ -325,7 +328,8 @@ Public Class clsEmployeeMaster
             obj.PAN_NO = clsCommon.myCstr(dt.Rows(0)("PAN_NO"))
             obj.PASPORT_NO = clsCommon.myCstr(dt.Rows(0)("PASPORT_NO"))
             obj.DESCRIPTION = clsCommon.myCstr(dt.Rows(0)("DESCRIPTION"))
-
+            obj.Transfer_PF = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("transfer_PF")) = 1, True, False))
+            obj.transferText = clsCommon.myCstr(dt.Rows(0)("transferPF_text"))
             obj.FATHERS_NAME = clsCommon.myCstr(dt.Rows(0)("FATHERS_NAME"))
             obj.MOTHERS_NAME = clsCommon.myCstr(dt.Rows(0)("MOTHERS_NAME"))
             obj.SPOUSE_NAME = clsCommon.myCstr(dt.Rows(0)("SPOUSE_NAME"))
@@ -444,7 +448,7 @@ Public Class clsEmployeeMaster
             clsCommon.AddColumnsForChange(coll, "rel_date", obj.rel_date)
             clsCommon.AddColumnsForChange(coll, "Payroll_Code", obj.Payroll_Code)
             clsCommon.AddColumnsForChange(coll, "Empty_Ex", obj.Empty_Ex)
-
+            clsCommon.AddColumnsForChange(coll, "GPF_No", obj.GPF_no)
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "GL_Account", obj.GL_Account)
             clsCommon.AddColumnsForChange(coll, "EMail_ID", obj.EMail_ID)
@@ -585,7 +589,8 @@ Public Class clsEmployeeMaster
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
 
-
+            clsCommon.AddColumnsForChange(coll, "transfer_PF", IIf(obj.Transfer_PF, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "transferPF_text", obj.transferText)
             clsCommon.AddColumnsForChange(coll, "Votercard_No", obj.Votercard_No)
             clsCommon.AddColumnsForChange(coll, "RationCard_No", obj.Rationcard_No)
             clsCommon.AddColumnsForChange(coll, "DL_No", obj.DL_No)

@@ -67,6 +67,15 @@ Public Class frmBulkSaleFreightMaster
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        RadSplitButton1.Visible = MyBase.isExport
+        btnPost.Visible = MyBase.isPostFlag
+        If MyBase.isExport = True Then
+            rmExport.Enabled = True
+            rmimport.Enabled = True
+        Else
+            rmExport.Enabled = False
+            rmimport.Enabled = False
+        End If
 
     End Sub
 
@@ -124,8 +133,9 @@ Public Class frmBulkSaleFreightMaster
                     btnReverseUnpost.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         End If
     End Sub
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
@@ -222,7 +232,8 @@ Public Class frmBulkSaleFreightMaster
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub FunReset()
+
+    Private Sub Addnew()
         isNewEntry = True
         txtDocumentNo.Value = ""
         btnsave.Enabled = True
@@ -235,9 +246,6 @@ Public Class frmBulkSaleFreightMaster
         txtCustomer.Value = ""
         lblCustomerName.Text = ""
         lblStatus.Status = ERPTransactionStatus.Pending
-    End Sub
-    Private Sub Addnew()
-        FunReset()
         LoadBlankGrid()
         gv1.Rows.AddNew()
 
@@ -333,8 +341,7 @@ Public Class frmBulkSaleFreightMaster
         gv1.EnableSorting = False
         gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gv1.MasterTemplate.ShowRowHeaderColumn = False
-        ' gv1.TableElement.TableHeaderHeight = 40
-        ' gv1.Rows.AddNew()
+
         ReStoreGridLayout()
     End Sub
 
@@ -343,8 +350,7 @@ Public Class frmBulkSaleFreightMaster
             btnsave.Enabled = True
             btnPost.Enabled = True
 
-            FunReset()
-            LoadBlankGrid()
+            Addnew()
             Dim obj As New clsBulkSaleFreightMaster()
             obj = clsBulkSaleFreightMaster.GetData(strCode, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(clsCommon.myCstr(obj.Document_Code)) > 0) Then
@@ -368,7 +374,6 @@ Public Class frmBulkSaleFreightMaster
 
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsBulkSaleFreightDetail In obj.Arr
-                        gv1.Rows.AddNew()
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSNo).Value = objTr.SNO
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTenderQty).Value = objTr.Tender_Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = objTr.Rate
@@ -429,19 +434,19 @@ Public Class frmBulkSaleFreightMaster
     End Sub
 
     Private Sub gv1_UserAddedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserAddedRow
-        For i As Integer = 0 To gv1.Rows.Count - 1
-            gv1.Rows(0).Cells(0).Value = 1
-            If i <> 0 Then
-                gv1.Rows(i).Cells(colSNo).Value = i + 1
-            End If
-        Next
+        'For i As Integer = 0 To gv1.Rows.Count - 1
+        '    gv1.Rows(0).Cells(0).Value = 1
+        '    If i <> 0 Then
+        '        gv1.Rows(i).Cells(colSNo).Value = i + 1
+        '    End If
+        'Next
     End Sub
     Private Sub gv1_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
         If gv1.RowCount > 0 Then
             Dim intCurrRow As Integer = gv1.CurrentRow.Index
             gv1.CurrentRow.Cells(colSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
             If intCurrRow = gv1.Rows.Count - 1 Then
-                gv1.Rows.AddNew()
+                ' gv1.Rows.AddNew()
                 gv1.CurrentRow = gv1.Rows(intCurrRow)
             End If
         End If

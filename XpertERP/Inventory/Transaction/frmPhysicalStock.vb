@@ -83,7 +83,8 @@ Public Class FrmPhysicalStock
                         btnReverse.Visible = True
                     End If
                 Else
-                    MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                    'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             End If
 
@@ -177,9 +178,9 @@ Public Class FrmPhysicalStock
         btnsave.Visible = MyBase.isModifyFlag
         btnpost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        btnimport.Visible = MyBase.isExport
-        btnexport.Visible = MyBase.isExport
-        If btnsave.Visible = True Then
+        'btnimport.Visible = MyBase.isModifyFlag
+        'btnexport.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
             btnimport.Enabled = True
             btnexport.Enabled = True
         Else

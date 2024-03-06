@@ -61,12 +61,12 @@ Partial Class FrmPriceChartUploader_MCC
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtdate = New common.Controls.MyDateTimePicker()
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvViewScreen = New Telerik.WinControls.UI.RadGridView()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -97,13 +97,12 @@ Partial Class FrmPriceChartUploader_MCC
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageView1.SuspendLayout()
-        Me.RadPageViewPage1.SuspendLayout()
         CType(Me.gvViewScreen, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvViewScreen.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnExcel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExcel, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -121,9 +120,11 @@ Partial Class FrmPriceChartUploader_MCC
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExcel)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1279, 503)
+        Me.SplitContainer1.Size = New System.Drawing.Size(920, 503)
         Me.SplitContainer1.SplitterDistance = 467
         Me.SplitContainer1.TabIndex = 0
         '
@@ -131,6 +132,7 @@ Partial Class FrmPriceChartUploader_MCC
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer2.IsSplitterFixed = True
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -159,9 +161,9 @@ Partial Class FrmPriceChartUploader_MCC
         '
         'SplitContainer2.Panel2
         '
-        Me.SplitContainer2.Panel2.Controls.Add(Me.RadPageView1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1279, 467)
-        Me.SplitContainer2.SplitterDistance = 120
+        Me.SplitContainer2.Panel2.Controls.Add(Me.gvViewScreen)
+        Me.SplitContainer2.Size = New System.Drawing.Size(920, 467)
+        Me.SplitContainer2.SplitterDistance = 107
         Me.SplitContainer2.TabIndex = 0
         '
         'txtCreatedDate
@@ -177,7 +179,7 @@ Partial Class FrmPriceChartUploader_MCC
         Me.txtCreatedDate.IsSourceFromTable = False
         Me.txtCreatedDate.IsSourceFromValueList = False
         Me.txtCreatedDate.IsUnique = False
-        Me.txtCreatedDate.Location = New System.Drawing.Point(799, 11)
+        Me.txtCreatedDate.Location = New System.Drawing.Point(77, 80)
         Me.txtCreatedDate.MendatroryField = True
         Me.txtCreatedDate.MinDate = New Date(1973, 1, 1, 0, 0, 0, 0)
         Me.txtCreatedDate.MyLinkLable1 = Me.lblvandorno
@@ -197,7 +199,7 @@ Partial Class FrmPriceChartUploader_MCC
         '
         Me.lblvandorno.FieldName = Nothing
         Me.lblvandorno.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblvandorno.Location = New System.Drawing.Point(297, 12)
+        Me.lblvandorno.Location = New System.Drawing.Point(306, 12)
         Me.lblvandorno.Name = "lblvandorno"
         Me.lblvandorno.Size = New System.Drawing.Size(30, 16)
         Me.lblvandorno.TabIndex = 1036
@@ -207,11 +209,11 @@ Partial Class FrmPriceChartUploader_MCC
         '
         Me.MyLabel17.FieldName = Nothing
         Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel17.Location = New System.Drawing.Point(718, 14)
+        Me.MyLabel17.Location = New System.Drawing.Point(9, 82)
         Me.MyLabel17.Name = "MyLabel17"
-        Me.MyLabel17.Size = New System.Drawing.Size(74, 16)
+        Me.MyLabel17.Size = New System.Drawing.Size(62, 16)
         Me.MyLabel17.TabIndex = 1057
-        Me.MyLabel17.Text = "Created Date"
+        Me.MyLabel17.Text = "Created on"
         '
         'cmbaxis
         '
@@ -233,7 +235,7 @@ Partial Class FrmPriceChartUploader_MCC
         Me.cmbaxis.Items.Add(RadListDataItem10)
         Me.cmbaxis.Items.Add(RadListDataItem11)
         Me.cmbaxis.Items.Add(RadListDataItem12)
-        Me.cmbaxis.Location = New System.Drawing.Point(956, 10)
+        Me.cmbaxis.Location = New System.Drawing.Point(234, 80)
         Me.cmbaxis.MendatroryField = False
         Me.cmbaxis.MyLinkLable1 = Me.MyLabel3
         Me.cmbaxis.MyLinkLable2 = Nothing
@@ -249,7 +251,7 @@ Partial Class FrmPriceChartUploader_MCC
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel3.Location = New System.Drawing.Point(885, 14)
+        Me.MyLabel3.Location = New System.Drawing.Point(163, 82)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(56, 16)
         Me.MyLabel3.TabIndex = 1055
@@ -276,7 +278,7 @@ Partial Class FrmPriceChartUploader_MCC
         Me.cmbmatrix.Items.Add(RadListDataItem1)
         Me.cmbmatrix.Items.Add(RadListDataItem2)
         Me.cmbmatrix.Items.Add(RadListDataItem3)
-        Me.cmbmatrix.Location = New System.Drawing.Point(956, 34)
+        Me.cmbmatrix.Location = New System.Drawing.Point(404, 80)
         Me.cmbmatrix.MendatroryField = False
         Me.cmbmatrix.MyLinkLable1 = Me.MyLabel4
         Me.cmbmatrix.MyLinkLable2 = Nothing
@@ -292,7 +294,7 @@ Partial Class FrmPriceChartUploader_MCC
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel4.Location = New System.Drawing.Point(885, 39)
+        Me.MyLabel4.Location = New System.Drawing.Point(333, 82)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(65, 16)
         Me.MyLabel4.TabIndex = 1054
@@ -311,19 +313,19 @@ Partial Class FrmPriceChartUploader_MCC
         Me.RadGroupBox1.Controls.Add(Me.MyLabel12)
         Me.RadGroupBox1.HeaderText = "Find Rate"
         Me.RadGroupBox1.HeaderTextAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.RadGroupBox1.Location = New System.Drawing.Point(718, 59)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(730, 3)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(318, 58)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(185, 75)
         Me.RadGroupBox1.TabIndex = 1051
         Me.RadGroupBox1.Text = "Find Rate"
         '
         'BtnGo
         '
-        Me.BtnGo.Location = New System.Drawing.Point(194, 32)
+        Me.BtnGo.Location = New System.Drawing.Point(89, 43)
         Me.BtnGo.Name = "BtnGo"
-        Me.BtnGo.Size = New System.Drawing.Size(88, 20)
+        Me.BtnGo.Size = New System.Drawing.Size(80, 20)
         Me.BtnGo.TabIndex = 33
-        Me.BtnGo.Text = "&Show"
+        Me.BtnGo.Text = "&Search"
         '
         'TxtFindRate
         '
@@ -338,7 +340,7 @@ Partial Class FrmPriceChartUploader_MCC
         Me.TxtFindRate.IsSourceFromTable = False
         Me.TxtFindRate.IsSourceFromValueList = False
         Me.TxtFindRate.IsUnique = False
-        Me.TxtFindRate.Location = New System.Drawing.Point(38, 31)
+        Me.TxtFindRate.Location = New System.Drawing.Point(38, 43)
         Me.TxtFindRate.MendatroryField = False
         Me.TxtFindRate.MyLinkLable1 = Nothing
         Me.TxtFindRate.MyLinkLable2 = Nothing
@@ -346,7 +348,7 @@ Partial Class FrmPriceChartUploader_MCC
         Me.TxtFindRate.ReferenceFieldDesc = Nothing
         Me.TxtFindRate.ReferenceFieldName = Nothing
         Me.TxtFindRate.ReferenceTableName = Nothing
-        Me.TxtFindRate.Size = New System.Drawing.Size(76, 20)
+        Me.TxtFindRate.Size = New System.Drawing.Size(45, 20)
         Me.TxtFindRate.TabIndex = 31
         Me.TxtFindRate.Text = "0"
         Me.TxtFindRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -356,7 +358,7 @@ Partial Class FrmPriceChartUploader_MCC
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel13.Location = New System.Drawing.Point(5, 33)
+        Me.MyLabel13.Location = New System.Drawing.Point(5, 45)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(30, 16)
         Me.MyLabel13.TabIndex = 32
@@ -375,7 +377,7 @@ Partial Class FrmPriceChartUploader_MCC
         Me.TxtFindSNF.IsSourceFromTable = False
         Me.TxtFindSNF.IsSourceFromValueList = False
         Me.TxtFindSNF.IsUnique = False
-        Me.TxtFindSNF.Location = New System.Drawing.Point(194, 12)
+        Me.TxtFindSNF.Location = New System.Drawing.Point(124, 21)
         Me.TxtFindSNF.MendatroryField = False
         Me.TxtFindSNF.MyLinkLable1 = Nothing
         Me.TxtFindSNF.MyLinkLable2 = Nothing
@@ -383,7 +385,7 @@ Partial Class FrmPriceChartUploader_MCC
         Me.TxtFindSNF.ReferenceFieldDesc = Nothing
         Me.TxtFindSNF.ReferenceFieldName = Nothing
         Me.TxtFindSNF.ReferenceTableName = Nothing
-        Me.TxtFindSNF.Size = New System.Drawing.Size(88, 20)
+        Me.TxtFindSNF.Size = New System.Drawing.Size(45, 20)
         Me.TxtFindSNF.TabIndex = 28
         Me.TxtFindSNF.Text = "0"
         Me.TxtFindSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -402,7 +404,7 @@ Partial Class FrmPriceChartUploader_MCC
         Me.TxtFindFAT.IsSourceFromTable = False
         Me.TxtFindFAT.IsSourceFromValueList = False
         Me.TxtFindFAT.IsUnique = False
-        Me.TxtFindFAT.Location = New System.Drawing.Point(38, 10)
+        Me.TxtFindFAT.Location = New System.Drawing.Point(38, 21)
         Me.TxtFindFAT.MendatroryField = False
         Me.TxtFindFAT.MyLinkLable1 = Nothing
         Me.TxtFindFAT.MyLinkLable2 = Nothing
@@ -410,7 +412,7 @@ Partial Class FrmPriceChartUploader_MCC
         Me.TxtFindFAT.ReferenceFieldDesc = Nothing
         Me.TxtFindFAT.ReferenceFieldName = Nothing
         Me.TxtFindFAT.ReferenceTableName = Nothing
-        Me.TxtFindFAT.Size = New System.Drawing.Size(76, 20)
+        Me.TxtFindFAT.Size = New System.Drawing.Size(45, 20)
         Me.TxtFindFAT.TabIndex = 27
         Me.TxtFindFAT.Text = "0"
         Me.TxtFindFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
@@ -420,7 +422,7 @@ Partial Class FrmPriceChartUploader_MCC
         '
         Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel11.Location = New System.Drawing.Point(5, 12)
+        Me.MyLabel11.Location = New System.Drawing.Point(5, 23)
         Me.MyLabel11.Name = "MyLabel11"
         Me.MyLabel11.Size = New System.Drawing.Size(31, 16)
         Me.MyLabel11.TabIndex = 30
@@ -430,7 +432,7 @@ Partial Class FrmPriceChartUploader_MCC
         '
         Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel12.Location = New System.Drawing.Point(159, 14)
+        Me.MyLabel12.Location = New System.Drawing.Point(89, 23)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(29, 16)
         Me.MyLabel12.TabIndex = 29
@@ -439,7 +441,7 @@ Partial Class FrmPriceChartUploader_MCC
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
-        Me.txtDocNo.Location = New System.Drawing.Point(68, 10)
+        Me.txtDocNo.Location = New System.Drawing.Point(77, 10)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -457,7 +459,7 @@ Partial Class FrmPriceChartUploader_MCC
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(275, 10)
+        Me.btnAddNew.Location = New System.Drawing.Point(284, 10)
         Me.btnAddNew.Name = "btnAddNew"
         Me.btnAddNew.Size = New System.Drawing.Size(20, 20)
         Me.btnAddNew.TabIndex = 1035
@@ -478,7 +480,7 @@ Partial Class FrmPriceChartUploader_MCC
         Me.cboDockCollectionMilkType.IsSourceFromTable = False
         Me.cboDockCollectionMilkType.IsSourceFromValueList = False
         Me.cboDockCollectionMilkType.IsUnique = False
-        Me.cboDockCollectionMilkType.Location = New System.Drawing.Point(630, 11)
+        Me.cboDockCollectionMilkType.Location = New System.Drawing.Point(639, 11)
         Me.cboDockCollectionMilkType.MendatroryField = True
         Me.cboDockCollectionMilkType.MyLinkLable1 = Nothing
         Me.cboDockCollectionMilkType.MyLinkLable2 = Nothing
@@ -494,7 +496,7 @@ Partial Class FrmPriceChartUploader_MCC
         '
         Me.txtMCC.arrDispalyMember = Nothing
         Me.txtMCC.arrValueMember = Nothing
-        Me.txtMCC.Location = New System.Drawing.Point(68, 35)
+        Me.txtMCC.Location = New System.Drawing.Point(77, 34)
         Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC.MyLinkLable1 = Me.MyLabel16
         Me.txtMCC.MyLinkLable2 = Nothing
@@ -507,17 +509,17 @@ Partial Class FrmPriceChartUploader_MCC
         '
         Me.MyLabel16.FieldName = Nothing
         Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(3, 35)
+        Me.MyLabel16.Location = New System.Drawing.Point(9, 34)
         Me.MyLabel16.Name = "MyLabel16"
-        Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
+        Me.MyLabel16.Size = New System.Drawing.Size(65, 18)
         Me.MyLabel16.TabIndex = 1045
-        Me.MyLabel16.Text = "MCC"
+        Me.MyLabel16.Text = "MCC / BMC"
         '
         'txtVLC
         '
         Me.txtVLC.arrDispalyMember = Nothing
         Me.txtVLC.arrValueMember = Nothing
-        Me.txtVLC.Location = New System.Drawing.Point(65, 59)
+        Me.txtVLC.Location = New System.Drawing.Point(77, 57)
         Me.txtVLC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVLC.MyLinkLable1 = Me.MyLabel15
         Me.txtVLC.MyLinkLable2 = Nothing
@@ -530,11 +532,11 @@ Partial Class FrmPriceChartUploader_MCC
         '
         Me.MyLabel15.FieldName = Nothing
         Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(3, 59)
+        Me.MyLabel15.Location = New System.Drawing.Point(9, 57)
         Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
+        Me.MyLabel15.Size = New System.Drawing.Size(27, 18)
         Me.MyLabel15.TabIndex = 1043
-        Me.MyLabel15.Text = "VLC"
+        Me.MyLabel15.Text = "DCS"
         '
         'CmbShift
         '
@@ -557,7 +559,7 @@ Partial Class FrmPriceChartUploader_MCC
         Me.CmbShift.Items.Add(RadListDataItem4)
         Me.CmbShift.Items.Add(RadListDataItem5)
         Me.CmbShift.Items.Add(RadListDataItem6)
-        Me.CmbShift.Location = New System.Drawing.Point(499, 10)
+        Me.CmbShift.Location = New System.Drawing.Point(508, 10)
         Me.CmbShift.MendatroryField = False
         Me.CmbShift.MyLinkLable1 = Me.MyLabel10
         Me.CmbShift.MyLinkLable2 = Nothing
@@ -572,7 +574,7 @@ Partial Class FrmPriceChartUploader_MCC
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel10.Location = New System.Drawing.Point(411, 12)
+        Me.MyLabel10.Location = New System.Drawing.Point(420, 12)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(84, 16)
         Me.MyLabel10.TabIndex = 1039
@@ -582,11 +584,11 @@ Partial Class FrmPriceChartUploader_MCC
         '
         Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel1.Location = New System.Drawing.Point(3, 12)
+        Me.MyLabel1.Location = New System.Drawing.Point(9, 12)
         Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(33, 16)
+        Me.MyLabel1.Size = New System.Drawing.Size(62, 16)
         Me.MyLabel1.TabIndex = 1037
-        Me.MyLabel1.Text = "Code"
+        Me.MyLabel1.Text = "Price Code"
         '
         'txtdate
         '
@@ -601,7 +603,7 @@ Partial Class FrmPriceChartUploader_MCC
         Me.txtdate.IsSourceFromTable = False
         Me.txtdate.IsSourceFromValueList = False
         Me.txtdate.IsUnique = False
-        Me.txtdate.Location = New System.Drawing.Point(329, 10)
+        Me.txtdate.Location = New System.Drawing.Point(338, 10)
         Me.txtdate.MendatroryField = True
         Me.txtdate.MinDate = New Date(1973, 1, 1, 0, 0, 0, 0)
         Me.txtdate.MyLinkLable1 = Me.lblvandorno
@@ -615,25 +617,6 @@ Partial Class FrmPriceChartUploader_MCC
         Me.txtdate.TabStop = False
         Me.txtdate.Text = "28/05/2014"
         Me.txtdate.Value = New Date(2014, 5, 28, 15, 5, 19, 923)
-        '
-        'RadPageView1
-        '
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
-        Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1279, 343)
-        Me.RadPageView1.TabIndex = 1
-        '
-        'RadPageViewPage1
-        '
-        Me.RadPageViewPage1.Controls.Add(Me.gvViewScreen)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(77.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1258, 295)
-        Me.RadPageViewPage1.Text = "View Screen"
         '
         'gvViewScreen
         '
@@ -651,13 +634,21 @@ Partial Class FrmPriceChartUploader_MCC
         Me.gvViewScreen.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvViewScreen.Name = "gvViewScreen"
         Me.gvViewScreen.ShowHeaderCellButtons = True
-        Me.gvViewScreen.Size = New System.Drawing.Size(1258, 295)
+        Me.gvViewScreen.Size = New System.Drawing.Size(920, 356)
         Me.gvViewScreen.TabIndex = 0
+        '
+        'btnPost
+        '
+        Me.btnPost.Location = New System.Drawing.Point(241, 4)
+        Me.btnPost.Name = "btnPost"
+        Me.btnPost.Size = New System.Drawing.Size(110, 24)
+        Me.btnPost.TabIndex = 1
+        Me.btnPost.Text = "Post"
         '
         'btnExcel
         '
         Me.btnExcel.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnImport})
-        Me.btnExcel.Location = New System.Drawing.Point(12, 5)
+        Me.btnExcel.Location = New System.Drawing.Point(9, 4)
         Me.btnExcel.Name = "btnExcel"
         Me.btnExcel.Size = New System.Drawing.Size(110, 24)
         Me.btnExcel.TabIndex = 0
@@ -668,19 +659,27 @@ Partial Class FrmPriceChartUploader_MCC
         Me.btnImport.Name = "btnImport"
         Me.btnImport.Text = "Import"
         '
-        'btnPost
+        'RadButton1
         '
-        Me.btnPost.Location = New System.Drawing.Point(212, 4)
-        Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(110, 24)
-        Me.btnPost.TabIndex = 1
-        Me.btnPost.Text = "Post"
+        Me.RadButton1.Location = New System.Drawing.Point(125, 4)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(110, 24)
+        Me.RadButton1.TabIndex = 2
+        Me.RadButton1.Text = "Delete"
+        '
+        'btnClose
+        '
+        Me.btnClose.Location = New System.Drawing.Point(805, 4)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(110, 24)
+        Me.btnClose.TabIndex = 3
+        Me.btnClose.Text = "Close"
         '
         'FrmPriceChartUploader_MCC
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1279, 503)
+        Me.ClientSize = New System.Drawing.Size(920, 503)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "FrmPriceChartUploader_MCC"
         '
@@ -720,13 +719,12 @@ Partial Class FrmPriceChartUploader_MCC
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageView1.ResumeLayout(False)
-        Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.gvViewScreen.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvViewScreen, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnExcel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExcel, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -754,8 +752,6 @@ Partial Class FrmPriceChartUploader_MCC
     Friend WithEvents TxtFindFAT As common.MyNumBox
     Friend WithEvents MyLabel11 As common.Controls.MyLabel
     Friend WithEvents MyLabel12 As common.Controls.MyLabel
-    Friend WithEvents RadPageView1 As RadPageView
-    Friend WithEvents RadPageViewPage1 As RadPageViewPage
     Friend WithEvents gvViewScreen As RadGridView
     Friend WithEvents btnExcel As RadSplitButton
     Friend WithEvents btnImport As RadMenuItem
@@ -766,5 +762,7 @@ Partial Class FrmPriceChartUploader_MCC
     Friend WithEvents cmbmatrix As common.Controls.MyComboBox
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents btnPost As RadButton
+    Friend WithEvents btnClose As RadButton
+    Friend WithEvents RadButton1 As RadButton
 End Class
 

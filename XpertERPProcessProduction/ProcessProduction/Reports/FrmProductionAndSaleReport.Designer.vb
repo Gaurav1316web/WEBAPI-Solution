@@ -24,8 +24,11 @@ Partial Class FrmProductionAndSaleReport
     Private Sub InitializeComponent()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.GBDate = New Telerik.WinControls.UI.RadGroupBox()
+        Me.toDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.lbltoDate = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rdbDaily = New System.Windows.Forms.RadioButton()
         Me.rdbWeekly = New System.Windows.Forms.RadioButton()
@@ -44,14 +47,16 @@ Partial Class FrmProductionAndSaleReport
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.GBDate = New Telerik.WinControls.UI.RadGroupBox()
-        Me.lbltoDate = New common.Controls.MyLabel()
-        Me.toDate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.btnPrint = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.GBDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GBDate.SuspendLayout()
+        CType(Me.toDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lbltoDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
@@ -70,10 +75,6 @@ Partial Class FrmProductionAndSaleReport
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.GBDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GBDate.SuspendLayout()
-        CType(Me.lbltoDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.toDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -98,6 +99,43 @@ Partial Class FrmProductionAndSaleReport
         Me.SplitContainer1.SplitterDistance = 40
         Me.SplitContainer1.TabIndex = 0
         '
+        'GBDate
+        '
+        Me.GBDate.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.GBDate.Controls.Add(Me.toDate)
+        Me.GBDate.Controls.Add(Me.RadLabel1)
+        Me.GBDate.Controls.Add(Me.fromDate)
+        Me.GBDate.Controls.Add(Me.lbltoDate)
+        Me.GBDate.HeaderText = ""
+        Me.GBDate.Location = New System.Drawing.Point(13, 3)
+        Me.GBDate.Name = "GBDate"
+        Me.GBDate.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.GBDate.Size = New System.Drawing.Size(304, 32)
+        Me.GBDate.TabIndex = 444
+        '
+        'toDate
+        '
+        Me.toDate.CustomFormat = "dd/MM/yyyy"
+        Me.toDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.toDate.Location = New System.Drawing.Point(206, 6)
+        Me.toDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.toDate.Name = "toDate"
+        Me.toDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.toDate.Size = New System.Drawing.Size(78, 20)
+        Me.toDate.TabIndex = 446
+        Me.toDate.TabStop = False
+        Me.toDate.Text = "24/10/2011"
+        Me.toDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        '
+        'RadLabel1
+        '
+        Me.RadLabel1.FieldName = Nothing
+        Me.RadLabel1.Location = New System.Drawing.Point(13, 8)
+        Me.RadLabel1.Name = "RadLabel1"
+        Me.RadLabel1.Size = New System.Drawing.Size(59, 18)
+        Me.RadLabel1.TabIndex = 442
+        Me.RadLabel1.Text = "From Date"
+        '
         'fromDate
         '
         Me.fromDate.CustomFormat = "dd/MM/yyyy"
@@ -112,14 +150,14 @@ Partial Class FrmProductionAndSaleReport
         Me.fromDate.Text = "24/10/2011"
         Me.fromDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
         '
-        'RadLabel1
+        'lbltoDate
         '
-        Me.RadLabel1.FieldName = Nothing
-        Me.RadLabel1.Location = New System.Drawing.Point(13, 8)
-        Me.RadLabel1.Name = "RadLabel1"
-        Me.RadLabel1.Size = New System.Drawing.Size(59, 18)
-        Me.RadLabel1.TabIndex = 442
-        Me.RadLabel1.Text = "From Date"
+        Me.lbltoDate.FieldName = Nothing
+        Me.lbltoDate.Location = New System.Drawing.Point(155, 8)
+        Me.lbltoDate.Name = "lbltoDate"
+        Me.lbltoDate.Size = New System.Drawing.Size(45, 18)
+        Me.lbltoDate.TabIndex = 445
+        Me.lbltoDate.Text = "To Date"
         '
         'RadGroupBox2
         '
@@ -209,6 +247,7 @@ Partial Class FrmProductionAndSaleReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1057, 347)
@@ -218,7 +257,7 @@ Partial Class FrmProductionAndSaleReport
         'btnExport
         '
         Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
+        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF, Me.btnPrint})
         Me.btnExport.Location = New System.Drawing.Point(165, 14)
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Size = New System.Drawing.Size(79, 19)
@@ -305,42 +344,10 @@ Partial Class FrmProductionAndSaleReport
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Delete Layout"
         '
-        'GBDate
+        'btnPrint
         '
-        Me.GBDate.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.GBDate.Controls.Add(Me.toDate)
-        Me.GBDate.Controls.Add(Me.RadLabel1)
-        Me.GBDate.Controls.Add(Me.fromDate)
-        Me.GBDate.Controls.Add(Me.lbltoDate)
-        Me.GBDate.HeaderText = ""
-        Me.GBDate.Location = New System.Drawing.Point(13, 3)
-        Me.GBDate.Name = "GBDate"
-        Me.GBDate.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.GBDate.Size = New System.Drawing.Size(304, 32)
-        Me.GBDate.TabIndex = 444
-        '
-        'lbltoDate
-        '
-        Me.lbltoDate.FieldName = Nothing
-        Me.lbltoDate.Location = New System.Drawing.Point(155, 8)
-        Me.lbltoDate.Name = "lbltoDate"
-        Me.lbltoDate.Size = New System.Drawing.Size(45, 18)
-        Me.lbltoDate.TabIndex = 445
-        Me.lbltoDate.Text = "To Date"
-        '
-        'toDate
-        '
-        Me.toDate.CustomFormat = "dd/MM/yyyy"
-        Me.toDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.toDate.Location = New System.Drawing.Point(206, 6)
-        Me.toDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.toDate.Name = "toDate"
-        Me.toDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.toDate.Size = New System.Drawing.Size(78, 20)
-        Me.toDate.TabIndex = 446
-        Me.toDate.TabStop = False
-        Me.toDate.Text = "24/10/2011"
-        Me.toDate.Value = New Date(2011, 10, 24, 2, 29, 0, 265)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Text = "Print"
         '
         'FrmProductionAndSaleReport
         '
@@ -358,8 +365,13 @@ Partial Class FrmProductionAndSaleReport
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.GBDate, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GBDate.ResumeLayout(False)
+        Me.GBDate.PerformLayout()
+        CType(Me.toDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.fromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lbltoDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -380,11 +392,6 @@ Partial Class FrmProductionAndSaleReport
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.GBDate, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GBDate.ResumeLayout(False)
-        Me.GBDate.PerformLayout()
-        CType(Me.lbltoDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.toDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -413,5 +420,6 @@ Partial Class FrmProductionAndSaleReport
     Friend WithEvents GBDate As RadGroupBox
     Friend WithEvents toDate As RadDateTimePicker
     Friend WithEvents lbltoDate As common.Controls.MyLabel
+    Friend WithEvents btnPrint As RadMenuItem
 End Class
 

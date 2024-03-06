@@ -165,7 +165,8 @@ Public Class frmDemandBooking
                                   "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE " + Environment.NewLine +
                                   "TSPL_TRANSACTION_APPROVAL (For Approving Pending Document) ")
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
@@ -184,7 +185,14 @@ Public Class frmDemandBooking
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        RadMenu1.Visible = MyBase.isExport
+        'RadMenu1.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            btnExport.Enabled = True
+            btnImport.Enabled = True
+        Else
+            btnExport.Enabled = False
+            btnImport.Enabled = False
+        End If
         If MyBase.isReverse Then
             btnreverse.Enabled = True
         Else
@@ -1412,6 +1420,7 @@ Public Class frmDemandBooking
             If isInsideLoadData = False Then
                 HideUnhideRowsAndColumnsOFGrid()
             End If
+            btnPrint.Enabled = False
             lblTotalLitre.Text = ""
             lblTotalCrate.Text = ""
             lblDocumentAmt.Text = ""
@@ -2371,6 +2380,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             If isInsideLoadData = False Then
                 HideUnhideRowsAndColumnsOFGrid()
             End If
+            btnPrint.Enabled = True
             txtPCount.Text = ""
             txtPAmt.Text = ""
         Catch ex As Exception
@@ -2382,6 +2392,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             If isInsideLoadData = False Then
                 HideUnhideRowsAndColumnsOFGrid()
             End If
+            btnPrint.Enabled = False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -3495,6 +3506,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
         Dim PreshiftAMPMType As String = ""
         Dim Previous_Shift As String = ""
         Dim Previous_Date As String
+        Dim ItemCount As Double = 0
         If rbtnEvening.IsChecked = True Then
             ShiftType = "Evening"
             shiftAMPMType = "PM"
@@ -3509,6 +3521,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             ' Previous_Date = clsDBFuncationality.getSingleValue("select CONVERT(varchar, DATEADD(DAY, -1, convert(Nvarchar, '" & txtDate.Value & "' ,112)),21) as Previous_Date")
             Previous_Date = clsCommon.myCDate(txtDate.Value).AddDays(-1)
         End If
+
         Dim Comp_Name As String = clsDBFuncationality.getSingleValue("select Comp_Name from TSPL_COMPANY_MASTER where Comp_Code = '" + objCommonVar.CurrentCompanyCode + "'")
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
@@ -3516,6 +3529,16 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             End If
             Dim Posted As String = String.Empty
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                Dim strItemQry As String = "select count(distinct TSPL_DEMAND_BOOKING_DETAIL.Item_Code) as items from TSPL_DEMAND_BOOKING_DETAIL
+left join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code
+where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" + txtDocNo.Value + "' "
+                If rbtn_Fresh.IsChecked Then
+                    strItemQry += " and TSPL_ITEM_MASTER.Is_FreshItem=1 "
+                ElseIf rbtn_Ambient.IsChecked Then
+                    strItemQry += " and  TSPL_ITEM_MASTER.Is_Ambient=1 "
+                End If
+
+                ItemCount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(strItemQry))
                 Posted = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select case when posted=0 then 'Pending' else 'Approved' end from TSPL_DEMAND_BOOKING_MASTER where Document_No='" + clsCommon.myCstr(txtDocNo.Value) + "'"))
             Else
                 Throw New Exception("Demand Not Found!")
@@ -3710,7 +3733,27 @@ group by XYZ.Cust_Code
 "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "
+                ") = CompairStringResult.Equal Then
+                If rbtn_Fresh.IsChecked Then
+                    If ItemCount > 0 AndAlso ItemCount <= 9 Then
+                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingFUDP", "Demand Booking")
+                    Else
+                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingFUDP9", "Demand Booking")
+                    End If
+                ElseIf rbtn_Ambient.IsChecked Then
+                    'If ItemCount > 0 AndAlso ItemCount <= 9 Then
+                    '    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingAUDP", "Demand Booking")
+                    'Else
+                    '    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingAUDP9", "Demand Booking")
+                    'End If
+                End If
+            Else
+                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")
+
+            End If
+            'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")
             'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "rptDemandBooking", "Demand Booking", "rptSubDemandBooking")
             frmCRV = Nothing
         Catch ex As Exception

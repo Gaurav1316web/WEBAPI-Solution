@@ -10,6 +10,11 @@ Public Class FrmPriceChartUploader_MCC
     Dim fat_Pers As Double = 0
     Dim Snf_pers As Double = 0
 #End Region
+
+    Private Sub FrmPriceChartUploader_MCC_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Reset()
+    End Sub
+
     Private Sub txtMCC__My_Click(sender As Object, e As EventArgs) Handles txtMCC._My_Click
         Dim qry As String = "select MCC_Code,MCC_NAME from TSPL_MCC_MASTER"
         txtMCC.arrValueMember = clsCommon.ShowMultipleSelectForm("PCUMCC", qry, "MCC_Code", "MCC_NAME", txtMCC.arrValueMember, Nothing)
@@ -488,9 +493,7 @@ Public Class FrmPriceChartUploader_MCC
         txtVLC.arrValueMember = Nothing
     End Sub
 
-    Private Sub FrmPriceChartUploader_MCC_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Reset()
-    End Sub
+
 
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         Reset()
@@ -506,5 +509,9 @@ Public Class FrmPriceChartUploader_MCC
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.ToString)
         End Try
+    End Sub
+
+    Private Sub RadButton1_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
+
     End Sub
 End Class

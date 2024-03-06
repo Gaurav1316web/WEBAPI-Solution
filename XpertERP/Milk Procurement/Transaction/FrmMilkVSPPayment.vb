@@ -3473,18 +3473,19 @@ Public Class FrmMilkVSPPayment
         If e.Alt AndAlso e.KeyCode = Keys.C Then
             Close()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            If MyBase.isReverse Then
+            'If MyBase.isReverse Then
 
-                Dim frm As New FrmPWD(Nothing)
+            Dim frm As New FrmPWD(Nothing)
                 frm.strType = "SIRC"
                 frm.strCode = "SIReversAndCreate"
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
                     btnDeleteVSPBill.Visible = True
                 End If
-            Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
-        End If
+            ' Else
+            'clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+            'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            'End If
         End If
     End Sub
 

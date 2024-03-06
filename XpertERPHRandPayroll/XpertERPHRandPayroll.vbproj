@@ -669,6 +669,12 @@
     <Compile Include="HR and Payroll\Reports\rptEmployeeAdvanceLedger.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR and Payroll\Reports\rptLoanstatement.Designer.vb">
+      <DependentUpon>rptLoanstatement.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Reports\rptLoanstatement.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HR and Payroll\Reports\RptPFForm11.Designer.vb">
       <DependentUpon>RptPFForm11.vb</DependentUpon>
     </Compile>
@@ -1057,6 +1063,12 @@
       <DependentUpon>frmEmployee_Status.vb</DependentUpon>
     </Compile>
     <Compile Include="HR and Payroll\Tranasction\frmEmployee_Status.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="HR and Payroll\Tranasction\frmEPF.Designer.vb">
+      <DependentUpon>frmEPF.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Tranasction\frmEPF.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="HR and Payroll\Tranasction\frmFormulaSelection.Designer.vb">
@@ -1964,6 +1976,9 @@
     <EmbeddedResource Include="HR and Payroll\Reports\rptEmployeeAdvanceLedger.resx">
       <DependentUpon>rptEmployeeAdvanceLedger.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Reports\rptLoanstatement.resx">
+      <DependentUpon>rptLoanstatement.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Reports\RptPFForm11.resx">
       <DependentUpon>RptPFForm11.vb</DependentUpon>
     </EmbeddedResource>
@@ -2158,6 +2173,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Tranasction\frmEmployee_Status.resx">
       <DependentUpon>frmEmployee_Status.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Tranasction\frmEPF.resx">
+      <DependentUpon>frmEPF.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Tranasction\frmFormulaSelection.resx">
       <DependentUpon>frmFormulaSelection.vb</DependentUpon>

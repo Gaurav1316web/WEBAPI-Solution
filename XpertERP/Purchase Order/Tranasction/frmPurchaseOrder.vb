@@ -1,5 +1,7 @@
 ﻿Imports System.IO
 Imports common
+Imports System.Text.RegularExpressions
+Imports System.Text
 'BHA/22/06/18-000080 by balwinder on 22/06/2018
 ' work to be done agaist ticket no. UDL/27/06/18-000196, UDL/27/06/18-000197,BHA/16/05/18-000026 by Parteek
 '' Work to be done Related Work order setting Based UDL/30/10/18-000236
@@ -328,6 +330,7 @@ Public Class frmPurchaseOrder
     Dim dblPreviousTDSAmt As Double = 0
     Dim settCreatePOFromMultipleLocation As Boolean = True
     Dim CommentSetting As Boolean = False
+    Dim strPdfAttachmentPath As String = ""
 #End Region
 
     Public Sub New(ByVal formid As String)
@@ -588,6 +591,13 @@ Public Class frmPurchaseOrder
             btnUnpost.Enabled = True
         Else
             btnUnpost.Enabled = False
+        End If
+        If MyBase.isExport = True Then
+            rmImport.Enabled = True
+            rmExport.Enabled = True
+        Else
+            rmImport.Enabled = False
+            rmExport.Enabled = False
         End If
     End Sub
 
@@ -5303,20 +5313,24 @@ Public Class frmPurchaseOrder
                 obj.Bill_To_Location = txtBillToLocation.Value
                 obj.Ship_To_Location = txtShipToLocation.Value
                 obj.Sublocation_Code = txtSubLocation.Value
-                obj.Comments = txtComment.Text
-                obj.Comment1 = txtCmt1.Text
-                obj.Comment2 = txtCmt2.Text
-                obj.Comment3 = txtCmt3.Text
-                obj.Comment4 = txtCmt4.Text
-                obj.Comment5 = txtCmt5.Text
-                obj.Comment6 = txtCmt6.Text
-                obj.Comment7 = txtCmt7.Text
-                obj.Comment8 = txtCmt8.Text
-                obj.Comment9 = txtCmt9.Text
-                obj.Comment10 = txtCmt10.Text
-                obj.Comment11 = txtCmt11.Text
-                obj.Comment12 = txtCmt12.Text
-                obj.Comment13 = txtCmt13.Text
+
+                ' Convert the RTF formatted text to HTML
+                'Dim htmlText As String = RtfToHtml(formattedText)
+
+                obj.Comments = txtComment.Rtf
+                obj.Comment1 = txtCmt1.Rtf
+                obj.Comment2 = txtCmt2.Rtf
+                obj.Comment3 = txtCmt3.Rtf
+                obj.Comment4 = txtCmt4.Rtf
+                obj.Comment5 = txtCmt5.Rtf
+                obj.Comment6 = txtCmt6.Rtf
+                obj.Comment7 = txtCmt7.Rtf
+                obj.Comment8 = txtCmt8.Rtf
+                obj.Comment9 = txtCmt9.Rtf
+                obj.Comment10 = txtCmt10.Rtf
+                obj.Comment11 = txtCmt11.Rtf
+                obj.Comment12 = txtCmt12.Rtf
+                obj.Comment13 = txtCmt13.Rtf
                 'obj.Comment14 = txtCmt14.Text
                 'obj.Comments = RTComment.Rtf
                 obj.On_Hold = chkOnHold.Checked
@@ -6132,20 +6146,20 @@ Public Class frmPurchaseOrder
                 txtDesc.Text = obj.Description
                 txtTaxGroup.Value = obj.Tax_Group
                 txtRGPNo.Value = obj.Against_RGP_NO
-                txtComment.Text = obj.Comments
-                txtCmt1.Text = obj.Comment1
-                txtCmt2.Text = obj.Comment2
-                txtCmt3.Text = obj.Comment3
-                txtCmt4.Text = obj.Comment4
-                txtCmt5.Text = obj.Comment5
-                txtCmt6.Text = obj.Comment6
-                txtCmt7.Text = obj.Comment7
-                txtCmt8.Text = obj.Comment8
-                txtCmt9.Text = obj.Comment9
-                txtCmt10.Text = obj.Comment10
-                txtCmt11.Text = obj.Comment11
-                txtCmt12.Text = obj.Comment12
-                txtCmt13.Text = obj.Comment13
+                txtComment.Rtf = obj.Comments
+                txtCmt1.Rtf = obj.Comment1
+                txtCmt2.Rtf = obj.Comment2
+                txtCmt3.Rtf = obj.Comment3
+                txtCmt4.Rtf = obj.Comment4
+                txtCmt5.Rtf = obj.Comment5
+                txtCmt6.Rtf = obj.Comment6
+                txtCmt7.Rtf = obj.Comment7
+                txtCmt8.Rtf = obj.Comment8
+                txtCmt9.Rtf = obj.Comment9
+                txtCmt10.Rtf = obj.Comment10
+                txtCmt11.Rtf = obj.Comment11
+                txtCmt12.Rtf = obj.Comment12
+                txtCmt13.Rtf = obj.Comment13
                 'txtComment.Text = obj.Comment14
                 'RTComment.Rtf = obj.Comments
                 txtShipToLocation.Value = obj.Ship_To_Location
@@ -7101,7 +7115,7 @@ Public Class frmPurchaseOrder
                     End If
                     objPO = Nothing
                     If clsCommon.myLen(msg) > 0 Then
-                        clsCommon.MyMessageBoxShow(Me, msg)
+                        clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     End If
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
@@ -7302,7 +7316,8 @@ Public Class frmPurchaseOrder
                     btnUnpost.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
@@ -10451,7 +10466,7 @@ Public Class frmPurchaseOrder
                 clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_HEAD", "TSPL_PURCHASE_ORDER_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_HEAD", "TSPL_PURCHASE_ORDER_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -10768,6 +10783,38 @@ Public Class frmPurchaseOrder
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpenSchedule = False
         End Try
+    End Sub
+
+    Private Sub ApplyBoldFormatting(textBox As RichTextBox, isBold As Boolean)
+        If textBox.SelectionLength > 0 Then
+            Dim start As Integer = textBox.SelectionStart
+            Dim length As Integer = textBox.SelectionLength
+
+            If isBold Then
+                textBox.SelectionFont = New Font(textBox.Font, FontStyle.Bold)
+                textBox.Font = New Font(txtCmt1.Font, FontStyle.Regular)
+
+            Else
+                textBox.SelectionFont = New Font(textBox.Font, FontStyle.Regular)
+                textBox.Font = New Font(textBox.Font, FontStyle.Regular)
+
+            End If
+            textBox.Select(start, length)
+        End If
+    End Sub
+
+    Private Sub txtCmt1_KeyDown(sender As Object, e As KeyEventArgs) Handles txtComment.KeyDown, txtCmt1.KeyDown, txtCmt2.KeyDown, txtCmt3.KeyDown, txtCmt4.KeyDown, txtCmt5.KeyDown, txtCmt6.KeyDown, txtCmt7.KeyDown, txtCmt8.KeyDown, txtCmt9.KeyDown, txtCmt10.KeyDown, txtCmt11.KeyDown, txtCmt12.KeyDown, txtCmt13.KeyDown
+        Dim txtBox As RichTextBox = DirectCast(sender, System.Windows.Forms.Control)
+        If txtBox.SelectionLength > 0 Then
+            If e.Control AndAlso e.Alt AndAlso e.KeyCode = Keys.B Then
+                ApplyBoldFormatting(txtBox, True)
+
+                e.SuppressKeyPress = True
+            End If
+        Else
+            txtBox.Font = New Font(txtBox.Font, FontStyle.Regular)
+            txtBox.SelectionFont = New Font(txtBox.Font, FontStyle.Regular)
+        End If
     End Sub
 
 

@@ -63,9 +63,15 @@ Public Class frmDairyGatePass
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        RadSplitButton1.Visible = MyBase.isPrintFlag
         btnClKM.Visible = MyBase.isModifyFlag
         btnPrint2.Visible = MyBase.isPrintFlag
         btnGPCancel.Visible = MyBase.isCancel_Flag
+        If MyBase.isReverse Then
+            btnReverse.Enabled = True
+        Else
+            btnReverse.Enabled = False
+        End If
     End Sub
     Private Sub FrmGatePassENtry1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         CreateTable()
@@ -964,7 +970,7 @@ Public Class frmDairyGatePass
                     btnReverse.Visible = True
                 End If
             Else
-                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
         ElseIf e.Alt AndAlso e.Control AndAlso e.Shift AndAlso e.KeyCode = Keys.F11 Then
                 If btnMultiGPReverse.Visible Then

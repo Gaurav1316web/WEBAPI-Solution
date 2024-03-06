@@ -108,9 +108,10 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.AreaMaster, "Area Master", "1.01.01.35", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmPromptMsgRelatedtopending, "Prompt Message", "1.01.01.36", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
         InsertDefaultValue(clsUserMgtCode.FrmSAC, "SAC Master", "1.01.01.37", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.FrmSACWiseTax, "SAC Wise Tax Master", "1.01.01.38", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
         'InsertDefaultValue(clsUserMgtCode.frmItemTaxRate, "Item Tax Rate", "1.01.01.37", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
-        InsertDefaultValue(clsUserMgtCode.FrmItemWiseTax, "Item Wise Tax Master", "1.01.01.38", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
-        InsertDefaultValue(clsUserMgtCode.FrmRackBinMaster, "Rack/Bin Master", "1.01.01.39", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.FrmItemWiseTax, "Item Wise Tax Master", "1.01.01.39", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.FrmRackBinMaster, "Rack/Bin Master", "1.01.01.40", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
         'InsertDefaultValue(clsUserMgtCode.frmDeptHeadCustomerMapping, "Dept Head Customer Mapping", "1.01.01.40", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
         InsertDefaultValue(clsUserMgtCode.paymentTerms, "Payment Terms", "1.01.01.41", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmLocationDistanceMapping, "EWay Bill Distance Master", "1.01.01.42", clsUserMgtCode.SubModuleCommonServicesSetup, 27)
@@ -1021,10 +1022,11 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmODSheet, "OD Sheet", "1.11.02.34", clsUserMgtCode.SubModuleHRTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmConveyanceClaim, "Conveyance Claim", "1.11.02.35", clsUserMgtCode.SubModuleHRTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.FrmEmployeeTransfer, "Employee Transfer", "1.11.02.36", clsUserMgtCode.SubModuleHRTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.FrmEmpIncrement, "Employee Increment", "1.11.02.37", clsUserMgtCode.SubModuleHRTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.FrmSentSalarySlip, "Sent Salary Slip", "1.11.02.38", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, True, Nothing)
-        InsertDefaultValue(clsUserMgtCode.FrmAllotmentOfLeaves, "ALlotment Of Leaves", "1.11.02.39", clsUserMgtCode.SubModuleHRTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.EmployeeBandMaster, "Employee Band Master", "1.11.02.40", clsUserMgtCode.SubModuleHRTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmEPFund, "EPF", "1.11.02.37", clsUserMgtCode.SubModuleHRTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmEmpIncrement, "Employee Increment", "1.11.02.38", clsUserMgtCode.SubModuleHRTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmSentSalarySlip, "Sent Salary Slip", "1.11.02.39", clsUserMgtCode.SubModuleHRTransaction, "", 8, 0, "", "", "", False, True, Nothing)
+        InsertDefaultValue(clsUserMgtCode.FrmAllotmentOfLeaves, "ALlotment Of Leaves", "1.11.02.40", clsUserMgtCode.SubModuleHRTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.EmployeeBandMaster, "Employee Band Master", "1.11.02.41", clsUserMgtCode.SubModuleHRTransaction, 8)
         'Reports
         InsertDefaultValue(clsUserMgtCode.SubModuleHRReport, "Report", "1.11.03", clsUserMgtCode.ModuleHR, "SM", 30)
 
@@ -1043,8 +1045,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptEmployeeBday6, "Employee Bday/Anniversary", "1.11.03.13", clsUserMgtCode.SubModuleHRReport, 37)
         InsertDefaultValue(clsUserMgtCode.EmployeeWiseReport, "Employee Wise Report", "1.11.03.14", clsUserMgtCode.SubModuleHRReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptEmployeeAdvanceLedger, "Employee Advance Ledger", "1.11.03.15", clsUserMgtCode.SubModuleHRReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmSalaryGenerationRegisterArrear, "Arrear Register", "1.11.03.16", clsUserMgtCode.SubModuleHRReport, 37)
-        InsertDefaultValue(clsUserMgtCode.AuditTrailHRAndPayroll, "HR And Payroll Audit Trail Report", "1.11.03.17", clsUserMgtCode.SubModuleHRReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptLoanStatement, "Loan Statement", "1.11.03.16", clsUserMgtCode.SubModuleHRReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmSalaryGenerationRegisterArrear, "Arrear Register", "1.11.03.17", clsUserMgtCode.SubModuleHRReport, 37)
+        InsertDefaultValue(clsUserMgtCode.AuditTrailHRAndPayroll, "HR And Payroll Audit Trail Report", "1.11.03.18", clsUserMgtCode.SubModuleHRReport, 37)
 
         'Monthly Reports
         InsertDefaultValue(clsUserMgtCode.SubModuleHRMonthlyReport, "Monthly Report", "1.11.04", clsUserMgtCode.ModuleHR, "SM", 30)
@@ -1512,7 +1515,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.OwnBMCGainLossRate, "Own BMC Gain Loss Rate", "1.17.01.58", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.DCSFinancialHead, "DCS Financial Head", "1.17.01.59", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.DCSSupervisorTagging, "DCS Supervisor Tagging", "1.17.01.60", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
-        InsertDefaultValue(clsUserMgtCode.FrmPriceChartUploaderMCC, "Price Chart Uploader MCC", "1.17.01.61", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.MPMilkPrice, "MP Milk Price", "1.17.01.61", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         '=============================Mcc Transaction===========================================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "MCC Transaction", "1.17.02", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.frmOpenMCCShift, "Open MCC Shift", "1.17.02.01", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
@@ -1552,7 +1555,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmTransferToSaving, "Transfer To Saving", "1.17.02.35", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, "Payment Process", "1.17.02.36", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBankAdvise, "Bank Advice", "1.17.02.37", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, "Send Bill To DCS", "1.17.02.38", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmSendBillToDCS, "Send Bill To DCS", "1.17.02.38", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "", 8, 0, "", "", "", True, True, Nothing)
         'InsertDefaultValue(clsUserMgtCode.FrmMCCMilkTransPortorInvoice, "Milk Recurring Payable Invoice", "1.17.02.31", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.MilkMPPayment, "MP Bills and Incentive Processing", "1.17.02.36", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmMCCTankerDispatchReturn, "MCC Tanker Dispatch Return", "1.17.02.37", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
@@ -1727,6 +1730,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptBMCTankerTestingReport, "BMC Tanker Testing Report", "1.17.03.112", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMilkPaymentSummary, "Milk Payment Summary Report", "1.17.03.113", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCattleFeedSaleReport, "Cattle Feed Sale Report", "1.17.03.114", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTransferToSavingReport, "Transfer To Saving Report", "1.17.03.115", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBulkMilkProcurement, "Milk Procurement Bulk", "1.18", clsUserMgtCode.ExpertERP, "M", 23)
         '' Bulk setup
@@ -1969,7 +1973,7 @@ Public Class ProgramCodeNew
             InsertDefaultValue(clsUserMgtCode.FrmLoadingTanker, "Bulk Loading Tanker", "1.23.02.05", clsUserMgtCode.SubModuleBulkSaleTransaction, 8)
         End If
         InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSale, "Bulk Dispatch", "1.23.02.06", clsUserMgtCode.SubModuleBulkSaleTransaction, "", 8, 0, "", "", "", True, True, Nothing)
-        InsertDefaultValue(clsUserMgtCode.FrmInvoiceBulkSale, "Bulk Invoice", "1.23.02.07", clsUserMgtCode.SubModuleBulkSaleTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.FrmInvoiceBulkSale, "Bulk Invoice", "1.23.02.07", clsUserMgtCode.SubModuleBulkSaleTransaction, "", 8, 0, "", "", "", True, True, Nothing)
         'InsertDefaultValue(clsUserMgtCode.FrmDispatchBulkSaleTrade, "Bulk Dispatch Trade", "1.23.02.08", clsUserMgtCode.SubModuleBulkSaleTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.FrmTankerOut, "Bulk Tanker Out", "1.23.02.09", clsUserMgtCode.SubModuleBulkSaleTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.FrmCreateAutoInvoiceBS, "Bulk Auto Invoice", "1.23.02.10", clsUserMgtCode.SubModuleBulkSaleTransaction, 8)

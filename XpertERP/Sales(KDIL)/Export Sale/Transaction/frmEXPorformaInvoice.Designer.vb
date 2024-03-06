@@ -23,6 +23,11 @@ Partial Class frmEXPorformaInvoice
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEXPorformaInvoice))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -549,7 +554,6 @@ Partial Class frmEXPorformaInvoice
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1016, 456)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -796,7 +800,7 @@ Partial Class frmEXPorformaInvoice
         Me.TxtFinalGrossWeight.TabIndex = 162
         Me.TxtFinalGrossWeight.Text = "0"
         Me.TxtFinalGrossWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFinalGrossWeight.Value = 0.0R
+        Me.TxtFinalGrossWeight.Value = 0R
         '
         'MyLabel43
         '
@@ -833,7 +837,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtGrossWeight.TabIndex = 160
         Me.txtGrossWeight.Text = "0"
         Me.txtGrossWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGrossWeight.Value = 0.0R
+        Me.txtGrossWeight.Value = 0R
         '
         'MyLabel42
         '
@@ -935,6 +939,7 @@ Partial Class frmEXPorformaInvoice
         Me.cboItemType.AutoCompleteDisplayMember = Nothing
         Me.cboItemType.AutoCompleteValueMember = Nothing
         Me.cboItemType.CalculationExpression = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
         Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboItemType.FieldCode = Nothing
         Me.cboItemType.FieldDesc = Nothing
@@ -975,7 +980,6 @@ Partial Class frmEXPorformaInvoice
         Me.txtPre_Carriage_By.Name = "txtPre_Carriage_By"
         Me.txtPre_Carriage_By.Size = New System.Drawing.Size(138, 19)
         Me.txtPre_Carriage_By.TabIndex = 149
-        Me.txtPre_Carriage_By.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtPre_Carriage_By.TextWrap = False
         '
         'MyLabel28
@@ -993,6 +997,7 @@ Partial Class frmEXPorformaInvoice
         Me.cmbDocType.AutoCompleteDisplayMember = Nothing
         Me.cmbDocType.AutoCompleteValueMember = Nothing
         Me.cmbDocType.CalculationExpression = Nothing
+        Me.cmbDocType.DropDownAnimationEnabled = True
         Me.cmbDocType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbDocType.FieldCode = Nothing
         Me.cmbDocType.FieldDesc = Nothing
@@ -1081,7 +1086,7 @@ Partial Class frmEXPorformaInvoice
         Me.UcItemBalance1.CommitedQtyLbl = False
         Me.UcItemBalance1.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.UcItemBalance1.ItemCode = ""
-        Me.UcItemBalance1.ItemMRP = 0.0R
+        Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
         Me.UcItemBalance1.Location = New System.Drawing.Point(0, 335)
         Me.UcItemBalance1.LocationCode = ""
@@ -1143,7 +1148,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtAdvance_Pers.TabIndex = 33
         Me.txtAdvance_Pers.Text = "0"
         Me.txtAdvance_Pers.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAdvance_Pers.Value = 0.0R
+        Me.txtAdvance_Pers.Value = 0R
         '
         'txtOthr_Instructn
         '
@@ -1185,6 +1190,7 @@ Partial Class frmEXPorformaInvoice
         Me.cmbTerms_Payment.AutoCompleteDisplayMember = Nothing
         Me.cmbTerms_Payment.AutoCompleteValueMember = Nothing
         Me.cmbTerms_Payment.CalculationExpression = Nothing
+        Me.cmbTerms_Payment.DropDownAnimationEnabled = True
         Me.cmbTerms_Payment.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbTerms_Payment.FieldCode = Nothing
         Me.cmbTerms_Payment.FieldDesc = Nothing
@@ -1215,7 +1221,6 @@ Partial Class frmEXPorformaInvoice
         Me.txtComm_Pay_name.Name = "txtComm_Pay_name"
         Me.txtComm_Pay_name.Size = New System.Drawing.Size(256, 19)
         Me.txtComm_Pay_name.TabIndex = 29
-        Me.txtComm_Pay_name.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtComm_Pay_name.TextWrap = False
         '
         'cmbTerms
@@ -1223,6 +1228,7 @@ Partial Class frmEXPorformaInvoice
         Me.cmbTerms.AutoCompleteDisplayMember = Nothing
         Me.cmbTerms.AutoCompleteValueMember = Nothing
         Me.cmbTerms.CalculationExpression = Nothing
+        Me.cmbTerms.DropDownAnimationEnabled = True
         Me.cmbTerms.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbTerms.FieldCode = Nothing
         Me.cmbTerms.FieldDesc = Nothing
@@ -1349,7 +1355,6 @@ Partial Class frmEXPorformaInvoice
         Me.lblTermName.Name = "lblTermName"
         Me.lblTermName.Size = New System.Drawing.Size(254, 19)
         Me.lblTermName.TabIndex = 1
-        Me.lblTermName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTermName.TextWrap = False
         '
         'fndCountry_Final_Destination
@@ -1533,6 +1538,7 @@ Partial Class frmEXPorformaInvoice
         Me.cboStuffing.AutoCompleteDisplayMember = Nothing
         Me.cboStuffing.AutoCompleteValueMember = Nothing
         Me.cboStuffing.CalculationExpression = Nothing
+        Me.cboStuffing.DropDownAnimationEnabled = True
         Me.cboStuffing.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboStuffing.FieldCode = Nothing
         Me.cboStuffing.FieldDesc = Nothing
@@ -1558,6 +1564,7 @@ Partial Class frmEXPorformaInvoice
         Me.cmbComm_Amount.AutoCompleteDisplayMember = Nothing
         Me.cmbComm_Amount.AutoCompleteValueMember = Nothing
         Me.cmbComm_Amount.CalculationExpression = Nothing
+        Me.cmbComm_Amount.DropDownAnimationEnabled = True
         Me.cmbComm_Amount.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbComm_Amount.Enabled = False
         Me.cmbComm_Amount.FieldCode = Nothing
@@ -1624,7 +1631,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtAmt_comm.TabIndex = 10
         Me.txtAmt_comm.Text = "0"
         Me.txtAmt_comm.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAmt_comm.Value = 0.0R
+        Me.txtAmt_comm.Value = 0R
         '
         'txtExporter_Ref_No
         '
@@ -1751,6 +1758,7 @@ Partial Class frmEXPorformaInvoice
         Me.cmbComm_Payable.AutoCompleteDisplayMember = Nothing
         Me.cmbComm_Payable.AutoCompleteValueMember = Nothing
         Me.cmbComm_Payable.CalculationExpression = Nothing
+        Me.cmbComm_Payable.DropDownAnimationEnabled = True
         Me.cmbComm_Payable.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbComm_Payable.FieldCode = Nothing
         Me.cmbComm_Payable.FieldDesc = Nothing
@@ -1894,7 +1902,6 @@ Partial Class frmEXPorformaInvoice
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(256, 18)
         Me.lblVendorName.TabIndex = 10
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'lblSalesman
@@ -1907,7 +1914,6 @@ Partial Class frmEXPorformaInvoice
         Me.lblSalesman.Name = "lblSalesman"
         Me.lblSalesman.Size = New System.Drawing.Size(257, 18)
         Me.lblSalesman.TabIndex = 21
-        Me.lblSalesman.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblSalesman.TextWrap = False
         '
         'MyLabel1
@@ -2028,7 +2034,6 @@ Partial Class frmEXPorformaInvoice
         Me.lblDept.Name = "lblDept"
         Me.lblDept.Size = New System.Drawing.Size(257, 18)
         Me.lblDept.TabIndex = 18
-        Me.lblDept.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDept.TextWrap = False
         '
         'txtReqNo
@@ -2181,7 +2186,6 @@ Partial Class frmEXPorformaInvoice
         Me.lblShipToLocation.Name = "lblShipToLocation"
         Me.lblShipToLocation.Size = New System.Drawing.Size(257, 18)
         Me.lblShipToLocation.TabIndex = 14
-        Me.lblShipToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblShipToLocation.TextWrap = False
         '
         'lblBillToLocation
@@ -2194,7 +2198,6 @@ Partial Class frmEXPorformaInvoice
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(255, 18)
         Me.lblBillToLocation.TabIndex = 7
-        Me.lblBillToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBillToLocation.TextWrap = False
         '
         'RadLabel3
@@ -2254,10 +2257,13 @@ Partial Class frmEXPorformaInvoice
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(1, 15)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -2265,7 +2271,6 @@ Partial Class frmEXPorformaInvoice
         Me.gv1.Size = New System.Drawing.Size(991, 38)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel1
         '
@@ -2427,7 +2432,10 @@ Partial Class frmEXPorformaInvoice
         '
         '
         Me.gv_Notify_Party.MasterTemplate.AllowDeleteRow = False
+        Me.gv_Notify_Party.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Notify_Party.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_Notify_Party.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv_Notify_Party.MyStopExport = False
         Me.gv_Notify_Party.Name = "gv_Notify_Party"
         Me.gv_Notify_Party.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_Notify_Party.ShowGroupPanel = False
@@ -2435,7 +2443,6 @@ Partial Class frmEXPorformaInvoice
         Me.gv_Notify_Party.Size = New System.Drawing.Size(975, 247)
         Me.gv_Notify_Party.TabIndex = 0
         Me.gv_Notify_Party.TabStop = False
-        Me.gv_Notify_Party.Text = "RadGridView1"
         '
         'Grpjoint
         '
@@ -2476,7 +2483,6 @@ Partial Class frmEXPorformaInvoice
         Me.txtAcc_No.Name = "txtAcc_No"
         Me.txtAcc_No.Size = New System.Drawing.Size(212, 20)
         Me.txtAcc_No.TabIndex = 87
-        Me.txtAcc_No.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtAcc_No.TextWrap = False
         '
         'txtIFSCCode
@@ -2489,7 +2495,6 @@ Partial Class frmEXPorformaInvoice
         Me.txtIFSCCode.Name = "txtIFSCCode"
         Me.txtIFSCCode.Size = New System.Drawing.Size(214, 20)
         Me.txtIFSCCode.TabIndex = 86
-        Me.txtIFSCCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtIFSCCode.TextWrap = False
         '
         'txtBankBranchName
@@ -2502,7 +2507,6 @@ Partial Class frmEXPorformaInvoice
         Me.txtBankBranchName.Name = "txtBankBranchName"
         Me.txtBankBranchName.Size = New System.Drawing.Size(358, 20)
         Me.txtBankBranchName.TabIndex = 85
-        Me.txtBankBranchName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtBankBranchName.TextWrap = False
         '
         'txtbankCity
@@ -2515,7 +2519,6 @@ Partial Class frmEXPorformaInvoice
         Me.txtbankCity.Name = "txtbankCity"
         Me.txtbankCity.Size = New System.Drawing.Size(358, 20)
         Me.txtbankCity.TabIndex = 84
-        Me.txtbankCity.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtbankCity.TextWrap = False
         '
         'txtbankState
@@ -2528,7 +2531,6 @@ Partial Class frmEXPorformaInvoice
         Me.txtbankState.Name = "txtbankState"
         Me.txtbankState.Size = New System.Drawing.Size(358, 20)
         Me.txtbankState.TabIndex = 83
-        Me.txtbankState.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtbankState.TextWrap = False
         '
         'txtbankName
@@ -2541,7 +2543,6 @@ Partial Class frmEXPorformaInvoice
         Me.txtbankName.Name = "txtbankName"
         Me.txtbankName.Size = New System.Drawing.Size(358, 20)
         Me.txtbankName.TabIndex = 82
-        Me.txtbankName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtbankName.TextWrap = False
         '
         'lblBankCity
@@ -2857,6 +2858,7 @@ Partial Class frmEXPorformaInvoice
         Me.ddlInvoiceType.AutoCompleteDisplayMember = Nothing
         Me.ddlInvoiceType.AutoCompleteValueMember = Nothing
         Me.ddlInvoiceType.CalculationExpression = Nothing
+        Me.ddlInvoiceType.DropDownAnimationEnabled = True
         Me.ddlInvoiceType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlInvoiceType.FieldCode = Nothing
         Me.ddlInvoiceType.FieldDesc = Nothing
@@ -2909,7 +2911,6 @@ Partial Class frmEXPorformaInvoice
         Me.txtVehicleNo.Name = "txtVehicleNo"
         Me.txtVehicleNo.Size = New System.Drawing.Size(287, 18)
         Me.txtVehicleNo.TabIndex = 24
-        Me.txtVehicleNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtVehicleNo.TextWrap = False
         Me.txtVehicleNo.Visible = False
         '
@@ -2935,7 +2936,6 @@ Partial Class frmEXPorformaInvoice
         Me.txtVehcileCode.Name = "txtVehcileCode"
         Me.txtVehcileCode.Size = New System.Drawing.Size(141, 20)
         Me.txtVehcileCode.TabIndex = 23
-        Me.txtVehcileCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtVehcileCode.TextWrap = False
         Me.txtVehcileCode.Visible = False
         '
@@ -2960,7 +2960,6 @@ Partial Class frmEXPorformaInvoice
         Me.fndProject.Name = "fndProject"
         Me.fndProject.Size = New System.Drawing.Size(104, 20)
         Me.fndProject.TabIndex = 0
-        Me.fndProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.fndProject.TextWrap = False
         '
         'MyLabel4
@@ -2983,7 +2982,6 @@ Partial Class frmEXPorformaInvoice
         Me.lblProject.Name = "lblProject"
         Me.lblProject.Size = New System.Drawing.Size(236, 20)
         Me.lblProject.TabIndex = 1
-        Me.lblProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblProject.TextWrap = False
         '
         'lblRouteNo
@@ -3156,7 +3154,6 @@ Partial Class frmEXPorformaInvoice
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 19)
         Me.lblTaxGrpName.TabIndex = 1
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'txtPriceGroupCode
@@ -3200,14 +3197,16 @@ Partial Class frmEXPorformaInvoice
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(990, 193)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'RdPaymentterms
         '
@@ -3268,7 +3267,7 @@ Partial Class frmEXPorformaInvoice
         Me.TxtCIF.TabIndex = 1496
         Me.TxtCIF.Text = "0"
         Me.TxtCIF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtCIF.Value = 0.0R
+        Me.TxtCIF.Value = 0R
         '
         'lblCIF
         '
@@ -3383,7 +3382,7 @@ Partial Class frmEXPorformaInvoice
         Me.TxtOnAccount.TabIndex = 1489
         Me.TxtOnAccount.Text = "0"
         Me.TxtOnAccount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtOnAccount.Value = 0.0R
+        Me.TxtOnAccount.Value = 0R
         '
         'lblonAccount
         '
@@ -3420,7 +3419,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtRetained.TabIndex = 1487
         Me.txtRetained.Text = "0"
         Me.txtRetained.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRetained.Value = 0.0R
+        Me.txtRetained.Value = 0R
         '
         'lblretained
         '
@@ -3457,7 +3456,7 @@ Partial Class frmEXPorformaInvoice
         Me.TxtBalancePayment.TabIndex = 1485
         Me.TxtBalancePayment.Text = "0"
         Me.TxtBalancePayment.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtBalancePayment.Value = 0.0R
+        Me.TxtBalancePayment.Value = 0R
         '
         'lblBalancePayment
         '
@@ -3494,7 +3493,7 @@ Partial Class frmEXPorformaInvoice
         Me.TxtLC.TabIndex = 1483
         Me.TxtLC.Text = "0"
         Me.TxtLC.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtLC.Value = 0.0R
+        Me.TxtLC.Value = 0R
         '
         'lblLC
         '
@@ -3531,7 +3530,7 @@ Partial Class frmEXPorformaInvoice
         Me.TxtCAD.TabIndex = 1481
         Me.TxtCAD.Text = "0"
         Me.TxtCAD.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtCAD.Value = 0.0R
+        Me.TxtCAD.Value = 0R
         '
         'lblCad
         '
@@ -3568,7 +3567,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtAdvance.TabIndex = 1479
         Me.txtAdvance.Text = "0"
         Me.txtAdvance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAdvance.Value = 0.0R
+        Me.txtAdvance.Value = 0R
         '
         'lblAdvance
         '
@@ -3590,7 +3589,6 @@ Partial Class frmEXPorformaInvoice
         Me.lblpaymenttermsgroup.Name = "lblpaymenttermsgroup"
         Me.lblpaymenttermsgroup.Size = New System.Drawing.Size(236, 19)
         Me.lblpaymenttermsgroup.TabIndex = 1478
-        Me.lblpaymenttermsgroup.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblpaymenttermsgroup.TextWrap = False
         '
         'MyLabel33
@@ -3640,7 +3638,6 @@ Partial Class frmEXPorformaInvoice
         Me.lblBeneficiary.Name = "lblBeneficiary"
         Me.lblBeneficiary.Size = New System.Drawing.Size(236, 19)
         Me.lblBeneficiary.TabIndex = 1475
-        Me.lblBeneficiary.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBeneficiary.TextWrap = False
         '
         'MyLabel31
@@ -3751,10 +3748,13 @@ Partial Class frmEXPorformaInvoice
         Me.gvAC.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvAC.Location = New System.Drawing.Point(0, 0)
         '
-        'gvAC
+        '
         '
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
+        Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -3762,7 +3762,6 @@ Partial Class frmEXPorformaInvoice
         Me.gvAC.Size = New System.Drawing.Size(995, 371)
         Me.gvAC.TabIndex = 1
         Me.gvAC.TabStop = False
-        Me.gvAC.Text = "RadGridView1"
         '
         'RadLabel31
         '
@@ -3979,7 +3978,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtDiscAmt.TabIndex = 6
         Me.txtDiscAmt.Text = "0"
         Me.txtDiscAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscAmt.Value = 0.0R
+        Me.txtDiscAmt.Value = 0R
         '
         'txtDiscPer
         '
@@ -4006,7 +4005,7 @@ Partial Class frmEXPorformaInvoice
         Me.txtDiscPer.TabIndex = 5
         Me.txtDiscPer.Text = "0"
         Me.txtDiscPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscPer.Value = 0.0R
+        Me.txtDiscPer.Value = 0R
         '
         'MyLabel5
         '
@@ -4310,8 +4309,6 @@ Partial Class frmEXPorformaInvoice
         '
         'btnSendEmailSMS
         '
-        Me.btnSendEmailSMS.AccessibleDescription = "SendEmailSMS"
-        Me.btnSendEmailSMS.AccessibleName = "SendEmailSMS"
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "SendEmailSMS"
         '
@@ -4373,36 +4370,27 @@ Partial Class frmEXPorformaInvoice
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1016, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem4, Me.RadMenuItem5})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Collapsed
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem4.AccessibleName = "Delete Layout"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Delete Layout"
         Me.RadMenuItem4.Visibility = Telerik.WinControls.ElementVisibility.Collapsed
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "E-Mail/SMS Setting"
-        Me.RadMenuItem5.AccessibleName = "E-Mail/SMS Setting"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "E-Mail/SMS Setting"
         '
@@ -4430,6 +4418,7 @@ Partial Class frmEXPorformaInvoice
         Me.RadMenuItem2.FadeAnimationType = Telerik.WinControls.UI.FadeAnimationType.FadeIn
         Me.RadMenuItem2.FitToScreenMode = CType((Telerik.WinControls.UI.FitToScreenModes.FitWidth Or Telerik.WinControls.UI.FitToScreenModes.FitHeight), Telerik.WinControls.UI.FitToScreenModes)
         Me.RadMenuItem2.HorizontalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
+        Me.RadMenuItem2.LastShowDpiScaleFactor = New System.Drawing.SizeF(1.0!, 1.0!)
         Me.RadMenuItem2.Location = New System.Drawing.Point(0, 0)
         Me.RadMenuItem2.Maximum = New System.Drawing.Size(0, 0)
         Me.RadMenuItem2.Minimum = New System.Drawing.Size(0, 0)
@@ -4441,6 +4430,9 @@ Partial Class frmEXPorformaInvoice
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'txtPIDate
         '

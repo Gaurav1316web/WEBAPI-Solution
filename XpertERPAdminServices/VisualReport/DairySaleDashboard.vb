@@ -28,6 +28,7 @@ Public Class DairySaleDashboard
 #End Region
 
     Private Sub SetUserMgmtNew()
+        'SetUserMgmt(clsUserMgtCode.DairySaleDashboard)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
@@ -46,12 +47,11 @@ Public Class DairySaleDashboard
         AddHandler cvFinishGoods.ChartElement.LegendElement.VisualItemCreating, AddressOf LegendElement_VisualItemCreating
         gvFinishGoods.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
 
+
         AddHandler cvSaleitem.ChartElement.LegendElement.VisualItemCreating, AddressOf LegendElement_VisualItemCreating
         AddHandler cvSaleitemWise.ChartElement.LegendElement.VisualItemCreating, AddressOf LegendElement_VisualItemCreating
 
-
         gvSales.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
-
 
         gvAccountCustomer.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
         gvAccountVendor.AutoSizeColumnsMode = Telerik.WinControls.UI.GridViewAutoSizeColumnsMode.Fill
@@ -171,6 +171,43 @@ Public Class DairySaleDashboard
     End Sub
 
     'Sub SetPieChartOrientation(ByVal chv As RadChartView, ByVal strOrient As String, ByVal LableRotationAngel As Integer)
+    '    'Dim grid As CartesianGrid = chv.GetArea(Of CartesianArea)().GetGrid(Of CartesianGrid)()
+    '    Dim grid As CartesianGrid = chv.GetArea(Of PieArea)().GetGrid(Of CartesianGrid)()
+    '    'If clsCommon.CompairString(strOrient, "Horizontal") = CompairStringResult.Equal Then
+    '    '    chv.GetArea(Of CartesianArea)().Orientation = Orientation.Horizontal
+    '    '    grid.DrawVerticalStripes = True
+    '    '    grid.DrawHorizontalStripes = False
+    '    'Else
+    '    '    chv.GetArea(Of CartesianArea)().Orientation = Orientation.Vertical
+    '    '    grid.DrawVerticalStripes = False
+    '    '    grid.DrawHorizontalStripes = True
+    '    'End If
+
+    '    Dim categoricalAxis As CategoricalAxis = TryCast(chv.Axes(0), CategoricalAxis)
+    '    categoricalAxis.PlotMode = AxisPlotMode.OnTicksPadded
+    '    categoricalAxis.LabelFitMode = AxisLabelFitMode.MultiLine
+    '    categoricalAxis.LabelRotationAngle = LableRotationAngel
+    '    categoricalAxis.ForeColor = Color.WhiteSmoke
+    '    categoricalAxis.BorderColor = Color.WhiteSmoke
+    '    For Each item In categoricalAxis.Children
+    '        Dim labelElement As AxisLabelElement = TryCast(item, AxisLabelElement)
+    '        If labelElement IsNot Nothing Then
+    '            labelElement.BorderColor = Color.Transparent
+    '        End If
+    '    Next
+
+    '    Dim verticalAxis As LinearAxis = TryCast(chv.Axes(1), LinearAxis)
+    '    verticalAxis.ForeColor = Color.WhiteSmoke
+    '    verticalAxis.BorderColor = Color.WhiteSmoke
+
+    '    For Each item In verticalAxis.Children
+    '        Dim labelElement As AxisLabelElement = TryCast(item, AxisLabelElement)
+    '        If labelElement IsNot Nothing Then
+    '            labelElement.BorderColor = Color.Transparent
+    '        End If
+    '    Next
+    'End Sub
+    'Sub SetPieChartOrientation(ByVal chv As RadChartView, ByVal strOrient As String, ByVal LableRotationAngel As Integer)
     '    'Dim grid As carte = chv.GetArea(Of CartesianArea)().GetGrid(Of CartesianGrid)()
     '    If clsCommon.CompairString(strOrient, "Clockwise") = CompairStringResult.Equal Then
     '        chv.PieOrientation = PieOrientation.Clockwise
@@ -207,6 +244,7 @@ Public Class DairySaleDashboard
     End Sub
 
     Public Sub Load_Report_Sale()
+
         Try
             If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
                 Dim sQuery As String = " select count(distinct TSPL_DEMAND_BOOKING_DETAIL.Cust_Code) as No_Of_Booth,count( Distinct TSPL_DEMAND_BOOKING_MASTER.Route_No) as No_Of_Route,
@@ -324,8 +362,8 @@ Public Class DairySaleDashboard
             Throw New Exception(ex.Message)
         End Try
 
-        'Try
-        If dt2 Is Nothing OrElse dt2.Rows.Count <= 0 Then
+        Try
+            If dt2 Is Nothing OrElse dt2.Rows.Count <= 0 Then
                 Dim sQuery As String = "select Structure_Code,sum(TotalLtr_ItemWise) as TotalLtr_ItemWise 
                                         from( select TSPL_ITEM_MASTER.Structure_Code,(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise) as TotalLtr_ItemWise from TSPL_DEMAND_BOOKING_MASTER 
                                         left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No
@@ -334,52 +372,49 @@ Public Class DairySaleDashboard
                                         and TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 )xx group by Structure_Code"
                 dt2 = clsDBFuncationality.GetDataTable(sQuery)
             End If
+            If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
+                'cvSaleitemWise.Area.View.Palette = New CustomPalette()
+                'Dim chartView As New Telerik.WinControls.UI.RadChartView()
+                'Dim pieAreaOwner As New Telerik.WinControls.UI.ChartView(chartView)
+                'Dim piearea As Telerik.WinControls.UI.PieArea = New Telerik.WinControls.UI.PieArea(pieAreaOwner)
+                'Dim pieSeries As New PieSeries()
+                'cvSaleitemWise.Series.Add(pieSeries)
+                'cvSaleitemWise.AreaDesign = piearea
+                cvSaleitemWise.Series.Clear()
 
-            'If dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
-            Dim structureCode As Double = Convert.ToDouble(dt2.Rows(0)("Structure_Code"))
-                Dim totalLtrItemWise As Double = Convert.ToDouble(dt2.Rows(0)("TotalLtr_ItemWise"))
-                Dim yValues As Double() = {structureCode, totalLtrItemWise} ' Getting values from dt 
-                Dim xValues As String() = {"structure Code", "Quantity"} ' Headings
-                Dim seriesName As String = Nothing
+                cvSaleitemWise.ShowTitle = True
+                cvSaleitemWise.ChartElement.TitlePosition = TitlePosition.Top
+                cvSaleitemWise.ChartElement.TitleElement.TextAlignment = ContentAlignment.MiddleCenter
+                cvSaleitemWise.ChartElement.TitleElement.ForeColor = Color.WhiteSmoke
 
+                cvSaleitemWise.Title = "ITEMS CHART"
 
+                cvSaleitemWise.AreaType = ChartAreaType.Pie
+                cvSaleitemWise.ShowLegend = True
+                cvSaleitemWise.ChartElement.BackColor = System.Drawing.Color.FromArgb(0, 67, 138)
 
-        '        cvSaleitemWise.Series.Clear()
-        '        cvSaleitemWise.Title()
+                Dim pieSeries As New PieSeries()
 
-        '        seriesName = "ChartInv"
-        '        cvSaleitemWise.Series.Add(seriesName)
+                For Each row As DataRow In dt2.Rows
+                    Dim value As Double = CDbl(row("TotalLtr_ItemWise"))
+                    Dim label As String = row("Structure_Code").ToString()
+                    pieSeries.DataPoints.Add(New PieDataPoint(value, label))
 
-        '        cvSaleitemWise.Series(seriesName).Points.DataBindXY(xValues, yValues)
+                Next
 
-        '        cvSaleitemWise.Series(seriesName).Points(0).Color = Color.MediumSeaGreen
-        '        cvSaleitemWise.Series(seriesName).Points(1).Color = Color.PaleGreen
-        '        cvSaleitemWise.Series(seriesName).Points(2).Color = Color.LawnGreen
-        '        cvSaleitemWise.Series(seriesName).Points(3).Color = Color.Blue
-        '        cvSaleitemWise.Series(seriesName).Points(4).Color = Color.Red
-        '        cvSaleitemWise.Series(seriesName).Points(5).Color = Color.Yellow
+                pieSeries.ShowLabels = True
+                pieSeries.LabelFormat = "{0:P2}"
+                pieSeries.RadiusFactor = 0.9F
 
-        '        ' Define Chart Type
-        '        cvSaleitemWise.Series = DataVisualization.Charting.SeriesChartType.Pie
-        '        cvSaleitemWise.ChartAreas("ChartArea1").Area3DStyle.Enable3D = True
+                cvSaleitemWise.Series.Add(pieSeries)
 
-        '        ' If you want to show Chart Legends
-        '        cvSaleitemWise.Enabled = True
+            End If
 
-
-
-        '        ' If you don't want to show data values and headings as label inside each Pie in chart
-        '        'Chart1.Series(seriesName)("PieLabelStyle") = "Disabled"
-        '        'Chart1.Series("ChartInv").IsValueShownAsLabel = False
-
-        '        ' If you want to show datavalues as label inside each Pie in chart
-        '        cvSaleitemWise.Series(seriesName)("PieLabelStyle") = "Enabled"
-        '        cvSaleitemWise.Series("ChartInv").IsValueShownAsLabel = True
-        '    End If
-        'Catch ex As Exception
-        '    Throw New Exception(ex.Message)
-        'End Try
+        Catch ex As Exception
+        Throw New Exception(ex.Message)
+        End Try
     End Sub
+
 
     Private Sub gvSales_RowFormatting(sender As Object, e As RowFormattingEventArgs) Handles gvSales.RowFormatting
         Try

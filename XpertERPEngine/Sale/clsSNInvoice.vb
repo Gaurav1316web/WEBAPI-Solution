@@ -1043,7 +1043,7 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
                 Return False
             End If
 
-            createARInvoice(obj, trans)
+            createARInvoice(obj, trans, "", "")
             Dim strARInvNo = clsDBFuncationality.getSingleValue("Select Document_No from TSPL_Customer_Invoice_Head where Against_Sale_No='" + strDocNo + "'", trans)
 
             qry = "Update TSPL_SD_SALE_INVOICE_HEAD set Status=1, Posting_Date='" + clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy") + "',Modify_By='" + objCommonVar.CurrentUserCode + "'"
@@ -1100,7 +1100,7 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
         Return True
     End Function
 
-    Private Shared Function createARInvoice(ByVal obj As clsSNInvoiceHead, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function createARInvoice(ByVal obj As clsSNInvoiceHead, ByVal trans As SqlTransaction, ByVal strVoucherNoForRecreateOnly As String, ByVal strARNoForRecreateOnly As String) As Boolean
         ''''''''''''''''''''''''''''''''''For Making AR Invoice
         Dim objCustInv As New clsCustomerInvoiceHead()
         ''objCustInv.Document_No ''Will be Generateed
@@ -1268,7 +1268,6 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
         Dim counter As Integer = 1
         objCustInv.Arr = New List(Of clsCustomerInvoiceDetail)
         For Each objTr As clsSNInvoiceDetail In obj.Arr
-
             If clsCommon.CompairString(objTr.Scheme_Item, "N") = CompairStringResult.Equal Then
                 Dim objCustInvTR As clsCustomerInvoiceDetail = New clsCustomerInvoiceDetail()
                 objCustInvTR.SNo = counter
@@ -1354,7 +1353,7 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
                 counter += 1
             End If
         Next
-        objCustInv.SaveData(objCustInv, True, trans, "")
+        objCustInv.SaveData(objCustInv, True, trans, "", strVoucherNoForRecreateOnly, strARNoForRecreateOnly)
         clsCustomerInvoiceHead.PostData("", objCustInv.Document_No, "", trans)
         Return True
     End Function
@@ -1499,147 +1498,22 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
             Throw New Exception(ex.Message)
         End Try
     End Function
-    ''To be Uncomment
-    '    Public Sub SRNPrintOut(ByVal FromDate As Date?, ByVal ToDate As Date?, ByVal IsDocTypeFinsihGoods As Boolean, ByVal ArrSrnNo As ArrayList, ByVal ArrVendor As ArrayList, ByVal ArrLocation As ArrayList)
-    '        Dim qry As String
 
-    '        Try
-    '            If IsDocTypeFinsihGoods Then
-    '                qry = "select Document_Code,MAX(ItemType )as ItemType,MAX(MRN_Date) as Document_Date,MAX(Customer_Name) as Customer_Name,MAX(GRNo) as GRNo,MAX(GENo) as GENo,MAX(GEDate) as GEDate,Item_Code,MAX(Item_Desc) as Item_Desc,MAX(VehicleNo) as VehicleNo, SUM(ISNULL( FCS,0)) as FCS, SUM(isnull(FBS,0))as FBS, SUM(ISNULL( FSH,0)) as FSH, SUM(ISNULL( ECS,0)) as ECS, SUM(ISNULL( EBS,0)) as EBS, SUM(Leak_Qty) as HF,SUM(Burst_Qty) as Burst,SUM(Short_Qty) as Short,MAX(Remarks) as Remarks,max(Ref_No)as Ref_No from( " & _
-    '         "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD .Item_Type as ItemType," & _
-    '         "(replace( CONVERT(varchar(11), TSPL_SD_SALE_INVOICE_HEAD.Document_Date,104),'.','/')+' '+CONVERT(varchar(100),TSPL_SD_SALE_INVOICE_HEAD.Document_Date,108) )as MRN_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Name,TSPL_SD_SALE_INVOICE_HEAD.GRNo,TSPL_SD_SALE_INVOICE_HEAD.GENo," & _
-    '         "(case when LEN(TSPL_SD_SALE_INVOICE_HEAD.GEDate)>0  then REPLACE( CONVERT(varchar(11), TSPL_SD_SALE_INVOICE_HEAD.GEDate,104),'.','/') else '' end) as GEDate,TSPL_SD_SALE_INVOICE_HEAD.VehicleNo,TSPL_SD_SALE_INVOICE_HEAD.Remarks ,TSPL_SD_SALE_INVOICE_HEAD.Ref_No,TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code," & _
-    '         "case when Unit_code='FC' then Qty + ISNULL( Free_Qty,0) end as FCS, " & _
-    '         "case when Unit_code='FB' then Qty + ISNULL( Free_Qty,0) end as FBS, " & _
-    '         "case when Unit_code='SH' then Qty + ISNULL( Free_Qty,0) end as FSH, " & _
-    '         "case when Unit_code='EC' then Qty + ISNULL( Free_Qty,0) end as ECS," & _
-    '         "case when Unit_code='EB' then Qty + ISNULL( Free_Qty,0) end as EBS, " & _
-    '         "TSPL_SD_SALE_INVOICE_DETAIL.Leak_Qty,TSPL_SD_SALE_INVOICE_DETAIL.Burst_Qty,TSPL_SD_SALE_INVOICE_DETAIL.Short_Qty from TSPL_SD_SALE_INVOICE_DETAIL left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code= TSPL_SD_SALE_INVOICE_DETAIL.Document_Code " & _
-    '         " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location   where Item_Type ='F'"
-    '                If FromDate.HasValue AndAlso ToDate.HasValue Then
-    '                    qry += " and Convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=Convert(date,'" + FromDate + "',103)and Convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=Convert(date,'" + ToDate + "',103) "
-    '                End If
 
-    '                If ArrLocation IsNot Nothing AndAlso ArrLocation.Count > 0 Then
-    '                    qry += "and TSPL_LOCATION_MASTER.Loc_Segment_Code  IN (" + clsCommon.GetMulcallString(ArrLocation) + ") "
-    '                End If
-    '                If ArrSrnNo IsNot Nothing AndAlso ArrSrnNo.Count > 0 Then
-    '                    qry += " and TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + clsCommon.GetMulcallString(ArrSrnNo) + ")  "
-    '                End If
-    '                If ArrVendor IsNot Nothing AndAlso ArrVendor.Count > 0 Then
-    '                    qry += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(ArrVendor) + ")" 'ADDED BY ABHISHEK AS ON 30 AUG 2012
-    '                End If
-    '                qry += " )xxx group by Document_Code,Item_Code order by Item_Desc"
-    '                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-    '                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-    '                    common.clsCommon.MyMessageBoxShow("No Record Found")
-    '                Else
-    '                    PurchaseOrderViewer.funreport(dt, EnumTecxpertPaperSize.PaperSize10x6, "rptSRNCustomReport", "SRN Report")
-
-    '                End If
-    '            Else ''For RM Other Print out
-    '                Dim strquery As String = "SELECT TSPL_SD_SALE_INVOICE_HEAD.Document_Code, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Name,(case when len(against_mrn)>0 then (select MRN_Date  from tspl_mrn_head where tspl_mrn_head.MRN_No =against_mrn) else Document_Date end ) as Challan_Date, TSPL_SD_SALE_INVOICE_HEAD.Ref_No  " & _
-    '                      "as Challan_No, TSPL_SD_SALE_INVOICE_HEAD.Inv_No, TSPL_SD_SALE_INVOICE_HEAD.Inv_Date, TSPL_SD_SALE_INVOICE_HEAD.GRNo,TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount ,TSPL_SD_SALE_INVOICE_HEAD.GENo,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt, " & _
-    '                      "TSPL_SD_SALE_INVOICE_HEAD.GEDate, TSPL_SD_SALE_INVOICE_HEAD.VehicleNo, TSPL_SD_SALE_INVOICE_HEAD.Carrier,TSPL_SD_SALE_INVOICE_HEAD.Remarks,TSPL_SD_SALE_INVOICE_DETAIL.Landed_Cost_Rate,TSPL_SD_SALE_INVOICE_DETAIL.Landed_Cost_Amount , TSPL_SD_SALE_INVOICE_DETAIL.Item_Code,TSPL_SD_SALE_INVOICE_DETAIL.Row_Type,TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount," & _
-    '"TSPL_SD_SALE_INVOICE_DETAIL.Item_Cost as basicRate,TSPL_SD_SALE_INVOICE_DETAIL.Item_Net_Amt as BasicTotal,TSPL_SD_SALE_INVOICE_DETAIL.Unit_Cost_Tax_Rate as UCTR," & _
-    '"TSPL_SD_SALE_INVOICE_DETAIL.Unit_Cost_Tax as uctax,TSPL_SD_SALE_INVOICE_DETAIL.Item_Desc,TSPL_SD_SALE_INVOICE_DETAIL.Unit_code,TSPL_SD_SALE_INVOICE_DETAIL.Qty,TSPL_SD_SALE_INVOICE_DETAIL.Rejected_Qty,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_SD_SALE_INVOICE_HEAD.Total_Amt,TSPL_SD_SALE_INVOICE_DETAIL.ITEM_COST," & _
-    ' "TSPL_VENDOR_MASTER.Add1 as venAdd1, TSPL_VENDOR_MASTER.Add2 as vanadd2, TSPL_VENDOR_MASTER.Add3 as venadd3, " & _
-    '"tax1.Tax_Code_Desc as tax1name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax1_amt,0) as txt1amt,tax2.Tax_Code_Desc as tax2name," & _
-    '"isnull (TSPL_SD_SALE_INVOICE_HEAD.tax2_amt,0) as txt2amt,tax3.Tax_Code_Desc as tax3name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax3_amt,0) as txt3amt," & _
-    '"tax4.Tax_Code_Desc as tax4name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax4_amt,0) as txt4amt,tax5.Tax_Code_Desc as tax5name," & _
-    '"isnull (TSPL_SD_SALE_INVOICE_HEAD.tax5_amt,0) as txt5amt,tax6.Tax_Code_Desc as tax6name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax6_amt,0) as txt6amt " & _
-    '",tax7.Tax_Code_Desc as tax7name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax7_amt,0) as txt7amt,tax8.Tax_Code_Desc as tax8name," & _
-    '"isnull (TSPL_SD_SALE_INVOICE_HEAD.tax8_amt,0) as txt8amt, tax9.Tax_Code_Desc as tax9name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax9_amt,0) as txt9amt," & _
-    '"tax10.Tax_Code_Desc as tax10name,isnull (TSPL_SD_SALE_INVOICE_HEAD.tax10_amt,0) as txt10amt, TSPL_COMPANY_MASTER.Comp_Name as compname, " & _
-    '"TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,TSPL_SD_SALE_INVOICE_DETAIL.Qty," & _
-    '"case when tax1.Tax_Recoverable='Y' then TSPL_SD_SALE_INVOICE_HEAD.tax1_amt else null end as Tax1Recoverable," & _
-    '"case when tax2.Tax_Recoverable='Y' then TSPL_SD_SALE_INVOICE_HEAD.TAX2_Amt else null end as Tax2Recoverable, " & _
-    '"case when tax3.Tax_Recoverable='Y' then TSPL_SD_SALE_INVOICE_HEAD.tax3_amt else null end as Tax3Recoverable, " & _
-    '"case when tax4.Tax_Recoverable='Y' then TSPL_SD_SALE_INVOICE_HEAD.tax4_amt else null end as Tax4Recoverable, " & _
-    '"case when tax5.Tax_Recoverable='Y' then TSPL_SD_SALE_INVOICE_HEAD.tax5_amt else null end as Tax5Recoverable, " & _
-    '"case when tax6.Tax_Recoverable='Y' then TSPL_SD_SALE_INVOICE_HEAD.tax6_amt else null end as Tax6Recoverable," & _
-    '"case when tax7.Tax_Recoverable='Y' then TSPL_SD_SALE_INVOICE_HEAD.tax7_amt else null end as Tax7Recoverable, " & _
-    '"case when tax8.Tax_Recoverable='Y' then TSPL_SD_SALE_INVOICE_HEAD.tax8_amt else null end as Tax8Recoverable, " & _
-    '"case when tax9.Tax_Recoverable='Y' then TSPL_SD_SALE_INVOICE_HEAD.tax9_amt else null end as Tax9Recoverable," & _
-    '"case when tax10.Tax_Recoverable='Y' then TSPL_SD_SALE_INVOICE_HEAD.tax10_amt else null end as Tax10Recoverable, " & _
-    '"convert(varchar,isnull (TSPL_SD_SALE_INVOICE_HEAD.TAX1_Rate ,0),103)+'%' as txt1Rate," & _
-    '"convert(varchar,isnull (TSPL_SD_SALE_INVOICE_HEAD.TAX2_Rate   ,0),103)+'%' as txt2Rate, " & _
-    '"convert(varchar,isnull (TSPL_SD_SALE_INVOICE_HEAD.TAX3_Rate  ,0),103)+'%' as txt3Rate, " & _
-    '"convert(varchar,isnull (TSPL_SD_SALE_INVOICE_HEAD.TAX4_Rate  ,0),103)+'%' as txt4Rate, " & _
-    '"convert(varchar,isnull (TSPL_SD_SALE_INVOICE_HEAD.TAX5_Rate  ,0),103)+'%' as txt5Rate, " & _
-    '"convert(varchar,isnull (TSPL_SD_SALE_INVOICE_HEAD.TAX6_Rate  ,0),103)+'%' as txt6Rate, " & _
-    '"convert(varchar,isnull (TSPL_SD_SALE_INVOICE_HEAD.TAX7_Rate  ,0),103)+'%' as txt7Rate, " & _
-    '"convert(varchar,isnull (TSPL_SD_SALE_INVOICE_HEAD.TAX8_Rate  ,0),103)+'%' as txt8Rate, " & _
-    '"convert(varchar,isnull (TSPL_SD_SALE_INVOICE_HEAD.TAX9_Rate  ,0),103)+'%' as txt9Rate, " & _
-    '"convert(varchar,isnull (TSPL_SD_SALE_INVOICE_HEAD.TAX10_Rate  ,0),103)+'%' as txt10Rate," & _
-    '"TSPL_SD_SALE_INVOICE_DETAIL.Amt_Less_Discount as Value,(select SUM(rejected_qty) from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code) as Rej_qty, (select SUM(TSPL_MRN_DETAIL.MRN_Qty) from TSPL_SD_SALE_INVOICE_DETAIL left outer join TSPL_MRN_DETAIL on TSPL_MRN_DETAIL .MRN_No=TSPL_SD_SALE_INVOICE_DETAIL.Shipment_Code and TSPL_MRN_DETAIL.Item_Code=TSPL_SD_SALE_INVOICE_DETAIL.Item_Code where Document_Code =TSPL_SD_SALE_INVOICE_HEAD.Document_Code)as MrnTotQty, (select SUM(Qty) from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Document_Code) as SRNQtyTotal, (select case when COUNT(xxx.PI_No)>1 then Min(xxx.PI_No)+ ' *' else Min(xxx.PI_No)end as PINO from" & _
-    '" ( select TSPL_PI_DETAIL.PI_No from TSPL_PI_DETAIL  where  TSPL_PI_DETAIL.SRN_Id= TSPL_SD_SALE_INVOICE_HEAD.Document_Code " & _
-    '" GROUP by TSPL_PI_DETAIL.PI_No)xxx) as PInvNo  ,    " & _
-    '       " TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name1 as Add1Name, " & _
-    '     " TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt1 as Add1 , " & _
-    '     "     TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name2 as Add2Name, " & _
-    '     "   TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt2 as Add2 , " & _
-    '     "    TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name3 as Add3Name, " & _
-    '     "   TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt3 as Add3 , " & _
-    '     "    TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name4 as Add4Name, " & _
-    '     "    TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt4 as Add4 , " & _
-    '     "     TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name5 as Add5Name, " & _
-    '      "     TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt5 as Add5 , " & _
-    '      "     TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name6 as Add6Name, " & _
-    '      "    TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt6 as Add6 , " & _
-    '      "    TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name7 as Add7Name, " & _
-    '      "     TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt7 as Add7 , " & _
-    '      "       TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name8 as Add8Name, " & _
-    '      "      TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt8 as Add8 , " & _
-    '       "      TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name9 as Add9Name, " & _
-    '       "      TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt9 as Add9 , " & _
-    '       "      TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Name10 as Add10Name, " & _
-    '       "     TSPL_SD_SALE_INVOICE_HEAD.Add_Charge_Amt10 as Add10,TSPL_SD_SALE_INVOICE_HEAD.Against_RGP,TSPL_SD_SALE_INVOICE_DETAIL .Specification   " & _
-    ' " FROM  TSPL_SD_SALE_INVOICE_DETAIL INNER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_DETAIL.Document_Code = TSPL_SD_SALE_INVOICE_HEAD.Document_Code " & _
-    ' "INNER JOIN TSPL_COMPANY_MASTER ON TSPL_SD_SALE_INVOICE_HEAD.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code  " & _
-    ' "INNER JOIN TSPL_VENDOR_MASTER ON TSPL_SD_SALE_INVOICE_HEAD.Customer_Code = TSPL_VENDOR_MASTER.Customer_Code " & _
-    ' "left outer join TSPL_TAX_MASTER as tax1 on tax1.tax_code =TSPL_SD_SALE_INVOICE_HEAD.tax1  " & _
-    ' "left outer join tspl_tax_master as tax2 on tax2.tax_code = TSPL_SD_SALE_INVOICE_HEAD.tax2 " & _
-    ' "left outer join tspl_tax_master as tax3 on tax3.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD .TAX3 " & _
-    ' "left outer join TSPL_TAX_MASTER as tax4 on tax4.Tax_Code= TSPL_SD_SALE_INVOICE_HEAD .tax4 " & _
-    ' "left outer join TSPL_TAX_MASTER as tax5 on tax5.Tax_Code=TSPL_SD_SALE_INVOICE_HEAD .tax5 " & _
-    ' "left outer join TSPL_TAX_MASTER as tax6 on tax6.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX6  " & _
-    ' "left outer join TSPL_TAX_MASTER as tax7 on tax7.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX7  " & _
-    ' "left outer join TSPL_TAX_MASTER as tax8 on tax8.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX8 " & _
-    ' "left outer join TSPL_TAX_MASTER as tax9 on tax9.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX9 " & _
-    ' " left outer join TSPL_TAX_MASTER as tax10 on tax10.Tax_Code =TSPL_SD_SALE_INVOICE_HEAD .TAX10  " & _
-    ' "left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER .Location_Code=TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location  " & _
-    ' " where TSPL_SD_SALE_INVOICE_HEAD .Item_Type not in('F')"
-
-    '                If FromDate.HasValue AndAlso ToDate.HasValue Then
-    '                    strquery += " and Convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)>=Convert(date,'" + FromDate + "',103)and Convert(date,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)<=Convert(date,'" + ToDate + "',103) "
-
-    '                End If
-    '                If ArrLocation IsNot Nothing AndAlso ArrLocation.Count > 0 Then
-    '                    strquery += "and TSPL_LOCATION_MASTER.Loc_Segment_Code  IN (" + clsCommon.GetMulcallString(ArrLocation) + ") "
-    '                End If
-    '                If ArrSrnNo IsNot Nothing AndAlso ArrSrnNo.Count > 0 Then
-    '                    strquery += " and TSPL_SD_SALE_INVOICE_HEAD.Document_Code in (" + clsCommon.GetMulcallString(ArrSrnNo) + ")  "
-    '                End If
-    '                If ArrVendor IsNot Nothing AndAlso ArrVendor.Count > 0 Then
-    '                    strquery += " and TSPL_SD_SALE_INVOICE_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(ArrVendor) + ")  "
-
-    '                End If
-    '                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strquery)
-    '                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-    '                    common.clsCommon.MyMessageBoxShow("No Record Found")
-    '                Else
-    '                    PurchaseOrderViewer.funreport(dt, "SRNReportThroughReport", "Store Receipt Report")
-    '                End If
-    '            End If
-
-    '        Catch ex As Exception
-    '            Throw New Exception(ex.Message)
-    '        End Try
-    '    End Sub
 
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ReverseAndUnpost(strCode, trans, False)
+
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function ReverseAndUnpost(ByVal strCode As String, trans As SqlTransaction, ByVal isReverseOnly As Boolean) As Boolean
         Try
             If clsCommon.myLen(strCode) <= 0 Then
                 Throw New Exception("Transaction No not found for reverse and unpost")
@@ -1649,16 +1523,18 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
             If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
-
-            Qry = "select distinct DOCUMENT_CODE from TSPL_SD_SALE_RETURN_DETAIL where Invoice_Code='" + strCode + "'"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                Qry = "Current Sale invoice is used in following Sale return -"
-                For Each dr As DataRow In dt.Rows
-                    Qry += Environment.NewLine + clsCommon.myCstr(dr("DOCUMENT_CODE"))
-                Next
-                Throw New Exception(Qry)
+            If Not isReverseOnly Then
+                Qry = "select distinct DOCUMENT_CODE from TSPL_SD_SALE_RETURN_DETAIL where Invoice_Code='" + strCode + "'"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    Qry = "Current Sale invoice is used in following Sale return -"
+                    For Each dr As DataRow In dt.Rows
+                        Qry += Environment.NewLine + clsCommon.myCstr(dr("DOCUMENT_CODE"))
+                    Next
+                    Throw New Exception(Qry)
+                End If
             End If
+
 
             Dim strARInvoiceNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_No  from TSPL_Customer_Invoice_Head where Against_Sale_No='" + strCode + "'", trans))
             If clsCommon.myLen(strARInvoiceNo) > 0 Then
@@ -1675,13 +1551,11 @@ TSPL_SD_SALE_INVOICE_HEAD.PROJECT_ID, TSPL_SD_SALE_INVOICE_HEAD.Form_38_No "
                 Qry = "delete from TSPL_Customer_Invoice_Head where Document_No ='" + strARInvoiceNo + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
             End If
-
-            Qry = "Update TSPL_SD_SALE_INVOICE_HEAD set Status = 0 where Document_Code='" + strCode + "'"
-            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-
-            trans.Commit()
+            If Not isReverseOnly Then
+                Qry = "Update TSPL_SD_SALE_INVOICE_HEAD set Status = 0 where Document_Code='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            End If
         Catch ex As Exception
-            trans.Rollback()
             Throw New Exception(ex.Message)
         End Try
         Return True

@@ -206,7 +206,7 @@ left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No
 
 
                     qry = "Select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS SNo,CONVERT(varchar(10), tmp.Shift_Date, 103) As SDate ,tmp.Shift As Shift,No_Of_Cans As Qty,Milk_Weight As Milk_Wtd,FAT as FAT,SNF as SNF,convert(decimal(18,2),((Milk_Weight*FAT)/100)) As Fat_KG,convert(decimal(18,2),((Milk_Weight*SNF)/100)) As SNF_KG,'' As Rate,'' As Amt,tmp.VLC_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As DCS_Uploader_Code,TSPL_VLC_MASTER_HEAD.VLC_Code As DCS_Code,TSPL_VLC_MASTER_HEAD.VLC_Name  As DCS_Name
-                        ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader  As BMC_Uploader_Code,TSPL_MCC_MASTER.MCC_Code As BMC_Code,TSPL_MCC_MASTER.MCC_NAME As BMC_Name
+                        ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader  As BMC_Uploader_Code,TSPL_MCC_MASTER.MCC_Code As BMC_Code,TSPL_MCC_MASTER.MCC_NAME As BMC_Name , TSPL_VLC_MASTER_HEAD.Route_Code
                         from(
                         Select Shift_Date,Shift,No_Of_Cans,Milk_Weight,FAT,SNF,VLC_Code  from TSPL_MILK_SHIFT_UPLOADER_DETAIL
                         Left Outer Join TSPL_MILK_SHIFT_UPLOADER_HEAD ON TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
@@ -430,7 +430,15 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                             summaryRowItem.Add(FATKG)
                             Dim SNFKG As New GridViewSummaryItem("SNFKG", "{0:F2}", GridAggregateFunction.Sum)
                             summaryRowItem.Add(SNFKG)
+                            Dim DiffQty1 As New GridViewSummaryItem("Diff_Qty", "{0:F0}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(DiffQty1)
+                            Dim DiffFat1 As New GridViewSummaryItem("Diff_FAT", "{0:F2}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(DiffFat1)
+                            Dim DiffSnf1 As New GridViewSummaryItem("Diff_SNF", "{0:F2}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(DiffSnf1)
                         End If
+
+
                         If rdbCollectionWise.Checked Then
                             'Dim EnteredQty As New GridViewSummaryItem("Entered_Qty", "{0:F0}", GridAggregateFunction.Sum)
                             'summaryRowItem.Add(EnteredQty)
@@ -1155,6 +1163,8 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
 
             Gv1.Columns("BMC_Name").HeaderText = "BMC Name"
             Gv1.Columns("BMC_Name").IsVisible = False
+            Gv1.Columns("Route_Code").HeaderText = "Route No"
+            Gv1.Columns("Route_Code").IsVisible = True
 
             Gv1.Columns("DCS_Uploader_Code").HeaderText = "DCS Uploader Code"
             Gv1.Columns("DCS_Code").HeaderText = "DCS Code"

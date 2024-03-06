@@ -11,6 +11,7 @@ Public Class rptMccMasterDetail
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim btnReferesh As Boolean = False
     Dim ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster As Boolean = False
+    Dim AreaWiseBilling As Boolean = False
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -49,6 +50,7 @@ Public Class rptMccMasterDetail
         txtPanchayatSamiti.Enabled = isEnable
         txtVidhanSabha.Enabled = isEnable
         RadGroupBox1.Enabled = isEnable
+        fndArea.Enabled = isEnable
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
@@ -133,6 +135,10 @@ Public Class rptMccMasterDetail
                     whre = " and TSPL_MCC_MASTER.MCC_CODE in (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
                 End If
 
+                If clsCommon.myLen(fndArea.Value) > 0 Then
+                    whre += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                End If
+
                 If clsCommon.CompairString(cmbReportType.Text, "MP Details") = CompairStringResult.Equal OrElse clsCommon.CompairString(cmbReportType.Text, "Union Wise Jan Aadhar Status") = CompairStringResult.Equal Then
                     If rbtnJanVerified.Checked Then
                         whre += " and isnull(TSPL_MP_MASTER.Jan_Aadhar_No_Verified,0)>0"
@@ -148,7 +154,7 @@ Public Class rptMccMasterDetail
                     End If
                     qry += " select TSPL_MCC_MASTER.MCC_CODE as [MCC Code],TSPL_MCC_MASTER.MCC_NAME as [MCC Name], VSP_Code as [VSP Code],TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name] , TSPL_VLC_MASTER_HEAD.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code] ,tspl_mp_master.MP_Code as [MP Code], tspl_mp_master.MP_Name as [MP Name],tspl_mp_master.MP_CODE_VLC_UPLOADER as [MP Uploader Code],TSPL_MP_MASTER.Telphone as [Phone] , TSPL_MP_MASTER.Fax as [Aadhar No],tspl_mp_master.Jan_Aadhar_No as [Jan Aadhar No],case when isnull (TSPL_MP_MASTER.Jan_Aadhar_No_Verified,'')>0 then 'Y' else 'N' end as [Jan Aadhar Verified],TSPL_MP_MASTER.JA_aadhar, TSPL_MP_MASTER.JA_acc, TSPL_MP_MASTER.JA_age, TSPL_MP_MASTER.JA_bankBranch, TSPL_MP_MASTER.JA_bankName, TSPL_MP_MASTER.JA_ifsc, TSPL_MP_MASTER.JA_caste, TSPL_MP_MASTER.JA_categoryDescEng, TSPL_MP_MASTER.JA_disability, TSPL_MP_MASTER.JA_disabilityPercentage, TSPL_MP_MASTER.JA_disabilityType, TSPL_MP_MASTER.JA_dlNo, TSPL_MP_MASTER.JA_dob, TSPL_MP_MASTER.JA_eid, TSPL_MP_MASTER.JA_email, TSPL_MP_MASTER.JA_enrId, TSPL_MP_MASTER.JA_fnameEng, TSPL_MP_MASTER.JA_fnameHnd, TSPL_MP_MASTER.JA_gender, TSPL_MP_MASTER.JA_income, TSPL_MP_MASTER.JA_isorphan, TSPL_MP_MASTER.JA_isStateGovtEmp, TSPL_MP_MASTER.JA_jan_mid, TSPL_MP_MASTER.JA_janaadhaarId, TSPL_MP_MASTER.JA_maritalStatus, TSPL_MP_MASTER.JA_micr, TSPL_MP_MASTER.JA_mnameEng, TSPL_MP_MASTER.JA_mnameHnd, TSPL_MP_MASTER.JA_mobile, TSPL_MP_MASTER.JA_nameEng, TSPL_MP_MASTER.JA_nameHnd, TSPL_MP_MASTER.JA_occupation, TSPL_MP_MASTER.JA_relationTyp, TSPL_MP_MASTER.JA_panNo, TSPL_MP_MASTER.JA_passport, TSPL_MP_MASTER.JA_qualification, TSPL_MP_MASTER.JA_rghs_no, TSPL_MP_MASTER.JA_snameEng, TSPL_MP_MASTER.JA_snameHnd, TSPL_MP_MASTER.JA_voterId,tspl_mp_master.BankName as [Bank Code],case when len (isnull (TSPL_BANK_MASTER.DESCRIPTION,'')) > 0 then TSPL_BANK_MASTER.DESCRIPTION else tspl_mp_master.BankName end as [Bank Name],tspl_mp_master.IFCICode as [IFSC Code],tspl_mp_master.BankBranch as [Branch Name],tspl_mp_master.AccountNO as [Account No],TSPL_MP_MASTER.DISTRICT_Code as [District Code],TSPL_DISTRICT_MASTER.Name as [District Name],TSPL_MP_MASTER.Zone_Code as [Zone Code], TSPL_ZONE_MASTER.Description as [Zone Name],TSPL_MP_MASTER.BLOCK_CODE as [Block Code],TSPL_BLOCK_MASTER.BLOCK_NAME as [Block Name] ,TSPL_MP_MASTER.REVENUE_VILLAGE_CODE as [Revenue Village Code],TSPL_REVENUE_VILLAGE_MASTER.REVENUE_VILLAGE_NAME as [Revenue Village Name],TSPL_MP_MASTER.GRAMPANCHAYAT_CODE as [Grampanchayat Code],TSPL_GRAMPANCHAYAT_MASTER.GRAMPANCHAYAT_NAME as [Grampanchayat Name],TSPL_MP_MASTER.PANCHAYAT_SAMITI_CODE as [Panchayat Samiti Code],TSPL_PANCHAYAT_SAMITI_MASTER.PANCHAYAT_SAMITI_NAME as [Panchayat Samiti Name],TSPL_MP_MASTER.VIDHAN_SABHA_CODE as [Vidhan Sabha Code], TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_NAME as [Vidhan Sabha Name],( case when isOwnBMC= 1 then 'Y' else 'N' end )as [isOwnBMC(Y/N)],(CASE WHEN isOwnBMC =1 THEN TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ELSE '' END) AS [OWN BMC],(case when  TSPL_VLC_MASTER_HEAD.isOwnBMC =1 then  TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader else '' end)as [MCC Uploader Code],case when Apply_Cow_Price =1 then 'Y' else 'N' end as [Apply Cow Price(Y/N)],TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER as [DCS Type],(case when TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'registered'  then TSPL_VENDOR_MASTER.RegistrationNo else '' end )as  [Reg No],  (case when TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'registered'  then TSPL_VENDOR_MASTER.RegistrationDate else '' end )as  [Reg Date],TSPL_VENDOR_MASTER.Gender as [Gender] "
                 Else
-                    qry += " select isnull(TSPL_MCC_MASTER.plant_code,'') as [Plant],isnull(tspl_Plant_Code.Location_Desc ,'') as [Plant Name],isnull(TSPL_LOCATION_MASTER.Loc_Segment_Code,'') as [Loc Segment Code],TSPL_MCC_MASTER.MCC_CODE as [MCC Code],TSPL_MCC_MASTER.MCC_NAME as [MCC Name],isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,'') as [MCC Uploader Code],tspl_mcc_route_master.Route_Code as [Route Code],tspl_mcc_route_master.Route_Name as [Route Name],tspl_mcc_route_master.Vehicle_Code as [Vehicle No]" &
+                    qry += " select isnull(TSPL_MCC_MASTER.plant_code,'') as [Plant],isnull(tspl_Plant_Code.Location_Desc ,'') as [Plant Name],isnull(TSPL_LOCATION_MASTER.Loc_Segment_Code,'') as [Loc Segment Code],TSPL_MCC_MASTER.MCC_CODE as [MCC Code],TSPL_MCC_MASTER.Area_Location_Code as [Area Code],TSPL_MCC_MASTER.MCC_NAME as [MCC Name],isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,'') as [MCC Uploader Code],tspl_mcc_route_master.Route_Code as [Route Code],tspl_mcc_route_master.Route_Name as [Route Name],tspl_mcc_route_master.Vehicle_Code as [Vehicle No]" &
                    " ,Transporter.Vendor_Code as [Transporter Code],Transporter.Vendor_Name as [Transporter Name],TSPL_VLC_MASTER_HEAD.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name] " &
                    " ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code],VSP_Code as [VSP Code],TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name] ,(case when TSPL_VLC_MASTER_HEAD.isOwnBMC =1 then 'Y' else 'N' end) as [isOwnBMC(Y/N)],(CASE WHEN TSPL_VLC_MASTER_HEAD.isOwnBMC = 1 THEN TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ELSE '' END) AS [OWN BMC],(case when  TSPL_VLC_MASTER_HEAD.isOwnBMC =1 then  TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader else '' end)as [MCC Uploader Code],case when TSPL_VLC_MASTER_HEAD.Apply_Cow_Price =1 then 'Y' else 'N' end as [Apply Cow Price(Y/N)]  " &
                    " ,TSPL_VENDOR_MASTER.Bank_Code as [Bank Code],TSPL_VENDOR_MASTER.Bank_Name as [Bank Name],TSPL_VENDOR_MASTER.IFSC_Code as [IFSC Code],TSPL_VENDOR_MASTER.Branch_Name as [Branch Name],TSPL_VENDOR_MASTER.Account_No as [Account No],TSPL_VENDOR_MASTER.Gender as [Gender],TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER as [DCS Type],(case when TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'registered'  then TSPL_VENDOR_MASTER.RegistrationNo else '' end )as  [Reg No], ( case when TSPL_VENDOR_MASTER.Registered_PDCS_CLUSTER = 'registered'  then TSPL_VENDOR_MASTER.RegistrationDate else '' end) as  [Reg Date],TSPL_Primary_Vehicle_Master.Vehicle, TSPL_VENDOR_MASTER.DISTRICT_Code as [District Code],TSPL_DISTRICT_MASTER.Name as [District Name]
@@ -323,6 +329,9 @@ Public Class rptMccMasterDetail
     End Sub
 
     Private Sub rptMccMasterDetail_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 0)
+        fndArea.Visible = AreaWiseBilling
+        lblArea.Visible = AreaWiseBilling
         ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
         Reset()
     End Sub
@@ -384,5 +393,14 @@ Public Class rptMccMasterDetail
     Private Sub txtVidhanSabha__My_Click(sender As Object, e As EventArgs) Handles txtVidhanSabha._My_Click
         Dim qry As String = " select TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_CODE as Code , TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_NAME as Name from TSPL_VIDHAN_SABHA_MASTER "
         txtVidhanSabha.arrValueMember = clsCommon.ShowMultipleSelectForm("MulSelVidhanSabha@MCCMSTDETRPT", qry, "Code", "Code", txtVidhanSabha.arrValueMember, txtVidhanSabha.arrDispalyMember)
+    End Sub
+
+    Private Sub fndArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER "
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        End Try
     End Sub
 End Class

@@ -276,7 +276,7 @@ Public Class frmApplyLoan
             obj.Gross_Salary = clsCommon.myCstr(Me.lblGrossSalary.Text)
             obj.Payment_EndDate = clsCommon.myCstr(Me.dtpEndMonth.Text)
             obj.Loan_Status = clsCommon.myCstr(Me.cboLoanStatus.Text)
-
+            obj.PAID = 1
 
             For Each grow As GridViewRowInfo In gvEMI.Rows
                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colEMI_NO).Value)) > 0 Then

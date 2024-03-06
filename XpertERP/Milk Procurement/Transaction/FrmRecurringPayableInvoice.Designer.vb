@@ -26,6 +26,9 @@ Partial Class FrmRecurringPayableInvoice
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmRecurringPayableInvoice))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -328,7 +331,6 @@ Partial Class FrmRecurringPayableInvoice
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(945, 418)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -417,7 +419,6 @@ Partial Class FrmRecurringPayableInvoice
         Me.LblScheduler.Name = "LblScheduler"
         Me.LblScheduler.Size = New System.Drawing.Size(198, 18)
         Me.LblScheduler.TabIndex = 124
-        Me.LblScheduler.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblScheduler.TextWrap = False
         '
         'FndScheduler
@@ -461,6 +462,7 @@ Partial Class FrmRecurringPayableInvoice
         Me.CboExpiration.AutoCompleteDisplayMember = Nothing
         Me.CboExpiration.AutoCompleteValueMember = Nothing
         Me.CboExpiration.CalculationExpression = Nothing
+        Me.CboExpiration.DropDownAnimationEnabled = True
         Me.CboExpiration.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CboExpiration.FieldCode = Nothing
         Me.CboExpiration.FieldDesc = Nothing
@@ -695,7 +697,6 @@ Partial Class FrmRecurringPayableInvoice
         Me.LblLocDesp.Name = "LblLocDesp"
         Me.LblLocDesp.Size = New System.Drawing.Size(410, 18)
         Me.LblLocDesp.TabIndex = 41
-        Me.LblLocDesp.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblLocDesp.TextWrap = False
         '
         'InvDate
@@ -776,7 +777,6 @@ Partial Class FrmRecurringPayableInvoice
         Me.lblProject.Name = "lblProject"
         Me.lblProject.Size = New System.Drawing.Size(407, 20)
         Me.lblProject.TabIndex = 1
-        Me.lblProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblProject.TextWrap = False
         '
         'chkProRated
@@ -797,6 +797,7 @@ Partial Class FrmRecurringPayableInvoice
         Me.cmbRefType.AutoCompleteDisplayMember = Nothing
         Me.cmbRefType.AutoCompleteValueMember = Nothing
         Me.cmbRefType.CalculationExpression = Nothing
+        Me.cmbRefType.DropDownAnimationEnabled = True
         Me.cmbRefType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbRefType.FieldCode = Nothing
         Me.cmbRefType.FieldDesc = Nothing
@@ -1054,7 +1055,6 @@ Partial Class FrmRecurringPayableInvoice
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(410, 18)
         Me.lblVendorName.TabIndex = 7
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'UsLock1
         '
@@ -1126,10 +1126,13 @@ Partial Class FrmRecurringPayableInvoice
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1137,7 +1140,6 @@ Partial Class FrmRecurringPayableInvoice
         Me.gv1.Size = New System.Drawing.Size(899, 164)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel3
         '
@@ -1336,6 +1338,7 @@ Partial Class FrmRecurringPayableInvoice
         Me.cboDocType.AutoCompleteDisplayMember = Nothing
         Me.cboDocType.AutoCompleteValueMember = Nothing
         Me.cboDocType.CalculationExpression = Nothing
+        Me.cboDocType.DropDownAnimationEnabled = True
         Me.cboDocType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDocType.FieldCode = Nothing
         Me.cboDocType.FieldDesc = Nothing
@@ -1504,7 +1507,6 @@ Partial Class FrmRecurringPayableInvoice
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 4
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel10
         '
@@ -1583,7 +1585,6 @@ Partial Class FrmRecurringPayableInvoice
         Me.lblTermName.Name = "lblTermName"
         Me.lblTermName.Size = New System.Drawing.Size(321, 20)
         Me.lblTermName.TabIndex = 4
-        Me.lblTermName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtDueDate
         '
@@ -1642,14 +1643,16 @@ Partial Class FrmRecurringPayableInvoice
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(919, 226)
         Me.gv2.TabIndex = 2
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -1689,10 +1692,13 @@ Partial Class FrmRecurringPayableInvoice
         Me.gvAC.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvAC.Location = New System.Drawing.Point(0, 0)
         '
-        'gvAC
+        '
         '
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
+        Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -1700,7 +1706,6 @@ Partial Class FrmRecurringPayableInvoice
         Me.gvAC.Size = New System.Drawing.Size(924, 336)
         Me.gvAC.TabIndex = 0
         Me.gvAC.TabStop = False
-        Me.gvAC.Text = "RadGridView1"
         '
         'RadLabel31
         '
@@ -2105,15 +2110,11 @@ Partial Class FrmRecurringPayableInvoice
         '
         'btnSend
         '
-        Me.btnSend.AccessibleDescription = "Send Email/SMS"
-        Me.btnSend.AccessibleName = "Send Email/SMS"
         Me.btnSend.Name = "btnSend"
         Me.btnSend.Text = "Send Email/SMS"
         '
         'btnSendForApproval
         '
-        Me.btnSendForApproval.AccessibleDescription = "Send For Approval"
-        Me.btnSendForApproval.AccessibleName = "Send For Approval"
         Me.btnSendForApproval.Name = "btnSendForApproval"
         Me.btnSendForApproval.Text = "Send For Approval"
         '
@@ -2179,20 +2180,15 @@ Partial Class FrmRecurringPayableInvoice
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(945, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3, Me.RadMenuItem8, Me.RadMenuItem9})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Export"
-        Me.RadMenuItem2.AccessibleName = "Export"
         Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem4, Me.mbtnExportApTransaction, Me.rmiExportDrNote})
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Export"
@@ -2213,65 +2209,47 @@ Partial Class FrmRecurringPayableInvoice
         '
         'rmiExportDrNote
         '
-        Me.rmiExportDrNote.AccessibleDescription = "Export [Debit Note]"
-        Me.rmiExportDrNote.AccessibleName = "Export [Debit Note]"
         Me.rmiExportDrNote.Name = "rmiExportDrNote"
         Me.rmiExportDrNote.Text = "Export [Debit Note]"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Import"
-        Me.RadMenuItem3.AccessibleName = "Import"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem5, Me.RadMenuItem6, Me.RadMenuItem7, Me.mbtnImportApTransaction, Me.rmiImportDrNote})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Import"
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "Opening Balance"
-        Me.RadMenuItem5.AccessibleName = "Opening Balance"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Opening Balance"
         '
         'RadMenuItem6
         '
-        Me.RadMenuItem6.AccessibleDescription = "Credit Note"
-        Me.RadMenuItem6.AccessibleName = "Credit Note"
         Me.RadMenuItem6.Name = "RadMenuItem6"
         Me.RadMenuItem6.Text = "Credit Note"
         '
         'RadMenuItem7
         '
-        Me.RadMenuItem7.AccessibleDescription = "Debit Note"
-        Me.RadMenuItem7.AccessibleName = "Debit Note"
         Me.RadMenuItem7.Name = "RadMenuItem7"
         Me.RadMenuItem7.Text = "Debit Note"
         '
         'mbtnImportApTransaction
         '
-        Me.mbtnImportApTransaction.AccessibleDescription = "AP Transactions"
-        Me.mbtnImportApTransaction.AccessibleName = "AP Transactions"
         Me.mbtnImportApTransaction.Name = "mbtnImportApTransaction"
         Me.mbtnImportApTransaction.Text = "AP Transactions"
         '
         'rmiImportDrNote
         '
-        Me.rmiImportDrNote.AccessibleDescription = "Import [Debit Note]"
-        Me.rmiImportDrNote.AccessibleName = "Import [Debit Note]"
         Me.rmiImportDrNote.Name = "rmiImportDrNote"
         Me.rmiImportDrNote.Text = "Import [Debit Note]"
         '
         'RadMenuItem8
         '
-        Me.RadMenuItem8.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem8.AccessibleName = "Save Layout"
         Me.RadMenuItem8.Name = "RadMenuItem8"
         Me.RadMenuItem8.Text = "Save Layout"
         '
         'RadMenuItem9
         '
-        Me.RadMenuItem9.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem9.AccessibleName = "Delete Layout"
         Me.RadMenuItem9.Name = "RadMenuItem9"
         Me.RadMenuItem9.Text = "Delete Layout"
         '
