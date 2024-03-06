@@ -6626,6 +6626,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptEmployeeAdvanceLedger
                         frm = New rptEmployeeAdvanceLedger
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptLoanStatement
+                        frm = New rptLoanstatement
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmEmployeeGratuity
                         frm = New FrmEmployeeGratuity
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
