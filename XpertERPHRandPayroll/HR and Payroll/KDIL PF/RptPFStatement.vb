@@ -111,7 +111,29 @@ Public Class RptPFStatement
         If chkTransPF.Checked = True Then
             Qry += " and TSPL_EMPLOYEE_MASTER.Transfer_PF=1 "
         Else
-            Qry += " and  TSPL_EMPLOYEE_MASTER.Transfer_PF=0 "
+            Qry += " and  TSPL_EMPLOYEE_MASTER.Transfer_PF<>1 "
+        End If
+        If chkTransPF.Checked = False Then
+            Qry += "  union 
+            (select TSPL_EMPLOYEE_MASTER.UANNo,TSPL_DEVISION_MASTER.DEVISION_CODE ,TSPL_DEVISION_MASTER.DEVISION_NAME ,TSPL_LOCATION_MASTER .Location_Code ,TSPL_EMPLOYEE_MASTER.EMP_CODE, Emp_Name,convert(varchar,TSPL_EMPLOYEE_MASTER.Joining_date,103) as Joining_date,TSPL_EMPLOYEE_MASTER.PF_NO ,TSPL_LOCATION_MASTER.PF_NO as Comp_PF_NO,
+
+            (case when coalesce(TSPL_EPF_ENTRY_DETAIL.MAX_EPF_AMT,0)>0 then (ACTUAL_AMOUNT-(TSPL_EPF_ENTRY_DETAIL.COEPS_AC10+TSPL_EPF_ENTRY_DETAIL.COEPF_AC01)) else 0 end) as VPF,
+            (case when coalesce(TSPL_EPF_ENTRY_DETAIL.MAX_EPF_AMT,0)<=0 then TSPL_EPF_ENTRY_DETAIL.ACTUAL_AMOUNT else (TSPL_EPF_ENTRY_DETAIL.COEPS_AC10+TSPL_EPF_ENTRY_DETAIL.COEPF_AC01) end) as ACTUAL_AMOUNT,
+            ROUND(TSPL_EPF_ENTRY_DETAIL.HeadValue,0)AS HEAD_VALUE,
+            TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.City_Code ,'" & fndFromPeriod.Value & "' AS FROM_PAY_PERIOD , 
+            round((case when TSPL_EPF_ENTRY_DETAIL.COEPS_AC10<0 then 0 else TSPL_EPF_ENTRY_DETAIL.COEPS_AC10 end),0)   as pension_fund, 
+
+            TSPL_EPF_ENTRY_DETAIL.COEPF_AC01 as COEPF_PER,	
+            TSPL_EPF_ENTRY_DETAIL.Adm_EPF_ACEPF_AC02 as ACCOEPF_PER, TSPL_EPF_ENTRY_DETAIL.EDLI_COM_AC21 as COEDLI_PER, 
+            TSPL_EPF_ENTRY_DETAIL.EDLI_COM_AC21 as ACCOEDLI_PER, TSPL_LOCATION_MASTER.Location_Desc, '" & LocAddress & "' as Address from
+            TSPL_EPF_ENTRY_DETAIL
+            LEFT OUTER JOIN TSPL_EPF_ENTRY ON TSPL_EPF_ENTRY.DOC_Code=TSPL_EPF_ENTRY_DETAIL.DOC_CODE
+            INNER JOIN TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_CODE=TSPL_EPF_ENTRY_DETAIL.EMP_CODE
+            left join TSPL_DEVISION_MASTER on TSPL_DEVISION_MASTER.DEVISION_CODE =TSPL_EMPLOYEE_MASTER.DEVISION_CODE   
+            left join TSPL_COMPANY_MASTER on TSPL_EMPLOYEE_MASTER.Comp_Code =  TSPL_COMPANY_MASTER.Comp_Code   
+            left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_EMPLOYEE_MASTER.Location_Code 
+            left join TSPL_STATE_MASTER on TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State
+            WHERE  TSPL_EPF_ENTRY.Status=1 AND  TSPL_EPF_ENTRY.PAY_PERIOD_CODE='" & fndFromPeriod.Value & "'  and TSPL_EMPLOYEE_MASTER.Transfer_PF<>1 )"
         End If
         Qry += " )as d)as m)as ll"
         Qry += " order by PF_NO "

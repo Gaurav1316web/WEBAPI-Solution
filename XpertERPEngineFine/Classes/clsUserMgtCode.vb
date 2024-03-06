@@ -1436,6 +1436,7 @@ Public Class clsUserMgtCode
     Public Const frmConveyanceClaim As String = "Conv-Claim"
     Public Const frmPayrollSetting As String = "PAY-SETT"
     Public Const FrmEmployeeTransfer As String = "EMP-TRAN"
+    Public Const frmEPFund As String = "EMP-EPF"
     Public Const FrmEmpIncrement As String = "EMP-INCR"
     Public Const FrmSentSalarySlip As String = "SENT_SAL"
     Public Const FrmAllotmentOfLeaves As String = "ALLOT_LEAV"
