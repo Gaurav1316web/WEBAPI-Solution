@@ -23,15 +23,14 @@ Partial Class DairySaleDashboard
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim CartesianArea5 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim CartesianArea1 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim CartesianArea2 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim CartesianArea3 As Telerik.WinControls.UI.CartesianArea = New Telerik.WinControls.UI.CartesianArea()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadLabel15 = New common.Controls.MyLabel()
         Me.txtLocation = New common.UserControls.txtFinder()
@@ -362,7 +361,8 @@ Partial Class DairySaleDashboard
         '
         Me.gvSales.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSales.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSales.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvSales.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvSales.MyStopExport = False
         Me.gvSales.Name = "gvSales"
         Me.gvSales.ShowHeaderCellButtons = True
         Me.gvSales.Size = New System.Drawing.Size(531, 413)
@@ -405,7 +405,7 @@ Partial Class DairySaleDashboard
         '
         'cvSaleitem
         '
-        Me.cvSaleitem.AreaDesign = CartesianArea5
+        Me.cvSaleitem.AreaDesign = CartesianArea1
         Me.cvSaleitem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.cvSaleitem.Location = New System.Drawing.Point(0, 20)
         Me.cvSaleitem.Name = "cvSaleitem"
@@ -428,7 +428,7 @@ Partial Class DairySaleDashboard
         '
         'cvSaleitemWise
         '
-        Me.cvSaleitemWise.AreaDesign = CartesianArea1
+        Me.cvSaleitemWise.AreaType = Telerik.WinControls.UI.ChartAreaType.Pie
         Me.cvSaleitemWise.Dock = System.Windows.Forms.DockStyle.Fill
         Me.cvSaleitemWise.Location = New System.Drawing.Point(0, 20)
         Me.cvSaleitemWise.Name = "cvSaleitemWise"
@@ -488,7 +488,8 @@ Partial Class DairySaleDashboard
         '
         Me.gvFinishGoods.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFinishGoods.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvFinishGoods.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvFinishGoods.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvFinishGoods.MyStopExport = False
         Me.gvFinishGoods.Name = "gvFinishGoods"
         Me.gvFinishGoods.ShowHeaderCellButtons = True
         Me.gvFinishGoods.Size = New System.Drawing.Size(1140, 251)
@@ -564,7 +565,8 @@ Partial Class DairySaleDashboard
         '
         Me.gvProdution.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProdution.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProdution.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvProdution.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvProdution.MyStopExport = False
         Me.gvProdution.Name = "gvProdution"
         Me.gvProdution.ShowHeaderCellButtons = True
         Me.gvProdution.Size = New System.Drawing.Size(1136, 251)
@@ -635,7 +637,8 @@ Partial Class DairySaleDashboard
         '
         Me.gvAccountVendor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAccountVendor.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAccountVendor.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvAccountVendor.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvAccountVendor.MyStopExport = False
         Me.gvAccountVendor.Name = "gvAccountVendor"
         Me.gvAccountVendor.ShowHeaderCellButtons = True
         Me.gvAccountVendor.Size = New System.Drawing.Size(574, 413)
@@ -666,7 +669,8 @@ Partial Class DairySaleDashboard
         '
         Me.gvAccountCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAccountCustomer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAccountCustomer.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvAccountCustomer.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvAccountCustomer.MyStopExport = False
         Me.gvAccountCustomer.Name = "gvAccountCustomer"
         Me.gvAccountCustomer.ShowHeaderCellButtons = True
         Me.gvAccountCustomer.Size = New System.Drawing.Size(562, 413)
