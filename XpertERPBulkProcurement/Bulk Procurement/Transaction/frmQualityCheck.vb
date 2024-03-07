@@ -931,11 +931,12 @@ Public Class FrmQualityCheck
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         ' done by priti UDL/15/06/18-000188
         If MyBase.isModifyFlag OrElse MyBase.isPostFlag Then
             btnSendForApproval.Visible = True

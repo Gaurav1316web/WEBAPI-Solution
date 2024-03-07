@@ -75,11 +75,12 @@ Public Class frmPurchaseRequistion
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnUnpost.Enabled = True
-        Else
-            btnUnpost.Enabled = False
-        End If
+        btnUnpost.Visible = False
+        'If MyBase.isReverse Then
+        '    btnUnpost.Enabled = True
+        'Else
+        '    btnUnpost.Enabled = False
+        'End If
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
