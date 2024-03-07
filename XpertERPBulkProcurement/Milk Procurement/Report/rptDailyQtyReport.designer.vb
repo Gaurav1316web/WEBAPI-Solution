@@ -22,7 +22,7 @@ Partial Class rptDailyQtyReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -75,6 +75,7 @@ Partial Class rptDailyQtyReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnBMCTankerCollection = New System.Windows.Forms.RadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -303,6 +304,7 @@ Partial Class rptDailyQtyReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnBMCTankerCollection)
         Me.RadGroupBox1.Controls.Add(Me.rdbMultiple)
         Me.RadGroupBox1.Controls.Add(Me.rdbCollectionWise)
         Me.RadGroupBox1.Controls.Add(Me.rbtnBmcSummary)
@@ -743,7 +745,7 @@ Partial Class rptDailyQtyReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -810,6 +812,16 @@ Partial Class rptDailyQtyReport
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
+        '
+        'rbtnBMCTankerCollection
+        '
+        Me.rbtnBMCTankerCollection.AutoSize = True
+        Me.rbtnBMCTankerCollection.Location = New System.Drawing.Point(293, 37)
+        Me.rbtnBMCTankerCollection.Name = "rbtnBMCTankerCollection"
+        Me.rbtnBMCTankerCollection.Size = New System.Drawing.Size(141, 17)
+        Me.rbtnBMCTankerCollection.TabIndex = 455
+        Me.rbtnBMCTankerCollection.Text = "BMC/Tanker Collection"
+        Me.rbtnBMCTankerCollection.UseVisualStyleBackColor = True
         '
         'rptDailyQtyReport
         '
@@ -925,5 +937,6 @@ Partial Class rptDailyQtyReport
     Friend WithEvents rbtnBmcSummary As RadioButton
     Friend WithEvents rdbMultiple As RadioButton
     Friend WithEvents rdbCollectionWise As RadioButton
+    Friend WithEvents rbtnBMCTankerCollection As RadioButton
 End Class
 
