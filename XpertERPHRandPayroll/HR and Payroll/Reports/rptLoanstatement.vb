@@ -1,10 +1,22 @@
 ﻿Imports common
 Imports XpertERPEngine
 Imports Telerik.WinControls.UI
+Imports System.IO
 Public Class rptLoanstatement
     Inherits FrmMainTranScreen
+    Dim ButtonToolTip As ToolTip = New ToolTip()
     Private Sub rptLoanstatement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
+        SetUserMgmtNew()
+        ButtonToolTip.SetToolTip(btnexport, "Press Alt+E for Export To Excel")
+    End Sub
+    Private Sub SetUserMgmtNew()
+        ''MyBase.SetUserMgmt(clsUserMgtCode.rptBalanceSheet)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        '' Anubhooti(2-July-2014) Added Export Permission Against BM00000003016 ''''''''
+        ''updated by preeti gupta ticket no [BM00000007733]
+        btnprint.Visible = MyBase.isPrintFlag
     End Sub
 
     Private Sub findPayperiod__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles findPayperiod._MYValidating
@@ -60,9 +72,10 @@ Public Class rptLoanstatement
                 Exit Sub
             End If
             If clsCommon.myLen(fndBankCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "please select Bank Code")
+                clsCommon.MyMessageBoxShow(Me, "Please select Bank Code")
+                Exit Sub
             End If
-            qry = "SELECT row_number() over(order by(select 1)) as SNo, LA.EMP_CODE,EMP.EMP_NAME,EMP.FATHERS_NAME,emp.Designation,LA.LOAN_CODE,LA.LOAN_DATE,LA.EMI_NO,LA.EMI_AMOUNT, COALESCE(ADJ.ADJUSTMENT_PLUS,0) AS ADJUSTMENT_PLUS,COALESCE(ADJ.ADJUSTMENT_MINUS,0) AS ADJUSTMENT_MINUS  ,(LA.EMI_AMOUNT+COALESCE(ADJ.ADJUSTMENT_PLUS,0)-COALESCE(ADJ.ADJUSTMENT_MINUS,0)) AS NET_EMI FROM (  select T1.EMP_CODE,T1.LOAN_CODE,T1.LOAN_DATE,MIN(T2.EMI_NO) AS EMI_NO,T2.EMI_AMOUNT  from TSPL_LOAN_APPLICATION T1 JOIN TSPL_LOANEMI_DETAIL T2 ON T1.LOAN_CODE=T2.LOAN_CODE  LEFT JOIN (SELECT TT1.LOAN_GENERATION_CODE,TT2.LOAN_CODE,TT2.EMP_CODE,TT2.EMI_NO  FROM TSPL_LOAN_GENERATION TT1 JOIN TSPL_LOANGENERATION_DETAIL TT2  ON TT1.LOAN_GENERATION_CODE=TT2.LOAN_GENERATION_CODE WHERE TT1.PAY_PERIOD_CODE!='" + findPayperiod.Value + "') AS T3  ON T2.LOAN_CODE=T3.LOAN_CODE AND T2.EMI_NO=T3.EMI_NO WHERE T3.EMI_NO IS NULL and T1.PAID=1 and T1.POSTED =1 and t1.LOAN_DATE <=(select convert(date,DATE_TO,103) from TSPL_PAYPERIOD_MASTER where PAy_Period_Code='" + findPayperiod.Value + "')   GROUP BY T1.LOAN_CODE,T1.LOAN_DATE,T1.EMP_CODE,T2.EMI_AMOUNT) AS LA  LEFT JOIN (select  ADJ.EMP_CODE,ADJ.LOAN_CODE,SUM(ADJ.ADJUSTMENT_PLUS) AS ADJUSTMENT_PLUS, SUM(ADJ.ADJUSTMENT_MINUS) AS ADJUSTMENT_MINUS  from TSPL_LOAN_ADJUSTMENT ADJ WHERE ADJ.PAY_PERIOD_CODE='" + findPayperiod.Value + "' AND GENERATED=0  GROUP BY ADJ.EMP_CODE,ADJ.LOAN_CODE) ADJ ON LA.EMP_CODE=ADJ.EMP_CODE AND LA.LOAN_CODE=ADJ.LOAN_CODE  
+            qry = "SELECT row_number() over(order by(select 1)) as SNo, LA.EMP_CODE,EMP.EMP_NAME,EMP.FATHERS_NAME,emp.Designation, COALESCE(ADJ.ADJUSTMENT_PLUS,0) AS ADJUSTMENT_PLUS,COALESCE(ADJ.ADJUSTMENT_MINUS,0) AS ADJUSTMENT_MINUS,LA.EMI_AMOUNT  ,(LA.EMI_AMOUNT+COALESCE(ADJ.ADJUSTMENT_PLUS,0)-COALESCE(ADJ.ADJUSTMENT_MINUS,0)) AS NET_EMI FROM (  select T1.EMP_CODE,T1.LOAN_CODE,T1.LOAN_DATE,MIN(T2.EMI_NO) AS EMI_NO,T2.EMI_AMOUNT  from TSPL_LOAN_APPLICATION T1 JOIN TSPL_LOANEMI_DETAIL T2 ON T1.LOAN_CODE=T2.LOAN_CODE  LEFT JOIN (SELECT TT1.LOAN_GENERATION_CODE,TT2.LOAN_CODE,TT2.EMP_CODE,TT2.EMI_NO  FROM TSPL_LOAN_GENERATION TT1 JOIN TSPL_LOANGENERATION_DETAIL TT2  ON TT1.LOAN_GENERATION_CODE=TT2.LOAN_GENERATION_CODE WHERE TT1.PAY_PERIOD_CODE!='" + findPayperiod.Value + "') AS T3  ON T2.LOAN_CODE=T3.LOAN_CODE AND T2.EMI_NO=T3.EMI_NO WHERE T3.EMI_NO IS NULL and T1.PAID=1 and T1.POSTED =1 and t1.LOAN_DATE <=(select convert(date,DATE_TO,103) from TSPL_PAYPERIOD_MASTER where PAy_Period_Code='" + findPayperiod.Value + "')   GROUP BY T1.LOAN_CODE,T1.LOAN_DATE,T1.EMP_CODE,T2.EMI_AMOUNT) AS LA  LEFT JOIN (select  ADJ.EMP_CODE,ADJ.LOAN_CODE,SUM(ADJ.ADJUSTMENT_PLUS) AS ADJUSTMENT_PLUS, SUM(ADJ.ADJUSTMENT_MINUS) AS ADJUSTMENT_MINUS  from TSPL_LOAN_ADJUSTMENT ADJ WHERE ADJ.PAY_PERIOD_CODE='" + findPayperiod.Value + "' AND GENERATED=0  GROUP BY ADJ.EMP_CODE,ADJ.LOAN_CODE) ADJ ON LA.EMP_CODE=ADJ.EMP_CODE AND LA.LOAN_CODE=ADJ.LOAN_CODE  
                         LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON LA.EMP_CODE=EMP.EMP_CODE  
                         left join tspl_location_master on tspl_location_master.Location_Code =EMP.LOCATION_CODE left join TSPL_DEVISION_MASTER on TSPL_DEVISION_MASTER.DEVISION_CODE =emp.DEVISION_CODE  where 2=2  and emp.LOCATION_CODE ='" + fndLocation.Value + "' ORDER BY  LA.EMP_CODE,LA.LOAN_CODE "
             dt = clsDBFuncationality.GetDataTable(qry)
@@ -160,4 +173,25 @@ Public Class rptLoanstatement
         gv1.MasterTemplate.AutoExpandGroups = True
     End Sub
 
+    Private Sub btnprint_Click(sender As Object, e As EventArgs) Handles btnprint.Click
+        Print()
+    End Sub
+    Sub Print()
+        If clsCommon.myLen(findPayperiod.Value) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "Select Pay Period Code")
+        End If
+        If clsCommon.myLen(fndLocation.Value) <= 0 Then
+            clsCommon.MyMessageBoxShow(Me, "Select Location")
+        End If
+        Dim qry As String = "SELECT upper(format(convert(date,PAYMENT_STARTDATE ,103), 'MMMM yyyy'))as Date1, row_number() over(order by(select 1)) as SNo,LA.EMP_CODE,EMP.EMP_NAME,EMP.FATHERS_NAME,tspl_location_master.Location_Desc,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,tspl_location_master.Add1,emp.Designation,LA.bank_code,TSPL_Vendor_Bank_master.Bank_Name,LA.LOAN_CODE,LA.LOAN_DATE,LA.EMI_NO,LA.EMI_AMOUNT, COALESCE(ADJ.ADJUSTMENT_PLUS,0) AS ADJUSTMENT_PLUS,COALESCE(ADJ.ADJUSTMENT_MINUS,0) AS ADJUSTMENT_MINUS  ,(LA.EMI_AMOUNT+COALESCE(ADJ.ADJUSTMENT_PLUS,0)-COALESCE(ADJ.ADJUSTMENT_MINUS,0)) AS NET_EMI FROM (  select T1.EMP_CODE,T1.LOAN_CODE,T1.LOAN_DATE,MIN(T2.EMI_NO) AS EMI_NO,T2.EMI_AMOUNT,t1.bank_code,T1.PAYMENT_STARTDATE   from TSPL_LOAN_APPLICATION T1 JOIN TSPL_LOANEMI_DETAIL T2 ON T1.LOAN_CODE=T2.LOAN_CODE  LEFT JOIN (SELECT TT1.LOAN_GENERATION_CODE,TT2.LOAN_CODE,TT2.EMP_CODE,TT2.EMI_NO FROM TSPL_LOAN_GENERATION TT1 JOIN TSPL_LOANGENERATION_DETAIL TT2  ON TT1.LOAN_GENERATION_CODE=TT2.LOAN_GENERATION_CODE WHERE TT1.PAY_PERIOD_CODE!='" + findPayperiod.Value + "') AS T3  ON T2.LOAN_CODE=T3.LOAN_CODE AND T2.EMI_NO=T3.EMI_NO WHERE T3.EMI_NO IS NULL and T1.PAID=1 and T1.POSTED =1 and t1.LOAN_DATE <=(select convert(date,DATE_TO,103) from TSPL_PAYPERIOD_MASTER where PAy_Period_Code='" + findPayperiod.Value + "')   GROUP BY T1.LOAN_CODE,T1.LOAN_DATE,T1.EMP_CODE,T2.EMI_AMOUNT,t1.bank_code,T1.PAYMENT_STARTDATE) AS LA  LEFT JOIN (select  ADJ.EMP_CODE,ADJ.LOAN_CODE,SUM(ADJ.ADJUSTMENT_PLUS) AS ADJUSTMENT_PLUS, SUM(ADJ.ADJUSTMENT_MINUS) AS ADJUSTMENT_MINUS  from TSPL_LOAN_ADJUSTMENT ADJ WHERE ADJ.PAY_PERIOD_CODE='" + findPayperiod.Value + "' AND GENERATED=0  GROUP BY ADJ.EMP_CODE,ADJ.LOAN_CODE) ADJ ON LA.EMP_CODE=ADJ.EMP_CODE AND LA.LOAN_CODE=ADJ.LOAN_CODE  
+LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON LA.EMP_CODE=EMP.EMP_CODE  
+left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=EMP.Comp_Code
+left join tspl_location_master on tspl_location_master.Location_Code =EMP.LOCATION_CODE
+inner join TSPL_Vendor_Bank_master on TSPL_Vendor_Bank_master.Bank_Code=la.Bank_code
+left join TSPL_DEVISION_MASTER on TSPL_DEVISION_MASTER.DEVISION_CODE =emp.DEVISION_CODE  where 2=2  and emp.LOCATION_CODE ='" + fndLocation.Value + "' ORDER BY  LA.EMP_CODE,LA.LOAN_CODE "
+        Dim dtgv As New DataTable
+        dtgv = clsDBFuncationality.GetDataTable(qry)
+        Dim frmcrystal As New frmCrystalReportViewer()
+        frmcrystal.funreport(CrystalReportFolder.HRPayroll, dtgv, "Rptloanstatement", "Loan Statement Report")
+    End Sub
 End Class

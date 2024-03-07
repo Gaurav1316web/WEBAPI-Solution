@@ -13,6 +13,7 @@ Public Class frmLoanGeneration
     Const coladjustPlus As String = "adjustPlus"
     Const coladjustMinus As String = "adjusTMinus"
     Const colnetEmiAmount As String = "netemiAmt"
+    Const colBankCode As String = "bankcode"
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim isNewEntry As Boolean = True
     Dim obj As New clsLoanGeneration
@@ -24,6 +25,7 @@ Public Class frmLoanGeneration
         Dim empCode As New GridViewTextBoxColumn
         Dim empName As New GridViewTextBoxColumn
         Dim loanCode As New GridViewTextBoxColumn
+        Dim bankCode As New GridViewTextBoxColumn
         Dim emiNo As New GridViewTextBoxColumn
         Dim payPeriodCode As New GridViewTextBoxColumn
         Dim emiAmount As New GridViewDecimalColumn
@@ -56,6 +58,14 @@ Public Class frmLoanGeneration
         loanCode.ReadOnly = True
         loanCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvLoanGeneration.Columns.Add(loanCode)
+
+        bankCode.FormatString = ""
+        bankCode.HeaderText = "Bank Code"
+        bankCode.Name = "bankCode"
+        bankCode.Width = 100
+        bankCode.ReadOnly = True
+        bankCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvLoanGeneration.Columns.Add(bankCode)
 
         payPeriodCode.FormatString = ""
         payPeriodCode.HeaderText = "Pay Period Code"
@@ -483,16 +493,16 @@ Public Class frmLoanGeneration
     Sub Generate_Loan()
         '=========UpDate by preeti Gupta Against ticket no[ERO/06/02/19-000487]
         Dim strq As String
-        strq = "SELECT LA.EMP_CODE,EMP.EMP_NAME,LA.LOAN_CODE,LA.LOAN_DATE,LA.EMI_NO,LA.EMI_AMOUNT," _
+        strq = "SELECT LA.EMP_CODE,EMP.EMP_NAME,LA.Bank_code,LA.LOAN_CODE,LA.bank_code,LA.LOAN_DATE,LA.EMI_NO,LA.EMI_AMOUNT," _
             & " COALESCE(ADJ.ADJUSTMENT_PLUS,0) AS ADJUSTMENT_PLUS,COALESCE(ADJ.ADJUSTMENT_MINUS,0) AS ADJUSTMENT_MINUS " _
             & " ,(LA.EMI_AMOUNT+COALESCE(ADJ.ADJUSTMENT_PLUS,0)-COALESCE(ADJ.ADJUSTMENT_MINUS,0)) AS NET_EMI FROM ( " _
-            & " select T1.EMP_CODE,T1.LOAN_CODE,T1.LOAN_DATE,MIN(T2.EMI_NO) AS EMI_NO,T2.EMI_AMOUNT " _
+            & " select T1.EMP_CODE,T1.LOAN_CODE,T1.LOAN_DATE,MIN(T2.EMI_NO) AS EMI_NO,T2.EMI_AMOUNT,T1.bank_code " _
             & " from TSPL_LOAN_APPLICATION T1 JOIN TSPL_LOANEMI_DETAIL T2 ON T1.LOAN_CODE=T2.LOAN_CODE " _
             & " LEFT JOIN (SELECT TT1.LOAN_GENERATION_CODE,TT2.LOAN_CODE,TT2.EMP_CODE,TT2.EMI_NO " _
             & " FROM TSPL_LOAN_GENERATION TT1 JOIN TSPL_LOANGENERATION_DETAIL TT2 " _
             & " ON TT1.LOAN_GENERATION_CODE=TT2.LOAN_GENERATION_CODE WHERE TT1.PAY_PERIOD_CODE!='" & clsCommon.myCstr(Me.findPayperiod.Value) & "') AS T3 " _
             & " ON T2.LOAN_CODE=T3.LOAN_CODE AND T2.EMI_NO=T3.EMI_NO WHERE T3.EMI_NO IS NULL and T1.PAID=1 and T1.POSTED =1 and t1.LOAN_DATE <=(select convert(date,DATE_TO,103) from TSPL_PAYPERIOD_MASTER where PAy_Period_Code='" & clsCommon.myCstr(Me.findPayperiod.Value) & "')  " _
-            & " GROUP BY T1.LOAN_CODE,T1.LOAN_DATE,T1.EMP_CODE,T2.EMI_AMOUNT) AS LA " _
+            & " GROUP BY T1.LOAN_CODE,T1.LOAN_DATE,T1.EMP_CODE,T2.EMI_AMOUNT,T1.bank_code) AS LA " _
             & " LEFT JOIN (select  ADJ.EMP_CODE,ADJ.LOAN_CODE,SUM(ADJ.ADJUSTMENT_PLUS) AS ADJUSTMENT_PLUS," _
             & " SUM(ADJ.ADJUSTMENT_MINUS) AS ADJUSTMENT_MINUS " _
             & " from TSPL_LOAN_ADJUSTMENT ADJ WHERE ADJ.PAY_PERIOD_CODE='" & clsCommon.myCstr(Me.findPayperiod.Value) & "' AND GENERATED=0 " _
@@ -522,7 +532,7 @@ Public Class frmLoanGeneration
             gvLoanGeneration.Rows(intLoop).Cells(coladjustPlus).Value = dt_loan.Rows(intLoop).Item("ADJUSTMENT_PLUS")
             gvLoanGeneration.Rows(intLoop).Cells(coladjustMinus).Value = dt_loan.Rows(intLoop).Item("ADJUSTMENT_MINUS")
             gvLoanGeneration.Rows(intLoop).Cells(colnetEmiAmount).Value = dt_loan.Rows(intLoop).Item("NET_EMI")
-
+            gvLoanGeneration.Rows(intLoop).Cells(colBankCode).Value = dt_loan.Rows(intLoop).Item("Bank_code")
 
         Next
     End Sub

@@ -87,7 +87,7 @@ Public Class clsLoanGeneration
             strCode = obj.LOAN_GENERATION_CODE
         End If
 
-        qry = "select TAV.LOAN_GENERATION_CODE,TAV.GENERATED_BY,EMP.EMP_NAME AS GENERATE_BY_NAME,TAVD.EMP_CODE,EMP1.EMP_NAME ,TAVD.LOAN_CODE,TAVD.EMI_NO,TAVD.EMI_AMOUNT," _
+        qry = "select TAV.LOAN_GENERATION_CODE,TAV.GENERATED_BY,EMP.EMP_NAME AS GENERATE_BY_NAME,TAVD.EMP_CODE,EMP1.EMP_NAME ,TAVD.LOAN_CODE,TAVD.Bank_code,TAVD.EMI_NO,TAVD.EMI_AMOUNT," _
              & " TAVD.ADJUSTMENT_PLUS,TAVD.ADJUSTMENT_MINUS,TAVD.NET_EMI,EMP.EMP_NAME,TAVD.PAY_PERIOD_CODE FROM TSPL_LOANGENERATION_DETAIL TAVD " _
              & " INNER JOIN  TSPL_LOAN_GENERATION TAV ON TAVD.LOAN_GENERATION_CODE=TAV.LOAN_GENERATION_CODE " _
              & " INNER JOIN TSPL_EMPLOYEE_MASTER EMP ON TAV.GENERATED_BY=EMP.EMP_CODE " _
@@ -113,6 +113,7 @@ Public Class clsLoanGeneration
                 objtr.ADJUSTMENT_MINUS = clsCommon.myCdbl(dr("ADJUSTMENT_MINUS"))
                 objtr.NET_EMI = clsCommon.myCdbl(dr("NET_EMI"))
                 objtr.PAY_PERIOD_CODE = clsCommon.myCstr(dr("PAY_PERIOD_CODE"))
+                '    objtr.Bank_CODE = clsCommon.myCstr(dr("Bank_code"))
                 ObjList.Add(objtr)
             Next
         End If
@@ -206,6 +207,7 @@ Public Class clsLoanGenerationDetail
     Public EMP_CODE As String
     Public EMP_NAME As String
     Public LOAN_CODE As String
+    ' Public Bank_CODE As String
     Public EMI_No As Integer
     Public EMI_AMOUNT As Decimal
     Public PAY_PERIOD_CODE As String
@@ -222,6 +224,7 @@ Public Class clsLoanGenerationDetail
                 clsCommon.AddColumnsForChange(coll, "LOAN_GENERATION_CODE", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "EMP_CODE", obj.EMP_CODE)
                 clsCommon.AddColumnsForChange(coll, "LOAN_CODE", obj.LOAN_CODE)
+                ' clsCommon.AddColumnsForChange(coll, "Bank_CODE", obj.Bank_CODE)
                 clsCommon.AddColumnsForChange(coll, "PAY_PERIOD_CODE", obj.PAY_PERIOD_CODE)
                 clsCommon.AddColumnsForChange(coll, "EMI_No", obj.EMI_No)
                 clsCommon.AddColumnsForChange(coll, "EMI_AMOUNT", obj.EMI_AMOUNT)

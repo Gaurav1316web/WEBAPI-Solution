@@ -15569,6 +15569,7 @@ Public Class clsCreateAllTable
             coll.Add("Payment_EndDate", "DATE  NULL ")
             coll.Add("Gross_Salary", "INTEGER  NULL ")
             coll.Add("Loan_Status", "VARCHAR(10)  NULL ")
+            coll.Add("Bank_code", "VARCHAR(30)  NULL ")
             '====
             coll.Add("POSTED", "BIT NOT NULL")
             coll.Add("Posting_Date", "Datetime NULL")
@@ -15625,6 +15626,7 @@ Public Class clsCreateAllTable
             coll.Add("ADJUSTMENT_PLUS", "NUMERIC(12,2) NOT NULL ")
             coll.Add("ADJUSTMENT_MINUS", "NUMERIC(12,2) NOT NULL ")
             coll.Add("NET_EMI", "NUMERIC(12,2) NOT NULL ")
+            coll.Add("Bank_code", "varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_LOANGENERATION_DETAIL", coll, Nothing, False, False)
 
 

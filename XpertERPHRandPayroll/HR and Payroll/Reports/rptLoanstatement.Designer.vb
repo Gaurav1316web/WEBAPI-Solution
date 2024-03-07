@@ -42,6 +42,7 @@ Partial Class rptLoanstatement
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnprint = New Telerik.WinControls.UI.RadButton()
         Me.btngo = New Telerik.WinControls.UI.RadButton()
+        Me.btnexport = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -62,6 +63,7 @@ Partial Class rptLoanstatement
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnexport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -78,6 +80,7 @@ Partial Class rptLoanstatement
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnexport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnprint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btngo)
@@ -327,7 +330,18 @@ Partial Class rptLoanstatement
         Me.btngo.Name = "btngo"
         Me.btngo.Size = New System.Drawing.Size(77, 21)
         Me.btngo.TabIndex = 340
-        Me.btngo.Text = "<<<"
+        Me.btngo.Text = ">>>"
+        '
+        'btnexport
+        '
+        Me.btnexport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnexport.ImageScalingSize = New System.Drawing.Size(68, 14)
+        Me.btnexport.Location = New System.Drawing.Point(179, 3)
+        Me.btnexport.Name = "btnexport"
+        Me.btnexport.Size = New System.Drawing.Size(77, 21)
+        Me.btnexport.TabIndex = 343
+        Me.btnexport.Text = "Export"
+        Me.btnexport.Visible = False
         '
         'rptLoanstatement
         '
@@ -362,6 +376,7 @@ Partial Class rptLoanstatement
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnexport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -385,4 +400,5 @@ Partial Class rptLoanstatement
     Friend WithEvents lblPayPeriodName As common.Controls.MyLabel
     Friend WithEvents btnclose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnprint As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnexport As Telerik.WinControls.UI.RadButton
 End Class
