@@ -199,11 +199,13 @@ Public Class frmEmployee_Salary
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
         'RadMenu2.Visible = MyBase.isExport
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         If MyBase.isExport = True Then
             MenuItemImport.Enabled = True
             MenuItemExport.Enabled = True

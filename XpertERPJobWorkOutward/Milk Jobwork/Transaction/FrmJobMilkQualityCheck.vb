@@ -539,11 +539,13 @@ Public Class FrmJobMilkQualityCheck
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
     End Sub
     Sub LoadGateEntryData(ByVal strGateEntryNo As String)
         Dim isFoundQc As String = String.Empty

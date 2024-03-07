@@ -193,11 +193,13 @@ Public Class frmDemandBooking
             btnExport.Enabled = False
             btnImport.Enabled = False
         End If
-        If MyBase.isReverse Then
-            btnreverse.Enabled = True
-        Else
-            btnreverse.Enabled = False
-        End If
+        btnreverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
     End Sub
     Function FillMorningEvening() As DataTable
         Dim qry As String = String.Empty

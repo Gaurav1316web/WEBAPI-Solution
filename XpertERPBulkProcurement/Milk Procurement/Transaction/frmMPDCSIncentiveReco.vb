@@ -821,11 +821,12 @@ select  '" + strICode + "' as Item,TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code,Qty,ca
         btndelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
         RadButton3.Visible = MyBase.isExport
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
     End Sub
     Sub Reset()
         loadBlankGrid()

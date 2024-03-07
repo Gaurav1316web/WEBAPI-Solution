@@ -15570,6 +15570,7 @@ Public Class clsCreateAllTable
             coll.Add("Payment_EndDate", "DATE  NULL ")
             coll.Add("Gross_Salary", "INTEGER  NULL ")
             coll.Add("Loan_Status", "VARCHAR(10)  NULL ")
+            coll.Add("Bank_code", "VARCHAR(30)  NULL ")
             '====
             coll.Add("POSTED", "BIT NOT NULL")
             coll.Add("Posting_Date", "Datetime NULL")
@@ -15626,6 +15627,7 @@ Public Class clsCreateAllTable
             coll.Add("ADJUSTMENT_PLUS", "NUMERIC(12,2) NOT NULL ")
             coll.Add("ADJUSTMENT_MINUS", "NUMERIC(12,2) NOT NULL ")
             coll.Add("NET_EMI", "NUMERIC(12,2) NOT NULL ")
+            coll.Add("Bank_code", "varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_LOANGENERATION_DETAIL", coll, Nothing, False, False)
 
 
@@ -54130,7 +54132,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll = New Dictionary(Of String, String)()
             coll.Add("Item_Code", "varchar(30) Not NULL Primary Key")
             coll.Add("Item_Name", "varchar(50) Not NULL")
-            coll.Add("Group_Code", "varchar(50) NULL references TSPL_MIS_ITEM_GROUP_MASTER(Code)")
+            coll.Add("Group_Code", "varchar(30) NULL references TSPL_MIS_ITEM_GROUP_MASTER(Code)")
             coll.Add("Item_UOM", "varchar(12) NULL")
             coll.Add("SNO", "integer NUll")
             coll.Add("Created_By", "varchar(12)  Not NULL references TSPL_USER_MASTER(User_Code)")

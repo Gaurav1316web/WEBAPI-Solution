@@ -226,7 +226,6 @@
     <Compile Include="Common\clsClaimDetails.vb" />
     <Compile Include="Common\clsClientFormLableDetails.vb" />
     <Compile Include="Common\clsCompanyMaster.vb" />
-    <Compile Include="Common\ClsCostCenter.vb" />
     <Compile Include="Common\clsCountryMaster.vb" />
     <Compile Include="Common\clsCrptFooterSetting.vb" />
     <Compile Include="Common\clsCurrencyConversion.vb" />
@@ -452,6 +451,7 @@
     <Compile Include="Payable\clsPaymentProcess.vb" />
     <Compile Include="Payable\clsSavingMaster.vb" />
     <Compile Include="Payable\clsSectionAllowanceMaster.vb" />
+    <Compile Include="Payroll\clsApplyLoan.vb" />
     <Compile Include="Payroll\clsBiometricAttendance.vb" />
     <Compile Include="Payroll\clsIncomeTaxTDSCalculation.vb" />
     <Compile Include="Payroll\clsIncomeTaxTDSSlab.vb" />
@@ -815,7 +815,6 @@
     <Compile Include="Payable\clsPaymentProcessFarmer.vb" />
     <Compile Include="Payable\clsProvisionEntry.vb" />
     <Compile Include="Payable\clsVedorInvoiceHead.vb" />
-    <Compile Include="Payroll\clsApplyLoan.vb" />
     <Compile Include="Payroll\clsBonus.vb" />
     <Compile Include="Payroll\clsBonusMaster.vb" />
     <Compile Include="Payroll\clsCastCategoryMaster.vb" />

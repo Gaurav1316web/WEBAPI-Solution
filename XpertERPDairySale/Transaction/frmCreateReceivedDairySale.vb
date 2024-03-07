@@ -86,11 +86,13 @@ Public Class frmCreateReceivedDairySale
             rmExport.Enabled = False
             rmImport.Enabled = False
         End If
-        If MyBase.isReverse Then
-            btnDeleteInvoiceafterPost.Enabled = True
-        Else
-            btnDeleteInvoiceafterPost.Enabled = False
-        End If
+        btnDeleteInvoiceafterPost.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnDeleteInvoiceafterPost.Enabled = True
+        'Else
+        '    btnDeleteInvoiceafterPost.Enabled = False
+        'End If
 
     End Sub
     Sub LoadTypes()

@@ -18,11 +18,12 @@ Public Class frmMilkJobWorkTransferReturn
             Throw New Exception("Permission Denied")
         End If
         btnSave.Visible = MyBase.isModifyFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        btnReverse.Visible = False
 
     End Sub
 
