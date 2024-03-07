@@ -54126,7 +54126,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll = New Dictionary(Of String, String)()
             coll.Add("Item_Code", "varchar(30) Not NULL Primary Key")
             coll.Add("Item_Name", "varchar(50) Not NULL")
-            coll.Add("Group_Code", "varchar(30) NOT NULL references TSPL_MIS_ITEM_GROUP_MASTER(Code)")
+            coll.Add("Group_Code", "varchar(30) NULL references TSPL_MIS_ITEM_GROUP_MASTER(Code)")
             coll.Add("Item_UOM", "varchar(12) NULL")
             coll.Add("SNO", "integer NUll")
             coll.Add("Created_By", "varchar(12)  Not NULL references TSPL_USER_MASTER(User_Code)")
