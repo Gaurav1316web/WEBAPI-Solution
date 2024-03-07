@@ -10,6 +10,7 @@ Public Class rptVSPMilkNotSold
     Dim PickAllMCC As Boolean = False
     Dim strQry As String = ""
     Dim isLoad As Boolean = False
+    Dim AreaWiseBilling As Boolean = False
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -43,6 +44,9 @@ Public Class rptVSPMilkNotSold
         End If
         dtpToDate.Value = clsCommon.GETSERVERDATE()
         dtpFromDate.Value = dtpToDate.Value.AddMonths(-1)
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 0)
+        fndArea.Visible = AreaWiseBilling
+        lblArea.Visible = AreaWiseBilling
         isLoad = False
     End Sub
     Sub Reset()
@@ -54,6 +58,7 @@ Public Class rptVSPMilkNotSold
         If clsCommon.myLen(TxtMCCMultifnd.arrValueMember) > 0 Then
             TxtMCCMultifnd.arrValueMember.Clear()
         End If
+        fndArea.Value = ""
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
@@ -97,6 +102,8 @@ Public Class rptVSPMilkNotSold
             Dim DedCode As String = Nothing
             Dim tDedAmt As String = Nothing
             Dim dtDedName As DataTable = Nothing
+            Dim Area As String = Nothing
+            Area = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_NAME from TSPL_MCC_MASTER WHERE Area_Location_Code = '" + fndArea.Value + "' "))
             If chkDeduction.Checked Then
                 If txtMultiDeduction.arrValueMember.Count > 0 Then
                     dedQry = "Select Code,Description from TSPL_DEDUCTION_MASTER where 2=2 "
@@ -144,14 +151,21 @@ Public Class rptVSPMilkNotSold
                     qry += ")Tab1
                          PIVOT(SUM(Amount) FOR Deduction_Desc IN (" + DedName1 + ")) AS Tab2 )ClosedDCS
 					    Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=ClosedDCS.Vendor_Code
+                        left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
 					    Where ClosedDCS.Vendor_Code Not In(Select VSP_Code from TSPL_MILK_SRN_HEAD where Doc_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And Doc_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "') "
+
                     If PickAllMCC Then
-                        If clsCommon.myLen(TxtMCCMultifnd.arrValueMember)>0 Then
+                        If clsCommon.myLen(TxtMCCMultifnd.arrValueMember) > 0 Then
                             qry += " and  TSPL_VLC_MASTER_HEAD.MCC in ( " + clsCommon.GetMulcallString(TxtMCCMultifnd.arrValueMember) + ")"
                         End If
                     Else
-                        qry +="  And TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC.Text) + "'"
-
+                        If AreaWiseBilling Then
+                            If clsCommon.myLen(fndArea.Value) > 0 Then
+                                qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                            End If
+                        Else
+                            qry += "  And TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC.Text) + "'"
+                        End If
                     End If
 
                     qry += " Group By TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,Vendor_Name
@@ -159,16 +173,27 @@ Public Class rptVSPMilkNotSold
 					    Order  By Cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As int) Asc"
                 End If
             Else
-                qry = "select TSPL_VLC_MASTER_HEAD.VSP_Code as [VSP Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_VLC_MASTER_HEAD.MCC ,TSPL_Location_MASTER.Location_Desc as [MCC Name] ,TSPL_Location_MASTER.Loc_Segment_Code as [SegmentCode],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code],  '" + dtpFromDate.Text + "' as PaymentCycleFrom, '" + dtpToDate.Text + "' PaymentCycleTo  from TSPL_VLC_MASTER_HEAD 
+                qry = "select TSPL_VLC_MASTER_HEAD.VSP_Code as [VSP Code] ,TSPL_VENDOR_MASTER.Vendor_Name as [VSP Name],TSPL_VLC_MASTER_HEAD.MCC ,TSPL_Location_MASTER.Location_Desc as [MCC Name] ,'" + Area + "' as Area ,TSPL_Location_MASTER.Loc_Segment_Code as [SegmentCode],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code],  '" + dtpFromDate.Text + "' as PaymentCycleFrom, '" + dtpToDate.Text + "' PaymentCycleTo  from TSPL_VLC_MASTER_HEAD 
                     left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_VLC_MASTER_HEAD.VSP_Code
                     left outer join TSPL_Location_MASTER on TSPL_Location_MASTER.Location_Code = TSPL_VLC_MASTER_HEAD.MCC and TSPL_Location_MASTER.Rejected_Type='N' and TSPL_Location_MASTER.Location_Category='MCC'
+                    left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
                     where 1=1 "
+                'If clsCommon.myLen(fndArea.Value) > 0 Then
+                '    qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                'End If
                 If PickAllMCC Then
                     If clsCommon.myLen(TxtMCCMultifnd.arrValueMember) > 0 Then
                         qry += " and  TSPL_VLC_MASTER_HEAD.MCC in ( " + clsCommon.GetMulcallString(TxtMCCMultifnd.arrValueMember) + ") "
                     End If
                 Else
-                    qry += " and TSPL_VLC_MASTER_HEAD.MCC ='" + clsCommon.myCstr(txtMCC.Text) + "'"
+                    If AreaWiseBilling Then
+                        If clsCommon.myLen(fndArea.Value) > 0 Then
+                            qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                        End If
+                    Else
+                        qry += "  And TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC.Text) + "'"
+                    End If
+                    ' qry += " and TSPL_VLC_MASTER_HEAD.MCC ='" + clsCommon.myCstr(txtMCC.Text) + "'"
                 End If
                 qry += "  and TSPL_VLC_MASTER_HEAD.Active =1 and Loc_Segment_Code = '" + fndLoc.Value + "' and TSPL_VLC_MASTER_HEAD.VSP_Code not in (
                     select TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE from TSPL_PAYMENT_PROCESS_DETAIL left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No where convert (date, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) >= convert (date, '" + dtpFromDate.Value + "',103) and convert (date, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) <= convert (date, '" + dtpToDate.Value + "',103) and TSPL_PAYMENT_PROCESS_HEAD.Loc_Seg_Code = '" + fndLoc.Value + "')"
@@ -513,6 +538,21 @@ Public Class rptVSPMilkNotSold
         Try
             Dim qry As String = " select Location_Code as [Code],Location_Desc as [Description],Loc_Segment_Code as [LocationSegmentCode],Add1,Add2,Add3,Add4,City_Code as [City Code],State,Pin_Code as [Pin Code],Country,Hoadd1,hoadd2,Telphone,Email,Location_Type as [Location Type],Loc_Status as [Location Status],Status_Date as [Status Date],Excisable,Type,Purchase_Tax_Group as [Purchase Tax Group],Sales_Tax_Group as [Sales Tax Group],Ecc_Number as [ECC Number],Registration_Number as [Registration Number],Commissionerate as [Commission Rate],Range_Code as [Range Code],Range_Name as [Range Name],Range_Address as [Range Address],Division_Code as [Division Code],Division_Name as [Division Name],Division_Address as [Division Address],Created_By as [Created By],Created_Date as [Created Date],Modify_By as [Modify By],Modify_Date as [Modify Date],Comp_code as [Company Code],TIN_No as [TIN No],TAN_No as [TAN No],TCAN_No as [TCAN No],Service_Tax_Reg_No as [Service Tax Registration No],DutyPaid as [Duty Paid],Purchase_Tax_GroupIS as [Purchase Tax Group Inter State],Sales_Tax_GroupIS as [Sales Tax Group Inter State],Stock_Transfer_Filled_Ac as [Stock Transfer Filled Account],Stock_Transfer_Empty_Ac as [Stock Transfer Empty Account],GIT_Location as [GIT Location],GIT_Type as [GIT Type],Rejected_Type as [Rejected Type],Rejected_Location as [Rejected Location],CSA_Type as [CSA Type],Cust_Code as [Cust Code],CST_No as [CST No],Phone1,Phone2,stock_transfer_ac as [Stock Tranfer A/C],Loss_Ac as [Loss A/C]  from TSPL_Location_MASTER where Rejected_Type='N' and Location_Category='MCC' "
             TxtMCCMultifnd.arrValueMember = clsCommon.ShowMultipleSelectForm("VSPMCCMulSelect", qry, "Code", "Description", TxtMCCMultifnd.arrValueMember, TxtMCCMultifnd.arrDispalyMember)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub fndArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Reset()
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER "
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+
+            fndLoc.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_Segment_Code from TSPL_LOCATION_MASTER where Location_Code ='" + fndArea.Value + "' "))
+            txtLocName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Description  from TSPL_GL_SEGMENT_CODE WHERE  Segment_code='" & fndLoc.Value & "' "))
+            txtMCC.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_Code from tspl_mcc_master where mcc_Code='" + fndArea.Value + "'"))
+            lblMCC.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_Name from tspl_mcc_master where mcc_Code='" + fndArea.Value + "'"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

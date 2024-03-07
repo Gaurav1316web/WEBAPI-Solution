@@ -15,6 +15,7 @@ Public Class rptDBTMilkPayment
     Dim arrLoc As String = Nothing
     Dim FORMTYPE As String = Nothing
     Dim atchqry As String = ""
+    Dim AreaWiseBilling As Boolean = False
 
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.rptItemConsumptionReport)
@@ -28,7 +29,12 @@ Public Class rptDBTMilkPayment
 
     Private Sub txtMCC__My_Click(sender As Object, e As EventArgs) Handles txtMCC._My_Click
         Try
-            Dim qry As String = "select MCC_Code as [MCC Code],MCC_NAME as [MCC Name],TSPL_MCC_MASTER.plant_code as [Plant Code],tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code"
+            Dim qry As String = "select MCC_Code as [MCC Code],MCC_NAME as [MCC Name],TSPL_MCC_MASTER.plant_code as [Plant Code],
+                                 tspl_location_master.location_desc as [Plant Name] from TSPL_MCC_MASTER
+                                 left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.plant_code"
+            If fndArea.Value IsNot Nothing AndAlso fndArea.Value.Count > 0 Then
+                qry += " and TSPL_MCC_MASTER.Area_Location_Code ='" + clsCommon.myCstr(fndArea.Value) + "' "
+            End If
             txtMCC.arrValueMember = clsCommon.ShowMultipleSelectForm("@TSDSR1", qry, "MCC Code", "MCC Name", txtMCC.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -58,6 +64,7 @@ Public Class rptDBTMilkPayment
         gv.DataSource = Nothing
         txtMCC.arrValueMember = Nothing
         txtDCS.arrValueMember = Nothing
+        fndArea.Value = Nothing
     End Sub
 
     Private Function GetReportID() As String
@@ -78,6 +85,7 @@ Public Class rptDBTMilkPayment
         Dim whr As String = ""
         Dim whrclsRecpt As String = Nothing
         Dim whrclsRjt As String = Nothing
+        Dim whre As String = Nothing
 
         Try
             If txtMCC.arrValueMember.Count > 1 Then
@@ -96,6 +104,10 @@ Public Class rptDBTMilkPayment
         Catch
             MCCName = ",'' AS MCCName"
         End Try
+        If clsCommon.myLen(fndArea.Value) > 0 Then
+            whre += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+        End If
+
         Dim IncentiveRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
 
 
@@ -103,16 +115,16 @@ Public Class rptDBTMilkPayment
                          select xx.*  from ( 
                         select max(pp.[MCC Name] )  as [MCC Name],max([VLC Name]) as [VLC Name],max(pp.[Vlc Uploader Code]) AS VLC_Code_VLC_Uploader,sum([Milk Weight(KG)] ) as [Milk Weight(KG)],sum([Milk Weight(LTR)] ) as [Milk Weight(LTR)],
                          sum([SRN Qty]) as [SRN Qty],sum([SRN Amount]) as [SRN Amount], max(Incetive_Rate) as Incetive_Rate,
-                         max(Conversion_Factor) as Conversion_Factor,MAX(Comp_Name) AS Comp_Name  from (
+                         max(Conversion_Factor) as Conversion_Factor,MAX(Comp_Name) AS Comp_Name,max(Area_Location_Code)AreaCode,max(AreaName)AreaName   from (
  
                         Select final.[Milk Receipt Code]  ,final.[MCC Name] ,final.[Vlc Uploader Code]  ,final.[VLC Name] ,final.Item_Code,final.Item_Desc,
                         final.UOM_Code as [UOM],final.[Milk Weight(KG)], final.[Milk Weight(LTR)]  as [Milk Weight(LTR)],final.[SRN Amount],
-                        final.[SRN Qty],final.Incetive_Rate,final.Conversion_Factor,FINAL.Comp_Name From
+                        final.[SRN Qty],final.Incetive_Rate,final.Conversion_Factor,FINAL.Comp_Name,final.Area_Location_Code,final.MCC_NAME as AreaName  From
 
                         ( Select  TSPL_MP_INCENTIVE1.Incetive_Rate,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MILK_RECEIPT_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MCC_MASTER.MCC_NAME As [MCC Name],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO As [Sample No],  TSPL_MILK_RECEIPT_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_RECEIPT_DETAIL.MILK_WEIGHT As [Milk Weight],TSPL_MILK_RECEIPT_DETAIL.UOM_Code, TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT As [Milk Weight(KG)], TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR As [Milk Weight(LTR)], TSPL_MILK_SAMPLE_DETAIL.FAT As [FAT(%)], TSPL_MILK_SAMPLE_DETAIL.SNF As [SNF(%)], TSPL_MILK_SAMPLE_DETAIL.CLR,   TSPL_MILK_SRN_DETAIL.FAT_kg As [FAT(KG)], TSPL_MILK_SRN_DETAIL.SNF_kg As [SNF(KG)], Case When TSPL_MILK_SAMPLE_DETAIL.IS_MANUAL = '' Then 'Auto' Else TSPL_MILK_SAMPLE_DETAIL.IS_MANUAL End As [Sample Status], TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.AMOUNT) As [SRN Amount], TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate], TSPL_MILK_SRN_DETAIL.Qty As [SRN Qty], Case When TSPL_MILK_Shift_End_HEAD.DOC_CODE Is Null Then 'Open' Else 'Close' End [Shift Status],TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as Invoice_no, convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as Invoice_Date , tspl_milk_receipt_detail.IS_MANUAL , tspl_milk_receipt_detail.MACHINE_NO,(CASE WHEN TSPL_MILK_SAMPLE_DETAIL.IS_MANUAL='Auto' THEN 'N' ELSE 'Y' END) AS IS_MILK_SAMPLE_MANUAL,TSPL_MILK_SRN_HEAD.Purchase_Order_No,TSPL_MILK_SRN_DETAIL.Head_Load_Amount ,'' as RejectType,'' as RejectReason,'' as Defaulter   ,TSPL_MILK_PRICE_SNF_DEDUCTION.Amount as SNF_Ded_Value,cast((TSPL_MILK_PRICE_SNF_DEDUCTION.Amount+TSPL_MILK_SRN_DETAIL.RATE) as decimal(18,2)) as SNF_Ded_Rate,cast((TSPL_MILK_PRICE_SNF_DEDUCTION.Amount+TSPL_MILK_SRN_DETAIL.RATE)*TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2)) as SNF_Ded_Amount 
                          ,TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code,[Transporter Code], [Transporter Name],isnull(TSPL_MILK_PURCHASE_INVOICE_DETAIL.Handling_Charges_Amount,0) as Handling_Charges_Amount,
                         (isnull(TSPL_MILK_SRN_DETAIL.VSP_Commission_Apply,0)*TSPL_MILK_SRN_DETAIL.VSP_Commission_Amount)  as VSP_Commission_Amount,(isnull(TSPL_MILK_SRN_DETAIL.VSP_Deduction_Apply,0)*TSPL_MILK_SRN_DETAIL.VSP_Deduction_Amount)  as VSP_Deduction_Amount,TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive ,case when isnull( TSPL_MILK_SRN_DETAIL.Sub_Standard,0)=1 then 'Sub Standard' else '' end as SubStandard,TSPL_Primary_Vehicle_Master.Vehicle,
-                        TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Mcc_Uploader_Code] ,TSPL_COMPANY_MASTER.Comp_Name 
+                        TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Mcc_Uploader_Code] ,TSPL_COMPANY_MASTER.Comp_Name,TSPL_MCC_MASTER.Area_Location_Code,TSPL_MCC_MASTER.MCC_NAME 
                          From TSPL_MILK_RECEIPT_DETAIL 
                          Left Outer Join TSPL_MILK_RECEIPT_HEAD On TSPL_MILK_RECEIPT_HEAD.DOC_CODE = TSPL_MILK_RECEIPT_DETAIL.DOC_CODE
                          LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_RECEIPT_HEAD.Comp_Code
@@ -141,13 +153,13 @@ Public Class rptDBTMilkPayment
                          left outer join  TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code= TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code group by VLC_Code) as TSPL_MP_INCENTIVE1 on TSPL_MP_INCENTIVE1.VLC_Code=TSPL_MILK_RECEIPT_DETAIL.VLC_CODE 
                          where 2 = 2  and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >='" + clsCommon.GetPrintDate(txtFromDate.Text, "dd/MMM/yyyy") + "'  
                          and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as date) <='" + clsCommon.GetPrintDate(txtToDate.Text, "dd/MMM/yyyy") + "'   
-                         " + whrclsRecpt + "  
+                         " + whrclsRecpt + " " + whre + "  
                           Union All 
                           Select TSPL_MP_INCENTIVE1.Incetive_Rate,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MILK_REJECT_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MCC_MASTER.MCC_NAME As [MCC Name],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_REJECT_DETAIL.SAMPLE_NO As [Sample No],  TSPL_MILK_REJECT_DETAIL.NO_OF_CANS As [No Of Cans], TSPL_MILK_REJECT_DETAIL.MILK_WEIGHT As [Milk Weight],TSPL_MILK_REJECT_DETAIL.UOM_Code, TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG As [Milk Weight(KG)], TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_LTR As [Milk Weight(LTR)], TSPL_MILK_REJECT_DETAIL.FAT As [FAT(%)], TSPL_MILK_REJECT_DETAIL.SNF As [SNF(%)],0 as CLR, Convert(decimal(18,3), TSPL_MILK_REJECT_DETAIL.FAT * TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG / 100) As [FAT(KG)],  Convert(decimal(18,3),TSPL_MILK_REJECT_DETAIL.SNF * TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG / 100) As [SNF(KG)], '' As [Sample Status],  TSPL_MILK_SRN_HEAD.DOC_CODE As [SRN No], Convert(decimal(18,2),TSPL_MILK_SRN_DETAIL.AMOUNT) As [SRN Amount], TSPL_MILK_SRN_DETAIL.RATE As [SRN Rate],  TSPL_MILK_SRN_DETAIL.Qty As [SRN Qty], Case When TSPL_MILK_Shift_End_HEAD.DOC_CODE Is Null Then 'Open' Else 'Close' End [Shift Status],  TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as Invoice_no, convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103) as Invoice_Date ,  '' as IS_MANUAL ,'' as MACHINE_NO ,'' as IS_MILK_SAMPLE_MANUAL,TSPL_MILK_SRN_HEAD.Purchase_Order_No,TSPL_MILK_SRN_DETAIL.Head_Load_Amount,TSPL_MILK_REJECT_TYPE.Code as RejectType,  case when TSPL_MILK_REJECT_DETAIL.Is_Return=0 then '' when TSPL_MILK_REJECT_DETAIL.Is_Return=1 then 'Return' when TSPL_MILK_REJECT_DETAIL.Is_Return=2 then 'Drain' when TSPL_MILK_REJECT_DETAIL.Is_Return=3 then 'COB'  end as RejectReason,TSPL_MILK_REJECT_DETAIL.Defaulter  
                          ,TSPL_MILK_PRICE_SNF_DEDUCTION.Amount as SNF_Ded_Value,cast((TSPL_MILK_PRICE_SNF_DEDUCTION.Amount+TSPL_MILK_SRN_DETAIL.RATE) as decimal(18,2)) as SNF_Ded_Rate,cast((TSPL_MILK_PRICE_SNF_DEDUCTION.Amount+TSPL_MILK_SRN_DETAIL.RATE)*TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2)) as SNF_Ded_Amount 
                          ,TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code,[Transporter Code], [Transporter Name],isnull(TSPL_MILK_PURCHASE_INVOICE_DETAIL.Handling_Charges_Amount,0) as Handling_Charges_Amount 
                          ,(isnull(TSPL_MILK_SRN_DETAIL.VSP_Commission_Apply,0)*TSPL_MILK_SRN_DETAIL.VSP_Commission_Amount)  as VSP_Commission_Amount ,(isnull(TSPL_MILK_SRN_DETAIL.VSP_Deduction_Apply,0)*TSPL_MILK_SRN_DETAIL.VSP_Deduction_Amount)  as VSP_Deduction_Amount,TSPL_MILK_SRN_DETAIL.VSP_Day_Wise_Incentive,case when isnull( TSPL_MILK_SRN_DETAIL.Sub_Standard,0)=1 then 'Sub Standard' else '' end as SubStandard,t1.Vehicle,
-                         TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Mcc_Uploader_Code] ,TSPL_COMPANY_MASTER.Comp_Name
+                         TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader as [Mcc_Uploader_Code] ,TSPL_COMPANY_MASTER.Comp_Name,TSPL_MCC_MASTER.Area_Location_Code,TSPL_MCC_MASTER.MCC_NAME
                          From   TSPL_MILK_REJECT_DETAIL 
                          Left Outer Join TSPL_MILK_REJECT_HEAD On TSPL_MILK_REJECT_HEAD.DOC_CODE = TSPL_MILK_REJECT_DETAIL.DOC_CODE 
                          LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_MILK_REJECT_HEAD.Comp_Code
@@ -171,7 +183,7 @@ Public Class rptDBTMilkPayment
                          left outer join  TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code= TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code  group by VLC_Code) as TSPL_MP_INCENTIVE1 on TSPL_MP_INCENTIVE1.VLC_Code=TSPL_MILK_REJECT_DETAIL.VLC_CODE
                          where 2=2   and TSPL_MILK_REJECT_HEAD.DOC_DATE >='" + clsCommon.GetPrintDate(txtFromDate.Text, "dd/MMM/yyyy") + "' 
                          and TSPL_MILK_REJECT_HEAD.DOC_DATE <='" + clsCommon.GetPrintDate(txtToDate.Text, "dd/MMM/yyyy") + "' 
-                         " + whrclsRjt + " ) As final where 2=2 
+                         " + whrclsRjt + " " + whre + ") As final where 2=2 
                          ) as  pp group by pp.[Vlc Uploader Code])as xx ) as xxx ) as aa
                          order by convert(int, aa.[VLC_Code_VLC_Uploader]) asc   "
 
@@ -181,7 +193,7 @@ Public Class rptDBTMilkPayment
     Private Sub Load_DBT_Report()
         Try
             Dim IncentiveRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
-            atchqry = "select aa.[MCC Name],aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[VLC Name],
+            atchqry = "select aa.[MCC Name],aa.AreaCode,aa.AreaName,aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[VLC Name],
                         aa.[SRN Qty],(aa.[SRN Qty]/aa.Conversion_Factor) as[SRN QtyLtr],
                         (Round((aa.[SRN Qty]/aa.Conversion_Factor),2)* " + clsCommon.myCstr(IncentiveRate) + ") as [DBT Amount],
                          aa.Incetive_Rate,aa.Conversion_Factor from ( " + GetAttachQry() + " "
@@ -204,7 +216,7 @@ Public Class rptDBTMilkPayment
                 ReStoreGridLayout()
                 'ReStoreGridLayout()
             Else
-                clsCommon.MyMessageBoxShow(Me, "No data found to display.", "Sales Report", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No data found to display.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -238,6 +250,10 @@ Public Class rptDBTMilkPayment
             gv.Columns(ii).ReadOnly = True
             gv.Columns(ii).IsVisible = False
         Next
+
+        gv.Columns("AreaName").Width = 100
+        gv.Columns("AreaName").IsVisible = True
+        gv.Columns("AreaName").HeaderText = "Area Name"
 
         gv.Columns("MCC Name").Width = 100
         gv.Columns("MCC Name").IsVisible = True
@@ -279,6 +295,9 @@ Public Class rptDBTMilkPayment
     End Sub
 
     Private Sub rptDBTMilkReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 0)
+        fndArea.Visible = AreaWiseBilling
+        lblArea.Visible = AreaWiseBilling
         txtToDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
         txtFromDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
     End Sub
@@ -289,6 +308,7 @@ Public Class rptDBTMilkPayment
             Dim whr As String = ""
             Dim whrclsRecpt As String = Nothing
             Dim whrclsRjt As String = Nothing
+            Dim whre As String = Nothing
             Try
                 If txtMCC.arrValueMember.Count > 1 Then
                     MCCName = ",'' AS MCCName"
@@ -306,8 +326,13 @@ Public Class rptDBTMilkPayment
             Catch
                 MCCName = ",'' AS MCCName"
             End Try
+
+            If clsCommon.myLen(fndArea.Value) > 0 Then
+                whre += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+            End If
+
             Dim IncentiveRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
-            atchqry = " select ROW_NUMBER() OVER (ORDER BY CONVERT(INT, aa.[VLC_Code_VLC_Uploader]) ASC) AS Sno " + MCCName + ",aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[VLC Name] as VLCName,
+            atchqry = " select ROW_NUMBER() OVER (ORDER BY CONVERT(INT, aa.[VLC_Code_VLC_Uploader]) ASC) AS Sno " + MCCName + ",aa.AreaCode,aa.AreaName,aa.VLC_Code_VLC_Uploader as [VLC Uploader Code],aa.[VLC Name] as VLCName,
                         aa.[SRN Qty],(aa.[SRN Qty]/aa.Conversion_Factor) as[SRN QtyLtr],
                         ((aa.[SRN Qty]/aa.Conversion_Factor)* " + clsCommon.myCstr(IncentiveRate) + ") as [DBT Amount],
                         aa.Incetive_Rate,aa.Conversion_Factor,aa.Comp_Name,'" + txtFromDate.Value + "' As FromDate,'" + txtToDate.Value + "' As ToDate, '" + objCommonVar.CurrentUser + "' As User_Name
@@ -402,5 +427,12 @@ Public Class rptDBTMilkPayment
         End Try
     End Sub
 
-
+    Private Sub fndArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER "
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        End Try
+    End Sub
 End Class

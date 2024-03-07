@@ -22,7 +22,7 @@ Partial Class rptVSPMilkNotSold
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,13 +30,15 @@ Partial Class rptVSPMilkNotSold
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblArea = New common.Controls.MyLabel()
+        Me.fndArea = New common.UserControls.txtFinder()
+        Me.txtMCC = New common.Controls.MyTextBox()
+        Me.TxtMCCMultifnd = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtMultiDeduction = New common.UserControls.txtMultiSelectFinder()
         Me.chkDeduction = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtPaymentCycleCode = New common.UserControls.txtFinder()
         Me.MyLabel6 = New common.Controls.MyLabel()
-        Me.txtMCC = New common.Controls.MyTextBox()
-        Me.TxtMCCMultifnd = New common.UserControls.txtMultiSelectFinder()
         Me.lblMCC = New common.Controls.MyTextBox()
         Me.lblMCC2 = New common.Controls.MyLabel()
         Me.txtLocName = New common.Controls.MyTextBox()
@@ -62,10 +64,11 @@ Partial Class rptVSPMilkNotSold
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCC2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLocName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -148,6 +151,8 @@ Partial Class rptVSPMilkNotSold
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblArea)
+        Me.RadPageViewPage1.Controls.Add(Me.fndArea)
         Me.RadPageViewPage1.Controls.Add(Me.txtMCC)
         Me.RadPageViewPage1.Controls.Add(Me.TxtMCCMultifnd)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
@@ -166,6 +171,81 @@ Partial Class rptVSPMilkNotSold
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(671, 278)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'lblArea
+        '
+        Me.lblArea.FieldName = Nothing
+        Me.lblArea.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblArea.Location = New System.Drawing.Point(4, 17)
+        Me.lblArea.Name = "lblArea"
+        Me.lblArea.Size = New System.Drawing.Size(30, 16)
+        Me.lblArea.TabIndex = 1526
+        Me.lblArea.Text = "Area"
+        '
+        'fndArea
+        '
+        Me.fndArea.CalculationExpression = Nothing
+        Me.fndArea.FieldCode = Nothing
+        Me.fndArea.FieldDesc = Nothing
+        Me.fndArea.FieldMaxLength = 0
+        Me.fndArea.FieldName = Nothing
+        Me.fndArea.isCalculatedField = False
+        Me.fndArea.IsSourceFromTable = False
+        Me.fndArea.IsSourceFromValueList = False
+        Me.fndArea.IsUnique = False
+        Me.fndArea.Location = New System.Drawing.Point(65, 16)
+        Me.fndArea.MendatroryField = True
+        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndArea.MyLinkLable1 = Nothing
+        Me.fndArea.MyLinkLable2 = Nothing
+        Me.fndArea.MyReadOnly = False
+        Me.fndArea.MyShowMasterFormButton = False
+        Me.fndArea.Name = "fndArea"
+        Me.fndArea.ReferenceFieldDesc = Nothing
+        Me.fndArea.ReferenceFieldName = Nothing
+        Me.fndArea.ReferenceTableName = Nothing
+        Me.fndArea.Size = New System.Drawing.Size(284, 18)
+        Me.fndArea.TabIndex = 1525
+        Me.fndArea.Value = ""
+        '
+        'txtMCC
+        '
+        Me.txtMCC.BackColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(187, Byte), Integer), CType(CType(187, Byte), Integer))
+        Me.txtMCC.CalculationExpression = Nothing
+        Me.txtMCC.Enabled = False
+        Me.txtMCC.FieldCode = Nothing
+        Me.txtMCC.FieldDesc = Nothing
+        Me.txtMCC.FieldMaxLength = 0
+        Me.txtMCC.FieldName = Nothing
+        Me.txtMCC.isCalculatedField = False
+        Me.txtMCC.IsSourceFromTable = False
+        Me.txtMCC.IsSourceFromValueList = False
+        Me.txtMCC.IsUnique = False
+        Me.txtMCC.Location = New System.Drawing.Point(65, 60)
+        Me.txtMCC.MendatroryField = False
+        Me.txtMCC.MyLinkLable1 = Nothing
+        Me.txtMCC.MyLinkLable2 = Nothing
+        Me.txtMCC.Name = "txtMCC"
+        Me.txtMCC.ReferenceFieldDesc = Nothing
+        Me.txtMCC.ReferenceFieldName = Nothing
+        Me.txtMCC.ReferenceTableName = Nothing
+        Me.txtMCC.Size = New System.Drawing.Size(136, 20)
+        Me.txtMCC.TabIndex = 291
+        '
+        'TxtMCCMultifnd
+        '
+        Me.TxtMCCMultifnd.arrDispalyMember = Nothing
+        Me.TxtMCCMultifnd.arrValueMember = Nothing
+        Me.TxtMCCMultifnd.Location = New System.Drawing.Point(339, 161)
+        Me.TxtMCCMultifnd.Margin = New System.Windows.Forms.Padding(4)
+        Me.TxtMCCMultifnd.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMCCMultifnd.MyLinkLable1 = Nothing
+        Me.TxtMCCMultifnd.MyLinkLable2 = Nothing
+        Me.TxtMCCMultifnd.MyNullText = "All"
+        Me.TxtMCCMultifnd.Name = "TxtMCCMultifnd"
+        Me.TxtMCCMultifnd.Size = New System.Drawing.Size(220, 19)
+        Me.TxtMCCMultifnd.TabIndex = 1524
+        Me.TxtMCCMultifnd.Visible = False
         '
         'MyLabel3
         '
@@ -212,7 +292,7 @@ Partial Class rptVSPMilkNotSold
         Me.txtPaymentCycleCode.IsSourceFromTable = False
         Me.txtPaymentCycleCode.IsSourceFromValueList = False
         Me.txtPaymentCycleCode.IsUnique = False
-        Me.txtPaymentCycleCode.Location = New System.Drawing.Point(119, 64)
+        Me.txtPaymentCycleCode.Location = New System.Drawing.Point(119, 84)
         Me.txtPaymentCycleCode.MendatroryField = True
         Me.txtPaymentCycleCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtPaymentCycleCode.MyLinkLable1 = Nothing
@@ -231,50 +311,11 @@ Partial Class rptVSPMilkNotSold
         '
         Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel6.Location = New System.Drawing.Point(4, 65)
+        Me.MyLabel6.Location = New System.Drawing.Point(4, 85)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(106, 16)
         Me.MyLabel6.TabIndex = 402
         Me.MyLabel6.Text = "Pyment Cycle Code"
-        '
-        'txtMCC
-        '
-        Me.txtMCC.BackColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(187, Byte), Integer), CType(CType(187, Byte), Integer))
-        Me.txtMCC.CalculationExpression = Nothing
-        Me.txtMCC.Enabled = False
-        Me.txtMCC.FieldCode = Nothing
-        Me.txtMCC.FieldDesc = Nothing
-        Me.txtMCC.FieldMaxLength = 0
-        Me.txtMCC.FieldName = Nothing
-        Me.txtMCC.isCalculatedField = False
-        Me.txtMCC.IsSourceFromTable = False
-        Me.txtMCC.IsSourceFromValueList = False
-        Me.txtMCC.IsUnique = False
-        Me.txtMCC.Location = New System.Drawing.Point(65, 40)
-        Me.txtMCC.MendatroryField = False
-        Me.txtMCC.MyLinkLable1 = Nothing
-        Me.txtMCC.MyLinkLable2 = Nothing
-        Me.txtMCC.Name = "txtMCC"
-        Me.txtMCC.ReferenceFieldDesc = Nothing
-        Me.txtMCC.ReferenceFieldName = Nothing
-        Me.txtMCC.ReferenceTableName = Nothing
-        Me.txtMCC.Size = New System.Drawing.Size(136, 20)
-        Me.txtMCC.TabIndex = 291
-        '
-        'TxtMCCMultifnd
-        '
-        Me.TxtMCCMultifnd.arrDispalyMember = Nothing
-        Me.TxtMCCMultifnd.arrValueMember = Nothing
-        Me.TxtMCCMultifnd.Location = New System.Drawing.Point(265, 160)
-        Me.TxtMCCMultifnd.Margin = New System.Windows.Forms.Padding(4)
-        Me.TxtMCCMultifnd.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtMCCMultifnd.MyLinkLable1 = Nothing
-        Me.TxtMCCMultifnd.MyLinkLable2 = Nothing
-        Me.TxtMCCMultifnd.MyNullText = "All"
-        Me.TxtMCCMultifnd.Name = "TxtMCCMultifnd"
-        Me.TxtMCCMultifnd.Size = New System.Drawing.Size(220, 19)
-        Me.TxtMCCMultifnd.TabIndex = 1524
-        Me.TxtMCCMultifnd.Visible = False
         '
         'lblMCC
         '
@@ -289,7 +330,7 @@ Partial Class rptVSPMilkNotSold
         Me.lblMCC.IsSourceFromTable = False
         Me.lblMCC.IsSourceFromValueList = False
         Me.lblMCC.IsUnique = False
-        Me.lblMCC.Location = New System.Drawing.Point(202, 39)
+        Me.lblMCC.Location = New System.Drawing.Point(202, 59)
         Me.lblMCC.MendatroryField = False
         Me.lblMCC.MyLinkLable1 = Nothing
         Me.lblMCC.MyLinkLable2 = Nothing
@@ -304,7 +345,7 @@ Partial Class rptVSPMilkNotSold
         '
         Me.lblMCC2.FieldName = Nothing
         Me.lblMCC2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblMCC2.Location = New System.Drawing.Point(4, 41)
+        Me.lblMCC2.Location = New System.Drawing.Point(4, 61)
         Me.lblMCC2.Name = "lblMCC2"
         Me.lblMCC2.Size = New System.Drawing.Size(32, 16)
         Me.lblMCC2.TabIndex = 290
@@ -323,7 +364,7 @@ Partial Class rptVSPMilkNotSold
         Me.txtLocName.IsSourceFromTable = False
         Me.txtLocName.IsSourceFromValueList = False
         Me.txtLocName.IsUnique = False
-        Me.txtLocName.Location = New System.Drawing.Point(203, 17)
+        Me.txtLocName.Location = New System.Drawing.Point(203, 37)
         Me.txtLocName.MendatroryField = False
         Me.txtLocName.MyLinkLable1 = Nothing
         Me.txtLocName.MyLinkLable2 = Nothing
@@ -338,7 +379,7 @@ Partial Class rptVSPMilkNotSold
         '
         Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(4, 19)
+        Me.lblLocation.Location = New System.Drawing.Point(4, 39)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(49, 16)
         Me.lblLocation.TabIndex = 284
@@ -355,7 +396,7 @@ Partial Class rptVSPMilkNotSold
         Me.fndLoc.IsSourceFromTable = False
         Me.fndLoc.IsSourceFromValueList = False
         Me.fndLoc.IsUnique = False
-        Me.fndLoc.Location = New System.Drawing.Point(65, 18)
+        Me.fndLoc.Location = New System.Drawing.Point(65, 38)
         Me.fndLoc.MendatroryField = True
         Me.fndLoc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndLoc.MyLinkLable1 = Me.lblLocation
@@ -378,7 +419,7 @@ Partial Class rptVSPMilkNotSold
         Me.RadGroupBox3.Controls.Add(Me.dtpToDate)
         Me.RadGroupBox3.Controls.Add(Me.MyLabel2)
         Me.RadGroupBox3.HeaderText = "Payment Cycle"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(4, 93)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(4, 116)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(277, 50)
@@ -488,7 +529,8 @@ Partial Class rptVSPMilkNotSold
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -566,10 +608,11 @@ Partial Class rptVSPMilkNotSold
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtMCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDeduction, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtMCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCC2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLocName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -625,5 +668,7 @@ Partial Class rptVSPMilkNotSold
     Friend WithEvents txtMultiDeduction As common.UserControls.txtMultiSelectFinder
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents TxtMCCMultifnd As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents lblArea As common.Controls.MyLabel
+    Friend WithEvents fndArea As common.UserControls.txtFinder
 End Class
 
