@@ -171,6 +171,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         UcAttachment1.BlankAllControls()
         UcAttachment2.BlankAllControls()
         UcAttachment2.isDeleteTheAttachment = True
+        BtnBank.Enabled = False
     End Sub
 
     Private Function AllowToSave() As Boolean
@@ -187,6 +188,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 obj.To_Date = txtToDate.Value
                 obj.Remarks = txtRemarks.Text
                 obj.Zone_Code = txtZone.Value
+                obj.Bank_Letter_Date = txtBankLetterDate.Value
                 If gvItem.Rows.Count > 0 Then
                     obj.arr = New List(Of clsDBTNEFTDetail)
                     For Each grow As GridViewRowInfo In gvItem.Rows
@@ -274,6 +276,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         Dim obj As clsDBTNEFT = clsDBTNEFT.GetData(strCode, NavTyep)
         If obj IsNot Nothing Then
             DisableInputDataField()
+            'BtnBank.Enabled = True
             isNewEntry = False
             txtDocumentNo.Value = obj.Document_Code
             txtdate.Value = obj.Document_Date
@@ -285,7 +288,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
             lblZone.Text = ClsZoneMaster.GetName(obj.Zone_Code)
             txtMCC.arrValueMember = obj.arrMCC
             txtVLC.arrValueMember = obj.arrVLC
-
+            txtBankLetterDate.Value = obj.Bank_Letter_Date
             If obj.arr IsNot Nothing AndAlso obj.arr.Count > 0 Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetQry("TSPL_DBT_NEFT_DETAIL", False))
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -316,11 +319,13 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 btnPost.Enabled = False
                 btnNEFTUploader.Visible = True
                 UcAttachment2.isDeleteTheAttachment = False
+                BtnBank.Enabled = True
             Else
                 btnsave.Text = "Update"
                 btnsave.Enabled = True
                 btndelete.Enabled = True
                 btnPost.Enabled = True
+                BtnBank.Enabled = False
                 UcAttachment2.isDeleteTheAttachment = True
             End If
             UcAttachment1.LoadData(obj.Document_Code)
@@ -888,5 +893,34 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub BtnBank_Click(sender As Object, e As EventArgs) Handles BtnBank.Click
+        Try
+            Dim obj As New clsDBTNEFT()
+            Dim RCDF_Status As Decimal
+            obj.Bank_Letter_Date = txtBankLetterDate.Value
+            obj.Document_Code = txtDocumentNo.Value
+
+            RCDF_Status = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(" select isnull(RCDF_Status,0) FROM TSPL_DBT_NEFT WHERE Document_Code='" + txtDocumentNo.Value + "'"))
+            If RCDF_Status = 1 Then
+                clsCommon.MyMessageBoxShow(Me, "DBT NEFT updated by RCDF.", Me.Text)
+            Else
+
+                If obj.Bank_Letter_Date > clsCommon.GETSERVERDATE Then
+                    txtBankLetterDate.Focus()
+
+                    Throw New Exception("Bank Letter Date should be less than Server Date")
+                End If
+
+                If (clsDBTNEFT.SaveBankLetter(obj)) Then
+                    clsCommon.MyMessageBoxShow(Me, "Bank Letter Date Save Successfully.", Me.Text)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
 End Class
 

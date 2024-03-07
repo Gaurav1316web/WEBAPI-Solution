@@ -6,6 +6,7 @@ Public Class clsDBTNEFT
     Public Document_Date As Date
     Public From_Date As Date
     Public To_Date As Date
+    Public Bank_Letter_Date As Date
     Public Remarks As String = ""
     Public Zone_Code As String = ""
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
@@ -16,23 +17,19 @@ Public Class clsDBTNEFT
     Public arrVLC As ArrayList = Nothing
     Public arrMCC As ArrayList = Nothing
 #End Region
+
     Public Shared Function SaveData(ByVal obj As clsDBTNEFT, ByVal isNewEntry As Boolean) As Boolean
         Dim qry As String = ""
-
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-
-
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_DBT_NEFT.Document_Date,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code from TSPL_DBT_NEFT_DETAIL 
 left outer join TSPL_DBT_NEFT on TSPL_DBT_NEFT.Document_Code= TSPL_DBT_NEFT_DETAIL.Document_Code
 left outer join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.pk_id= TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
 left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code= TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
-
  where TSPL_DBT_NEFT_DETAIL.Document_Code ='" + obj.Document_Code + "'", trans)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.DBTNEFTUploader, clsCommon.myCstr(dt.Rows(0)("MCC_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
-
             End If
 
             qry = "delete from TSPL_DBT_NEFT_DETAIL where Document_Code='" & obj.Document_Code & "'"
@@ -42,6 +39,8 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "Bank_Letter_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
+
             clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
@@ -55,6 +54,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_NEFT", OMInsertOrUpdate.Insert, "", trans)
             Else
+
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_NEFT", OMInsertOrUpdate.Update, "TSPL_DBT_NEFT.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             clsDBTNEFTDetail.saveData(obj.arr, obj.Document_Code, trans)
@@ -67,6 +67,29 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
         End Try
         Return True
     End Function
+    Public Shared Function SaveBankLetter(ByVal obj As clsDBTNEFT) As Boolean
+        Dim trans As SqlTransaction = Nothing
+        If SaveBankLetter(obj, trans) Then
+            Return True
+        End If
+        Return True
+    End Function
+
+    Public Shared Function SaveBankLetter(ByVal obj As clsDBTNEFT, ByRef trans As SqlTransaction) As Boolean
+        trans = clsDBFuncationality.GetTransactin()
+        Try
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Bank_Letter_Date", clsCommon.GetPrintDate(obj.Bank_Letter_Date, "dd/MMM/yyyy hh:mm tt"))
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_NEFT", OMInsertOrUpdate.Update, "TSPL_DBT_NEFT.Document_Code='" + obj.Document_Code + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_NEFT", "Document_Code", "TSPL_DBT_NEFT_DETAIL", "Document_Code", "TSPL_DBT_NEFT_DETAIL_INVALID", "Document_Code", trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsDBTNEFT
         Return GetData(strCode, NavType, Nothing)
     End Function
@@ -92,6 +115,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             obj = New clsDBTNEFT()
             obj.Document_Code = clsCommon.myCstr(dt.Rows(0)("Document_Code"))
             obj.Document_Date = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
+            obj.Bank_Letter_Date = clsCommon.myCDate(dt.Rows(0)("Bank_Letter_Date"))
             obj.From_Date = clsCommon.myCDate(dt.Rows(0)("From_Date"))
             obj.To_Date = clsCommon.myCDate(dt.Rows(0)("To_Date"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
@@ -153,7 +177,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
         Dim str As String = ""
         Dim qry As String = "Select TSPL_DBT_NEFT.Document_Code as Code,Convert(varchar,TSPL_DBT_NEFT.Document_Date,103) as Date
           ,TSPL_DBT_NEFT.Remarks as [Remarks],Convert(varchar,TSPL_DBT_NEFT.From_Date,103) as [From Date],Convert(varchar,TSPL_DBT_NEFT.To_Date,103) as [To Date],Zone_code as Zone
-          ,case when isnull(Status,0)=0 then 'Pending' else 'Approved' end as Status 
+          ,case when isnull(Status,0)=0 then 'Pending' else 'Approved' end as Status,case when isnull(RCDF_Status,0)=0 then 'Pending' else 'Approved' end as [RCDF Status]
           from TSPL_DBT_NEFT "
         str = clsCommon.ShowSelectForm("DPTNeft#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
