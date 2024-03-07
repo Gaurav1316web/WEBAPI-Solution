@@ -333,6 +333,19 @@ Public Class frmDailySMPProduction
             obj.Document_No = txtDocNo.Value
             obj.Report_Date = txtReportDate.Value
             obj.Reporting_Date = txtReportingDate.Value
+            obj.Party_Name1 = gv1.Columns("PowderPurchase").HeaderText
+            If (gv1.Columns.Count > 8) Then
+                obj.Party_Name2 = gv1.Columns(8).HeaderText
+            End If
+            If (gv1.Columns.Count > 9) Then
+                obj.Party_Name3 = gv1.Columns(9).HeaderText
+            End If
+            If (gv1.Columns.Count > 10) Then
+                obj.Party_Name4 = gv1.Columns(10).HeaderText
+            End If
+            If (gv1.Columns.Count > 11) Then
+                obj.Party_Name5 = gv1.Columns(11).HeaderText
+            End If
 
             obj.Arr = New List(Of clsDailySMPProductionDetails)()
             obj.ArrPw = New List(Of clsDailySMPProductionDetailsPowder)()
@@ -346,18 +359,31 @@ Public Class frmDailySMPProduction
                 objTr.SNF = clsCommon.myCdbl(grow.Cells("SNF").Value)
                 objTr.Total_Job_Work = clsCommon.myCdbl(grow.Cells("TotalJobWork").Value)
                 objTr.Party_Name1 = clsCommon.myCdbl(grow.Cells("PowderPurchase").Value)
-                objTr.arrParty_Name = New List(Of ArrayList)()
-                If grow.Cells.Count > grow.Cells("PowderPurchase").ColumnInfo.Index Then
-                    Dim startIndex As Integer = clsCommon.myCdbl(grow.Cells("PowderPurchase").ColumnInfo.Index) + 1
-                    Dim columnCount As Integer = grow.Cells.Count - startIndex
-                    Dim arrayList As New ArrayList()
-                    For ii As Integer = startIndex To grow.Cells.Count - 1
-                        arrayList.Add(clsCommon.myCdbl(grow.Cells(ii).Value))
-
-                    Next
-                    objTr.arrParty_Name.Add(arrayList)
-                    objTr.columnCount = columnCount
+                If (gv1.Columns.Count > 8) Then
+                    objTr.Party_Name2 = clsCommon.myCdbl(grow.Cells(8).Value)
                 End If
+                If (gv1.Columns.Count > 9) Then
+                    objTr.Party_Name3 = clsCommon.myCdbl(grow.Cells(9).Value)
+                End If
+                If (gv1.Columns.Count > 10) Then
+                    objTr.Party_Name4 = clsCommon.myCdbl(grow.Cells(10).Value)
+                End If
+                If (gv1.Columns.Count > 11) Then
+                    objTr.Party_Name5 = clsCommon.myCdbl(grow.Cells(11).Value)
+                End If
+
+                'objTr.arrParty_Name = New List(Of ArrayList)()
+                'If grow.Cells.Count > grow.Cells("PowderPurchase").ColumnInfo.Index Then
+                '    Dim startIndex As Integer = clsCommon.myCdbl(grow.Cells("PowderPurchase").ColumnInfo.Index) + 1
+                '    Dim columnCount As Integer = grow.Cells.Count - startIndex
+                '    Dim arrayList As New ArrayList()
+                '    For ii As Integer = startIndex To grow.Cells.Count - 1
+                '        arrayList.Add(clsCommon.myCdbl(grow.Cells(ii).Value))
+
+                '    Next
+                '    objTr.arrParty_Name.Add(arrayList)
+                '    objTr.columnCount = columnCount
+                'End If
                 If (clsCommon.myLen(objTr.App_Code) > 0) Then
                     obj.Arr.Add(objTr)
                 End If

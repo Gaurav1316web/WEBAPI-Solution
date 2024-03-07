@@ -68,12 +68,12 @@ Public Class frmAssembDis
             RadMenuItem1.Enabled = False
             RadMenuItem2.Enabled = False
         End If
-
-        If MyBase.isReverse Then
-            btnunpost.Enabled = True
-        Else
-            btnunpost.Enabled = False
-        End If
+        btnunpost.Visible = False
+        'If MyBase.isReverse Then
+        '    btnunpost.Enabled = True
+        'Else
+        '    btnunpost.Enabled = False
+        'End If
         'RadMenu1.Visible = MyBase.isExport
         'MyBase.SetUserMgmt(clsUserMgtCode.frmAssemblies)
         'If Not (MyBase.isReadFlag) Then

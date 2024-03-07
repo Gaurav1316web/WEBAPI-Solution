@@ -246,11 +246,12 @@ Public Class frmWreckage
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
-        If MyBase.isReverse Then
-            btnunpost.Enabled = True
-        Else
-            btnunpost.Enabled = False
-        End If
+        btnunpost.Visible = False
+        'If MyBase.isReverse Then
+        '    btnunpost.Enabled = True
+        'Else
+        '    btnunpost.Enabled = False
+        'End If
 
     End Sub
 

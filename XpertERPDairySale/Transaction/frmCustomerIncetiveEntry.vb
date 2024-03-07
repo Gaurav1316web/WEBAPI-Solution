@@ -95,11 +95,13 @@ Public Class frmCustomerIncetiveEntry
         btndelete.Visible = MyBase.isDeleteFlag
         btnExportExcel.Visible = MyBase.isExport
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
 
     End Sub
 

@@ -22,7 +22,7 @@ Partial Class FrmERPStatusTrackingReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
@@ -35,6 +35,7 @@ Partial Class FrmERPStatusTrackingReport
         Me.rdbMilkProcurement = New System.Windows.Forms.RadioButton()
         Me.rdbERPStatusMilkUnion = New System.Windows.Forms.RadioButton()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.rdbLastDBTStatus = New System.Windows.Forms.RadioButton()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtFinYr = New common.UserControls.txtFinder()
         Me.rdbDBTStatus = New System.Windows.Forms.RadioButton()
@@ -93,7 +94,7 @@ Partial Class FrmERPStatusTrackingReport
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnreset)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer2.Panel2.Controls.Add(Me.btnReport)
-        Me.SplitContainer2.Size = New System.Drawing.Size(703, 284)
+        Me.SplitContainer2.Size = New System.Drawing.Size(856, 284)
         Me.SplitContainer2.SplitterDistance = 254
         Me.SplitContainer2.TabIndex = 1
         '
@@ -108,10 +109,11 @@ Partial Class FrmERPStatusTrackingReport
         Me.gv1.MasterTemplate.EnableFiltering = True
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(703, 254)
+        Me.gv1.Size = New System.Drawing.Size(856, 254)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
@@ -156,7 +158,7 @@ Partial Class FrmERPStatusTrackingReport
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(628, 3)
+        Me.btnclose.Location = New System.Drawing.Point(781, 3)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(70, 19)
         Me.btnclose.TabIndex = 1
@@ -204,6 +206,7 @@ Partial Class FrmERPStatusTrackingReport
         '
         'SplitContainer3.Panel1
         '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.rdbLastDBTStatus)
         Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel1)
         Me.SplitContainer3.Panel1.Controls.Add(Me.txtFinYr)
         Me.SplitContainer3.Panel1.Controls.Add(Me.rdbDBTStatus)
@@ -216,9 +219,20 @@ Partial Class FrmERPStatusTrackingReport
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.SplitContainer2)
         Me.SplitContainer3.Panel2.Controls.Add(Me.Panel1)
-        Me.SplitContainer3.Size = New System.Drawing.Size(703, 371)
+        Me.SplitContainer3.Size = New System.Drawing.Size(856, 371)
         Me.SplitContainer3.SplitterDistance = 25
         Me.SplitContainer3.TabIndex = 1
+        '
+        'rdbLastDBTStatus
+        '
+        Me.rdbLastDBTStatus.AutoSize = True
+        Me.rdbLastDBTStatus.Location = New System.Drawing.Point(699, 5)
+        Me.rdbLastDBTStatus.Name = "rdbLastDBTStatus"
+        Me.rdbLastDBTStatus.Size = New System.Drawing.Size(103, 17)
+        Me.rdbLastDBTStatus.TabIndex = 318
+        Me.rdbLastDBTStatus.TabStop = True
+        Me.rdbLastDBTStatus.Text = "Last DBT Status"
+        Me.rdbLastDBTStatus.UseVisualStyleBackColor = True
         '
         'MyLabel1
         '
@@ -313,7 +327,7 @@ Partial Class FrmERPStatusTrackingReport
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(703, 58)
+        Me.Panel1.Size = New System.Drawing.Size(856, 58)
         Me.Panel1.TabIndex = 11
         '
         'Label1
@@ -324,7 +338,7 @@ Partial Class FrmERPStatusTrackingReport
         Me.Label1.Font = New System.Drawing.Font("Segoe UI", 11.0!, System.Drawing.FontStyle.Bold)
         Me.Label1.Location = New System.Drawing.Point(0, 35)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(703, 23)
+        Me.Label1.Size = New System.Drawing.Size(856, 23)
         Me.Label1.TabIndex = 12
         Me.Label1.Text = "Report Name"
         Me.Label1.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
@@ -364,7 +378,7 @@ Partial Class FrmERPStatusTrackingReport
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(703, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(856, 20)
         Me.RadMenu1.TabIndex = 0
         '
         'RadMenuItem1
@@ -397,7 +411,7 @@ Partial Class FrmERPStatusTrackingReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(703, 391)
+        Me.ClientSize = New System.Drawing.Size(856, 391)
         Me.Controls.Add(Me.SplitContainer3)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmERPStatusTrackingReport"
@@ -462,5 +476,6 @@ Partial Class FrmERPStatusTrackingReport
     Friend WithEvents rdbDBTStatus As RadioButton
     Friend WithEvents txtFinYr As common.UserControls.txtFinder
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents rdbLastDBTStatus As RadioButton
 End Class
 
