@@ -430,7 +430,15 @@ XXGetAllRecords.DiffMCCVsEntered_SNFKG," + clsCommon.myCstr(txtToleranceSNF.Valu
                             summaryRowItem.Add(FATKG)
                             Dim SNFKG As New GridViewSummaryItem("SNFKG", "{0:F2}", GridAggregateFunction.Sum)
                             summaryRowItem.Add(SNFKG)
+                            Dim DiffQty1 As New GridViewSummaryItem("Diff_Qty", "{0:F0}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(DiffQty1)
+                            Dim DiffFat1 As New GridViewSummaryItem("Diff_FAT", "{0:F2}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(DiffFat1)
+                            Dim DiffSnf1 As New GridViewSummaryItem("Diff_SNF", "{0:F2}", GridAggregateFunction.Sum)
+                            summaryRowItem.Add(DiffSnf1)
                         End If
+
+
                         If rdbCollectionWise.Checked Then
                             'Dim EnteredQty As New GridViewSummaryItem("Entered_Qty", "{0:F0}", GridAggregateFunction.Sum)
                             'summaryRowItem.Add(EnteredQty)

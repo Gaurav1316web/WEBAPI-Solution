@@ -193,11 +193,13 @@ Public Class frmDemandBooking
             btnExport.Enabled = False
             btnImport.Enabled = False
         End If
-        If MyBase.isReverse Then
-            btnreverse.Enabled = True
-        Else
-            btnreverse.Enabled = False
-        End If
+        btnreverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
     End Sub
     Function FillMorningEvening() As DataTable
         Dim qry As String = String.Empty
@@ -3734,7 +3736,8 @@ group by XYZ.Cust_Code
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
-                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "
+                ") = CompairStringResult.Equal Then
                 If rbtn_Fresh.IsChecked Then
                     If ItemCount > 0 AndAlso ItemCount <= 9 Then
                         frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingFUDP", "Demand Booking")
