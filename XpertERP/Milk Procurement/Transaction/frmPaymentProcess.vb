@@ -3564,11 +3564,12 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
             btnPrint.Enabled = False
             btnDCPrint.Enabled = False
         End If
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        btnReverse.Visible = False
     End Sub
 
     Function AllowToSave() As Boolean

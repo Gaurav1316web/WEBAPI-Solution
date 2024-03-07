@@ -250,11 +250,13 @@ Public Class FrmTransferKDIL
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrintNew.Visible = MyBase.isPrintFlag
         btnCancel.Visible = MyBase.isCancel_Flag
-        If MyBase.isReverse Then
-            btnReverseAndUnpost.Enabled = True
-        Else
-            btnReverseAndUnpost.Enabled = False
-        End If
+        btnReverseAndUnpost.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverseAndUnpost.Enabled = True
+        'Else
+        '    btnReverseAndUnpost.Enabled = False
+        'End If
         If MyBase.isExport = True Then
             radExportTransferOut.Enabled = True
             radExportTransferIn.Enabled = True
