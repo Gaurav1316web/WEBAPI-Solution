@@ -1,9 +1,5 @@
-﻿Imports common
-Imports System.Globalization
-Imports System.Data.SqlClient
-Imports System
-Imports System.IO
-Imports Telerik.WinControls.UI.Export
+﻿Imports System.IO
+Imports common
 Public Class FrmERPStatusTrackingReport
     Inherits FrmMainTranScreen
 #Region "Variables"
@@ -206,7 +202,7 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
 
                     Dim docNo As String = ""
                     query = ""
-                    dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+                    dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         For ii As Integer = 0 To dt.Rows.Count - 1
                             If ii > 0 Then
