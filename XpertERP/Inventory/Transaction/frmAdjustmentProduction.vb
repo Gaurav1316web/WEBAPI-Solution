@@ -53,11 +53,13 @@ Public Class frmAdjustmentProduction
         RadButton1.Visible = MyBase.isPrintFlag
         '' Anubhooti 1-Aug-2014 BM00000003172 
         RadMenu1.Visible = MyBase.isModifyFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         If MyBase.isExport = True Then
             rmiExport.Enabled = True
         Else

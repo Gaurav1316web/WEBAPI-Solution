@@ -189,6 +189,7 @@ Public Class FrmMilkPurchaseInvoice
         btnBillOfSupply.Visible = MyBase.isPrintFlag
         'RadMenu1.Visible = MyBase.isExport
         btnPost.Visible = MyBase.isPostFlag
+        btnReverse.Visible = False
 
     End Sub
     Private Sub FrmMilkPurchaseInvoice_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load

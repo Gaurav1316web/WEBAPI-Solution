@@ -6,6 +6,7 @@ Public Class clsDBTNEFT
     Public Document_Date As Date
     Public From_Date As Date
     Public To_Date As Date
+    Public Bank_Letter_Date As Date
     Public Remarks As String = ""
     Public Zone_Code As String = ""
     Public Status As ERPTransactionStatus = ERPTransactionStatus.Pending
@@ -16,23 +17,19 @@ Public Class clsDBTNEFT
     Public arrVLC As ArrayList = Nothing
     Public arrMCC As ArrayList = Nothing
 #End Region
+
     Public Shared Function SaveData(ByVal obj As clsDBTNEFT, ByVal isNewEntry As Boolean) As Boolean
         Dim qry As String = ""
-
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-
-
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_DBT_NEFT.Document_Date,TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code from TSPL_DBT_NEFT_DETAIL 
 left outer join TSPL_DBT_NEFT on TSPL_DBT_NEFT.Document_Code= TSPL_DBT_NEFT_DETAIL.Document_Code
 left outer join TSPL_MP_INCENTIVE_ENTRY_DETAIL on TSPL_MP_INCENTIVE_ENTRY_DETAIL.pk_id= TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
 left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code= TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
-
  where TSPL_DBT_NEFT_DETAIL.Document_Code ='" + obj.Document_Code + "'", trans)
 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.DBTNEFTUploader, clsCommon.myCstr(dt.Rows(0)("MCC_Code")), clsCommon.myCDate(dt.Rows(0)("Document_Date")), trans)
-
             End If
 
             qry = "delete from TSPL_DBT_NEFT_DETAIL where Document_Code='" & obj.Document_Code & "'"
@@ -42,6 +39,8 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
 
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "Bank_Letter_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy hh:mm tt"))
+
             clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
@@ -55,6 +54,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy"))
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_NEFT", OMInsertOrUpdate.Insert, "", trans)
             Else
+
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_NEFT", OMInsertOrUpdate.Update, "TSPL_DBT_NEFT.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             clsDBTNEFTDetail.saveData(obj.arr, obj.Document_Code, trans)
@@ -67,6 +67,29 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
         End Try
         Return True
     End Function
+    Public Shared Function SaveBankLetter(ByVal obj As clsDBTNEFT) As Boolean
+        Dim trans As SqlTransaction = Nothing
+        If SaveBankLetter(obj, trans) Then
+            Return True
+        End If
+        Return True
+    End Function
+
+    Public Shared Function SaveBankLetter(ByVal obj As clsDBTNEFT, ByRef trans As SqlTransaction) As Boolean
+        trans = clsDBFuncationality.GetTransactin()
+        Try
+            Dim coll As New Hashtable()
+            clsCommon.AddColumnsForChange(coll, "Bank_Letter_Date", clsCommon.GetPrintDate(obj.Bank_Letter_Date, "dd/MMM/yyyy hh:mm tt"))
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DBT_NEFT", OMInsertOrUpdate.Update, "TSPL_DBT_NEFT.Document_Code='" + obj.Document_Code + "'", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_DBT_NEFT", "Document_Code", "TSPL_DBT_NEFT_DETAIL", "Document_Code", "TSPL_DBT_NEFT_DETAIL_INVALID", "Document_Code", trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsDBTNEFT
         Return GetData(strCode, NavType, Nothing)
     End Function
@@ -92,6 +115,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             obj = New clsDBTNEFT()
             obj.Document_Code = clsCommon.myCstr(dt.Rows(0)("Document_Code"))
             obj.Document_Date = clsCommon.myCDate(dt.Rows(0)("Document_Date"))
+            obj.Bank_Letter_Date = clsCommon.myCDate(dt.Rows(0)("Bank_Letter_Date"))
             obj.From_Date = clsCommon.myCDate(dt.Rows(0)("From_Date"))
             obj.To_Date = clsCommon.myCDate(dt.Rows(0)("To_Date"))
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
@@ -153,7 +177,7 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
         Dim str As String = ""
         Dim qry As String = "Select TSPL_DBT_NEFT.Document_Code as Code,Convert(varchar,TSPL_DBT_NEFT.Document_Date,103) as Date
           ,TSPL_DBT_NEFT.Remarks as [Remarks],Convert(varchar,TSPL_DBT_NEFT.From_Date,103) as [From Date],Convert(varchar,TSPL_DBT_NEFT.To_Date,103) as [To Date],Zone_code as Zone
-          ,case when isnull(Status,0)=0 then 'Pending' else 'Approved' end as Status 
+          ,case when isnull(Status,0)=0 then 'Pending' else 'Approved' end as Status,case when isnull(RCDF_Status,0)=0 then 'Pending' else 'Approved' end as [RCDF Status]
           from TSPL_DBT_NEFT "
         str = clsCommon.ShowSelectForm("DPTNeft#F", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
@@ -299,9 +323,31 @@ select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as For
             Dim reportDateTime As String = (clsDBFuncationality.getSingleValue("select convert(varchar , getdate(),113) as Date_Time"))
             Dim isPending As String = ERPTransactionStatus.Pending
             Dim status As String = ""
-            Dim Doc_Date As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select Document_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 104) AS Date"))
-            Dim ToDate As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select To_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 103) AS To_Date"))
-            Dim FromDate As String = (clsDBFuncationality.getSingleValue("SELECT CONVERT(VARCHAR,(select From_Date from TSPL_DBT_NEFT where Document_Code = '" + strDocNo + "'), 103) AS From_Date"))
+            Dim qry As String = "select Document_Date,Bank_Letter_Date,To_Date,From_Date,TSPL_DBT_NEFT_DETAIL.Amount as Total_Amt,TSPL_DBT_NEFT_DETAIL.DCS,TSPL_DBT_NEFT_DETAIL.[Farmer Code],TSPL_DBT_NEFT_DETAIL.Total_Milk,TSPL_DBT_NEFT_DETAIL.Rate 
+from TSPL_DBT_NEFT 
+left outer join (select TSPL_DBT_NEFT_DETAIL.document_code,max(TSPL_DBT_NEFT_DETAIL.Rem_Name) as Rem_Name,max(TSPL_DBT_NEFT_DETAIL.Rem_Account_No) as Rem_Account_No,
+sum(TSPL_DBT_NEFT_DETAIL.Amount) as Amount , COUNT( DISTINCT TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code) AS DCS, Max(TSPL_MP_INCENTIVE_ENTRY_HEAD.Incetive_Rate)as Rate ,
+COUNT( DISTINCT TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code)  as [Farmer Code],sum(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty) as Total_Milk from TSPL_DBT_NEFT_DETAIL   
+Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR   
+left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code
+where   TSPL_DBT_NEFT_DETAIL.document_code ='" + strDocNo + "' group by TSPL_DBT_NEFT_DETAIL.document_code 
+) TSPL_DBT_NEFT_DETAIL   on TSPL_DBT_NEFT.Document_Code = TSPL_DBT_NEFT_DETAIL.Document_Code  
+where TSPL_DBT_NEFT.Document_Code = '" + strDocNo + "' "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("Invalid Document No [" + strDocNo + "]")
+            End If
+            Dim Doc_Date As String = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("Bank_Letter_Date")), "dd/MM/yyyy")
+            Dim ToDate As String = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("To_Date")), "dd/MM/yyyy")
+            Dim FromDate As String = clsCommon.GetPrintDate(clsCommon.myCDate(dt.Rows(0)("From_Date")), "dd/MM/yyyy")
+            Dim strTotal_Amt_Format As String = clsCommon.myFormat(clsCommon.myCDecimal(dt.Rows(0)("Total_Amt")))
+            Dim strTotal_Amt As String = clsCommon.myCstr(clsCommon.myCDecimal(dt.Rows(0)("Total_Amt")))
+            Dim strDCS As String = clsCommon.myFormat(clsCommon.myCDecimal(dt.Rows(0)("DCS")), False, False, True, 0, False)
+            Dim strFarmerCode As String = clsCommon.myFormat(clsCommon.myCDecimal(dt.Rows(0)("Farmer Code")), False, False, True, 0, False)
+            Dim strTotal_Milk As String = clsCommon.myFormat(clsCommon.myCDecimal(dt.Rows(0)("Total_Milk")))
+            Dim strRate As String = clsCommon.myFormat(clsCommon.myCDecimal(dt.Rows(0)("Rate")))
+
             If isPending = "1" Then
                 status = "Pending"
             End If
@@ -311,28 +357,21 @@ select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as For
                     Throw New Exception("Please select Document No")
                 End If
 
-                Dim qry As String = "select (select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 1) as 'P&IIncharge'
+                qry = "select (select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 1) as 'P&IIncharge'
                 ,(select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 2) as 'AccountHead',
               (select TSPL_USER_MASTER.User_Name from TSPL_APPROVAL_LEVEL_SCREEN  LEFT OUTER JOIN TSPL_USER_MASTER ON TSPL_USER_MASTER.User_Code = TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 3) as 'ManagingDirector', tspl_company_master.Logo_Img , tspl_company_master.Logo_Img2 , tspl_company_master.Comp_Name , tspl_company_master.Add1 , tspl_company_master.Add2, tspl_company_master.Add3,
-tspl_company_master.City_Code, tspl_company_master.Pincode, tspl_company_master.Email,REPLACE( RIGHT( Phone1,10),'_','') as Phone1 ,TSPL_DBT_NEFT_DETAIL.Document_Code as Doc_No ,
+tspl_company_master.City_Code, tspl_company_master.Pincode, tspl_company_master.Email,REPLACE( RIGHT( Phone1,11),'_','') as Phone1 ,TSPL_DBT_NEFT.Document_Code as Doc_No ,
 DATENAME(MONTH, CONVERT(date, '" & ToDate & "', 103)) + ' ' + DATENAME(YEAR, CONVERT(date, '" & ToDate & "', 103)) as Month,
 '" & Doc_Date & "' as Date, '" & reportDateTime & "' as Date_Time , '" & status & "' as Pending , '" & User_Name & "' as User_Name
-,Rate, [Farmer Code],DCS,Total_Milk, tspl_dbt_neft_detail.Amount as Total_Amt ,'" & FromDate & "' as From_Date, '" & ToDate & "' as To_Date, TSPL_DBT_NEFT.To_Date
+," + strRate + " AS Rate,'" + strFarmerCode + "' as  [Farmer Code],'" + strDCS + "' as DCS,'" + strTotal_Milk + "' as Total_Milk," + strTotal_Amt + " as Total_Amt, '" + strTotal_Amt_Format + "' as Total_Amt_Format ,'" & FromDate & "' as From_Date, '" & ToDate & "' as To_Date, TSPL_DBT_NEFT.To_Date
 ,TSPL_BANK_BRANCH_MASTER.BRANCH_NAME,TSPL_BANK_MASTER.ADD1 as BankADD1,TSPL_BANK_MASTER.ADD2 as BankADD2,TSPL_BANK_MASTER.ADD3 as BankADD3,TSPL_BANK_MASTER.ADD4 as BankADD4,TSPL_BANK_MASTER.BANKACCNUMBER,TSPL_BANK_MASTER.DESCRIPTION as BankName
 from TSPL_DBT_NEFT  
-left outer join (select TSPL_DBT_NEFT_DETAIL.document_code,max(TSPL_DBT_NEFT_DETAIL.Rem_Name) as Rem_Name,max(TSPL_DBT_NEFT_DETAIL.Rem_Account_No) as Rem_Account_No,
-sum(TSPL_DBT_NEFT_DETAIL.Amount) as Amount , COUNT( DISTINCT TSPL_DBT_NEFT_DETAIL.VLC_Uploader_Code) AS DCS, Max(TSPL_MP_INCENTIVE_ENTRY_HEAD.Incetive_Rate)as Rate ,
-COUNT( DISTINCT TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code)  as [Farmer Code],sum(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty) as Total_Milk from TSPL_DBT_NEFT_DETAIL   
-Left Outer Join TSPL_MP_INCENTIVE_ENTRY_DETAIL On TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id=TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR   
-left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code
-where   TSPL_DBT_NEFT_DETAIL.document_code ='" + strDocNo + "' group by TSPL_DBT_NEFT_DETAIL.document_code 
-) TSPL_DBT_NEFT_DETAIL   on TSPL_DBT_NEFT.Document_Code = TSPL_DBT_NEFT_DETAIL.Document_Code  
 LEFT OUTER JOIN tspl_company_master ON tspl_company_master.comp_code = '" + objCommonVar.CurrentCompanyCode + "'
 left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.NEFT_DBT_Default=1
 left outer join TSPL_BANK_BRANCH_MASTER on TSPL_BANK_BRANCH_MASTER.Bank_CODE=TSPL_BANK_MASTER.BANK_CODE
 WHERE  TSPL_DBT_NEFT.document_code ='" + strDocNo + "'"
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                dt = clsDBFuncationality.GetDataTable(qry)
+
                 Dim frmCRV As New frmCrystalReportViewer()
                 strPAth = frmCRV.funreport(isPDFPath, CrystalReportFolder.MilkProcurement, dt, "crptDBTNEFTUploaderBankLetter", "Bank Letter NEFT Uploader")
                 frmCRV = Nothing

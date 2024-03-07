@@ -131,6 +131,8 @@ Public Class frmApplyLoan
         dtpEndMonth.Text = Today
         cboLoanStatus.Text = "Open"
         lblEmpName.Text = ""
+        fndbankcode.Value = ""
+        lblBankCode.Text = ""
         'btnPost.Visible = False
 
         'Me.gvEMI.Rows.AddNew()
@@ -192,7 +194,8 @@ Public Class frmApplyLoan
             lblGrossSalary.Text = obj.Gross_Salary
             dtpEndMonth.Text = obj.Payment_EndDate
             cboLoanStatus.Text = obj.Loan_Status
-
+            fndbankcode.Value = obj.Bank_code
+            lblBankCode.Text = obj.Bank_Name
             If (clsApplyLoan.ObjList IsNot Nothing AndAlso clsApplyLoan.ObjList.Count > 0) Then
                 For Each obj As clsApplyLoan In clsApplyLoan.ObjList
                     gvEMI.Rows.AddNew()
@@ -276,8 +279,8 @@ Public Class frmApplyLoan
             obj.Gross_Salary = clsCommon.myCstr(Me.lblGrossSalary.Text)
             obj.Payment_EndDate = clsCommon.myCstr(Me.dtpEndMonth.Text)
             obj.Loan_Status = clsCommon.myCstr(Me.cboLoanStatus.Text)
-
-
+            obj.PAID = 1
+            obj.Bank_code = clsCommon.myCstr(Me.fndbankcode.Value)
             For Each grow As GridViewRowInfo In gvEMI.Rows
                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colEMI_NO).Value)) > 0 Then
                     Dim obj1 As clsApplyLoan = New clsApplyLoan()
@@ -524,4 +527,21 @@ Public Class frmApplyLoan
         End If
     End Sub
 
+    Private Sub txtEmpCode_Load(sender As Object, e As EventArgs) Handles txtEmpCode.Load
+
+    End Sub
+
+    Private Sub MyLabel6_Click(sender As Object, e As EventArgs) Handles MyLabel6.Click
+
+    End Sub
+
+    Private Sub fndbankcode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndbankcode._MYValidating
+        Try
+            Dim qry As String = "select Bank_Code as Code,Bank_Name as Name,City_Code from tspl_vendor_bank_master"
+            fndbankcode.Value = clsCommon.ShowSelectForm("bnkcode", qry, "Code", "", fndbankcode.Value, "Code", isButtonClicked)
+            lblBankCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Bank_Name from tspl_vendor_bank_master where Bank_Code='" & fndbankcode.Value & "'"))
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
+        End Try
+    End Sub
 End Class

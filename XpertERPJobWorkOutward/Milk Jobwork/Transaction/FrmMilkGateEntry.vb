@@ -412,12 +412,13 @@ Public Class FrmMilkGateEntry
             btnSave.Visible = MyBase.isModifyFlag
             btnDelete.Visible = MyBase.isDeleteFlag
             btnPost.Visible = MyBase.isPostFlag
+            btnReverse.Visible = False
 
-            If MyBase.isReverse Then
-                btnReverse.Enabled = True
-            Else
-                btnReverse.Enabled = False
-            End If
+            'If MyBase.isReverse Then
+            '    btnReverse.Enabled = True
+            'Else
+            '    btnReverse.Enabled = False
+            'End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

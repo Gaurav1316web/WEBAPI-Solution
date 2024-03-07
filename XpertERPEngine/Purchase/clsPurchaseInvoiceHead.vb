@@ -3145,6 +3145,7 @@ Public Class clsPurchaseInvoiceHead
                         objVendorInvHead.RefDocNo = obj.PI_No
                         objVendorInvHead.On_Hold = False
                         objVendorInvHead.Due_Date = objVendorInvHead.Invoice_Entry_Date
+                        objVendorInvHead.Security = 1
                         dt = clsDBFuncationality.GetDataTable("select Acct_Set_Code,Payable_Account,Discount_Account,SECURITY_ACCOUNT from TSPL_VENDOR_ACCOUNT_SET  where Acct_Set_Code='" + objVendorInvHead.Account_Set + "'", trans)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))

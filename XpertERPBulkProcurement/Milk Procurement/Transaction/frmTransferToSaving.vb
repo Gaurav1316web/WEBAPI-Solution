@@ -31,11 +31,13 @@ Public Class frmTransferToSaving
         btnDelete.Visible = MyBase.isDeleteFlag
         'RadMenu1.Visible = MyBase.isExport
         btnsetting.Visible = MyBase.isExport
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         If MyBase.isExport = True Then
             RadMenuItem2.Enabled = True
             RadMenuItem3.Enabled = True

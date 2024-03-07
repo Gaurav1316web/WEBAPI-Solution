@@ -66,6 +66,7 @@ Public Class frmMilkCollectionMCC
         btnBlankSheetUploder.Visible = MyBase.isExport
         btnBlankSheetImportUploder.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
+        btnReverse.Visible = False
 
         'If btnSave.Visible = True Then
         '    btnBlankSheetImportUploder.Enabled = True
@@ -85,11 +86,11 @@ Public Class frmMilkCollectionMCC
             btnBlankSheetUploder.Enabled = False
 
         End If
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         'If MyBase.isReverse Then
         '    btnreverse.Enabled = True
         'Else

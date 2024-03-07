@@ -1458,7 +1458,7 @@ Public Class clsUserMgtCode
     Public Const frmMonthlyESI_Report As String = "MNTH_ESI_RPT"
     Public Const RptEmployeeBday6 As String = "EMP_BDAY"
     Public Const rptEmployeeAdvanceLedger As String = "EMP-ADV-LED"
-
+    Public Const rptLoanStatement As String = "RPT-LON-STM"
     '----------------------------Monthly------------------------------
     Public Const frmPaySlip_Reports As String = "PAYSLIP_REPO"
     Public Const frmSalarySheet_Reports As String = "SALARY_SHEET"
