@@ -3172,6 +3172,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmCashVoucher
                         frm = New FrmCashVoucher
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.fundprovision
+                        frm = New rptFundProvision
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.TaxTracking
                         frm = New FrmTaxTracking
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
