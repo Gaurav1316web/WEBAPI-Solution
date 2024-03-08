@@ -340,8 +340,11 @@ Public Class FrmStockReco
         dt.Columns.Add("Code", GetType(String))
         Dim dr As DataRow = dt.NewRow()
         'clsUserMgtCode.stockRecoNewJR()
-        If clsCommon.CompairString(FORMTYPE, "STO-REC-RPT") = CompairStringResult.Equal Or clsCommon.CompairString(FORMTYPE, "MIS-SRec-RPT") = CompairStringResult.Equal OrElse clsCommon.CompairString(FORMTYPE, clsUserMgtCode.stockRecoNewJR) = CompairStringResult.Equal Then
-
+        If clsCommon.CompairString(FORMTYPE, clsUserMgtCode.MISStockLedgerReport) = CompairStringResult.Equal Then
+            dr = dt.NewRow()
+            dr("Code") = "Document Wise Detail Ledger"
+            dt.Rows.Add(dr)
+        Else
             dr("Code") = "Item Type Wise Summary"
             dt.Rows.Add(dr)
 
@@ -379,10 +382,6 @@ Public Class FrmStockReco
 
             dr = dt.NewRow()
             dr("Code") = "Transaction Wise"
-            dt.Rows.Add(dr)
-        Else
-            dr = dt.NewRow()
-            dr("Code") = "Document Wise Detail Ledger"
             dt.Rows.Add(dr)
         End If
 
