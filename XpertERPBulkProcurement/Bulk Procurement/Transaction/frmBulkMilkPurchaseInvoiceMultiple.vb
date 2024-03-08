@@ -208,7 +208,7 @@ Public Class frmBulkMilkPurchaseInvoiceMultiple
             Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
             If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
                 If txtFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
-                    clsCommon.MyMessageBoxShow("Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because payment Cycle of " & PaymentCycleValue & " Day ")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because payment Cycle of " & PaymentCycleValue & " Day ", Me.Text)
                     txtFromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
                     txtToDate.Value = txtFromDate.Value
                     Exit Sub

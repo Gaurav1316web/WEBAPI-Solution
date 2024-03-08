@@ -376,11 +376,11 @@ Public Class frmDCSAdditionDeduction
         If rbtnDCSTypeBMCTruckSheet.IsChecked Then
             If clsCommon.CompairString(clsCommon.myCstr(cboApplyOn.SelectedValue), "0") = CompairStringResult.Equal Then
                 If rbtnQtyUOMKG.IsChecked Then
-                    clsCommon.MyMessageBoxShow(Me, "Application for DCS Type [BMC Truck Sheet] Apply on [Qty] not for UOM [KG]")
+                    clsCommon.MyMessageBoxShow(Me, "Application for DCS Type [BMC Truck Sheet] Apply on [Qty] not for UOM [KG]", Me.Text)
                     Return False
                 End If
                 If rbtnQtyUOMLtr.IsChecked Then
-                    clsCommon.MyMessageBoxShow(Me, "Application for DCS Type [BMC Truck Sheet] Apply on [Qty] not for UOM [LTR]")
+                    clsCommon.MyMessageBoxShow(Me, "Application for DCS Type [BMC Truck Sheet] Apply on [Qty] not for UOM [LTR]", Me.Text)
                     Return False
                 End If
             End If
@@ -554,7 +554,7 @@ Public Class frmDCSAdditionDeduction
             obj.Code = txtCode.Value
             obj.End_Date = dtpEndDate.Value
             obj.SaveEndDateData(obj)
-            clsCommon.MyMessageBoxShow(Me, "Successfully Updated")
+            clsCommon.MyMessageBoxShow(Me, "Successfully Updated", Me.Text)
             LoadData(txtCode.Value, NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

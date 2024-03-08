@@ -211,7 +211,7 @@ Public Class frmFailBDF
             If (Not isInsideLoadData) Then
                 isInsideLoadData = True
                 If Gv1.CurrentColumn Is Gv1.Columns(ColDelete) Then
-                    If clsCommon.MyMessageBoxShow(" Do you want to Delete This Document.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If clsCommon.MyMessageBoxShow(Me, " Do you want to Delete This Document.", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         'funDelete(Gv1.CurrentRow.Cells(ColCODE).Value)
                     End If
                 ElseIf Gv1.CurrentColumn Is Gv1.Columns(ColView) Then

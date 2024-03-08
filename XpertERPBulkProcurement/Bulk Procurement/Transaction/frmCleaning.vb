@@ -231,7 +231,7 @@ Public Class FrmCleaning
                         End If
                     End If
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 loadData(fndDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception

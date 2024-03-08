@@ -99,7 +99,7 @@ Public Class FrmUserGroupMapping
 
             'dgv_Groupmapping.CurrentCell = New DataGridCell(0, 0)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
     End Sub
     Sub textbox_lostfocus()
@@ -311,7 +311,7 @@ Public Class FrmUserGroupMapping
 
                 Next
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
                 trans.Rollback()
@@ -392,7 +392,7 @@ Public Class FrmUserGroupMapping
             'End If
             If strvalue <> "" Then
             Else : strUser_Code = ""
-                common.clsCommon.MyMessageBoxShow("User Code does not exist Master Table")
+                common.clsCommon.MyMessageBoxShow(Me, "User Code does not exist Master Table", Me.Text)
                 fndUser_Name.Value = ""
                 TxtUserName.Text = ""
                 fndUser_Name.Focus()
