@@ -32,6 +32,8 @@ Public Class clsApplyLoan
     Public Payment_EndDate As Date
     Public Gross_Salary As Decimal
     Public Loan_Status As String
+    Public Bank_code As String
+    Public Bank_Name As String
     '' grid columns
 
     Public EMI_NO As Integer
@@ -83,10 +85,11 @@ Public Class clsApplyLoan
 
         ObjList = New List(Of clsApplyLoan)
 
-        Dim qry As String = "SELECT TLA.*,EMP.Emp_Name AS EMP_NAME,EMP1.Emp_Name AS LOAN_BY_NAME  " _
+        Dim qry As String = "SELECT TLA.*,EMP.Emp_Name AS EMP_NAME,EMP1.Emp_Name AS LOAN_BY_NAME ,TSPL_Vendor_Bank_MASTER.Bank_Name  " _
                         & " FROM TSPL_LOAN_APPLICATION TLA" _
                         & " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP ON TLA.EMP_CODE=EMP.EMP_CODE " _
-                        & " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP1 ON TLA.LOAN_BY=EMP1.EMP_CODE  where 2=2 "
+                        & " LEFT JOIN TSPL_EMPLOYEE_MASTER EMP1 ON TLA.LOAN_BY=EMP1.EMP_CODE inner join TSPL_Vendor_Bank_MASTER on TSPL_Vendor_Bank_MASTER.Bank_Code=TLA.bANK_CODE
+                        where 2=2 "
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TLA.LOAN_CODE = (select MIN(LOAN_CODE) from TSPL_LOAN_APPLICATION)"
@@ -113,7 +116,8 @@ Public Class clsApplyLoan
             obj.LOAN_AMOUNT = clsCommon.myCdbl(dt.Rows(0)("LOAN_AMOUNT"))
             obj.PERIOD_MONTH = clsCommon.myCdbl(dt.Rows(0)("PERIOD_MONTH"))
             obj.PERIOD_DAY = clsCommon.myCdbl(dt.Rows(0)("PERIOD_DAY"))
-
+            obj.Bank_code = clsCommon.myCstr(dt.Rows(0)("BAnk_Code"))
+            obj.Bank_Name = clsCommon.myCstr(dt.Rows(0)("Bank_Name"))
             obj.PAYMENT_STARTDATE = clsCommon.myCDate(dt.Rows(0)("PAYMENT_STARTDATE"))
             obj.NO_OF_EMI = clsCommon.myCdbl(dt.Rows(0)("NO_OF_EMI"))
 
@@ -210,6 +214,7 @@ Public Class clsApplyLoan
             clsCommon.AddColumnsForChange(coll, "Loan_Status", obj.Loan_Status)
             clsCommon.AddColumnsForChange(coll, "POSTED", "0")
             clsCommon.AddColumnsForChange(coll, "PAID", obj.PAID, True)
+            clsCommon.AddColumnsForChange(coll, "Bank_code", obj.Bank_code)
             'clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
             'clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)

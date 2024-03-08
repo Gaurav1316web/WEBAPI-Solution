@@ -15570,6 +15570,7 @@ Public Class clsCreateAllTable
             coll.Add("Payment_EndDate", "DATE  NULL ")
             coll.Add("Gross_Salary", "INTEGER  NULL ")
             coll.Add("Loan_Status", "VARCHAR(10)  NULL ")
+            coll.Add("Bank_code", "VARCHAR(30)  NULL ")
             '====
             coll.Add("POSTED", "BIT NOT NULL")
             coll.Add("Posting_Date", "Datetime NULL")
@@ -15626,6 +15627,7 @@ Public Class clsCreateAllTable
             coll.Add("ADJUSTMENT_PLUS", "NUMERIC(12,2) NOT NULL ")
             coll.Add("ADJUSTMENT_MINUS", "NUMERIC(12,2) NOT NULL ")
             coll.Add("NET_EMI", "NUMERIC(12,2) NOT NULL ")
+            coll.Add("Bank_code", "varchar(30) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_LOANGENERATION_DETAIL", coll, Nothing, False, False)
 
 
@@ -52739,7 +52741,11 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("RCDF_Status", "int Null")
             coll.Add("RCDF_Post_By", "varchar(12) NULL")
             coll.Add("RCDF_Post_Date", "Datetime NULL")
+            coll.Add("Bank_Letter_Date", "Datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
+
+            qry = "update TSPL_DBT_NEFT set Bank_Letter_Date=Document_Date where Bank_Letter_Date is null"
+            clsDBFuncationality.ExecuteNonQuery(qry)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")

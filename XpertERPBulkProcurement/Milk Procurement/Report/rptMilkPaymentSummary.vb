@@ -13,6 +13,7 @@ Public Class rptMilkPaymentSummary
     Dim Slot2TD As DateTime = Nothing
     Dim Slot3FD As DateTime = Nothing
     Dim Slot3TD As DateTime = Nothing
+    Dim AreaWiseBilling As Boolean = False
 
     Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
         Me.Close()
@@ -30,6 +31,7 @@ Public Class rptMilkPaymentSummary
     Sub Reset()
         gv.DataSource = Nothing
         txtMCC.arrValueMember = Nothing
+        fndArea.Value = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
     End Sub
 
@@ -57,19 +59,29 @@ Public Class rptMilkPaymentSummary
         Try
             Dim whrRej As String = ""
             Dim whrRec As String = ""
-            If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                whrRec += "and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
-                whrRej += "and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
+            Dim whre As String = ""
+            Dim AreaName As String = ""
+            If AreaWiseBilling Then
+                If clsCommon.myLen(fndArea.Value) > 0 Then
+                    whre += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                    AreaName = ",max(MCCName)AreaName"
+                End If
             Else
-                whrRec += "And TSPL_MILK_RECEIPT_HEAD.mcc_Code in (" & StrPermission & ")"
-                whrRej += "And TSPL_MILK_REJECT_HEAD.mcc_Code in (" & StrPermission & ")"
+                If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+                    whrRec += "and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
+                    whrRej += "and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
+                Else
+                    whrRec += "And TSPL_MILK_RECEIPT_HEAD.mcc_Code in (" & StrPermission & ")"
+                    whrRej += "And TSPL_MILK_REJECT_HEAD.mcc_Code in (" & StrPermission & ")"
+                End If
             End If
+
             'If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
             '    whrRej += "And  TSPL_MILK_REJECT_HEAD.mcc_Code in (" & StrPermission & ") "
             '    whrRec += "And  TSPL_MILK_RECEIPT_DETAIL.mcc_Code in (" & StrPermission & ") "
             'End If
 
-            qry = "  select  (xx.MCC),max(MCCName)MCCName,sum(xx.SrnQty)SrnQty,sum(xx.SrnAmt)SrnAmt,sum(xx.FATKG)FATKG,sum(xx.SNFKG)SNFKG,
+            qry = "  select  (xx.MCC),max(MCCName)MCCName " + AreaName + ",sum(xx.SrnQty)SrnQty,sum(xx.SrnAmt)SrnAmt,sum(xx.FATKG)FATKG,sum(xx.SNFKG)SNFKG,
                             case when sum(SrnQty )=0 then 0 else (sum(FATKG )/sum(SrnQty ))*100 end as FATAVG,
                             case when sum(SrnQty )=0 then 0 else (sum(SNFKG )/sum(SrnQty ))*100 end as SNFAVG,
                             sum(xx.SrnQty2)SrnQty2,sum(xx.SrnAmt2)SrnAmt2,sum(xx.FATKG2)FATKG2,sum(xx.SNFKG2)SNFKG2,
@@ -116,7 +128,7 @@ Public Class rptMilkPaymentSummary
                             left outer join (select code,max(Price_code) as Price_code from  TSPL_FAT_SNF_UPLOADER_MASTER group by code) as TabTSPL_FAT_SNF_UPLOADER_MASTER on TabTSPL_FAT_SNF_UPLOADER_MASTER.code=TSPL_MILK_SRN_DETAIL.Price_Code
                             left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per
                              left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  where 2 = 2 
-                             and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) >=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) <=convert(date,'" + clsCommon.GetPrintDate(Slot3TD) + "',103) " + whrRec + "
+                             and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) >=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) <=convert(date,'" + clsCommon.GetPrintDate(Slot3TD) + "',103) " + whrRec + whre + "
  
                              Union All 
  
@@ -143,7 +155,7 @@ Public Class rptMilkPaymentSummary
                              left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per 
                              left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type  where 2=2 
  
-                             and convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) >=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) and convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) <=convert(date,'" + clsCommon.GetPrintDate(Slot3TD) + "',103) " + whrRej + " 
+                             and convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) >=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) and convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) <=convert(date,'" + clsCommon.GetPrintDate(Slot3TD) + "',103) " + whrRej + whre + " 
                              )x group by x.MCC
                              )xx group by xx.MCC   "
 
@@ -182,6 +194,11 @@ Public Class rptMilkPaymentSummary
             gv.Columns(ii).IsVisible = False
         Next
 
+        If AreaWiseBilling Then
+            gv.Columns("AreaName").Width = 100
+            gv.Columns("AreaName").IsVisible = True
+            gv.Columns("AreaName").HeaderText = "AreaName"
+        End If
         gv.Columns("MCC").Width = 100
         gv.Columns("MCC").IsVisible = False
         gv.Columns("MCC").HeaderText = "MCC"
@@ -274,6 +291,9 @@ Public Class rptMilkPaymentSummary
 
     End Sub
     Private Sub rptMilkPaymentSummary_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 0)
+        fndArea.Visible = AreaWiseBilling
+        lblArea.Visible = AreaWiseBilling
         StrPermission = clsERPFuncationality.UserWiseAvailableLocationCode()
     End Sub
 
@@ -285,12 +305,20 @@ Public Class rptMilkPaymentSummary
         Try
             Dim whrRej As String = ""
             Dim whrRec As String = ""
-            If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
-                whrRec += "and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
-                whrRej += "and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
+            Dim whre As String = ""
+            Dim AreaName As String = ""
+            If AreaWiseBilling Then
+                If clsCommon.myLen(fndArea.Value) > 0 Then
+                    whre += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                End If
             Else
-                whrRec += "And TSPL_MILK_RECEIPT_HEAD.mcc_Code in (" & StrPermission & ")"
-                whrRej += "And TSPL_MILK_REJECT_HEAD.mcc_Code in (" & StrPermission & ")"
+                If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
+                    whrRec += "and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
+                    whrRej += "and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(txtMCC.arrValueMember) + ") "
+                Else
+                    whrRec += "And TSPL_MILK_RECEIPT_HEAD.mcc_Code in (" & StrPermission & ")"
+                    whrRej += "And TSPL_MILK_REJECT_HEAD.mcc_Code in (" & StrPermission & ")"
+                End If
             End If
 
             qry = "  select  max(Comp_Name)Comp_Name,'" + objCommonVar.CurrentUser + "' as User_Name, max(Regn_No)Regn_No,max(Phone)Phone, (xx.MCC),max([MCC Name])[MCC Name],sum(xx.SrnQty)SrnQty,sum(xx.SrnAmt)SrnAmt,sum(xx.FATKG)FATKG,sum(xx.SNFKG)SNFKG,
@@ -341,7 +369,7 @@ Public Class rptMilkPaymentSummary
                             left outer join (select code,max(Price_code) as Price_code from  TSPL_FAT_SNF_UPLOADER_MASTER group by code) as TabTSPL_FAT_SNF_UPLOADER_MASTER on TabTSPL_FAT_SNF_UPLOADER_MASTER.code=TSPL_MILK_SRN_DETAIL.Price_Code
                             left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per
                              left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  where 2 = 2 
-                             and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) >=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) <=convert(date,'" + clsCommon.GetPrintDate(Slot3TD) + "',103) " + whrRec + "
+                             and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) >=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) <=convert(date,'" + clsCommon.GetPrintDate(Slot3TD) + "',103) " + whrRec + whre + "
  
                              Union All 
  
@@ -368,7 +396,7 @@ Public Class rptMilkPaymentSummary
                              left outer join TSPL_MILK_PRICE_SNF_DEDUCTION on TSPL_MILK_PRICE_SNF_DEDUCTION.Price_code=TabTSPL_FAT_SNF_UPLOADER_MASTER.Price_code and cast(TSPL_MILK_SRN_DETAIL.SNF_PER as decimal(18,1))=TSPL_MILK_PRICE_SNF_DEDUCTION.Per 
                              left join tspl_location_master on tspl_location_master.location_code=TSPL_MCC_MASTER.Plant_Code  left join TSPL_MILK_REJECT_TYPE on TSPL_MILK_REJECT_TYPE.code=TSPL_MILK_REJECT_DETAIL.Reject_Type  where 2=2 
  
-                             and convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) >=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) and convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) <=convert(date,'" + clsCommon.GetPrintDate(Slot3TD) + "',103) " + whrRej + " 
+                             and convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) >=convert(date,'" + clsCommon.GetPrintDate(Slot1FD) + "',103) and convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) <=convert(date,'" + clsCommon.GetPrintDate(Slot3TD) + "',103) " + whrRej + whre + " 
                              )x group by x.MCC
                              )xx group by xx.MCC   "
 
@@ -437,6 +465,27 @@ Public Class rptMilkPaymentSummary
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub fndArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER "
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+
+            Dim arrMCCMapped As New ArrayList
+            Dim dt As New DataTable
+            Dim query As String = "select MCC_NAME from TSPL_MCC_MASTER  WHERE Area_Location_Code='" + fndArea.Value + "'"
+            dt = Nothing
+            dt = clsDBFuncationality.GetDataTable(query)
+
+            For i As Integer = 0 To dt.Rows.Count - 1
+                arrMCCMapped.Add(dt.Rows(i)("MCC_NAME"))
+            Next
+            txtMCC.arrValueMember = arrMCCMapped
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
         End Try
     End Sub
 End Class

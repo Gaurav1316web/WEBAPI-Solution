@@ -10,6 +10,7 @@ Public Class rptMultipleDeductionReport
     Inherits FrmMainTranScreen
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim btnReferesh As Boolean = False
+    Dim AreaWiseBilling As Boolean = False
 
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -18,6 +19,9 @@ Public Class rptMultipleDeductionReport
 
     End Sub
     Private Sub rptMultipleDeductionReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 0)
+        fndArea.Visible = AreaWiseBilling
+        lblArea.Visible = AreaWiseBilling
         Reset()
     End Sub
     Sub Reset()
@@ -28,6 +32,7 @@ Public Class rptMultipleDeductionReport
         TxtDeductionCode.arrValueMember = Nothing
         TxtItem.arrDispalyMember = Nothing
         chkItemWise.Checked = False
+        fndArea.Value = Nothing
         LoadTypes()
         Gv1.DataSource = Nothing
         Gv1.Rows.Clear()
@@ -121,6 +126,8 @@ Public Class rptMultipleDeductionReport
                     ItemInUse += " and tspl_sd_shipment_head.Customer_Code in (" + clsCommon.GetMulcallString(txtMultiVSP.arrValueMember) + ")"
                 End If
 
+
+
                 Dim strItem As String = clsDBFuncationality.getSingleValue("DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))' +' as ' + QUOTENAME( " + strAliasCol + ") as Alies_Name  FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
                 Dim strItemTotal2 As String = clsDBFuncationality.getSingleValue("  DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct '+' +'Sum(isnull(' + QUOTENAME( " + strAliasCol + ") +',0))'  as Alies_Name  FROM " + ItemInUse + "  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
                 Dim strItemwhrcls As String = clsDBFuncationality.getSingleValue("DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' + QUOTENAME( " + strAliasCol + ") as Alies_Name  FROM " + ItemInUse + "   FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'')  ")
@@ -158,7 +165,8 @@ group by Route_no
 
                 strBaseqry = "select TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,convert(varchar,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) as Document_Date  ,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then TSPL_MULTIPLE_DEDUCTION_detail.amount else 0 end as Addition,case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 0 else TSPL_MULTIPLE_DEDUCTION_detail.amount  end as Deduction,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Deduction_Desc ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code]  from TSPL_MULTIPLE_DEDUCTION_HEAD 
 LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
-left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
+left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
+left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
 where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + fromDate.Value + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" & ToDate.Value & "'),103) "
 
 
@@ -171,6 +179,10 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DED
 
                 If TxtDeductionCode.arrValueMember IsNot Nothing AndAlso TxtDeductionCode.arrValueMember.Count > 0 Then
                     strBaseqry += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ")"
+                End If
+
+                If clsCommon.myLen(fndArea.Value) > 0 Then
+                    strBaseqry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
                 End If
 
 
@@ -420,6 +432,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
             Dim strQry2 As String = Nothing
             Dim strQry3 As String = Nothing
             Dim strQry4 As String = Nothing
+            Dim strQry5 As String = Nothing
             ' Dim chktranstype As String = Nothing
 
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
@@ -433,6 +446,10 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                 strQry3 += " and TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ") "
                 strQry4 += "and (TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code in (" + clsCommon.GetMulcallString(TxtDeductionCode.arrValueMember) + ")"
             End If
+            If clsCommon.myLen(fndArea.Value) > 0 Then
+                strQry5 += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+            End If
+
 
 
             strQry = "  select xx.SNo,xx.company_name,xx.[Vendor Code],xx.[Vendor Name],xx.[VLC Uploader Code],xx.MCC_Name,xx.[Document Date],xx.[Document No],
@@ -466,7 +483,7 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
                         LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
                         left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC  from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
                          left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
-                        where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) " + strQry3 + strQry1 + "  )Final 
+                        where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) >= convert(date,('" + clsCommon.GetPrintDate(fromDate.Value, "dd/MMM/yyyy") + "'),103) and convert(date,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,103) <= convert(date,('" + clsCommon.GetPrintDate(ToDate.Value, "dd/MMM/yyyy") + "'),103) " + strQry3 + strQry1 + strQry5 + "  )Final 
                         group by final.company_name,final.Document_No,final.Document_Date , final.Vendor_Code ,final.DeductionCode  
                         ) FINAL1
                         LEFT OUTER JOIN TSPL_MILK_RECEIPT_DETAIL ON TSPL_MILK_RECEIPT_DETAIL.VSP_CODE=FINAL1.[Vendor Code]
@@ -515,5 +532,14 @@ Environment.NewLine + "Company : " & objCommonVar.CurrentCompanyName
 
     Private Sub RadPageView1_SelectedPageChanged(sender As Object, e As EventArgs) Handles RadPageView1.SelectedPageChanged
 
+    End Sub
+
+    Private Sub fndArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER "
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        End Try
     End Sub
 End Class
