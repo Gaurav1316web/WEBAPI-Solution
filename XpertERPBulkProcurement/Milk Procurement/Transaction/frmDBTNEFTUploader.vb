@@ -89,6 +89,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         txtdate.Focus()
         btnPrint.Visible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal)
         'btnPrint.Visible = True
+        BtnBank.Visible = False
     End Sub
     Private Sub FrmVLCDataUploaderManual_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N Then
@@ -189,6 +190,14 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 obj.Remarks = txtRemarks.Text
                 obj.Zone_Code = txtZone.Value
                 obj.Bank_Letter_Date = txtBankLetterDate.Value
+
+                If obj.Bank_Letter_Date < obj.Document_Date Then
+                    'obj.Bank_Letter_Date = txtBankLetterDate.Value Then
+                    ' Else
+                    clsCommon.MyMessageBoxShow(Me, "Bank Date Not Valid always greater then Document Date ", Me.Text)
+                    txtBankLetterDate.Focus()
+                    Exit Sub
+                End If
                 If gvItem.Rows.Count > 0 Then
                     obj.arr = New List(Of clsDBTNEFTDetail)
                     For Each grow As GridViewRowInfo In gvItem.Rows
@@ -209,46 +218,46 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                     Next
                 End If
                 If gvInvalid.Rows.Count > 0 Then
-                    obj.arrInvalid = New List(Of clsDBTNEFTDetailInvalid)
-                    For Each grow As GridViewRowInfo In gvInvalid.Rows
-                        Dim objTr As New clsDBTNEFTDetailInvalid
-                        objTr.SNo = obj.arrInvalid.Count + 1
-                        objTr.Against_MP_Incentive_TR = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colAgainstMPIncetive).Value)
-                        objTr.VLC_Uploader_Code = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colSociety).Value)
-                        objTr.MP_Uploader_Code = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPUploaderCode).Value)
-                        objTr.Amount = clsCommon.myCdbl(grow.Cells(clsDBTNEFTPerforma.colAmount).Value)
-                        objTr.MP_IFSC_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPIFSCCode).Value)
-                        objTr.MP_Account_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPAccountNo).Value)
-                        objTr.MP_Bank = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPBank).Value)
-                        objTr.MP_Mobile_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPMobileNo).Value)
-                        objTr.MP_Name = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPName).Value)
-                        obj.arrInvalid.Add(objTr)
-                    Next
-                End If
-                Dim objApproval As New clsApply_Approval()
-                If (clsDBTNEFT.SaveData(obj, isNewEntry)) Then
-                    Dim qry As String = "select sum(Amount) from TSPL_DBT_NEFT_DETAIL where Document_Code='" + txtDocumentNo.Value + "' "
-                    Dim TotAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
-                    clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, obj.Document_Code, txtdate.Text, "", clsCommon.myCstr(txtRemarks.Text), clsCommon.myCdbl(TotAmt), 0, "", objApproval)
-                    qry = "select 1 from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where TRANS_Code='" + MyBase.Form_ID + "' and Document_Code='" + obj.Document_Code + "'"
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        UcAttachment1.BlankAllControls()
-                        Dim objP As New clsDBTNEFT()
-                        Dim Filename As String = objP.funPrintBankLetter(obj.Document_Code, True)
-                        Dim SafeFileName As String = "BankLetter.pdf"
-                        UcAttachment1.AddAttachment(Filename, SafeFileName)
-                        Filename = clsCommon.MyExportToExcelGridPath("NEFT Uploader", gvItem, Nothing, Me.Text, False, "", "")
-                        SafeFileName = "NEFTDetail.xls"
-                        UcAttachment1.AddAttachment(Filename, SafeFileName)
-
-                        UcAttachment1.SaveData(obj.Document_Code, True, Nothing)
+                        obj.arrInvalid = New List(Of clsDBTNEFTDetailInvalid)
+                        For Each grow As GridViewRowInfo In gvInvalid.Rows
+                            Dim objTr As New clsDBTNEFTDetailInvalid
+                            objTr.SNo = obj.arrInvalid.Count + 1
+                            objTr.Against_MP_Incentive_TR = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colAgainstMPIncetive).Value)
+                            objTr.VLC_Uploader_Code = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colSociety).Value)
+                            objTr.MP_Uploader_Code = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPUploaderCode).Value)
+                            objTr.Amount = clsCommon.myCdbl(grow.Cells(clsDBTNEFTPerforma.colAmount).Value)
+                            objTr.MP_IFSC_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPIFSCCode).Value)
+                            objTr.MP_Account_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPAccountNo).Value)
+                            objTr.MP_Bank = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPBank).Value)
+                            objTr.MP_Mobile_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPMobileNo).Value)
+                            objTr.MP_Name = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPName).Value)
+                            obj.arrInvalid.Add(objTr)
+                        Next
                     End If
+                    Dim objApproval As New clsApply_Approval()
+                    If (clsDBTNEFT.SaveData(obj, isNewEntry)) Then
+                        Dim qry As String = "select sum(Amount) from TSPL_DBT_NEFT_DETAIL where Document_Code='" + txtDocumentNo.Value + "' "
+                        Dim TotAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
+                        clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, obj.Document_Code, txtdate.Text, "", clsCommon.myCstr(txtRemarks.Text), clsCommon.myCdbl(TotAmt), 0, "", objApproval)
+                        qry = "select 1 from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where TRANS_Code='" + MyBase.Form_ID + "' and Document_Code='" + obj.Document_Code + "'"
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            UcAttachment1.BlankAllControls()
+                            Dim objP As New clsDBTNEFT()
+                            Dim Filename As String = objP.funPrintBankLetter(obj.Document_Code, True)
+                            Dim SafeFileName As String = "BankLetter.pdf"
+                            UcAttachment1.AddAttachment(Filename, SafeFileName)
+                            Filename = clsCommon.MyExportToExcelGridPath("NEFT Uploader", gvItem, Nothing, Me.Text, False, "", "")
+                            SafeFileName = "NEFTDetail.xls"
+                            UcAttachment1.AddAttachment(Filename, SafeFileName)
 
-                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
-                    LoadData(obj.Document_Code, NavigatorType.Current)
+                            UcAttachment1.SaveData(obj.Document_Code, True, Nothing)
+                        End If
+
+                        clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+                        LoadData(obj.Document_Code, NavigatorType.Current)
+                    End If
                 End If
-            End If
         Catch ex As Exception
             If clsCommon.myLen(ex.Message) > 200 Then
                 clsERPFuncationality.OpenNotepadFile(ex.Message, Me.Text)
