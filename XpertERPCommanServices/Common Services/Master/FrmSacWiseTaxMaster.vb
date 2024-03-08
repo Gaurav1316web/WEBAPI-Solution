@@ -780,7 +780,7 @@ Public Class FrmSacWiseTaxMaster
                     If clsCommon.myLen(strTaxCode4) > 0 AndAlso clsCommon.myLen(strTaxCode5) > 0 Then
                         If (clsCommon.CompairString(strTaxCode4, strTaxCode5) = CompairStringResult.Equal) Then
                             Dim Msg As String = "Same Tax code  Exist at Row No " + clsCommon.myCstr(ii + 1) + " "
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
                     End If
@@ -821,7 +821,7 @@ Public Class FrmSacWiseTaxMaster
                     Dim strValue As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*)  from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code = '" + strGroupcodeChk + "' and Tax_Code ='" + strTaxCodeChk2 + "'"))
                     If strValue <= 0 Then
                         Dim Msg As String = " Invalid Tax2 Code at Row No " + clsCommon.myCstr(ii + 1) + " "
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 End If
@@ -830,7 +830,7 @@ Public Class FrmSacWiseTaxMaster
                     Dim strValue As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*)  from TSPL_TAX_RATES where Tax_Code = '" + strTaxCodeChk2 + "' and Tax_Rate = '" + strTaxRateChk2 + "' "))
                     If strValue <= 0 Then
                         Dim Msg As String = " Invalid [Tax2 Rate]  at Row No " + clsCommon.myCstr(ii + 1) + " "
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 End If
@@ -839,7 +839,7 @@ Public Class FrmSacWiseTaxMaster
                     Dim strValue As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*)  from TSPL_TAX_GROUP_DETAILS where  Tax_Group_Code = '" + strGroupcodeChk + "' and Tax_Code ='" + strTaxCodeChk3 + "'"))
                     If strValue <= 0 Then
                         Dim Msg As String = " Invalid Tax3 Code at Row No " + clsCommon.myCstr(ii + 1) + " "
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 End If
@@ -848,7 +848,7 @@ Public Class FrmSacWiseTaxMaster
                     Dim strValue As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*)  from TSPL_TAX_RATES where Tax_Code = '" + strTaxCodeChk3 + "' AND  Tax_Rate = '" + strTaxRateChk3 + "' "))
                     If strValue <= 0 Then
                         Dim Msg As String = " Invalid [Tax3 Rate]  at Row No " + clsCommon.myCstr(ii + 1) + " "
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 End If
@@ -857,7 +857,7 @@ Public Class FrmSacWiseTaxMaster
                     Dim strValue As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*)  from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code = '" + strGroupcodeChk + "' and Tax_Code ='" + strTaxCodeChk4 + "'"))
                     If strValue <= 0 Then
                         Dim Msg As String = " Invalid Tax4 Code at Row No " + clsCommon.myCstr(ii + 1) + " "
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 End If
@@ -866,7 +866,7 @@ Public Class FrmSacWiseTaxMaster
                     Dim strValue As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*)  from TSPL_TAX_RATES where Tax_Code = '" + strTaxCodeChk4 + "' and Tax_Rate = '" + strTaxRateChk4 + "' "))
                     If strValue <= 0 Then
                         Dim Msg As String = " Invalid [Tax4 Rate]  at Row No " + clsCommon.myCstr(ii + 1) + " "
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 End If
@@ -875,7 +875,7 @@ Public Class FrmSacWiseTaxMaster
                     Dim strValue As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*)  from TSPL_TAX_GROUP_DETAILS where Tax_Group_Code = '" + strGroupcodeChk + "' and Tax_Code ='" + strTaxCodeChk5 + "'"))
                     If strValue <= 0 Then
                         Dim Msg As String = " Invalid Tax4 Code at Row No " + clsCommon.myCstr(ii + 1) + " "
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 End If
@@ -884,7 +884,7 @@ Public Class FrmSacWiseTaxMaster
                     Dim strValue As String = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*)  from TSPL_TAX_RATES where Tax_Code = '" + strTaxCodeChk5 + "' and Tax_Rate = '" + strTaxRateChk5 + "' "))
                     If strValue <= 0 Then
                         Dim Msg As String = " Invalid [Tax5 Rate]  at Row No " + clsCommon.myCstr(ii + 1) + " "
-                        common.clsCommon.MyMessageBoxShow(Msg)
+                        common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                         Return False
                     End If
                 End If
@@ -895,7 +895,7 @@ Public Class FrmSacWiseTaxMaster
 
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -1036,7 +1036,7 @@ Public Class FrmSacWiseTaxMaster
             If clsCommon.myLen(fndCode.Value) <= 0 Then
                 Throw New Exception("Code not found to delete")
             End If
-            If clsCommon.MyMessageBoxShow("Delete the current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Delete the current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 ClsSACWiseTax.DeleteData(fndCode.Value)
                 clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 Reset()
@@ -1066,7 +1066,7 @@ Public Class FrmSacWiseTaxMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Info)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Info)
         Finally
             chkPostClick = False
         End Try
@@ -1074,7 +1074,7 @@ Public Class FrmSacWiseTaxMaster
 
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR Reverse 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -1117,7 +1117,7 @@ Public Class FrmSacWiseTaxMaster
             'Dim query As String = " select   max (xxxx.HCODE) as Doc_Code,max(Convert(varchar, TSPL_ITEM_WISE_TAX.DOC_DATE,103)) as DOC_DATE, (TSPL_ITEM_WISE_TAX.Type) as Type,max(case when TSPL_ITEM_WISE_TAX.Status =1 then 'Y' else 'N' end ) as Posted , xxxx.Item_Code,max(TSPL_ITEM_MASTER.Item_Desc) as Item_Desc,max(TSPL_ITEM_MASTER.HSN_Code) as HSN_Code ,max(xxxx.Tax_Group_Code) as Tax_Group_Code,max (TSPL_TAX_GROUP_MASTER.Tax_Group_Desc) as Tax_Group_Desc,max (xxxx.[1]) as Tax1_Code,max (xxxx.[1T]) as TAX1_Rate , max (xxxx.[2]) as Tax2_Code,max (xxxx.[2T]) as TAX2_Rate ,max (xxxx.[3]) as Tax3_Code,max (xxxx.[3T]) as TAX3_Rate ,max (xxxx.[4]) as Tax4_Code,max (xxxx.[4T]) as TAX4_Rate ,max (xxxx.[5]) as Tax5_Code,max (xxxx.[5T]) as TAX5_Rate from ( select * from ( select * from ( select TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE, TSPL_ITEM_WISE_TAX_GROUP.SNO as TAX_Group_SNo,  TSPL_ITEM_WISE_TAX_GROUP.item_code,TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code,convert (nvarchar, DENSE_RANK() OVER (PARTITION BY TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE ORDER BY TSPL_ITEM_WISE_TAX_AUTHORITY.Tax_Authority)) as SNO,Convert (nvarchar,DENSE_RANK() OVER (PARTITION BY TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE ORDER BY TSPL_ITEM_WISE_TAX_AUTHORITY.Tax_Authority))+'T' as SNO2, TSPL_ITEM_WISE_TAX_AUTHORITY. DCODE,TSPL_ITEM_WISE_TAX_AUTHORITY.Tax_Authority,TSPL_ITEM_WISE_TAX_AUTHORITY.TAX_Rate  from TSPL_ITEM_WISE_TAX_AUTHORITY  inner join TSPL_ITEM_WISE_TAX_GROUP on TSPL_ITEM_WISE_TAX_GROUP.DCODE=TSPL_ITEM_WISE_TAX_AUTHORITY.DCODE and TSPL_ITEM_WISE_TAX_GROUP.HCODE =TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE  )src pivot ( max(Tax_Authority) for SNO in ([1], [2],[3],[4],[5]) ) piv ) xxx pivot  ( max(TAX_Rate)   for SNO2 in ([1T], [2T],[3T],[4T],[5T])  ) piv2 ) xxxx left outer join TSPL_ITEM_WISE_TAX on TSPL_ITEM_WISE_TAX.HCODE = xxxx.HCODE  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = xxxx.Item_Code left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code = xxxx.Tax_Group_Code   "
             transportSql.ExporttoExcel(query, "  group by xxxx.sac_Code ,xxxx.Tax_Group_Code ", " Tax_Group_Code asc  ", Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, "SAC Tax", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs) Handles RadMenuItem4.Click

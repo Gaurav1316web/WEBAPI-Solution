@@ -283,7 +283,7 @@ Public Class frmLocationDistanceMapping
     Private Sub SetUserMgmtNew()
         MyBase.SetUserMgmt(clsUserMgtCode.frmLocationDistanceMapping)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If

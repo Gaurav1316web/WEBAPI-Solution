@@ -103,7 +103,7 @@ Public Class FrmFormMaster
             myMessages.insert()
             FunFill()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Form Master", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
             trans.Rollback()
         End Try
     End Sub
@@ -116,7 +116,7 @@ Public Class FrmFormMaster
             myMessages.update()
             FunFill()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Form Master", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
             trans.Rollback()
         End Try
     End Sub
@@ -128,7 +128,7 @@ Public Class FrmFormMaster
             trans.Commit()
             myMessages.delete()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Form Master", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
             trans.Rollback()
         End Try
     End Sub

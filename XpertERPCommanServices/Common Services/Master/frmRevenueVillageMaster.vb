@@ -98,7 +98,7 @@ Public Class frmRevenueVillageMaster
             Dim qry As String = "SELECT Count(*) FROM TSPL_REVENUE_VILLAGE_MASTER where REVENUE_VILLAGE_CODE= '" & txtCode.Value & "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
             If check > 0 Then
-                If Not (common.clsCommon.MyMessageBoxShow("Delete the Revenue Village Master No. " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+                If Not (common.clsCommon.MyMessageBoxShow(Me, "Delete the Revenue Village Master No. " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                     Return
                 End If
                 qry = "delete from TSPL_REVENUE_VILLAGE_MASTER where REVENUE_VILLAGE_CODE='" + txtCode.Value + "'"
@@ -251,7 +251,7 @@ Public Class frmRevenueVillageMaster
                     clsRevenueVillageMaster.SaveData(obj, obj.code)
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

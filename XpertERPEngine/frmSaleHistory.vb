@@ -677,7 +677,7 @@ Public Class FrmSaleHistory
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             success = success And obj.SaveData()
             If success Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage

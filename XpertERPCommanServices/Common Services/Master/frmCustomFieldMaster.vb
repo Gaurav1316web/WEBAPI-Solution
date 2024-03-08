@@ -931,7 +931,7 @@ Public Class FrmCustomFieldMaster
     End Sub
 
     Private Sub gv3_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv3.UserDeletingRow
-        If clsCommon.MyMessageBoxShow("Sure to Delete Row ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = vbNo Then
+        If clsCommon.MyMessageBoxShow(Me, "Sure to Delete Row ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = vbNo Then
             e.Cancel = True
         End If
     End Sub

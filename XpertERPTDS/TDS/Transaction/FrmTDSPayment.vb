@@ -218,7 +218,7 @@ Public Class FrmTDSPayment
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
                 gv1.MasterTemplate.FilterDescriptors.Clear()
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             obj = Nothing
 

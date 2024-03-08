@@ -1740,7 +1740,7 @@ Public Class frmMonthlyAttendance
             obj.GridColumns = gvMonthlyAttendance.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
