@@ -4744,13 +4744,13 @@ Public Class rptDairyTruckSheetReport
 
     Private Sub btnPrintInvoice_Click(sender As Object, e As EventArgs) Handles btnPrintInvoice.Click
         Try
-            PrintInvoive()
+            PrintInvoiveSummary()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
-    Private Sub PrintInvoive()
+    Private Sub PrintInvoiveSummary()
         Try
             Dim Qry As String = Nothing
             Dim frmCRV As New frmCrystalReportViewer()
@@ -4794,4 +4794,99 @@ Public Class rptDairyTruckSheetReport
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnPrintInvoiceDetail_Click(sender As Object, e As EventArgs) Handles btnPrintInvoiceDetail.Click
+        Try
+            PrintInvoiveDetail()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub PrintInvoiveDetail()
+        Try
+            Dim Qry As String = Nothing
+            Dim frmCRV As New frmCrystalReportViewer()
+            Dim ItemQry As String = ""
+            Dim whrcls As String = " where 2=2 and  TSPL_ITEM_MASTER.Item_Type = 'F' and TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_SD_SHIPMENT_HEAD.Status = 1 "
+
+            If clsCommon.myLen(txtInvFromDate.Value) > 0 AndAlso clsCommon.myLen(txtInvToDate.Value) Then
+                whrcls += " And convert(Date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >=convert(Date,'" + txtInvFromDate.Value + "',103)  and convert(Date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<= convert(Date,'" + txtInvToDate.Value + "',103) "
+            Else
+                Throw New Exception("Fill From Date and To Date")
+            End If
+
+            If clsCommon.myLen(txtInvMultiCust.arrValueMember) > 0 Then
+                whrcls += " And  TSPL_SD_SHIPMENT_HEAD.Customer_Code In (" + clsCommon.GetMulcallString(txtInvMultiCust.arrValueMember) + ")"
+            End If
+            ItemQry = "select * from ( select max(Sku_Seq)Sku_Seq ,max(Item_Desc)Item_Desc from ( select CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)AS Document_Date,TSPL_ITEM_MASTER.item_code,TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_MASTER.Item_Desc
+            from TSPL_SD_sale_invoice_DETAIL LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD .Document_Code =TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE  LEFT OUTER JOIN TSPL_ITEM_MASTER  ON TSPL_ITEM_MASTER.Item_Code =TSPL_SD_sale_invoice_DETAIL.Item_Code 
+ 		    left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No Left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code And  TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_sale_invoice_DETAIL.Unit_code 
+		    left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code  left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER .Cust_Code  =TSPL_SD_SALE_INVOICE_HEAD .Customer_Code " & whrcls & " 
+             )xx group by Item_Code )xxx order by Sku_Seq"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(ItemQry)
+            If dt.Rows.Count > 0 And dt IsNot Nothing Then
+                If dt.Rows.Count <= 5 Then
+                    Dim arrItems As New List(Of String)
+                    For ii As Integer = 0 To dt.Rows.Count - 1
+                        arrItems.Add(dt.Rows(ii)("Item_Desc"))
+                    Next
+                    Qry = PrintInvoiceDetailForTruckSheetReport(txtInvFromDate.Value, txtInvToDate.Value, whrcls, arrItems)
+                    dt = New DataTable()
+                    dt = clsDBFuncationality.GetDataTable(Qry)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "Cannot support for more than 5 items", Me.Text)
+                    Exit Sub
+                End If
+            End If
+            If clsCommon.myLen(txtInvFromDate.Value) > 0 AndAlso clsCommon.myLen(txtInvToDate.Value) Then
+
+                frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, TotalItems(whrcls), "crptInvoiceDetail", "Invoice Detail", "rptSubInvoiceDetails.rpt")
+                frmCRV = Nothing
+            Else
+                myMessages.blankValue("No data found")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Private Function PrintInvoiceDetailForTruckSheetReport(ByVal FromDate, ByVal ToDate, ByVal whrcls, ByVal arrItems) As String
+        Dim Qry As String = ""
+        Qry = "select '" & FromDate & "' As 'From_Date',Convert(Varchar(10),'" & ToDate & "') As 'To_Date',TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.GSTReg_No As SellerGST,TSPL_COMPANY_MASTER.Pan_No,TSPL_COMPANY_MASTER.BankBranchAddress,TSPL_COMPANY_MASTER.Bank_Name,TSPL_COMPANY_MASTER.BankAccountNo,TSPL_COMPANY_MASTER.BankIFSCCode,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Circle_No,xxx.*  from (
+        SELECT  max(Cust_Gst_StateCode)Cust_Gst_StateCode, max(CustGSTNo)CustGSTNo, max(comp_code)comp_code, max(comp_add1)comp_add1,max(comp_add2)comp_add2,max(comp_add3)comp_add3,max(comp_Fax)comp_Fax,max(comp_Email)comp_Email,max(CompPhone)CompPhone,max(comp_tinNo)comp_tinNo,max(cust_Code)cust_Code,max(Customer_Name)Customer_Name,max(cust_add1)cust_add1,max(cust_add2)cust_add2,max(cust_add3)cust_add3,max(CustPhone)CustPhone,max(cust_fax)cust_fax,max(Cust_state)Cust_state,
+        max(cust_Statename)cust_Statename,max(cust_Email)cust_Email,max(cust_website)cust_website,max(Customer_Pan)Customer_Pan,max(GST_STATE_Code)GST_STATE_Code,max(LocGstNo)LocGstNo,max(Zone_Code)Zone_Code,max(Location_Desc)Location_Desc,max(Loc_Short_Name)Loc_Short_Name,max(Loc_Pin)Loc_Pin,max(Loc_Phone)Loc_Phone,max(Loc_Eamil)Loc_Eamil,max(Loc_Website)Loc_Website,max(Loc_ADd1)Loc_ADd1,max(LOC_ADD2)LOC_ADD2,
+        max(LOC_ADD3)LOC_ADD3,max(LocationState)LocationState,max(Loc_TIN_NO)Loc_TIN_NO,DAY(CONVERT(DATE, Document_Date))as Date, Document_Date,max(Item1Desc)Item1Desc ,sum(Item1QtyM)Item1QtyM , sum(Item1QtyE)Item1QtyE,MAX(Item2Desc)Item2Desc, sum(Item2QtyM)Item2QtyM , sum(Item2QtyE) Item2QtyE,MAX(Item3Desc)Item3Desc, sum(Item3QtyM)Item3QtyM , sum(Item3QtyE)Item3QtyE ,MAX(Item4Desc)Item4Desc,SUM(Item4QtyM)Item4QtyM ,
+        SUM(Item4QtyE)Item4QtyE ,MAX(Item5Desc)Item5Desc, SUM(Item5QtyM)Item5QtyM, SUM(Item5QtyE)Item5QtyE ,max(ConversionFactor)ConversionFactor , max(CF)CF   FROM ( select TSPL_COMPANY_MASTER.Logo_Img ,TSPL_COMPANY_MASTER.GSTReg_No As SellerGST,TSPL_COMPANY_MASTER.Pan_No,TSPL_COMPANY_MASTER.BankBranchAddress,TSPL_COMPANY_MASTER.Bank_Name,TSPL_COMPANY_MASTER.BankAccountNo,TSPL_COMPANY_MASTER.BankIFSCCode,
+        TSPL_COMPANY_MASTER.Comp_Code ,TSPL_COMPANY_MASTER.Comp_Name ,TSPL_COMPANY_MASTER.Add1 as comp_add1 , TSPL_COMPANY_MASTER.Add2 as  comp_add2 ,TSPL_COMPANY_MASTER.Add3 as comp_add3 ,TSPL_COMPANY_MASTER.Fax as comp_Fax ,TSPL_COMPANY_MASTER.Email as comp_Email, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone
+        , TSPL_COMPANY_MASTER.Tin_No as comp_tinNo , TSPL_SD_SHIPMENT_HEAD.Customer_Code  as cust_Code ,TSPL_CUSTOMER_MASTER.Customer_Name ,TSPL_CUSTOMER_MASTER.Add1 as cust_add1 ,TSPL_CUSTOMER_MASTER. Add2 as cust_add2 ,TSPL_CUSTOMER_MASTER.Add3 cust_add3,case when ISNULL(TSPL_CUSTOMER_MASTER.Phone1,'')='(+__)__________' then ''  else TSPL_CUSTOMER_MASTER.Phone1 end +  Case When ISNULL(TSPL_CUSTOMER_MASTER.Phone2,'')<>'(+__)__________' Then ', '+  TSPL_CUSTOMER_MASTER.Phone2 Else'' End as CustPhone ,
+        TSPL_CUSTOMER_MASTER.Fax as cust_fax ,TSPL_CUSTOMER_MASTER.State as Cust_state,CUSTOMER_STATE_MASTER.STATE_NAME as cust_Statename,TSPL_CUSTOMER_MASTER.Email as  cust_Email,TSPL_CUSTOMER_MASTER.WebSite as cust_website,TSPL_CUSTOMER_MASTER.pan as Customer_Pan,customer_city_master.city_name as Cust_City,CUSTOMER_STATE_MASTER.GST_STATE_Code AS Cust_Gst_StateCode, Tspl_customer_master.gstno as CustGSTNo,TSPL_STATE_MASTER.gst_state_code,tspl_location_master.gstno as LocGstNo,zone_code,TSPL_LOCATION_MASTER.Location_Desc
+        ,TSPL_LOCATION_MASTER.Loc_Short_Name ,  TSPL_LOCATION_MASTER.Pin_Code AS Loc_Pin, (case when isnull(TSPL_LOCATION_MASTER.Phone1,'')<>'' then TSPL_LOCATION_MASTER.Phone1  when  isnull(TSPL_LOCATION_MASTER.Phone2,'')<>'' then + ', '+ TSPL_LOCATION_MASTER.Phone2 end) as Loc_Phone , TSPL_LOCATION_MASTER.Email as Loc_Eamil,'' as Loc_Website,TSPL_LOCATION_MASTER.Add1  as Loc_ADd1,TSPL_LOCATION_MASTER.Add2  as LOC_ADD2,TSPL_LOCATION_MASTER.Add3 as LOC_ADD3, TSPL_STATE_MASTER.State_Name as LocationState, 
+        case when ISNULL(TSPL_LOCATION_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_LOCATION_MASTER.Phone1 end +  Case When   ISNULL(TSPL_LOCATION_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_LOCATION_MASTER.Phone2 Else'' End as LOCPhone,TSPL_LOCATION_MASTER.TIN_No as Loc_TIN_NO ,CONVERT(DATE,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)AS Document_Date, CASE WHEN TSPL_SD_SHIPMENT_HEAD.Shift_Type = 'AM' then 'Morning' else 'Evening' end  as Shift_Type , TSPL_ITEM_MASTER.ITEM_CODE,TSPL_ITEM_MASTER.Item_Desc,
+        TSPL_SD_SHIPMENT_DETAIL.Crate , TSPL_SD_SHIPMENT_DETAIL.Amount,TSPL_ITEM_UOM_DETAIL.Conversion_Factor As ConversionFactor,ITEMDETAIL1.Conversion_Factor As CF, (case when  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(0) & "' then TSPL_ITEM_MASTER.Item_Desc else '" & arrItems(0) & "'  end )  as Item1Desc,( case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' and  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(0) & "' then TSPL_SD_SHIPMENT_DETAIL.Crate else 0  end )  as Item1QtyM
+        ,( case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM' and  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(0) & "' then TSPL_SD_SHIPMENT_DETAIL.Crate else 0  end )  as Item1QtyE,( case when  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(1) & "' then TSPL_ITEM_MASTER.Item_Desc else '" & arrItems(1) & "'  end )  as Item2Desc,( case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' and  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(1) & "' then TSPL_SD_SHIPMENT_DETAIL.Crate else 0  end )  as Item2QtyM
+        ,( case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM' and  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(1) & "' then TSPL_SD_SHIPMENT_DETAIL.Crate else 0  end )  as Item2QtyE,( case when  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(2) & "' then TSPL_ITEM_MASTER.Item_Desc else '" & arrItems(2) & "'  end )  as Item3Desc,( case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' and  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(2) & "' then TSPL_SD_SHIPMENT_DETAIL.Crate else 0  end )  as Item3QtyM
+        ,( case when (TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM' and  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(2) & "' ) then TSPL_SD_SHIPMENT_DETAIL.Crate else 0  end )  as Item3QtyE,( case when   TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(3) & "' then TSPL_ITEM_MASTER.Item_Desc else '" & arrItems(3) & "'  end )  as Item4Desc,( case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' and  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(3) & "' then TSPL_SD_SHIPMENT_DETAIL.Crate else 0  end )  as Item4QtyM
+        ,( case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM' and  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(3) & "' then TSPL_SD_SHIPMENT_DETAIL.Crate else 0  end )  as Item4QtyE,( case when  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(4) & "' then TSPL_ITEM_MASTER.Item_Desc else '" & arrItems(4) & "'  end )  as Item5Desc,( case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' and  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(4) & "' then TSPL_SD_SHIPMENT_DETAIL.Crate else 0  end )  as Item5QtyM,
+        ( case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM' and  TSPL_ITEM_MASTER.Item_Desc = '" & arrItems(4) & "' then TSPL_SD_SHIPMENT_DETAIL.Crate else 0  end )  as Item5QtyE
+        from TSPL_SD_SHIPMENT_HEAD left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code = TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code =TSPL_SD_SHIPMENT_HEAD.Comp_Code  left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER .Cust_Code  =TSPL_SD_SHIPMENT_HEAD.Customer_Code 
+        left outer join TSPL_LOCATION_MASTER  on TSPL_LOCATION_MASTER.Location_Code =TSPL_SD_SHIPMENT_HEAD.Bill_To_Location LEFT OUTER JOIN TSPL_STATE_MASTER On TSPL_STATE_MASTER.State_Code=TSPL_LOCATION_MASTER.State  left join TSPL_STATE_MASTER as CUSTOMER_STATE_MASTER on TSPL_CUSTOMER_MASTER.State= CUSTOMER_STATE_MASTER.STATE_CODE  left outer join TSPL_CITY_MASTER as customer_city_master on TSPL_CUSTOMER_MASTER.city_code=customer_city_master.City_Code  
+        Left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code And  TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+        " & whrcls & " ) XX GROUP BY Document_Date  ) xxx left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code=xxx.comp_code  where (Item1Desc <> '' and Item1QtyM <> 0 and Item1QtyE <> 0)  or (Item2Desc <> '' and Item2QtyM <> 0  and Item2QtyE <> 0 ) or (Item3Desc <> '' and Item3QtyM <> 0 and item3qtye<> 0 ) or (Item4Desc  <> '' and Item4QtyM <> 0 and Item4QtyE <> 0 ) or ( Item5Desc <> ''  and Item5QtyM <> 0 and Item5QtyE <> 0) order by Date "
+
+        Return Qry
+
+    End Function
+
+    Private Function TotalItems(ByVal whrcls) As DataTable
+        Dim dt As New DataTable
+        Dim qry As String = "select * , (Convert(decimal(18,2),(Amount/((QtyCrates*ConversionFactor)/CF)))) As RateLtr from ( select max(Sku_Seq)Sku_Seq ,max(Item_Desc)Item_Desc, sum(Item_Net_Amt) Amount,sum(crate)QtyCrates,max(ConversionFactor)ConversionFactor , max(CF)CF  from 
+        ( select CONVERT(DATE,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103)AS Document_Date,TSPL_ITEM_MASTER.item_code,TSPL_ITEM_MASTER.Sku_Seq, TSPL_ITEM_MASTER.Item_Desc,TSPL_SD_sale_invoice_DETAIL.Qty , TSPL_SD_sale_invoice_DETAIL.Item_Net_Amt,TSPL_ITEM_MASTER.Rate  , TSPL_SD_sale_invoice_DETAIL.Crate,
+        TSPL_ITEM_UOM_DETAIL.Conversion_Factor As ConversionFactor,ITEMDETAIL1.Conversion_Factor As CF from  TSPL_SD_sale_invoice_DETAIL  LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD .Document_Code =TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE 
+        LEFT OUTER JOIN TSPL_ITEM_MASTER  ON TSPL_ITEM_MASTER.Item_Code =TSPL_SD_sale_invoice_DETAIL.Item_Code  left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No Left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_SD_sale_invoice_DETAIL.Item_Code
+        And  TSPL_ITEM_UOM_DETAIL.UOM_Code=TSPL_SD_sale_invoice_DETAIL.Unit_code left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ITEMDETAIL1 on ITEMDETAIL1.Item_code=TSPL_SD_sale_invoice_DETAIL.Item_Code left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER .Cust_Code  =TSPL_SD_SALE_INVOICE_HEAD .Customer_Code 
+       " & whrcls & " )xx   group by Item_Code )xxx order by Sku_Seq "
+        dt = clsDBFuncationality.GetDataTable(qry)
+        Return dt
+    End Function
+
 End Class
