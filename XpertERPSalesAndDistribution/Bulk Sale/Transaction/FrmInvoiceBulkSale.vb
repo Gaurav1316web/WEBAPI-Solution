@@ -94,6 +94,7 @@ Public Class FrmInvoiceBulkSale
     Dim ShowBulkDispatchQtyInLtr As Boolean = False
     Dim UseKGLitreConversionInBulkSaleAsperCLRCalculation As Boolean = False
     Dim Allow0FatPerOnBulkSaleQualityCheckScreen As Boolean = False
+    Dim strPdfAttachmentPath As String = ""
 #End Region
     Public Sub New()
         InitializeComponent()
@@ -137,7 +138,6 @@ Public Class FrmInvoiceBulkSale
 
     Private Sub FrmInvoiceBulkSale_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
-        'SetMailRight()
         AllowSNFNotManditoryInBulkSale = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowSNFNotManditoryInBulkSale, clsFixedParameterCode.AllowSNFNotManditoryInBulkSale, Nothing)) = 1, True, False))
         ApplyTSPriceAtBulkSale = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyTSPriceAtBulkSale, clsFixedParameterCode.ApplyTSPriceAtBulkSale, Nothing)) = 1, True, False))
         ShowBulkDispatchQtyInLtr = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowBulkDispatchQtyInLtr, clsFixedParameterCode.ShowBulkDispatchQtyInLtr, Nothing)) = 1, True, False))
@@ -166,6 +166,8 @@ Public Class FrmInvoiceBulkSale
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
     End Sub
+
+
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmInvoiceBulkSale)
         If Not (MyBase.isReadFlag) Then
@@ -175,6 +177,12 @@ Public Class FrmInvoiceBulkSale
         btndelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        RadMenu1.Visible = MyBase.isExport
+        If MyBase.isReverse Then
+            btnDeleteInvoiceafterPost.Enabled = True
+        Else
+            btnDeleteInvoiceafterPost.Enabled = False
+        End If
     End Sub
 
     Private Sub btnclose_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnclose.Click
@@ -1861,6 +1869,9 @@ Public Class FrmInvoiceBulkSale
 
                     common.clsCommon.MyMessageBoxShow("Successfully posted")
                     LoadData(txtDocNo.Value, NavigatorType.Current)
+                    Dim lstUsers As New List(Of String)
+                    lstUsers.Add(fndCustomerNo.Value)
+                    SendSMSandEmail(lstUsers, False)
                 End If
             End If
 
@@ -1874,6 +1885,115 @@ Public Class FrmInvoiceBulkSale
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
         PostData()
     End Sub
+
+
+    Private Sub SendSMSandEmail(ByVal lstUsers As List(Of String), ByVal isSendForApproval As Boolean)
+        Try
+            Dim strContactperson As String = ""
+            Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmInvoiceBulkSale + "'", Nothing)
+            If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
+
+                Dim objEmailH As New clsEMailHead()
+                objEmailH.arrEMail = New List(Of String)()
+                objEmailH.Email_Subject = clsCommon.myCstr(dtContent.Rows(0)("Email_subject"))
+                objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Doc_No, txtDocNo.Value)
+                objEmailH.Email_Subject = objEmailH.Email_Subject.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(txtDate.Text, "dd/MMM/yyyy"))
+
+                objEmailH.Email_Text = clsCommon.myCstr(dtContent.Rows(0)("Email_Text"))
+                objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Doc_No, txtDocNo.Value)
+                objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(txtDate.Text, "dd/MMM/yyyy"))
+                objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerNo, fndCustomerNo.Value)
+                objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.CustomerName, lblCustomerName.Text)
+                objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.TotalAmount, lblTotRAmt1.Text)
+                objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.Form_Code, clsUserMgtCode.FrmInvoiceBulkSale)
+
+                '------------------------code for attchament-------------------------------------
+                strPdfAttachmentPath = ""
+                If rdbAgainstDispatch.IsChecked Then
+                    strPdfAttachmentPath = funPrint(txtDocNo.Value, rdbAgainstDispatch.Text, True)
+                End If
+                If rdbAgainstDispatchTrade.IsChecked Then
+                    strPdfAttachmentPath = funPrint(txtDocNo.Value, rdbAgainstDispatchTrade.Text, True)
+                End If
+                objEmailH.Attachment_1_Path = strPdfAttachmentPath
+                '---------------------------------------------------------------------------
+
+                For Each strUser As String In lstUsers
+                    Dim lstReceiptents As New List(Of String)
+                    Dim qry As String = ""
+                    Dim emailId As String = ""
+                    If isSendForApproval Then
+                        strContactperson = strUser
+                        qry = "select E_Mail from TSPL_USER_MASTER where User_Code in ('" + strUser + "') "
+                        emailId = clsDBFuncationality.getSingleValue(qry)
+                    Else
+                        strContactperson = clsDBFuncationality.getSingleValue("select upper(substring(Contact_Person_Name,1,1)) + lower(substring(Contact_Person_Name,2,49)) from TSPL_customer_MASTER where cust_code ='" & strUser & "' ")
+                        emailId = clsDBFuncationality.getSingleValue("select Email from TSPL_customer_MASTER where cust_code ='" & strUser & "' ")
+                    End If
+
+                    objEmailH.Email_Text = objEmailH.Email_Text.Replace(frmEMailAndSMSSetting.ContactPerson, strContactperson)
+                    If clsCommon.myLen(emailId) > 0 Then
+                        objEmailH.arrEMail.Add(emailId)
+                    End If
+                Next
+
+                If objEmailH.SaveData(clsUserMgtCode.FrmInvoiceBulkSale, objEmailH, Nothing) Then
+                    clsCommon.MyMessageBoxShow(Me, "E-Mail Send Successfully", Me.Text)
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "E-Mail Send Failed !", Me.Text)
+                End If
+                objEmailH = Nothing
+                'SMSSENDONLY()
+
+
+            Else
+                clsCommon.MyMessageBoxShow(Me, "First do email and sms setting", Me.Text)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+
+    End Sub
+
+
+    Private Sub SMSSENDONLY()
+        Try
+            Dim strContactPerson As String = ""
+            Dim strotherno As String = Nothing
+            strotherno = clsDBFuncationality.getSingleValue("select Phone1 from TSPL_customer_MASTER where cust_code ='" & fndCustomerNo.Value & "' ")
+            strContactPerson = clsDBFuncationality.getSingleValue("select upper(substring(Contact_Person_Name,1,1)) + lower(substring(Contact_Person_Name,2,49)) from TSPL_customer_MASTER where cust_code ='" & fndCustomerNo.Value & "' ")
+            Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.FrmInvoiceBulkSale + "'", Nothing)
+            Dim objSMSH As New clsSMSHead()
+            objSMSH.arrMobilNo = New List(Of String)()
+            objSMSH.arrMobilNo.Add(clsCommon.myCstr(strotherno))
+            If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
+
+                If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+
+                    objSMSH.SMS_Text = clsCommon.myCstr(dtContent.Rows(0)("SMS_Text"))
+
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_No, txtDocNo.Value)
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerNo, fndCustomerNo.Value)
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.CustomerName, lblCustomerName.Text)
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myCstr(lblTotRAmt1.Text))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, clsUserMgtCode.FrmInvoiceBulkSale)
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.ContactPerson, strContactPerson)
+
+                    objSMSH.SaveData(clsUserMgtCode.FrmInvoiceBulkSale, objSMSH, Nothing)
+                    objSMSH = Nothing
+                    'If Not isPost Then
+                    '    clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
+                    'End If
+                End If
+            End If
+            'Sanjay
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         ''richa agarwal 14/10/2014
         Dim strfLocation As String = String.Empty
@@ -2245,11 +2365,11 @@ Public Class FrmInvoiceBulkSale
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If rdbAgainstDispatch.IsChecked Then
-                    funPrint(txtDocNo.Value, rdbAgainstDispatch.Text)
+                    funPrint(txtDocNo.Value, rdbAgainstDispatch.Text, False)
                 End If
                 'Modify By Prabhakar Ticket Ref : MSI-002/15-16/006120'
                 If rdbAgainstDispatchTrade.IsChecked Then
-                    funPrint(txtDocNo.Value, rdbAgainstDispatchTrade.Text)
+                    funPrint(txtDocNo.Value, rdbAgainstDispatchTrade.Text, False)
                 End If
             Else
                 Throw New Exception("Please Select Document No first")
@@ -2258,12 +2378,11 @@ Public Class FrmInvoiceBulkSale
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-    Sub funPrint(ByVal StrCode As String, ByVal AgainstDis As String)
-
+    Private Function funPrint(ByVal StrCode As String, ByVal AgainstDis As String, ByVal isPDFPath As Boolean) As String
+        Dim filePath As String = ""
         '" ISNULL(round(case when coalesce(CONVERTED_UOM.Conversion_factor,0)=0 then 0 else (TSPL_Dispatch_Detail_BulkSale.Qty*StockingUnit.Conversion_Factor /coalesce(CONVERTED_UOM.Conversion_factor,1)) end,3),0) as QtyInLtr " & _
         'Qry += " LEFT OUTER JOIN tspl_item_uom_detail as StockingUnit on StockingUnit.Item_Code=TSPL_Dispatch_Detail_BulkSale.item_code and StockingUnit.UOM_CODE=TSPL_Dispatch_Detail_BulkSale.Unit_Code " & _
         '       " LEFT OUTER JOIN TSPL_ITEM_UOM_DETAIL AS CONVERTED_UOM ON CONVERTED_UOM.Item_Code=TSPL_Dispatch_Detail_BulkSale.item_code and CONVERTED_UOM.UOM_CODE='Ltr' "
-
 
         Dim PrintTime As String = clsFixedParameter.GetData(clsFixedParameterType.AllowToPrintTimeWithDocumentDate, clsFixedParameterCode.AllowToPrintTimeWithDocumentDate, Nothing)
         '==============update by preeti against ticket no[ERO/31/05/18-000333,ERO/11/07/18-000370,ERO/12/07/18-000372]
@@ -2366,7 +2485,7 @@ Public Class FrmInvoiceBulkSale
        " LEFT OUTER JOIN TSPL_STATE_MASTER STATEMASTER_COMPANY ON STATEMASTER_COMPANY.State_Code=TSPL_COMPANY_MASTER.State" &
        " LEFT OUTER JOIN TSPL_STATE_MASTER STATEMASTER_CUSTOMER ON STATEMASTER_CUSTOMER.State_Code=TSPL_CUSTOMER_MASTER.State" &
        " LEFT OUTER JOIN TSPL_STATE_MASTER STATEMASTER_LOCATION ON STATEMASTER_LOCATION.State_Code=TSPL_LOCATION_MASTER.State" &
-" left join tspl_route_master on tspl_route_master.route_no= tspl_customer_master.route_no " &
+       " left join tspl_route_master on tspl_route_master.route_no= tspl_customer_master.route_no " &
        " left join tspl_vehicle_master on tspl_vehicle_master.vehicle_id=tspl_route_master.vehicle_code" &
        " left join tspl_employee_master on tspl_employee_master.emp_code=TSPL_VEHICLE_MASTER.employee_id"
 
@@ -2382,7 +2501,7 @@ Public Class FrmInvoiceBulkSale
             'KwalitySalesReportViewer.funreport(dt, "rptInvoiceBulkSale", "Milk Sales Invoice")
             'frmCrystalReportViewer.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptInvoiceBulkSale", "Milk Sales Invoice", "rptCompanyAddress.rpt")
             Dim frmCRV As New frmCrystalReportViewer()
-            frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptbulkinvoice", "Milk Sales Dispatch", "Bulk dispath")
+            filePath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptbulkinvoice", "Milk Sales Dispatch", "Bulk dispath")
             'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "rptInvoiceBulkSale", "Milk Sales Invoice", txtDate.Value, "rptCompanyAddress.rpt")
             frmCRV = Nothing
             qry = Nothing
@@ -2390,7 +2509,8 @@ Public Class FrmInvoiceBulkSale
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
-    End Sub
+        Return filePath
+    End Function
 
 
     Private Sub rdbAgainstDispatchTrade_ToggleStateChanged(ByVal sender As Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles rdbAgainstDispatchTrade.ToggleStateChanged

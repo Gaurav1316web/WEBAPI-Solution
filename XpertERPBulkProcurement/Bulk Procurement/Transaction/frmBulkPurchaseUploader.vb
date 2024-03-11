@@ -324,7 +324,7 @@ Public Class frmBulkPurchaseUploader
     Sub CheckAndValidate()
         Dim ValidateStatus As String = String.Empty
         If Gv1.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, "There are no row is grid please select a sheet to import")
+            clsCommon.MyMessageBoxShow(Me, "There are no row is grid please select a sheet to import", Me.Text)
         End If
         If ValidatedCount = Gv1.Rows.Count Then
             clsCommon.MyMessageBoxShow(Me, "All Rows are already validated", Me.Text)
@@ -2707,7 +2707,7 @@ Public Class frmBulkPurchaseUploader
                 trans.Rollback()
             Catch ex1 As Exception
             End Try
-            clsCommon.MyMessageBoxShow(ex.Message & " At Row No " & (i + 1))
+            clsCommon.MyMessageBoxShow(Me, ex.Message & " At Row No " & (i + 1), Me.Text)
         Finally
             objCommonVar.CurrentUserCode = CurrentUserCode
         End Try

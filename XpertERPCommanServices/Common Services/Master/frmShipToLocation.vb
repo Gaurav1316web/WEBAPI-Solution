@@ -4,9 +4,7 @@
 'Start Date -
 'End Date -
 '-20/12/2012:11:00AM--Updation By--Pankaj Kumar--Applied Validations
-Imports System.Data
 Imports System.Data.SqlClient
-Imports Telerik.WinControls.UI
 Imports System.Text.RegularExpressions
 Imports common
 Public Class frmShipToLocation
@@ -113,7 +111,7 @@ Public Class frmShipToLocation
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.ShiptoLocation)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -633,7 +631,7 @@ Public Class frmShipToLocation
                     End If
                 Next
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 myMessages.myExceptions(ex)
                 trans.Rollback()

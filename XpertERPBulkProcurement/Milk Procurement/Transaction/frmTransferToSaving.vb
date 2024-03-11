@@ -29,10 +29,21 @@ Public Class frmTransferToSaving
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
+        'RadMenu1.Visible = MyBase.isExport
+        btnsetting.Visible = MyBase.isExport
+        btnReverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        If MyBase.isExport = True Then
+            RadMenuItem2.Enabled = True
+            RadMenuItem3.Enabled = True
         Else
-            btnReverse.Enabled = False
+            RadMenuItem2.Enabled = False
+            RadMenuItem3.Enabled = False
         End If
     End Sub
 
@@ -348,7 +359,7 @@ Public Class frmTransferToSaving
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -379,7 +390,7 @@ Public Class frmTransferToSaving
                 If (clsTransferToSaving.PostData(txtDocNo.Value)) Then
                     msg = "Successfully Posted"
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
@@ -461,35 +472,41 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "MulProcDedReversAndCreate"
-            frm.strCode = "MulProcDedReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "MulProcDedReversAndCreate"
+                frm.strCode = "MulProcDedReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
             ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                          " TSPL_VENDOR_INVOICE_HEAD   " + Environment.NewLine +
-                          " TSPL_VENDOR_INVOICE_DETAIL  " + Environment.NewLine +
-                          " TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL (For AP Secondary Tranporter Deduction Detail) " + Environment.NewLine +
-                          " TSPL_REMITTANCE (For Remittance) " + Environment.NewLine +
-                          " TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine +
-                          " TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine +
-                          " TSPL_AP_Invoice_Advance_Interest " + Environment.NewLine +
-                          " TSPL_APPROVAL_LEVEL_SCREEN " + Environment.NewLine +
-                          " TSPL_APPROVAL_LEVEL_SCREEN_HISTORY " + Environment.NewLine +
-                          " TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine +
-                          " TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine +
-                          " TSPL_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine +
-                          " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine +
-                          " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine +
-                          " TSPL_ADJUSTMENT_HEADER  " + Environment.NewLine +
-                          " TSPL_ADJUSTMENT_DETAIL " + Environment.NewLine +
-                          " TSPL_SALE_INVOICE_HEAD " + Environment.NewLine +
-                          " TSPL_INVENTORY_MOVEMENT (For Store Adjustment) " + Environment.NewLine +
-                          " TSPL_BATCH_ITEM (During Inventory Movement save) ")
+                              " TSPL_VENDOR_INVOICE_HEAD   " + Environment.NewLine +
+                              " TSPL_VENDOR_INVOICE_DETAIL  " + Environment.NewLine +
+                              " TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL (For AP Secondary Tranporter Deduction Detail) " + Environment.NewLine +
+                              " TSPL_REMITTANCE (For Remittance) " + Environment.NewLine +
+                              " TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine +
+                              " TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine +
+                              " TSPL_AP_Invoice_Advance_Interest " + Environment.NewLine +
+                              " TSPL_APPROVAL_LEVEL_SCREEN " + Environment.NewLine +
+                              " TSPL_APPROVAL_LEVEL_SCREEN_HISTORY " + Environment.NewLine +
+                              " TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine +
+                              " TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine +
+                              " TSPL_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine +
+                              " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine +
+                              " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine +
+                              " TSPL_ADJUSTMENT_HEADER  " + Environment.NewLine +
+                              " TSPL_ADJUSTMENT_DETAIL " + Environment.NewLine +
+                              " TSPL_SALE_INVOICE_HEAD " + Environment.NewLine +
+                              " TSPL_INVENTORY_MOVEMENT (For Store Adjustment) " + Environment.NewLine +
+                              " TSPL_BATCH_ITEM (During Inventory Movement save) ")
 
-        End If
+            End If
     End Sub
 
     Private Sub gv1_CellBeginEdit(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellCancelEventArgs) Handles gv1.CellBeginEdit
@@ -510,7 +527,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -581,7 +598,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
 
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR DELETE 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -615,7 +632,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
 
     Private Sub RadMenuItem4_Click(sender As Object, e As EventArgs) Handles RadMenuItem4.Click
         Try
-            Dim Sql As String = " select ''  as [Vlc Uploder Code], '' as [Deduction Code], 0.00 as Amount"
+            'Dim Sql As String = " select ''  as [Vlc Uploder Code], '' as [Deduction Code], 0.00 as Amount"
+            Dim Sql As String = " select ''  as [Vlc Uploder Code], '' as [Vendor Name], 0.00 as Amount"
             transportSql.ExporttoExcel(Sql, Me)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -635,12 +653,14 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
 
             Dim dtError As New DataTable
             dtError.Columns.Add("Vlc Uploder Code", GetType(String))
-            dtError.Columns.Add("Deduction Code", GetType(String))
+            'dtError.Columns.Add("Deduction Code", GetType(String))
+            dtError.Columns.Add("Vendor Name", GetType(String))
             dtError.Columns.Add("Amount", GetType(String))
             dtError.Columns.Add("Error", GetType(String))
 
             Dim qry As String = ""
-            If transportSql.importExcel(gv, "Vlc Uploder Code", "Deduction Code", "Amount") Then
+            'If transportSql.importExcel(gv, "Vlc Uploder Code", "Deduction Code", "Amount") Then
+            If transportSql.importExcel(gv, "Vlc Uploder Code", "Vendor Name", "Amount") Then
                 Dim arr As New List(Of clsTransferToSavingDetail)
 
                 Try
@@ -653,15 +673,16 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
                             Dim objTr As New clsTransferToSavingDetail()
                             If clsCommon.myLen(grow.Cells("Vlc Uploder Code").Value) <= 0 Then
                                 Throw New Exception("Vlc Uploder Code cannot be blank at line no " + clsCommon.myCstr(count) + " ")
-                            ElseIf clsCommon.myLen(grow.Cells("Deduction Code").Value) <= 0 Then
-                                Throw New Exception("Deduction Code cannot be blank at line no " + clsCommon.myCstr(count) + "")
+                                'ElseIf clsCommon.myLen(grow.Cells("Deduction Code").Value) <= 0 Then
+                                'ElseIf clsCommon.myLen(grow.Cells("Vendor Name").Value) <= 0 Then
+                                'Throw New Exception("Vendor Name cannot be blank at line no " + clsCommon.myCstr(count) + "")
                             ElseIf clsCommon.myCdbl(grow.Cells("Amount").Value) <= 0 Then
-                                Throw New Exception("Deduction Code cannot be blank at line no " + clsCommon.myCstr(count) + "")
+                                Throw New Exception("Amount cannot be blank at line no " + clsCommon.myCstr(count) + "")
                             End If
                             objTr.VLCUploderCode = clsCommon.myCstr(grow.Cells("Vlc Uploder Code").Value)
                             qry = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VENDOR_MASTER.Vendor_Name 
-from TSPL_VLC_MASTER_HEAD 
-inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + objTr.VLCUploderCode + "'"
+                                    from TSPL_VLC_MASTER_HEAD 
+                                    inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + objTr.VLCUploderCode + "'"
                             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
                             If dt1 Is Nothing OrElse dt1.Rows.Count <= 0 Then
                                 Throw New Exception("Invalid Vlc Uploder Code at line no " + clsCommon.myCstr(count) + "")
@@ -676,7 +697,8 @@ inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_
                         Catch ex As Exception
                             Dim dr As DataRow = dtError.NewRow()
                             dr("Vlc Uploder Code") = clsCommon.myCstr(grow.Cells("Vlc Uploder Code").Value)
-                            dr("Deduction Code") = clsCommon.myCstr(grow.Cells("Deduction Code").Value)
+                            'dr("Deduction Code") = clsCommon.myCstr(grow.Cells("Deduction Code").Value)
+                            dr("Vendor Name") = clsCommon.myCstr(grow.Cells("Vendor Name").Value)
                             dr("Amount") = clsCommon.myCstr(grow.Cells("Amount").Value)
                             dr("Error") = "Error At Row No [" + clsCommon.myCstr(count) + "] " + ex.Message
                             dtError.Rows.Add(dr)
@@ -693,7 +715,7 @@ inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_
                     If dtError.Rows.Count > 0 Then
                         Dim ff As New FrmFreeGrid
                         ff.ReportID = "MULPROD"
-                        ff.Text = "Multiple Deduction Fill Errors"
+                        ff.Text = "Transfer To Saving Fill Errors"
                         ff.dt = dtError
                         ff.ShowDialog()
                     ElseIf arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -742,7 +764,7 @@ inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_
             Dim Sql As String = "select replace(convert(varchar, GetDate(),106),' ','/') as Date,'' as Location,'' as [Deduction/Addition], ''  as [Vlc Uploder Code], '' as [Deduction Code], 0.00 as Amount"
             transportSql.ExporttoExcel(Sql, Me)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RadMenuItem7_Click(sender As Object, e As EventArgs) Handles RadMenuItem7.Click
@@ -969,6 +991,6 @@ inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_
 
     Private Sub btnDeleteLayout_Click(sender As Object, e As EventArgs) Handles btnDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 End Class

@@ -45,7 +45,45 @@ Public Class frmMilkProcurementUploader
     Dim settMilkProcurementBatchPosting As Boolean = False
     Dim SettShowAllDCS As Boolean = False
 #End Region
+    Public Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmBookingProductSale)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+        'RadMenu1.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            RadMenuItem4.Enabled = True
+            RadMenuItem5.Enabled = True
+            RadMenuItem6.Enabled = True
+        Else
+            RadMenuItem4.Enabled = False
+            RadMenuItem5.Enabled = False
+            RadMenuItem6.Enabled = False
+        End If
+        If MyBase.isReverse Then
+            RadButton2.Enabled = True
+        Else
+            RadButton2.Enabled = False
+        End If
+        'If MyBase.isExport = True Then
+        '    RadMenuItem4.Enabled = True
+        '    RadMenuItem5.Enabled = True
+        'Else
+        '    RadMenuItem4.Enabled = False
+        '    RadMenuItem5.Enabled = False
+        'End If
+        'btnPrint.Visible = MyBase.isPrintFlag
+        'btnImport.Visible = MyBase.isExport
 
+        'If btnSave.Visible = True Then
+        '    btnImport.Enabled = True
+        'Else
+        '    btnImport.Enabled = False
+        'End If
+    End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         MyBase.SetUserMgmt(clsUserMgtCode.MilkShiftUploader)
         SettShowAllDCS = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowAllDCS, clsFixedParameterCode.ShowAllDCS, Nothing))
@@ -62,6 +100,8 @@ Public Class frmMilkProcurementUploader
         settSelectMilkRejectDefaulterManually = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SelectMilkRejectDefaulterManually, clsFixedParameterCode.SelectMilkRejectDefaulterManually, Nothing)) = 1)
         chkMilkReject.Visible = (settAlwaysVSPDefaulter AndAlso settSelectMilkRejectDefaulterManually)
         AddNew()
+        SetUserMgmtNew()
+
     End Sub
 
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click

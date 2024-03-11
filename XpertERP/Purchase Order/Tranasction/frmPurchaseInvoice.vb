@@ -328,11 +328,14 @@ Public Class frmPurchaseInvoice
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnprintjvl.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnPrintInv.Visible = MyBase.isPrintFlag
+        btnReverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         btncancel.Visible = MyBase.isCancel_Flag_After_Posting
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -5829,37 +5832,43 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                                                 "TSPL_PI_HEAD " + Environment.NewLine +
-                                                 "TSPL_PI_DETAIL " + Environment.NewLine +
-                                                 "TSPL_PI_REMITTANCE " + Environment.NewLine +
-                                                 "TSPL_PJV_HEAD " + Environment.NewLine +
-                                                 "TSPL_PJV_Detail " + Environment.NewLine +
-                                                 "TSPL_TRANSACTION_APPROVAL " + Environment.NewLine +
-                                                 "Press Alt+P for Post Trasnaction " + Environment.NewLine +
-                                                 "TSPL_SRN_DETAIL(Update Balance Qty) " + Environment.NewLine +
-                                                 "TSPL_PI_REMITTANCE " + Environment.NewLine +
-                                                 "TSPL_VENDOR_INVOICE_HEAD " + Environment.NewLine +
-                                                 "TSPL_VENDOR_INVOICE_DETAIL " + Environment.NewLine +
-                                                 "TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine +
-                                                 "TSPL_AP_Invoice_Advance_Interest " + Environment.NewLine +
-                                                 "TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine +
-                                                 "TSPL_JOURNAL_MASTER " + Environment.NewLine +
-                                                 "TSPL_JOURNAL_DETAILS " + Environment.NewLine +
-                                                 "TSPL_PR_HEAD(Purchase return in case of short Qty) " + Environment.NewLine +
-                                                 "TSPL_PR_DETAIL " + Environment.NewLine +
-                                                 "TSPL_ADJUSTMENT_HEADER(Adjustment Entry) " + Environment.NewLine +
-                                                 "TSPL_ADJUSTMENT_DETAIL " + Environment.NewLine +
-                                                 "TSPL_INVENTORY_MOVEMENT_new " + Environment.NewLine +
-                                                 "TSPL_ACQUISITION_DETAIL(Vendor Service charge against asset for assembled asset) " + Environment.NewLine +
-                                                 "TSPL_SALE_INVOICE_HEAD(Update Balance Amount) ")
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
-                RadButton1.Visible = True
+            If MyBase.isReverse Then
+
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                     "TSPL_PI_HEAD " + Environment.NewLine +
+                                                     "TSPL_PI_DETAIL " + Environment.NewLine +
+                                                     "TSPL_PI_REMITTANCE " + Environment.NewLine +
+                                                     "TSPL_PJV_HEAD " + Environment.NewLine +
+                                                     "TSPL_PJV_Detail " + Environment.NewLine +
+                                                     "TSPL_TRANSACTION_APPROVAL " + Environment.NewLine +
+                                                     "Press Alt+P for Post Trasnaction " + Environment.NewLine +
+                                                     "TSPL_SRN_DETAIL(Update Balance Qty) " + Environment.NewLine +
+                                                     "TSPL_PI_REMITTANCE " + Environment.NewLine +
+                                                     "TSPL_VENDOR_INVOICE_HEAD " + Environment.NewLine +
+                                                     "TSPL_VENDOR_INVOICE_DETAIL " + Environment.NewLine +
+                                                     "TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine +
+                                                     "TSPL_AP_Invoice_Advance_Interest " + Environment.NewLine +
+                                                     "TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine +
+                                                     "TSPL_JOURNAL_MASTER " + Environment.NewLine +
+                                                     "TSPL_JOURNAL_DETAILS " + Environment.NewLine +
+                                                     "TSPL_PR_HEAD(Purchase return in case of short Qty) " + Environment.NewLine +
+                                                     "TSPL_PR_DETAIL " + Environment.NewLine +
+                                                     "TSPL_ADJUSTMENT_HEADER(Adjustment Entry) " + Environment.NewLine +
+                                                     "TSPL_ADJUSTMENT_DETAIL " + Environment.NewLine +
+                                                     "TSPL_INVENTORY_MOVEMENT_new " + Environment.NewLine +
+                                                     "TSPL_ACQUISITION_DETAIL(Vendor Service charge against asset for assembled asset) " + Environment.NewLine +
+                                                     "TSPL_SALE_INVOICE_HEAD(Update Balance Amount) ")
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                    RadButton1.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

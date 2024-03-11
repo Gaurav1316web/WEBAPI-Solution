@@ -53,6 +53,50 @@ Public Class frmMilkCollectionMCC
     Dim dtDefault As DataTable = Nothing
     '''''''''''''''''''''''''''''''''''''''''''''''''
 #End Region
+    Public Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmbookingdairy)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+            Me.Close()
+            Exit Sub
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnBlankSheetUploder.Visible = MyBase.isExport
+        btnBlankSheetImportUploder.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnReverse.Visible = False
+
+        'If btnSave.Visible = True Then
+        '    btnBlankSheetImportUploder.Enabled = True
+        '    btnBlankSheetUploder.Enabled = True
+
+        'Else
+        '    btnBlankSheetImportUploder.Enabled = False
+        '    btnBlankSheetUploder.Enabled = False
+
+        'End If
+        If MyBase.isExport = True Then
+            btnBlankSheetImportUploder.Enabled = True
+            btnBlankSheetUploder.Enabled = True
+
+        Else
+            btnBlankSheetImportUploder.Enabled = False
+            btnBlankSheetUploder.Enabled = False
+
+        End If
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
+    End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
@@ -76,6 +120,7 @@ Public Class frmMilkCollectionMCC
         LoadLate()
         LoadFATSNFType()
         AddNew()
+        SetUserMgmtNew()
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtMDate.Value = clsCommon.GETSERVERDATE()
         If SettMilkCollectionFATSNFTypeHeader = 0 Then
@@ -1036,12 +1081,18 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                 End If
             End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "MulProcDedReversAndCreate"
-            frm.strCode = "MulProcDedReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "MulProcDedReversAndCreate"
+                frm.strCode = "MulProcDedReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
@@ -2343,7 +2394,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
             '    clsCommon.MyMessageBoxShow("Cannot be reversed and posted.", Me.Text)
             '    Exit Sub
             'End If
-            If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR DELETE 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -2652,11 +2703,11 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                                     clsMilkCollectionMCC.CorrectionData(objMCC, isCorrection)
                                     'clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
                                 Next
-                                common.clsCommon.MyMessageBoxShow("Data corrected sucessfully", Me.Text, MessageBoxButtons.OK)
+                                common.clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text, MessageBoxButtons.OK)
                             End If
                         End If
                     Else
-                        common.clsCommon.MyMessageBoxShow("Data Transfer Failed", Me.Text, MessageBoxButtons.OK)
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Failed", Me.Text, MessageBoxButtons.OK)
                     End If
                     clsCommon.ProgressBarHide()
 

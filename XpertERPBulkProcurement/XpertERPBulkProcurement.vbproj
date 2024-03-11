@@ -198,6 +198,12 @@
     <Compile Include="Milk Procurement\Master\frmOwnBMCGainLossRate.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Master\frmMPMilkPrice.Designer.vb">
+      <DependentUpon>frmMPMilkPrice.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmMPMilkPrice.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\FrmMCCMilkRegister.Designer.vb">
       <DependentUpon>FrmMCCMilkRegister.vb</DependentUpon>
     </Compile>
@@ -258,6 +264,12 @@
     <Compile Include="Milk Procurement\Report\rptMilkPaymentSummary.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptmilkunion.Designer.vb">
+      <DependentUpon>rptmilkunion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptmilkunion.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptMobileAppMilkCollection.Designer.vb">
       <DependentUpon>rptMobileAppMilkCollection.vb</DependentUpon>
     </Compile>
@@ -274,6 +286,18 @@
       <DependentUpon>rptTruckSheetDailySummaryReport.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptTruckSheetDailySummaryReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\TransferToSavingReport.Designer.vb">
+      <DependentUpon>TransferToSavingReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\TransferToSavingReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmBankAdvise.Designer.vb">
+      <DependentUpon>frmBankAdvise.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmBankAdvise.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\FrmCreateBMCDCSbyMobile.Designer.vb">
@@ -748,6 +772,9 @@
     <EmbeddedResource Include="Milk Procurement\Master\frmOwnBMCGainLossRate.resx">
       <DependentUpon>frmOwnBMCGainLossRate.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmMPMilkPrice.resx">
+      <DependentUpon>frmMPMilkPrice.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmFATSNFDiffReport.resx">
       <DependentUpon>frmFATSNFDiffReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -776,6 +803,9 @@
     <EmbeddedResource Include="Milk Procurement\Report\rptMilkPaymentSummary.resx">
       <DependentUpon>rptMilkPaymentSummary.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptmilkunion.resx">
+      <DependentUpon>rptmilkunion.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMobileAppMilkCollection.resx">
       <DependentUpon>rptMobileAppMilkCollection.vb</DependentUpon>
     </EmbeddedResource>
@@ -784,6 +814,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTruckSheetDailySummaryReport.resx">
       <DependentUpon>rptTruckSheetDailySummaryReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\TransferToSavingReport.resx">
+      <DependentUpon>TransferToSavingReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmBankAdvise.resx">
+      <DependentUpon>frmBankAdvise.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\FrmCreateBMCDCSbyMobile.resx">
       <DependentUpon>FrmCreateBMCDCSbyMobile.vb</DependentUpon>

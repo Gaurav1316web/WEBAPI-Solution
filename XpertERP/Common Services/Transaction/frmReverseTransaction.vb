@@ -40,11 +40,14 @@ Public Class frmReverseTransaction
         btn_save.Visible = MyBase.isModifyFlag
         btn_post.Visible = MyBase.isPostFlag
         btn_delete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnReverseTransaction.Enabled = True
-        Else
-            btnReverseTransaction.Enabled = False
-        End If
+        btnprint.Visible = MyBase.isPrintFlag
+        'If MyBase.isReverse Then
+        '    btnReverseTransaction.Enabled = True
+        'Else
+        '    btnReverseTransaction.Enabled = False
+        'End If
+        btnReverseTransaction.Visible = False
+
     End Sub
     Public Sub New(ByVal user As String, ByVal company As String)
         InitializeComponent()
@@ -1603,12 +1606,18 @@ Public Class frmReverseTransaction
         ElseIf e.Alt And e.KeyCode = Keys.N Then
             resetdata()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverseTransaction.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverseTransaction.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

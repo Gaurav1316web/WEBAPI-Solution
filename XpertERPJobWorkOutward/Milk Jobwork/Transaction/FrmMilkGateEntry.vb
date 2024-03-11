@@ -352,12 +352,18 @@ Public Class FrmMilkGateEntry
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             btnClose_Click(sender, e)
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
@@ -405,11 +411,14 @@ Public Class FrmMilkGateEntry
             End If
             btnSave.Visible = MyBase.isModifyFlag
             btnDelete.Visible = MyBase.isDeleteFlag
-            If MyBase.isReverse Then
-                btnReverse.Enabled = True
-            Else
-                btnReverse.Enabled = False
-            End If
+            btnPost.Visible = MyBase.isPostFlag
+            btnReverse.Visible = False
+
+            'If MyBase.isReverse Then
+            '    btnReverse.Enabled = True
+            'Else
+            '    btnReverse.Enabled = False
+            'End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

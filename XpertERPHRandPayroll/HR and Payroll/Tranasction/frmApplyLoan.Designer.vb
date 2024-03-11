@@ -35,10 +35,15 @@ Partial Class frmApplyLoan
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.lblBankCode = New common.Controls.MyLabel()
+        Me.fndbankcode = New common.UserControls.txtFinder()
+        Me.lblEmpCode = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.dtpEndMonth = New common.Controls.MyDateTimePicker()
         Me.MyLabel7 = New common.Controls.MyLabel()
@@ -79,7 +84,6 @@ Partial Class frmApplyLoan
         Me.findLoanBy = New common.UserControls.txtFinder()
         Me.lblLoanDate = New common.Controls.MyLabel()
         Me.dtpLoanDate = New common.Controls.MyDateTimePicker()
-        Me.lblEmpCode = New common.Controls.MyLabel()
         Me.txtEmpCode = New common.UserControls.txtFinder()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblLoanCode = New common.Controls.MyLabel()
@@ -95,6 +99,9 @@ Partial Class frmApplyLoan
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblEmpCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpEndMonth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -133,7 +140,6 @@ Partial Class frmApplyLoan
         CType(Me.lblGivenBy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLoanDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpLoanDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblEmpCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLoanCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvEMI, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvEMI.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -169,6 +175,9 @@ Partial Class frmApplyLoan
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel6)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblBankCode)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.fndbankcode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel2)
         Me.SplitContainer1.Panel1.Controls.Add(Me.dtpEndMonth)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel7)
@@ -226,6 +235,62 @@ Partial Class frmApplyLoan
         Me.SplitContainer1.Size = New System.Drawing.Size(793, 541)
         Me.SplitContainer1.SplitterDistance = 499
         Me.SplitContainer1.TabIndex = 0
+        '
+        'MyLabel6
+        '
+        Me.MyLabel6.FieldName = Nothing
+        Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel6.Location = New System.Drawing.Point(448, 179)
+        Me.MyLabel6.Name = "MyLabel6"
+        Me.MyLabel6.Size = New System.Drawing.Size(59, 16)
+        Me.MyLabel6.TabIndex = 217
+        Me.MyLabel6.Text = "BankCode"
+        '
+        'lblBankCode
+        '
+        Me.lblBankCode.AutoSize = False
+        Me.lblBankCode.BorderVisible = True
+        Me.lblBankCode.FieldName = Nothing
+        Me.lblBankCode.Location = New System.Drawing.Point(647, 178)
+        Me.lblBankCode.Name = "lblBankCode"
+        Me.lblBankCode.Size = New System.Drawing.Size(137, 19)
+        Me.lblBankCode.TabIndex = 216
+        '
+        'fndbankcode
+        '
+        Me.fndbankcode.CalculationExpression = Nothing
+        Me.fndbankcode.FieldCode = Nothing
+        Me.fndbankcode.FieldDesc = Nothing
+        Me.fndbankcode.FieldMaxLength = 0
+        Me.fndbankcode.FieldName = Nothing
+        Me.fndbankcode.isCalculatedField = False
+        Me.fndbankcode.IsSourceFromTable = False
+        Me.fndbankcode.IsSourceFromValueList = False
+        Me.fndbankcode.IsUnique = False
+        Me.fndbankcode.Location = New System.Drawing.Point(510, 178)
+        Me.fndbankcode.MendatroryField = True
+        Me.fndbankcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndbankcode.MyLinkLable1 = Me.lblEmpCode
+        Me.fndbankcode.MyLinkLable2 = Nothing
+        Me.fndbankcode.MyReadOnly = False
+        Me.fndbankcode.MyShowMasterFormButton = False
+        Me.fndbankcode.Name = "fndbankcode"
+        Me.fndbankcode.ReferenceFieldDesc = Nothing
+        Me.fndbankcode.ReferenceFieldName = Nothing
+        Me.fndbankcode.ReferenceTableName = Nothing
+        Me.fndbankcode.Size = New System.Drawing.Size(136, 19)
+        Me.fndbankcode.TabIndex = 215
+        Me.fndbankcode.Value = ""
+        '
+        'lblEmpCode
+        '
+        Me.lblEmpCode.FieldName = Nothing
+        Me.lblEmpCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblEmpCode.Location = New System.Drawing.Point(13, 137)
+        Me.lblEmpCode.Name = "lblEmpCode"
+        Me.lblEmpCode.Size = New System.Drawing.Size(87, 16)
+        Me.lblEmpCode.TabIndex = 154
+        Me.lblEmpCode.Text = "Employee Code"
         '
         'MyLabel2
         '
@@ -286,7 +351,6 @@ Partial Class frmApplyLoan
         Me.lblGrossSalary.Name = "lblGrossSalary"
         Me.lblGrossSalary.Size = New System.Drawing.Size(301, 19)
         Me.lblGrossSalary.TabIndex = 211
-        Me.lblGrossSalary.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel5
         '
@@ -317,7 +381,6 @@ Partial Class frmApplyLoan
         Me.lblDevision.Name = "lblDevision"
         Me.lblDevision.Size = New System.Drawing.Size(274, 19)
         Me.lblDevision.TabIndex = 208
-        Me.lblDevision.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblLocationCode
         '
@@ -328,11 +391,11 @@ Partial Class frmApplyLoan
         Me.lblLocationCode.Name = "lblLocationCode"
         Me.lblLocationCode.Size = New System.Drawing.Size(301, 19)
         Me.lblLocationCode.TabIndex = 207
-        Me.lblLocationCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'cboLoanStatus
         '
         Me.cboLoanStatus.CalculationExpression = Nothing
+        Me.cboLoanStatus.DropDownAnimationEnabled = True
         Me.cboLoanStatus.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboLoanStatus.FieldCode = Nothing
         Me.cboLoanStatus.FieldDesc = Nothing
@@ -395,6 +458,7 @@ Partial Class frmApplyLoan
         'cboInterestPeriodicity
         '
         Me.cboInterestPeriodicity.CalculationExpression = Nothing
+        Me.cboInterestPeriodicity.DropDownAnimationEnabled = True
         Me.cboInterestPeriodicity.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboInterestPeriodicity.FieldCode = Nothing
         Me.cboInterestPeriodicity.FieldDesc = Nothing
@@ -476,7 +540,6 @@ Partial Class frmApplyLoan
         Me.lblLoanBy.Name = "lblLoanBy"
         Me.lblLoanBy.Size = New System.Drawing.Size(222, 19)
         Me.lblLoanBy.TabIndex = 6
-        Me.lblLoanBy.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLoanBy.Visible = False
         '
         'lblEmpName
@@ -488,7 +551,6 @@ Partial Class frmApplyLoan
         Me.lblEmpName.Name = "lblEmpName"
         Me.lblEmpName.Size = New System.Drawing.Size(410, 19)
         Me.lblEmpName.TabIndex = 3
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtInterestRate
         '
@@ -516,7 +578,7 @@ Partial Class frmApplyLoan
         Me.txtInterestRate.TabIndex = 16
         Me.txtInterestRate.Text = "0"
         Me.txtInterestRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtInterestRate.Value = 0.0R
+        Me.txtInterestRate.Value = 0R
         '
         'lblInterestRate
         '
@@ -554,7 +616,7 @@ Partial Class frmApplyLoan
         Me.txtNoofEmi.TabIndex = 13
         Me.txtNoofEmi.Text = "0"
         Me.txtNoofEmi.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoofEmi.Value = 0.0R
+        Me.txtNoofEmi.Value = 0R
         '
         'lblNoOfEMI
         '
@@ -592,7 +654,7 @@ Partial Class frmApplyLoan
         Me.txtInterestAmt.TabIndex = 18
         Me.txtInterestAmt.Text = "0"
         Me.txtInterestAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtInterestAmt.Value = 0.0R
+        Me.txtInterestAmt.Value = 0R
         '
         'lblInterestType
         '
@@ -651,6 +713,7 @@ Partial Class frmApplyLoan
         'cboInterestType
         '
         Me.cboInterestType.CalculationExpression = Nothing
+        Me.cboInterestType.DropDownAnimationEnabled = True
         Me.cboInterestType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboInterestType.FieldCode = Nothing
         Me.cboInterestType.FieldDesc = Nothing
@@ -901,16 +964,6 @@ Partial Class frmApplyLoan
         Me.dtpLoanDate.Text = "03/05/2011"
         Me.dtpLoanDate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
         '
-        'lblEmpCode
-        '
-        Me.lblEmpCode.FieldName = Nothing
-        Me.lblEmpCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblEmpCode.Location = New System.Drawing.Point(13, 137)
-        Me.lblEmpCode.Name = "lblEmpCode"
-        Me.lblEmpCode.Size = New System.Drawing.Size(87, 16)
-        Me.lblEmpCode.TabIndex = 154
-        Me.lblEmpCode.Text = "Employee Code"
-        '
         'txtEmpCode
         '
         Me.txtEmpCode.CalculationExpression = Nothing
@@ -972,25 +1025,28 @@ Partial Class frmApplyLoan
         Me.gvEMI.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvEMI.Location = New System.Drawing.Point(374, 200)
         '
-        'gvEMI
+        '
         '
         Me.gvEMI.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvEMI.MasterTemplate.AllowAddNewRow = False
         Me.gvEMI.MasterTemplate.AllowEditRow = False
         Me.gvEMI.MasterTemplate.AutoGenerateColumns = False
         Me.gvEMI.MasterTemplate.EnableGrouping = False
+        Me.gvEMI.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEMI.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvEMI.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvEMI.MyStopExport = False
         Me.gvEMI.Name = "gvEMI"
         Me.gvEMI.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvEMI.ShowHeaderCellButtons = True
         Me.gvEMI.Size = New System.Drawing.Size(410, 244)
         Me.gvEMI.TabIndex = 8
         Me.gvEMI.TabStop = False
-        Me.gvEMI.Text = "RadGridView4"
         '
         'cboLoanType
         '
         Me.cboLoanType.CalculationExpression = Nothing
+        Me.cboLoanType.DropDownAnimationEnabled = True
         Me.cboLoanType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboLoanType.FieldCode = Nothing
         Me.cboLoanType.FieldDesc = Nothing
@@ -1085,6 +1141,9 @@ Partial Class frmApplyLoan
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblEmpCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpEndMonth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1123,7 +1182,6 @@ Partial Class frmApplyLoan
         CType(Me.lblGivenBy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLoanDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpLoanDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblEmpCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLoanCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvEMI.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvEMI, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1190,4 +1248,7 @@ Partial Class frmApplyLoan
     Friend WithEvents lblGrossSalary As common.Controls.MyLabel
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents dtpEndMonth As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel6 As common.Controls.MyLabel
+    Friend WithEvents lblBankCode As common.Controls.MyLabel
+    Friend WithEvents fndbankcode As common.UserControls.txtFinder
 End Class

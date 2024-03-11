@@ -58,25 +58,39 @@ Public Class frmAssembDis
         End If
             btnsave.Visible = MyBase.isModifyFlag
             btnPost.Visible = MyBase.isPostFlag
-            btndelete.Visible = MyBase.isDeleteFlag
-            btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
+        btndelete.Visible = MyBase.isDeleteFlag
+        btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
+        btnPrint.Visible = MyBase.isPrintFlag
+        If MyBase.isExport = True Then
+            RadMenuItem1.Enabled = True
+            RadMenuItem2.Enabled = True
+        Else
+            RadMenuItem1.Enabled = False
+            RadMenuItem2.Enabled = False
+        End If
+        btnunpost.Visible = False
+        'If MyBase.isReverse Then
+        '    btnunpost.Enabled = True
+        'Else
+        '    btnunpost.Enabled = False
+        'End If
+        'RadMenu1.Visible = MyBase.isExport
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmAssemblies)
+        'If Not (MyBase.isReadFlag) Then
+        '    Throw New Exception("Permission Denied")
 
-            'MyBase.SetUserMgmt(clsUserMgtCode.frmAssemblies)
-            'If Not (MyBase.isReadFlag) Then
-            '    Throw New Exception("Permission Denied")
-
-            'End If
-            'btnsave.Visible = MyBase.isModifyFlag
-            'btnPost.Visible = MyBase.isPostFlag
-            'btndelete.Visible = MyBase.isDeleteFlag
-            'btnPrint.Visible = MyBase.isPrintFlag
-            'If btnsave.Visible = True Then
-            '    RadMenuItem1.Enabled = True
-            '    RadMenuItem2.Enabled = True
-            'Else
-            '    RadMenuItem1.Enabled = False
-            '    RadMenuItem2.Enabled = False
-            'End If
+        'End If
+        'btnsave.Visible = MyBase.isModifyFlag
+        'btnPost.Visible = MyBase.isPostFlag
+        'btndelete.Visible = MyBase.isDeleteFlag
+        'btnPrint.Visible = MyBase.isPrintFlag
+        'If btnsave.Visible = True Then
+        '    RadMenuItem1.Enabled = True
+        '    RadMenuItem2.Enabled = True
+        'Else
+        '    RadMenuItem1.Enabled = False
+        '    RadMenuItem2.Enabled = False
+        'End If
     End Sub
     ' Ticket No : ERO/09/10/19-001043 Main item qty allow to decimal point 
     Function fillgridcombobox() As DataTable
@@ -1058,14 +1072,20 @@ Public Class frmAssembDis
                                               "TSPL_SERIAL_ITEM " + Environment.NewLine +
                                               "TSPL_INVENTORY_MOVEMENT_new ")
             If btnPost.Enabled = False AndAlso btnsave.Enabled = False Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnunpost.Visible = True
-                End If
+                If MyBase.isReverse Then
+
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = "SIRC"
+                    frm.strCode = "SIReversAndCreate"
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnunpost.Visible = True
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
+        End If
         ElseIf e.KeyCode = Keys.F3 Then
             '======update by preeti gupta 17/10/2018
             If RunBatchFifowise = 0 Then

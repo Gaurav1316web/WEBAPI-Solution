@@ -14,6 +14,16 @@ Public Class FrmDeductionMaster
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        'RadMenu1.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            rmImport.Enabled = True
+            rmExport.Enabled = True
+        Else
+            rmImport.Enabled = False
+            rmExport.Enabled = False
+        End If
+
+
     End Sub
 
     Private Sub FrmDeductionMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

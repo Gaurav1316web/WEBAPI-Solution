@@ -290,6 +290,7 @@ Public Class FrmQuickEntry1
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         If btnSave.Visible = True Then
             rmiExport.Enabled = True
             rmiImport.Enabled = True
@@ -1808,7 +1809,7 @@ Public Class FrmQuickEntry1
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = MasterTemplate.Columns.Count()
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

@@ -516,7 +516,7 @@ Public Class FrmMilkTransferIn
                             End If
                         End If
                     End If
-                    common.clsCommon.MyMessageBoxShow(msg)
+                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     LoadData(fndRcptChalanNo.Value, NavigatorType.Current)
                 End If
             End If
@@ -858,11 +858,13 @@ Public Class FrmMilkTransferIn
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-
-        End If
+        btnPost.Visible = MyBase.isPostFlag
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         'btnReverse.Enabled = False
 
     End Sub
@@ -1186,22 +1188,27 @@ Public Class FrmMilkTransferIn
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             btnClose_Click(sender, e)
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                             "tspl_Milk_Transfer_in " + Environment.NewLine + _
-                                             "TSPL_MILK_JOBWORK_TRANSFER_HEAD (If Document is Job Work type.System create auto document.) " + Environment.NewLine + _
-                                             "TSPL_MILK_JOBWORK_TRANSFER_DETAILS ( For JobWork Details) " + Environment.NewLine + _
-                                             "1.JE created only if CreateTransferInGL setting is ON . " + Environment.NewLine + _
-                                             "2.Adjustment Consumption Type created only if CreateConsumeEntry setting is ON for CreateConsumeEntry Code. " + Environment.NewLine + _
-                                             "3.Financial entry created of both Transfer In and Tanker dispatch if TankerDispatchFinancialImpactInTransferIn setting is ON . " + Environment.NewLine + _
-                                             "4.Financial entry created of Transfer In with adjustment of Difference amount. if TankerDispatchFinancialImpactInTransferIn setting is OFF . " + Environment.NewLine + _
-                                             "  Costing will be avgCost if isSkipCogsGL setting is OFF else 0 cost. . " + Environment.NewLine + _
-                                             "5.GIT Location entry created of Transfer In .If IGnoreGITAccount setting is OFF . ")
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                 "tspl_Milk_Transfer_in " + Environment.NewLine +
+                                                 "TSPL_MILK_JOBWORK_TRANSFER_HEAD (If Document is Job Work type.System create auto document.) " + Environment.NewLine +
+                                                 "TSPL_MILK_JOBWORK_TRANSFER_DETAILS ( For JobWork Details) " + Environment.NewLine +
+                                                 "1.JE created only if CreateTransferInGL setting is ON . " + Environment.NewLine +
+                                                 "2.Adjustment Consumption Type created only if CreateConsumeEntry setting is ON for CreateConsumeEntry Code. " + Environment.NewLine +
+                                                 "3.Financial entry created of both Transfer In and Tanker dispatch if TankerDispatchFinancialImpactInTransferIn setting is ON . " + Environment.NewLine +
+                                                 "4.Financial entry created of Transfer In with adjustment of Difference amount. if TankerDispatchFinancialImpactInTransferIn setting is OFF . " + Environment.NewLine +
+                                                 "  Costing will be avgCost if isSkipCogsGL setting is OFF else 0 cost. . " + Environment.NewLine +
+                                                 "5.GIT Location entry created of Transfer In .If IGnoreGITAccount setting is OFF . ")
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
@@ -1337,7 +1344,7 @@ Public Class FrmMilkTransferIn
 
     Private Sub btnReverse_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsMilkTransferIn.ReverseAndUnpost(fndRcptChalanNo.Value, Nothing) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndRcptChalanNo.Value, NavigatorType.Current)
@@ -1387,7 +1394,7 @@ Public Class FrmMilkTransferIn
             frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMilkTransferIn", "Milk Transfer In", clsCommon.myCDate(dt.Rows(0)("Receipt_Challan_Date")))
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("Please select an invoice to print")
+            clsCommon.MyMessageBoxShow(Me, "Please select an invoice to print", Me.Text)
         End If
     End Sub
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
@@ -1764,7 +1771,7 @@ Public Class FrmMilkTransferIn
 
                     If (obj.SaveData(obj, True, True)) Then
                         ' clsMilkRGPHead.PostData(obj.RGP_No)
-                        clsCommon.MyMessageBoxShow("RGP [" & obj.RGP_No & "] has been created.")
+                        clsCommon.MyMessageBoxShow(Me, "RGP [" & obj.RGP_No & "] has been created.", Me.Text)
                     End If
                 End If
             Next

@@ -118,7 +118,7 @@ Public Class FrmCanSaleUploader
             Throw New Exception("Permission Denied")
         End If
         btnsave.Visible = MyBase.isModifyFlag
-        'btnPost.Visible = MyBase.isPostFlag
+        btnPost.Visible = MyBase.isPostFlag
     End Sub
 
 

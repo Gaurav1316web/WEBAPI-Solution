@@ -23,6 +23,7 @@ Public Class RCDFDashboard
 #End Region
 
     Private Sub SetUserMgmtNew()
+        'SetUserMgmt(clsUserMgtCode.RCDFDashboard)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If

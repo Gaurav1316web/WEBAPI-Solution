@@ -14,10 +14,60 @@ Public Class frmDistributorCommission
     Private isCellValueChangedOpen As Boolean = False
     Private isInsideLoadData As Boolean = False
 #End Region
+    Public Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmBookingProductSale)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        ' btnImport.Visible = MyBase.isExport
+        btnReverse.Visible = False
+
+        If MyBase.isExport = True Then
+            rmiImport.Enabled = True
+            rmiExport.Enabled = True
+        Else
+            rmiImport.Enabled = False
+            rmiExport.Enabled = False
+        End If
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        'If btnSave.Visible = True Then
+        '    btnImport.Enabled = True
+        'Else
+        '    btnImport.Enabled = False
+        'End If
+
+    End Sub
     Private Sub frmDistributorCommission_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtApplicableDate.Value = clsCommon.GETSERVERDATE()
+        txtInActiveDate.Value = clsCommon.GETSERVERDATE()
+        SetUserMgmtNew()
         AddNew()
+    End Sub
+    Private Sub frmDistributorCommission_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "sirc"
+                frm.strCode = "sireversandcreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+            End If
+        End If
     End Sub
     Sub LoadBlankGrid()
         GV1.Rows.Clear()
@@ -122,6 +172,7 @@ Public Class frmDistributorCommission
         lblStatus.Status = ERPTransactionStatus.Pending
         txtDocNo.Value = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
+        txtInActiveDate.Value = clsCommon.GETSERVERDATE()
         txtApplicableDate.Value = txtDate.Value
         rbtnCommission.IsChecked = True
         rbtnTranspotation.IsChecked = False
@@ -133,6 +184,8 @@ Public Class frmDistributorCommission
         btnSave.Enabled = True
         btnPost.Enabled = True
         btnGo.Enabled = True
+        btnDelete.Enabled = False
+        chkInActive.Checked = False
         LoadBlankGrid()
 
     End Sub
@@ -371,50 +424,56 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     lblStatus.Status = ERPTransactionStatus.Approved
+                    btnDelete.Enabled = False
                 Else
                     btnSave.Enabled = True
                     btnPost.Enabled = True
                     btnSave.Text = "Update"
+                    btnDelete.Enabled = True
                     lblStatus.Status = ERPTransactionStatus.Pending
                 End If
                 btnGo.Enabled = False
                 txtDocNo.Value = obj.Doc_No
                 txtDate.Value = obj.Document_Date
                 txtApplicableDate.Value = obj.Applicable_Date
+                txtInActiveDate.Value = obj.InActive_date
                 txtUOM.Value = obj.Commision_UOM
                 txtDistributorTagging.Value = obj.Distributor_Tagging_Code
-                If obj.IS_Transpotation Then
-                    rbtnTranspotation.IsChecked = True
-                Else
-                    rbtnCommission.IsChecked = True
+                    If obj.IS_Transpotation Then
+                        rbtnTranspotation.IsChecked = True
+                    Else
+                        rbtnCommission.IsChecked = True
+                    End If
+                    If obj.IS_Security Then
+                        chkSecurity.Checked = True
+                    End If
+                    If obj.IN_Active Then
+                        chkInActive.Checked = True
+                    End If
+                    txtItems.arrValueMember = obj.Items
+                    Dim sl As Integer = 1
+                    If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                        For Each objTr As clsDistributorCommissionDetails In obj.Arr
+
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(ColSNo).Value = sl
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteCode).Value = objTr.Route_Code
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteName).Value = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(objTr.Route_Code) + "' ")
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Distributor_Code
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_Customer_Master where cust_code='" + objTr.Distributor_Code + "'")
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(colCRate).Value = objTr.Rate
+                            If chkSecurity.Checked Then
+                                GV1.Rows(GV1.Rows.Count - 1).Cells(colSecRate).Value = objTr.Security_Rate
+                            End If
+                            sl += 1
+                            GV1.Rows.AddNew()
+                        Next
+                        'GV1.Rows.AddNew()
+
+                    End If
+
+
+
                 End If
-                If obj.IS_Security Then
-                    chkSecurity.Checked = True
-                End If
-                txtItems.arrValueMember = obj.Items
-                Dim sl As Integer = 1
-                If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                    For Each objTr As clsDistributorCommissionDetails In obj.Arr
-
-                        GV1.Rows(GV1.Rows.Count - 1).Cells(ColSNo).Value = sl
-                        GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteCode).Value = objTr.Route_Code
-                        GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteName).Value = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(objTr.Route_Code) + "' ")
-                        GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Distributor_Code
-                        GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_Customer_Master where cust_code='" + objTr.Distributor_Code + "'")
-                        GV1.Rows(GV1.Rows.Count - 1).Cells(colCRate).Value = objTr.Rate
-                        If chkSecurity.Checked Then
-                            GV1.Rows(GV1.Rows.Count - 1).Cells(colSecRate).Value = objTr.Security_Rate
-                        End If
-                        sl += 1
-                        GV1.Rows.AddNew()
-                    Next
-                    'GV1.Rows.AddNew()
-
-                End If
-
-
-
-            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
@@ -457,6 +516,9 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                     obj.Items = txtItems.arrValueMember
 
                 End If
+                If chkInActive.Checked Then
+                    obj.IN_Active = True
+                End If
                 If rbtnTranspotation.IsChecked Then
                     obj.IS_Transpotation = True
                 ElseIf rbtnCommission.IsChecked Then
@@ -466,6 +528,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                     obj.IS_Security = True
                 End If
                 obj.Applicable_Date = txtApplicableDate.Value
+                obj.InActive_date = txtInActiveDate.Value
                 obj.Commision_UOM = txtUOM.Value
                 obj.Distributor_Tagging_Code = txtDistributorTagging.Value
                 obj.Arr = GetTRData()
@@ -487,9 +550,9 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
 
 
                 Dim objTr As New clsDistributorCommissionDetails()
-                    'objTr.SNo = ii + 1
-                    objTr.Distributor_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(colCustCode).Value)
-                    objTr.Route_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(ColRouteCode).Value)
+                'objTr.SNo = ii + 1
+                objTr.Distributor_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(colCustCode).Value)
+                objTr.Route_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(ColRouteCode).Value)
                 objTr.Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colCRate).Value)
                 If chkSecurity.Checked Then
                     objTr.Security_Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colSecRate).Value)
@@ -625,5 +688,44 @@ where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DIST
             rbtnTranspotation.Enabled = True
             LoadBlankGrid()
         End If
+    End Sub
+
+    Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) > 0 Then
+                If clsCommon.MyMessageBoxShow("Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    clsDistributorCommission.ReverseAndUnpost(txtDocNo.Value)
+                    clsCommon.MyMessageBoxShow(Me, "Tansaction unposted succesffuly", Me.Text)
+                    LoadData(txtDocNo.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub DeleteData()
+        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            Exit Sub
+        End If
+        funDelete()
+    End Sub
+    Sub funDelete()
+        Try
+            Dim Reason As String = ""
+            If (myMessages.deleteConfirm()) Then
+                If (clsDistributorCommission.DeleteData(txtDocNo.Value)) Then
+                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    AddNew()
+                End If
+            End If
+        Catch ex As Exception
+            myMessages.myExceptions(ex)
+        End Try
+
+    End Sub
+
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        DeleteData()
     End Sub
 End Class

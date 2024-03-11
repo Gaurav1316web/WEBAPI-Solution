@@ -419,7 +419,7 @@ Public Class FrmAcknowledgeOfGRN
             If obj.SaveData() Then
                 gv1.MasterTemplate.FilterDescriptors.Clear()
 
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -430,7 +430,7 @@ Public Class FrmAcknowledgeOfGRN
     Private Sub RDDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RDDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID & "gv1", objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
     Private Sub fndCustomerNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCustomerNo._MYValidating
         fndCustomerNo.Value = clsCustomerMaster.getFinder("", fndCustomerNo.Value, isButtonClicked)

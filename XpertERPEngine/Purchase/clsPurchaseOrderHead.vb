@@ -1712,6 +1712,7 @@ a:
                 End If
             End If
             CreateTransactionEmailContent(obj, trans)
+            ' CreateTransactionSMSContent(obj, trans)
             '=========================end here========================================================================
 
             '-----------------Added Parteek 23/03/2016
@@ -2278,6 +2279,41 @@ a:
             strVEmailID = Nothing
         End If
     End Sub
+
+    Private Sub CreateTransactionSMSContent(ByVal obj As clsPurchaseOrderHead, ByVal trans As SqlTransaction)
+        Dim Form_ID As String = clsUserMgtCode.mbtnPurchaseOrder
+        Dim strContactPerson As String = ""
+        Dim strotherno As String = Nothing
+        strotherno = clsDBFuncationality.getSingleValue("select Phone1 from TSPL_VENDOR_MASTER where Vendor_Code ='" & obj.Vendor_Code & "' ", trans)
+        strContactPerson = clsDBFuncationality.getSingleValue("select upper(substring(Contact_Person_Name,1,1)) + lower(substring(Contact_Person_Name,2,49)) from TSPL_VENDOR_MASTER where Vendor_Code ='" & obj.Vendor_Code & "' ", trans)
+        Dim dtContent As DataTable = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + Form_ID + "'", trans)
+        Dim objSMSH As New clsSMSHead()
+        objSMSH.arrMobilNo = New List(Of String)()
+        objSMSH.arrMobilNo.Add(clsCommon.myCstr(strotherno))
+        If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
+
+            If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+
+                objSMSH.SMS_Text = clsCommon.myCstr(dtContent.Rows(0)("SMS_Text"))
+
+                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_No, obj.PurchaseOrder_No)
+                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(obj.PurchaseOrder_Date, "dd/MMM/yyyy"))
+                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Vendor_Code, obj.Vendor_Code)
+                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Vendor_Name, obj.Vendor_Name)
+                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.TotalAmount, clsCommon.myFormat(obj.PO_Total_Amt))
+                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, Form_ID)
+                objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.ContactPerson, strContactPerson)
+
+                objSMSH.SaveData(Form_ID, objSMSH, trans)
+                objSMSH = Nothing
+                'If Not isPost Then
+                '    clsCommon.MyMessageBoxShow("SMS Send Successfully", Me.Text)
+                'End If
+            End If
+        End If
+        'Sanjay
+    End Sub
+
 
     Public Shared Function SaveScheduleData(ByVal objPur As clsPurchaseOrderHead, ByVal Sch_Type As String, ByVal Sch_Date As Date, ByVal Trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
@@ -5711,7 +5747,7 @@ a:
                         Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO_G_Interstate", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
                     End If
                 End If
-                Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
+                Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
             ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "I") = CompairStringResult.Equal Then
                 SetItemWiseTax(dt, StrDocNo, tran)
                 Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")

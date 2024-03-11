@@ -259,6 +259,7 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
+    <Compile Include="Common Services\Master\ClsSACWiseTax.vb" />
     <Compile Include="Common Services\Master\FrmBankGroupMaster.Designer.vb">
       <DependentUpon>FrmBankGroupMaster.vb</DependentUpon>
     </Compile>
@@ -305,6 +306,12 @@
       <DependentUpon>frmRevenueVillageMaster.vb</DependentUpon>
     </Compile>
     <Compile Include="Common Services\Master\frmRevenueVillageMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Common Services\Master\FrmSacWiseTaxMaster.Designer.vb">
+      <DependentUpon>FrmSacWiseTaxMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Common Services\Master\FrmSacWiseTaxMaster.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Common Services\Master\frmScreen.Designer.vb">
@@ -727,6 +734,12 @@
     <Compile Include="Common Services\Report\rptDataEntryTracingReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Common Services\Report\rptFundProvision.Designer.vb">
+      <DependentUpon>rptFundProvision.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Common Services\Report\rptFundProvision.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Common Services\Report\rptMccDeductionReport.Designer.vb">
       <DependentUpon>rptMccDeductionReport.vb</DependentUpon>
     </Compile>
@@ -964,6 +977,9 @@
     <EmbeddedResource Include="Common Services\Master\frmRevenueVillageMaster.resx">
       <DependentUpon>frmRevenueVillageMaster.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Common Services\Master\FrmSacWiseTaxMaster.resx">
+      <DependentUpon>FrmSacWiseTaxMaster.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Common Services\Master\frmScreen.resx">
       <DependentUpon>frmScreen.vb</DependentUpon>
     </EmbeddedResource>
@@ -1173,6 +1189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Common Services\Report\rptDataEntryTracingReport.resx">
       <DependentUpon>rptDataEntryTracingReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common Services\Report\rptFundProvision.resx">
+      <DependentUpon>rptFundProvision.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Common Services\Report\rptMccDeductionReport.resx">
       <DependentUpon>rptMccDeductionReport.vb</DependentUpon>

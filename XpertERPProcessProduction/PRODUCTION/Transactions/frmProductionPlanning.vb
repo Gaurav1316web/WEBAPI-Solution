@@ -402,6 +402,15 @@ Public Class frmProductionPlanning
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        If MyBase.isExport = True Then
+            mnuExportBOM.Enabled = True
+            mnuImportBOM.Enabled = True
+        Else
+            mnuExportBOM.Enabled = False
+            mnuImportBOM.Enabled = False
+
+        End If
     End Sub
 
     Private Sub btnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click

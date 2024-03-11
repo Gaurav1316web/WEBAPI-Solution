@@ -81,7 +81,17 @@ Public Class FrmPriceChartMaster
         End If
         MilkPricePostedData = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowMilkItemMasterPostedData, clsFixedParameterCode.AllowMilkItemMasterPostedData, Nothing)) = 1, True, False)
         btnPost.Visible = MyBase.isPostFlag AndAlso MilkPricePostedData
-
+        btnsave.Visible = MyBase.isModifyFlag
+        btndelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        'RadMenu1.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            btnimport.Enabled = True
+            btnexport.Enabled = True
+        Else
+            btnimport.Enabled = False
+            btnexport.Enabled = False
+        End If
     End Sub
 
     Sub Reset()

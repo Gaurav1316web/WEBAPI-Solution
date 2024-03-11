@@ -179,12 +179,13 @@ Public Class frmIssueReturn
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnprint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
 
-        End If
+        'End If
         btncancel.Visible = MyBase.isCancel_Flag_After_Posting
     End Sub
 
@@ -3568,26 +3569,32 @@ Public Class frmIssueReturn
                 chkSkipIndentBalance.Checked = True
             End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            'Add Tool tip Task No- TEC/22/05/18-000245
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                   "TSPL_IssueReturn_HEAD " + Environment.NewLine + _
-                                   "TSPL_IssueReturn_DETAIL " + Environment.NewLine + _
-                                   "TSPL_SERIAL_ITEM " + Environment.NewLine + _
-                                   "TSPL_BATCH_ITEM " + Environment.NewLine + _
-                                   "Press Alt+P for Post Trasnaction" + Environment.NewLine + _
-                                   "TSPL_INVENTORY_MOVEMENT " + Environment.NewLine + _
-                                   "TSPL_JOURNAL_MASTER " + Environment.NewLine + _
-                                   "TSPL_JOURNAL_DETAILS " + Environment.NewLine + _
-                                   "TSPL_PR_HEAD (If setting-AutoPurchaseReturnFromIssueReturn is on) " + Environment.NewLine + _
-                                   "TSPL_PR_DETAIL " + Environment.NewLine + _
-                                   "TSPL_PI_REMITTANCE")
-            'Add Tool tip Task No- TEC/22/05/18-000245
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                'Add Tool tip Task No- TEC/22/05/18-000245
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                       "TSPL_IssueReturn_HEAD " + Environment.NewLine +
+                                       "TSPL_IssueReturn_DETAIL " + Environment.NewLine +
+                                       "TSPL_SERIAL_ITEM " + Environment.NewLine +
+                                       "TSPL_BATCH_ITEM " + Environment.NewLine +
+                                       "Press Alt+P for Post Trasnaction" + Environment.NewLine +
+                                       "TSPL_INVENTORY_MOVEMENT " + Environment.NewLine +
+                                       "TSPL_JOURNAL_MASTER " + Environment.NewLine +
+                                       "TSPL_JOURNAL_DETAILS " + Environment.NewLine +
+                                       "TSPL_PR_HEAD (If setting-AutoPurchaseReturnFromIssueReturn is on) " + Environment.NewLine +
+                                       "TSPL_PR_DETAIL " + Environment.NewLine +
+                                       "TSPL_PI_REMITTANCE")
+                'Add Tool tip Task No- TEC/22/05/18-000245
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

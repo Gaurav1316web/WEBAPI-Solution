@@ -205,12 +205,21 @@ Public Class FrmAPInvoiceEntry
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         If btnSave.Visible = True Then
+            RadMenuItem2.Enabled = True
+            RadMenuItem3.Enabled = True
+        Else
+            RadMenuItem2.Enabled = False
+            RadMenuItem3.Enabled = False
+        End If
+        If MyBase.isExport = True Then
             RadMenuItem2.Enabled = True
             RadMenuItem3.Enabled = True
         Else
@@ -937,9 +946,9 @@ Public Class FrmAPInvoiceEntry
                 'End If
             End If
             'Dim Qry As String = clsERPFuncationality.glvendorqueryNew
-            Dim Qry As String = " select M.Vendor_Code AS [Code], m.Vendor_Name as [Name],ISNULL(m.alies_name,'') As [Alies Name],TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code], TSPL_VLC_MASTER_HEAD.MCC as [MCC Code],TSPL_MCC_MASTER.MCC_Name as [MCC Name],TSPL_MCC_MASTER.Plant_Code as [Plant Code],TSPL_LOCATION_MASTER.Location_Desc as [Plant Name],(m.Add1+(case when m.Add2='' then '' else ',' end)+m.Add2) as [Address],m.Vendor_Group_Code as [Vendor Group Code],m.Vendor_Group_Code_Desc as [Vendor Group Desc],s.Acct_Set_Code as [Vendor Account Set],s.Acct_Set_Desc as [Vendor Account Set Desc] from TSPL_VENDOR_MASTER m join TSPL_VENDOR_ACCOUNT_SET s on m.Vendor_Account =s.Acct_Set_Code " & _
-                               " left outer Join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = M.Vendor_Code " & _
-                               " Left Outer Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC " & _
+            Dim Qry As String = " select M.Vendor_Code AS [Code], m.Vendor_Name as [Name],ISNULL(m.alies_name,'') As [Alies Name],TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as [VLC Uploader Code], TSPL_VLC_MASTER_HEAD.MCC as [MCC Code],TSPL_MCC_MASTER.MCC_Name as [MCC Name],TSPL_MCC_MASTER.Plant_Code as [Plant Code],TSPL_LOCATION_MASTER.Location_Desc as [Plant Name],(m.Add1+(case when m.Add2='' then '' else ',' end)+m.Add2) as [Address],m.Vendor_Group_Code as [Vendor Group Code],m.Vendor_Group_Code_Desc as [Vendor Group Desc],s.Acct_Set_Code as [Vendor Account Set],s.Acct_Set_Desc as [Vendor Account Set Desc] from TSPL_VENDOR_MASTER m join TSPL_VENDOR_ACCOUNT_SET s on m.Vendor_Account =s.Acct_Set_Code " &
+                               " left outer Join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = M.Vendor_Code " &
+                               " Left Outer Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC " &
                                " Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_MCC_MASTER.Plant_Code "
 
             TxtVendorNo.Value = clsCommon.ShowSelectForm("VendSelectfnd", Qry, "Code", " m.Status='N'", TxtVendorNo.Value, "Code", isButtonClicked)
@@ -2487,13 +2496,13 @@ Public Class FrmAPInvoiceEntry
         ''gv1.CurrentColumn = gv1.Columns(colAmt)
         'richa 17 SEp,2019 TEC/03/07/19-000927
 
-        Dim strqry As String = " Select Account_Code,Description from (" & qry & " where " & whrcls & Environment.NewLine & _
-          " UNION All " & Environment.NewLine & _
-          " select Account_Code , Description  from TSPL_GL_ACCOUNTS " & Environment.NewLine & _
-" left outer join (select TSPL_GL_SEGMENT_CODE.Account_Code as AccCode from TSPL_GL_SEGMENT_CODE where TSPL_GL_SEGMENT_CODE.Seg_No='7' " & Environment.NewLine & _
-" and len(isnull(TSPL_GL_SEGMENT_CODE.Account_Code,''))>0 ) as segTable  on segTable.AccCode=TSPL_GL_ACCOUNTS.Account_Code " & Environment.NewLine & _
-  " inner join TSPL_GL_STRUCTURE on TSPL_GL_ACCOUNTS .Str_Code=TSPL_GL_STRUCTURE.Str_Code where ( 2=2  and TSPL_GL_ACCOUNTS.Status='Y' and ( segTable.AccCode is null  ))" & Environment.NewLine & _
-  " and 1<>(isnull(Seg_No1,0) +isnull(Seg_No2,0) +isnull(Seg_No3,0) +isnull(Seg_No4,0) +isnull(Seg_No5,0) +isnull(Seg_No6,0) +isnull(Seg_No7,0) +isnull(Seg_No8,0) +isnull(Seg_No9,0) +isnull(Seg_No10,0) ) " & Environment.NewLine & _
+        Dim strqry As String = " Select Account_Code,Description from (" & qry & " where " & whrcls & Environment.NewLine &
+          " UNION All " & Environment.NewLine &
+          " select Account_Code , Description  from TSPL_GL_ACCOUNTS " & Environment.NewLine &
+" left outer join (select TSPL_GL_SEGMENT_CODE.Account_Code as AccCode from TSPL_GL_SEGMENT_CODE where TSPL_GL_SEGMENT_CODE.Seg_No='7' " & Environment.NewLine &
+" and len(isnull(TSPL_GL_SEGMENT_CODE.Account_Code,''))>0 ) as segTable  on segTable.AccCode=TSPL_GL_ACCOUNTS.Account_Code " & Environment.NewLine &
+  " inner join TSPL_GL_STRUCTURE on TSPL_GL_ACCOUNTS .Str_Code=TSPL_GL_STRUCTURE.Str_Code where ( 2=2  and TSPL_GL_ACCOUNTS.Status='Y' and ( segTable.AccCode is null  ))" & Environment.NewLine &
+  " and 1<>(isnull(Seg_No1,0) +isnull(Seg_No2,0) +isnull(Seg_No3,0) +isnull(Seg_No4,0) +isnull(Seg_No5,0) +isnull(Seg_No6,0) +isnull(Seg_No7,0) +isnull(Seg_No8,0) +isnull(Seg_No9,0) +isnull(Seg_No10,0) ) " & Environment.NewLine &
   " and TSPL_GL_ACCOUNTS.Account_Code in (select TSPL_CONTROL_ACC_MAPPING.Account_Code  from TSPL_CONTROL_ACC_MAPPING where IsForAP =1) and  TSPL_GL_ACCOUNTS.Account_Seg_Code7='" + txtlocation.Value + "' "
 
         If clsCommon.myLen(strCustomerOpeningAccount) > 0 Then
@@ -2562,27 +2571,27 @@ Public Class FrmAPInvoiceEntry
             whrcls += " not exists (select 1 from TSPL_VENDOR_INVOICE_DETAIL where TSPL_VENDOR_INVOICE_DETAIL.Invoice_No=TSPL_SALE_RETURN_HEAD.Sale_Return_No AND TSPL_VENDOR_INVOICE_DETAIL.Document_No NOT IN('" + txtDocNo.Value + "')) and TSPL_SALE_RETURN_HEAD.Is_Post='Y'"
             gv1.CurrentRow.Cells(colDocNo).Value = clsCommon.ShowSelectForm("APInceFinderSR", qry, "Code", whrcls, clsCommon.myCstr(gv1.CurrentRow.Cells(colDocNo).Value), "", isButtonClick)
         ElseIf clsCommon.CompairString(DocTypeCSATransfer, clsCommon.myCstr(gv1.CurrentRow.Cells(colDocType).Value)) = CompairStringResult.Equal Then
-            qry = " select TSPL_CSA_TRANSFER_HEAD.DOC_CODE as Code , CONVERT(varchar(10), TSPL_CSA_TRANSFER_HEAD.Transfer_Date,103) as Date ,TSPL_CSA_TRANSFER_HEAD.Transport_Id " & _
-                  " from TSPL_CSA_TRANSFER_HEAD left join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_CSA_TRANSFER_HEAD.Vehicle_Id " & _
+            qry = " select TSPL_CSA_TRANSFER_HEAD.DOC_CODE as Code , CONVERT(varchar(10), TSPL_CSA_TRANSFER_HEAD.Transfer_Date,103) as Date ,TSPL_CSA_TRANSFER_HEAD.Transport_Id " &
+                  " from TSPL_CSA_TRANSFER_HEAD left join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_CSA_TRANSFER_HEAD.Vehicle_Id " &
                   " inner join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_CSA_TRANSFER_HEAD.Transport_Id "
             whrcls = " TSPL_CSA_TRANSFER_HEAD.Transport_Id='" + TxtVendorNo.Value + "' and "
             whrcls += " not exists (select 1 from TSPL_VENDOR_INVOICE_DETAIL where TSPL_VENDOR_INVOICE_DETAIL.Invoice_No=TSPL_CSA_TRANSFER_HEAD.DOC_CODE AND TSPL_VENDOR_INVOICE_DETAIL.Document_No NOT IN ('" + txtDocNo.Value + "')) and TSPL_CSA_TRANSFER_HEAD.Status='1' "
             gv1.CurrentRow.Cells(colDocNo).Value = clsCommon.ShowSelectForm("APInvoiceFinderCSATransfer", qry, "Code", whrcls, clsCommon.myCstr(gv1.CurrentRow.Cells(colDocNo).Value), "", isButtonClick)
         ElseIf clsCommon.CompairString(DocTypeTransfer, clsCommon.myCstr(gv1.CurrentRow.Cells(colDocType).Value)) = CompairStringResult.Equal Then
-            qry = " select TSPL_TRANSFER_ORDER_HEAD.Document_No as Code , CONVERT(varchar, TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) as DocDate ,TSPL_TRANSFER_ORDER_HEAD.Transport_Id  " & _
-                  " from TSPL_TRANSFER_ORDER_HEAD " & _
-                  " left join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code " & _
+            qry = " select TSPL_TRANSFER_ORDER_HEAD.Document_No as Code , CONVERT(varchar, TSPL_TRANSFER_ORDER_HEAD.Document_Date,103) as DocDate ,TSPL_TRANSFER_ORDER_HEAD.Transport_Id  " &
+                  " from TSPL_TRANSFER_ORDER_HEAD " &
+                  " left join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_TRANSFER_ORDER_HEAD.Vehicle_Code " &
                   " inner join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_TRANSFER_ORDER_HEAD.Transport_Id "
             whrcls = " TSPL_TRANSFER_ORDER_HEAD.Transport_Id='" + TxtVendorNo.Value + "' and "
             whrcls += " not exists (select 1 from TSPL_VENDOR_INVOICE_DETAIL where TSPL_VENDOR_INVOICE_DETAIL.Invoice_No=TSPL_TRANSFER_ORDER_HEAD.Document_No AND TSPL_VENDOR_INVOICE_DETAIL.Document_No NOT IN('" + txtDocNo.Value + "')) and TSPL_TRANSFER_ORDER_HEAD.Status='1'  "
             gv1.CurrentRow.Cells(colDocNo).Value = clsCommon.ShowSelectForm("APInvoiceFinderLI", qry, "Code", whrcls, clsCommon.myCstr(gv1.CurrentRow.Cells(colDocNo).Value), "", isButtonClick)
         ElseIf clsCommon.CompairString(DocTypeProductInvoice, clsCommon.myCstr(gv1.CurrentRow.Cells(colDocType).Value)) = CompairStringResult.Equal Then
-            qry = " select TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Code , CONVERT(varchar, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Date, " & _
-                " TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as Customer " & _
-                " from TSPL_SD_SALE_INVOICE_HEAD " & _
-                " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " & _
-                " left join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code " & _
-                " inner join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_SD_SHIPMENT_HEAD.Transport_Id   " & _
+            qry = " select TSPL_SD_SALE_INVOICE_HEAD.Document_Code as Code , CONVERT(varchar, TSPL_SD_SALE_INVOICE_HEAD.Document_Date,103) as Date, " &
+                " TSPL_SD_SALE_INVOICE_HEAD.Customer_Code as [Customer Code],TSPL_CUSTOMER_MASTER.Customer_Name as Customer " &
+                " from TSPL_SD_SALE_INVOICE_HEAD " &
+                " left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No=TSPL_SD_SHIPMENT_HEAD.Document_Code " &
+                " left join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code " &
+                " inner join TSPL_TRANSPORT_MASTER on TSPL_TRANSPORT_MASTER.Transport_Id=TSPL_SD_SHIPMENT_HEAD.Transport_Id   " &
                 " inner join TSPL_CUSTOMER_MASTER on TSPL_SD_SALE_INVOICE_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code"
             whrcls = " TSPL_SD_SHIPMENT_HEAD.Transport_Id='" + TxtVendorNo.Value + "' and not exists (select 1 from TSPL_VENDOR_INVOICE_DETAIL where TSPL_VENDOR_INVOICE_DETAIL.Invoice_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code AND TSPL_VENDOR_INVOICE_DETAIL.Document_No NOT IN('" + txtDocNo.Value + "')) and TSPL_SD_SALE_INVOICE_HEAD.Status='1' "
             gv1.CurrentRow.Cells(colDocNo).Value = clsCommon.ShowSelectForm("APInvoiceFiND", qry, "Code", whrcls, clsCommon.myCstr(gv1.CurrentRow.Cells(colDocNo).Value), "", isButtonClick)
@@ -2612,7 +2621,7 @@ Public Class FrmAPInvoiceEntry
 
     Private Sub OpenAdditionCharges(ByVal isButtonClick As Boolean)
         Try
-            Dim obj As clsAdditionalCharge = clsAdditionalCharge.getFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colAChgCode).Value), isButtonClick)
+            Dim obj As clsAdditionalCharge = clsAdditionalCharge.GetFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colAChgCode).Value), isButtonClick)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
                 gv1.CurrentRow.Cells(colAChgCode).Value = obj.Code
                 gv1.CurrentRow.Cells(colAChgName).Value = obj.desc
@@ -3062,7 +3071,7 @@ Public Class FrmAPInvoiceEntry
         gvAC.Rows.AddNew()
         cmbRefType.SelectedIndex = 1
         cmbRefType.SelectedIndex = 0
-        btnPrint.Visible = True
+        btnPrint.Enabled = True
         txtVendorInvoiceNo.Enabled = True
         txtVendorInvDatre.Enabled = True
         grpProvision.Enabled = False
@@ -3984,6 +3993,7 @@ Public Class FrmAPInvoiceEntry
             btnSave.Enabled = True
             btnPost.Enabled = True
             btnDelete.Enabled = True
+            btnPrint.Enabled = True
             txtTotalAmt.Enabled = True
             btnViewTDSDetails.Enabled = False
             objRemittance = Nothing
@@ -4000,7 +4010,7 @@ Public Class FrmAPInvoiceEntry
 
             Dim obj As New clsVedorInvoiceHead()
             obj = clsVedorInvoiceHead.GetData(strDocumentNo, "AP','VC")
-            btnPrint.Visible = True
+            'btnPrint.Visible = True
 
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
                 If (obj.RemittanceObject IsNot Nothing) Then
@@ -4816,14 +4826,14 @@ Public Class FrmAPInvoiceEntry
     End Sub
     '===============================update by richa agarwal 3 July,2018 ticket no. KDI/02/07/18-000383 pick vendor name from vendor master table instead of transaction table
     Private Sub txtDocNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDocNo._MYValidating
-        Dim qry As String = "select TSPL_VENDOR_INVOICE_HEAD.Document_No as DocumentNo,Invoice_Entry_Date as Date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as [Vendor Code],TSPL_VENDOR_MASTER.Vendor_Name as [Vendor Name],Vendor_Invoice_No as [Vendor Invoice No],Against_POInvoice_No as [PO Invoice No],Vendor_Invoice_Date as [Vendor Invoice Date],(case when len(Posting_Date) is null then 'UnPosted' else 'Posted' end) as [Status],Account_Set as AccountSet,Against_PurchaseReturn_No as [PO Return No],TSPL_VENDOR_INVOICE_HEAD.Against_Acquisition as [Acquisition No],TSPL_VENDOR_INVOICE_HEAD.Against_VCGL As [Against VCGL],ISNULL(TSPL_VENDOR_INVOICE_HEAD.Hirerachy_Level_Code,'') AS [Hirerachy Level Code],ISNULL(TSPL_VENDOR_INVOICE_HEAD.Cost_Centre_Fin_Level_Code,'') AS [Cost Centre Fin Level Code]," & _
-                            "TSPL_VENDOR_INVOICE_head.refDocNo as [Reference Doc No],Against_POInvoice_No as [Against PO Invoice No] ,Against_PurchaseReturn_No as [Against Purchase Return No]," & _
-                            "Against_Acquisition as [Against Acquisition],TSPL_VENDOR_INVOICE_head.invoice_type as [Invoice Type]," & _
-                            "against_millkpurchaseinvoice_No as [Against Milk Purchase Invoice No],Against_bulkmillkpurchaseinvoice_No as [Against Bulk Milk Purchase Invoice No]," & _
-                            "against_asset_work as [Against Asset Work],case when Document_Type='C' then 'Credit Note'  when Document_Type ='D' then 'Debit Note'  when document_type='I' then 'Invoice' end  as [Document Type],case when TSPL_VENDOR_INVOICE_HEAD.GSTRegistered=0 then 'No' else 'Yes' end as GSTRegistered,Purchase_Tax_Invoice,Purchase_Tax_Invoice_Type " & _
-                            " ,TSPL_VENDOR_INVOICE_HEAD.Against_Salary_Generation_Code as [Against Salary Generation],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code], TSPL_VLC_MASTER_HEAD.MCC as [MCC Code],TSPL_MCC_MASTER.MCC_Name as [MCC Name],TSPL_MCC_MASTER.Plant_Code as [Plant Code] ,TSPL_LOCATION_MASTER.Location_Desc as [Plant Name] from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_VENDOR_INVOICE_DETAIL.Detail_Line_No=1 " & _
-                             " LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_INVOICE_HEAD.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code " & _
-                             " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code " & _
+        Dim qry As String = "select TSPL_VENDOR_INVOICE_HEAD.Document_No as DocumentNo,Invoice_Entry_Date as Date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Code as [Vendor Code],TSPL_VENDOR_MASTER.Vendor_Name as [Vendor Name],Vendor_Invoice_No as [Vendor Invoice No],Against_POInvoice_No as [PO Invoice No],Vendor_Invoice_Date as [Vendor Invoice Date],(case when len(Posting_Date) is null then 'UnPosted' else 'Posted' end) as [Status],Account_Set as AccountSet,Against_PurchaseReturn_No as [PO Return No],TSPL_VENDOR_INVOICE_HEAD.Against_Acquisition as [Acquisition No],TSPL_VENDOR_INVOICE_HEAD.Against_VCGL As [Against VCGL],ISNULL(TSPL_VENDOR_INVOICE_HEAD.Hirerachy_Level_Code,'') AS [Hirerachy Level Code],ISNULL(TSPL_VENDOR_INVOICE_HEAD.Cost_Centre_Fin_Level_Code,'') AS [Cost Centre Fin Level Code]," &
+                            "TSPL_VENDOR_INVOICE_head.refDocNo as [Reference Doc No],Against_POInvoice_No as [Against PO Invoice No] ,Against_PurchaseReturn_No as [Against Purchase Return No]," &
+                            "Against_Acquisition as [Against Acquisition],TSPL_VENDOR_INVOICE_head.invoice_type as [Invoice Type]," &
+                            "against_millkpurchaseinvoice_No as [Against Milk Purchase Invoice No],Against_bulkmillkpurchaseinvoice_No as [Against Bulk Milk Purchase Invoice No]," &
+                            "against_asset_work as [Against Asset Work],case when Document_Type='C' then 'Credit Note'  when Document_Type ='D' then 'Debit Note'  when document_type='I' then 'Invoice' end  as [Document Type],case when TSPL_VENDOR_INVOICE_HEAD.GSTRegistered=0 then 'No' else 'Yes' end as GSTRegistered,Purchase_Tax_Invoice,Purchase_Tax_Invoice_Type " &
+                            " ,TSPL_VENDOR_INVOICE_HEAD.Against_Salary_Generation_Code as [Against Salary Generation],TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [VLC Uploader Code], TSPL_VLC_MASTER_HEAD.MCC as [MCC Code],TSPL_MCC_MASTER.MCC_Name as [MCC Name],TSPL_MCC_MASTER.Plant_Code as [Plant Code] ,TSPL_LOCATION_MASTER.Location_Desc as [Plant Name] from TSPL_VENDOR_INVOICE_HEAD left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No and TSPL_VENDOR_INVOICE_DETAIL.Detail_Line_No=1 " &
+                             " LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_INVOICE_HEAD.Vendor_Code=TSPL_VENDOR_MASTER.Vendor_Code " &
+                             " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code " &
                              "  Left Outer Join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code = TSPL_VLC_MASTER_HEAD.MCC  Left Outer Join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code = TSPL_MCC_MASTER.Plant_Code   "
         '----------Added By--Pankaj Kumar-----For GL Security-----31/08/2012
         Dim Arrloc As New ArrayList
@@ -4933,34 +4943,38 @@ Public Class FrmAPInvoiceEntry
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
-            End If
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                          " TSPL_VENDOR_INVOICE_HEAD   " + Environment.NewLine + _
-                          " TSPL_VENDOR_INVOICE_DETAIL  " + Environment.NewLine + _
-                          " TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL (For AP Secondary Tranporter Deduction Detail) " + Environment.NewLine + _
-                          " TSPL_REMITTANCE (For Remittance) " + Environment.NewLine + _
-                          " TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine + _
-                          " TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine + _
-                          " TSPL_AP_Invoice_Advance_Interest " + Environment.NewLine + _
-                          " TSPL_APPROVAL_LEVEL_SCREEN " + Environment.NewLine + _
-                          " TSPL_APPROVAL_LEVEL_SCREEN_HISTORY " + Environment.NewLine + _
-                          " TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine + _
-                          " TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine + _
-                          " TSPL_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine + _
-                          " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine + _
-                          " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine + _
-                          " TSPL_ADJUSTMENT_HEADER  " + Environment.NewLine + _
-                          " TSPL_ADJUSTMENT_DETAIL " + Environment.NewLine + _
-                          " TSPL_SALE_INVOICE_HEAD " + Environment.NewLine + _
-                          " TSPL_INVENTORY_MOVEMENT (For Store Adjustment) " + Environment.NewLine + _
+            If MyBase.isReverse Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                          " TSPL_VENDOR_INVOICE_HEAD   " + Environment.NewLine +
+                          " TSPL_VENDOR_INVOICE_DETAIL  " + Environment.NewLine +
+                          " TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL (For AP Secondary Tranporter Deduction Detail) " + Environment.NewLine +
+                          " TSPL_REMITTANCE (For Remittance) " + Environment.NewLine +
+                          " TSPL_CUSTOM_FIELD_VALUES " + Environment.NewLine +
+                          " TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine +
+                          " TSPL_AP_Invoice_Advance_Interest " + Environment.NewLine +
+                          " TSPL_APPROVAL_LEVEL_SCREEN " + Environment.NewLine +
+                          " TSPL_APPROVAL_LEVEL_SCREEN_HISTORY " + Environment.NewLine +
+                          " TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine +
+                          " TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine +
+                          " TSPL_MILK_PURCHASE_INVOICE_HEAD (update during Journal Entry) " + Environment.NewLine +
+                          " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine +
+                          " TSPL_PI_HEAD (update during Journal Entry) " + Environment.NewLine +
+                          " TSPL_ADJUSTMENT_HEADER  " + Environment.NewLine +
+                          " TSPL_ADJUSTMENT_DETAIL " + Environment.NewLine +
+                          " TSPL_SALE_INVOICE_HEAD " + Environment.NewLine +
+                          " TSPL_INVENTORY_MOVEMENT (For Store Adjustment) " + Environment.NewLine +
                           " TSPL_BATCH_ITEM (During Inventory Movement save) ")
-
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
         End If
     End Sub
 
@@ -5150,7 +5164,7 @@ Public Class FrmAPInvoiceEntry
                     End If
                     ''richa done on 12 Sep,2017
                     Dim BalQry As String = clsVedorInvoiceHead.GetWorkOrderBalanceAmountBaseQry("", "")
-                    Dim qry As String = "select TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No as Code,TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Date as Date,TSPL_PURCHASE_ORDER_HEAD.Vendor_Code as [Vendor code],TSPL_PURCHASE_ORDER_HEAD.Vendor_Name as [Vendor Name],TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location as [Bill To Location],Balance.Balance_WO_Amt as [Order Balance] from TSPL_PURCHASE_ORDER_HEAD " & _
+                    Dim qry As String = "select TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No as Code,TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Date as Date,TSPL_PURCHASE_ORDER_HEAD.Vendor_Code as [Vendor code],TSPL_PURCHASE_ORDER_HEAD.Vendor_Name as [Vendor Name],TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location as [Bill To Location],Balance.Balance_WO_Amt as [Order Balance] from TSPL_PURCHASE_ORDER_HEAD " &
                         " left join (" & BalQry & ") as Balance on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=Balance.PurchaseOrder_No "
                     Dim whrclas As String = " TSPL_PURCHASE_ORDER_HEAD.Status='1' and TSPL_PURCHASE_ORDER_HEAD.Vendor_Code='" & TxtVendorNo.Value & "' and  TSPL_PURCHASE_ORDER_HEAD.Bill_To_Location in (select Location_Code   from TSPL_LOCATION_MASTER where Loc_Segment_Code='" & txtlocation.Value & "' and Is_Sub_Location='N' and Is_Section='N') and TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_Type ='J'  and Balance.Balance_WO_Amt>0 "
                     If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KDIL") = CompairStringResult.Equal Then
@@ -5163,9 +5177,9 @@ Public Class FrmAPInvoiceEntry
                     fndProject.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Project_Id from TSPL_PURCHASE_ORDER_HEAD where PurchaseOrder_No='" + txtRefDocNo.Value + "'"))
                     lblProject.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select SPECIFICATION from TSPL_PJC_PROJECT where PROJECT_CODE='" + fndProject.Value + "'"))
                 ElseIf clsCommon.CompairString(clsCommon.myCstr(cmbRefType.SelectedValue), "BS") = CompairStringResult.Equal Then
-                    Dim qry As String = "select TSPL_Bulk_MILK_SRN.SRN_NO as Code,TSPL_Bulk_MILK_SRN.SRN_Date as Date,TSPL_Bulk_MILK_SRN.Vendor_Code as VendorCode ,TSPL_VENDOR_MASTER.Vendor_Name as Vendor,TSPL_Bulk_MILK_SRN.Loc_Code as LocationCode ,TSPL_LOCATION_MASTER.Location_Desc as Location " & _
-                    " from TSPL_Bulk_MILK_SRN " & _
-                    " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_Bulk_MILK_SRN.Vendor_Code " & _
+                    Dim qry As String = "select TSPL_Bulk_MILK_SRN.SRN_NO as Code,TSPL_Bulk_MILK_SRN.SRN_Date as Date,TSPL_Bulk_MILK_SRN.Vendor_Code as VendorCode ,TSPL_VENDOR_MASTER.Vendor_Name as Vendor,TSPL_Bulk_MILK_SRN.Loc_Code as LocationCode ,TSPL_LOCATION_MASTER.Location_Desc as Location " &
+                    " from TSPL_Bulk_MILK_SRN " &
+                    " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_Bulk_MILK_SRN.Vendor_Code " &
                     " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_Bulk_MILK_SRN.Loc_Code "
 
                     Dim whrclas As String = " TSPL_Bulk_MILK_SRN.isPosted = 1 "
@@ -5574,15 +5588,15 @@ Public Class FrmAPInvoiceEntry
                     End If
                     Dim qry1 As String = String.Empty
                     If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.CreateOpeningEntryAutomatically, clsFixedParameterCode.CreateOpeningEntryAutomatically, trans)), "1") = CompairStringResult.Equal And JEWithOPening = True Then
-                        qry1 = "select TSPL_VENDOR_ACCOUNT_SET.Opening_Clearing ,tspl_gl_accounts.Description   from TSPL_VENDOR_MASTER   " & _
-                                        " left outer join TSPL_VENDOR_ACCOUNT_SET  on TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code=TSPL_VENDOR_MASTER.Vendor_Account  " & _
-                                       " left outer join tspl_gl_accounts on  TSPL_VENDOR_ACCOUNT_SET.Payable_Account=tspl_gl_accounts.Account_Code " & _
+                        qry1 = "select TSPL_VENDOR_ACCOUNT_SET.Opening_Clearing ,tspl_gl_accounts.Description   from TSPL_VENDOR_MASTER   " &
+                                        " left outer join TSPL_VENDOR_ACCOUNT_SET  on TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code=TSPL_VENDOR_MASTER.Vendor_Account  " &
+                                       " left outer join tspl_gl_accounts on  TSPL_VENDOR_ACCOUNT_SET.Payable_Account=tspl_gl_accounts.Account_Code " &
                                         " where TSPL_VENDOR_MASTER.Vendor_Code='" + strVendor + "' "
 
                     Else
-                        qry1 = "select TSPL_VENDOR_ACCOUNT_SET.Payable_Account ,tspl_gl_accounts.Description   from TSPL_VENDOR_MASTER   " & _
-                                        " left outer join TSPL_VENDOR_ACCOUNT_SET  on TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code=TSPL_VENDOR_MASTER.Vendor_Account  " & _
-                                       " left outer join tspl_gl_accounts on  TSPL_VENDOR_ACCOUNT_SET.Payable_Account=tspl_gl_accounts.Account_Code " & _
+                        qry1 = "select TSPL_VENDOR_ACCOUNT_SET.Payable_Account ,tspl_gl_accounts.Description   from TSPL_VENDOR_MASTER   " &
+                                        " left outer join TSPL_VENDOR_ACCOUNT_SET  on TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code=TSPL_VENDOR_MASTER.Vendor_Account  " &
+                                       " left outer join tspl_gl_accounts on  TSPL_VENDOR_ACCOUNT_SET.Payable_Account=tspl_gl_accounts.Account_Code " &
                                         " where TSPL_VENDOR_MASTER.Vendor_Code='" + strVendor + "' "
 
                     End If
@@ -6917,16 +6931,16 @@ Public Class FrmAPInvoiceEntry
 
         If clsCommon.myLen(txtDocNo.Value) > 0 Then
             If CalculateProvisionOnGateePass = 0 Then
-                frm.qry = "select Prog_Code,Doc_No,Doc_Date,Loc_Code,Loc_Desc,Vendor_Code,Vendor_Desc,Vendor_Type,Route_Code,Ref_Doc_No,Prov_type,TSPL_PROVISION_ENTRY_KNOCKOFF.Balance_Amount as Amount" + _
-           " ,Status,Prov_Month,Prov_Year,Comp_Code,Created_by, Created_Date,Modified_By,Modified_Date,isPosted,Posting_Date" + _
-           " from TSPL_PROVISION_ENTRY_KNOCKOFF" + _
-           " inner join TSPL_PROVISION_ENTRY on TSPL_PROVISION_ENTRY.Doc_No=TSPL_PROVISION_ENTRY_KNOCKOFF.Provision_No" + _
+                frm.qry = "select Prog_Code,Doc_No,Doc_Date,Loc_Code,Loc_Desc,Vendor_Code,Vendor_Desc,Vendor_Type,Route_Code,Ref_Doc_No,Prov_type,TSPL_PROVISION_ENTRY_KNOCKOFF.Balance_Amount as Amount" +
+           " ,Status,Prov_Month,Prov_Year,Comp_Code,Created_by, Created_Date,Modified_By,Modified_Date,isPosted,Posting_Date" +
+           " from TSPL_PROVISION_ENTRY_KNOCKOFF" +
+           " inner join TSPL_PROVISION_ENTRY on TSPL_PROVISION_ENTRY.Doc_No=TSPL_PROVISION_ENTRY_KNOCKOFF.Provision_No" +
            " where TSPL_PROVISION_ENTRY_KNOCKOFF.AP_Invoice_No='" + txtDocNo.Value + "'"
             Else
-                frm.qry = "select Prog_Code,Doc_No,Doc_Date,Loc_Code,Loc_Desc,Vendor_Code,Vendor_Desc,Vendor_Type,Route_Code,TSPL_PROVISION_ENTRY_KNOCKOFF.Invoice_No as Ref_Doc_No,Prov_type,TSPL_PROVISION_ENTRY_KNOCKOFF.Balance_Amount as Amount" + _
-           " ,Status,Prov_Month,Prov_Year,Comp_Code,Created_by, Created_Date,Modified_By,Modified_Date,isPosted,Posting_Date" + _
-           " from TSPL_PROVISION_ENTRY_KNOCKOFF" + _
-           " inner join TSPL_PROVISION_ENTRY on TSPL_PROVISION_ENTRY.Doc_No=TSPL_PROVISION_ENTRY_KNOCKOFF.Provision_No" + _
+                frm.qry = "select Prog_Code,Doc_No,Doc_Date,Loc_Code,Loc_Desc,Vendor_Code,Vendor_Desc,Vendor_Type,Route_Code,TSPL_PROVISION_ENTRY_KNOCKOFF.Invoice_No as Ref_Doc_No,Prov_type,TSPL_PROVISION_ENTRY_KNOCKOFF.Balance_Amount as Amount" +
+           " ,Status,Prov_Month,Prov_Year,Comp_Code,Created_by, Created_Date,Modified_By,Modified_Date,isPosted,Posting_Date" +
+           " from TSPL_PROVISION_ENTRY_KNOCKOFF" +
+           " inner join TSPL_PROVISION_ENTRY on TSPL_PROVISION_ENTRY.Doc_No=TSPL_PROVISION_ENTRY_KNOCKOFF.Provision_No" +
            " where TSPL_PROVISION_ENTRY_KNOCKOFF.AP_Invoice_No='" + txtDocNo.Value + "'"
             End If
 
@@ -7286,29 +7300,29 @@ Public Class FrmAPInvoiceEntry
                         End If
                     End If
                     obj.loc_code = clsCommon.myCstr(grow.Cells("Location Code").Value)
-        If clsCommon.myLen(obj.loc_code) > 0 Then
-            obj.loc_code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select distinct(Segment_code) as Code from TSPL_GL_SEGMENT_CODE left outer join TSPL_LOCATION_MASTER on TSPL_GL_SEGMENT_CODE .Segment_code =TSPL_LOCATION_MASTER .Loc_Segment_Code WHERE TSPL_GL_SEGMENT_CODE.Segment_code='" + obj.loc_code + "' AND Seg_No = '7' AND GIT='N'", trans))
-            If clsCommon.myLen(obj.loc_code) <= 0 Then
-                Throw New Exception("Location Segment does not exist.")
-            End If
-        Else
-            Throw New Exception("Please enter Location Segment Code")
-        End If
+                    If clsCommon.myLen(obj.loc_code) > 0 Then
+                        obj.loc_code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select distinct(Segment_code) as Code from TSPL_GL_SEGMENT_CODE left outer join TSPL_LOCATION_MASTER on TSPL_GL_SEGMENT_CODE .Segment_code =TSPL_LOCATION_MASTER .Loc_Segment_Code WHERE TSPL_GL_SEGMENT_CODE.Segment_code='" + obj.loc_code + "' AND Seg_No = '7' AND GIT='N'", trans))
+                        If clsCommon.myLen(obj.loc_code) <= 0 Then
+                            Throw New Exception("Location Segment does not exist.")
+                        End If
+                    Else
+                        Throw New Exception("Please enter Location Segment Code")
+                    End If
 
-        obj.Invoice_Entry_Date = clsCommon.myCstr(grow.Cells("Document Date").Value)
-        obj.Vendor_Invoice_No = "" '"Opening Balance " + clsCommon.myCstr(Counter)
-        obj.Vendor_Invoice_Date = obj.Invoice_Entry_Date
+                    obj.Invoice_Entry_Date = clsCommon.myCstr(grow.Cells("Document Date").Value)
+                    obj.Vendor_Invoice_No = "" '"Opening Balance " + clsCommon.myCstr(Counter)
+                    obj.Vendor_Invoice_Date = obj.Invoice_Entry_Date
                     obj.Due_Date = obj.Invoice_Entry_Date
                     If SettShowMCCFinder = False Then
                         obj.Terms_Code = objVendor.Terms_Code
                     End If
                     obj.Document_Type = clsCommon.myCstr(TransType)
-        obj.On_Hold = False
-        obj.Discount_Base = clsCommon.myCdbl(grow.Cells("Amount").Value)
-        If obj.Discount_Base <= 0 Then
-            Throw New Exception("Please enter amount.")
-        End If
-        obj.Discount_Percentage = clsCommon.myCdbl(grow.Cells("Discount %").Value)
+                    obj.On_Hold = False
+                    obj.Discount_Base = clsCommon.myCdbl(grow.Cells("Amount").Value)
+                    If obj.Discount_Base <= 0 Then
+                        Throw New Exception("Please enter amount.")
+                    End If
+                    obj.Discount_Percentage = clsCommon.myCdbl(grow.Cells("Discount %").Value)
                     If SettShowMCCFinder = False Then
                         dtTemp = clsDBFuncationality.GetDataTable("select Payable_Account,Discount_Account from TSPL_VENDOR_ACCOUNT_SET LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Account=TSPL_VENDOR_ACCOUNT_SET.Acct_Set_Code WHERE TSPL_VENDOR_MASTER.Vendor_Code='" + obj.Vendor_Code + "'", trans)
                         If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
@@ -7626,17 +7640,17 @@ Public Class FrmAPInvoiceEntry
                     End If
                     obj.SaveData(obj, True, trans)
                 Next
-        clsCommon.ProgressBarHide()
-        trans.Commit()
-        common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                clsCommon.ProgressBarHide()
+                trans.Commit()
+                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
-            trans.Rollback()
-            clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow("Error at Rowno " + Counter + Environment.NewLine + ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
-        Finally
-            clsCommon.ProgressBarHide()
-            Me.Controls.Remove(gv)
-        End Try
+                trans.Rollback()
+                clsCommon.ProgressBarHide()
+                common.clsCommon.MyMessageBoxShow("Error at Rowno " + Counter + Environment.NewLine + ex.Message, Me.Text, MessageBoxButtons.OK, RadMessageIcon.Error)
+            Finally
+                clsCommon.ProgressBarHide()
+                Me.Controls.Remove(gv)
+            End Try
         End If
     End Sub
     ' Ticket No : KDI/02/05/18-000284 by Prabhakar
@@ -7685,4 +7699,6 @@ Public Class FrmAPInvoiceEntry
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
 End Class

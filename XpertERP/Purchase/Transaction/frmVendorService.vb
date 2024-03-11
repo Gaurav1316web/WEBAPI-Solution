@@ -206,6 +206,7 @@ Public Class FrmVendorService
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
         Else
@@ -2361,9 +2362,23 @@ Public Class FrmVendorService
 
     End Sub
 
+    Public Function GetSAC() As String
+        Dim Qry As String = "SELECT top 1  TSPL_SAC_WISE_TAX.DOC_DATE,tspl_Additional_Charges.Code,tspl_Additional_Charges.Is_RoundOff, tspl_Additional_Charges.description,Account_Code,Account_Description ,freightCharges,specification,abatement,Reverse_Charge_Per,Service_Type,
+                                tspl_Additional_Charges.SAC_Code,TSPL_SAC_MASTER.
+                                Description as SAC_Description,TSPL_ADDITIONAL_CHARGES.RCM,TSPL_ADDITIONAL_CHARGES.NO_GST_Credit,tspl_Additional_Charges.Is_Insurance 
+                                from tspl_Additional_Charges 
+                                inner join TSPL_SAC_MASTER ON tspl_Additional_Charges.SAC_Code=TSPL_SAC_MASTER.Code
+                                inner join TSPL_SAC_WISE_TAX_GROUP ON TSPL_SAC_WISE_TAX_GROUP.SAC_Code=TSPL_SAC_MASTER.Code
+                                inner join TSPL_SAC_WISE_TAX ON TSPL_SAC_WISE_TAX.HCODE =TSPL_SAC_WISE_TAX_GROUP.HCODE
+                                where  2=2 and TSPL_SAC_WISE_TAX.DOC_DATE<=Convert(Date,'" + clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") + "',103) Order By TSPL_SAC_WISE_TAX.DOC_DATE desc"
+        Return Qry
+    End Function
+
+
+
     Private Sub OpenAdditionCharges(ByVal isButtonClick As Boolean)
         Try
-            Dim obj As clsAdditionalCharge = clsAdditionalCharge.GetFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colAChgCode).Value), isButtonClick, chkRCM.Checked, chkNoGSTCredit.Checked, txtDate.Value)
+            Dim obj As clsAdditionalCharge = clsAdditionalCharge.GetFinder(clsCommon.myCstr(gv1.CurrentRow.Cells(colAChgCode).Value), isButtonClick, chkRCM.Checked, chkNoGSTCredit.Checked, txtDate.Value, MyBase.Form_ID)
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
                 gv1.CurrentRow.Cells(colAChgCode).Value = obj.Code
                 gv1.CurrentRow.Cells(colAChgName).Value = obj.desc
@@ -4633,14 +4648,19 @@ Public Class FrmVendorService
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
-            End If
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+        End If
+        ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
                          " TSPL_VENDOR_INVOICE_HEAD   " + Environment.NewLine +
                          " TSPL_VENDOR_INVOICE_DETAIL  " + Environment.NewLine +
                          " TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL (For AP Secondary Tranporter Deduction Detail) " + Environment.NewLine +

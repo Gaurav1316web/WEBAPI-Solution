@@ -106,6 +106,11 @@ Public Class frmEmployee_Status
             obj.EPF_Rate = txtEPFRate.Text
             obj.ESI_Rate = txtESIRate.Text
             obj.Pf_Calculation_Type = cboPFCalculatnType.SelectedValue
+            If chkTransPF.Checked Then
+                obj.Transfer_PF = True
+                obj.transferText = txtTransferPF.Text
+            End If
+            obj.GPF_No = txtGPFNo.Text
             Dim objTr As clsEmployeeStatusWeeklyOff
             For Each grow As GridViewRowInfo In gvLoanGeneration.Rows
                 If grow.Cells(colWKHOLIDAYSelect).Value = True Then
@@ -178,7 +183,12 @@ Public Class frmEmployee_Status
             txtEPFRate.Text = clsCommon.myCdbl(obj.EPF_Rate)
             txtESIRate.Text = clsCommon.myCdbl(obj.ESI_Rate)
             cboPFCalculatnType.SelectedValue = obj.Pf_Calculation_Type
-            Dim objTr As clsEmployeeStatusWeeklyOff
+            If obj.Transfer_PF Then
+                chkTransPF.Checked = True
+            End If
+            txtGPFNo.Text = obj.GPF_No
+            txtTransferPF.Text = obj.transferText
+        Dim objTr As clsEmployeeStatusWeeklyOff
             For Each objTr In obj.objList
                 For Each grow As GridViewRowInfo In gvLoanGeneration.Rows
                     If objTr.WKHOLIDAY_CODE = grow.Cells(colWKHOLIDAY_CODE).Value Then
@@ -297,6 +307,7 @@ Public Class frmEmployee_Status
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        RadMenu2.Visible = MyBase.isExport
     End Sub
 
     Private Sub btnNew_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnNew.Click
@@ -304,6 +315,9 @@ Public Class frmEmployee_Status
     End Sub
 
     Sub funReset()
+        txtGPFNo.Text = ""
+        chkTransPF.Checked = False
+        txtTransferPF.Text = ""
         isNewEntry = True
         txtCode.MyReadOnly = False
         txtEmpCode.Enabled = True

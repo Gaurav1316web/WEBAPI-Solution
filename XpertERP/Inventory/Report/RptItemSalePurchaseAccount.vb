@@ -823,7 +823,7 @@ Public Class RptItemSalePurchaseAccount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -837,7 +837,7 @@ Public Class RptItemSalePurchaseAccount
         Dim TempFormId As String = ""
         TempFormId = Form_ID
         clsGridLayout.DeleteData(TempFormId, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
         Try

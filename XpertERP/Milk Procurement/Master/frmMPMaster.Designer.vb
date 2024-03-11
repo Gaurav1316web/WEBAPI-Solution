@@ -2477,6 +2477,7 @@ Partial Class FrmMPMaster
         Me.dgvNoofBuffaloes.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvNoofBuffaloes.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvNoofBuffaloes.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvNoofBuffaloes.MyStopExport = False
         Me.dgvNoofBuffaloes.Name = "dgvNoofBuffaloes"
         Me.dgvNoofBuffaloes.ShowHeaderCellButtons = True
         Me.dgvNoofBuffaloes.Size = New System.Drawing.Size(1027, 507)
@@ -2567,6 +2568,7 @@ Partial Class FrmMPMaster
         Me.dgvNoofCows.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvNoofCows.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvNoofCows.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvNoofCows.MyStopExport = False
         Me.dgvNoofCows.Name = "dgvNoofCows"
         Me.dgvNoofCows.ShowHeaderCellButtons = True
         Me.dgvNoofCows.Size = New System.Drawing.Size(1027, 509)

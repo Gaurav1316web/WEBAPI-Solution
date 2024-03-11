@@ -29,7 +29,8 @@ Public Class FrmEmployeeTransfer
             Exit Sub
         End If
         btnsave.Visible = MyBase.isModifyFlag
-
+        btnPost.Visible = MyBase.isPostFlag
+        btnPrint.Visible = MyBase.isPrintFlag
     End Sub
 
     Function allowtosave()

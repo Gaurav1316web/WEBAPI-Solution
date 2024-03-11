@@ -74,6 +74,12 @@ Public Class frmDBTNEFTReject
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
+        btn_Import.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            btn_Import.Enabled = True
+        Else
+            btn_Import.Enabled = False
+        End If
     End Sub
     Sub Reset()
         'loadBlankGrid()

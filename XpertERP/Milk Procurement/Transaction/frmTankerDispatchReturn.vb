@@ -17,6 +17,13 @@ Public Class frmTankerDispatchReturn
             Throw New Exception("Permission Denied")
         End If
         btnSave.Visible = MyBase.isModifyFlag
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        btnReverse.Visible = False
+
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -234,26 +241,32 @@ Public Class frmTankerDispatchReturn
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
             CloseForm()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                      "========Table Name=========" + Environment.NewLine + _
-                                      "TSPL_MCC_DISPATCH_CHALLAN_RETURN" + Environment.NewLine + _
-                                      "TSPL_CUSTOM_FIELD_VALUES" + Environment.NewLine + _
-                                      "TSPL_INVENTORY_MOVEMENT_new" + Environment.NewLine + _
-                                      "TSPL_JOURNAL_DETAILS (For Journal Entry)" + Environment.NewLine + _
-                                      "TSPL_JOURNAL_MASTER (For Journal Entry)" + Environment.NewLine + _
-                                      "=========Setting Name======" + Environment.NewLine + _
-                                      "CreateTankerDispatchGL" + Environment.NewLine + _
-                                      "TransferEntryOnInvCtrlAccount" + Environment.NewLine + _
-                                      "SkipCogsEntry" + Environment.NewLine + _
-                                      "GateEntryTankerFromTankerMaster")
-        End If
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                          "========Table Name=========" + Environment.NewLine +
+                                          "TSPL_MCC_DISPATCH_CHALLAN_RETURN" + Environment.NewLine +
+                                          "TSPL_CUSTOM_FIELD_VALUES" + Environment.NewLine +
+                                          "TSPL_INVENTORY_MOVEMENT_new" + Environment.NewLine +
+                                          "TSPL_JOURNAL_DETAILS (For Journal Entry)" + Environment.NewLine +
+                                          "TSPL_JOURNAL_MASTER (For Journal Entry)" + Environment.NewLine +
+                                          "=========Setting Name======" + Environment.NewLine +
+                                          "CreateTankerDispatchGL" + Environment.NewLine +
+                                          "TransferEntryOnInvCtrlAccount" + Environment.NewLine +
+                                          "SkipCogsEntry" + Environment.NewLine +
+                                          "GateEntryTankerFromTankerMaster")
+            End If
     End Sub
 
     Private Sub txtVendor__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtSRNNo._MYValidating

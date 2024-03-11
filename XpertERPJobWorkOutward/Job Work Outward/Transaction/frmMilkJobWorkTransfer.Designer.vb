@@ -24,6 +24,10 @@ Partial Class frmMilkJobWorkTransfer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
@@ -340,34 +344,25 @@ Partial Class frmMilkJobWorkTransfer
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1104, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "Total"
         '
         'mnuSetting
         '
-        Me.mnuSetting.AccessibleDescription = "Setting"
-        Me.mnuSetting.AccessibleName = "Setting"
         Me.mnuSetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuSaveLayout, Me.mnuDeleteLayout, Me.mnuExit})
         Me.mnuSetting.Name = "mnuSetting"
         Me.mnuSetting.Text = "Setting"
         '
         'mnuSaveLayout
         '
-        Me.mnuSaveLayout.AccessibleDescription = "Save Layout"
-        Me.mnuSaveLayout.AccessibleName = "Save Layout"
         Me.mnuSaveLayout.Name = "mnuSaveLayout"
         Me.mnuSaveLayout.Text = "Save Layout"
         '
         'mnuDeleteLayout
         '
-        Me.mnuDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.mnuDeleteLayout.AccessibleName = "Delete Layout"
         Me.mnuDeleteLayout.Name = "mnuDeleteLayout"
         Me.mnuDeleteLayout.Text = "Delete Layout"
         '
         'mnuExit
         '
-        Me.mnuExit.AccessibleDescription = "Exit"
-        Me.mnuExit.AccessibleName = "Exit"
         Me.mnuExit.Name = "mnuExit"
         Me.mnuExit.Text = "Exit"
         '
@@ -383,7 +378,6 @@ Partial Class frmMilkJobWorkTransfer
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(1104, 448)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -543,7 +537,6 @@ Partial Class frmMilkJobWorkTransfer
         Me.lblJobWork.Name = "lblJobWork"
         Me.lblJobWork.Size = New System.Drawing.Size(516, 21)
         Me.lblJobWork.TabIndex = 348
-        Me.lblJobWork.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndTankerNo
         '
@@ -586,7 +579,6 @@ Partial Class frmMilkJobWorkTransfer
         Me.txtDocType.Name = "txtDocType"
         Me.txtDocType.Size = New System.Drawing.Size(97, 21)
         Me.txtDocType.TabIndex = 351
-        Me.txtDocType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtLocation
         '
@@ -649,7 +641,6 @@ Partial Class frmMilkJobWorkTransfer
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(516, 21)
         Me.lblLocationDesc.TabIndex = 328
-        Me.lblLocationDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel15
         '
@@ -996,7 +987,6 @@ Partial Class frmMilkJobWorkTransfer
         Me.lblVirtual.Name = "lblVirtual"
         Me.lblVirtual.Size = New System.Drawing.Size(516, 21)
         Me.lblVirtual.TabIndex = 347
-        Me.lblVirtual.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtVirtual
         '
@@ -1078,7 +1068,7 @@ Partial Class frmMilkJobWorkTransfer
         Me.lblReverse.Size = New System.Drawing.Size(69, 19)
         Me.lblReverse.TabIndex = 340
         Me.lblReverse.Text = "Reversed"
-        Me.lblReverse.TextAlignment = System.Drawing.ContentAlignment.TopCenter
+        Me.lblReverse.TextAlignment = System.Drawing.ContentAlignment.TopLeft
         '
         'lblTankerTransporterName
         '
@@ -1089,7 +1079,6 @@ Partial Class frmMilkJobWorkTransfer
         Me.lblTankerTransporterName.Name = "lblTankerTransporterName"
         Me.lblTankerTransporterName.Size = New System.Drawing.Size(516, 21)
         Me.lblTankerTransporterName.TabIndex = 339
-        Me.lblTankerTransporterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTankerTransporterName.Visible = False
         '
         'txtGateEntryNo
@@ -1234,7 +1223,6 @@ Partial Class frmMilkJobWorkTransfer
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(516, 21)
         Me.lblVendorName.TabIndex = 323
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblVendor
         '
@@ -1372,11 +1360,14 @@ Partial Class frmMilkJobWorkTransfer
         Me.gvItem.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvItem.Location = New System.Drawing.Point(0, 0)
         '
-        'gvItem
+        '
         '
         Me.gvItem.MasterTemplate.AllowColumnHeaderContextMenu = False
         Me.gvItem.MasterTemplate.AllowDeleteRow = False
+        Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItem.ShowGroupPanel = False
@@ -1384,7 +1375,6 @@ Partial Class frmMilkJobWorkTransfer
         Me.gvItem.Size = New System.Drawing.Size(1083, 149)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
-        Me.gvItem.Text = "RadGridView1"
         '
         'QcDetails
         '
@@ -1644,14 +1634,16 @@ Partial Class frmMilkJobWorkTransfer
         Me.gvParam.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvParam.Location = New System.Drawing.Point(2, 18)
         '
-        'gvParam
         '
+        '
+        Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(1079, 100)
         Me.gvParam.TabIndex = 264
-        Me.gvParam.Text = "RadGridView1"
         '
         'RadGroupBox2
         '
@@ -1672,12 +1664,14 @@ Partial Class frmMilkJobWorkTransfer
         '
         '
         '
+        Me.gvRange.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRange.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvRange.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvRange.MyStopExport = False
         Me.gvRange.Name = "gvRange"
         Me.gvRange.ShowHeaderCellButtons = True
         Me.gvRange.Size = New System.Drawing.Size(1079, 95)
         Me.gvRange.TabIndex = 264
-        Me.gvRange.Text = "RadGridView1"
         '
         'RadPageViewPage2
         '
@@ -1994,11 +1988,14 @@ Partial Class frmMilkJobWorkTransfer
         Me.gvReceipt.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvReceipt.Location = New System.Drawing.Point(0, 0)
         '
-        'gvReceipt
+        '
         '
         Me.gvReceipt.MasterTemplate.AllowColumnHeaderContextMenu = False
         Me.gvReceipt.MasterTemplate.AllowDeleteRow = False
+        Me.gvReceipt.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvReceipt.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvReceipt.MyStopExport = False
         Me.gvReceipt.Name = "gvReceipt"
         Me.gvReceipt.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvReceipt.ShowGroupPanel = False
@@ -2006,7 +2003,6 @@ Partial Class frmMilkJobWorkTransfer
         Me.gvReceipt.Size = New System.Drawing.Size(1083, 367)
         Me.gvReceipt.TabIndex = 1
         Me.gvReceipt.TabStop = False
-        Me.gvReceipt.Text = "RadGridView1"
         '
         'RadPanel1
         '

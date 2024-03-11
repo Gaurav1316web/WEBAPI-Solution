@@ -479,6 +479,8 @@ Public Class frmEXPorformaInvoice
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
         btnPrint.Visible = MyBase.isPrintFlag
         RadSplitButton1.Visible = isPrintFlag
+        btnReverseAndUnpost.Visible = False
+
         If MyBase.isReverse Then
             btnReverseAndUnpost.Enabled = True
         Else
@@ -5218,16 +5220,22 @@ Public Class frmEXPorformaInvoice
             ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnClose.Enabled Then
                 CloseForm()
             ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = clsFixedParameterType.SIRC
-                frm.strCode = clsFixedParameterCode.SIReversAndCreate
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnReverseAndUnpost.Visible = True
+                If MyBase.isReverse Then
+
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = clsFixedParameterType.SIRC
+                    frm.strCode = clsFixedParameterCode.SIReversAndCreate
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnReverseAndUnpost.Visible = True
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                    'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             End If
 
-            If e.KeyData = Keys.F2 AndAlso gv_Notify_Party.CurrentColumn IsNot Nothing AndAlso gv_Notify_Party.CurrentColumn Is gv_Notify_Party.Columns(colNT_Cust_Code) Then
+                If e.KeyData = Keys.F2 AndAlso gv_Notify_Party.CurrentColumn IsNot Nothing AndAlso gv_Notify_Party.CurrentColumn Is gv_Notify_Party.Columns(colNT_Cust_Code) Then
                 isCellValueChangedOpen = True
                 OpenNotify(True)
                 isCellValueChangedOpen = False
@@ -6591,7 +6599,7 @@ Public Class frmEXPorformaInvoice
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

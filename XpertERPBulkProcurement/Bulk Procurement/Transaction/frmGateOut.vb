@@ -234,7 +234,7 @@ Public Class FrmGateOut
     End Sub
 
     Sub PrintData()
-        clsCommon.MyMessageBoxShow("No Print Format Found")
+        clsCommon.MyMessageBoxShow(Me, "No Print Format Found", Me.Text)
     End Sub
     Private Sub fndGateEntryNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndGateEntryNo._MYValidating
         'Dim whrCls As String = " "
@@ -375,6 +375,8 @@ Public Class FrmGateOut
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnAllocatePrint.Visible = MyBase.isPrintFlag
     End Sub
     Sub LoadGateEntryData(ByVal strGateEntryNo As String)
         Dim strDocNo As String = clsDBFuncationality.getSingleValue("select Doc_No from TSPL_Gate_Out where gate_entry_no='" & strGateEntryNo & "'")

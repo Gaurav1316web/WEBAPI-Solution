@@ -50,6 +50,35 @@ Public Class frmMilkCollectionDCS
     Public Shared IsViewBalance As Boolean = False
     Dim SettAdjQty As Boolean = False
 #End Region
+    Public Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmBookingProductSale)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        RadButton3.Visible = MyBase.isPrintFlag
+        RadButton4.Visible = MyBase.isPrintFlag
+        'btnExport.Visible = MyBase.isExport
+        'btnImport.Visible = MyBase.isExport
+        If btnSave.Visible = True Then
+            btnImport.Enabled = True
+            btnExport.Enabled = True
+        Else
+            btnImport.Enabled = False
+            btnExport.Enabled = False
+        End If
+        If MyBase.isExport = True Then
+            btnImport.Enabled = True
+            btnExport.Enabled = True
+        Else
+            btnImport.Enabled = False
+            btnExport.Enabled = False
+        End If
+
+    End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         corrFactor = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, Nothing))
         isPickCLRInsteadOfSNF = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
@@ -71,6 +100,7 @@ Public Class frmMilkCollectionDCS
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtMDCSDate.Value = clsCommon.GETSERVERDATE()
         AddNew()
+        SetUserMgmtNew()
     End Sub
 
 
@@ -753,7 +783,7 @@ Public Class frmMilkCollectionDCS
                     obj.SaveData(obj, isNewEntry)
                     clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 Else
-                    If common.clsCommon.MyMessageBoxShow("You have not selected Own BMC. Do you want to proceed?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If common.clsCommon.MyMessageBoxShow(Me, "You have not selected Own BMC. Do you want to proceed?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         obj.SaveData(obj, isNewEntry)
                         clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     End If
@@ -1994,6 +2024,10 @@ where TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=" + clsCommon.myCstr(lst.REF_PK
     Private Sub btnCreateDCS_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCreateDCS.Click
         Dim DocNo As String = gv1.CurrentRow.Cells(colVLCUploaderCode).Value
         clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmVSP_VLCMaster, DocNo)
+    End Sub
+
+    Private Sub txtTotPendingFATPer_Click(sender As Object, e As EventArgs) Handles txtTotPendingFATPer.Click
+
     End Sub
     'Private Sub btnViewBalance_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnViewBalance.Click
     '    Dim DocNo As String = gv1.CurrentRow.Cells(colVLCUploaderCode).Value

@@ -361,6 +361,14 @@ Public Class FrmMPMaster
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        'RadMenu1.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            mnuExport.Enabled = True
+            mnuImport.Enabled = True
+        Else
+            mnuExport.Enabled = False
+            mnuImport.Enabled = False
+        End If
     End Sub
     Function allowToSave() As Boolean
         Try
@@ -2708,4 +2716,6 @@ Public Class FrmMPMaster
             e.Handled = True
         End If
     End Sub
+
+
 End Class

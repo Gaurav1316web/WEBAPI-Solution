@@ -48,7 +48,35 @@ Public Class frmMilkShiftUploader
     Dim TotalFatKg As Decimal = 0
     Dim TotalSnfKg As Decimal = 0
 #End Region
+    Public Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.frmBookingProductSale)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
+        End If
+        btnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnDelete.Visible = MyBase.isDeleteFlag
 
+        If MyBase.isExport = True Then
+            RadMenuItem4.Enabled = True
+            RadMenuItem6.Enabled = True
+            RadMenuItem5.Enabled = True
+
+        Else
+            RadMenuItem4.Enabled = False
+            RadMenuItem6.Enabled = False
+            RadMenuItem5.Enabled = False
+        End If
+        'RadMenu1.Visible = MyBase.isExport
+        'btnDelete.Visible = MyBase.isDeleteFlag
+        'btnPrint.Visible = MyBase.isPrintFlag
+        'btnImport.Visible = MyBase.isExport
+        'If btnSave.Visible = True Then
+        '    btnImport.Enabled = True
+        'Else
+        '    btnImport.Enabled = False
+        'End If
+    End Sub
     Private Sub FrmSerializeItemIn_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         MyBase.SetUserMgmt(clsUserMgtCode.MilkShiftUploader)
         settMilkProcurementBatchPosting = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcurementBatchPosting, clsFixedParameterCode.MilkProcurementBatchPosting, Nothing)) = 1)
@@ -65,6 +93,7 @@ Public Class frmMilkShiftUploader
         LoadShift()
         'LoadShiftFrom()
         AddNew()
+        SetUserMgmtNew()
     End Sub
 
     Public Sub LoadShift()
@@ -590,7 +619,7 @@ Public Class frmMilkShiftUploader
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1008,7 +1037,7 @@ ExitLOOP:
 
                     If dtt.Rows.Count > 0 Then
                         clsCommon.ProgressBarHide()
-                        common.clsCommon.MyMessageBoxShow("Error in " & dtt.Rows.Count & " Records.", Me.Text, MessageBoxButtons.OK)
+                        common.clsCommon.MyMessageBoxShow(Me, "Error in " & dtt.Rows.Count & " Records.", Me.Text, MessageBoxButtons.OK)
                         Dim ff As New FrmFreeGrid
                         ff.ReportID = "UnImportedList"
                         ff.Text = "Record Could not Loaded"

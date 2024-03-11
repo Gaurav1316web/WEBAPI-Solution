@@ -70,6 +70,7 @@ Public Class frmEmployeeMaster
         '--------------------------------------------------
         'btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        RadMenu1.Visible = MyBase.isExport
     End Sub
 
     Private Sub frmEmployeeMaster_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
@@ -725,7 +726,7 @@ Public Class frmEmployeeMaster
                 btnsave.Text = "Save"
                 btndelete.Enabled = False
             Else
-                common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted." + Environment.NewLine + "It is used by another process")
+                common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted." + Environment.NewLine + "It is used by another process", Me.Text)
             End If
         Catch ex As Exception
             myMessages.myExceptions(ex)

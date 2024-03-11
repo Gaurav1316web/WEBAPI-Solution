@@ -188,7 +188,7 @@ Public Class frmTaxAuthority
                     Me.txtConversionRate.Text = 1
                     Me.txtApplicableFrom.Text = ""
                 Else
-                    clsCommon.MyMessageBoxShow("Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
+                    clsCommon.MyMessageBoxShow(Me, "Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'", Me.Text)
                     Exit Sub
                 End If
             Else
@@ -920,7 +920,7 @@ Public Class frmTaxAuthority
                         Dim txtrate1 As RadTextBox
                         For Each txtrate1 In txtRate
                             If txtrate1.Enabled = True And ((If(txtrate1.Text = "", 0.0, Convert.ToDouble(txtrate1.Text))) = 0.0) Then
-                                common.clsCommon.MyMessageBoxShow(Me, "Your Recoverable Rate Equal to 100 so you can not select any other Account and also fill Recoverable Rate")
+                                common.clsCommon.MyMessageBoxShow(Me, "Your Recoverable Rate Equal to 100 so you can not select any other Account and also fill Recoverable Rate", Me.Text)
                                 Return False
                             End If
                         Next
@@ -1227,7 +1227,7 @@ Public Class frmTaxAuthority
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
 
                 trans.Rollback()
@@ -1358,7 +1358,7 @@ Public Class frmTaxAuthority
 
     Private Sub txtRecovRate3_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtRecovRate3.Validating
         If txtRecovRate3.Value > 100 Then
-            common.clsCommon.MyMessageBoxShow("Me,Value should be less then 100", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Value should be less then 100", Me.Text)
             txtRecovRate3.Value = 0.0
         End If
     End Sub

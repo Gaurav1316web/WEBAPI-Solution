@@ -370,7 +370,7 @@ Public Class MDI
 
         Try
             Dim strTempVersion As String = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertCommon.dll").FileVersion
-            If Not clsCommon.CompairString(strTempVersion, "2.1.6.69") = CompairStringResult.Equal Then
+            If Not clsCommon.CompairString(strTempVersion, "2.1.6.70") = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
             End If
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPBlankTableScript.dll").FileVersion
@@ -2893,6 +2893,7 @@ Public Class MDI
     End Sub
     Public Sub ShowForm(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal isOpenInMDI As Boolean, ByVal strDocNo As String, Optional ByVal IFTrueShowFormElseShowDialog As Boolean = True, Optional ByVal IsAllowModificationByApprovalUser As Boolean = False)
         GC.Collect()
+        Dim strProgramCodeToOpen As String = strProgramCode
         If Not strProgramCode Is Nothing Then
             If setCountertoblockforOpenForm(strProgramCode) = True Then
                 If IsOriginalName = True Then
@@ -2931,10 +2932,10 @@ Public Class MDI
                     End If
 
                     If clsCommon.myLen(dt.Rows(0)("Program_Code_Original")) > 0 Then
-                        strProgramCode = clsCommon.myCstr(dt.Rows(0)("Program_Code_Original"))
+                        strProgramCodeToOpen = clsCommon.myCstr(dt.Rows(0)("Program_Code_Original"))
                     End If
                 End If
-                Select Case strProgramCode
+                Select Case strProgramCodeToOpen
 
                     Case clsUserMgtCode.FrmCompanyMaster
                         frm = New FrmCompanyMaster(lblUserCode.Text, objCommonVar.CurrentCompanyCode)
@@ -3170,6 +3171,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmCashVoucher
                         frm = New FrmCashVoucher
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.fundprovision
+                        frm = New rptFundProvision
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.TaxTracking
                         frm = New FrmTaxTracking
@@ -5989,6 +5993,9 @@ Public Class MDI
                     Case clsUserMgtCode.BulkSaleFreightMaster
                         frm = New frmBulkSaleFreightMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBulkSaleFreightCalculation
+                        frm = New frmBulkSaleFreightCalculation()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.NIRQC
                         frm = New frmNIRQC()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -6439,6 +6446,9 @@ Public Class MDI
                     Case clsUserMgtCode.FrmEmployeeTransfer
                         frm = New FrmEmployeeTransfer()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmEPFund
+                        frm = New frmEPF()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmSkillMaster
                         frm = New frmSkillMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -6618,6 +6628,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.rptEmployeeAdvanceLedger
                         frm = New rptEmployeeAdvanceLedger
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptLoanStatement
+                        frm = New rptLoanstatement
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmEmployeeGratuity
                         frm = New FrmEmployeeGratuity
@@ -7431,6 +7444,9 @@ Public Class MDI
                             frm = New FrmPriceChartUploader
                         End If
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.MPMilkPrice
+                        frm = New frmMPMilkPrice
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.GazeReading
                         frm = New frmGazeReading
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8226,6 +8242,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmPaymentProcess
                         frm = New FrmPaymentProcess
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBankAdvise
+                        frm = New frmBankAdvise
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmTDSReport
                         frm = New frmTDSReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8243,6 +8262,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptCattleFeedSaleReport
                         frm = New rptCattleFeedSaleReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptTransferToSavingReport
+                        frm = New TransferToSavingReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAvgSaleDetailReport
                         frm = New rptAvgSaleDetailReport
@@ -8286,6 +8308,10 @@ Public Class MDI
 
                     Case clsUserMgtCode.rptMilkPaymentSummary
                         frm = New rptMilkPaymentSummary
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
+                    Case clsUserMgtCode.rptMilkUnion
+                        frm = New rptmilkunion
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
 
                     Case clsUserMgtCode.frmPaymentProcessFarmer
@@ -9272,9 +9298,16 @@ Public Class MDI
                     Case clsUserMgtCode.RCDFDashboard
                         frm = New RCDFDashboard
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.Complainfeedback
+                        frm = New RptComplainfeedback
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.DashboardMilkUnion
                         frm = New DashboardMilkUnion
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.DairySaleDashboard
+                        frm = New DairySaleDashboard
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.rptSMSDetailsReport
                         frm = New rptSMSDetails
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9386,6 +9419,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FrmSAC
                         frm = New frmSAC
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.FrmSACWiseTax
+                        frm = New FrmSacWiseTaxMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FrmRackBinMaster
                         frm = New frmRackBinMaster
@@ -9629,6 +9665,12 @@ Public Class MDI
                     Case clsUserMgtCode.frmDailyMilkProducts
                         frm = New frmDailyMilkProducts
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmProductionTransactionType
+                        frm = New frmProductionTransactionType
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDailySMPProduction
+                        frm = New frmDailySMPProduction
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 
                         ''-------------------- MIS Master---------------
@@ -9806,23 +9848,9 @@ Public Class MDI
         ShowForm(clsUserMgtCode.rptActiveUsers, "Active Users", True, "", True)
     End Sub
 
-    Private Sub RadMenuItem2_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem2.Click
-        RadDock1.RemoveAllDocumentWindows()
-        SplitPanel3.Collapsed = True
-        SplitPanel1.Collapsed = True
-        SplitPanel4.Collapsed = True
-        SplitPanel2.Collapsed = False
 
-        txtUserName.Text = ""
-        txtPassword.Text = ""
-    End Sub
 
-    Private Sub RadMenuItem3_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem3.Click
-        Me.Close()
-        'txtPassword.Text = String.Empty
-        'txtUserName.Text = String.Empty
-        'LoadLoginScreen()
-    End Sub
+
 
     Private Sub RadDock1_DockStateChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.Docking.DockWindowEventArgs) Handles RadDock1.DockStateChanged
         ' Set Image
@@ -9877,7 +9905,7 @@ Public Class MDI
 
         If Not IsDBRestored Then
             If Not isAutoClosing Then
-                If clsCommon.MyMessageBoxShow("Do you want to close the Xpert ERP", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button2) = System.Windows.Forms.DialogResult.No Then
+                If clsCommon.MyMessageBoxShow("Do you want to close/log off the Xpert ERP", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button2) = System.Windows.Forms.DialogResult.No Then
                     e.Cancel = True
                     'Else
                     '    'GC.Collect()
@@ -10020,7 +10048,7 @@ Public Class MDI
         clsCommon.MyMessageBoxShow("Memory Refreshed ")
     End Sub
 
-    Private Sub RadMenuItem3_Disposing(ByVal sender As Object, ByVal e As System.EventArgs) Handles RadMenuItem3.Disposing
+    Private Sub RadMenuItem3_Disposing(ByVal sender As Object, ByVal e As System.EventArgs)
 
     End Sub
 
@@ -10771,9 +10799,15 @@ Public Class MDI
     End Sub
 
     Private Sub RadButton18_Click(sender As Object, e As EventArgs) Handles RadButton18.Click
-        Dim frm As New frmDBTemp
-        frm.MdiParent = Me
-        frm.Show()
+        If objCommonVar.RCDFCFP = True Then
+            ShowForm(clsUserMgtCode.RCDFDashboard, "", True)
+        Else
+            ShowForm(clsUserMgtCode.DairySaleDashboard, "", True)
+        End If
+
+        'Dim frm As New frmDBTemp
+        'frm.MdiParent = Me
+        'frm.Show()
 
         'Dim frm As New frmVersion
         'frm.MdiParent = Me
@@ -10791,4 +10825,24 @@ Public Class MDI
         End If
 
     End Sub
+
+
+
+    Private Sub btnLogOff_Click(sender As Object, e As EventArgs) Handles btnLogOff.Click
+        If Not SplitPanel2.Collapsed Then
+            Me.Close()
+        Else
+            If clsCommon.MyMessageBoxShow(Me, "Logoff from [" + objCommonVar.CurrentUser + "]." + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button2) = DialogResult.Yes Then
+                RadDock1.RemoveAllDocumentWindows()
+                SplitPanel3.Collapsed = True
+                SplitPanel1.Collapsed = True
+                SplitPanel4.Collapsed = True
+                SplitPanel2.Collapsed = False
+                txtUserName.Text = ""
+                txtPassword.Text = ""
+            End If
+        End If
+    End Sub
+
+
 End Class

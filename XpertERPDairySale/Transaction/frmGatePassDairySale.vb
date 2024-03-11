@@ -1074,7 +1074,7 @@ Public Class frmGatePassDairySale
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1234,7 +1234,7 @@ Public Class frmGatePassDairySale
                     If (clsCommon.myCdbl(grow.Cells(colBookQty).Value)) > 0 Then
                         objTr.Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
                         objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
-                        objTr.Delivery_Code = clsCommon.myCstr(grow.Cells(colHCode).Value)
+                        'objTr.Delivery_Code = clsCommon.myCstr(grow.Cells(colHCode).Value)
                         objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnit).Value)
                         objTr.Qty = clsCommon.myCdbl(grow.Cells(colBookQty).Value)
                         objTr.Document_No = txtDocNo.Value 'skg
@@ -1328,7 +1328,7 @@ Public Class frmGatePassDairySale
             lblDODate.Visible = False
             txtmultiBooking.Visible = True
         Else
-            fndDeliveryNo.Visible = True
+            'fndDeliveryNo.Visible = True
             lblDODate.Visible = True
             txtmultiBooking.Visible = False
         End If
@@ -1664,6 +1664,7 @@ Public Class frmGatePassDairySale
         fndLocation.Enabled = False
         txtPriceCode.Enabled = False
         AddNew()
+        RadLabel18.Visible = False
         LoadStatusType()
         LoadFreightType()
         UcAttachment1.Form_ID = MyBase.Form_ID
@@ -2061,6 +2062,7 @@ Public Class frmGatePassDairySale
         '       " left join TSPL_STATE_MASTER as Cust_State on TSPL_CUSTOMER_MASTER.State =Cust_State.STATE_CODE "
         'Qry += " left join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.vehicle_id=TSPL_GATEPASS_MASTER_DAIRYSALE.vehicle_code"
         'Qry += " left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code  "
+        '---dairy booking wise-
         Qry = "select TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin ,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc," &
               " TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code as Booking_No,convert(varchar(15),TSPL_BOOKING_MATSER.Document_Date,103) as Booking_Date ,TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No as GatePass_No ,isnull(TSPL_GATEPASS_MASTER_DAIRYSALE.Route_No,'') as Route_No ,isnull(TSPL_ROUTE_MASTER.Route_Desc,'') as Route_Desc ,convert(varchar(15)," &
                 " TSPL_GATEPASS_MASTER_DAIRYSALE.Document_Date,103) as GatePass_Date,TSPL_BOOKING_MATSER.Comp_Code,TSPL_ITEM_MASTER.HSN_CODE,TSPL_GATEPASS_MASTER_DAIRYSALE.Comments ,TSPL_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_BOOKING_DETAIL.cust_code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_DETAIL.Booking_Qty AS B_Qty," &
@@ -2074,6 +2076,7 @@ Public Class frmGatePassDairySale
                 " LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code =TSPL_BOOKING_MATSER.location_code" &
                 " left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code " &
                 " left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_GATEPASS_MASTER_DAIRYSALE.Route_No "
+        '---dairy booking wise end qry-
         Return Qry
     End Function
     Public Sub funPrint(ByVal strDocNo As String)
@@ -2110,11 +2113,55 @@ Public Class frmGatePassDairySale
                 Dim Qry2 As String = ""
                 If CreateLaodinSlipVehicleWise = False Then
                     Qry = GetQuery()
-                    Qry2 = "select   '' as BRAND,'' AS BRANDDESC,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin  ,Main_Final.* from " &
-                        " (SELECT  max(FINAL .Route_No) as Route_No ,max(FINAL.Route_Desc) as  Route_Desc,  Cust_code,MAX(Customer_Name) AS Customer_Name,MAX(GatePass_No) as GatePass_No,max(GatePass_Date) as GatePass_Date,max(Booking_No) as Booking_No,max(Booking_Date) as Booking_Date,max(Vehicle_Code) as Vehicle_Code,max(Vechile_Name) as Vechile_Name, Item_Code,MAX(Item_Desc) AS Item_Desc,MAX(HSN_CODE) AS HSN_CODE,unit_code ," &
-                        " sum(B_Qty) AS Booking_Qty,max(Comp_Code) as Comp_Code,max(Add1) as Loc_Add1,max(Add2) as Loc_Add2,max(Add3) as Loc_Add3,max(Pin_Code) as Loc_Pin_Code ,max(Comments) as Remarks ,max(Location_Desc) as Location_Desc,FOC_Item FROM ( " + Qry + " WHERE TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No='" + txtDocNo.Value + "')" &
-                        " AS FINAL GROUP BY Cust_code,item_code,unit_code,FOC_Item,Vehicle_Code )as Main_Final " &
-                        " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=Main_Final.Comp_Code "
+                    'Qry2 = "select   '' as BRAND,'' AS BRANDDESC,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin  ,Main_Final.* from " &
+                    '    " (SELECT  max(FINAL .Route_No) as Route_No ,max(FINAL.Route_Desc) as  Route_Desc,  Cust_code,MAX(Customer_Name) AS Customer_Name,MAX(GatePass_No) as GatePass_No,max(GatePass_Date) as GatePass_Date,max(Booking_No) as Booking_No,max(Booking_Date) as Booking_Date,max(Vehicle_Code) as Vehicle_Code,max(Vechile_Name) as Vechile_Name, Item_Code,MAX(Item_Desc) AS Item_Desc,MAX(HSN_CODE) AS HSN_CODE,unit_code ," &
+                    '    " sum(B_Qty) AS Booking_Qty,max(Comp_Code) as Comp_Code,max(Add1) as Loc_Add1,max(Add2) as Loc_Add2,max(Add3) as Loc_Add3,max(Pin_Code) as Loc_Pin_Code ,max(Comments) as Remarks ,max(Location_Desc) as Location_Desc,FOC_Item FROM ( " + Qry + " WHERE TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No='" + txtDocNo.Value + "')" &
+                    '    " AS FINAL GROUP BY Cust_code,item_code,unit_code,FOC_Item,Vehicle_Code )as Main_Final " &
+                    '    " LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=Main_Final.Comp_Code "
+                    Qry2 = "select convert(varchar(15),TSPL_GATEPASS_MASTER_DAIRYSALE.Document_Date,103) as GatePass_Date,
+TSPL_DEMAND_BOOKING_MASTER.TripNo,
+TSPL_DEMAND_BOOKING_MASTER.shiftType,
+TSPL_city_MASTER.City_Name,
+TSPL_DEMAND_BOOKING_MASTER.Comp_Code,
+TSPL_DEMAND_BOOKING_MASTER.location_code
+,TSPL_DEMAND_BOOKING_MASTER.Document_No as Demand_No,convert(varchar(15),TSPL_GATEPASS_MASTER_DAIRYSALE.Document_Date,103) as Demand_Date 
+,isnull(TSPL_DEMAND_BOOKING_MASTER.Route_No,'') as Route_No ,isnull(TSPL_ROUTE_MASTER.Route_Desc,'') as Route_Desc 
+ ,TSPL_DEMAND_BOOKING_DETAIL.cust_code,TSPL_CUSTOMER_MASTER.Customer_Name_Hindi
+,TSPL_DEMAND_BOOKING_DETAIL.Qty
+,TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise,TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise
+,(CASE
+    WHEN TSPL_DEMAND_BOOKING_DETAIL.unit_code = 'Pack'
+    THEN (TSPL_DEMAND_BOOKING_DETAIL.Qty * ItemConversionInPack.Conversion_Factor) / ItemConversionInKG.Conversion_Factor
+    ELSE 0  END) AS TotalKg_ItemWise
+,(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise+((case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Pack' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end)/2)) as TotalLtr_ItemWise1
+,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount
+,TSPL_DEMAND_BOOKING_DETAIL.unit_code
+,'Crate' AS Unit_Code
+,TSPL_ITEM_MASTER.Alies_Name_Hindi as Item_Alies_Name_Hindi 
+,(case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Pack' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) as PackQTY
+,(case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Crate' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end )+(case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Pack' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end)
++Isnull(case when (TSPL_DEMAND_BOOKING_DETAIL.Unit_code)='Pouch' then (ISNULL(TSPL_DEMAND_BOOKING_DETAIL.Qty,0)/ItemConversionInCrate.Conversion_Factor) end,0) as CrateQty
+
+,case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Pouch' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end as PouchQty
+,'' as Crate,'Crate' as Pouch
+from TSPL_GATEPASS_MASTER_DAIRYSALE
+left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_GATEPASS_MASTER_DAIRYSALE.Against_Demand
+left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No 
+ left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_DEMAND_BOOKING_DETAIL.Cust_Code 
+left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
+                           left join tspl_item_uom_detail CrateUnit on CrateUnit.item_code=TSPL_DEMAND_BOOKING_DETAIL.item_code  and 	CrateUnit.uom_code=	'Crate' 
+  left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='KG') as ItemConversionInKG on ItemConversionInKG.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_code
+						left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Pouch') as ItemConversionInPouch on ItemConversionInPouch.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+ left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Pack') as ItemConversionInPack on ItemConversionInPack.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+						left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='LTR') as ItemConversionInLTR on ItemConversionInLTR.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+						left join (select Conversion_factor,TSPL_ITEM_UOM_DETAIL.Item_code from TSPL_ITEM_UOM_DETAIL where UOM_code='Crate') as ItemConversionInCrate on ItemConversionInCrate.Item_code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+                           left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code 
+                           left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No
+                             left outer join TSPL_city_MASTER on TSPL_city_MASTER.city_code = TSPL_DEMAND_BOOKING_MASTER.city_code
+                           left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
+                            LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code =TSPL_DEMAND_BOOKING_MASTER.location_code
+                          WHERE TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No='" + txtDocNo.Value + "'"
+                    ' use only for pouch in whr condition TSPL_ITEM_MASTER.Is_Milk_Pouch= 1 
                 Else
                     'Qry = "select Booking_No from TSPL_MULTI_BOOKING_DETAIL where document_no =" & txtDocNo.Value & "'"
                     'Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(Qry)
@@ -2220,13 +2267,13 @@ Public Class frmGatePassDairySale
 
 
                 ElseIf CreateLaodinSlipVehicleWise = False Then
-                    Qry2 = " 	   select TSPL_VEHICLE_MASTER.Vehicle_id,TSPL_GATEPASS_MASTER_DAIRYSALE.Against_Demand, isnull(TSPL_GATEPASS_MASTER_DAIRYSALE.Route_No,'') as Route_No ,isnull(TSPL_ROUTE_MASTER.Route_Desc,'') as Route_Desc, TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin ,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin , TSPL_LOCATION_MASTER.Add1 AS Loc_Add1,TSPL_LOCATION_MASTER.Add2 AS Loc_Add2,TSPL_LOCATION_MASTER.ADD3 AS Loc_Add3,TSPL_LOCATION_MASTER.Pin_Code AS Loc_Pin_Code,TSPL_LOCATION_MASTER.Location_Desc, TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No,TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code  AS Booking_No,convert(varchar(15),TSPL_BOOKING_MATSER.Document_Date,103) as Booking_Date ,TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No as GatePass_No ,convert(varchar(15), TSPL_GATEPASS_MASTER_DAIRYSALE.Document_Date,103) as GatePass_Date,TSPL_GATEPASS_MASTER_DAIRYSALE.Comp_Code,TSPL_ITEM_MASTER.HSN_CODE,TSPL_GATEPASS_MASTER_DAIRYSALE.Comments AS Remarks , TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_GATEPASS_MASTER_DAIRYSALE.Customer_Code AS cust_code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_GATEPASS_DETAIL_DAIRYSALE.qty,TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code ,TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code ,TSPL_VEHICLE_MASTER.Description AS Vechile_Name, TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item from TSPL_GATEPASS_MASTER_DAIRYSALE  
+                    Qry2 = " 	   select TSPL_GATEPASS_MASTER_DAIRYSALE.shiftType,TSPL_VEHICLE_MASTER.Vehicle_id,TSPL_GATEPASS_MASTER_DAIRYSALE.Against_Demand, isnull(TSPL_GATEPASS_MASTER_DAIRYSALE.Route_No,'') as Route_No ,isnull(TSPL_ROUTE_MASTER.Route_Desc,'') as Route_Desc, TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin ,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin , TSPL_LOCATION_MASTER.Add1 AS Loc_Add1,TSPL_LOCATION_MASTER.Add2 AS Loc_Add2,TSPL_LOCATION_MASTER.ADD3 AS Loc_Add3,TSPL_LOCATION_MASTER.Pin_Code AS Loc_Pin_Code,TSPL_LOCATION_MASTER.Location_Desc, TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No,TSPL_GATEPASS_MASTER_DAIRYSALE.Delivery_Code  AS Booking_No,convert(varchar(15),TSPL_BOOKING_MATSER.Document_Date,103) as Booking_Date ,TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No as GatePass_No ,convert(varchar(15), TSPL_GATEPASS_MASTER_DAIRYSALE.Document_Date,103) as GatePass_Date,TSPL_GATEPASS_MASTER_DAIRYSALE.Comp_Code,TSPL_ITEM_MASTER.HSN_CODE,TSPL_GATEPASS_MASTER_DAIRYSALE.Comments AS Remarks , TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_GATEPASS_MASTER_DAIRYSALE.Customer_Code AS cust_code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_GATEPASS_DETAIL_DAIRYSALE.qty,TSPL_GATEPASS_DETAIL_DAIRYSALE.Unit_code ,TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code ,TSPL_VEHICLE_MASTER.Description AS Vechile_Name, TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item from TSPL_GATEPASS_MASTER_DAIRYSALE  
 							   LEFT OUTER JOIN TSPL_GATEPASS_DETAIL_DAIRYSALE ON TSPL_GATEPASS_MASTER_DAIRYSALE.DOCUMENT_No=TSPL_GATEPASS_DETAIL_DAIRYSALE.Document_No 
 							   left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_GATEPASS_MASTER_DAIRYSALE.Customer_Code  
 							   left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_GATEPASS_DETAIL_DAIRYSALE.Item_Code  
 							   LEFT OUTER JOIN TSPL_BOOKING_MATSER ON TSPL_BOOKING_MATSER.Document_No =TSPL_GATEPASS_MASTER_DAIRYSALE.DELIVERY_CODE
                               LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code=TSPL_GATEPASS_MASTER_DAIRYSALE.Comp_Code 
-                             LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code =TSPL_BOOKING_MATSER.location_code  
+                             LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code =TSPL_GATEPASS_MASTER_DAIRYSALE.location_code  
 							   left outer join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_GATEPASS_MASTER_DAIRYSALE.Vehicle_Code  
 							   left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_GATEPASS_MASTER_DAIRYSALE.Route_No 
 							   WHERE TSPL_GATEPASS_MASTER_DAIRYSALE.Document_No='" + txtDocNo.Value + "' ORDER BY TSPL_GATEPASS_DETAIL_DAIRYSALE.FOC_Item  "
@@ -2360,7 +2407,7 @@ LEFT OUTER JOIN  tspl_booking_detail ON TSPL_BOOKING_MATSER.Document_No=tspl_boo
     End Sub
     Sub GetDemandDetail(ByVal strBookingNo As String, ByVal StrvechilNo As String)
         LoadBlankGrid()
-        Dim Qry As String = " select max(code) AS code,max(Date) as Date,ICode,max(IName) as IName,max(HSN_Code) as HSN_Code,sum(Qty) as Qty,Unit ,MAX(Loc_Code) AS Loc_Code,max(Vehicle_Code) as Vehicle_Code,foc_item,Scheme_Item  from (select  TSPL_DEMAND_BOOKING_MASTER.Document_No as code, CONVERT(VARCHAR(15) ,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) AS Date,
+        Dim Qry As String = " select max(code) AS code,max(Date) as Date,ICode,max(IName) as IName,max(HSN_Code) as HSN_Code,Qty,Unit ,MAX(Loc_Code) AS Loc_Code,max(Vehicle_Code) as Vehicle_Code,foc_item,Scheme_Item  from (select  TSPL_DEMAND_BOOKING_MASTER.Document_No as code, CONVERT(VARCHAR(15) ,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) AS Date,
  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,tspl_booking_detail.Loc_Code,TSPL_DEMAND_BOOKING_DETAIL.Item_Code as ICode , tspl_item_master.Item_Desc as IName ,tspl_item_master.HSN_Code,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code as Unit, TSPL_DEMAND_BOOKING_DETAIL.Item_Rate  as Rate,TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code,tspl_booking_detail.foc_item ,tspl_booking_detail.Scheme_Item 
  from TSPL_DEMAND_BOOKING_MASTER
  left outer join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_DETAIL.Document_no=TSPL_DEMAND_BOOKING_MASTER.Document_No
@@ -2377,7 +2424,7 @@ LEFT OUTER JOIN  tspl_booking_detail ON TSPL_BOOKING_MATSER.Document_No=tspl_boo
         '  " LEFT OUTER join TSPL_VEHICLE_MASTER ON  tspl_booking_detail.Vehicle_Code=TSPL_VEHICLE_MASTER.Vehicle_Id left outer join TSPL_CUSTOMER_MASTER ON tspl_booking_detail.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code  left outer join tspl_item_master on tspl_booking_detail.item_code=tspl_item_master.item_code   "
         'Qry += " where tspl_booking_detail.Against_DemandBooking_No='" & strBookingNo & "'"
         'Qry += " where tspl_booking_detail.Document_No='" & strBookingNo & "' AND  tspl_booking_detail.Vehicle_Code='" + StrvechilNo + "'"
-        Qry += " ) as Final  group by  final.ICode,final.Unit,final.Vehicle_Code ,Final.foc_item,Final.Scheme_Item "
+        Qry += " ) as Final  group by  Qty,final.ICode,final.Unit,final.Vehicle_Code ,Final.foc_item,Final.Scheme_Item "
         Dim dtAllData As DataTable = clsDBFuncationality.GetDataTable(Qry)
         If dtAllData Is Nothing OrElse dtAllData.Rows.Count <= 0 Then
             common.clsCommon.MyMessageBoxShow(Me, "No record found.", Me.Text)

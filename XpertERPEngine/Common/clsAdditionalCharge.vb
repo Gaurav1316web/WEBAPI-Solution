@@ -95,23 +95,44 @@ Public Class clsAdditionalCharge
     End Function
     Public Shared Function GetData(ByVal code As String, ByVal NavType As common.NavigatorType) As clsAdditionalCharge
         Return GetData(code, NavType, Nothing)
-
     End Function
+
     Public Shared Function GetData(ByVal code As String, ByVal NavType As common.NavigatorType, ByVal trans As SqlTransaction) As clsAdditionalCharge
+        Return GetData(code, NavType, Nothing, Nothing)
+    End Function
+
+    Public Shared Function GetData(ByVal code As String, ByVal NavType As common.NavigatorType, ByVal trans As SqlTransaction, ByVal Form_ID As String) As clsAdditionalCharge
+        Return GetData(code, NavType, Nothing, Form_ID, Nothing)
+    End Function
+
+    Public Shared Function GetData(ByVal code As String, ByVal NavType As common.NavigatorType, ByVal trans As SqlTransaction, ByVal Form_ID As String, ByVal strDate As Date) As clsAdditionalCharge
         Dim obj As clsAdditionalCharge = Nothing
-        Dim qry As String = "SELECT tspl_Additional_Charges.Code,tspl_Additional_Charges.Is_RoundOff, tspl_Additional_Charges.description,Account_Code,Account_Description ,freightCharges,specification,abatement,Reverse_Charge_Per,Service_Type,SAC_Code,TSPL_SAC_MASTER.Description as SAC_Description,TSPL_ADDITIONAL_CHARGES.RCM,TSPL_ADDITIONAL_CHARGES.NO_GST_Credit,tspl_Additional_Charges.Is_Insurance from tspl_Additional_Charges left join TSPL_SAC_MASTER ON tspl_Additional_Charges.SAC_Code=TSPL_SAC_MASTER.Code where  2=2"
-        Select Case NavType
-            Case NavigatorType.First
-                qry += " and tspl_Additional_Charges.code =(select MIN(Code) from tspl_Additional_Charges)"
-            Case NavigatorType.Last
-                qry += "  and tspl_Additional_Charges.code =(select Max(Code) from tspl_Additional_Charges)"
-            Case NavigatorType.Next
-                qry += " and tspl_Additional_Charges.code=(select Min(Code) from tspl_Additional_Charges where tspl_Additional_Charges.Code > '" + code + "')"
-            Case NavigatorType.Previous
-                qry += " and tspl_Additional_Charges.code=(select Max(Code) from tspl_Additional_Charges where tspl_Additional_Charges.Code < '" + code + "')"
-            Case NavigatorType.Current
-                qry += " and tspl_Additional_Charges.code='" + code + "'"
-        End Select
+        Dim qry As String = Nothing
+        If clsCommon.CompairString(Form_ID, "VEN-SER-CHG") = CompairStringResult.Equal Then
+            qry = "SELECT top 1 TSPL_SAC_WISE_TAX.DOC_DATE,tspl_Additional_Charges.Code,tspl_Additional_Charges.Is_RoundOff, tspl_Additional_Charges.description,Account_Code,Account_Description ,freightCharges,specification,abatement,Reverse_Charge_Per,Service_Type,
+                                tspl_Additional_Charges.SAC_Code,TSPL_SAC_MASTER.
+                                Description as SAC_Description,TSPL_ADDITIONAL_CHARGES.RCM,TSPL_ADDITIONAL_CHARGES.NO_GST_Credit,tspl_Additional_Charges.Is_Insurance 
+                                from tspl_Additional_Charges 
+                                inner join TSPL_SAC_MASTER ON tspl_Additional_Charges.SAC_Code=TSPL_SAC_MASTER.Code
+                                inner join TSPL_SAC_WISE_TAX_GROUP ON TSPL_SAC_WISE_TAX_GROUP.SAC_Code=TSPL_SAC_MASTER.Code
+                                inner join TSPL_SAC_WISE_TAX ON TSPL_SAC_WISE_TAX.HCODE =TSPL_SAC_WISE_TAX_GROUP.HCODE
+                                where  2=2 and tspl_Additional_Charges.Code='" + code + "' and TSPL_SAC_WISE_TAX.DOC_DATE<=Convert(Date,'" + strDate + "',103) and Status=1
+								Order By TSPL_SAC_WISE_TAX.DOC_DATE desc"
+        Else
+            qry = "SELECT tspl_Additional_Charges.Code,tspl_Additional_Charges.Is_RoundOff, tspl_Additional_Charges.description,Account_Code,Account_Description ,freightCharges,specification,abatement,Reverse_Charge_Per,Service_Type,SAC_Code,TSPL_SAC_MASTER.Description as SAC_Description,TSPL_ADDITIONAL_CHARGES.RCM,TSPL_ADDITIONAL_CHARGES.NO_GST_Credit,tspl_Additional_Charges.Is_Insurance from tspl_Additional_Charges left join TSPL_SAC_MASTER ON tspl_Additional_Charges.SAC_Code=TSPL_SAC_MASTER.Code where  2=2"
+            Select Case NavType
+                Case NavigatorType.First
+                    qry += " and tspl_Additional_Charges.code =(select MIN(Code) from tspl_Additional_Charges)"
+                Case NavigatorType.Last
+                    qry += "  and tspl_Additional_Charges.code =(select Max(Code) from tspl_Additional_Charges)"
+                Case NavigatorType.Next
+                    qry += " and tspl_Additional_Charges.code=(select Min(Code) from tspl_Additional_Charges where tspl_Additional_Charges.Code > '" + code + "')"
+                Case NavigatorType.Previous
+                    qry += " and tspl_Additional_Charges.code=(select Max(Code) from tspl_Additional_Charges where tspl_Additional_Charges.Code < '" + code + "')"
+                Case NavigatorType.Current
+                    qry += " and tspl_Additional_Charges.code='" + code + "'"
+            End Select
+        End If
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -179,10 +200,10 @@ Public Class clsAdditionalCharge
     End Function
 
     Public Shared Function GetFinder(ByVal strCode As String, ByVal isButtonClicked As Boolean, Optional ByVal DocDate As Date? = Nothing) As clsAdditionalCharge
-        Return GetFinder(strCode, isButtonClicked, False, False, DocDate)
+        Return GetFinder(strCode, isButtonClicked, False, False, DocDate, Nothing)
     End Function
 
-    Public Shared Function GetFinder(ByVal strCode As String, ByVal isButtonClicked As Boolean, ByVal isRCM As Boolean, ByVal isNoGSTCredit As Boolean, Optional ByVal DocDate As Date? = Nothing) As clsAdditionalCharge
+    Public Shared Function GetFinder(ByVal strCode As String, ByVal isButtonClicked As Boolean, ByVal isRCM As Boolean, ByVal isNoGSTCredit As Boolean, Optional ByVal DocDate As Date? = Nothing, Optional ByVal Form_ID As String = Nothing) As clsAdditionalCharge
         Dim obj As clsAdditionalCharge = Nothing
         Dim qry As String = "select Code ,Description,abatement,specification from TSPL_Additional_Charges"
         Dim WhrCls As String = ""
@@ -200,7 +221,12 @@ Public Class clsAdditionalCharge
 
         strCode = clsCommon.ShowSelectForm("ACFinder", qry, "Code", WhrCls, strCode, "Code", isButtonClicked)
         If clsCommon.myLen(strCode) > 0 Then
-            obj = clsAdditionalCharge.GetData(strCode, NavigatorType.Current)
+            If clsCommon.CompairString(Form_ID, "VEN-SER-CHG") = CompairStringResult.Equal Then
+                obj = clsAdditionalCharge.GetData(strCode, NavigatorType.Current, Nothing, Form_ID, DocDate)
+            Else
+                obj = clsAdditionalCharge.GetData(strCode, NavigatorType.Current)
+            End If
+
         End If
         Return obj
     End Function

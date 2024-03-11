@@ -101,6 +101,20 @@ Public Class frmStanderdProductionEntry
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        If MyBase.isExport = True Then
+            RadMenuItem2.Enabled = True
+            RadMenuItem3.Enabled = True
+        Else
+            RadMenuItem2.Enabled = False
+            RadMenuItem3.Enabled = False
+
+        End If
+        btnunpost.Visible = False
+        'If MyBase.isReverse Then
+        '    btnunpost.Enabled = True
+        'Else
+        '    btnunpost.Enabled = False
+        'End If
     End Sub
     Private Sub frmProductionEntryWithoutBatch_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim coll As Dictionary(Of String, String)
@@ -1384,6 +1398,12 @@ Public Class frmStanderdProductionEntry
 
                     End If
                 Next
+                If obj.ArrBatchItem Is Nothing OrElse obj.ArrBatchItem.Count <= 0 Then
+                    Throw New Exception("No Production item found")
+                End If
+                If obj.ArrBatchItem.Count > 1 Then
+                    Throw New Exception("You can produce only one item Production")
+                End If
                 Dim obj2 As New clsStanderdProductionEntryConsumption
                 For Each grow As GridViewRowInfo In gvConsumption.Rows
                     If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colItemCode).Value)) > 0 Then
@@ -1825,15 +1845,20 @@ Public Class frmStanderdProductionEntry
                                               "TSPL_INVENTORY_MOVEMENT_new " + Environment.NewLine +
                                               "TSPL_JOURNAL_MASTER ")
             If btnPost.Enabled = False AndAlso btnSave.Enabled = False Then
-                Dim frm As New FrmPWD(Nothing)
-                frm.strType = "SIRC"
-                frm.strCode = "SIReversAndCreate"
-                frm.ShowDialog()
-                If frm.isPasswordCorrect Then
-                    btnunpost.Visible = True
+                If MyBase.isReverse Then
+
+                    Dim frm As New FrmPWD(Nothing)
+                    frm.strType = "SIRC"
+                    frm.strCode = "SIReversAndCreate"
+                    frm.ShowDialog()
+                    If frm.isPasswordCorrect Then
+                        btnunpost.Visible = True
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
                 End If
             End If
-        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
+            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
             If btnPost.Enabled = False AndAlso btnSave.Enabled = False Then
                 Dim frm As New FrmPWD(Nothing)
                 frm.strType = "SIRC"

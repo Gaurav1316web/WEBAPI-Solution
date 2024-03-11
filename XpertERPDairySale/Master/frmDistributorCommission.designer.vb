@@ -21,9 +21,11 @@ Partial Class frmDistributorCommission
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.chkInActive = New Telerik.WinControls.UI.RadCheckBox()
+        Me.chkSecurity = New Telerik.WinControls.UI.RadCheckBox()
         Me.rbtnTranspotation = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnCommission = New Telerik.WinControls.UI.RadRadioButton()
         Me.txtDistributorTagging = New common.UserControls.txtFinder()
@@ -42,6 +44,8 @@ Partial Class frmDistributorCommission
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.lblDate = New common.Controls.MyLabel()
         Me.GV1 = New common.UserControls.MyRadGridView()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
@@ -49,13 +53,15 @@ Partial Class frmDistributorCommission
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.chkSecurity = New Telerik.WinControls.UI.RadCheckBox()
+        Me.txtInActiveDate = New common.Controls.MyDateTimePicker()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.chkInActive, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTranspotation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnCommission, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDistributorTagging, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -70,12 +76,14 @@ Partial Class frmDistributorCommission
         CType(Me.lblDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GV1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.GV1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtInActiveDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -94,12 +102,14 @@ Partial Class frmDistributorCommission
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnImport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
+        Me.SplitContainer1.Size = New System.Drawing.Size(832, 450)
         Me.SplitContainer1.SplitterDistance = 407
         Me.SplitContainer1.TabIndex = 2
         '
@@ -114,6 +124,8 @@ Partial Class frmDistributorCommission
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.txtInActiveDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.chkInActive)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkSecurity)
         Me.SplitContainer2.Panel1.Controls.Add(Me.rbtnTranspotation)
         Me.SplitContainer2.Panel1.Controls.Add(Me.rbtnCommission)
@@ -136,9 +148,24 @@ Partial Class frmDistributorCommission
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.GV1)
-        Me.SplitContainer2.Size = New System.Drawing.Size(800, 407)
+        Me.SplitContainer2.Size = New System.Drawing.Size(832, 407)
         Me.SplitContainer2.SplitterDistance = 120
         Me.SplitContainer2.TabIndex = 0
+        '
+        'chkInActive
+        '
+        Me.chkInActive.Location = New System.Drawing.Point(678, 60)
+        Me.chkInActive.Name = "chkInActive"
+        Me.chkInActive.Size = New System.Drawing.Size(15, 15)
+        Me.chkInActive.TabIndex = 1527
+        '
+        'chkSecurity
+        '
+        Me.chkSecurity.Location = New System.Drawing.Point(609, 59)
+        Me.chkSecurity.Name = "chkSecurity"
+        Me.chkSecurity.Size = New System.Drawing.Size(63, 18)
+        Me.chkSecurity.TabIndex = 1526
+        Me.chkSecurity.Text = "Security "
         '
         'rbtnTranspotation
         '
@@ -392,14 +419,36 @@ Partial Class frmDistributorCommission
         '
         '
         '
-        Me.GV1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.GV1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.GV1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GV1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.GV1.Name = "GV1"
-        Me.GV1.Size = New System.Drawing.Size(800, 283)
+        Me.GV1.ShowHeaderCellButtons = True
+        Me.GV1.Size = New System.Drawing.Size(832, 283)
         Me.GV1.TabIndex = 0
+        '
+        'btnDelete
+        '
+        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDelete.Location = New System.Drawing.Point(367, 7)
+        Me.btnDelete.Name = "btnDelete"
+        Me.btnDelete.Size = New System.Drawing.Size(86, 24)
+        Me.btnDelete.TabIndex = 159
+        Me.btnDelete.Text = "Delete"
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Location = New System.Drawing.Point(456, 7)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(149, 24)
+        Me.btnReverse.TabIndex = 158
+        Me.btnReverse.Text = "Reverse and Unpost"
+        Me.btnReverse.Visible = False
         '
         'btnPrint
         '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Location = New System.Drawing.Point(278, 7)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(86, 24)
@@ -431,7 +480,7 @@ Partial Class frmDistributorCommission
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(706, 7)
+        Me.btnClose.Location = New System.Drawing.Point(738, 7)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(86, 24)
         Me.btnClose.TabIndex = 1
@@ -455,19 +504,41 @@ Partial Class frmDistributorCommission
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'chkSecurity
+        'txtInActiveDate
         '
-        Me.chkSecurity.Location = New System.Drawing.Point(609, 59)
-        Me.chkSecurity.Name = "chkSecurity"
-        Me.chkSecurity.Size = New System.Drawing.Size(63, 18)
-        Me.chkSecurity.TabIndex = 1526
-        Me.chkSecurity.Text = "Security "
+        Me.txtInActiveDate.CalculationExpression = Nothing
+        Me.txtInActiveDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtInActiveDate.FieldCode = Nothing
+        Me.txtInActiveDate.FieldDesc = Nothing
+        Me.txtInActiveDate.FieldMaxLength = 0
+        Me.txtInActiveDate.FieldName = Nothing
+        Me.txtInActiveDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtInActiveDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtInActiveDate.isCalculatedField = False
+        Me.txtInActiveDate.IsSourceFromTable = False
+        Me.txtInActiveDate.IsSourceFromValueList = False
+        Me.txtInActiveDate.IsUnique = False
+        Me.txtInActiveDate.Location = New System.Drawing.Point(699, 58)
+        Me.txtInActiveDate.MendatroryField = False
+        Me.txtInActiveDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtInActiveDate.MyLinkLable1 = Me.lblApplicableDate
+        Me.txtInActiveDate.MyLinkLable2 = Nothing
+        Me.txtInActiveDate.Name = "txtInActiveDate"
+        Me.txtInActiveDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtInActiveDate.ReferenceFieldDesc = Nothing
+        Me.txtInActiveDate.ReferenceFieldName = Nothing
+        Me.txtInActiveDate.ReferenceTableName = Nothing
+        Me.txtInActiveDate.Size = New System.Drawing.Size(114, 18)
+        Me.txtInActiveDate.TabIndex = 1528
+        Me.txtInActiveDate.TabStop = False
+        Me.txtInActiveDate.Text = "04/07/2023"
+        Me.txtInActiveDate.Value = New Date(2023, 7, 4, 0, 0, 0, 0)
         '
         'frmDistributorCommission
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(832, 450)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmDistributorCommission"
         '
@@ -482,6 +553,8 @@ Partial Class frmDistributorCommission
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.chkInActive, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSecurity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnTranspotation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnCommission, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDistributorTagging, System.ComponentModel.ISupportInitialize).EndInit()
@@ -496,12 +569,14 @@ Partial Class frmDistributorCommission
         CType(Me.lblDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GV1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.GV1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSecurity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtInActiveDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -515,7 +590,6 @@ Partial Class frmDistributorCommission
     Friend WithEvents btnGo As RadButton
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblDate As common.Controls.MyLabel
-    Friend WithEvents GV1 As RadGridView
     Friend WithEvents btnClose As RadButton
     Friend WithEvents btnPost As RadButton
     Friend WithEvents btnSave As RadButton
@@ -535,4 +609,9 @@ Partial Class frmDistributorCommission
     Friend WithEvents rbtnTranspotation As RadRadioButton
     Friend WithEvents rbtnCommission As RadRadioButton
     Friend WithEvents chkSecurity As RadCheckBox
+    Friend WithEvents btnReverse As RadButton
+    Friend WithEvents GV1 As common.UserControls.MyRadGridView
+    Friend WithEvents btnDelete As RadButton
+    Friend WithEvents chkInActive As RadCheckBox
+    Friend WithEvents txtInActiveDate As common.Controls.MyDateTimePicker
 End Class

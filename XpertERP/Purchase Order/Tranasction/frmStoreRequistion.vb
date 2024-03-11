@@ -113,6 +113,7 @@ Public Class frmStoreRequistion
         IsFormLoad = False
         AddNew()
         SetLength()
+        btnUnpost.Visible = False
 
         ''For Custom Fields
         RadPageView1.Pages("pvpCustomFields").Item.Visibility = MyBase.customFieldTabProperty

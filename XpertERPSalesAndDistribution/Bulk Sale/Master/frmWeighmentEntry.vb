@@ -119,6 +119,8 @@ Public Class FrmWeighmentEntry
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnclose.Visible = MyBase.isCancel_Flag
     End Sub
 
     Sub Reset()

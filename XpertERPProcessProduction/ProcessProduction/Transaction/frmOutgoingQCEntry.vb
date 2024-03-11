@@ -32,7 +32,23 @@ Public Class frmOutgoingQCEntry
     Dim isInsideLoadData As Boolean = False
     Public Template_Status As String = Nothing
     Public colNature As String = "Nature"
+    Private Sub SetUserMgmtNew()
+        'MyBase.SetUserMgmt(clsUserMgtCode.mbtnMRN)
+        If Not (MyBase.isReadFlag) Then
+            Throw New Exception("Permission Denied")
 
+        End If
+        brnSave.Visible = MyBase.isModifyFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btndelete.Visible = MyBase.isDeleteFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+    End Sub
     Private Sub frmOutgoingQCEntry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtlocation.Value = ""
         TxtFgcode.Value = ""
@@ -40,6 +56,7 @@ Public Class frmOutgoingQCEntry
         QcStartdata.Value = clsCommon.GETSERVERDATE()
         QCEnddate.Value = clsCommon.GETSERVERDATE()
         LoadBlankGrid()
+        SetUserMgmtNew()
         Addnew()
         brnSave.Enabled = True
         btnPost.Enabled = False
@@ -49,12 +66,17 @@ Public Class frmOutgoingQCEntry
     End Sub
     Private Sub frmOutgoingQCEntry_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "sirc"
-            frm.strCode = "sireversandcreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "sirc"
+                frm.strCode = "sireversandcreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
@@ -359,7 +381,9 @@ Public Class frmOutgoingQCEntry
                     objpd.Param_L_Range = clsCommon.myCDecimal(grow.Cells(colLrange).Value)
                     objpd.Param_U_Range = clsCommon.myCDecimal(grow.Cells(colUrange).Value)
                     objpd.Description = clsCommon.myCstr(grow.Cells(coldescription).Value)
-                    objpd.InputData = clsCommon.myCdbl(grow.Cells(colInputValue).Value)
+                    If clsCommon.myLen((grow.Cells(colInputValue).Value)) > 0 Then
+                        objpd.InputData = clsCommon.myCDecimal(grow.Cells(colInputValue).Value)
+                    End If
                     objpd.Remarks = clsCommon.myCstr(grow.Cells(colremarks).Value)
                     objpd.Description_Status = clsCommon.myCstr(grow.Cells(colCompiledUn).Value)
                     If clsCommon.myLen(objpd.item_code) > 0 Then
@@ -468,6 +492,7 @@ Public Class frmOutgoingQCEntry
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSno).Value = objtr.Line_No
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colQCCode).Value = objtr.QC_Param_Code
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colitemcode).Value = objtr.item_code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colNature).Value = objtr.Nature
                     Next
                 End If
                 Dim dtProductionCode As DataTable = clsDBFuncationality.GetDataTable("select PROD_ENTRY_CODE from TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY  where Document_Code='" + obj.document_code + "'")
@@ -601,17 +626,32 @@ Public Class frmOutgoingQCEntry
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim whr As String
+            Dim dt As DataTable = Nothing
+            Dim strBatch As String = Nothing
             If clsCommon.myLen(txtDocNo) <= 0 Then
 
 
                 Throw New Exception("Document number not found")
             End If
+
             If txtprodCode.arrValueMember IsNot Nothing AndAlso txtprodCode.arrValueMember.Count > 0 Then
-                whr = " where TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE in (" + clsCommon.GetMulcallString(txtprodCode.arrValueMember) + "))"
+                whr = " where TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE in (" + clsCommon.GetMulcallString(txtprodCode.arrValueMember) + ")"
             End If
+            Dim batch As String = " select  batch_code_manual from TSPL_SPP_PRODUCTION_ENTRY " + whr
+            dt = clsDBFuncationality.GetDataTable(batch)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For Each btch In dt.Rows
+                    If clsCommon.myLen(strBatch) > 0 Then
+                        strBatch += "," + (clsCommon.myCstr(btch("batch_code_manual")))
+                    Else
+                        strBatch = (clsCommon.myCstr(btch("batch_code_manual")))
+                    End If
+                Next
+            End If
+
             Dim frmCRV As New frmCrystalReportViewer()
-            Dim qry As String = "  select  tSPL_PROD_QC_CHECK_HEAD.document_code,tSPL_PROD_QC_CHECK_HEAD.document_date,
-                            tspl_location_master.location_desc,tspl_location_master.add1,tspl_location_master.division_code,division_Name,division_address,TSPL_SPP_PRODUCTION_ENTRY1.prod_date_from, prod_date_to,TSPL_QC_LOG_SHEET_MASTER.description as QCPARAMNAME,TSPL_QC_LOG_SHEET_MASTER.clause_ref,TSPL_QC_LOG_SHEET_MASTER.is_ref,TSPL_QC_CHECK_PARA_DETAIL.inputdata,param_L_range,Param_U_range,TSPL_QC_CHECK_PARA_DETAIL.remarks,TSPL_PARAMETER_RANGE_MASTER_QC.description,TSPL_ITEM_MASTER.item_desc ,TSPL_SPP_PRODUCTION_ENTRY1.batch_code,TSPL_QC_CHECK_PARA_DETAIL.Description_Status,TSPL_QC_LOG_SHEET_MASTER.AliasName,tSPL_PROD_QC_CHECK_HEAD.qc_start_date,tSPL_PROD_QC_CHECK_HEAD.qc_end_date,tspl_location_master.CMA_CML,tspl_location_master.QC_IS,tspl_location_master.ValidUpto,tspl_location_master.GradeType,TSPL_QC_LOG_SHEET_MASTER.Nature from tSPL_PROD_QC_CHECK_HEAD --header
+            Dim qry As String = "  select  '" + strBatch + "' as [Batch_Code],tSPL_PROD_QC_CHECK_HEAD.document_code,tSPL_PROD_QC_CHECK_HEAD.document_date,
+                            tspl_location_master.location_desc,tspl_location_master.add1,tspl_location_master.division_code,division_Name,division_address,TSPL_SPP_PRODUCTION_ENTRY1.prod_date_from, prod_date_to,TSPL_QC_LOG_SHEET_MASTER.description as QCPARAMNAME,TSPL_QC_LOG_SHEET_MASTER.clause_ref,TSPL_QC_LOG_SHEET_MASTER.is_ref,TSPL_QC_CHECK_PARA_DETAIL.inputdata,param_L_range,Param_U_range,TSPL_QC_CHECK_PARA_DETAIL.remarks,TSPL_PARAMETER_RANGE_MASTER_QC.description,TSPL_ITEM_MASTER.item_desc ,TSPL_QC_CHECK_PARA_DETAIL.Description_Status,TSPL_QC_LOG_SHEET_MASTER.AliasName,tSPL_PROD_QC_CHECK_HEAD.qc_start_date,tSPL_PROD_QC_CHECK_HEAD.qc_end_date,tspl_location_master.CMA_CML,tspl_location_master.QC_IS,tspl_location_master.ValidUpto,tspl_location_master.GradeType,TSPL_QC_LOG_SHEET_MASTER.Nature from tSPL_PROD_QC_CHECK_HEAD --header
                             left outer join TSPL_QC_CHECK_PARA_DETAIL  on TSPL_QC_CHECK_PARA_DETAIL.document_code=tSPL_PROD_QC_CHECK_HEAD.document_code --save prooduction code
                             left outer join tspl_location_master on tspl_location_master.location_code=tSPL_PROD_QC_CHECK_HEAD.location_code
                             left outer join TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER on TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.item_code=tSPL_PROD_QC_CHECK_HEAD.item_code and TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.qc_code=TSPL_QC_CHECK_PARA_DETAIL.qc_param_code 
@@ -619,9 +659,11 @@ Public Class frmOutgoingQCEntry
                             left outer join TSPL_QC_LOG_SHEET_MASTER on TSPL_QC_LOG_SHEET_MASTER.code=TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.qc_code
                             left outer join TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY on TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY.document_code=tSPL_PROD_QC_CHECK_HEAD.document_code
                             left outer join TSPL_PARAMETER_RANGE_MASTER_QC on TSPL_PARAMETER_RANGE_MASTER_QC.qc_param_code=TSPL_QC_LOG_SHEET_MASTER.code
-                            left outer join (select min(prod_date) as prod_date_from,max(prod_date) as prod_date_to,max(prod_entry_code) as prod_entry_code,max(batch_code) as batch_code from TSPL_SPP_PRODUCTION_ENTRY " + whr + " TSPL_SPP_PRODUCTION_ENTRY1 on TSPL_SPP_PRODUCTION_ENTRY1.prod_entry_code=TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY.PROD_ENTRY_CODE 
+                            left outer join (select min(prod_date) as prod_date_from,max(prod_date) as prod_date_to,max(prod_entry_code) as prod_entry_code from TSPL_SPP_PRODUCTION_ENTRY " + whr + " ) TSPL_SPP_PRODUCTION_ENTRY1 on TSPL_SPP_PRODUCTION_ENTRY1.prod_entry_code=TSPL_PROD_QC_CHECK_PRODUCTION_ENTRY.PROD_ENTRY_CODE 
             where tSPL_PROD_QC_CHECK_HEAD.document_code='" + txtDocNo.Value + "' and TSPL_SPP_PRODUCTION_ENTRY1.PROD_ENTRY_CODE is not null order by TSPL_ITEM_MASTER_PURCHASE_QC_PARAMETER.SNO"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            dt = clsDBFuncationality.GetDataTable(qry)
+
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else

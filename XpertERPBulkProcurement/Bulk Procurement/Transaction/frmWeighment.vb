@@ -221,11 +221,14 @@ Public Class FrmWeighment
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnPost.Visible = MyBase.isPostFlag
+        btnReverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
     End Sub
     Sub loadBlankGvItemBulk()
         gvItemBulk.Rows.Clear()
@@ -475,7 +478,7 @@ Public Class FrmWeighment
             '    End If
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -518,7 +521,7 @@ Public Class FrmWeighment
                     End If
                 End If
                 If clsCommon.myLen(obj.Weighment_No) <= 0 Then
-                    clsCommon.MyMessageBoxShow(Me, "Error In Weighment No Genertion")
+                    clsCommon.MyMessageBoxShow(Me, "Error In Weighment No Genertion", Me.Text)
                     'Exit Function
                 End If
             Else
@@ -675,7 +678,7 @@ Public Class FrmWeighment
             Return True
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function
@@ -690,12 +693,12 @@ Public Class FrmWeighment
                             reset()
                             myMessages.delete()
                         Else
-                            clsCommon.MyMessageBoxShow(Me, "Could not deleted")
+                            clsCommon.MyMessageBoxShow(Me, "Could not deleted", Me.Text)
                         End If
                     End If
                 End If
             Else
-                clsCommon.MyMessageBoxShow(Me, "Please select a weighment no to delete")
+                clsCommon.MyMessageBoxShow(Me, "Please select a weighment no to delete", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -717,7 +720,7 @@ Public Class FrmWeighment
                 If allowToSave(True) Then
                     If (TankerFromMaster = 0 OrElse chkMccProc.IsChecked) Then
                         If clsCommon.myCdbl(gvItemBulk.Rows(0).Cells(colNetWeight).Value) <= 0 Then
-                            clsCommon.MyMessageBoxShow(Me, "Net Qty can not be 0")
+                            clsCommon.MyMessageBoxShow(Me, "Net Qty can not be 0", Me.Text)
                             Exit Sub
                         End If
                     End If
@@ -845,7 +848,7 @@ Public Class FrmWeighment
                             End If
                         End If
                     End If
-                    common.clsCommon.MyMessageBoxShow(gvItemBulk, msg)
+                    common.clsCommon.MyMessageBoxShow(gvItemBulk, msg, Me.Text)
                     loadData(fndDocNO.Value, strDocType, NavigatorType.Current)
                 End If
             End If
@@ -1456,23 +1459,28 @@ Public Class FrmWeighment
                     End If
                 Else
                     If chkBulkMilkProc.IsChecked Then
-                        clsCommon.MyMessageBoxShow(Me, "Bulk Milk SRN already has been created.First Unpost Bulk Milk SRN.")
+                        clsCommon.MyMessageBoxShow(Me, "Bulk Milk SRN already has been created.First Unpost Bulk Milk SRN.", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow(Me, "Milk Transfer In already has been created.First Unpost Milk transfer In.")
+                        clsCommon.MyMessageBoxShow(Me, "Milk Transfer In already has been created.First Unpost Milk transfer In.", Me.Text)
                     End If
                 End If
             End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                              "Tspl_Weighment_detail " + Environment.NewLine + _
-                                              "TSPL_Weighment_Chember_Details (  Only in case of chamber wise setting ON) " + Environment.NewLine + _
-                                              "tspl_weighment_detail_history  ( For History) .")
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+            If MyBase.isReverse Then
+
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                  "Tspl_Weighment_detail " + Environment.NewLine +
+                                                  "TSPL_Weighment_Chember_Details (  Only in case of chamber wise setting ON) " + Environment.NewLine +
+                                                  "tspl_weighment_detail_history  ( For History) .")
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
             End If
         End If
     End Sub
@@ -1752,7 +1760,7 @@ Public Class FrmWeighment
                 strDocType = "MccProc"
             Else
                 fndDocNO.Value = ""
-                clsCommon.MyMessageBoxShow(Me, "Please Select a Weighment Type i.e Bulk Procurement or Mcc Procurement")
+                clsCommon.MyMessageBoxShow(Me, "Please Select a Weighment Type i.e Bulk Procurement or Mcc Procurement", Me.Text)
                 Exit Sub
             End If
 
@@ -1870,7 +1878,7 @@ Public Class FrmWeighment
     Private Sub mnuDeleteLayout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub mnuExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuExit.Click
@@ -1907,7 +1915,7 @@ Public Class FrmWeighment
             obj.GridColumns = gvItemBulk.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

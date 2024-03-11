@@ -1,5 +1,7 @@
 ﻿Imports System.IO
 Imports common
+Imports System.Text.RegularExpressions
+Imports System.Text
 'BHA/22/06/18-000080 by balwinder on 22/06/2018
 ' work to be done agaist ticket no. UDL/27/06/18-000196, UDL/27/06/18-000197,BHA/16/05/18-000026 by Parteek
 '' Work to be done Related Work order setting Based UDL/30/10/18-000236
@@ -328,6 +330,7 @@ Public Class frmPurchaseOrder
     Dim dblPreviousTDSAmt As Double = 0
     Dim settCreatePOFromMultipleLocation As Boolean = True
     Dim CommentSetting As Boolean = False
+    Dim strPdfAttachmentPath As String = ""
 #End Region
 
     Public Sub New(ByVal formid As String)
@@ -560,53 +563,17 @@ Public Class frmPurchaseOrder
         If clsCommon.CompairString(objCommonVar.CurrentIndustryType, "D") <> CompairStringResult.Equal Then
             chkBlanket.Visible = False
         End If
-        If clsFixedParameter.GetData(clsFixedParameterCode.CmtSetting, clsFixedParameterType.CmtSetting, Nothing) = "1" Then
-            Dim qry As String = "SELECT TOP 1 Comments,Subject,Content_Subject FROM TSPL_PURCHASE_ORDER_HEAD ORDER BY PurchaseOrder_Date DESC"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dt.Rows.Count > 0 Then
-                txtComment.Text = clsCommon.myCstr(dt.Rows(i)("Comments"))
-                txtCmt1.Text = clsCommon.myCstr(dt.Rows(i)("Comment1"))
-                txtCmt2.Text = clsCommon.myCstr(dt.Rows(i)("Comment2"))
-                txtCmt3.Text = clsCommon.myCstr(dt.Rows(i)("Comment3"))
-                txtCmt4.Text = clsCommon.myCstr(dt.Rows(i)("Comment4"))
-                txtCmt5.Text = clsCommon.myCstr(dt.Rows(i)("Comment5"))
-                txtCmt6.Text = clsCommon.myCstr(dt.Rows(i)("Comment6"))
-                txtCmt7.Text = clsCommon.myCstr(dt.Rows(i)("Comment7"))
-                txtCmt8.Text = clsCommon.myCstr(dt.Rows(i)("Comment8"))
-                txtCmt9.Text = clsCommon.myCstr(dt.Rows(i)("Comment9"))
-                txtCmt10.Text = clsCommon.myCstr(dt.Rows(i)("Comment10"))
-                txtCmt11.Text = clsCommon.myCstr(dt.Rows(i)("Comment11"))
-                txtCmt12.Text = clsCommon.myCstr(dt.Rows(i)("Comment12"))
-                txtCmt13.Text = clsCommon.myCstr(dt.Rows(i)("Comment13"))
-                'txtCmt14.Text = clsCommon.myCstr(dt.Rows(i)("Comment14"))
-                txtSubject.Text = clsCommon.myCstr(dt.Rows(i)("Subject"))
-                txtContentSubject.Text = clsCommon.myCstr(dt.Rows(i)("Content_Subject"))
-            End If
-        Else
-            txtFreight.Text = ""
-            txtComment.Text = ""
-            txtCmt1.Text = ""
-            txtCmt2.Text = ""
-            txtCmt3.Text = ""
-            txtCmt4.Text = ""
-            txtCmt5.Text = ""
-            txtCmt6.Text = ""
-            txtCmt7.Text = ""
-            txtCmt8.Text = ""
-            txtCmt9.Text = ""
-            txtCmt10.Text = ""
-            txtCmt11.Text = ""
-            txtCmt12.Text = ""
-            txtCmt13.Text = ""
-            'txtCmt14.Text = ""
-            'RTComment.Text = ""
-            txtSubject.Text = ""
-            txtContentSubject.Text = ""
-            txtPaymentTerm.Text = ""
-            txtInsuranceTerms.Text = ""
-            txtPackingForward.Text = ""
-            txtInsurance.Text = ""
-        End If
+        'If clsFixedParameter.GetData(clsFixedParameterCode.CmtSetting, clsFixedParameterType.CmtSetting, Nothing) = "1" Then
+        '    Dim qry As String = "SELECT TOP 1 Comments,Subject,Content_Subject,* FROM TSPL_PURCHASE_ORDER_HEAD ORDER BY PurchaseOrder_Date DESC"
+        '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        '    If dt.Rows.Count > 0 Then
+        '        txtComment.Text = clsCommon.myCstr(dt.Rows(i)("Comments")) txtCmt1.Text = clsCommon.myCstr(dt.Rows(i)("Comment1")) txtCmt2.Text = clsCommon.myCstr(dt.Rows(i)("Comment2"))  txtCmt3.Text = clsCommon.myCstr(dt.Rows(i)("Comment3")) txtCmt4.Text = clsCommon.myCstr(dt.Rows(i)("Comment4")) txtCmt5.Text = clsCommon.myCstr(dt.Rows(i)("Comment5")) txtCmt6.Text = clsCommon.myCstr(dt.Rows(i)("Comment6"))  txtCmt7.Text = clsCommon.myCstr(dt.Rows(i)("Comment7")) txtCmt8.Text = clsCommon.myCstr(dt.Rows(i)("Comment8")) txtCmt9.Text = clsCommon.myCstr(dt.Rows(i)("Comment9")) txtCmt10.Text = clsCommon.myCstr(dt.Rows(i)("Comment10")) txtCmt11.Text = clsCommon.myCstr(dt.Rows(i)("Comment11")) txtCmt12.Text = clsCommon.myCstr(dt.Rows(i)("Comment12")) txtCmt13.Text = clsCommon.myCstr(dt.Rows(i)("Comment13"))'txtCmt14.Text = clsCommon.myCstr(dt.Rows(i)("Comment14")) txtSubject.Text = clsCommon.myCstr(dt.Rows(i)("Subject")) txtContentSubject.Text = clsCommon.myCstr(dt.Rows(i)("Content_Subject")) End If
+        'Else
+        '    txtFreight.Text = "" txtComment.Text = ""  txtCmt1.Text = ""  txtCmt2.Text = ""  txtCmt3.Text = "" txtCmt4.Text = ""  txtCmt5.Text = ""
+        '     txtCmt6.Text = ""  txtCmt7.Text = ""  txtCmt8.Text = ""  txtCmt9.Text = ""  txtCmt10.Text = "" txtCmt11.Text = ""  txtCmt12.Text = ""
+        '   txtCmt13.Text = ""  'txtCmt14.Text = "" 'RTComment.Text = ""  txtSubject.Text = ""  txtContentSubject.Text = ""  txtPaymentTerm.Text = ""
+        '    txtInsuranceTerms.Text = "" txtPackingForward.Text = ""  txtInsurance.Text = ""
+        '   End If
     End Sub
 
     Public Sub SetUserMgmtNew()
@@ -620,10 +587,18 @@ Public Class frmPurchaseOrder
         btnDelete.Visible = MyBase.isDeleteFlag
         btnForm_Update.Visible = False 'MyBase.isModifyFlag
         btnPrintNew.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnUnpost.Enabled = True
+        btnUnpost.Visible = False
+        'If MyBase.isReverse Then
+        '    btnUnpost.Enabled = True
+        'Else
+        '    btnUnpost.Enabled = False
+        'End If
+        If MyBase.isExport = True Then
+            rmImport.Enabled = True
+            rmExport.Enabled = True
         Else
-            btnUnpost.Enabled = False
+            rmImport.Enabled = False
+            rmExport.Enabled = False
         End If
     End Sub
 
@@ -938,7 +913,28 @@ Public Class frmPurchaseOrder
         lblAmtAfterTax.Text = ""
         MyLabel7.Text = ""
         txtKindAttentation.Text = ""
-        If clsFixedParameter.GetData(clsFixedParameterCode.CmtSetting, clsFixedParameterType.CmtSetting, Nothing) = "1" Then
+        If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterCode.CmtSetting, clsFixedParameterType.CmtSetting, Nothing)) = 1 Then
+            Dim qry As String = "SELECT TOP 1 Comments,Subject,Content_Subject,Comment1,Comment2,Comment3,Comment4,Comment5,Comment6,Comment7,Comment8,Comment9,Comment10,Comment11,Comment12,Comment13,Subject,Content_Subject FROM TSPL_PURCHASE_ORDER_HEAD ORDER BY PurchaseOrder_Date DESC"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count > 0 Then
+                txtComment.Text = clsCommon.myCstr(dt.Rows(i)("Comments"))
+                txtCmt1.Text = clsCommon.myCstr(dt.Rows(i)("Comment1"))
+                txtCmt2.Text = clsCommon.myCstr(dt.Rows(i)("Comment2"))
+                txtCmt3.Text = clsCommon.myCstr(dt.Rows(i)("Comment3"))
+                txtCmt4.Text = clsCommon.myCstr(dt.Rows(i)("Comment4"))
+                txtCmt5.Text = clsCommon.myCstr(dt.Rows(i)("Comment5"))
+                txtCmt6.Text = clsCommon.myCstr(dt.Rows(i)("Comment6"))
+                txtCmt7.Text = clsCommon.myCstr(dt.Rows(i)("Comment7"))
+                txtCmt8.Text = clsCommon.myCstr(dt.Rows(i)("Comment8"))
+                txtCmt9.Text = clsCommon.myCstr(dt.Rows(i)("Comment9"))
+                txtCmt10.Text = clsCommon.myCstr(dt.Rows(i)("Comment10"))
+                txtCmt11.Text = clsCommon.myCstr(dt.Rows(i)("Comment11"))
+                txtCmt12.Text = clsCommon.myCstr(dt.Rows(i)("Comment12"))
+                txtCmt13.Text = clsCommon.myCstr(dt.Rows(i)("Comment13"))
+                'txtCmt14.Text = clsCommon.myCstr(dt.Rows(i)("Comment14"))
+                txtSubject.Text = clsCommon.myCstr(dt.Rows(i)("Subject"))
+                txtContentSubject.Text = clsCommon.myCstr(dt.Rows(i)("Content_Subject"))
+            End If
         Else
             txtFreight.Text = ""
             txtComment.Text = ""
@@ -5318,20 +5314,24 @@ Public Class frmPurchaseOrder
                 obj.Bill_To_Location = txtBillToLocation.Value
                 obj.Ship_To_Location = txtShipToLocation.Value
                 obj.Sublocation_Code = txtSubLocation.Value
-                obj.Comments = txtComment.Text
-                obj.Comment1 = txtCmt1.Text
-                obj.Comment2 = txtCmt2.Text
-                obj.Comment3 = txtCmt3.Text
-                obj.Comment4 = txtCmt4.Text
-                obj.Comment5 = txtCmt5.Text
-                obj.Comment6 = txtCmt6.Text
-                obj.Comment7 = txtCmt7.Text
-                obj.Comment8 = txtCmt8.Text
-                obj.Comment9 = txtCmt9.Text
-                obj.Comment10 = txtCmt10.Text
-                obj.Comment11 = txtCmt11.Text
-                obj.Comment12 = txtCmt12.Text
-                obj.Comment13 = txtCmt13.Text
+
+                ' Convert the RTF formatted text to HTML
+                'Dim htmlText As String = RtfToHtml(formattedText)
+
+                obj.Comments = txtComment.Rtf
+                obj.Comment1 = txtCmt1.Rtf
+                obj.Comment2 = txtCmt2.Rtf
+                obj.Comment3 = txtCmt3.Rtf
+                obj.Comment4 = txtCmt4.Rtf
+                obj.Comment5 = txtCmt5.Rtf
+                obj.Comment6 = txtCmt6.Rtf
+                obj.Comment7 = txtCmt7.Rtf
+                obj.Comment8 = txtCmt8.Rtf
+                obj.Comment9 = txtCmt9.Rtf
+                obj.Comment10 = txtCmt10.Rtf
+                obj.Comment11 = txtCmt11.Rtf
+                obj.Comment12 = txtCmt12.Rtf
+                obj.Comment13 = txtCmt13.Rtf
                 'obj.Comment14 = txtCmt14.Text
                 'obj.Comments = RTComment.Rtf
                 obj.On_Hold = chkOnHold.Checked
@@ -6147,20 +6147,20 @@ Public Class frmPurchaseOrder
                 txtDesc.Text = obj.Description
                 txtTaxGroup.Value = obj.Tax_Group
                 txtRGPNo.Value = obj.Against_RGP_NO
-                txtComment.Text = obj.Comments
-                txtCmt1.Text = obj.Comment1
-                txtCmt2.Text = obj.Comment2
-                txtCmt3.Text = obj.Comment3
-                txtCmt4.Text = obj.Comment4
-                txtCmt5.Text = obj.Comment5
-                txtCmt6.Text = obj.Comment6
-                txtCmt7.Text = obj.Comment7
-                txtCmt8.Text = obj.Comment8
-                txtCmt9.Text = obj.Comment9
-                txtCmt10.Text = obj.Comment10
-                txtCmt11.Text = obj.Comment11
-                txtCmt12.Text = obj.Comment12
-                txtCmt13.Text = obj.Comment13
+                txtComment.Rtf = obj.Comments
+                txtCmt1.Rtf = obj.Comment1
+                txtCmt2.Rtf = obj.Comment2
+                txtCmt3.Rtf = obj.Comment3
+                txtCmt4.Rtf = obj.Comment4
+                txtCmt5.Rtf = obj.Comment5
+                txtCmt6.Rtf = obj.Comment6
+                txtCmt7.Rtf = obj.Comment7
+                txtCmt8.Rtf = obj.Comment8
+                txtCmt9.Rtf = obj.Comment9
+                txtCmt10.Rtf = obj.Comment10
+                txtCmt11.Rtf = obj.Comment11
+                txtCmt12.Rtf = obj.Comment12
+                txtCmt13.Rtf = obj.Comment13
                 'txtComment.Text = obj.Comment14
                 'RTComment.Rtf = obj.Comments
                 txtShipToLocation.Value = obj.Ship_To_Location
@@ -7116,7 +7116,7 @@ Public Class frmPurchaseOrder
                     End If
                     objPO = Nothing
                     If clsCommon.myLen(msg) > 0 Then
-                        clsCommon.MyMessageBoxShow(Me, msg)
+                        clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     End If
                     LoadData(txtDocNo.Value, NavigatorType.Current)
                 End If
@@ -7283,36 +7283,42 @@ Public Class frmPurchaseOrder
                 btnAmendment.Visible = False
             End If
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            'Add Tool tip Task No- TEC/22/05/18-000245
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
-                                                  "TSPL_PURCHASE_ORDER_HEAD " + Environment.NewLine +
-                                                  "TSPL_PURCHASE_ORDER_DETAIL " + Environment.NewLine +
-                                                  "TSPL_ROADPERMIT_ISSUE_RECEIVE_DETAIL (If Road Permit) " + Environment.NewLine +
-                                                  "TSPL_CFORM_ISSUE_RECEIVE_DETAIL (If C Form) " + Environment.NewLine +
-                                                  "tspl_Purchase_Order_work_order " + Environment.NewLine +
-                                                  "TSPL_PURCHASE_ORDER_WORK_ORDER_Terms " + Environment.NewLine +
-                                                  "Press Alt+P for Post Trasnaction " + Environment.NewLine +
-                                                  "TSPL_REQUISITION_DETAIL (Set balance qty) " + Environment.NewLine +
-                                                  "TSPL_VENDOR_INVOICE_HEAD (Auto Vendor Invoice)" + Environment.NewLine +
-                                                  "TSPL_VENDOR_INVOICE_DETAIL " + Environment.NewLine +
-                                                  "TSPL_REMITTANCE " + Environment.NewLine +
-                                                  "TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine +
-                                                  "TSPL_AP_INVOICE_ADVANCE_INTEREST " + Environment.NewLine +
-                                                  "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL " + Environment.NewLine +
-                                                  "TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine +
-                                                  "TSPL_EXPIRY_DATE " + Environment.NewLine +
-                                                  "TSPL_EX_PI_HEAD (If Merchant Trade then update Against PO)" + Environment.NewLine +
-                                                  "Setting- AllowPOScheduling (For creating purchase schedule) " + Environment.NewLine +
-                                                  "TSPL_PO_SCH_HEAD " + Environment.NewLine +
-                                                  "TSPL_PO_SCH_DETAIL " + Environment.NewLine +
-                                                  "TSPL_PO_VENDOR_SCH_DETAIL ")
-            'Add Tool tip Task No- TEC/22/05/18-000245
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnUnpost.Visible = True
+            If MyBase.isReverse Then
+
+                'Add Tool tip Task No- TEC/22/05/18-000245
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                      "TSPL_PURCHASE_ORDER_HEAD " + Environment.NewLine +
+                                                      "TSPL_PURCHASE_ORDER_DETAIL " + Environment.NewLine +
+                                                      "TSPL_ROADPERMIT_ISSUE_RECEIVE_DETAIL (If Road Permit) " + Environment.NewLine +
+                                                      "TSPL_CFORM_ISSUE_RECEIVE_DETAIL (If C Form) " + Environment.NewLine +
+                                                      "tspl_Purchase_Order_work_order " + Environment.NewLine +
+                                                      "TSPL_PURCHASE_ORDER_WORK_ORDER_Terms " + Environment.NewLine +
+                                                      "Press Alt+P for Post Trasnaction " + Environment.NewLine +
+                                                      "TSPL_REQUISITION_DETAIL (Set balance qty) " + Environment.NewLine +
+                                                      "TSPL_VENDOR_INVOICE_HEAD (Auto Vendor Invoice)" + Environment.NewLine +
+                                                      "TSPL_VENDOR_INVOICE_DETAIL " + Environment.NewLine +
+                                                      "TSPL_REMITTANCE " + Environment.NewLine +
+                                                      "TSPL_AP_Invoice_Asset_EMI_Details " + Environment.NewLine +
+                                                      "TSPL_AP_INVOICE_ADVANCE_INTEREST " + Environment.NewLine +
+                                                      "TSPL_AP_INVOICE_SECONDARY_TRANSPORTER_DEDUTION_DETAIL " + Environment.NewLine +
+                                                      "TSPL_PROVISION_ENTRY_KNOCKOFF " + Environment.NewLine +
+                                                      "TSPL_EXPIRY_DATE " + Environment.NewLine +
+                                                      "TSPL_EX_PI_HEAD (If Merchant Trade then update Against PO)" + Environment.NewLine +
+                                                      "Setting- AllowPOScheduling (For creating purchase schedule) " + Environment.NewLine +
+                                                      "TSPL_PO_SCH_HEAD " + Environment.NewLine +
+                                                      "TSPL_PO_SCH_DETAIL " + Environment.NewLine +
+                                                      "TSPL_PO_VENDOR_SCH_DETAIL ")
+                'Add Tool tip Task No- TEC/22/05/18-000245
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnUnpost.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub
@@ -7488,9 +7494,12 @@ Public Class frmPurchaseOrder
         Dim qry As String = ""
         Dim whrCls As String = ""
         whrCls = " TSPL_VENDOR_MASTER.Status='N' and TSPL_VENDOR_MASTER.Form_Type<>'VSP'"
+        If objCommonVar.RCDFCFP = True Then
+            whrCls += " and TSPL_VENDOR_MASTER.in_active_cf IS NULL OR TSPL_VENDOR_MASTER.in_active_cf = 'N'"
+        End If
         ''richa agarwal 24/12/2014
         If chkIsMerchantTrade.Checked Then
-            whrCls += "  and  TSPL_VENDOR_MASTER.CURRENCY_CODE<>(select isnull(BaseCurrencyCode,'')  from TSPL_COMPANY_MASTER where Comp_Code ='" & objCommonVar.CurrentCompanyCode & "' )"
+            whrCls += "  And  TSPL_VENDOR_MASTER.CURRENCY_CODE<>(Select isnull(BaseCurrencyCode,'')  from TSPL_COMPANY_MASTER where Comp_Code ='" & objCommonVar.CurrentCompanyCode & "' )"
         End If
         ''-------------------------
         '' Anubhooti 12-Mar-2015 (Fetch Alies Name On Vendor Finder)
@@ -8614,6 +8623,7 @@ Public Class frmPurchaseOrder
 
     Private Sub btnUnpost_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnUnpost.Click
         Try
+
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If clsCommon.MyMessageBoxShow(Me, "Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                     If clsCommon.myLen(lblConfirmatory_PO_SRN_No.Text) > 0 Then
@@ -10457,7 +10467,7 @@ Public Class frmPurchaseOrder
                 clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
                 Exit Sub
             End If
-            clsERPFuncationalityold.ShowTransHistoryData(txtDocNo.Value, "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_HEAD", "TSPL_PURCHASE_ORDER_DETAIL")
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "PurchaseOrder_No", "TSPL_PURCHASE_ORDER_HEAD", "TSPL_PURCHASE_ORDER_DETAIL")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -10774,6 +10784,38 @@ Public Class frmPurchaseOrder
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             isCellValueChangedOpenSchedule = False
         End Try
+    End Sub
+
+    Private Sub ApplyBoldFormatting(textBox As RichTextBox, isBold As Boolean)
+        If textBox.SelectionLength > 0 Then
+            Dim start As Integer = textBox.SelectionStart
+            Dim length As Integer = textBox.SelectionLength
+
+            If isBold Then
+                textBox.SelectionFont = New Font(textBox.Font, FontStyle.Bold)
+                textBox.Font = New Font(txtCmt1.Font, FontStyle.Regular)
+
+            Else
+                textBox.SelectionFont = New Font(textBox.Font, FontStyle.Regular)
+                textBox.Font = New Font(textBox.Font, FontStyle.Regular)
+
+            End If
+            textBox.Select(start, length)
+        End If
+    End Sub
+
+    Private Sub txtCmt1_KeyDown(sender As Object, e As KeyEventArgs) Handles txtComment.KeyDown, txtCmt1.KeyDown, txtCmt2.KeyDown, txtCmt3.KeyDown, txtCmt4.KeyDown, txtCmt5.KeyDown, txtCmt6.KeyDown, txtCmt7.KeyDown, txtCmt8.KeyDown, txtCmt9.KeyDown, txtCmt10.KeyDown, txtCmt11.KeyDown, txtCmt12.KeyDown, txtCmt13.KeyDown
+        Dim txtBox As RichTextBox = DirectCast(sender, System.Windows.Forms.Control)
+        If txtBox.SelectionLength > 0 Then
+            If e.Control AndAlso e.Alt AndAlso e.KeyCode = Keys.B Then
+                ApplyBoldFormatting(txtBox, True)
+
+                e.SuppressKeyPress = True
+            End If
+        Else
+            txtBox.Font = New Font(txtBox.Font, FontStyle.Regular)
+            txtBox.SelectionFont = New Font(txtBox.Font, FontStyle.Regular)
+        End If
     End Sub
 
 

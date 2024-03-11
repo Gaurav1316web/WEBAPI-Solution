@@ -396,7 +396,7 @@ Public Class RptSecondaryQualityReport
 
     Private Sub rmiDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmiDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub RptSecondaryQualityReport_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles MyBase.KeyPress

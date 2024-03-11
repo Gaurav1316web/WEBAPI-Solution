@@ -2770,7 +2770,6 @@ Public Class clsSRNHead
     End Function
 
     Public Shared Function GenerateSRNDeduction(ByVal strSRNNo As String, ByVal strICode As String, ByVal trans As SqlTransaction) As Boolean
-        'TSPL_SRN_HEAD.Against_QC_Code
         Dim qry1 As String = Nothing
         Dim qry As String = "select TSPL_QC_CHECK_HEAD.Document_Code as Against_QC_Code,TSPL_SRN_DETAIL.PO_ID,TSPL_SRN_DETAIL.Row_Type,TSPL_SRN_DETAIL.SRN_Qty,TSPL_SRN_DETAIL.Leak_Qty,TSPL_SRN_DETAIL.Burst_Qty,TSPL_SRN_DETAIL.Short_Qty,TSPL_SRN_HEAD.Vendor_Code,TSPL_SRN_HEAD.isExemptSecurityDedution ,TSPL_SRN_DETAIL.GRN_ID,TSPL_SRN_DETAIL.Item_Net_Amt,TSPL_TENDER_HEADER.Tender_Type 
 from TSPL_SRN_DETAIL
@@ -2781,20 +2780,36 @@ left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_PURCH
 where TSPL_SRN_HEAD.SRN_No='" + strSRNNo + "' and TSPL_SRN_DETAIL.Item_Code='" + strICode + "'"
         Dim dtSRN As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dtSRN IsNot Nothing AndAlso dtSRN.Rows.Count > 0 Then
+#Region "SRN Dedution"
             If clsCommon.myLen(dtSRN.Rows(0)("Against_QC_Code")) > 0 Then
-                'left outer join TSPL_QC_CHECK_SRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.document_code=TSPL_SRN_HEAD.Against_QC_Code and TSPL_QC_CHECK_SRN_DETAIL.Item_Code=TSPL_SRN_DETAIL.Item_Code
                 qry = "insert into TSPL_SRN_DEDUCTION (SRN_No,Item_Code,Amt,Ded_Per,Ded_Amt)
 select SRN_No,Item_Code,Amount,InputDataDeductionPer,(Amount*InputDataDeductionPer/100) as DedAmt  from (
 select SRN_No,Item_Code,max(Amount) as Amount,sum(isnull(InputDataDeductionPer,0)) as InputDataDeductionPer from (
-select TSPL_SRN_HEAD.SRN_No,TSPL_QC_CHECK_SRN_DETAIL.Item_Code,TSPL_SRN_DETAIL.Item_Net_Amt as Amount,TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer from TSPL_SRN_DETAIL 
+select TSPL_SRN_HEAD.SRN_No,TSPL_QC_CHECK_SRN_DETAIL.Item_Code,TSPL_SRN_DETAIL.Item_Net_Amt as Amount,TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer 
+from TSPL_SRN_DETAIL 
 left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No
 left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_SRN_HEAD.Against_GRN	
 left outer join TSPL_QC_CHECK_SRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.document_code=TSPL_QC_CHECK_HEAD.document_code and TSPL_QC_CHECK_SRN_DETAIL.Item_Code=TSPL_SRN_DETAIL.Item_Code
-where TSPL_SRN_HEAD.SRN_No='" + strSRNNo + "' 
+where TSPL_SRN_HEAD.SRN_No='" + strSRNNo + "' and TSPL_SRN_DETAIL.Item_Code='" + strICode + "'
 )x group by SRN_No,Item_Code
 )xx where (Amount*InputDataDeductionPer/100)>0 "
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
             End If
+#End Region
+
+#Region "Security Dedution"
+            If clsCommon.myCDecimal(dtSRN.Rows(0)("isExemptSecurityDedution")) = 0 Then
+                qry = "insert into TSPL_SRN_DEDUCTION_SECURITY (SRN_No,Item_Code,Amt,Ded_Per,Ded_Amt)
+select SRN_No,Item_Code,Amount,Security_Deduction,round((Amount*Security_Deduction/100),0) as DedAmt  from (
+select SRN_No,Item_Code,max(Amount) as Amount,sum(isnull(Security_Deduction,0)) as Security_Deduction from (
+select TSPL_SRN_DETAIL.SRN_No,TSPL_SRN_DETAIL.Item_Code,TSPL_SRN_DETAIL.Item_Net_Amt as Amount,isnull(TSPL_ITEM_MASTER.Security_Deduction,0) as Security_Deduction from TSPL_SRN_DETAIL 
+inner join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_Code=TSPL_SRN_DETAIL.Item_Code
+where TSPL_SRN_DETAIL.SRN_No='" + strSRNNo + "' and TSPL_SRN_DETAIL.Item_Code='" + strICode + "' and isnull(TSPL_ITEM_MASTER.Security_Deduction,0)>0
+)x group by SRN_No,Item_Code
+)xx where (Amount*Security_Deduction/100)>0 "
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+#End Region
 
 #Region "Apply Tender Penalty"
             If clsCommon.myLen(clsCommon.myCstr(dtSRN.Rows(0)("PO_ID"))) > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(dtSRN.Rows(0)("Row_Type")), clsItemRowType.RowTypeItem) = CompairStringResult.Equal AndAlso clsCommon.myCDecimal(dtSRN.Rows(0)("SRN_Qty")) > 0 Then
@@ -2874,7 +2889,6 @@ group by DocumentCode,Vendor_Code,Item_Code"
                             End If
                         Next
                     End If
-
                 Else
                     qry = "select DocumentCode,PK_Id,max(To_Date) as To_Date,Item_Code,sum(Qty*RI) as Qty,MAX(Schedule_No) AS Schedule_No  from (
 select TSPL_TENDER_SCHEDULE.DocumentCode,TSPL_TENDER_SCHEDULE.PK_Id
@@ -2952,19 +2966,6 @@ where  TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.
             End If
 #End Region
 
-#Region "Apply Security Dedution"
-            If clsCommon.myCDecimal(dtSRN.Rows(0)("isExemptSecurityDedution")) = 0 Then
-                qry = "insert into TSPL_SRN_DEDUCTION_SECURITY (SRN_No,Item_Code,Amt,Ded_Per,Ded_Amt)
-select SRN_No,Item_Code,Amount,Security_Deduction,round((Amount*Security_Deduction/100),0) as DedAmt  from (
-select SRN_No,Item_Code,max(Amount) as Amount,sum(isnull(Security_Deduction,0)) as Security_Deduction from (
-select TSPL_SRN_DETAIL.SRN_No,TSPL_SRN_DETAIL.Item_Code,TSPL_SRN_DETAIL.Item_Net_Amt as Amount,isnull(TSPL_ITEM_MASTER.Security_Deduction,0) as Security_Deduction from TSPL_SRN_DETAIL 
-inner join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.item_Code=TSPL_SRN_DETAIL.Item_Code
-where TSPL_SRN_DETAIL.SRN_No='" + strSRNNo + "' and isnull(TSPL_ITEM_MASTER.Security_Deduction,0)>0
-)x group by SRN_No,Item_Code
-)xx where (Amount*Security_Deduction/100)>0 "
-                clsDBFuncationality.ExecuteNonQuery(qry, trans)
-            End If
-#End Region
         End If
 
         Return True

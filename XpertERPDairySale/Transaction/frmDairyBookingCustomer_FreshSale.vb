@@ -118,11 +118,14 @@ Public Class frmDairyBookingCustomer_FreshSale
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnreverse.Enabled = True
-        Else
-            btnreverse.Enabled = False
-        End If
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnreverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
     End Sub
 
     Private Sub fndRouteNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtRouteNo._MYValidating
@@ -2488,26 +2491,31 @@ Public Class frmDairyBookingCustomer_FreshSale
             End If
 
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnreverse.Visible = True
-            End If
+            If MyBase.isReverse Then
 
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnreverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            End If
             'Add Tool tip Task No- TEC/18/05/18-000237
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                              "TSPL_BOOKING_MATSER " + Environment.NewLine + _
-                              "TSPL_BOOKING_DETAIL " + Environment.NewLine + _
-                              "TSPL_GATEPASS_MASTER_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine + _
-                              "TSPL_GATEPASS_DETAIL_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine + _
-                              "Press Alt+F for Create DO/Post DO Trasnaction" + Environment.NewLine + _
-                              "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE " + Environment.NewLine + _
-                              "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE " + Environment.NewLine + _
-                              "TSPL_TRANSACTION_APPROVAL (For Approving Pending Document) ")
-            'Add Tool tip Task No- TEC/18/05/18-000237
-        End If
+            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                  "TSPL_BOOKING_MATSER " + Environment.NewLine +
+                                  "TSPL_BOOKING_DETAIL " + Environment.NewLine +
+                                  "TSPL_GATEPASS_MASTER_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
+                                  "TSPL_GATEPASS_DETAIL_DAIRYSALE (For Gate Pass Document) " + Environment.NewLine +
+                                  "Press Alt+F for Create DO/Post DO Trasnaction" + Environment.NewLine +
+                                  "TSPL_DELIVERY_NOTE_MASTER_FRESHSALE " + Environment.NewLine +
+                                  "TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE " + Environment.NewLine +
+                                  "TSPL_TRANSACTION_APPROVAL (For Approving Pending Document) ")
+                'Add Tool tip Task No- TEC/18/05/18-000237
+            End If
     End Sub
 
     Private Sub BlankControlOnCustomer()

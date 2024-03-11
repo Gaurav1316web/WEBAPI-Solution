@@ -1151,9 +1151,9 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
     End Function
 
     Public Shared Function DeleteCollectionData(arrMCC As ArrayList, FromDate As Date, ToDate As Date, strShift As String) As Boolean
-        Return DeleteCollectionData(arrMCC, FromDate, ToDate, strShift, True)
+        Return DeleteCollectionData(arrMCC, FromDate, ToDate, strShift, True, True)
     End Function
-    Public Shared Function DeleteCollectionData(arrMCC As ArrayList, FromDate As Date, ToDate As Date, strShift As String, DeleteBMCCollection As Boolean) As Boolean
+    Public Shared Function DeleteCollectionData(arrMCC As ArrayList, FromDate As Date, ToDate As Date, strShift As String, DeleteBMCCollection As Boolean, checkForPreviousShift As Boolean) As Boolean
         Try
             clsCommon.ProgressBarPercentShow()
             If arrMCC Is Nothing OrElse arrMCC.Count < 0 Then
@@ -1170,9 +1170,9 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
                 Dim TransDate As Date = clsCommon.myCDate(drDate(0))
                 For Each strMCCcode As String In arrMCC
                     ii = ii + 1
-                    clsCommon.ProgressBarPercentUpdate(((ii) * 100 / (Total)), "Date [" & clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") & "] DCS [" & strMCCcode & "]")
+                    clsCommon.ProgressBarPercentUpdate(((ii) * 100 / (Total)), "Date [" & clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") & "] BMC [" & strMCCcode & "]")
                     Dim strShiftCon As String = ""
-                    If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+                    If checkForPreviousShift Then
                         strShiftCon = " and SHIFT='E'"
                         DeleteCollection(TransDate.AddDays(-1), strShiftCon, strMCCcode, DeleteBMCCollection)
                         strShiftCon = " and SHIFT='M'"
@@ -1355,7 +1355,12 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
     Public Shared Sub MultipleDateSingleExport(ByRef frm As RadForm)
         Try
             Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
-            Dim qry As String = "select REPLACE( convert(varchar, GETDATE(),106),' ','/') as Date,'' as [Shift],'' as Route,'' as DCSNo,'Good' as MilkType,0.00 as Qty,0.0 as FAT"
+            Dim qry As String = "select REPLACE( convert(varchar, GETDATE(),106),' ','/') as Date,'' as [Shift],'' as Route,'' as DCSNo,"
+
+            If objCommonVar.DisplayTypeInMilkReceipt Then
+                qry += " '' As [Mix/Cow],"
+            End If
+            qry += "'Good' as MilkType,0.00 as Qty,0.0 as FAT"
 
             Dim ListImpExpColumnsMandatory As List(Of String) = New List(Of String)({"Date", "Shift", "DCSNo", "Qty", "FAT"})
             If isPickCLRInsteadOfSNF Then
@@ -1384,7 +1389,12 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
         If isPickCLRInsteadOfSNF Then
             flag = transportSql.importExcel(gv, "Date", "Shift", "Route", "DCSNo", "MilkType", "Qty", "FAT", "CLR")
         Else
-            flag = transportSql.importExcel(gv, "Date", "Shift", "Route", "DCSNo", "MilkType", "Qty", "FAT", "SNF")
+            If objCommonVar.DisplayTypeInMilkReceipt Then
+                flag = transportSql.importExcel(gv, "Date", "Shift", "Route", "DCSNo", "Mix/Cow", "MilkType", "Qty", "FAT", "SNF")
+            Else
+                flag = transportSql.importExcel(gv, "Date", "Shift", "Route", "DCSNo", "MilkType", "Qty", "FAT", "SNF")
+            End If
+
         End If
         If flag Then
             Try
@@ -1473,7 +1483,12 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                             objtr.Milk_Weight = objtemp.Qty
                             objtr.FAT = objtemp.FAT
                             objtr.SNF = objtemp.SNF
-                            objtr.Dock_Collection_Milk_Type = "M"
+                            If objCommonVar.DisplayTypeInMilkReceipt Then
+                                objtr.Dock_Collection_Milk_Type = clsCommon.myCstr(grow.Cells("Milk/Cow").Value)
+                            Else
+                                objtr.Dock_Collection_Milk_Type = "M"
+                            End If
+                            'objtr.Dock_Collection_Milk_Type = "M"
                             arr(UniqueCombination).Arr.Add(objtr)
                             indxSuccess += 1
                         End If

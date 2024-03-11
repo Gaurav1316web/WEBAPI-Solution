@@ -15,6 +15,7 @@ Public Class clsUserMgtCode
     Public Const ModuleSystemAdmin As String = "MSysAdmin"
     Public Const ModuleCommonServices As String = "MCommSer"
     Public Const ModuleReceivable As String = "MReceivable"
+    Public Const MPMilkPrice As String = "PCU-MCC"
     Public Const ModulePayable As String = "MPayable"
     Public Const ModuleGL As String = "MGenLedger"
     Public Const ModuleSales As String = "MSales"
@@ -435,6 +436,7 @@ Public Class clsUserMgtCode
     Public Const SubModuleMCCMilkProcurementTransaction As String = "SMCPROCTRAN"
     Public Const SubModuleMCCMilkProcurementReport As String = "SMMPROCRPT"
 
+
     Public Const SubModuleBULKMilkProcurementSetup As String = "SMBPROCSetup"
     Public Const SubModuleMilkProcurementTransaction As String = "SMMPROCTRANS"
     Public Const SubModuleBulkMilkProcurementReport As String = "SMBPROCRPT"
@@ -631,6 +633,7 @@ Public Class clsUserMgtCode
     Public Const frmBankBookRecoReport As String = "BBR-RPT"
     Public Const frmBankBookLocationDetail As String = "BLW-BK-RPT"
     Public Const frmCashVoucher As String = "CSH-VCHR"
+    Public Const fundprovision As String = "FND-PRN"
     Public Const RptBankReconcilliation As String = "BNK-REC"
     Public Const FrmBankReverse As String = "BNK-Rev1"
     Public Const FrmCustomerOutstanding As String = "CUS-OUTS-RPT"
@@ -1434,6 +1437,7 @@ Public Class clsUserMgtCode
     Public Const frmConveyanceClaim As String = "Conv-Claim"
     Public Const frmPayrollSetting As String = "PAY-SETT"
     Public Const FrmEmployeeTransfer As String = "EMP-TRAN"
+    Public Const frmEPFund As String = "EMP-EPF"
     Public Const FrmEmpIncrement As String = "EMP-INCR"
     Public Const FrmSentSalarySlip As String = "SENT_SAL"
     Public Const FrmAllotmentOfLeaves As String = "ALLOT_LEAV"
@@ -1455,7 +1459,7 @@ Public Class clsUserMgtCode
     Public Const frmMonthlyESI_Report As String = "MNTH_ESI_RPT"
     Public Const RptEmployeeBday6 As String = "EMP_BDAY"
     Public Const rptEmployeeAdvanceLedger As String = "EMP-ADV-LED"
-
+    Public Const rptLoanStatement As String = "RPT-LON-STM"
     '----------------------------Monthly------------------------------
     Public Const frmPaySlip_Reports As String = "PAYSLIP_REPO"
     Public Const frmSalarySheet_Reports As String = "SALARY_SHEET"
@@ -2108,7 +2112,9 @@ Public Class clsUserMgtCode
     Public Const rptDBTSummaryMonthlyWise As String = "DBT-Monthly"
     Public Const rptBMCTankerTestingReport As String = "BMCTan_Tes_R"
     Public Const rptMilkPaymentSummary As String = "Milk-PS"
+    Public Const rptMilkUnion As String = "UNN_MLK_RPT"
     Public Const rptCattleFeedSaleReport As String = "Cattle-F-S"
+    Public Const rptTransferToSavingReport As String = "Tran-Sv-Rt"
     Public Const frmBulkMilkSRNReturn As String = "M-BMSRN-R"
     'Public Const frmTranReverse As String = "M-TRN-R"
     'Public Const rptMDConversion As String = "MD_CONVERSIN"
@@ -2142,6 +2148,7 @@ Public Class clsUserMgtCode
     Public Const frmProvisionEntry As String = "Prov-Entry"
     Public Const IncentiveEntry As String = "INC-ENT"
     Public Const frmPaymentProcess As String = "Pay-Pro"
+    Public Const frmBankAdvise As String = "BNK-ADVS"
     Public Const frmTransferToSaving As String = "TRA-SAV"
     Public Const frmTDSReport As String = "TDS-RPT"
     Public Const frmSendBillToDCS As String = "PMT-SND-DCS"
@@ -2262,6 +2269,7 @@ Public Class clsUserMgtCode
     Public Const RptMonthWiseSaleAnalysis As String = "MNTH_ANA_RPT"
     Public Const RptJobWorkDebitNoteReport As String = "JW_DBT_NOTE"
     Public Const FrmSAC As String = "SAC_MASTER"
+    Public Const FrmSACWiseTax As String = "SAC_WIS_TAX"
     Public Const FrmItemWiseTax As String = "ITEM_WIS_TAX"
 
     Public Const frmOverheadCostMaster As String = "OVER_COST_MT"
@@ -2513,7 +2521,9 @@ Public Class clsUserMgtCode
     Public Const frmPriceMasterPS As String = "PRC-MST-PS"
     Public Const rptDeleteHistoryReport As String = "DEL-HIST"
     Public Const RCDFDashboard As String = "RCDF-DSB"
+    Public Const Complainfeedback As String = "COMP-FEED"
     Public Const DashboardMilkUnion As String = "UN-DSB"
+    Public Const DairySaleDashboard As String = "DAR-DSB"
     'Public Const CardSale As String = "CRD_SALE"
 
     'Eng. And Plant Management
@@ -2549,6 +2559,8 @@ Public Class clsUserMgtCode
     Public Const SubModuleXpertAPITrans As String = "MAPITrans"
     Public Const SubModuleXpertAPIReport As String = "MAPIReport"
 
+    Public Const ModuleMilkUnion As String = "RPT_MLK_UNN"
+    Public Const SubModuleMilkUnion As String = "MAPIReport"
     Public Const XpertAPIWeighment As String = "API-CTF-WGT"
     Public Const XpertAPILoadinSlip As String = "API-CTF-LIS"
     Public Const XpertAPIMilkReceipt As String = "API-MLK-REC"
@@ -2564,10 +2576,12 @@ Public Class clsUserMgtCode
     Public Const SubModuleMISSetUp As String = "SMMIS"
     Public Const MISitemGroups As String = "MISITEM-GRP"
     Public Const MISitemMaster As String = "MISITEM-MST"
+    Public Const frmProductionTransactionType As String = "PRO-TRAN-TYP"
 
     ''=================Transaction==========
     Public Const SubModuleMISTransaction As String = "SMMIST"
     Public Const frmDailyMilkProducts As String = "DLY-MLK-PROD"
+    Public Const frmDailySMPProduction As String = "DLY-SMP-PROD"
 
 
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean

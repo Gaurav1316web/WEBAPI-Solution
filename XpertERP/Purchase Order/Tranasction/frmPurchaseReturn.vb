@@ -287,12 +287,13 @@ Public Class frmPurchaseReturn
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnprint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
 
-        End If
+        'End If
         btncancel.Visible = MyBase.isCancel_Flag_After_Posting
     End Sub
 
@@ -5190,26 +5191,31 @@ Public Class frmPurchaseReturn
             'ElseIf e.Control AndAlso e.KeyCode = Keys.F7 Then
             '    SelectPIItems()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
-            ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine + _
-                                                "TSPL_PR_HEAD " + Environment.NewLine + _
-                                                "TSPL_PR_DETAIL " + Environment.NewLine + _
-                                                "TSPL_PI_REMITTANCE " + Environment.NewLine + _
-                                                "Press Alt+P for Post Trasnaction  " + Environment.NewLine + _
-                                                "TSPL_PI_DETAIL(Update Balance Qty) " + Environment.NewLine + _
-                                                "TSPL_INVENTORY_MOVEMENT " + Environment.NewLine + _
-                                                "TSPL_REMITTANCE " + Environment.NewLine + _
-                                                "TSPL_VENDOR_INVOICE_HEAD " + Environment.NewLine + _
-                                                "TSPL_VENDOR_INVOICE_DETAIL " + Environment.NewLine + _
-                                                "TSPL_SERIAL_ITEM " + Environment.NewLine + _
-                                                "TSPL_PI_HEAD " + Environment.NewLine + _
-                                                "TSPL_MILK_PURCHASE_INVOICE_HEAD(Against Milk purchase invoice) " + Environment.NewLine + _
+            If MyBase.isReverse Then
+                ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction" + Environment.NewLine +
+                                                "TSPL_PR_HEAD " + Environment.NewLine +
+                                                "TSPL_PR_DETAIL " + Environment.NewLine +
+                                                "TSPL_PI_REMITTANCE " + Environment.NewLine +
+                                                "Press Alt+P for Post Trasnaction  " + Environment.NewLine +
+                                                "TSPL_PI_DETAIL(Update Balance Qty) " + Environment.NewLine +
+                                                "TSPL_INVENTORY_MOVEMENT " + Environment.NewLine +
+                                                "TSPL_REMITTANCE " + Environment.NewLine +
+                                                "TSPL_VENDOR_INVOICE_HEAD " + Environment.NewLine +
+                                                "TSPL_VENDOR_INVOICE_DETAIL " + Environment.NewLine +
+                                                "TSPL_SERIAL_ITEM " + Environment.NewLine +
+                                                "TSPL_PI_HEAD " + Environment.NewLine +
+                                                "TSPL_MILK_PURCHASE_INVOICE_HEAD(Against Milk purchase invoice) " + Environment.NewLine +
                                                 "TSPL_Bulk_MILK_PURCHASE_INVOICE_HEAD(Against Bulk Milk purchase invoice) ")
-            Dim frm As New FrmPWD(Nothing)
-            frm.strType = "SIRC"
-            frm.strCode = "SIReversAndCreate"
-            frm.ShowDialog()
-            If frm.isPasswordCorrect Then
-                btnReverse.Visible = True
+                Dim frm As New FrmPWD(Nothing)
+                frm.strType = "SIRC"
+                frm.strCode = "SIReversAndCreate"
+                frm.ShowDialog()
+                If frm.isPasswordCorrect Then
+                    btnReverse.Visible = True
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
             End If
         End If
     End Sub

@@ -46,7 +46,7 @@ Public Class rptCattleFeedSaleReport
 
     Private Sub txtSubLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtSubLocation._MYValidating
         If clsCommon.myLen(txtLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location code before sub location", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Location code before sub location", Me.Text)
             Exit Sub
         End If
 

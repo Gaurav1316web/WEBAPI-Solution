@@ -164,6 +164,7 @@ Partial Class frmCorrection
         Me.MyLabel45 = New common.Controls.MyLabel()
         Me.txtBMCTankerFAT = New common.MyNumBox()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.chkPreviousShift = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -301,6 +302,7 @@ Partial Class frmCorrection
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBMCTankerFAT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkPreviousShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -1214,6 +1216,7 @@ Partial Class frmCorrection
         '
         'GroupBox76
         '
+        Me.GroupBox76.Controls.Add(Me.chkPreviousShift)
         Me.GroupBox76.Controls.Add(Me.chkDeleteBMCCollection)
         Me.GroupBox76.Controls.Add(Me.TxtMultiSelectFinder8)
         Me.GroupBox76.Controls.Add(Me.MyLabel40)
@@ -2358,6 +2361,19 @@ Partial Class frmCorrection
         Me.btnclose.TabIndex = 0
         Me.btnclose.Text = "Close"
         '
+        'chkPreviousShift
+        '
+        Me.chkPreviousShift.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkPreviousShift.Location = New System.Drawing.Point(178, 60)
+        Me.chkPreviousShift.MyLinkLable1 = Nothing
+        Me.chkPreviousShift.MyLinkLable2 = Nothing
+        Me.chkPreviousShift.Name = "chkPreviousShift"
+        Me.chkPreviousShift.Size = New System.Drawing.Size(138, 18)
+        Me.chkPreviousShift.TabIndex = 372
+        Me.chkPreviousShift.Tag1 = Nothing
+        Me.chkPreviousShift.Text = "Check for previous shift"
+        Me.chkPreviousShift.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
         'frmCorrection
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2516,6 +2532,7 @@ Partial Class frmCorrection
         CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBMCTankerFAT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkPreviousShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2656,4 +2673,5 @@ Partial Class frmCorrection
     Friend WithEvents btnTankerMilkExport As RadButton
     Friend WithEvents RadGroupBox7 As RadGroupBox
     Friend WithEvents RadGroupBox8 As RadGroupBox
+    Friend WithEvents chkPreviousShift As common.Controls.MyCheckBox
 End Class
