@@ -690,7 +690,7 @@ Public Class rptDailyreceiptReport
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         If clsCommon.myLen(ReportID) > 0 Then
             clsGridLayout.DeleteData(ReportID, objCommonVar.CurrentUserCode)
-            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
         End If
     End Sub
 

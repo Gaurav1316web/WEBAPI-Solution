@@ -3668,7 +3668,7 @@ Public Class rptVendorReco
                 ReStoreGridDetail()
             End If
         End If
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub rptVendorReco_LostFocus(sender As Object, e As EventArgs) Handles Me.LostFocus

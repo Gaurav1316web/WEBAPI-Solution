@@ -837,7 +837,7 @@ Public Class RptItemSalePurchaseAccount
         Dim TempFormId As String = ""
         TempFormId = Form_ID
         clsGridLayout.DeleteData(TempFormId, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
     Private Sub btnImport_Click(sender As Object, e As EventArgs) Handles btnImport.Click
         Try

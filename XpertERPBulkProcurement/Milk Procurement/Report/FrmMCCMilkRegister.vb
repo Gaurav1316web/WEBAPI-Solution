@@ -26,6 +26,7 @@ Public Class FrmMCCMilkRegister
     Public arrVLC As ArrayList
     Dim SetCowFatPer As Integer
     Dim SetMixFatPer As Integer
+    Dim AreaWiseBilling As Boolean = False
     Private Sub FrmMCCMilkRegister_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
         SetCowFatPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
@@ -69,6 +70,9 @@ Public Class FrmMCCMilkRegister
         End If
         txtFromShift.SelectedValue = "M"
         txtToShift.SelectedValue = "E"
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 0)
+        fndArea.Visible = AreaWiseBilling
+        lblArea.Visible = AreaWiseBilling
     End Sub
 
     Sub LoadMilkReceiveUOM()
@@ -2642,6 +2646,7 @@ Public Class FrmMCCMilkRegister
             Dim arrMCC As ArrayList = Nothing
             Dim arrRoute As ArrayList = Nothing
             Dim arrVLC As ArrayList = Nothing
+            Dim Area As String = Nothing
             If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                 arrMCC = txtMCC.arrValueMember
             End If
@@ -2650,6 +2655,9 @@ Public Class FrmMCCMilkRegister
             End If
             If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
                 arrVLC = txtVLC.arrValueMember
+            End If
+            If clsCommon.myLen(fndArea.Value) > 0 Then
+                Area = fndArea.Value
             End If
             If chkDateShift.Checked = False Then
 
@@ -2699,9 +2707,18 @@ Public Class FrmMCCMilkRegister
                     If txtVLC.arrValueMember IsNot Nothing AndAlso txtVLC.arrValueMember.Count > 0 Then
                         arrVLC = txtVLC.arrValueMember
                     End If
+                    If clsCommon.myLen(fndArea.Value) > 0 Then
+                        Area = fndArea.Value
+                    End If
                 End If
                 If chkRejection.Checked = False AndAlso chkShiftWise.Checked = False AndAlso chkOnlyRejection.Checked = False Then
-                    qry = clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue))
+                    If AreaWiseBilling Then
+                        'qry = clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, Nothing, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue))
+                        qry = clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), clsCommon.myCstr(cboSRNAmounType.SelectedValue), Nothing, Nothing, Nothing, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue), Nothing, Nothing, Nothing, Area)
+                    Else
+                        qry = clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue))
+                    End If
+                    'qry = clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue))
                     If ChkDetailWise.Checked Then
                         '============update by preeti gupta Against ticket no[BHA/15/05/19-000890]
                         If BulkExport = 3 OrElse BulkExport = 4 OrElse BulkExport = 5 OrElse BulkExport = 6 Then
@@ -3275,7 +3292,15 @@ Public Class FrmMCCMilkRegister
                     '    End If
                     'End If
                     Dim SetCowFatPer As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
-                    strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue), strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer)
+                    If AreaWiseBilling Then
+                        strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, "M", "E", "", StrPermission, Nothing, Nothing, Nothing, "", strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer, fndArea.Value)
+                        strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(txtFromDate.Value, txtToDate.Value, "M", "E", StrPermission, Nothing, Nothing, Nothing, "", SetCowFatPer, fndArea.Value)
+                    Else
+                        strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, "M", "E", "", StrPermission, txtMCC.arrValueMember, Nothing, Nothing, "", strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer, fndArea.Value)
+                        strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(txtFromDate.Value, txtToDate.Value, "M", "E", StrPermission, txtMCC.arrValueMember, Nothing, Nothing, "", SetCowFatPer, fndArea.Value)
+                    End If
+
+                    'strSRNQuery = clsMilkRejectHead.GetMCCRegisterWithRejectionColumnQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), clsCommon.myCstr(cboSRNAmounType.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue), strRejection, chkShowVLCUploaderData.Checked, SetCowFatPer)
                     'strRejectionQuery = "  Select TSPL_MCC_MASTER.MCC_Type as [MCC Type],case when TSPL_MCC_MASTER.is_Mcc=1 then 'MCC' else 'BMCC' end [Chilling Center] ,TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_MILK_SRN_DETAIL.EMP_Amount,TSPL_MILK_SRN_DETAIL.TIP_Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,Case When TSPL_MILK_REJECT_DETAIL.FAT < 5 Then TSPL_MILK_REJECT_DETAIL.FAT Else 0 End [Cow FAT(%)], " & _
                     '" Case When TSPL_MILK_REJECT_DETAIL.FAT < 5 Then TSPL_MILK_REJECT_DETAIL.SNF Else 0 End [Cow SNF(%)], " & _
                     '" Case When TSPL_MILK_REJECT_DETAIL.FAT > 5 Then TSPL_MILK_REJECT_DETAIL.FAT Else 0 End [Buffalo FAT(%)], " & _
@@ -3372,7 +3397,7 @@ Public Class FrmMCCMilkRegister
                     '    End If
                     'End If
                     'Dim SetCowFatPer As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
-                    strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue), SetCowFatPer)
+                    'strRejectionQuery = clsMilkRejectHead.GetMCCRegisterRejectionQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), StrPermission, arrMCC, arrRoute, arrVLC, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue), SetCowFatPer)
 
                     If chkOnlyRejection.Checked = True Then
                         qry = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[MCC Type] ,final.[Chilling Center],final.[Plant Code],final.[Plant Name] ,final.Date ,final.[Doc Date] ,final.Shift ," &
@@ -3699,17 +3724,25 @@ Public Class FrmMCCMilkRegister
                 If clsCommon.CompairString(txtToShift.SelectedValue, "M") = CompairStringResult.Equal Then
                     BaseQry1 += " and 2=( case when Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy") + "' and Cast(TSPL_MILK_RECEIPT_HEAD.DOC_DATE as Date) <= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' and TSPL_MILK_RECEIPT_DETAIL.SHIFT='E' then 3 else 2 end  )"
                 End If
-                If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
-                    BaseQry1 += " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(arrMCC) + ") "
-                Else
-                    BaseQry1 += " And TSPL_MILK_RECEIPT_HEAD.mcc_Code in (" & StrPermission & ")"
-                End If
+
                 If arrRoute IsNot Nothing AndAlso arrRoute.Count > 0 Then
                     BaseQry1 += " and TSPL_MILK_RECEIPT_DETAIL .Route_Code in (" + clsCommon.GetMulcallString(arrRoute) + ")  "
                 End If
                 If arrVLC IsNot Nothing AndAlso arrVLC.Count > 0 Then
                     BaseQry1 += " and TSPL_MILK_RECEIPT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arrVLC) + ")  "
                 End If
+                If AreaWiseBilling Then
+                    If Area IsNot Nothing AndAlso clsCommon.myLen(Area) > 0 Then
+                        BaseQry1 += " and TSPL_MCC_MASTER.Area_Location_Code = '" + Area + "'  "
+                    End If
+                Else
+                    If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
+                        BaseQry1 += " and TSPL_MILK_RECEIPT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(arrMCC) + ") "
+                    Else
+                        BaseQry1 += " And TSPL_MILK_RECEIPT_HEAD.mcc_Code in (" & StrPermission & ")"
+                    End If
+                End If
+
                 BaseQry1 += "  Union all  "
                 BaseQry1 += "Select 'M' As [Milk Type],  TSPL_MILK_REJECT_HEAD.DOC_CODE As [Milk Receipt Code], TSPL_MILK_REJECT_HEAD.MCC_CODE As MCC, TSPL_MCC_MASTER.MCC_NAME As [MCC Name],  Convert(date,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) As Date,  Convert(varchar,TSPL_MILK_REJECT_HEAD.DOC_DATE,103) As [Doc Date], Case When TSPL_MILK_REJECT_HEAD.SHIFT = 'M' Then 'Morning' Else 'Evening' End As Shift,  TSPL_MILK_REJECT_DETAIL.ROUTE_CODE As [Route Code], TSPL_MCC_ROUTE_MASTER.Route_Name As [Route Name], TSPL_MILK_REJECT_DETAIL.VEHICLE_CODE As [Vehicle Code], TSPL_MILK_REJECT_DETAIL.VSP_CODE As [VSP Code], TSPL_VENDOR_MASTER.Vendor_Name As [VSP Name],
                     TSPL_VLC_MASTER_HEAD.VLC_Code As [Vlc Code], TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [Vlc Uploader Code], TSPL_VLC_MASTER_HEAD.VLC_Name As [VLC Name], TSPL_MILK_REJECT_DETAIL.SAMPLE_NO As [Sample No],TSPL_MILK_REJECT_DETAIL.NO_OF_CANS As [No Of Cans],0 as [Milk Weight Sweet(KG)] ,0 as [Sweet FAT(KG)], 0 as [Sweet SNF(KG)],case when TSPL_MILK_REJECT_TYPE.Code = 'SOUR' then Convert(decimal(18,3), TSPL_MILK_REJECT_DETAIL.FAT * TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_KG / 100) else 0 end As [Sour FAT(KG)],
@@ -3737,19 +3770,27 @@ Public Class FrmMCCMilkRegister
                 If clsCommon.CompairString(txtToShift.SelectedValue, "M") = CompairStringResult.Equal Then
                     BaseQry1 += " and 2=( case when TSPL_MILK_REJECT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_REJECT_HEAD.SHIFT='E' then 3 else 2 end  )"
                 End If
-                If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
-                    BaseQry1 += "and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(arrMCC) + ") "
-                Else
-                    If clsCommon.myLen(StrPermission) > 0 Then
-                        BaseQry1 += "And TSPL_MILK_REJECT_HEAD.mcc_Code in (" & StrPermission & ") "
-                    End If
-                End If
+
                 If arrRoute IsNot Nothing AndAlso arrRoute.Count > 0 Then
                     BaseQry1 += " and TSPL_MILK_REJECT_DETAIL.Route_Code in (" + clsCommon.GetMulcallString(arrRoute) + ")  "
                 End If
                 If arrVLC IsNot Nothing AndAlso arrVLC.Count > 0 Then
                     BaseQry1 += " and TSPL_MILK_REJECT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arrVLC) + ")  "
                 End If
+                If AreaWiseBilling Then
+                    If Area IsNot Nothing AndAlso clsCommon.myLen(Area) > 0 Then
+                        BaseQry1 += " and TSPL_MCC_MASTER.Area_Location_Code = '" + Area + "'  "
+                    End If
+                Else
+                    If arrMCC IsNot Nothing AndAlso arrMCC.Count > 0 Then
+                        BaseQry1 += "and TSPL_MILK_REJECT_HEAD.MCC_Code  IN (" + clsCommon.GetMulcallString(arrMCC) + ") "
+                    Else
+                        If clsCommon.myLen(StrPermission) > 0 Then
+                            BaseQry1 += "And TSPL_MILK_REJECT_HEAD.mcc_Code in (" & StrPermission & ") "
+                        End If
+                    End If
+                End If
+
 
                 BaseQry1 += ") final where 2=2 ) XXXFinal "
 
@@ -4579,5 +4620,28 @@ Public Class FrmMCCMilkRegister
         Else
             RadButton1.Enabled = False
         End If
+    End Sub
+
+    Private Sub fndArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER "
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+
+            Dim arrMCCMapped As New ArrayList
+            Dim dt As New DataTable
+            Dim query As String = "select MCC_NAME from TSPL_MCC_MASTER  WHERE Area_Location_Code='" + fndArea.Value + "'"
+            dt = Nothing
+            dt = clsDBFuncationality.GetDataTable(query)
+
+            For i As Integer = 0 To dt.Rows.Count - 1
+                arrMCCMapped.Add(dt.Rows(i)("MCC_NAME"))
+                'arrMCCMapped.Add(dt.Rows(i)("MCC_NAME").ToString())
+            Next
+            txtMCC.arrValueMember = arrMCCMapped
+            'txtMCC.arrValueMember
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        End Try
     End Sub
 End Class

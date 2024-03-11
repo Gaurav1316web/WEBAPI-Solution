@@ -22,7 +22,7 @@ Partial Class FrmMCCMilkRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -88,6 +88,8 @@ Partial Class FrmMCCMilkRegister
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.lblArea = New common.Controls.MyLabel()
+        Me.fndArea = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -135,6 +137,7 @@ Partial Class FrmMCCMilkRegister
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -203,6 +206,8 @@ Partial Class FrmMCCMilkRegister
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.lblArea)
+        Me.RadGroupBox2.Controls.Add(Me.fndArea)
         Me.RadGroupBox2.Controls.Add(Me.MyLabel16)
         Me.RadGroupBox2.Controls.Add(Me.txtMCC)
         Me.RadGroupBox2.Controls.Add(Me.RadLabel21)
@@ -214,14 +219,14 @@ Partial Class FrmMCCMilkRegister
         Me.RadGroupBox2.HeaderText = ""
         Me.RadGroupBox2.Location = New System.Drawing.Point(2, 62)
         Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(477, 108)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(477, 120)
         Me.RadGroupBox2.TabIndex = 415
         '
         'MyLabel16
         '
         Me.MyLabel16.FieldName = Nothing
         Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(8, 17)
+        Me.MyLabel16.Location = New System.Drawing.Point(8, 28)
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel16.TabIndex = 412
@@ -231,7 +236,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.txtMCC.arrDispalyMember = Nothing
         Me.txtMCC.arrValueMember = Nothing
-        Me.txtMCC.Location = New System.Drawing.Point(95, 17)
+        Me.txtMCC.Location = New System.Drawing.Point(95, 28)
         Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC.MyLinkLable1 = Me.MyLabel16
         Me.txtMCC.MyLinkLable2 = Nothing
@@ -244,7 +249,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.RadLabel21.FieldName = Nothing
         Me.RadLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel21.Location = New System.Drawing.Point(8, 80)
+        Me.RadLabel21.Location = New System.Drawing.Point(8, 91)
         Me.RadLabel21.Name = "RadLabel21"
         Me.RadLabel21.Size = New System.Drawing.Size(83, 16)
         Me.RadLabel21.TabIndex = 414
@@ -254,7 +259,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(8, 37)
+        Me.lblLocation.Location = New System.Drawing.Point(8, 48)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(36, 18)
         Me.lblLocation.TabIndex = 408
@@ -275,7 +280,7 @@ Partial Class FrmMCCMilkRegister
         Me.cboMilkReceiveUOM.IsSourceFromTable = False
         Me.cboMilkReceiveUOM.IsSourceFromValueList = False
         Me.cboMilkReceiveUOM.IsUnique = False
-        Me.cboMilkReceiveUOM.Location = New System.Drawing.Point(95, 78)
+        Me.cboMilkReceiveUOM.Location = New System.Drawing.Point(95, 89)
         Me.cboMilkReceiveUOM.MendatroryField = False
         Me.cboMilkReceiveUOM.MyLinkLable1 = Me.RadLabel21
         Me.cboMilkReceiveUOM.MyLinkLable2 = Nothing
@@ -290,7 +295,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.txtRoute.arrDispalyMember = Nothing
         Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(95, 37)
+        Me.txtRoute.Location = New System.Drawing.Point(95, 48)
         Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRoute.MyLinkLable1 = Me.lblLocation
         Me.txtRoute.MyLinkLable2 = Nothing
@@ -303,7 +308,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.MyLabel15.FieldName = Nothing
         Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(8, 57)
+        Me.MyLabel15.Location = New System.Drawing.Point(8, 68)
         Me.MyLabel15.Name = "MyLabel15"
         Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
         Me.MyLabel15.TabIndex = 410
@@ -313,7 +318,7 @@ Partial Class FrmMCCMilkRegister
         '
         Me.txtVLC.arrDispalyMember = Nothing
         Me.txtVLC.arrValueMember = Nothing
-        Me.txtVLC.Location = New System.Drawing.Point(95, 57)
+        Me.txtVLC.Location = New System.Drawing.Point(95, 68)
         Me.txtVLC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtVLC.MyLinkLable1 = Me.MyLabel15
         Me.txtVLC.MyLinkLable2 = Nothing
@@ -778,7 +783,8 @@ Partial Class FrmMCCMilkRegister
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -914,6 +920,42 @@ Partial Class FrmMCCMilkRegister
         Me.btnGo.TabIndex = 9
         Me.btnGo.Text = ">>>"
         '
+        'lblArea
+        '
+        Me.lblArea.FieldName = Nothing
+        Me.lblArea.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblArea.Location = New System.Drawing.Point(8, 6)
+        Me.lblArea.Name = "lblArea"
+        Me.lblArea.Size = New System.Drawing.Size(30, 16)
+        Me.lblArea.TabIndex = 1503
+        Me.lblArea.Text = "Area"
+        '
+        'fndArea
+        '
+        Me.fndArea.CalculationExpression = Nothing
+        Me.fndArea.FieldCode = Nothing
+        Me.fndArea.FieldDesc = Nothing
+        Me.fndArea.FieldMaxLength = 0
+        Me.fndArea.FieldName = Nothing
+        Me.fndArea.isCalculatedField = False
+        Me.fndArea.IsSourceFromTable = False
+        Me.fndArea.IsSourceFromValueList = False
+        Me.fndArea.IsUnique = False
+        Me.fndArea.Location = New System.Drawing.Point(95, 6)
+        Me.fndArea.MendatroryField = True
+        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndArea.MyLinkLable1 = Nothing
+        Me.fndArea.MyLinkLable2 = Nothing
+        Me.fndArea.MyReadOnly = False
+        Me.fndArea.MyShowMasterFormButton = False
+        Me.fndArea.Name = "fndArea"
+        Me.fndArea.ReferenceFieldDesc = Nothing
+        Me.fndArea.ReferenceFieldName = Nothing
+        Me.fndArea.ReferenceTableName = Nothing
+        Me.fndArea.Size = New System.Drawing.Size(371, 18)
+        Me.fndArea.TabIndex = 1502
+        Me.fndArea.Value = ""
+        '
         'FrmMCCMilkRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -981,6 +1023,7 @@ Partial Class FrmMCCMilkRegister
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1050,5 +1093,7 @@ Partial Class FrmMCCMilkRegister
     Friend WithEvents lblfromDate As common.Controls.MyLabel
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents chkRouteWisePrint As CheckBox
+    Friend WithEvents lblArea As common.Controls.MyLabel
+    Friend WithEvents fndArea As common.UserControls.txtFinder
 End Class
 

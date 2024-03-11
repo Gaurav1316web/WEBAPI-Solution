@@ -782,7 +782,7 @@ Public Class frmPendingDeliveryDairySale
     Private Sub RadMenuRadMenuDeleteLayout_Click(sender As Object, e As EventArgs) Handles RadMenuRadMenuDeleteLayout.Click
         clsGridLayout.DeleteData(ReportIDHead, objCommonVar.CurrentUserCode)
         clsGridLayout.DeleteData(ReportIDDT, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     'Private Sub RadMenuItemSaveLayoutDetail_Click(sender As Object, e As EventArgs)

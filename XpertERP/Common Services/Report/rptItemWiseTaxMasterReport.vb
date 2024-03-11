@@ -511,7 +511,7 @@ Public Class rptItemWiseTaxMasterReport
 
     Private Sub RbtnDeleteLayout_Click(sender As Object, e As EventArgs) Handles RbtnDeleteLayout.Click
         If clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode) AndAlso RadPageViewPage2.Item.Visibility = ElementVisibility.Visible Then
-            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
         End If
     End Sub
 
