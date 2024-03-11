@@ -179,7 +179,7 @@ Public Class frmNotification
                     tran.Rollback()
                     Throw New Exception(ex.Message)
                 End Try
-                clsCommon.MyMessageBoxShow(Me, "Data save successfully.")
+                clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
             End If
         Catch ex As Exception
@@ -263,7 +263,7 @@ Public Class frmNotification
         Me.Controls.Add(gv)
         Try
             If transportSql.importExcel(gv, "Code", "Date", "Subject", "Description", "Start Date", "End Date", "Login_Type1", "Login_Type2", "Login_Type3", "Login_Type4", "Login_Type5") Then
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Else
                 clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
             End If

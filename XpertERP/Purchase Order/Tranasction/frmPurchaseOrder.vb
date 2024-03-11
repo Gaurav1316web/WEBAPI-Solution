@@ -587,11 +587,12 @@ Public Class frmPurchaseOrder
         btnDelete.Visible = MyBase.isDeleteFlag
         btnForm_Update.Visible = False 'MyBase.isModifyFlag
         btnPrintNew.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnUnpost.Enabled = True
-        Else
-            btnUnpost.Enabled = False
-        End If
+        btnUnpost.Visible = False
+        'If MyBase.isReverse Then
+        '    btnUnpost.Enabled = True
+        'Else
+        '    btnUnpost.Enabled = False
+        'End If
         If MyBase.isExport = True Then
             rmImport.Enabled = True
             rmExport.Enabled = True

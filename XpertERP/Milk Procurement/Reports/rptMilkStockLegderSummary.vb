@@ -432,7 +432,7 @@ Public Class RptMilkStockLegderSummary
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             success = success And obj.SaveData()
             If success Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -443,7 +443,7 @@ Public Class RptMilkStockLegderSummary
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID & gv.Name, objCommonVar.CurrentUserCode)
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub gv_CellDoubleClick(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv.CellDoubleClick

@@ -493,11 +493,12 @@ Public Class frmEXSalesReturn
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnReverseAndUnpost.Enabled = True
-        Else
-            btnReverseAndUnpost.Enabled = False
-        End If
+        btnReverseAndUnpost.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverseAndUnpost.Enabled = True
+        'Else
+        '    btnReverseAndUnpost.Enabled = False
+        'End If
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
     End Sub
 

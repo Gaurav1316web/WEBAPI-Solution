@@ -180,6 +180,7 @@ Public Class frmJWOTransferOther
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnReverseAndUnpost.Visible = False
     End Sub
     Sub AddNew()
         txtDocNo.Value = ""

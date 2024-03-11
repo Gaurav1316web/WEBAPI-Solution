@@ -1059,12 +1059,14 @@ Public Class FrmMccDispatch
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPostFlag
-        If MyBase.isReverse Then
+        'If MyBase.isReverse Then
 
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        btnReverse.Visible = False
+
     End Sub
 
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click

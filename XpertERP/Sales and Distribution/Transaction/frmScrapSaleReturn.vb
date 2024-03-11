@@ -193,11 +193,12 @@ Public Class frmScrapSaleReturn
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         RadDropDownButton1.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         If MyBase.isExport = True Then
             rmiImport.Enabled = True
             rmiExport.Enabled = True
@@ -4038,7 +4039,7 @@ Public Class frmScrapSaleReturn
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

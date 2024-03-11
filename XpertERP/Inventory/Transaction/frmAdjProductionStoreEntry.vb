@@ -69,11 +69,12 @@ Public Class frmAdjProductionStoreEntry
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         RadButton1.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         If btnSave.Visible = True Then
             RmiExport.Enabled = True
         Else

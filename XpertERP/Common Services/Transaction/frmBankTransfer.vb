@@ -40,12 +40,13 @@ Public Class FrmBankTransfer
         btn_post.Visible = MyBase.isPostFlag
         btn_delete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverseAndRecreate.Enabled = True
-        Else
-            btnReverseAndRecreate.Enabled = False
+        'If MyBase.isReverse Then
+        '    btnReverseAndRecreate.Enabled = True
+        'Else
+        '    btnReverseAndRecreate.Enabled = False
 
-        End If
+        'End If
+        btnReverseAndRecreate.Visible = False
         If MyBase.isExport = True Then
             rmiIMport.Enabled = True
             rmiExport.Enabled = True

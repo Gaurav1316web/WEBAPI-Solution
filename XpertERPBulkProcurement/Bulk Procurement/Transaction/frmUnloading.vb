@@ -491,7 +491,7 @@ Public Class FrmUnloading
                             End If
                         End If
                     End If
-                    common.clsCommon.MyMessageBoxShow(msg)
+                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     loadData(fndUnloadingNo.Value, NavigatorType.Current)
                 End If
             End If
@@ -718,11 +718,12 @@ Public Class FrmUnloading
         btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
     End Sub
     Sub LoadGateEntryData(ByVal strGateEntryNo As String)
         Dim strUnNo As String = clsDBFuncationality.getSingleValue("select unloading_No from TSPL_MILK_UNLOADING where gate_entry_no='" & strGateEntryNo & "'")
@@ -773,7 +774,7 @@ Public Class FrmUnloading
                     lblSubLocationName.Text = clsCommon.myCstr(dts.Rows(0)("Location_Desc"))
                     fndSubLocation.Enabled = False
                 Else
-                    clsCommon.MyMessageBoxShow(Me, "Please Create Virtual Silo Location for Location " & txtLocation.Text & " ")
+                    clsCommon.MyMessageBoxShow(Me, "Please Create Virtual Silo Location for Location " & txtLocation.Text & " ", Me.Text)
                     reset(False)
                     Exit Sub
                 End If
@@ -1014,7 +1015,7 @@ Public Class FrmUnloading
                     If clsQualityCheck.isIntermittentDoc(clsQualityCheck.getChallanNo(fndGateEntryNo.Value, Nothing), Nothing) AndAlso settTankerDispatchIntermittentSingleGateIn = True AndAlso MCCChamberwise = 1 AndAlso clsCommon.CompairString(TempDocType, "MccProc") = CompairStringResult.Equal Then
 
                     Else
-                        clsCommon.MyMessageBoxShow(Me, "You cannot change the status. Weighment has been done for this chamber .")
+                        clsCommon.MyMessageBoxShow(Me, "You cannot change the status. Weighment has been done for this chamber .", Me.Text)
                         Exit Sub
                     End If
 
@@ -1025,7 +1026,7 @@ Public Class FrmUnloading
                         If AllowCanInformationintoGridForTankerDispatch = True Then
                             If clsCommon.myCBool(gvItem.CurrentRow.Cells(colIsCanType).Value) = False Then
                                 If dblTareWt = 0 Then
-                                    clsCommon.MyMessageBoxShow(Me, "Please enter Tare weight for Chamber No " & clsCommon.myCstr(WeighmentSeq))
+                                    clsCommon.MyMessageBoxShow(Me, "Please enter Tare weight for Chamber No " & clsCommon.myCstr(WeighmentSeq), Me.Text)
                                     gvItem.CurrentRow.Cells(colISelect).Value = False
                                     Exit Sub
                                 End If
@@ -1033,7 +1034,7 @@ Public Class FrmUnloading
                         Else
 
                             If dblTareWt = 0 Then
-                                clsCommon.MyMessageBoxShow(Me, "Please enter Tare weight for Chamber No " & clsCommon.myCstr(WeighmentSeq))
+                                clsCommon.MyMessageBoxShow(Me, "Please enter Tare weight for Chamber No " & clsCommon.myCstr(WeighmentSeq), Me.Text)
                                 gvItem.CurrentRow.Cells(colISelect).Value = False
                                 Exit Sub
                             End If

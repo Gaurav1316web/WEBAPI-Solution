@@ -42,11 +42,12 @@ Public Class frmOutgoingQCEntry
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
     End Sub
     Private Sub frmOutgoingQCEntry_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtlocation.Value = ""

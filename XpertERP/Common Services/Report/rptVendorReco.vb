@@ -3533,7 +3533,7 @@ Public Class rptVendorReco
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
                 End If
 
                 ''richa agarwal regarding memory leakage
@@ -3553,7 +3553,7 @@ Public Class rptVendorReco
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
                 End If
                 ''richa agarwal regarding memory leakage
                 obj = Nothing
@@ -3571,7 +3571,7 @@ Public Class rptVendorReco
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
                 End If
                 ''richa agarwal regarding memory leakage
                 obj = Nothing
@@ -3668,7 +3668,7 @@ Public Class rptVendorReco
                 ReStoreGridDetail()
             End If
         End If
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub rptVendorReco_LostFocus(sender As Object, e As EventArgs) Handles Me.LostFocus

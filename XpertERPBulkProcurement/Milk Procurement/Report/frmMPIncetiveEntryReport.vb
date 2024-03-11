@@ -1044,7 +1044,7 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
     Private Sub ExportGrid(ByVal exporter As EnumExportTo)
         Try
             If Gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             Dim strHeading As String = "MP Incetive Entry Register"
@@ -1226,7 +1226,7 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 obj.GridColumns = Gv1.ColumnCount
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
                 End If
                 obj.GridLayout.Close()
                 obj.GridLayout.Dispose()
@@ -1239,7 +1239,7 @@ where TSPL_MP_INCENTIVE_ENTRY_HEAD.Status=1  and CONVERT(date,TSPL_MP_INCENTIVE_
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         Try
             clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

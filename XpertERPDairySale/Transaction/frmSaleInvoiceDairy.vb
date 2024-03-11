@@ -259,11 +259,13 @@ Public Class frmSaleInvoiceDairy
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverseAndUnpost.Enabled = True
-        Else
-            btnReverseAndUnpost.Enabled = False
-        End If
+        btnReverseAndUnpost.Visible = True
+
+        'If MyBase.isReverse Then
+        '    btnReverseAndUnpost.Enabled = True
+        'Else
+        '    btnReverseAndUnpost.Enabled = False
+        'End If
 
 
     End Sub
@@ -6471,7 +6473,7 @@ Public Class frmSaleInvoiceDairy
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

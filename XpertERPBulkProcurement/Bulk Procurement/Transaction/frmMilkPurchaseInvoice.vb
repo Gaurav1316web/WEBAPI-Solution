@@ -189,6 +189,7 @@ Public Class FrmMilkPurchaseInvoice
         btnBillOfSupply.Visible = MyBase.isPrintFlag
         'RadMenu1.Visible = MyBase.isExport
         btnPost.Visible = MyBase.isPostFlag
+        btnReverse.Visible = False
 
     End Sub
     Private Sub FrmMilkPurchaseInvoice_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -266,7 +267,7 @@ Public Class FrmMilkPurchaseInvoice
 
             If TankerFromMaster = 0 Then
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    If clsCommon.MyMessageBoxShow(Me, "Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                         '' reason for reverse
                         Dim Reason As String = ""
                         Dim frm As New FrmFreeTxtBox1
@@ -386,7 +387,7 @@ Public Class FrmMilkPurchaseInvoice
                     End If
                 End If
             Else
-                If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     If clsMilkPurchaseInvoiceHead.ReverseAndUnpost(fndDocNo.Value) Then
                         common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                         loadData(fndDocNo.Value, NavigatorType.Current)
@@ -542,7 +543,7 @@ Public Class FrmMilkPurchaseInvoice
             '==================Added by preeti gupta[11/01/2017]
             strShowMessageTDS = False
             If ShowMessageTDS Then
-                If (common.clsCommon.MyMessageBoxShow("Do you want to Deduct TDS", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No) Then
+                If (common.clsCommon.MyMessageBoxShow(Me, "Do you want to Deduct TDS", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No) Then
                     objRemittance = Nothing
 
                 Else
@@ -674,7 +675,7 @@ Public Class FrmMilkPurchaseInvoice
                         End If
                     End If
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 loadData(fndDocNo.Value, NavigatorType.Current)
                 'If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                 '    PrintDataNew()
@@ -3054,7 +3055,7 @@ Public Class FrmMilkPurchaseInvoice
                 End If
                 If dtpFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
                     AllowDateChanged = False
-                    clsCommon.MyMessageBoxShow(Me, "Invalid date.Date should be multiple of " & clsCommon.myCstr(PaymentCycleValue) & " + 1 ")
+                    clsCommon.MyMessageBoxShow(Me, "Invalid date.Date should be multiple of " & clsCommon.myCstr(PaymentCycleValue) & " + 1 ", Me.Text)
                     dtpFromDate.Value = clsCommon.GetDateWithStartTime(dtpFromDate.MinDate)
                     dtpFromDate.Text = clsCommon.GetDateWithStartTime(dtpFromDate.MinDate)
                     AllowDateChanged = True
@@ -3437,7 +3438,7 @@ Public Class FrmMilkPurchaseInvoice
                     fndVendor.Value = ""
                     If clsCommon.myLen(txtVendorInvoiceNo.Text) > 0 Then
                         If clsDBFuncationality.getSingleValue("Select count(*) from tspl_Bulk_milk_purchase_Invoice_head where DOC_NO<>'" & fndDocNo.Value & "' and  Vendor_Invoice_No ='" & txtVendorInvoiceNo.Text & "'") > 1 Then
-                            clsCommon.MyMessageBoxShow(Me, "Duplicate Vendor Invoice No.,Please enter different vendor invoice no")
+                            clsCommon.MyMessageBoxShow(Me, "Duplicate Vendor Invoice No.,Please enter different vendor invoice no", Me.Text)
                         Else
                             If UpdateVendorAfterPosting() Then
                                 clsCommon.MyMessageBoxShow(Me, "Vendor updated successfully.", Me.Text)
@@ -3480,7 +3481,7 @@ Public Class FrmMilkPurchaseInvoice
         strDescription = strDescription.Replace(strVendorName, lblVendorName.Text)
 
         If clsCommon.myLen(strPaymentNo) > 0 Then
-            clsCommon.MyMessageBoxShow(Me, "Vendor cannot be updated because Payment has been created for this invoice " & strInvoiceNo)
+            clsCommon.MyMessageBoxShow(Me, "Vendor cannot be updated because Payment has been created for this invoice " & strInvoiceNo, Me.Text)
             Return False
         End If
 

@@ -187,11 +187,12 @@ Public Class FrmPhysicalStock
             btnimport.Enabled = False
             btnexport.Enabled = False
         End If
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
     End Sub
 
     Sub LoadBlankGrid()

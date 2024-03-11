@@ -109,11 +109,12 @@ Public Class frmStanderdProductionEntry
             RadMenuItem3.Enabled = False
 
         End If
-        If MyBase.isReverse Then
-            btnunpost.Enabled = True
-        Else
-            btnunpost.Enabled = False
-        End If
+        btnunpost.Visible = False
+        'If MyBase.isReverse Then
+        '    btnunpost.Enabled = True
+        'Else
+        '    btnunpost.Enabled = False
+        'End If
     End Sub
     Private Sub frmProductionEntryWithoutBatch_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         Dim coll As Dictionary(Of String, String)

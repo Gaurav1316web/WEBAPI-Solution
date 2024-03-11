@@ -66,6 +66,7 @@ Public Class frmMilkCollectionMCC
         btnBlankSheetUploder.Visible = MyBase.isExport
         btnBlankSheetImportUploder.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
+        btnReverse.Visible = False
 
         'If btnSave.Visible = True Then
         '    btnBlankSheetImportUploder.Enabled = True
@@ -85,11 +86,11 @@ Public Class frmMilkCollectionMCC
             btnBlankSheetUploder.Enabled = False
 
         End If
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         'If MyBase.isReverse Then
         '    btnreverse.Enabled = True
         'Else
@@ -2393,7 +2394,7 @@ where TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO not in ('" + txtRoute.Value + "')"
             '    clsCommon.MyMessageBoxShow("Cannot be reversed and posted.", Me.Text)
             '    Exit Sub
             'End If
-            If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR DELETE 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -2702,11 +2703,11 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                                     clsMilkCollectionMCC.CorrectionData(objMCC, isCorrection)
                                     'clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text)
                                 Next
-                                common.clsCommon.MyMessageBoxShow("Data corrected sucessfully", Me.Text, MessageBoxButtons.OK)
+                                common.clsCommon.MyMessageBoxShow(Me, "Data corrected sucessfully", Me.Text, MessageBoxButtons.OK)
                             End If
                         End If
                     Else
-                        common.clsCommon.MyMessageBoxShow("Data Transfer Failed", Me.Text, MessageBoxButtons.OK)
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Failed", Me.Text, MessageBoxButtons.OK)
                     End If
                     clsCommon.ProgressBarHide()
 

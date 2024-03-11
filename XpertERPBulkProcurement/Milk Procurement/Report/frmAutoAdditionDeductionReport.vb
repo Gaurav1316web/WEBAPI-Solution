@@ -6,6 +6,7 @@ Public Class frmAutoAdditionDeductionReport
     Inherits FrmMainTranScreen
 
     Dim dt As DataTable = Nothing
+    Dim AreaWiseBilling As Boolean = False
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -13,6 +14,9 @@ Public Class frmAutoAdditionDeductionReport
         btnExp.Visible = MyBase.isExport
     End Sub
     Private Sub rptMilkBillProcurementSummary_Load(sender As Object, e As EventArgs) Handles Me.Load
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 0)
+        fndArea.Visible = AreaWiseBilling
+        lblArea.Visible = AreaWiseBilling
         Reset()
     End Sub
 
@@ -27,6 +31,7 @@ Public Class frmAutoAdditionDeductionReport
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         dt = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
+        fndArea.Value = Nothing
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Print(False)
@@ -69,6 +74,7 @@ Public Class frmAutoAdditionDeductionReport
                                     LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
                                     LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
                                     left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+                                    left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
                                     WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
 
             If rbtnAddition.IsChecked = True Then
@@ -86,6 +92,9 @@ Public Class frmAutoAdditionDeductionReport
 
             If TxtMultiDeduction.arrValueMember IsNot Nothing AndAlso TxtMultiDeduction.arrValueMember.Count > 0 Then
                 Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Code in (" + clsCommon.GetMulcallString(TxtMultiDeduction.arrValueMember) + ")"
+            End If
+            If clsCommon.myLen(fndArea.Value) > 0 Then
+                Qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
             End If
 
 
@@ -278,7 +287,7 @@ Public Class frmAutoAdditionDeductionReport
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 obj.GridColumns = Gv1.ColumnCount
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
                 End If
                 obj.GridLayout.Close()
                 obj.GridLayout.Dispose()
@@ -291,7 +300,7 @@ Public Class frmAutoAdditionDeductionReport
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         Try
             clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -340,6 +349,7 @@ Public Class frmAutoAdditionDeductionReport
             Dim Qry As String = Nothing
             Dim Qry1 As String = Nothing
             Dim Qry2 As String = Nothing
+            Dim Qry3 As String = Nothing
 
             ''Dim Qry3 As String = Nothing
             If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
@@ -349,7 +359,9 @@ Public Class frmAutoAdditionDeductionReport
             If TxtMultiDeduction.arrValueMember IsNot Nothing AndAlso TxtMultiDeduction.arrValueMember.Count > 0 Then
                 Qry2 = " and TSPL_DCS_ADDITION_DEDUCTION.Code in (" + clsCommon.GetMulcallString(TxtMultiDeduction.arrValueMember) + ")"
             End If
-
+            If clsCommon.myLen(fndArea.Value) > 0 Then
+                Qry3 += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+            End If
 
             'Qry = "select round(row_number() over(order by(cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer))),0) as SNo
             '       ,max(cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer)) as [DCS Code],max(TSPL_VLC_MASTER_HEAD.VLC_Name) as [Vender Name]
@@ -420,7 +432,7 @@ Public Class frmAutoAdditionDeductionReport
                                        LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
                                        left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 									   left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
-									   WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  " + Qry1 + Qry2 + ")Final 
+									   WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  " + Qry1 + Qry2 + Qry3 + ")Final 
 									   group by DCS_Addition_Deduction,Vendor_Code)xxx
                                        left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=xxx.comp_code
 									   order by [DCS Code] asc "
@@ -433,6 +445,15 @@ Public Class frmAutoAdditionDeductionReport
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub fndArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER "
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 End Class

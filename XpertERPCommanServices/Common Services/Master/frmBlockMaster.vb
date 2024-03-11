@@ -96,7 +96,7 @@ Public Class frmBlockMaster
             Dim qry As String = "SELECT Count(*) FROM TSPL_Block_MASTER where Block_CODE= '" & txtCode.Value & "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
             If check > 0 Then
-                If Not (common.clsCommon.MyMessageBoxShow("Delete the Block Master No. " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+                If Not (common.clsCommon.MyMessageBoxShow(Me, "Delete the Block Master No. " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                     Return
                 End If
                 qry = "delete from tspl_Block_master where block_code='" + txtCode.Value + "'"

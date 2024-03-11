@@ -94,6 +94,7 @@ Public Class frmEPF
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        btnreverse.Visible = False
     End Sub
 
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating

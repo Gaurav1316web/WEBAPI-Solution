@@ -58,11 +58,12 @@ Public Class frmTender
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnreverse.Enabled = True
-        Else
-            btnreverse.Enabled = False
-        End If
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
+        btnreverse.Visible = False
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         isPageLoadData = True

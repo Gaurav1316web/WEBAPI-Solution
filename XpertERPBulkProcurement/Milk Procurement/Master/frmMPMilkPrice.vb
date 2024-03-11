@@ -218,7 +218,7 @@ Public Class frmMPMilkPrice
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 

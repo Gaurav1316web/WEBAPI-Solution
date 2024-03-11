@@ -719,11 +719,13 @@ Public Class frmJournalEntry
         btnAuth.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
         'RadMenu2.Visible = MyBase.isExport
-        If MyBase.isReverse Then
-            btnUnpostTransaction.Enabled = True
-        Else
-            btnUnpostTransaction.Enabled = False
-        End If
+        btnUnpostTransaction.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnUnpostTransaction.Enabled = True
+        'Else
+        '    btnUnpostTransaction.Enabled = False
+        'End If
         If btnSave.Visible = True Then
             mItmExport.Enabled = True
             mItmImport.Enabled = True

@@ -128,7 +128,7 @@ Public Class frmCustomFieldEditor
             Dim qry As String = "select count(*) from TSPL_CUSTOM_FIELD_VALUES where Custom_Field_Code='" & fndCustomFieldName.Value & "' and Program_Code ='" & formId & "'"
             Dim cnt As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
             If cnt <= 0 Then
-                If clsCommon.MyMessageBoxShow("Sure to Delete ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Sure to Delete ?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                     trans = clsDBFuncationality.GetTransactin()
                     If clsCustomFieldMapping.DeleteData(fndCustomFieldName.Value, formId, trans) Then
                         clsCommon.MyMessageBoxShow(Me, "Record Deleted Successfully.", Me.Text)
@@ -258,7 +258,7 @@ Public Class frmCustomFieldEditor
     End Sub
 
     Private Sub gv3_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv3.UserDeletingRow
-        If clsCommon.MyMessageBoxShow("Sure to Delete Row ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = vbNo Then
+        If clsCommon.MyMessageBoxShow(Me, "Sure to Delete Row ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = vbNo Then
             e.Cancel = True
         End If
     End Sub
@@ -274,7 +274,7 @@ Public Class frmCustomFieldEditor
     End Sub
 
     Private Sub gv2_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv2.UserDeletingRow
-        If clsCommon.MyMessageBoxShow("Sure to Delete Row ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = vbNo Then
+        If clsCommon.MyMessageBoxShow(Me, "Sure to Delete Row ?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = vbNo Then
             e.Cancel = True
         End If
     End Sub

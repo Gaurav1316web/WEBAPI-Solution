@@ -89,6 +89,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         txtdate.Focus()
         btnPrint.Visible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal)
         'btnPrint.Visible = True
+        BtnBank.Visible = False
     End Sub
     Private Sub FrmVLCDataUploaderManual_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N Then
@@ -171,6 +172,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         UcAttachment1.BlankAllControls()
         UcAttachment2.BlankAllControls()
         UcAttachment2.isDeleteTheAttachment = True
+        BtnBank.Enabled = False
     End Sub
 
     Private Function AllowToSave() As Boolean
@@ -187,6 +189,15 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 obj.To_Date = txtToDate.Value
                 obj.Remarks = txtRemarks.Text
                 obj.Zone_Code = txtZone.Value
+                obj.Bank_Letter_Date = txtBankLetterDate.Value
+
+                If obj.Bank_Letter_Date < obj.Document_Date Then
+                    'obj.Bank_Letter_Date = txtBankLetterDate.Value Then
+                    ' Else
+                    clsCommon.MyMessageBoxShow(Me, "Bank Date Not Valid always greater then Document Date ", Me.Text)
+                    txtBankLetterDate.Focus()
+                    Exit Sub
+                End If
                 If gvItem.Rows.Count > 0 Then
                     obj.arr = New List(Of clsDBTNEFTDetail)
                     For Each grow As GridViewRowInfo In gvItem.Rows
@@ -207,46 +218,46 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                     Next
                 End If
                 If gvInvalid.Rows.Count > 0 Then
-                    obj.arrInvalid = New List(Of clsDBTNEFTDetailInvalid)
-                    For Each grow As GridViewRowInfo In gvInvalid.Rows
-                        Dim objTr As New clsDBTNEFTDetailInvalid
-                        objTr.SNo = obj.arrInvalid.Count + 1
-                        objTr.Against_MP_Incentive_TR = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colAgainstMPIncetive).Value)
-                        objTr.VLC_Uploader_Code = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colSociety).Value)
-                        objTr.MP_Uploader_Code = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPUploaderCode).Value)
-                        objTr.Amount = clsCommon.myCdbl(grow.Cells(clsDBTNEFTPerforma.colAmount).Value)
-                        objTr.MP_IFSC_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPIFSCCode).Value)
-                        objTr.MP_Account_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPAccountNo).Value)
-                        objTr.MP_Bank = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPBank).Value)
-                        objTr.MP_Mobile_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPMobileNo).Value)
-                        objTr.MP_Name = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPName).Value)
-                        obj.arrInvalid.Add(objTr)
-                    Next
-                End If
-                Dim objApproval As New clsApply_Approval()
-                If (clsDBTNEFT.SaveData(obj, isNewEntry)) Then
-                    Dim qry As String = "select sum(Amount) from TSPL_DBT_NEFT_DETAIL where Document_Code='" + txtDocumentNo.Value + "' "
-                    Dim TotAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
-                    clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, obj.Document_Code, txtdate.Text, "", clsCommon.myCstr(txtRemarks.Text), clsCommon.myCdbl(TotAmt), 0, "", objApproval)
-                    qry = "select 1 from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where TRANS_Code='" + MyBase.Form_ID + "' and Document_Code='" + obj.Document_Code + "'"
-                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        UcAttachment1.BlankAllControls()
-                        Dim objP As New clsDBTNEFT()
-                        Dim Filename As String = objP.funPrintBankLetter(obj.Document_Code, True)
-                        Dim SafeFileName As String = "BankLetter.pdf"
-                        UcAttachment1.AddAttachment(Filename, SafeFileName)
-                        Filename = clsCommon.MyExportToExcelGridPath("NEFT Uploader", gvItem, Nothing, Me.Text, False, "", "")
-                        SafeFileName = "NEFTDetail.xls"
-                        UcAttachment1.AddAttachment(Filename, SafeFileName)
-
-                        UcAttachment1.SaveData(obj.Document_Code, True, Nothing)
+                        obj.arrInvalid = New List(Of clsDBTNEFTDetailInvalid)
+                        For Each grow As GridViewRowInfo In gvInvalid.Rows
+                            Dim objTr As New clsDBTNEFTDetailInvalid
+                            objTr.SNo = obj.arrInvalid.Count + 1
+                            objTr.Against_MP_Incentive_TR = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colAgainstMPIncetive).Value)
+                            objTr.VLC_Uploader_Code = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colSociety).Value)
+                            objTr.MP_Uploader_Code = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPUploaderCode).Value)
+                            objTr.Amount = clsCommon.myCdbl(grow.Cells(clsDBTNEFTPerforma.colAmount).Value)
+                            objTr.MP_IFSC_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPIFSCCode).Value)
+                            objTr.MP_Account_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPAccountNo).Value)
+                            objTr.MP_Bank = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPBank).Value)
+                            objTr.MP_Mobile_No = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPMobileNo).Value)
+                            objTr.MP_Name = clsCommon.myCstr(grow.Cells(clsDBTNEFTPerforma.colMPName).Value)
+                            obj.arrInvalid.Add(objTr)
+                        Next
                     End If
+                    Dim objApproval As New clsApply_Approval()
+                    If (clsDBTNEFT.SaveData(obj, isNewEntry)) Then
+                        Dim qry As String = "select sum(Amount) from TSPL_DBT_NEFT_DETAIL where Document_Code='" + txtDocumentNo.Value + "' "
+                        Dim TotAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
+                        clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, obj.Document_Code, txtdate.Text, "", clsCommon.myCstr(txtRemarks.Text), clsCommon.myCdbl(TotAmt), 0, "", objApproval)
+                        qry = "select 1 from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where TRANS_Code='" + MyBase.Form_ID + "' and Document_Code='" + obj.Document_Code + "'"
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            UcAttachment1.BlankAllControls()
+                            Dim objP As New clsDBTNEFT()
+                            Dim Filename As String = objP.funPrintBankLetter(obj.Document_Code, True)
+                            Dim SafeFileName As String = "BankLetter.pdf"
+                            UcAttachment1.AddAttachment(Filename, SafeFileName)
+                            Filename = clsCommon.MyExportToExcelGridPath("NEFT Uploader", gvItem, Nothing, Me.Text, False, "", "")
+                            SafeFileName = "NEFTDetail.xls"
+                            UcAttachment1.AddAttachment(Filename, SafeFileName)
 
-                    clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
-                    LoadData(obj.Document_Code, NavigatorType.Current)
+                            UcAttachment1.SaveData(obj.Document_Code, True, Nothing)
+                        End If
+
+                        clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
+                        LoadData(obj.Document_Code, NavigatorType.Current)
+                    End If
                 End If
-            End If
         Catch ex As Exception
             If clsCommon.myLen(ex.Message) > 200 Then
                 clsERPFuncationality.OpenNotepadFile(ex.Message, Me.Text)
@@ -274,6 +285,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         Dim obj As clsDBTNEFT = clsDBTNEFT.GetData(strCode, NavTyep)
         If obj IsNot Nothing Then
             DisableInputDataField()
+            'BtnBank.Enabled = True
             isNewEntry = False
             txtDocumentNo.Value = obj.Document_Code
             txtdate.Value = obj.Document_Date
@@ -285,7 +297,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
             lblZone.Text = ClsZoneMaster.GetName(obj.Zone_Code)
             txtMCC.arrValueMember = obj.arrMCC
             txtVLC.arrValueMember = obj.arrVLC
-
+            txtBankLetterDate.Value = obj.Bank_Letter_Date
             If obj.arr IsNot Nothing AndAlso obj.arr.Count > 0 Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(GetQry("TSPL_DBT_NEFT_DETAIL", False))
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -316,11 +328,13 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 btnPost.Enabled = False
                 btnNEFTUploader.Visible = True
                 UcAttachment2.isDeleteTheAttachment = False
+                BtnBank.Enabled = True
             Else
                 btnsave.Text = "Update"
                 btnsave.Enabled = True
                 btndelete.Enabled = True
                 btnPost.Enabled = True
+                BtnBank.Enabled = False
                 UcAttachment2.isDeleteTheAttachment = True
             End If
             UcAttachment1.LoadData(obj.Document_Code)
@@ -498,7 +512,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                     Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
                     If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
                         If txtFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
-                            clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ")
+                            clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day, Because MCC has payment Cycle of " & PaymentCycleValue & " Day ", Me.Text)
                             txtFromDate.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
                             txtToDate.Value = txtFromDate.Value
                             Exit Sub
@@ -514,7 +528,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                         End If
                     ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                         If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
-                            clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                            clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type", Me.Text)
                             txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                             txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                             Exit Sub
@@ -522,7 +536,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                         txtToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, txtFromDate.Value)
                     ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                         If clsCommon.myCdbl(clsCommon.GetPrintDate(txtFromDate.Value, "dd")) <> 1 Then
-                            clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                            clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type", Me.Text)
                             txtFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                             txtToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                             Exit Sub
@@ -549,7 +563,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         End If
         If SettApplyZoneOnDBT Then
             If clsCommon.myLen(txtZone.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please Select " + txtZone.MyLinkLable2.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please Select " + txtZone.MyLinkLable2.Text, Me.Text)
                 txtZone.Focus()
                 Exit Sub
             End If
@@ -888,5 +902,34 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub BtnBank_Click(sender As Object, e As EventArgs) Handles BtnBank.Click
+        Try
+            Dim obj As New clsDBTNEFT()
+            Dim RCDF_Status As Decimal
+            obj.Bank_Letter_Date = txtBankLetterDate.Value
+            obj.Document_Code = txtDocumentNo.Value
+
+            RCDF_Status = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(" select isnull(RCDF_Status,0) FROM TSPL_DBT_NEFT WHERE Document_Code='" + txtDocumentNo.Value + "'"))
+            If RCDF_Status = 1 Then
+                clsCommon.MyMessageBoxShow(Me, "DBT NEFT updated by RCDF.", Me.Text)
+            Else
+
+                If obj.Bank_Letter_Date > clsCommon.GETSERVERDATE Then
+                    txtBankLetterDate.Focus()
+
+                    Throw New Exception("Bank Letter Date should be less than Server Date")
+                End If
+
+                If (clsDBTNEFT.SaveBankLetter(obj)) Then
+                    clsCommon.MyMessageBoxShow(Me, "Bank Letter Date Save Successfully.", Me.Text)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
 End Class
 

@@ -143,30 +143,31 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmBankBook, "Bank Cash Book", "1.01.03.02", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmBankBookDayWise, "Bank/Cash Book DayWise", "1.01.03.03", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmCashVoucher, "Contra Voucher", "1.01.03.04", clsUserMgtCode.SubModuleCommonServicesReport, 37)
-        InsertDefaultValue(clsUserMgtCode.DVAT30, "DVAT-30", "1.01.03.05", clsUserMgtCode.SubModuleCommonServicesReport, 37) ''expert
-        InsertDefaultValue(clsUserMgtCode.DVAT31, "DVAT-31", "1.01.03.06", clsUserMgtCode.SubModuleCommonServicesReport, 37) ''expert
-        InsertDefaultValue(clsUserMgtCode.TaxTracking, "Tax Tracking", "1.01.03.07", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.fundprovision, "Fund Provision", "1.01.03.05", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.DVAT30, "DVAT-30", "1.01.03.06", clsUserMgtCode.SubModuleCommonServicesReport, 37) ''expert
+        InsertDefaultValue(clsUserMgtCode.DVAT31, "DVAT-31", "1.01.03.07", clsUserMgtCode.SubModuleCommonServicesReport, 37) ''expert
+        InsertDefaultValue(clsUserMgtCode.TaxTracking, "Tax Tracking", "1.01.03.08", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         'InsertDefaultValue(clsUserMgtCode.ExciseSummary1, "Excise Summary", "1.01.03.08", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmExciseChapterWise, " ER1 Report", "1.01.03.09", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         InsertDefaultValue(clsUserMgtCode.CrptRG1Detail1, "RG-1", "1.01.03.10", clsUserMgtCode.SubModuleCommonServicesReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmOpeningBalance, "Opening Balance", "1.01.03.11", clsUserMgtCode.SubModuleCommonServicesReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmCFormReport, "C-Form Report", "1.01.03.12", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmOpeningBalance, "Opening Balance", "1.01.03.10", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmCFormReport, "C-Form Report", "1.01.03.11", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         'InsertDefaultValue(clsUserMgtCode.RptServiceTaxDetail, "Service Tax Report", "1.01.03.13", clsUserMgtCode.SubModuleCommonServicesReport, 37)
-        InsertDefaultValue(clsUserMgtCode.RptBankWiseChequeIssue, "Bank Wise Cheque Issue Report", "1.01.03.14", clsUserMgtCode.SubModuleCommonServicesReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmBankBookLocationDetail, "Bank Cash Book Location Detail", "1.01.03.15", clsUserMgtCode.SubModuleCommonServicesReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmPromptMsgRelatedtopending, "Promtmsg", "1.01.03.16", clsUserMgtCode.SubModuleCommonServicesReport, 37)
-        InsertDefaultValue(clsUserMgtCode.RptBranchAccountMapping, "Branch Account Mapping Report", "1.01.03.20", clsUserMgtCode.SubModuleCommonServicesReport, 37)
-        InsertDefaultValue(clsUserMgtCode.FrmLockTransactionReport, "Lock Transaction Report", "1.01.03.21", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.RptBankWiseChequeIssue, "Bank Wise Cheque Issue Report", "1.01.03.12", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmBankBookLocationDetail, "Bank Cash Book Location Detail", "1.01.03.13", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmPromptMsgRelatedtopending, "Promtmsg", "1.01.03.14", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.RptBranchAccountMapping, "Branch Account Mapping Report", "1.01.03.15", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.FrmLockTransactionReport, "Lock Transaction Report", "1.01.03.16", clsUserMgtCode.SubModuleCommonServicesReport, 37)
 
-        InsertDefaultValue(clsUserMgtCode.RptInventoryMovement, "Inventory Movement Report", "1.01.03.22", clsUserMgtCode.SubModuleCommonServicesReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptItemWiseTaxMasterReport, "Item Wise Tax Master Report", "1.01.03.23", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.RptInventoryMovement, "Inventory Movement Report", "1.01.03.17", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptItemWiseTaxMasterReport, "Item Wise Tax Master Report", "1.01.03.18", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         'InsertDefaultValue(clsUserMgtCode.frmReconcilationRpt, "Reconcilation Report", "1.01.03.24", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         'InsertDefaultValue(clsUserMgtCode.frmBankBookRecoReport, "Bank Book Reco Report", "1.01.03.25", clsUserMgtCode.SubModuleCommonServicesReport, 37)
-        InsertDefaultValue(clsUserMgtCode.AuditTrailCommonServices, "Common Services Audit Trail Report", "1.01.03.24", clsUserMgtCode.SubModuleCommonServicesReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmDasboard, "Dash Board Report", "1.01.03.25", clsUserMgtCode.SubModuleCommonServicesReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmDasboardCombine, "Combine Dash Board", "1.01.03.26", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.AuditTrailCommonServices, "Common Services Audit Trail Report", "1.01.03.19", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDasboard, "Dash Board Report", "1.01.03.20", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDasboardCombine, "Combine Dash Board", "1.01.03.21", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         'InsertDefaultValue(clsUserMgtCode.rptDataEntryTracingReport, "Data Entry Tracing Report", "1.01.03.27", clsUserMgtCode.SubModuleCommonServicesReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmDocumentCancelledReport, "Document Cancelled Report", "1.01.03.28", clsUserMgtCode.SubModuleCommonServicesReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDocumentCancelledReport, "Document Cancelled Report", "1.01.03.22", clsUserMgtCode.SubModuleCommonServicesReport, 37)
         '--------------Receivable----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModuleReceivable, "Receivable", "1.02", clsUserMgtCode.ExpertERP, "M", 23)
 
@@ -1045,8 +1046,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.RptEmployeeBday6, "Employee Bday/Anniversary", "1.11.03.13", clsUserMgtCode.SubModuleHRReport, 37)
         InsertDefaultValue(clsUserMgtCode.EmployeeWiseReport, "Employee Wise Report", "1.11.03.14", clsUserMgtCode.SubModuleHRReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptEmployeeAdvanceLedger, "Employee Advance Ledger", "1.11.03.15", clsUserMgtCode.SubModuleHRReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmSalaryGenerationRegisterArrear, "Arrear Register", "1.11.03.16", clsUserMgtCode.SubModuleHRReport, 37)
-        InsertDefaultValue(clsUserMgtCode.AuditTrailHRAndPayroll, "HR And Payroll Audit Trail Report", "1.11.03.17", clsUserMgtCode.SubModuleHRReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptLoanStatement, "Loan Statement", "1.11.03.16", clsUserMgtCode.SubModuleHRReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmSalaryGenerationRegisterArrear, "Arrear Register", "1.11.03.17", clsUserMgtCode.SubModuleHRReport, 37)
+        InsertDefaultValue(clsUserMgtCode.AuditTrailHRAndPayroll, "HR And Payroll Audit Trail Report", "1.11.03.18", clsUserMgtCode.SubModuleHRReport, 37)
 
         'Monthly Reports
         InsertDefaultValue(clsUserMgtCode.SubModuleHRMonthlyReport, "Monthly Report", "1.11.04", clsUserMgtCode.ModuleHR, "SM", 30)
@@ -1728,8 +1730,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDBTMilkPayment, "DBT Milk Payment", "1.17.03.111", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptBMCTankerTestingReport, "BMC Tanker Testing Report", "1.17.03.112", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptMilkPaymentSummary, "Milk Payment Summary Report", "1.17.03.113", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptCattleFeedSaleReport, "Cattle Feed Sale Report", "1.17.03.114", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptTransferToSavingReport, "Transfer To Saving Report", "1.17.03.115", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptCattleFeedSaleReport, "Cattle Feed Sale Report", "1.17.03.115", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTransferToSavingReport, "Transfer To Saving Report", "1.17.03.116", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.ModuleBulkMilkProcurement, "Milk Procurement Bulk", "1.18", clsUserMgtCode.ExpertERP, "M", 23)
         '' Bulk setup
@@ -2808,6 +2810,10 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.SubModuleXpertAPIReport, "Report", "1.48.03", clsUserMgtCode.ModuleXpertAPI, "SM", 30, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         InsertDefaultValue(clsUserMgtCode.XpertAPIMilkMilkRegister, "Milk Register", "1.48.03.01", clsUserMgtCode.SubModuleXpertAPIReport, "", 8, Nothing, Nothing, Nothing, Nothing, True, True, True, True, Nothing, "", "", "", "", "", False, "", 1)
         ' 
+
+        InsertDefaultValue(clsUserMgtCode.ModuleMilkUnion, "Milk Union", "1.49", clsUserMgtCode.ExpertERP, "M", 23)
+        InsertDefaultValue(clsUserMgtCode.SubModuleMilkUnion, "Report", "1.49.03", clsUserMgtCode.ModuleMilkUnion, "SM", 30)
+        InsertDefaultValue(clsUserMgtCode.rptMilkUnion, "Milk Union Report", "1.49.04", clsUserMgtCode.SubModuleMilkUnion, 30)
         Try
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.BankCashBook, "Bank Cash Book")
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.VehicleUtili, "Vehicle Utilization")

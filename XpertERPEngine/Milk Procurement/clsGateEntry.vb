@@ -965,7 +965,7 @@ Public Class clsGateEntryChemberNoDetails
     Public Shared Function GetData(ByVal strCode As String, ByVal trans As SqlTransaction) As List(Of clsGateEntryChemberNoDetails)
         Dim arr As List(Of clsGateEntryChemberNoDetails) = Nothing
         Dim qry As String
-        qry = "select * from " & _
+        qry = "select * from " &
             "TSPL_Gate_Entry_Chember_Details where TSPL_Gate_Entry_Chember_Details.GE_Code='" + strCode + "' and Chamber_Qty >0  order by Line_No asc "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

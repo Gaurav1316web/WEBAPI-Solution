@@ -1,9 +1,4 @@
-﻿'manoj
-'==========BM00000008086
-''updation by richa against ticket no. BM00000008140
-' done by priti BHA/09/10/18-000609
-'' work done against tiket no. TEC/04/02/19-000410 by Parteek
-Imports common
+﻿Imports common
 Imports System.Data
 Imports System.Data.SqlClient
 Public Class FrmUtility
@@ -14,104 +9,10 @@ Public Class FrmUtility
     'Public strVendorCode As String = ""
     Dim objDocSeq As New clsDocumentSequence
 #End Region
-
-
-
     Private Sub btnCreateAdjustment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCreateAdjustment.Click
         CreateAdjustmentForNegativeBalance(False)
     End Sub
-    'Try
-    'Dim qry As String = "select TSPL_ITEM_LOCATION_DETAILS.Item_Code,TSPL_ITEM_LOCATION_DETAILS.Item_Desc,TSPL_ITEM_LOCATION_DETAILS.Location_Code"
-    '        qry += " ,TSPL_ITEM_LOCATION_DETAILS.Location_Desc,TSPL_ITEM_LOCATION_DETAILS.Item_Qty,TSPL_ITEM_LOCATION_DETAILS.Amount,"
-    '        qry += " TSPL_ITEM_LOCATION_DETAILS.MRP,TSPL_ITEM_LOCATION_DETAILS.MFG_Date,TSPL_ITEM_LOCATION_DETAILS.Batch_No,"
-    '        qry += " TSPL_ITEM_LOCATION_DETAILS.Expiry_Date,TSPL_ITEM_LOCATION_DETAILS.ItemType,TSPL_ITEM_MASTER.Cost,(select top 1  UOM_Code from TSPL_ITEM_UOM_DETAIL where Conversion_Factor=1 and Item_Code=TSPL_ITEM_LOCATION_DETAILS.Item_Code) as UOM "
-    '        qry += " from TSPL_ITEM_LOCATION_DETAILS "
-    '        qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_ITEM_LOCATION_DETAILS.Location_Code"
-    '        qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_ITEM_LOCATION_DETAILS.Item_Code "
-    '        qry += " where Item_Qty<0 and ItemType in ('FM','FT','E') and TSPL_LOCATION_MASTER.Location_Type='Physical' "
-    '        qry += " order by Location_Code,ItemType"
-    'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-    '        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-    '            If (common.clsCommon.MyMessageBoxShow("There are some items with Negative balance.Create and Post Adjustment", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes) Then
-    '                clsCommon.ProgressBarShow()
-    'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
-    '                Try
-    'Dim dtCurrent As DateTime = txtDate.Value
-    'Dim obj As ClsAdjustments = Nothing
-    'Dim strLocation As String = ""
-    'Dim strItemType As String = ""
-    'Dim intSNo As Integer = 0
-    '                    For Each dr As DataRow In dt.Rows
-    '                        If Not clsCommon.CompairString(clsCommon.myCstr(dr("Location_Code")), strLocation) = CompairStringResult.Equal OrElse Not clsCommon.CompairString(clsCommon.myCstr(dr("ItemType")), strItemType) = CompairStringResult.Equal Then
-    '                            If obj IsNot Nothing Then
-    '                                obj.SaveData(obj, True, "", trans)
-    '                                ClsAdjustments.PostData(obj.Adjustment_No, "Store Adjustment", trans)
-    '                            End If
-    '                            strLocation = clsCommon.myCstr(dr("Location_Code"))
-    '                            strItemType = clsCommon.myCstr(dr("ItemType"))
-    '                            obj = New ClsAdjustments()
-    '                            obj.Adjustment_Date = clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")
-    '                            obj.Description = "Adjustment Created and posted to remove Negative Balance on Dated -" + clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy hh:mm tt")
-    '                            obj.Unit_Code = "ALL"
-    '                            obj.ItemType = clsCommon.myCstr(dr("ItemType"))
-    '                            obj.Loc_Code = clsCommon.myCstr(dr("Location_Code"))
-    '                            obj.Loc_Desc = clsCommon.myCstr(dr("Location_Desc"))
-    '                            obj.EntryDateTime = clsCommon.GetPrintDate(dtCurrent, "dd/MMM/yyyy hh:mm tt")
-    '                            obj.Trans_Type = "In"
-    '                            obj.Created_time = clsCommon.GetPrintDate(dtCurrent, "dd/MMM/yyyy hh:mm tt")
-    '                            obj.Modified_Time = clsCommon.GetPrintDate(dtCurrent, "dd/MMM/yyyy hh:mm tt")
-    '                            obj.Posting_Date = clsCommon.GetPrintDate(dtCurrent, "dd/MM/yyyy")
-    '                            obj.Arr = New List(Of ClsAdjustmentsDetails)
-    '                            intSNo = 1
-    '                        End If
-    'Dim objtr As New ClsAdjustmentsDetails
-    '                        objtr.Adjustment_Line_No = intSNo
-    '                        objtr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
-    '                        objtr.Item_Description = clsCommon.myCstr(dr("Item_Desc"))
-    '                        objtr.Adjustment_Type = "BI"
-    '                        objtr.Location_Code = clsCommon.myCstr(dr("Location_Code"))
-    '                        objtr.Item_Quantity = -1 * clsCommon.myCdbl(dr("Item_Qty"))
-    '                        objtr.Item_Cost = -1 * clsCommon.myCdbl(dr("Item_Qty")) * clsCommon.myCdbl(dr("Cost"))
-    '                        objtr.Unit_Code = clsCommon.myCstr(dr("UOM"))
-    '                        qry = "select Adjustment_Account from TSPL_PURCHASE_ACCOUNTS where Purchase_Class_Code in (select Purchase_Class_Code from TSPL_ITEM_MASTER where Item_Code='" + objtr.Item_Code + "')"
-    '                        objtr.Account_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
-    '                        objtr.Account_Description = clsGLAccount.GetName(objtr.Account_Code, trans)
-    '                        objtr.mrp = clsCommon.myCdbl(dr("MRP"))
 
-    '                        If dr("MFG_Date") IsNot DBNull.Value Then
-    '                            objtr.MFG_Date = clsCommon.GetPrintDate(clsCommon.myCDate(dr("MFG_Date")), "dd/MMM/yyyy")
-    '                        End If
-
-
-    '                        objtr.Batch_No = clsCommon.myCstr(dr("Batch_No"))
-    '                        If dr("Expiry_Date") IsNot DBNull.Value Then
-    '                            objtr.Expiry_Date = clsCommon.GetPrintDate(clsCommon.myCDate(dr("Expiry_Date")), "dd/MMM/yyyy")
-    '                        End If
-
-    '                        objtr.ItemType = clsCommon.myCstr(dr("ItemType"))
-    '                        obj.Arr.Add(objtr)
-    '                        intSNo = intSNo + 1
-    '                    Next
-    '                    If obj IsNot Nothing Then
-    '                        obj.SaveData(obj, True, "", trans)
-    '                        ClsAdjustments.PostData(obj.Adjustment_No, "Store Adjustment", trans)
-    '                    End If
-    '                Catch ex As Exception
-    '                    clsCommon.ProgressBarHide()
-    '                    trans.Rollback()
-    '                    Throw New Exception(ex.Message)
-    '                Finally
-    '                    clsCommon.ProgressBarHide()
-    '                End Try
-    '                trans.Commit()
-    '                common.clsCommon.MyMessageBoxShow("Adjustment Created and posted successfully", Me.Text)
-    '            End If
-    '        Else
-    '            common.clsCommon.MyMessageBoxShow("No item found with Negative balance", Me.Text)
-    '        End If
-    '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
-    '    End Try
     Private Sub CreateAdjustmentForNegativeBalance(ByVal isForRawMaterial As Boolean)
         Try
             Dim qry As String = "select TSPL_ITEM_LOCATION_DETAILS.Item_Code,TSPL_ITEM_LOCATION_DETAILS.Item_Desc,TSPL_ITEM_LOCATION_DETAILS.Location_Code"
@@ -288,7 +189,6 @@ Public Class FrmUtility
         LoadFullTankerDispatch()
     End Sub
 
-    
     Sub SetEnableDisableProvisinEntry()
         txtJEProvisionEntry.Enabled = Not chkPurchaseAccounting.Checked
         If chkPurchaseAccounting.Checked Then
@@ -22819,28 +22719,6 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
         End Try
     End Sub
 
-    'Sub createBulkDispatch(ByVal strDocNo As String, ByVal strJVNo As String, ByVal trans As SqlTransaction)
-    '    Dim qry As String
-    '    If clsCommon.myLen(strJVNo) > 0 Then
-    '        qry = "delete from TSPL_JOURNAL_DETAILS where TSPL_JOURNAL_DETAILS.Voucher_No in ('" + strJVNo + "')"
-    '        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-    '        qry = "delete from TSPL_JOURNAL_MASTER where TSPL_JOURNAL_MASTER.Source_Code='DS-BS' and TSPL_JOURNAL_MASTER.Voucher_No='" + strJVNo + "'"
-    '        clsDBFuncationality.ExecuteNonQuery(qry, trans)
-    '    End If
-
-    '    qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No ='" + strDocNo + "' and Trans_Type ='DispatchBS' "
-    '    clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-    '    qry = " delete from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No ='" + strDocNo + "' and Trans_Type ='DispatchBS' "
-    '    clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
-    '    Dim objDis As ClsDispatchBulkSale = ClsDispatchBulkSale.GetData(strDocNo, Nothing, NavigatorType.Current, trans)
-    '    ClsDispatchBulkSale.CreateInventoryMovement(objDis, trans)
-    '    ClsDispatchBulkSale.CreateJournalEntry(objDis.Document_No, Nothing, trans, strJVNo)
-
-
-    'End Sub
 
     Sub createBulkDispatchAndInvoice(ByVal strDocNo As String, ByVal strJVNo As String, ByVal trans As SqlTransaction, ByVal isRecreateARInvoice As Boolean, ByVal arrBulkSaleDoc As ArrayList)
         Dim qry As String
@@ -26255,5 +26133,148 @@ select Source_Doc_No,sum(Avg_Cost) as Avg_Cost  from TSPL_INVENTORY_MOVEMENT whe
         frm.Height = 300
         frm.Width = 350
         frm.Show()
+    End Sub
+
+    Private Sub RadButton350_Click(sender As Object, e As EventArgs) Handles RadButton350.Click
+        Try
+            clsDBFuncationality.ExecuteNonQuery("drop table Temp_RCDFCF_Sale")
+        Catch ex As Exception
+        End Try
+        Try
+            clsDBFuncationality.ExecuteNonQuery("drop table Temp_RCDFCF_Sale_Done")
+        Catch ex As Exception
+        End Try
+
+        Try
+            Dim BaseQry As String = "select TSPL_SD_SALE_INVOICE_HEAD.Document_Code,TSPL_SD_SALE_INVOICE_HEAD.Document_Date,TSPL_SD_SALE_INVOICE_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name, Bill_To_Location as Location_Code,Total_Amt,TSPL_Customer_Invoice_Head.Document_No as ARNo,TSPL_JOURNAL_MASTER.Voucher_No as JVNo 
+from TSPL_SD_SALE_INVOICE_HEAD   
+inner join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_SD_SALE_INVOICE_HEAD.Customer_Code  
+left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SALE_INVOICE_HEAD.Document_Code
+left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_Customer_Invoice_Head.Document_No  and TSPL_JOURNAL_MASTER.Source_Code='AR-IN'
+where ISNULL( TSPL_SD_SALE_INVOICE_HEAD.Status,0)=1"
+            Dim arr As ArrayList = clsCommon.ShowMultipleSelectForm("U@RCDFCFS", BaseQry, "Document_Code", "", Nothing, Nothing)
+            If arr IsNot Nothing AndAlso arr.Count > 0 Then
+                Dim qry As String = "select *  into Temp_RCDFCF_Sale from (" &
+                  " select Document_Code as DocumentNo,ARNo,JVNo from (" + BaseQry + ")xx where Document_Code in (" + clsCommon.GetMulcallString(arr) + "))xxx"
+                clsDBFuncationality.ExecuteNonQuery(qry)
+            Else
+                Throw New Exception("Please select at least one transaction")
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+        clsDBFuncationality.ExecuteNonQuery("create table Temp_RCDFCF_Sale_Done(DocumentNo varchar(30) not null)")
+    End Sub
+
+    Private Sub RadButton351_Click(sender As Object, e As EventArgs) Handles RadButton351.Click
+        Try
+            Dim qry As String = "select * from Temp_RCDFCF_Sale where DocumentNo not in (select DocumentNo from Temp_RCDFCF_Sale_Done)"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                If common.clsCommon.MyMessageBoxShow("Recreate Journal Entry of " + clsCommon.myCstr(dt.Rows.Count) + " ", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    Dim strErro As String = ""
+                    Try
+                        clsCommon.ProgressBarPercentShow()
+                        For ii As Integer = 0 To dt.Rows.Count - 1
+                            Dim strDocNo As String = ""
+                            Dim strJVNo As String = ""
+                            Dim strARNo As String = ""
+                            Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+                            Try
+                                strDocNo = clsCommon.myCstr(dt.Rows(ii)("DocumentNo"))
+                                strJVNo = clsCommon.myCstr(dt.Rows(ii)("JVNo"))
+                                strARNo = clsCommon.myCstr(dt.Rows(ii)("ARNo"))
+
+                                clsSNInvoiceHead.ReverseAndUnpost(strDocNo, trans, True)
+
+                                qry = "select TSPL_SD_SHIPMENT_HEAD.Document_Code, TSPL_JOURNAL_MASTER.Voucher_No
+from TSPL_SD_SHIPMENT_HEAD 
+left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No=TSPL_SD_SHIPMENT_HEAD.Document_Code and TSPL_JOURNAL_MASTER.Source_Code='SD-SH'
+where TSPL_SD_SHIPMENT_HEAD.Document_Code in (select Shipment_Code  from TSPL_SD_SALE_INVOICE_DETAIL where Document_Code='" + strDocNo + "') order by TSPL_SD_SHIPMENT_HEAD.Document_Date "
+                                Dim dtShipment As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                                If dtShipment IsNot Nothing AndAlso dtShipment.Rows.Count > 0 Then
+                                    For Each drShipment As DataRow In dtShipment.Rows
+                                        clsSNShipmentHead.ReverseAndUnpost(clsCommon.myCstr(drShipment("Document_Code")), trans, True)
+                                        Dim objShipment As clsSNShipmentHead = clsSNShipmentHead.GetData(clsCommon.myCstr(drShipment("Document_Code")), NavigatorType.Current, trans)
+                                        clsSNShipmentHead.HitInventory(objShipment, trans)
+                                        clsSNShipmentHead.CreateJournalEntry(clsCommon.myCstr(drShipment("Document_Code")), trans, clsCommon.myCstr(drShipment("Voucher_No")))
+                                    Next
+                                End If
+
+                                Dim objInvoice As clsSNInvoiceHead = clsSNInvoiceHead.GetData(strDocNo, NavigatorType.Current, "", trans)
+                                clsSNInvoiceHead.createARInvoice(objInvoice, trans, strJVNo, strARNo)
+
+                                qry = "insert into Temp_RCDFCF_Sale_Done values('" + strDocNo + "')"
+                                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                                trans.Commit()
+                                clsCommon.ProgressBarPercentUpdate((ii + 1), dt.Rows.Count, "Recreate JE AND INVENTORY " + clsCommon.myCstr(ii + 1) + "/" + clsCommon.myCstr(dt.Rows.Count))
+                            Catch ex As Exception
+                                trans.Rollback()
+                                strErro += "Sale Invoice No - " + strDocNo + " ARNo - " + +" Voucher No - " + strJVNo + "  Exception -" + ex.Message + Environment.NewLine
+                            End Try
+                        Next
+                    Catch ex As Exception
+                    Finally
+                        clsCommon.ProgressBarPercentHide()
+                    End Try
+                    If clsCommon.myLen(strErro) > 0 Then
+                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    Else
+                        common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                    End If
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub createRCDFCFDispatchAndInvoice(ByVal strDocNo As String, ByVal strJVNo As String, ByVal trans As SqlTransaction, ByVal isRecreateARInvoice As Boolean, ByVal arrBulkSaleDoc As ArrayList)
+        Dim qry As String
+        If clsCommon.myLen(strJVNo) > 0 Then
+            qry = "delete from TSPL_JOURNAL_DETAILS where TSPL_JOURNAL_DETAILS.Voucher_No in ('" + strJVNo + "')"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_JOURNAL_MASTER where TSPL_JOURNAL_MASTER.Source_Code='DS-BS' and TSPL_JOURNAL_MASTER.Voucher_No='" + strJVNo + "'"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+        End If
+
+        qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No ='" + strDocNo + "' and Trans_Type ='DispatchBS' "
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        qry = " delete from TSPL_INVENTORY_MOVEMENT_NEW where Source_Doc_No ='" + strDocNo + "' and Trans_Type ='DispatchBS' "
+        clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        Dim objDis As ClsDispatchBulkSale = ClsDispatchBulkSale.GetData(strDocNo, Nothing, NavigatorType.Current, trans)
+
+        ClsDispatchBulkSale.CreateInventoryMovement(objDis, trans, arrBulkSaleDoc)
+        ClsDispatchBulkSale.CreateJournalEntry(objDis.Document_No, Nothing, trans, strJVNo)
+
+        If isRecreateARInvoice Then
+            qry = "select TSPL_INVOICE_DETAIL_BULKSALE.Document_No as InvNo,TSPL_Customer_Invoice_Head.Document_No as ARNo,TSPL_JOURNAL_MASTER.Voucher_No from TSPL_INVOICE_DETAIL_BULKSALE" + Environment.NewLine +
+            "left outer join TSPL_Customer_Invoice_Head on TSPL_Customer_Invoice_Head.against_Sale_no=TSPL_INVOICE_DETAIL_BULKSALE.Document_No" + Environment.NewLine +
+            "left outer join TSPL_JOURNAL_MASTER on TSPL_JOURNAL_MASTER.Source_Doc_No= TSPL_Customer_Invoice_Head.Document_No and TSPL_JOURNAL_MASTER.Source_Code='AR-IN'" + Environment.NewLine +
+            "where  TSPL_INVOICE_DETAIL_BULKSALE.Dispatch_Code='" + strDocNo + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+
+                If clsCommon.myLen(clsCommon.myCstr(dt.Rows(0)("Voucher_No"))) > 0 Then
+                    qry = "delete from TSPL_JOURNAL_DETAILS where TSPL_JOURNAL_DETAILS.Voucher_No in ('" + clsCommon.myCstr(dt.Rows(0)("Voucher_No")) + "')"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "delete from TSPL_JOURNAL_MASTER where TSPL_JOURNAL_MASTER.Source_Code='AR-IN' and TSPL_JOURNAL_MASTER.Voucher_No='" + clsCommon.myCstr(dt.Rows(0)("Voucher_No")) + "'"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                End If
+
+                qry = "delete from TSPL_Customer_Invoice_Detail where Document_No in ('" + clsCommon.myCstr(dt.Rows(0)("ARNo")) + "')"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_Customer_Invoice_Head where Document_No ='" + clsCommon.myCstr(dt.Rows(0)("ARNo")) + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                Dim obj As ClsInvoiceBulkSale = ClsInvoiceBulkSale.GetData(clsCommon.myCstr(dt.Rows(0)("InvNo")), "", NavigatorType.Current, trans)
+                ClsInvoiceBulkSale.createARInvoice(obj, clsCommon.myCstr(dt.Rows(0)("ARNo")), clsCommon.myCstr(dt.Rows(0)("Voucher_No")), trans)
+            End If
+        End If
     End Sub
 End Class

@@ -16,7 +16,7 @@ Public Class FrmSendSMSMultipleUser
 
     Private Sub btnSendSMS_Click(sender As Object, e As EventArgs) Handles btnSendSMS.Click
         Try
-            If clsCommon.MyMessageBoxShow("Do you want to Send SMS?", "Send SMS confirmation", MessageBoxButtons.YesNo) = DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to Send SMS?", "Send SMS confirmation", MessageBoxButtons.YesNo, Me.Text) = DialogResult.Yes Then
                 If txtMobileNo.Text = "" Then
                     txtMobileNo.Focus()
                     Throw New Exception("Please Enter Mobile No")
@@ -94,7 +94,7 @@ Public Class FrmSendSMSMultipleUser
                     End If
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                    clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                 Catch ex As Exception
                     trans.Rollback()
                     clsCommon.ProgressBarHide()

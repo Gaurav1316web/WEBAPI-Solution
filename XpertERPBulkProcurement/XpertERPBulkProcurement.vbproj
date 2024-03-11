@@ -264,6 +264,12 @@
     <Compile Include="Milk Procurement\Report\rptMilkPaymentSummary.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptmilkunion.Designer.vb">
+      <DependentUpon>rptmilkunion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptmilkunion.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptMobileAppMilkCollection.Designer.vb">
       <DependentUpon>rptMobileAppMilkCollection.vb</DependentUpon>
     </Compile>
@@ -796,6 +802,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMilkPaymentSummary.resx">
       <DependentUpon>rptMilkPaymentSummary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptmilkunion.resx">
+      <DependentUpon>rptmilkunion.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMobileAppMilkCollection.resx">
       <DependentUpon>rptMobileAppMilkCollection.vb</DependentUpon>

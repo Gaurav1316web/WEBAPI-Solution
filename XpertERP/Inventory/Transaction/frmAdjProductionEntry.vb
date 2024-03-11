@@ -65,11 +65,12 @@ Public Class frmAdjProductionEntry
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        btnReverse.Visible = False
         If btnSave.Visible = True Then
             RmiExport.Enabled = True
         Else

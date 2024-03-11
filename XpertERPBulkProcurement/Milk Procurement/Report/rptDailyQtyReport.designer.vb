@@ -22,7 +22,7 @@ Partial Class rptDailyQtyReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,6 +30,8 @@ Partial Class rptDailyQtyReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblArea = New common.Controls.MyLabel()
+        Me.fndArea = New common.UserControls.txtFinder()
         Me.ddlShift = New common.Controls.MyComboBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
@@ -38,6 +40,7 @@ Partial Class rptDailyQtyReport
         Me.rbtnBMCDock = New System.Windows.Forms.RadioButton()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnBMCTankerCollection = New System.Windows.Forms.RadioButton()
         Me.rdbMultiple = New System.Windows.Forms.RadioButton()
         Me.rdbCollectionWise = New System.Windows.Forms.RadioButton()
         Me.rbtnBmcSummary = New System.Windows.Forms.RadioButton()
@@ -82,6 +85,7 @@ Partial Class rptDailyQtyReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -180,6 +184,8 @@ Partial Class rptDailyQtyReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblArea)
+        Me.RadPageViewPage1.Controls.Add(Me.fndArea)
         Me.RadPageViewPage1.Controls.Add(Me.ddlShift)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel6)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
@@ -206,6 +212,44 @@ Partial Class rptDailyQtyReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(935, 284)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'lblArea
+        '
+        Me.lblArea.FieldName = Nothing
+        Me.lblArea.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblArea.Location = New System.Drawing.Point(17, 81)
+        Me.lblArea.Name = "lblArea"
+        Me.lblArea.Size = New System.Drawing.Size(30, 16)
+        Me.lblArea.TabIndex = 1501
+        Me.lblArea.Text = "Area"
+        Me.lblArea.Visible = False
+        '
+        'fndArea
+        '
+        Me.fndArea.CalculationExpression = Nothing
+        Me.fndArea.FieldCode = Nothing
+        Me.fndArea.FieldDesc = Nothing
+        Me.fndArea.FieldMaxLength = 0
+        Me.fndArea.FieldName = Nothing
+        Me.fndArea.isCalculatedField = False
+        Me.fndArea.IsSourceFromTable = False
+        Me.fndArea.IsSourceFromValueList = False
+        Me.fndArea.IsUnique = False
+        Me.fndArea.Location = New System.Drawing.Point(84, 80)
+        Me.fndArea.MendatroryField = True
+        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndArea.MyLinkLable1 = Nothing
+        Me.fndArea.MyLinkLable2 = Nothing
+        Me.fndArea.MyReadOnly = False
+        Me.fndArea.MyShowMasterFormButton = False
+        Me.fndArea.Name = "fndArea"
+        Me.fndArea.ReferenceFieldDesc = Nothing
+        Me.fndArea.ReferenceFieldName = Nothing
+        Me.fndArea.ReferenceTableName = Nothing
+        Me.fndArea.Size = New System.Drawing.Size(243, 18)
+        Me.fndArea.TabIndex = 1500
+        Me.fndArea.Value = ""
+        Me.fndArea.Visible = False
         '
         'ddlShift
         '
@@ -293,7 +337,7 @@ Partial Class rptDailyQtyReport
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel5.Location = New System.Drawing.Point(17, 111)
+        Me.MyLabel5.Location = New System.Drawing.Point(17, 131)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(59, 16)
         Me.MyLabel5.TabIndex = 445
@@ -303,6 +347,7 @@ Partial Class rptDailyQtyReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnBMCTankerCollection)
         Me.RadGroupBox1.Controls.Add(Me.rdbMultiple)
         Me.RadGroupBox1.Controls.Add(Me.rdbCollectionWise)
         Me.RadGroupBox1.Controls.Add(Me.rbtnBmcSummary)
@@ -317,6 +362,16 @@ Partial Class rptDailyQtyReport
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(552, 63)
         Me.RadGroupBox1.TabIndex = 406
+        '
+        'rbtnBMCTankerCollection
+        '
+        Me.rbtnBMCTankerCollection.AutoSize = True
+        Me.rbtnBMCTankerCollection.Location = New System.Drawing.Point(293, 37)
+        Me.rbtnBMCTankerCollection.Name = "rbtnBMCTankerCollection"
+        Me.rbtnBMCTankerCollection.Size = New System.Drawing.Size(141, 17)
+        Me.rbtnBMCTankerCollection.TabIndex = 455
+        Me.rbtnBMCTankerCollection.Text = "BMC/Tanker Collection"
+        Me.rbtnBMCTankerCollection.UseVisualStyleBackColor = True
         '
         'rdbMultiple
         '
@@ -411,7 +466,7 @@ Partial Class rptDailyQtyReport
         Me.TxtTankerNo.IsSourceFromTable = False
         Me.TxtTankerNo.IsSourceFromValueList = False
         Me.TxtTankerNo.IsUnique = False
-        Me.TxtTankerNo.Location = New System.Drawing.Point(84, 109)
+        Me.TxtTankerNo.Location = New System.Drawing.Point(84, 129)
         Me.TxtTankerNo.MendatroryField = True
         Me.TxtTankerNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtTankerNo.MyLinkLable1 = Nothing
@@ -501,7 +556,7 @@ Partial Class rptDailyQtyReport
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel4.Location = New System.Drawing.Point(19, 83)
+        Me.MyLabel4.Location = New System.Drawing.Point(17, 103)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(32, 16)
         Me.MyLabel4.TabIndex = 439
@@ -519,7 +574,7 @@ Partial Class rptDailyQtyReport
         Me.txtMCC_Code.IsSourceFromTable = False
         Me.txtMCC_Code.IsSourceFromValueList = False
         Me.txtMCC_Code.IsUnique = False
-        Me.txtMCC_Code.Location = New System.Drawing.Point(84, 83)
+        Me.txtMCC_Code.Location = New System.Drawing.Point(84, 103)
         Me.txtMCC_Code.MendatroryField = True
         Me.txtMCC_Code.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC_Code.MyLinkLable1 = Nothing
@@ -743,7 +798,7 @@ Partial Class rptDailyQtyReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -832,6 +887,7 @@ Partial Class rptDailyQtyReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -925,5 +981,8 @@ Partial Class rptDailyQtyReport
     Friend WithEvents rbtnBmcSummary As RadioButton
     Friend WithEvents rdbMultiple As RadioButton
     Friend WithEvents rdbCollectionWise As RadioButton
+    Friend WithEvents rbtnBMCTankerCollection As RadioButton
+    Friend WithEvents lblArea As common.Controls.MyLabel
+    Friend WithEvents fndArea As common.UserControls.txtFinder
 End Class
 

@@ -86,11 +86,13 @@ Public Class frmCreateReceivedDairySale
             rmExport.Enabled = False
             rmImport.Enabled = False
         End If
-        If MyBase.isReverse Then
-            btnDeleteInvoiceafterPost.Enabled = True
-        Else
-            btnDeleteInvoiceafterPost.Enabled = False
-        End If
+        btnDeleteInvoiceafterPost.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnDeleteInvoiceafterPost.Enabled = True
+        'Else
+        '    btnDeleteInvoiceafterPost.Enabled = False
+        'End If
 
     End Sub
     Sub LoadTypes()
@@ -2344,7 +2346,7 @@ Public Class frmCreateReceivedDairySale
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()

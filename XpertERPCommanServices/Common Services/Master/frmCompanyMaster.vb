@@ -758,7 +758,7 @@ Public Class FrmCompanyMaster
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check > 0 Then
-            clsCommon.MyMessageBoxShow("Selected database is already mapped with other company." + Environment.NewLine + "Select the other database.")
+            clsCommon.MyMessageBoxShow(Me, "Selected database is already mapped with other company." + Environment.NewLine + "Select the other database.")
             Return
         End If
         '--------------------------------------------------------------------------

@@ -231,7 +231,7 @@ Public Class FrmCleaning
                         End If
                     End If
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 loadData(fndDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
@@ -421,11 +421,12 @@ Public Class FrmCleaning
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnPost.Visible = MyBase.isPostFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
     End Sub
     Sub LoadGateEntryData(ByVal strGateEntryNo As String)
         Dim strDocNo As String = clsDBFuncationality.getSingleValue("select Doc_No from TSPL_Cleaning where gate_entry_no='" & strGateEntryNo & "'")

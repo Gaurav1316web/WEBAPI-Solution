@@ -98,7 +98,7 @@ Public Class frmGrampanchayatMaster
             Dim qry As String = "SELECT Count(*) FROM TSPL_GRAMPANCHAYAT_MASTER where GRAMPANCHAYAT_CODE= '" & txtCode.Value & "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
             If check > 0 Then
-                If Not (common.clsCommon.MyMessageBoxShow("Delete the Grampanchayat Master No. " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+                If Not (common.clsCommon.MyMessageBoxShow(Me, "Delete the Grampanchayat Master No. " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                     Return
                 End If
                 qry = "delete from TSPL_GRAMPANCHAYAT_MASTER where GRAMPANCHAYAT_CODE='" + txtCode.Value + "'"

@@ -98,7 +98,7 @@ Public Class frmVidhanSabhaMaster
             Dim qry As String = "SELECT Count(*) FROM TSPL_VIDHAN_SABHA_MASTER where VIDHAN_SABHA_CODE= '" & txtCode.Value & "'"
             Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
             If check > 0 Then
-                If Not (common.clsCommon.MyMessageBoxShow("Delete the Vidhan Sabha Master No. " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+                If Not (common.clsCommon.MyMessageBoxShow(Me, "Delete the Vidhan Sabha Master No. " + txtCode.Value + "" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                     Return
                 End If
                 qry = "delete from TSPL_VIDHAN_SABHA_MASTER where VIDHAN_SABHA_CODE='" + txtCode.Value + "'"

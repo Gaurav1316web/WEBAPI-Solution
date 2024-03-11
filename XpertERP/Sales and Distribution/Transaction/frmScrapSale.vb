@@ -187,11 +187,12 @@ Public Class frmScrapSale
         btnDelete.Visible = MyBase.isDeleteFlag
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         If MyBase.isExport = True Then
             rmiImport.Enabled = True
             rmiExport.Enabled = True
@@ -4553,7 +4554,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

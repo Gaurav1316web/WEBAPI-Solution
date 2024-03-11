@@ -174,7 +174,7 @@ Public Class rptAssetDispatchRetailer
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
 
 
@@ -185,7 +185,7 @@ Public Class rptAssetDispatchRetailer
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(clsUserMgtCode.RptAssetDispatchRetailer, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
 

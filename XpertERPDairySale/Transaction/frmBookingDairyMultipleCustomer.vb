@@ -274,11 +274,13 @@ Public Class frmBookingDairyMultipleCustomer
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnreverse.Enabled = True
-        Else
-            btnreverse.Enabled = False
-        End If
+        btnreverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
         If MyBase.isExport = True Then
             btnExport.Enabled = True
             btnImport.Enabled = True
@@ -2906,7 +2908,7 @@ Public Class frmBookingDairyMultipleCustomer
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
