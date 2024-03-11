@@ -88,7 +88,7 @@ Public Class FrmApplyCapping
                     Dim PaymentCycleValue As Integer = dt.Rows(0)("Pc_Value")
                     If txtFromDate.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
                         AllowDateChanged = False
-                        clsCommon.MyMessageBoxShow("Invalid date.Date should be multiple of " & clsCommon.myCstr(PaymentCycleValue) & " + 1 ")
+                        clsCommon.MyMessageBoxShow(Me, "Invalid date.Date should be multiple of " & clsCommon.myCstr(PaymentCycleValue) & " + 1 ", Me.Text)
                         txtFromDate.Value = txtFromDate.MinDate
                         txtFromDate.Text = txtFromDate.MinDate
                         AllowDateChanged = True

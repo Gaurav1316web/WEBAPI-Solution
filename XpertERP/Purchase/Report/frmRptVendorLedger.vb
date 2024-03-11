@@ -629,10 +629,9 @@ Public Class frmRptVendorLedger
             If rbntDocWiseMerge.IsChecked Then
                 strtempBaseQry += ",case when TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No is null then TSPL_VENDOR_INVOICE_HEAD.Document_No else TSPL_VENDOR_INVOICE_HEAD.Main_VSP_Milk_AP_Invoice_No end as Main_VSP_Milk_AP_Invoice_No  "
             End If
-            strtempBaseQry += " from tspl_vendor_invoice_head where ISNULL(tspl_vendor_invoice_head.Posting_Date,'')<>''  and LEN(ISNULL( TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No,''))<=0   " + Environment.NewLine
-
-
-
+            strtempBaseQry += " from TSPL_VENDOR_INVOICE_HEAD where ISNULL(tspl_vendor_invoice_head.Posting_Date,'')<>''  
+and LEN(ISNULL( TSPL_VENDOR_INVOICE_HEAD.Against_POInvoice_No,''))<=0  
+and isnull(TSPL_VENDOR_INVOICE_HEAD.Is_Security,0)=0  " + Environment.NewLine
             If isOpening = True Then
                 strtempBaseQry += "  and  convert(date,Invoice_Entry_Date,103)  <'" + strfromdate + "'  " + Environment.NewLine
             Else

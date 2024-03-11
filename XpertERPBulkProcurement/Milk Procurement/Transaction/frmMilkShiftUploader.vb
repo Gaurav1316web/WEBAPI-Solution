@@ -619,7 +619,7 @@ Public Class frmMilkShiftUploader
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1037,7 +1037,7 @@ ExitLOOP:
 
                     If dtt.Rows.Count > 0 Then
                         clsCommon.ProgressBarHide()
-                        common.clsCommon.MyMessageBoxShow("Error in " & dtt.Rows.Count & " Records.", Me.Text, MessageBoxButtons.OK)
+                        common.clsCommon.MyMessageBoxShow(Me, "Error in " & dtt.Rows.Count & " Records.", Me.Text, MessageBoxButtons.OK)
                         Dim ff As New FrmFreeGrid
                         ff.ReportID = "UnImportedList"
                         ff.Text = "Record Could not Loaded"

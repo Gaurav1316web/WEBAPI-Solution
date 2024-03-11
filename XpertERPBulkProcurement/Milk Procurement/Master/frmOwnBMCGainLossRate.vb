@@ -274,7 +274,7 @@ Public Class frmOwnBMCGainLossRate
             If Not isInsideLoadData Then
                 If chkInactive.Checked Then
                     If clsCommon.myLen(txtCode.Value) > 0 Then
-                        If clsCommon.MyMessageBoxShow("Current code [" + txtCode.Value + "] will be inactive" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+                        If clsCommon.MyMessageBoxShow(Me, "Current code [" + txtCode.Value + "] will be inactive" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, Telerik.WinControls.RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                             If (clsOwnBMCGainLossRate.InactiveData(txtCode.Value)) Then
                                 clsCommon.MyMessageBoxShow(Me, "Successfully Inactivated", Me.Text)
                             End If

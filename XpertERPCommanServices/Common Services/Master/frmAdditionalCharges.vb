@@ -127,7 +127,7 @@ Public Class FrmAdditionalCharges
                 Dim qry As String = "select COUNT(*) from TSPL_Additional_Charges where FreightCharges not in ('" & obj.freight & "')"
                 Dim Count As Integer = clsDBFuncationality.getSingleValue(qry)
                 If Count = 1 AndAlso clsCommon.myCstr(obj.freight) = "Y" Then
-                    common.clsCommon.MyMessageBoxShow("Freight Charges has already Added on another Additional Code")
+                    common.clsCommon.MyMessageBoxShow(Me, "Freight Charges has already Added on another Additional Code", Me.Text)
                     Exit Sub
                 End If
 
@@ -161,7 +161,7 @@ Public Class FrmAdditionalCharges
 
                     LoadData(obj.Code, NavigatorType.Current)
                 Else
-                    common.clsCommon.MyMessageBoxShow("This '" & obj.Code & "' already exist ")
+                    common.clsCommon.MyMessageBoxShow(Me, "This '" & obj.Code & "' already exist ", Me.Text)
                 End If
             End If
 
@@ -444,7 +444,7 @@ Public Class FrmAdditionalCharges
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

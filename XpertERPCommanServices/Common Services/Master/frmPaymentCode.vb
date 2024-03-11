@@ -319,7 +319,7 @@ Public Class FrmPaymentCode
                         Exit Sub
                     End If
                     If strpaymenttype <> "Cash" And strpaymenttype <> "Cheque" And strpaymenttype <> "Petty Cash" And strpaymenttype <> "Other" And strpaymenttype <> "NEFT" And strpaymenttype <> "RTGS" And strpaymenttype <> "Transfer" Then
-                        common.clsCommon.MyMessageBoxShow("Payment Type accept only Cash,Cheque,Petty Cash,Transfer,NEFT,RTGS and Other ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Payment Type accept only Cash,Cheque,Petty Cash,Transfer,NEFT,RTGS and Other ", Me.Text)
                         trans.Rollback()
                         clsCommon.ProgressBarHide()
                         Exit Sub

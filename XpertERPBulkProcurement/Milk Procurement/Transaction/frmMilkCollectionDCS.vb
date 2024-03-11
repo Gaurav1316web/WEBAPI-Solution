@@ -783,7 +783,7 @@ Public Class frmMilkCollectionDCS
                     obj.SaveData(obj, isNewEntry)
                     clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                 Else
-                    If common.clsCommon.MyMessageBoxShow("You have not selected Own BMC. Do you want to proceed?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                    If common.clsCommon.MyMessageBoxShow(Me, "You have not selected Own BMC. Do you want to proceed?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                         obj.SaveData(obj, isNewEntry)
                         clsCommon.MyMessageBoxShow(Me, "Data saved successfully", Me.Text)
                     End If

@@ -317,7 +317,7 @@ Public Class FrmCompany
             fndBaseCurrency.Focus()
             Throw New Exception("Please Enter base currency")
         End If
-        clsCommon.MyMessageBoxShow("Your login ID is " + MyLabel6.Text, Me.Text, MessageBoxButtons.OK)
+        clsCommon.MyMessageBoxShow(Me, "Your login ID is " + MyLabel6.Text, Me.Text, MessageBoxButtons.OK)
         Return True
     End Function
 

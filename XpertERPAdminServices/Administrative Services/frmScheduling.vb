@@ -296,7 +296,7 @@ Public Class FrmScheduling
             LoadScreenData(txtModule.Value)
             LoadLoginData(txtModule.Value)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -352,7 +352,7 @@ Public Class FrmScheduling
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -369,15 +369,15 @@ Public Class FrmScheduling
             End If
             If grow.Cells(colSelect).Value = True And clsCommon.myLen(grow.Cells(colScreenCode).Value) Then
                 If clsCommon.myLen(grow.Cells(colCriteria).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Screen Settings:- Please Select 'Criteria' for Screen '" + clsCommon.myCstr(grow.Cells(colScreenName).Value) + "'")
+                    clsCommon.MyMessageBoxShow(Me, "Screen Settings:- Please Select 'Criteria' for Screen '" + clsCommon.myCstr(grow.Cells(colScreenName).Value) + "'", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(grow.Cells(colNotification).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Screen Settings:- Please Provide 'Notification Message' for Screen '" + clsCommon.myCstr(grow.Cells(colScreenName)) + "'")
+                    clsCommon.MyMessageBoxShow(Me, "Screen Settings:- Please Provide 'Notification Message' for Screen '" + clsCommon.myCstr(grow.Cells(colScreenName)) + "'", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(grow.Cells(colValidation).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Screen Settings:- Please Select 'Validation' for Screen '" + clsCommon.myCstr(grow.Cells(colScreenName).Value) + "'")
+                    clsCommon.MyMessageBoxShow(Me, "Screen Settings:- Please Select 'Validation' for Screen '" + clsCommon.myCstr(grow.Cells(colScreenName).Value) + "'", Me.Text)
                     Return False
                 End If
             End If
@@ -388,11 +388,11 @@ Public Class FrmScheduling
             End If
             If grow.Cells(colSelect).Value = True And clsCommon.myLen(grow.Cells(colScreenCode).Value) Then
                 If clsCommon.myLen(grow.Cells(colCriteria).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Login Settings:- Please Select 'Criteria' for Screen '" + clsCommon.myCstr(grow.Cells(colScreenName).Value) + "'")
+                    clsCommon.MyMessageBoxShow(Me, "Login Settings:- Please Select 'Criteria' for Screen '" + clsCommon.myCstr(grow.Cells(colScreenName).Value) + "'", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(grow.Cells(colNotification).Value) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Login Settings:- Please Provide 'Notification Message' for Screen '" + clsCommon.myCstr(grow.Cells(colScreenName).Value) + "'")
+                    clsCommon.MyMessageBoxShow(Me, "Login Settings:- Please Provide 'Notification Message' for Screen '" + clsCommon.myCstr(grow.Cells(colScreenName).Value) + "'", Me.Text)
                     Return False
                 End If
             End If

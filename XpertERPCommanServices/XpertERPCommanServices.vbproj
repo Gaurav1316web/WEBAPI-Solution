@@ -734,6 +734,12 @@
     <Compile Include="Common Services\Report\rptDataEntryTracingReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Common Services\Report\rptFundProvision.Designer.vb">
+      <DependentUpon>rptFundProvision.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Common Services\Report\rptFundProvision.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Common Services\Report\rptMccDeductionReport.Designer.vb">
       <DependentUpon>rptMccDeductionReport.vb</DependentUpon>
     </Compile>
@@ -1183,6 +1189,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Common Services\Report\rptDataEntryTracingReport.resx">
       <DependentUpon>rptDataEntryTracingReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Common Services\Report\rptFundProvision.resx">
+      <DependentUpon>rptFundProvision.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Common Services\Report\rptMccDeductionReport.resx">
       <DependentUpon>rptMccDeductionReport.vb</DependentUpon>
