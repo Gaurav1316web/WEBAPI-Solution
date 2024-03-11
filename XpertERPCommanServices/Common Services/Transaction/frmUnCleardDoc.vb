@@ -536,7 +536,7 @@ Public Class frmUnCleardDoc
     Private Sub DeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
 
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub saveLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)

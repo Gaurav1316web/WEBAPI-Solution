@@ -2904,7 +2904,7 @@ Public Class FrmRptCustomerLedgerDemoZoneAreaWise
                 ReStoreGridZone()
                 GridSummaryRow()
             End If
-            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
         End If
     End Sub
 

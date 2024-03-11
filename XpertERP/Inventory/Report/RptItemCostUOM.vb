@@ -335,7 +335,7 @@ Public Class RptItemCostUOM
         Dim TempFormId As String = ""
         TempFormId = PageSetupReport_ID
         clsGridLayout.DeleteData(TempFormId, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
 End Class

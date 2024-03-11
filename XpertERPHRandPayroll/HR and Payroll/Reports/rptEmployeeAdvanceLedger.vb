@@ -87,7 +87,7 @@ Public Class rptEmployeeAdvanceLedger
 
     Private Sub btn_deletelayout_Click(sender As Object, e As EventArgs) Handles btn_deletelayout.Click
         If clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode) AndAlso RadPageViewPage2.Item.Visibility = ElementVisibility.Visible Then
-            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
         End If
     End Sub
 
