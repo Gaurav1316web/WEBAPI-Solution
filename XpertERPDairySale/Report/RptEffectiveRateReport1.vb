@@ -345,7 +345,7 @@ Public Class RptEffectiveRateReport1
     End Sub
     Private Sub rmDeleteLayut_Click(sender As Object, e As EventArgs) Handles rmDeleteLayut.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
     Private Sub rmExcel_Click(sender As Object, e As EventArgs) Handles rmExcel.Click
         Try

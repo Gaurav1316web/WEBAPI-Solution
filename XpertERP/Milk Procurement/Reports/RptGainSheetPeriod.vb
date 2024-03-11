@@ -146,7 +146,7 @@ Public Class RptGainSheetPeriod
 
     Private Sub rmDeletelayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeletelayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub RptGainSheetPeriod_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
