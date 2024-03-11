@@ -8310,6 +8310,10 @@ Public Class MDI
                         frm = New rptMilkPaymentSummary
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
 
+                    Case clsUserMgtCode.rptMilkUnion
+                        frm = New rptmilkunion
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
                     Case clsUserMgtCode.frmPaymentProcessFarmer
                         frm = New frmPaymentProcessFarmer
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
