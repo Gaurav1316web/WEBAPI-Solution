@@ -67,6 +67,57 @@ Public Class clsBookingEntryDairySale
     Public TCSBaseAmt As Double = 0
     Public TCSAmount As Double = 0
     Public Total_Amt As Double = 0
+    Public Tax_Group As String = Nothing
+    Public TaxGroupName As String = Nothing
+    Public TAX1 As String = Nothing
+    Public TAX1_Rate As Double = 0
+    Public TAX1_Base_Amt As Double = 0
+    Public TAX1_Amt As Double = 0
+    Public TAX2 As String = Nothing
+    Public TAX2_Rate As Double = 0
+    Public TAX2_Base_Amt As Double = 0
+    Public TAX2_Amt As Double = 0
+    Public TAX3 As String = Nothing
+    Public TAX3_Rate As Double = 0
+    Public TAX3_Base_Amt As Double = 0
+    Public TAX3_Amt As Double = 0
+    Public TAX4 As String = Nothing
+    Public TAX4_Rate As Double = 0
+    Public TAX4_Base_Amt As Double = 0
+    Public TAX4_Amt As Double = 0
+    Public TAX5 As String = Nothing
+    Public TAX5_Rate As Double = 0
+    Public TAX5_Base_Amt As Double = 0
+    Public TAX5_Amt As Double = 0
+    Public TAX6 As String = Nothing
+    Public TAX6_Rate As Double = 0
+    Public TAX6_Base_Amt As Double = 0
+    Public TAX6_Amt As Double = 0
+    Public TAX7 As String = Nothing
+    Public TAX7_Rate As Double = 0
+    Public TAX7_Base_Amt As Double = 0
+    Public TAX7_Amt As Double = 0
+    Public TAX8 As String = Nothing
+    Public TAX8_Rate As Double = 0
+    Public TAX8_Base_Amt As Double = 0
+    Public TAX8_Amt As Double = 0
+    Public TAX9 As String = Nothing
+    Public TAX9_Rate As Double = 0
+    Public TAX9_Base_Amt As Double = 0
+    Public TAX9_Amt As Double = 0
+    Public TAX10 As String = Nothing
+    Public TAX10_Rate As Double = 0
+    Public TAX10_Base_Amt As Double = 0
+    Public TAX10_Amt As Double = 0
+    Public Discount_Base As Double = 0
+    Public Discount_Amt As Double = 0
+    Public Amount_Less_Discount As Double = 0
+    Public Total_Tax_Amt As Double = 0
+    Public Terms_Code As String = Nothing
+    Public TermsName As String = Nothing
+    Public Due_Date As DateTime? = Nothing
+    Public Tax_Calculation_Type As EnumTaxCalucationType
+
 
 
 
@@ -226,6 +277,58 @@ Public Class clsBookingEntryDairySale
             Else
                 clsCommon.AddColumnsForChange(coll, "LastCollectionDate", clsCommon.GetPrintDate(obj.LastCollectionDate, "dd/MMM/yyyy"))
             End If
+            clsCommon.AddColumnsForChange(coll, "Tax_Group", obj.Tax_Group)
+            clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
+            clsCommon.AddColumnsForChange(coll, "TAX1_Rate", obj.TAX1_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX1_Base_Amt", obj.TAX1_Base_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX1_Amt", obj.TAX1_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX2", obj.TAX2)
+            clsCommon.AddColumnsForChange(coll, "TAX2_Rate", obj.TAX2_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX2_Base_Amt", obj.TAX2_Base_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX2_Amt", obj.TAX2_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX3", obj.TAX3)
+            clsCommon.AddColumnsForChange(coll, "TAX3_Rate", obj.TAX3_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX3_Base_Amt", obj.TAX3_Base_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX3_Amt", obj.TAX3_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX4", obj.TAX4)
+            clsCommon.AddColumnsForChange(coll, "TAX4_Rate", obj.TAX4_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX4_Base_Amt", obj.TAX4_Base_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX4_Amt", obj.TAX4_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX5", obj.TAX5)
+            clsCommon.AddColumnsForChange(coll, "TAX5_Rate", obj.TAX5_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX5_Base_Amt", obj.TAX5_Base_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX5_Amt", obj.TAX5_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX6", obj.TAX6)
+            clsCommon.AddColumnsForChange(coll, "TAX6_Rate", obj.TAX6_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX6_Base_Amt", obj.TAX6_Base_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX6_Amt", obj.TAX6_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX7", obj.TAX7)
+            clsCommon.AddColumnsForChange(coll, "TAX7_Rate", obj.TAX7_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX7_Base_Amt", obj.TAX7_Base_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX7_Amt", obj.TAX7_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX8", obj.TAX8)
+            clsCommon.AddColumnsForChange(coll, "TAX8_Rate", obj.TAX8_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX8_Base_Amt", obj.TAX8_Base_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX8_Amt", obj.TAX8_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX9", obj.TAX9)
+            clsCommon.AddColumnsForChange(coll, "TAX9_Rate", obj.TAX9_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX9_Base_Amt", obj.TAX9_Base_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX9_Amt", obj.TAX9_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX10", obj.TAX10)
+            clsCommon.AddColumnsForChange(coll, "TAX10_Rate", obj.TAX10_Rate)
+            clsCommon.AddColumnsForChange(coll, "TAX10_Base_Amt", obj.TAX10_Base_Amt)
+            clsCommon.AddColumnsForChange(coll, "TAX10_Amt", obj.TAX10_Amt)
+            clsCommon.AddColumnsForChange(coll, "Total_Tax_Amt", obj.Total_Tax_Amt)
+            clsCommon.AddColumnsForChange(coll, "Discount_Base", obj.Discount_Base)
+            clsCommon.AddColumnsForChange(coll, "Discount_Amt", obj.Discount_Amt)
+            clsCommon.AddColumnsForChange(coll, "Amount_Less_Discount", obj.Amount_Less_Discount)
+
+            If clsCommon.myLen(obj.Due_Date) > 0 Then
+                clsCommon.AddColumnsForChange(coll, "Due_Date", clsCommon.GetPrintDate(obj.Due_Date, "dd/MMM/yyyy"))
+            Else
+                clsCommon.AddColumnsForChange(coll, "Due_Date", Nothing, True)
+            End If
+            clsCommon.AddColumnsForChange(coll, "Terms_Code", obj.Terms_Code)
 
 
             If isNewEntry Then
@@ -408,7 +511,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
         Dim obj As clsBookingEntryDairySale = Nothing
         Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Against_DemandBooking_No,TSPL_BOOKING_MATSER.Ship_To_Location,TSPL_BOOKING_MATSER.Created_Date,TSPL_BOOKING_MATSER.AdvanceAmount,TSPL_BOOKING_MATSER.Against_Receipt_No,TSPL_BOOKING_MATSER.Against_Booking_No,TSPL_BOOKING_MATSER.Payment_Mode,TSPL_BOOKING_MATSER.Reference_No,TSPL_BOOKING_MATSER.Counter_No,TSPL_BOOKING_MATSER.IsSampling,TSPL_BOOKING_MATSER.AgainstGatePass,Document_No,Document_Date,Posted,CreateDO_Automatic,location_code,Cust_Group_Code,Is_Taxable,TRANSACTION_TYPE,Ex_Factory_Date,isnull(CustPO_No,'') as CustPO_No,custpo_date,isnull(SalesmanCode,'') as SalesmanCode,Total_Can,total_Box,Total_Crate,isnull(Is_Cancelled,0) as Is_Cancelled, isnull(Booking_Type,'') as Booking_Type,isnull(Card_SALE_No,'') as Card_SALE_No,CardSale_FROM_DATE,CardSale_TO_DATE,Uploading_date " &
             " ,isnull(Credit_Limit,0) as Credit_Limit,isnull(Advance_Security,0) as Advance_Security,isnull(Revese_Adv_Security,0) as Revese_Adv_Security,isnull(AR_Credit_Security,0) as AR_Credit_Security,isnull(Pending_Posted_DO,0) as Pending_Posted_DO,isnull(UnPostedDispatch,0) as UnPostedDispatch,isnull(Ledger_Outstansing,0) as Ledger_Outstansing,isnull(Refund_Security,0) as Refund_Security,isnull(Reverse_Refund_Sec,0) as Reverse_Refund_Sec,isnull(Total_Outstanding,0) as Total_Outstanding, isnull(GatePass_Type,'') as GatePass_Type,Created_By,Is_DCS,Is_BPL,BPL_Coupon_Code,BPL_Name,BPL_Remark,BPL_Coupon_Date,Is_Distributor,BPL_Category,TCSAmount,TCSBaseAmt,Total_Amt,TSPL_BOOKING_MATSER.LastCollectionDate " &
-            " from TSPL_BOOKING_MATSER where 2=2 and "
+            ",Tax_Group,TaxGroupName,Tax1,Tax1_Rate,Tax1_Base_Amt,TAX1_Amt,Tax2,Tax2_Rate,Tax2_Base_Amt,TAX2_Amt,Tax3,Tax3_Rate,Tax3_Base_Amt,TAX3_Amt,Tax4,Tax4_Rate,Tax4_Base_Amt,TAX4_Amt,Tax5,Tax5_Rate,Tax5_Base_Amt,TAX5_Amt,Discount_Base,Discount_Amt,Amount_Less_Discount,Total_Tax_Amt,Total_Amt from TSPL_BOOKING_MATSER where 2=2 and "
 
         '-------richa 12/08/2014 Ticket No. BM00000003242---------
         Dim strwherecls As String = ""
@@ -528,6 +631,33 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj.Total_Outstanding = clsCommon.myCdbl(dt.Rows(0)("Total_Outstanding"))
             obj.GatePass_Type = clsCommon.myCstr(dt.Rows(0)("GatePass_Type"))
             obj.Created_By = clsCommon.myCstr(dt.Rows(0)("Created_By"))
+            obj.Tax_Group = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
+            obj.TaxGroupName = clsCommon.myCstr(dt.Rows(0)("TaxGroupName"))
+            obj.TAX1 = clsCommon.myCstr(dt.Rows(0)("TAX1"))
+            obj.TAX1_Rate = clsCommon.myCdbl(dt.Rows(0)("TAX1_Rate"))
+            obj.TAX1_Base_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX1_Base_Amt"))
+            obj.TAX1_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX1_Amt"))
+            obj.TAX2 = clsCommon.myCstr(dt.Rows(0)("TAX2"))
+            obj.TAX2_Rate = clsCommon.myCdbl(dt.Rows(0)("TAX2_Rate"))
+            obj.TAX2_Base_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX2_Base_Amt"))
+            obj.TAX2_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX2_Amt"))
+            obj.TAX3 = clsCommon.myCstr(dt.Rows(0)("TAX3"))
+            obj.TAX3_Rate = clsCommon.myCdbl(dt.Rows(0)("TAX3_Rate"))
+            obj.TAX3_Base_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX3_Base_Amt"))
+            obj.TAX3_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX3_Amt"))
+            obj.TAX4 = clsCommon.myCstr(dt.Rows(0)("TAX4"))
+            obj.TAX4_Rate = clsCommon.myCdbl(dt.Rows(0)("TAX4_Rate"))
+            obj.TAX4_Base_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX4_Base_Amt"))
+            obj.TAX4_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX4_Amt"))
+            obj.TAX5 = clsCommon.myCstr(dt.Rows(0)("TAX5"))
+            obj.TAX5_Rate = clsCommon.myCdbl(dt.Rows(0)("TAX5_Rate"))
+            obj.TAX5_Base_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX5_Base_Amt"))
+            obj.TAX5_Amt = clsCommon.myCdbl(dt.Rows(0)("TAX5_Amt"))
+            obj.Discount_Base = clsCommon.myCdbl(dt.Rows(0)("Discount_Base"))
+            obj.Discount_Amt = clsCommon.myCdbl(dt.Rows(0)("Discount_Amt"))
+            obj.Amount_Less_Discount = clsCommon.myCdbl(dt.Rows(0)("Amount_Less_Discount"))
+            obj.Total_Tax_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Tax_Amt"))
+            obj.Total_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Amt"))
             obj.Arr = clsBookingDetailDairySale.getData(obj.Document_No, Trans)
             obj.arrBookingDetailDairySalePaymentMode = clsBookingDetailDairySalePaymentMode.getData(obj.Document_No, Trans)
         End If
@@ -1250,6 +1380,46 @@ Public Class clsBookingDetailDairySale
     Public Route_No As String = Nothing
     Public Price_with_Tax As Double = 0
     Public Amount_with_Tax As Double = 0
+    Public TAX1 As String = Nothing
+    Public TAX1_Base_Amt As Double = 0
+    Public TAX1_Rate As Double = 0
+    Public TAX1_Amt As Double = 0
+    Public TAX2 As String = Nothing
+    Public TAX2_Base_Amt As Double = 0
+    Public TAX2_Rate As Double = 0
+    Public TAX2_Amt As Double = 0
+    Public TAX3 As String = Nothing
+    Public TAX3_Base_Amt As Double = 0
+    Public TAX3_Rate As Double = 0
+    Public TAX3_Amt As Double = 0
+    Public TAX4 As String = Nothing
+    Public TAX4_Base_Amt As Double = 0
+    Public TAX4_Rate As Double = 0
+    Public TAX4_Amt As Double = 0
+    Public TAX5 As String = Nothing
+    Public TAX5_Base_Amt As Double = 0
+    Public TAX5_Rate As Double = 0
+    Public TAX5_Amt As Double = 0
+    Public TAX6 As String = Nothing
+    Public TAX6_Base_Amt As Double = 0
+    Public TAX6_Rate As Double = 0
+    Public TAX6_Amt As Double = 0
+    Public TAX7 As String = Nothing
+    Public TAX7_Base_Amt As Double = 0
+    Public TAX7_Rate As Double = 0
+    Public TAX7_Amt As Double = 0
+    Public TAX8 As String = Nothing
+    Public TAX8_Base_Amt As Double = 0
+    Public TAX8_Rate As Double = 0
+    Public TAX8_Amt As Double = 0
+    Public TAX9 As String = Nothing
+    Public TAX9_Base_Amt As Double = 0
+    Public TAX9_Rate As Double = 0
+    Public TAX9_Amt As Double = 0
+    Public TAX10 As String = Nothing
+    Public TAX10_Base_Amt As Double = 0
+    Public TAX10_Rate As Double = 0
+    Public TAX10_Amt As Double = 0
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsBookingDetailDairySale), ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean, ByVal Docdate As String) As Boolean
@@ -1318,7 +1488,46 @@ Public Class clsBookingDetailDairySale
                 clsCommon.AddColumnsForChange(coll, "FreshAmbient", obj.FreshAmbient)
                 clsCommon.AddColumnsForChange(coll, "Price_with_Tax", obj.Price_with_Tax)
                 clsCommon.AddColumnsForChange(coll, "Amount_with_Tax", obj.Amount_with_Tax)
-
+                clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
+                clsCommon.AddColumnsForChange(coll, "TAX1_Base_Amt", obj.TAX1_Base_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX1_Rate", obj.TAX1_Rate)
+                clsCommon.AddColumnsForChange(coll, "TAX1_Amt", obj.TAX1_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX2", obj.TAX2)
+                clsCommon.AddColumnsForChange(coll, "TAX2_Base_Amt", obj.TAX2_Base_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX2_Rate", obj.TAX2_Rate)
+                clsCommon.AddColumnsForChange(coll, "TAX2_Amt", obj.TAX2_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX3", obj.TAX3)
+                clsCommon.AddColumnsForChange(coll, "TAX3_Base_Amt", obj.TAX3_Base_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX3_Rate", obj.TAX3_Rate)
+                clsCommon.AddColumnsForChange(coll, "TAX3_Amt", obj.TAX3_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX4", obj.TAX4)
+                clsCommon.AddColumnsForChange(coll, "TAX4_Base_Amt", obj.TAX4_Base_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX4_Rate", obj.TAX4_Rate)
+                clsCommon.AddColumnsForChange(coll, "TAX4_Amt", obj.TAX4_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX5", obj.TAX5)
+                clsCommon.AddColumnsForChange(coll, "TAX5_Base_Amt", obj.TAX5_Base_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX5_Rate", obj.TAX5_Rate)
+                clsCommon.AddColumnsForChange(coll, "TAX5_Amt", obj.TAX5_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX6", obj.TAX6)
+                clsCommon.AddColumnsForChange(coll, "TAX6_Base_Amt", obj.TAX6_Base_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX6_Rate", obj.TAX6_Rate)
+                clsCommon.AddColumnsForChange(coll, "TAX6_Amt", obj.TAX6_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX7", obj.TAX7)
+                clsCommon.AddColumnsForChange(coll, "TAX7_Base_Amt", obj.TAX7_Base_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX7_Rate", obj.TAX7_Rate)
+                clsCommon.AddColumnsForChange(coll, "TAX7_Amt", obj.TAX7_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX8", obj.TAX8)
+                clsCommon.AddColumnsForChange(coll, "TAX8_Base_Amt", obj.TAX8_Base_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX8_Rate", obj.TAX8_Rate)
+                clsCommon.AddColumnsForChange(coll, "TAX8_Amt", obj.TAX8_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX9", obj.TAX9)
+                clsCommon.AddColumnsForChange(coll, "TAX9_Base_Amt", obj.TAX9_Base_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX9_Rate", obj.TAX9_Rate)
+                clsCommon.AddColumnsForChange(coll, "TAX9_Amt", obj.TAX9_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX10", obj.TAX10)
+                clsCommon.AddColumnsForChange(coll, "TAX10_Base_Amt", obj.TAX10_Base_Amt)
+                clsCommon.AddColumnsForChange(coll, "TAX10_Rate", obj.TAX10_Rate)
+                clsCommon.AddColumnsForChange(coll, "TAX10_Amt", obj.TAX10_Amt)
                 'Ticket No- ERO/12/07/18-000371
                 clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
                 'Ticket No- ERO/12/07/18-000371

@@ -10882,6 +10882,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
         If clsCommon.myLen(txtRouteNo.Value) > 0 Then
             Vehicle()
         End If
+        cmbDisItemType.Enabled = False
     End Sub
 
     Private Sub Vehicle()
