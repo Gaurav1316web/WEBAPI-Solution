@@ -5758,6 +5758,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             txtPrintDiscountAmt.Visible = False
             lblPrintDisAmt.Visible = False
         End If
+        cmbDisItemType.Enabled = True
         lblAlternateVehicleCode.Text = "" ''ERO/21/05/19-000610 by balwinder on 21/05/2019
         lblAlternateVehicleName.Text = ""
         txtManualCustomer.Text = ""
@@ -7239,6 +7240,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 isInsideLoadData = True
                 isNewEntry = False
                 btnSave.Text = "Update"
+
                 BlankAllControls()
                 LoadBlankGrid()
                 LoadBlankGridTax()
@@ -7276,6 +7278,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 ElseIf obj.Trans_Type = "PS" Then
                     rbtn_Ambient.IsChecked = True
                 End If
+                cmbDisItemType.Enabled = False
                 txtOPKM.Value = obj.OPKm
                 txtCLKM.Value = obj.CLKm
                 txtCrate.Value = obj.Crate
@@ -10735,13 +10738,14 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
         End If
     End Sub
     Private Sub fndRouteNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtRouteNo._MYValidating
-        ' 
-        If SettDistributorWiseBilling Then
-            If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
-                Dim strqry As String = "select Distinct Route_No as Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER"
-                txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", strqry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
-                fndRouteNo_TextChanged()
-                Dim strQry1 As String = "select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code  from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
+        If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
+            ' 
+            If SettDistributorWiseBilling Then
+                If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
+                    Dim strqry As String = "select Distinct Route_No as Code from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER"
+                    txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", strqry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
+                    fndRouteNo_TextChanged()
+                    Dim strQry1 As String = "select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code  from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
 left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DISTRIBUTOR_ROUTE.Code
                 where TSPL_DISTRIBUTOR_ROUTE.Status=1 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code in(
 select max(TSPL_DISTRIBUTOR_ROUTE.Code) from TSPL_DISTRIBUTOR_ROUTE
@@ -10749,127 +10753,131 @@ left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DI
 where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + txtRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end))
  and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + txtRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end)"
 
-                txtVendorNo.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry1))
-                strQry1 = "select Cust_Code as Code,Customer_Name as Name,ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
+                    txtVendorNo.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry1))
+                    strQry1 = "select Cust_Code as Code,Customer_Name as Name,ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
         ",TSPL_CUSTOMER_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ROUTE_MASTER.vehicle_code,TSPL_VEHICLE_MASTER.Number,TSPL_VEHICLE_MASTER.Capacity "
-                strQry1 += " from TSPL_CUSTOMER_MASTER "
-                strQry1 += " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code"
-                strQry1 += " left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State"
-                strQry1 += " left outer join TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER on TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code"
-                strQry1 += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'" &
+                    strQry1 += " from TSPL_CUSTOMER_MASTER "
+                    strQry1 += " left outer join TSPL_CITY_MASTER on TSPL_CITY_MASTER.City_Code=TSPL_CUSTOMER_MASTER.City_Code"
+                    strQry1 += " left outer join TSPL_TDS_STATE_MASTER on TSPL_TDS_STATE_MASTER.State_Code=TSPL_CUSTOMER_MASTER.State"
+                    strQry1 += " left outer join TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER on TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Code=TSPL_CUSTOMER_MASTER.Terms_Code"
+                    strQry1 += " left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_CUSTOMER_MASTER.Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S'" &
                 "left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No  " &
                 "left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id "
-                strQry1 += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
+                    strQry1 += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
 
 
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry1)
-                If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                    lblVendorName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
-                    txtTermCode.Value = clsCommon.myCstr(dt.Rows(0)("Term Code"))
-                    lblTermName.Text = clsCommon.myCstr(dt.Rows(0)("Term Description"))
-                    'txtTaxGroup.Value = clsCommon.myCstr(dt.Rows(0)("Tax Group"))
-                    'lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax Group Description"))
-                    txtSalesman.Value = clsCommon.myCstr(dt.Rows(0)("Salesman Code"))
-                    lblSalesman.Text = clsCommon.myCstr(dt.Rows(0)("Salesman"))
-                    'txtRouteNo.Value = clsCommon.myCstr(dt.Rows(0)("Route_No"))
-                    lblRouteDesc.Text = clsCommon.myCstr(dt.Rows(0)("Route_Desc"))
-                    'txtVehicleCode.Value = clsCommon.myCstr(dt.Rows(0)("vehicle_code"))
-                    'lblVhicleNo.Text = clsCommon.myCstr(dt.Rows(0)("Number"))
-                    txtVehicleCapacity.Value = clsCommon.myCdbl(dt.Rows(0)("Capacity"))
-                    txtDate.Enabled = False
-                    txtSupplyDate.Enabled = False
-                    txtVendorNo.Enabled = False
-                    chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
-                    SetMultiCurrencyVisibility()
-                    If EnableLocation Then
-                        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry1)
+                    If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                        lblVendorName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
+                        txtTermCode.Value = clsCommon.myCstr(dt.Rows(0)("Term Code"))
+                        lblTermName.Text = clsCommon.myCstr(dt.Rows(0)("Term Description"))
+                        'txtTaxGroup.Value = clsCommon.myCstr(dt.Rows(0)("Tax Group"))
+                        'lblTaxGrpName.Text = clsCommon.myCstr(dt.Rows(0)("Tax Group Description"))
+                        txtSalesman.Value = clsCommon.myCstr(dt.Rows(0)("Salesman Code"))
+                        lblSalesman.Text = clsCommon.myCstr(dt.Rows(0)("Salesman"))
+                        'txtRouteNo.Value = clsCommon.myCstr(dt.Rows(0)("Route_No"))
+                        lblRouteDesc.Text = clsCommon.myCstr(dt.Rows(0)("Route_Desc"))
+                        'txtVehicleCode.Value = clsCommon.myCstr(dt.Rows(0)("vehicle_code"))
+                        'lblVhicleNo.Text = clsCommon.myCstr(dt.Rows(0)("Number"))
+                        txtVehicleCapacity.Value = clsCommon.myCdbl(dt.Rows(0)("Capacity"))
+                        txtDate.Enabled = False
+                        txtSupplyDate.Enabled = False
+                        txtVendorNo.Enabled = False
+                        chkRateUserCustomer.ToggleState = ClsUserCustomerSettings.GetUserCustomerRateSetting(txtVendorNo.Value)
+                        SetMultiCurrencyVisibility()
+                        If EnableLocation Then
+                            txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
+                        Else
+                            txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                        End If
+                        If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
+                            lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
+                        End If
                     Else
-                        txtBillToLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from TSPL_USER_MASTER where User_Code='" + objCommonVar.CurrentUserCode + "' "))
+                        lblVendorName.Text = ""
+                        txtTermCode.Value = ""
+                        lblTermName.Text = ""
+                        txtTaxGroup.Value = ""
+                        lblTaxGrpName.Text = ""
+                        txtSalesman.Value = ""
+                        lblSalesman.Text = ""
+                        Me.txtCurrencyCode.Value = ""
+                        Me.txtConversionRate.Text = 1
+                        Me.txtApplicableFrom.Text = ""
                     End If
-                    If clsCommon.myLen(txtBillToLocation.Value) > 0 Then
-                        lblBillToLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtBillToLocation.Value + "'"))
-                    End If
-                Else
-                    lblVendorName.Text = ""
-                    txtTermCode.Value = ""
-                    lblTermName.Text = ""
-                    txtTaxGroup.Value = ""
-                    lblTaxGrpName.Text = ""
-                    txtSalesman.Value = ""
-                    lblSalesman.Text = ""
-                    Me.txtCurrencyCode.Value = ""
-                    Me.txtConversionRate.Text = 1
-                    Me.txtApplicableFrom.Text = ""
-                End If
 
-                strQry1 = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " &
+                    strQry1 = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " &
        "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " &
        "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " &
        "FROM TSPL_LOCATION_MASTER left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_Group and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' left outer join TSPL_TAX_GROUP_MASTER as TSPL_TAX_GROUP_MASTERIS on TSPL_TAX_GROUP_MASTERIS.Tax_Group_Code=TSPL_LOCATION_MASTER.Sales_Tax_GroupIS and TSPL_TAX_GROUP_MASTERIS.Tax_Group_Type='S' WHERE TSPL_LOCATION_MASTER.Location_Code = '" + Convert.ToString(txtBillToLocation.Value) + "'"
-                Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable(strQry1)
-                Dim loc As String = clsCommon.myCstr(dtLocation.Rows(0)("Excisable"))
-                Dim strLocState As String = clsCommon.myCstr(dtLocation.Rows(0)("State"))
-                If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal Then
-                    strExcise = True
-                Else
-                    strExcise = False
-                End If
-                If strExcise = True Then
-                    lblRemovalDate.Visible = True
-                    txtRemovalDate.Visible = True
-                Else
-                    lblRemovalDate.Visible = False
-                    txtRemovalDate.Visible = False
-                End If
-                If clsCommon.myLen(txtVendorNo.Value) > 0 Then
-                    strQry1 = "select Price_Code,price_CodeNon,State,price_group_code from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'"
-                    dt = clsDBFuncationality.GetDataTable(strQry1)
-                    If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(loc, "Y") = CompairStringResult.Equal Then
-                        txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
+                    Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable(strQry1)
+                    Dim loc As String = clsCommon.myCstr(dtLocation.Rows(0)("Excisable"))
+                    Dim strLocState As String = clsCommon.myCstr(dtLocation.Rows(0)("State"))
+                    If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal Then
+                        strExcise = True
                     Else
-                        txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("price_CodeNon"))
+                        strExcise = False
                     End If
-                    If clsCommon.myLen(txtPriceCode.Text) = 0 Then
-                        txtPriceGroupCode.Text = clsCommon.myCstr(dt.Rows(0)("price_group_code"))
-                    End If
-                    If clsCommon.myLen(txtPriceCode.Text) = 0 Then
-                        clsCommon.MyMessageBoxShow(Me, "Please map Price Code with customer code.", Me.Text)
-                        btnUpdateCustomer.Enabled = False
-                        Exit Sub
+                    If strExcise = True Then
+                        lblRemovalDate.Visible = True
+                        txtRemovalDate.Visible = True
                     Else
-                        For Each grow As GridViewRowInfo In gv1.Rows
-                            grow.Cells(colPriceCOde).Value = txtPriceCode.Text
-                        Next
+                        lblRemovalDate.Visible = False
+                        txtRemovalDate.Visible = False
                     End If
-                    txtVendorNo.Enabled = False
-                    'If clsCommon.CompairString(clsCommon.myCstr(dtLocation.Rows(0)("State")), clsCommon.myCstr(dt.Rows(0)("State"))) = CompairStringResult.Equal Then
-                    '    txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("LocalTaxGroup"))
-                    '    lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Local_Tax_GroupName"))
-                    'Else
-                    '    txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("InterstateTaxGroup"))
-                    '    lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Interstate_Tax_GroupName"))
-                    'End If
-                End If
-            Else
-                '                Dim qry As String = "Select TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code As Code,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date As [Applicable Date],TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM As UOM from TSPL_DISTRIBUTOR_COMMISSION_DETAIL
-                'Left Join TSPL_DISTRIBUTOR_COMMISSION_HEAD on TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No"
-                '                Dim Whrcls = " TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date <='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + txtVendorNo.Value + "'"
-                ' order by Applicable_Date desc"
-                Dim qry As String = "select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No as Code, Start_Date from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
+                    If clsCommon.myLen(txtVendorNo.Value) > 0 Then
+                        strQry1 = "select Price_Code,price_CodeNon,State,price_group_code from TSPL_CUSTOMER_MASTER where Cust_Code='" + txtVendorNo.Value + "'"
+                        dt = clsDBFuncationality.GetDataTable(strQry1)
+                        If clsCommon.CompairString(loc, "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(loc, "Y") = CompairStringResult.Equal Then
+                            txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
+                        Else
+                            txtPriceCode.Text = clsCommon.myCstr(dt.Rows(0)("price_CodeNon"))
+                        End If
+                        If clsCommon.myLen(txtPriceCode.Text) = 0 Then
+                            txtPriceGroupCode.Text = clsCommon.myCstr(dt.Rows(0)("price_group_code"))
+                        End If
+                        If clsCommon.myLen(txtPriceCode.Text) = 0 Then
+                            clsCommon.MyMessageBoxShow(Me, "Please map Price Code with customer code.", Me.Text)
+                            btnUpdateCustomer.Enabled = False
+                            Exit Sub
+                        Else
+                            For Each grow As GridViewRowInfo In gv1.Rows
+                                grow.Cells(colPriceCOde).Value = txtPriceCode.Text
+                            Next
+                        End If
+                        txtVendorNo.Enabled = False
+                        'If clsCommon.CompairString(clsCommon.myCstr(dtLocation.Rows(0)("State")), clsCommon.myCstr(dt.Rows(0)("State"))) = CompairStringResult.Equal Then
+                        '    txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("LocalTaxGroup"))
+                        '    lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Local_Tax_GroupName"))
+                        'Else
+                        '    txtTaxGroup.Value = clsCommon.myCstr(dtLocation.Rows(0)("InterstateTaxGroup"))
+                        '    lblTaxGrpName.Text = clsCommon.myCstr(dtLocation.Rows(0)("Interstate_Tax_GroupName"))
+                        'End If
+                    End If
+                Else
+                    '                Dim qry As String = "Select TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code As Code,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date As [Applicable Date],TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM As UOM from TSPL_DISTRIBUTOR_COMMISSION_DETAIL
+                    'Left Join TSPL_DISTRIBUTOR_COMMISSION_HEAD on TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No"
+                    '                Dim Whrcls = " TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date <='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + txtVendorNo.Value + "'"
+                    ' order by Applicable_Date desc"
+                    Dim qry As String = "select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No as Code, Start_Date from TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
 left join TSPL_DISTRIBUTOR_ROUTE on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code=TSPL_DISTRIBUTOR_ROUTE.Code"
-                Dim WhrCls As String = " TSPL_DISTRIBUTOR_ROUTE.Status=1 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code in(
+                    Dim WhrCls As String = " TSPL_DISTRIBUTOR_ROUTE.Status=1 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code in(
 select max(TSPL_DISTRIBUTOR_ROUTE.Code) from TSPL_DISTRIBUTOR_ROUTE
 left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
 where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code='" + txtVendorNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end))
  and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code='" + txtVendorNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end)"
-                txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", qry, "Code", WhrCls, txtRouteNo.Value, "Start_Date desc", isButtonClicked)
+                    txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", qry, "Code", WhrCls, txtRouteNo.Value, "Start_Date desc", isButtonClicked)
+                    fndRouteNo_TextChanged()
+                End If
+                LoadDemandData()
+            Else
+                Dim qry As String = "Select Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
+                txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
                 fndRouteNo_TextChanged()
             End If
-            LoadDemandData()
         Else
-            Dim qry As String = "Select Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
-            txtRouteNo.Value = clsCommon.ShowSelectForm("DShipRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
-            fndRouteNo_TextChanged()
+            clsCommon.MyMessageBoxShow(Me, "Select Item Type", Me.Text)
+
         End If
         If clsCommon.myLen(txtRouteNo.Value) > 0 Then
             Vehicle()
@@ -13121,20 +13129,21 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
     End Sub
     Private Sub LoadDemandData()
         Try
-            If SettDistributorWiseBilling AndAlso
+            If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "NT") = CompairStringResult.Equal Then
+                If SettDistributorWiseBilling AndAlso
                 clsCommon.myLen(txtRouteNo.Value) > 0 AndAlso
                 clsCommon.myLen(txtBillToLocation.Value) > 0 AndAlso
                 clsCommon.myLen(txtVendorNo.Value) > 0 Then
-                '                Dim qry As String = "select TSPL_DEMAND_BOOKING_DETAIL.TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_DEMAND_BOOKING_DETAIL.Qty as DemandQty,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
-                'from TSPL_DEMAND_BOOKING_DETAIL 
-                'left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
-                'left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-                'left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
-                'where 
-                'TSPL_DEMAND_BOOKING_MASTER.Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDateDistributor.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
-                'and TSPL_DEMAND_BOOKING_MASTER.Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDateDistributor.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
-                'and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + txtRouteNo.Value + "' and TSPL_DEMAND_BOOKING_MASTER.Location_Code='" + txtBillToLocation.Value + "' and TSPL_CUSTOMER_MASTER.Distributor_Code='" + txtVendorNo.Value + "'"
-                Dim qry As String = "select 
+                    '                Dim qry As String = "select TSPL_DEMAND_BOOKING_DETAIL.TR_Code,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_DEMAND_BOOKING_DETAIL.Qty as DemandQty,TSPL_DEMAND_BOOKING_DETAIL.Qty,TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
+                    'from TSPL_DEMAND_BOOKING_DETAIL 
+                    'left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+                    'left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+                    'left outer join TSPL_CUSTOMER_MASTER  on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
+                    'where 
+                    'TSPL_DEMAND_BOOKING_MASTER.Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDateDistributor.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' 
+                    'and TSPL_DEMAND_BOOKING_MASTER.Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDateDistributor.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'
+                    'and TSPL_DEMAND_BOOKING_MASTER.Route_No='" + txtRouteNo.Value + "' and TSPL_DEMAND_BOOKING_MASTER.Location_Code='" + txtBillToLocation.Value + "' and TSPL_CUSTOMER_MASTER.Distributor_Code='" + txtVendorNo.Value + "'"
+                    Dim qry As String = "select 
 TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code as TR_CODE,TSPL_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_BOOKING_DETAIL.Item_Code,TSPL_ITEM_MASTER.Item_Desc,TSPL_BOOKING_DETAIL.Booking_Qty as DemandQty,TSPL_BOOKING_DETAIL.Booking_Qty as Qty,TSPL_BOOKING_DETAIL.Unit_code 
 from TSPL_BOOKING_MATSER
 left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No
@@ -13144,15 +13153,18 @@ where TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(cmbShift.SelectedV
    and TSPL_BOOKING_MATSER.Posted=1
 and TSPL_BOOKING_DETAIL.Route_No='" + txtRouteNo.Value + "' and TSPL_BOOKING_MATSER.Location_Code='" + txtBillToLocation.Value + "' and TSPL_CUSTOMER_MASTER.Distributor_Code='" + txtVendorNo.Value + "'
  "
-                If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
-                    qry += " and TSPL_ITEM_MASTER.IsTaxable=1 "
-                Else
-                    qry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
-                End If
-                qry += " and TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code is not null  and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" + txtDocNo.Value + "')) 
+                    If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
+                        qry += " and TSPL_ITEM_MASTER.IsTaxable=1 "
+                    Else
+                        qry += " and TSPL_ITEM_MASTER.IsTaxable=0 "
+                    End If
+                    qry += " and TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code is not null  and not exists(select 1 from TSPL_SD_SHIPMENT_BOOKING_DETAIL where TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code  and TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE not in ('" + txtDocNo.Value + "')) 
 order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
-                LoadDistributorGrid(qry)
-                MergeDistributorItems(True)
+                    LoadDistributorGrid(qry)
+                    MergeDistributorItems(True)
+                End If
+            Else
+                Throw New Exception("Please Select Item Type ")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
