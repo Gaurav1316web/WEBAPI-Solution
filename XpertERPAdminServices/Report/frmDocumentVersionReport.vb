@@ -3027,7 +3027,7 @@ Public Class FrmDocumentVersionReport
 
     Private Sub btnShow_Click(sender As Object, e As EventArgs) Handles btnShow.Click
         If dtpFromDate.Value > dtpToDate.Value Then
-            common.clsCommon.MyMessageBoxShow(Me, "'From date' Cann't Be Greater Than 'To Date'")
+            common.clsCommon.MyMessageBoxShow(Me, "'From date' Cann't Be Greater Than 'To Date'", Me.Text)
         Else
             qry = Nothing
             ShowData()

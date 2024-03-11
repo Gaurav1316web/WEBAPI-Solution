@@ -541,7 +541,7 @@ Public Class FrmMilkPurchaseReturn
                     obj.Pur_Return_No = clsERPFuncationality.GetNextCode(trans, PIDate, clsDocType.BulkMilkPurchaseReturn, clsDocTransactionType.NA, txtLocation.Text)
                 End If
                 If clsCommon.myLen(obj.Pur_Return_No) <= 0 Then
-                    clsCommon.MyMessageBoxShow("Error In Document No Genertion")
+                    clsCommon.MyMessageBoxShow(Me, "Error In Document No Genertion", Me.Text)
                     Exit Sub
                 End If
 
@@ -934,7 +934,7 @@ Public Class FrmMilkPurchaseReturn
                     msg = "Successfully Posted"
 
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 loadData(fndDocNoReturn.Value, NavigatorType.Current)
               
             End If

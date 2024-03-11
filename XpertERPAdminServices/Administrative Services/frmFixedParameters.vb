@@ -16,7 +16,7 @@ Public Class FrmFixedParameters
             Dim whr As String = " type not in ('" + clsFixedParameterType.IsConsiderOutTypeDocForBalance + "')"
             Dim dt As DataTable = clsFixedParameter.GetFixedParameter(Nothing, whr)
             If dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No data found.")
+                clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
             Else
                 gvInvoice.DataSource = dt
                 FormatGrid()

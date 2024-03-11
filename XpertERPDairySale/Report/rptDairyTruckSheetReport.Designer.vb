@@ -22,19 +22,19 @@ Partial Class rptDairyTruckSheetReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem18 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem19 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem20 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem21 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -142,6 +142,7 @@ Partial Class rptDairyTruckSheetReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrintInvoiceDetail = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -240,6 +241,7 @@ Partial Class rptDairyTruckSheetReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintInvoiceDetail, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -300,6 +302,7 @@ Partial Class rptDairyTruckSheetReport
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.btnPrintInvoiceDetail)
         Me.RadGroupBox2.Controls.Add(Me.txtMultItemCodeInv)
         Me.RadGroupBox2.Controls.Add(Me.MyLabel28)
         Me.RadGroupBox2.Controls.Add(Me.btnPrintInvoice)
@@ -344,11 +347,11 @@ Partial Class rptDairyTruckSheetReport
         '
         Me.btnPrintInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrintInvoice.Location = New System.Drawing.Point(312, 86)
+        Me.btnPrintInvoice.Location = New System.Drawing.Point(290, 86)
         Me.btnPrintInvoice.Name = "btnPrintInvoice"
-        Me.btnPrintInvoice.Size = New System.Drawing.Size(109, 22)
+        Me.btnPrintInvoice.Size = New System.Drawing.Size(131, 22)
         Me.btnPrintInvoice.TabIndex = 409
-        Me.btnPrintInvoice.Text = "Print Invoice"
+        Me.btnPrintInvoice.Text = "Print Invoice Summary"
         '
         'MyLabel26
         '
@@ -527,24 +530,24 @@ Partial Class rptDairyTruckSheetReport
         Me.cmbCustomerCategory.IsSourceFromTable = False
         Me.cmbCustomerCategory.IsSourceFromValueList = False
         Me.cmbCustomerCategory.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "Vendor"
-        RadListDataItem3.Text = "Institution CR"
-        RadListDataItem4.Text = "Institution SO"
-        RadListDataItem5.Text = "Distributor"
-        RadListDataItem6.Text = "Others"
-        RadListDataItem7.Text = "UP COUNTRY"
-        RadListDataItem8.Text = "FORENOON"
-        RadListDataItem9.Text = "PARLOR SALES"
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem1)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem2)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem3)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem4)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem5)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem6)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem7)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem8)
-        Me.cmbCustomerCategory.Items.Add(RadListDataItem9)
+        RadListDataItem13.Text = "Select"
+        RadListDataItem14.Text = "Vendor"
+        RadListDataItem15.Text = "Institution CR"
+        RadListDataItem16.Text = "Institution SO"
+        RadListDataItem17.Text = "Distributor"
+        RadListDataItem18.Text = "Others"
+        RadListDataItem19.Text = "UP COUNTRY"
+        RadListDataItem20.Text = "FORENOON"
+        RadListDataItem21.Text = "PARLOR SALES"
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem13)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem14)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem15)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem16)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem17)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem18)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem19)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem20)
+        Me.cmbCustomerCategory.Items.Add(RadListDataItem21)
         Me.cmbCustomerCategory.Location = New System.Drawing.Point(71, 26)
         Me.cmbCustomerCategory.MendatroryField = False
         Me.cmbCustomerCategory.MyLinkLable1 = Nothing
@@ -1172,12 +1175,12 @@ Partial Class rptDairyTruckSheetReport
         Me.cmbGatePassType.IsSourceFromTable = False
         Me.cmbGatePassType.IsSourceFromValueList = False
         Me.cmbGatePassType.IsUnique = False
-        RadListDataItem10.Text = "Select"
-        RadListDataItem11.Text = "AM"
-        RadListDataItem12.Text = "PM"
-        Me.cmbGatePassType.Items.Add(RadListDataItem10)
-        Me.cmbGatePassType.Items.Add(RadListDataItem11)
-        Me.cmbGatePassType.Items.Add(RadListDataItem12)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "AM"
+        RadListDataItem3.Text = "PM"
+        Me.cmbGatePassType.Items.Add(RadListDataItem1)
+        Me.cmbGatePassType.Items.Add(RadListDataItem2)
+        Me.cmbGatePassType.Items.Add(RadListDataItem3)
         Me.cmbGatePassType.Location = New System.Drawing.Point(121, 115)
         Me.cmbGatePassType.MendatroryField = False
         Me.cmbGatePassType.MyLinkLable1 = Nothing
@@ -1639,7 +1642,8 @@ Partial Class rptDairyTruckSheetReport
         Me.Gv1.MasterTemplate.EnableFiltering = True
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ReadOnly = True
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1696,6 +1700,16 @@ Partial Class rptDairyTruckSheetReport
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 156
         Me.btnReset.Text = "Reset"
+        '
+        'btnPrintInvoiceDetail
+        '
+        Me.btnPrintInvoiceDetail.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintInvoiceDetail.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintInvoiceDetail.Location = New System.Drawing.Point(171, 86)
+        Me.btnPrintInvoiceDetail.Name = "btnPrintInvoiceDetail"
+        Me.btnPrintInvoiceDetail.Size = New System.Drawing.Size(109, 22)
+        Me.btnPrintInvoiceDetail.TabIndex = 425
+        Me.btnPrintInvoiceDetail.Text = "Print Invoice Detail"
         '
         'rptDairyTruckSheetReport
         '
@@ -1814,6 +1828,7 @@ Partial Class rptDairyTruckSheetReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintInvoiceDetail, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1925,5 +1940,6 @@ Partial Class rptDairyTruckSheetReport
     Friend WithEvents btnPrintInvoice As RadButton
     Friend WithEvents MyLabel28 As common.Controls.MyLabel
     Friend WithEvents txtMultItemCodeInv As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents btnPrintInvoiceDetail As RadButton
 End Class
 

@@ -1575,7 +1575,7 @@ Public Class frmPriceMasterPlan
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -1604,7 +1604,7 @@ Public Class frmPriceMasterPlan
 
     Private Sub RadMenuItem5_Click(sender As Object, e As EventArgs) Handles RadMenuItem5.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
     '==========Added by preti gupta Against ticket no[MIL/14/05/19-000083]
     Private Sub fndPricePlanCopy__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndPricePlanCopy._MYValidating

@@ -516,7 +516,7 @@ Public Class FrmMilkTransferIn
                             End If
                         End If
                     End If
-                    common.clsCommon.MyMessageBoxShow(msg)
+                    common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                     LoadData(fndRcptChalanNo.Value, NavigatorType.Current)
                 End If
             End If
@@ -1344,7 +1344,7 @@ Public Class FrmMilkTransferIn
 
     Private Sub btnReverse_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsMilkTransferIn.ReverseAndUnpost(fndRcptChalanNo.Value, Nothing) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndRcptChalanNo.Value, NavigatorType.Current)
@@ -1394,7 +1394,7 @@ Public Class FrmMilkTransferIn
             frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "rptMilkTransferIn", "Milk Transfer In", clsCommon.myCDate(dt.Rows(0)("Receipt_Challan_Date")))
             frmCRV = Nothing
         Else
-            clsCommon.MyMessageBoxShow("Please select an invoice to print")
+            clsCommon.MyMessageBoxShow(Me, "Please select an invoice to print", Me.Text)
         End If
     End Sub
     Private Sub btnPost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPost.Click
@@ -1771,7 +1771,7 @@ Public Class FrmMilkTransferIn
 
                     If (obj.SaveData(obj, True, True)) Then
                         ' clsMilkRGPHead.PostData(obj.RGP_No)
-                        clsCommon.MyMessageBoxShow("RGP [" & obj.RGP_No & "] has been created.")
+                        clsCommon.MyMessageBoxShow(Me, "RGP [" & obj.RGP_No & "] has been created.", Me.Text)
                     End If
                 End If
             Next

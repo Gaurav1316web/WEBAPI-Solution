@@ -404,7 +404,7 @@ Public Class FrmBranchAccountMapping
             Next
             Dim dtEnd As DateTime = DateTime.Now
             Dim dtSpan As TimeSpan = dtEnd.Subtract(dtStart)
-            clsCommon.MyMessageBoxShow("Minutes: " + clsCommon.myCstr(dtSpan.Minutes) + " and Seconds: " + clsCommon.myCstr(dtSpan.Seconds))
+            clsCommon.MyMessageBoxShow(Me, "Minutes: " + clsCommon.myCstr(dtSpan.Minutes) + " and Seconds: " + clsCommon.myCstr(dtSpan.Seconds), Me.Text)
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
@@ -489,7 +489,7 @@ Public Class FrmBranchAccountMapping
     End Sub
 
     Private Sub gv_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -632,7 +632,7 @@ Public Class FrmBranchAccountMapping
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             ''richa agarwal regarding memory leakage
             obj.GridLayout.Close()
@@ -644,6 +644,6 @@ Public Class FrmBranchAccountMapping
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
 
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 End Class

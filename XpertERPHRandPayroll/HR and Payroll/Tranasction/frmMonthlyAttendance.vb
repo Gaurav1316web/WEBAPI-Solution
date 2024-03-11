@@ -1740,7 +1740,7 @@ Public Class frmMonthlyAttendance
             obj.GridColumns = gvMonthlyAttendance.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -1749,7 +1749,7 @@ Public Class frmMonthlyAttendance
 
     Private Sub Delete_Layout_Click(sender As Object, e As EventArgs) Handles Delete_Layout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
     Private Sub ReStoreGridLayout()
         Try

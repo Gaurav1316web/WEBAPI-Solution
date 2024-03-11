@@ -249,7 +249,7 @@ Public Class frmCustomFieldMapping
                         If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colCustomFieldCode).Value), clsCommon.myCstr(gv1.Rows(jj).Cells(colCustomFieldCode).Value)) = CompairStringResult.Equal AndAlso (clsCommon.myCBool(gv1.Rows(ii).Cells(colisForDetailLevel).Value) = clsCommon.myCBool(gv1.Rows(jj).Cells(colisForDetailLevel).Value)) Then
                             Dim Msg As String = " Same Item Exist at Row No " + clsCommon.myCstr(ii + 1) + " And " + clsCommon.myCstr(jj + 1)
                             Msg = Msg + Environment.NewLine + "Item: " + clsCommon.myCstr(gv1.Rows(ii).Cells(colCustomFieldCode).Value)
-                            common.clsCommon.MyMessageBoxShow(Msg)
+                            common.clsCommon.MyMessageBoxShow(Me, Msg, Me.Text)
                             Return False
                         End If
                     End If
