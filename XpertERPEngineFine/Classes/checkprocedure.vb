@@ -1579,6 +1579,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DBTPayment, "DBT Payment", "1.17.02.51", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.52", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, "DCS Milk Collection", "1.17.02.53", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDBTNEFTUnionReport, "Union Report", "1.17.02.54", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
 
         '=========================================================================================
         '--Reportsmdi
