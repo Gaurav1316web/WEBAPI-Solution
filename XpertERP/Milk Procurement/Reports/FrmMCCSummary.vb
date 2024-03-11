@@ -204,7 +204,7 @@ Public Class FrmMCCSummary
             Else
 
 
-                Dim strBaseQry As String = clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), "", "", Nothing, txtMCC.arrValueMember, txtRoute.arrValueMember, txtVLC.arrValueMember, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue), "", Nothing, False)
+                Dim strBaseQry As String = clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, clsCommon.myCstr(txtFromShift.SelectedValue), clsCommon.myCstr(txtToShift.SelectedValue), "", "", Nothing, txtMCC.arrValueMember, txtRoute.arrValueMember, txtVLC.arrValueMember, clsCommon.myCstr(cboMilkReceiveUOM.SelectedValue), "", Nothing, False, Nothing)
                 If chkShiftWise.Checked Then
                     sQuery = "Select  '' as [Total],[MCC Code] As MCC,max([MCC Name]) As [MCC Name],max([Doc Date]) As DocumentDate ,max([Doc Date]) As  [Doc_Date], Shift,    Sum([Milk Weight]) As [Milk Weight],      Sum([Milk Weight(KG)]) As [Milk Weight(KG)],     Sum([Milk Weight(LTR)]) As [Milk Weight(LTR)]      , Sum([FAT(KG)]) As [FAT(KG)],    Sum( [SNF(KG)]) As [SNF(KG)], Sum([FAT(LTR)]) As [FAT(LTR)] , Sum([SNF(LTR)]) As [SNF(LTR)] , Sum(NET_AMOUNT) As [Value]   from(" + strBaseQry + "  )XX group by [MCC Code],Date,Shift order by [MCC Code],Date,Shift desc"
                 Else
