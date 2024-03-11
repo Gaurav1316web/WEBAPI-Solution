@@ -1412,6 +1412,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyOrderConfirmation As String = "Apply Order Confirmation"
     Public Const SelectDemandUOMAtRuntime = "Select Demand UOM at Runtime"
     Public Const ShowCatalogPrice = "Show Catalog Price"
+    Public Const StopDemandUpdateForCNF = "Stop Demand Update for CNF"
 
 
     Public Const comtecxpertappsaras As String = "com.tecxpert.app.saras"
@@ -2955,6 +2956,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ApplyOrderConfirmation, "0", "1-True;0-False")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.SelectDemandUOMAtRuntime, "0", "1-True;0-False")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowCatalogPrice, "0", "0:Selling,1:Basic")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.StopDemandUpdateForCNF, "0", "0:OFF,1:ON;CNF Type User will not update Demand")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")

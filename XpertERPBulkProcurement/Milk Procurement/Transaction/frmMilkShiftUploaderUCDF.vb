@@ -566,7 +566,7 @@ Public Class frmMilkShiftUploaderUCDF
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("Please select document no to delete")
             End If
-            If clsCommon.MyMessageBoxShow("Delete the current document" + Environment.NewLine + "Are you sure ? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Delete the current document" + Environment.NewLine + "Are you sure ? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsMilkShiftUploaderHead.DeleteData(txtDocNo.Value)
                 clsCommon.MyMessageBoxShow(Me, "Data delete successfully", Me.Text)
                 AddNew()
@@ -581,7 +581,7 @@ Public Class frmMilkShiftUploaderUCDF
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("No document found to post")
             End If
-            If clsCommon.MyMessageBoxShow("Post the Current Document [" + txtDocNo.Value + "]" + Environment.NewLine + "Are You Sure.", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Post the Current Document [" + txtDocNo.Value + "]" + Environment.NewLine + "Are You Sure.", Me.Text, MessageBoxButtons.YesNo, WinControls.RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 If settMilkProcurementBatchPosting Then
                     clsMilkShiftUploaderHead.PostDataForBatch(txtDocNo.Value)
                 Else
@@ -833,7 +833,7 @@ Public Class frmMilkShiftUploaderUCDF
         End If
 
 
-        If clsCommon.MyMessageBoxShow("Delete the collection data", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+        If clsCommon.MyMessageBoxShow(Me, "Delete the collection data", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
             Exit Sub
         End If
 

@@ -154,7 +154,7 @@ Public Class FrmBankBrachMaster
                 common.clsCommon.MyMessageBoxShow(Me, "No Branch Code found to Delete", Me.Name)
                 'Return False
                 Exit Sub
-            ElseIf Not (common.clsCommon.MyMessageBoxShow("Delete the Branch Code " + fndBranchCode.Value + Environment.NewLine + " Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
+            ElseIf Not (common.clsCommon.MyMessageBoxShow(Me, "Delete the Branch Code " + fndBranchCode.Value + Environment.NewLine + " Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes) Then
                 'Return False
                 Exit Sub
             End If
@@ -259,7 +259,7 @@ Public Class FrmBankBrachMaster
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message & " At Line  no : " & i)
+                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Line  no : " & i, Me.Text)
             End Try
 
         End If

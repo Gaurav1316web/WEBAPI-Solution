@@ -432,7 +432,7 @@ Public Class RptMilkStockLegderSummary
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             success = success And obj.SaveData()
             If success Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

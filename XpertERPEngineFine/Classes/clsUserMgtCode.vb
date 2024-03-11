@@ -633,6 +633,7 @@ Public Class clsUserMgtCode
     Public Const frmBankBookRecoReport As String = "BBR-RPT"
     Public Const frmBankBookLocationDetail As String = "BLW-BK-RPT"
     Public Const frmCashVoucher As String = "CSH-VCHR"
+    Public Const fundprovision As String = "FND-PRN"
     Public Const RptBankReconcilliation As String = "BNK-REC"
     Public Const FrmBankReverse As String = "BNK-Rev1"
     Public Const FrmCustomerOutstanding As String = "CUS-OUTS-RPT"

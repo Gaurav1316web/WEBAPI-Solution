@@ -252,7 +252,7 @@ Public Class rptPaymentProcessReportBMCSocietyWise
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
 
 
@@ -264,7 +264,7 @@ Public Class rptPaymentProcessReportBMCSocietyWise
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(setFormId(), objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
 
@@ -377,7 +377,7 @@ Public Class rptPaymentProcessReportBMCSocietyWise
         Try
             ControlEmpty()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -402,7 +402,7 @@ Public Class rptPaymentProcessReportBMCSocietyWise
         Try
             ControlEmpty()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -410,7 +410,7 @@ Public Class rptPaymentProcessReportBMCSocietyWise
         Try
             ControlEmpty()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -418,7 +418,7 @@ Public Class rptPaymentProcessReportBMCSocietyWise
         Try
             ControlEmpty()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -426,7 +426,7 @@ Public Class rptPaymentProcessReportBMCSocietyWise
         Try
             ControlEmpty()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
     End Sub
 
@@ -434,7 +434,7 @@ Public Class rptPaymentProcessReportBMCSocietyWise
         Try
             ControlEmpty()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString(), Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString(), Me.Text)
         End Try
     End Sub
 

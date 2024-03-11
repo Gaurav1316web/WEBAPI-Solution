@@ -1244,6 +1244,7 @@
     <None Include="Crystal Reports\Inventory Report\TransferPreprintedLORoute.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferPreprintedLORouteTAX.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptbulkinvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingTruckSheet.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crpJobworkEstimate.rpt" />
@@ -1293,6 +1294,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptProductSaleInvoice_Challan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptRGPNew.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSGSWaiverLetterMT.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptSubInvoiceDetails.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSubReportExciseTransferSaleInvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptSupplyCrate.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptTrustReceiptMT.rpt" />

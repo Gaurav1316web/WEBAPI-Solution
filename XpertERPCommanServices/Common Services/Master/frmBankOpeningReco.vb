@@ -305,7 +305,7 @@ Public Class frmBankOpeningReco
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow(Me, ex.Message + Environment.NewLine + "At line no " + clsCommon.myCstr(linno))
+                clsCommon.MyMessageBoxShow(Me, ex.Message + Environment.NewLine + "At line no " + clsCommon.myCstr(linno), Me.Text)
             Finally
                 Me.Controls.Remove(gv)
             End Try

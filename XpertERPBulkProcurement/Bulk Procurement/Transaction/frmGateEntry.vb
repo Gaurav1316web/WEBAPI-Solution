@@ -378,7 +378,7 @@ Public Class FrmGateEntry
                 gvItemBulk.Columns(colUOM).ReadOnly = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1079,9 +1079,9 @@ Public Class FrmGateEntry
     End Sub
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsGateEntry.ReverseAndUnpost(fndGateEntryNO.Value) Then
-                    common.clsCommon.MyMessageBoxShow(Me,"Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndGateEntryNO.Value, IIf(chkMccProc.IsChecked, "MccProc", "BulkProc"), NavigatorType.Current)
                 End If
             End If
@@ -1545,7 +1545,7 @@ Public Class FrmGateEntry
                         Dim HSNCode As String = clsItemMaster.GetItemHSNCode(gvItemBulk.Rows(ii).Cells(colItemCode).Value, Nothing)
                         gvItemBulk.Rows(ii).Cells(colHSN).Value = HSNCode
                         If clsCommon.myLen(HSNCode) <= 0 Then
-                            clsCommon.MyMessageBoxShow(Me, "HSN Code is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                            clsCommon.MyMessageBoxShow(Me, "HSN Code is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ", Me.Text)
                             Return False
                         End If
                     End If
@@ -2150,7 +2150,7 @@ Public Class FrmGateEntry
                 reset()
             End If
         Else
-            clsCommon.MyMessageBoxShow(Me, "Please Select Gate Entry Type Either MCC Procurement or Bulk Procurement ")
+            clsCommon.MyMessageBoxShow(Me, "Please Select Gate Entry Type Either MCC Procurement or Bulk Procurement ", Me.Text)
             Exit Sub
         End If
         DisableIntimationControls()
@@ -2366,7 +2366,7 @@ Public Class FrmGateEntry
             obj.GridColumns = gvItemBulk.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -2377,7 +2377,7 @@ Public Class FrmGateEntry
     Private Sub mnuDeleteLayout_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub mnuExit_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuExit.Click
@@ -2791,7 +2791,7 @@ Public Class FrmGateEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             dtpDateAndTimeBulk.Value = clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy hh:mm:ss tt")
         End Try
     End Sub

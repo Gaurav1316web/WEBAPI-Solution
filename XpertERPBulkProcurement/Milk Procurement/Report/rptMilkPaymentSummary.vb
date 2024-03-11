@@ -432,11 +432,11 @@ Public Class rptMilkPaymentSummary
                 transportSql.applyExportTemplate(gv, PageSetupReport_ID)
                 clsCommon.MyExportToPDF("Milk Payment Summary Report", gv, arrHeader, "Milk Payment Summary Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -485,7 +485,7 @@ Public Class rptMilkPaymentSummary
             txtMCC.arrValueMember = arrMCCMapped
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 End Class

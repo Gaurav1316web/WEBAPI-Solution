@@ -1,9 +1,5 @@
-﻿Imports common
-Imports System.Globalization
-Imports System.Data.SqlClient
-Imports System
-Imports System.IO
-Imports Telerik.WinControls.UI.Export
+﻿Imports System.IO
+Imports common
 Public Class FrmERPStatusTrackingReport
     Inherits FrmMainTranScreen
 #Region "Variables"
@@ -20,9 +16,9 @@ Public Class FrmERPStatusTrackingReport
             chkDBT.Visible = False
             chkDBT.Checked = False
         ElseIf e.Alt AndAlso e.KeyCode = Keys.E AndAlso btnreset.Enabled Then
-            reset()
-            chkDBT.Visible = False
-            chkDBT.Checked = False
+            'reset()
+            'chkDBT.Visible = False
+            'chkDBT.Checked = False
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
             Close()
             chkDBT.Visible = False
@@ -206,7 +202,7 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
 
                     Dim docNo As String = ""
                     query = ""
-                    dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+                    dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         For ii As Integer = 0 To dt.Rows.Count - 1
                             If ii > 0 Then
@@ -224,7 +220,7 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
                             query += ",(select COUNT(MP_Name) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL where Document_Code='" + docNo + "') As [No Of Farmer] "
                             query += ",(select count(Jan_Aadhar_No_Verified) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code_VLC_Uploader where Jan_Aadhar_No_Verified=1 and Document_Code='" + docNo + "') As [Jan Aadhar Verified No]"
                             query += ",(select count(Aadhar_No_Verified) from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER left outer join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL on [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.MP_Uploader_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code_VLC_Uploader where Aadhar_No_Verified=1 and Document_Code='" + docNo + "') As [Addhar Verified]"
-                            query += ",(select Top 1 concat(From_Date, ' - ', To_Date)  FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT ORDER BY From_Date DESC, To_Date DESC ) AS [Last DBT Cycle]"
+                            query += ",(select convert(varchar, From_Date,103) + ' - '+ convert(varchar, To_Date,103)  FROM [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT where Document_Code='" + docNo + "'  ) AS [Last DBT Cycle]"
                         Next
                     End If
                 Else
@@ -377,8 +373,8 @@ where [" + clsCommon.myCstr(dtr.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_
         reset()
     End Sub
     Sub reset()
-        gv1.Visible = False
-        txtDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
+        'gv1.Visible = False
+        'txtDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE, "dd/MM/yyyy")
 
     End Sub
     Private Sub btnclose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnclose.Click

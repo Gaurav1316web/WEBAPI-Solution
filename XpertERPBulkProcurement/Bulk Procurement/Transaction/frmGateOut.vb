@@ -234,7 +234,7 @@ Public Class FrmGateOut
     End Sub
 
     Sub PrintData()
-        clsCommon.MyMessageBoxShow("No Print Format Found")
+        clsCommon.MyMessageBoxShow(Me, "No Print Format Found", Me.Text)
     End Sub
     Private Sub fndGateEntryNo__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndGateEntryNo._MYValidating
         'Dim whrCls As String = " "
