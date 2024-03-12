@@ -70,7 +70,7 @@ Public Class FrmMCCMilkRegister
         End If
         txtFromShift.SelectedValue = "M"
         txtToShift.SelectedValue = "E"
-        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 0)
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         fndArea.Visible = AreaWiseBilling
         lblArea.Visible = AreaWiseBilling
     End Sub
