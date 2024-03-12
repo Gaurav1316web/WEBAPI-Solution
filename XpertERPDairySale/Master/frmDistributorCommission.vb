@@ -4,6 +4,7 @@ Public Class frmDistributorCommission
     Inherits FrmMainTranScreen
 #Region "Variables"
     Dim isNewEntry As Boolean = False
+    Dim SeparateDemandMilkandProduct As Boolean = False
     Const ColSNo As String = "ColSNo"
     Const ColRouteCode As String = "ColRouteCode"
     Const ColRouteName As String = "ColRouteName"
@@ -44,12 +45,17 @@ Public Class frmDistributorCommission
 
     End Sub
     Private Sub frmDistributorCommission_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        SeparateDemandMilkandProduct = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, Nothing)) = 1, True, False)
 
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtApplicableDate.Value = clsCommon.GETSERVERDATE()
         txtInActiveDate.Value = clsCommon.GETSERVERDATE()
         SetUserMgmtNew()
         AddNew()
+        If Not SeparateDemandMilkandProduct Then
+            lblItemType.Visible = False
+            cmbItemType.Visible = False
+        End If
     End Sub
     Private Sub frmDistributorCommission_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
@@ -184,6 +190,8 @@ Public Class frmDistributorCommission
         btnGo.Enabled = True
         btnDelete.Enabled = False
         chkInActive.Checked = False
+        cmbItemType.Enabled = False
+
         LoadBlankGrid()
 
     End Sub
@@ -216,7 +224,7 @@ Public Class frmDistributorCommission
 
 
                 If clsCommon.myLen(txtDistributorTagging.Value) > 0 Then
-                    Dim StrQry As String = "select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No,TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name 
+                    Dim StrQry As String = "select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No,TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DISTRIBUTOR_ROUTE.ItemType 
 from TSPL_DISTRIBUTOR_ROUTE
 left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
 left join TSPL_CUSTOMER_MASTER on TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
@@ -230,6 +238,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                             GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteName).Value = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(dr("Route_No")) + "' ")
                             GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
                             GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
+                            cmbItemType.Text = clsCommon.myCstr(dr("ItemType"))
                             i = i + 1
                             GV1.Rows.AddNew()
                         Next
@@ -437,10 +446,10 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                 txtInActiveDate.Value = obj.InActive_date
                 txtUOM.Value = obj.Commision_UOM
                 txtDistributorTagging.Value = obj.Distributor_Tagging_Code
-                    If obj.IS_Transpotation Then
-                        rbtnTranspotation.IsChecked = True
-                    Else
-                        rbtnCommission.IsChecked = True
+                If obj.IS_Transpotation Then
+                    rbtnTranspotation.IsChecked = True
+                Else
+                    rbtnCommission.IsChecked = True
                     End If
                     If obj.IS_Security Then
                         chkSecurity.Checked = True

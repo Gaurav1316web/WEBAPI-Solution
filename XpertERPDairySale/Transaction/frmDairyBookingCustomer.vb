@@ -482,7 +482,7 @@ Public Class frmDairyBookingCustomer
         repoAvgQty.Width = 100
         repoAvgQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoAvgQty.ReadOnly = True
-        repoAvgQty.IsVisible = True
+        repoAvgQty.IsVisible = False
         repoAvgQty.VisibleInColumnChooser = True
         gv1.MasterTemplate.Columns.Add(repoAvgQty)
         Dim repoActualBalQty As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -492,7 +492,7 @@ Public Class frmDairyBookingCustomer
         repoActualBalQty.Width = 100
         repoActualBalQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoActualBalQty.ReadOnly = True
-        repoActualBalQty.IsVisible = True
+        repoActualBalQty.IsVisible = False
         repoActualBalQty.VisibleInColumnChooser = True
         gv1.MasterTemplate.Columns.Add(repoActualBalQty)
         Dim repopREVIOUSQty As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -3704,7 +3704,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -6781,6 +6781,9 @@ from
             frm.txtlocation = txtLocation.Value
             frm.vehicleno = txtVehicleCode.Value
             frm.docdate = txtDate.Value
+            frm.Supplydate = txtDate.Value
+            frm.Shifttype = cmbGatePassType.Text
+
             frm.ShowDialog()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

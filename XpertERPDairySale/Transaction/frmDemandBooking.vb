@@ -11,6 +11,7 @@ Public Class frmDemandBooking
     Public Shared LockUnlock As Integer = 0
     Dim EnableLocation As Boolean = False
     Dim EnableResetDemand As Boolean = False
+    Dim SeparateDemandMilkandProduct As Boolean = False
     Dim LockedByUserName As String = ""
     Dim LockedByUserCode As String = ""
     Dim SingleUserParticularDairyBookingEdit As Boolean = False
@@ -88,6 +89,7 @@ Public Class frmDemandBooking
             DoNotConsiderCustomerCreditLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotConsiderCustomerCreditLimit, clsFixedParameterCode.DoNotConsiderCustomerCreditLimit, Nothing)) = 1, True, False)
             UseCutOffTimeonRouteForERP = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.UseCutOffTimeonRouteForERP, clsFixedParameterCode.UseCutOffTimeonRouteForERP, Nothing)) = 1, True, False)
             checkCreditLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, Nothing)) = 1, True, False)
+            SeparateDemandMilkandProduct = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, Nothing)) = 1, True, False)
             AddNew()
             SetUserMgmtNew()
             If clsCommon.myLen(StrDocNo) > 0 Then
@@ -218,7 +220,7 @@ Public Class frmDemandBooking
         If Not SettSeprateDemandForMorningEveningShift Then
             rbtnMorningEveningBoth.IsChecked = True
         End If
-        rdbnFreshAmbientBoth.IsChecked = True
+        'rdbnFreshAmbientBoth.IsChecked = True
         gv1.DataSource = Nothing
         'gv1.ViewDefinition = New TableViewDefinition
         gv1.Rows.AddNew()
@@ -442,9 +444,9 @@ Public Class frmDemandBooking
         Dim intCurrRow As Integer = gv1.CurrentRow.Index
         If gv1.Rows.Count > 0 Then
             'gv1.CurrentColumn = gv1.Columns(7)
-            gv1.Rows(intCurrRow).Cells(7).IsSelected = True
+            gv1.Rows(intCurrRow).Cells(8).IsSelected = True
             gv1.Rows(intCurrRow).IsCurrent = True
-            gv1.Columns(7).IsCurrent = True
+            gv1.Columns(8).IsCurrent = True
         End If
     End Sub
     Private Sub setGridFocusEnd()
@@ -625,7 +627,7 @@ Public Class frmDemandBooking
                 rbtnMorningEveningBoth.IsChecked = True
             End If
             RadGroupBox3.Enabled = True
-            rdbnFreshAmbientBoth.IsChecked = True
+            'rdbnFreshAmbientBoth.IsChecked = True
             chkMorningGatepassTruckSheetGenerated.Checked = False
             chkEveningGatepassTruckSheetGenerated.Checked = False
             FlagChangeVehical = False
@@ -1103,12 +1105,31 @@ Public Class frmDemandBooking
                 End If
                 If clsCommon.CompairString(obj.ItemType, "Fresh") = CompairStringResult.Equal Then
                     rbtn_Fresh.IsChecked = True
+                    If SeparateDemandMilkandProduct Then
+                        RadGroupBox1.Enabled = False
+                        LoadBlankGrid()
+                        HideUnhideRowsAndColumnsOFGrid()
+                    End If
                 ElseIf clsCommon.CompairString(obj.ItemType, "Ambient") = CompairStringResult.Equal Then
                     rbtn_Ambient.IsChecked = True
+                    If SeparateDemandMilkandProduct Then
+                        RadGroupBox1.Enabled = False
+                        LoadBlankGrid()
+                        HideUnhideRowsAndColumnsOFGrid()
+                    End If
                 Else
                     rdbnFreshAmbientBoth.IsChecked = True
+                    If SeparateDemandMilkandProduct Then
+                        RadGroupBox1.Enabled = False
+                        LoadBlankGrid()
+                        HideUnhideRowsAndColumnsOFGrid()
+                    End If
                 End If
-                LoadBlankGrid()
+                If Not SeparateDemandMilkandProduct Then
+                    LoadBlankGrid()
+
+                End If
+
                 setCustomerDetail(TxtCity.Value, txtRouteNo.Value)
                 chkMorningPosted.Checked = (obj.Posted_Morning = 1)
                 chkEveningPosted.Checked = (obj.Posted_Evening = 1)
@@ -1418,9 +1439,12 @@ Public Class frmDemandBooking
     Private Sub rbtn_Ambient_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtn_Ambient.ToggleStateChanged
         Try
             If isInsideLoadData = False Then
-                HideUnhideRowsAndColumnsOFGrid()
+                If rbtn_Ambient.IsChecked Then
+                    HideUnhideRowsAndColumnsOFGrid()
+                End If
+                'HideUnhideRowsAndColumnsOFGrid()
             End If
-            btnPrint.Enabled = False
+            btnPrint.Enabled = True
             lblTotalLitre.Text = ""
             lblTotalCrate.Text = ""
             lblDocumentAmt.Text = ""
@@ -1438,11 +1462,60 @@ Public Class frmDemandBooking
     End Sub
     Private Sub RouteData(ByVal isClicked As Boolean, ByVal isQuickDemand As Boolean)
         Try
-            Dim qry As String = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
+            Dim qry As String = String.Empty
+            Dim ItemType As String = ""
+            If SeparateDemandMilkandProduct Then
+                qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
+            Else
+                qry = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description,Type,Employee_Code as 'Employee Code',Off_Day as 'Off Day' from TSPL_ROUTE_MASTER"
+            End If
             If Not isQuickDemand Then
                 txtRouteNo.Value = clsCommon.ShowSelectForm("DSRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isClicked)
             End If
-            lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRouteNo.Value, Nothing))
+            If SeparateDemandMilkandProduct Then
+                If rbtn_Fresh.IsChecked Then
+                    ItemType = "Milk"
+                ElseIf rbtn_Ambient.IsChecked Then
+                    ItemType = "Product"
+                ElseIf rdbnFreshAmbientBoth.IsChecked Then
+                    ItemType = "Both"
+                End If
+                qry = " select  top 1 x.ItemType 
+                from(
+                select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,max(TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as cust_code,TSPL_DISTRIBUTOR_ROUTE.ItemType
+                from TSPL_DISTRIBUTOR_ROUTE
+                left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
+                where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + txtRouteNo.Value + " and TSPL_DISTRIBUTOR_ROUTE.ItemType='" + ItemType + "'' 
+                 Group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,TSPL_DISTRIBUTOR_ROUTE.ItemType
+                ) X "
+
+
+
+                Dim DRTItem As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+                If clsCommon.myLen(DRTItem) > 0 Then
+                    If clsCommon.CompairString(DRTItem, "Milk") = CompairStringResult.Equal Then
+                        rbtn_Fresh.IsChecked = True
+                        RadGroupBox1.Enabled = False
+                        LoadBlankGrid()
+                        HideUnhideRowsAndColumnsOFGrid()
+                    ElseIf clsCommon.CompairString(DRTItem, "Product") = CompairStringResult.Equal Then
+                        rbtn_Ambient.IsChecked = True
+                        RadGroupBox1.Enabled = False
+                        LoadBlankGrid()
+                        HideUnhideRowsAndColumnsOFGrid()
+                    ElseIf clsCommon.CompairString(DRTItem, "Both") = CompairStringResult.Equal Then
+                        rdbnFreshAmbientBoth.IsChecked = True
+                        RadGroupBox1.Enabled = False
+                        LoadBlankGrid()
+                        HideUnhideRowsAndColumnsOFGrid()
+
+                    End If
+                Else
+
+                    Throw New Exception("Distributor Route Not Tagged!")
+                End If
+            End If
+                lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRouteNo.Value, Nothing))
             If EnableLocation Then
                 txtLocation.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Code from TSPL_Route_Master where Route_No='" + txtRouteNo.Value + "' "))
                 txtLocation.Enabled = False
@@ -1452,6 +1525,7 @@ Public Class frmDemandBooking
             If clsCommon.myLen(txtLocation.Value) > 0 Then
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
             End If
+
             If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 Then
                 setRouteVehicleCityDetail()
             End If
@@ -1461,7 +1535,17 @@ Public Class frmDemandBooking
             Else
                 shiftType = "Evening"
             End If
-            Dim DocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No = '" & txtRouteNo.Value & "' and  CONVERT(varchar, CAST(Document_Date AS datetime), 103) ='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "' and ShiftType = '" & shiftType & "'"))
+            qry = "Select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No = '" & txtRouteNo.Value & "' and  CONVERT(varchar, CAST(Document_Date AS datetime), 103) ='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "' and ShiftType = '" & shiftType & "'"
+            If SeparateDemandMilkandProduct Then
+                If rbtn_Fresh.IsChecked Then
+                    qry += " and ItemType='Fresh' "
+                ElseIf rbtn_Ambient.IsChecked Then
+                    qry += " and ItemType='Ambient' "
+                ElseIf rdbnFreshAmbientBoth.IsChecked Then
+                    qry += " and ItemType='Both' "
+                End If
+            End If
+            Dim DocNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
             If clsCommon.myLen(DocNo) > 0 Then
                 LoadData(DocNo, NavigatorType.Current)
             Else
@@ -1469,6 +1553,7 @@ Public Class frmDemandBooking
             End If
             SetRouteColumns()
             RefreshFormName()
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1539,7 +1624,10 @@ Public Class frmDemandBooking
                 qry += " and TSPL_CUSTOMER_MASTER.Cust_Code ='" & txtCustomerNo.Value & "'"
             End If
             qry += " order by isnull(TSPL_CUSTOMER_MASTER.display_seq,0)  "
-            LoadBlankGrid()
+            If Not SeparateDemandMilkandProduct Then
+                LoadBlankGrid()
+            End If
+
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
             If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
                 Dim i As Integer = 1
@@ -2276,7 +2364,9 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         End If
     End Sub
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
-        'SaveData(0, True)
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
+            SaveData(0, True)
+        End If
         PostData()
     End Sub
     Sub PostData()
@@ -2378,7 +2468,10 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     Private Sub rbtn_Fresh_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtn_Fresh.ToggleStateChanged
         Try
             If isInsideLoadData = False Then
-                HideUnhideRowsAndColumnsOFGrid()
+                If rbtn_Fresh.IsChecked Then
+                    HideUnhideRowsAndColumnsOFGrid()
+                End If
+
             End If
             btnPrint.Enabled = True
             txtPCount.Text = ""
@@ -2390,7 +2483,10 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     Private Sub rdbnBoth_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rdbnFreshAmbientBoth.ToggleStateChanged
         Try
             If isInsideLoadData = False Then
-                HideUnhideRowsAndColumnsOFGrid()
+                If rdbnFreshAmbientBoth.IsChecked Then
+                    HideUnhideRowsAndColumnsOFGrid()
+                End If
+                'HideUnhideRowsAndColumnsOFGrid()
             End If
             btnPrint.Enabled = False
         Catch ex As Exception
@@ -3543,7 +3639,8 @@ where TSPL_DEMAND_BOOKING_DETAIL.Document_No='" + txtDocNo.Value + "' "
             Else
                 Throw New Exception("Demand Not Found!")
             End If
-            qry = "  select xx.*
+            If rbtn_Fresh.IsChecked Then
+                qry = "  select xx.*
  ,case when xx.SNO=1 then ( case when xx.ShiftType='Morning' then (isnull((select sum(ItemNetAmount) as netamt  from TSPL_DEMAND_BOOKING_MASTER left join  TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No where  TSPL_DEMAND_BOOKING_DETAIL.ShiftType = '" + ShiftType + "'  and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" + clsCommon.GetPrintDate(txtDate.Value) + "')  and TSPL_DEMAND_BOOKING_MASTER.Route_No = '" + clsCommon.myCstr(txtRouteNo.Value) + "'  and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=xx.Cust_Code ),0 ) + isnull((xx.PrevItemNetAmount),0) ) else 0 end) else 0 end as AmountBE,
  case when xx.SNO=1 then xx.Crate_Collect else 0 end as TotalCollectCrate,case when xx.SNO=1 then (case when xx.ShiftType='Morning' then (isnull(tcs.TCSAmount,0)+isnull(prevtcs.pTCSAmount,0)) else 0 end) else 0 end as TotalTCSAmt,'" + Posted + "' as DocStatus
   from ( select XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date, max(XXFinal.Short_Description) as Short_Description, sum(XXFinal.Qty) as Qty, max(XXFinal.Unit_code) as Unit_code, sum(XXFinal.Crate) as Crate, max(XXFinal.Pouch) as Pouch, sum(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc,max(XXFinal.PrevCrate) as Crate_Collect, max(XXFinal.CompanyName) as CompanyName, max(XXFinal.TranspoterName) as TranspoterName, max(XXFinal.DriverName) as DriverName,max(XXFinal.Vehicle_No) as Vehicle_No, max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForLTR) as CFForLTR, max(XXFinal.Conversion_Factor) as Conversion_Factor, sum(XXFinal.QTYLtr) as QTYLtr,max(XXFinal.PrevItemNetAmount) as PrevItemNetAmount,ROW_NUMBER() over (Partition by Cust_Code order by Cust_Code) as SNO
@@ -3608,14 +3705,14 @@ where
     )= '" + clsCommon.GetPrintDate(txtDate.Value) + "'
   ) 
   and TSPL_DEMAND_BOOKING_MASTER.Route_No = '" + clsCommon.myCstr(txtRouteNo.Value) + "' "
-            If chkIndividualCustomer.Checked Then
-                If clsCommon.myLen(txtCustomerNo.Value) > 0 Then
-                    qry += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code='" + txtCustomerNo.Value + "'"
+                If chkIndividualCustomer.Checked Then
+                    If clsCommon.myLen(txtCustomerNo.Value) > 0 Then
+                        qry += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code='" + txtCustomerNo.Value + "'"
+                    End If
+                Else
+                    qry += " and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0"
                 End If
-            Else
-                qry += " and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0"
-            End If
-            qry += "  union all
+                qry += "  union all
   select 
   TSPL_DEMAND_BOOKING_DETAIL.Cust_Code, 
   '" + ShiftType + "'  as ShiftType, 
@@ -3672,12 +3769,12 @@ from
           left outer join TSPL_DEMAND_BOOKING_DETAIL innBD on innBD.Document_No = InnBM.Document_No 
         where 
           2 = 2  "
-            If rbtnMorning.IsChecked Then
-                qry += " and innBD.ShiftType='" + Previous_Shift + "' and ( CONVERT(date, InnBM.Document_Date, 103)= '" + clsCommon.GetPrintDate(txtDate.Value.AddDays(-1)) + "') "
-            ElseIf rbtnEvening.IsChecked Then
-                qry += " and innBD.ShiftType='" + Previous_Shift + "' and CONVERT(date, InnBM.Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "'" ' or CONVERT(date, InnBM.Document_Date,103)<'" + clsCommon.GetPrintDate(txtDate.Value) + "') "
-            End If
-            qry += " and innBD.Cust_Code is not null ) xx  
+                If rbtnMorning.IsChecked Then
+                    qry += " and innBD.ShiftType='" + Previous_Shift + "' and ( CONVERT(date, InnBM.Document_Date, 103)= '" + clsCommon.GetPrintDate(txtDate.Value.AddDays(-1)) + "') "
+                ElseIf rbtnEvening.IsChecked Then
+                    qry += " and innBD.ShiftType='" + Previous_Shift + "' and CONVERT(date, InnBM.Document_Date,103)='" + clsCommon.GetPrintDate(txtDate.Value) + "'" ' or CONVERT(date, InnBM.Document_Date,103)<'" + clsCommon.GetPrintDate(txtDate.Value) + "') "
+                End If
+                qry += " and innBD.Cust_Code is not null ) xx  
     group by 
       xx.Cust_Code, 
       xx.ORDCol
@@ -3701,12 +3798,12 @@ from
   Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
   Left Join TSPL_COMPANY_MASTER on TSPL_DEMAND_BOOKING_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code 
   where TSPL_ROUTE_MASTER.Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "'"
-            If chkIndividualCustomer.Checked Then
-                If clsCommon.myLen(txtCustomerNo.Value) > 0 Then
-                    qry += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code='" + txtCustomerNo.Value + "'"
+                If chkIndividualCustomer.Checked Then
+                    If clsCommon.myLen(txtCustomerNo.Value) > 0 Then
+                        qry += " and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code='" + txtCustomerNo.Value + "'"
+                    End If
                 End If
-            End If
-            qry += " )XXFinal
+                qry += " )XXFinal
   where XXFinal.Cust_Code in (select Cust_Code from TSPL_Customer_Master where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + " ')
             Group by XXFinal.Cust_Code,XXFinal.Sku_Seq )xx 
    left join (
@@ -3731,6 +3828,45 @@ group by TSPL_BOOKING_DETAIL.Cust_Code,TSPL_BOOKING_MATSER.TCSAmount,TSPL_BOOKIN
 group by XYZ.Cust_Code
 ) as prevtcs on xx.Cust_Code=prevtcs.Cust_Code  
 "
+            ElseIf rbtn_Ambient.IsChecked Then
+                qry = "  select XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq ,max(XXFinal.Document_Date) as Document_Date, max(XXFinal.Short_Description)+' '+ max(XXFinal.Unit_code) as Short_Description, sum(XXFinal.Qty) as Qty, max(XXFinal.Unit_code) as Unit_code, sum(XXFinal.ItemNetAmount) as ItemNetAmount,max(XXFinal.Route_No) as Route_No, max(XXFinal.Route_Desc) as Route_Desc, max(XXFinal.CompanyName) as CompanyName, max(XXFinal.TranspoterName) as TranspoterName, max(XXFinal.DriverName) as DriverName,max(XXFinal.Vehicle_No) as Vehicle_No, max(XXFinal.Item_Rate) as Item_Rate, max(XXFinal.CFForKG) as CFForKG, max(XXFinal.Conversion_Factor) as Conversion_Factor,'" + Posted + "' as DocStatus
+from
+( select 
+  TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,  TSPL_DEMAND_BOOKING_DETAIL.ShiftType,  TSPL_ITEM_MASTER.Sku_Seq,TSPL_DEMAND_BOOKING_MASTER.Document_Date,TSPL_ITEM_MASTER.Short_Description,TSPL_DEMAND_BOOKING_DETAIL.Qty as Qty, 
+TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount,TSPL_DEMAND_BOOKING_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,Isnull(TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.') as CompanyName,TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No, 
+  TSPL_DEMAND_BOOKING_DETAIL.Item_Rate,ITEMDETAIL.CFForKG,TSPL_ITEM_UOM_DETAIL.Conversion_Factor,Convert(decimal(18, 2),(TSPL_DEMAND_BOOKING_DETAIL.Qty * TSPL_ITEM_UOM_DETAIL.Conversion_Factor)/ ITEMDETAIL.CFForKG) As QTYKg
+from 
+  TSPL_DEMAND_BOOKING_DETAIL 
+  Left join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No 
+  Left join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code 
+  Left Join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code 
+  And TSPL_ITEM_UOM_DETAIL.UOM_Code = TSPL_DEMAND_BOOKING_DETAIL.Unit_code 
+  Left Join (
+    select 
+      Conversion_factor AS CFForKG, 
+      TSPL_ITEM_UOM_DETAIL.Item_code 
+    from 
+      TSPL_ITEM_UOM_DETAIL 
+    where 
+      UOM_code = 'KG'
+  ) as ITEMDETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code = ITEMDETAIL.Item_code 
+  Left Join TSPL_VEHICLE_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Vehicle_Code = TSPL_VEHICLE_MASTER.Vehicle_Id 
+  Left Join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No = TSPL_ROUTE_MASTER.Route_No 
+  Left Join TSPL_TRANSPORT_MASTER on TSPL_VEHICLE_MASTER.Transport_Id = TSPL_TRANSPORT_MASTER.Transport_Id 
+  Left Join TSPL_COMPANY_MASTER on TSPL_DEMAND_BOOKING_MASTER.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code
+where 2=2 "
+                If rbtnMorning.IsChecked Then
+                    qry +=" and TSPL_DEMAND_BOOKING_DETAIL.ShiftType = 'Morning' "
+                    ElseIf rbtnEvening.IsChecked then
+                     qry +=" and TSPL_DEMAND_BOOKING_DETAIL.ShiftType = 'Evening' "
+                End If
+
+                qry += " and (CONVERT(      date, TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)= '" + clsCommon.GetPrintDate(txtDate.Value) + "') 
+  and TSPL_DEMAND_BOOKING_MASTER.Route_No = '" + txtRouteNo.Value + "' and TSPL_ITEM_MASTER.Is_Ambient=1  and TSPL_DEMAND_BOOKING_MASTER.IsIndividualCustomer=0 )XXFinal
+  Group by XXFinal.Cust_Code,XXFinal.Sku_Seq ,XXFinal.Short_Description  "
+
+            End If
+
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
@@ -3741,14 +3877,18 @@ group by XYZ.Cust_Code
                         frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingFUDP9", "Demand Booking")
                     End If
                 ElseIf rbtn_Ambient.IsChecked Then
-                    'If ItemCount > 0 AndAlso ItemCount <= 9 Then
-                    '    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingAUDP", "Demand Booking")
-                    'Else
-                    '    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingAUDP9", "Demand Booking")
-                    'End If
+                    If ItemCount > 0 AndAlso ItemCount <= 13 Then
+                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingAUDP", "Demand Booking")
+                    Else
+                        frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingAUDP14", "Demand Booking")
+                    End If
                 End If
             Else
-                frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")
+                If rbtn_Fresh.IsChecked Then
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")
+                ElseIf rbtn_Ambient.IsChecked Then
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingAUDP", "Demand Booking")
+                End If
 
             End If
             'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBooking", "Demand Booking")

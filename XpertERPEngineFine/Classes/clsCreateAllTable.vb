@@ -28888,6 +28888,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Post_By", "varchar(12)  NULL")
             coll.Add("Post_Date", "Datetime  NULL")
+            coll.Add("ItemType", "varchar(12)  NULL")
+
             clsCommonFunctionality.CreateOrAlterTable("TSPL_DISTRIBUTOR_ROUTE", coll)
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "VARCHAR(30) not null REFERENCES TSPL_DISTRIBUTOR_ROUTE(Code)")
@@ -28912,6 +28914,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Posted_Date", "datetime NULL")
             coll.Add("IN_Active", "integer null default 0")
             coll.Add("InActive_Date", "datetime null")
+
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_Distributor_Commission_Head", coll, "", True)
 
             coll = New Dictionary(Of String, String)()
