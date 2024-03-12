@@ -156,12 +156,13 @@ Public Class FrmProvisionEntry
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
+        btnPost.Visible = MyBase.isPostFlag
         If MyBase.isReverse Then
             btnReverse.Enabled = True
-            GroupBox1.Enabled = True
+            'GroupBox1.Enabled = True
         Else
             btnReverse.Enabled = False
-            GroupBox1.Enabled = False
+            'GroupBox1.Enabled = False
         End If
     End Sub
 
@@ -222,7 +223,7 @@ Public Class FrmProvisionEntry
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
-                If clsCommon.MyMessageBoxShow("Want To Delete The Doc No : " & fndDocNo.Value & " ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                If clsCommon.MyMessageBoxShow(Me, "Want To Delete The Doc No : " & fndDocNo.Value & " ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     If clsProvisionEntry.deleteData(fndDocNo.Value, tran) Then
                         tran.Commit()
                         clsCommon.MyMessageBoxShow(Me, "Deleted successFully", Me.Text)
@@ -389,7 +390,7 @@ Public Class FrmProvisionEntry
                 If (clsProvisionEntry.PostData(fndDocNo.Value, Nothing, False)) Then
                     msg = "Successfully Posted"
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 LoadData(fndDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
@@ -425,7 +426,7 @@ Public Class FrmProvisionEntry
                 fndDocNo.Focus()
                 Throw New Exception("Doc No not Found to Reverse")
             End If
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsProvisionEntry.ReverseAndUnpost(fndDocNo.Value) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Unpost.", Me.Text)
                     LoadData(fndDocNo.Value, NavigatorType.Current)

@@ -1413,6 +1413,7 @@ Public Class clsFixedParameterCode
     Public Const ApplyOrderConfirmation As String = "Apply Order Confirmation"
     Public Const SelectDemandUOMAtRuntime = "Select Demand UOM at Runtime"
     Public Const ShowCatalogPrice = "Show Catalog Price"
+    Public Const StopDemandUpdateForCNF = "Stop Demand Update for CNF"
 
 
     Public Const comtecxpertappsaras As String = "com.tecxpert.app.saras"
@@ -2957,6 +2958,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ApplyOrderConfirmation, "0", "1-True;0-False")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.SelectDemandUOMAtRuntime, "0", "1-True;0-False")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.ShowCatalogPrice, "0", "0:Selling,1:Basic")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidDemandBooking, clsFixedParameterCode.StopDemandUpdateForCNF, "0", "0:OFF,1:ON;CNF Type User will not update Demand")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceQty, "100", "Tollerance % of Qty")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TolleranceFAT, "100", "Tollerance % of FAT")
@@ -5338,6 +5340,20 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptMccMasterDetail, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptDBTMilkPayment, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmAutoAdditionDeductionReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptMultipleDeductionReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkProcurementUploader, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptMilkPaymentSummary, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptPaymentProcessRouteReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptDailyQtyReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.rptPaymentCycleWiseReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
 
         ' InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.FAAcquisitionEntry, clsFixedParameterType.ReadOnlyTemplateFieldsOnAcqusition, clsFixedParameterCode.ReadOnlyTemplateFieldsOnAcqusition, EnumControlType.CheckBox)

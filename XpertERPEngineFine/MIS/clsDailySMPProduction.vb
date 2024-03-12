@@ -5,6 +5,11 @@ Public Class clsDailySMPProduction
     Public Report_Date As DateTime = Nothing
     Public Reporting_Date As DateTime = Nothing
     Public Status As Integer = 0
+    Public Party_Name1 As String = Nothing
+    Public Party_Name2 As String = Nothing
+    Public Party_Name3 As String = Nothing
+    Public Party_Name4 As String = Nothing
+    Public Party_Name5 As String = Nothing
     Public Arr As List(Of clsDailySMPProductionDetails) = Nothing
     Public ArrPw As List(Of clsDailySMPProductionDetailsPowder) = Nothing
 #End Region
@@ -45,6 +50,11 @@ Public Class clsDailySMPProduction
 
             clsCommon.AddColumnsForChange(colm, "Report_Date", clsCommon.GetPrintDate(obj.Report_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(colm, "Reporting_Date", clsCommon.GetPrintDate(obj.Reporting_Date, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(colm, "Party_Name1", obj.Party_Name1)
+            clsCommon.AddColumnsForChange(colm, "Party_Name2", obj.Party_Name2)
+            clsCommon.AddColumnsForChange(colm, "Party_Name3", obj.Party_Name3)
+            clsCommon.AddColumnsForChange(colm, "Party_Name4", obj.Party_Name4)
+            clsCommon.AddColumnsForChange(colm, "Party_Name5", obj.Party_Name5)
             clsCommon.AddColumnsForChange(colm, "Modify_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(colm, "Modify_Date", clsCommon.GetPrintDate(dtCurrent, "dd/MMM/yyyy hh:mm tt"))
             If isNewEntry Then
@@ -209,13 +219,17 @@ Public Class clsDailySMPProductionDetails
                 clsCommon.AddColumnsForChange(colm, "SNF", obj.SNF)
                 clsCommon.AddColumnsForChange(colm, "Total_Job_Work", obj.Total_Job_Work)
                 clsCommon.AddColumnsForChange(colm, "Party_Name1", obj.Party_Name1)
-                Dim columnIndex As Integer = 2
-                For ii As Integer = 0 To obj.columnCount - 1
+                clsCommon.AddColumnsForChange(colm, "Party_Name2", obj.Party_Name2)
+                clsCommon.AddColumnsForChange(colm, "Party_Name3", obj.Party_Name3)
+                clsCommon.AddColumnsForChange(colm, "Party_Name4", obj.Party_Name4)
+                clsCommon.AddColumnsForChange(colm, "Party_Name5", obj.Party_Name5)
+                'Dim columnIndex As Integer = 2
+                'For ii As Integer = 0 To obj.columnCount - 1
 
-                    clsCommon.AddColumnsForChange(colm, "Party_Name" & columnIndex & "", obj.arrParty_Name(ii)(ii))
-                    columnIndex = columnIndex + 1
+                '    clsCommon.AddColumnsForChange(colm, "Party_Name" & columnIndex & "", obj.arrParty_Name(ii)(ii))
+                '    columnIndex = columnIndex + 1
 
-                Next
+                'Next
 
                 clsCommonFunctionality.UpdateDataTable(colm, "TSPL_MIS_DAILY_SMP_PRODUCTION_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next

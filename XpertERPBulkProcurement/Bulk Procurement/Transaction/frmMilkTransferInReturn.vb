@@ -455,7 +455,7 @@ Public Class frmMilkTransferInReturn
                         End If
                     End If
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 LoadData(fndRcptChalanNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
@@ -759,12 +759,15 @@ Public Class frmMilkTransferInReturn
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        ' btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
+        btnPost.Visible = MyBase.isPostFlag
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
 
-        End If
+        'End If
         'btnReverse.Enabled = False
 
     End Sub
@@ -1222,7 +1225,7 @@ Public Class frmMilkTransferInReturn
 
     Private Sub btnReverse_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsMilkTransferInReturn.ReverseAndUnpost(fndRcptChalanNo.Value, Nothing) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(fndRcptChalanNo.Value, NavigatorType.Current)
@@ -1324,7 +1327,7 @@ Public Class frmMilkTransferInReturn
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1629,7 +1632,7 @@ Public Class frmMilkTransferInReturn
 
                     If (obj.SaveData(obj, True, True)) Then
                         ' clsMilkRGPHead.PostData(obj.RGP_No)
-                        clsCommon.MyMessageBoxShow("RGP [" & obj.RGP_No & "] has been created.")
+                        clsCommon.MyMessageBoxShow(Me, "RGP [" & obj.RGP_No & "] has been created.", Me.Text)
                     End If
                 End If
             Next

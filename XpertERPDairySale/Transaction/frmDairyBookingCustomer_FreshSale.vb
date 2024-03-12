@@ -118,11 +118,14 @@ Public Class frmDairyBookingCustomer_FreshSale
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnreverse.Enabled = True
-        Else
-            btnreverse.Enabled = False
-        End If
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnreverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
     End Sub
 
     Private Sub fndRouteNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtRouteNo._MYValidating

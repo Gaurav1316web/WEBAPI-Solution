@@ -61,11 +61,13 @@ Public Class frmIncetiveEntryBySRN
         btnPrint.Visible = MyBase.isPrintFlag
         'RadButton3.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         btnExportExcel.Visible = MyBase.isExport
     End Sub
 

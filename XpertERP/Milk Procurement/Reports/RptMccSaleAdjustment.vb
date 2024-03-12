@@ -876,7 +876,7 @@ Public Class RptMccSaleAdjustment
                 obj.GridColumns = gv1.ColumnCount
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
                 End If
                 ''stuti regarding memory leakage
                 obj.GridLayout.Close()
@@ -975,7 +975,7 @@ Public Class RptMccSaleAdjustment
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         clsGridLayout.DeleteData(GetReportID(), objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click

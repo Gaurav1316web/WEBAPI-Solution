@@ -33,11 +33,13 @@ Public Class frmDCSDemandBooking
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnreverse.Enabled = True
-        Else
-            btnreverse.Enabled = False
-        End If
+        btnreverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
         If MyBase.isExport = True Then
             btnExport.Enabled = True
             btnImport.Enabled = True

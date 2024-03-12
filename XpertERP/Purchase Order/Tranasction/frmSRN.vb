@@ -362,15 +362,12 @@ Public Class frmSRN
         btnForm_Update.Visible = False ''MyBase.isModifyFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnrejetprint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-
-            btnReverse.Enabled = True
-
-        Else
-
-            btnReverse.Enabled = False
-
-        End If
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
     End Sub
     Private Sub LoadRGPType()

@@ -329,12 +329,13 @@ Public Class frmPurchaseInvoice
         btnDelete.Visible = MyBase.isDeleteFlag
         btnprintjvl.Visible = MyBase.isPrintFlag
         btnPrintInv.Visible = MyBase.isPrintFlag
+        btnReverse.Visible = False
 
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         btncancel.Visible = MyBase.isCancel_Flag_After_Posting
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load

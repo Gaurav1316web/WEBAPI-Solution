@@ -257,11 +257,13 @@ Public Class frmMccMaterialSaleReturn
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverseAndUnpost.Enabled = True
-        Else
-            btnReverseAndUnpost.Enabled = False
-        End If
+        'If MyBase.isReverse Then
+        '    btnReverseAndUnpost.Enabled = True
+        'Else
+        '    btnReverseAndUnpost.Enabled = False
+        'End If
+        btnReverseAndUnpost.Visible = False
+
     End Sub
 
 

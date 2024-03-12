@@ -52,6 +52,7 @@ Public Class frmDailyElectricalEntry
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPost.Visible = MyBase.isPostFlag
+        btnReverse.Visible = MyBase.isPostFlag
         'btnPrint.Visible = MyBase.isPrintFlag
     End Sub
 

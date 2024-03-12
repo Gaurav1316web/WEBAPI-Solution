@@ -1141,9 +1141,16 @@ Public Class clsMilkRejectHead
         Return GetMCCRegisterQuery(FromDate, ToDate, FromShift, ToShift, SRNAmounType, StrPermission, arrPlant, arrMCC, arrRoute, arrVLC, ReceivingUOM, "")
     End Function
     Public Shared Function GetMCCRegisterQuery(ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal FromShift As String, ByVal ToShift As String, ByVal SRNAmounType As String, ByVal StrPermission As String, ByVal arrPlant As ArrayList, ByVal arrMCC As ArrayList, ByVal arrRoute As ArrayList, ByVal arrVLC As ArrayList, ByVal ReceivingUOM As String, ByVal MilkType As String) As String
-        Return GetMCCRegisterQuery(FromDate, ToDate, FromShift, ToShift, SRNAmounType, StrPermission, arrPlant, arrMCC, arrRoute, arrVLC, ReceivingUOM, MilkType, Nothing, False)
+        Return GetMCCRegisterQuery(FromDate, ToDate, FromShift, ToShift, SRNAmounType, StrPermission, arrPlant, arrMCC, arrRoute, arrVLC, ReceivingUOM, MilkType, Nothing, False, Nothing)
+        'Return GetMCCRegisterQuery(FromDate, ToDate, FromShift, ToShift, SRNAmounType, StrPermission, arrPlant, arrMCC, arrRoute, arrVLC, ReceivingUOM, MilkType, Nothing, False, Nothing)
     End Function
-    Public Shared Function GetMCCRegisterQuery(ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal FromShift As String, ByVal ToShift As String, ByVal SRNAmounType As String, ByVal StrPermission As String, ByVal arrPlant As ArrayList, ByVal arrMCC As ArrayList, ByVal arrRoute As ArrayList, ByVal arrVLC As ArrayList, ByVal ReceivingUOM As String, ByVal MilkType As String, ByVal arrVSP As ArrayList, ByVal IsMilkBillReport As Boolean) As String
+
+    Public Shared Function GetMCCRegisterQuery(ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal FromShift As String, ByVal ToShift As String, ByVal SRNAmounType As String, ByVal StrPermission As String, ByVal arrPlant As ArrayList, ByVal arrMCC As ArrayList, ByVal arrRoute As ArrayList, ByVal arrVLC As ArrayList, ByVal ReceivingUOM As String, ByVal MilkType As String, ByVal Area As String) As String
+        Return GetMCCRegisterQuery(FromDate, ToDate, FromShift, ToShift, SRNAmounType, StrPermission, arrPlant, arrMCC, arrRoute, arrVLC, ReceivingUOM, MilkType, Nothing, False, Area)
+    End Function
+    'Public Shared Function GetMCCRegisterQuery(ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal FromShift As String, ByVal ToShift As String, ByVal SRNAmounType As String, ByVal StrPermission As String, ByVal arrPlant As ArrayList, ByVal arrMCC As ArrayList, ByVal arrRoute As ArrayList, ByVal arrVLC As ArrayList, ByVal ReceivingUOM As String, ByVal MilkType As String, ByVal arrVSP As ArrayList, ByVal IsMilkBillReport As Boolean, ByVal Area As String) As String
+
+    Public Shared Function GetMCCRegisterQuery(ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal FromShift As String, ByVal ToShift As String, ByVal SRNAmounType As String, ByVal StrPermission As String, ByVal arrPlant As ArrayList, ByVal arrMCC As ArrayList, ByVal arrRoute As ArrayList, ByVal arrVLC As ArrayList, ByVal ReceivingUOM As String, ByVal MilkType As String, ByVal arrVSP As ArrayList, ByVal IsMilkBillReport As Boolean, ByVal Area As String) As String
         Dim settPickFATSNFKgFromInventory As Boolean = clsFixedParameter.GetData(clsFixedParameterType.PickFATSNFKgFromInventory, clsFixedParameterCode.PickFATSNFKgFromInventory, Nothing)
         Dim SetCowFatPer As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
 
@@ -1276,6 +1283,9 @@ Public Class clsMilkRejectHead
         If arrVLC IsNot Nothing AndAlso arrVLC.Count > 0 Then
             qry += " and TSPL_MILK_RECEIPT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arrVLC) + ")  "
         End If
+        If Area IsNot Nothing AndAlso clsCommon.myLen(Area) > 0 Then
+            qry += " and TSPL_MCC_MASTER.Area_Location_Code = '" + Area + "'  "
+        End If
         If arrVSP IsNot Nothing AndAlso arrVSP.Count > 0 Then
             qry += " and TSPL_MILK_SRN_HEAD.VSP_CODE in (" + clsCommon.GetMulcallString(arrVSP) + ")  "
         End If
@@ -1290,7 +1300,13 @@ Public Class clsMilkRejectHead
         Return qry
     End Function
 
+
     Public Shared Function GetMCCRegisterWithRejectionColumnQuery(ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal FromShift As String, ByVal ToShift As String, ByVal SRNAmounType As String, ByVal StrPermission As String, ByVal arrMCC As ArrayList, ByVal arrRoute As ArrayList, ByVal arrVLC As ArrayList, ByVal ReceivingUOM As String, ByVal strRejection As String, ByVal ShowVLCUploaderData As Boolean, ByVal SetCowFatPer As Decimal) As String
+        Return GetMCCRegisterWithRejectionColumnQuery(FromDate, ToDate, FromShift, ToShift, SRNAmounType, StrPermission, arrMCC, arrRoute, arrVLC, ReceivingUOM, strRejection, ShowVLCUploaderData, SetCowFatPer, Nothing)
+    End Function
+
+
+    Public Shared Function GetMCCRegisterWithRejectionColumnQuery(ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal FromShift As String, ByVal ToShift As String, ByVal SRNAmounType As String, ByVal StrPermission As String, ByVal arrMCC As ArrayList, ByVal arrRoute As ArrayList, ByVal arrVLC As ArrayList, ByVal ReceivingUOM As String, ByVal strRejection As String, ByVal ShowVLCUploaderData As Boolean, ByVal SetCowFatPer As Decimal, ByVal Area As String) As String
         Dim strSRNQuery As String = Nothing
         'Dim SetCowFatPer As Integer
 
@@ -1377,10 +1393,18 @@ Public Class clsMilkRejectHead
         If arrVLC IsNot Nothing AndAlso arrVLC.Count > 0 Then
             strSRNQuery += " and TSPL_MILK_RECEIPT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arrVLC) + ")  "
         End If
+        If Area IsNot Nothing AndAlso clsCommon.myLen(Area) > 0 Then
+            strSRNQuery += " and TSPL_MCC_MASTER.Area_Location_Code = '" + Area + "'  "
+        End If
+
         Return strSRNQuery
     End Function
 
     Public Shared Function GetMCCRegisterRejectionQuery(ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal FromShift As String, ByVal ToShift As String, ByVal StrPermission As String, ByVal arrMCC As ArrayList, ByVal arrRoute As ArrayList, ByVal arrVLC As ArrayList, ByVal ReceivingUOM As String, ByVal SetCowFatPer As Decimal) As String
+        Return GetMCCRegisterRejectionQuery(FromDate, ToDate, FromShift, ToShift, StrPermission, arrMCC, arrRoute, arrVLC, ReceivingUOM, SetCowFatPer, Nothing)
+    End Function
+
+    Public Shared Function GetMCCRegisterRejectionQuery(ByVal FromDate As DateTime, ByVal ToDate As DateTime, ByVal FromShift As String, ByVal ToShift As String, ByVal StrPermission As String, ByVal arrMCC As ArrayList, ByVal arrRoute As ArrayList, ByVal arrVLC As ArrayList, ByVal ReceivingUOM As String, ByVal SetCowFatPer As Decimal, ByVal Area As String) As String
         Dim strRejectionQuery As String = Nothing
         'Dim SetCowFatPer As Integer
 
@@ -1454,6 +1478,9 @@ Public Class clsMilkRejectHead
         End If
         If arrVLC IsNot Nothing AndAlso arrVLC.Count > 0 Then
             strRejectionQuery += " and TSPL_MILK_REJECT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arrVLC) + ")  "
+        End If
+        If Area IsNot Nothing AndAlso clsCommon.myLen(Area) > 0 Then
+            strRejectionQuery += " and TSPL_MCC_MASTER.Area_Location_Code = '" + Area + "'  "
         End If
 
         Return strRejectionQuery

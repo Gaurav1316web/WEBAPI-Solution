@@ -65,14 +65,17 @@ Public Class frmDairyGatePass
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
+        RadSplitButton1.Visible = MyBase.isPrintFlag
         btnClKM.Visible = MyBase.isModifyFlag
         btnPrint2.Visible = MyBase.isPrintFlag
         btnGPCancel.Visible = MyBase.isCancel_Flag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
     End Sub
     Private Sub FrmGatePassENtry1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
         CreateTable()

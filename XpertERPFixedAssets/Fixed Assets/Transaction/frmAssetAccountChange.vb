@@ -52,10 +52,19 @@ Public Class frmAssetAccountChange
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
+        btnReverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        If MyBase.isExport = True Then
+            RadMenuItem2.Enabled = True
+            RadMenuItem3.Enabled = True
         Else
-            btnReverse.Enabled = False
+            RadMenuItem2.Enabled = False
+            RadMenuItem3.Enabled = False
         End If
     End Sub
 
@@ -987,7 +996,7 @@ Public Class frmAssetAccountChange
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -997,7 +1006,7 @@ Public Class frmAssetAccountChange
 
     Sub DeleteLayout()
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
 

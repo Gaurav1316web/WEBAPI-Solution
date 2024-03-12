@@ -428,7 +428,7 @@ Public Class RptCustomerEffective_ItemRate
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -441,7 +441,7 @@ Public Class RptCustomerEffective_ItemRate
     Private Sub RadMenuItem8_Click(sender As Object, e As EventArgs) Handles RadMenuItem8.Click
         ''delete layout
         If clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode) Then
-            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
         End If
     End Sub
 

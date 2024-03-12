@@ -876,7 +876,7 @@ quired At Line No. " + clsCommon.myCstr(CInt(jj) + 1) + "")
             'gv.CurrentRow.Cells(colvillname).Value = clsCommon.myCstr(dr("Village Name"))
 
             If clsCommon.CompairString(clsCommon.myCstr(gv.CurrentRow.Cells(colexroutecode).Value), clsCommon.myCstr(gv.CurrentRow.Cells(colroutecode).Value)) = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow("New Route Can't Be Same As Old Route,Please Select Valid Route Code", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "New Route Can't Be Same As Old Route,Please Select Valid Route Code", Me.Text)
                 gv.CurrentRow.Cells(colroutecode).Value = ""
                 gv.CurrentRow.Cells(colroutename).Value = ""
                 'gv.CurrentRow.Cells(colvillagecode).Value = ""
@@ -923,7 +923,7 @@ quired At Line No. " + clsCommon.myCstr(CInt(jj) + 1) + "")
 
     Private Sub gv_UserDeletingRow(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv.UserDeletingRow
         If clsCommon.myLen(fndcode.Value) > 0 Then
-            If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
                 e.Cancel = True
                 Exit Sub
             Else

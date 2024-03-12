@@ -271,12 +271,14 @@ Public Class frmPaymentAdjEntry
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
 
-        End If
+        'End If
     End Sub
 
 #Region "Page Load"

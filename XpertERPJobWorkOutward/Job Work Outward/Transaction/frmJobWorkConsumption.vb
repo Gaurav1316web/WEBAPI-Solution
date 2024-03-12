@@ -67,10 +67,19 @@ Public Class frmJobWorkConsumption
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
+        btnReverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        If MyBase.isExport = True Then
+            RmiExport.Enabled = True
+            RadMenuItem2.Enabled = True
         Else
-            btnReverse.Enabled = False
+            RadMenuItem2.Enabled = False
+            RmiExport.Enabled = False
         End If
         If btnSave.Visible = True Then
             RmiExport.Enabled = True

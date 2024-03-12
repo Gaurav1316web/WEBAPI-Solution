@@ -188,18 +188,20 @@ Public Class frmDemandBooking
         btnPost.Visible = MyBase.isPostFlag
         btnPrint.Visible = MyBase.isPrintFlag
         'RadMenu1.Visible = MyBase.isExport
-        If RadMenu1.Visible = True Then
+        If MyBase.isExport = True Then
             btnExport.Enabled = True
             btnImport.Enabled = True
         Else
             btnExport.Enabled = False
             btnImport.Enabled = False
         End If
-        If MyBase.isReverse Then
-            btnreverse.Enabled = True
-        Else
-            btnreverse.Enabled = False
-        End If
+        btnreverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
     End Sub
     Function FillMorningEvening() As DataTable
         Dim qry As String = String.Empty
@@ -3869,7 +3871,9 @@ where 2=2 "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
+                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "
+                ") = CompairStringResult.Equal Then
                 If rbtn_Fresh.IsChecked Then
                     If ItemCount > 0 AndAlso ItemCount <= 9 Then
                         frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingFUDP", "Demand Booking")

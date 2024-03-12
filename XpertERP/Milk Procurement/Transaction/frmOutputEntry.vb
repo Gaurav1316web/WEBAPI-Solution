@@ -28,11 +28,13 @@ Public Class frmOutputEntry
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        btnReverse.Visible = False
+
         If MyBase.isExport = True Then
             RadMenuItem2.Enabled = True
             RadMenuItem3.Enabled = True

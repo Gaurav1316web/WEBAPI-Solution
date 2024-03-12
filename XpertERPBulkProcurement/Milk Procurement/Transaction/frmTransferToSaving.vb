@@ -29,12 +29,21 @@ Public Class frmTransferToSaving
         btnSave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        RadMenu1.Visible = MyBase.isExport
+        'RadMenu1.Visible = MyBase.isExport
         btnsetting.Visible = MyBase.isExport
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
+        btnReverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        If MyBase.isExport = True Then
+            RadMenuItem2.Enabled = True
+            RadMenuItem3.Enabled = True
         Else
-            btnReverse.Enabled = False
+            RadMenuItem2.Enabled = False
+            RadMenuItem3.Enabled = False
         End If
     End Sub
 
@@ -350,7 +359,7 @@ Public Class frmTransferToSaving
             End If
             ReStoreGridLayout()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -381,7 +390,7 @@ Public Class frmTransferToSaving
                 If (clsTransferToSaving.PostData(txtDocNo.Value)) Then
                     msg = "Successfully Posted"
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
@@ -518,7 +527,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -589,7 +598,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
 
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If clsCommon.MyMessageBoxShow("Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to Reverse and unpost the current Document" + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.Yes Then
                 '' REASON FOR DELETE 
                 Dim Reason As String = ""
                 Dim frm As New FrmFreeTxtBox1
@@ -755,7 +764,7 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
             Dim Sql As String = "select replace(convert(varchar, GetDate(),106),' ','/') as Date,'' as Location,'' as [Deduction/Addition], ''  as [Vlc Uploder Code], '' as [Deduction Code], 0.00 as Amount"
             transportSql.ExporttoExcel(Sql, Me)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RadMenuItem7_Click(sender As Object, e As EventArgs) Handles RadMenuItem7.Click
@@ -982,6 +991,6 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_TRANSFER_TO_SAV
 
     Private Sub btnDeleteLayout_Click(sender As Object, e As EventArgs) Handles btnDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 End Class

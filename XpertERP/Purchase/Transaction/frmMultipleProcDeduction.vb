@@ -56,19 +56,22 @@ Public Class FrmMultipleProcDeduction
         btnDelete.Visible = MyBase.isDeleteFlag
         'btnsetting.Visible = MyBase.isExport
         'RadMenu1.Visible = MyBase.isExport
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         If MyBase.isExport = True Then
-            RadMenuItem2.Enabled = True
-            RadMenuItem3.Enabled = True
+            btnExport.Enabled = True
+            'RadMenuItem2.Enabled = True
+            ' RadMenuItem3.Enabled = True
             RadMenuItem11.Enabled = True
             RadMenuItem12.Enabled = True
         Else
-            RadMenuItem2.Enabled = False
-            RadMenuItem3.Enabled = False
+            btnExport.Enabled = False
+            'RadMenuItem2.Enabled = False
+            'RadMenuItem3.Enabled = False
             RadMenuItem11.Enabled = False
             RadMenuItem12.Enabled = False
         End If

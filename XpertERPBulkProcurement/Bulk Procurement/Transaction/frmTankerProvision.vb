@@ -46,6 +46,14 @@ Public Class frmTankerProvision
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btnClKM.Visible = MyBase.isModifyFlag
+        RadSplitButton1.Visible = MyBase.isPrintFlag
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+
     End Sub
 
     Private Sub frmTankerProvision_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
@@ -1030,7 +1038,7 @@ Public Class frmTankerProvision
 
     Private Sub btnReverse_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
-            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If common.clsCommon.MyMessageBoxShow(Me, "Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsDairyGatePassEntry.ReverseAndUnpost(txtCode.Value) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)

@@ -41,11 +41,13 @@ Public Class frmReverseTransaction
         btn_post.Visible = MyBase.isPostFlag
         btn_delete.Visible = MyBase.isDeleteFlag
         btnprint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverseTransaction.Enabled = True
-        Else
-            btnReverseTransaction.Enabled = False
-        End If
+        'If MyBase.isReverse Then
+        '    btnReverseTransaction.Enabled = True
+        'Else
+        '    btnReverseTransaction.Enabled = False
+        'End If
+        btnReverseTransaction.Visible = False
+
     End Sub
     Public Sub New(ByVal user As String, ByVal company As String)
         InitializeComponent()

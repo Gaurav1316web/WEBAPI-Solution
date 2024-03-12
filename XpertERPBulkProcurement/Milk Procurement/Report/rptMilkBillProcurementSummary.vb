@@ -61,7 +61,7 @@ Public Class rptMilkBillProcurementSummary
             End If
 
             If clsCommon.myCdbl(txtPaymentCycleFrom.Value) > clsCommon.myCdbl(txtPaymentCycleTo.Value) Then
-                common.clsCommon.MyMessageBoxShow(Me, "From Payment Cycle can not be greater then to Payment Cycle")
+                common.clsCommon.MyMessageBoxShow(Me, "From Payment Cycle can not be greater then to Payment Cycle", Me.Text)
                 txtPaymentCycleFrom.Focus()
                 Exit Sub
             End If

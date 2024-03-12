@@ -319,11 +319,21 @@ Public Class frmMonthlyAttendance
         btnsave.Visible = MyBase.isModifyFlag
         btnPost.Visible = MyBase.isPostFlag
         btndelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
+        RadSplitButton1.Visible = MyBase.isExport
+        If MyBase.isExport = True Then
+            Export.Enabled = True
+            Import.Enabled = True
         Else
-            btnReverse.Enabled = False
+            Export.Enabled = False
+            Import.Enabled = False
         End If
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        btnReverse.Visible = False
+
     End Sub
 
     Private Sub ShowLeaveCode()
@@ -1730,7 +1740,7 @@ Public Class frmMonthlyAttendance
             obj.GridColumns = gvMonthlyAttendance.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -1739,7 +1749,7 @@ Public Class frmMonthlyAttendance
 
     Private Sub Delete_Layout_Click(sender As Object, e As EventArgs) Handles Delete_Layout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
     Private Sub ReStoreGridLayout()
         Try

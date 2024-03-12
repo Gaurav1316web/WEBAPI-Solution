@@ -186,10 +186,21 @@ Public Class frmAssetDispatchRetailer
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnprint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
+        btnReverse.Visible = True
+
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        If MyBase.isExport = True Then
+            Btn_export.Enabled = True
+            rmUploderBlankSheet.Enabled = True
+            BtnImport.Enabled = True
         Else
-            btnReverse.Enabled = False
+            Btn_export.Enabled = False
+            rmUploderBlankSheet.Enabled = False
+            BtnImport.Enabled = False
         End If
     End Sub
 

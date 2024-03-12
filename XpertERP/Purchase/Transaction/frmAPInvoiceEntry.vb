@@ -206,12 +206,20 @@ Public Class FrmAPInvoiceEntry
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         If btnSave.Visible = True Then
+            RadMenuItem2.Enabled = True
+            RadMenuItem3.Enabled = True
+        Else
+            RadMenuItem2.Enabled = False
+            RadMenuItem3.Enabled = False
+        End If
+        If MyBase.isExport = True Then
             RadMenuItem2.Enabled = True
             RadMenuItem3.Enabled = True
         Else

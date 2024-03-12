@@ -31,11 +31,14 @@ Public Class frmCustomerComplain
         End If
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnReverseAndUnpost.Enabled = True
-        Else
-            btnReverseAndUnpost.Enabled = False
-        End If
+        btnPost.Visible = MyBase.isPostFlag
+        btnReverseAndUnpost.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnReverseAndUnpost.Enabled = True
+        'Else
+        '    btnReverseAndUnpost.Enabled = False
+        'End If
     End Sub
 
     Private Sub LoadBlankGrid()

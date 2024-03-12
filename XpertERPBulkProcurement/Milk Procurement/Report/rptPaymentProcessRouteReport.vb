@@ -950,7 +950,7 @@ Public Class rptPaymentProcessRouteReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                ' common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                ' common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
                 'clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
                 common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
@@ -964,7 +964,7 @@ Public Class rptPaymentProcessRouteReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(setFormId(), objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
 
@@ -1260,7 +1260,8 @@ TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_VENDOR_MASTER.Vendor_Name,
 TSPL_VENDOR_MASTER.Bank_Code, TSPL_VENDOR_MASTER.Account_No,
 TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name  ,TSPL_MCC_MASTER .MCC_NAME ,case when isnull(TSPL_MILK_SAMPLE_DETAIL.TYPE,'')='' then 'Mix' else TSPL_MILK_SAMPLE_DETAIL.TYPE end as Type ,TSPL_MILK_SAMPLE_DETAIL.CLR,TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO ,TSPL_VLC_MASTER_HEAD.VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,
 TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION,0) as [EMP],coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.incentive_head,0) as Incentive,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_head_load_amount,0) as HEDAmt,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.total_Own_Asset_Amount,0) as AstAMT,coalesce(Total_dEDUCTION_AMOUNT,0) as DedAmt,TSPL_VLC_MASTER_HEAD.Village_Code, TSPL_VILLAGE_MASTER.Village_Name "
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
+            clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
             BaseQry += ",(case when TSPL_PRICE_CHART_PLANNING.Dock_Collection_Milk_Type='C' then 'Cow' else 'Buffalo' end) as CowBuffalo_Type"
         Else
             BaseQry += ",case when TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER >= 5 then 'Buffalo' else 'Cow' end as CowBuffalo_Type "
@@ -2748,7 +2749,7 @@ inner join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DO
                 End If
             ElseIf clsCommon.CompairString(PaymentCycleType, "Month") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpLedgerFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Month Type", Me.Text)
                     dtpLedgerFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     dtpLedgerToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -2756,7 +2757,7 @@ inner join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DO
                 dtpLedgerToDate.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpLedgerFromDate.Value)
             ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpLedgerFromDate.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type", Me.Text)
                     dtpLedgerFromDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     dtpLedgerToDate.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -3189,7 +3190,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
             Dim dtCurr As DateTime = clsCommon.GETSERVERDATE()
             If clsCommon.CompairString(PaymentCycleType, "Day") = CompairStringResult.Equal Then
                 If dtpFromDCS_Ledger.Value.Day Mod PaymentCycleValue <> 1 And (Not PaymentCycleValue = 1) Then
-                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month or at interval of " & PaymentCycleValue & " Day", Me.Text)
                     dtpFromDCS_Ledger.Value = New Date(dtCurr.Year, dtCurr.Month, 1)
                     'dtpToDCS_Ledger.Value = dtpFromDCS_Ledger.Value
                     Exit Sub
@@ -3213,7 +3214,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
                 dtpToDCS_Ledger.Value = DateAdd(DateInterval.Month, PaymentCycleValue, dtpFromDCS_Ledger.Value)
             ElseIf clsCommon.CompairString(PaymentCycleType, "Year") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsCommon.GetPrintDate(dtpFromDCS_Ledger.Value, "dd")) <> 1 Then
-                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type")
+                    clsCommon.MyMessageBoxShow(Me, "Date can only be first day of month, Because MCC has payment Cycle of Year Type", Me.Text)
                     dtpFromDCS_Ledger.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     dtpToDCS_Ledger.Value = "01/" & DatePart(DateInterval.Month, dtCurr) & "/" & DatePart(DateInterval.Year, dtCurr)
                     Exit Sub
@@ -3647,7 +3648,7 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
         Try
             PageSetupReport_ID = MyBase.Form_ID + "GL"
             If clsCommon.GetDateWithEndTime(dtpGainLossToDate.Value) < clsCommon.GetDateWithStartTime(dtpGainLossFromDate.Value) Then
-                clsCommon.MyMessageBoxShow("To Date cant be less than from date", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "To Date cant be less than from date", Me.Text)
                 Exit Sub
             End If
             Dim qry As String = Nothing
@@ -4159,7 +4160,7 @@ TSPL_MILK_COLLECTION_MCC
     Private Sub txtDateTo_Leave(sender As Object, e As EventArgs) Handles txtDateTo.Leave
         Try
             If clsCommon.myCDate(txtDateTo.Value) > clsCommon.myCDate(FYToDate) Then
-                clsCommon.MyMessageBoxShow("To Date can't be greater then selected finacial year end date.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "To Date can't be greater then selected finacial year end date.", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

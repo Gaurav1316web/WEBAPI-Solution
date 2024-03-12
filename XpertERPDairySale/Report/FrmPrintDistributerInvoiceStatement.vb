@@ -929,7 +929,7 @@ Public Class FrmPrintDistributerInvoiceStatement
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
 
             obj.GridLayout.Close()
@@ -939,7 +939,7 @@ Public Class FrmPrintDistributerInvoiceStatement
 
     Private Sub rmiDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmiDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
     'Ticket No-ERO/03/09/19-001018,Send Email with Invoice PDF attachment
     Private Sub BtnEmailSms_Click(sender As Object, e As EventArgs) Handles BtnEmailSms.Click

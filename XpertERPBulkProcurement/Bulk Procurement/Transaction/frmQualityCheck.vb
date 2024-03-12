@@ -99,7 +99,7 @@ Public Class FrmQualityCheck
         RunBulkProcOnAdjustFATCLR = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBulkProcOnAdjustedFATCLR, clsFixedParameterCode.RunBulkProcOnAdjustedFATCLR, Nothing))
         SettCalculateSNFFromCLRForMCCMilk = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateSNFFromCLRForMCCMilk, clsFixedParameterCode.CalculateSNFFromCLRForMCCMilk, Nothing)) = 1)
         If ChangeFATCLRafterspecialApprovalonQC = 1 And RunBulkProcOnAdjustFATCLR = 0 Then
-            clsCommon.MyMessageBoxShow("Change FAT CLR setting is ON .Setting Run Bulk Proc On Adjust FAT CLR should be ON for this fuctionality.")
+            clsCommon.MyMessageBoxShow(Me, "Change FAT CLR setting is ON .Setting Run Bulk Proc On Adjust FAT CLR should be ON for this fuctionality.", Me.Text)
             Me.Close()
         End If
         If clsCommon.CompairString(AllowManualRejection, 1) = CompairStringResult.Equal Then
@@ -914,7 +914,7 @@ Public Class FrmQualityCheck
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -931,11 +931,12 @@ Public Class FrmQualityCheck
         btnSave.Visible = MyBase.isModifyFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         ' done by priti UDL/15/06/18-000188
         If MyBase.isModifyFlag OrElse MyBase.isPostFlag Then
             btnSendForApproval.Visible = True
@@ -2499,7 +2500,7 @@ Public Class FrmQualityCheck
                         ElseIf clsCommon.CompairString(str, "-1") = CompairStringResult.Equal Then
                             Throw New Exception("Some Of the Parameter Range Not Found in Master")
                         Else
-                            If clsCommon.MyMessageBoxShow("Following Parameters Rejects The Milk, " & Environment.NewLine & str & Environment.NewLine & "Want To Continue Posting ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
+                            If clsCommon.MyMessageBoxShow(Me, "Following Parameters Rejects The Milk, " & Environment.NewLine & str & Environment.NewLine & "Want To Continue Posting ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
                                 gvParam.Rows(0).Cells("colRemarks").Value = gvParam.Rows(0).Cells("colRemarks").Value & Environment.NewLine & "Rejection Remarks: " & str
                             Else
                                 Exit Sub
@@ -2519,7 +2520,7 @@ Public Class FrmQualityCheck
                         ElseIf clsCommon.CompairString(str, "-1") = CompairStringResult.Equal Then
                             Throw New Exception("Some Of the Parameter Range Not Found in Master")
                         Else
-                            If clsCommon.MyMessageBoxShow("Following Parameters Rejects The Milk, " & Environment.NewLine & str & Environment.NewLine & "Want To Continue Posting ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
+                            If clsCommon.MyMessageBoxShow(Me, "Following Parameters Rejects The Milk, " & Environment.NewLine & str & Environment.NewLine & "Want To Continue Posting ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question, MessageBoxDefaultButton.Button1) = System.Windows.Forms.DialogResult.Yes Then
                                 'gvParam.Rows(0).Cells("colRemarks").Value = gvParam.Rows(0).Cells("colRemarks").Value & Environment.NewLine & "Rejection Remarks: " & str
                                 str = "0"
                                 gvParam.Rows(0).Cells("colRemarks").Value = "QC Rejected"
@@ -2585,7 +2586,7 @@ Public Class FrmQualityCheck
                         End If
                     End If
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 loadData(fndQcNo.Value, strDocType, NavigatorType.Current)
             End If
         Catch ex As Exception
@@ -2960,7 +2961,7 @@ Public Class FrmQualityCheck
                 obj1.GridColumns = gvParam.ColumnCount
                 obj1.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj1.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
                 End If
                 ''stuti regarding memory leakage
                 obj1.GridLayout.Close()
@@ -2976,7 +2977,7 @@ Public Class FrmQualityCheck
         clsGridLayout.DeleteData(MyBase.Form_ID & "gvItem", objCommonVar.CurrentUserCode)
         clsGridLayout.DeleteData(MyBase.Form_ID & "gvParam", objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub mnuEmailSmsSetting_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles mnuEmailSmsSetting.Click
@@ -3022,7 +3023,7 @@ Public Class FrmQualityCheck
                 End If
             End If
         Catch err As Exception
-            clsCommon.MyMessageBoxShow(Me, err.Message, "Restore layout", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, err.Message, Me.Text)
         End Try
     End Sub
 
@@ -3438,7 +3439,7 @@ Public Class FrmQualityCheck
                 fndQcNo.Focus()
                 Return
             End If
-            If clsCommon.MyMessageBoxShow("Do you want to send QC for separation", "Send for QC Separation", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to send QC for separation", "Send for QC Separation", MessageBoxButtons.YesNo) = Windows.Forms.DialogResult.Yes Then
                 Dim qry As String = "update tspl_quality_check set is_QC_Separated =1,QC_Separated_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy") & "' where QC_No='" & clsCommon.myCstr(fndQcNo.Value) & "'"
                 clsDBFuncationality.ExecuteNonQuery(qry)
                 loadData(fndQcNo.Value, IIf(chkMccProc.IsChecked, "MccProc", "BulkProc"), NavigatorType.Current)

@@ -25,6 +25,8 @@ Public Class frmDistributorCommission
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         ' btnImport.Visible = MyBase.isExport
+        btnReverse.Visible = False
+
         If MyBase.isExport = True Then
             rmiImport.Enabled = True
             rmiExport.Enabled = True
@@ -32,11 +34,11 @@ Public Class frmDistributorCommission
             rmiImport.Enabled = False
             rmiExport.Enabled = False
         End If
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
-        Else
-            btnReverse.Enabled = False
-        End If
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
         'If btnSave.Visible = True Then
         '    btnImport.Enabled = True
         'Else

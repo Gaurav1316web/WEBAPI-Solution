@@ -65,7 +65,7 @@ Public Class RptMilkBillRouteWise
     End Sub
     Private Sub rmDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub rmSaveLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rmSaveLayout.Click
@@ -79,7 +79,7 @@ Public Class RptMilkBillRouteWise
             obj.GridColumns = gv.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -327,7 +327,7 @@ Public Class RptMilkBillRouteWise
                     sQuery += ",sum([Milk Weight(KG)]) As NewQty,convert(decimal(18,4),(SUM([FAT(KG)] )/isnull(SUM([Milk Weight(KG)] ),0))*100) as FAT_Per,convert(decimal(18,4),(SUM([SNF(KG)])/isnull(SUM([Milk Weight(KG)] ),0))*100) as SNF_Per,convert(decimal(18,2),SUM(Net_Amount )/isnull(SUM([Milk Weight(KG)] ),0)) as Rate"
                 End If
                 sQuery += ",SUM(Net_Amount) as Amount,[MCC Code],max([MCC Name]) as [MCC Name],[Route Code],max([Route Name]) as [Route Name],max(UOM) AS [UOM] from("
-                sQuery += clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, txtFromShift.Text, txtToShift.Text, "", "", Nothing, arrMCC, arrRoute, arrVLC, "", "", arrVSP, True)
+                sQuery += clsMilkRejectHead.GetMCCRegisterQuery(txtFromDate.Value, txtToDate.Value, txtFromShift.Text, txtToShift.Text, "", "", Nothing, arrMCC, arrRoute, arrVLC, "", "", arrVSP, True, Nothing)
                 sQuery += " )xx group by convert(varchar,INVOICE_DATE,103),[MCC Code],[SHIFT],[Route Code]
                   )yy left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_name='" & CompName & "'  order by convert(date,yy.DOC_DATE,103)"
             End If

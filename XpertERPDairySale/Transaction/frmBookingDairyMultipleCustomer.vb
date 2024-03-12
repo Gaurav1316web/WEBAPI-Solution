@@ -271,12 +271,22 @@ Public Class frmBookingDairyMultipleCustomer
             Exit Sub
         End If
         btnSave.Visible = MyBase.isModifyFlag
-        'btnPost.Visible = MyBase.isPostFlag
+        btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
-        If MyBase.isReverse Then
-            btnreverse.Enabled = True
+        btnPrint.Visible = MyBase.isPrintFlag
+        btnreverse.Visible = False
+
+        'If MyBase.isReverse Then
+        '    btnreverse.Enabled = True
+        'Else
+        '    btnreverse.Enabled = False
+        'End If
+        If MyBase.isExport = True Then
+            btnExport.Enabled = True
+            btnImport.Enabled = True
         Else
-            btnreverse.Enabled = False
+            btnExport.Enabled = False
+            btnImport.Enabled = False
         End If
     End Sub
     Sub LoadBlankGrid()
@@ -2898,7 +2908,7 @@ Public Class frmBookingDairyMultipleCustomer
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

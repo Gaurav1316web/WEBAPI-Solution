@@ -805,7 +805,7 @@ Public Class BulkProcurementUploader
                     clsCommon.ProgressBarPercentUpdate(j / ValidatedCount * 100, " Saving and posting Record(s) " & j & " of Total " & ValidatedCount)
                     'obj = New clsMccDispatch()
                     'obj.isNewEntry = True
-
+                    'm 
                     'obj.RefBulkDispatchUploader = "Auto"
                     'obj.Document_Date = clsCommon.GetPrintDate(grow.Cells("Dispatch Date").Value, "dd/MMM/yyyy hh:mm:ss tt")
                     'obj.Description = ""

@@ -76,6 +76,14 @@ Public Class FrmSecondarySettingForQC
         End If
         btnsave.Visible = MyBase.isModifyFlag
         btndelete.Visible = MyBase.isDeleteFlag
+        btnPost.Visible = MyBase.isPostFlag
+        btnReverse.Visible = False
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+
     End Sub
     Sub Reset()
         txtDocNo.Value = ""

@@ -3555,11 +3555,21 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
         btnPrint.Visible = MyBase.isPrintFlag
         btnExport.Visible = MyBase.isExport
         'RadMenu1.Visible = MyBase.isExport
-        If MyBase.isReverse Then
-            btnReverse.Enabled = True
+        If MyBase.isPrintFlag = True Then
+            btnDocPrint.Enabled = True
+            btnPrint.Enabled = True
+            btnDCPrint.Enabled = True
         Else
-            btnReverse.Enabled = False
+            btnDocPrint.Enabled = False
+            btnPrint.Enabled = False
+            btnDCPrint.Enabled = False
         End If
+        'If MyBase.isReverse Then
+        '    btnReverse.Enabled = True
+        'Else
+        '    btnReverse.Enabled = False
+        'End If
+        btnReverse.Visible = False
     End Sub
 
     Function AllowToSave() As Boolean

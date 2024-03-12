@@ -479,6 +479,8 @@ Public Class frmEXPorformaInvoice
         btnCancel.Visible = MyBase.isCancel_Flag_After_Posting
         btnPrint.Visible = MyBase.isPrintFlag
         RadSplitButton1.Visible = isPrintFlag
+        btnReverseAndUnpost.Visible = False
+
         If MyBase.isReverse Then
             btnReverseAndUnpost.Enabled = True
         Else
@@ -5228,7 +5230,8 @@ Public Class frmEXPorformaInvoice
                         btnReverseAndUnpost.Visible = True
                     End If
                 Else
-                    MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                    clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
+                    'MessageBox.Show("You are not authorized to perform this action.", "Unauthorized Access", MessageBoxButtons.OK, MessageBoxIcon.Warning)
                 End If
             End If
 
@@ -6596,7 +6599,7 @@ Public Class frmEXPorformaInvoice
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

@@ -1028,7 +1028,7 @@ Public Class FrmShipToLocationDetails
                 common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Row number: " & rownum)
+                clsCommon.MyMessageBoxShow(Me, ex.Message & " At Row number: " & rownum, Me.Text)
                 trans.Rollback()
 
             End Try

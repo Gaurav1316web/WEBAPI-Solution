@@ -272,15 +272,12 @@ Public Class frmGRN
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
         btncancel.Visible = MyBase.isCancel_Flag_After_Posting
-        If MyBase.isReverse Then
-
-            btnUnpost.Enabled = True
-
-        Else
-
-            btnUnpost.Enabled = False
-
-        End If
+        btnUnpost.Visible = False
+        'If MyBase.isReverse Then
+        '    btnUnpost.Enabled = True
+        'Else
+        '    btnUnpost.Enabled = False
+        'End If
     End Sub
 
     Private Sub LoadRGPType()

@@ -36,7 +36,7 @@ Public Class FrmFiscalYearEndProcess
                 txtNxtFinancialYear.Focus()
                 Throw New Exception("Please select financial year")
             End If
-            If clsCommon.MyMessageBoxShow("Start the finanacial year end process" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Start the finanacial year end process" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                 Try
                     ' transportSql.CreateJEForEndYear("", , trans)
@@ -110,7 +110,7 @@ Public Class FrmFiscalYearEndProcess
                 TxtFinder1.Focus()
                 Throw New Exception("Please select the Rollback fiscal year")
             End If
-            If clsCommon.MyMessageBoxShow("Rollback Year End Process of Fiscal Year -" + TxtFinder1.Value + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.No Then
+            If clsCommon.MyMessageBoxShow(Me, "Rollback Year End Process of Fiscal Year -" + TxtFinder1.Value + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = Windows.Forms.DialogResult.No Then
                 Exit Sub
             End If
 

@@ -181,6 +181,17 @@ Public Class clsDepartmentMaster
         DR("Code") = "Other"
         DR("Name") = "Other"
         DT.Rows.Add(DR)
+
+        DR = DT.NewRow()
+        DR("Code") = "QC"
+        DR("Name") = "QC"
+        DT.Rows.Add(DR)
+
+        DR = DT.NewRow()
+        DR("Code") = "All"
+        DR("Name") = "All"
+        DT.Rows.Add(DR)
+
         DT.AcceptChanges()
         Return DT
     End Function
