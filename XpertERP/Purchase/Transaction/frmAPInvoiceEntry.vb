@@ -7700,5 +7700,7 @@ Public Class FrmAPInvoiceEntry
         End Try
     End Sub
 
-
+    Private Sub chkSecurityAdjusment_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkSecurityAdjusment.ToggleStateChanged
+        txtSecurityAdjusment.Visible = chkSecurityAdjusment.Checked
+    End Sub
 End Class

@@ -1405,6 +1405,7 @@ Public Class clsFixedParameterCode
     Public Const IncludeOwnBMC As String = "Include Own BMC"
 
     Public Const TransactionForCurrentDateOnly As String = "Transaction For Current Date Only"
+    Public Const AddPostFunctionality As String = "Add Post Functionality"
 
     Public Const DashboardDays As String = "Dashboard Days"
     Public Const UOM As String = "UOM"
@@ -2966,6 +2967,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.IncludeOwnBMC, "1", "1:On,0:Off; Include Own BMC in BMC List")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.TransactionForCurrentDateOnly, "1", "1:On;0:Off Disable Date selection by user")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, "0", "0:OFF,1:ON;Add Post functionality in BMC DCS APK")
 
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.AndroidAPPVersion, clsFixedParameterCode.comAnchal_ucdfErp, "", "Version of Aanchal Pro APP [0 Skip]")
@@ -6539,6 +6541,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, clsFixedParameterType.PickAllBMC, clsFixedParameterCode.PickAllBMC, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorRouteTagging, clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, EnumControlType.CheckBox)
 
     End Sub
 End Class

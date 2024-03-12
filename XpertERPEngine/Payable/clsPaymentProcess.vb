@@ -2415,7 +2415,13 @@ from TSPL_PAYMENT_PROCESS_COMPULSORY left join TSPL_VENDOR_INVOICE_HEAD on TSPL_
 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
-where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + "))TT
+where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ")"
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+                sQuery += " and TSPL_DCS_ADDITION_DEDUCTION.Saving <> 2 "
+            End If
+
+            sQuery += ")TT
 left join (select MAPPING.Code mmCode,MAPPING.Description mmDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
 left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.MappingCode WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code "
         End If
