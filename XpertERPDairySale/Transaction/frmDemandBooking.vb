@@ -804,20 +804,49 @@ Public Class frmDemandBooking
                     ResetDemandOnSave(txtDocNo.Value)
                 End If
                 Dim obj As New clsDemandBookingSale()
-                If IsRepeatOrder = 1 Then
-                    obj.Document_Date = clsCommon.myCDate(txtDate.Value).AddDays(1)
-                    obj.Document_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(obj.Document_Date) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
-                    If clsCommon.myLen(obj.Document_No) > 0 Then
-                        isNewEntry = False
-                    Else
-                        If Not chkMorningPosted.Checked AndAlso Not chkEveningPosted.Checked Then
-                            obj.Document_No = ""
-                            isNewEntry = True
+                If SeparateDemandMilkandProduct Then
+                    If IsRepeatOrder = 1 Then
+                        obj.Document_Date = clsCommon.myCDate(txtDate.Value).AddDays(1)
+                        Dim strQry1 As String = "select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(obj.Document_Date) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "'"
+                        If rbtn_Fresh.IsChecked Then
+                            strQry1 += " and ItemType='Fresh' "
+                        ElseIf rbtn_Ambient.IsChecked Then
+                            strQry1 += " and ItemType='Ambient' "
+                        Else
+                            strQry1 += " and ItemType='Both' "
                         End If
+                        strQry1 += " And  IsIndividualCustomer=0 "
+                        obj.Document_No = clsDBFuncationality.getSingleValue(strQry1)
+
+
+                        If clsCommon.myLen(obj.Document_No) > 0 Then
+                            isNewEntry = False
+                        Else
+                            If Not chkMorningPosted.Checked AndAlso Not chkEveningPosted.Checked Then
+                                obj.Document_No = ""
+                                isNewEntry = True
+                            End If
+                        End If
+                    Else
+                        obj.Document_No = txtDocNo.Value
+                        obj.Document_Date = txtDate.Value
                     End If
                 Else
-                    obj.Document_No = txtDocNo.Value
-                    obj.Document_Date = txtDate.Value
+                    If IsRepeatOrder = 1 Then
+                        obj.Document_Date = clsCommon.myCDate(txtDate.Value).AddDays(1)
+                        obj.Document_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(obj.Document_Date) + "') and location_code='" + clsCommon.myCstr(txtLocation.Value) + "' and ShiftType='" + IIf(rbtnMorning.IsChecked, "Morning", "Evening") + "' and IsIndividualCustomer=0 ")
+                        If clsCommon.myLen(obj.Document_No) > 0 Then
+                            isNewEntry = False
+                        Else
+                            If Not chkMorningPosted.Checked AndAlso Not chkEveningPosted.Checked Then
+                                obj.Document_No = ""
+                                isNewEntry = True
+                            End If
+                        End If
+                    Else
+                        obj.Document_No = txtDocNo.Value
+                        obj.Document_Date = txtDate.Value
+                    End If
                 End If
                 obj.Location_Code = txtLocation.Value
                 obj.Route_No = txtRouteNo.Value
@@ -3871,9 +3900,7 @@ where 2=2 "
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim frmCRV As New frmCrystalReportViewer()
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal OrElse
-                clsCommon.CompairString(objCommonVar.CurrComp_Code1, "
-                ") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
                 If rbtn_Fresh.IsChecked Then
                     If ItemCount > 0 AndAlso ItemCount <= 9 Then
                         frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptDemandBookingFUDP", "Demand Booking")
