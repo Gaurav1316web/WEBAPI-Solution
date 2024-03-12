@@ -308,12 +308,12 @@ Public Class clsSalaryGeneration
             clsDBFuncationality.ExecuteNonQuery(satQry, trans)
 
             satQry = ""
-            satQry += " insert into TSPL_GENERATE_SALARY_PAYHEADS(SALARY_GENERATION_CODE ,EMP_CODE,LINE_NO  ,PAY_HEAD_CODE ,HEAD_TYPE  ,SUB_HEAD_TYPE ,CALC_BASIS ,PAYHEAD_FORMULA ,RATE_AMOUNT ,ACTUAL_AMOUNT ," & _
-                " PAYABLE_AMOUNT,FORMULA_AMOUNT,HEAD_VALUE,ISHIDDENCOMPONENT,PF_MAX_LM,ACCOUNT_CODE,EPF_RATE,ESI_RATE,CoEPF_RATE,CoEPF_RATE_AC01,CoEPF_AMT_AC01,CoEPS_RATE_AC10,CoEPS_AMT_AC10,ADMIN_RATE_AC02,ADMIN_AMT_AC02,EDLI_RATE_AC21," & _
+            satQry += " insert into TSPL_GENERATE_SALARY_PAYHEADS(SALARY_GENERATION_CODE ,EMP_CODE,LINE_NO  ,PAY_HEAD_CODE ,HEAD_TYPE  ,SUB_HEAD_TYPE ,CALC_BASIS ,PAYHEAD_FORMULA ,RATE_AMOUNT ," &
+                " ACTUAL_AMOUNT,PAYABLE_AMOUNT,FORMULA_AMOUNT,HEAD_VALUE,ISHIDDENCOMPONENT,PF_MAX_LM,ACCOUNT_CODE,EPF_RATE,ESI_RATE,CoEPF_RATE,CoEPF_RATE_AC01,CoEPF_AMT_AC01,CoEPS_RATE_AC10,CoEPS_AMT_AC10,ADMIN_RATE_AC02,ADMIN_AMT_AC02,EDLI_RATE_AC21," &
                 " EDLI_AMT_AC21,ADMIN_EDLI_RATE_AC22,ADMIN_EDLI_AMT_AC22,OTHER_CHARGE,Co_ESI_RATE,Co_ESI_AMT,Employer_Account,Arrear_Amt,PRINCIPAL_ROUND_OFF,ARREAR_ROUND_OFF,CoEPF_AMT_AC01_ROUND_OFF,CoEPS_AMT_AC10_ROUND_OFF,PF_Applicable,PF_Calculation_Type,PF_Rule_Max_Lim,Custom_PF_Max_Lim,PF_No,ESI_Applicable,ESI_Calculation_Type,ESI_Rule_Max_Lim,Custom_ESI_Max_Lim,ESI_No,EPS_To_EPF,OT_Applicable,OT_CODE,OT_HOURS,OT_RATE,HOUR_MULTIPLIER,Bonus_Applicable,BONUS_CODE,BONUS_FROM_PAY_PERIOD_CODE,BONUS_TO_PAY_PERIOD_CODE,OD_Applicable,MAX_AMOUNT,PREV_ESI)"
-            satQry += "(select '" & obj.Code & "', EMP_CODE,LINE_NO  ,PAY_HEAD_CODE ,HEAD_TYPE  ,SUB_HEAD_TYPE ,CALC_BASIS ,PAYHEAD_FORMULA ,RATE_AMOUNT , " & _
-                " ACTUAL_AMOUNT, STD_AMOUNT,FORMULA_AMOUNT,HEAD_VALUE,ISHIDDENCOMPONENT,PF_MAX_LIM,ACCOUNT_CODE,EPF_RATE,ESI_RATE,CoEPF_RATE,CoEPF_RATE_AC01, " & _
-                " CoEPF_AMT_AC01,CoEPS_RATE_AC10,CoEPS_AMT_AC10,ADMIN_RATE_AC02,ADMIN_AMT_AC02,EDLI_RATE_AC21," & _
+            satQry += "(select '" & obj.Code & "', EMP_CODE,LINE_NO  ,PAY_HEAD_CODE ,HEAD_TYPE  ,SUB_HEAD_TYPE ,CALC_BASIS ,PAYHEAD_FORMULA ,RATE_AMOUNT , " &
+                " ACTUAL_AMOUNT, (case when PAY_HEAD_CODE='EPF' then ACTUAL_AMOUNT else STD_AMOUNT end) as PAYABLE_AMOUNT,FORMULA_AMOUNT,HEAD_VALUE,ISHIDDENCOMPONENT,PF_MAX_LIM,ACCOUNT_CODE,EPF_RATE,ESI_RATE,CoEPF_RATE,CoEPF_RATE_AC01, " &
+                " CoEPF_AMT_AC01,CoEPS_RATE_AC10,CoEPS_AMT_AC10,ADMIN_RATE_AC02,ADMIN_AMT_AC02,EDLI_RATE_AC21," &
                 " EDLI_AMT_AC21,ADMIN_EDLI_RATE_AC22,ADMIN_EDLI_AMT_AC22,OTHER_CHARGE,Co_ESI_RATE,Co_ESI_AMT,Employer_Account,Arrear_Amt,PRINCIPAL_ROUND_OFF,ARREAR_ROUND_OFF,CoEPF_AMT_AC01_ROUND_OFF,CoEPS_AMT_AC10_ROUND_OFF,IS_PF_APPL,PF_Calculation_Type,PF_Rule_Max_Lim,Custom_PF_Max_Lim,PF_No,IS_ESI_APPL,ESI_Calculation_Type,ESI_Rule_Max_Lim,Custom_ESI_Max_Lim,ESI_No,EPS_To_EPF,IS_OT_APPL,OT_CODE,OT_HOURS,OT_RATE,HOUR_MULTIPLIER,IS_BONUS_APPL,BONUS_CODE,BONUS_FROM_PAY_PERIOD_CODE,BONUS_TO_PAY_PERIOD_CODE,OD_Applicable,MAX_AMOUNT,PREV_ESI  from TSPL_SALARY_CALCULATION) "
             clsDBFuncationality.ExecuteNonQuery(satQry, trans)
 
@@ -4613,80 +4613,24 @@ Public Class clsSalaryGeneration
                         " from TSPL_EMPLOYEE_INCREMENT_HEAD inner join TSPL_EMPLOYEE_SALARY on TSPL_EMPLOYEE_INCREMENT_HEAD.EMP_SAL_CODE_NEW=TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE)"
         End If
 
-        'strq = "INSERT INTO " & strTableName & " ( EMP_CODE, EMP_SAL_CODE,SALARY_STRUCTURE_CODE,ISHIDDENCOMPONENT,PAY_HEAD_CODE, LINE_NO, " _
-        '    & " HEAD_TYPE,SUB_HEAD_TYPE,CALC_BASIS,PAYHEAD_FORMULA,RATE_AMOUNT,STD_AMOUNT,PAYPERIOD_DAYS, " _
-        '    & " PRESENT_DAYS,ABSENT_DAYS,LEAVE_DAYS,HOLIDAY_DAYS,PAYABLE_DAYS,LOP_DAYS,IS_PF_APPL,IS_PF_ATTN_ENABLE, " _
-        '    & " PF_MAX_LIM,EPS_TO_EPF,EPS_MAX,COEPF_ROUNDOFF_YPE,EMPEPF_ROUNDOFF_YPE,IS_ESI_APPL,FORMULA_HEAD," _
-        '    & " IS_OT_APPL,OT_CODE,OT_HOURS,OT_RATE,HOUR_MULTIPLIER,IS_ASPER_ACTUAL_CALC,IS_BONUS_APPL,BONUS_CODE,ACTUAL_AMOUNT,PAYABLE_AMOUNT,ROUND_OFF_TYPE,MAX_AMOUNT,EMP_STATUS_CODE,ESI_MAX_LIM,EPF_RATE,ESI_RATE,PAY_PERIOD_CODE," _
-        '    & " PF_Calculation_Type,PF_Rule_Max_Lim,Custom_PF_Max_Lim,PF_No,ESI_Calculation_Type,ESI_Rule_Max_Lim,Custom_ESI_Max_Lim,ESI_No,OD_Applicable,Is_Earning_Payhead,Is_Professional_Tax_Applicable " _
-        '    & " )( " _
-        '    & " SELECT DISTINCT(T1.EMP_CODE),T1.EMP_SAL_CODE,T1.SALARY_STRUCTURE_CODE,T2.ISHIDDENCOMPONENT,T3.PAY_HEAD_CODE,T3.LINE_NO,T4.HEAD_TYPE,T3.SUB_HEAD_TYPE," _
-        '    & " T3.CALC_BASIS,T3.PAYHEAD_FORMULA, " _
-        '    & " (CASE WHEN T4.HEAD_TYPE IN ('ATTN', 'FIXED') THEN T2.RATE_AMOUNT WHEN T4.HEAD_TYPE ='F' then T3.RATE_AMOUNT WHEN T4.HEAD_TYPE = 'UD' THEN COALESCE(T8.ALLOWANCE_AMOUNT,0) ELSE 0 End) AS RATE, " _
-        '    & " (CASE WHEN T4.HEAD_TYPE IN ('ATTN', 'FIXED') THEN T2.RATE_AMOUNT WHEN T4.HEAD_TYPE = 'UD'  THEN COALESCE(T8.ALLOWANCE_AMOUNT,0) ELSE 0 End) AS STD_AMOUNT, " _
-        '    & " T6.PAYPERIOD_DAYS,T6.PRESENT_DAYS,T6.ABSENT_DAYS,T6.LEAVE_DAYS,T6.HOLIDAY_DAYS,T6.PAYABLE_DAYS,T6.LOP_DAYS,T7.IS_PF_APPL, " _
-        '    & " " + SettPFCalculationOnHeadValue + " AS IS_PF_ATTN_ENABLE,(CASE WHEN T7.Max_Amount_EPF>0  THEN T7.Max_Amount_EPF ELSE " & drPF.Item("EMPEPF_MAX") & " END) AS EPF_MAX_LIM,T7.EPS_TO_EPF," & drPF.Item("EPS_MAX") & " AS EPS_MAX,'" & drPF.Item("COEPF_ROUNDOFF_YPE") & "' AS COEPF_ROUNDOFF_YPE,'" & drPF.Item("EMPEPF_ROUNDOFF_YPE") & "' AS EMPEPF_ROUNDOFF_YPE, " _
-        '    & " T7.IS_ESI_APPL,T3.PAYHEAD_FORMULA AS FORMULA_HEAD,T7.IS_OT_APPL,T7.OT_CODE,NULL AS OT_HOURS,NULL AS OT_RATE, " _
-        '    & " COALESCE(T9.HOUR_MULTIPLIER,1) AS HOUR_MULTIPLIER ,COALESCE(T9.IS_ASPER_ACTUAL_CALC,0) AS IS_ASPER_ACTUAL_CALC,T7.IS_BONUS_APPL,T7.BONUS_CODE, " _
-        '    & " (ROUND(CASE WHEN T4.HEAD_TYPE ='ATTN' THEN T2.RATE_AMOUNT  * T6.PAYABLE_DAYS / T6.PAYPERIOD_DAYS WHEN T4.HEAD_TYPE ='FIXED' THEN T2.RATE_AMOUNT WHEN T4.HEAD_TYPE = 'UD' THEN COALESCE(T8.ALLOWANCE_AMOUNT,0) ELSE 0 End ,3)) AS ACTUAL_AMOUNT, " _
-        '    & " 0 AS PAYABLE_AMOUNT,T4.ROUND_OFF_TYPE,T2.MAX_AMOUNT,T7.EMP_STATUS_CODE,(CASE WHEN T7.Max_Amount_ESI>0 THEN T7.Max_Amount_ESI ELSE " & drESI.Item("TOTALEARNING_MAX") & " END) AS ESI_MAX_LIM,T7.EPF_RATE,T7.ESI_RATE,'" & Pay_Period_Code & "',T7.PF_Calculation_Type,T7.PF_Rule_Max_Lim,T7.Custom_PF_Max_Lim,T7.PF_No,T7.ESI_Calculation_Type,T7.ESI_Rule_Max_Lim,T7.Custom_ESI_Max_Lim,T7.ESI_No,T7.OD_Applicable,T4.ISEARNING,T7.Is_Professional_Tax_Applicable FROM " _
-        '    & " ( " _
-        '    & " SELECT T1.EMP_SAL_CODE,T1.EMP_CODE,T1.SALARY_STRUCTURE_CODE,T1.APPLICABLE_FROM AS APP_DATE " _
-        '    & " FROM TSPL_EMPLOYEE_SALARY T1 " _
-        '    & " INNER JOIN ( " _
-        '    & " SELECT EMP_SAL_CODE,EMPSAL.EMP_CODE,EMPSAL.REVISION_NO FROM TSPL_EMPLOYEE_SALARY INNER JOIN ( " _
-        '    & " SELECT  MAX(REVISION_NO) AS REVISION_NO,EMP_CODE  FROM " & QryArrear & " AS  TSPL_EMPLOYEE_SALARY  WHERE APPLICABLE_FROM<='" & Format(PP_END_DATE, "dd MMM yyyy") & "'  Group BY EMP_CODE " _
-        '    & " HAVING MAX(APPLICABLE_FROM) <= '" & clsCommon.GetPrintDate(PP_END_DATE, "dd/MMM/yyyy") & "') AS EMPSAL ON TSPL_EMPLOYEE_SALARY.EMP_CODE=EMPSAL.EMP_CODE " _
-        '    & " And EMPSAL.REVISION_NO = TSPL_EMPLOYEE_SALARY.REVISION_NO " _
-        '    & " ) AS T2 ON T1.EMP_SAL_CODE = T2.EMP_SAL_CODE AND T1.EMP_CODE = T2.EMP_CODE) AS T1 " _
-        '    & " LEFT JOIN TSPL_EMPLOYEE_SALARY_PAYHEADS T2 ON T1.EMP_SAL_CODE = T2.EMP_SAL_CODE " _
-        '    & " LEFT JOIN TSPL_SALSTRUCT_PAYHEADS T3 ON T1.SALARY_STRUCTURE_CODE = T3.SALARY_STRUCTURE_CODE " _
-        '    & " And T3.PAY_HEAD_CODE = T2.PAY_HEAD_CODE " _
-        '    & " LEFT JOIN TSPL_PAYHEAD_MASTER T4 ON T3.PAY_HEAD_CODE = T4.PAY_HEAD_CODE " _
-        '    & " LEFT JOIN (" _
-        '    & " SELECT TAS.EMP_CODE,TAS.PAY_PERIOD_CODE,COALESCE(TAS.PRESENT_DAYS,0) as PRESENT_DAYS, " _
-        '    & " TAS.PAYPERIOD_DAYS,TAS.ABSENT_DAYS,TAS.LEAVE_DAYS,TAS.HOLIDAY_DAYS, TAS.PAYABLE_DAYS, TAS.LOP_DAYS " _
-        '    & " FROM TSPL_ATTENDANCE_SUMMARY AS TAS " _
-        '    & " WHERE TAS.PAY_PERIOD_CODE = '" & Pay_Period_Code & "' " _
-        '    & " ) AS T6 ON T1.EMP_CODE = T6.EMP_CODE " _
-        '    & " LEFT JOIN ( " _
-        '    & " SELECT T1.*, T2.IS_PF_APPL,COALESCE(T2.EPS_TO_EPF, 0) AS EPS_TO_EPF,IS_ESI_APPL,T2.IS_OT_APPL,T2.OT_CODE,T2.IS_BONUS_APPL,T2.BONUS_CODE,T2.WORKING_STATUS,T2.Max_Amount_EPF,T2.Max_Amount_ESI,T2.EPF_RATE,T2.ESI_RATE,T2.PF_Calculation_Type," & drPF.Item("EMPEPF_MAX") & " AS PF_Rule_Max_Lim,T2.Max_Amount_EPF AS Custom_PF_Max_Lim,T2.PF_No,'' as ESI_Calculation_Type," & drESI.Item("TOTALEARNING_MAX") & " AS ESI_Rule_Max_Lim,T2.Max_Amount_ESI AS Custom_ESI_Max_Lim,T2.ESI_No,T2.IS_OD_APPL OD_Applicable,T2.Professional_Tax_Applicable as Is_Professional_Tax_Applicable " _
-        '    & " FROM " _
-        '    & " ( " _
-        '    & " SELECT EMP_STATUS_CODE,EMPSTATUS.EMP_CODE,EMPSTATUS.REVISION_NO FROM TSPL_EMPLOYEE_STATUS INNER JOIN ( " _
-        '    & " SELECT  MAX(REVISION_NO) AS REVISION_NO,EMP_CODE  FROM TSPL_EMPLOYEE_STATUS WHERE APPLICABLE_FROM<='" & Format(PP_END_DATE, "dd MMM yyyy") & "'   Group BY EMP_CODE " _
-        '    & " HAVING MAX(APPLICABLE_FROM) <= '" & clsCommon.GetPrintDate(PP_END_DATE, "dd/MMM/yyyy") & "') AS EMPSTATUS ON TSPL_EMPLOYEE_STATUS.EMP_CODE=EMPSTATUS.EMP_CODE " _
-        '    & " AND EMPSTATUS.REVISION_NO=TSPL_EMPLOYEE_STATUS.REVISION_NO " _
-        '    & " ) AS T1 " _
-        '    & " LEFT JOIN TSPL_EMPLOYEE_STATUS T2  ON T1.EMP_STATUS_CODE = T2.EMP_STATUS_CODE  " _
-        '    & " INNER JOIN TSPL_EMPLOYEE_MASTER T_2 " _
-        '    & " on T2.EMP_CODE=T_2.EMP_CODE ) AS T7 ON T1.EMP_CODE = T7.EMP_CODE " _
-        '    & " LEFT JOIN (SELECT ALWD.* from TSPL_ALLOWANCE ALW INNER JOIN TSPL_ALLOWANCE_DETAIL ALWD " _
-        '    & " ON ALW.ALLOWANCE_CODE=ALWD.ALLOWANCE_CODE WHERE PAY_PERIOD_CODE='" & Pay_Period_Code & "'  " _
-        '    & " UNION ALL " _
-        '    & " SELECT DND.* FROM TSPL_DEDUCTION DN INNER JOIN TSPL_DEDUCTION_DETAIL DND " _
-        '    & " ON DN.DEDUCTION_CODE=DND.DEDUCTION_CODE WHERE PAY_PERIOD_CODE='" & Pay_Period_Code & "' ) T8 " _
-        '    & " ON T1.EMP_CODE=T8.EMP_CODE AND T3.PAY_HEAD_CODE=T8.PAY_HEAD_CODE " _
-        '    & " LEFT JOIN (select OT_CODE,HOUR_MULTIPLIER,OT_RATE as OT_RATE,IS_ASPER_ACTUAL_CALC from TSPL_OT_MASTER) AS  T9 ON T7.OT_CODE=T9.OT_CODE " _
-        '    & " WHERE T3.PAY_HEAD_CODE IS NOT NULL AND T1.EMP_CODE IN " & strEmp & ") "
 
         strq = "INSERT INTO " & strTableName & " ( EMP_CODE, EMP_SAL_CODE,SALARY_STRUCTURE_CODE,ISHIDDENCOMPONENT,PAY_HEAD_CODE, LINE_NO, " _
            & " HEAD_TYPE,SUB_HEAD_TYPE,CALC_BASIS,PAYHEAD_FORMULA,RATE_AMOUNT,STD_AMOUNT,PAYPERIOD_DAYS, " _
            & " PRESENT_DAYS,ABSENT_DAYS,LEAVE_DAYS,HOLIDAY_DAYS,PAYABLE_DAYS,LOP_DAYS,IS_PF_APPL,IS_PF_ATTN_ENABLE, " _
            & " PF_MAX_LIM,EPS_TO_EPF,EPS_MAX,COEPF_ROUNDOFF_YPE,EMPEPF_ROUNDOFF_YPE,IS_ESI_APPL,FORMULA_HEAD," _
            & " IS_OT_APPL,OT_CODE,OT_HOURS,OT_RATE,HOUR_MULTIPLIER,IS_ASPER_ACTUAL_CALC,IS_BONUS_APPL,BONUS_CODE,ACTUAL_AMOUNT,PAYABLE_AMOUNT,ROUND_OFF_TYPE,MAX_AMOUNT,EMP_STATUS_CODE,ESI_MAX_LIM,EPF_RATE,ESI_RATE,PAY_PERIOD_CODE," _
-           & " PF_Calculation_Type,PF_Rule_Max_Lim,Custom_PF_Max_Lim,PF_No,ESI_Calculation_Type,ESI_Rule_Max_Lim,Custom_ESI_Max_Lim,ESI_No,OD_Applicable,Is_Earning_Payhead,Is_Professional_Tax_Applicable " _
+           & " PF_Calculation_Type,PF_Rule_Max_Lim,Custom_PF_Max_Lim,PF_No,ESI_Calculation_Type,ESI_Rule_Max_Lim,Custom_ESI_Max_Lim,ESI_No,OD_Applicable,Is_Earning_Payhead,Is_Professional_Tax_Applicable,ISESI " _
            & " )( " _
            & " SELECT DISTINCT(T1.EMP_CODE),T1.EMP_SAL_CODE,T1.SALARY_STRUCTURE_CODE,T2.ISHIDDENCOMPONENT,T2.PAY_HEAD_CODE,T2.LINE_NO,T4.HEAD_TYPE,T4.SUB_HEAD_TYPE," _
            & " T4.CALC_BASIS,T2.PAYHEAD_FORMULA, " _
-           & " (CASE WHEN T4.HEAD_TYPE IN ('ATTN', 'FIXED') THEN T2.RATE_AMOUNT WHEN T4.HEAD_TYPE ='F' then T3.RATE_AMOUNT WHEN T4.HEAD_TYPE = 'UD' THEN COALESCE(T8.ALLOWANCE_AMOUNT,0) ELSE 0 End) AS RATE, " _
-           & " (CASE WHEN T4.HEAD_TYPE IN ('ATTN', 'FIXED') THEN T2.RATE_AMOUNT WHEN T4.HEAD_TYPE = 'UD'  THEN COALESCE(T8.ALLOWANCE_AMOUNT,0) ELSE 0 End) AS STD_AMOUNT, " _
+           & " (CASE WHEN T4.HEAD_TYPE IN ('ATTN', 'FIXED','F') THEN T2.RATE_AMOUNT  WHEN T4.HEAD_TYPE = 'UD' THEN COALESCE(T8.ALLOWANCE_AMOUNT,0) ELSE 0 End) AS RATE, " _
+           & " (CASE WHEN T4.HEAD_TYPE IN ('ATTN', 'FIXED','F') THEN T2.RATE_AMOUNT WHEN T4.HEAD_TYPE = 'UD'  THEN COALESCE(T8.ALLOWANCE_AMOUNT,0) ELSE 0 End) AS STD_AMOUNT, " _
            & " T6.PAYPERIOD_DAYS,T6.PRESENT_DAYS,T6.ABSENT_DAYS,T6.LEAVE_DAYS,T6.HOLIDAY_DAYS,T6.PAYABLE_DAYS,T6.LOP_DAYS,T7.IS_PF_APPL, " _
            & " " + SettPFCalculationOnHeadValue + " AS IS_PF_ATTN_ENABLE,(CASE WHEN T7.Max_Amount_EPF>0  THEN T7.Max_Amount_EPF ELSE " & drPF.Item("EMPEPF_MAX") & " END) AS EPF_MAX_LIM,T7.EPS_TO_EPF," & drPF.Item("EPS_MAX") & " AS EPS_MAX,'" & drPF.Item("COEPF_ROUNDOFF_YPE") & "' AS COEPF_ROUNDOFF_YPE,'" & drPF.Item("EMPEPF_ROUNDOFF_YPE") & "' AS EMPEPF_ROUNDOFF_YPE, " _
            & " T7.IS_ESI_APPL,T2.PAYHEAD_FORMULA AS FORMULA_HEAD,T7.IS_OT_APPL,T7.OT_CODE,NULL AS OT_HOURS,NULL AS OT_RATE, " _
            & " COALESCE(T9.HOUR_MULTIPLIER,1) AS HOUR_MULTIPLIER ,COALESCE(T9.IS_ASPER_ACTUAL_CALC,0) AS IS_ASPER_ACTUAL_CALC,T7.IS_BONUS_APPL,T7.BONUS_CODE, " _
            & " (ROUND(CASE WHEN T4.HEAD_TYPE ='ATTN' THEN T2.RATE_AMOUNT  * T6.PAYABLE_DAYS / T6.PAYPERIOD_DAYS WHEN T4.HEAD_TYPE ='FIXED' THEN T2.RATE_AMOUNT WHEN T4.HEAD_TYPE = 'UD' THEN COALESCE(T8.ALLOWANCE_AMOUNT,0) ELSE 0 End ,3)) AS ACTUAL_AMOUNT, " _
-           & " 0 AS PAYABLE_AMOUNT,T4.ROUND_OFF_TYPE,T2.MAX_AMOUNT,T7.EMP_STATUS_CODE,(CASE WHEN T7.Max_Amount_ESI>0 THEN T7.Max_Amount_ESI ELSE " & drESI.Item("TOTALEARNING_MAX") & " END) AS ESI_MAX_LIM,T7.EPF_RATE,T7.ESI_RATE,'" & Pay_Period_Code & "',T7.PF_Calculation_Type,T7.PF_Rule_Max_Lim,T7.Custom_PF_Max_Lim,T7.PF_No,T7.ESI_Calculation_Type,T7.ESI_Rule_Max_Lim,T7.Custom_ESI_Max_Lim,T7.ESI_No,T7.OD_Applicable,T4.ISEARNING,T7.Is_Professional_Tax_Applicable FROM " _
+           & " 0 AS PAYABLE_AMOUNT,T4.ROUND_OFF_TYPE,T2.MAX_AMOUNT,T7.EMP_STATUS_CODE,(CASE WHEN T7.Max_Amount_ESI>0 THEN T7.Max_Amount_ESI ELSE " & drESI.Item("TOTALEARNING_MAX") & " END) AS ESI_MAX_LIM,T7.EPF_RATE,T7.ESI_RATE,'" & Pay_Period_Code & "',T7.PF_Calculation_Type,T7.PF_Rule_Max_Lim,T7.Custom_PF_Max_Lim,T7.PF_No,T7.ESI_Calculation_Type,T7.ESI_Rule_Max_Lim,T7.Custom_ESI_Max_Lim,T7.ESI_No,T7.OD_Applicable,T4.ISEARNING,T7.Is_Professional_Tax_Applicable,T7.ISESI FROM " _
            & " ( " _
            & " SELECT T1.EMP_SAL_CODE,T1.EMP_CODE,T1.SALARY_STRUCTURE_CODE,T1.APPLICABLE_FROM AS APP_DATE " _
            & " FROM TSPL_EMPLOYEE_SALARY T1 " _
@@ -4726,7 +4670,7 @@ Public Class clsSalaryGeneration
            & " WHERE TAS.PAY_PERIOD_CODE = '" & Pay_Period_Code & "' " _
            & " ) AS T6 ON T1.EMP_CODE = T6.EMP_CODE " _
            & " LEFT JOIN ( " _
-           & " SELECT T1.*, T2.IS_PF_APPL,COALESCE(T2.EPS_TO_EPF, 0) AS EPS_TO_EPF,IS_ESI_APPL,T2.IS_OT_APPL,T2.OT_CODE,T2.IS_BONUS_APPL,T2.BONUS_CODE,T2.WORKING_STATUS,T2.Max_Amount_EPF,T2.Max_Amount_ESI,T2.EPF_RATE,T2.ESI_RATE,T2.PF_Calculation_Type," & drPF.Item("EMPEPF_MAX") & " AS PF_Rule_Max_Lim,T2.Max_Amount_EPF AS Custom_PF_Max_Lim,T2.PF_No,'' as ESI_Calculation_Type," & drESI.Item("TOTALEARNING_MAX") & " AS ESI_Rule_Max_Lim,T2.Max_Amount_ESI AS Custom_ESI_Max_Lim,T2.ESI_No,T2.IS_OD_APPL OD_Applicable,T2.Professional_Tax_Applicable as Is_Professional_Tax_Applicable " _
+           & " SELECT isnull( T_2.ISESI,0) as ISESI,T1.*, T2.IS_PF_APPL,COALESCE(T2.EPS_TO_EPF, 0) AS EPS_TO_EPF,IS_ESI_APPL,T2.IS_OT_APPL,T2.OT_CODE,T2.IS_BONUS_APPL,T2.BONUS_CODE,T2.WORKING_STATUS,T2.Max_Amount_EPF,T2.Max_Amount_ESI,T2.EPF_RATE,T2.ESI_RATE,T2.PF_Calculation_Type," & drPF.Item("EMPEPF_MAX") & " AS PF_Rule_Max_Lim,T2.Max_Amount_EPF AS Custom_PF_Max_Lim,T2.PF_No,'' as ESI_Calculation_Type," & drESI.Item("TOTALEARNING_MAX") & " AS ESI_Rule_Max_Lim,T2.Max_Amount_ESI AS Custom_ESI_Max_Lim,T2.ESI_No,T2.IS_OD_APPL OD_Applicable,T2.Professional_Tax_Applicable as Is_Professional_Tax_Applicable " _
            & " FROM " _
            & " ( " _
            & " SELECT EMP_STATUS_CODE,EMPSTATUS.EMP_CODE,EMPSTATUS.REVISION_NO FROM TSPL_EMPLOYEE_STATUS INNER JOIN ( " _
@@ -4805,9 +4749,9 @@ Public Class clsSalaryGeneration
         strq = "UPDATE " & strTableName & "  SET RATE_AMOUNT=" _
         & " (CASE WHEN " & strTableName & ".SUB_HEAD_TYPE ='COPF'  THEN " & drPF.Item("COEPF_PER") & "" _
         & " WHEN " & strTableName & ".SUB_HEAD_TYPE ='COEPS'  THEN " & drPF.Item("COEPS_PER") & "" _
-        & " WHEN " & strTableName & ".SUB_HEAD_TYPE ='EPF'  THEN (CASE WHEN EPF_RATE>0 THEN EPF_RATE ELSE " & drPF.Item("EMPEPF_PER") & " END) " _
+        & " WHEN " & strTableName & ".SUB_HEAD_TYPE ='EPF'  THEN (CASE WHEN EPF_RATE>0 THEN EPF_RATE ELSE (case when PF_Calculation_Type='PR' then " & drPF.Item("EMPEPF_PER") & "  else EPF_RATE end) END) " _
         & " WHEN " & strTableName & ".SUB_HEAD_TYPE ='COESI'  THEN " & drESI.Item("COESI_PER") & "" _
-        & " WHEN " & strTableName & ".SUB_HEAD_TYPE ='EMPESI'  THEN (CASE WHEN ESI_RATE>0 THEN ESI_RATE ELSE " & drESI.Item("EMPESI_PER") & " END) " _
+        & " WHEN " & strTableName & ".SUB_HEAD_TYPE ='EMPESI'  THEN (case when ISESI=0 then 0 else (CASE WHEN ESI_RATE>0 THEN ESI_RATE ELSE " & drESI.Item("EMPESI_PER") & " END) end) " _
         & " END), CoEPF_RATE_AC01=(CASE WHEN SUB_HEAD_TYPE ='EPF' THEN " & drPF.Item("COEPF_PER") & " ELSE 0 END),CoEPS_RATE_AC10=(CASE WHEN SUB_HEAD_TYPE ='EPF' THEN " & drPF.Item("COEPS_PER") & " ELSE 0 END),ADMIN_RATE_AC02=(CASE WHEN SUB_HEAD_TYPE ='EPF' THEN " & drPF.Item("ACCOEPF_PER") & " ELSE 0 END)," _
         & " EDLI_RATE_AC21=(CASE WHEN SUB_HEAD_TYPE ='EPF' THEN " & drPF.Item("COEDLI_PER") & " ELSE 0 END),ADMIN_EDLI_RATE_AC22=(CASE WHEN SUB_HEAD_TYPE ='EPF' THEN " & drPF.Item("ACCOEDLI_PER") & " ELSE 0 END), " _
         & " OTHER_CHARGE=(CASE WHEN SUB_HEAD_TYPE ='EPF' THEN " & drPF.Item("OC") & " ELSE 0 END),Co_ESI_RATE=(CASE WHEN SUB_HEAD_TYPE ='EMPESI' THEN " & drESI.Item("COESI_PER") & " ELSE 0 END) WHERE " & strTableName & ".SUB_HEAD_TYPE in ('COPF','COEPS','EPF','COESI','EMPESI') and " & strTableName & ".PAY_PERIOD_CODE='" & Pay_Period_Code & "'"
@@ -5060,151 +5004,6 @@ Public Class clsSalaryGeneration
 
         'ProgressBar1.Text = "Generating Salary...9. Update calculating pf and eps"
         clsCommon.ProgressBarUpdate("updating PF...")
-        ''new query
-        '        strq = "UPDATE " & strTableName & "" _
-        '        & " SET ACTUAL_AMOUNT = ( " _
-        '        & " CASE" _
-        '        & " WHEN SUB_HEAD_TYPE IN ('COPF', 'COEPS', 'EPF') THEN " _
-        '        & " ( " _
-        '        & " ( " _
-        '        & " CASE " _
-        '        & " WHEN IS_PF_APPL = 1 THEN " _
-        '        & " ( " _
-        '        & " CASE " _
-        '        & " WHEN SUB_HEAD_TYPE = 'EPF' THEN " + _
-        '        "( " + _
-        '"(CASE WHEN PF_MAX_LIM >0 THEN " + _
-        ' "(CASE WHEN IS_PF_ATTN_ENABLE = 0 THEN (CASE WHEN (case when PAYABLE_DAYS=0 then 0 else   HEAD_VALUE*PAYPERIOD_DAYS/PAYABLE_DAYS end  ) > PF_MAX_LIM THEN " + Environment.NewLine + _
-        ' " (PF_MAX_LIM *(case when PAYABLE_DAYS=0 then 1 else (PAYPERIOD_DAYS/PAYABLE_DAYS) end))" + Environment.NewLine + _
-        ' " ELSE (case when PAYABLE_DAYS=0 then 0 else HEAD_VALUE*PAYPERIOD_DAYS/PAYABLE_DAYS end) End * (PAYABLE_DAYS / PAYPERIOD_DAYS))" + _
-        ' "ELSE " + _
-        ' "(CASE WHEN HEAD_VALUE > PF_MAX_LIM THEN ((PF_MAX_LIM * PAYABLE_DAYS) / PAYPERIOD_DAYS ) ELSE ( (HEAD_VALUE))End)End)" + _
-        '"ELSE" + _
-        '"(CASE WHEN IS_PF_ATTN_ENABLE = 0 THEN FORMULA_VALUE ELSE ((CASE WHEN HEAD_VALUE > PF_MAX_LIM THEN ((HEAD_VALUE))ELSE((HEAD_VALUE))End))End)End)" + _
-        '") * RATE_AMOUNT / 100 " _
-        '        & " WHEN SUB_HEAD_TYPE IN ('COPF', 'COEPS') THEN " _
-        '        & " ( " _
-        '        & " CASE " _
-        '        & " WHEN EPS_TO_EPF = 1 THEN " _
-        '        & " 	(  " _
-        '        & " 	CASE " _
-        '        & " 	WHEN SUB_HEAD_TYPE = 'COPF' THEN " _
-        '        & " 	( " _
-        '        & " 	( " _
-        '        & " 		CASE " _
-        '        & " 		WHEN PF_MAX_LIM>0 THEN " _
-        '        & " 		( " _
-        '        & " 		CASE " _
-        '        & " 	    WHEN FORMULA_VALUE > PF_MAX_LIM THEN " _
-        '        & "      PF_MAX_LIM " _
-        '        & " 		ELSE " _
-        '        & "      FORMULA_VALUE " _
-        '        & "      End " _
-        '        & " 		) " _
-        '        & " 	ELSE " _
-        '        & " (FORMULA_VALUE) " _
-        '        & "  End " _
-        '        & " 			) " _
-        '        & " 			) * RATE_AMOUNT / 100 " _
-        '        & " 	ELSE " _
-        '        & "      0 " _
-        '        & "      End " _
-        '        & " 							) " _
-        '        & " 		ELSE " _
-        '        & " 		( " _
-        '        & " 	    CASE " _
-        '        & " 		WHEN SUB_HEAD_TYPE = 'COPF' THEN " _
-        '        & " 	    ( " _
-        '        & " 		CASE " _
-        '        & " 	    WHEN ( " _
-        '        & " 		( " _
-        '        & " 		( " _
-        '        & " 		( " _
-        '        & " 		CASE " _
-        '        & " 	    WHEN PF_MAX_LIM>0  THEN " _
-        '        & " 		( " _
-        '        & " 		CASE " _
-        '        & " 		WHEN FORMULA_VALUE > PF_MAX_LIM THEN " _
-        '        & "      PF_MAX_LIM " _
-        '        & " 		ELSE " _
-        '        & "      FORMULA_VALUE " _
-        '        & "      End " _
-        '        & " 		) " _
-        '        & " 		ELSE " _
-        '        & " 		(FORMULA_VALUE) " _
-        '        & "      End " _
-        '        & " 		) " _
-        '        & " 		) " _
-        '        & " 		) * " & drPF.Item("EMPEPF_PER") & " / 100 " _
-        '        & " 		) > (PF_MAX_LIM * " & drPF.Item("EMPEPF_PER") & " / 100) THEN " _
-        '        & " 	    ((PF_MAX_LIM * " & drPF.Item("EMPEPF_PER") & ") / 100) " _
-        '        & " 		ELSE " _
-        '        & " 		( " _
-        '        & " 	    ( " _
-        '        & " 	    ( " _
-        '        & " 		( " _
-        '        & " 		CASE " _
-        '        & " 	    WHEN PF_MAX_LIM>0 THEN " _
-        '        & " 		( " _
-        '        & " 		CASE " _
-        '        & " 		WHEN FORMULA_VALUE > PF_MAX_LIM THEN " _
-        '        & "      PF_MAX_LIM " _
-        '        & " 		ELSE " _
-        '        & "      FORMULA_VALUE " _
-        '        & "      End " _
-        '        & " 	 	) " _
-        '        & " 		ELSE " _
-        '        & " 	    (FORMULA_VALUE) " _
-        '        & "      End " _
-        '        & " 	    ) " _
-        '        & " 		) " _
-        '        & " 	    ) * " & drPF.Item("EMPEPF_PER") & " / 100 " _
-        '        & " 	    ) " _
-        '        & "      End " _
-        '        & " 		) " _
-        '        & " 		ELSE " _
-        '        & "      0 " _
-        '        & "      End " _
-        '        & " 		) " _
-        '        & "      End " _
-        '        & " 	    ) " _
-        '        & " 			ELSE " _
-        '        & " 			( " _
-        '        & " 			( " _
-        '        & " 	 		CASE " _
-        '        & " 			WHEN PF_MAX_LIM>0 THEN " _
-        '        & " 			( " _
-        '        & " 			CASE " _
-        '        & " 		    WHEN FORMULA_VALUE > PF_MAX_LIM THEN " _
-        '        & "          PF_MAX_LIM " _
-        '        & " 			ELSE " _
-        '        & "         FORMULA_VALUE " _
-        '        & "         End " _
-        '        & " 		   ) " _
-        '        & " 		  ELSE " _
-        '        & " 		(FORMULA_VALUE) " _
-        '        & "      End " _
-        '        & " 	    ) " _
-        '        & "   	) * RATE_AMOUNT / 100 " _
-        '        & "      End " _
-        '        & " 		) " _
-        '        & " 	   ELSE " _
-        '        & "     0 " _
-        '        & "     End " _
-        '        & " 	   ) " _
-        '        & " 	   ) " _
-        '        & "     ELSE " _
-        '        & " 	   ( " _
-        '        & " 	   COALESCE ( " _
-        '        & " 	   FORMULA_VALUE, " _
-        '        & "     '0' " _
-        '        & " 	   ) " _
-        '        & "     ) " _
-        '        & "     End " _
-        '        & "     ) " _
-        '        & "     WHERE " _
-        '        & "     COALESCE (FORMULA_AMOUNT, '') <> '' " _
-        '        & "     AND LINE_NO IS NOT NULL  and HEAD_TYPE='F' and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and Is_Earning_Payhead=" + isEarning + ""
         strq = "UPDATE " & strTableName & "" _
        & " SET ACTUAL_AMOUNT = ( " _
        & " CASE" _
@@ -5215,16 +5014,16 @@ Public Class clsSalaryGeneration
        & " WHEN IS_PF_APPL = 1 THEN " _
        & " ( " _
        & " CASE " _
-       & " WHEN SUB_HEAD_TYPE = 'EPF' THEN " + _
-       "( " + _
-"(CASE WHEN PF_MAX_LIM >0 THEN " + _
-"(CASE WHEN IS_PF_ATTN_ENABLE = 0 THEN (CASE WHEN (case when PAYABLE_DAYS=0 then 0 else   HEAD_VALUE end  ) > PF_MAX_LIM THEN " + Environment.NewLine + _
-" (PF_MAX_LIM  )" + Environment.NewLine + _
-" ELSE (case when PAYABLE_DAYS=0 then 0 else HEAD_VALUE end) End )" + _
-"ELSE " + _
-"(CASE WHEN HEAD_VALUE > PF_MAX_LIM THEN ((PF_MAX_LIM  )) ELSE ( (HEAD_VALUE))End)End)" + _
-"ELSE" + _
-"(CASE WHEN IS_PF_ATTN_ENABLE = 0 THEN FORMULA_VALUE ELSE ((CASE WHEN HEAD_VALUE > PF_MAX_LIM THEN ((HEAD_VALUE))ELSE((HEAD_VALUE))End))End)End)" + _
+       & " WHEN SUB_HEAD_TYPE = 'EPF' THEN " +
+       "( " +
+"(CASE WHEN PF_MAX_LIM >0 THEN " +
+"(CASE WHEN IS_PF_ATTN_ENABLE = 0 THEN (CASE WHEN (case when PAYABLE_DAYS=0 then 0 else   HEAD_VALUE end  ) > PF_MAX_LIM THEN " + Environment.NewLine +
+" (PF_MAX_LIM  )" + Environment.NewLine +
+" ELSE (case when PAYABLE_DAYS=0 then 0 else HEAD_VALUE end) End )" +
+"ELSE " +
+"(CASE WHEN HEAD_VALUE > PF_MAX_LIM THEN ((PF_MAX_LIM  )) ELSE ( (HEAD_VALUE))End)End)" +
+"ELSE" +
+"(CASE WHEN IS_PF_ATTN_ENABLE = 0 THEN FORMULA_VALUE ELSE ((CASE WHEN HEAD_VALUE > PF_MAX_LIM THEN ((HEAD_VALUE))ELSE((HEAD_VALUE))End))End)End)" +
 ") * RATE_AMOUNT / 100 " _
        & " WHEN SUB_HEAD_TYPE IN ('COPF', 'COEPS') THEN " _
        & " ( " _
@@ -5555,7 +5354,7 @@ Public Class clsSalaryGeneration
         End If
 
         'STRQ1 = "update " & strTableName & " set STD_AMOUNT=case when isnull(PAYABLE_DAYS,0)=0 then 0 else (CAST( FORMULA_VALUE as decimal(18,2)) * PAYPERIOD_DAYS/PAYABLE_DAYS) end where HEAD_TYPE='F' and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and Is_Earning_Payhead=" + isEarning + ""
-        STRQ1 = "update " & strTableName & " set STD_AMOUNT=case when isnull(PAYABLE_DAYS,0)=0 then 0 else (CAST( FORMULA_VALUE as decimal(18,2)) * PAYPERIOD_DAYS/PAYABLE_DAYS) end where HEAD_TYPE='F' and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and Is_Earning_Payhead=" + isEarning + ""
+        STRQ1 = "update " & strTableName & " set STD_AMOUNT=case when isnull(PAYABLE_DAYS,0)=0 then 0 else round((CAST( FORMULA_VALUE as decimal(18,2)) * PAYPERIOD_DAYS/PAYABLE_DAYS),0) end where HEAD_TYPE='F' and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and Is_Earning_Payhead=" + isEarning + ""
         If Not clsDBFuncationality.ExecuteNonQuery(STRQ1, trans) Then
             Throw New Exception("Error in Updating Standard Amount !")
         End If
@@ -5564,7 +5363,7 @@ Public Class clsSalaryGeneration
         dtSal = clsDBFuncationality.GetDataTable("select REPLACE(FORMULA_AMOUNT,Pay_Days_Ratio,'1' ) as ToBeCalcualte,* from " & strTableName & " WHERE HEAD_TYPE='F' and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "'  and Is_Earning_Payhead=" + isEarning + "  ORDER BY SALARY_CALCULATION_CODE", trans)
         For Each drSal As DataRow In dtSal.Rows
             If clsCommon.myCdbl(drSal.Item("PAYABLE_DAYS")) > 0 Then
-                strq = "UPDATE " & strTableName & " SET STD_AMOUNT = (select " & drSal.Item("ToBeCalcualte") & ")" _
+                strq = "UPDATE " & strTableName & " SET STD_AMOUNT =  round((select " & drSal.Item("ToBeCalcualte") & "),0)" _
                 & "  where SALARY_CALCULATION_CODE= " & drSal.Item("SALARY_CALCULATION_CODE") & "  and " & strTableName & ".PAY_PERIOD_CODE='" & PAY_PERIOD_CODE & "' and " & strTableName & ".EMP_CODE='" & clsCommon.myCstr(drSal.Item("EMP_CODE")) & "' and Is_Earning_Payhead=" + isEarning + ""
                 If Not clsDBFuncationality.ExecuteNonQuery(strq, trans) Then
                     Throw New Exception("Error in Updating Formula Pay Heads !")

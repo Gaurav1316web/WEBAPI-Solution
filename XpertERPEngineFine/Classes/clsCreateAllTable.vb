@@ -16122,6 +16122,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Earning_Payhead", "integer Not null default 0")
             coll.Add("Pay_Days_Ratio", "varchar(max) null")
             coll.Add("Is_Professional_Tax_Applicable", "integer Not null default 0")
+            coll.Add("ISESI", "integer Not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALARY_CALCULATION", coll, Nothing, False, False, "TSPL_GENERATE_SALARY", "SALARY_CALCULATION_CODE", "")
 
             coll = New Dictionary(Of String, String)()
@@ -23479,6 +23480,9 @@ Public Class clsCreateAllTable
             coll.Add("Own_BMC_Loose_Sale_SNF", "Decimal(18,2) null")
             coll.Add("Remarks", "Varchar(100) null")
             coll.Add("No_Cluster_DCS", "int null")
+            coll.Add("Status", "Integer NOT NULL DEFAULT 0")
+            coll.Add("Posted_Date", "datetime null")
+            coll.Add("Posted_By", "varchar(12)  NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
             Try
                 Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_MILK_COLLECTION_BMCDCS'"))
