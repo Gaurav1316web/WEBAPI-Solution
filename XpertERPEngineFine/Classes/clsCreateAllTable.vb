@@ -16122,6 +16122,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Earning_Payhead", "integer Not null default 0")
             coll.Add("Pay_Days_Ratio", "varchar(max) null")
             coll.Add("Is_Professional_Tax_Applicable", "integer Not null default 0")
+            coll.Add("ISESI", "integer Not null default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SALARY_CALCULATION", coll, Nothing, False, False, "TSPL_GENERATE_SALARY", "SALARY_CALCULATION_CODE", "")
 
             coll = New Dictionary(Of String, String)()

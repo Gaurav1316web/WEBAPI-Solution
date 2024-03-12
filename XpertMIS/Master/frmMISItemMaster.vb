@@ -51,13 +51,13 @@ Public Class frmMISItemMaster
             Dim obj As New clsMISItemMaster()
             obj.Code = txtCode.Value
             obj.Name = txtName.Text
-            obj.GroupCode = txtGPCode.Text
+            obj.GroupCode = txtGPCode.Value
             obj.ItemUOM = txtUOM.Text
             obj.SNO = txtSeqNo.Value
 
             If (obj.SaveData(obj, isNewEntry)) Then
                 common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
-                '' LoadData(obj.Code, NavigatorType.Current)
+                LoadData(obj.Code, NavigatorType.Current)
                 'Else
                 '    common.clsCommon.MyMessageBoxShow("This '" & obj.Code & "' already exist ")
             End If
@@ -89,7 +89,7 @@ Public Class frmMISItemMaster
             btnSave.Text = "Update"
             txtCode.Value = obj.Code
             txtName.Text = obj.Name
-            txtGPCode.Text = obj.GroupCode
+            txtGPCode.Value = obj.GroupCode
             txtUOM.Text = obj.ItemUOM
             txtSeqNo.Value = obj.Sno
         End If
@@ -105,7 +105,7 @@ Public Class frmMISItemMaster
         txtCode.Value = Nothing
         txtCode.Focus()
         txtName.Text = ""
-        txtGPCode.Text = ""
+        txtGPCode.Value = ""
         txtUOM.Text = ""
         txtSeqNo.Value = "0"
         btnSave.Text = "Save"
@@ -241,5 +241,10 @@ Public Class frmMISItemMaster
         End If
         Me.Controls.Remove(gv)
 
+    End Sub
+
+    Private Sub txtGroupCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtGPCode._MYValidating
+        Dim qry As String = "select Code as Code,Name  from TSPL_MIS_ITEM_GROUP_MASTER"
+        txtGPCode.Value = clsCommon.ShowSelectForm("fndGroupCode", qry, "Code", "", txtGPCode.Value, "Code", isButtonClicked)
     End Sub
 End Class

@@ -23,15 +23,17 @@ Partial Class rptmilkunion
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.txtdate = New Telerik.WinControls.UI.RadDateTimePicker()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel15 = New common.Controls.MyLabel()
+        Me.txtdate = New Telerik.WinControls.UI.RadDateTimePicker()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -49,10 +51,21 @@ Partial Class rptmilkunion
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
         Me.SplitContainer1.SplitterDistance = 411
         Me.SplitContainer1.TabIndex = 0
+        '
+        'RadLabel15
+        '
+        Me.RadLabel15.FieldName = Nothing
+        Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel15.Location = New System.Drawing.Point(37, 28)
+        Me.RadLabel15.Name = "RadLabel15"
+        Me.RadLabel15.Size = New System.Drawing.Size(30, 16)
+        Me.RadLabel15.TabIndex = 45
+        Me.RadLabel15.Text = "Date"
         '
         'txtdate
         '
@@ -68,6 +81,15 @@ Partial Class rptmilkunion
         Me.txtdate.Text = "31/08/2011"
         Me.txtdate.Value = New Date(2011, 8, 31, 23, 50, 36, 937)
         '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Location = New System.Drawing.Point(711, 9)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(77, 18)
+        Me.btnclose.TabIndex = 331
+        Me.btnclose.Text = "Close"
+        '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -76,16 +98,6 @@ Partial Class rptmilkunion
         Me.btnPrint.Size = New System.Drawing.Size(77, 18)
         Me.btnPrint.TabIndex = 330
         Me.btnPrint.Text = "Print"
-        '
-        'RadLabel15
-        '
-        Me.RadLabel15.FieldName = Nothing
-        Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel15.Location = New System.Drawing.Point(37, 28)
-        Me.RadLabel15.Name = "RadLabel15"
-        Me.RadLabel15.Size = New System.Drawing.Size(30, 16)
-        Me.RadLabel15.TabIndex = 45
-        Me.RadLabel15.Text = "Date"
         '
         'rptmilkunion
         '
@@ -103,9 +115,10 @@ Partial Class rptmilkunion
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -115,4 +128,5 @@ Partial Class rptmilkunion
     Friend WithEvents txtdate As RadDateTimePicker
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents RadLabel15 As common.Controls.MyLabel
+    Friend WithEvents btnclose As RadButton
 End Class

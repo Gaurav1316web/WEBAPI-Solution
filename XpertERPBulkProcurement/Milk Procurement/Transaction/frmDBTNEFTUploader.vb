@@ -177,6 +177,10 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
 
     Private Function AllowToSave() As Boolean
         clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(txtDocumentNo.Value))
+        If clsCommon.GetDateWithStartTime(txtBankLetterDate.Value) < clsCommon.GetDateWithStartTime(txtdate.Value) Then
+            txtBankLetterDate.Focus()
+            Throw New Exception("Bank Date Not Valid always greater then Document Date ")
+        End If
         Return True
     End Function
     Sub SaveData()
@@ -190,14 +194,6 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
                 obj.Remarks = txtRemarks.Text
                 obj.Zone_Code = txtZone.Value
                 obj.Bank_Letter_Date = txtBankLetterDate.Value
-
-                If obj.Bank_Letter_Date < obj.Document_Date Then
-                    'obj.Bank_Letter_Date = txtBankLetterDate.Value Then
-                    ' Else
-                    clsCommon.MyMessageBoxShow(Me, "Bank Date Not Valid always greater then Document Date ", Me.Text)
-                    txtBankLetterDate.Focus()
-                    Exit Sub
-                End If
                 If gvItem.Rows.Count > 0 Then
                     obj.arr = New List(Of clsDBTNEFTDetail)
                     For Each grow As GridViewRowInfo In gvItem.Rows
@@ -588,6 +584,7 @@ where 2=2 "
             If txtMCC.arrValueMember IsNot Nothing AndAlso txtMCC.arrValueMember.Count > 0 Then
                 'loadBlankGrid()
                 gvItem.DataSource = Nothing
+
                 Dim isDataFound As Boolean = False
                 Dim dtValid As DataTable = clsDBFuncationality.GetDataTable(GetMpQry(True, False))
                 If dtValid IsNot Nothing AndAlso dtValid.Rows.Count > 0 Then
@@ -595,6 +592,8 @@ where 2=2 "
                     gvItem.DataSource = dtValid
                     FormatGrid(gvItem)
                 End If
+
+                gvFarmer.DataSource = Nothing
                 If SettMPIncentiveEntryCycleWiseButNEFTMonthly Then
                     Dim dtFarmerWiseValid As DataTable = clsDBFuncationality.GetDataTable(GetMpQry(True, True))
                     If dtFarmerWiseValid IsNot Nothing AndAlso dtFarmerWiseValid.Rows.Count > 0 Then
@@ -604,6 +603,7 @@ where 2=2 "
                     End If
                 End If
 
+                gvInvalid.DataSource = Nothing
                 Dim dtInValid As DataTable = clsDBFuncationality.GetDataTable(GetMpQry(False, False))
                 If dtInValid IsNot Nothing AndAlso dtInValid.Rows.Count > 0 Then
                     isDataFound = True
@@ -809,6 +809,8 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
         txtVLC.arrValueMember = Nothing
         'loadBlankGrid()
         gvItem.DataSource = Nothing
+        gvInvalid.DataSource = Nothing
+        gvFarmer.DataSource = Nothing
         SetToDate()
 
     End Sub

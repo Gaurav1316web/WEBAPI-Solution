@@ -182,11 +182,12 @@ Public Class clsPaymentProcessHead
     End Function
 
     Public Shared Function ProcessData(ByVal DocNo As String, ByVal Desc As String) As Boolean
-        Return ProcessData(DocNo, Desc, True)
-    End Function
-    Public Shared Function ProcessData(ByVal DocNo As String, ByVal Desc As String, ByVal ShowProgressBAR As Boolean) As Boolean
-        Dim obj As clsPaymentProcessHead = clsPaymentProcessHead.getData(DocNo, NavigatorType.Current)
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Return ProcessData(DocNo, Desc, True, trans)
+    End Function
+    Public Shared Function ProcessData(ByVal DocNo As String, ByVal Desc As String, ByVal ShowProgressBAR As Boolean, ByVal trans As SqlTransaction) As Boolean
+        Dim obj As clsPaymentProcessHead = clsPaymentProcessHead.getData(DocNo, NavigatorType.Current)
+        ''  Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim i As Integer = 0
         Dim Counter As Integer = 0
         Dim AdjAmt As Decimal = 0

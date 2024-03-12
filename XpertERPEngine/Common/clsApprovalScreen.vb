@@ -1145,6 +1145,8 @@ Public Class clsApprovalAlert_Child
                         isSaved = isSaved AndAlso clsJWOTransferOtherHead.PostData(obj.Document_Code, trans)
                     ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.DBTNEFTUploader) = CompairStringResult.Equal Then
                         isSaved = isSaved AndAlso clsDBTNEFT.PostData(obj.Document_Code, "", trans)
+                    ElseIf clsCommon.CompairString(obj.Trans_Code, clsUserMgtCode.frmPaymentProcess) = CompairStringResult.Equal Then
+                        isSaved = isSaved AndAlso clsPaymentProcessHead.ProcessData(obj.Document_Code, "", True, trans)
                     End If
 
                     If isSaved Then ''if higher authorizer do approval then at post document status posted on approval table
