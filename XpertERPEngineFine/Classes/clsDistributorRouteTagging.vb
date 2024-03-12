@@ -13,6 +13,8 @@ Public Class clsDistributorRouteTagging
     Public Modified_Date As DateTime
     Public Post_By As String = Nothing
     Public Post_Date As DateTime
+    Public ItemType As String = Nothing
+
     Public Arr As List(Of clsDistributorRouteTaggingDetail) = Nothing
     Public Function SaveData(ByVal obj As clsDistributorRouteTagging, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -39,6 +41,8 @@ Public Class clsDistributorRouteTagging
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Start_Date", clsCommon.GetPrintDate(obj.Start_Date, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "ItemType", obj.ItemType, True)
+
             If obj.End_Date IsNot Nothing Then
                 clsCommon.AddColumnsForChange(coll, "End_Date", clsCommon.GetPrintDate(obj.End_Date, "dd/MMM/yyyy"))
             Else
@@ -67,7 +71,7 @@ Public Class clsDistributorRouteTagging
         Dim obj As clsDistributorRouteTagging = Nothing
 
         Try
-            Dim strQry As String = "SELECT Code,Start_Date,End_Date,Remarks,Status,IS_Transpoter FROM TSPL_DISTRIBUTOR_ROUTE where 1=1 "
+            Dim strQry As String = "SELECT Code,Start_Date,End_Date,Remarks,Status,IS_Transpoter,ItemType FROM TSPL_DISTRIBUTOR_ROUTE where 1=1 "
             Select Case NavType
                 Case NavigatorType.First
                     strQry += " and Code = (select MIN(Code) from TSPL_DISTRIBUTOR_ROUTE where 1=1  )"
@@ -90,6 +94,11 @@ Public Class clsDistributorRouteTagging
 
                 End If
                 obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
+                If dt.Rows(0)("ItemType") IsNot DBNull.Value Then
+                    obj.ItemType = clsCommon.myCstr(dt.Rows(0)("ItemType"))
+                Else
+                    obj.ItemType = "Both"
+                End If
                 obj.IS_Transpoter = IIf(clsCommon.myCdbl(dt.Rows(0)("IS_Transpoter")) = 1, True, False)
                 obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
                 obj.Arr = clsDistributorRouteTaggingDetail.GetData(obj.Code, trans)

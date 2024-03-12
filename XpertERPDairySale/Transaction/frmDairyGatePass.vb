@@ -46,6 +46,8 @@ Public Class frmDairyGatePass
     Public Property txtlocation As String
     Public Property vehicleno As String
     Public Property docdate As Date?
+    Public Property Supplydate As Date?
+    Public Property Shifttype As String = Nothing
     ''ERO/03/05/19-000584 by balwindr on 06/05/2019
     ''ERO/03/05/19-000584 by balwindr on 06/05/2019
     Dim VehicleDesc As String = Nothing
@@ -147,6 +149,16 @@ Public Class frmDairyGatePass
         lblVehicleDesc.Text = clsDBFuncationality.getSingleValue("select Description from TSPL_VEHICLE_MASTER where Vehicle_Id='" & txtVehicle.Value & "'")
         If docdate IsNot Nothing AndAlso clsCommon.myLen(docdate) > 0 Then
             txtDate.Value = docdate
+        End If
+        If Supplydate IsNot Nothing AndAlso clsCommon.myLen(Supplydate) > 0 Then
+            txtSupplyDate.Value = Supplydate
+        End If
+        If clsCommon.CompairString(Shifttype, "AM") = CompairStringResult.Equal Then
+            rbtnMorning.IsChecked = True
+            funFillGrid()
+        ElseIf clsCommon.CompairString(Shifttype, "PM") = CompairStringResult.Equal Then
+            rbtnEvening.IsChecked = True
+            funFillGrid()
         End If
         '  LoadData(txtCode.Value, NavigatorType.Current)
     End Sub
@@ -345,7 +357,7 @@ Public Class frmDairyGatePass
                       "from tspl_sd_shipment_head left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE " &
                       "left outer join TSPL_ITEM_MASTER on TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_ITEM_MASTER.Item_Code " &
                       "left outer join TSPL_CUSTOMER_MASTER on TSPL_SD_SHIPMENT_HEAD.Customer_Code=TSPL_CUSTOMER_MASTER.Cust_Code  " &
-                      "where convert(date,Document_Date,103)='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & " ' And   isnull(GPCode,'') = '' and " &
+                      "where convert(date,TSPL_SD_SHIPMENT_HEAD.Supply_Date,103)='" & clsCommon.GetPrintDate(txtSupplyDate.Value, "dd/MMM/yyyy") & " ' And   isnull(GPCode,'') = '' and " &
                       "TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" & txtLocCode.Value & "'  and (case when isnull(TSPL_SD_SHIPMENT_HEAD.ManualVehicle,'')='' then case when isnull(TSPL_SD_SHIPMENT_HEAD.AlternateVehicle,'')<>'' then TSPL_SD_SHIPMENT_HEAD.AlternateVehicle else TSPL_SD_SHIPMENT_HEAD.Vehicle_Code end else TSPL_SD_SHIPMENT_HEAD.ManualVehicle end)='" + txtVehicle.Value + "'  and TSPL_SD_SHIPMENT_DETAIL.Item_Code <> '' " & strItem & "  "
                 If clsCommon.myLen(fndRouteNo.Value) > 0 Then
                     strQuery += "  and TSPL_SD_SHIPMENT_HEAD.route_no='" + fndRouteNo.Value + "'"
@@ -356,7 +368,7 @@ Public Class frmDairyGatePass
                     strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Shift_Type='PM'"
                 End If
                 If EnableDispatch Then
-                    strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=0"
+                    'strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=0"
                 Else
                     strQuery += "  and TSPL_SD_SHIPMENT_HEAD.Status=1"
                 End If
@@ -1152,6 +1164,28 @@ Public Class frmDairyGatePass
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Public Function CrateInOut() As String
+        Dim qry As String = Nothing
+        Try
+            If clsCommon.myLen(fndRouteNo.Value) > 0 AndAlso clsCommon.myLen(txtLocCode.Value) Then
+                Dim StrQry As String = "select  top 1 x.Cust_Code 
+from(
+select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,max(TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as cust_code
+from TSPL_DISTRIBUTOR_ROUTE
+left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
+where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + fndRouteNo.Value + "'
+ Group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks
+) X"
+                qry = " WITH my_cte AS ( select ROW_NUMBER() over ( Partition by 1 order by Sale_Invoice_Date ) as SNO, * from ( select max(Customer_Name) Customer_Name, max(Comp_Name) Comp_Name, max(Location_Desc) Location_Desc, max(Location_Code) Location_Code, max(Vehicle_Id) Vehicle_Id, max(Vehicle_Number) Vehicle_Number, max(Route_No) Route_No, max(Route_Desc) Route_Desc, max(Customer_Code) Customer_Code, Sale_Invoice_Date, sum( Qty * case when RI =-1 THEN 1 else 0 end * case when ShiftType = 'M' then 1 else 0 end ) as Morning_Supply, sum( Qty * case when RI = 1 THEN 1 else 0 end * case when ShiftType = 'M' then 1 else 0 end ) as Morning_Return, sum( Qty * case when RI =-1 THEN 1 else 0 end * case when ShiftType = 'E' then 1 else 0 end ) as Evening_Supply, sum( Qty * case when RI = 1 THEN 1 else 0 end * case when ShiftType = 'E' then 1 else 0 end ) as Evening_Return from ( select TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Vehicle_Code AS Vehicle_Id, TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.VehicleNo AS Vehicle_Number, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Route_code as Route_No, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.ShiftType, TSPL_route_master.Route_Desc, TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code, TSPL_CUSTOMER_MASTER.Customer_Name, CAST( TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Sale_Invoice_Date AS DATE ) AS Sale_Invoice_Date, TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.CrateQtyRecd as Qty, 1 as RI, TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code, TSPL_LOCATION_MASTER.Location_Desc, TSPL_COMPANY_MASTER.Comp_Name From TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE left outer join TSPL_CRATE_RECEIVED_HEAD_FRESHSALE on TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Document_No = TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Document_No left outer join tspl_route_master on tspl_route_master.route_No = TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.route_Code left outer join TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Location_Code LEFT OUTER JOIN TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_CRATE_RECEIVED_HEAD_FRESHSALE.Comp_Code left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_CRATE_RECEIVED_DETAIL_FRESHSALE.Customer_Code union all select TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Id, TSPL_DAIRYSALE_GATEPASS_MASTER.Vehicle_Number, TSPL_DAIRYSALE_GATEPASS_MASTER.Route_No, CASE WHEN TSPL_DAIRYSALE_GATEPASS_MASTER.ShiftType = 'Morning' THEN 'M' ELSE 'E' END AS ShiftType, tspl_route_master.Route_Desc, ( select cust_code from TSPL_CUSTOMER_MASTER where Route_No = '" + fndRouteNo.Value + "' and IsDistributor = 'Y' ) as Customer_Code, ( select Customer_Name from TSPL_CUSTOMER_MASTER where Route_No = '" + fndRouteNo.Value + "' and IsDistributor = 'Y' ) as Customer_Name, CAST( TSPL_DAIRYSALE_GATEPASS_MASTER.GPDate AS DATE ) AS Sale_Invoice_Date, TSPL_DAIRYSALE_GATEPASS_MASTER.TotalCrate as Qty, -1 as RI, TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code, TSPL_LOCATION_MASTER.Location_Desc, TSPL_COMPANY_MASTER.Comp_Name from TSPL_DAIRYSALE_GATEPASS_MASTER left OUTER join tspl_route_master on tspl_route_master.route_no =  TSPL_DAIRYSALE_GATEPASS_MASTER.route_no LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_DAIRYSALE_GATEPASS_MASTER.Location_Code left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.Comp_Code = TSPL_DAIRYSALE_GATEPASS_MASTER.Comp_Code where 2 = 2 and TSPL_DAIRYSALE_GATEPASS_MASTER.Status is null ) xx where 2 = 2 and Location_Code = '" + txtLocCode.Value + "' and Customer_Code In ('" + clsCommon.myCstr(clsDBFuncationality.getSingleValue(StrQry)) + "') group by Sale_Invoice_Date ) xxx ) select Comp_Name, Location_Code, Location_Desc, Vehicle_Id, Vehicle_Number, Route_No, Route_Desc, Customer_Code, Customer_Name, Sale_Invoice_Date, OP as Opening, (Morning_Supply + Evening_Supply) as [Issue], (Morning_Return + Evening_Return) as [Receive], ( OP +( (Morning_Supply + Evening_Supply)-(Morning_Return + Evening_Return) ) ) as Balance from ( select ( select isnull( sum( (Morning_Supply + Evening_Supply)-(Morning_Return + Evening_Return) ), 0 ) from my_cte as InnCTE where InnCTE.Sale_Invoice_Date < my_cte.Sale_Invoice_Date ) as OP, * from my_cte where Sale_Invoice_Date >= '" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "' and Sale_Invoice_Date <= '" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "' ) xx order by xx.Sale_Invoice_Date asc"
+            Else
+                Throw New Exception(" Please Select Route No/ Location ")
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return qry
+    End Function
     '============================Changes by preeti gupta [09/01/2017],[BHA/02/08/18-000212]
     Private Function GetAttachQry(ByVal StrCode As String) As String
         ''richa remove ceiling from crate qty 15 Nov,2019
@@ -1227,11 +1261,18 @@ Public Class frmDairyGatePass
             Else
                 atchqry = GetAttachQry(Code)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
+                Dim subrptqry As String = CrateInOut()
+                Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(subrptqry)
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                         frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntriesGNG", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                         'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntry", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+                        ' pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntryNew", "Dairy Sale Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "crptDairySaleGatePassEntryNew.rpt", "", clsERPFuncationality.CompanyAddresInvoiceHeader())
+
+                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "crptDairySaleGatePassEntriesTNK", "Dairy Sale Gate Pass", "subrptCrateInOut.rpt")
+
                     Else
                         frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                         'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
@@ -1252,12 +1293,19 @@ Public Class frmDairyGatePass
                 frmDemandBooking.PrintGatePass("DG", Code, IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
             Else
                 atchqry = GetAttachQry(Code)
+                Dim subrptqry As String = CrateInOut()
+                Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(subrptqry)
+
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(atchqry)
                 If dt.Rows.Count > 0 Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                         frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewALW", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                         'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntry", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+
+                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, dt2, "crptDairySaleGatePassEntryNewTNK", "Dairy Sale Gate Pass", "subrptCrateInOut.rpt")
+
                     Else
                         frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
                         'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntries", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
@@ -1319,6 +1367,7 @@ Public Class frmDairyGatePass
                 Dim frmCRV As New frmCrystalReportViewer()
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
                     'frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDairySaleGatePassEntryNewALW", "Dairy Sale GatePass Entry", clsCommon.myCDate(dt.Rows(0)("GPDate")))
+
                 Else
                     pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptDairySaleGatePassEntryNew", "Dairy Sale Gate Pass", clsCommon.myCDate(dt.Rows(0)("GPDate")), "crptDairySaleGatePassEntryNew.rpt", "", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     'pdfpath = frmCRV.funsubreportWithdt(True, CrystalReportFolder.KwalitySalesReport, dt, Nothing, "crptDairySaleGatePassEntryNew", "Dairy Sale GatePass Entry", "", "", Nothing, "", Nothing, "", Nothing)

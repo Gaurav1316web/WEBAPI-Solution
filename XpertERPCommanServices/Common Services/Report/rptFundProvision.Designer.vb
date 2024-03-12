@@ -109,7 +109,7 @@ Partial Class rptFundProvision
         Me.RadGroupBox1.Location = New System.Drawing.Point(3, 53)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(753, 164)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(753, 149)
         Me.RadGroupBox1.TabIndex = 42
         Me.RadGroupBox1.Text = "Bank Detail"
         '
@@ -134,7 +134,7 @@ Partial Class rptFundProvision
         Me.gv1BnkDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1BnkDetail.ShowGroupPanel = False
         Me.gv1BnkDetail.ShowHeaderCellButtons = True
-        Me.gv1BnkDetail.Size = New System.Drawing.Size(733, 134)
+        Me.gv1BnkDetail.Size = New System.Drawing.Size(733, 119)
         Me.gv1BnkDetail.TabIndex = 0
         Me.gv1BnkDetail.TabStop = False
         '
@@ -147,10 +147,10 @@ Partial Class rptFundProvision
         Me.RadGroupBox2.Controls.Add(Me.gv1UBD)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Union Balance Detail"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(3, 223)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(3, 208)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(753, 195)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(753, 210)
         Me.RadGroupBox2.TabIndex = 41
         Me.RadGroupBox2.Text = "Union Balance Detail"
         '
@@ -175,7 +175,7 @@ Partial Class rptFundProvision
         Me.gv1UBD.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1UBD.ShowGroupPanel = False
         Me.gv1UBD.ShowHeaderCellButtons = True
-        Me.gv1UBD.Size = New System.Drawing.Size(733, 165)
+        Me.gv1UBD.Size = New System.Drawing.Size(733, 180)
         Me.gv1UBD.TabIndex = 0
         Me.gv1UBD.TabStop = False
         '

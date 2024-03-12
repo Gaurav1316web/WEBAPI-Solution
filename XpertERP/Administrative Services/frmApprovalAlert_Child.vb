@@ -61,6 +61,12 @@ Public Class FrmApprovalAlert_Child
             UcAttachment1.MandatoryPDFFile = True
             UcAttachment1.isDeleteTheAttachment = False
             UcAttachment1.BlankAllControls()
+        ElseIf clsCommon.CompairString(ScreenCode, clsUserMgtCode.frmPaymentProcess) = CompairStringResult.Equal Then
+            btnPrint.Visible = False
+            UcAttachment1.Form_ID = ScreenCode
+            UcAttachment1.MandatoryPDFFile = False
+            UcAttachment1.isDeleteTheAttachment = False
+            UcAttachment1.BlankAllControls()
         Else
             RadPageView1.Pages("Attachments").Item.Visibility = ElementVisibility.Collapsed
             btnPrint.Visible = False
@@ -130,6 +136,9 @@ Public Class FrmApprovalAlert_Child
                 End If
 
                 If clsCommon.CompairString(ScreenCode, clsUserMgtCode.DBTNEFTUploader) = CompairStringResult.Equal Then
+                    UcAttachment1.isDeleteTheAttachment = False
+                    UcAttachment1.LoadData(txtDoc_Code.Text)
+                ElseIf clsCommon.CompairString(ScreenCode, clsUserMgtCode.frmPaymentProcess) = CompairStringResult.Equal Then
                     UcAttachment1.isDeleteTheAttachment = False
                     UcAttachment1.LoadData(txtDoc_Code.Text)
                 End If

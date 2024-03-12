@@ -233,7 +233,7 @@ Public Class FrmTDSPayment
     Private Sub RdDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RdDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID & "gv1", objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
     Sub loadBlankItemGrid()
 

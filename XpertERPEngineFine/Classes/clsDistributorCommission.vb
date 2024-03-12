@@ -90,10 +90,14 @@ Public Class clsDistributorCommission
                 obj = New clsDistributorCommission()
                 obj.Doc_No = clsCommon.myCstr(dt.Rows(0)("Doc_No"))
                 obj.Document_Date = clsCommon.GetPrintDate(dt.Rows(0)("Document_Date"), "dd/MMM/yyyy")
-                obj.InActive_date = clsCommon.GetPrintDate(dt.Rows(0)("InActive_Date"), "dd/MMM/yyyy")
+                If dt.Rows(0)("InActive_Date") IsNot DBNull.Value Then
+                    obj.InActive_date = clsCommon.myCDate(dt.Rows(0)("InActive_Date"))
+                End If
+                'obj.InActive_date = clsCommon.GetPrintDate(dt.Rows(0)("InActive_Date"), "dd/MMM/yyyy")
                 obj.Applicable_Date = clsCommon.GetPrintDate(dt.Rows(0)("Applicable_Date"), "dd/MMM/yyyy")
                 obj.Commision_UOM = clsCommon.myCstr(dt.Rows(0)("Commision_UOM"))
                 obj.Distributor_Tagging_Code = clsCommon.myCstr(dt.Rows(0)("Distributor_Tagging_Code"))
+
                 obj.IS_Transpotation = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("IS_Transpotation")) = 1, True, False))
                 obj.IS_Security = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("IS_Security")) = 1, True, False))
                 obj.IN_Active = clsCommon.myCBool(IIf(clsCommon.myCdbl(dt.Rows(0)("IN_Active")) = 1, True, False))

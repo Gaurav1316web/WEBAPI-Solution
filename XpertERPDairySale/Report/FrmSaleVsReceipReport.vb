@@ -400,7 +400,7 @@ Public Class FrmSaleVsReceipReport
     End Sub
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub txtBusinessVertical__My_Click(sender As Object, e As EventArgs) Handles txtBusinessVertical._My_Click
