@@ -23,8 +23,15 @@ Partial Class frmDistributorRouteTagging
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.cmbItemType = New common.Controls.MyComboBox()
+        Me.lblItemType = New common.Controls.MyLabel()
+        Me.rbtnTPT = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnDistributor = New Telerik.WinControls.UI.RadRadioButton()
         Me.txtEndDate = New common.Controls.MyDateTimePicker()
         Me.UsLock1 = New common.usLock()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -46,11 +53,13 @@ Partial Class frmDistributorRouteTagging
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnTPT = New Telerik.WinControls.UI.RadRadioButton()
-        Me.rbtnDistributor = New Telerik.WinControls.UI.RadRadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.cmbItemType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblItemType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnTPT, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -65,8 +74,6 @@ Partial Class frmDistributorRouteTagging
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnTPT, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -79,6 +86,8 @@ Partial Class frmDistributorRouteTagging
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.cmbItemType)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lblItemType)
         Me.SplitContainer1.Panel1.Controls.Add(Me.rbtnTPT)
         Me.SplitContainer1.Panel1.Controls.Add(Me.rbtnDistributor)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtEndDate)
@@ -102,9 +111,69 @@ Partial Class frmDistributorRouteTagging
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
-        Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
+        Me.SplitContainer1.Size = New System.Drawing.Size(818, 450)
         Me.SplitContainer1.SplitterDistance = 415
         Me.SplitContainer1.TabIndex = 0
+        '
+        'cmbItemType
+        '
+        Me.cmbItemType.AutoCompleteDisplayMember = Nothing
+        Me.cmbItemType.AutoCompleteValueMember = Nothing
+        Me.cmbItemType.CalculationExpression = Nothing
+        Me.cmbItemType.DropDownAnimationEnabled = True
+        Me.cmbItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbItemType.FieldCode = Nothing
+        Me.cmbItemType.FieldDesc = Nothing
+        Me.cmbItemType.FieldMaxLength = 0
+        Me.cmbItemType.FieldName = Nothing
+        Me.cmbItemType.isCalculatedField = False
+        Me.cmbItemType.IsSourceFromTable = False
+        Me.cmbItemType.IsSourceFromValueList = False
+        Me.cmbItemType.IsUnique = False
+        RadListDataItem1.Text = "Milk"
+        RadListDataItem2.Text = "Product"
+        RadListDataItem3.Selected = True
+        RadListDataItem3.Text = "Both"
+        Me.cmbItemType.Items.Add(RadListDataItem1)
+        Me.cmbItemType.Items.Add(RadListDataItem2)
+        Me.cmbItemType.Items.Add(RadListDataItem3)
+        Me.cmbItemType.Location = New System.Drawing.Point(682, 11)
+        Me.cmbItemType.MendatroryField = False
+        Me.cmbItemType.MyLinkLable1 = Nothing
+        Me.cmbItemType.MyLinkLable2 = Nothing
+        Me.cmbItemType.Name = "cmbItemType"
+        Me.cmbItemType.ReferenceFieldDesc = Nothing
+        Me.cmbItemType.ReferenceFieldName = Nothing
+        Me.cmbItemType.ReferenceTableName = Nothing
+        Me.cmbItemType.Size = New System.Drawing.Size(124, 20)
+        Me.cmbItemType.TabIndex = 1517
+        Me.cmbItemType.Text = "Both"
+        '
+        'lblItemType
+        '
+        Me.lblItemType.FieldName = Nothing
+        Me.lblItemType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemType.Location = New System.Drawing.Point(619, 12)
+        Me.lblItemType.Name = "lblItemType"
+        Me.lblItemType.Size = New System.Drawing.Size(57, 16)
+        Me.lblItemType.TabIndex = 1518
+        Me.lblItemType.Text = "Item Type"
+        '
+        'rbtnTPT
+        '
+        Me.rbtnTPT.Location = New System.Drawing.Point(575, 12)
+        Me.rbtnTPT.Name = "rbtnTPT"
+        Me.rbtnTPT.Size = New System.Drawing.Size(38, 18)
+        Me.rbtnTPT.TabIndex = 73
+        Me.rbtnTPT.Text = "TPT"
+        '
+        'rbtnDistributor
+        '
+        Me.rbtnDistributor.Location = New System.Drawing.Point(526, 12)
+        Me.rbtnDistributor.Name = "rbtnDistributor"
+        Me.rbtnDistributor.Size = New System.Drawing.Size(43, 18)
+        Me.rbtnDistributor.TabIndex = 72
+        Me.rbtnDistributor.Text = "DIST"
         '
         'txtEndDate
         '
@@ -223,7 +292,7 @@ Partial Class frmDistributorRouteTagging
         Me.GroupBox1.Controls.Add(Me.gv1)
         Me.GroupBox1.Location = New System.Drawing.Point(10, 115)
         Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(783, 290)
+        Me.GroupBox1.Size = New System.Drawing.Size(801, 290)
         Me.GroupBox1.TabIndex = 68
         Me.GroupBox1.TabStop = False
         '
@@ -244,12 +313,13 @@ Partial Class frmDistributorRouteTagging
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(777, 269)
+        Me.gv1.Size = New System.Drawing.Size(795, 269)
         Me.gv1.TabIndex = 4
         Me.gv1.TabStop = False
         '
@@ -360,7 +430,7 @@ Partial Class frmDistributorRouteTagging
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(724, 6)
+        Me.btnclose.Location = New System.Drawing.Point(742, 6)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(73, 20)
         Me.btnclose.TabIndex = 4
@@ -384,27 +454,11 @@ Partial Class frmDistributorRouteTagging
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
-        'rbtnTPT
-        '
-        Me.rbtnTPT.Location = New System.Drawing.Point(575, 12)
-        Me.rbtnTPT.Name = "rbtnTPT"
-        Me.rbtnTPT.Size = New System.Drawing.Size(38, 18)
-        Me.rbtnTPT.TabIndex = 73
-        Me.rbtnTPT.Text = "TPT"
-        '
-        'rbtnDistributor
-        '
-        Me.rbtnDistributor.Location = New System.Drawing.Point(526, 12)
-        Me.rbtnDistributor.Name = "rbtnDistributor"
-        Me.rbtnDistributor.Size = New System.Drawing.Size(43, 18)
-        Me.rbtnDistributor.TabIndex = 72
-        Me.rbtnDistributor.Text = "DIST"
-        '
         'frmDistributorRouteTagging
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(818, 450)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmDistributorRouteTagging"
         '
@@ -416,6 +470,10 @@ Partial Class frmDistributorRouteTagging
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.cmbItemType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblItemType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnTPT, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtEndDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtStartDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -430,8 +488,6 @@ Partial Class frmDistributorRouteTagging
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnTPT, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -461,4 +517,6 @@ Partial Class frmDistributorRouteTagging
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents rbtnTPT As RadRadioButton
     Friend WithEvents rbtnDistributor As RadRadioButton
+    Friend WithEvents cmbItemType As common.Controls.MyComboBox
+    Friend WithEvents lblItemType As common.Controls.MyLabel
 End Class

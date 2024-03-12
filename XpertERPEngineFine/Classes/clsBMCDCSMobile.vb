@@ -16,14 +16,21 @@
     Public Shared Function GetData(ByVal IDate As Date) As List(Of clsBMCDCSMobile)
         Dim Arr As List(Of clsBMCDCSMobile) = Nothing
         Try
+            Dim SettAPKAddPostfunctionality As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, Nothing)) = 1)
             Dim obj As clsBMCDCSMobile = Nothing
             Dim obj_Trip As New clsBMCDCS_Trip()
             Arr = New List(Of clsBMCDCSMobile)
-            Dim strQry As String = "select XXX.* from
-(select max(XX.REF_PK_ID) as REF_PK_ID,max(XX.PK_ID) as PK_ID,max(XX.IDate)as Document_Date,max(XX.Route_Code) as Route_Code,max(XX.MCC_Code)as MCC_Code, max(XX.Vehicle_No) as Vehicle_No,sum(XX.Qty) as Qty,sum(XX.FATKG)as FATKG, sum(XX.SNFKG) as SNFKG,XX.Trip_No
-                from ( select TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID as PK_ID,TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID as REF_PK_ID, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code,TSPL_MILK_COLLECTION_BMCDCS.IDate,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty,TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG from TSPL_MILK_COLLECTION_BMCDCS
-            left join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID ) XX where convert ( date, XX.IDate, 103 ) = convert (date, '" + clsCommon.GetPrintDate(IDate, "dd/MMM/yyyy") + "', 103) group by XX.Vehicle_No,XX.Route_Code,XX.Trip_No )XXX
-  where not exists(select * from TSPL_MILK_COLLECTION_MCC_DETAIL where TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=XXX.PK_ID )"
+            Dim strQry As String = "select XXX.* from (
+select max(XX.REF_PK_ID) as REF_PK_ID,max(XX.PK_ID) as PK_ID,max(XX.IDate)as Document_Date,max(XX.Route_Code) as Route_Code,max(XX.MCC_Code)as MCC_Code, max(XX.Vehicle_No) as Vehicle_No,sum(XX.Qty) as Qty,sum(XX.FATKG)as FATKG, sum(XX.SNFKG) as SNFKG,XX.Trip_No from ( 
+select TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID as PK_ID,TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID as REF_PK_ID, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Route_Code,TSPL_MILK_COLLECTION_BMCDCS.IDate,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Vehicle_No, TSPL_MILK_COLLECTION_BMCDCS_TRIP.Trip_No,TSPL_MILK_COLLECTION_BMCDCS_TRIP.Qty,TSPL_MILK_COLLECTION_BMCDCS_TRIP.FATKG,TSPL_MILK_COLLECTION_BMCDCS_TRIP.SNFKG 
+from TSPL_MILK_COLLECTION_BMCDCS
+left join TSPL_MILK_COLLECTION_BMCDCS_TRIP on TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS.PK_ID 
+where convert ( date, TSPL_MILK_COLLECTION_BMCDCS.IDate, 103 ) = convert (date, '" + clsCommon.GetPrintDate(IDate, "dd/MMM/yyyy") + "', 103) "
+            If SettAPKAddPostfunctionality Then
+                strQry += " and 2 = ( case when TSPL_MILK_COLLECTION_BMCDCS.Status=1 then 2 else 3 end )  "
+            End If
+            strQry += " ) XX group by XX.Vehicle_No,XX.Route_Code,XX.Trip_No 
+)XXX where not exists(select * from TSPL_MILK_COLLECTION_MCC_DETAIL where TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=XXX.PK_ID )"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 For Each dr As DataRow In dt.Rows
@@ -147,11 +154,29 @@ Public Class clsBMCDCS_DCS_Head
         Dim obj_DCS As New clsBMCDCS_DCS()
         'Dim obj_Trip As New clsBMCDCS_Trip()
         Dim strQry As String = String.Empty
-
-        strQry = "select max(XX.REF_PK_ID) as REF_PK_ID,XX.MCC_Code as MCC_Code,max(Document_Date) as Document_Date from TSPL_MILK_COLLECTION_BMCDCS_DCS left join ( select REF_PK_ID,max(MCC_Code)as MCC_Code,max(IDate) as Document_Date from ( select REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TSPL_MILK_COLLECTION_BMCDCS.IDate
-from TSPL_MILK_COLLECTION_BMCDCS_TRIP left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
-where TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(IDate) + "' and TSPL_MILK_COLLECTION_MCC.Status=1 and TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id is null )x group by REF_PK_ID )XX on XX.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID where XX.REF_PK_ID in( select REF_PK_ID from ( select REF_PK_ID from TSPL_MILK_COLLECTION_BMCDCS_TRIP left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID
-left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id where TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(IDate) + "' and TSPL_MILK_COLLECTION_MCC.Status=1 and TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id is null )x group by REF_PK_ID ) group by XX.MCC_Code"
+        Dim SettAPKAddPostfunctionality As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, Nothing)) = 1)
+        strQry = "select max(XX.REF_PK_ID) as REF_PK_ID,XX.MCC_Code as MCC_Code,max(Document_Date) as Document_Date 
+from TSPL_MILK_COLLECTION_BMCDCS_DCS 
+left join ( select REF_PK_ID,max(MCC_Code)as MCC_Code,max(IDate) as Document_Date from ( select REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS.MCC_Code,TSPL_MILK_COLLECTION_BMCDCS.IDate
+from TSPL_MILK_COLLECTION_BMCDCS_TRIP 
+left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID 
+inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID 
+left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No 
+left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id
+where TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(IDate) + "' and TSPL_MILK_COLLECTION_MCC.Status=1 and TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id is null 
+)x group by REF_PK_ID )XX on XX.REF_PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID 
+where XX.REF_PK_ID in ( select REF_PK_ID from ( select REF_PK_ID 
+from TSPL_MILK_COLLECTION_BMCDCS_TRIP 
+left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_TRIP.REF_PK_ID 
+inner join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.REF_PK_ID_BMCDCS_TRIP=TSPL_MILK_COLLECTION_BMCDCS_TRIP.PK_ID
+left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No 
+left outer join TSPL_MILK_COLLECTION_DCS_MCC_DETAIL on TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail=TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id 
+where TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(IDate) + "' and TSPL_MILK_COLLECTION_MCC.Status=1 and TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id is null "
+        If SettAPKAddPostfunctionality Then
+            strQry += " and 2 = ( case when TSPL_MILK_COLLECTION_BMCDCS.Status=1 then 2 else 3 end )  "
+        End If
+        strQry += ")x group by REF_PK_ID 
+) group by XX.MCC_Code"
 
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)

@@ -529,7 +529,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.Attachments
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(860, 321)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -567,7 +567,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(37.0!, 24.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(804, 273)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(839, 273)
         Me.RadPageViewPage1.Text = "Valid"
         '
         'gvItem
@@ -584,7 +584,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
-        Me.gvItem.Size = New System.Drawing.Size(804, 273)
+        Me.gvItem.Size = New System.Drawing.Size(839, 273)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
         '
@@ -595,7 +595,7 @@ Partial Class frmDBTNEFTUploader
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(45.0!, 24.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(804, 273)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(839, 273)
         Me.RadPageViewPage2.Text = "Invalid"
         '
         'gvInvalid
@@ -612,7 +612,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvInvalid.MyStopExport = False
         Me.gvInvalid.Name = "gvInvalid"
         Me.gvInvalid.ShowHeaderCellButtons = True
-        Me.gvInvalid.Size = New System.Drawing.Size(804, 243)
+        Me.gvInvalid.Size = New System.Drawing.Size(839, 243)
         Me.gvInvalid.TabIndex = 1
         Me.gvInvalid.TabStop = False
         '
@@ -622,7 +622,7 @@ Partial Class frmDBTNEFTUploader
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(804, 30)
+        Me.Panel1.Size = New System.Drawing.Size(839, 30)
         Me.Panel1.TabIndex = 2
         '
         'RadButton1

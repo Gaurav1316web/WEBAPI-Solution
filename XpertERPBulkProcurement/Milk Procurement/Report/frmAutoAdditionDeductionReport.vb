@@ -14,7 +14,7 @@ Public Class frmAutoAdditionDeductionReport
         btnExp.Visible = MyBase.isExport
     End Sub
     Private Sub rptMilkBillProcurementSummary_Load(sender As Object, e As EventArgs) Handles Me.Load
-        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 0)
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         fndArea.Visible = AreaWiseBilling
         lblArea.Visible = AreaWiseBilling
         Reset()
@@ -456,4 +456,6 @@ Public Class frmAutoAdditionDeductionReport
             clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
+
+
 End Class

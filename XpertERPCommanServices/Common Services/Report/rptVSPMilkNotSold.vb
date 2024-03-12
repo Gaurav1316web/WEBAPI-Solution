@@ -44,7 +44,7 @@ Public Class rptVSPMilkNotSold
         End If
         dtpToDate.Value = clsCommon.GETSERVERDATE()
         dtpFromDate.Value = dtpToDate.Value.AddMonths(-1)
-        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 0)
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         fndArea.Visible = AreaWiseBilling
         lblArea.Visible = AreaWiseBilling
         isLoad = False

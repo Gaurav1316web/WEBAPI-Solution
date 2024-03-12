@@ -182,6 +182,7 @@ Public Class FrmPaymentProcess
         RadPageView1.Pages("RadPageViewPage7").Item.Visibility = IIf(isConsiderAdvancePayment, Telerik.WinControls.ElementVisibility.Visible, Telerik.WinControls.ElementVisibility.Collapsed)
         chkSkipPreviousDocumentOfAdvancePayment.Visible = isConsiderAdvancePayment
         RadPageView1.SelectedPage = RadPageViewPage1
+        'AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         Label1.Visible = AreaWiseBilling
         fndArea.Visible = AreaWiseBilling
@@ -3766,6 +3767,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
 
     Sub deleteData()
         Try
+            clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(fndDocNo.Value))
             If clsCommon.myLen(fndDocNo.Value) > 0 Then
                 If clsCommon.MyMessageBoxShow("Want To Delete The Doc No : " & fndDocNo.Value & " ?", "Confirm", MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                     If clsPaymentProcessHead.deleteData(fndDocNo.Value) Then
@@ -3788,6 +3790,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
 
     Sub SaveData(Optional ByVal isPostbtnClick As Boolean = False)
         Dim i As Integer = 0
+        clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(fndDocNo.Value))
         Try
             AllowToSave()
             If isPostbtnClick AndAlso SettVSPHoldPaymentNotCompanyBank = False Then
@@ -4307,8 +4310,11 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     End If
                 Next
             End If
-
+            Dim objApproval As New clsApply_Approval()
             If clsPaymentProcessHead.SaveData(obj, isNewEntry) Then
+                Dim qry As String = "select sum(Payable_Amount) from TSPL_PAYMENT_PROCESS_DETAIL where Doc_No='" + fndDocNo.Value + "' "
+                Dim PaybleAmt As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
+                clsApply_Approval.CheckApprovalRequired(MyBase.Form_ID, obj.Doc_No, obj.Doc_Date, "", "", clsCommon.myCdbl(PaybleAmt), 0, "", objApproval)
                 If Not isPostbtnClick Then
                     If isNewEntry Then
                         myMessages.insert()
@@ -4713,6 +4719,14 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     txtPaymentCycleNo.Text = clsGenratePaymentCycles.GetPaymentCycleNo(fndLoc.Value, dtpToDate.Value)
                     txtFiscalYear.Text = clsGenratePaymentCycles.GetPaymentFiscalCode(fndLoc.Value, dtpToDate.Value)
                 End If
+                '=====================if document go for approval then no post button visible or if document contain related setting
+                btnProcess.Visible = MyBase.isPostFlag
+                If Not clsApply_Approval.Visibility_PostButtonForApproval(fndLoc.Value, "", MyBase.Form_ID, clsCommon.myCstr(fndDocNo.Value), 0, 0, "") Then
+                    btnProcess.Visible = True
+                    If lblPending.Status = ERPTransactionStatus.Pending Then
+                        lblPending.Status = clsApply_Approval.ApprovalCondCheck_Doc(MyBase.Form_ID, clsCommon.myCstr(fndDocNo.Value), Nothing)
+                    End If
+                End If
 
                 isLoad = False
             Else
@@ -4845,6 +4859,10 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
     End Sub
 
     Sub PaymentProcess()
+        Dim qry As String = ""
+        Dim msg As String = ""
+        Dim dt As DataTable = Nothing
+        clsApply_Approval.CheckUpdate_Doc_Valid(MyBase.Form_ID, clsCommon.myCstr(fndDocNo.Value))
         Try
             If Not AllowToSave() Then
                 Exit Sub
@@ -4858,7 +4876,6 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 clsCommon.MyMessageBoxShow(Me, "Payment Processed", Me.Text)
                 LoadData(fndDocNo.Value, NavigatorType.Current)
             End If
-            ' End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

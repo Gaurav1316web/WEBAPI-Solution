@@ -8,6 +8,7 @@ Public Class frmDistributorRouteTagging
     Dim Errorcontrol As clsErrorControl = New clsErrorControl()
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim isNewEntry As Boolean = True
+    Dim SeparateDemandMilkandProduct As Boolean = True
     Dim IsInsieLoadData As Boolean
     Const colSNO As String = "SNo"
     Dim Prev As Integer = 0
@@ -38,18 +39,17 @@ Public Class frmDistributorRouteTagging
             rmiImport.Enabled = False
             rmiExport.Enabled = False
         End If
-
     End Sub
     Private Sub frmDistributeRateTagging_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
-        LoadBlankGrid()
+        SeparateDemandMilkandProduct = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, Nothing)) = 1, True, False)
+        AddNew()
         UsLock1.Status = ERPTransactionStatus.Pending
         txtStartDate.Value = clsCommon.GETSERVERDATE()
     End Sub
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
         SaveData()
     End Sub
-
     Public Sub AddNew()
         UsLock1.Status = ERPTransactionStatus.Pending
         txtCode.MyReadOnly = False
@@ -64,6 +64,11 @@ Public Class frmDistributorRouteTagging
         btnsave.Enabled = True
         btndelete.Enabled = True
         isNewEntry = True
+        cmbItemType.Text = "Both"
+        If Not SeparateDemandMilkandProduct Then
+            lblItemType.Visible = False
+            cmbItemType.Visible = False
+        End If
         LoadBlankGrid()
     End Sub
     Sub RefeshSNO()
@@ -84,6 +89,7 @@ Public Class frmDistributorRouteTagging
                 isNewEntry = False
                 txtCode.Value = obj.Code
                 txtStartDate.Value = obj.Start_Date
+                cmbItemType.Text = obj.ItemType
                 If clsCommon.myLen(obj.End_Date) > 0 Then
                     txtEndDate.Value = obj.End_Date
                 Else
@@ -211,7 +217,6 @@ Public Class frmDistributorRouteTagging
     Public Function AllowToSave() As Boolean
         Try
             Dim obj As New List(Of clsDistributorRouteTaggingDetail)
-
             If gv1.Rows.Count <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Atleast Fill One Row", Me.Text)
                 Return False
@@ -233,12 +238,8 @@ Public Class frmDistributorRouteTagging
                 clsCommon.MyMessageBoxShow(Me, "Duplicate Route Found - " + strDRoute + " ", Me.Text)
                 Return False
             End If
-
         Catch ex As Exception
-
         End Try
-
-
         Return True
     End Function
     Private Sub SaveData()
@@ -251,6 +252,7 @@ Public Class frmDistributorRouteTagging
                     obj.End_Date = txtEndDate.Value
                 End If
                 obj.Remarks = txtRemark.Text
+                obj.ItemType = cmbItemType.Text
                 If rbtnDistributor.IsChecked Then
                     obj.IS_Transpoter = False
                 Else
@@ -265,13 +267,11 @@ Public Class frmDistributorRouteTagging
                         obj.Arr.Add(objTr)
                     End If
                 Next
-
                 If (obj.SaveData(obj, isNewEntry)) Then
                     clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -290,7 +290,6 @@ Public Class frmDistributorRouteTagging
                         End If
                         gv1.CurrentRow.Cells(colCustomerCode).Value = strCustCode
                         gv1.CurrentRow.Cells(colCustomerName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code='" & strCustCode & "' ")
-
                     ElseIf e.Column Is gv1.Columns(colRouteNumber) Then
                         Dim strRouteCode As String = clsDistributorRouteTagging.getRouteFinder("", clsCommon.myCstr(gv1.CurrentRow.Cells(colRouteNumber).Value), False)
                         gv1.CurrentRow.Cells(colRouteNumber).Value = strRouteCode
@@ -361,7 +360,6 @@ Public Class frmDistributorRouteTagging
             If clsCommon.myLen(txtCode.Value) <= 0 Then
                 Throw New Exception("No document found to post")
             End If
-
             If clsCommon.MyMessageBoxShow(Me, "Post the Current Document [" + txtCode.Value + "]" + Environment.NewLine + "Are You Sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsDistributorRouteTagging.PostData(clsCommon.myCstr(txtCode.Value))
                 clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
@@ -374,7 +372,6 @@ Public Class frmDistributorRouteTagging
     Private Sub txtCode_MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator
         Try
             Dim qry As String = "select count(*) from TSPL_DISTRIBUTOR_ROUTE where Code='" + txtCode.Value + "'"
-
             Dim count As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
             If count = 0 Then
                 txtCode.MyReadOnly = False
@@ -386,7 +383,6 @@ Public Class frmDistributorRouteTagging
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnCopy_Click(sender As Object, e As EventArgs) Handles RadButton1.Click
         Try
             AddNew()
@@ -445,7 +441,6 @@ Public Class frmDistributorRouteTagging
                                 str = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and Form_Type='TPT'"))
                             Else
                                 str = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and IsDistributor='Y'"))
-
                             End If
                             If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Distributor Code").Value)) = CompairStringResult.Equal Then
                                 Arr.Cust_Code = clsCommon.myCstr(grow.Cells("Distributor Code").Value)
@@ -453,18 +448,14 @@ Public Class frmDistributorRouteTagging
                                 Continue For
                             End If
                         End If
-
                         obj.Add(Arr)
                     Next
-
                     Dim duplicatesRoute As New List(Of clsDistributorRouteTaggingDetail)
                     duplicatesRoute = obj.GroupBy(Function(x) x.Route_No).Where(Function(group) group.Count() > 1).SelectMany(Function(group) group).ToList
                     Dim strDRoute As String = String.Empty
                     For Each duplicate As clsDistributorRouteTaggingDetail In duplicatesRoute
                         strDRoute += "[" + duplicate.Route_No + "] "
                     Next
-
-
                     clsCommon.ProgressBarHide()
                     If clsCommon.myLen(strDRoute) > 0 Then
                         Throw New Exception("Duplicate Route Found -" + strDRoute)
@@ -475,7 +466,6 @@ Public Class frmDistributorRouteTagging
                             If obj IsNot Nothing AndAlso obj.Count > 0 Then
                                 isInsideLoadData = True
                                 For Each objTr As clsDistributorRouteTaggingDetail In obj
-
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colSNO).Value = sl
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colRouteNumber).Value = objTr.Route_No
                                     gv1.Rows(gv1.Rows.Count - 1).Cells(colRouteName).Value = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + objTr.Route_No + "'")
@@ -491,7 +481,6 @@ Public Class frmDistributorRouteTagging
                             common.clsCommon.MyMessageBoxShow("Data Load Failed", Me.Text, MessageBoxButtons.OK)
                         End If
                     End If
-
                     clsCommon.ProgressBarHide()
                 Catch ex As Exception
                     clsCommon.ProgressBarHide()
@@ -515,7 +504,6 @@ Public Class frmDistributorRouteTagging
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtEndDate_CheckedChanged(sender As Object, e As EventArgs) Handles txtEndDate.CheckedChanged
         If txtEndDate.Checked Then
             txtEndDate.Value = clsCommon.GETSERVERDATE()
@@ -523,7 +511,6 @@ Public Class frmDistributorRouteTagging
             txtEndDate.Value = Nothing
         End If
     End Sub
-
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim sqlqry As String = "   select ROW_NUMBER() Over(ORDER BY(Select 1)ASC)AS[S.NO.],'" + objCommonVar.CurrentUser + "' AS [User], TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code,TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code,TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No,Convert(varchar(12),TSPL_DISTRIBUTOR_ROUTE.Start_Date,103) as Start_Date,
@@ -537,7 +524,6 @@ FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
    WHERE TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code ='" & txtCode.Value & "'"
             If rbtnTPT.IsChecked Then
                 sqlqry += " and IS_Transpoter=1"
-
             End If
             Dim dtItem As DataTable
             dtItem = clsDBFuncationality.GetDataTable(sqlqry)
@@ -546,22 +532,28 @@ FROM TSPL_DISTRIBUTOR_ROUTE_CUSTOMER
                 crysFrm.funreport(CrystalReportFolder.PurchaseOrder, dtItem, "DistributorRouteTagging", "Distribute Route Tagging")
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
-
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub rbtnDistributor_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnDistributor.CheckStateChanged
         If rbtnDistributor.IsChecked Then
             rbtnTPT.IsChecked = False
+            If SeparateDemandMilkandProduct Then
+                lblItemType.Visible = True
+                cmbItemType.Visible = True
+            End If
+            LoadBlankGrid()
         End If
     End Sub
-
     Private Sub rbtnTPT_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnTPT.CheckStateChanged
         If rbtnTPT.IsChecked Then
             rbtnDistributor.IsChecked = False
+            If SeparateDemandMilkandProduct Then
+                lblItemType.Visible = False
+                cmbItemType.Visible = False
+            End If
             LoadBlankGrid()
         End If
     End Sub

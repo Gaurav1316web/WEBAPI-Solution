@@ -81,7 +81,7 @@ Public Class clsMISItemMaster
         Try
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Item_Name", obj.Name)
-            clsCommon.AddColumnsForChange(coll, "Group_Code", obj.GroupCode)
+            clsCommon.AddColumnsForChange(coll, "Group_Code", obj.GroupCode, True)
             clsCommon.AddColumnsForChange(coll, "Item_UOM", obj.ItemUOM)
             clsCommon.AddColumnsForChange(coll, "SNO", obj.Sno)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
@@ -112,7 +112,7 @@ Public Class clsMISItemMaster
             End If
 
         Catch ex As Exception
-            Throw New Exception(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
         End Try
         Return isSaved
     End Function
