@@ -26,12 +26,15 @@ Partial Class frmMISItemMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtGPCode = New common.UserControls.txtFinder()
+        Me.txtSeqNo = New common.MyNumBox()
+        Me.MyLabel24 = New common.Controls.MyLabel()
         Me.txtUOM = New common.Controls.MyTextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.txtGPCode = New common.Controls.MyTextBox()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.txtName = New common.Controls.MyTextBox()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
@@ -48,17 +51,16 @@ Partial Class frmMISItemMaster
         Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnNew = New Telerik.WinControls.UI.RadButton()
-        Me.txtSeqNo = New common.MyNumBox()
-        Me.MyLabel24 = New common.Controls.MyLabel()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.txtSeqNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtUOM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtGPCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -69,20 +71,17 @@ Partial Class frmMISItemMaster
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtSeqNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtGPCode)
         Me.RadGroupBox1.Controls.Add(Me.txtSeqNo)
         Me.RadGroupBox1.Controls.Add(Me.txtUOM)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel2)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel24)
-        Me.RadGroupBox1.Controls.Add(Me.txtGPCode)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel1)
         Me.RadGroupBox1.Controls.Add(Me.RadLabel4)
         Me.RadGroupBox1.Controls.Add(Me.RadButton1)
@@ -98,6 +97,68 @@ Partial Class frmMISItemMaster
         Me.RadGroupBox1.Size = New System.Drawing.Size(519, 128)
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.Text = " "
+        '
+        'txtGPCode
+        '
+        Me.txtGPCode.CalculationExpression = Nothing
+        Me.txtGPCode.FieldCode = Nothing
+        Me.txtGPCode.FieldDesc = Nothing
+        Me.txtGPCode.FieldMaxLength = 0
+        Me.txtGPCode.FieldName = Nothing
+        Me.txtGPCode.isCalculatedField = False
+        Me.txtGPCode.IsSourceFromTable = False
+        Me.txtGPCode.IsSourceFromValueList = False
+        Me.txtGPCode.IsUnique = False
+        Me.txtGPCode.Location = New System.Drawing.Point(90, 73)
+        Me.txtGPCode.MendatroryField = False
+        Me.txtGPCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGPCode.MyLinkLable1 = Nothing
+        Me.txtGPCode.MyLinkLable2 = Nothing
+        Me.txtGPCode.MyReadOnly = False
+        Me.txtGPCode.MyShowMasterFormButton = False
+        Me.txtGPCode.Name = "txtGPCode"
+        Me.txtGPCode.ReferenceFieldDesc = Nothing
+        Me.txtGPCode.ReferenceFieldName = Nothing
+        Me.txtGPCode.ReferenceTableName = Nothing
+        Me.txtGPCode.Size = New System.Drawing.Size(150, 19)
+        Me.txtGPCode.TabIndex = 317
+        Me.txtGPCode.Value = ""
+        '
+        'txtSeqNo
+        '
+        Me.txtSeqNo.BackColor = System.Drawing.Color.White
+        Me.txtSeqNo.CalculationExpression = Nothing
+        Me.txtSeqNo.DecimalPlaces = 2
+        Me.txtSeqNo.FieldCode = Nothing
+        Me.txtSeqNo.FieldDesc = Nothing
+        Me.txtSeqNo.FieldMaxLength = 0
+        Me.txtSeqNo.FieldName = Nothing
+        Me.txtSeqNo.isCalculatedField = False
+        Me.txtSeqNo.IsSourceFromTable = False
+        Me.txtSeqNo.IsSourceFromValueList = False
+        Me.txtSeqNo.IsUnique = False
+        Me.txtSeqNo.Location = New System.Drawing.Point(90, 95)
+        Me.txtSeqNo.MendatroryField = False
+        Me.txtSeqNo.MyLinkLable1 = Me.MyLabel24
+        Me.txtSeqNo.MyLinkLable2 = Nothing
+        Me.txtSeqNo.Name = "txtSeqNo"
+        Me.txtSeqNo.ReferenceFieldDesc = Nothing
+        Me.txtSeqNo.ReferenceFieldName = Nothing
+        Me.txtSeqNo.ReferenceTableName = Nothing
+        Me.txtSeqNo.Size = New System.Drawing.Size(56, 20)
+        Me.txtSeqNo.TabIndex = 31
+        Me.txtSeqNo.Text = "0"
+        Me.txtSeqNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtSeqNo.Value = 0R
+        '
+        'MyLabel24
+        '
+        Me.MyLabel24.FieldName = Nothing
+        Me.MyLabel24.Location = New System.Drawing.Point(12, 95)
+        Me.MyLabel24.Name = "MyLabel24"
+        Me.MyLabel24.Size = New System.Drawing.Size(43, 18)
+        Me.MyLabel24.TabIndex = 30
+        Me.MyLabel24.Text = "Seq No"
         '
         'txtUOM
         '
@@ -140,29 +201,6 @@ Partial Class frmMISItemMaster
         Me.MyLabel2.TabIndex = 22
         Me.MyLabel2.Text = "UOM"
         '
-        'txtGPCode
-        '
-        Me.txtGPCode.CalculationExpression = Nothing
-        Me.txtGPCode.FieldCode = Nothing
-        Me.txtGPCode.FieldDesc = Nothing
-        Me.txtGPCode.FieldMaxLength = 0
-        Me.txtGPCode.FieldName = Nothing
-        Me.txtGPCode.isCalculatedField = False
-        Me.txtGPCode.IsSourceFromTable = False
-        Me.txtGPCode.IsSourceFromValueList = False
-        Me.txtGPCode.IsUnique = False
-        Me.txtGPCode.Location = New System.Drawing.Point(89, 72)
-        Me.txtGPCode.MaxLength = 50
-        Me.txtGPCode.MendatroryField = False
-        Me.txtGPCode.MyLinkLable1 = Me.MyLabel1
-        Me.txtGPCode.MyLinkLable2 = Nothing
-        Me.txtGPCode.Name = "txtGPCode"
-        Me.txtGPCode.ReferenceFieldDesc = Nothing
-        Me.txtGPCode.ReferenceFieldName = Nothing
-        Me.txtGPCode.ReferenceTableName = Nothing
-        Me.txtGPCode.Size = New System.Drawing.Size(148, 20)
-        Me.txtGPCode.TabIndex = 21
-        '
         'RadLabel4
         '
         Me.RadLabel4.FieldName = Nothing
@@ -178,6 +216,15 @@ Partial Class frmMISItemMaster
         Me.RadButton1.Size = New System.Drawing.Size(14, 20)
         Me.RadButton1.TabIndex = 17
         Me.RadButton1.Text = " "
+        '
+        'btnNew
+        '
+        Me.btnNew.Image = Global.XpertERPMIS.My.Resources.Resources._new
+        Me.btnNew.Location = New System.Drawing.Point(364, 23)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(14, 20)
+        Me.btnNew.TabIndex = 1
+        Me.btnNew.Text = " "
         '
         'txtName
         '
@@ -220,10 +267,10 @@ Partial Class frmMISItemMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 20
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(222, 21)
+        Me.txtCode.Size = New System.Drawing.Size(273, 21)
         Me.txtCode.TabIndex = 0
         Me.txtCode.Value = ""
         '
@@ -336,51 +383,6 @@ Partial Class frmMISItemMaster
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
         '
-        'btnNew
-        '
-        Me.btnNew.Image = Global.XpertERPMIS.My.Resources.Resources._new
-        Me.btnNew.Location = New System.Drawing.Point(311, 22)
-        Me.btnNew.Name = "btnNew"
-        Me.btnNew.Size = New System.Drawing.Size(14, 20)
-        Me.btnNew.TabIndex = 1
-        Me.btnNew.Text = " "
-        '
-        'txtSeqNo
-        '
-        Me.txtSeqNo.BackColor = System.Drawing.Color.White
-        Me.txtSeqNo.CalculationExpression = Nothing
-        Me.txtSeqNo.DecimalPlaces = 2
-        Me.txtSeqNo.FieldCode = Nothing
-        Me.txtSeqNo.FieldDesc = Nothing
-        Me.txtSeqNo.FieldMaxLength = 0
-        Me.txtSeqNo.FieldName = Nothing
-        Me.txtSeqNo.isCalculatedField = False
-        Me.txtSeqNo.IsSourceFromTable = False
-        Me.txtSeqNo.IsSourceFromValueList = False
-        Me.txtSeqNo.IsUnique = False
-        Me.txtSeqNo.Location = New System.Drawing.Point(90, 95)
-        Me.txtSeqNo.MendatroryField = False
-        Me.txtSeqNo.MyLinkLable1 = Me.MyLabel24
-        Me.txtSeqNo.MyLinkLable2 = Nothing
-        Me.txtSeqNo.Name = "txtSeqNo"
-        Me.txtSeqNo.ReferenceFieldDesc = Nothing
-        Me.txtSeqNo.ReferenceFieldName = Nothing
-        Me.txtSeqNo.ReferenceTableName = Nothing
-        Me.txtSeqNo.Size = New System.Drawing.Size(56, 20)
-        Me.txtSeqNo.TabIndex = 31
-        Me.txtSeqNo.Text = "0"
-        Me.txtSeqNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSeqNo.Value = 0R
-        '
-        'MyLabel24
-        '
-        Me.MyLabel24.FieldName = Nothing
-        Me.MyLabel24.Location = New System.Drawing.Point(12, 95)
-        Me.MyLabel24.Name = "MyLabel24"
-        Me.MyLabel24.Size = New System.Drawing.Size(43, 18)
-        Me.MyLabel24.TabIndex = 30
-        Me.MyLabel24.Text = "Seq No"
-        '
         'frmMISItemMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -396,12 +398,14 @@ Partial Class frmMISItemMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.txtSeqNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtUOM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtGPCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -413,9 +417,6 @@ Partial Class frmMISItemMaster
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtSeqNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -440,10 +441,10 @@ Partial Class frmMISItemMaster
     Friend WithEvents MenuItemImport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MenuItemExport As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MenuItemClose As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents txtGPCode As common.Controls.MyTextBox
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents txtUOM As common.Controls.MyTextBox
     Friend WithEvents txtSeqNo As common.MyNumBox
     Friend WithEvents MyLabel24 As common.Controls.MyLabel
+    Friend WithEvents txtGPCode As common.UserControls.txtFinder
 End Class
