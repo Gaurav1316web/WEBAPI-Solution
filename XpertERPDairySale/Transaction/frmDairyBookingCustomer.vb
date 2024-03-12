@@ -504,7 +504,7 @@ Public Class frmDairyBookingCustomer
         repoAvgQty.Width = 100
         repoAvgQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoAvgQty.ReadOnly = True
-        repoAvgQty.IsVisible = True
+        repoAvgQty.IsVisible = False
         repoAvgQty.VisibleInColumnChooser = True
         gv1.MasterTemplate.Columns.Add(repoAvgQty)
         Dim repoActualBalQty As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -514,7 +514,7 @@ Public Class frmDairyBookingCustomer
         repoActualBalQty.Width = 100
         repoActualBalQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoActualBalQty.ReadOnly = True
-        repoActualBalQty.IsVisible = True
+        repoActualBalQty.IsVisible = False
         repoActualBalQty.VisibleInColumnChooser = True
         gv1.MasterTemplate.Columns.Add(repoActualBalQty)
         Dim repopREVIOUSQty As GridViewDecimalColumn = New GridViewDecimalColumn()
@@ -4283,7 +4283,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -7359,6 +7359,9 @@ from
             frm.txtlocation = txtLocation.Value
             frm.vehicleno = txtVehicleCode.Value
             frm.docdate = txtDate.Value
+            frm.Supplydate = txtDate.Value
+            frm.Shifttype = cmbGatePassType.Text
+
             frm.ShowDialog()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -7501,69 +7504,69 @@ from
             If (clsCommon.myLen(gv1.Rows(intRowNo).Cells(colICode).Value) > 0) Then
 
 
-                    BlankTaxDetails(intRowNo, isChangeRate)
-                    IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value) & "'"))
-                    If ((clsCommon.myLen(gv1.Rows(intRowNo).Cells(colICode).Value) > 0 And IsTaxable = 1) OrElse (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code IN (select Tax_Code  from TSPL_TAX_GROUP_DETAILS WHERE TAX_GROUP_CODE='" & txtTaxGroup.Value & "') AND Is_TCS ='Y'")) > 0)) Then
-                        Dim ii As Integer = 1
-                        For Each dr As DataRow In dt.Rows
-                            Dim strII As String = clsCommon.myCstr(ii)
-                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax" + strII)).Value = clsCommon.myCstr(dr("Tax_Code"))
-                            '' == Changes by Parteek 21/09/2017
-                            'If CalculateTaxRatefromItemwsieTaxOnSale = 0 Then
-                            '    If isChangeRate Then
-                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = clsCommon.myCdbl(dr("TaxRate"))
-                            '    End If
-                            'End If
-                            ''tcs tax rate
-                            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_TCS  from tspl_tax_master where tax_code ='" & clsCommon.myCstr(dr("Tax_Code")) & "' ")), "Y") = CompairStringResult.Equal Then
-                                If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsTCSnotApplicable ,0) from TSPL_CUSTOMER_MASTER where Cust_Code ='" & txtVendorNo.Value & "'")), "0") = CompairStringResult.Equal Then
-                                    If AmountToCheckCustomerOutstandingForTCSTax > 0 Then
-                                        Dim dblOutstandingAmount As Double = clsCommon.myCdbl(clsCustomerMaster.GetCustomerOutstandingForTCSTaxApplicableOnFY(txtVendorNo.Value, txtDate.Value))
-                                        If dblOutstandingAmount < AmountToCheckCustomerOutstandingForTCSTax Then
-                                            dblOutstandingAmount = dblOutstandingAmount + clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text))
-                                            If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
-                                                If clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text)) > 0 Then
-                                                    txttcstaxbaseamount.Value = Math.Round(clsCommon.myCdbl(dblOutstandingAmount - AmountToCheckCustomerOutstandingForTCSTax), 3)
-                                                End If
+                BlankTaxDetails(intRowNo, isChangeRate)
+                IsTaxable = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select IsTaxable from TSPL_ITEM_MASTER where item_code='" & clsCommon.myCstr(gv1.Rows(intRowNo).Cells(colICode).Value) & "'"))
+                If ((clsCommon.myLen(gv1.Rows(intRowNo).Cells(colICode).Value) > 0 And IsTaxable = 1) OrElse (clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(*) FROM TSPL_TAX_MASTER WHERE Tax_Code IN (select Tax_Code  from TSPL_TAX_GROUP_DETAILS WHERE TAX_GROUP_CODE='" & txtTaxGroup.Value & "') AND Is_TCS ='Y'")) > 0)) Then
+                    Dim ii As Integer = 1
+                    For Each dr As DataRow In dt.Rows
+                        Dim strII As String = clsCommon.myCstr(ii)
+                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax" + strII)).Value = clsCommon.myCstr(dr("Tax_Code"))
+                        '' == Changes by Parteek 21/09/2017
+                        'If CalculateTaxRatefromItemwsieTaxOnSale = 0 Then
+                        '    If isChangeRate Then
+                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = clsCommon.myCdbl(dr("TaxRate"))
+                        '    End If
+                        'End If
+                        ''tcs tax rate
+                        If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Is_TCS  from tspl_tax_master where tax_code ='" & clsCommon.myCstr(dr("Tax_Code")) & "' ")), "Y") = CompairStringResult.Equal Then
+                            If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsTCSnotApplicable ,0) from TSPL_CUSTOMER_MASTER where Cust_Code ='" & txtVendorNo.Value & "'")), "0") = CompairStringResult.Equal Then
+                                If AmountToCheckCustomerOutstandingForTCSTax > 0 Then
+                                    Dim dblOutstandingAmount As Double = clsCommon.myCdbl(clsCustomerMaster.GetCustomerOutstandingForTCSTaxApplicableOnFY(txtVendorNo.Value, txtDate.Value))
+                                    If dblOutstandingAmount < AmountToCheckCustomerOutstandingForTCSTax Then
+                                        dblOutstandingAmount = dblOutstandingAmount + clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text))
+                                        If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
+                                            If clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text)) > 0 Then
+                                                txttcstaxbaseamount.Value = Math.Round(clsCommon.myCdbl(dblOutstandingAmount - AmountToCheckCustomerOutstandingForTCSTax), 3)
                                             End If
                                         End If
-                                        If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
-                                            If EnableTCSRateValidityFrom01July2021 Then
-                                                Dim Is_ITR_Filled_And_TCSAmountGreater50K As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue(" SELECT CASE WHEN ISNULL(IsTCSGreaterthan50K,0)=1 AND ISNULL(IsITRfilledinLast2Years,0)=1 THEN 1 ELSE 0 END FROM TSPL_CUSTOMER_MASTER WHERE Cust_Code='" & txtVendorNo.Value & "'")) = 1, True, False)
-                                                If Is_ITR_Filled_And_TCSAmountGreater50K = True Then
-                                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
-                                                Else
-                                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
-                                                End If
+                                    End If
+                                    If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
+                                        If EnableTCSRateValidityFrom01July2021 Then
+                                            Dim Is_ITR_Filled_And_TCSAmountGreater50K As Boolean = IIf(clsCommon.myCstr(clsDBFuncationality.getSingleValue(" SELECT CASE WHEN ISNULL(IsTCSGreaterthan50K,0)=1 AND ISNULL(IsITRfilledinLast2Years,0)=1 THEN 1 ELSE 0 END FROM TSPL_CUSTOMER_MASTER WHERE Cust_Code='" & txtVendorNo.Value & "'")) = 1, True, False)
+                                            If Is_ITR_Filled_And_TCSAmountGreater50K = True Then
+                                                gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
                                             Else
-                                                Dim panno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(pan,'')+isnull(Additional3 ,'') as PanNoAdhar from tspl_customer_master where cust_code='" & txtVendorNo.Value & "'"))
-                                                If clsCommon.myLen(panno) > 0 Then
-                                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
-                                                Else
-                                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
-                                                End If
+                                                gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
                                             End If
                                         Else
-                                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = 0
+                                            Dim panno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(pan,'')+isnull(Additional3 ,'') as PanNoAdhar from tspl_customer_master where cust_code='" & txtVendorNo.Value & "'"))
+                                            If clsCommon.myLen(panno) > 0 Then
+                                                gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithPanNo, clsFixedParameterCode.TCSRateforCustomerWithPanNo, Nothing))
+                                            Else
+                                                gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.TCSRateforCustomerWithoutPanNo, clsFixedParameterCode.TCSRateforCustomerWithoutPanNo, Nothing))
+                                            End If
                                         End If
                                     Else
-                                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = dr("TaxRate")
+                                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = 0
                                     End If
                                 Else
-                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = 0
+                                    gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = dr("TaxRate")
                                 End If
+                            Else
+                                gv1.Rows(intRowNo).Cells(clsCommon.myCstr("colTax_Rate" + strII)).Value = 0
                             End If
-                            ''end oftcs tax rate
-                            'gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISTAXABLE" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Taxable")), "Y") = CompairStringResult.Equal)
-                            'gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISSURTAX" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Surtax")), "Y") = CompairStringResult.Equal)
-                            'gv1.Rows(intRowNo).Cells(clsCommon.myCstr("SURTAXCODE" + strII)).Value = clsCommon.myCstr(dr("Surtax_Tax_Code"))
-                            'gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISEXCISABLE" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Excisable")), "Y") = CompairStringResult.Equal)
-                            'gv1.Rows(intRowNo).Cells(clsCommon.myCstr("RECOVERTABLETAX" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Tax_Recoverable")), "Y") = CompairStringResult.Equal)
-                            gv1.Rows(intRowNo).Cells(clsCommon.myCstr(colIsTaxOnBaseAmount + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Tax_On_Base_Amount")), "Y") = CompairStringResult.Equal)
-                            ii = ii + 1
-                        Next
-                    End If
+                        End If
+                        ''end oftcs tax rate
+                        'gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISTAXABLE" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Taxable")), "Y") = CompairStringResult.Equal)
+                        'gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISSURTAX" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Surtax")), "Y") = CompairStringResult.Equal)
+                        'gv1.Rows(intRowNo).Cells(clsCommon.myCstr("SURTAXCODE" + strII)).Value = clsCommon.myCstr(dr("Surtax_Tax_Code"))
+                        'gv1.Rows(intRowNo).Cells(clsCommon.myCstr("ISEXCISABLE" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Excisable")), "Y") = CompairStringResult.Equal)
+                        'gv1.Rows(intRowNo).Cells(clsCommon.myCstr("RECOVERTABLETAX" + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Tax_Recoverable")), "Y") = CompairStringResult.Equal)
+                        gv1.Rows(intRowNo).Cells(clsCommon.myCstr(colIsTaxOnBaseAmount + strII)).Value = clsCommon.myCBool(clsCommon.CompairString(clsCommon.myCstr(dr("Tax_On_Base_Amount")), "Y") = CompairStringResult.Equal)
+                        ii = ii + 1
+                    Next
                 End If
+            End If
             ' Next
 
         End If

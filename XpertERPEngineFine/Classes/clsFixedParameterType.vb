@@ -1314,6 +1314,7 @@ Public Class clsFixedParameterType
     Public Const IsLoadingSlipMandatory = "Is Loading Slip Mandatory"
     Public Const CrateCapacityCheck = "Crate Capacity Check"
     Public Const PickAllBMC = "VSP Milk Not Sold"
+    Public Const SeparateDemandMilkandProduct = "Separate Demand Milk & Product"
 
 
 End Class
@@ -2763,6 +2764,7 @@ Public Class clsFixedParameterCode
     Public Const IsLoadingSlipMandatory = "Is Loading Slip Mandatory"
     Public Const CrateCapacityCheck = "Crate Capacity Check"
     Public Const PickAllBMC = "Pick All BMC"
+    Public Const SeparateDemandMilkandProduct = "Separate Demand Milk & Product"
 
 End Class
 Public Class clsFixedParameter
@@ -4484,6 +4486,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CrateCapacityCheck, clsFixedParameterCode.CrateCapacityCheck, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickAllBMC, clsFixedParameterCode.PickAllBMC, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, "0", "0:Off, 1:On;")
+
 
         '
         clsFixedParameterProgramMapping.SetDefaultValues()
@@ -6534,6 +6538,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.EnableResetDemand, clsFixedParameterCode.EnableResetDemand, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, clsFixedParameterType.PickAllBMC, clsFixedParameterCode.PickAllBMC, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDistributorRouteTagging, clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, EnumControlType.CheckBox)
 
     End Sub
 End Class
