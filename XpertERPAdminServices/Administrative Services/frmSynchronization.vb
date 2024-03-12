@@ -715,7 +715,7 @@ Public Class frmSynchronization
         Try
             Dim intCount As Integer = obj.UpdateNewTables(Nothing)
             LoadTargetTables()
-            clsCommon.MyMessageBoxShow("" & intCount & " tables updated successfully")
+            clsCommon.MyMessageBoxShow(Me, "" & intCount & " tables updated successfully", Me.Text)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

@@ -7,6 +7,7 @@ Public Class rptDailyQtyReport
     Dim btnReferesh As Boolean = False
     Dim FatSnfRoundOff As Integer
     Dim corrFactor As Decimal = 0
+    Dim AreaWiseBilling As Boolean = False
 
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -24,6 +25,7 @@ Public Class rptDailyQtyReport
         'LoadShiftName()
         txtMCC.arrValueMember = Nothing
         TxtTankerNo.Value = ""
+        fndArea.Value = ""
         ControlEnableDisable(True)
         LoadShif()
     End Sub
@@ -35,6 +37,8 @@ Public Class rptDailyQtyReport
         cboItemType.Enabled = isEnable
         RadGroupBox1.Enabled = isEnable
         txtMCC_Code.Enabled = isEnable
+        fndArea.Enabled = isEnable
+        lblArea.Enabled = isEnable
         lblToleranceFAT.Enabled = isEnable
         lblToleranceSNF.Enabled = isEnable
         txtToleranceFat.Enabled = isEnable
@@ -187,8 +191,17 @@ Public Class rptDailyQtyReport
                     Dim strFilterQry As String = ""
                     Dim strQryStatus1 As String = ""
                     Dim strQryStatus2 As String = ""
+                    Dim Area As String = ""
+                    Dim AreaName As String = Nothing
+                    AreaName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_NAME from TSPL_MCC_MASTER WHERE Area_Location_Code = '" + fndArea.Value + "' "))
+
+
                     If txtMCC_Code.Value.Length > 0 Then
                         strFilterQry = " and TSPL_MCC_MASTER.MCC_Code in ('" + txtMCC_Code.Value + "') "
+                    End If
+
+                    If clsCommon.myLen(fndArea.Value) > 0 Then
+                        Area += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
                     End If
 
                     If clsCommon.CompairString(cboItemType.SelectedValue, "Posted") = CompairStringResult.Equal Then
@@ -201,7 +214,7 @@ Public Class rptDailyQtyReport
 
 
                     qry = "Select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS SNo,CONVERT(varchar(10), tmp.Shift_Date, 103) As SDate ,tmp.Shift As Shift,No_Of_Cans As Qty,Milk_Weight As Milk_Wtd,FAT as FAT,SNF as SNF,convert(decimal(18,2),((Milk_Weight*FAT)/100)) As Fat_KG,convert(decimal(18,2),((Milk_Weight*SNF)/100)) As SNF_KG,'' As Rate,'' As Amt,tmp.VLC_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As DCS_Uploader_Code,TSPL_VLC_MASTER_HEAD.VLC_Code As DCS_Code,TSPL_VLC_MASTER_HEAD.VLC_Name  As DCS_Name
-                        ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader  As BMC_Uploader_Code,TSPL_MCC_MASTER.MCC_Code As BMC_Code,TSPL_MCC_MASTER.MCC_NAME As BMC_Name , TSPL_VLC_MASTER_HEAD.Route_Code
+                        ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader  As BMC_Uploader_Code,TSPL_MCC_MASTER.MCC_Code As BMC_Code,TSPL_MCC_MASTER.MCC_NAME As BMC_Name ,'" + AreaName + "' as Area, TSPL_VLC_MASTER_HEAD.Route_Code
                         from(
                         Select Shift_Date,Shift,No_Of_Cans,Milk_Weight,FAT,SNF,VLC_Code  from TSPL_MILK_SHIFT_UPLOADER_DETAIL
                         Left Outer Join TSPL_MILK_SHIFT_UPLOADER_HEAD ON TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
@@ -212,7 +225,7 @@ Public Class rptDailyQtyReport
 	                    " + strQryStatus2 + ")tmp
                         Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_Code=tmp.VLC_Code
                         Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
-                        where convert (date,Shift_Date,103) >= convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,Shift_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)" + strFilterQry
+                        where convert (date,Shift_Date,103) >= convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,Shift_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)" + strFilterQry + Area
                 ElseIf (rbtnTranpoterGainLoss.Checked = True) Then
 
                     If txtToleranceFat.Value < 0 Or txtToleranceFat.Value >= 100 Then
@@ -301,7 +314,7 @@ Public Class rptDailyQtyReport
                             Convert(Decimal(18,3),(xxx.TankerEntered_FATKg-xxx.Entered_FATKg))[Diff. FAT KG],Convert(decimal(18,3),(xxx.TankerEntered_SNFKg-xxx.Entered_SNFKg))[Diff. SNF KG] from 				(Select BMCData.*,TankerData.Document_Date As TankerDocument_Date,TankerData.ROUTE_NO As TankerROUTE_NO,TankerData.Tanker_No As TankerTanker_No,IsNull(TankerData.Qty,0)TankerQty,Isnull(TankerData.FAT_Per,0)TankerFAT_Per,IsNull(TankerData.SNF_Per,0)TankerSNF_Per,IsNull(TankerData.Entered_FATKg,0)TankerEntered_FATKg,IsNull(TankerData.Entered_SNFKg,0)TankerEntered_SNFKg from (Select (TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date)Document_Date,TSPL_BULK_ROUTE_MASTER.ROUTE_NO,Max(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME)ROUTE_NAME,Max(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,Max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,Sum(Entered_Qty)Qty,Max((Entered_FATKg*100)/Entered_Qty)FAT_Per,Max((Entered_SNFKg*100)/Entered_Qty)SNF_Per,Sum(Entered_FATKg)Entered_FATKg,Sum(Entered_SNFKg)Entered_SNFKg from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS 
                             Left Outer Join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code 
                             Left Outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code= TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code
-                            Left Outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code 
+                            Left Outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader=TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader 
                             Group By TSPL_BULK_ROUTE_MASTER.ROUTE_NO,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date) As BMCData
                             Left Outer Join(select  (tspl_gate_entry_details.Date_And_Time)Document_Date,TSPL_BULK_ROUTE_MASTER.ROUTE_NO,Max(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME)ROUTE_NAME,
                              Max(tspl_gate_entry_details.Tanker_No)Tanker_No,Sum(Qty_In_Kg)Qty,Avg(FAT_Per)FAT_Per,Avg(SNF_Per)SNF_Per, Max(((fat_per*Qty_In_Kg)/100)) As Entered_FATKg,
@@ -1210,6 +1223,9 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
 
             Gv1.Columns("BMC_Name").HeaderText = "BMC Name"
             Gv1.Columns("BMC_Name").IsVisible = False
+            If AreaWiseBilling Then
+                Gv1.Columns("Area").HeaderText = "Area"
+            End If
             Gv1.Columns("Route_Code").HeaderText = "Route No"
             Gv1.Columns("Route_Code").IsVisible = True
 
@@ -1719,7 +1735,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -1734,6 +1750,9 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         ToDate.Value = clsCommon.GETSERVERDATE()
         dtpToDate.Value = clsCommon.GETSERVERDATE()
         fromDate.Value = clsCommon.GETSERVERDATE() 'ToDate.Value.AddMonths(-1)
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+        'fndArea.Visible = AreaWiseBilling
+        'lblArea.Visible = AreaWiseBilling
         LoadShiftName()
         TranspoterBoxhandler(False)
         Reset()
@@ -1776,6 +1795,10 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         txtMCC_Code.Visible = True
         MyLabel5.Visible = False
         TxtTankerNo.Visible = False
+        If AreaWiseBilling Then
+            fndArea.Visible = True
+            lblArea.Visible = True
+        End If
         TranspoterBoxhandler(False)
     End Sub
 
@@ -1809,6 +1832,8 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         txtMCC_Code.Visible = False
         MyLabel5.Visible = True
         TxtTankerNo.Visible = True
+        fndArea.Visible = False
+        lblArea.Visible = False
         TranspoterBoxhandler(True)
     End Sub
 
@@ -1844,14 +1869,19 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             MyLabel5.Visible = False
             TxtTankerNo.Visible = False
             TxtTankerNo.Value = ""
+            fndArea.Visible = False
+            lblArea.Visible = False
         End If
     End Sub
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             Dim qry As String = Nothing
+            Dim Area As String = Nothing
+            Area = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_NAME from TSPL_MCC_MASTER WHERE Area_Location_Code = '" + fndArea.Value + "' "))
+
             If rbtnDockSummary.Checked Then
-                qry = "Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [FromDate],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [ToDate],'" & objCommonVar.CurrentUser & "' as User_Name,xxx.SNO,Convert(Date,(xxx.Shift_Date),103)Shift_Date,Convert(int,xxx.Uploader_Code)Uploader_Code,Max(xxx.VLC_Name)VLC_Name,Max(xxx.MCC)MCC,
+                qry = "Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [FromDate],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [ToDate],'" & objCommonVar.CurrentUser & "' as User_Name,xxx.SNO,Convert(Date,(xxx.Shift_Date),103)Shift_Date,Convert(int,xxx.Uploader_Code)Uploader_Code,Max(xxx.VLC_Name)VLC_Name,Max(xxx.MCC)MCC,'" + Area + "' as Area,
                         xxx.Shift,Max(xxx.Bulk_Route_Code)Bulk_Route_Code,Case When Max(xxx.Dock_Collection_Milk_Type)='M' Then 'Mix' Else '' End As Dock_Collection_Milk_Type,Max(xxx.Reject_Type)Reject_Type,
                         Sum(xxx.No_Of_Cans)No_Of_Cans,                        
                         Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) As [Sweet_No_Of_Cans],
@@ -1874,9 +1904,20 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                         Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
                         Left outer join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "'
                         where Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)>=convert(date,'" + fromDate.Value + "',103)  And Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)<=convert (date,'" + dtpToDate.Value + "',103)  "
-                If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
-                    qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC_Code.Value) + "'"
+
+                If AreaWiseBilling Then
+                    If clsCommon.myLen(fndArea.Value) > 0 Then
+                        qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                    End If
+                Else
+                    If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
+                        qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC_Code.Value) + "'"
+                    End If
                 End If
+
+                'If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
+                '    qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC_Code.Value) + "'"
+                'End If
                 If ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Morning") = CompairStringResult.Equal Then
                     qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift='M'"
                 ElseIf ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Evening") = CompairStringResult.Equal Then
@@ -1884,7 +1925,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 End If
                 qry += " ) xxx Group By xxx.Uploader_Code,xxx.Shift_Date,xxx.Shift,xxx.SNO ORDER BY  Convert(int,xxx.Uploader_Code)"
             ElseIf rbtnSummary.Checked Then
-                qry = "Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [FromDate],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [ToDate],'" & objCommonVar.CurrentUser & "' as User_Name,Convert(Date,(xxx.Shift_Date),103)Shift_Date,Max(xxx.VLC_Name)VLC_Name,Max(xxx.MCC)MCC,
+                qry = "Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [FromDate],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [ToDate],'" & objCommonVar.CurrentUser & "' as User_Name,Convert(Date,(xxx.Shift_Date),103)Shift_Date,Max(xxx.VLC_Name)VLC_Name,Max(xxx.MCC)MCC,'" + Area + "' as Area,
                         xxx.Shift,Max(xxx.Bulk_Route_Code)Bulk_Route_Code,Case When Max(xxx.Dock_Collection_Milk_Type)='M' Then 'Mix' Else '' End As Dock_Collection_Milk_Type,Max(xxx.Reject_Type)Reject_Type,
                         Sum(xxx.No_Of_Cans)No_Of_Cans,
                         Sum(IsNull(xxx.No_Of_Cans,0) * case when Isnull(xxx.Reject_Type,'')='' then 1 else 0 end  ) as [Sweet_No_Of_Cans],
@@ -1913,9 +1954,20 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                         Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
                         Left outer join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "'
                         where Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)>=convert(date,'" + fromDate.Value + "',103)  And Convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_Date,103)<=convert (date,'" + dtpToDate.Value + "',103)  "
-                If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
-                    qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC_Code.Value) + "'"
+
+                If AreaWiseBilling Then
+                    If clsCommon.myLen(fndArea.Value) > 0 Then
+                        qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                    End If
+                Else
+                    If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
+                        qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC_Code.Value) + "'"
+                    End If
                 End If
+
+                'If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
+                '    qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC_Code.Value) + "'"
+                'End If
                 If ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Morning") = CompairStringResult.Equal Then
                     qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift='M'"
                 ElseIf ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Evening") = CompairStringResult.Equal Then
@@ -1923,7 +1975,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 End If
                 qry += " ) xxx Group By xxx.Shift_Date,xxx.Shift ORDER BY xxx.Shift_Date"
             ElseIf rbtnBMCDock.Checked Then
-                qry = "Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [From Date],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [To Date],'" & objCommonVar.CurrentUser & "' as User_Name,Max(Convert(Date,xxx.Shift_Date,103))Shift_Date,Case When xxx.Shift='M' Then 'Morning' Else 'Evening' End As Shift,Max(xxx.MCC_NAME)MCC_NAME,Max(xxx.VLC)VLC,Max(xxx.[VLC Name])[VLC Name],Max(xxx.Route)Route,(Convert(int,xxx.[Route Code]))[Route Code],Sum(xxx.[No of Cans])[No of Cans],Sum(xxx.[Good Qty])[Good Qty],Sum(xxx.[Good FAT %])[Good FAT %],Sum(xxx.[Good FATKg])[Good FATKg],Sum(xxx.[Good SNF %])[Good SNF %],Sum(xxx.[Good SNFKG])[Good SNFKG],Sum(xxx.[SOUR Qty])[SOUR Qty],Sum(xxx.[SOUR FAT %])[SOUR FAT %],Sum(xxx.[SOUR FATKg])[SOUR FATKg],Sum(xxx.[SOUR SNF %])[SOUR SNF %],Sum(xxx.[SOUR SNFKG])[SOUR SNFKG],Sum(xxx.[CURD Qty])[CURD Qty],Sum([CURD FAT %])[CURD FAT %],Sum(xxx.[CURD FATKg])[CURD FATKg],Sum(xxx.[CURD SNF %])[CURD SNF %],Sum(xxx.[CURD SNFKG])[CURD SNFKG],Max(xxx.Comp_Name)Comp_Name
+                qry = "Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [From Date],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [To Date],'" & objCommonVar.CurrentUser & "' as User_Name,Max(Convert(Date,xxx.Shift_Date,103))Shift_Date,Case When xxx.Shift='M' Then 'Morning' Else 'Evening' End As Shift,Max(xxx.MCC_NAME)MCC_NAME,'" + Area + "' as Area,Max(xxx.VLC)VLC,Max(xxx.[VLC Name])[VLC Name],Max(xxx.Route)Route,(Convert(int,xxx.[Route Code]))[Route Code],Sum(xxx.[No of Cans])[No of Cans],Sum(xxx.[Good Qty])[Good Qty],Sum(xxx.[Good FAT %])[Good FAT %],Sum(xxx.[Good FATKg])[Good FATKg],Sum(xxx.[Good SNF %])[Good SNF %],Sum(xxx.[Good SNFKG])[Good SNFKG],Sum(xxx.[SOUR Qty])[SOUR Qty],Sum(xxx.[SOUR FAT %])[SOUR FAT %],Sum(xxx.[SOUR FATKg])[SOUR FATKg],Sum(xxx.[SOUR SNF %])[SOUR SNF %],Sum(xxx.[SOUR SNFKG])[SOUR SNFKG],Sum(xxx.[CURD Qty])[CURD Qty],Sum([CURD FAT %])[CURD FAT %],Sum(xxx.[CURD FATKg])[CURD FATKg],Sum(xxx.[CURD SNF %])[CURD SNF %],Sum(xxx.[CURD SNFKG])[CURD SNFKG],Max(xxx.Comp_Name)Comp_Name
                         from (select TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No,TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC, TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name],TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans as [No of Cans],TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO as [Route Code],TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as [Route],TSPL_COMPANY_MASTER.Comp_Name,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date
                         ,case When isnull(Reject_Type,'')='' then Milk_Weight else 0 end as [Good Qty]
                         ,case When isnull(Reject_Type,'')='' then FAT else 0 end as [Good FAT %]
@@ -1945,9 +1997,17 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                         Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
                         Left outer join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "'                        
                         where Convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103)>=convert(date,'" + fromDate.Value + "',103)  And Convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103)<=convert (date,'" + dtpToDate.Value + "',103) "
-                If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
-                    qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC_Code.Value) + "'"
+
+                If AreaWiseBilling Then
+                    If clsCommon.myLen(fndArea.Value) > 0 Then
+                        qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                    End If
+                Else
+                    If txtMCC_Code.Value IsNot Nothing AndAlso clsCommon.myLen(txtMCC_Code.Value) > 0 Then
+                        qry += " and TSPL_VLC_MASTER_HEAD.MCC='" + clsCommon.myCstr(txtMCC_Code.Value) + "'"
+                    End If
                 End If
+
                 If ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Morning") = CompairStringResult.Equal Then
                     qry += " and TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift='M'"
                 ElseIf ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Evening") = CompairStringResult.Equal Then
@@ -2010,11 +2070,17 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 txtMCC_Code.Visible = True
                 MyLabel6.Visible = True
                 ddlShift.Visible = True
+                If AreaWiseBilling Then
+                    fndArea.Visible = True
+                    lblArea.Visible = True
+                End If
             Else
                 MyLabel4.Visible = False
                 txtMCC_Code.Visible = False
                 ddlShift.Visible = False
                 MyLabel6.Visible = False
+                fndArea.Visible = False
+                lblArea.Visible = False
             End If
 
         Catch ex As Exception
@@ -2029,11 +2095,17 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 txtMCC_Code.Visible = True
                 ddlShift.Visible = True
                 MyLabel6.Visible = True
+                If AreaWiseBilling Then
+                    fndArea.Visible = True
+                    lblArea.Visible = True
+                End If
             Else
                 MyLabel4.Visible = False
                 txtMCC_Code.Visible = False
                 ddlShift.Visible = False
                 MyLabel6.Visible = False
+                fndArea.Visible = False
+                lblArea.Visible = False
             End If
 
         Catch ex As Exception
@@ -2075,11 +2147,17 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 txtMCC_Code.Visible = True
                 ddlShift.Visible = True
                 MyLabel6.Visible = True
+                If AreaWiseBilling Then
+                    fndArea.Visible = True
+                    lblArea.Visible = True
+                End If
             Else
                 MyLabel4.Visible = False
                 txtMCC_Code.Visible = False
                 ddlShift.Visible = False
                 MyLabel6.Visible = False
+                fndArea.Visible = False
+                lblArea.Visible = False
             End If
 
         Catch ex As Exception
@@ -2087,6 +2165,13 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         End Try
     End Sub
 
-
+    Private Sub fndArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER "
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+        End Try
+    End Sub
 End Class
 

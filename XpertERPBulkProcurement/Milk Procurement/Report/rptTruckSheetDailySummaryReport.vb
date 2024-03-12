@@ -22,7 +22,7 @@ Public Class rptTruckSheetDailySummaryReport
         StrPermission = clsERPFuncationality.UserWiseAvailableLocationCode()
         fromDate.Value = clsCommon.GETSERVERDATE()
         ToDate.Value = clsCommon.GETSERVERDATE()
-        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 0)
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         fndArea.Visible = AreaWiseBilling
         lblArea.Visible = AreaWiseBilling
         Reset()
@@ -532,7 +532,7 @@ Public Class rptTruckSheetDailySummaryReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
             obj.GridLayout.Close()
             obj.GridLayout.Dispose()
@@ -541,7 +541,7 @@ Public Class rptTruckSheetDailySummaryReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub ReStoreGridLayout()
@@ -583,7 +583,9 @@ Public Class rptTruckSheetDailySummaryReport
             'txtMCC.arrValueMember
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
+
+
 End Class

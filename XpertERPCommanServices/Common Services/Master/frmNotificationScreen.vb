@@ -583,7 +583,7 @@ Public Class FrmNotificationScreen
                 Throw New Exception("Please Select Type First(Master/Transaction)")
             End If
 
-            If Not clsCommon.MyMessageBoxShow("Are You Sure Want To Delete All Notifications of " + txtModule.Value + " Module of " + Doctype + " Type?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+            If Not clsCommon.MyMessageBoxShow(Me, "Are You Sure Want To Delete All Notifications of " + txtModule.Value + " Module of " + Doctype + " Type?", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 Return
             End If
 

@@ -18,7 +18,7 @@ Public Class FrmLicenceActivate
                 Qry = "update TSPL_FIXED_PARAMETER set Description='" + txtProductKeyE.Text + "' where Type='" + clsFixedParameterType.LicenceNoOfUser + "' and Code='" + clsFixedParameterCode.LicenceNoOfUser + "'"
                 clsDBFuncationality.ExecuteNonQuery(Qry, trans)
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Xpert ERP licence Activated successfully" + Environment.NewLine, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Xpert ERP licence Activated successfully" + Environment.NewLine, Me.Text)
                 objCommonVar.RefreshCommonVar()
                 Me.Close()
             Catch ex As Exception

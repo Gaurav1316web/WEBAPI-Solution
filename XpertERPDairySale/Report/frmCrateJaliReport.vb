@@ -1568,7 +1568,7 @@ Public Class FrmCrateJaliReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = Gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -1580,7 +1580,7 @@ Public Class FrmCrateJaliReport
 
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(PageSetupReport_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", Me.Text)
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -1910,7 +1910,7 @@ Public Class FrmCrateJaliReport
                 WhrVhcle += " and Vehicle_Id In (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
             End If
             If fndLocation.Value IsNot Nothing AndAlso fndLocation.Value.Count > 0 Then
-                WhrLocn += " and Location_Code = (" + clsCommon.myCstr(fndLocation.Value) + ") "
+                WhrLocn += " and Location_Code = ('" + clsCommon.myCstr(fndLocation.Value) + "') "
             End If
             If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
                 WhrCust += " and Customer_Code In (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")"

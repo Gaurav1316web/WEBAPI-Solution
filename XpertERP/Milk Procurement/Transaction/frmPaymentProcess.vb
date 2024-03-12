@@ -182,6 +182,7 @@ Public Class FrmPaymentProcess
         RadPageView1.Pages("RadPageViewPage7").Item.Visibility = IIf(isConsiderAdvancePayment, Telerik.WinControls.ElementVisibility.Visible, Telerik.WinControls.ElementVisibility.Collapsed)
         chkSkipPreviousDocumentOfAdvancePayment.Visible = isConsiderAdvancePayment
         RadPageView1.SelectedPage = RadPageViewPage1
+        'AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         Label1.Visible = AreaWiseBilling
         fndArea.Visible = AreaWiseBilling
