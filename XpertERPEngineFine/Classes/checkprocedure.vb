@@ -1579,7 +1579,6 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DBTPayment, "DBT Payment", "1.17.02.51", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.52", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, "DCS Milk Collection", "1.17.02.53", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
-        InsertDefaultValue(clsUserMgtCode.frmDBTNEFTUnionReport, "Union Report", "1.17.02.54", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
 
         '=========================================================================================
         '--Reportsmdi
@@ -2815,6 +2814,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.ModuleMilkUnion, "Milk Union", "1.49", clsUserMgtCode.ExpertERP, "M", 23)
         InsertDefaultValue(clsUserMgtCode.SubModuleMilkUnion, "Report", "1.49.03", clsUserMgtCode.ModuleMilkUnion, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.rptMilkUnion, "Milk Union Report", "1.49.04", clsUserMgtCode.SubModuleMilkUnion, 30)
+        InsertDefaultValue(clsUserMgtCode.frmDBTNEFTUnionReport, "DBT NEFT Union Report", "1.49.04.01", clsUserMgtCode.SubModuleMilkUnion, 8)
         Try
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.BankCashBook, "Bank Cash Book")
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.VehicleUtili, "Vehicle Utilization")
