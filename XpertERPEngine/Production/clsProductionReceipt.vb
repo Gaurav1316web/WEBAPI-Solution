@@ -450,9 +450,9 @@ WHERE TSPL_INVENTORY_MOVEMENT.source_Doc_no='" & obj.RECEIPT_CODE & "' and TSPL_
             Next
             Dim GLDesc As String = "Journal Entry Against Production Entry- Doc No." & obj.RECEIPT_CODE & " "
             If clsCommon.myLen(VoucherNo) > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, VoucherNo, trans, obj.RECEIPT_DATE, GLDesc, "SP-PE", "Std Production Entry", obj.RECEIPT_CODE, obj.DESCRIPTION, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, VoucherNo, trans, obj.RECEIPT_DATE, GLDesc, "SP-PE", "Std Production Entry", obj.RECEIPT_CODE, obj.DESCRIPTION, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, trans, obj.RECEIPT_DATE, GLDesc, "SP-PE", "Std Production Entry", obj.RECEIPT_CODE, obj.DESCRIPTION, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, trans, obj.RECEIPT_DATE, GLDesc, "SP-PE", "Std Production Entry", obj.RECEIPT_CODE, obj.DESCRIPTION, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

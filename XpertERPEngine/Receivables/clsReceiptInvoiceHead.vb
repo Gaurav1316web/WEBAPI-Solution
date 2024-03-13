@@ -872,7 +872,7 @@ Public Class clsReceiptInvoiceHead
             clsCommon.AddColumnsForChange(coll, "ConvRate", objRec.ConvRate)
             clsCommon.AddColumnsForChange(coll, "ConvRateOld", objRec.ConvRate)
         End If
-        transportSql.FunGrnlEntryWithTrans(objRec.Location_GL_Code, True, trans, clsCommon.myCDate(obj.Document_Date), obj.Description, "RC-AD", "Receipt Advance Tax Knock off", obj.Doc_Code, obj.Description, "C", objRec.Cust_Code, objRec.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, objRec.Reference, strRemarks, Nothing, coll)
+        clsJournalMaster.FunGrnlEntryWithTrans(objRec.Location_GL_Code, True, trans, clsCommon.myCDate(obj.Document_Date), obj.Description, "RC-AD", "Receipt Advance Tax Knock off", obj.Doc_Code, obj.Description, "C", objRec.Cust_Code, objRec.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, objRec.Reference, strRemarks, Nothing, coll)
 
         Return True
 
@@ -1620,7 +1620,7 @@ Public Class clsReceiptInvoiceHead
             clsCommon.AddColumnsForChange(coll, "ConvRate", objRec.ConvRate)
             clsCommon.AddColumnsForChange(coll, "ConvRateOld", objRec.ConvRate)
         End If
-        transportSql.FunGrnlEntryWithTrans(objRec.Location_GL_Code, False, trans, clsCommon.myCDate(obj.Document_Date), obj.Description, "RC-AD", "Receipt Advance Tax Knock off", obj.Doc_Code, obj.Description, "C", objRec.Cust_Code, objRec.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, objRec.Reference, strRemarks, Nothing, coll)
+        clsJournalMaster.FunGrnlEntryWithTrans(objRec.Location_GL_Code, False, trans, clsCommon.myCDate(obj.Document_Date), obj.Description, "RC-AD", "Receipt Advance Tax Knock off", obj.Doc_Code, obj.Description, "C", objRec.Cust_Code, objRec.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, objRec.Reference, strRemarks, Nothing, coll)
 
         Return True
 

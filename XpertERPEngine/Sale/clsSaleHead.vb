@@ -1452,7 +1452,7 @@ Public Class clsSaleHead
         End If
         ''End of Adjust  Shipment Clearing AC and Cost of Goods Sold if Out of Balance upto RS 1 
 
-        transportSql.FunGrnlEntryWithTrans(obj.Location, False, trans, obj.Sale_Invoice_Date, "Sale against Invoice No   " + obj.Sale_Invoice_No, "SD-IN", "INVOICE", obj.Sale_Invoice_No, obj.Description, "C", obj.Cust_Code, obj.Cust_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, "", "Shipment No " + obj.Shipment_No + " for customer " + obj.Cust_Name + "")
+        clsJournalMaster.FunGrnlEntryWithTrans(obj.Location, False, trans, obj.Sale_Invoice_Date, "Sale against Invoice No   " + obj.Sale_Invoice_No, "SD-IN", "INVOICE", obj.Sale_Invoice_No, obj.Description, "C", obj.Cust_Code, obj.Cust_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, "", "Shipment No " + obj.Shipment_No + " for customer " + obj.Cust_Name + "")
         Return True
     End Function
 

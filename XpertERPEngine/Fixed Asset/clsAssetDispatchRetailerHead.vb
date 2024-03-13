@@ -634,9 +634,9 @@ Public Class clsAssetDispatchRetailerHead
 
 
                     If clsCommon.myLen(strVoucherNo) > 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNo, trans, obj.Doc_Date, obj.Comment, "AD-IS", "Asset Dispatch Retailer Issue", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNo, trans, obj.Doc_Date, obj.Comment, "AD-IS", "Asset Dispatch Retailer Issue", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "AD-IS", "Asset Dispatch Retailer Issue", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "AD-IS", "Asset Dispatch Retailer Issue", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
                     End If
                 ElseIf clsCommon.CompairString(obj.Doc_Type, "Return") = CompairStringResult.Equal Then
                     ''richa agarwal 2 Dec,2016
@@ -669,9 +669,9 @@ Public Class clsAssetDispatchRetailerHead
 
 
                     If clsCommon.myLen(strVoucherNo) > 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNo, trans, obj.Doc_Date, obj.Comment, "AD-RE", "Asset Dispatch Retailer Return", obj.Doc_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNo, trans, obj.Doc_Date, obj.Comment, "AD-RE", "Asset Dispatch Retailer Return", obj.Doc_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "AD-RE", "Asset Dispatch Retailer Return", obj.Doc_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "AD-RE", "Asset Dispatch Retailer Return", obj.Doc_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
                     End If
 
                 End If
@@ -1203,7 +1203,7 @@ Public Class clsAssetDispatchRetailerHead
             '        arrlist.Add(ToFilledAcc)
             '    End If
             '    '' BHA/30/10/18-000646 RICHA AGARWAL SEND vENDOR CODE AND VENDOR NAME INTO JOURNAL ENTRY AND TYPE V instead of C 30 Oct,2018
-            '    transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "VSP-TF", "VSP Transfer", obj.Doc_No, "", "V", obj.Issue_To, clsVendorMaster.GetName(obj.Issue_To, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+            '    clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "VSP-TF", "VSP Transfer", obj.Doc_No, "", "V", obj.Issue_To, clsVendorMaster.GetName(obj.Issue_To, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
             'End If
 
             Dim qry As String = "Update TSPL_ASSET_DISPATCH_RETAILER_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where Doc_No='" + strDocNo + "'"

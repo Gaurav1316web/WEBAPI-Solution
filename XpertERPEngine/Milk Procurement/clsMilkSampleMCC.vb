@@ -1269,9 +1269,9 @@ Public Class clsMilkSRNMCC
             Dim vendor_name As String = clsDBFuncationality.getSingleValue("select vendor_name from TSPL_VENDOR_MASTER where form_type='VSP' and Vendor_Code='" & obj.VSP_CODE & "'", trans)
             '' BHA/30/10/18-000646 RICHA AGARWAL SEND Vendor NAME INTO JOURNAL ENTRY 30 Oct,2018
             If clsCommon.myLen(create_same_voucher_journal_entry) <= 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.MCC_CODE, False, trans, obj.DOC_DATE, "Against Milk SRN ( " & obj.DOC_CODE & ")  For Vsp : " & vendor_name, "MI-SR", "Milk Store Received Note", obj.DOC_CODE, "", "V", obj.VSP_CODE, vendor_name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.MCC_CODE, False, trans, obj.DOC_DATE, "Against Milk SRN ( " & obj.DOC_CODE & ")  For Vsp : " & vendor_name, "MI-SR", "Milk Store Received Note", obj.DOC_CODE, "", "V", obj.VSP_CODE, vendor_name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.MCC_CODE, False, create_same_voucher_journal_entry, trans, obj.DOC_DATE, "Against Milk SRN ( " & obj.DOC_CODE & ")  For Vsp : " & vendor_name, "MI-SR", "Milk Store Received Note", obj.DOC_CODE, "", "V", obj.VSP_CODE, vendor_name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.MCC_CODE, False, create_same_voucher_journal_entry, trans, obj.DOC_DATE, "Against Milk SRN ( " & obj.DOC_CODE & ")  For Vsp : " & vendor_name, "MI-SR", "Milk Store Received Note", obj.DOC_CODE, "", "V", obj.VSP_CODE, vendor_name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
             End If
         End If
         Return True

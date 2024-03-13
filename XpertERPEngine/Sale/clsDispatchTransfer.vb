@@ -189,7 +189,7 @@ Public Class clsDispatchTransfer
             'ArryLst.Add(New String() {GITGitLocationOLD, Amt})
             'ArryLst.Add(New String() {GItFromLocationNEw, Amt})
             'ArryLst.Add(New String() {GITGitLocationNEW, Amt * -1})
-            'transportSql.FunGrnlEntryWithTrans(obj.MCC_Code, False, trans, clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MMM/yyyy"), " Against MCC Dispatch Location Transfer  -" + strDocNo + " For Milk transfer from " + fromLoc + " to " + toLocNEW, "DI-TR", "Dispatch Transfer", strDocNo, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, " ", " Location Transfer OLD Location(From " & clsLocation.GetName(fromLoc, trans) & "  to " & clsLocation.GetName(toLocOLD, trans) & ") NEW LOCATION(From " & clsLocation.GetName(fromLoc, trans) & "  to " & clsLocation.GetName(toLocNEW, trans) & ") Against Dispatch Challan No: " & obj.Chalan_NO)
+            'clsJournalMaster.FunGrnlEntryWithTrans(obj.MCC_Code, False, trans, clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MMM/yyyy"), " Against MCC Dispatch Location Transfer  -" + strDocNo + " For Milk transfer from " + fromLoc + " to " + toLocNEW, "DI-TR", "Dispatch Transfer", strDocNo, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, " ", " Location Transfer OLD Location(From " & clsLocation.GetName(fromLoc, trans) & "  to " & clsLocation.GetName(toLocOLD, trans) & ") NEW LOCATION(From " & clsLocation.GetName(fromLoc, trans) & "  to " & clsLocation.GetName(toLocNEW, trans) & ") Against Dispatch Challan No: " & obj.Chalan_NO)
             ''            --------------------------
             trans.Commit()
             Return isSaved

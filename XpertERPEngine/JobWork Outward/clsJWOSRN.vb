@@ -1011,7 +1011,7 @@ Public Class clsJWOSRNHead
                         Throw New Exception("Please set purchase account set for item " + objtr.Item_Code)
                     End If
                 Next
-                transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"), "Against Job Work order SRN No  -" + obj.Document_No + "", "JW-SR", "JWO SRN", obj.Document_No, "", "C", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.Vendor_Code & ", " & clsVendorMaster.GetName(obj.Vendor_Code, trans))
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"), "Against Job Work order SRN No  -" + obj.Document_No + "", "JW-SR", "JWO SRN", obj.Document_No, "", "C", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.Vendor_Code & ", " & clsVendorMaster.GetName(obj.Vendor_Code, trans))
             End If
 
             Dim strQry As String = " update TSPL_JWO_SRN_HEAD set Posted='1', Posted_Date='" & clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy") & "' where Document_No='" & StrDocNo & "' "

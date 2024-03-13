@@ -382,7 +382,7 @@ Public Class ClsDispatchBulkSaleTrade
             Next
         End If
         '' BHA/30/10/18-000646 RICHA AGARWAL SEND CUSTOMER CODE AND CUSTOMER NAME INTO JOURNAL ENTRY AND TYPE C instead of O 30 Oct,2018
-        transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale trade for Document No " + obj.Document_No + " ", "DS-BT", "DISPATCH Bulk Sale Trade", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
+        clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale trade for Document No " + obj.Document_No + " ", "DS-BT", "DISPATCH Bulk Sale Trade", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
 
 
     End Sub
@@ -679,7 +679,7 @@ Public Class clsBulkMilkSRNTrade
                     clsInventoryMovement.UpdateInvControlAccount(clsCommon.myCstr(obj.SRN_NO), "BulkSRNTrade", clsCommon.myCstr(obj.Item_Code), strInvCntrlAc, "", "", trans)
                     ''------------------
                     ArryLst.Add(New String() {strPaybleClrAc, dt.Rows(0)("Actual_Amount") * -1})
-                    transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.SRN_Date, "dd/MMM/yyyy"), " GL Entry Against Bulk Milk SRN Trade No  -" + obj.SRN_NO + "", "BM-TR", "Bulk Milk SRN Trade", obj.SRN_NO, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.SRN_Date, "dd/MMM/yyyy"), " GL Entry Against Bulk Milk SRN Trade No  -" + obj.SRN_NO + "", "BM-TR", "Bulk Milk SRN Trade", obj.SRN_NO, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
                 End If
             End If
 

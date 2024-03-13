@@ -294,9 +294,9 @@ Public Class clsProductionIssue
                 Next
                 Dim GLDesc As String = "Journal Entry Against Std Production Issue No." & obj1.ISSUE_CODE & " "
                 If clsCommon.myLen(VoucherNo) > 0 Then
-                    isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj1.LOCATION_CODE_FROM, False, VoucherNo, trans, obj1.ISSUE_DATE, GLDesc, "SP-IS", "Std Prod Issue", obj1.ISSUE_CODE, obj1.DESCRIPTION, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+                    isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj1.LOCATION_CODE_FROM, False, VoucherNo, trans, obj1.ISSUE_DATE, GLDesc, "SP-IS", "Std Prod Issue", obj1.ISSUE_CODE, obj1.DESCRIPTION, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
                 Else
-                    isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj1.LOCATION_CODE_FROM, False, trans, obj1.ISSUE_DATE, GLDesc, "SP-IS", "Std Prod Issue", obj1.ISSUE_CODE, obj1.DESCRIPTION, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+                    isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj1.LOCATION_CODE_FROM, False, trans, obj1.ISSUE_DATE, GLDesc, "SP-IS", "Std Prod Issue", obj1.ISSUE_CODE, obj1.DESCRIPTION, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
                 End If
             End If
         Catch ex As Exception

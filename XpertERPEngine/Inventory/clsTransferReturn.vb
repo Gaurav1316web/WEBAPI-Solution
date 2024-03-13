@@ -236,7 +236,7 @@ Public Class clsTransferReturn
                         Dim Acc() As String = {clsCommon.myCstr(dr("Account_code")), clsCommon.myCdbl(dr("Amount")), "", "", "", "", "", "", clsCommon.myCstr(dr("Reco_Control_Account"))}
                         ArryLstGLAC.Add(Acc)
                     Next
-                    transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.Document_Date, "Against Transfer Return " + obj.Document_No, "SN-RT", "Store Received Note Return", obj.Document_No, obj.Remarks, "V", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.Document_Date, "Against Transfer Return " + obj.Document_No, "SN-RT", "Store Received Note Return", obj.Document_No, obj.Remarks, "V", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
                 End If
                 trans.Commit()
             Catch ex As Exception

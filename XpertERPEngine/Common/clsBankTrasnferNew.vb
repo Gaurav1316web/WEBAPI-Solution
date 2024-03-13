@@ -707,7 +707,7 @@ Public Class clsBankTrasnferNew
                 End If
             End If
         End If
-        transportSql.FunGrnlEntryWithTrans(strFromSeg, True, strJENo, trans, clsCommon.myCDate(dt.Rows(0)("Transfer_Posting_Date")), clsCommon.myCstr(dt.Rows(0)("Description")), "BK-TF", "Bank Transfer", strDocno, clsCommon.myCstr(dt.Rows(0)("Description")), "o", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrylst)
+        clsJournalMaster.FunGrnlEntryWithTrans(strFromSeg, True, strJENo, trans, clsCommon.myCDate(dt.Rows(0)("Transfer_Posting_Date")), clsCommon.myCstr(dt.Rows(0)("Description")), "BK-TF", "Bank Transfer", strDocno, clsCommon.myCstr(dt.Rows(0)("Description")), "o", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrylst)
         Return True
     End Function
 
@@ -1424,7 +1424,7 @@ Public Class clsBankReverse
                 ''Dim strremarksforje As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Reason,'') + case when isnull(Cheque_No,'')<>'' then ' Against Cheque No. '+Cheque_No else ''  end    Cheque_No ,* from TSPL_BANK_REVERSE where reverse_code='" & clsCommon.myCstr(dt.Rows(0)("Reverse_Code")) & "'", trans))
                 '' ''--------------
 
-                ''transportSql.FunGrnlEntryWithTrans(Seg_Bank, True, trans, clsCommon.myCDate(dt.Rows(0)("Reversal_Date")), strdesc1, "RV-TA", "Bank Reverse", clsCommon.myCstr(dt.Rows(0)("Reverse_Code")), clsCommon.myCstr(dt.Rows(0)("Back_Acc_No")), strSourceType, clsCommon.myCstr(dt.Rows(0)("Vendor_Code")), clsCommon.myCstr(dt.Rows(0)("Vendor_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrglentry1, Nothing, strremarksforje)
+                ''clsJournalMaster.FunGrnlEntryWithTrans(Seg_Bank, True, trans, clsCommon.myCDate(dt.Rows(0)("Reversal_Date")), strdesc1, "RV-TA", "Bank Reverse", clsCommon.myCstr(dt.Rows(0)("Reverse_Code")), clsCommon.myCstr(dt.Rows(0)("Back_Acc_No")), strSourceType, clsCommon.myCstr(dt.Rows(0)("Vendor_Code")), clsCommon.myCstr(dt.Rows(0)("Vendor_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrglentry1, Nothing, strremarksforje)
                 '' end journal enter
                 Dim STR1 As String = "UPDATE TSPL_BANK_REVERSE SET POST = 'P' WHERE Reverse_Code = '" + clsCommon.myCstr(dt.Rows(0)("Reverse_Code")) + "'"
                 clsDBFuncationality.ExecuteNonQuery(STR1, trans)
@@ -1539,7 +1539,7 @@ Public Class clsBankReverse
                 'Dim strremarksforje As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Reason,'') + case when isnull(Cheque_No,'')<>'' then ' Against Cheque No. '+Cheque_No else ''  end    Cheque_No ,* from TSPL_BANK_REVERSE where reverse_code='" & clsCommon.myCstr(dt.Rows(0)("Reverse_Code")) & "'", trans))
                 ' ''--------------
 
-                'transportSql.FunGrnlEntryWithTrans(Seg_Bank, True, trans, clsCommon.myCDate(dt.Rows(0)("Reversal_Date")), strdesc, "RV-TA", "Bank Reverse", clsCommon.myCstr(dt.Rows(0)("Reverse_Code")), clsCommon.myCstr(dt.Rows(0)("Back_Acc_No")), strSourceType, clsCommon.myCstr(dt.Rows(0)("Cust_Code")), clsCommon.myCstr(dt.Rows(0)("Cust_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrglentry, Nothing, strremarksforje)
+                'clsJournalMaster.FunGrnlEntryWithTrans(Seg_Bank, True, trans, clsCommon.myCDate(dt.Rows(0)("Reversal_Date")), strdesc, "RV-TA", "Bank Reverse", clsCommon.myCstr(dt.Rows(0)("Reverse_Code")), clsCommon.myCstr(dt.Rows(0)("Back_Acc_No")), strSourceType, clsCommon.myCstr(dt.Rows(0)("Cust_Code")), clsCommon.myCstr(dt.Rows(0)("Cust_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrglentry, Nothing, strremarksforje)
                 ' '' end Create JE
                 Dim STR1 As String = "UPDATE TSPL_BANK_REVERSE SET POST = 'P' WHERE Reverse_Code = '" + clsCommon.myCstr(dt.Rows(0)("Reverse_Code")) + "'"
                 clsDBFuncationality.ExecuteNonQuery(STR1, trans)
@@ -1641,11 +1641,11 @@ Public Class clsBankReverse
         Dim strremarksforje As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select isnull(Reason,'') + case when isnull(Cheque_No,'')<>'' then ' Against Cheque No. '+Cheque_No else ''  end    Cheque_No ,* from TSPL_BANK_REVERSE where reverse_code='" & clsCommon.myCstr(dt.Rows(0)("Reverse_Code")) & "'", trans))
         ''--------------
         Dim strSourceType As String = "V"
-        'transportSql.FunGrnlEntryWithTrans(strPrefixTransType, "", obj.loc_code, True, isForUnpostedTransaction, strVoucherNo, trans, strPostDate, pjvNOVochdesc, "AP-DN", "AP Invoice", obj.Document_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstNew, Nothing, Nothing, Nothing, coll)
+        'clsJournalMaster.FunGrnlEntryWithTrans(strPrefixTransType, "", obj.loc_code, True, isForUnpostedTransaction, strVoucherNo, trans, strPostDate, pjvNOVochdesc, "AP-DN", "AP Invoice", obj.Document_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstNew, Nothing, Nothing, Nothing, coll)
         If clsCommon.myLen(Voucher_No) <= 0 Then
-            transportSql.FunGrnlEntryWithTrans(Seg_Bank, True, trans, clsCommon.myCDate(dt.Rows(0)("Reversal_Date")), strdesc1, "RV-TA", "Bank Reverse", clsCommon.myCstr(dt.Rows(0)("Reverse_Code")), clsCommon.myCstr(dt.Rows(0)("Back_Acc_No")), strSourceType, clsCommon.myCstr(dt.Rows(0)("Vendor_Code")), clsCommon.myCstr(dt.Rows(0)("Vendor_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrglentry1, Nothing, strremarksforje)
+            clsJournalMaster.FunGrnlEntryWithTrans(Seg_Bank, True, trans, clsCommon.myCDate(dt.Rows(0)("Reversal_Date")), strdesc1, "RV-TA", "Bank Reverse", clsCommon.myCstr(dt.Rows(0)("Reverse_Code")), clsCommon.myCstr(dt.Rows(0)("Back_Acc_No")), strSourceType, clsCommon.myCstr(dt.Rows(0)("Vendor_Code")), clsCommon.myCstr(dt.Rows(0)("Vendor_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrglentry1, Nothing, strremarksforje)
         Else
-            transportSql.FunGrnlEntryWithTrans(Seg_Bank, True, Voucher_No, trans, clsCommon.myCDate(dt.Rows(0)("Reversal_Date")), strdesc1, "RV-TA", "Bank Reverse", clsCommon.myCstr(dt.Rows(0)("Reverse_Code")), clsCommon.myCstr(dt.Rows(0)("Back_Acc_No")), strSourceType, clsCommon.myCstr(dt.Rows(0)("Vendor_Code")), clsCommon.myCstr(dt.Rows(0)("Vendor_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrglentry1, Nothing, strremarksforje)
+            clsJournalMaster.FunGrnlEntryWithTrans(Seg_Bank, True, Voucher_No, trans, clsCommon.myCDate(dt.Rows(0)("Reversal_Date")), strdesc1, "RV-TA", "Bank Reverse", clsCommon.myCstr(dt.Rows(0)("Reverse_Code")), clsCommon.myCstr(dt.Rows(0)("Back_Acc_No")), strSourceType, clsCommon.myCstr(dt.Rows(0)("Vendor_Code")), clsCommon.myCstr(dt.Rows(0)("Vendor_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrglentry1, Nothing, strremarksforje)
         End If
 
         Return True
@@ -1711,9 +1711,9 @@ Public Class clsBankReverse
         ''--------------
         Dim strSourceType As String = "C"
         If clsCommon.myLen(Voucher_No) <= 0 Then
-            transportSql.FunGrnlEntryWithTrans(Seg_Bank, True, trans, clsCommon.myCDate(dt.Rows(0)("Reversal_Date")), strdesc, "RV-TA", "Bank Reverse", clsCommon.myCstr(dt.Rows(0)("Reverse_Code")), clsCommon.myCstr(dt.Rows(0)("Back_Acc_No")), strSourceType, clsCommon.myCstr(dt.Rows(0)("Cust_Code")), clsCommon.myCstr(dt.Rows(0)("Cust_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrglentry, Nothing, strremarksforje)
+            clsJournalMaster.FunGrnlEntryWithTrans(Seg_Bank, True, trans, clsCommon.myCDate(dt.Rows(0)("Reversal_Date")), strdesc, "RV-TA", "Bank Reverse", clsCommon.myCstr(dt.Rows(0)("Reverse_Code")), clsCommon.myCstr(dt.Rows(0)("Back_Acc_No")), strSourceType, clsCommon.myCstr(dt.Rows(0)("Cust_Code")), clsCommon.myCstr(dt.Rows(0)("Cust_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrglentry, Nothing, strremarksforje)
         Else
-            transportSql.FunGrnlEntryWithTrans(Seg_Bank, True, Voucher_No, trans, clsCommon.myCDate(dt.Rows(0)("Reversal_Date")), strdesc, "RV-TA", "Bank Reverse", clsCommon.myCstr(dt.Rows(0)("Reverse_Code")), clsCommon.myCstr(dt.Rows(0)("Back_Acc_No")), strSourceType, clsCommon.myCstr(dt.Rows(0)("Cust_Code")), clsCommon.myCstr(dt.Rows(0)("Cust_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrglentry, Nothing, strremarksforje)
+            clsJournalMaster.FunGrnlEntryWithTrans(Seg_Bank, True, Voucher_No, trans, clsCommon.myCDate(dt.Rows(0)("Reversal_Date")), strdesc, "RV-TA", "Bank Reverse", clsCommon.myCstr(dt.Rows(0)("Reverse_Code")), clsCommon.myCstr(dt.Rows(0)("Back_Acc_No")), strSourceType, clsCommon.myCstr(dt.Rows(0)("Cust_Code")), clsCommon.myCstr(dt.Rows(0)("Cust_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrglentry, Nothing, strremarksforje)
         End If
         Return True
         '' end Create JE

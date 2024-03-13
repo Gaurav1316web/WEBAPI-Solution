@@ -838,7 +838,7 @@ Public Class clsMilkRGPHead
                         Throw New Exception("Please set job work account in purchase Account")
                     End If
                 Next
-                transportSql.FunGrnlEntryWithTrans(obj.Location, False, trans, obj.RGP_Date, "Milk RGP Job Work Against-" & obj.RGP_No & "", "MR-JW", "RGP Job Work", obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location, False, trans, obj.RGP_Date, "Milk RGP Job Work Against-" & obj.RGP_No & "", "MR-JW", "RGP Job Work", obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
             End If
             'End If
             ''
@@ -1014,7 +1014,7 @@ Public Class clsMilkRGPHead
                         Throw New Exception("Please set job work account in purchase Account")
                     End If
                 Next
-                transportSql.FunGrnlEntryWithTrans(obj.Location, False, Trans, obj.RGP_Date, "Milk RGP Job Work Against-" & obj.RGP_No & "", "MR-JW", "RGP Job Work", obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location, False, Trans, obj.RGP_Date, "Milk RGP Job Work Against-" & obj.RGP_No & "", "MR-JW", "RGP Job Work", obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
 
             End If
             'End If

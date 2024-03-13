@@ -6872,7 +6872,7 @@ Public Class clsOutputEntry
             '        ArryLst.Add(New String() {strWIP_AC, clsCommon.myCdbl(dtData.Rows(i)("Item_Net_Amt")) * -1})
             '    Next
 
-            '    transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Doc_Date, "Asset Account Change, Against Acquisition Code:  " & obj.Acquisition_Code, "AQ-AC", "Asset Account Change", strDocNo, "Asset Account Change", "V", strDocNo, "Asset Account Change", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+            '    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Doc_Date, "Asset Account Change, Against Acquisition Code:  " & obj.Acquisition_Code, "AQ-AC", "Asset Account Change", strDocNo, "Asset Account Change", "V", strDocNo, "Asset Account Change", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
             'End If
 
 
@@ -6987,9 +6987,9 @@ Public Class clsOutputEntry
                     Next
                 End If
                 If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                    transportSql.FunGrnlEntryWithTrans(obj.Mcc_Code, False, strVoucherNoForRecreateOnly, trans, obj.ToDate, "Journal Entry created Against Output Entry " & obj.Doc_Code & "", "OT-PT", "Output Entry", obj.Doc_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, "")
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Mcc_Code, False, strVoucherNoForRecreateOnly, trans, obj.ToDate, "Journal Entry created Against Output Entry " & obj.Doc_Code & "", "OT-PT", "Output Entry", obj.Doc_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, "")
                 Else
-                    transportSql.FunGrnlEntryWithTrans(obj.Mcc_Code, False, trans, obj.ToDate, "Journal Entry created Against Output Entry " & obj.Doc_Code & "", "OT-PT", "Output Entry", obj.Doc_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, "")
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Mcc_Code, False, trans, obj.ToDate, "Journal Entry created Against Output Entry " & obj.Doc_Code & "", "OT-PT", "Output Entry", obj.Doc_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, "")
                 End If
             Else
                 Throw New Exception("Please enter item on MCCDefaultMilkItem in Utility")
