@@ -215,7 +215,7 @@ Public Class clsProcessProductionReturn
                     Dim Acc() As String = {clsCommon.myCstr(dr("Account_code")), clsCommon.myCdbl(dr("Amount"))}
                     ArryLstGLAC.Add(Acc)
                 Next
-                transportSql.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, trans, obj.Prod_Date, "Against Production Return " + obj.PROD_RETURN_CODE, "PR_RT", "Production Return", obj.PROD_RETURN_CODE, obj.COMMENTS, "V", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, trans, obj.Prod_Date, "Against Production Return " + obj.PROD_RETURN_CODE, "PR_RT", "Production Return", obj.PROD_RETURN_CODE, obj.COMMENTS, "V", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
             End If
 
             '==================================================================================

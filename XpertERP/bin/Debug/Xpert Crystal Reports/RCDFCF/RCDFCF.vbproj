@@ -1285,6 +1285,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\rptTrustReceiptMT.rpt" />
     <None Include="Crystal Reports\Milk Procurement\Address.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptAssetDispatchRetailer.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptDBT_NEFTUnionReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptIncentiveEntryBySRN.rpt" />
     <None Include="Crystal Reports\Milk Procurement\CrptMCCMilkBillDetails%28MccWise%29.rpt" />
     <None Include="Crystal Reports\Milk Procurement\CrptMCCMilkBillDetails%28RouteWise%29.rpt" />

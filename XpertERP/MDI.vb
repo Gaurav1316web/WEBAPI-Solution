@@ -350,6 +350,7 @@ Public Class MDI
             objReader.Dispose()
             connectSql.strConn = clsDBFuncationality.connectionString
             lblServerDate.Text = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy hh:mm tt")
+            lblDataBase.Text = objCommonVar.CurrDatabase.Trim() + "[" + clsCommon.myCstr(clsDBFuncationality.getSingleValue("select @@SPID")) + "]"
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1942,7 +1943,7 @@ Public Class MDI
         Me.Text = Me.Text + "-" + objCommonVar.CurrentCompanyName.Trim()
         strUserCode = objCommonVar.CurrentUserCode
         strCompany = objCommonVar.CurrentCompanyCode
-        lblDataBase.Text = objCommonVar.CurrDatabase.Trim()
+        'lblDataBase.Text = objCommonVar.CurrDatabase.Trim()
         lblLocation.Text = objCommonVar.CurrLocationName.Trim()
         lblLocation.Text = clsLocation.GetName(clsGateEntry.getUsersDefaultLocation(), Nothing)
 
@@ -7827,6 +7828,9 @@ Public Class MDI
                         frm = New FrmBulkMilkSRN
                         frm.AllowModifcationByApprovalUser = IsAllowModificationByApprovalUser
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDBTNEFTUnionReport
+                        frm = New frmDBTNEFTUnionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBulkMilkSRNReturn
                         frm = New FrmBulkMilkSRNReturn
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8308,6 +8312,10 @@ Public Class MDI
 
                     Case clsUserMgtCode.rptMilkPaymentSummary
                         frm = New rptMilkPaymentSummary
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
+                    Case clsUserMgtCode.rptMilkUnion
+                        frm = New rptmilkunion
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
 
                     Case clsUserMgtCode.frmPaymentProcessFarmer

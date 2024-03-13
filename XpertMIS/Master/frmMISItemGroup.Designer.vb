@@ -99,7 +99,7 @@ Partial Class frmMISItemGroup
         'btnNew
         '
         Me.btnNew.Image = Global.XpertERPMIS.My.Resources.Resources._new
-        Me.btnNew.Location = New System.Drawing.Point(302, 22)
+        Me.btnNew.Location = New System.Drawing.Point(328, 23)
         Me.btnNew.Name = "btnNew"
         Me.btnNew.Size = New System.Drawing.Size(14, 20)
         Me.btnNew.TabIndex = 1
@@ -146,10 +146,10 @@ Partial Class frmMISItemGroup
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 20
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(222, 21)
+        Me.txtCode.Size = New System.Drawing.Size(247, 21)
         Me.txtCode.TabIndex = 0
         Me.txtCode.Value = ""
         '

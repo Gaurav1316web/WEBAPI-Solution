@@ -1557,9 +1557,9 @@ Public Class clsMCCMaterialSaleFarmer
                 End If
             End If
             If strVoucherNoForRecreatedOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreatedOnly) > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, strVoucherNoForRecreatedOnly, trans, obj.Document_Date, obj.Remarks, "MC-FS", "MCC Farmer Sale", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , obj.Description, obj.Remarks)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, strVoucherNoForRecreatedOnly, trans, obj.Document_Date, obj.Remarks, "MC-FS", "MCC Farmer Sale", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , obj.Description, obj.Remarks)
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.Document_Date, obj.Remarks, "MC-FS", "MCC Farmer Sale", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , obj.Description, obj.Remarks)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.Document_Date, obj.Remarks, "MC-FS", "MCC Farmer Sale", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , obj.Description, obj.Remarks)
             End If
 
             '' to update VSP Code against Farmer code into Journal master
@@ -1615,9 +1615,9 @@ Public Class clsMCCMaterialSaleFarmer
     '        End If
 
     '        If strVoucherNoForRecreatedOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreatedOnly) > 0 Then
-    '            transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, strVoucherNoForRecreatedOnly, trans, obj.Document_Date, obj.Remarks, "SD-SH", "Shipment", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , obj.Description, obj.Remarks)
+    '            clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, strVoucherNoForRecreatedOnly, trans, obj.Document_Date, obj.Remarks, "SD-SH", "Shipment", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , obj.Description, obj.Remarks)
     '        Else
-    '            transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.Document_Date, obj.Remarks, "SD-SH", "Shipment", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , obj.Description, obj.Remarks)
+    '            clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.Document_Date, obj.Remarks, "SD-SH", "Shipment", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , obj.Description, obj.Remarks)
     '        End If
 
     '    End If
@@ -5810,18 +5810,18 @@ Public Class clsCustomerInvoiceHeadFarmer
         End If
 
         'If IsAllowPurchaseAccounting Then
-        transportSql.FunGrnlEntryWithTrans(obj.loc_code, True, isForUnpostedTransaction, strVoucherNo, trans, obj.Document_Date, strEntryDesc, strSrcType, strSrcDesc, obj.Document_No, obj.Description, "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", strRemarks, Nothing, coll)
+        clsJournalMaster.FunGrnlEntryWithTrans(obj.loc_code, True, isForUnpostedTransaction, strVoucherNo, trans, obj.Document_Date, strEntryDesc, strSrcType, strSrcDesc, obj.Document_No, obj.Description, "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", strRemarks, Nothing, coll)
         'End If
 
         'If (clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal) OrElse (clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal) Then
-        '    transportSql.FunGrnlEntryWithTrans(obj.loc_code, True, isForUnpostedTransaction, strVoucherNo, trans, obj.Document_Date, strEntryDesc, strSrcType, strSrcDesc, obj.Document_No, obj.Description, "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", strRemarks, Nothing, coll)
+        '    clsJournalMaster.FunGrnlEntryWithTrans(obj.loc_code, True, isForUnpostedTransaction, strVoucherNo, trans, obj.Document_Date, strEntryDesc, strSrcType, strSrcDesc, obj.Document_No, obj.Description, "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", strRemarks, Nothing, coll)
         'ElseIf (clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal) Then
         '    Dim ArryLstNew As ArrayList = New ArrayList()
         '    For Each Str() As String In ArryLst
         '        Dim strNew() As String = {Str(0), 1 * Str(1)}
         '        ArryLstNew.Add(strNew)
         '    Next
-        '    transportSql.FunGrnlEntryWithTrans(obj.loc_code, True, isForUnpostedTransaction, strVoucherNo, trans, obj.Document_Date, strEntryDesc, strSrcType, strSrcDesc, obj.Document_No, obj.Description, "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstNew, "", strRemarks, Nothing, coll)
+        '    clsJournalMaster.FunGrnlEntryWithTrans(obj.loc_code, True, isForUnpostedTransaction, strVoucherNo, trans, obj.Document_Date, strEntryDesc, strSrcType, strSrcDesc, obj.Document_No, obj.Description, "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstNew, "", strRemarks, Nothing, coll)
         'Else
         '    Throw New Exception("Invoice Type not found to Post")
         'End If

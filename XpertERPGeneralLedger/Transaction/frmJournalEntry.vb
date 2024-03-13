@@ -482,7 +482,7 @@ Public Class frmJournalEntry
                 '            Throw New Exception("Transaction date " + EntryDate + " is not exists in the current financial year")
                 '        End If
                 '        If clsCommon.myCdbl(dtable.Rows(0)("is_End_Year_Proceed")) = 1 Then
-                '            transportSql.CreateJEForEndYear(fndVoucher.Value, trans)
+                '            clsJournalMaster.CreateJEForEndYear(fndVoucher.Value, trans)
                 '        End If
                 '        ''End of End Fiscal Year Entry
 

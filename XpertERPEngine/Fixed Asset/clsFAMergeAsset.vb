@@ -540,7 +540,7 @@ Public Class clsFAMergeHead
                     
                     ArryLst.Add(New String() {strWIP_AC, clsCommon.myCdbl(dt.Rows(i)("Book_Source_value"))})
                 Next
-                transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Acquisition_Date, "Acquisition Entry of Merged Asset , Against Doc No:  " & obj.Acquisition_Code, "AQ-AS", "Acquisition Entry Merged", obj.Acquisition_Code, "Acquisition Entry Merged", "V", obj.Acquisition_Code, "Acquisition Entry Merged", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Acquisition_Date, "Acquisition Entry of Merged Asset , Against Doc No:  " & obj.Acquisition_Code, "AQ-AS", "Acquisition Entry Merged", obj.Acquisition_Code, "Acquisition Entry Merged", "V", obj.Acquisition_Code, "Acquisition Entry Merged", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
             End If
 
             Return True

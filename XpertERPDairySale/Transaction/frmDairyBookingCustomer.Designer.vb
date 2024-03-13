@@ -28,6 +28,7 @@ Partial Class frmDairyBookingCustomer
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -93,8 +94,32 @@ Partial Class frmDairyBookingCustomer
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.txtVendorNo = New common.UserControls.txtFinder()
         Me.txtDocNo = New common.UserControls.txtNavigator()
+        Me.RadPageViewPage6 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel19 = New common.Controls.MyLabel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtTermCode = New common.UserControls.txtFinder()
+        Me.RadLabel16 = New common.Controls.MyLabel()
+        Me.lblTermName = New common.Controls.MyLabel()
+        Me.txtDueDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel17 = New common.Controls.MyLabel()
+        Me.gv2 = New common.UserControls.MyRadGridView()
+        Me.txtSchemeTaxGroup = New common.UserControls.txtFinder()
+        Me.MyLabel44 = New common.Controls.MyLabel()
+        Me.lblTaxGroupScheme = New common.Controls.MyLabel()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rbtnTaxCalManual = New common.Controls.MyRadioButton()
+        Me.rbtnTaxCalAutomatic = New common.Controls.MyRadioButton()
+        Me.txtTaxGroup = New common.UserControls.txtFinder()
+        Me.RadLabel11 = New common.Controls.MyLabel()
+        Me.lblTaxGrpName = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.TxtRoundoff = New common.Controls.MyLabel()
+        Me.txtTCSTaxRate = New common.MyNumBox()
+        Me.MyLabel57 = New common.Controls.MyLabel()
+        Me.lblActualTCSTaxBaseAmt = New common.Controls.MyLabel()
+        Me.MyLabel58 = New common.Controls.MyLabel()
+        Me.txttcstaxbaseamount = New common.MyNumBox()
         Me.lblInvoiceDiscAmt = New common.Controls.MyLabel()
         Me.MyLabel6 = New common.Controls.MyLabel()
         Me.MyLabel3 = New common.Controls.MyLabel()
@@ -305,7 +330,30 @@ Partial Class frmDairyBookingCustomer
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage6.SuspendLayout()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTermName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDueDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTaxGroupScheme, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.TxtRoundoff, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblActualTCSTaxBaseAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txttcstaxbaseamount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblInvoiceDiscAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -493,6 +541,7 @@ Partial Class frmDairyBookingCustomer
         'RadPageView1
         '
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage6)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
@@ -1348,7 +1397,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadGroupBox2.Location = New System.Drawing.Point(2, 139)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1398, 262)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1351, 262)
         Me.RadGroupBox2.TabIndex = 28
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1372,7 +1421,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1378, 232)
+        Me.gv1.Size = New System.Drawing.Size(1331, 232)
         Me.gv1.TabIndex = 17
         Me.gv1.TabStop = False
         '
@@ -1487,16 +1536,313 @@ Partial Class frmDairyBookingCustomer
         Me.txtDocNo.TabStop = False
         Me.txtDocNo.Value = ""
         '
+        'RadPageViewPage6
+        '
+        Me.RadPageViewPage6.Controls.Add(Me.MyLabel19)
+        Me.RadPageViewPage6.Controls.Add(Me.RadGroupBox1)
+        Me.RadPageViewPage6.Controls.Add(Me.gv2)
+        Me.RadPageViewPage6.Controls.Add(Me.txtSchemeTaxGroup)
+        Me.RadPageViewPage6.Controls.Add(Me.MyLabel44)
+        Me.RadPageViewPage6.Controls.Add(Me.lblTaxGroupScheme)
+        Me.RadPageViewPage6.Controls.Add(Me.GroupBox1)
+        Me.RadPageViewPage6.Controls.Add(Me.txtTaxGroup)
+        Me.RadPageViewPage6.Controls.Add(Me.lblTaxGrpName)
+        Me.RadPageViewPage6.Controls.Add(Me.RadLabel11)
+        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
+        Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage6.Name = "RadPageViewPage6"
+        Me.RadPageViewPage6.Size = New System.Drawing.Size(1357, 409)
+        Me.RadPageViewPage6.Text = "Taxes"
+        '
+        'MyLabel19
+        '
+        Me.MyLabel19.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel19.FieldName = Nothing
+        Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel19.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.MyLabel19.Location = New System.Drawing.Point(941, 321)
+        Me.MyLabel19.Name = "MyLabel19"
+        Me.MyLabel19.Size = New System.Drawing.Size(155, 16)
+        Me.MyLabel19.TabIndex = 18
+        Me.MyLabel19.Text = "Double click To Chage Rate"
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadGroupBox1.Controls.Add(Me.txtTermCode)
+        Me.RadGroupBox1.Controls.Add(Me.RadLabel16)
+        Me.RadGroupBox1.Controls.Add(Me.txtDueDate)
+        Me.RadGroupBox1.Controls.Add(Me.RadLabel17)
+        Me.RadGroupBox1.Controls.Add(Me.lblTermName)
+        Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadGroupBox1.HeaderText = "Terms"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(12, 335)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1089, 73)
+        Me.RadGroupBox1.TabIndex = 17
+        Me.RadGroupBox1.Text = "Terms"
+        '
+        'txtTermCode
+        '
+        Me.txtTermCode.CalculationExpression = Nothing
+        Me.txtTermCode.FieldCode = Nothing
+        Me.txtTermCode.FieldDesc = Nothing
+        Me.txtTermCode.FieldMaxLength = 0
+        Me.txtTermCode.FieldName = Nothing
+        Me.txtTermCode.isCalculatedField = False
+        Me.txtTermCode.IsSourceFromTable = False
+        Me.txtTermCode.IsSourceFromValueList = False
+        Me.txtTermCode.IsUnique = False
+        Me.txtTermCode.Location = New System.Drawing.Point(68, 25)
+        Me.txtTermCode.MendatroryField = False
+        Me.txtTermCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTermCode.MyLinkLable1 = Me.RadLabel16
+        Me.txtTermCode.MyLinkLable2 = Me.lblTermName
+        Me.txtTermCode.MyReadOnly = False
+        Me.txtTermCode.MyShowMasterFormButton = False
+        Me.txtTermCode.Name = "txtTermCode"
+        Me.txtTermCode.ReferenceFieldDesc = Nothing
+        Me.txtTermCode.ReferenceFieldName = Nothing
+        Me.txtTermCode.ReferenceTableName = Nothing
+        Me.txtTermCode.Size = New System.Drawing.Size(143, 20)
+        Me.txtTermCode.TabIndex = 0
+        Me.txtTermCode.Value = ""
+        '
+        'RadLabel16
+        '
+        Me.RadLabel16.FieldName = Nothing
+        Me.RadLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel16.Location = New System.Drawing.Point(6, 26)
+        Me.RadLabel16.Name = "RadLabel16"
+        Me.RadLabel16.Size = New System.Drawing.Size(63, 16)
+        Me.RadLabel16.TabIndex = 2
+        Me.RadLabel16.Text = "Term Code"
+        '
+        'lblTermName
+        '
+        Me.lblTermName.AutoSize = False
+        Me.lblTermName.BorderVisible = True
+        Me.lblTermName.FieldName = Nothing
+        Me.lblTermName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTermName.Location = New System.Drawing.Point(220, 23)
+        Me.lblTermName.Name = "lblTermName"
+        Me.lblTermName.Size = New System.Drawing.Size(321, 20)
+        Me.lblTermName.TabIndex = 1
+        Me.lblTermName.TextWrap = False
+        '
+        'txtDueDate
+        '
+        Me.txtDueDate.CalculationExpression = Nothing
+        Me.txtDueDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtDueDate.FieldCode = Nothing
+        Me.txtDueDate.FieldDesc = Nothing
+        Me.txtDueDate.FieldMaxLength = 0
+        Me.txtDueDate.FieldName = Nothing
+        Me.txtDueDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDueDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDueDate.isCalculatedField = False
+        Me.txtDueDate.IsSourceFromTable = False
+        Me.txtDueDate.IsSourceFromValueList = False
+        Me.txtDueDate.IsUnique = False
+        Me.txtDueDate.Location = New System.Drawing.Point(70, 50)
+        Me.txtDueDate.MendatroryField = False
+        Me.txtDueDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDueDate.MyLinkLable1 = Me.RadLabel17
+        Me.txtDueDate.MyLinkLable2 = Nothing
+        Me.txtDueDate.Name = "txtDueDate"
+        Me.txtDueDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDueDate.ReferenceFieldDesc = Nothing
+        Me.txtDueDate.ReferenceFieldName = Nothing
+        Me.txtDueDate.ReferenceTableName = Nothing
+        Me.txtDueDate.Size = New System.Drawing.Size(81, 18)
+        Me.txtDueDate.TabIndex = 2
+        Me.txtDueDate.TabStop = False
+        Me.txtDueDate.Text = "13-06-2011"
+        Me.txtDueDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'RadLabel17
+        '
+        Me.RadLabel17.FieldName = Nothing
+        Me.RadLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel17.Location = New System.Drawing.Point(6, 51)
+        Me.RadLabel17.Name = "RadLabel17"
+        Me.RadLabel17.Size = New System.Drawing.Size(54, 16)
+        Me.RadLabel17.TabIndex = 4
+        Me.RadLabel17.Text = "Due Date"
+        '
+        'gv2
+        '
+        Me.gv2.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv2.BeginEditMode = Telerik.WinControls.RadGridViewBeginEditMode.BeginEditOnEnter
+        Me.gv2.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gv2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gv2.ForeColor = System.Drawing.Color.Black
+        Me.gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gv2.Location = New System.Drawing.Point(12, 41)
+        '
+        '
+        '
+        Me.gv2.MasterTemplate.AllowAddNewRow = False
+        Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.Name = "gv2"
+        Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv2.ShowHeaderCellButtons = True
+        Me.gv2.Size = New System.Drawing.Size(1084, 274)
+        Me.gv2.TabIndex = 16
+        Me.gv2.TabStop = False
+        '
+        'txtSchemeTaxGroup
+        '
+        Me.txtSchemeTaxGroup.CalculationExpression = Nothing
+        Me.txtSchemeTaxGroup.FieldCode = Nothing
+        Me.txtSchemeTaxGroup.FieldDesc = Nothing
+        Me.txtSchemeTaxGroup.FieldMaxLength = 0
+        Me.txtSchemeTaxGroup.FieldName = Nothing
+        Me.txtSchemeTaxGroup.isCalculatedField = False
+        Me.txtSchemeTaxGroup.IsSourceFromTable = False
+        Me.txtSchemeTaxGroup.IsSourceFromValueList = False
+        Me.txtSchemeTaxGroup.IsUnique = False
+        Me.txtSchemeTaxGroup.Location = New System.Drawing.Point(843, 10)
+        Me.txtSchemeTaxGroup.MendatroryField = True
+        Me.txtSchemeTaxGroup.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSchemeTaxGroup.MyLinkLable1 = Me.MyLabel44
+        Me.txtSchemeTaxGroup.MyLinkLable2 = Me.lblTaxGroupScheme
+        Me.txtSchemeTaxGroup.MyReadOnly = False
+        Me.txtSchemeTaxGroup.MyShowMasterFormButton = False
+        Me.txtSchemeTaxGroup.Name = "txtSchemeTaxGroup"
+        Me.txtSchemeTaxGroup.ReferenceFieldDesc = Nothing
+        Me.txtSchemeTaxGroup.ReferenceFieldName = Nothing
+        Me.txtSchemeTaxGroup.ReferenceTableName = Nothing
+        Me.txtSchemeTaxGroup.Size = New System.Drawing.Size(132, 20)
+        Me.txtSchemeTaxGroup.TabIndex = 13
+        Me.txtSchemeTaxGroup.Value = ""
+        '
+        'MyLabel44
+        '
+        Me.MyLabel44.FieldName = Nothing
+        Me.MyLabel44.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel44.Location = New System.Drawing.Point(725, 13)
+        Me.MyLabel44.Name = "MyLabel44"
+        Me.MyLabel44.Size = New System.Drawing.Size(104, 16)
+        Me.MyLabel44.TabIndex = 15
+        Me.MyLabel44.Text = "Scheme Tax Group"
+        '
+        'lblTaxGroupScheme
+        '
+        Me.lblTaxGroupScheme.AutoSize = False
+        Me.lblTaxGroupScheme.BorderVisible = True
+        Me.lblTaxGroupScheme.FieldName = Nothing
+        Me.lblTaxGroupScheme.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTaxGroupScheme.Location = New System.Drawing.Point(983, 10)
+        Me.lblTaxGroupScheme.Name = "lblTaxGroupScheme"
+        Me.lblTaxGroupScheme.Size = New System.Drawing.Size(259, 20)
+        Me.lblTaxGroupScheme.TabIndex = 14
+        Me.lblTaxGroupScheme.TextWrap = False
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rbtnTaxCalManual)
+        Me.GroupBox1.Controls.Add(Me.rbtnTaxCalAutomatic)
+        Me.GroupBox1.Location = New System.Drawing.Point(556, 4)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(163, 36)
+        Me.GroupBox1.TabIndex = 11
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Tax Calculation Type"
+        '
+        'rbtnTaxCalManual
+        '
+        Me.rbtnTaxCalManual.Location = New System.Drawing.Point(89, 13)
+        Me.rbtnTaxCalManual.MyLinkLable1 = Nothing
+        Me.rbtnTaxCalManual.MyLinkLable2 = Nothing
+        Me.rbtnTaxCalManual.Name = "rbtnTaxCalManual"
+        Me.rbtnTaxCalManual.Size = New System.Drawing.Size(57, 18)
+        Me.rbtnTaxCalManual.TabIndex = 1
+        Me.rbtnTaxCalManual.TabStop = False
+        Me.rbtnTaxCalManual.Text = "Manual"
+        '
+        'rbtnTaxCalAutomatic
+        '
+        Me.rbtnTaxCalAutomatic.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnTaxCalAutomatic.Location = New System.Drawing.Point(7, 13)
+        Me.rbtnTaxCalAutomatic.MyLinkLable1 = Nothing
+        Me.rbtnTaxCalAutomatic.MyLinkLable2 = Nothing
+        Me.rbtnTaxCalAutomatic.Name = "rbtnTaxCalAutomatic"
+        Me.rbtnTaxCalAutomatic.Size = New System.Drawing.Size(72, 18)
+        Me.rbtnTaxCalAutomatic.TabIndex = 0
+        Me.rbtnTaxCalAutomatic.Text = "Automatic"
+        Me.rbtnTaxCalAutomatic.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'txtTaxGroup
+        '
+        Me.txtTaxGroup.CalculationExpression = Nothing
+        Me.txtTaxGroup.FieldCode = Nothing
+        Me.txtTaxGroup.FieldDesc = Nothing
+        Me.txtTaxGroup.FieldMaxLength = 0
+        Me.txtTaxGroup.FieldName = Nothing
+        Me.txtTaxGroup.isCalculatedField = False
+        Me.txtTaxGroup.IsSourceFromTable = False
+        Me.txtTaxGroup.IsSourceFromValueList = False
+        Me.txtTaxGroup.IsUnique = False
+        Me.txtTaxGroup.Location = New System.Drawing.Point(78, 9)
+        Me.txtTaxGroup.MendatroryField = True
+        Me.txtTaxGroup.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTaxGroup.MyLinkLable1 = Me.RadLabel11
+        Me.txtTaxGroup.MyLinkLable2 = Me.lblTaxGrpName
+        Me.txtTaxGroup.MyReadOnly = False
+        Me.txtTaxGroup.MyShowMasterFormButton = False
+        Me.txtTaxGroup.Name = "txtTaxGroup"
+        Me.txtTaxGroup.ReferenceFieldDesc = Nothing
+        Me.txtTaxGroup.ReferenceFieldName = Nothing
+        Me.txtTaxGroup.ReferenceTableName = Nothing
+        Me.txtTaxGroup.Size = New System.Drawing.Size(143, 19)
+        Me.txtTaxGroup.TabIndex = 9
+        Me.txtTaxGroup.Value = ""
+        '
+        'RadLabel11
+        '
+        Me.RadLabel11.FieldName = Nothing
+        Me.RadLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel11.Location = New System.Drawing.Point(12, 12)
+        Me.RadLabel11.Name = "RadLabel11"
+        Me.RadLabel11.Size = New System.Drawing.Size(60, 16)
+        Me.RadLabel11.TabIndex = 12
+        Me.RadLabel11.Text = "Tax Group"
+        '
+        'lblTaxGrpName
+        '
+        Me.lblTaxGrpName.AutoSize = False
+        Me.lblTaxGrpName.BorderVisible = True
+        Me.lblTaxGrpName.FieldName = Nothing
+        Me.lblTaxGrpName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTaxGrpName.Location = New System.Drawing.Point(229, 9)
+        Me.lblTaxGrpName.Name = "lblTaxGrpName"
+        Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
+        Me.lblTaxGrpName.TabIndex = 10
+        Me.lblTaxGrpName.TextWrap = False
+        '
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(76.0!, 26.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1077, 409)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1357, 409)
         Me.RadPageViewPage2.Text = "Item Details"
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.TxtRoundoff)
+        Me.RadPageViewPage4.Controls.Add(Me.txtTCSTaxRate)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel57)
+        Me.RadPageViewPage4.Controls.Add(Me.lblActualTCSTaxBaseAmt)
+        Me.RadPageViewPage4.Controls.Add(Me.MyLabel58)
+        Me.RadPageViewPage4.Controls.Add(Me.txttcstaxbaseamount)
         Me.RadPageViewPage4.Controls.Add(Me.lblInvoiceDiscAmt)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel6)
         Me.RadPageViewPage4.Controls.Add(Me.MyLabel3)
@@ -1523,8 +1869,110 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
-        Me.RadPageViewPage4.Size = New System.Drawing.Size(1077, 409)
+        Me.RadPageViewPage4.Size = New System.Drawing.Size(1357, 409)
         Me.RadPageViewPage4.Text = "Total"
+        '
+        'TxtRoundoff
+        '
+        Me.TxtRoundoff.AutoSize = False
+        Me.TxtRoundoff.BorderVisible = True
+        Me.TxtRoundoff.FieldName = Nothing
+        Me.TxtRoundoff.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtRoundoff.Location = New System.Drawing.Point(674, 357)
+        Me.TxtRoundoff.Name = "TxtRoundoff"
+        Me.TxtRoundoff.Size = New System.Drawing.Size(110, 18)
+        Me.TxtRoundoff.TabIndex = 1406
+        Me.TxtRoundoff.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.TxtRoundoff.Visible = False
+        '
+        'txtTCSTaxRate
+        '
+        Me.txtTCSTaxRate.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtTCSTaxRate.CalculationExpression = Nothing
+        Me.txtTCSTaxRate.DecimalPlaces = 0
+        Me.txtTCSTaxRate.FieldCode = Nothing
+        Me.txtTCSTaxRate.FieldDesc = Nothing
+        Me.txtTCSTaxRate.FieldMaxLength = 0
+        Me.txtTCSTaxRate.FieldName = Nothing
+        Me.txtTCSTaxRate.isCalculatedField = False
+        Me.txtTCSTaxRate.IsSourceFromTable = False
+        Me.txtTCSTaxRate.IsSourceFromValueList = False
+        Me.txtTCSTaxRate.IsUnique = False
+        Me.txtTCSTaxRate.Location = New System.Drawing.Point(222, 355)
+        Me.txtTCSTaxRate.MendatroryField = False
+        Me.txtTCSTaxRate.MyLinkLable1 = Nothing
+        Me.txtTCSTaxRate.MyLinkLable2 = Nothing
+        Me.txtTCSTaxRate.Name = "txtTCSTaxRate"
+        Me.txtTCSTaxRate.ReadOnly = True
+        Me.txtTCSTaxRate.ReferenceFieldDesc = Nothing
+        Me.txtTCSTaxRate.ReferenceFieldName = Nothing
+        Me.txtTCSTaxRate.ReferenceTableName = Nothing
+        Me.txtTCSTaxRate.Size = New System.Drawing.Size(115, 20)
+        Me.txtTCSTaxRate.TabIndex = 1405
+        Me.txtTCSTaxRate.Text = "0"
+        Me.txtTCSTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTCSTaxRate.Value = 0R
+        Me.txtTCSTaxRate.Visible = False
+        '
+        'MyLabel57
+        '
+        Me.MyLabel57.FieldName = Nothing
+        Me.MyLabel57.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel57.Location = New System.Drawing.Point(79, 309)
+        Me.MyLabel57.Name = "MyLabel57"
+        Me.MyLabel57.Size = New System.Drawing.Size(138, 16)
+        Me.MyLabel57.TabIndex = 1404
+        Me.MyLabel57.Text = "Actual TCS Tax Base Amt"
+        '
+        'lblActualTCSTaxBaseAmt
+        '
+        Me.lblActualTCSTaxBaseAmt.AutoSize = False
+        Me.lblActualTCSTaxBaseAmt.BorderVisible = True
+        Me.lblActualTCSTaxBaseAmt.FieldName = Nothing
+        Me.lblActualTCSTaxBaseAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblActualTCSTaxBaseAmt.Location = New System.Drawing.Point(223, 307)
+        Me.lblActualTCSTaxBaseAmt.Name = "lblActualTCSTaxBaseAmt"
+        Me.lblActualTCSTaxBaseAmt.Size = New System.Drawing.Size(110, 18)
+        Me.lblActualTCSTaxBaseAmt.TabIndex = 1403
+        Me.lblActualTCSTaxBaseAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'MyLabel58
+        '
+        Me.MyLabel58.FieldName = Nothing
+        Me.MyLabel58.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel58.Location = New System.Drawing.Point(91, 333)
+        Me.MyLabel58.Name = "MyLabel58"
+        Me.MyLabel58.Size = New System.Drawing.Size(122, 16)
+        Me.MyLabel58.TabIndex = 1402
+        Me.MyLabel58.Text = "TCS Tax Base Amount"
+        '
+        'txttcstaxbaseamount
+        '
+        Me.txttcstaxbaseamount.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txttcstaxbaseamount.CalculationExpression = Nothing
+        Me.txttcstaxbaseamount.DecimalPlaces = 0
+        Me.txttcstaxbaseamount.FieldCode = Nothing
+        Me.txttcstaxbaseamount.FieldDesc = Nothing
+        Me.txttcstaxbaseamount.FieldMaxLength = 0
+        Me.txttcstaxbaseamount.FieldName = Nothing
+        Me.txttcstaxbaseamount.isCalculatedField = False
+        Me.txttcstaxbaseamount.IsSourceFromTable = False
+        Me.txttcstaxbaseamount.IsSourceFromValueList = False
+        Me.txttcstaxbaseamount.IsUnique = False
+        Me.txttcstaxbaseamount.Location = New System.Drawing.Point(224, 329)
+        Me.txttcstaxbaseamount.MendatroryField = False
+        Me.txttcstaxbaseamount.MyLinkLable1 = Nothing
+        Me.txttcstaxbaseamount.MyLinkLable2 = Nothing
+        Me.txttcstaxbaseamount.Name = "txttcstaxbaseamount"
+        Me.txttcstaxbaseamount.ReadOnly = True
+        Me.txttcstaxbaseamount.ReferenceFieldDesc = Nothing
+        Me.txttcstaxbaseamount.ReferenceFieldName = Nothing
+        Me.txttcstaxbaseamount.ReferenceTableName = Nothing
+        Me.txttcstaxbaseamount.Size = New System.Drawing.Size(110, 20)
+        Me.txttcstaxbaseamount.TabIndex = 1401
+        Me.txttcstaxbaseamount.Text = "0"
+        Me.txttcstaxbaseamount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txttcstaxbaseamount.Value = 0R
         '
         'lblInvoiceDiscAmt
         '
@@ -3355,8 +3803,34 @@ Partial Class frmDairyBookingCustomer
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage6.ResumeLayout(False)
+        Me.RadPageViewPage6.PerformLayout()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTermName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDueDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTaxGroupScheme, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.TxtRoundoff, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblActualTCSTaxBaseAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txttcstaxbaseamount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblInvoiceDiscAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3555,7 +4029,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents lblInvoiceDiscAmt As common.Controls.MyLabel
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
-    Friend WithEvents Panel2 As System.Windows.Forms.Panel
     Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
@@ -3622,7 +4095,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents lblTotalSecurity11 As common.Controls.MyLabel
     Friend WithEvents MyLabel16 As common.Controls.MyLabel
     Friend WithEvents MyLabel14 As common.Controls.MyLabel
-    Friend WithEvents Panel1 As Panel
     Friend WithEvents txtBOstatus As common.Controls.MyLabel
     Friend WithEvents txtDOStatus As common.Controls.MyLabel
     Friend WithEvents MyLabel7 As common.Controls.MyLabel
@@ -3730,5 +4202,31 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents BtnRecieptEntry As RadButton
     Friend WithEvents lblTCSBaseAmt As common.Controls.MyLabel
     Friend WithEvents txtTCSBaseAmt As common.Controls.MyLabel
+    Friend WithEvents RadPageViewPage6 As RadPageViewPage
+    Friend WithEvents txtSchemeTaxGroup As common.UserControls.txtFinder
+    Friend WithEvents MyLabel44 As common.Controls.MyLabel
+    Friend WithEvents lblTaxGroupScheme As common.Controls.MyLabel
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents rbtnTaxCalManual As common.Controls.MyRadioButton
+    Friend WithEvents rbtnTaxCalAutomatic As common.Controls.MyRadioButton
+    Friend WithEvents txtTaxGroup As common.UserControls.txtFinder
+    Friend WithEvents RadLabel11 As common.Controls.MyLabel
+    Friend WithEvents lblTaxGrpName As common.Controls.MyLabel
+    Friend WithEvents gv2 As common.UserControls.MyRadGridView
+    Friend WithEvents RadGroupBox1 As RadGroupBox
+    Friend WithEvents txtTermCode As common.UserControls.txtFinder
+    Friend WithEvents RadLabel16 As common.Controls.MyLabel
+    Friend WithEvents lblTermName As common.Controls.MyLabel
+    Friend WithEvents txtDueDate As common.Controls.MyDateTimePicker
+    Friend WithEvents RadLabel17 As common.Controls.MyLabel
+    Friend WithEvents MyLabel19 As common.Controls.MyLabel
+    Friend WithEvents txtTCSTaxRate As common.MyNumBox
+    Friend WithEvents MyLabel57 As common.Controls.MyLabel
+    Friend WithEvents lblActualTCSTaxBaseAmt As common.Controls.MyLabel
+    Friend WithEvents MyLabel58 As common.Controls.MyLabel
+    Friend WithEvents txttcstaxbaseamount As common.MyNumBox
+    Friend WithEvents Panel1 As Panel
+    Friend WithEvents Panel2 As Panel
+    Friend WithEvents TxtRoundoff As common.Controls.MyLabel
 End Class
 

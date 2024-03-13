@@ -236,7 +236,7 @@ Public Class clsBankReco
                             End If
                         Next
                         If arrylst IsNot Nothing AndAlso arrylst.Count > 0 Then
-                            transportSql.FunGrnlEntryWithTrans(strLocationSeg, True, trans, obj.Reconciliation_Date, obj.Description, "BK-RE", "Bank Reco", strCode, obj.Description, "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrylst)
+                            clsJournalMaster.FunGrnlEntryWithTrans(strLocationSeg, True, trans, obj.Reconciliation_Date, obj.Description, "BK-RE", "Bank Reco", strCode, obj.Description, "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrylst)
                         End If
                     End If
                 End If
@@ -375,7 +375,7 @@ Public Class clsBankReco
             End If
         End If
 
-        transportSql.FunGrnlEntryWithTrans(strFromSeg, True, trans, clsCommon.myCDate(dt.Rows(0)("DocDate")), clsCommon.myCstr(dt.Rows(0)("Entry_Desc")), "BK-RE", "Bank Reco", StrSrcDocNo, clsCommon.myCstr(dt.Rows(0)("SrcDesc")), "B", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrylst)
+        clsJournalMaster.FunGrnlEntryWithTrans(strFromSeg, True, trans, clsCommon.myCDate(dt.Rows(0)("DocDate")), clsCommon.myCstr(dt.Rows(0)("Entry_Desc")), "BK-RE", "Bank Reco", StrSrcDocNo, clsCommon.myCstr(dt.Rows(0)("SrcDesc")), "B", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrylst)
         Return True
     End Function
     ''richa agarwal 02 aug,2016

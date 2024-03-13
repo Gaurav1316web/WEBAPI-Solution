@@ -204,6 +204,12 @@
     <Compile Include="Milk Procurement\Master\frmMPMilkPrice.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\frmDBTNEFTUnionReport.Designer.vb">
+      <DependentUpon>frmDBTNEFTUnionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmDBTNEFTUnionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\FrmMCCMilkRegister.Designer.vb">
       <DependentUpon>FrmMCCMilkRegister.vb</DependentUpon>
     </Compile>
@@ -262,6 +268,12 @@
       <DependentUpon>rptMilkPaymentSummary.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptMilkPaymentSummary.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptmilkunion.Designer.vb">
+      <DependentUpon>rptmilkunion.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptmilkunion.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\rptMobileAppMilkCollection.Designer.vb">
@@ -769,6 +781,9 @@
     <EmbeddedResource Include="Milk Procurement\Master\frmMPMilkPrice.resx">
       <DependentUpon>frmMPMilkPrice.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmDBTNEFTUnionReport.resx">
+      <DependentUpon>frmDBTNEFTUnionReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmFATSNFDiffReport.resx">
       <DependentUpon>frmFATSNFDiffReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -796,6 +811,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMilkPaymentSummary.resx">
       <DependentUpon>rptMilkPaymentSummary.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptmilkunion.resx">
+      <DependentUpon>rptmilkunion.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMobileAppMilkCollection.resx">
       <DependentUpon>rptMobileAppMilkCollection.vb</DependentUpon>

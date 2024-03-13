@@ -1210,9 +1210,9 @@ Public Class clsDSSalesReturnHead
 
             obj.Remarks = "Journal entry against Sale Return " & obj.Document_Code & " created only when scheme item return"
             If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, obj.Remarks, "DS-SR", "Sale Return", obj.Document_Code, "", "C", obj.Customer_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Description, obj.Remarks)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, obj.Remarks, "DS-SR", "Sale Return", obj.Document_Code, "", "C", obj.Customer_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Description, obj.Remarks)
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.Document_Date, obj.Remarks, "DS-SR", "Sale Return", obj.Document_Code, "", "C", obj.Customer_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Description, obj.Remarks)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.Document_Date, obj.Remarks, "DS-SR", "Sale Return", obj.Document_Code, "", "C", obj.Customer_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Description, obj.Remarks)
             End If
         End If
     End Sub

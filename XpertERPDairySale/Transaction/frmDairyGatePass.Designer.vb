@@ -22,10 +22,10 @@ Partial Class frmDairyGatePass
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -106,6 +106,7 @@ Partial Class frmDairyGatePass
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.btnBoothSlip = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -180,6 +181,7 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnBoothSlip, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -197,6 +199,7 @@ Partial Class frmDairyGatePass
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnBoothSlip)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGPCancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.MyLabel10)
@@ -208,7 +211,7 @@ Partial Class frmDairyGatePass
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSelect)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1031, 436)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1069, 436)
         Me.SplitContainer1.SplitterDistance = 396
         Me.SplitContainer1.TabIndex = 3
         '
@@ -221,10 +224,11 @@ Partial Class frmDairyGatePass
         '
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(1031, 197)
+        Me.Gv1.Size = New System.Drawing.Size(1069, 197)
         Me.Gv1.TabIndex = 1
         '
         'Panel1
@@ -286,7 +290,7 @@ Partial Class frmDairyGatePass
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Top
         Me.Panel1.Location = New System.Drawing.Point(0, 0)
         Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1031, 199)
+        Me.Panel1.Size = New System.Drawing.Size(1069, 199)
         Me.Panel1.TabIndex = 0
         '
         'txtSupplyDate
@@ -1231,12 +1235,12 @@ Partial Class frmDairyGatePass
         Me.cmbitemtype.IsSourceFromTable = False
         Me.cmbitemtype.IsSourceFromValueList = False
         Me.cmbitemtype.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "Full"
-        RadListDataItem3.Text = "Empty"
-        Me.cmbitemtype.Items.Add(RadListDataItem1)
-        Me.cmbitemtype.Items.Add(RadListDataItem2)
-        Me.cmbitemtype.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Select"
+        RadListDataItem5.Text = "Full"
+        RadListDataItem6.Text = "Empty"
+        Me.cmbitemtype.Items.Add(RadListDataItem4)
+        Me.cmbitemtype.Items.Add(RadListDataItem5)
+        Me.cmbitemtype.Items.Add(RadListDataItem6)
         Me.cmbitemtype.Location = New System.Drawing.Point(896, 49)
         Me.cmbitemtype.MendatroryField = False
         Me.cmbitemtype.MyLinkLable1 = Me.lblfullempty
@@ -1349,7 +1353,7 @@ Partial Class frmDairyGatePass
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel10.Location = New System.Drawing.Point(703, 12)
+        Me.MyLabel10.Location = New System.Drawing.Point(746, 12)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(251, 16)
         Me.MyLabel10.TabIndex = 1033
@@ -1443,7 +1447,7 @@ Partial Class frmDairyGatePass
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(961, 8)
+        Me.btnClose.Location = New System.Drawing.Point(999, 8)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 24)
         Me.btnClose.TabIndex = 5
@@ -1453,14 +1457,24 @@ Partial Class frmDairyGatePass
         '
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1031, 20)
+        Me.RadMenu1.Size = New System.Drawing.Size(1069, 20)
         Me.RadMenu1.TabIndex = 0
+        '
+        'btnBoothSlip
+        '
+        Me.btnBoothSlip.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnBoothSlip.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnBoothSlip.Location = New System.Drawing.Point(663, 8)
+        Me.btnBoothSlip.Name = "btnBoothSlip"
+        Me.btnBoothSlip.Size = New System.Drawing.Size(77, 24)
+        Me.btnBoothSlip.TabIndex = 8
+        Me.btnBoothSlip.Text = "Booth Slip"
         '
         'frmDairyGatePass
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1031, 456)
+        Me.ClientSize = New System.Drawing.Size(1069, 456)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "frmDairyGatePass"
@@ -1547,6 +1561,7 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnBoothSlip, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1632,5 +1647,6 @@ Partial Class frmDairyGatePass
     Friend WithEvents lblDistributorName As common.Controls.MyLabel
     Friend WithEvents txtSupplyDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblSupplyDate As common.Controls.MyLabel
+    Friend WithEvents btnBoothSlip As RadButton
 End Class
 

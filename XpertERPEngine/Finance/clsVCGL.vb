@@ -240,7 +240,7 @@ Public Class clsVCGLHead
         Next
         Dim strCap As String = "GL Entry for " + IIf(clsCommon.CompairString(obj.Document_Type, "V") = CompairStringResult.Equal, "Vendor", "Customer") + " " + obj.VC_Code + " (" + obj.VC_Name + " ), Documnet No " + obj.Document_No
         '' Anubhooti 18-Mar-2015 (Cancel VCGL GL)
-        'transportSql.FunGrnlEntryWithTrans(obj.Location_Segment, True, trans, obj.Document_Date, strCap, "VC-GL", "VCGL Entry", obj.Document_No, obj.Remarks, obj.Document_Type, obj.VC_Code, obj.VC_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", obj.Remarks, "")
+        'clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Segment, True, trans, obj.Document_Date, strCap, "VC-GL", "VCGL Entry", obj.Document_No, obj.Remarks, obj.Document_Type, obj.VC_Code, obj.VC_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", obj.Remarks, "")
 
         Dim qry As String = "update TSPL_JOURNAL_DETAILS set TSPL_JOURNAL_DETAILS.CustVend_Code=xxxx.VC_Code,TSPL_JOURNAL_DETAILS.CustVend_Name=xxxx.VC_Name  from ("
         qry += " select * from ("
@@ -396,7 +396,7 @@ Public Class clsVCGLHead
 
                 objCustInv.SaveData(objCustInv, True, trans, "")
                 clsCustomerInvoiceHead.PostData("", objCustInv.Document_No, "", trans)
-                'transportSql.FunGrnlEntryWithTrans(obj.Location_Segment, False, trans, obj.Document_Date, "AR AGAINST VCGL-" & obj.Document_No & "", "AR-VC", "AR " & ARNote, objCustInv.Document_No, objCustInv.Description, obj.Document_Type, clsCommon.myCstr(obj.VC_Code), clsCommon.myCstr(obj.VC_Name), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist)
+                'clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Segment, False, trans, obj.Document_Date, "AR AGAINST VCGL-" & obj.Document_No & "", "AR-VC", "AR " & ARNote, objCustInv.Document_No, objCustInv.Description, obj.Document_Type, clsCommon.myCstr(obj.VC_Code), clsCommon.myCstr(obj.VC_Name), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist)
             End If
         Next
 
@@ -481,7 +481,7 @@ Public Class clsVCGLHead
 
                 objCustInv.SaveData(objCustInv, True, trans, "")
                 clsCustomerInvoiceHead.PostData("", objCustInv.Document_No, "", trans)
-                ' transportSql.FunGrnlEntryWithTrans(obj.Location_Segment, False, trans, obj.Document_Date, "AR AGAINST VCGL-" & obj.Document_No & "", "AR-VC", "AR " & ARNote, objCustInv.Document_No, objCustInv.Description, obj.Document_Type, clsCommon.myCstr(obj.VC_Code), clsCommon.myCstr(obj.VC_Name), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist)
+                ' clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Segment, False, trans, obj.Document_Date, "AR AGAINST VCGL-" & obj.Document_No & "", "AR-VC", "AR " & ARNote, objCustInv.Document_No, objCustInv.Description, obj.Document_Type, clsCommon.myCstr(obj.VC_Code), clsCommon.myCstr(obj.VC_Name), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist)
 
             End If
         Next
@@ -730,9 +730,9 @@ Public Class clsVCGLHead
 
             End If
             If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.Location_Segment, True, strVoucherNoForRecreateOnly, trans, obj.Document_Date, obj.Remarks, "VC-GL", "VCGL Farmer", obj.Document_No, "", "O", obj.VC_Code, obj.VC_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Description, obj.Remarks, Nothing, Nothing, objJE)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Segment, True, strVoucherNoForRecreateOnly, trans, obj.Document_Date, obj.Remarks, "VC-GL", "VCGL Farmer", obj.Document_No, "", "O", obj.VC_Code, obj.VC_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Description, obj.Remarks, Nothing, Nothing, objJE)
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.Location_Segment, True, trans, obj.Document_Date, obj.Remarks, "VC-GL", "VCGL Farmer", obj.Document_No, "", "O", obj.VC_Code, obj.VC_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Description, obj.Remarks, Nothing, Nothing, objJE)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Segment, True, trans, obj.Document_Date, obj.Remarks, "VC-GL", "VCGL Farmer", obj.Document_No, "", "O", obj.VC_Code, obj.VC_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Description, obj.Remarks, Nothing, Nothing, objJE)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -778,9 +778,9 @@ Public Class clsVCGLHead
 
             End If
             If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.Location_Segment, True, strVoucherNoForRecreateOnly, trans, obj.Document_Date, obj.Remarks, "VC-GL", "VCGL Farmer", obj.Document_No, "", "V", obj.VC_Code, obj.VC_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Description, obj.Remarks, Nothing, Nothing, objJE)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Segment, True, strVoucherNoForRecreateOnly, trans, obj.Document_Date, obj.Remarks, "VC-GL", "VCGL Farmer", obj.Document_No, "", "V", obj.VC_Code, obj.VC_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Description, obj.Remarks, Nothing, Nothing, objJE)
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.Location_Segment, True, trans, obj.Document_Date, obj.Remarks, "VC-GL", "VCGL Farmer", obj.Document_No, "", "V", obj.VC_Code, obj.VC_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Description, obj.Remarks, Nothing, Nothing, objJE)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Segment, True, trans, obj.Document_Date, obj.Remarks, "VC-GL", "VCGL Farmer", obj.Document_No, "", "V", obj.VC_Code, obj.VC_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Description, obj.Remarks, Nothing, Nothing, objJE)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

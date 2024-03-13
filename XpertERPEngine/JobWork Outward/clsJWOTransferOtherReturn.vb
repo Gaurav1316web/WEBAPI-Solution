@@ -131,7 +131,7 @@ Public Class clsJWOTransferOtherReturn
                         Dim Acc() As String = {clsCommon.myCstr(dr("Account_code")), clsCommon.myCdbl(dr("Amount"))}
                         ArryLstGLAC.Add(Acc)
                     Next
-                    transportSql.FunGrnlEntryWithTrans(obj.JWO_SRN_From_Location_Code, False, trans, obj.Document_Date, "Against JWO Transfer Return Other -" + obj.Document_No, "JW-TR", "JWO Transfer Other Return", obj.Document_No, obj.Remarks, "V", objSRN.Vendor_Code, clsVendorMaster.GetName(objSRN.Vendor_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.JWO_SRN_From_Location_Code, False, trans, obj.Document_Date, "Against JWO Transfer Return Other -" + obj.Document_No, "JW-TR", "JWO Transfer Other Return", obj.Document_No, obj.Remarks, "V", objSRN.Vendor_Code, clsVendorMaster.GetName(objSRN.Vendor_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
                 End If
                 'Throw New Exception("Balwinder")
             Catch ex As Exception

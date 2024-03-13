@@ -627,7 +627,7 @@ Public Class frmEmployee_Salary
             'Dim qry As String = "select T1.EMP_SAL_CODE AS Code,T3.SALARY_STRUCTURE_NAME,T1.EMP_CODE,T2.EMP_NAME AS EMPLOYEE_NAME,T1.APPLICABLE_FROM,T1.REVISION_NO AS [Revision No], T1.POSTED  from TSPL_EMPLOYEE_SALARY T1 " _
             '& " LEFT JOIN TSPL_EMPLOYEE_MASTER T2 ON T1.EMP_CODE=T2.EMP_CODE LEFT JOIN TSPL_SALARY_STRUCTURE T3 ON T1.SALARY_STRUCTURE_CODE=T3.SALARY_STRUCTURE_CODE"
 
-            txtCode.Value = clsEmployeeSalary.GetFinder(whrcls, Me.chkShowAll.Checked, txtCode.ValidateChildren, isButtonClicked) 'clsCommon.ShowSelectForm("EMP_SALARY", qry, "Code", "", txtCode.Value, "Code", isButtonClicked)
+            txtCode.Value = clsEmployeeSalary.GetFinder(whrcls, Me.chkShowAll.Checked, txtCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("EMP_SALARY", qry, "Code", "", txtCode.Value, "Code", isButtonClicked)
             If clsCommon.myLen(txtCode.Value) > 0 Then
                 LoadData(txtCode.Value, NavigatorType.Current)
             Else

@@ -356,7 +356,7 @@ Public Class frmSalaryGLAccounts
         Return clsSalaryFEAccounts.SaveData(Sal_Gen_Code, arrAccGL)
         'Dim SalaryPayment_Date As Date = clsPayPeriodMaster.GetToDate(PAY_PERIOD_CODE, trans)
         'Dim paymentDesc As String = "Payment of salary for the month of " & PAY_PERIOD_CODE & ""
-        'Return transportSql.FunGrnlEntryWithTrans(Location_Code, True, strVoucherNoifExists, trans, SalaryPayment_Date, paymentDesc, sourceType, sourceDesc, Sal_Gen_Code, Remarks, "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrmis, , Remarks, Remarks)
+        'Return clsJournalMaster.FunGrnlEntryWithTrans(Location_Code, True, strVoucherNoifExists, trans, SalaryPayment_Date, paymentDesc, sourceType, sourceDesc, Sal_Gen_Code, Remarks, "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrmis, , Remarks, Remarks)
 
     End Function
     'Private Function funInsertSalaryGL(ByVal ChekPostBtn As Boolean, ByVal trans As SqlTransaction) As Boolean

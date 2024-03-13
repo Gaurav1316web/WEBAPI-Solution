@@ -603,7 +603,7 @@ Public Class clsItemIssueToAssembledAsset
             End If
             '---------------------End Of Code Of Financial Entry
             If ArryLst IsNot Nothing AndAlso ArryLst.Count > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, "Against Component Issue/Return For Assembling Doc No: " & obj.Doc_No, "IS-AA", "Issue Item To Assemble Asset", obj.Doc_No, obj.Comment, "V", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, "Against Component Issue/Return For Assembling Doc No: " & obj.Doc_No, "IS-AA", "Issue Item To Assemble Asset", obj.Doc_No, obj.Comment, "V", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
             End If
 
 

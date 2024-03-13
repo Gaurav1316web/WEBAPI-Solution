@@ -22,10 +22,11 @@ Partial Class rptBmcCollection
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RbtBmcDcs = New System.Windows.Forms.RadioButton()
         Me.Checkallmcc = New System.Windows.Forms.RadioButton()
         Me.chkZone = New System.Windows.Forms.RadioButton()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
@@ -84,7 +85,7 @@ Partial Class rptBmcCollection
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
         Me.SplitContainer1.Size = New System.Drawing.Size(821, 391)
-        Me.SplitContainer1.SplitterDistance = 354
+        Me.SplitContainer1.SplitterDistance = 353
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -95,26 +96,39 @@ Partial Class rptBmcCollection
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(821, 354)
+        Me.RadPageView1.Size = New System.Drawing.Size(821, 353)
         Me.RadPageView1.TabIndex = 12
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RbtBmcDcs)
         Me.RadPageViewPage1.Controls.Add(Me.Checkallmcc)
         Me.RadPageViewPage1.Controls.Add(Me.chkZone)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(800, 306)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(800, 305)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'RbtBmcDcs
+        '
+        Me.RbtBmcDcs.AutoSize = True
+        Me.RbtBmcDcs.Location = New System.Drawing.Point(646, 23)
+        Me.RbtBmcDcs.Margin = New System.Windows.Forms.Padding(2)
+        Me.RbtBmcDcs.Name = "RbtBmcDcs"
+        Me.RbtBmcDcs.Size = New System.Drawing.Size(120, 17)
+        Me.RbtBmcDcs.TabIndex = 424
+        Me.RbtBmcDcs.TabStop = True
+        Me.RbtBmcDcs.Text = "Bmc/Dcs wise Data"
+        Me.RbtBmcDcs.UseVisualStyleBackColor = True
         '
         'Checkallmcc
         '
         Me.Checkallmcc.AutoSize = True
         Me.Checkallmcc.Location = New System.Drawing.Point(549, 23)
-        Me.Checkallmcc.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Checkallmcc.Margin = New System.Windows.Forms.Padding(2)
         Me.Checkallmcc.Name = "Checkallmcc"
         Me.Checkallmcc.Size = New System.Drawing.Size(61, 17)
         Me.Checkallmcc.TabIndex = 423
@@ -126,7 +140,7 @@ Partial Class rptBmcCollection
         '
         Me.chkZone.AutoSize = True
         Me.chkZone.Location = New System.Drawing.Point(440, 23)
-        Me.chkZone.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.chkZone.Margin = New System.Windows.Forms.Padding(2)
         Me.chkZone.Name = "chkZone"
         Me.chkZone.Size = New System.Drawing.Size(51, 17)
         Me.chkZone.TabIndex = 422
@@ -200,7 +214,7 @@ Partial Class rptBmcCollection
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 361)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(800, 305)
         Me.RadPageViewPage2.Text = "Report"
         '
         'Gv1
@@ -218,18 +232,19 @@ Partial Class rptBmcCollection
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(779, 361)
+        Me.Gv1.Size = New System.Drawing.Size(800, 305)
         Me.Gv1.TabIndex = 0
         '
         'btnClose
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(725, 6)
+        Me.btnClose.Location = New System.Drawing.Point(725, 7)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(84, 22)
         Me.btnClose.TabIndex = 161
@@ -239,7 +254,7 @@ Partial Class rptBmcCollection
         '
         Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(12, 6)
+        Me.btnGo.Location = New System.Drawing.Point(12, 7)
         Me.btnGo.Name = "btnGo"
         Me.btnGo.Size = New System.Drawing.Size(71, 22)
         Me.btnGo.TabIndex = 160
@@ -249,7 +264,7 @@ Partial Class rptBmcCollection
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(89, 6)
+        Me.RadButton1.Location = New System.Drawing.Point(89, 7)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(71, 22)
         Me.RadButton1.TabIndex = 159
@@ -259,7 +274,7 @@ Partial Class rptBmcCollection
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(583, -206)
+        Me.btnReset.Location = New System.Drawing.Point(583, -205)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 158
@@ -269,7 +284,7 @@ Partial Class rptBmcCollection
         '
         Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnSplitExport.Location = New System.Drawing.Point(166, 6)
+        Me.btnSplitExport.Location = New System.Drawing.Point(166, 7)
         Me.btnSplitExport.Name = "btnSplitExport"
         Me.btnSplitExport.Size = New System.Drawing.Size(95, 22)
         Me.btnSplitExport.TabIndex = 157
@@ -345,4 +360,5 @@ Partial Class rptBmcCollection
     Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents Checkallmcc As RadioButton
     Friend WithEvents chkZone As RadioButton
+    Friend WithEvents RbtBmcDcs As RadioButton
 End Class

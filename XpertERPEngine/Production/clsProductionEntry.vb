@@ -1284,9 +1284,9 @@ Public Class clsProductionEntry
             Next
             Dim GLDesc As String = "Journal Entry Against Production Entry- Doc No." & obj.PROD_ENTRY_CODE & " "
             If clsCommon.myLen(VoucherNo) > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, VoucherNo, trans, obj.PROD_DATE, GLDesc, "PR-ER", "Production Entry", obj.PROD_ENTRY_CODE, obj.DESCRIPTION, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, VoucherNo, trans, obj.PROD_DATE, GLDesc, "PR-ER", "Production Entry", obj.PROD_ENTRY_CODE, obj.DESCRIPTION, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, trans, obj.PROD_DATE, GLDesc, "PR-ER", "Production Entry", obj.PROD_ENTRY_CODE, obj.DESCRIPTION, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, trans, obj.PROD_DATE, GLDesc, "PR-ER", "Production Entry", obj.PROD_ENTRY_CODE, obj.DESCRIPTION, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

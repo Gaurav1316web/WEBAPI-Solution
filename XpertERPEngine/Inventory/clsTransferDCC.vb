@@ -1665,9 +1665,9 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                 Dim Remarks As String = "Journal Entry against Stock Transfer from location -" & obj.To_Location & " For Doc No. " & obj.Document_No & ""
 
                 If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                    transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , Remarks, obj.Remarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , Remarks, obj.Remarks)
                 Else
-                    transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , Remarks, obj.Remarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , Remarks, obj.Remarks)
                 End If
             End If
         End If
@@ -2097,15 +2097,15 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
 
             If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
                 If ((clsCommon.CompairString(obj.Transfer_Type, "O") = CompairStringResult.Equal)) Then
-                    transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Remarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Remarks)
                 Else
-                    transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Remarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Remarks)
                 End If
             Else
                 If ((clsCommon.CompairString(obj.Transfer_Type, "O") = CompairStringResult.Equal)) Then
-                    transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Remarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Remarks)
                 Else
-                    transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Remarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Remarks)
                 End If
             End If
         End If
@@ -2312,7 +2312,7 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                         End If
                     End If
 
-                    'rValue = transportSql.FunGrnlEntryWithTrans(obj.From_Location, True, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , obj.Remarks, obj.Remarks)
+                    'rValue = clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, True, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , obj.Remarks, obj.Remarks)
                 Next
                 If (clsCommon.CompairString(obj.Type, "Excise") = CompairStringResult.Equal OrElse clsCommon.CompairString(obj.Type, "Mandi") = CompairStringResult.Equal) OrElse (clsERPFuncationality.GetGSTStatus(obj.Document_Date) = True) Then
                     JE_Excisable_Common(obj, ArryLst, ToLocationSegment, trans)
@@ -2322,9 +2322,9 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                 Dim Remarks As String = "Journal Entry against Stock Transfer from location -" & FromLocation & " For Doc No. " & obj.Document_No & ", Transfer Out Doc No: " & obj.TransferOutNo
 
                 If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                    transportSql.FunGrnlEntryWithTrans(obj.To_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.To_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
                 Else
-                    transportSql.FunGrnlEntryWithTrans(obj.To_Location, False, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.To_Location, False, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
                 End If
             End If
         Catch ex As Exception
@@ -2445,9 +2445,9 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                 Dim GLDesc As String = "Journal Entry Against Stock Transfer- Doc No." & obj.Document_No & " "
                 Dim Remarks As String = "Journal Entry against Stock Transfer from location -" & obj.To_Location & " For Doc No. " & obj.Document_No & ""
                 If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then ''because if voucher no known then recreate it with same no.
-                    transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
                 Else
-                    transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
                 End If
             End If
         Catch ex As Exception
@@ -2559,9 +2559,9 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
                 Dim Remarks As String = "Journal Entry against Stock Transfer from location -" & FromLocation & " For Doc No. " & obj.Document_No & ", Transfer Out Doc No: " & obj.TransferOutNo
 
                 If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                    transportSql.FunGrnlEntryWithTrans(obj.To_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.To_Location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
                 Else
-                    transportSql.FunGrnlEntryWithTrans(obj.To_Location, False, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.To_Location, False, trans, obj.Document_Date, GLDesc, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
                 End If
             End If
         Catch ex As Exception
@@ -2771,9 +2771,9 @@ where TSPL_TRANSFER_ORDER_HEAD.Document_No  ='" & strDocNo & "' AND TSPL_TRANSFE
         End If
         JE_Excisable_Common(obj, arrlist, strLocationSegment, trans)
         If ((clsCommon.CompairString(obj.Transfer_Type, "O") = CompairStringResult.Equal)) Then
-            transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Remarks)
+            clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Remarks)
         Else
-            transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Remarks)
+            clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Document_Date, obj.Remarks, "MM-TF", "Stock Transfer", obj.Document_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Remarks)
 
         End If
         Return True

@@ -1628,7 +1628,7 @@ Public Class clsPaymentHeader
     '                End If
     '            End If
     '            '' END MULTICURRENCY
-    '            If (transportSql.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arr, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
+    '            If (clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arr, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
     '                isSourceCode = True
     '            End If
 
@@ -1690,7 +1690,7 @@ Public Class clsPaymentHeader
     '                ''
     '                '' END MULTICURRENCY
 
-    '                If (transportSql.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
+    '                If (clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
     '                    isSourceCode = True
     '                End If
     '            Else
@@ -1741,7 +1741,7 @@ Public Class clsPaymentHeader
 
 
 
-    '                If (transportSql.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
+    '                If (clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
     '                    isSourceCode = True
     '                End If
     '            End If
@@ -1836,7 +1836,7 @@ Public Class clsPaymentHeader
 
     '                End If
     '                ''
-    '                If (transportSql.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
+    '                If (clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
     '                    isSourceCode = True
     '                End If
 
@@ -1917,7 +1917,7 @@ Public Class clsPaymentHeader
 
 
 
-    '                If (transportSql.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
+    '                If (clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
     '                    isSourceCode = True
     '                End If
     '            End If
@@ -2006,7 +2006,7 @@ Public Class clsPaymentHeader
     '                End If
     '                ''
 
-    '                If (transportSql.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
+    '                If (clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
     '                    isSourceCode = True
     '                End If
     '            Else
@@ -2060,7 +2060,7 @@ Public Class clsPaymentHeader
     '                    arrlist.Add(BranchAccDR)
     '                End If
     '                ''
-    '                If (transportSql.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
+    '                If (clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
     '                    isSourceCode = True
     '                End If
     '            End If
@@ -2180,7 +2180,7 @@ Public Class clsPaymentHeader
     '            '' END MULTICURRENCY
 
     '            sourceType = "AP-MI"
-    '            If (transportSql.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrmis, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
+    '            If (clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrmis, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
     '                isSourceCode = True
     '            End If
     '            If isSourceCode = True Then
@@ -2210,7 +2210,7 @@ Public Class clsPaymentHeader
     '            End If
     '            '' END MULTICURRENCY
 
-    '            If (transportSql.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, applydocument, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
+    '            If (clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, trans, PostDate, paymentDesc, sourceType, sourceDesc, strPaymentNo, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, applydocument, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")), coll)) Then
     '                isSourceCode = True
     '            End If
     '            If isSourceCode = True Then
@@ -3131,8 +3131,8 @@ Public Class clsPaymentHeader
 
             End If
             ''richa TEC/28/11/18-000377 28 Nov,2018
-            ' transportSql.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, strentrydesc, sourceType, sourceDesc, obj.Payment_No, "", IIf(clsCommon.CompairString(obj.Payment_Type, "MI") = CompairStringResult.Equal, "O", "V"), obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), Nothing)
-            transportSql.FunGrnlEntryWithTrans(True, 0, "", "N", BankLocation, True, False, strVoucherNoifExists, trans, PostDate, strentrydesc, sourceType, sourceDesc, obj.Payment_No, "", IIf(clsCommon.CompairString(obj.Payment_Type, "MI") = CompairStringResult.Equal, "O", "V"), obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), Nothing)
+            ' clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, strentrydesc, sourceType, sourceDesc, obj.Payment_No, "", IIf(clsCommon.CompairString(obj.Payment_Type, "MI") = CompairStringResult.Equal, "O", "V"), obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), Nothing)
+            clsJournalMaster.FunGrnlEntryWithTrans(True, 0, "", "N", BankLocation, True, False, strVoucherNoifExists, trans, PostDate, strentrydesc, sourceType, sourceDesc, obj.Payment_No, "", IIf(clsCommon.CompairString(obj.Payment_Type, "MI") = CompairStringResult.Equal, "O", "V"), obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), Nothing)
 
             '' to update VSP Code against Farmer code into Journal master
             If clsCommon.CompairString(clsCommon.myCstr(obj.Payment_Type), "MI") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(obj.MP_Code_For_Advance)) > 0 Then
@@ -3575,7 +3575,7 @@ Public Class clsPaymentHeader
                 End If
                 '' END MULTICURRENCY
 
-                transportSql.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arr, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
+                clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arr, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
 
             ElseIf (clsCommon.CompairString(obj.Payment_Type, "SR") = CompairStringResult.Equal) Then
                 Dim tds As Double = 0
@@ -3620,7 +3620,7 @@ Public Class clsPaymentHeader
                         End If
                     End If
                     '' END MULTICURRENCY
-                    transportSql.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
+                    clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
                 Else
                     Dim arrlist As New ArrayList()
                     Dim arr6() As String = {stradvance, drtotal}
@@ -3639,7 +3639,7 @@ Public Class clsPaymentHeader
                     End If
                     '' END MULTICURRENCY
 
-                    transportSql.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
+                    clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
                 End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.Payment_Type), "AV") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(obj.Payment_Type), "RC") = CompairStringResult.Equal Then
                 Dim isApplyBrachAccounting As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, trans)) = 1, True, False)
@@ -3975,7 +3975,7 @@ Public Class clsPaymentHeader
                     ''-----------------------------------------
 
 
-                    transportSql.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
+                    clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
 
                 Else
                     If clsCommon.CompairString(clsCommon.myCstr(obj.Payment_Type), "RC") = CompairStringResult.Equal Then
@@ -4294,7 +4294,7 @@ Public Class clsPaymentHeader
 
 
 
-                    transportSql.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
+                    clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
                 End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.Payment_Type), "OA") = CompairStringResult.Equal Then
                 Dim isApplyBrachAccounting As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyBrachAccounting, clsFixedParameterCode.ApplyBrachAccounting, trans)) = 1, True, False)
@@ -4371,7 +4371,7 @@ Public Class clsPaymentHeader
                         arrtotal.Add(BranchAccDR)
                     End If
                     ''
-                    transportSql.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
+                    clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
                 Else
                     '' Anubhooti 08-Jan-2014 (Advance A/C loc should be overrite from new Loc )
                     If isApplyBrachAccounting AndAlso clsCommon.myLen(strGLLoc) > 0 AndAlso Not (clsCommon.CompairString(BankLocation, strGLLoc) = CompairStringResult.Equal) Then
@@ -4426,7 +4426,7 @@ Public Class clsPaymentHeader
                         arrlist.Add(BranchAccDR)
                     End If
                     ''
-                    transportSql.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
+                    clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
                 End If
                 Dim InvcNo As String = ""
                 Dim BalAmt As Decimal = 0.0
@@ -4509,7 +4509,7 @@ Public Class clsPaymentHeader
                 End If
                 '' END MULTICURRENCY
                 sourceType = "AP-MI"
-                transportSql.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrmis, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
+                clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrmis, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
             ElseIf clsCommon.CompairString(clsCommon.myCstr(obj.Payment_Type), "AD") = CompairStringResult.Equal Then
                 Dim value As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Total_Prepayment*ConvRateOld  from  TSPL_PAYMENT_HEADER where Payment_No like '" + clsCommon.myCstr(obj.Document_No) + "'  and Vendor_Code = '" + clsCommon.myCstr(obj.Vendor_Code) + "'", trans))
                 Dim arrcontrol() As String = {straccount, clsCommon.myCdbl(obj.Payment_Amount) * clsCommon.myCdbl(obj.ConvRateOld)}
@@ -4529,7 +4529,7 @@ Public Class clsPaymentHeader
                     End If
                 End If
                 '' END MULTICURRENCY
-                transportSql.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, applydocument, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
+                clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, strVoucherNoifExists, trans, PostDate, paymentDesc, sourceType, sourceDesc, obj.Payment_No, strentrydesc, strsrctype, obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, applydocument, , clsCommon.myCstr(obj.Reference), clsCommon.myCstr(obj.Narration), coll, objJE)
             End If
             '' to update VSP Code against Farmer code into Journal master
             If clsCommon.CompairString(clsCommon.myCstr(obj.Payment_Type), "MI") = CompairStringResult.Equal AndAlso clsCommon.myLen(clsCommon.myCstr(obj.MP_Code_For_Advance)) > 0 Then

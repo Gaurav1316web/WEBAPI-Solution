@@ -265,9 +265,9 @@ Public Class clsMilkJobworkTransfer
                     Dim GLDesc As String = "Journal Entry Against Milk Job Work Transfer - Doc No." & obj.Document_Code & " "
                     Dim Remarks As String = "Journal Entry against Milk Job Work Transfer - from location -" & obj.Loc_Code & " to location- " & obj.JobWork_location & " For Doc No. " & obj.Document_Code & ""
                     If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "JW-TF", "JWO Transfer", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, Remarks)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "JW-TF", "JWO Transfer", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, Remarks)
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Document_Date, GLDesc, "JW-MI", "JWO Transfer", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, Remarks)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Document_Date, GLDesc, "JW-MI", "JWO Transfer", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, Remarks)
                     End If
                 End If
             End If
@@ -385,9 +385,9 @@ Public Class clsMilkJobworkTransfer
     '        End If
 
     '        If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then ''because if voucher no known then recreate it with same no.
-    '            transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "MI-JT", "Milk Job Work transfer", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, Remarks)
+    '            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "MI-JT", "Milk Job Work transfer", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, Remarks)
     '        Else
-    '            transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Document_Date, GLDesc, "MI-JT", "Milk Job Work transfer", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, Remarks)
+    '            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Document_Date, GLDesc, "MI-JT", "Milk Job Work transfer", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, Remarks)
     '        End If
     '    Catch ex As Exception
     '        Throw New Exception(ex.Message)
