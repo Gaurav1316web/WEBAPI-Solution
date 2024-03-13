@@ -1073,9 +1073,9 @@ Public Class clsMilkTransferInReturn
             Dim Remarks As String = "Journal Entry against Milk Transfer In Return from location -" & FromLocation & " For Doc No. " & obj.Receipt_Challan_Return_No & ", Transfer Out Doc No: " & obj.Dispatch_Challan_No
 
             If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.location_code, False, strVoucherNoForRecreateOnly, trans, obj.Receipt_Challan_Date, GLDesc, "MT-IR", "Milk Transfer In Return", obj.Receipt_Challan_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, objW.Challan_No)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.location_code, False, strVoucherNoForRecreateOnly, trans, obj.Receipt_Challan_Date, GLDesc, "MT-IR", "Milk Transfer In Return", obj.Receipt_Challan_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, objW.Challan_No)
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.location_code, False, trans, obj.Receipt_Challan_Date, GLDesc, "MT-IR", "Milk Transfer In Return", obj.Receipt_Challan_Return_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, objW.Challan_No)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.location_code, False, trans, obj.Receipt_Challan_Date, GLDesc, "MT-IR", "Milk Transfer In Return", obj.Receipt_Challan_Return_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, objW.Challan_No)
             End If
             'End If
         Catch ex As Exception
@@ -1220,7 +1220,7 @@ Public Class clsMilkTransferInReturn
                     ArryLst.Add(New String() {TransferGainLossAc, DiffAmt * -1})
                 End If
 
-                isCreated = transportSql.FunGrnlEntryWithTrans(ToLocSeg, True, strVoucherNo, trans, clsCommon.GetPrintDate(obj.Receipt_Challan_Date, "dd/MMM/yyyy"), " Against Milk Transfer In Retun, receipt Challan Return No:  -" + obj.Receipt_Challan_Return_No + "  from " + objDisp.MCC_Code + " to  " + objDisp.Mcc_Or_Plant_Code, "MT-IN", "Milk Transfer In Return", obj.Receipt_Challan_Return_No, "", "C", objW.Item_Code, objW.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, " ", " Milk Tranfer In Return,Receipt Challan Return No:  -" + obj.Receipt_Challan_Return_No + "  From " & clsLocation.GetName(objDisp.MCC_Code, trans) & "  to " & clsLocation.GetName(objDisp.Mcc_Or_Plant_Code, trans))
+                isCreated = clsJournalMaster.FunGrnlEntryWithTrans(ToLocSeg, True, strVoucherNo, trans, clsCommon.GetPrintDate(obj.Receipt_Challan_Date, "dd/MMM/yyyy"), " Against Milk Transfer In Retun, receipt Challan Return No:  -" + obj.Receipt_Challan_Return_No + "  from " + objDisp.MCC_Code + " to  " + objDisp.Mcc_Or_Plant_Code, "MT-IN", "Milk Transfer In Return", obj.Receipt_Challan_Return_No, "", "C", objW.Item_Code, objW.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, " ", " Milk Tranfer In Return,Receipt Challan Return No:  -" + obj.Receipt_Challan_Return_No + "  From " & clsLocation.GetName(objDisp.MCC_Code, trans) & "  to " & clsLocation.GetName(objDisp.Mcc_Or_Plant_Code, trans))
 
                 If clsCommon.myLen(strVoucherNo) <= 0 Then
                     ' isCreated = ClsAdjustments.CreateMilkTransferAdjustmentDoc(objDisp, obj, trans)
@@ -1245,7 +1245,7 @@ Public Class clsMilkTransferInReturn
                     ArryLst.Add(New String() {TransferGainLossAc, DiffAmt})
                 End If
 
-                isCreated = transportSql.FunGrnlEntryWithTrans(ToLocSeg, True, strVoucherNo, trans, clsCommon.GetPrintDate(obj.Receipt_Challan_Date, "dd/MMM/yyyy"), " Against Milk Transfer In , receipt Challan No:  -" + obj.Receipt_Challan_No + "  from " + objDisp.MCC_Code + " to  " + objDisp.Mcc_Or_Plant_Code, "MT-IN", "Milk Transfer In", obj.Receipt_Challan_No, "", "C", objW.Item_Code, objW.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, " ", " Milk Tranfer In From " & clsLocation.GetName(objDisp.MCC_Code, trans) & "  to " & clsLocation.GetName(objDisp.Mcc_Or_Plant_Code, trans))
+                isCreated = clsJournalMaster.FunGrnlEntryWithTrans(ToLocSeg, True, strVoucherNo, trans, clsCommon.GetPrintDate(obj.Receipt_Challan_Date, "dd/MMM/yyyy"), " Against Milk Transfer In , receipt Challan No:  -" + obj.Receipt_Challan_No + "  from " + objDisp.MCC_Code + " to  " + objDisp.Mcc_Or_Plant_Code, "MT-IN", "Milk Transfer In", obj.Receipt_Challan_No, "", "C", objW.Item_Code, objW.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, " ", " Milk Tranfer In From " & clsLocation.GetName(objDisp.MCC_Code, trans) & "  to " & clsLocation.GetName(objDisp.Mcc_Or_Plant_Code, trans))
                 If clsCommon.myLen(strVoucherNo) <= 0 Then
                     isCreated = CreateMilkTransferReturnAdjustmentDoc(obj, trans)
                 End If
@@ -1269,7 +1269,7 @@ Public Class clsMilkTransferInReturn
                     ArryLst.Add(New String() {TransferGainLossAc, DiffAmt})
                 End If
 
-                isCreated = transportSql.FunGrnlEntryWithTrans(ToLocSeg, True, strVoucherNo, trans, clsCommon.GetPrintDate(obj.Receipt_Challan_Date, "dd/MMM/yyyy"), " Against Milk Transfer In , receipt Challan No:  -" + obj.Receipt_Challan_No + "  from " + objDisp.MCC_Code + " to  " + objDisp.Mcc_Or_Plant_Code, "MT-IN", "Milk Transfer In", obj.Receipt_Challan_No, "", "C", objW.Item_Code, objW.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, " ", " Milk Tranfer In From " & clsLocation.GetName(objDisp.MCC_Code, trans) & "  to " & clsLocation.GetName(objDisp.Mcc_Or_Plant_Code, trans))
+                isCreated = clsJournalMaster.FunGrnlEntryWithTrans(ToLocSeg, True, strVoucherNo, trans, clsCommon.GetPrintDate(obj.Receipt_Challan_Date, "dd/MMM/yyyy"), " Against Milk Transfer In , receipt Challan No:  -" + obj.Receipt_Challan_No + "  from " + objDisp.MCC_Code + " to  " + objDisp.Mcc_Or_Plant_Code, "MT-IN", "Milk Transfer In", obj.Receipt_Challan_No, "", "C", objW.Item_Code, objW.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, " ", " Milk Tranfer In From " & clsLocation.GetName(objDisp.MCC_Code, trans) & "  to " & clsLocation.GetName(objDisp.Mcc_Or_Plant_Code, trans))
             End If
 
             'Commiting/Rollbacking Transaction if Transaction Is Locally Initialized

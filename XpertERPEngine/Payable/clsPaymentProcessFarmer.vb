@@ -720,10 +720,10 @@ Public Class clsPaymentProcessFarmerHead
                     End If
                 End If
                 'If ArryDeductionGLAC.Count > 0 Then
-                '    transportSql.FunGrnlEntryWithTrans(obj.Loc_Seg_Code, True, trans, obj.Doc_Date, "Total Deduction Against Farmer Payment Process No ( " & obj.Doc_No & ")", "MP-DE", "MP Deduction", obj.Doc_No, "", "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryDeductionGLAC)
+                '    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Seg_Code, True, trans, obj.Doc_Date, "Total Deduction Against Farmer Payment Process No ( " & obj.Doc_No & ")", "MP-DE", "MP Deduction", obj.Doc_No, "", "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryDeductionGLAC)
                 'End If
                 If ArryIncentiveGLAC.Count > 0 Then
-                    transportSql.FunGrnlEntryWithTrans(obj.Loc_Seg_Code, True, trans, obj.To_Date, "Total Incetive Against Farmer Payment Process No ( " & obj.Doc_No & ")", "MP-IV", "MP Incetinve", obj.Doc_No, "", "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryIncentiveGLAC)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Seg_Code, True, trans, obj.To_Date, "Total Incetive Against Farmer Payment Process No ( " & obj.Doc_No & ")", "MP-IV", "MP Incetinve", obj.Doc_No, "", "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryIncentiveGLAC)
                 End If
 
 
@@ -746,7 +746,7 @@ Public Class clsPaymentProcessFarmerHead
                             Dim AccCr() As String = {FarmerCtrlAccount, -1 * Math.Round(((obj.ArrPPDetail.Item(i).Total_Advance_Amount_Recovery)), 2, MidpointRounding.ToEven)}
                             ArryGLAC.Add(AccCr)
 
-                            transportSql.FunGrnlEntryWithTrans(obj.Loc_Seg_Code, True, trans, obj.To_Date, "Advance Amount Recovery Against Farmer Payment Process No ( " & obj.Doc_No & ") and MP ( " & obj.ArrPPDetail.Item(i).Farmer_Code & ")", "MP-ST", "MP Short Term Loan", obj.Doc_No, "", "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryGLAC)
+                            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Seg_Code, True, trans, obj.To_Date, "Advance Amount Recovery Against Farmer Payment Process No ( " & obj.Doc_No & ") and MP ( " & obj.ArrPPDetail.Item(i).Farmer_Code & ")", "MP-ST", "MP Short Term Loan", obj.Doc_No, "", "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryGLAC)
                         End If
                         If obj.ArrPPDetail.Item(i).Total_Loan_Payment_Recovery > 0 Then
                             Dim ArryGLAC As ArrayList = New ArrayList()
@@ -771,7 +771,7 @@ Public Class clsPaymentProcessFarmerHead
                                     Dim AccCr() As String = {PaymentAccount, -1 * Math.Round((clsCommon.myCdbl(dr("Knock_Off_Amt"))), 2, MidpointRounding.ToEven)}
                                     ArryGLAC.Add(AccCr)
                                 Next
-                                transportSql.FunGrnlEntryWithTrans(obj.Loc_Seg_Code, True, trans, obj.To_Date, "Loan Amount Recovery Against Farmer Payment Process No ( " & obj.Doc_No & ") and MP ( " & obj.ArrPPDetail.Item(i).Farmer_Code & ")", "MP-LT", "MP Long Term Loan", obj.Doc_No, "", "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryGLAC)
+                                clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Seg_Code, True, trans, obj.To_Date, "Loan Amount Recovery Against Farmer Payment Process No ( " & obj.Doc_No & ") and MP ( " & obj.ArrPPDetail.Item(i).Farmer_Code & ")", "MP-LT", "MP Long Term Loan", obj.Doc_No, "", "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryGLAC)
                             End If
                         End If
                     Next
@@ -2485,10 +2485,10 @@ Public Class clsPaymentProcessFarmerHead
                 ''    End If
                 ''End If
                 ''If ArryDeductionGLAC.Count > 0 Then
-                ''    transportSql.FunGrnlEntryWithTrans(obj.Loc_Seg_Code, True, trans, obj.Doc_Date, "Total Deduction Against Farmer Payment Process No ( " & obj.Doc_No & ")", "MP-DE", "MP Deduction", obj.Doc_No, "", "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryDeductionGLAC)
+                ''    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Seg_Code, True, trans, obj.Doc_Date, "Total Deduction Against Farmer Payment Process No ( " & obj.Doc_No & ")", "MP-DE", "MP Deduction", obj.Doc_No, "", "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryDeductionGLAC)
                 ''End If
                 ''If ArryIncentiveGLAC.Count > 0 Then
-                ''    transportSql.FunGrnlEntryWithTrans(obj.Loc_Seg_Code, True, trans, obj.Doc_Date, "Total Incetive Against Farmer Payment Process No ( " & obj.Doc_No & ")", "MP-IV", "MP Incetinve", obj.Doc_No, "", "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryIncentiveGLAC)
+                ''    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Seg_Code, True, trans, obj.Doc_Date, "Total Incetive Against Farmer Payment Process No ( " & obj.Doc_No & ")", "MP-IV", "MP Incetinve", obj.Doc_No, "", "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryIncentiveGLAC)
                 ''End If
 
 

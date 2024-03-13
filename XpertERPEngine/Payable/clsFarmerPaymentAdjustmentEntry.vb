@@ -239,7 +239,7 @@ Public Class clsFarmerPaymentAdjustmentEntry
                 '    AdjAcc = New String() {objtr.Account_No, -1 * objtr.Amount}
                 '    ArrList.Add(AdjAcc)
                 'Next
-                'transportSql.FunGrnlEntryWithTrans(strLocation, True, trans, obj.Adjustment_Date, obj.Description, "AP-AD", "AP Payment Received", strDocNo, "", "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , obj.Remarks, "")
+                'clsJournalMaster.FunGrnlEntryWithTrans(strLocation, True, trans, obj.Adjustment_Date, obj.Description, "AP-AD", "AP Payment Received", strDocNo, "", "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , obj.Remarks, "")
                 strQ = "update TSPL_MP_Pay_Adj_Head set TSPL_MP_Pay_Adj_Head.is_Post = 'Y', TSPL_MP_Pay_Adj_Head.Post_Date= '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd-MMM-yyyy") + "' where Adjustment_No ='" + clsCommon.myCstr(strDocNo) + "'"
                 clsDBFuncationality.ExecuteNonQuery(strQ, trans)
                 'obj.Doc_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_VENDOR_INVOICE_HEAD WHERE Against_POInvoice_No='" + obj.Doc_No + "'", trans)
@@ -289,9 +289,9 @@ Public Class clsFarmerPaymentAdjustmentEntry
                     Dim strNew() As String = {Str(0), -1 * Str(1)}
                     ArryLstNew.Add(strNew)
                 Next
-                transportSql.FunGrnlEntryWithTrans(strLocation, True, strVoucherNoifExists, trans, obj.Adjustment_Date, obj.Description, "AP-AD", "AP Payment Received", obj.Adjustment_No, "", "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstNew, , obj.Remarks, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(strLocation, True, strVoucherNoifExists, trans, obj.Adjustment_Date, obj.Description, "AP-AD", "AP Payment Received", obj.Adjustment_No, "", "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstNew, , obj.Remarks, "")
             Else
-                transportSql.FunGrnlEntryWithTrans(strLocation, True, strVoucherNoifExists, trans, obj.Adjustment_Date, obj.Description, "AP-AD", "AP Payment Received", obj.Adjustment_No, "", "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , obj.Remarks, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(strLocation, True, strVoucherNoifExists, trans, obj.Adjustment_Date, obj.Description, "AP-AD", "AP Payment Received", obj.Adjustment_No, "", "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , obj.Remarks, "")
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -329,7 +329,7 @@ Public Class clsFarmerPaymentAdjustmentEntry
                     AdjAcc = New String() {objtr.Account_No, objtr.Amount}
                     ArrList.Add(AdjAcc)
                 Next
-                transportSql.FunGrnlEntryWithTrans(strLocation, True, trans, obj.Adjustment_Date, obj.Description, "AP-AD", "AP Payment Received", strDocNo, "", "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , obj.Remarks, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(strLocation, True, trans, obj.Adjustment_Date, obj.Description, "AP-AD", "AP Payment Received", strDocNo, "", "C", obj.Farmer_Code, obj.Farmer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , obj.Remarks, "")
                 strQ = "update TSPL_MP_Pay_Adj_Head set TSPL_MP_Pay_Adj_Head.is_Post = 'Y', TSPL_MP_Pay_Adj_Head.Post_Date= '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd-MMM-yyyy") + "' where Adjustment_No ='" + clsCommon.myCstr(strDocNo) + "'"
                 clsDBFuncationality.ExecuteNonQuery(strQ, trans)
                 'obj.Doc_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_VENDOR_INVOICE_HEAD WHERE Against_POInvoice_No='" + obj.Doc_No + "'", trans)
@@ -416,7 +416,7 @@ Public Class clsFarmerPaymentAdjustmentEntry
     '    Dim strRcvblLocAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(strRcvblAcc, Loc, trans)
     '    CustAcc = New String() {strRcvblLocAcc, TAdjAmt}
     '    ArrList.Add(CustAcc)
-    '    transportSql.FunGrnlEntryWithTrans(Loc, False, trans, PostDate, Desc, "AP-AD", "AP Payment Received", strDocNo, "", "C", strVendor, Vendorname, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , Remarks, "")
+    '    clsJournalMaster.FunGrnlEntryWithTrans(Loc, False, trans, PostDate, Desc, "AP-AD", "AP Payment Received", strDocNo, "", "C", strVendor, Vendorname, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , Remarks, "")
     '    Dim str1 As String = "update TSPL_MP_Pay_Adj_Head set TSPL_MP_Pay_Adj_Head.is_Post = 'Y', TSPL_MP_Pay_Adj_Head.Post_Date= '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd-MMM-yyyy") + "' where Adjustment_No ='" + clsCommon.myCstr(strDocNo) + "'"
     '    clsDBFuncationality.ExecuteNonQuery(str1, trans)
     'End Function

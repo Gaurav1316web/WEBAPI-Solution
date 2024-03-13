@@ -1262,15 +1262,15 @@ Public Class ClsJobWorkRMConsum
                     If obj.Is_Imported = 0 Then
                         If clsCommon.myLen(obj.Customer_CODE) <= 0 Then
                             If strVourcherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVourcherNoForRecreateOnly) > 0 Then ''then update journal entry with existing voucher no 17/03/2015
-                                transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, strRemarks)
+                                clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, strRemarks)
                             Else
-                                transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, strRemarks)
+                                clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, strRemarks)
                             End If
                         Else
                             If strVourcherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVourcherNoForRecreateOnly) > 0 Then
-                                transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "C", obj.Customer_CODE, obj.Customer_NAME, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, strRemarks)
+                                clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "C", obj.Customer_CODE, obj.Customer_NAME, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, strRemarks)
                             Else
-                                transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "C", obj.Customer_CODE, obj.Customer_NAME, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, strRemarks)
+                                clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "C", obj.Customer_CODE, obj.Customer_NAME, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, strRemarks)
                             End If
                         End If
                     End If
@@ -1279,26 +1279,26 @@ Public Class ClsJobWorkRMConsum
         ElseIf clsCommon.CompairString(strType, "Production Entry") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
                 If strVourcherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVourcherNoForRecreateOnly) > 0 Then
-                    transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "IC-AD", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "IC-AD", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
                 Else
-                    transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "IC-AD", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "IC-AD", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
                 End If
             End If
         ElseIf clsCommon.CompairString(strType, "Store Adjustment") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
                 If strVourcherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVourcherNoForRecreateOnly) > 0 Then
                     If clsCommon.myLen(obj.Loc_Code) <= 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.MainLocationCode, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "IC-AD", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.MainLocationCode, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "IC-AD", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
                     Else
 
-                        transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "IC-AD", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "IC-AD", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
                     End If
 
                 Else
                     If clsCommon.myLen(obj.Loc_Code) <= 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.MainLocationCode, False, trans, obj.Adjustment_Date, desc, "IC-AD", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.MainLocationCode, False, trans, obj.Adjustment_Date, desc, "IC-AD", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "IC-AD", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "IC-AD", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
                     End If
 
                 End If
@@ -1307,17 +1307,17 @@ Public Class ClsJobWorkRMConsum
                 If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
                     If strVourcherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVourcherNoForRecreateOnly) > 0 Then
                         If clsCommon.myLen(obj.Loc_Code) <= 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.MainLocationCode, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.MainLocationCode, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
                         Else
 
-                        transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
                         End If
 
                     Else
                         If clsCommon.myLen(obj.Loc_Code) <= 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.MainLocationCode, False, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.MainLocationCode, False, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
                         Else
-                        transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
                         End If
 
                     End If
@@ -1373,7 +1373,7 @@ Public Class ClsJobWorkRMConsum
 
 
 
-                    ' transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Reference, "")
+                    ' clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Reference, "")
                 ElseIf clsCommon.CompairString(objtr.Adjustment_Type, "CD") = CompairStringResult.Equal OrElse clsCommon.CompairString(objtr.Adjustment_Type, "BD") = CompairStringResult.Equal Then
                     strInvAcc = clsCommon.myCstr(dtPurchaseAccountSet.Rows(0)("Inv_Control_Account"))
                     strInvAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(strInvAcc, strsegment, True, trans)
@@ -1381,7 +1381,7 @@ Public Class ClsJobWorkRMConsum
                     ArryLst.Add(Acc1)
                     Dim Acc2() As String = {Branch_Ac, -1 * objtr.Item_Cost}
                     ArryLst.Add(Acc2)
-                    transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Reference, "")
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "JW-IN", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Reference, "")
                 End If
             Next
         End If

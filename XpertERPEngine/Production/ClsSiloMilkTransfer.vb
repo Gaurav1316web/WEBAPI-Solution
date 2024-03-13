@@ -342,7 +342,7 @@ Public Class ClsSiloMilkTransfer
             Dim BranchAccHeader = New String() {strTemp, -1 * dblAvg_cost}
             ArryLst.Add(BranchAccHeader)
 
-            transportSql.FunGrnlEntryWithTrans(obj.MainLocation_Code, False, trans, obj.Document_Date, desc, "SI-MT", "SILO Milk Transfer", obj.Document_Code, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", "")
+            clsJournalMaster.FunGrnlEntryWithTrans(obj.MainLocation_Code, False, trans, obj.Document_Date, desc, "SI-MT", "SILO Milk Transfer", obj.Document_Code, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", "")
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -895,7 +895,7 @@ Public Class ClsSiloMilkTransfer
                 clsInventoryMovement.UpdateInvControlAccount(obj.Document_Code, "SI-MT", clsCommon.myCstr(obj.Item_Code), strInventryAccForHeader, "", "I", trans)
                 '------------------
             End If
-            transportSql.FunGrnlEntryWithTrans(obj.MainLocation_Code, False, trans, obj.Document_Date, desc, "SI-MT", "SILO Milk Transfer", obj.Document_Code, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", "")
+            clsJournalMaster.FunGrnlEntryWithTrans(obj.MainLocation_Code, False, trans, obj.Document_Date, desc, "SI-MT", "SILO Milk Transfer", obj.Document_Code, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", "")
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

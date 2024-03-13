@@ -323,9 +323,9 @@ Public Class clsJWOEstimate
 
                     Dim GLDesc As String = "Journal Entry Against JW Estimate - Doc No." & Doc_Code & " "
                     If clsCommon.myLen(VoucherNo) > 0 Then
-                        transportSql.FunGrnlEntryWithTrans(StrLoc, False, VoucherNo, trans, Document_date, GLDesc, "JW-ES", "JW Inward", Doc_Code, "JW Estimation", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+                        clsJournalMaster.FunGrnlEntryWithTrans(StrLoc, False, VoucherNo, trans, Document_date, GLDesc, "JW-ES", "JW Inward", Doc_Code, "JW Estimation", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
                     Else
-                        transportSql.FunGrnlEntryWithTrans(StrLoc, False, trans, Document_date, GLDesc, "JW-ES", "JW Inward", Doc_Code, "JW Estimation", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+                        clsJournalMaster.FunGrnlEntryWithTrans(StrLoc, False, trans, Document_date, GLDesc, "JW-ES", "JW Inward", Doc_Code, "JW Estimation", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
                     End If
                 End If
 

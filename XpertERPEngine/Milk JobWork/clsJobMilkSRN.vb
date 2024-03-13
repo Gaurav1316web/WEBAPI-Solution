@@ -215,7 +215,7 @@ Public Class clsJobMilkSRN
                     strPaybleClrAc = clsERPFuncationality.ChangeGLAccountLocationSegment(strPaybleClrAc, dt.Rows(0)("Loc_Code"), trans)
                     ArryLst.Add(New String() {strInvCntrlAc, dt.Rows(0)("Actual_Amount")})
                     ArryLst.Add(New String() {strPaybleClrAc, dt.Rows(0)("Actual_Amount") * -1})
-                    transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.SRN_Date, "dd/MMM/yyyy"), "Against Job Milk SRN No  -" + obj.SRN_NO + "", "BM-SR", "Job Milk SRN", obj.SRN_NO, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.Vendor_Code & ", " & clsVendorMaster.GetName(obj.Vendor_Code, trans))
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.SRN_Date, "dd/MMM/yyyy"), "Against Job Milk SRN No  -" + obj.SRN_NO + "", "BM-SR", "Job Milk SRN", obj.SRN_NO, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.Vendor_Code & ", " & clsVendorMaster.GetName(obj.Vendor_Code, trans))
                 End If
             End If
             
@@ -666,7 +666,7 @@ Public Class clsJobMilkSRNReturn
                 strPaybleClrAc = clsERPFuncationality.ChangeGLAccountLocationSegment(strPaybleClrAc, dt.Rows(0)("Loc_Code"), trans)
                 ArryLst.Add(New String() {strInvCntrlAc, dt.Rows(0)("Actual_Amount") * -1})
                 ArryLst.Add(New String() {strPaybleClrAc, dt.Rows(0)("Actual_Amount")})
-                transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(objReturn.SRN_Return_Date, "dd/MMM/yyyy"), "Against Job Milk SRN Return No  -" + objReturn.SRN_Return_NO + "", "SR-RT", " Milk SRN Returm", objReturn.SRN_Return_NO, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.Vendor_Code & ", " & clsVendorMaster.GetName(obj.Vendor_Code, trans))
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(objReturn.SRN_Return_Date, "dd/MMM/yyyy"), "Against Job Milk SRN Return No  -" + objReturn.SRN_Return_NO + "", "SR-RT", " Milk SRN Returm", objReturn.SRN_Return_NO, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.Vendor_Code & ", " & clsVendorMaster.GetName(obj.Vendor_Code, trans))
             End If
             Dim strQry As String = " update tspl_Job_milk_srn set SRN_Return_NO='" & objReturn.SRN_Return_NO & "' where srn_no='" & StrDocNo & "' "
             isPosted = isPosted AndAlso clsDBFuncationality.ExecuteNonQuery(strQry, trans)

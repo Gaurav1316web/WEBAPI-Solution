@@ -374,7 +374,7 @@ Public Class clsExpiryDate
 
         If ArryLst IsNot Nothing AndAlso ArryLst.Count > 0 Then
             Dim strRemarks As String = "Vehicle code:" + obj.Vehicle_Code + "  Vehicle No:" + obj.Vehicle_No + " Remarks:" + obj.Description + "  "
-            transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Document_Date, "", "EX-AD", "EX Adjustments", obj.Document_No, obj.Reference, "C", obj.Customer_CODE, obj.Customer_NAME, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, strRemarks, obj.Reference, "")
+            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Document_Date, "", "EX-AD", "EX Adjustments", obj.Document_No, obj.Reference, "C", obj.Customer_CODE, obj.Customer_NAME, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, strRemarks, obj.Reference, "")
         End If
 
         Return True

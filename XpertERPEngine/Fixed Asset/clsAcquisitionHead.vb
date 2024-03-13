@@ -1249,9 +1249,9 @@ Public Class clsAcquisitionHead
                         ArryLst.Add(New String() {Vendor_Control_Account, clsCommon.myCdbl(dtData.Rows(i)("Book_Source_value")) * -1})
                     Next
                     If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoForRecreateOnly, trans, obj.Acquisition_Date, "Acquisition Entry Assembled Asset , Against Doc No:  " & strDocNo, "AQ-AS", "Acquisition Entry Assembled", strDocNo, "Acquisition Entry Assembled", "V", strDocNo, "Acquisition Entry Assembled", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoForRecreateOnly, trans, obj.Acquisition_Date, "Acquisition Entry Assembled Asset , Against Doc No:  " & strDocNo, "AQ-AS", "Acquisition Entry Assembled", strDocNo, "Acquisition Entry Assembled", "V", strDocNo, "Acquisition Entry Assembled", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Acquisition_Date, "Acquisition Entry Assembled Asset , Against Doc No:  " & strDocNo, "AQ-AS", "Acquisition Entry Assembled", strDocNo, "Acquisition Entry Assembled", "V", strDocNo, "Acquisition Entry Assembled", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Acquisition_Date, "Acquisition Entry Assembled Asset , Against Doc No:  " & strDocNo, "AQ-AS", "Acquisition Entry Assembled", strDocNo, "Acquisition Entry Assembled", "V", strDocNo, "Acquisition Entry Assembled", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
                     End If
 
                 End If
@@ -1290,9 +1290,9 @@ Public Class clsAcquisitionHead
                         ArryLst.Add(New String() {strAc_Control, clsCommon.myCdbl(dtData.Rows(i)("BookValue")) * -1})
                     Next
                     If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoForRecreateOnly, trans, obj.Acquisition_Date, "Acquisition Entry Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry", strDocNo, "Acquisition Entry", "V", strDocNo, "Acquisition Entry", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoForRecreateOnly, trans, obj.Acquisition_Date, "Acquisition Entry Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry", strDocNo, "Acquisition Entry", "V", strDocNo, "Acquisition Entry", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Acquisition_Date, "Acquisition Entry Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry", strDocNo, "Acquisition Entry", "V", strDocNo, "Acquisition Entry", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Acquisition_Date, "Acquisition Entry Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry", strDocNo, "Acquisition Entry", "V", strDocNo, "Acquisition Entry", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
                     End If
 
                 End If
@@ -1355,16 +1355,16 @@ Public Class clsAcquisitionHead
                     Next
                     If clsCommon.myLen(obj.SRN_No) > 0 Then
                         If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                            transportSql.FunGrnlEntryWithTrans(SRNLocation, False, strVoucherNoForRecreateOnly, trans, obj.Acquisition_Date, "Acquisition Entry Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry", strDocNo, "Acquisition Entry", "V", strDocNo, "Acquisition Entry", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                            clsJournalMaster.FunGrnlEntryWithTrans(SRNLocation, False, strVoucherNoForRecreateOnly, trans, obj.Acquisition_Date, "Acquisition Entry Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry", strDocNo, "Acquisition Entry", "V", strDocNo, "Acquisition Entry", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
                         Else
-                            transportSql.FunGrnlEntryWithTrans(SRNLocation, False, trans, obj.Acquisition_Date, "Acquisition Entry Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry", strDocNo, "Acquisition Entry", "V", strDocNo, "Acquisition Entry", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                            clsJournalMaster.FunGrnlEntryWithTrans(SRNLocation, False, trans, obj.Acquisition_Date, "Acquisition Entry Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry", strDocNo, "Acquisition Entry", "V", strDocNo, "Acquisition Entry", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
                         End If
 
                     Else
                         If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                            transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoForRecreateOnly, trans, obj.Acquisition_Date, "Acquisition Entry Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry", strDocNo, "Acquisition Entry", "V", strDocNo, "Acquisition Entry", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoForRecreateOnly, trans, obj.Acquisition_Date, "Acquisition Entry Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry", strDocNo, "Acquisition Entry", "V", strDocNo, "Acquisition Entry", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
                         Else
-                            transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Acquisition_Date, "Acquisition Entry Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry", strDocNo, "Acquisition Entry", "V", strDocNo, "Acquisition Entry", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Acquisition_Date, "Acquisition Entry Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry", strDocNo, "Acquisition Entry", "V", strDocNo, "Acquisition Entry", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
                         End If
 
                     End If
@@ -1410,9 +1410,9 @@ Public Class clsAcquisitionHead
                         Throw New Exception("No Issue entry found  for Acquistion Entry -" & strDocNo & " hence WIP Account could not be mapped. ")
                     End If
                     If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoForRecreateOnly, trans, obj.Acquisition_Date, "Acquisition Entry Assembled Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry Assembled", strDocNo, "Acquisition Entry Assembled", "V", strDocNo, "Acquisition Entry Assembled", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoForRecreateOnly, trans, obj.Acquisition_Date, "Acquisition Entry Assembled Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry Assembled", strDocNo, "Acquisition Entry Assembled", "V", strDocNo, "Acquisition Entry Assembled", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Acquisition_Date, "Acquisition Entry Assembled Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry Assembled", strDocNo, "Acquisition Entry Assembled", "V", strDocNo, "Acquisition Entry Assembled", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Acquisition_Date, "Acquisition Entry Assembled Asset , Against Doc No:  " & strDocNo & strAcquisionDesc, "AQ-AS", "Acquisition Entry Assembled", strDocNo, "Acquisition Entry Assembled", "V", strDocNo, "Acquisition Entry Assembled", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
                     End If
 
                 End If
@@ -2410,7 +2410,7 @@ Public Class clsAssetAccountChangeHead
                 'Else
                 '    Throw New Exception("No Issue entry found  for Acquistion Entry -" & strDocNo & " hence WIP Account could not be mapped. ")
                 'End If
-                transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Doc_Date, "Asset Account Change, Against Acquisition Code:  " & obj.Acquisition_Code, "AQ-AC", "Asset Account Change", strDocNo, "Asset Account Change", "V", strDocNo, "Asset Account Change", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Doc_Date, "Asset Account Change, Against Acquisition Code:  " & obj.Acquisition_Code, "AQ-AC", "Asset Account Change", strDocNo, "Asset Account Change", "V", strDocNo, "Asset Account Change", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
             End If
             '    End If
             'End If

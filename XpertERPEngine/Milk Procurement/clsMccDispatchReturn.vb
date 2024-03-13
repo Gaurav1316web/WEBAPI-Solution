@@ -122,7 +122,7 @@ Public Class clsMCCDispatchReturn
                         'Dim Acc() As String = {clsCommon.myCstr(dr("Account_code")), clsCommon.myCdbl(dr("Amount"))}
                         'ArryLstGLAC.Add(Acc)
                     Next
-                    transportSql.FunGrnlEntryWithTrans(objSRN.MCC_Code, False, trans, obj.Document_Date, "Against MCC Dispatch Return " + obj.Document_No, "CH-RT", "MCC Dispatch Return", obj.Document_No, obj.Remarks, "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                    clsJournalMaster.FunGrnlEntryWithTrans(objSRN.MCC_Code, False, trans, obj.Document_Date, "Against MCC Dispatch Return " + obj.Document_No, "CH-RT", "MCC Dispatch Return", obj.Document_No, obj.Remarks, "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
                 End If
                 trans.Commit()
             Catch ex As Exception
@@ -1386,7 +1386,7 @@ Public Class clsMccTankerDispatchReturn
     '            ArryLst.Add(New String() {COGT_AC, CostOfItem})
     '            ArryLst.Add(New String() {Inventory_Control_Ac_FromLoc, CostOfItem * -1})
     '        End If
-    '        isCreated = transportSql.FunGrnlEntryWithTrans(obj.MCC_Code, False, strVoucherNo, trans, clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MMM/yyyy"), " Against Dispatch Challan No  -" + obj.Chalan_NO + " For Milk transfer from " + obj.MCC_Code + " to " + obj.Mcc_Or_Plant_Code, "DI-CH", "Dispatch Challan", obj.Chalan_NO, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, " ", " Stock Transfer From " & clsLocation.GetName(obj.MCC_Code, trans) & "  to " & clsLocation.GetName(obj.Mcc_Or_Plant_Code, trans))
+    '        isCreated = clsJournalMaster.FunGrnlEntryWithTrans(obj.MCC_Code, False, strVoucherNo, trans, clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MMM/yyyy"), " Against Dispatch Challan No  -" + obj.Chalan_NO + " For Milk transfer from " + obj.MCC_Code + " to " + obj.Mcc_Or_Plant_Code, "DI-CH", "Dispatch Challan", obj.Chalan_NO, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, " ", " Stock Transfer From " & clsLocation.GetName(obj.MCC_Code, trans) & "  to " & clsLocation.GetName(obj.Mcc_Or_Plant_Code, trans))
     '    Catch ex As Exception
     '        'Rollbacking Transaction on exception if Transaction Is Locally Initialized
     '        If isTransLocallyInit Then
@@ -1584,9 +1584,9 @@ Public Class clsMccTankerDispatchReturn
             Dim Remarks As String = "Journal Entry against MCC Tanker Dispatch Return from location -" & obj.MCC_Code & " to location- " & obj.Mcc_Or_Plant_Code & " For  Doc No." & obj.Return_NO & " and Chalan No." & obj.Chalan_NO & ""
             AddTransferReturnDiffAccount(obj, ArryLst, trans)
             If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then ''because if voucher no known then recreate it with same no.
-                transportSql.FunGrnlEntryWithTrans(obj.MCC_Code, False, strVoucherNoForRecreateOnly, trans, obj.Return_Date, GLDesc, "DS-RT", "Dispatch Challan Return", obj.Return_NO, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.MCC_Code, False, strVoucherNoForRecreateOnly, trans, obj.Return_Date, GLDesc, "DS-RT", "Dispatch Challan Return", obj.Return_NO, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.MCC_Code, False, trans, obj.Return_Date, GLDesc, "DS-RT", "Dispatch Challan Return", obj.Return_NO, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.MCC_Code, False, trans, obj.Return_Date, GLDesc, "DS-RT", "Dispatch Challan Return", obj.Return_NO, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -1859,9 +1859,9 @@ Public Class clsMccTankerDispatchReturn
             Dim Remarks As String = "Journal Entry against MCC Tanker Dispatch Return from location -" & FromLocation & " For Doc No. " & obj.Return_NO & ", Transfer Out Doc No: " & obj.Chalan_NO
 
             If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.MCC_Code, False, strVoucherNoForRecreateOnly, trans, obj.Return_Date, GLDesc, "DS-RT", "Milk Transfer In", obj.Return_NO, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Return_NO)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.MCC_Code, False, strVoucherNoForRecreateOnly, trans, obj.Return_Date, GLDesc, "DS-RT", "Milk Transfer In", obj.Return_NO, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Return_NO)
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.MCC_Code, False, trans, obj.Return_Date, GLDesc, "DS-RT", "Milk Transfer In", obj.Return_NO, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Return_NO)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.MCC_Code, False, trans, obj.Return_Date, GLDesc, "DS-RT", "Milk Transfer In", obj.Return_NO, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Return_NO)
             End If
             'End If
         Catch ex As Exception
@@ -2135,9 +2135,9 @@ Public Class clsMccTankerDispatchReturn
             'Dim Remarks As String = "Journal Entry against MCC Tanker Dispatch Return from location -" & FromLocation & " For Doc No. " & obj.Return_NO & ", Transfer Out Doc No: " & obj.Chalan_NO
 
             'If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-            '    transportSql.FunGrnlEntryWithTrans(obj.MCC_Code, False, strVoucherNoForRecreateOnly, trans, obj.Return_Date, GLDesc, "DS-RT", "Milk Transfer In", obj.Return_NO, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Return_NO)
+            '    clsJournalMaster.FunGrnlEntryWithTrans(obj.MCC_Code, False, strVoucherNoForRecreateOnly, trans, obj.Return_Date, GLDesc, "DS-RT", "Milk Transfer In", obj.Return_NO, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Return_NO)
             'Else
-            '    transportSql.FunGrnlEntryWithTrans(obj.MCC_Code, False, trans, obj.Return_Date, GLDesc, "DS-RT", "Milk Transfer In", obj.Return_NO, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Return_NO)
+            '    clsJournalMaster.FunGrnlEntryWithTrans(obj.MCC_Code, False, trans, obj.Return_Date, GLDesc, "DS-RT", "Milk Transfer In", obj.Return_NO, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Return_NO)
             'End If
             'End If
         Catch ex As Exception

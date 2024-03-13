@@ -1124,7 +1124,7 @@ Public Class clsSaleReturnInterCompany
             ''End of Reverse the All GL Entry Becuse it is sales Return (changing the Dr to Cr and Cr To Dr)
 
 
-            transportSql.FunGrnlEntryWithTrans(obj.Location, False, trans, obj.Document_Date, "Against Sale Return No" + strDocNo, "SD-SR", "Sale Return", strDocNo, "", "C", obj.Cust_Code, obj.Cust_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstNew)
+            clsJournalMaster.FunGrnlEntryWithTrans(obj.Location, False, trans, obj.Document_Date, "Against Sale Return No" + strDocNo, "SD-SR", "Sale Return", strDocNo, "", "C", obj.Cust_Code, obj.Cust_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstNew)
             ''end of GL Entry
 
 

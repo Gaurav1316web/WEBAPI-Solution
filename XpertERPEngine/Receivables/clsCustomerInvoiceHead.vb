@@ -1471,8 +1471,8 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
             End If
 
 
-            '' transportSql.FunGrnlEntryWithTrans(True, 0, "", "N", LocSegmentCode, True, isForUnpostedTransaction, strVoucherNo, trans, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Post_Date")), strRemarks, "GL-JE", strSourceTypeDesc, strDocNo, "", IIf(clsCommon.CompairString(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), "P") = CompairStringResult.Equal, "C", "O"), dtReceipt.Rows(0)("Cust_Code").ToString(), dtReceipt.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , dtReceipt.Rows(0)("Reference").ToString(), dtReceipt.Rows(0)("Narration").ToString(), coll)
-            transportSql.FunGrnlEntryWithTrans(True, 0, "", "N", obj.loc_code, True, isForUnpostedTransaction, strVoucherNo, trans, obj.Document_Date, strEntryDesc, strSrcType, strSrcDesc, obj.Document_No, obj.Description, "C", obj.Customer_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", strRemarks, Nothing, coll)
+            '' clsJournalMaster.FunGrnlEntryWithTrans(True, 0, "", "N", LocSegmentCode, True, isForUnpostedTransaction, strVoucherNo, trans, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Post_Date")), strRemarks, "GL-JE", strSourceTypeDesc, strDocNo, "", IIf(clsCommon.CompairString(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), "P") = CompairStringResult.Equal, "C", "O"), dtReceipt.Rows(0)("Cust_Code").ToString(), dtReceipt.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , dtReceipt.Rows(0)("Reference").ToString(), dtReceipt.Rows(0)("Narration").ToString(), coll)
+            clsJournalMaster.FunGrnlEntryWithTrans(True, 0, "", "N", obj.loc_code, True, isForUnpostedTransaction, strVoucherNo, trans, obj.Document_Date, strEntryDesc, strSrcType, strSrcDesc, obj.Document_No, obj.Description, "C", obj.Customer_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", strRemarks, Nothing, coll)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -4702,7 +4702,7 @@ where TSPL_Customer_Invoice_Head.document_No ='" & strDocNo & "'"
         End If
 
         'If IsAllowPurchaseAccounting Then
-        transportSql.FunGrnlEntryWithTrans(obj.loc_code, True, isForUnpostedTransaction, strVoucherNo, trans, obj.Document_Date, strEntryDesc, strSrcType, strSrcDesc, obj.Document_No, obj.Description, "C", obj.Customer_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", strRemarks, Nothing, coll, objJE)
+        clsJournalMaster.FunGrnlEntryWithTrans(obj.loc_code, True, isForUnpostedTransaction, strVoucherNo, trans, obj.Document_Date, strEntryDesc, strSrcType, strSrcDesc, obj.Document_No, obj.Description, "C", obj.Customer_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", strRemarks, Nothing, coll, objJE)
             'End If
 
         Catch ex As Exception

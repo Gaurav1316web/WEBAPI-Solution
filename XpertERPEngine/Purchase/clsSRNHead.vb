@@ -2078,9 +2078,9 @@ Public Class clsSRNHead
                     Next
                     If clsCommon.myLen(strRgpNo) <= 0 Then
                         If strVoucherNoRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoRecreateOnly) > 0 Then
-                            transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, strVoucherNoRecreateOnly, trans, obj.SRN_Date, "Against Store Received Note " + obj.SRN_No, "PO-RC", "Store Received Note", obj.SRN_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                            clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, strVoucherNoRecreateOnly, trans, obj.SRN_Date, "Against Store Received Note " + obj.SRN_No, "PO-RC", "Store Received Note", obj.SRN_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
                         Else
-                            transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.SRN_Date, "Against Store Received Note " + obj.SRN_No, "PO-RC", "Store Received Note", obj.SRN_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                            clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.SRN_Date, "Against Store Received Note " + obj.SRN_No, "PO-RC", "Store Received Note", obj.SRN_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
                         End If
                     End If
                 End If
@@ -2141,9 +2141,9 @@ Public Class clsSRNHead
                         End If
                     End If
                     If strVoucherNoRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoRecreateOnly) > 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, strVoucherNoRecreateOnly, trans, obj.SRN_Date, "SRN Against RGP-" & obj.Against_RGP & "", "SR-RG", "RGP Job Work", obj.SRN_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstRGP)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, strVoucherNoRecreateOnly, trans, obj.SRN_Date, "SRN Against RGP-" & obj.Against_RGP & "", "SR-RG", "RGP Job Work", obj.SRN_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstRGP)
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.SRN_Date, "SRN Against RGP-" & obj.Against_RGP & "", "SR-RG", "RGP Job Work", obj.SRN_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstRGP)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.SRN_Date, "SRN Against RGP-" & obj.Against_RGP & "", "SR-RG", "RGP Job Work", obj.SRN_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstRGP)
                     End If
                     '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
                 End If
@@ -2475,7 +2475,7 @@ Public Class clsSRNHead
     ''        Next
 
     ''        If clsCommon.myLen(strRgpNo) <= 0 Or strRgpNo = Nothing Then
-    ''            transportSql.FunGrnlEntryWithTrans(trans, strPostDate, "Against Store Received Note " + obj.SRN_No, "PO-RC", "Store Received Note", obj.SRN_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+    ''            clsJournalMaster.FunGrnlEntryWithTrans(trans, strPostDate, "Against Store Received Note " + obj.SRN_No, "PO-RC", "Store Received Note", obj.SRN_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
     ''        End If
     ''        isSaved = isSaved AndAlso clsItemLocationDetails.SaveData(strPostDate, ArrLocationDetails, trans)
     ''        isSaved = isSaved AndAlso clsInventoryMovement.SaveData("SRN", obj.SRN_No, obj.SRN_Date, strPostDate, ArrInventoryMovement, trans)

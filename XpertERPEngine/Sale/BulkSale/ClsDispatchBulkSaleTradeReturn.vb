@@ -321,7 +321,7 @@ Public Class ClsDispatchBulkSaleTradeReturn
             Next
         End If
 
-        transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale Trade Return for Document No " + obj.Document_No + " ", "DS-TR", "DISPATCH Bulk Sale Trade", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
+        clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale Trade Return for Document No " + obj.Document_No + " ", "DS-TR", "DISPATCH Bulk Sale Trade", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
 
 
     End Sub
@@ -614,7 +614,7 @@ Public Class clsBulkMilkSRNTradeReturn
                     'ArryLst.Add(New String() {strPaybleClrAc, dt.Rows(0)("Actual_Amount") * -1})
                     ArryLst.Add(New String() {strInvCntrlAc, dt.Rows(0)("Actual_Amount") * -1})
                     ArryLst.Add(New String() {strPaybleClrAc, dt.Rows(0)("Actual_Amount")})
-                    transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(SRN_Return_Date, "dd/MMM/yyyy"), " GL Entry Against Bulk Milk SRN Trade Return No  -" + StrSRN_Return_No + "", "BS-TR", "Bulk Milk SRN Trade Return", StrSRN_Return_No, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(SRN_Return_Date, "dd/MMM/yyyy"), " GL Entry Against Bulk Milk SRN Trade Return No  -" + StrSRN_Return_No + "", "BS-TR", "Bulk Milk SRN Trade Return", StrSRN_Return_No, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
                 End If
             End If
 

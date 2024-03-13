@@ -1539,9 +1539,9 @@ left join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=T
             End If
             Dim GLDesc As String = "Journal Entry Against Production Standardization- Doc No." & obj.Doc_Code & " "
             If clsCommon.myLen(VoucherNo) > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, VoucherNo, trans, obj.Doc_Date, GLDesc, "RP-SZ", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, VoucherNo, trans, obj.Doc_Date, GLDesc, "RP-SZ", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Doc_Date, GLDesc, "RP-SZ", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Doc_Date, GLDesc, "RP-SZ", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
