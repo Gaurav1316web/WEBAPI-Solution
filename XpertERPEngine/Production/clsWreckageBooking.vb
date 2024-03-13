@@ -589,9 +589,9 @@ Public Class clsWreckageBooking
 
             Dim VoucherNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='PP-WR' and Source_Doc_No='" & obj.Wrekage_ENTRY_CODE & "'", trans))
             If clsCommon.myLen(VoucherNo) > 0 Then
-                isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, VoucherNo, trans, obj.PROD_DATE, GLDesc, "PP-WR", "Production Wreckage", obj.Wrekage_ENTRY_CODE, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+                isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, VoucherNo, trans, obj.PROD_DATE, GLDesc, "PP-WR", "Production Wreckage", obj.Wrekage_ENTRY_CODE, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
             Else
-                isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.PROD_DATE, GLDesc, "PP-WR", "Production Wreckage", obj.Wrekage_ENTRY_CODE, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+                isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.PROD_DATE, GLDesc, "PP-WR", "Production Wreckage", obj.Wrekage_ENTRY_CODE, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
             End If
             'End If
             Return isSaved

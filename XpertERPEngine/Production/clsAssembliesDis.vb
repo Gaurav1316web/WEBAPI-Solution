@@ -1124,9 +1124,9 @@ Public Class clsAssembliesDis
                     VoucherNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='PP-AD' and Source_Doc_No='" & obj.CODE & "'", trans))
                 End If
                 If clsCommon.myLen(VoucherNo) > 0 Then
-                    transportSql.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, VoucherNo, trans, obj.ASSEMBLY_DATE, GLDesc, "PP-AD", "Production Assemblies/Disassemblies", obj.CODE, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, VoucherNo, trans, obj.ASSEMBLY_DATE, GLDesc, "PP-AD", "Production Assemblies/Disassemblies", obj.CODE, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
                 Else
-                    transportSql.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, trans, obj.ASSEMBLY_DATE, GLDesc, "PP-AD", "Production Assemblies/Disassemblies", obj.CODE, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, trans, obj.ASSEMBLY_DATE, GLDesc, "PP-AD", "Production Assemblies/Disassemblies", obj.CODE, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
                 End If
             Catch ex As Exception
                 Throw New Exception(ex.Message)

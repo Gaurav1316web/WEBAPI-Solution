@@ -1247,6 +1247,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntriesTNK.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptBoothSlip.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptbulkinvoice.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingTruckSheet.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crpJobworkEstimate.rpt" />
@@ -1312,6 +1313,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTNEFTUploader.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptDBT_NEFTUnionReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDCSLedgerReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptIncentiveEntryBySRN.rpt" />
     <None Include="Crystal Reports\Milk Procurement\CrptMCCMilkBillDetails%28MccWise%29.rpt" />

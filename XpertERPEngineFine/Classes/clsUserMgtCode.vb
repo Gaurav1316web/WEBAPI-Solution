@@ -3,6 +3,7 @@ Public Class clsUserMgtCode
 
     'Public Const FrmReceiptInvoiceMapping As String = "REC-INV-MAP"
     Public Const frmPOBulkProc As String = "PO-BULK-P"
+    Public Const frmDBTNEFTUnionReport As String = "UNION-RPT"
     Public Const frmGateEntryReturnCS As String = "GERETURN-CS"
     Public Const frmGateEntryReturnTransfer As String = "GERET-TRANSF"
     Public Const frmGateEntryReturnPS As String = "GERETURN-PS"

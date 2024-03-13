@@ -1325,9 +1325,9 @@ Public Class ClsCanSaleDispatch
             If isGLUpdate Then
                 ClsCanSale.updateJournalEntry("DS-CS", obj.Document_No, dblCogsCost, trans)
             ElseIf clsCommon.myLen(strVourcherNoForRecreateOnly) > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, strVourcherNoForRecreateOnly, trans, obj.Document_Date, "Journal Entry Against Dispatch Can Sale for Document No " + obj.Document_No + " ", "DS-CS", "DISPATCH Can Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, strVourcherNoForRecreateOnly, trans, obj.Document_Date, "Journal Entry Against Dispatch Can Sale for Document No " + obj.Document_No + " ", "DS-CS", "DISPATCH Can Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, "Journal Entry Against Dispatch Can Sale for Document No " + obj.Document_No + " ", "DS-CS", "DISPATCH Can Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, "Journal Entry Against Dispatch Can Sale for Document No " + obj.Document_No + " ", "DS-CS", "DISPATCH Can Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
             End If
 
         End If

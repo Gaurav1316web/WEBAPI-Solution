@@ -883,7 +883,7 @@ Public Class clsVSPItemIssue
                         arrlist.Add(ToFilledAcc)
                     End If
                     '' BHA/30/10/18-000646 RICHA AGARWAL SEND vENDOR CODE AND VENDOR NAME INTO JOURNAL ENTRY AND TYPE V instead of C 30 Oct,2018
-                    transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "VSP-TF", "VSP Transfer", obj.Doc_No, "", "V", obj.Issue_To, clsVendorMaster.GetName(obj.Issue_To, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "VSP-TF", "VSP Transfer", obj.Doc_No, "", "V", obj.Issue_To, clsVendorMaster.GetName(obj.Issue_To, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
                 End If
             End If
             

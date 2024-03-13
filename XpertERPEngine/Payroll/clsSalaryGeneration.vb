@@ -1087,7 +1087,7 @@ Public Class clsSalaryGeneration
 
         'Dim SalaryPayment_Date As Date = clsPayPeriodMaster.GetToDate(obj.PAY_PERIOD_CODE, trans)
         Dim paymentDesc As String = "Payment of salary for the month of " & obj.PAY_PERIOD_CODE & ""
-        Return transportSql.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, strVoucherNoifExists, trans, obj.GENERATE_DATE, paymentDesc, sourceType, sourceDesc, obj.Code, obj.GENERATE_REMARKS, "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrmis, , obj.GENERATE_REMARKS, obj.GENERATE_REMARKS)
+        Return clsJournalMaster.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, strVoucherNoifExists, trans, obj.GENERATE_DATE, paymentDesc, sourceType, sourceDesc, obj.Code, obj.GENERATE_REMARKS, "", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrmis, , obj.GENERATE_REMARKS, obj.GENERATE_REMARKS)
 
     End Function
     Shared Function Create_APInvoiceEntry(ByVal objSG As clsSalaryGeneration, ByVal trans As SqlTransaction) As Boolean

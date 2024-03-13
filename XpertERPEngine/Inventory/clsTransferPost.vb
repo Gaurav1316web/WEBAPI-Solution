@@ -1259,8 +1259,8 @@ Public Class clsTransferMaster
         Dim fromShipmentCogs As Decimal = 0
         Dim toShipmentCogs As Decimal = 0
         'Dim frmj As New frmJournalEntry(objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode)
-        'Dim StrVoucher As String = transportSql.fnAutoGenerateNo(trans, obj.Transfer_Date, False, obj.From_Location, False)
-        Dim StrVoucher As String = transportSql.fnAutoGenerateNo(trans, obj.Transfer_Date, clsDocTransactionType.JournalEntryOther, obj.From_Location, False)
+        'Dim StrVoucher As String = clsJournalMaster.fnAutoGenerateNo(trans, obj.Transfer_Date, False, obj.From_Location, False)
+        Dim StrVoucher As String = clsJournalMaster.fnAutoGenerateNo(trans, obj.Transfer_Date, clsDocTransactionType.JournalEntryOther, obj.From_Location, False)
         Sql = "SELECT SourceDescription  FROM TSPL_GL_SOURCECODE WHERE SourceCode = 'MM-TF'"
         Dim strSourceDesc As String = connectSql.RunScalar(trans, Sql)
         Dim strInvoiceNo As String = obj.Transfer_No
@@ -1314,12 +1314,12 @@ Public Class clsTransferMaster
             Dim toLocSegCode As String = connectSql.RunScalar(trans, Sql)
 
             If strExcisable = "F" AndAlso strFromLType = "Logical" Then
-                Sql = "SELECT PA.Reserve_Stock FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-          " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                Sql = "SELECT PA.Reserve_Stock FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+          " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
            " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr.Item(0).Item_Code.ToString() + "'"
             Else
-                Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-                              " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+                              " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                                " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr.Item(0).Item_Code.ToString() + "'"
             End If
 
@@ -1337,8 +1337,8 @@ Public Class clsTransferMaster
 
             End If
             If strExcisable = "F" AndAlso strToLType = "Logical" Then
-                Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-           " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+           " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
             " TSPL_GL_ACCOUNTS AS GLA ON PA.Reserve_Stock = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr.Item(0).Item_Code.ToString() + "'"
 
                 strToInvAcc = connectSql.RunScalar(trans, Sql).Replace(connectSql.RunScalar(trans, Sql).ToString().Substring(connectSql.RunScalar(trans, Sql).ToString().Length - 3, 3), toLocSegCode)
@@ -1346,8 +1346,8 @@ Public Class clsTransferMaster
                 If IsCreateJEForTransfer Then
                     Sql = "select TSPL_SALES_ACCOUNTS.Suspence_Account from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code  where TSPL_ITEM_MASTER.Item_Code='" + obj.Arr.Item(0).Item_Code + "'"
                 Else
-                    Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-                   " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                    Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+                   " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                     " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr.Item(0).Item_Code.ToString() + "'"
                 End If
                 strToInvAcc = connectSql.RunScalar(trans, Sql).Replace(connectSql.RunScalar(trans, Sql).ToString().Substring(connectSql.RunScalar(trans, Sql).ToString().Length - 3, 3), toLocSegCode)
@@ -1358,8 +1358,8 @@ Public Class clsTransferMaster
                 Throw New Exception("Reserve Stock Account not found.")
             End If
 
-            Sql = "SELECT PA.Breakage_Gl_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-               " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+            Sql = "SELECT PA.Breakage_Gl_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+               " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                 " TSPL_GL_ACCOUNTS AS GLA ON PA.Reserve_Stock = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr.Item(0).Item_Code.ToString() + "'"
             strBrkgAcc = connectSql.RunScalar(trans, Sql).Replace(connectSql.RunScalar(trans, Sql).ToString().Substring(connectSql.RunScalar(trans, Sql).ToString().Length - 3, 3), toLocSegCode)
             Sql = "SELECT  Description FROM TSPL_GL_ACCOUNTS WHERE  Account_Code = '" + strBrkgAcc + "'"
@@ -1368,8 +1368,8 @@ Public Class clsTransferMaster
                 Throw New Exception("Reserve Stock Account not found.")
             End If
 
-            Sql = "SELECT PA.Assembly_Cost_Credit FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-              " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+            Sql = "SELECT PA.Assembly_Cost_Credit FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+              " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                " TSPL_GL_ACCOUNTS AS GLA ON PA.Reserve_Stock = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr.Item(0).Item_Code.ToString() + "'"
             strShrtgAcc = connectSql.RunScalar(trans, Sql).Replace(connectSql.RunScalar(trans, Sql).ToString().Substring(connectSql.RunScalar(trans, Sql).ToString().Length - 3, 3), toLocSegCode)
             Sql = "SELECT  Description FROM TSPL_GL_ACCOUNTS WHERE  Account_Code = '" + strShrtgAcc + "'"
@@ -1712,9 +1712,9 @@ Public Class clsTransferMaster
                 Sql = "update TSPL_JOURNAL_MASTER SET Authorized= 'A' WHERE Voucher_No='" + StrVoucher + "' "
                 connectSql.RunSqlTransaction(trans, Sql)
             Else
-                Throw New Exception(transportSql.GetJounalEntryException("TSPL_JOURNAL_DETAILS", StrVoucher, trans))
+                Throw New Exception(clsJournalMaster.GetJounalEntryException("TSPL_JOURNAL_DETAILS", StrVoucher, trans))
             End If
-            ''Throw New Exception(transportSql.GetJounalEntryException(StrVoucher, trans))
+            ''Throw New Exception(clsJournalMaster.GetJounalEntryException(StrVoucher, trans))
             Return True
 
         Else
@@ -1739,8 +1739,8 @@ Public Class clsTransferMaster
             If IsCreateJEForTransfer AndAlso strExcisable = "F" AndAlso strToLType = "Logical" Then
                 Sql = "select TSPL_SALES_ACCOUNTS.Suspence_Account from TSPL_ITEM_MASTER left outer join TSPL_SALES_ACCOUNTS on TSPL_SALES_ACCOUNTS.Sales_Class_Code=TSPL_ITEM_MASTER.Sale_Class_Code  where TSPL_ITEM_MASTER.Item_Code='" + obj.Arr.Item(0).Item_Code + "'"
             Else
-                Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-           " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+           " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
             " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr.Item(0).Item_Code.ToString() + "'"
 
             End If
@@ -1753,14 +1753,14 @@ Public Class clsTransferMaster
 
             End If
             If strExcisable = "F" AndAlso strToLType = "Logical" Then
-                Sql = "SELECT PA.Reserve_Stock FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-                " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                Sql = "SELECT PA.Reserve_Stock FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+                " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                  " TSPL_GL_ACCOUNTS AS GLA ON PA.Reserve_Stock = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr.Item(0).Item_Code.ToString() + "'"
                 ''strToInvAcc = connectSql.RunScalar(trans, Sql).Replace(connectSql.RunScalar(trans, Sql).ToString().Substring(connectSql.RunScalar(trans, Sql).ToString().Length - 3, 3), toLocSegCode)''Changet to locaseg code to from locaction seg code as ask by amit sir---Balwinder
                 strToInvAcc = connectSql.RunScalar(trans, Sql).Replace(connectSql.RunScalar(trans, Sql).ToString().Substring(connectSql.RunScalar(trans, Sql).ToString().Length - 3, 3), fromLocSegCode)
             Else
-                Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-               " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+                Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+               " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
                 " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr.Item(0).Item_Code.ToString() + "'"
                 strToInvAcc = connectSql.RunScalar(trans, Sql).Replace(connectSql.RunScalar(trans, Sql).ToString().Substring(connectSql.RunScalar(trans, Sql).ToString().Length - 3, 3), toLocSegCode)
             End If
@@ -2015,9 +2015,9 @@ Public Class clsTransferMaster
                 Sql = "update TSPL_JOURNAL_MASTER SET Authorized= 'A' WHERE Voucher_No='" + StrVoucher + "' "
                 connectSql.RunSqlTransaction(trans, Sql)
             Else
-                Throw New Exception(transportSql.GetJounalEntryException("TSPL_JOURNAL_DETAILS", StrVoucher, trans))
+                Throw New Exception(clsJournalMaster.GetJounalEntryException("TSPL_JOURNAL_DETAILS", StrVoucher, trans))
             End If
-            'Throw New Exception(transportSql.GetJounalEntryException(StrVoucher, trans))
+            'Throw New Exception(clsJournalMaster.GetJounalEntryException(StrVoucher, trans))
             Return True
 
         End If
@@ -2050,9 +2050,9 @@ Public Class clsTransferMaster
                     Count = Count + 1
                     If obj.Item_Type = "Full" Then
                         mrpprice1 = CDec(objTr.MRP * Conversion)
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code + "' " &
                         " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + objTr.Batch_No + "' "
-                        LoadOutItmCost = clsCommon.myCdbl(connectSql.RunScalar(trans, " select  Total_Item_Cost from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Load_Out_No + "' and Item_Code ='" + objTr.Item_Code.ToString() + "'" & _
+                        LoadOutItmCost = clsCommon.myCdbl(connectSql.RunScalar(trans, " select  Total_Item_Cost from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Load_Out_No + "' and Item_Code ='" + objTr.Item_Code.ToString() + "'" &
                              " AND MRP='" + Convert.ToString(mrpprice1) + "' and batch_no = '" + objTr.Batch_No + "' "))
                         pndqty = clsCommon.myCdbl(connectSql.RunScalar(trans, "select Pending_qty from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Transfer_No + "'and Item_Code ='" + objTr.Item_Code + "'and MRP='" + Convert.ToString(mrpprice1) + "' and price_date = '" + CDate(objTr.Price_Date).ToString("yyyy-MM-dd") + "'"))
                     Else
@@ -2063,9 +2063,9 @@ Public Class clsTransferMaster
                             mrpprice1 = CDec(objTr.MRP * Conversion)
                             pndqty = connectSql.RunScalar(trans, "select Pending_qty from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Transfer_No + "'and Item_Code ='" + objTr.Item_Code + "'and MRP='" + Convert.ToString(mrpprice1) + "' and price_date = '" + CDate(objTr.Price_Date).ToString("yyyy-MM-dd") + "'")
                         End If
-                        LoadOutItmCost = clsCommon.myCdbl(connectSql.RunScalar(trans, " select  Total_Item_Cost from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Transfer_No + "' and Item_Code ='" + objTr.Item_Code.ToString() + "'" & _
+                        LoadOutItmCost = clsCommon.myCdbl(connectSql.RunScalar(trans, " select  Total_Item_Cost from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Transfer_No + "' and Item_Code ='" + objTr.Item_Code.ToString() + "'" &
                               " AND MRP='" + Convert.ToString(mrpprice1) + "' and batch_no = '" + objTr.Batch_No + "' "))
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " &
                          " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND MRP='" + Convert.ToString(mrpprice1) + "' and batch_no = '" + objTr.Batch_No + "' "
                     End If
                     ItemDs.Clear()
@@ -2114,13 +2114,13 @@ Public Class clsTransferMaster
                             If objTr.Uom = "SH" Then
                                 itmcost = CDec(objTr.Total_Item_Cost)
                             End If
-                            Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) - totalloadin1) + "', " & _
-                                  " Amount='" + (CDec(ItemDs.Tables(0).Rows(0)("Amount")) - (totalloadin1 * objTr.Total_Item_Cost)).ToString() + "' where Item_Code='" + objTr.Item_Code + "' " & _
+                            Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) - totalloadin1) + "', " &
+                                  " Amount='" + (CDec(ItemDs.Tables(0).Rows(0)("Amount")) - (totalloadin1 * objTr.Total_Item_Cost)).ToString() + "' where Item_Code='" + objTr.Item_Code + "' " &
                                   " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + ItemDs.Tables(0).Rows(0)("batch_no").ToString() + "'  "
                             connectSql.RunSqlTransaction(trans, Sql)
                         Else
                             ItemType = connectSql.RunScalar(trans, "select ItemType   from TSPL_ITEM_LOCATION_DETAILS where Item_Code = '" + objTr.Item_Code.ToString() + "' and Location_Code = '" + Convert.ToString(obj.From_Location) + "' and Batch_No = '" + Convert.ToString(objTr.Batch_No) + "'")
-                            Sql = "Insert Into TSPL_ITEM_LOCATION_DETAILS Values ('" + objTr.Item_Code + "','" + objTr.Item_Desc + "','" + Convert.ToString(obj.From_Location) + "'," & _
+                            Sql = "Insert Into TSPL_ITEM_LOCATION_DETAILS Values ('" + objTr.Item_Code + "','" + objTr.Item_Desc + "','" + Convert.ToString(obj.From_Location) + "'," &
                            " '" + obj.FromLoc_Desc + "','" + totalloadin1.ToString() + "','" + (totalloadin1 * objTr.Total_Item_Cost).ToString() + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + Convert.ToString(objTr.MRP * Conversion) + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "','" + Convert.ToString(objTr.Batch_No) + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "', 'FM')"
                             connectSql.RunSqlTransaction(trans, Sql)
                         End If
@@ -2131,7 +2131,7 @@ Public Class clsTransferMaster
                     ''In into To Location
                     totalloadin1 = Math.Round(objTr.LoadIn_Qty / Conversion, 2)
                     If obj.Item_Type = "Full" Then
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " &
                         " AND location_code='" + Convert.ToString(obj.To_Location) + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + objTr.Batch_No + "' "
                     Else
                         If CDec(Conversion) <> 1 Then
@@ -2139,7 +2139,7 @@ Public Class clsTransferMaster
                         Else
                             mrpprice1 = CDec(objTr.MRP * CDec(Conversion))
                         End If
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " &
                         " AND location_code='" + Convert.ToString(obj.To_Location) + "' AND MRP='" + Convert.ToString(mrpprice1) + "' and batch_no = '" + objTr.Batch_No + "' "
                     End If
                     ItemDs.Clear()
@@ -2147,15 +2147,15 @@ Public Class clsTransferMaster
                     Dim applyqty As Decimal = objTr.LoadIn_Qty / Conversion
                     If ItemDs.Tables(0).Rows.Count > 0 Then
                         applyqty = applyqty * itmcost
-                        Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) + totalloadin1) + "', " & _
-                              "Amount='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Amount")) * applyqty) + "' where Item_Code='" + objTr.Item_Code.ToString() + "' " & _
+                        Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) + totalloadin1) + "', " &
+                              "Amount='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Amount")) * applyqty) + "' where Item_Code='" + objTr.Item_Code.ToString() + "' " &
                               " AND location_code='" + Convert.ToString(obj.To_Location) + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + ItemDs.Tables(0).Rows(0)("batch_no").ToString() + "' " ' "
                         connectSql.RunSqlTransaction(trans, Sql)
                     Else
                         ItemType = connectSql.RunScalar(trans, "select ItemType   from TSPL_ITEM_LOCATION_DETAILS where Item_Code = '" + objTr.Item_Code.ToString() + "' and Location_Code = '" + Convert.ToString(obj.From_Location) + "' and Batch_No = '" + Convert.ToString(objTr.Batch_No) + "'")
                         Dim itmc As Decimal = objTr.Total_Item_Cost
                         ' Dim newc As Decimal
-                        Sql = "Insert Into TSPL_ITEM_LOCATION_DETAILS Values ('" + objTr.Item_Code + "','" + objTr.Item_Desc + "','" + Convert.ToString(obj.To_Location) + "'," & _
+                        Sql = "Insert Into TSPL_ITEM_LOCATION_DETAILS Values ('" + objTr.Item_Code + "','" + objTr.Item_Desc + "','" + Convert.ToString(obj.To_Location) + "'," &
                        " '','" + totalloadin1.ToString() + "','" + (totalloadin1 * Math.Round(objTr.Total_Item_Cost, 2)).ToString() + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + Convert.ToString(objTr.MRP * Conversion) + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "','" + Convert.ToString(objTr.Batch_No) + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "', '" + ItemType + "')"
                         connectSql.RunSqlTransaction(trans, Sql)
                     End If
@@ -2163,19 +2163,19 @@ Public Class clsTransferMaster
                     ''Handliing Leak Qty
                     Dim S As String = CDec(objTr.Leak)
                     If objTr.Leak > 0 Then
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(objTr.Item_Code) + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(objTr.Item_Code) + "' " &
                               " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + objTr.Batch_No + "' "
                         ItemDs.Clear()
                         ItemDs = connectSql.RunSQLReturnDS(trans, Sql)
                         totalloadin1 = Math.Round(objTr.Leak / Conversion, 2)
                         If ItemDs.Tables(0).Rows.Count > 0 Then
-                            Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) - totalloadin1) + "', " & _
-                            "Amount='" + (CDec(ItemDs.Tables(0).Rows(0)("Amount")) - (totalloadin1 * objTr.Total_Item_Cost).ToString()).ToString() + "' where Item_Code='" + Convert.ToString(objTr.Item_Code) + "' " & _
+                            Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) - totalloadin1) + "', " &
+                            "Amount='" + (CDec(ItemDs.Tables(0).Rows(0)("Amount")) - (totalloadin1 * objTr.Total_Item_Cost).ToString()).ToString() + "' where Item_Code='" + Convert.ToString(objTr.Item_Code) + "' " &
                             " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND MRP='" + objTr.MRP.ToString() + "' and batch_no = '" + ItemDs.Tables(0).Rows(0)("batch_no").ToString() + "'  "
                             connectSql.RunSqlTransaction(trans, Sql)
                         Else
                             ItemType = connectSql.RunScalar(trans, "select ItemType   from TSPL_ITEM_LOCATION_DETAILS where Item_Code = '" + objTr.Item_Code.ToString() + "' and Location_Code = '" + Convert.ToString(obj.From_Location) + "' and Batch_No = '" + Convert.ToString(objTr.Batch_No) + "'")
-                            Sql = "Insert Into TSPL_ITEM_LOCATION_DETAILS Values ('" + Convert.ToString(objTr.Item_Code) + "','" + objTr.Item_Desc + "','" + Convert.ToString(obj.From_Location) + "'," & _
+                            Sql = "Insert Into TSPL_ITEM_LOCATION_DETAILS Values ('" + Convert.ToString(objTr.Item_Code) + "','" + objTr.Item_Desc + "','" + Convert.ToString(obj.From_Location) + "'," &
                             " '" + obj.FromLoc_Desc + "','" + objTr.LoadIn_Qty.ToString() + "','" + (objTr.Item_Qty * objTr.Total_Item_Cost).ToString() + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + objTr.MRP.ToString() + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "','" + Convert.ToString(objTr.Batch_No) + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "', '" + ItemType + "')"
                             connectSql.RunSqlTransaction(trans, Sql)
                         End If
@@ -2197,17 +2197,17 @@ Public Class clsTransferMaster
                             Throw New Exception("Item Rate not found for item " + fathercode + "")
                         End If
 
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(fathercode) + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(fathercode) + "' " &
                         " AND location_code='" + obj.To_Location + "' AND MRP='" + clsCommon.myCstr(FMRP) + "' and batch_no = '" + Convert.ToString(objTr.Batch_No) + "'"
                         ItemDs.Clear()
                         ItemDs = connectSql.RunSQLReturnDS(trans, Sql)
                         If ItemDs.Tables(0).Rows.Count > 0 Then
-                            Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) + totalloadin1) + "', " & _
-                                  "Amount='" + (CDec(ItemDs.Tables(0).Rows(0)("Amount")) + CDec(totalloadin1 * objTr.Total_Item_Cost)).ToString() + "' where Item_Code='" + Convert.ToString(fathercode) + "' " & _
+                            Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) + totalloadin1) + "', " &
+                                  "Amount='" + (CDec(ItemDs.Tables(0).Rows(0)("Amount")) + CDec(totalloadin1 * objTr.Total_Item_Cost)).ToString() + "' where Item_Code='" + Convert.ToString(fathercode) + "' " &
                                   " AND location_code='" + Convert.ToString(obj.To_Location) + "' AND MRP='" + clsCommon.myCstr(FMRP) + "' and batch_no = '" + ItemDs.Tables(0).Rows(0)("batch_no").ToString() + "' " ' "
                             connectSql.RunSqlTransaction(trans, Sql)
                         Else
-                            Sql = "Insert Into TSPL_ITEM_LOCATION_DETAILS Values ('" + Convert.ToString(fathercode) + "','" + fathedesc + "','" + Convert.ToString(obj.To_Location) + "'," & _
+                            Sql = "Insert Into TSPL_ITEM_LOCATION_DETAILS Values ('" + Convert.ToString(fathercode) + "','" + fathedesc + "','" + Convert.ToString(obj.To_Location) + "'," &
                                     " '" + obj.ToLoc_Desc + "','" + totalloadin1.ToString() + "','" + (totalloadin1 * objTr.Total_Item_Cost).ToString() + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + clsCommon.myCstr(FMRP) + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "','" + Convert.ToString(objTr.Batch_No) + "','" + Format(connectSql.myDate(trans), "MM/dd/yyyy") + "', 'E')"
                             connectSql.RunSqlTransaction(trans, Sql)
                         End If
@@ -2248,9 +2248,9 @@ Public Class clsTransferMaster
                     Count = Count + 1
                     If obj.Item_Type = "Full" Then
                         mrpprice1 = CDec(objTr.MRP * Conversion)
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code + "' " &
     " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + objTr.Batch_No + "' "
-                        LoadOutItmCost = clsCommon.myCdbl(connectSql.RunScalar(trans, " select  Total_Item_Cost from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Load_Out_No + "' and Item_Code ='" + objTr.Item_Code.ToString() + "'" & _
+                        LoadOutItmCost = clsCommon.myCdbl(connectSql.RunScalar(trans, " select  Total_Item_Cost from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Load_Out_No + "' and Item_Code ='" + objTr.Item_Code.ToString() + "'" &
                              " AND MRP='" + Convert.ToString(mrpprice1) + "' and batch_no = '" + objTr.Batch_No + "' "))
                         pndqty = clsCommon.myCdbl(connectSql.RunScalar(trans, "select Pending_qty from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Transfer_No + "'and Item_Code ='" + objTr.Item_Code + "'and MRP='" + Convert.ToString(mrpprice1) + "' and price_date = '" + CDate(objTr.Price_Date).ToString("yyyy-MM-dd") + "'"))
                     Else
@@ -2262,9 +2262,9 @@ Public Class clsTransferMaster
                             pndqty = clsCommon.myCdbl(connectSql.RunScalar(trans, "select Pending_qty from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Transfer_No + "'and Item_Code ='" + objTr.Item_Code + "'and MRP='" + Convert.ToString(mrpprice1) + "' and price_date = '" + CDate(objTr.Price_Date).ToString("yyyy-MM-dd") + "'"))
 
                         End If
-                        LoadOutItmCost = clsCommon.myCdbl(connectSql.RunScalar(trans, " select  Total_Item_Cost from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Transfer_No + "' and Item_Code ='" + objTr.Item_Code.ToString() + "'" & _
+                        LoadOutItmCost = clsCommon.myCdbl(connectSql.RunScalar(trans, " select  Total_Item_Cost from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Transfer_No + "' and Item_Code ='" + objTr.Item_Code.ToString() + "'" &
                               " AND MRP='" + Convert.ToString(mrpprice1) + "' and batch_no = '" + objTr.Batch_No + "' "))
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " &
                          " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND MRP='" + Convert.ToString(mrpprice1) + "' and batch_no = '" + objTr.Batch_No + "' "
 
                     End If
@@ -2329,7 +2329,7 @@ Public Class clsTransferMaster
                         ' connectSql.RunSqlTransaction(trans, Sql)
                     End If
                     If obj.Item_Type = "Full" Then
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " &
     " AND location_code='" + Convert.ToString(obj.To_Location) + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + objTr.Batch_No + "' "
                     Else
                         If CDec(Conversion) <> 1 Then
@@ -2337,7 +2337,7 @@ Public Class clsTransferMaster
                         Else
                             mrpprice1 = CDec(objTr.MRP * CDec(Conversion))
                         End If
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " &
     " AND location_code='" + Convert.ToString(obj.To_Location) + "' AND MRP='" + Convert.ToString(mrpprice1) + "' and batch_no = '" + objTr.Batch_No + "' "
                     End If
                     ItemDs.Clear()
@@ -2387,7 +2387,7 @@ Public Class clsTransferMaster
                             trans.Rollback()
                             Return False
                         End If
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(objTr.Item_Code) + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(objTr.Item_Code) + "' " &
                       " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + objTr.Batch_No + "' "
                         ItemDs.Clear()
                         ItemDs = connectSql.RunSQLReturnDS(trans, Sql)
@@ -2403,7 +2403,7 @@ Public Class clsTransferMaster
                         '   " '" + obj.FromLoc_Desc + "','" + objTr.LoadIn_Qty.ToString() + "','" + (objTr.Item_Qty * objTr.Total_Item_Cost).ToString() + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + objTr.MRP.ToString() + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + Convert.ToString(objTr.Batch_No) + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "', '" + ItemType + "')"
                         '    connectSql.RunSqlTransaction(trans, Sql)
                         'End If
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(fathercode) + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(fathercode) + "' " &
                  " AND location_code='" + Convert.ToString(obj.To_Location) + "' AND MRP='" + CDec(objTr.MRP * CDec(Conversion)).ToString() + "' and batch_no = '" + Convert.ToString(objTr.Batch_No) + "'"
                         ItemDs.Clear()
                         ItemDs = connectSql.RunSQLReturnDS(trans, Sql)
@@ -2456,9 +2456,9 @@ Public Class clsTransferMaster
                     Count = Count + 1
                     If obj.Item_Type = "Full" Then
                         mrpprice1 = CDec(objTr.MRP * Conversion)
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code + "' " &
     " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + objTr.Batch_No + "' "
-                        Dim t As String = " select  Total_Item_Cost from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Load_Out_No + "' and Item_Code ='" + objTr.Item_Code.ToString() + "'" & _
+                        Dim t As String = " select  Total_Item_Cost from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Load_Out_No + "' and Item_Code ='" + objTr.Item_Code.ToString() + "'" &
                              " AND MRP='" + Convert.ToString(mrpprice1) + "' and batch_no = '" + objTr.Batch_No + "' "
                         LoadOutItmCost = clsCommon.myCdbl(connectSql.RunScalar(trans, t))
                         pndqty = connectSql.RunScalar(trans, "select Pending_qty from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Transfer_No + "'and Item_Code ='" + objTr.Item_Code + "'and MRP='" + Convert.ToString(mrpprice1) + "' and price_date = '" + CDate(objTr.Price_Date).ToString("yyyy-MM-dd") + "'")
@@ -2471,9 +2471,9 @@ Public Class clsTransferMaster
                             pndqty = connectSql.RunScalar(trans, "select Pending_qty from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Transfer_No + "'and Item_Code ='" + objTr.Item_Code + "'and MRP='" + Convert.ToString(mrpprice1) + "' and price_date = '" + CDate(objTr.Price_Date).ToString("yyyy-MM-dd") + "'")
 
                         End If
-                        LoadOutItmCost = connectSql.RunScalar(trans, " select  Total_Item_Cost from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Transfer_No + "' and Item_Code ='" + objTr.Item_Code.ToString() + "'" & _
+                        LoadOutItmCost = connectSql.RunScalar(trans, " select  Total_Item_Cost from TSPL_TRANSFER_DETAIL where Transfer_No ='" + obj.Transfer_No + "' and Item_Code ='" + objTr.Item_Code.ToString() + "'" &
                               " AND MRP='" + Convert.ToString(mrpprice1) + "' and batch_no = '" + objTr.Batch_No + "' ")
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " &
                          " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND MRP='" + Convert.ToString(mrpprice1) + "' and batch_no = '" + objTr.Batch_No + "' "
 
                     End If
@@ -2515,8 +2515,8 @@ Public Class clsTransferMaster
                         'itmcost = CDec(ItemDs.Tables(0).Rows(0)("Amount")) / CDec(ItemDs.Tables(0).Rows(0)("Item_Qty"))
                         itmcost = LoadOutItmCost
                         'Dim newAmt As Decimal = amt - (qty * itmcost)
-                        Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) + totalloadin1) + "', " & _
-                   "Amount='" + (CDec(ItemDs.Tables(0).Rows(0)("Amount")) + (totalloadin1 * itmcost).ToString()).ToString() + "' where Item_Code='" + objTr.Item_Code + "' " & _
+                        Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) + totalloadin1) + "', " &
+                   "Amount='" + (CDec(ItemDs.Tables(0).Rows(0)("Amount")) + (totalloadin1 * itmcost).ToString()).ToString() + "' where Item_Code='" + objTr.Item_Code + "' " &
                        " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + ItemDs.Tables(0).Rows(0)("batch_no").ToString() + "'  "
 
                         '*******************************
@@ -2530,7 +2530,7 @@ Public Class clsTransferMaster
                         ' Sql = "Insert Into TSPL_ITEM_LOCATION_DETAILS Values ('" + objTr.Item_Code + "','" + objTr.Item_Desc + "','" + Convert.ToString(obj.From_Location) + "'," & _
                         '" '','" + totalloadin1.ToString() + "','" + (totalloadin1 * objTr.Total_Item_Cost).ToString() + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + Convert.ToString(objTr.MRP * Conversion) + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + Convert.ToString(objTr.Batch_No) + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "', 'FM')"
 
-                        Sql = "delete from TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code + "' " & _
+                        Sql = "delete from TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code + "' " &
                        " AND location_code='" + Convert.ToString(obj.From_Location) + "' and itemtype='" + ItemType + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "'  "
                         If ItemDs.Tables(0) IsNot Nothing AndAlso ItemDs.Tables(0).Rows.Count > 0 Then
                             Sql += "  and batch_no = '" + clsCommon.myCstr(ItemDs.Tables(0).Rows(0)("batch_no")) + "'"
@@ -2542,7 +2542,7 @@ Public Class clsTransferMaster
 
 
                     If obj.Item_Type = "Full" Then
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " &
     " AND location_code='" + Convert.ToString(obj.To_Location) + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + objTr.Batch_No + "' "
                     Else
                         If CDec(Conversion) <> 1 Then
@@ -2550,7 +2550,7 @@ Public Class clsTransferMaster
                         Else
                             mrpprice1 = CDec(objTr.MRP * CDec(Conversion))
                         End If
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " &
     " AND location_code='" + Convert.ToString(obj.To_Location) + "' AND MRP='" + Convert.ToString(mrpprice1) + "' and batch_no = '" + objTr.Batch_No + "' "
                     End If
                     ItemDs.Clear()
@@ -2561,8 +2561,8 @@ Public Class clsTransferMaster
                     If ItemDs.Tables(0).Rows.Count > 0 Then
                         '********** Edited By Manoj For Updation Into Item Location Deatil
                         applyqty = applyqty * itmcost
-                        Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) - totalloadin1) + "', " & _
-                                "Amount='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Amount")) - applyqty) + "' where Item_Code='" + objTr.Item_Code.ToString() + "' " & _
+                        Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) - totalloadin1) + "', " &
+                                "Amount='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Amount")) - applyqty) + "' where Item_Code='" + objTr.Item_Code.ToString() + "' " &
                                     " AND location_code='" + Convert.ToString(obj.To_Location) + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + ItemDs.Tables(0).Rows(0)("batch_no").ToString() + "' " ' "
                         connectSql.RunSqlTransaction(trans, Sql)
 
@@ -2583,7 +2583,7 @@ Public Class clsTransferMaster
                         '" '','" + totalloadin1.ToString() + "','" + (totalloadin1 * Math.Round(itmcost, 2)).ToString() + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + Convert.ToString(objTr.MRP * Conversion) + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + Convert.ToString(objTr.Batch_No) + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "', '" + ItemType + "')"
 
 
-                        Sql = "delete from TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " & _
+                        Sql = "delete from TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + objTr.Item_Code.ToString() + "' " &
                                     " AND location_code='" + Convert.ToString(obj.To_Location) + "' and itemtype='" + ItemType + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + ItemDs.Tables(0).Rows(0)("batch_no").ToString() + "' "
 
 
@@ -2605,14 +2605,14 @@ Public Class clsTransferMaster
                             trans.Rollback()
                             Return False
                         End If
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(objTr.Item_Code) + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(objTr.Item_Code) + "' " &
                       " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND MRP='" + Convert.ToString(objTr.MRP * Conversion) + "' and batch_no = '" + objTr.Batch_No + "' "
                         ItemDs.Clear()
                         ItemDs = connectSql.RunSQLReturnDS(trans, Sql)
                         totalloadin1 = Math.Round(objTr.Leak / Conversion, 2)
                         If ItemDs.Tables(0).Rows.Count > 0 Then
-                            Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) + totalloadin1) + "', " & _
-                        "Amount='" + (CDec(ItemDs.Tables(0).Rows(0)("Amount")) + (totalloadin1 * objTr.Total_Item_Cost).ToString()).ToString() + "' where Item_Code='" + Convert.ToString(objTr.Item_Code) + "' " & _
+                            Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) + totalloadin1) + "', " &
+                        "Amount='" + (CDec(ItemDs.Tables(0).Rows(0)("Amount")) + (totalloadin1 * objTr.Total_Item_Cost).ToString()).ToString() + "' where Item_Code='" + Convert.ToString(objTr.Item_Code) + "' " &
                             " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND MRP='" + (objTr.MRP * Conversion).ToString() + "' and batch_no = '" + ItemDs.Tables(0).Rows(0)("batch_no").ToString() + "'  "
                             connectSql.RunSqlTransaction(trans, Sql)
                         Else
@@ -2620,23 +2620,23 @@ Public Class clsTransferMaster
                             ' Sql = "Insert Into TSPL_ITEM_LOCATION_DETAILS Values ('" + Convert.ToString(objTr.Item_Code) + "','" + objTr.Item_Desc + "','" + Convert.ToString(obj.From_Location) + "'," & _
                             '" '','" + objTr.LoadIn_Qty.ToString() + "','" + (objTr.Item_Qty * objTr.Total_Item_Cost).ToString() + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + objTr.MRP.ToString() + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + Convert.ToString(objTr.Batch_No) + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "', '" + ItemType + "')"
 
-                            Sql = "delete from TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(objTr.Item_Code) + "' " & _
+                            Sql = "delete from TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(objTr.Item_Code) + "' " &
                             " AND location_code='" + Convert.ToString(obj.From_Location) + "' AND  itemtype='" + ItemType + "' and MRP='" + objTr.MRP.ToString() + "' and batch_no = '" + ItemDs.Tables(0).Rows(0)("batch_no").ToString() + "'  "
 
 
                             connectSql.RunSqlTransaction(trans, Sql)
                         End If
-                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(fathercode) + "' " & _
+                        Sql = "SELECT Item_Qty, Amount, batch_no FROM TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(fathercode) + "' " &
                  " AND location_code='" + Convert.ToString(obj.To_Location) + "' AND MRP='" + CDec(objTr.MRP * CDec(Conversion)).ToString() + "' and batch_no = '" + Convert.ToString(objTr.Batch_No) + "'"
                         ItemDs.Clear()
                         ItemDs = connectSql.RunSQLReturnDS(trans, Sql)
                         If ItemDs.Tables(0).Rows.Count > 0 Then
                             If (CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) - totalloadin1) = 0 Then
-                                Sql = "delete from TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(fathercode) + "' " & _
+                                Sql = "delete from TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(fathercode) + "' " &
                                  " AND location_code='" + Convert.ToString(obj.To_Location) + "' and itemtype='E' AND MRP='" + (objTr.MRP * Conversion).ToString() + "' and batch_no = '" + ItemDs.Tables(0).Rows(0)("batch_no").ToString() + "' "
                             Else
-                                Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) - totalloadin1) + "', " & _
-                                                                    "Amount='" + (CDec(ItemDs.Tables(0).Rows(0)("Amount")) - CDec(totalloadin1 * objTr.Total_Item_Cost)).ToString() + "' where Item_Code='" + Convert.ToString(fathercode) + "' " & _
+                                Sql = "UPDATE TSPL_ITEM_LOCATION_DETAILS SET Item_Qty='" + Convert.ToString(CDec(ItemDs.Tables(0).Rows(0)("Item_qty")) - totalloadin1) + "', " &
+                                                                    "Amount='" + (CDec(ItemDs.Tables(0).Rows(0)("Amount")) - CDec(totalloadin1 * objTr.Total_Item_Cost)).ToString() + "' where Item_Code='" + Convert.ToString(fathercode) + "' " &
                                                                         " AND location_code='" + Convert.ToString(obj.To_Location) + "' AND MRP='" + (objTr.MRP * Conversion).ToString() + "' and batch_no = '" + ItemDs.Tables(0).Rows(0)("batch_no").ToString() + "' " ' "
                             End If
                             connectSql.RunSqlTransaction(trans, Sql)
@@ -2646,7 +2646,7 @@ Public Class clsTransferMaster
 
                             'Sql = "Insert Into TSPL_ITEM_LOCATION_DETAILS Values ('" + Convert.ToString(fathercode) + "','" + fathedesc + "','" + Convert.ToString(obj.To_Location) + "'," & _
                             '" '','" + objTr.Leak.ToString() + "','" + (objTr.Leak * objTr.Total_Item_Cost).ToString() + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + objCommonVar.CurrentUserCode + "','" + ((CDec(objTr.MRP)) * CDec(Conversion)).ToString() + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "','" + Convert.ToString(objTr.Batch_No) + "','" + Format(connectSql.myDate(), "MM/dd/yyyy") + "', 'E')"
-                            Sql = "delete from TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(fathercode) + "' " & _
+                            Sql = "delete from TSPL_ITEM_LOCATION_DETAILS where Item_Code='" + Convert.ToString(fathercode) + "' " &
                                   " AND location_code='" + Convert.ToString(obj.To_Location) + "' and itemtype='E' AND MRP='" + (objTr.MRP * Conversion).ToString() + "' and batch_no = '" + ItemDs.Tables(0).Rows(0)("batch_no").ToString() + "' "
                             connectSql.RunSqlTransaction(trans, Sql)
                         End If
@@ -2675,7 +2675,7 @@ Public Class clsTransferMaster
                 trnasfer = objTr.LoadIn_Qty
             End If
             Dim basicost As Decimal = objTr.Basic_Price
-            Dim Qry As String = "select DISTINCT total_item_cost from TSPL_TRANSFER_DETAIL L inner join TSPL_TRANSFER_HEAD H on L.Transfer_No=H.Transfer_No" & _
+            Dim Qry As String = "select DISTINCT total_item_cost from TSPL_TRANSFER_DETAIL L inner join TSPL_TRANSFER_HEAD H on L.Transfer_No=H.Transfer_No" &
                          " where H.Transfer_No  ='" + obj.Load_Out_No + "'  and L.Item_Code ='" + objTr.Item_Code + "' "
             Dim itemcost As String = clsCommon.myCstr(connectSql.RunScalar(trans, Qry))
             If itemcost = "" Or itemcost = Nothing Then
@@ -2803,8 +2803,8 @@ Public Class clsTransferMaster
         Dim toShipmentCogs As Decimal = 0.0
         Dim basicAmt As Decimal = 0.0
         'Dim frmj As New frmJournalEntry(objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode)
-        'Dim StrVoucher As String = transportSql.fnAutoGenerateNo(trans, obj.Transfer_Date, False, obj.From_Location, False)
-        Dim StrVoucher As String = transportSql.fnAutoGenerateNo(trans, obj.Transfer_Date, clsDocTransactionType.JournalEntryOther, obj.From_Location, False)
+        'Dim StrVoucher As String = clsJournalMaster.fnAutoGenerateNo(trans, obj.Transfer_Date, False, obj.From_Location, False)
+        Dim StrVoucher As String = clsJournalMaster.fnAutoGenerateNo(trans, obj.Transfer_Date, clsDocTransactionType.JournalEntryOther, obj.From_Location, False)
         Sql = "SELECT SourceDescription  FROM TSPL_GL_SOURCECODE WHERE SourceCode = 'MM-TF'"
         Dim strSourceDesc As String = connectSql.RunScalar(trans, Sql)
         Dim strInvoiceNo As String = obj.Transfer_No
@@ -2844,8 +2844,8 @@ Public Class clsTransferMaster
         Dim fromLocSegCode As String = connectSql.RunScalar(trans, Sql)
         Sql = "SELECT Loc_Segment_Code from TSPL_LOCATION_MASTER WHERE Location_Code='" + Convert.ToString(obj.To_Location) + "'"
         Dim toLocSegCode As String = connectSql.RunScalar(trans, Sql)
-        Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " & _
-       " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " & _
+        Sql = "SELECT PA.Inv_Control_Account FROM TSPL_ITEM_MASTER AS IM INNER JOIN " &
+       " TSPL_PURCHASE_ACCOUNTS AS PA ON IM.Purchase_Class_Code = PA.Purchase_Class_Code INNER JOIN " &
         " TSPL_GL_ACCOUNTS AS GLA ON PA.Inv_Control_Account = GLA.Account_Code WHERE IM.Item_Code='" + obj.Arr.Item(0).Item_Code.ToString() + "'"
         strFromInvAcc = connectSql.RunScalar(trans, Sql).Replace(connectSql.RunScalar(trans, Sql).ToString().Substring(connectSql.RunScalar(trans, Sql).ToString().Length - 3, 3), fromLocSegCode)
         strToInvAcc = connectSql.RunScalar(trans, Sql).Replace(connectSql.RunScalar(trans, Sql).ToString().Substring(connectSql.RunScalar(trans, Sql).ToString().Length - 3, 3), toLocSegCode)
@@ -3424,9 +3424,9 @@ Public Class clsTransferMaster
             Sql = "update TSPL_JOURNAL_MASTER SET Authorized= 'A' WHERE Voucher_No='" + StrVoucher + "' "
             connectSql.RunSqlTransaction(trans, Sql)
         Else
-            Throw New Exception(transportSql.GetJounalEntryException("TSPL_JOURNAL_DETAILS", StrVoucher, trans))
+            Throw New Exception(clsJournalMaster.GetJounalEntryException("TSPL_JOURNAL_DETAILS", StrVoucher, trans))
         End If
-        ''Throw New Exception(transportSql.GetJounalEntryException(StrVoucher, trans))
+        ''Throw New Exception(clsJournalMaster.GetJounalEntryException(StrVoucher, trans))
         Return True
     End Function
 
