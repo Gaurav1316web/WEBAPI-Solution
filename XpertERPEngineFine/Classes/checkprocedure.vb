@@ -2813,7 +2813,8 @@ Public Class ProgramCodeNew
 
         InsertDefaultValue(clsUserMgtCode.ModuleMilkUnion, "Milk Union", "1.49", clsUserMgtCode.ExpertERP, "M", 23)
         InsertDefaultValue(clsUserMgtCode.SubModuleMilkUnion, "Report", "1.49.03", clsUserMgtCode.ModuleMilkUnion, "SM", 30)
-        InsertDefaultValue(clsUserMgtCode.rptMilkUnion, "Milk Union Report", "1.49.4.2", clsUserMgtCode.SubModuleMilkUnion, 30)
+        InsertDefaultValue(clsUserMgtCode.frmDBTNEFTUnionReport, "DBT Union Report", "1.49.04.01", clsUserMgtCode.ModuleMilkUnion, "SM", 8)
+        InsertDefaultValue(clsUserMgtCode.rptMilkUnion, "Milk Union Report", "1.49.4.2", clsUserMgtCode.SubModuleMilkUnion, 8)
         Try
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.BankCashBook, "Bank Cash Book")
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.VehicleUtili, "Vehicle Utilization")
