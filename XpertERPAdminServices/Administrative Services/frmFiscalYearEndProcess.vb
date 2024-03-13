@@ -39,11 +39,11 @@ Public Class FrmFiscalYearEndProcess
             If clsCommon.MyMessageBoxShow(Me, "Start the finanacial year end process" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                 Try
-                    ' transportSql.CreateJEForEndYear("", , trans)
+                    ' clsJournalMaster.CreateJEForEndYear("", , trans)
                     ''richa agarwal changes done against ticket no.BM00000009404 on 4Aug,2016
                     Dim strcurrentfisyearenddate As DateTime? = Nothing
                     strcurrentfisyearenddate = clsDBFuncationality.getSingleValue("select End_Date from TSPL_Fiscal_Year_Master where Fiscal_Code='" + objCommonVar.CurrFiscalYear + "' ", trans)
-                    transportSql.CreateJEForEndYear("", strcurrentfisyearenddate, trans)
+                    clsJournalMaster.CreateJEForEndYear("", strcurrentfisyearenddate, trans)
                     ''-------------------------
 
                     Dim qry As String = "Update TSPL_Fiscal_Year_Master set is_End_Year_Proceed=1 where Fiscal_Code='" + objCommonVar.CurrFiscalYear + "'"

@@ -2657,7 +2657,7 @@ Public Class clsMilkTransporterInvoiceMCC
             End If
 
             If ArryLst1 IsNot Nothing AndAlso ArryLst1.Count > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.PI_Date, "Difference Entry Against PI-" & obj.PI_No & "", "PI-CM", "PI Consumption", obj.PI_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst1)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.PI_Date, "Difference Entry Against PI-" & obj.PI_No & "", "PI-CM", "PI Consumption", obj.PI_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst1)
             End If
 
             ''

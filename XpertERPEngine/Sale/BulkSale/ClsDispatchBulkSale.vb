@@ -899,12 +899,12 @@ Public Class ClsDispatchBulkSale
                 ''richa BHA/12/11/18-000672
                 Dim qry1 As String = "select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No='" + obj.Document_No + "' "
                 Dim strVoucherNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry1, trans))
-                transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, strVoucherNo, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale for Document No " + obj.Document_No + " ", "DS-BS", "DISPATCH Bulk Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, strVoucherNo, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale for Document No " + obj.Document_No + " ", "DS-BS", "DISPATCH Bulk Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
                 'ClsDispatchBulkSale.updateJournalEntry("DS-BS", obj.Document_No, dblCogsCost, trans)
             ElseIf clsCommon.myLen(strVourcherNoForRecreateOnly) > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, strVourcherNoForRecreateOnly, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale for Document No " + obj.Document_No + " ", "DS-BS", "DISPATCH Bulk Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, strVourcherNoForRecreateOnly, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale for Document No " + obj.Document_No + " ", "DS-BS", "DISPATCH Bulk Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale for Document No " + obj.Document_No + " ", "DS-BS", "DISPATCH Bulk Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale for Document No " + obj.Document_No + " ", "DS-BS", "DISPATCH Bulk Sale", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
             End If
 
         End If

@@ -399,7 +399,7 @@ Public Class clsProvisionEntry
             Dim AccCr() As String = {strProvisionalCleanigAC, -1 * Math.Round(((obj.Amount)), 2, MidpointRounding.ToEven)}
             ArryLstGLAC.Add(AccCr)
 
-            transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoRecreateOnly, trans, obj.Doc_Date, "Against Provisional Entry " + obj.Doc_No, "PR-EN", "Provisional Entry", obj.Doc_No, "", "V", obj.Vendor_Code, obj.Vendor_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoRecreateOnly, trans, obj.Doc_Date, "Against Provisional Entry " + obj.Doc_No, "PR-EN", "Provisional Entry", obj.Doc_No, "", "V", obj.Vendor_Code, obj.Vendor_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -437,7 +437,7 @@ Public Class clsProvisionEntry
             Dim AccCr() As String = {FreightAcct, 1 * Math.Round(((obj.Amount)), 2, MidpointRounding.ToEven)}
             ArryLstGLAC.Add(AccCr)
 
-            transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoRecreateOnly, trans, obj.Doc_Date, "Against Provisional Entry " + obj.Doc_No, "PR-EN", "Provisional Entry", obj.Doc_No, "", "V", obj.Vendor_Code, obj.Vendor_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoRecreateOnly, trans, obj.Doc_Date, "Against Provisional Entry " + obj.Doc_No, "PR-EN", "Provisional Entry", obj.Doc_No, "", "V", obj.Vendor_Code, obj.Vendor_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -485,9 +485,9 @@ Public Class clsProvisionEntry
             Dim AccCr() As String = {FreightAcct, 1 * Math.Round(((obj.Amount)), 2, MidpointRounding.ToEven)}
             ArryLstGLAC.Add(AccCr)
             If clsCommon.myLen(obj.GL_Location_Seg) > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.GL_Location_Seg, True, strVoucherNoRecreateOnly, trans, obj.Doc_Date, "Against Provisional Entry " + obj.Doc_No, "PR-EN", "Provisional Entry", obj.Doc_No, "", "V", obj.Vendor_Code, obj.Vendor_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.GL_Location_Seg, True, strVoucherNoRecreateOnly, trans, obj.Doc_Date, "Against Provisional Entry " + obj.Doc_No, "PR-EN", "Provisional Entry", obj.Doc_No, "", "V", obj.Vendor_Code, obj.Vendor_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoRecreateOnly, trans, obj.Doc_Date, "Against Provisional Entry " + obj.Doc_No, "PR-EN", "Provisional Entry", obj.Doc_No, "", "V", obj.Vendor_Code, obj.Vendor_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoRecreateOnly, trans, obj.Doc_Date, "Against Provisional Entry " + obj.Doc_No, "PR-EN", "Provisional Entry", obj.Doc_No, "", "V", obj.Vendor_Code, obj.Vendor_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
             End If
 
 

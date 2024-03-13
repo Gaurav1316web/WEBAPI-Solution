@@ -622,9 +622,9 @@ Public Class clsCSATransferReturnHead
             Dim Old_Voucher_No As String = ""
             Old_Voucher_No = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
             If clsCommon.myLen(Old_Voucher_No) > 0 Then
-                isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, Old_Voucher_No, trans, obj.Document_Date, GLDesc, "CS-RC", "CSA Transfer Return", obj.Document_Code, "", "C", obj.Customer_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , Remarks, "")
+                isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, Old_Voucher_No, trans, obj.Document_Date, GLDesc, "CS-RC", "CSA Transfer Return", obj.Document_Code, "", "C", obj.Customer_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , Remarks, "")
             Else
-                isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.Document_Date, GLDesc, "CS-RC", "CSA Transfer Return", obj.Document_Code, "", "C", obj.Customer_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , Remarks, "")
+                isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.Document_Date, GLDesc, "CS-RC", "CSA Transfer Return", obj.Document_Code, "", "C", obj.Customer_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , Remarks, "")
             End If
 
 

@@ -900,7 +900,7 @@ Public Class clsChemberNoDetails
     Public Shared Function GetData(ByVal strCode As String, ByVal trans As SqlTransaction) As List(Of clsChemberNoDetails)
         Dim arr As List(Of clsChemberNoDetails) = Nothing
         Dim qry As String
-        qry = "select GE_Code,TSPL_Bulk_Gate_Entry_Chember_Details.Vendor_Code,Chember_Code,Vendor_Name from " & _
+        qry = "select GE_Code,TSPL_Bulk_Gate_Entry_Chember_Details.Vendor_Code,Chember_Code,Vendor_Name from " &
             "TSPL_Bulk_Gate_Entry_Chember_Details left join tspl_vendor_master on tspl_vendor_master.vendor_COde=" _
             & " TSPL_Bulk_Gate_Entry_Chember_Details.vendor_code  where TSPL_Bulk_Gate_Entry_Chember_Details.GE_Code='" + strCode + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)

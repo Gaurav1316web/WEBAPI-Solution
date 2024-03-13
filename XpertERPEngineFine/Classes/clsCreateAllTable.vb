@@ -23480,6 +23480,9 @@ Public Class clsCreateAllTable
             coll.Add("Own_BMC_Loose_Sale_SNF", "Decimal(18,2) null")
             coll.Add("Remarks", "Varchar(100) null")
             coll.Add("No_Cluster_DCS", "int null")
+            coll.Add("Status", "Integer NOT NULL DEFAULT 0")
+            coll.Add("Posted_Date", "datetime null")
+            coll.Add("Posted_By", "varchar(12)  NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_MILK_COLLECTION_BMCDCS", coll)
             Try
                 Dim chkValuesDetail As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("SELECT COUNT(OBJECT_ID) AS TotalTables FROM sys.tables where name='TSPL_MILK_COLLECTION_BMCDCS'"))
@@ -25606,6 +25609,12 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Main_VSP_Milk_AP_Invoice_No", "Varchar(30) null References TSPL_VENDOR_INVOICE_HEAD(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_HEAD", coll, Nothing, True, False, Nothing, Nothing, Nothing, True)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("AP_Invoice_No", "Varchar(30) not null References TSPL_VENDOR_INVOICE_HEAD(Document_No)")
+            coll.Add("Against_Security", "Varchar(30) not null References TSPL_VENDOR_INVOICE_HEAD(Document_No)")
+            coll.Add("Amount", "decimal (18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_SECURITY_REFUND", coll, Nothing, False, False, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", Nothing, False)
 
 
             coll = New Dictionary(Of String, String)()

@@ -783,9 +783,9 @@ Public Class clsStanderdProductionEntry
 
             Dim VoucherNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='PR-ER' and Source_Doc_No='" & obj.PROD_ENTRY_CODE & "'", trans))
             If clsCommon.myLen(VoucherNo) > 0 Then
-                isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, VoucherNo, trans, obj.PROD_DATE, GLDesc, "PR-ER", "Production Entry", obj.PROD_ENTRY_CODE, obj.DESCRIPTION, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+                isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, VoucherNo, trans, obj.PROD_DATE, GLDesc, "PR-ER", "Production Entry", obj.PROD_ENTRY_CODE, obj.DESCRIPTION, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
             Else
-                isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, trans, obj.PROD_DATE, GLDesc, "PR-ER", "Production Entry", obj.PROD_ENTRY_CODE, obj.DESCRIPTION, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+                isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.LOCATION_CODE, False, trans, obj.PROD_DATE, GLDesc, "PR-ER", "Production Entry", obj.PROD_ENTRY_CODE, obj.DESCRIPTION, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
             End If
 
             Return isSaved

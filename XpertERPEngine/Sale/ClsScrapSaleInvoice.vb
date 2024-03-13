@@ -948,7 +948,7 @@ Public Class scrapinvoicehead
                 Throw New Exception("Error in Posting: Total Debit Amount:" + clsCommon.myCstr(Math.Abs(totDrAmt)) + " and Total Credit Amount: " + clsCommon.myCstr(Math.Abs(totCrAmt)) + "")
             End If
 
-            transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, strPostDate, "Against Scrap Sale " + obj.invoice_No, "SD-IN", "Scrap Invoice", obj.invoice_No, obj.Description, "C", obj.cust_Code, obj.cust_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, strPostDate, "Against Scrap Sale " + obj.invoice_No, "SD-IN", "Scrap Invoice", obj.invoice_No, obj.Description, "C", obj.cust_Code, obj.cust_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
             Dim strRMDANo As String = ""
             qry = "Update TSPL_SCRAPINVOICE_HEAD set ispost=1, Posting_Date='" + clsCommon.GetPrintDate(strPostDate, "dd/MMM/yyyy ") + "',Modify_By='" + objCommonVar.CurrentUserCode + "'"
             qry += " where invoice_No='" + strDocNo + "'"

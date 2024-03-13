@@ -704,7 +704,7 @@ Public Class clsMilkPurchaseInvoiceHead
                             strPaybleClrAc = clsERPFuncationality.ChangeGLAccountLocationSegment(strPaybleClrAc, dt.Rows(0)("Loc_Code"), trans)
                             ArryLst.Add(New String() {strInvCntrlAc, DiffAmount * -1})
                             ArryLst.Add(New String() {strPaybleClrAc, DiffAmount, "", "", "", "", "", "", "Y"})
-                            transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MMM/yyyy"), "Adjustment Against Bulk Milk Purchase Invoice  -" + obj.DOC_NO + "", "BM-PI", "Bulk Milk Purchase Invoice", obj.DOC_NO, "", "C", obj.DOC_NO, obj.DOC_NO, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.vendor_code & ", " & clsVendorMaster.GetName(obj.vendor_code, trans))
+                            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MMM/yyyy"), "Adjustment Against Bulk Milk Purchase Invoice  -" + obj.DOC_NO + "", "BM-PI", "Bulk Milk Purchase Invoice", obj.DOC_NO, "", "C", obj.DOC_NO, obj.DOC_NO, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.vendor_code & ", " & clsVendorMaster.GetName(obj.vendor_code, trans))
                         End If
                     ElseIf DiffAmount < 0 Then
                         isAmountDecreased = True
@@ -716,7 +716,7 @@ Public Class clsMilkPurchaseInvoiceHead
                             strPaybleClrAc = clsERPFuncationality.ChangeGLAccountLocationSegment(strPaybleClrAc, dt.Rows(0)("Loc_Code"), trans)
                             ArryLst.Add(New String() {strInvCntrlAc, DiffAmount})
                             ArryLst.Add(New String() {strPaybleClrAc, DiffAmount * -1, "", "", "", "", "", "", "Y"})
-                            transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MMM/yyyy"), "Adjustment Against Bulk Milk Purchase Invoice  -" + obj.DOC_NO + "", "BM-PI", "Bulk Milk Purchase Invoice", obj.DOC_NO, "", "C", obj.DOC_NO, obj.DOC_NO, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.vendor_code & ", " & clsVendorMaster.GetName(obj.vendor_code, trans))
+                            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MMM/yyyy"), "Adjustment Against Bulk Milk Purchase Invoice  -" + obj.DOC_NO + "", "BM-PI", "Bulk Milk Purchase Invoice", obj.DOC_NO, "", "C", obj.DOC_NO, obj.DOC_NO, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.vendor_code & ", " & clsVendorMaster.GetName(obj.vendor_code, trans))
                         End If
                     End If
                 End If
@@ -764,7 +764,7 @@ Public Class clsMilkPurchaseInvoiceHead
                         ArryLst.Add(New String() {strPaybleClrAc, DiffAmt * -1, "", "", "", "", "", "", "Y"})
                     End If
                 Next
-                transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MMM/yyyy"), "Adjustment Against Bulk Milk Purchase Invoice  -" + obj.DOC_NO + "", "BM-PI", "Bulk Milk Purchase Invoice", obj.DOC_NO, "", "C", obj.DOC_NO, obj.DOC_NO, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.vendor_code & ", " & clsVendorMaster.GetName(obj.vendor_code, trans))
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MMM/yyyy"), "Adjustment Against Bulk Milk Purchase Invoice  -" + obj.DOC_NO + "", "BM-PI", "Bulk Milk Purchase Invoice", obj.DOC_NO, "", "C", obj.DOC_NO, obj.DOC_NO, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.vendor_code & ", " & clsVendorMaster.GetName(obj.vendor_code, trans))
 
             End If
 

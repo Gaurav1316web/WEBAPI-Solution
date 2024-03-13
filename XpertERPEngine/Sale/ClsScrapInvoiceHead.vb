@@ -1653,7 +1653,7 @@ Left Outer Join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id  =TSPL_SCR
         If Math.Abs(Math.Round(totDrAmt, 2)) <> Math.Abs(Math.Round(totCrAmt, 2)) Then
             Throw New Exception("Error in Posting: Total Debit Amount:" + clsCommon.myCstr(Math.Abs(totDrAmt)) + " and Total Credit Amount: " + clsCommon.myCstr(Math.Abs(totCrAmt)) + "")
         End If
-        istrue = transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.shipment_Date, "Against Scrap Invoice " + obj.invoice_No + "With Shipment No: " + obj.shipment_No, "AR-SI", "Scrap Invoice", obj.invoice_No, obj.Description, "C", obj.cust_Code, obj.cust_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+        istrue = clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.shipment_Date, "Against Scrap Invoice " + obj.invoice_No + "With Shipment No: " + obj.shipment_No, "AR-SI", "Scrap Invoice", obj.invoice_No, obj.Description, "C", obj.cust_Code, obj.cust_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
         Return True
     End Function
     Public Shared Function GetaddtionalAcc(ByVal Add_Code As String, ByVal trans As SqlTransaction) As String

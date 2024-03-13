@@ -1362,9 +1362,9 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
 
     '        Dim VoucherNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='PR-ST' and Source_Doc_No='" & obj.Doc_Code & "'", trans))
     '        If clsCommon.myLen(VoucherNo) > 0 Then
-    '            isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, VoucherNo, trans, obj.Doc_Date, GLDesc, "PR-ST", "Production Standardization", obj.Doc_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+    '            isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, VoucherNo, trans, obj.Doc_Date, GLDesc, "PR-ST", "Production Standardization", obj.Doc_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
     '        Else
-    '            isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Doc_Date, GLDesc, "PR-ST", "Production Standardization", obj.Doc_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+    '            isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Doc_Date, GLDesc, "PR-ST", "Production Standardization", obj.Doc_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
     '        End If
 
     '        Return isSaved
@@ -1497,9 +1497,9 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
 
     '        Dim VoucherNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='PR-ST' and Source_Doc_No='" & obj.Doc_Code & "'", trans))
     '        If clsCommon.myLen(VoucherNo) > 0 Then
-    '            isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, VoucherNo, trans, obj.Doc_Date, GLDesc, "PR-ST", "Production Standardization", obj.Doc_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+    '            isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, VoucherNo, trans, obj.Doc_Date, GLDesc, "PR-ST", "Production Standardization", obj.Doc_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
     '        Else
-    '            isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Doc_Date, GLDesc, "PR-ST", "Production Standardization", obj.Doc_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+    '            isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Doc_Date, GLDesc, "PR-ST", "Production Standardization", obj.Doc_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
     '        End If
 
     '        Return isSaved
@@ -1625,9 +1625,9 @@ left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_
 
     '        Dim GLDesc As String = "Journal Entry Against Production Standardization- Doc No." & obj.Doc_Code & " "
     '        If clsCommon.myLen(VoucherNo) > 0 Then
-    '            transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, VoucherNo, trans, obj.Doc_Date, GLDesc, "RP-SZ", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+    '            clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, VoucherNo, trans, obj.Doc_Date, GLDesc, "RP-SZ", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
     '        Else
-    '            transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Doc_Date, GLDesc, "RP-SZ", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+    '            clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Doc_Date, GLDesc, "RP-SZ", "Production Standardization", obj.Doc_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
     '        End If
     '    Catch ex As Exception
     '        Throw New Exception(ex.Message)

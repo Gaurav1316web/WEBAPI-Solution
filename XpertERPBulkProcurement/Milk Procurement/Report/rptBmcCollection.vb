@@ -83,8 +83,8 @@ group by mcc)TSPL_VLC_MASTER on TSPL_VLC_MASTER.mcc=TSPL_MCC_MASTER.mcc_Code whe
 
             End If
 
-            If CheckBmcDcs.Checked = True Then
-                strQry = " select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],max(TSPL_MILK_COLLECTION_BMCDCS.Created_Date) as Rev_date,max(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader) as Bmc_code,max(TSPL_MCC_MASTER.MCC_NAME) as Bmc_Name,max(TSPL_ZONE_MASTER.Description) as Zone,Max(TSPL_MCC_MASTER.Add2) as Transaction_ID
+            If RbtBmcDcs.Checked = True Then
+                strQry = " select Row_Number() Over (Order By (SELECT 1) Asc) as [S No],max(TSPL_MILK_COLLECTION_BMCDCS.Created_Date) as Rev_date,max(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader) as Bmc_code,max(TSPL_MCC_MASTER.MCC_NAME) as Bmc_Name,max(TSPL_ZONE_MASTER.Description) as Zone,Max(TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id) as Transaction_ID
 ,max(TSPL_MILK_COLLECTION_MCC.Route_Code) as Route_Code,max(TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No) as Sample_No,max(TSPL_MILK_COLLECTION_MCC.Tanker_No)as Tanker_No,max(TSPL_MILK_COLLECTION_BMCDCS.Arrive_Time) as Arrive_Time,max(TSPL_MILK_COLLECTION_BMCDCS.Dispatch_Time)as Dispatch_Time,max(TSPL_MILK_COLLECTION_MCC_DETAIL.Temp) as Temp,max(TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Reading) as Gaze_Reading,max(TSPL_VLC_MASTER.vle_count) AS No_Of_Clusters,max(TSPL_MILK_COLLECTION_MCC_DETAIL.Gaze_Qty) as Total_Bmc_Ltr,max(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty) as Total_Bmc_Kg,max(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT) as FAT_From_BMC_QC_Lab,max(TSPL_MILK_COLLECTION_MCC_DETAIL.SNF) as SNF_From_BMC_QC_Lab,max(TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_FAT) as R_FAT_FROM_BMC_QC_LAB,max(TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_SNF) as R_SNF_FROM_BMC_QC_LAB,max(TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG) as KgFat,max(TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG) as KgSnf
 ,max(TSPL_MILK_COLLECTION_MCC_DETAIL.Qty) as ClusterTotalTKG
 ,max(TSPL_MILK_COLLECTION_MCC_DETAIL.FAT) as ClusterFAT_Percentage
@@ -184,12 +184,26 @@ group by mcc)TSPL_VLC_MASTER on TSPL_VLC_MASTER.mcc=TSPL_MCC_MASTER.mcc_Code whe
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).IsVisible = True
             Gv1.Columns("S No").HeaderText = "S No"
-            Gv1.Columns("Mcc_Code_VLC_Uploader").HeaderText = "Mcc Code VLC Uploader"
-            Gv1.Columns("MCC_NAME").HeaderText = "MCC NAME"
-            Gv1.Columns("Entry_No_Of_Dcs").HeaderText = "Entry No Of Dcs"
-            Gv1.Columns("Total_No_Of_Dcs").HeaderText = "Total No Of Dcs"
-            Gv1.Columns("Qty_Ltr").HeaderText = "Qty Ltr"
-            Gv1.Columns("Qty_Kg").HeaderText = "Qty Kg"
+            If RbtBmcDcs.Checked = True Then
+                Gv1.Columns("Bmc_code").HeaderText = "Mcc Code VLC Uploader"
+                Gv1.Columns("Bmc_Name").HeaderText = "MCC NAME"
+                Gv1.Columns("No_Of_Clusters").HeaderText = "Entry No Of Dcs"
+                Gv1.Columns("No_Of_Clusters").HeaderText = "Total No Of Dcs"
+                'Gv1.Columns("Qty_Ltr").HeaderText = "Qty Ltr"
+                'Gv1.Columns("Qty_Kg").HeaderText = "Qty Kg"
+            Else
+                Gv1.Columns("Mcc_Code_VLC_Uploader").HeaderText = "Mcc Code VLC Uploader"
+                Gv1.Columns("MCC_NAME").HeaderText = "MCC NAME"
+                Gv1.Columns("Entry_No_Of_Dcs").HeaderText = "Entry No Of Dcs"
+                Gv1.Columns("Total_No_Of_Dcs").HeaderText = "Total No Of Dcs"
+                Gv1.Columns("Qty_Ltr").HeaderText = "Qty Ltr"
+                Gv1.Columns("Qty_Kg").HeaderText = "Qty Kg"
+            End If
+
+            'Gv1.Columns("Entry_No_Of_Dcs").HeaderText = "Entry No Of Dcs"
+            'Gv1.Columns("Total_No_Of_Dcs").HeaderText = "Total No Of Dcs"
+            'Gv1.Columns("Qty_Ltr").HeaderText = "Qty Ltr"
+            'Gv1.Columns("Qty_Kg").HeaderText = "Qty Kg"
             'Gv1.Columns("Total_No_Of_Dcs").HeaderText = "Cluster"
             'Gv1.Columns("Total_Bmc_ltr").HeaderText = "Bmc_Ltr"
             'Gv1.Columns("Total_Bmc_Kg").HeaderText = "Bmc_Kg"

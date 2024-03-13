@@ -1969,16 +1969,16 @@ Public Class clsRecurringPayableInvoice
         ''clsCommon.MyMessageBoxShow(obj.Document_No & "    " & obj.Description & "    " & obj.Vendor_Code & "    " & obj.Vendor_Name)
         'If Not clsCommon.CompairString(obj.Order_No, "C") = CompairStringResult.Equal Then  '' for closing (Import opeining balance) balance not making the journal entry. 
         '    If (clsCommon.CompairString(obj.Document_Type, "I") = CompairStringResult.Equal) Then
-        '        transportSql.FunGrnlEntryWithTrans(obj.loc_code, True, trans, strPostDate, pjvNOVochdesc, "AP-IN", "AP Invoice", obj.Document_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+        '        clsJournalMaster.FunGrnlEntryWithTrans(obj.loc_code, True, trans, strPostDate, pjvNOVochdesc, "AP-IN", "AP Invoice", obj.Document_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
         '    ElseIf (clsCommon.CompairString(obj.Document_Type, "C") = CompairStringResult.Equal) Then
-        '        transportSql.FunGrnlEntryWithTrans(obj.loc_code, True, trans, strPostDate, pjvNOVochdesc, "AP-CN", "AP Invoice", obj.Document_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+        '        clsJournalMaster.FunGrnlEntryWithTrans(obj.loc_code, True, trans, strPostDate, pjvNOVochdesc, "AP-CN", "AP Invoice", obj.Document_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
         '    ElseIf (clsCommon.CompairString(obj.Document_Type, "D") = CompairStringResult.Equal) Then
         '        Dim ArryLstNew As ArrayList = New ArrayList()
         '        For Each Str() As String In ArryLst
         '            Dim strNew() As String = {Str(0), -1 * Str(1)}
         '            ArryLstNew.Add(strNew)
         '        Next
-        '        transportSql.FunGrnlEntryWithTrans(obj.loc_code, True, trans, strPostDate, pjvNOVochdesc, "AP-DN", "AP Invoice", obj.Document_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstNew)
+        '        clsJournalMaster.FunGrnlEntryWithTrans(obj.loc_code, True, trans, strPostDate, pjvNOVochdesc, "AP-DN", "AP Invoice", obj.Document_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstNew)
         '    Else
         '        Throw New Exception("Invoice Type not found to Post")
         '    End If
@@ -2199,7 +2199,7 @@ Public Class clsRecurringPayableInvoice
 
 
                 If ArryLst1 IsNot Nothing AndAlso ArryLst1.Count > 0 Then
-                    transportSql.FunGrnlEntryWithTrans(obj.loc_code, False, trans, clsCommon.GETSERVERDATE(trans), "Additional Cost against SRN No '" & strRefDocNo & "' for Vendor '" & obj.Vendor_Name & "'", "AP-IN", "I/C Adjustments", "", "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst1, strRefDocNo)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.loc_code, False, trans, clsCommon.GETSERVERDATE(trans), "Additional Cost against SRN No '" & strRefDocNo & "' for Vendor '" & obj.Vendor_Name & "'", "AP-IN", "I/C Adjustments", "", "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst1, strRefDocNo)
                 End If
             End If
             ''''''''' priti ends here
