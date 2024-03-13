@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class GroupProgramMapping
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,25 +20,25 @@ Partial Class GroupProgramMapping
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewCheckBoxColumn1 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim GridViewCheckBoxColumn2 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim GridViewCheckBoxColumn3 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim GridViewCheckBoxColumn4 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim GridViewCheckBoxColumn5 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim GridViewCheckBoxColumn6 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim GridViewCheckBoxColumn7 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim GridViewCheckBoxColumn8 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim GridViewCheckBoxColumn9 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim GridViewCheckBoxColumn10 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim GridViewCheckBoxColumn11 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim GridViewCheckBoxColumn12 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim GridViewCheckBoxColumn13 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim GridViewTextBoxColumn5 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn6 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewCheckBoxColumn27 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim GridViewCheckBoxColumn28 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim GridViewCheckBoxColumn29 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim GridViewCheckBoxColumn30 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim GridViewCheckBoxColumn31 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim GridViewCheckBoxColumn32 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim GridViewCheckBoxColumn33 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim GridViewCheckBoxColumn34 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim GridViewCheckBoxColumn35 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim GridViewCheckBoxColumn36 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim GridViewCheckBoxColumn37 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim GridViewCheckBoxColumn38 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim GridViewCheckBoxColumn39 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.dgvprogram = New common.UserControls.MyRadGridView()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
         Me.lblcode = New common.Controls.MyLabel()
@@ -63,9 +63,11 @@ Partial Class GroupProgramMapping
         Me.cboModule = New common.Controls.MyComboBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.fndgroup = New common.UserControls.txtNavigator()
+        Me.RadLabel12 = New common.Controls.MyLabel()
         Me.ToolTipnew = New System.Windows.Forms.ToolTip(Me.components)
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnNewHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.dgvprogram, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvprogram.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -87,10 +89,12 @@ Partial Class GroupProgramMapping
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboModule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -112,92 +116,93 @@ Partial Class GroupProgramMapping
         Me.dgvprogram.MasterTemplate.AllowColumnReorder = False
         Me.dgvprogram.MasterTemplate.AllowDeleteRow = False
         Me.dgvprogram.MasterTemplate.AllowDragToGroup = False
-        GridViewTextBoxColumn1.EnableExpressionEditor = False
-        GridViewTextBoxColumn1.HeaderText = "Program Code"
-        GridViewTextBoxColumn1.Name = "Program Code"
-        GridViewTextBoxColumn1.ReadOnly = True
-        GridViewTextBoxColumn1.Width = 95
-        GridViewTextBoxColumn2.EnableExpressionEditor = False
-        GridViewTextBoxColumn2.HeaderText = "Program Name"
-        GridViewTextBoxColumn2.Name = "Program Name"
-        GridViewTextBoxColumn2.ReadOnly = True
-        GridViewTextBoxColumn2.Width = 98
-        GridViewCheckBoxColumn1.EnableExpressionEditor = False
-        GridViewCheckBoxColumn1.HeaderText = "Read"
-        GridViewCheckBoxColumn1.MinWidth = 20
-        GridViewCheckBoxColumn1.Name = "Read"
-        GridViewCheckBoxColumn1.Width = 62
-        GridViewCheckBoxColumn2.EnableExpressionEditor = False
-        GridViewCheckBoxColumn2.HeaderText = "Modify"
-        GridViewCheckBoxColumn2.MinWidth = 20
-        GridViewCheckBoxColumn2.Name = "Modify"
-        GridViewCheckBoxColumn2.Width = 72
-        GridViewCheckBoxColumn3.EnableExpressionEditor = False
-        GridViewCheckBoxColumn3.HeaderText = "Delete"
-        GridViewCheckBoxColumn3.MinWidth = 20
-        GridViewCheckBoxColumn3.Name = "Delete"
-        GridViewCheckBoxColumn3.Width = 69
-        GridViewCheckBoxColumn4.EnableExpressionEditor = False
-        GridViewCheckBoxColumn4.HeaderText = "Authorize"
-        GridViewCheckBoxColumn4.MinWidth = 20
-        GridViewCheckBoxColumn4.Name = "Authorize"
-        GridViewCheckBoxColumn4.Width = 86
-        GridViewCheckBoxColumn5.EnableExpressionEditor = False
-        GridViewCheckBoxColumn5.HeaderText = "Reverse & UnPost"
-        GridViewCheckBoxColumn5.MinWidth = 20
-        GridViewCheckBoxColumn5.Name = "ReverseRecreate"
-        GridViewCheckBoxColumn5.Width = 127
-        GridViewCheckBoxColumn6.EnableExpressionEditor = False
-        GridViewCheckBoxColumn6.HeaderText = "Export"
-        GridViewCheckBoxColumn6.MinWidth = 20
-        GridViewCheckBoxColumn6.Name = "Export"
-        GridViewCheckBoxColumn6.Width = 69
-        GridViewCheckBoxColumn7.EnableExpressionEditor = False
-        GridViewCheckBoxColumn7.HeaderText = "Print"
-        GridViewCheckBoxColumn7.MinWidth = 20
-        GridViewCheckBoxColumn7.Name = "ColPrint"
-        GridViewCheckBoxColumn7.Width = 60
-        GridViewCheckBoxColumn8.EnableExpressionEditor = False
-        GridViewCheckBoxColumn8.HeaderText = "Cancel"
-        GridViewCheckBoxColumn8.MaxWidth = 80
-        GridViewCheckBoxColumn8.MinWidth = 80
-        GridViewCheckBoxColumn8.Name = "ColCancel"
-        GridViewCheckBoxColumn8.Width = 80
-        GridViewCheckBoxColumn9.EnableExpressionEditor = False
-        GridViewCheckBoxColumn9.HeaderText = "Cancel Posted Transaction"
-        GridViewCheckBoxColumn9.MaxWidth = 150
-        GridViewCheckBoxColumn9.MinWidth = 150
-        GridViewCheckBoxColumn9.Name = "ColCancelPostedTransaction"
-        GridViewCheckBoxColumn9.Width = 150
-        GridViewCheckBoxColumn10.EnableExpressionEditor = False
-        GridViewCheckBoxColumn10.HeaderText = "Quick/Bulk Export"
-        GridViewCheckBoxColumn10.MaxWidth = 100
-        GridViewCheckBoxColumn10.MinWidth = 80
-        GridViewCheckBoxColumn10.Name = "QuickExport"
-        GridViewCheckBoxColumn10.Width = 100
-        GridViewCheckBoxColumn11.EnableExpressionEditor = False
-        GridViewCheckBoxColumn11.HeaderText = "Modify On Password"
-        GridViewCheckBoxColumn11.MinWidth = 20
-        GridViewCheckBoxColumn11.Name = "colisModifyonpwd"
-        GridViewCheckBoxColumn11.Width = 141
-        GridViewCheckBoxColumn12.EnableExpressionEditor = False
-        GridViewCheckBoxColumn12.HeaderText = "Amendment"
-        GridViewCheckBoxColumn12.MinWidth = 20
-        GridViewCheckBoxColumn12.Name = "is_Amendment"
-        GridViewCheckBoxColumn12.Width = 99
-        GridViewCheckBoxColumn13.HeaderText = "Update"
-        GridViewCheckBoxColumn13.Name = "Update"
-        GridViewCheckBoxColumn13.Width = 80
-        Me.dgvprogram.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewCheckBoxColumn1, GridViewCheckBoxColumn2, GridViewCheckBoxColumn3, GridViewCheckBoxColumn4, GridViewCheckBoxColumn5, GridViewCheckBoxColumn6, GridViewCheckBoxColumn7, GridViewCheckBoxColumn8, GridViewCheckBoxColumn9, GridViewCheckBoxColumn10, GridViewCheckBoxColumn11, GridViewCheckBoxColumn12, GridViewCheckBoxColumn13})
+        GridViewTextBoxColumn5.EnableExpressionEditor = False
+        GridViewTextBoxColumn5.HeaderText = "Program Code"
+        GridViewTextBoxColumn5.Name = "Program Code"
+        GridViewTextBoxColumn5.ReadOnly = True
+        GridViewTextBoxColumn5.Width = 95
+        GridViewTextBoxColumn6.EnableExpressionEditor = False
+        GridViewTextBoxColumn6.HeaderText = "Program Name"
+        GridViewTextBoxColumn6.Name = "Program Name"
+        GridViewTextBoxColumn6.ReadOnly = True
+        GridViewTextBoxColumn6.Width = 98
+        GridViewCheckBoxColumn27.EnableExpressionEditor = False
+        GridViewCheckBoxColumn27.HeaderText = "Read"
+        GridViewCheckBoxColumn27.MinWidth = 20
+        GridViewCheckBoxColumn27.Name = "Read"
+        GridViewCheckBoxColumn27.Width = 62
+        GridViewCheckBoxColumn28.EnableExpressionEditor = False
+        GridViewCheckBoxColumn28.HeaderText = "Modify"
+        GridViewCheckBoxColumn28.MinWidth = 20
+        GridViewCheckBoxColumn28.Name = "Modify"
+        GridViewCheckBoxColumn28.Width = 72
+        GridViewCheckBoxColumn29.EnableExpressionEditor = False
+        GridViewCheckBoxColumn29.HeaderText = "Delete"
+        GridViewCheckBoxColumn29.MinWidth = 20
+        GridViewCheckBoxColumn29.Name = "Delete"
+        GridViewCheckBoxColumn29.Width = 69
+        GridViewCheckBoxColumn30.EnableExpressionEditor = False
+        GridViewCheckBoxColumn30.HeaderText = "Authorize"
+        GridViewCheckBoxColumn30.MinWidth = 20
+        GridViewCheckBoxColumn30.Name = "Authorize"
+        GridViewCheckBoxColumn30.Width = 86
+        GridViewCheckBoxColumn31.EnableExpressionEditor = False
+        GridViewCheckBoxColumn31.HeaderText = "Reverse & UnPost"
+        GridViewCheckBoxColumn31.MinWidth = 20
+        GridViewCheckBoxColumn31.Name = "ReverseRecreate"
+        GridViewCheckBoxColumn31.Width = 127
+        GridViewCheckBoxColumn32.EnableExpressionEditor = False
+        GridViewCheckBoxColumn32.HeaderText = "Export"
+        GridViewCheckBoxColumn32.MinWidth = 20
+        GridViewCheckBoxColumn32.Name = "Export"
+        GridViewCheckBoxColumn32.Width = 69
+        GridViewCheckBoxColumn33.EnableExpressionEditor = False
+        GridViewCheckBoxColumn33.HeaderText = "Print"
+        GridViewCheckBoxColumn33.MinWidth = 20
+        GridViewCheckBoxColumn33.Name = "ColPrint"
+        GridViewCheckBoxColumn33.Width = 60
+        GridViewCheckBoxColumn34.EnableExpressionEditor = False
+        GridViewCheckBoxColumn34.HeaderText = "Cancel"
+        GridViewCheckBoxColumn34.MaxWidth = 80
+        GridViewCheckBoxColumn34.MinWidth = 80
+        GridViewCheckBoxColumn34.Name = "ColCancel"
+        GridViewCheckBoxColumn34.Width = 80
+        GridViewCheckBoxColumn35.EnableExpressionEditor = False
+        GridViewCheckBoxColumn35.HeaderText = "Cancel Posted Transaction"
+        GridViewCheckBoxColumn35.MaxWidth = 150
+        GridViewCheckBoxColumn35.MinWidth = 150
+        GridViewCheckBoxColumn35.Name = "ColCancelPostedTransaction"
+        GridViewCheckBoxColumn35.Width = 150
+        GridViewCheckBoxColumn36.EnableExpressionEditor = False
+        GridViewCheckBoxColumn36.HeaderText = "Quick/Bulk Export"
+        GridViewCheckBoxColumn36.MaxWidth = 100
+        GridViewCheckBoxColumn36.MinWidth = 80
+        GridViewCheckBoxColumn36.Name = "QuickExport"
+        GridViewCheckBoxColumn36.Width = 100
+        GridViewCheckBoxColumn37.EnableExpressionEditor = False
+        GridViewCheckBoxColumn37.HeaderText = "Modify On Password"
+        GridViewCheckBoxColumn37.MinWidth = 20
+        GridViewCheckBoxColumn37.Name = "colisModifyonpwd"
+        GridViewCheckBoxColumn37.Width = 141
+        GridViewCheckBoxColumn38.EnableExpressionEditor = False
+        GridViewCheckBoxColumn38.HeaderText = "Amendment"
+        GridViewCheckBoxColumn38.MinWidth = 20
+        GridViewCheckBoxColumn38.Name = "is_Amendment"
+        GridViewCheckBoxColumn38.Width = 99
+        GridViewCheckBoxColumn39.HeaderText = "Update"
+        GridViewCheckBoxColumn39.Name = "Update"
+        GridViewCheckBoxColumn39.Width = 80
+        Me.dgvprogram.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn5, GridViewTextBoxColumn6, GridViewCheckBoxColumn27, GridViewCheckBoxColumn28, GridViewCheckBoxColumn29, GridViewCheckBoxColumn30, GridViewCheckBoxColumn31, GridViewCheckBoxColumn32, GridViewCheckBoxColumn33, GridViewCheckBoxColumn34, GridViewCheckBoxColumn35, GridViewCheckBoxColumn36, GridViewCheckBoxColumn37, GridViewCheckBoxColumn38, GridViewCheckBoxColumn39})
         Me.dgvprogram.MasterTemplate.EnableFiltering = True
         Me.dgvprogram.MasterTemplate.EnableGrouping = False
         Me.dgvprogram.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvprogram.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvprogram.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvprogram.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.dgvprogram.MyStopExport = False
         Me.dgvprogram.Name = "dgvprogram"
         Me.dgvprogram.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvprogram.ShowHeaderCellButtons = True
-        Me.dgvprogram.Size = New System.Drawing.Size(1279, 486)
+        Me.dgvprogram.Size = New System.Drawing.Size(1256, 488)
         Me.dgvprogram.TabIndex = 0
         Me.dgvprogram.TabStop = False
         '
@@ -212,10 +217,10 @@ Partial Class GroupProgramMapping
         'lblcode
         '
         Me.lblcode.FieldName = Nothing
-        Me.lblcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblcode.Location = New System.Drawing.Point(12, 9)
         Me.lblcode.Name = "lblcode"
-        Me.lblcode.Size = New System.Drawing.Size(68, 16)
+        Me.lblcode.Size = New System.Drawing.Size(72, 16)
         Me.lblcode.TabIndex = 45
         Me.lblcode.Text = "Group Code"
         '
@@ -328,7 +333,7 @@ Partial Class GroupProgramMapping
         Me.gbprogrammapping.Location = New System.Drawing.Point(0, 0)
         Me.gbprogrammapping.Name = "gbprogrammapping"
         Me.gbprogrammapping.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.gbprogrammapping.Size = New System.Drawing.Size(1292, 582)
+        Me.gbprogrammapping.Size = New System.Drawing.Size(1292, 584)
         Me.gbprogrammapping.TabIndex = 0
         '
         'txtDashBoardMult
@@ -498,6 +503,18 @@ Partial Class GroupProgramMapping
         Me.fndgroup.TabIndex = 0
         Me.fndgroup.Value = ""
         '
+        'RadLabel12
+        '
+        Me.RadLabel12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel12.FieldName = Nothing
+        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.RadLabel12.Location = New System.Drawing.Point(514, 10)
+        Me.RadLabel12.Name = "RadLabel12"
+        Me.RadLabel12.Size = New System.Drawing.Size(258, 13)
+        Me.RadLabel12.TabIndex = 337
+        Me.RadLabel12.Text = "History will show only current program code dubble click"
+        '
         'Panel1
         '
         Me.Panel1.Controls.Add(Me.RadMenu1)
@@ -520,12 +537,22 @@ Partial Class GroupProgramMapping
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadLabel12)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnNewHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Size = New System.Drawing.Size(1292, 623)
-        Me.SplitContainer1.SplitterDistance = 582
+        Me.SplitContainer1.SplitterDistance = 584
         Me.SplitContainer1.TabIndex = 52
+        '
+        'btnNewHistory
+        '
+        Me.btnNewHistory.Location = New System.Drawing.Point(141, 3)
+        Me.btnNewHistory.Name = "btnNewHistory"
+        Me.btnNewHistory.Size = New System.Drawing.Size(64, 19)
+        Me.btnNewHistory.TabIndex = 42
+        Me.btnNewHistory.Text = "&History"
         '
         'GroupProgramMapping
         '
@@ -563,11 +590,14 @@ Partial Class GroupProgramMapping
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboModule, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -600,5 +630,7 @@ Partial Class GroupProgramMapping
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtDashBoardMult As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents btnNewHistory As RadButton
+    Friend WithEvents RadLabel12 As common.Controls.MyLabel
 End Class
 

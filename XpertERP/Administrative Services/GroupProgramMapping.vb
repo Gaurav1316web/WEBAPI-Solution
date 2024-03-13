@@ -19,6 +19,9 @@ Public Class GroupProgramMapping
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim userCode, companyCode As String
     Dim loaddttype As Integer = 0
+    Public isNewEntry As Boolean = False
+    Dim selectedValue As String = Nothing
+
     Private Sub SetUserMgmtNew()
         '' Anubhooti 30-July-2014 BM00000003130
         'MyBase.SetUserMgmt(clsUserMgtCode.groupProgramMapping)
@@ -267,6 +270,10 @@ Public Class GroupProgramMapping
         btnsave.Enabled = True
         btnsave.Text = "Update"
     End Sub
+    'Public Shared Function HistoryUpdate(ByVal strCode As String) As Boolean
+    '    clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_GROUP_PROGRAM_MAPPING", "Group_Code", Nothing)
+    '    Return True
+    'End Function
     'Funtion for insertion of data
     Public Sub funinsert()
         Try
@@ -366,8 +373,9 @@ Public Class GroupProgramMapping
 
                 'Dim qry As String = "update TSPL_GROUP_PROGRAM_MAPPING set Reverse_Flag='" + strReverse + "', Export_Flag='" + strExport + "' where Group_Code='" + fndgroup.Value + "' and Program_Code='" + dgvprogram.Rows(i).Cells(0).Value.ToString() + "' "
                 'clsDBFuncationality.ExecuteNonQuery(qry)
-
-
+                'If isNewEntry = True Then
+                '    HistoryUpdate(clsCommon.myCstr(fndgroup.Value))
+                'End If
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Group_Code", fndgroup.Value)
                 clsCommon.AddColumnsForChange(coll, "Program_Code", dgvprogram.Rows(i).Cells(0).Value.ToString())
@@ -391,9 +399,8 @@ Public Class GroupProgramMapping
                 clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
 
                 Dim result As Boolean = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GROUP_PROGRAM_MAPPING", OMInsertOrUpdate.Insert, "")
+                'HistoryUpdate(clsCommon.myCstr(fndgroup.Value))
             Next
-
-
             If txtDashBoardMult.arrValueMember IsNot Nothing AndAlso txtDashBoardMult.arrValueMember.Count > 0 Then
                 Dim i As Integer = 0
                 For i = 0 To txtDashBoardMult.arrValueMember.Count - 1
@@ -439,10 +446,10 @@ Public Class GroupProgramMapping
             ElseIf clsCommon.myLen(cboModule.SelectedValue) > 0 Then
                 str += " and tspl_group_program_mapping.Program_Code in (select Program_Code from TSPL_PROGRAM_MASTER where  Parent_Code in (select Program_Code from TSPL_PROGRAM_MASTER where 2=2 and Parent_Code='" + clsCommon.myCstr(cboModule.SelectedValue) + "'))"
             End If
+            Dim trans As SqlTransaction = Nothing
 
 
             connectSql.RunSql(str)
-
 
             For i As Integer = 0 To dgvprogram.Rows.Count - 1
 
@@ -528,6 +535,7 @@ Public Class GroupProgramMapping
                 'End If
                 'Dim qry As String = "update TSPL_GROUP_PROGRAM_MAPPING set Reverse_Flag='" + strReverse + "', Export_Flag='" + strExport + "' where Group_Code='" + fndgroup.Value + "' and Program_Code='" + dgvprogram.Rows(i).Cells(0).Value.ToString() + "' "
                 'clsDBFuncationality.ExecuteNonQuery(qry)
+                'HistoryUpdate(clsCommon.myCstr(fndgroup.Value))
 
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Group_Code", fndgroup.Value)
@@ -551,8 +559,16 @@ Public Class GroupProgramMapping
                 clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy"))
                 clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
                 Dim result As Boolean = clsCommonFunctionality.UpdateDataTable(coll, "TSPL_GROUP_PROGRAM_MAPPING", OMInsertOrUpdate.Insert, " Group_Code='" + fndgroup.Value.Trim() + "' and Program_Code='" + dgvprogram.Rows(i).Cells(0).Value.ToString() + "' ")
+                'If Not isNewEntry Then
+
+                '    HistoryUpdate(clsCommon.myCstr(fndgroup.Value))
+                'End If
+                'HistoryUpdate(clsCommon.myCstr(fndgroup.Value))
+
 
             Next
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndgroup.Value, "TSPL_GROUP_PROGRAM_MAPPING", "Group_Code", trans)
+
 
             clsDBFuncationality.ExecuteNonQuery("delete from TSPL_DASHBOARD_GROUP_PROGRAM_MAPPING where Group_Code='" + fndgroup.Value + "'")
             If txtDashBoardMult.arrValueMember IsNot Nothing AndAlso txtDashBoardMult.arrValueMember.Count > 0 Then
@@ -1119,6 +1135,41 @@ Public Class GroupProgramMapping
             End If
         End If
     End Sub
+
+    Private Sub btnNewHistory_Click(sender As Object, e As EventArgs) Handles btnNewHistory.Click
+        Try
+            If clsCommon.myLen(fndgroup.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            For i As Integer = 0 To dgvprogram.Rows.Count - 1
+                If dgvprogram.Rows.Count > i Then
+                    clsERPFuncationalityOLD.ShowHistoryData(fndgroup.Value, "Group_Code", "TSPL_GROUP_PROGRAM_MAPPING", Nothing, Nothing, "Program Code", selectedValue)
+                    Exit For
+
+                End If
+
+            Next
+
+            'clsERPFuncationalityOLD.ShowHistoryData(fndgroup.Value, "Group_Code", "TSPL_GROUP_PROGRAM_MAPPING", Nothing, Nothing, Nothing, selectedCellValue)
+
+            'clsERPFuncationalityOLD.ShowTransHistoryData(fndgroup.Value, "Group_Code", "TSPL_GROUP_PROGRAM_MAPPING", "TSPL_GROUP_PROGRAM_MAPPING")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
+
+    Private Sub dgvprogram_CellClick(sender As Object, e As GridViewCellEventArgs) Handles dgvprogram.CellDoubleClick
+        Try
+            If e.RowIndex >= 0 AndAlso e.ColumnIndex >= 0 Then
+                selectedValue = clsCommon.myCstr(dgvprogram.Rows(e.RowIndex).Cells(e.ColumnIndex).Value)
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
 
     Private Sub txtDashBoardMult__My_Click(sender As Object, e As EventArgs) Handles txtDashBoardMult._My_Click
         Try
