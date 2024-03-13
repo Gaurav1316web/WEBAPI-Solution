@@ -738,7 +738,11 @@ Public Class clsCreateAllTable
             coll.Add("isModifyonPassword", "char(1) null default 0")
             coll.Add("is_Amendment", "char(1) null default 0")
             coll.Add("Update_flag", "char(1) null default 0")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_GROUP_PROGRAM_MAPPING", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_GROUP_PROGRAM_MAPPING", coll)
+
+            'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GROUP_PROGRAM_MAPPING", coll, Nothing, True, True, "", "Program_Code", "")
+            'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GROUP_PROGRAM_MAPPING", coll, Nothing, True, False, "TSPL_DASHBOARD_GROUP_PROGRAM_MAPPING", "Program_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GROUP_PROGRAM_MAPPING", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("SERVER_NAME", "VARCHAR(20) NULL")
