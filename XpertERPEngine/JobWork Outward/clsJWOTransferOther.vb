@@ -492,9 +492,9 @@ Public Class clsJWOTransferOtherHead
                     Dim Remarks As String = "Journal Entry against Job Work Transfer-Other from location -" & obj.From_Locaction & " to location- " & obj.To_Locaction & " For Doc No. " & obj.TRANSFER_NO & ""
 
                     If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Locaction, False, strVoucherNoForRecreateOnly, trans, obj.TRANSFER_DATE, GLDesc, "JW-TF", "JWO Transfer", obj.TRANSFER_NO, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Locaction, False, strVoucherNoForRecreateOnly, trans, obj.TRANSFER_DATE, GLDesc, "JW-TF", "JWO Transfer", obj.TRANSFER_NO, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Locaction, False, trans, obj.TRANSFER_DATE, GLDesc, "JW-TF", "JWO Transfer", obj.TRANSFER_NO, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Locaction, False, trans, obj.TRANSFER_DATE, GLDesc, "JW-TF", "JWO Transfer", obj.TRANSFER_NO, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
                     End If
                 End If
             End If

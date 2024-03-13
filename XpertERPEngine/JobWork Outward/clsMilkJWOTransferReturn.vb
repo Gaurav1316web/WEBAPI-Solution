@@ -426,9 +426,9 @@ Public Class clsMilkJWOTransferReturn
                     Dim GLDesc As String = "Journal Entry Against Milk Job Work Transfer Return - Doc No." & obj.Document_Code & " "
                     Dim Remarks As String = "Journal Entry against Milk Job Work Transfer Return - from location -" & obj.JobWork_location & " to location- " & obj.Loc_Code & " For Doc No. " & obj.Document_Code & ""
                     If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then ''because if voucher no known then recreate it with same no.
-                        transportSql.FunGrnlEntryWithTrans(obj.JobWork_location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "JW-TR", "JWO Milk Transfer Return", obj.Document_Code, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, Remarks)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.JobWork_location, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, GLDesc, "JW-TR", "JWO Milk Transfer Return", obj.Document_Code, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, Remarks)
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.JobWork_location, False, trans, obj.Document_Date, GLDesc, "JW-MR", "JWO Milk Transfer Return", obj.Document_Code, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, Remarks)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.JobWork_location, False, trans, obj.Document_Date, GLDesc, "JW-MR", "JWO Milk Transfer Return", obj.Document_Code, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, Remarks)
                     End If
                 End If
             End If

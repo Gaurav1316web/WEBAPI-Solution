@@ -845,16 +845,16 @@ Public Class clsCrateReceivedHead
             If clsCommon.CompairString(obj.Trans_Type, "Can") = CompairStringResult.Equal Then
                 strRemarks = " Journal Entry Created  For Can Receipt No " & obj.Document_No & " "
                 If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                    transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, strRemarks, "CN-RC", "CanReceipt", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , "", strRemarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, strRemarks, "CN-RC", "CanReceipt", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , "", strRemarks)
                 Else
-                    transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, strRemarks, "CN-RC", "CanReceipt", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , "", strRemarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, strRemarks, "CN-RC", "CanReceipt", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , "", strRemarks)
                 End If
             Else
                 strRemarks = " Journal Entry Created  For Crate Receipt No " & obj.Document_No & " "
                 If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then
-                    transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, strRemarks, "CR-RC", "CrateReceipt", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , "", strRemarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, strVoucherNoForRecreateOnly, trans, obj.Document_Date, strRemarks, "CR-RC", "CrateReceipt", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , "", strRemarks)
                 Else
-                    transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, strRemarks, "CR-RC", "CrateReceipt", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , "", strRemarks)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, strRemarks, "CR-RC", "CrateReceipt", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , "", strRemarks)
                 End If
             End If
 

@@ -787,7 +787,7 @@ Public Class ClsBulkSaleReturn
         End If
 
         '' BHA/30/10/18-000646 RICHA AGARWAL SEND CUSTOMER CODE AND CUSTOMER NAME INTO JOURNAL ENTRY AND TYPE C instead of O 30 Oct,2018
-        transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale Return for Document No " + obj.Document_No + " ", "DS-BR", "DISPATCH Bulk Sale Return", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
+        clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, "Journal Entry Against Dispatch Bulk Sale Return for Document No " + obj.Document_No + " ", "DS-BR", "DISPATCH Bulk Sale Return", obj.Document_No, "", "C", obj.Customer_Code, clsCustomerMaster.GetName(obj.Customer_Code, trans), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
 
     End Sub
     Public Shared Function createARInvoice(ByVal obj As ClsBulkSaleReturn, ByVal trans As SqlTransaction, ByVal strARNoForRecreate As String, ByVal strVoucherForRecreate As String) As Boolean

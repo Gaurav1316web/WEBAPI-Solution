@@ -903,10 +903,10 @@ Public Class clsRGPHead
                     If obj.Is_Repair Then
                         If clsCommon.CompairString(obj.Doc_Type, "RGP") = CompairStringResult.Equal Then
                             flag = True
-                            transportSql.FunGrnlEntryWithTrans(obj.Location, False, strJVNo, trans, obj.RGP_Date, "RGP Job Work Against-" & obj.RGP_No & "", "RG-JW", "RGP Job Work", obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                            clsJournalMaster.FunGrnlEntryWithTrans(obj.Location, False, strJVNo, trans, obj.RGP_Date, "RGP Job Work Against-" & obj.RGP_No & "", "RG-JW", "RGP Job Work", obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
                         Else
                             flag = True
-                            transportSql.FunGrnlEntryWithTrans(obj.Location, False, strJVNo, trans, obj.RGP_Date, "RGP Return Job Work Against-" & obj.RGP_No & "", "RGR-JW", "RGP Return Job Work", obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                            clsJournalMaster.FunGrnlEntryWithTrans(obj.Location, False, strJVNo, trans, obj.RGP_Date, "RGP Return Job Work Against-" & obj.RGP_No & "", "RGR-JW", "RGP Return Job Work", obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
                         End If
                     End If
                 ElseIf obj.JVDisplayType = 1 Then
@@ -950,10 +950,10 @@ Public Class clsRGPHead
                     Next
                     If clsCommon.CompairString(obj.Doc_Type, "RGP") = CompairStringResult.Equal Then
                         flag = True
-                        transportSql.FunGrnlEntryWithTrans(obj.Location, False, strJVNo, trans, obj.RGP_Date, "RGP Job Work Against-" & obj.RGP_No & "", "RG-JW", "RGP Job Work", obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Location, False, strJVNo, trans, obj.RGP_Date, "RGP Job Work Against-" & obj.RGP_No & "", "RG-JW", "RGP Job Work", obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
                     Else
                         flag = True
-                        transportSql.FunGrnlEntryWithTrans(obj.Location, False, strJVNo, trans, obj.RGP_Date, "RGP Return Job Work Against-" & obj.RGP_No & "", "RGR-JW", "RGP Return Job Work", obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.Location, False, strJVNo, trans, obj.RGP_Date, "RGP Return Job Work Against-" & obj.RGP_No & "", "RGR-JW", "RGP Return Job Work", obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
                     End If
                 End If
             End If
@@ -999,7 +999,7 @@ Public Class clsRGPHead
                     Dim AccDr() As String = {strStoreConsumbtion, RI * Math.Round(((objTr.Amount)), 2, MidpointRounding.ToEven)}
                     ArryLstGLAC.Add(AccDr)
                 Next
-                transportSql.FunGrnlEntryWithTrans(obj.Location, False, strJVNo, trans, obj.RGP_Date, obj.Doc_Type + " Against-" & obj.RGP_No & "", obj.Doc_Type, obj.Doc_Type, obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Location, False, strJVNo, trans, obj.RGP_Date, obj.Doc_Type + " Against-" & obj.RGP_No & "", obj.Doc_Type, obj.Doc_Type, obj.RGP_No, obj.Remarks, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
             End If
         End If
         Return True

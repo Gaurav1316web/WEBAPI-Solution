@@ -173,7 +173,7 @@ Public Class clsJWOSRNReturn
                         Dim Acc() As String = {clsCommon.myCstr(dr("Account_code")), clsCommon.myCdbl(dr("Amount"))}
                         ArryLstGLAC.Add(Acc)
                     Next
-                    transportSql.FunGrnlEntryWithTrans(obj.JWO_SRN_Location_Code, False, trans, obj.Document_Date, "Against JWO SRN Return " + obj.Document_No, "JS-RT", "JWO SRN Return", obj.Document_No, obj.Remarks, "V", objSRN.Vendor_Code, objSRN.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.JWO_SRN_Location_Code, False, trans, obj.Document_Date, "Against JWO SRN Return " + obj.Document_No, "JS-RT", "JWO SRN Return", obj.Document_No, obj.Remarks, "V", objSRN.Vendor_Code, objSRN.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
                 End If
                 ''
                 ''Reverse Adjutment

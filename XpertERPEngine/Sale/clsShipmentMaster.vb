@@ -894,7 +894,7 @@ Public Class clsShipmentMaster
 
             Dim lineNo As Integer = 1
             'Dim jrnlObj As New frmJournalEntry(objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode)
-            Dim StrVoucher As String = transportSql.fnAutoGenerateNo(trans, obj.Shipment_Date, clsDocTransactionType.JournalEntryOther, obj.Location, False)
+            Dim StrVoucher As String = clsJournalMaster.fnAutoGenerateNo(trans, obj.Shipment_Date, clsDocTransactionType.JournalEntryOther, obj.Location, False)
             Dim Sql As String = "SELECT SourceDescription  FROM TSPL_GL_SOURCECODE WHERE SourceCode = 'SD-LO'"
             Dim strSourceDesc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(Sql, trans))
             Dim strInvoiceNo As String = strCode

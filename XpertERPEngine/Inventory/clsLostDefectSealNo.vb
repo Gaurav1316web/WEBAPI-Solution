@@ -233,7 +233,7 @@ Public Class clsLostDefectSealNoHead
             '    Else
             '        Throw New Exception("Stock Transfer Locations are not Mapped   ")
             '    End If
-            '    transportSql.FunGrnlEntryWithTrans(trans, clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MMM/yyyy"), " GL Entry Against Dispatch Challan No  -" + obj.Chalan_NO + "", "DI-CH", "Dispatch Challan", obj.Chalan_NO, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+            '    clsJournalMaster.FunGrnlEntryWithTrans(trans, clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MMM/yyyy"), " GL Entry Against Dispatch Challan No  -" + obj.Chalan_NO + "", "DI-CH", "Dispatch Challan", obj.Chalan_NO, "", "C", obj.Item_Code, obj.Item_Desc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
             'End If
 
 
