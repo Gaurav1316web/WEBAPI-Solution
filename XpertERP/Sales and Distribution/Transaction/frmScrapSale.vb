@@ -4919,7 +4919,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                             'End If
                             'Else
                             'EnumTecxpertPaperSize.PaperSize10x12
-                            filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice4Excise", "ScrapSaleInvoiceRpt")
+                            'filePath = frmCRV.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, "ScrapSaleInvoice4Excise", "ScrapSaleInvoiceRpt")
                         End If
                     End If
                 Else
