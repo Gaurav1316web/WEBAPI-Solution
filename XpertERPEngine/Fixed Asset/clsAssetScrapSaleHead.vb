@@ -562,7 +562,7 @@ Public Class clsAssetScrapSaleHead
                 End If
 
             Next
-            transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoRecreate, trans, obj.Document_Date, "Disposal Entry no -" + obj.Document_No + "", "AM-DE", "Disposal Entry", obj.Document_No, "", "C", obj.cust_Code, obj.cust_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, strVoucherNoRecreate, trans, obj.Document_Date, "Disposal Entry no -" + obj.Document_No + "", "AM-DE", "Disposal Entry", obj.Document_No, "", "C", obj.cust_Code, obj.cust_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
             '==========================
             If clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyFinancialCostCenter, clsFixedParameterCode.ApplyFinancialCostCenter, trans)) = "1", True, False)) = True Then
                 Dim strCostCenterCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Top 1 CostCenter_Code from TSPL_ASSET_SCRAP_DETAIL where Document_No = '" + obj.Document_No + "'", trans))

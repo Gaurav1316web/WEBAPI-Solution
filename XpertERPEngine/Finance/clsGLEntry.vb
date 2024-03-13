@@ -50,7 +50,7 @@ Public Class clsGLEntry
             Throw New Exception("Please create financial year which contains " + EntryDate)
         End If
         If clsCommon.myCdbl(dtable.Rows(0)("is_End_Year_Proceed")) = 1 Then
-            transportSql.CreateJEForEndYear(strDoc, EntryDate, trans)
+            clsJournalMaster.CreateJEForEndYear(strDoc, EntryDate, trans)
         End If
         ''End of End Fiscal Year Entry
 

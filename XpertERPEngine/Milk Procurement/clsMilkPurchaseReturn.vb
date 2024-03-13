@@ -361,7 +361,7 @@ Public Class clsMilkPurchaseReturnHead
             '            strPaybleClrAc = clsERPFuncationality.ChangeGLAccountLocationSegment(strPaybleClrAc, dt.Rows(0)("Loc_Code"), trans)
             '            ArryLst.Add(New String() {strInvCntrlAc, DiffAmount * -1})
             '            ArryLst.Add(New String() {strPaybleClrAc, DiffAmount})
-            '            transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.Pur_Return_Date, "dd/MMM/yyyy"), "Return Adjustment Against Bulk Milk Purchase Invoice  -" + obj.Invoice_No + "", "BM-PR", "Bulk Milk Purchase Return", obj.Invoice_No, "", "C", obj.Invoice_No, obj.Invoice_No, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.vendor_code & ", " & clsVendorMaster.GetName(obj.vendor_code, trans))
+            '            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.Pur_Return_Date, "dd/MMM/yyyy"), "Return Adjustment Against Bulk Milk Purchase Invoice  -" + obj.Invoice_No + "", "BM-PR", "Bulk Milk Purchase Return", obj.Invoice_No, "", "C", obj.Invoice_No, obj.Invoice_No, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.vendor_code & ", " & clsVendorMaster.GetName(obj.vendor_code, trans))
             '        End If
             '    ElseIf DiffAmount < 0 Then
             '        isAmountDecreased = True
@@ -373,7 +373,7 @@ Public Class clsMilkPurchaseReturnHead
             '            strPaybleClrAc = clsERPFuncationality.ChangeGLAccountLocationSegment(strPaybleClrAc, dt.Rows(0)("Loc_Code"), trans)
             '            ArryLst.Add(New String() {strInvCntrlAc, DiffAmount})
             '            ArryLst.Add(New String() {strPaybleClrAc, DiffAmount * -1})
-            '            transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.Pur_Return_Date, "dd/MMM/yyyy"), "Return Adjustment Against Bulk Milk Purchase Invoice  -" + obj.Invoice_No + "", "BM-PI", "Bulk Milk Purchase Invoice", obj.Invoice_No, "", "C", obj.Invoice_No, obj.Invoice_No, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.vendor_code & ", " & clsVendorMaster.GetName(obj.vendor_code, trans))
+            '            clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, clsCommon.GetPrintDate(obj.Pur_Return_Date, "dd/MMM/yyyy"), "Return Adjustment Against Bulk Milk Purchase Invoice  -" + obj.Invoice_No + "", "BM-PI", "Bulk Milk Purchase Invoice", obj.Invoice_No, "", "C", obj.Invoice_No, obj.Invoice_No, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, "", " Vendor - " & obj.vendor_code & ", " & clsVendorMaster.GetName(obj.vendor_code, trans))
             '        End If
             '    End If
             'End If
@@ -532,7 +532,7 @@ Public Class clsMilkPurchaseReturnHead
             '        Dim Acc() As String = {clsCommon.myCstr(dr("Account_code")), clsCommon.myCdbl(dr("Amount")), "", "", "", "", "", "", clsCommon.myCstr(dr("Reco_Control_Account"))}
             '        ArryLstGLAC.Add(Acc)
             '    Next
-            '    transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Pur_Return_Date, "Against Bulk Milk Purchase Return " + obj.Pur_Return_No, "BM-PR", "Bulk Milk Store Received Note Return", obj.Pur_Return_No, "", "V", obj.vendor_code, vendor_name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+            '    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Pur_Return_Date, "Against Bulk Milk Purchase Return " + obj.Pur_Return_No, "BM-PR", "Bulk Milk Store Received Note Return", obj.Pur_Return_No, "", "V", obj.vendor_code, vendor_name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
 
             'End If
             '''''''''''''Sanjay commented asked by Ranjana Man
@@ -651,7 +651,7 @@ Public Class clsMilkPurchaseReturnHead
     '                    Dim Acc() As String = {clsCommon.myCstr(dr("Account_code")), clsCommon.myCdbl(dr("Amount"))}
     '                    ArryLstGLAC.Add(Acc)
     '                Next
-    '                transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.Document_Date, "Against SRN Return " + obj.Document_No, "SN-RT", "Store Received Note Return", obj.Document_No, obj.Remarks, "V", objSRN.Vendor_Code, objSRN.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
+    '                clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.Document_Date, "Against SRN Return " + obj.Document_No, "SN-RT", "Store Received Note Return", obj.Document_No, obj.Remarks, "V", objSRN.Vendor_Code, objSRN.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC)
     '            End If
     '            trans.Commit()
     '        Catch ex As Exception

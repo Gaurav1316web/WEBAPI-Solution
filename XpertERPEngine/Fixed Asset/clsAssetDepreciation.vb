@@ -132,7 +132,7 @@ Public Class clsAssetDepreciation
             strACCode = clsERPFuncationality.ChangeGLAccountLocationSegment(strACCode, strLocation, trans)
             Dim AccumulatedDepAC() As String = {strACCode, -1 * obj.Dep_Amount}
             ArryLst.Add(AccumulatedDepAC)
-            transportSql.FunGrnlEntryWithTrans(strLocation, False, trans, clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"), "Depreciation Entry no -" + obj.Document_Code + "", "AM-DP", "Depreciation Entry", obj.Document_Code, "", "V", clsCommon.myCstr(dt.Rows(0)("Vendor_Code")), clsCommon.myCstr(dt.Rows(0)("Vendor_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
+            clsJournalMaster.FunGrnlEntryWithTrans(strLocation, False, trans, clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"), "Depreciation Entry no -" + obj.Document_Code + "", "AM-DP", "Depreciation Entry", obj.Document_Code, "", "V", clsCommon.myCstr(dt.Rows(0)("Vendor_Code")), clsCommon.myCstr(dt.Rows(0)("Vendor_Name")), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst)
             '==========================
             If clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyFinancialCostCenter, clsFixedParameterCode.ApplyFinancialCostCenter, trans)) = "1", True, False)) = True Then
                 Dim strCostCenterCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Top 1 CostCenter_Code from TSPL_ACQUISITION_DETAIL where Asset_Code = '" + obj.Asset_code + "'", trans))

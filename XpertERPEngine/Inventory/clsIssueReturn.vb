@@ -991,9 +991,9 @@ Public Class clsIssueReturnHead
                         strVoucherNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry1, trans))
                     End If
                     If clsCommon.myLen(strVoucherNo) > 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNo, trans, obj.Doc_Date, obj.Comment, "PU-TF", "Purchase Transfer", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNo, trans, obj.Doc_Date, obj.Comment, "PU-TF", "Purchase Transfer", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "PU-TF", "Purchase Transfer", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "PU-TF", "Purchase Transfer", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
                     End If
 
                 ElseIf clsCommon.CompairString(obj.Doc_Type, "Issue") = CompairStringResult.Equal Then
@@ -1046,9 +1046,9 @@ Public Class clsIssueReturnHead
                     
 
                     If clsCommon.myLen(strVoucherNo) > 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNo, trans, obj.Doc_Date, obj.Comment, "PU-IS", "Purchase Issue", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNo, trans, obj.Doc_Date, obj.Comment, "PU-IS", "Purchase Issue", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "PU-IS", "Purchase Issue", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "PU-IS", "Purchase Issue", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
                     End If
                 ElseIf clsCommon.CompairString(obj.Doc_Type, "Return") = CompairStringResult.Equal Then
                     ''richa agarwal 2 Dec,2016
@@ -1103,9 +1103,9 @@ Public Class clsIssueReturnHead
                     
 
                     If clsCommon.myLen(strVoucherNo) > 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNo, trans, obj.Doc_Date, obj.Comment, "PU-RE", "Purchase Return", obj.Doc_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNo, trans, obj.Doc_Date, obj.Comment, "PU-RE", "Purchase Return", obj.Doc_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "PU-RE", "Purchase Return", obj.Doc_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "PU-RE", "Purchase Return", obj.Doc_No, "", "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
                     End If
                 ElseIf clsCommon.CompairString(obj.Doc_Type, "TransferCX") = CompairStringResult.Equal Then
                     arrlist = New ArrayList()
@@ -1147,9 +1147,9 @@ Public Class clsIssueReturnHead
                         strVoucherNo = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry1, trans))
                     End If
                     If clsCommon.myLen(strVoucherNo) > 0 Then
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNo, trans, obj.Doc_Date, obj.Comment, "PU-TC", "Transfer Capex", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, strVoucherNo, trans, obj.Doc_Date, obj.Comment, "PU-TC", "Transfer Capex", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
                     Else
-                        transportSql.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "PU-TC", "Transfer Capex", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
+                        clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location, False, trans, obj.Doc_Date, obj.Comment, "PU-TC", "Transfer Capex", obj.Doc_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , obj.Remarks, obj.Comment)
                     End If
                 End If
             End If

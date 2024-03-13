@@ -1403,9 +1403,9 @@ Public Class clsCSATransfer
             Dim strRecreateVoucherNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
 
             If clsCommon.myLen(strRecreateVoucherNo) > 0 Then
-                isSaved = transportSql.FunGrnlEntryWithTrans(obj.From_Location_Code, False, strRecreateVoucherNo, trans, obj.Transfer_Date, GLDesc, "CS-TR", "CSA Transfer", obj.DOC_CODE, "", "C", obj.Cust_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , Remarks, "", Nothing)
+                isSaved = clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location_Code, False, strRecreateVoucherNo, trans, obj.Transfer_Date, GLDesc, "CS-TR", "CSA Transfer", obj.DOC_CODE, "", "C", obj.Cust_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , Remarks, "", Nothing)
             Else
-                isSaved = transportSql.FunGrnlEntryWithTrans(obj.From_Location_Code, False, trans, obj.Transfer_Date, GLDesc, "CS-TR", "CSA Transfer", obj.DOC_CODE, "", "C", obj.Cust_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , Remarks, "", Nothing)
+                isSaved = clsJournalMaster.FunGrnlEntryWithTrans(obj.From_Location_Code, False, trans, obj.Transfer_Date, GLDesc, "CS-TR", "CSA Transfer", obj.DOC_CODE, "", "C", obj.Cust_Code, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , Remarks, "", Nothing)
             End If
 
             Return True

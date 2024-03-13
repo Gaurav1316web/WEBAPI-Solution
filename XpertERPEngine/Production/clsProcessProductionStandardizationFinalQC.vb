@@ -1663,9 +1663,9 @@ Public Class clsPPStdFinalQCHead
 
             Dim VoucherNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='PS-FQ' and Source_Doc_No='" & obj.QC_Code & "'", trans))
             If clsCommon.myLen(VoucherNo) > 0 Then
-                isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.Loaction_Code, False, VoucherNo, trans, obj.QC_Date, GLDesc, "PS-FQ", "Production Standardization", obj.QC_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+                isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.Loaction_Code, False, VoucherNo, trans, obj.QC_Date, GLDesc, "PS-FQ", "Production Standardization", obj.QC_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
             Else
-                isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.Loaction_Code, False, trans, obj.QC_Date, GLDesc, "PS-FQ", "Production Standardization", obj.QC_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+                isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.Loaction_Code, False, trans, obj.QC_Date, GLDesc, "PS-FQ", "Production Standardization", obj.QC_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
             End If
 
             Return isSaved
@@ -1798,9 +1798,9 @@ Public Class clsPPStdFinalQCHead
 
             Dim VoucherNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='PS-FQ' and Source_Doc_No='" & obj.QC_Code & "'", trans))
             If clsCommon.myLen(VoucherNo) > 0 Then
-                isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.Loaction_Code, False, VoucherNo, trans, obj.QC_Date, GLDesc, "PS-FQ", "Production Standardization", obj.QC_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+                isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.Loaction_Code, False, VoucherNo, trans, obj.QC_Date, GLDesc, "PS-FQ", "Production Standardization", obj.QC_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
             Else
-                isSaved = isSaved AndAlso transportSql.FunGrnlEntryWithTrans(obj.Loaction_Code, False, trans, obj.QC_Date, GLDesc, "PS-FQ", "Production Standardization", obj.QC_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+                isSaved = isSaved AndAlso clsJournalMaster.FunGrnlEntryWithTrans(obj.Loaction_Code, False, trans, obj.QC_Date, GLDesc, "PS-FQ", "Production Standardization", obj.QC_Code, Remarks, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
             End If
 
             Return isSaved
@@ -1991,9 +1991,9 @@ Public Class clsPPStdFinalQCHead
 
             Dim GLDesc As String = "Journal Entry Against Production Standardization Final QC - Doc No." & obj.QC_Code & " "
             If clsCommon.myLen(VoucherNo) > 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.Loaction_Code, False, VoucherNo, trans, obj.QC_Date, GLDesc, "PS-FQ", "Production Standardization", obj.QC_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Loaction_Code, False, VoucherNo, trans, obj.QC_Date, GLDesc, "PS-FQ", "Production Standardization", obj.QC_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, Nothing, GLDesc, "")
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.Loaction_Code, False, trans, obj.QC_Date, GLDesc, "PS-FQ", "Production Standardization", obj.QC_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Loaction_Code, False, trans, obj.QC_Date, GLDesc, "PS-FQ", "Production Standardization", obj.QC_Code, Comments, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , GLDesc, "")
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

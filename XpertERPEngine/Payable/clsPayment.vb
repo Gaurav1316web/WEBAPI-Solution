@@ -84,7 +84,7 @@ Public Class clsPayment
             arr.Add(Acc1)
             arr.Add(Acc2)
             If clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("Payment_Type")), "PY") = CompairStringResult.Equal Then
-                If (transportSql.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arr, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
+                If (clsJournalMaster.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arr, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
                     isSourceCode = True
                 End If
                 If isSourceCode = True Then
@@ -115,7 +115,7 @@ Public Class clsPayment
                     arrtotal.Add(acc4)
                     arrtotal.Add(acc3)
                     arrtotal.Add(acc5)
-                    If (transportSql.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
+                    If (clsJournalMaster.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
                         isSourceCode = True
                     End If
                 Else
@@ -130,7 +130,7 @@ Public Class clsPayment
                     Dim arrlist As New ArrayList()
                     arrlist.Add(arr6)
                     arrlist.Add(arr7)
-                    If (transportSql.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
+                    If (clsJournalMaster.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
                         isSourceCode = True
                     End If
                 End If
@@ -160,7 +160,7 @@ Public Class clsPayment
                     arrtotal.Add(acc4)
                     arrtotal.Add(acc3)
                     arrtotal.Add(acc5)
-                    If (transportSql.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
+                    If (clsJournalMaster.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrtotal, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
                         isSourceCode = True
                     End If
                 Else
@@ -169,7 +169,7 @@ Public Class clsPayment
                     Dim arrlist As New ArrayList()
                     arrlist.Add(arr6)
                     arrlist.Add(arr7)
-                    If (transportSql.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
+                    If (clsJournalMaster.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
                         isSourceCode = True
                     End If
                 End If
@@ -242,7 +242,7 @@ Public Class clsPayment
                     arrmis.Add(Acc5)
                 End If
                 srctype = "AP-MI"
-                If (transportSql.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrmis, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
+                If (clsJournalMaster.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrmis, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
                     isSourceCode = True
                 End If
                 If isSourceCode = True Then
@@ -259,7 +259,7 @@ Public Class clsPayment
                 Dim applydocument As New ArrayList()
                 applydocument.Add(arrcontrol)
                 applydocument.Add(arradvance)
-                If (transportSql.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, applydocument, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
+                If (clsJournalMaster.FunGrnlEntryWithTrans(LocBank, True, trans, strentrydate, strdocdesc, srctype, strsrcdesc, strdocumentno, strentrydesc, strsrctype, strsrctypecode, strsrctypedesc, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, applydocument, , clsCommon.myCstr(dt.Rows(0)("Reference")), clsCommon.myCstr(dt.Rows(0)("Narration")))) Then
                     isSourceCode = True
                 End If
                 If isSourceCode = True Then
