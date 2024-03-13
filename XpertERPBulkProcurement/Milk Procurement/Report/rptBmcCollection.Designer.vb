@@ -26,7 +26,7 @@ Partial Class rptBmcCollection
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.CheckBmcDcs = New System.Windows.Forms.RadioButton()
+        Me.RbtBmcDcs = New System.Windows.Forms.RadioButton()
         Me.Checkallmcc = New System.Windows.Forms.RadioButton()
         Me.chkZone = New System.Windows.Forms.RadioButton()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
@@ -102,7 +102,7 @@ Partial Class rptBmcCollection
         '
         'RadPageViewPage1
         '
-        Me.RadPageViewPage1.Controls.Add(Me.CheckBmcDcs)
+        Me.RadPageViewPage1.Controls.Add(Me.RbtBmcDcs)
         Me.RadPageViewPage1.Controls.Add(Me.Checkallmcc)
         Me.RadPageViewPage1.Controls.Add(Me.chkZone)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
@@ -112,17 +112,17 @@ Partial Class rptBmcCollection
         Me.RadPageViewPage1.Size = New System.Drawing.Size(800, 305)
         Me.RadPageViewPage1.Text = "Filters"
         '
-        'CheckBmcDcs
+        'RbtBmcDcs
         '
-        Me.CheckBmcDcs.AutoSize = True
-        Me.CheckBmcDcs.Location = New System.Drawing.Point(646, 23)
-        Me.CheckBmcDcs.Margin = New System.Windows.Forms.Padding(2)
-        Me.CheckBmcDcs.Name = "CheckBmcDcs"
-        Me.CheckBmcDcs.Size = New System.Drawing.Size(120, 17)
-        Me.CheckBmcDcs.TabIndex = 424
-        Me.CheckBmcDcs.TabStop = True
-        Me.CheckBmcDcs.Text = "Bmc/Dcs wise Data"
-        Me.CheckBmcDcs.UseVisualStyleBackColor = True
+        Me.RbtBmcDcs.AutoSize = True
+        Me.RbtBmcDcs.Location = New System.Drawing.Point(646, 23)
+        Me.RbtBmcDcs.Margin = New System.Windows.Forms.Padding(2)
+        Me.RbtBmcDcs.Name = "RbtBmcDcs"
+        Me.RbtBmcDcs.Size = New System.Drawing.Size(120, 17)
+        Me.RbtBmcDcs.TabIndex = 424
+        Me.RbtBmcDcs.TabStop = True
+        Me.RbtBmcDcs.Text = "Bmc/Dcs wise Data"
+        Me.RbtBmcDcs.UseVisualStyleBackColor = True
         '
         'Checkallmcc
         '
@@ -360,5 +360,5 @@ Partial Class rptBmcCollection
     Friend WithEvents Gv1 As common.UserControls.MyRadGridView
     Friend WithEvents Checkallmcc As RadioButton
     Friend WithEvents chkZone As RadioButton
-    Friend WithEvents CheckBmcDcs As RadioButton
+    Friend WithEvents RbtBmcDcs As RadioButton
 End Class

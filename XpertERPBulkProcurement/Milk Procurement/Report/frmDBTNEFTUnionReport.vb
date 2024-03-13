@@ -84,7 +84,7 @@ Public Class frmDBTNEFTUnionReport
                                 Left Outer Join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DCS_MP_INCENTIVE_RECO_HEAD On TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Document_Code=TSPL_DCS_MP_INCENTIVE_RECO_DETAIL.Document_Code
                                 where Convert(Date,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date,103)>=Convert(Date,'" + Slot1 + "',103) And Convert(Date,TSPL_DCS_MP_INCENTIVE_RECO_HEAD.Reco_Date_To,103)<=Convert(Date,'" + Slot2 + "',103)
                                 )xx Group By [Month] "
-                    Dim dtMonth As DataTable = clsDBFuncationality.GetDataTable(BaseQry)
+                    'Dim dtMonth As DataTable = clsDBFuncationality.GetDataTable(BaseQry)
                     'If dtMonth.Rows.Count <= 0 Then
                     '    clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
                     '    Exit Sub
@@ -96,7 +96,7 @@ Public Class frmDBTNEFTUnionReport
                     End If
 
 
-                    query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],'" + clsCommon.GetPrintDate(txtFromDate.Value, "MMM-yyyy") + " to " + clsCommon.GetPrintDate(txtToDate.Value, "MMM-yyyy") + "' As [FromtoDate], "
+                    query += " select " + clsCommon.myCstr(ii + 1) + " AS SNo,'" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],'" + clsCommon.GetPrintDate(txtFromDate.Value, "MMM-yyyy") + " to " + clsCommon.GetPrintDate(txtToDate.Value, "MMM-yyyy") + "' As [FromtoDate],'" + objCommonVar.CurrentUser + "' As [User], "
                     query += "'" + clsCommon.GetPrintDate(Month1, "MMM-yyyy") + "' As Month1,
                               IsNull(Sum(xxxfinal.[M1 Billed Qty]),0)[M1 Billed Qty],
                               IsNull(Sum(xxxfinal.[M1 Farmer Qty]),0)[M1 Farmer Qty],
@@ -141,7 +141,7 @@ Public Class frmDBTNEFTUnionReport
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing)
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt2, "crptDBT_NEFTUnionReport", "Union Report", Nothing) ''report for both (RCDF And RCDFCF)
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
