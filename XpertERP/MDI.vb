@@ -7827,6 +7827,9 @@ Public Class MDI
                         frm = New FrmBulkMilkSRN
                         frm.AllowModifcationByApprovalUser = IsAllowModificationByApprovalUser
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDBTNEFTUnionReport
+                        frm = New frmDBTNEFTUnionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBulkMilkSRNReturn
                         frm = New FrmBulkMilkSRNReturn
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

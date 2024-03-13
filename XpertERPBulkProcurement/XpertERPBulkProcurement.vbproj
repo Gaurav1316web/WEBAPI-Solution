@@ -204,6 +204,12 @@
     <Compile Include="Milk Procurement\Master\frmMPMilkPrice.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\frmDBTNEFTUnionReport.Designer.vb">
+      <DependentUpon>frmDBTNEFTUnionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmDBTNEFTUnionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\FrmMCCMilkRegister.Designer.vb">
       <DependentUpon>FrmMCCMilkRegister.vb</DependentUpon>
     </Compile>
@@ -774,6 +780,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmMPMilkPrice.resx">
       <DependentUpon>frmMPMilkPrice.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmDBTNEFTUnionReport.resx">
+      <DependentUpon>frmDBTNEFTUnionReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmFATSNFDiffReport.resx">
       <DependentUpon>frmFATSNFDiffReport.vb</DependentUpon>

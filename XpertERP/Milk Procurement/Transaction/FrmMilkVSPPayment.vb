@@ -70,6 +70,7 @@ Public Class FrmMilkVSPPayment
         SettMultipleMCCFinder = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleMCCFinder, clsFixedParameterCode.MultipleMCCFinder, Nothing)) = 1)
         MultipleFinderFillAuto = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
         ApplyUnpaidBank = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyUnpaidBank, clsFixedParameterCode.ApplyUnpaidBank, Nothing)) = 1)
+        'AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         Area.Visible = AreaWiseBilling
         fndArea.Visible = AreaWiseBilling

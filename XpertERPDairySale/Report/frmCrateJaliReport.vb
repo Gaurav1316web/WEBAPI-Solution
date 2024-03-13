@@ -1910,7 +1910,7 @@ Public Class FrmCrateJaliReport
                 WhrVhcle += " and Vehicle_Id In (" + clsCommon.GetMulcallString(txtVehicle.arrValueMember) + ")  "
             End If
             If fndLocation.Value IsNot Nothing AndAlso fndLocation.Value.Count > 0 Then
-                WhrLocn += " and Location_Code = (" + clsCommon.myCstr(fndLocation.Value) + ") "
+                WhrLocn += " and Location_Code = ('" + clsCommon.myCstr(fndLocation.Value) + "') "
             End If
             If txtCustomer.arrValueMember IsNot Nothing AndAlso txtCustomer.arrValueMember.Count > 0 Then
                 WhrCust += " and Customer_Code In (" + clsCommon.GetMulcallString(txtCustomer.arrValueMember) + ")"

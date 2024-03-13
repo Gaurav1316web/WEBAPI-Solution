@@ -21,9 +21,16 @@ Partial Class frmDistributorCommission
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.cmbItemType = New common.Controls.MyComboBox()
+        Me.lblItemType = New common.Controls.MyLabel()
+        Me.txtInActiveDate = New common.Controls.MyDateTimePicker()
+        Me.lblApplicableDate = New common.Controls.MyLabel()
         Me.chkInActive = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkSecurity = New Telerik.WinControls.UI.RadCheckBox()
         Me.rbtnTranspotation = New Telerik.WinControls.UI.RadRadioButton()
@@ -38,7 +45,6 @@ Partial Class frmDistributorCommission
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.txtApplicableDate = New common.Controls.MyDateTimePicker()
-        Me.lblApplicableDate = New common.Controls.MyLabel()
         Me.lblDocCode = New common.Controls.MyLabel()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.txtDate = New common.Controls.MyDateTimePicker()
@@ -53,13 +59,16 @@ Partial Class frmDistributorCommission
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.txtInActiveDate = New common.Controls.MyDateTimePicker()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.cmbItemType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblItemType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtInActiveDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblApplicableDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkInActive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnTranspotation, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -69,7 +78,6 @@ Partial Class frmDistributorCommission
         CType(Me.lblCommission, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtApplicableDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblApplicableDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -83,7 +91,6 @@ Partial Class frmDistributorCommission
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtInActiveDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -124,6 +131,8 @@ Partial Class frmDistributorCommission
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.cmbItemType)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblItemType)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtInActiveDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkInActive)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkSecurity)
@@ -151,6 +160,90 @@ Partial Class frmDistributorCommission
         Me.SplitContainer2.Size = New System.Drawing.Size(832, 407)
         Me.SplitContainer2.SplitterDistance = 120
         Me.SplitContainer2.TabIndex = 0
+        '
+        'cmbItemType
+        '
+        Me.cmbItemType.AutoCompleteDisplayMember = Nothing
+        Me.cmbItemType.AutoCompleteValueMember = Nothing
+        Me.cmbItemType.CalculationExpression = Nothing
+        Me.cmbItemType.DropDownAnimationEnabled = True
+        Me.cmbItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbItemType.FieldCode = Nothing
+        Me.cmbItemType.FieldDesc = Nothing
+        Me.cmbItemType.FieldMaxLength = 0
+        Me.cmbItemType.FieldName = Nothing
+        Me.cmbItemType.isCalculatedField = False
+        Me.cmbItemType.IsSourceFromTable = False
+        Me.cmbItemType.IsSourceFromValueList = False
+        Me.cmbItemType.IsUnique = False
+        RadListDataItem1.Text = "Milk"
+        RadListDataItem2.Text = "Product"
+        RadListDataItem3.Selected = True
+        RadListDataItem3.Text = "Both"
+        Me.cmbItemType.Items.Add(RadListDataItem1)
+        Me.cmbItemType.Items.Add(RadListDataItem2)
+        Me.cmbItemType.Items.Add(RadListDataItem3)
+        Me.cmbItemType.Location = New System.Drawing.Point(687, 34)
+        Me.cmbItemType.MendatroryField = False
+        Me.cmbItemType.MyLinkLable1 = Nothing
+        Me.cmbItemType.MyLinkLable2 = Nothing
+        Me.cmbItemType.Name = "cmbItemType"
+        Me.cmbItemType.ReferenceFieldDesc = Nothing
+        Me.cmbItemType.ReferenceFieldName = Nothing
+        Me.cmbItemType.ReferenceTableName = Nothing
+        Me.cmbItemType.Size = New System.Drawing.Size(126, 20)
+        Me.cmbItemType.TabIndex = 1529
+        Me.cmbItemType.Text = "Both"
+        '
+        'lblItemType
+        '
+        Me.lblItemType.FieldName = Nothing
+        Me.lblItemType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemType.Location = New System.Drawing.Point(615, 36)
+        Me.lblItemType.Name = "lblItemType"
+        Me.lblItemType.Size = New System.Drawing.Size(57, 16)
+        Me.lblItemType.TabIndex = 1530
+        Me.lblItemType.Text = "Item Type"
+        '
+        'txtInActiveDate
+        '
+        Me.txtInActiveDate.CalculationExpression = Nothing
+        Me.txtInActiveDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtInActiveDate.FieldCode = Nothing
+        Me.txtInActiveDate.FieldDesc = Nothing
+        Me.txtInActiveDate.FieldMaxLength = 0
+        Me.txtInActiveDate.FieldName = Nothing
+        Me.txtInActiveDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtInActiveDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtInActiveDate.isCalculatedField = False
+        Me.txtInActiveDate.IsSourceFromTable = False
+        Me.txtInActiveDate.IsSourceFromValueList = False
+        Me.txtInActiveDate.IsUnique = False
+        Me.txtInActiveDate.Location = New System.Drawing.Point(699, 58)
+        Me.txtInActiveDate.MendatroryField = False
+        Me.txtInActiveDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtInActiveDate.MyLinkLable1 = Me.lblApplicableDate
+        Me.txtInActiveDate.MyLinkLable2 = Nothing
+        Me.txtInActiveDate.Name = "txtInActiveDate"
+        Me.txtInActiveDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtInActiveDate.ReferenceFieldDesc = Nothing
+        Me.txtInActiveDate.ReferenceFieldName = Nothing
+        Me.txtInActiveDate.ReferenceTableName = Nothing
+        Me.txtInActiveDate.Size = New System.Drawing.Size(114, 18)
+        Me.txtInActiveDate.TabIndex = 1528
+        Me.txtInActiveDate.TabStop = False
+        Me.txtInActiveDate.Text = "04/07/2023"
+        Me.txtInActiveDate.Value = New Date(2023, 7, 4, 0, 0, 0, 0)
+        '
+        'lblApplicableDate
+        '
+        Me.lblApplicableDate.FieldName = Nothing
+        Me.lblApplicableDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
+        Me.lblApplicableDate.Location = New System.Drawing.Point(398, 35)
+        Me.lblApplicableDate.Name = "lblApplicableDate"
+        Me.lblApplicableDate.Size = New System.Drawing.Size(91, 16)
+        Me.lblApplicableDate.TabIndex = 51
+        Me.lblApplicableDate.Text = "Applicable Date"
         '
         'chkInActive
         '
@@ -222,10 +315,10 @@ Partial Class frmDistributorCommission
         'lblStatus
         '
         Me.lblStatus.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.lblStatus.Location = New System.Drawing.Point(637, 11)
+        Me.lblStatus.Location = New System.Drawing.Point(615, 8)
         Me.lblStatus.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(98, 20)
+        Me.lblStatus.Size = New System.Drawing.Size(198, 20)
         Me.lblStatus.Status = common.ERPTransactionStatus.Pending
         Me.lblStatus.TabIndex = 45
         '
@@ -345,16 +438,6 @@ Partial Class frmDistributorCommission
         Me.txtApplicableDate.Text = "04/07/2023"
         Me.txtApplicableDate.Value = New Date(2023, 7, 4, 0, 0, 0, 0)
         '
-        'lblApplicableDate
-        '
-        Me.lblApplicableDate.FieldName = Nothing
-        Me.lblApplicableDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
-        Me.lblApplicableDate.Location = New System.Drawing.Point(398, 35)
-        Me.lblApplicableDate.Name = "lblApplicableDate"
-        Me.lblApplicableDate.Size = New System.Drawing.Size(91, 16)
-        Me.lblApplicableDate.TabIndex = 51
-        Me.lblApplicableDate.Text = "Applicable Date"
-        '
         'lblDocCode
         '
         Me.lblDocCode.FieldName = Nothing
@@ -422,6 +505,7 @@ Partial Class frmDistributorCommission
         Me.GV1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GV1.MasterTemplate.ShowHeaderCellButtons = True
         Me.GV1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.GV1.MyStopExport = False
         Me.GV1.Name = "GV1"
         Me.GV1.ShowHeaderCellButtons = True
         Me.GV1.Size = New System.Drawing.Size(832, 283)
@@ -504,36 +588,6 @@ Partial Class frmDistributorCommission
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'txtInActiveDate
-        '
-        Me.txtInActiveDate.CalculationExpression = Nothing
-        Me.txtInActiveDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtInActiveDate.FieldCode = Nothing
-        Me.txtInActiveDate.FieldDesc = Nothing
-        Me.txtInActiveDate.FieldMaxLength = 0
-        Me.txtInActiveDate.FieldName = Nothing
-        Me.txtInActiveDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtInActiveDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtInActiveDate.isCalculatedField = False
-        Me.txtInActiveDate.IsSourceFromTable = False
-        Me.txtInActiveDate.IsSourceFromValueList = False
-        Me.txtInActiveDate.IsUnique = False
-        Me.txtInActiveDate.Location = New System.Drawing.Point(699, 58)
-        Me.txtInActiveDate.MendatroryField = False
-        Me.txtInActiveDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtInActiveDate.MyLinkLable1 = Me.lblApplicableDate
-        Me.txtInActiveDate.MyLinkLable2 = Nothing
-        Me.txtInActiveDate.Name = "txtInActiveDate"
-        Me.txtInActiveDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtInActiveDate.ReferenceFieldDesc = Nothing
-        Me.txtInActiveDate.ReferenceFieldName = Nothing
-        Me.txtInActiveDate.ReferenceTableName = Nothing
-        Me.txtInActiveDate.Size = New System.Drawing.Size(114, 18)
-        Me.txtInActiveDate.TabIndex = 1528
-        Me.txtInActiveDate.TabStop = False
-        Me.txtInActiveDate.Text = "04/07/2023"
-        Me.txtInActiveDate.Value = New Date(2023, 7, 4, 0, 0, 0, 0)
-        '
         'frmDistributorCommission
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -553,6 +607,10 @@ Partial Class frmDistributorCommission
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.cmbItemType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblItemType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtInActiveDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblApplicableDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkInActive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSecurity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnTranspotation, System.ComponentModel.ISupportInitialize).EndInit()
@@ -562,7 +620,6 @@ Partial Class frmDistributorCommission
         CType(Me.lblCommission, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtApplicableDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblApplicableDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -576,7 +633,6 @@ Partial Class frmDistributorCommission
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtInActiveDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -614,4 +670,6 @@ Partial Class frmDistributorCommission
     Friend WithEvents btnDelete As RadButton
     Friend WithEvents chkInActive As RadCheckBox
     Friend WithEvents txtInActiveDate As common.Controls.MyDateTimePicker
+    Friend WithEvents cmbItemType As common.Controls.MyComboBox
+    Friend WithEvents lblItemType As common.Controls.MyLabel
 End Class
