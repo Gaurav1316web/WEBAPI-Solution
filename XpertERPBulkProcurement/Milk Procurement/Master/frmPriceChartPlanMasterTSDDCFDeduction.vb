@@ -111,13 +111,25 @@ Public Class frmPriceChartPlanMasterTSDDCFDeduction
             If rbtnSame.IsChecked Then
                 Value = txtValue.Value
             End If
+            Dim intBeginFrom As Integer
             If rbtnBottomToTop.IsChecked Then
-                For ii As Integer = gv1.Rows.Count - 1 To 0 Step -1
+                If chkBeginFromCurrentRow.Checked Then
+                    intBeginFrom = gv1.CurrentRow.Index
+                Else
+                    intBeginFrom = gv1.Rows.Count - 1
+                End If
+                For ii As Integer = intBeginFrom To 0 Step -1
                     gv1.Rows(ii).Cells(colDed).Value = Value
                     Value += txtValue.Value
                 Next
             Else
-                For ii As Integer = 0 To gv1.Rows.Count - 1
+                If chkBeginFromCurrentRow.Checked Then
+                    intBeginFrom = gv1.CurrentRow.Index
+                Else
+                    intBeginFrom = 0
+                End If
+
+                For ii As Integer = intBeginFrom To gv1.Rows.Count - 1
                     gv1.Rows(ii).Cells(colDed).Value = Value
                     If Not rbtnSame.IsChecked Then
                         Value += txtValue.Value

@@ -682,7 +682,7 @@ Public Class frmPriceChartPlanMasterJPR
             repoDeciCol.Width = 100
             repoDeciCol.DecimalPlaces = 1
             repoDeciCol.Minimum = 0
-            repoDeciCol.Maximum = 15
+            repoDeciCol.Maximum = 50
             repoDeciCol.Step = 0
             repoDeciCol.ShowUpDownButtons = False
             repoDeciCol.HeaderText = "From FAT %"
@@ -693,7 +693,7 @@ Public Class frmPriceChartPlanMasterJPR
             repoDeciCol.Width = 100
             repoDeciCol.DecimalPlaces = 1
             repoDeciCol.Minimum = 0
-            repoDeciCol.Maximum = 15
+            repoDeciCol.Maximum = 50
             repoDeciCol.Step = 0
             repoDeciCol.ShowUpDownButtons = False
             repoDeciCol.HeaderText = "TO FAT %"
@@ -715,7 +715,7 @@ Public Class frmPriceChartPlanMasterJPR
             repoDeciCol.Width = 100
             repoDeciCol.DecimalPlaces = 1
             repoDeciCol.Minimum = 0
-            repoDeciCol.Maximum = 15
+            repoDeciCol.Maximum = 50
             repoDeciCol.Step = 0
             repoDeciCol.ShowUpDownButtons = False
             repoDeciCol.HeaderText = "From SNF %"
@@ -726,7 +726,7 @@ Public Class frmPriceChartPlanMasterJPR
             repoDeciCol.Width = 100
             repoDeciCol.DecimalPlaces = 1
             repoDeciCol.Minimum = 0
-            repoDeciCol.Maximum = 15
+            repoDeciCol.Maximum = 50
             repoDeciCol.Step = 0
             repoDeciCol.ShowUpDownButtons = False
             repoDeciCol.HeaderText = "TO SNF %"
