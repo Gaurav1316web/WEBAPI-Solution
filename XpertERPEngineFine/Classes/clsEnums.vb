@@ -136,4 +136,5 @@ Public Enum CrystalReportFolder
     TDS = 15
     UtilityReports = 16
     Engineering = 17
+    UnionReports = 18
 End Enum
