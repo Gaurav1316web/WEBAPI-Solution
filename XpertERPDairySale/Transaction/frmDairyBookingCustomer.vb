@@ -637,7 +637,7 @@ Public Class frmDairyBookingCustomer
         repoAmountWithTax.Width = 80
         repoAmountWithTax.Minimum = 0
         repoAmountWithTax.ReadOnly = True
-        repoAmountWithTax.IsVisible = True
+        repoAmountWithTax.IsVisible = False
         repoAmountWithTax.VisibleInColumnChooser = False
         repoAmountWithTax.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoAmountWithTax)
@@ -1598,7 +1598,7 @@ Public Class frmDairyBookingCustomer
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt1, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt1, 2)
                             If dblTaxBaseAmt1 <> 0 Then
-                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt1 * 100) / dblTaxBaseAmt1, 3)
+                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt1 * 100) / dblTaxBaseAmt1, 2)
                             Else
                                 gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
                             End If
@@ -1611,7 +1611,7 @@ Public Class frmDairyBookingCustomer
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt2, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt2, 2)
                             If dblTaxBaseAmt2 <> 0 Then
-                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt2 * 100) / dblTaxBaseAmt2, 3)
+                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt2 * 100) / dblTaxBaseAmt2, 2)
                             Else
                                 gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
                             End If
@@ -1624,7 +1624,7 @@ Public Class frmDairyBookingCustomer
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt3, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt3, 2)
                             If dblTaxBaseAmt3 <> 0 Then
-                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt3 * 100) / dblTaxBaseAmt3, 3)
+                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt3 * 100) / dblTaxBaseAmt3, 2)
                             Else
                                 gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
                             End If
@@ -1637,7 +1637,7 @@ Public Class frmDairyBookingCustomer
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt4, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt4, 2)
                             If dblTaxBaseAmt4 <> 0 Then
-                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt4 * 100) / dblTaxBaseAmt4, 3)
+                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt4 * 100) / dblTaxBaseAmt4, 2)
                             Else
                                 gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
                             End If
@@ -1645,7 +1645,7 @@ Public Class frmDairyBookingCustomer
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt5, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt5, 2)
                             If dblTaxBaseAmt5 <> 0 Then
-                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt5 * 100) / dblTaxBaseAmt5, 3)
+                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt5 * 100) / dblTaxBaseAmt5, 2)
                             Else
                                 gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
                             End If
@@ -1653,7 +1653,7 @@ Public Class frmDairyBookingCustomer
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt6, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt6, 2)
                             If dblTaxBaseAmt6 <> 0 Then
-                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt6 * 100) / dblTaxBaseAmt6, 3)
+                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt6 * 100) / dblTaxBaseAmt6, 2)
                             Else
                                 gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
                             End If
@@ -1661,7 +1661,7 @@ Public Class frmDairyBookingCustomer
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt7, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt7, 2)
                             If dblTaxBaseAmt7 <> 0 Then
-                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt7 * 100) / dblTaxBaseAmt7, 3)
+                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt7 * 100) / dblTaxBaseAmt7, 2)
                             Else
                                 gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
                             End If
@@ -1669,7 +1669,7 @@ Public Class frmDairyBookingCustomer
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt8, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt8, 2)
                             If dblTaxBaseAmt8 <> 0 Then
-                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt8 * 100) / dblTaxBaseAmt8, 3)
+                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt8 * 100) / dblTaxBaseAmt8, 2)
                             Else
                                 gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
                             End If
@@ -1677,7 +1677,7 @@ Public Class frmDairyBookingCustomer
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt9, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt9, 2)
                             If dblTaxBaseAmt9 <> 0 Then
-                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt9 * 100) / dblTaxBaseAmt9, 3)
+                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt9 * 100) / dblTaxBaseAmt9, 2)
                             Else
                                 gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
                             End If
@@ -1685,7 +1685,7 @@ Public Class frmDairyBookingCustomer
                             gv2.Rows(ii - 1).Cells(colTTaxAmt).Value = Math.Round(dblTaxAmt10, 2)
                             gv2.Rows(ii - 1).Cells(colTBaseAmt).Value = Math.Round(dblTaxBaseAmt10, 2)
                             If dblTaxBaseAmt10 <> 0 Then
-                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt10 * 100) / dblTaxBaseAmt10, 3)
+                                gv2.Rows(ii - 1).Cells(colTTaxRate).Value = Math.Round((dblTaxAmt10 * 100) / dblTaxBaseAmt10, 2)
                             Else
                                 gv2.Rows(ii - 1).Cells(colTTaxRate).Value = 0
                             End If
@@ -7415,7 +7415,7 @@ from
                                     dblOutstandingAmount = dblOutstandingAmount + clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text))
                                     If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
                                         If clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text)) > 0 Then
-                                            txttcstaxbaseamount.Value = Math.Round(clsCommon.myCdbl(dblOutstandingAmount - AmountToCheckCustomerOutstandingForTCSTax), 3)
+                                            txttcstaxbaseamount.Value = Math.Round(clsCommon.myCdbl(dblOutstandingAmount - AmountToCheckCustomerOutstandingForTCSTax), 2)
                                         End If
                                     End If
                                 End If
@@ -7498,7 +7498,7 @@ from
             strCustomer = txtVendorNo.Value
         End If
         Dim IsTaxable As Integer = 0
-        Dim dt As DataTable = clsTaxGroupMaster.GetTaxDetailsByLocation(txtTaxGroup.Value, "S", txtVendorNo.Value, txtLocation.Value, ICode, clsCommon.GetPrintDate(txtDate.Value))
+        Dim dt As DataTable = clsTaxCalculation.GetTaxDetailsByLocation(txtTaxGroup.Value, "S", txtVendorNo.Value, txtLocation.Value, ICode, clsCommon.GetPrintDate(txtDate.Value))
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
             'For intRowNo As Integer = 0 To gv1.Rows.Count - 1
             If (clsCommon.myLen(gv1.Rows(intRowNo).Cells(colICode).Value) > 0) Then
@@ -7526,7 +7526,7 @@ from
                                         dblOutstandingAmount = dblOutstandingAmount + clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text))
                                         If dblOutstandingAmount > AmountToCheckCustomerOutstandingForTCSTax Then
                                             If clsCommon.myCdbl(clsCommon.myFormat(lblActualTCSTaxBaseAmt.Text)) > 0 Then
-                                                txttcstaxbaseamount.Value = Math.Round(clsCommon.myCdbl(dblOutstandingAmount - AmountToCheckCustomerOutstandingForTCSTax), 3)
+                                                txttcstaxbaseamount.Value = Math.Round(clsCommon.myCdbl(dblOutstandingAmount - AmountToCheckCustomerOutstandingForTCSTax), 2)
                                             End If
                                         End If
                                     End If

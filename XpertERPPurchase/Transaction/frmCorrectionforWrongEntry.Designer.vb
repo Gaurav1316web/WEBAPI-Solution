@@ -291,7 +291,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1020, 674)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -403,7 +403,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         'btnUpdate
         '
-        Me.btnUpdate.Location = New System.Drawing.Point(13, 520)
+        Me.btnUpdate.Location = New System.Drawing.Point(13, 433)
         Me.btnUpdate.Name = "btnUpdate"
         Me.btnUpdate.Size = New System.Drawing.Size(69, 22)
         Me.btnUpdate.TabIndex = 100
@@ -1011,7 +1011,7 @@ Partial Class frmCorrectionforWrongEntry
         Me.txtChallanQty.IsSourceFromTable = False
         Me.txtChallanQty.IsSourceFromValueList = False
         Me.txtChallanQty.IsUnique = False
-        Me.txtChallanQty.Location = New System.Drawing.Point(833, 10)
+        Me.txtChallanQty.Location = New System.Drawing.Point(839, 213)
         Me.txtChallanQty.MaxLength = 12
         Me.txtChallanQty.MendatroryField = False
         Me.txtChallanQty.MyLinkLable1 = Me.MyLabel1
@@ -1038,7 +1038,7 @@ Partial Class frmCorrectionforWrongEntry
         '
         Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(740, 10)
+        Me.MyLabel4.Location = New System.Drawing.Point(746, 213)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(65, 16)
         Me.MyLabel4.TabIndex = 62

@@ -340,7 +340,6 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleReturn.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
-    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceBKN.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceTNK.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer.rpt" />
@@ -1709,6 +1708,7 @@
     <None Include="Crystal Reports\Sales Report\crptLoadOutReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptLoadOutStatus.rpt" />
     <None Include="Crystal Reports\Sales Report\crptLO_vs_VehicleCapacity.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptmilkunionreport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptMismatchReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptMismatchReportDetail.rpt" />
     <None Include="Crystal Reports\Sales Report\crptMismatchReportSummary.rpt" />
@@ -1944,5 +1944,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
