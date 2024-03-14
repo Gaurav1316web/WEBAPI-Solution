@@ -316,13 +316,14 @@ Public Class rptDailyQtyReport
 							(Select BMCData.*,TankerData.Document_Date As TankerDocument_Date,TankerData.ROUTE_NO As TankerROUTE_NO,TankerData.Tanker_No As TankerTanker_No,IsNull(TankerData.Qty,0)TankerQty,Isnull(TankerData.FAT_Per,0)TankerFAT_Per,IsNull(TankerData.SNF_Per,0)TankerSNF_Per,IsNull(TankerData.Entered_FATKg,0)TankerEntered_FATKg,IsNull(TankerData.Entered_SNFKg,0)TankerEntered_SNFKg from
 							
 							(select  (tspl_gate_entry_details.Date_And_Time)Document_Date,TSPL_BULK_ROUTE_MASTER.ROUTE_NO,Max(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME)ROUTE_NAME,
-                             Max(tspl_gate_entry_details.Tanker_No)Tanker_No,Sum(Qty_In_Kg)Qty,Avg(FAT_Per)FAT_Per,Avg(SNF_Per)SNF_Per, Max(((fat_per*Qty_In_Kg)/100)) As Entered_FATKg,
-                             Max(((snf_Per*Qty_In_Kg)/100)) As Entered_SNFKg From tspl_gate_entry_details
+                             Max(tspl_gate_entry_details.Tanker_No)Tanker_No,Sum(Qty_In_Kg)Qty,Avg(FAT_Per)FAT_Per,Avg(SNF_Per)SNF_Per, sum((tspl_gate_entry_details.fat_per*tspl_gate_entry_details.Qty_In_Kg)/100) As Entered_FATKg,
+                             sum((tspl_gate_entry_details.snf_Per*tspl_gate_entry_details.Qty_In_Kg)/100) As Entered_SNFKg  From tspl_gate_entry_details
                             Left Outer Join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=tspl_gate_entry_details.ROUTE_NO
 							Where Convert(Date,Date_And_Time,103)>= convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) And Convert(Date,Date_And_Time,103)<= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)
                             Group By TSPL_BULK_ROUTE_MASTER.ROUTE_NO,tspl_gate_entry_details.Date_And_Time )TankerData
 							left outer join
-							(Select max(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date)Document_Date,TSPL_BULK_ROUTE_MASTER.ROUTE_NO,Max(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME)ROUTE_NAME,Max(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,Max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,Sum(Entered_Qty)Qty,Max((Entered_FATKg*100)/Entered_Qty)FAT_Per,Max((Entered_SNFKg*100)/Entered_Qty)SNF_Per,Sum(Entered_FATKg)Entered_FATKg,Sum(Entered_SNFKg)Entered_SNFKg from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS 
+							(Select max(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date)Document_Date,TSPL_BULK_ROUTE_MASTER.ROUTE_NO,Max(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME)ROUTE_NAME,Max(TSPL_MCC_MASTER.MCC_NAME)MCC_NAME,Max(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader)VLC_Code_VLC_Uploader,Sum(Entered_Qty)Qty,(sum(Entered_FATKg)*100)/sum(Entered_Qty) FAT_Per,
+							(sum(Entered_SNFKg)*100)/sum(Entered_Qty) SNF_Per,Sum(Entered_FATKg)Entered_FATKg,Sum(Entered_SNFKg)Entered_SNFKg from TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS 
                             Left Outer Join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code 
                             Left Outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code= TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code
                             Left Outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader=TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader 
