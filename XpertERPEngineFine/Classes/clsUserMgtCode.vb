@@ -2560,8 +2560,7 @@ Public Class clsUserMgtCode
     Public Const SubModuleXpertAPITrans As String = "MAPITrans"
     Public Const SubModuleXpertAPIReport As String = "MAPIReport"
 
-    Public Const ModuleMilkUnion As String = "RPT_MLK_UNN"
-    Public Const SubModuleMilkUnion As String = "MAPIReport"
+
     Public Const XpertAPIWeighment As String = "API-CTF-WGT"
     Public Const XpertAPILoadinSlip As String = "API-CTF-LIS"
     Public Const XpertAPIMilkReceipt As String = "API-MLK-REC"
@@ -2578,6 +2577,9 @@ Public Class clsUserMgtCode
     Public Const MISitemGroups As String = "MISITEM-GRP"
     Public Const MISitemMaster As String = "MISITEM-MST"
     Public Const frmProductionTransactionType As String = "PRO-TRAN-TYP"
+    ''==================MILK UNION===================
+    Public Const ModuleMilkUnion As String = "MLK_UNION"
+    Public Const SubModuleMilkUnion As String = "RPT_MLK_UNN"
 
     ''=================Transaction==========
     Public Const SubModuleMISTransaction As String = "SMMIST"
