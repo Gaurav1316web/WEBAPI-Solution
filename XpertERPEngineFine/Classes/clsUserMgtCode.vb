@@ -2577,14 +2577,15 @@ Public Class clsUserMgtCode
     Public Const MISitemGroups As String = "MISITEM-GRP"
     Public Const MISitemMaster As String = "MISITEM-MST"
     Public Const frmProductionTransactionType As String = "PRO-TRAN-TYP"
-    ''==================MILK UNION===================
-    Public Const ModuleMilkUnion As String = "MLK_UNION"
-    Public Const SubModuleMilkUnion As String = "RPT_MLK_UNN"
 
     ''=================Transaction==========
     Public Const SubModuleMISTransaction As String = "SMMIST"
     Public Const frmDailyMilkProducts As String = "DLY-MLK-PROD"
     Public Const frmDailySMPProduction As String = "DLY-SMP-PROD"
+
+    ''==================MILK UNION===================
+    Public Const ModuleMilkUnion As String = "MLK_UNION"
+    Public Const SubModuleMilkUnion As String = "RPT_MLK_UNN"
 
 
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean
