@@ -340,6 +340,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleReturn.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceBKN.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceTNK.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer.rpt" />
@@ -1312,7 +1313,6 @@
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTNEFTUploader.rpt" />
-    <None Include="Crystal Reports\Milk Procurement\crptDBT_NEFTUnionReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDCSLedgerReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptIncentiveEntryBySRN.rpt" />
     <None Include="Crystal Reports\Milk Procurement\CrptMCCMilkBillDetails%28MccWise%29.rpt" />
@@ -1932,6 +1932,7 @@
     <None Include="Crystal Reports\TDS\Taxchallan281.rpt" />
     <None Include="Crystal Reports\TDS\TDSLedger.rpt" />
     <None Include="Crystal Reports\TDS\TDSLedger6968.rpt" />
+    <None Include="Crystal Reports\Union Reports\crptDBT_NEFTUnionReport.rpt" />
     <None Include="Crystal Reports\Utility Reports\DayEntryStatus.rpt" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>

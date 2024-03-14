@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class GroupProgramMapping
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class GroupProgramMapping
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
@@ -63,9 +63,11 @@ Partial Class GroupProgramMapping
         Me.cboModule = New common.Controls.MyComboBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.fndgroup = New common.UserControls.txtNavigator()
+        Me.RadLabel12 = New common.Controls.MyLabel()
         Me.ToolTipnew = New System.Windows.Forms.ToolTip(Me.components)
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnNewHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.dgvprogram, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvprogram.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -87,10 +89,12 @@ Partial Class GroupProgramMapping
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboModule, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -194,10 +198,11 @@ Partial Class GroupProgramMapping
         Me.dgvprogram.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvprogram.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvprogram.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvprogram.MyStopExport = False
         Me.dgvprogram.Name = "dgvprogram"
         Me.dgvprogram.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvprogram.ShowHeaderCellButtons = True
-        Me.dgvprogram.Size = New System.Drawing.Size(1279, 486)
+        Me.dgvprogram.Size = New System.Drawing.Size(1256, 488)
         Me.dgvprogram.TabIndex = 0
         Me.dgvprogram.TabStop = False
         '
@@ -212,10 +217,10 @@ Partial Class GroupProgramMapping
         'lblcode
         '
         Me.lblcode.FieldName = Nothing
-        Me.lblcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblcode.Location = New System.Drawing.Point(12, 9)
         Me.lblcode.Name = "lblcode"
-        Me.lblcode.Size = New System.Drawing.Size(68, 16)
+        Me.lblcode.Size = New System.Drawing.Size(72, 16)
         Me.lblcode.TabIndex = 45
         Me.lblcode.Text = "Group Code"
         '
@@ -328,7 +333,7 @@ Partial Class GroupProgramMapping
         Me.gbprogrammapping.Location = New System.Drawing.Point(0, 0)
         Me.gbprogrammapping.Name = "gbprogrammapping"
         Me.gbprogrammapping.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.gbprogrammapping.Size = New System.Drawing.Size(1292, 582)
+        Me.gbprogrammapping.Size = New System.Drawing.Size(1292, 584)
         Me.gbprogrammapping.TabIndex = 0
         '
         'txtDashBoardMult
@@ -498,6 +503,18 @@ Partial Class GroupProgramMapping
         Me.fndgroup.TabIndex = 0
         Me.fndgroup.Value = ""
         '
+        'RadLabel12
+        '
+        Me.RadLabel12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel12.FieldName = Nothing
+        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.RadLabel12.Location = New System.Drawing.Point(514, 10)
+        Me.RadLabel12.Name = "RadLabel12"
+        Me.RadLabel12.Size = New System.Drawing.Size(258, 13)
+        Me.RadLabel12.TabIndex = 337
+        Me.RadLabel12.Text = "History will show only when current program code dubble click"
+        '
         'Panel1
         '
         Me.Panel1.Controls.Add(Me.RadMenu1)
@@ -520,12 +537,22 @@ Partial Class GroupProgramMapping
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadLabel12)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnNewHistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Size = New System.Drawing.Size(1292, 623)
-        Me.SplitContainer1.SplitterDistance = 582
+        Me.SplitContainer1.SplitterDistance = 584
         Me.SplitContainer1.TabIndex = 52
+        '
+        'btnNewHistory
+        '
+        Me.btnNewHistory.Location = New System.Drawing.Point(141, 3)
+        Me.btnNewHistory.Name = "btnNewHistory"
+        Me.btnNewHistory.Size = New System.Drawing.Size(64, 19)
+        Me.btnNewHistory.TabIndex = 42
+        Me.btnNewHistory.Text = "&History"
         '
         'GroupProgramMapping
         '
@@ -563,11 +590,14 @@ Partial Class GroupProgramMapping
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboModule, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -600,5 +630,7 @@ Partial Class GroupProgramMapping
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtDashBoardMult As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents btnNewHistory As RadButton
+    Friend WithEvents RadLabel12 As common.Controls.MyLabel
 End Class
 

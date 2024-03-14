@@ -90,6 +90,8 @@ Public Class frmCrystalReportViewer
             strReportPath = strpath + "\Crystal Reports" + strGST + "\Utility Reports\" & strReportName & ".rpt"
         ElseIf crpfolder = CrystalReportFolder.Engineering Then
             strReportPath = strpath + "\Crystal Reports" + strGST + "\Engineering\" & strReportName & ".rpt"
+        ElseIf crpfolder = CrystalReportFolder.UnionReports Then
+            strReportPath = strpath + "\Crystal Reports" + strGST + "\Union Reports\" & strReportName & ".rpt"
         End If
         Return strReportPath
     End Function

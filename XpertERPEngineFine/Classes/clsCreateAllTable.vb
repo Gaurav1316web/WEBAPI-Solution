@@ -738,7 +738,11 @@ Public Class clsCreateAllTable
             coll.Add("isModifyonPassword", "char(1) null default 0")
             coll.Add("is_Amendment", "char(1) null default 0")
             coll.Add("Update_flag", "char(1) null default 0")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_GROUP_PROGRAM_MAPPING", coll)
+            'clsCommonFunctionality.CreateOrAlterTable("TSPL_GROUP_PROGRAM_MAPPING", coll)
+
+            'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GROUP_PROGRAM_MAPPING", coll, Nothing, True, True, "", "Program_Code", "")
+            'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GROUP_PROGRAM_MAPPING", coll, Nothing, True, False, "TSPL_DASHBOARD_GROUP_PROGRAM_MAPPING", "Program_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GROUP_PROGRAM_MAPPING", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("SERVER_NAME", "VARCHAR(20) NULL")
@@ -25609,6 +25613,12 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Main_VSP_Milk_AP_Invoice_No", "Varchar(30) null References TSPL_VENDOR_INVOICE_HEAD(Document_No)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_HEAD", coll, Nothing, True, False, Nothing, Nothing, Nothing, True)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("AP_Invoice_No", "Varchar(30) not null References TSPL_VENDOR_INVOICE_HEAD(Document_No)")
+            coll.Add("Against_Security", "Varchar(30) not null References TSPL_VENDOR_INVOICE_HEAD(Document_No)")
+            coll.Add("Amount", "decimal (18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_SECURITY_REFUND", coll, Nothing, False, False, "TSPL_VENDOR_INVOICE_HEAD", "Document_No", Nothing, False)
 
 
             coll = New Dictionary(Of String, String)()
