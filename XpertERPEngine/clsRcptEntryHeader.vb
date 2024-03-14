@@ -1759,7 +1759,7 @@ Public Class clsRcptEntryHeader
     '            End If
     '            '' END MULTICURRENCY
 
-    '            transportSql.FunGrnlEntryWithTrans(LocSegmentCode, True, trans, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Post_Date")), sqlDr.Rows(0)("Entry_Desc").ToString(), "AR-MI", "AR Payment Received", strDocNo, "", "C", sqlDr.Rows(0)("Cust_Code").ToString(), sqlDr.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , sqlDr.Rows(0)("Reference").ToString(), sqlDr.Rows(0)("Narration").ToString(), coll)
+    '            clsJournalMaster.FunGrnlEntryWithTrans(LocSegmentCode, True, trans, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Post_Date")), sqlDr.Rows(0)("Entry_Desc").ToString(), "AR-MI", "AR Payment Received", strDocNo, "", "C", sqlDr.Rows(0)("Cust_Code").ToString(), sqlDr.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , sqlDr.Rows(0)("Reference").ToString(), sqlDr.Rows(0)("Narration").ToString(), coll)
     '            Dim strQue2 As String = "update TSPL_receipt_header set posted = 'Y' where receipt_no ='" + strDocNo + "' "
     '            clsDBFuncationality.ExecuteNonQuery(strQue2, trans)
 
@@ -1860,7 +1860,7 @@ Public Class clsRcptEntryHeader
     '            End If
 
     '            '' END MULTICURRENCY
-    '            transportSql.FunGrnlEntryWithTrans(LocSegmentCode, True, trans, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Post_Date")), sqlDr.Rows(0)("Entry_Desc").ToString(), "AR-MR", "AR Payment Received", strDocNo, "", "C", sqlDr.Rows(0)("Cust_Code").ToString(), sqlDr.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , sqlDr.Rows(0)("Reference").ToString(), sqlDr.Rows(0)("Narration").ToString(), coll)
+    '            clsJournalMaster.FunGrnlEntryWithTrans(LocSegmentCode, True, trans, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Post_Date")), sqlDr.Rows(0)("Entry_Desc").ToString(), "AR-MR", "AR Payment Received", strDocNo, "", "C", sqlDr.Rows(0)("Cust_Code").ToString(), sqlDr.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , sqlDr.Rows(0)("Reference").ToString(), sqlDr.Rows(0)("Narration").ToString(), coll)
     '            Dim strQue2 As String = "update TSPL_receipt_header set posted = 'Y' where receipt_no ='" + strDocNo + "' "
     '            clsDBFuncationality.ExecuteNonQuery(strQue2, trans)
     '            '-------------------------------------------------------------------------------------------------------------------
@@ -2354,7 +2354,7 @@ Public Class clsRcptEntryHeader
     '            End If
     '            ''--------------------
 
-    '            transportSql.FunGrnlEntryWithTrans(LocSegmentCode, True, trans, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Post_Date")), sqlDr.Rows(0)("Entry_Desc").ToString(), PayType, "AR Payment Received", strDocNo, "", "C", sqlDr.Rows(0)("Cust_Code").ToString(), sqlDr.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , sqlDr.Rows(0)("Reference").ToString(), sqlDr.Rows(0)("Narration").ToString(), coll)
+    '            clsJournalMaster.FunGrnlEntryWithTrans(LocSegmentCode, True, trans, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Post_Date")), sqlDr.Rows(0)("Entry_Desc").ToString(), PayType, "AR Payment Received", strDocNo, "", "C", sqlDr.Rows(0)("Cust_Code").ToString(), sqlDr.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , sqlDr.Rows(0)("Reference").ToString(), sqlDr.Rows(0)("Narration").ToString(), coll)
 
     '            If clsCommon.CompairString(clsCommon.myCstr(sqlDr.Rows(0)("Receipt_Type")), "A") = CompairStringResult.Equal Then
     '                clsRcptEntryHeader.UpdateBalance(clsCommon.myCstr(sqlDr.Rows(0)("Applied_Receipt")), clsCommon.myCdbl(sqlDr.Rows(0)("Receipt_Amount")), trans)
@@ -3122,8 +3122,8 @@ Public Class clsRcptEntryHeader
                 strRemarks = "Customer Security"
             End If
             ''richa TEC/28/11/18-000376 28 Nov,2018
-            transportSql.FunGrnlEntryWithTrans(True, 0, "", "N", LocSegmentCode, True, isForUnpostedTransaction, strVoucherNo, trans, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Post_Date")), strRemarks, "GL-JE", strSourceTypeDesc, strDocNo, "", IIf(clsCommon.CompairString(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), "P") = CompairStringResult.Equal, "C", "O"), dtReceipt.Rows(0)("Cust_Code").ToString(), dtReceipt.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , dtReceipt.Rows(0)("Reference").ToString(), dtReceipt.Rows(0)("Narration").ToString(), coll)
-            'transportSql.FunGrnlEntryWithTrans(LocSegmentCode, True, isForUnpostedTransaction, strVoucherNo, trans, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Post_Date")), strRemarks, "GL-JE", strSourceTypeDesc, strDocNo, "", IIf(clsCommon.CompairString(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), "P") = CompairStringResult.Equal, "C", "O"), dtReceipt.Rows(0)("Cust_Code").ToString(), dtReceipt.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , dtReceipt.Rows(0)("Reference").ToString(), dtReceipt.Rows(0)("Narration").ToString(), coll)
+            clsJournalMaster.FunGrnlEntryWithTrans(True, 0, "", "N", LocSegmentCode, True, isForUnpostedTransaction, strVoucherNo, trans, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Post_Date")), strRemarks, "GL-JE", strSourceTypeDesc, strDocNo, "", IIf(clsCommon.CompairString(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), "P") = CompairStringResult.Equal, "C", "O"), dtReceipt.Rows(0)("Cust_Code").ToString(), dtReceipt.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , dtReceipt.Rows(0)("Reference").ToString(), dtReceipt.Rows(0)("Narration").ToString(), coll)
+            'clsJournalMaster.FunGrnlEntryWithTrans(LocSegmentCode, True, isForUnpostedTransaction, strVoucherNo, trans, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Post_Date")), strRemarks, "GL-JE", strSourceTypeDesc, strDocNo, "", IIf(clsCommon.CompairString(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), "P") = CompairStringResult.Equal, "C", "O"), dtReceipt.Rows(0)("Cust_Code").ToString(), dtReceipt.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , dtReceipt.Rows(0)("Reference").ToString(), dtReceipt.Rows(0)("Narration").ToString(), coll)
             'End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -3285,7 +3285,7 @@ Public Class clsRcptEntryHeader
                     End If
                 End If
                 '' END MULTICURRENCY
-                transportSql.FunGrnlEntryWithTrans(LocSegmentCode, True, isForUnpostedTransaction, strVoucherNo, trans, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Post_Date")), dtReceipt.Rows(0)("Entry_Desc").ToString(), "AR-MI", "AR Payment Received", strDocNo, "", "C", dtReceipt.Rows(0)("Cust_Code").ToString(), dtReceipt.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , dtReceipt.Rows(0)("Reference").ToString(), dtReceipt.Rows(0)("Narration").ToString(), coll, objJE)
+                clsJournalMaster.FunGrnlEntryWithTrans(LocSegmentCode, True, isForUnpostedTransaction, strVoucherNo, trans, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Post_Date")), dtReceipt.Rows(0)("Entry_Desc").ToString(), "AR-MI", "AR Payment Received", strDocNo, "", "C", dtReceipt.Rows(0)("Cust_Code").ToString(), dtReceipt.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , dtReceipt.Rows(0)("Reference").ToString(), dtReceipt.Rows(0)("Narration").ToString(), coll, objJE)
             ElseIf clsCommon.CompairString(clsCommon.myCstr(dtReceipt.Rows(0)("Receipt_Type")), "S") = CompairStringResult.Equal Then
                 Dim arrlist As New ArrayList()
                 Dim Receipt_Line_No As Integer = 0
@@ -3340,7 +3340,7 @@ Public Class clsRcptEntryHeader
                     End If
                 End If
                 '' END MULTICURRENCY
-                transportSql.FunGrnlEntryWithTrans(LocSegmentCode, True, isForUnpostedTransaction, strVoucherNo, trans, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Post_Date")), dtReceipt.Rows(0)("Entry_Desc").ToString(), "AR-MR", "AR Payment Received", strDocNo, "", "C", dtReceipt.Rows(0)("Cust_Code").ToString(), dtReceipt.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , dtReceipt.Rows(0)("Reference").ToString(), dtReceipt.Rows(0)("Narration").ToString(), coll, objJE)
+                clsJournalMaster.FunGrnlEntryWithTrans(LocSegmentCode, True, isForUnpostedTransaction, strVoucherNo, trans, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Post_Date")), dtReceipt.Rows(0)("Entry_Desc").ToString(), "AR-MR", "AR Payment Received", strDocNo, "", "C", dtReceipt.Rows(0)("Cust_Code").ToString(), dtReceipt.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , dtReceipt.Rows(0)("Reference").ToString(), dtReceipt.Rows(0)("Narration").ToString(), coll, objJE)
             Else
                 Dim strRcvblAcc As String
                 Dim ArrList As ArrayList = New ArrayList()
@@ -4265,7 +4265,7 @@ Public Class clsRcptEntryHeader
 
 
 
-                transportSql.FunGrnlEntryWithTrans(LocSegmentCode, True, isForUnpostedTransaction, strVoucherNo, trans, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Post_Date")), dtReceipt.Rows(0)("Entry_Desc").ToString(), PayType, "AR Payment Received", strDocNo, "", "C", dtReceipt.Rows(0)("Cust_Code").ToString(), dtReceipt.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , dtReceipt.Rows(0)("Reference").ToString(), dtReceipt.Rows(0)("Narration").ToString(), coll, objJE)
+                clsJournalMaster.FunGrnlEntryWithTrans(LocSegmentCode, True, isForUnpostedTransaction, strVoucherNo, trans, clsCommon.myCDate(dtReceipt.Rows(0)("Receipt_Post_Date")), dtReceipt.Rows(0)("Entry_Desc").ToString(), PayType, "AR Payment Received", strDocNo, "", "C", dtReceipt.Rows(0)("Cust_Code").ToString(), dtReceipt.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , dtReceipt.Rows(0)("Reference").ToString(), dtReceipt.Rows(0)("Narration").ToString(), coll, objJE)
                 coll = Nothing
             End If
         Catch ex As Exception
@@ -4349,7 +4349,7 @@ Public Class clsRcptEntryHeader
                     End If
                 Next
 
-                transportSql.FunGrnlEntryWithTrans(BankLocation, True, trans, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Post_Date")), sqlDr.Rows(0)("Entry_Desc").ToString(), "AR-MI", "AR Payment Received", strDocNo, "", "C", sqlDr.Rows(0)("Cust_Code").ToString(), sqlDr.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , sqlDr.Rows(0)("Reference").ToString(), sqlDr.Rows(0)("Narration").ToString())
+                clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, trans, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Post_Date")), sqlDr.Rows(0)("Entry_Desc").ToString(), "AR-MI", "AR Payment Received", strDocNo, "", "C", sqlDr.Rows(0)("Cust_Code").ToString(), sqlDr.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, arrlist, , sqlDr.Rows(0)("Reference").ToString(), sqlDr.Rows(0)("Narration").ToString())
 
             Else
                 Dim strRcvblAcc As String
@@ -4462,7 +4462,7 @@ Public Class clsRcptEntryHeader
                 ElseIf sqlDr.Rows(0)("Receipt_Type").ToString() = "U" Then
                     PayType = "AR-UC"
                 End If
-                transportSql.FunGrnlEntryWithTrans(BankLocation, True, trans, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Post_Date")), sqlDr.Rows(0)("Entry_Desc").ToString(), PayType, "AR Payment Received", strDocNo, "", "C", sqlDr.Rows(0)("Cust_Code").ToString(), sqlDr.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , sqlDr.Rows(0)("Reference").ToString(), sqlDr.Rows(0)("Narration").ToString())
+                clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, True, trans, clsCommon.myCDate(sqlDr.Rows(0)("Receipt_Post_Date")), sqlDr.Rows(0)("Entry_Desc").ToString(), PayType, "AR Payment Received", strDocNo, "", "C", sqlDr.Rows(0)("Cust_Code").ToString(), sqlDr.Rows(0)("Customer_Name").ToString(), objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , sqlDr.Rows(0)("Reference").ToString(), sqlDr.Rows(0)("Narration").ToString())
                 Dim strQue As String = "update TSPL_receipt_header set posted = 'Y' where receipt_no ='" + strDocNo + "' "
                 clsDBFuncationality.ExecuteNonQuery(strQue, trans)
             End If

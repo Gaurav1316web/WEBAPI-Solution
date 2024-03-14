@@ -1151,17 +1151,17 @@ Public Class ClsAdjustmentsQCC
                         strRemarks += " " + clsCommon.GetPrintDate(obj.GateEntry_Date, "dd/MM/yyyy")
                     End If
                     If obj.Is_Imported = 0 Then
-                        transportSql.FunGrnlEntryWithTrans(SettCreateOpeningEntryAutomatically, 0, "", "N", obj.Loc_Code, False, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, strSourceCode, strSourceCodeName, obj.Adjustment_No, obj.Description, IIf(clsCommon.myLen(obj.Customer_CODE) > 0, "C", "O"), obj.Customer_CODE, obj.Customer_NAME, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, strRemarks)
+                        clsJournalMaster.FunGrnlEntryWithTrans(SettCreateOpeningEntryAutomatically, 0, "", "N", obj.Loc_Code, False, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, strSourceCode, strSourceCodeName, obj.Adjustment_No, obj.Description, IIf(clsCommon.myLen(obj.Customer_CODE) > 0, "C", "O"), obj.Customer_CODE, obj.Customer_NAME, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, strRemarks)
                     End If
                 End If
             End If
         ElseIf clsCommon.CompairString(strType, "Production Entry") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
-                transportSql.FunGrnlEntryWithTrans(SettCreateOpeningEntryAutomatically, 0, "", "N", obj.Loc_Code, False, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, strSourceCode, strSourceCodeName, obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(SettCreateOpeningEntryAutomatically, 0, "", "N", obj.Loc_Code, False, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, strSourceCode, strSourceCodeName, obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
             End If
         ElseIf clsCommon.CompairString(strType, "Store Adjustment") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
-                transportSql.FunGrnlEntryWithTrans(SettCreateOpeningEntryAutomatically, 0, "", "N", IIf(clsCommon.myLen(obj.Loc_Code) <= 0, obj.MainLocationCode, obj.Loc_Code), False, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, strSourceCode, strSourceCodeName, obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(SettCreateOpeningEntryAutomatically, 0, "", "N", IIf(clsCommon.myLen(obj.Loc_Code) <= 0, obj.MainLocationCode, obj.Loc_Code), False, False, strVourcherNoForRecreateOnly, trans, obj.Adjustment_Date, desc, strSourceCode, strSourceCodeName, obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
             End If
         End If
         Return True
@@ -1236,7 +1236,7 @@ Public Class ClsAdjustmentsQCC
 
 
 
-                    transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "IC-QC", "I/C Adjustments", obj.Adjustment_No, obj.Description, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Reference, "")
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "IC-QC", "I/C Adjustments", obj.Adjustment_No, obj.Description, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Reference, "")
                 ElseIf clsCommon.CompairString(objtr.Adjustment_Type, "CD") = CompairStringResult.Equal OrElse clsCommon.CompairString(objtr.Adjustment_Type, "BD") = CompairStringResult.Equal Then
                     strInvAcc = clsCommon.myCstr(dtPurchaseAccountSet.Rows(0)("Inv_Control_Account"))
                     strInvAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(strInvAcc, strsegment, True, trans)
@@ -1248,7 +1248,7 @@ Public Class ClsAdjustmentsQCC
 
                     Dim Acc2() As String = {Branch_Ac, 1 * objtr.Item_Cost}
                     ArryLst.Add(Acc2)
-                    transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "IC-QC", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Reference, "")
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.Adjustment_Date, desc, "IC-QC", "I/C Adjustments", obj.Adjustment_No, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Reference, "")
                 End If
             Next
         End If
@@ -3073,17 +3073,17 @@ Public Class ClsAdjustmentsStoreEntry
                         strRemarks += " " + clsCommon.GetPrintDate(obj.GateEntry_Date, "dd/MM/yyyy")
                     End If
                     If obj.Is_Imported = 0 Then
-                        transportSql.FunGrnlEntryWithTrans(SettCreateOpeningEntryAutomatically, 0, "", "N", obj.Loc_Code, False, False, strVourcherNoForRecreateOnly, trans, obj.ProductionStoreEntry_Date, desc, strSourceCode, strSourceCodeName, obj.ProductionStoreEntryNo, obj.Description, IIf(clsCommon.myLen(obj.Customer_CODE) > 0, "C", "O"), obj.Customer_CODE, obj.Customer_NAME, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, strRemarks)
+                        clsJournalMaster.FunGrnlEntryWithTrans(SettCreateOpeningEntryAutomatically, 0, "", "N", obj.Loc_Code, False, False, strVourcherNoForRecreateOnly, trans, obj.ProductionStoreEntry_Date, desc, strSourceCode, strSourceCodeName, obj.ProductionStoreEntryNo, obj.Description, IIf(clsCommon.myLen(obj.Customer_CODE) > 0, "C", "O"), obj.Customer_CODE, obj.Customer_NAME, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, strRemarks)
                     End If
                 End If
             End If
         ElseIf clsCommon.CompairString(strType, "Production Entry") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
-                transportSql.FunGrnlEntryWithTrans(SettCreateOpeningEntryAutomatically, 0, "", "N", obj.Loc_Code, False, False, strVourcherNoForRecreateOnly, trans, obj.ProductionStoreEntry_Date, desc, strSourceCode, strSourceCodeName, obj.ProductionStoreEntryNo, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(SettCreateOpeningEntryAutomatically, 0, "", "N", obj.Loc_Code, False, False, strVourcherNoForRecreateOnly, trans, obj.ProductionStoreEntry_Date, desc, strSourceCode, strSourceCodeName, obj.ProductionStoreEntryNo, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
             End If
         ElseIf clsCommon.CompairString(strType, "Store Adjustment") = CompairStringResult.Equal Then
             If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
-                transportSql.FunGrnlEntryWithTrans(SettCreateOpeningEntryAutomatically, 0, "", "N", IIf(clsCommon.myLen(obj.Loc_Code) <= 0, obj.MainLocationCode, obj.Loc_Code), False, False, strVourcherNoForRecreateOnly, trans, obj.ProductionStoreEntry_Date, desc, strSourceCode, strSourceCodeName, obj.ProductionStoreEntryNo, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(SettCreateOpeningEntryAutomatically, 0, "", "N", IIf(clsCommon.myLen(obj.Loc_Code) <= 0, obj.MainLocationCode, obj.Loc_Code), False, False, strVourcherNoForRecreateOnly, trans, obj.ProductionStoreEntry_Date, desc, strSourceCode, strSourceCodeName, obj.ProductionStoreEntryNo, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstFinal, obj.Reference, "")
             End If
         End If
         Return True
@@ -3158,7 +3158,7 @@ Public Class ClsAdjustmentsStoreEntry
 
 
 
-                    transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.ProductionStoreEntry_Date, desc, "IC-SE", "I/C Adjustments", obj.ProductionStoreEntryNo, obj.Description, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Reference, "")
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.ProductionStoreEntry_Date, desc, "IC-SE", "I/C Adjustments", obj.ProductionStoreEntryNo, obj.Description, "I", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Reference, "")
                 ElseIf clsCommon.CompairString(objtr.Adjustment_Type, "CD") = CompairStringResult.Equal OrElse clsCommon.CompairString(objtr.Adjustment_Type, "BD") = CompairStringResult.Equal Then
                     strInvAcc = clsCommon.myCstr(dtPurchaseAccountSet.Rows(0)("Inv_Control_Account"))
                     strInvAcc = clsERPFuncationality.ChangeGLAccountLocationSegment(strInvAcc, strsegment, True, trans)
@@ -3170,7 +3170,7 @@ Public Class ClsAdjustmentsStoreEntry
 
                     Dim Acc2() As String = {Branch_Ac, 1 * objtr.Item_Cost}
                     ArryLst.Add(Acc2)
-                    transportSql.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.ProductionStoreEntry_Date, desc, "IC-SE", "I/C Adjustments", obj.ProductionStoreEntryNo, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Reference, "")
+                    clsJournalMaster.FunGrnlEntryWithTrans(obj.Loc_Code, False, trans, obj.ProductionStoreEntry_Date, desc, "IC-SE", "I/C Adjustments", obj.ProductionStoreEntryNo, obj.Description, "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, obj.Reference, "")
                 End If
             Next
         End If

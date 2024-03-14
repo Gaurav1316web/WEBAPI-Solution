@@ -249,7 +249,7 @@ Public Class ClsFixedDeposit
             ArryLstGLAC.Add(Acc1)
 
 
-            transportSql.FunGrnlEntryWithTrans(BankLocation, False, trans, obj.Document_Date, "Journal Entry Against Fixed Deposit for Document No " + obj.Document_No + " ", "FD-MT", "Fixed Deposit Merchant Trade", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
+            clsJournalMaster.FunGrnlEntryWithTrans(BankLocation, False, trans, obj.Document_Date, "Journal Entry Against Fixed Deposit for Document No " + obj.Document_No + " ", "FD-MT", "Fixed Deposit Merchant Trade", obj.Document_No, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , "", "")
 
 
         Catch ex As Exception

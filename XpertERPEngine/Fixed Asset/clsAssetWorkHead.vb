@@ -1085,9 +1085,9 @@ Public Class clsAssetWorkHead
             Dim strRecreateVoucherNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
 
             If clsCommon.myLen(strRecreateVoucherNo) > 0 Then
-                isSaved = transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, strRecreateVoucherNo, trans, obj.Document_Date, GLDesc, "AS-WK", "Asset Work", obj.Document_Date, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , Remarks, "", Nothing)
+                isSaved = clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, strRecreateVoucherNo, trans, obj.Document_Date, GLDesc, "AS-WK", "Asset Work", obj.Document_Date, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , Remarks, "", Nothing)
             Else
-                isSaved = transportSql.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, GLDesc, "AS-WK", "Asset Work", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , Remarks, "", Nothing)
+                isSaved = clsJournalMaster.FunGrnlEntryWithTrans(obj.Location_Code, False, trans, obj.Document_Date, GLDesc, "AS-WK", "Asset Work", obj.Document_Code, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLstGLAC, , Remarks, "", Nothing)
             End If
             '==========================
             If clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyFinancialCostCenter, clsFixedParameterCode.ApplyFinancialCostCenter, trans)) = "1", True, False)) = True Then

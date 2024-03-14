@@ -2560,8 +2560,7 @@ Public Class clsUserMgtCode
     Public Const SubModuleXpertAPITrans As String = "MAPITrans"
     Public Const SubModuleXpertAPIReport As String = "MAPIReport"
 
-    Public Const ModuleMilkUnion As String = "RPT_MLK_UNN"
-    Public Const SubModuleMilkUnion As String = "MAPIReport"
+
     Public Const XpertAPIWeighment As String = "API-CTF-WGT"
     Public Const XpertAPILoadinSlip As String = "API-CTF-LIS"
     Public Const XpertAPIMilkReceipt As String = "API-MLK-REC"
@@ -2583,6 +2582,10 @@ Public Class clsUserMgtCode
     Public Const SubModuleMISTransaction As String = "SMMIST"
     Public Const frmDailyMilkProducts As String = "DLY-MLK-PROD"
     Public Const frmDailySMPProduction As String = "DLY-SMP-PROD"
+
+    ''==================MILK UNION===================
+    Public Const ModuleMilkUnion As String = "MLK_UNION"
+    Public Const SubModuleMilkUnion As String = "RPT_MLK_UNN"
 
 
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean

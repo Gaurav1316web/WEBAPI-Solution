@@ -2028,9 +2028,9 @@ Public Class clsMccDispatch
             Dim Remarks As String = "Journal Entry against MCC Tanker Dispatch from location -" & obj.MCC_Code & " to location- " & obj.Mcc_Or_Plant_Code & " For Doc No. " & obj.Chalan_NO & ""
 
             If strVoucherNoForRecreateOnly IsNot Nothing AndAlso clsCommon.myLen(strVoucherNoForRecreateOnly) > 0 Then ''because if voucher no known then recreate it with same no.
-                transportSql.FunGrnlEntryWithTrans(obj.MCC_Code, False, strVoucherNoForRecreateOnly, trans, obj.Dispatch_Date, GLDesc, "DI-CH", "Dispatch Challan", obj.Chalan_NO, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.MCC_Code, False, strVoucherNoForRecreateOnly, trans, obj.Dispatch_Date, GLDesc, "DI-CH", "Dispatch Challan", obj.Chalan_NO, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
             Else
-                transportSql.FunGrnlEntryWithTrans(obj.MCC_Code, False, trans, obj.Dispatch_Date, GLDesc, "DI-CH", "Dispatch Challan", obj.Chalan_NO, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.MCC_Code, False, trans, obj.Dispatch_Date, GLDesc, "DI-CH", "Dispatch Challan", obj.Chalan_NO, "", "O", "", "", objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst, , Remarks, obj.Remarks)
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)

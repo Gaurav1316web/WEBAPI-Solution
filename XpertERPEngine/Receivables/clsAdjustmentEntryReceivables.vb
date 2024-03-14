@@ -200,7 +200,7 @@ Public Class clsAdjustmentEntryReceivables
                 '    AdjAcc = New String() {objtr.Account_No, objtr.Amount}
                 '    ArrList.Add(AdjAcc)
                 'Next
-                'transportSql.FunGrnlEntryWithTrans(strLocation, True, trans, obj.Adjustment_Date, obj.Description, "AR-AD", "AR Payment Received", strDocNo, "", "C", obj.Customer_No, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , obj.Remarks, "")
+                'clsJournalMaster.FunGrnlEntryWithTrans(strLocation, True, trans, obj.Adjustment_Date, obj.Description, "AR-AD", "AR Payment Received", strDocNo, "", "C", obj.Customer_No, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , obj.Remarks, "")
                 strQ = "update TSPL_Receipt_Adjustment_Header set TSPL_Receipt_Adjustment_Header.is_Post = 'Y', TSPL_Receipt_Adjustment_Header.Post_Date= '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd-MMM-yyyy") + "' where Adjustment_No ='" + clsCommon.myCstr(strDocNo) + "'"
                 clsDBFuncationality.ExecuteNonQuery(strQ, trans)
                 ''richa agarwal 14/04/2015
@@ -247,7 +247,7 @@ Public Class clsAdjustmentEntryReceivables
                 AdjAcc = New String() {objtr.Account_No, objtr.Amount}
                 ArrList.Add(AdjAcc)
             Next
-            transportSql.FunGrnlEntryWithTrans(strLocation, True, strVoucherNoifExists, trans, obj.Adjustment_Date, obj.Description, "AR-AD", "AR Payment Received", obj.Adjustment_No, "", "C", obj.Customer_No, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , obj.Remarks, "")
+            clsJournalMaster.FunGrnlEntryWithTrans(strLocation, True, strVoucherNoifExists, trans, obj.Adjustment_Date, obj.Description, "AR-AD", "AR Payment Received", obj.Adjustment_No, "", "C", obj.Customer_No, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , obj.Remarks, "")
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -285,7 +285,7 @@ Public Class clsAdjustmentEntryReceivables
                     AdjAcc = New String() {objtr.Account_No, -1 * objtr.Amount}
                     ArrList.Add(AdjAcc)
                 Next
-                transportSql.FunGrnlEntryWithTrans(strLocation, True, trans, obj.Adjustment_Date, obj.Description, "AR-AD", "AR Payment Received", strDocNo, "", "C", obj.Customer_No, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , obj.Remarks, "")
+                clsJournalMaster.FunGrnlEntryWithTrans(strLocation, True, trans, obj.Adjustment_Date, obj.Description, "AR-AD", "AR Payment Received", strDocNo, "", "C", obj.Customer_No, obj.Customer_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , obj.Remarks, "")
                 strQ = "update TSPL_Receipt_Adjustment_Header set TSPL_Receipt_Adjustment_Header.is_Post = 'Y', TSPL_Receipt_Adjustment_Header.Post_Date= '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd-MMM-yyyy") + "' where Adjustment_No ='" + clsCommon.myCstr(strDocNo) + "'"
                 clsDBFuncationality.ExecuteNonQuery(strQ, trans)
                 ''richa agarwal 14/04/2015
@@ -353,7 +353,7 @@ Public Class clsAdjustmentEntryReceivables
         Dim strRcvblLocAcc As String = clsERPFuncationality.ChangeGLAccountLocationSegment(strRcvblAcc, Loc, trans)
         CustAcc = New String() {strRcvblLocAcc, -1 * TAdjAmt}
         ArrList.Add(CustAcc)
-        transportSql.FunGrnlEntryWithTrans(Loc, False, trans, PostDate, Desc, "AR-AD", "AR Payment Received", strDocNo, "", "C", strCust, Custname, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , Remarks, "")
+        clsJournalMaster.FunGrnlEntryWithTrans(Loc, False, trans, PostDate, Desc, "AR-AD", "AR Payment Received", strDocNo, "", "C", strCust, Custname, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArrList, , Remarks, "")
         Dim str1 As String = "update TSPL_Receipt_Adjustment_Header set TSPL_Receipt_Adjustment_Header.is_Post = 'Y', TSPL_Receipt_Adjustment_Header.Post_Date= '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd-MMM-yyyy") + "' where Adjustment_No ='" + clsCommon.myCstr(strDocNo) + "'"
         clsDBFuncationality.ExecuteNonQuery(str1, trans)
         Return True

@@ -2917,7 +2917,7 @@ Public Class clsPurchaseInvoiceHead
 
             'If ArryLst1 IsNot Nothing AndAlso ArryLst1.Count > 0 AndAlso clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SkipDiffGLOnPI, clsFixedParameterCode.SkipDiffGLOnPI, trans)) = 0 Then
             If ArryLst1 IsNot Nothing AndAlso ArryLst1.Count > 0 AndAlso clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseAccounting, clsFixedParameterCode.AllowPurchaseAccounting, trans)) = 0 Then
-                transportSql.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.PI_Date, "Difference Entry Against PI-" & obj.PI_No & " SRN-" & obj.Against_SRN & "", "PI-CM", "PI Consumption", obj.PI_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst1)
+                clsJournalMaster.FunGrnlEntryWithTrans(obj.Bill_To_Location, False, trans, obj.PI_Date, "Difference Entry Against PI-" & obj.PI_No & " SRN-" & obj.Against_SRN & "", "PI-CM", "PI Consumption", obj.PI_No, obj.Description, "V", obj.Vendor_Code, obj.Vendor_Name, objCommonVar.CurrentUserCode, objCommonVar.CurrentCompanyCode, ArryLst1)
             End If
 #End Region
 

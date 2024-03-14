@@ -22,21 +22,21 @@ Partial Class FrmAPInvoiceEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmAPInvoiceEntry))
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmAPInvoiceEntry))
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.chkTDSProvision = New common.Controls.MyCheckBox()
-        Me.chkRCM = New common.Controls.MyCheckBox()
+        Me.txtSecurityAdjusment = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel15 = New common.Controls.MyLabel()
         Me.grpVendorBankDetails = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtVendor_Bank_ACNo = New common.Controls.MyTextBox()
         Me.MyLabel17 = New common.Controls.MyLabel()
@@ -46,6 +46,9 @@ Partial Class FrmAPInvoiceEntry
         Me.txtbranchname = New common.Controls.MyTextBox()
         Me.TxtBankName = New common.Controls.MyTextBox()
         Me.MyLabel23 = New common.Controls.MyLabel()
+        Me.chkSecurityAdjusment = New common.Controls.MyCheckBox()
+        Me.chkTDSProvision = New common.Controls.MyCheckBox()
+        Me.chkRCM = New common.Controls.MyCheckBox()
         Me.Panel4 = New System.Windows.Forms.Panel()
         Me.lblGstinNo = New common.Controls.MyLabel()
         Me.MyLabel49 = New common.Controls.MyLabel()
@@ -89,7 +92,6 @@ Partial Class FrmAPInvoiceEntry
         Me.txtMCC = New common.Controls.MyTextBox()
         Me.lblMCC = New common.Controls.MyTextBox()
         Me.lblMCC2 = New common.Controls.MyLabel()
-        Me.MyLabel15 = New common.Controls.MyLabel()
         Me.txtDataAndTimeSelection = New common.Controls.MyDateTimePicker()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.txtTapalNo = New common.Controls.MyTextBox()
@@ -223,16 +225,13 @@ Partial Class FrmAPInvoiceEntry
         Me.RadMenuItem8 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem9 = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.chkSecurityAdjusment = New common.Controls.MyCheckBox()
-        Me.txtSecurityAdjusment = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkRCM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.grpVendorBankDetails, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpVendorBankDetails.SuspendLayout()
         CType(Me.txtVendor_Bank_ACNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -243,6 +242,9 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.txtbranchname, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtBankName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSecurityAdjusment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkRCM, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel4.SuspendLayout()
         CType(Me.lblGstinNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -287,7 +289,6 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.txtMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMCC2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTapalNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -395,7 +396,6 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.chkSecurityAdjusment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -528,29 +528,29 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1073, 400)
         Me.RadPageViewPage1.Text = "Document"
         '
-        'chkTDSProvision
+        'txtSecurityAdjusment
         '
-        Me.chkTDSProvision.Location = New System.Drawing.Point(621, 150)
-        Me.chkTDSProvision.MyLinkLable1 = Nothing
-        Me.chkTDSProvision.MyLinkLable2 = Nothing
-        Me.chkTDSProvision.Name = "chkTDSProvision"
-        Me.chkTDSProvision.ReadOnly = True
-        Me.chkTDSProvision.Size = New System.Drawing.Size(89, 18)
-        Me.chkTDSProvision.TabIndex = 613
-        Me.chkTDSProvision.Tag1 = Nothing
-        Me.chkTDSProvision.Text = "TDS Provision"
+        Me.txtSecurityAdjusment.arrDispalyMember = Nothing
+        Me.txtSecurityAdjusment.arrValueMember = Nothing
+        Me.txtSecurityAdjusment.Location = New System.Drawing.Point(834, 149)
+        Me.txtSecurityAdjusment.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSecurityAdjusment.MyLinkLable1 = Me.MyLabel15
+        Me.txtSecurityAdjusment.MyLinkLable2 = Nothing
+        Me.txtSecurityAdjusment.MyNullText = "Please select"
+        Me.txtSecurityAdjusment.Name = "txtSecurityAdjusment"
+        Me.txtSecurityAdjusment.Size = New System.Drawing.Size(231, 20)
+        Me.txtSecurityAdjusment.TabIndex = 615
+        Me.txtSecurityAdjusment.Visible = False
         '
-        'chkRCM
+        'MyLabel15
         '
-        Me.chkRCM.Location = New System.Drawing.Point(574, 150)
-        Me.chkRCM.MyLinkLable1 = Nothing
-        Me.chkRCM.MyLinkLable2 = Nothing
-        Me.chkRCM.Name = "chkRCM"
-        Me.chkRCM.ReadOnly = True
-        Me.chkRCM.Size = New System.Drawing.Size(44, 18)
-        Me.chkRCM.TabIndex = 612
-        Me.chkRCM.Tag1 = Nothing
-        Me.chkRCM.Text = "RCM"
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(284, 215)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(82, 16)
+        Me.MyLabel15.TabIndex = 607
+        Me.MyLabel15.Text = "Date And Time"
         '
         'grpVendorBankDetails
         '
@@ -721,6 +721,41 @@ Partial Class FrmAPInvoiceEntry
         Me.MyLabel23.TabIndex = 26
         Me.MyLabel23.Text = "Bank Code"
         '
+        'chkSecurityAdjusment
+        '
+        Me.chkSecurityAdjusment.Location = New System.Drawing.Point(712, 150)
+        Me.chkSecurityAdjusment.MyLinkLable1 = Nothing
+        Me.chkSecurityAdjusment.MyLinkLable2 = Nothing
+        Me.chkSecurityAdjusment.Name = "chkSecurityAdjusment"
+        Me.chkSecurityAdjusment.Size = New System.Drawing.Size(121, 18)
+        Me.chkSecurityAdjusment.TabIndex = 614
+        Me.chkSecurityAdjusment.Tag1 = Nothing
+        Me.chkSecurityAdjusment.Text = "Security Adjustment"
+        '
+        'chkTDSProvision
+        '
+        Me.chkTDSProvision.Location = New System.Drawing.Point(621, 150)
+        Me.chkTDSProvision.MyLinkLable1 = Nothing
+        Me.chkTDSProvision.MyLinkLable2 = Nothing
+        Me.chkTDSProvision.Name = "chkTDSProvision"
+        Me.chkTDSProvision.ReadOnly = True
+        Me.chkTDSProvision.Size = New System.Drawing.Size(89, 18)
+        Me.chkTDSProvision.TabIndex = 613
+        Me.chkTDSProvision.Tag1 = Nothing
+        Me.chkTDSProvision.Text = "TDS Provision"
+        '
+        'chkRCM
+        '
+        Me.chkRCM.Location = New System.Drawing.Point(574, 150)
+        Me.chkRCM.MyLinkLable1 = Nothing
+        Me.chkRCM.MyLinkLable2 = Nothing
+        Me.chkRCM.Name = "chkRCM"
+        Me.chkRCM.ReadOnly = True
+        Me.chkRCM.Size = New System.Drawing.Size(44, 18)
+        Me.chkRCM.TabIndex = 612
+        Me.chkRCM.Tag1 = Nothing
+        Me.chkRCM.Text = "RCM"
+        '
         'Panel4
         '
         Me.Panel4.Controls.Add(Me.lblGstinNo)
@@ -805,10 +840,10 @@ Partial Class FrmAPInvoiceEntry
         Me.CboxITCCateogory.IsSourceFromTable = False
         Me.CboxITCCateogory.IsSourceFromValueList = False
         Me.CboxITCCateogory.IsUnique = False
-        RadListDataItem7.Text = "Yes"
-        RadListDataItem8.Text = "No"
-        Me.CboxITCCateogory.Items.Add(RadListDataItem7)
-        Me.CboxITCCateogory.Items.Add(RadListDataItem8)
+        RadListDataItem1.Text = "Yes"
+        RadListDataItem2.Text = "No"
+        Me.CboxITCCateogory.Items.Add(RadListDataItem1)
+        Me.CboxITCCateogory.Items.Add(RadListDataItem2)
         Me.CboxITCCateogory.Location = New System.Drawing.Point(90, 19)
         Me.CboxITCCateogory.MendatroryField = False
         Me.CboxITCCateogory.MyLinkLable1 = Me.MyLabel12
@@ -845,10 +880,10 @@ Partial Class FrmAPInvoiceEntry
         Me.CboxITCType.IsSourceFromTable = False
         Me.CboxITCType.IsSourceFromValueList = False
         Me.CboxITCType.IsUnique = False
-        RadListDataItem1.Text = "Yes"
-        RadListDataItem2.Text = "No"
-        Me.CboxITCType.Items.Add(RadListDataItem1)
-        Me.CboxITCType.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "Yes"
+        RadListDataItem4.Text = "No"
+        Me.CboxITCType.Items.Add(RadListDataItem3)
+        Me.CboxITCType.Items.Add(RadListDataItem4)
         Me.CboxITCType.Location = New System.Drawing.Point(37, 19)
         Me.CboxITCType.MendatroryField = True
         Me.CboxITCType.MyLinkLable1 = Me.MyLabel12
@@ -906,7 +941,7 @@ Partial Class FrmAPInvoiceEntry
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1376,16 +1411,6 @@ Partial Class FrmAPInvoiceEntry
         Me.lblMCC2.TabIndex = 609
         Me.lblMCC2.Text = "MCC/PLANT"
         '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(284, 215)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(82, 16)
-        Me.MyLabel15.TabIndex = 607
-        Me.MyLabel15.Text = "Date And Time"
-        '
         'txtDataAndTimeSelection
         '
         Me.txtDataAndTimeSelection.CalculationExpression = Nothing
@@ -1488,10 +1513,10 @@ Partial Class FrmAPInvoiceEntry
         Me.ddlEmployeeType.IsSourceFromTable = False
         Me.ddlEmployeeType.IsSourceFromValueList = False
         Me.ddlEmployeeType.IsUnique = False
-        RadListDataItem3.Text = "Yes"
-        RadListDataItem4.Text = "No"
-        Me.ddlEmployeeType.Items.Add(RadListDataItem3)
-        Me.ddlEmployeeType.Items.Add(RadListDataItem4)
+        RadListDataItem5.Text = "Yes"
+        RadListDataItem6.Text = "No"
+        Me.ddlEmployeeType.Items.Add(RadListDataItem5)
+        Me.ddlEmployeeType.Items.Add(RadListDataItem6)
         Me.ddlEmployeeType.Location = New System.Drawing.Point(457, 235)
         Me.ddlEmployeeType.MendatroryField = True
         Me.ddlEmployeeType.MyLinkLable1 = Me.MyLabel13
@@ -2509,7 +2534,7 @@ Partial Class FrmAPInvoiceEntry
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowFilteringRow = False
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2562,7 +2587,7 @@ Partial Class FrmAPInvoiceEntry
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowFilteringRow = False
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3220,45 +3245,6 @@ Partial Class FrmAPInvoiceEntry
         Me.Panel1.Size = New System.Drawing.Size(1094, 484)
         Me.Panel1.TabIndex = 3
         '
-        'chkSecurityAdjusment
-        '
-        Me.chkSecurityAdjusment.Location = New System.Drawing.Point(712, 150)
-        Me.chkSecurityAdjusment.MyLinkLable1 = Nothing
-        Me.chkSecurityAdjusment.MyLinkLable2 = Nothing
-        Me.chkSecurityAdjusment.Name = "chkSecurityAdjusment"
-        Me.chkSecurityAdjusment.ReadOnly = True
-        Me.chkSecurityAdjusment.Size = New System.Drawing.Size(121, 18)
-        Me.chkSecurityAdjusment.TabIndex = 614
-        Me.chkSecurityAdjusment.Tag1 = Nothing
-        Me.chkSecurityAdjusment.Text = "Security Adjustment"
-        '
-        'txtSecurityAdjusment
-        '
-        Me.txtSecurityAdjusment.CalculationExpression = Nothing
-        Me.txtSecurityAdjusment.FieldCode = Nothing
-        Me.txtSecurityAdjusment.FieldDesc = Nothing
-        Me.txtSecurityAdjusment.FieldMaxLength = 0
-        Me.txtSecurityAdjusment.FieldName = Nothing
-        Me.txtSecurityAdjusment.isCalculatedField = False
-        Me.txtSecurityAdjusment.IsSourceFromTable = False
-        Me.txtSecurityAdjusment.IsSourceFromValueList = False
-        Me.txtSecurityAdjusment.IsUnique = False
-        Me.txtSecurityAdjusment.Location = New System.Drawing.Point(839, 151)
-        Me.txtSecurityAdjusment.MendatroryField = False
-        Me.txtSecurityAdjusment.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSecurityAdjusment.MyLinkLable1 = Me.RadLabel15
-        Me.txtSecurityAdjusment.MyLinkLable2 = Nothing
-        Me.txtSecurityAdjusment.MyReadOnly = False
-        Me.txtSecurityAdjusment.MyShowMasterFormButton = False
-        Me.txtSecurityAdjusment.Name = "txtSecurityAdjusment"
-        Me.txtSecurityAdjusment.ReferenceFieldDesc = Nothing
-        Me.txtSecurityAdjusment.ReferenceFieldName = Nothing
-        Me.txtSecurityAdjusment.ReferenceTableName = Nothing
-        Me.txtSecurityAdjusment.Size = New System.Drawing.Size(226, 19)
-        Me.txtSecurityAdjusment.TabIndex = 615
-        Me.txtSecurityAdjusment.Value = ""
-        Me.txtSecurityAdjusment.Visible = False
-        '
         'FrmAPInvoiceEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3280,8 +3266,7 @@ Partial Class FrmAPInvoiceEntry
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkRCM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.grpVendorBankDetails, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grpVendorBankDetails.ResumeLayout(False)
         Me.grpVendorBankDetails.PerformLayout()
@@ -3293,6 +3278,9 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.txtbranchname, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtBankName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSecurityAdjusment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkTDSProvision, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkRCM, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel4.ResumeLayout(False)
         Me.Panel4.PerformLayout()
         CType(Me.lblGstinNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3343,7 +3331,6 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.txtMCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMCC2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDataAndTimeSelection, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTapalNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3457,7 +3444,6 @@ Partial Class FrmAPInvoiceEntry
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.chkSecurityAdjusment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -3655,7 +3641,7 @@ Partial Class FrmAPInvoiceEntry
     Friend WithEvents butCostCenterAndHirerachy_Update_AfterPost As RadButton
     Friend WithEvents chkRCM As common.Controls.MyCheckBox
     Friend WithEvents chkTDSProvision As common.Controls.MyCheckBox
-    Friend WithEvents txtSecurityAdjusment As common.UserControls.txtFinder
     Friend WithEvents chkSecurityAdjusment As common.Controls.MyCheckBox
+    Friend WithEvents txtSecurityAdjusment As common.UserControls.txtMultiSelectFinder
 End Class
 

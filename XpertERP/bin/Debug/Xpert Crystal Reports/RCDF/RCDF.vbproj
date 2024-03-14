@@ -1708,6 +1708,7 @@
     <None Include="Crystal Reports\Sales Report\crptLoadOutReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptLoadOutStatus.rpt" />
     <None Include="Crystal Reports\Sales Report\crptLO_vs_VehicleCapacity.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptmilkunionreport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptMismatchReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptMismatchReportDetail.rpt" />
     <None Include="Crystal Reports\Sales Report\crptMismatchReportSummary.rpt" />
@@ -1943,5 +1944,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
