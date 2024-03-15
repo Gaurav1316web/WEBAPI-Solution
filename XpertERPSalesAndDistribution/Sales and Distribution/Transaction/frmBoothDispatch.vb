@@ -23,10 +23,6 @@ Public Class frmBoothDispatch
         BooToDate = clsCommon.myCstr(txtToDate.Value.ToShortDateString())
         Dim strFromDate As String = clsCommon.GetPrintDate(txtfDate.Value, "dd/MMM/yyyy")
         Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
-        'Sanjay ,Add Customer Category
-        'Sanjay BHA/15/08/18-000429 Add Route Code and Name
-        'Sanjay Ticket No-TEC/19/06/19-000552 Short Close Qty=(DELIVERY_NOTE_Qty-SHIPMENT_Qty)
-        ' Ticket No : VIJ/09/12/19-000104 By Prabhakar Add customer Group and Booking Amount And Separate Scheme Query because Qty came double 
         Dim qry As String = "select ((Convert (VARCHAR(10),TSPL_SD_SHIPMENT_HEAD.Document_Date,103)))AS [Document Date] ,(TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No) as [Invoice No],((Distributor.Cust_Code)) as [Distributor Code],((Distributor.Customer_Name)) as [Distributor Name],(Booth.Cust_Code) As [Booth Code],(Booth.Customer_Name) As [Booth Name],
 (TSPL_DEMAND_BOOKING_DETAIL.Item_Code) as [Item Code],(TSPL_ITEM_MASTER.Item_Desc) As [Item Desc],(TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty)Qty,(TSPL_DEMAND_BOOKING_DETAIL.Unit_code) As [Unit Code]
 from   TSPL_SD_SHIPMENT_BOOKING_DETAIL
@@ -60,16 +56,13 @@ where 2=2
             gvData.MasterTemplate.SummaryRowsBottom.Clear()
             gvData.DataSource = dt
             gvData.Columns("Document Date").IsVisible = True
-
             gvData.Columns("Invoice No").IsVisible = True
             gvData.Columns("Distributor Code").IsVisible = True
             gvData.Columns("Distributor Name").IsVisible = True
             gvData.Columns("Booth Code").IsVisible = True
             gvData.Columns("Booth Name").IsVisible = True
-
             gvData.Columns("Item Code").IsVisible = True
             gvData.Columns("Item Desc").IsVisible = True
-
             gvData.Columns("Qty").IsVisible = True
             gvData.Columns("Unit Code").IsVisible = True
             'SetGridFormationOFGV1()
@@ -101,17 +94,14 @@ where 2=2
             Dim aa = gvData.Columns(i).HeaderText()
             Dim item8 As New GridViewSummaryItem(aa, "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item8)
-
         Next
-
         gvData.ShowGroupPanel = True
         gvData.MasterTemplate.AutoExpandGroups = True
-
         gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         gvData.MasterTemplate.ShowTotals = True
         'ReStoreGridLayout()
-
     End Sub
+
     Private Sub txtMultiCustomer__My_Click(sender As Object, e As EventArgs) Handles txtMultiCustomer._My_Click
         Dim qry As String = " select cust_code as [Code], Customer_Name as [Name] from tspl_customer_master WHERE isDistrIbutor='N' and Distributor_Code in  (" + clsCommon.GetMulcallString(txtBooth.arrValueMember) + ")"
         txtMultiCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", txtMultiCustomer.arrValueMember, txtMultiCustomer.arrDispalyMember)
@@ -148,8 +138,9 @@ where 2=2
         txtBooth.arrValueMember = Nothing
         txtRoute.arrValueMember = Nothing
         txtMultiCustomer.arrValueMember = Nothing
+    End Sub
 
-
-
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        Me.Close()
     End Sub
 End Class
