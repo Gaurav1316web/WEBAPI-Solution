@@ -1248,6 +1248,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntriesTNK.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptBoothSlip.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptbulkinvoice.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingRouteWiseTNK.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingTruckSheet.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crpJobworkEstimate.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleReturn.rpt" />
