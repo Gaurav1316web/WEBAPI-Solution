@@ -8959,6 +8959,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDCSDEmandBooking
                         frm = New frmDCSDemandBooking()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBoothDispatch
+                        frm = New frmBoothDispatch()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmCashIndentBookingMobApp
                         frm = New frmCashIndentBookingMobApp
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
