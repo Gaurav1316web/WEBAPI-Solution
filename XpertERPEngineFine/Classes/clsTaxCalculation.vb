@@ -145,6 +145,26 @@ Public Class clsTaxCalculation
     '    Next
     '    Return dblRet
     'End Function
+    Public Shared Function GetTaxDetailsByLocation(ByVal GrpCode As String, ByVal strTaxType As String, ByVal strVendorCustomerCode As String, ByVal strLocation As String, ByVal ItemCode As String, ByVal DocDate As Date) As DataTable
+        Dim openTaxcond As String = ""
+        Dim strjoin As String = String.Empty
+        Dim whrCls As String = " and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Type='" + strTaxType + "' "
+        Dim whrCls_taxgrp As String = " and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='" + strTaxType + "' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type='" + strTaxType + "' "
+        Dim qry As String = "select TSPL_TAX_GROUP_DETAILS.Tax_Group_Code ,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc,TSPL_TAX_GROUP_DETAILS.Tax_Code,TSPL_TAX_GROUP_DETAILS.Tax_Code_Desc,Surtax,Surtax_Tax_Code,TSPL_TAX_GROUP_DETAILS.Tax_On_Base_Amount," 'isnull(("
+        If clsCommon.myLen(ItemCode) > 0 Then
+            qry += " X.TAX_Rate as TaxRate, "
+            strjoin = " LEFT JOIN (SELECT TSPL_ITEM_WISE_TAX_GROUP.Item_Code,TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code, TSPL_ITEM_WISE_TAX_AUTHORITY.TAX_Rate, TSPL_ITEM_WISE_TAX_AUTHORITY.Tax_Authority,TSPL_ITEM_WISE_TAX.DOC_DATE 
+    FROM  TSPL_ITEM_WISE_TAX  LEFT JOIN TSPL_ITEM_WISE_TAX_GROUP ON TSPL_ITEM_WISE_TAX.HCODE = TSPL_ITEM_WISE_TAX_GROUP.HCODE LEFT JOIN TSPL_ITEM_WISE_TAX_AUTHORITY ON TSPL_ITEM_WISE_TAX_GROUP.DCODE = TSPL_ITEM_WISE_TAX_AUTHORITY.DCODE 
+    WHERE  TSPL_ITEM_WISE_TAX_GROUP.Item_Code = '" + ItemCode + "' AND TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code = '" + GrpCode + "'  AND TSPL_ITEM_WISE_TAX.DOC_DATE = ( SELECT MAX(DOC_DATE) 
+          FROM TSPL_ITEM_WISE_TAX LEFT JOIN TSPL_ITEM_WISE_TAX_GROUP ON TSPL_ITEM_WISE_TAX.HCODE = TSPL_ITEM_WISE_TAX_GROUP.HCODE  LEFT JOIN TSPL_ITEM_WISE_TAX_AUTHORITY ON TSPL_ITEM_WISE_TAX_GROUP.DCODE = TSPL_ITEM_WISE_TAX_AUTHORITY.DCODE 
+    WHERE TSPL_ITEM_WISE_TAX_GROUP.Item_Code = '" + ItemCode + "' AND TSPL_ITEM_WISE_TAX_GROUP.Tax_Group_Code = '" + GrpCode + "'  and TSPL_ITEM_WISE_TAX.DOC_DATE<='" + clsCommon.GetPrintDate(DocDate) + "'  and Status=1  )
+  ) X ON TSPL_TAX_GROUP_DETAILS.Tax_Group_Code = X.Tax_Group_Code  AND TSPL_TAX_GROUP_DETAILS.Tax_Code = X.Tax_Authority "
+        Else
+            qry += " 0 as TaxRate, "
+        End If
+        qry += " TSPL_TAX_GROUP_DETAILS.Taxable, TSPL_TAX_MASTER.Excisable , TSPL_TAX_MASTER.Tax_Recoverable,TSPL_TAX_MASTER.Type,TSPL_TAX_MASTER.IS_TCS from TSPL_TAX_GROUP_DETAILS left outer join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_DETAILS.Tax_Group_Code left outer join TSPL_TAX_MASTER on TSPL_TAX_MASTER.Tax_Code=TSPL_TAX_GROUP_DETAILS.Tax_Code " + strjoin + "  where TSPL_TAX_GROUP_DETAILS.Tax_Group_Code='" + GrpCode + "' " + whrCls_taxgrp + " order by Trans_Code"
+        Return clsDBFuncationality.GetDataTable(qry)
+    End Function
 
 End Class
 

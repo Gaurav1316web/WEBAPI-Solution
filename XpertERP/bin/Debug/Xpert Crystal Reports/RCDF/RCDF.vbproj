@@ -340,7 +340,6 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleReturn.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
-    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceBKN.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceTNK.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\CSATransfer.rpt" />
@@ -1249,6 +1248,7 @@
     <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntriesTNK.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptBoothSlip.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptbulkinvoice.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingRouteWiseTNK.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\rptDemandBookingTruckSheet.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crpJobworkEstimate.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleReturn.rpt" />
@@ -1313,6 +1313,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTNEFTUploader.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptDBT_NEFTUnionReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDCSLedgerReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptIncentiveEntryBySRN.rpt" />
     <None Include="Crystal Reports\Milk Procurement\CrptMCCMilkBillDetails%28MccWise%29.rpt" />
@@ -1708,6 +1709,7 @@
     <None Include="Crystal Reports\Sales Report\crptLoadOutReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptLoadOutStatus.rpt" />
     <None Include="Crystal Reports\Sales Report\crptLO_vs_VehicleCapacity.rpt" />
+    <None Include="Crystal Reports\Sales Report\crptmilkunionreport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptMismatchReport.rpt" />
     <None Include="Crystal Reports\Sales Report\crptMismatchReportDetail.rpt" />
     <None Include="Crystal Reports\Sales Report\crptMismatchReportSummary.rpt" />
@@ -1932,7 +1934,6 @@
     <None Include="Crystal Reports\TDS\Taxchallan281.rpt" />
     <None Include="Crystal Reports\TDS\TDSLedger.rpt" />
     <None Include="Crystal Reports\TDS\TDSLedger6968.rpt" />
-    <None Include="Crystal Reports\Union Reports\crptDBT_NEFTUnionReport.rpt" />
     <None Include="Crystal Reports\Utility Reports\DayEntryStatus.rpt" />
     <None Include="My Project\Application.myapp">
       <Generator>MyApplicationCodeGenerator</Generator>
@@ -1944,5 +1945,6 @@
       <LastGenOutput>Settings.Designer.vb</LastGenOutput>
     </None>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>
