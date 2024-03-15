@@ -1881,7 +1881,7 @@ select Route_No,Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as 
 XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq, max(XXFinal.Short_Description) +' '+max(XXFinal.Unit_code) as Short_Description,
 
 sum(XXFinal.Qty) as Qty,'" + objCommonVar.CurrentUser + "' as UserName,
-max(XXFinal.CompanyName) as CompanyName, max(XXFinal.TranspoterName) as TranspoterName, max(XXFinal.DriverName) as DriverName,'" + clsCommon.myCstr(lblVehicleDesc.Text) + "' as Vehicle_No,'" + fndRouteNo.Value + "' as Route_No,'" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' as DocumentDate
+max(XXFinal.CompanyName) as CompanyName, '" + txtDistributorName.Text + "' as TranspoterName,'" + txtDriverName.Text + "' as DriverName,'" + txtDriverMobNo.Text + "' as DMobNo,'" + clsCommon.myCstr(lblVehicleDesc.Text) + "' as Vehicle_No,'" + fndRouteNo.Value + "' as Route_No,'" + clsCommon.GetPrintDate(txtSupplyDate.Value, "dd-MMM-yyyy") + "' as DocumentDate
 
 from 
 (
