@@ -1811,6 +1811,12 @@
     <Compile Include="Sales and Distribution\Report\VisiDetail.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmBoothDispatch.Designer.vb">
+      <DependentUpon>frmBoothDispatch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Transaction\frmBoothDispatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Sales and Distribution\Transaction\frmChangeInvoiceSalesman.Designer.vb">
       <DependentUpon>frmChangeInvoiceSalesman.vb</DependentUpon>
     </Compile>
@@ -2669,6 +2675,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Report\VisiDetail.resx">
       <DependentUpon>VisiDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Transaction\frmBoothDispatch.resx">
+      <DependentUpon>frmBoothDispatch.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Transaction\frmChangeInvoiceSalesman.resx">
       <DependentUpon>frmChangeInvoiceSalesman.vb</DependentUpon>
