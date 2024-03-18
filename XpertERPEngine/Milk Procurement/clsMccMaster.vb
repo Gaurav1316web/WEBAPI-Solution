@@ -2563,6 +2563,8 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPL
                             dclTSDDCSRateSlab = clsCommon.myCDecimal(drSlab("Rate_Per"))
                             dclReturnMilkValue = ((dclRate * dblFATPer) / 100)
                             dclReturnMilkValue += clsCommon.myCDecimal(drSlab("Fixed_Rate"))
+                            dclDedPer = clsCommon.myCDecimal(drSlab("Deduction_Per"))
+                            dclReturnMilkValue = (dclReturnMilkValue * ((100 - dclDedPer) / 100))
 
                             Dim arr As Dictionary(Of Decimal, Decimal) = clsPriceChartPlanningTSDDCFSNFDed.GetData(strPlanningCode, clsCommon.myCDecimal(drSlab("SNo")), tran)
                             If arr IsNot Nothing AndAlso arr.Count > 0 Then
@@ -2570,12 +2572,10 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPL
                                     dclReturnMilkValue += arr.Item(dblSNFPer)
                                 End If
                             End If
-                            dclDedPer = clsCommon.myCDecimal(drSlab("Deduction_Per"))
                         End If
                         Exit For
                     End If
                 Next
-                
                 If dclTSDDCSRate > 0 AndAlso dclTSDDCSRateSlab > 0 Then
                     dclRefQATRate = clsCommon.myRoundOFF(((dclTSDDCSRate - dclTSDDCSRateSlab) * dblFATPer / 100), 3, 4)
                 End If
@@ -2584,12 +2584,6 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPL
                 End If
             End If
 
-            dclReturnMilkValue = (dclReturnMilkValue * ((100 - dclDedPer) / 100))
-            'If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then ''By Kislay on 30/05/2023
-            '    dclReturnMilkValue = clsCommon.myRoundOFF(dclReturnMilkValue, 2, 9)
-            'Else
-            '    dclReturnMilkValue = clsCommon.myRoundOFF(dclReturnMilkValue, 2, 4)
-            'End If
             dclReturnMilkValue = clsCommon.myRoundOFF(dclReturnMilkValue, 2, 4)
             If dclReturnMilkValue < 0 Then
                 dclRefNegativeRate = -1 * dclReturnMilkValue

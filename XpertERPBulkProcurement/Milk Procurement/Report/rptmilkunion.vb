@@ -78,7 +78,7 @@ Public Class rptmilkunion
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             If dt2.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptmilkunionreport", "")
+                frmCRV.funreport(CrystalReportFolder.UnionReports, dt2, "crptmilkunionreport", "") ''report for both (RCDF And RCDFCF)
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
             End If
