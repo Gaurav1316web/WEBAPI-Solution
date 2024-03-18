@@ -1280,10 +1280,10 @@ Public Class FrmMilkTransferIn
             '    Throw New Exception("Receipt date can't be smaller than QC Out Date ")
             'End If
             If AllowBulkProcMCCwithoutTankerDispatch = 1 Then
-                If clsCommon.myCdbl(txtTransferPrice.Text) <= 0 Then
-                    Throw New Exception("Please enter Transfer Price. ")
-                    txtTransferPrice.Focus()
-                End If
+                'If clsCommon.myCdbl(txtTransferPrice.Text) <= 0 Then
+                '    Throw New Exception("Please enter Transfer Price. ")
+                '    txtTransferPrice.Focus()
+                'End If
                 If clsCommon.myLen(fndPriceChart.Value) <= 0 Then
                     Throw New Exception("Please Select Price Chart . ")
                     fndPriceChart.Focus()
@@ -1293,14 +1293,14 @@ Public Class FrmMilkTransferIn
                 Next
             End If
             If AutoEntry = False Then
-                If clsCommon.myLen(txtKmReadingRecpt.Text) <= 0 Then
-                    Throw New Exception("Please Enter KM Reading Receipt ")
-                    txtKmReadingRecpt.Focus()
-                End If
+                'If clsCommon.myLen(txtKmReadingRecpt.Text) <= 0 Then
+                '    Throw New Exception("Please Enter KM Reading Receipt ")
+                '    txtKmReadingRecpt.Focus()
+                'End If
 
-                If clsCommon.myCdbl(txtKmReadingRecpt.Text) <= clsCommon.myCdbl(txtKMReadingDisp.Text) Then
-                    Throw New Exception("Receipt KM Reading can't be smaller or equal Dispatch KM Reading ")
-                End If
+                'If clsCommon.myCdbl(txtKmReadingRecpt.Text) <= clsCommon.myCdbl(txtKMReadingDisp.Text) Then
+                '    Throw New Exception("Receipt KM Reading can't be smaller or equal Dispatch KM Reading ")
+                'End If
             End If
             For i As Integer = 0 To gvNewSeal.Rows.Count - 2
                 For j As Integer = i + 1 To gvNewSeal.Rows.Count - 1
@@ -1329,8 +1329,8 @@ Public Class FrmMilkTransferIn
             'Return True
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            Return False
         End Try
-
         Return True
     End Function
 
