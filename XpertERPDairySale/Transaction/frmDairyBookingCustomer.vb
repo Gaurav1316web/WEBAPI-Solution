@@ -637,7 +637,7 @@ Public Class frmDairyBookingCustomer
         repoAmountWithTax.Width = 80
         repoAmountWithTax.Minimum = 0
         repoAmountWithTax.ReadOnly = True
-        repoAmountWithTax.IsVisible = True
+        repoAmountWithTax.IsVisible = False
         repoAmountWithTax.VisibleInColumnChooser = False
         repoAmountWithTax.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoAmountWithTax)

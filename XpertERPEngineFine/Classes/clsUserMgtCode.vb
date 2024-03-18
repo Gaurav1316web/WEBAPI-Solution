@@ -2116,6 +2116,7 @@ Public Class clsUserMgtCode
     Public Const rptMilkUnion As String = "UNN_MLK_RPT"
     Public Const rptCattleFeedSaleReport As String = "Cattle-F-S"
     Public Const rptTransferToSavingReport As String = "Tran-Sv-Rt"
+    Public Const rptDcsPaymentReport As String = "Dcs-Pyt-Rpt"
     Public Const frmBulkMilkSRNReturn As String = "M-BMSRN-R"
     'Public Const frmTranReverse As String = "M-TRN-R"
     'Public Const rptMDConversion As String = "MD_CONVERSIN"
@@ -2553,6 +2554,8 @@ Public Class clsUserMgtCode
     Public Const frmDemandApproval As String = "DEM-APR-TRN"
     Public Const frmDemand_Sheet As String = "DEM-DEM_SHE"
     Public Const frmDCSDEmandBooking As String = "DCS-DEM-TRN"
+    Public Const frmBoothDispatch As String = "BOO-TH-DIS"
+
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
 
     Public Const ModuleXpertAPI As String = "API"

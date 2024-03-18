@@ -22,6 +22,7 @@ Partial Class FrmPendingBookingReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,13 +31,16 @@ Partial Class FrmPendingBookingReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.rbtnDistributor = New Telerik.WinControls.UI.RadRadioButton()
+        Me.TxtMultiCustomerCategory = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtBookingType = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtMultItem = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel13 = New common.Controls.MyLabel()
         Me.txtMultiCustomer = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel17 = New common.Controls.MyLabel()
@@ -51,8 +55,6 @@ Partial Class FrmPendingBookingReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.TxtMultiCustomerCategory = New common.UserControls.txtMultiSelectFinder()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
@@ -63,10 +65,12 @@ Partial Class FrmPendingBookingReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -80,7 +84,6 @@ Partial Class FrmPendingBookingReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -109,27 +112,20 @@ Partial Class FrmPendingBookingReport
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1044, 20)
         Me.RadMenu1.TabIndex = 18
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem2.AccessibleName = "Delete Layout"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
@@ -164,11 +160,11 @@ Partial Class FrmPendingBookingReport
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1044, 428)
         Me.RadPageView1.TabIndex = 72
-        Me.RadPageView1.Text = "RadPageView2"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.rbtnDistributor)
         Me.RadPageViewPage1.Controls.Add(Me.TxtMultiCustomerCategory)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
         Me.RadPageViewPage1.Controls.Add(Me.txtBookingType)
@@ -186,6 +182,51 @@ Partial Class FrmPendingBookingReport
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1023, 380)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'rbtnDistributor
+        '
+        Me.rbtnDistributor.Location = New System.Drawing.Point(374, 16)
+        Me.rbtnDistributor.Name = "rbtnDistributor"
+        Me.rbtnDistributor.Size = New System.Drawing.Size(124, 18)
+        Me.rbtnDistributor.TabIndex = 420
+        Me.rbtnDistributor.TabStop = False
+        Me.rbtnDistributor.Text = "Distributor Summary"
+        Me.rbtnDistributor.Visible = False
+        '
+        'TxtMultiCustomerCategory
+        '
+        Me.TxtMultiCustomerCategory.arrDispalyMember = Nothing
+        Me.TxtMultiCustomerCategory.arrValueMember = Nothing
+        Me.TxtMultiCustomerCategory.Location = New System.Drawing.Point(121, 145)
+        Me.TxtMultiCustomerCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtMultiCustomerCategory.MyLinkLable1 = Me.MyLabel13
+        Me.TxtMultiCustomerCategory.MyLinkLable2 = Nothing
+        Me.TxtMultiCustomerCategory.MyNullText = "All"
+        Me.TxtMultiCustomerCategory.Name = "TxtMultiCustomerCategory"
+        Me.TxtMultiCustomerCategory.Size = New System.Drawing.Size(300, 19)
+        Me.TxtMultiCustomerCategory.TabIndex = 419
+        Me.TxtMultiCustomerCategory.Visible = False
+        '
+        'MyLabel13
+        '
+        Me.MyLabel13.FieldName = Nothing
+        Me.MyLabel13.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel13.Location = New System.Drawing.Point(13, 50)
+        Me.MyLabel13.Name = "MyLabel13"
+        Me.MyLabel13.Size = New System.Drawing.Size(60, 18)
+        Me.MyLabel13.TabIndex = 334
+        Me.MyLabel13.Text = "Distributor"
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(13, 146)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(103, 18)
+        Me.MyLabel3.TabIndex = 418
+        Me.MyLabel3.Text = "Customer Category"
+        Me.MyLabel3.Visible = False
+        '
         'txtBookingType
         '
         Me.txtBookingType.arrDispalyMember = Nothing
@@ -198,6 +239,7 @@ Partial Class FrmPendingBookingReport
         Me.txtBookingType.Name = "txtBookingType"
         Me.txtBookingType.Size = New System.Drawing.Size(300, 19)
         Me.txtBookingType.TabIndex = 413
+        Me.txtBookingType.Visible = False
         '
         'MyLabel5
         '
@@ -208,6 +250,7 @@ Partial Class FrmPendingBookingReport
         Me.MyLabel5.Size = New System.Drawing.Size(75, 18)
         Me.MyLabel5.TabIndex = 414
         Me.MyLabel5.Text = "Booking Type"
+        Me.MyLabel5.Visible = False
         '
         'txtRoute
         '
@@ -254,16 +297,6 @@ Partial Class FrmPendingBookingReport
         Me.txtMultItem.Name = "txtMultItem"
         Me.txtMultItem.Size = New System.Drawing.Size(300, 19)
         Me.txtMultItem.TabIndex = 335
-        '
-        'MyLabel13
-        '
-        Me.MyLabel13.FieldName = Nothing
-        Me.MyLabel13.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(13, 50)
-        Me.MyLabel13.Name = "MyLabel13"
-        Me.MyLabel13.Size = New System.Drawing.Size(55, 18)
-        Me.MyLabel13.TabIndex = 334
-        Me.MyLabel13.Text = "Customer"
         '
         'txtMultiCustomer
         '
@@ -355,12 +388,14 @@ Partial Class FrmPendingBookingReport
         '
         '
         '
+        Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
         Me.gvData.ShowHeaderCellButtons = True
         Me.gvData.Size = New System.Drawing.Size(1023, 380)
         Me.gvData.TabIndex = 0
-        Me.gvData.Text = "RadGridView1"
         '
         'RadSplitButton1
         '
@@ -374,15 +409,11 @@ Partial Class FrmPendingBookingReport
         '
         'rmenuExport
         '
-        Me.rmenuExport.AccessibleDescription = "Export"
-        Me.rmenuExport.AccessibleName = "Export"
         Me.rmenuExport.Name = "rmenuExport"
         Me.rmenuExport.Text = "Export"
         '
         'rmenuPDF
         '
-        Me.rmenuPDF.AccessibleDescription = "PDF"
-        Me.rmenuPDF.AccessibleName = "PDF"
         Me.rmenuPDF.Name = "rmenuPDF"
         Me.rmenuPDF.Text = "PDF"
         '
@@ -413,29 +444,6 @@ Partial Class FrmPendingBookingReport
         Me.btnReset.TabIndex = 159
         Me.btnReset.Text = "Reset"
         '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(13, 146)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(103, 18)
-        Me.MyLabel3.TabIndex = 418
-        Me.MyLabel3.Text = "Customer Category"
-        '
-        'TxtMultiCustomerCategory
-        '
-        Me.TxtMultiCustomerCategory.arrDispalyMember = Nothing
-        Me.TxtMultiCustomerCategory.arrValueMember = Nothing
-        Me.TxtMultiCustomerCategory.Location = New System.Drawing.Point(121, 145)
-        Me.TxtMultiCustomerCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtMultiCustomerCategory.MyLinkLable1 = Me.MyLabel13
-        Me.TxtMultiCustomerCategory.MyLinkLable2 = Nothing
-        Me.TxtMultiCustomerCategory.MyNullText = "All"
-        Me.TxtMultiCustomerCategory.Name = "TxtMultiCustomerCategory"
-        Me.TxtMultiCustomerCategory.Size = New System.Drawing.Size(300, 19)
-        Me.TxtMultiCustomerCategory.TabIndex = 419
-        '
         'FrmPendingBookingReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -460,10 +468,12 @@ Partial Class FrmPendingBookingReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.rbtnDistributor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.RadGroupBox4.PerformLayout()
@@ -478,7 +488,6 @@ Partial Class FrmPendingBookingReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -514,5 +523,6 @@ Partial Class FrmPendingBookingReport
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents TxtMultiCustomerCategory As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents rbtnDistributor As RadRadioButton
 End Class
 

@@ -8270,6 +8270,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptTransferToSavingReport
                         frm = New TransferToSavingReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptDcsPaymentReport
+                        frm = New RptDcsPaymentReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAvgSaleDetailReport
                         frm = New rptAvgSaleDetailReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -8958,6 +8961,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDCSDEmandBooking
                         frm = New frmDCSDemandBooking()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBoothDispatch
+                        frm = New frmBoothDispatch()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmCashIndentBookingMobApp
                         frm = New frmCashIndentBookingMobApp

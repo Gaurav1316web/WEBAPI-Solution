@@ -1732,7 +1732,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptMilkPaymentSummary, "Milk Payment Summary Report", "1.17.03.113", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCattleFeedSaleReport, "Cattle Feed Sale Report", "1.17.03.115", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTransferToSavingReport, "Transfer To Saving Report", "1.17.03.116", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-
+        InsertDefaultValue(clsUserMgtCode.rptDcsPaymentReport, "Dcs Payment Report", "1.17.03.117", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.ModuleBulkMilkProcurement, "Milk Procurement Bulk", "1.18", clsUserMgtCode.ExpertERP, "M", 23)
         '' Bulk setup
         InsertDefaultValue(clsUserMgtCode.SubModuleBULKMilkProcurementSetup, "Setup", "1.18.01", clsUserMgtCode.ModuleBulkMilkProcurement, "SM", 24)
@@ -2277,6 +2277,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDemandApproval, "Demand Approval", "1.36.02.27", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemand_Sheet, "Demand Sheet", "1.36.02.28", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDCSDEmandBooking, "DCS Demand", "1.36.02.29", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmBoothDispatch, "Booth Dispatch", "1.36.02.29", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
 
         '' end of transaction
 
