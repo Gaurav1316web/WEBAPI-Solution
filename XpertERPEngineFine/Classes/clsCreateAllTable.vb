@@ -53900,6 +53900,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("SNF_Amt", "float not null default 0")
             coll.Add("FINAL_PRODUCTION_QTY_MIN", "FLOAT NOT NULL default 0")
             coll.Add("FINAL_PRODUCTION_QTY_MAX", "FLOAT NOT NULL default 0")
+            coll.Add("CONSM_QTY_Original", "FLOAT NOT NULL default 0")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_CONSUMPTION_WITHOUT_BATCH", coll, Nothing, False, False, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
 
             coll = New Dictionary(Of String, String)()
