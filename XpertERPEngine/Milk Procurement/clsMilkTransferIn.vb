@@ -476,8 +476,8 @@ Public Class clsMilkTransferIn
                     objInventoryMovemnt.Fat_Amt = FatValue
                     objInventoryMovemnt.SNF_Amt = SnfValue
                 Else
-                    objInventoryMovemnt.Other_Location_Code = objW.Dispatched_From_Mcc
-                    objInventoryMovemnt.Other_Location_Desc = clsLocation.GetName(objW.Dispatched_From_Mcc, trans)
+                    objInventoryMovemnt.Other_Location_Code = objW.location_Code
+                    objInventoryMovemnt.Other_Location_Desc = clsLocation.GetName(objW.location_Code, trans)
                     '' added by Panch Raj for production costing
                     objInventoryMovemnt.Fat_Rate = objW.FAT_Rate
                     objInventoryMovemnt.SNF_Rate = objW.SNF_Rate

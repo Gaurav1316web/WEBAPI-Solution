@@ -621,6 +621,7 @@ Public Class clsFixedParameterType
     Public Const TransferWithProductionSale_Retail_Series As String = "CreateTransferWithProductionSale_Retail_Series"
     Public Const TransferLocalInterState As String = "Stock/CSA_Transfer_With_Local/InterState_Series"
     Public Const ProductionQtyDecimalPoint As String = "ProductionQtyDecimalPoint"
+    Public Const ConsumptionQtyTollerance As String = "Consumption Qty Tollerance"
     Public Const ProductionFATSNFPerDecimalPoint As String = "ProductionFATSNFPerDecimalPoint"
     Public Const ManualySelectBOMForChildBatch As String = "ManualySelectBOMForChildBatch"
     Public Const CSATransferWithProductionSale_Retail_Series As String = "CreateCSATransferWithProductionSale_Retail_Series"
@@ -2035,6 +2036,7 @@ Public Class clsFixedParameterCode
     Public Const TransferJEForLocationMapping As String = "TransferJEForLocationMapping"
     Public Const TransferWithProductionSale_Retail_Series As String = "CreateTransferWithProductionSale_Retail_Series"
     Public Const ProductionQtyDecimalPoint As String = "ProductionQtyDecimalPoint"
+    Public Const ConsumptionQtyTollerance As String = "Consumption Qty Tollerance"
     Public Const ProductionFATSNFPerDecimalPoint As String = "ProductionFATSNFPerDecimalPoint"
     Public Const ManualySelectBOMForChildBatch As String = "ManualySelectBOMForChildBatch"
     Public Const AllowToDispalyAlertForBDayAnniversary As String = "AllowToDispalyAlertForBDayAnniversary"
@@ -3607,6 +3609,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CreateDebitNoteForUnitCost, clsFixedParameterCode.CreateDebitNoteForUnitCost, "0", "0-OFF;1-On")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, "0", "Fill integer for showing no. of digits after decimal in production.")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ConsumptionQtyTollerance, clsFixedParameterCode.ConsumptionQtyTollerance, "0.6", "Tollerance % of ConsumptionQty.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TransferJEForLocationMapping, clsFixedParameterCode.TransferJEForLocationMapping, "0", "0-OFF;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ProductionFATSNFPerDecimalPoint, clsFixedParameterCode.ProductionFATSNFPerDecimalPoint, "0", "Fill integer for showing no. of digits after decimal in production for Fat and SNF Percentage.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ManualySelectBOMForChildBatch, clsFixedParameterCode.ManualySelectBOMForChildBatch, "0", "0:Off,1:On")
@@ -4869,6 +4872,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmBatchOrderDairy, clsFixedParameterType.ManualySelectBOMForChildBatch, clsFixedParameterCode.ManualySelectBOMForChildBatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBatchOrderDairy, clsFixedParameterType.ActivateSFGProduction, clsFixedParameterCode.ActivateSFGProduction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBatchOrderDairy, clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmStanderdProductionEntry, clsFixedParameterType.ConsumptionQtyTollerance, clsFixedParameterCode.ConsumptionQtyTollerance, EnumControlType.NumericBox)
         'InsertDefaultValue(clsUserMgtCode.frmBatchOrderDairy, clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, EnumControlType.NumericBox)
 
 

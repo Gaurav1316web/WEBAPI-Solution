@@ -1569,6 +1569,7 @@ Public Class clsStanderdProductionEntryConsumption
     Public CONSM_ITEM_CODE As String
     Public CONSM_ITEM_Desc As String
     Public Consm_Product_Type As String
+    Public CONSM_QTY_Original As Decimal
     Public CONSM_QTY As Decimal
     Public LOCATION_CODE As String
     Public LOCATION_Desc As String
@@ -1594,7 +1595,8 @@ Public Class clsStanderdProductionEntryConsumption
         Dim qry As String = ""
         Dim objList As New List(Of clsStanderdProductionEntryConsumption)
         Dim objtr As New clsStanderdProductionEntryConsumption
-        qry = "select PP.FINAL_PRODUCTION_QTY_MIN, PP.FINAL_PRODUCTION_QTY_MAX, PP.PROD_ENTRY_CODE,PP.AVG_COST,PP.BOM_CODE,PP.CONSM_ITEM_CODE,Consm_Item.Item_Desc as Consm_Item_Desc,Consm_Item.Product_Type as Consm_Product_Type,PP.CONSM_QTY,PP.Fat_Amt,PP.FAT_KG,PP.FAT_Per,PP.Fat_Rate,PP.FIFO_COST,PP.LIFO_COST,PP.LOCATION_CODE,TSPL_LOCATION_MASTER.Location_Desc," &
+        qry = "select PP.FINAL_PRODUCTION_QTY_MIN, PP.FINAL_PRODUCTION_QTY_MAX, PP.PROD_ENTRY_CODE,PP.AVG_COST,PP.BOM_CODE,PP.CONSM_ITEM_CODE,Consm_Item.Item_Desc as Consm_Item_Desc,Consm_Item.Product_Type as Consm_Product_Type,PP.CONSM_QTY,PP.CONSM_QTY_Original
+,PP.Fat_Amt,PP.FAT_KG,PP.FAT_Per,PP.Fat_Rate,PP.FIFO_COST,PP.LIFO_COST,PP.LOCATION_CODE,TSPL_LOCATION_MASTER.Location_Desc," &
             " PP.Main_ITEM_CODE,PP.MAIN_UOM,PP.SNF_Amt,PP.SNF_KG,PP.SNF_Per,PP.SNF_Rate,PP.UNIT_CODE,TSPL_ITEM_MASTER.ITEM_DESC AS Main_ITEM_Desc,TSPL_MF_BOM_HEAD.DESCRIPTION AS BOM_Desc,TSPL_UNIT_MASTER.UNIT_DESC AS  MAIN_UOM_Desc from TSPL_SPP_CONSUMPTION_WITHOUT_BATCH PP " &
             " LEFT JOIN TSPL_ITEM_MASTER ON PP.Main_ITEM_CODE=TSPL_ITEM_MASTER.ITEM_CODE " &
             " LEFT JOIN TSPL_MF_BOM_HEAD ON PP.BOM_CODE=TSPL_MF_BOM_HEAD.BOM_CODE " &
@@ -1612,6 +1614,7 @@ Public Class clsStanderdProductionEntryConsumption
             objtr.CONSM_ITEM_Desc = clsCommon.myCstr(dr.Item("Consm_Item_Desc"))
             objtr.Consm_Product_Type = clsCommon.myCstr(dr.Item("Consm_Product_Type"))
             objtr.CONSM_QTY = clsCommon.myCdbl(dr.Item("CONSM_QTY"))
+            objtr.CONSM_QTY_Original = clsCommon.myCdbl(dr.Item("CONSM_QTY_Original"))
             objtr.Fat_Amt = clsCommon.myCdbl(dr.Item("Fat_Amt"))
             objtr.FAT_KG = clsCommon.myCdbl(dr.Item("FAT_KG"))
             objtr.FAT_Per = clsCommon.myCdbl(dr.Item("FAT_Per"))
@@ -1657,6 +1660,7 @@ Public Class clsStanderdProductionEntryConsumption
             clsCommon.AddColumnsForChange(coll, "CONSM_ITEM_CODE", objtr.CONSM_ITEM_CODE)
 
             clsCommon.AddColumnsForChange(coll, "CONSM_QTY", objtr.CONSM_QTY)
+            clsCommon.AddColumnsForChange(coll, "CONSM_QTY_Original", objtr.CONSM_QTY_Original)
             clsCommon.AddColumnsForChange(coll, "LOCATION_CODE", objtr.LOCATION_CODE, True)
             clsCommon.AddColumnsForChange(coll, "UNIT_CODE", objtr.UNIT_CODE)
 
