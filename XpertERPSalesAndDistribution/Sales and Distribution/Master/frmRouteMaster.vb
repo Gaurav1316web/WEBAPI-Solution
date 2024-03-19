@@ -539,6 +539,7 @@ Public Class frmRouteMaster
     End Sub
     Private Sub ExtraUpdate(ByVal trans As SqlTransaction)
         Dim coll1 As New Hashtable()
+        clsCommon.AddColumnsForChange(coll1, "Route_Desc", rtxtdescription.Text)
         clsCommon.AddColumnsForChange(coll1, "RoutePrice_Code", fndRoutePrice.Value, True)
         clsCommon.AddColumnsForChange(coll1, "vehicle_code", fndvcode.Value, True)
         clsCommon.AddColumnsForChange(coll1, "NonPrice_Code", fndnonprice.Value, True)

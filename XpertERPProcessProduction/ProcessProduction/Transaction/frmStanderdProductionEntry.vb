@@ -19,6 +19,7 @@ Public Class frmStanderdProductionEntry
     Const colUOMBag As String = "UOMBag"
     Const colFINAL_PROD_Qty_Bag As String = "colFINAL_PROD_Qty_Bag"
     Const colUOM As String = "UOM"
+    Const colConsumptionQtyOriginal As String = "colConsumptionQtyOriginal"
     Const colFINAL_PROD_Qty As String = "colFINAL_PROD_Qty"
     Const colBatchQty As String = "BatchQTY"
     Const colPrevProdQty As String = "colPrevProdQty"
@@ -73,6 +74,8 @@ Public Class frmStanderdProductionEntry
     Dim arrLoc As String = Nothing
     Dim isCellValueChanged As Boolean = False
     Dim Import As Boolean = False
+
+    Dim SettConsumptionQtyTollerance As Decimal = 0.6
 #End Region
     Private Sub LOCATIONRIGTHS()
         Try
@@ -117,11 +120,6 @@ Public Class frmStanderdProductionEntry
         'End If
     End Sub
     Private Sub frmProductionEntryWithoutBatch_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("FINAL_PRODUCTION_QTY_MIN", "FLOAT NOT NULL default 0")
-        coll.Add("FINAL_PRODUCTION_QTY_MAX", "FLOAT NOT NULL default 0")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SPP_CONSUMPTION_WITHOUT_BATCH", coll, Nothing, False, False, "TSPL_SPP_PRODUCTION_ENTRY", "PROD_ENTRY_CODE", "")
         SetUserMgmtNew()
         '' get mo setting
         'MOActive = ClsMFSeetings.Get_MO_BO_Setting()
@@ -136,6 +134,7 @@ Public Class frmStanderdProductionEntry
             DecimalPointFatSNFPer = 3
         End If
 
+        SettConsumptionQtyTollerance = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ConsumptionQtyTollerance, clsFixedParameterCode.ConsumptionQtyTollerance, Nothing))
 
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Trasnaction")
@@ -774,9 +773,18 @@ Public Class frmStanderdProductionEntry
         repoFinalProdQtyMaxQty.ReadOnly = True
         gvConsumption.MasterTemplate.Columns.Add(repoFinalProdQtyMaxQty)
 
-
-
         Dim repoFinalProdQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoFinalProdQty.FormatString = ""
+        repoFinalProdQty.Name = colConsumptionQtyOriginal
+        repoFinalProdQty.Width = 100
+        repoFinalProdQty.HeaderText = "Consumption Original Qty"
+        repoFinalProdQty.DecimalPlaces = DecimalPointQty
+        repoFinalProdQty.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
+        repoFinalProdQty.DecimalPlaces = 3
+        repoFinalProdQty.ReadOnly = True
+        gvConsumption.MasterTemplate.Columns.Add(repoFinalProdQty)
+
+        repoFinalProdQty = New GridViewDecimalColumn()
         repoFinalProdQty.FormatString = ""
         repoFinalProdQty.Name = colFINAL_PROD_Qty
         repoFinalProdQty.Width = 100
@@ -784,7 +792,7 @@ Public Class frmStanderdProductionEntry
         repoFinalProdQty.DecimalPlaces = DecimalPointQty
         repoFinalProdQty.FormatString = "{0:n" & clsCommon.myCstr(DecimalPointQty) & "}"
         repoFinalProdQty.DecimalPlaces = 3
-        repoFinalProdQty.ReadOnly = True
+        repoFinalProdQty.ReadOnly = False
         gvConsumption.MasterTemplate.Columns.Add(repoFinalProdQty)
 
         Dim repoSP_Location_Code As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -1415,6 +1423,7 @@ Public Class frmStanderdProductionEntry
 
                         obj2.BOM_Desc = clsCommon.myCstr(grow.Cells(colBOMDesc).Value)
                         obj2.CONSM_ITEM_CODE = clsCommon.myCstr(grow.Cells(colItemCode).Value)
+                        obj2.CONSM_QTY_Original = clsCommon.myCdbl(grow.Cells(colConsumptionQtyOriginal).Value)
                         obj2.CONSM_QTY = clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value)
 
                         obj2.FINAL_PRODUCTION_QTY_Min = clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty_Min).Value)
@@ -1645,6 +1654,7 @@ Public Class frmStanderdProductionEntry
 
                 'gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty_Max).Value = obj2.FINAL_PRODUCTION_QTY_Max
                 gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty).Value = obj2.CONSM_QTY
+                gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colConsumptionQtyOriginal).Value = obj2.CONSM_QTY_Original
 
                 gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFat_Amt).Value = obj2.Fat_Amt
                 gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFAT_KG).Value = obj2.FAT_KG
@@ -2437,12 +2447,12 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                         End If
 
                         gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty_Stock).Value = BalanceQty
-                        gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty_Min).Value = objtr.QUANTITY - (objtr.QUANTITY * 1 / 100)
-                        gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty_Max).Value = objtr.QUANTITY + (objtr.QUANTITY * 1 / 100)
+                        gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty_Min).Value = objtr.QUANTITY - (objtr.QUANTITY * SettConsumptionQtyTollerance / 100)
+                        gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty_Max).Value = objtr.QUANTITY + (objtr.QUANTITY * SettConsumptionQtyTollerance / 100)
 
                         Dim IsItemRounding As Boolean = clsItemMaster.IsItemRounding(objtr.ITEM_CODE, Nothing)
                         gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty).Value = IIf(IsItemRounding, Math.Ceiling(objtr.QUANTITY), objtr.QUANTITY)
-
+                        gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colConsumptionQtyOriginal).Value = clsCommon.myCDecimal(gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty).Value)
 
                         gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFAT_Per).Value = 0 'objtr.FAT
                         gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFAT_KG).Value = 0 'objtr.FAT_KG
@@ -2554,7 +2564,6 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         End Try
     End Sub
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-
         Try
             If txtImportTemplate.Enabled AndAlso txtImportTemplate.arrValueMember.Count > 0 Then
                 Import = True
@@ -2564,11 +2573,9 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                 FillCostGridFromBOM(False)
                 FillCostDetails()
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
-
         ClickGo = False
         RadPageView1.SelectedPage = pageConsumption
     End Sub
