@@ -2124,6 +2124,8 @@ Public Class clsUserMgtCode
     Public Const rptTankerStatusReport As String = "TNK_ST_RPT"
     Public Const rptTruckSheetReport As String = "TRU_SH_RPT"
     Public Const rptDailyQtyReport As String = "DAILY_QTY_R"
+    Public Const rptDcsSecurity As String = "DCS_SEC_RPT"
+    Public Const rptDayWiseCol As String = "DAY_WSE_RPT"
     Public Const rptPaymentCycleWiseReport As String = "PYMT_CYCL_R"
     Public Const rptTempTruckSheetCollectionReport As String = "TEMP_TRCK_R"
     Public Const rptMobileAppMilkCollection As String = "MOB-MLK-R"
