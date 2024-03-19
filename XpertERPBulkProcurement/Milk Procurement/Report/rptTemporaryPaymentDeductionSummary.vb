@@ -187,9 +187,9 @@ Public Class rptTemporaryPaymentDeductionSummary
         End If
         Dim BaseQry As String = "select TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No,TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date,TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo as AP_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount,0 as Reduce_Deduc_Amt ,1 as RI
 from TSPL_MULTIPLE_DEDUCTION_DETAIL
-left outer join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
-inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+left  join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No 
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo
+left  join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 where 2=2 " + whrActiveInactive
         If clsCommon.myLen(txtMCC.Value) > 0 Then
             BaseQry += " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' "
@@ -200,10 +200,10 @@ where 2=2 " + whrActiveInactive
         BaseQry += "Union all
             select TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No ,TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,2 as RI
 from TSPL_PAYMENT_PROCESS_DEDUCTION
-inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
-left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
-inner join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No 
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No
+left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No 
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 where 2=2 " + whrActiveInactive
         If clsCommon.myLen(txtMCC.Value) > 0 Then
             BaseQry += " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' "
@@ -215,10 +215,10 @@ where 2=2 " + whrActiveInactive
         BaseQry += "Union all
 select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No,TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date,TSPL_VENDOR_INVOICE_HEAD.Document_Type,TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,0 as Reduce_Deduc_Amt,3 as RI
 from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
-inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
-left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No
-inner join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No 
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
+left  join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No
+left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No 
+left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
 where 2=2 " + whrActiveInactive
         If clsCommon.myLen(txtMCC.Value) > 0 Then
             BaseQry += " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "' "
@@ -240,8 +240,8 @@ select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as 
 ,sum(Amount * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 1 else 0 end)) as Sale
 ,sum((Amount-Reduce_Deduc_Amt) * (case when Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 0 else 1 end)) as AMTDeducted 
 from (" + BaseQry + ")xx
-left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
-left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code
+left  join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
+left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code
 group by Document_Type,DeductionCode,TSPL_VENDOR_MASTER.Vendor_Code
 )xxx"  'where (OP+Sale-AMTDeducted)>0"
         Else
@@ -251,8 +251,8 @@ select Document_Type,xx.DeductionCode,max(TSPL_DEDUCTION_MASTER.Description) as 
 ,sum(Amount * (case when  Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 1 else 0 end)) as Sale
 ,sum((Amount-Reduce_Deduc_Amt) * (case when Document_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and Document_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate), "dd/MMM/yyyy hh:mm:ss tt") + "' then 1 else 0 end) * (case when RI=1 then 0 else 1 end)) as AMTDeducted 
 from (" + BaseQry + ")xx
-left outer join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
-left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code
+left  join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code=xx.DeductionCode
+left  join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=xx.Vendor_Code
 group by Document_Type,DeductionCode
 )xxx"
         End If

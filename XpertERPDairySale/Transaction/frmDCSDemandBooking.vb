@@ -14,6 +14,8 @@ Public Class frmDCSDemandBooking
     Const colCreditType As String = "colCreditType"
     Const colOutstanding As String = "colOutstanding"
     Const colLastMilkdate As String = "colLastMilkdate"
+    Const colunbilledMilkAmt As String = "colunbilledMilkAmt"
+    Const colCalAmtforSale As String = "colCalAmtforSale"
     Const colItemCode As String = "colItemCode"
     Const colTotal As String = "colTotal"
     Public Const RowCash As String = "Cash"
@@ -112,6 +114,7 @@ Public Class frmDCSDemandBooking
         txtRouteNo.Enabled = True
         txtLocation.Enabled = True
         txtDocNo.MyReadOnly = False
+        isNewEntry = True
         CategoriesFlag(True)
     End Sub
     Sub LoadBlankGrid()
@@ -127,6 +130,9 @@ Public Class frmDCSDemandBooking
         repoLineNo.HeaderText = "Line No"
         repoLineNo.Name = colLineNo
         repoLineNo.Width = 50
+        repoLineNo.RowSpan = 50
+        repoLineNo.WrapText = True
+
         repoLineNo.ReadOnly = True
         repoLineNo.IsPinned = True
         repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
@@ -138,6 +144,7 @@ Public Class frmDCSDemandBooking
         repoCustCode.HeaderImage = My.Resources.search4
         repoCustCode.TextImageRelation = TextImageRelation.TextBeforeImage
         repoCustCode.Width = 50
+        repoCustCode.WrapText = True
         repoCustCode.IsVisible = True
         repoCustCode.IsPinned = True
         repoCustCode.ReadOnly = True
@@ -146,7 +153,8 @@ Public Class frmDCSDemandBooking
         repoCName.FormatString = ""
         repoCName.HeaderText = "Name"
         repoCName.Name = colDCSName
-        repoCName.Width = 150
+        repoCName.Width = 100
+        repoCName.WrapText = True
         repoCName.ReadOnly = True
         repoCName.IsVisible = True
         repoCName.IsPinned = True
@@ -155,7 +163,9 @@ Public Class frmDCSDemandBooking
         repoCreditType.FormatString = ""
         repoCreditType.HeaderText = "Credit Type"
         repoCreditType.Name = colCreditType
-        repoCreditType.Width = 150
+        repoCreditType.Width = 80
+        repoCreditType.WrapText = True
+
         repoCreditType.ReadOnly = False
         repoCreditType.DataSource = GetCreditType()
         repoCreditType.ValueMember = "Code"
@@ -165,9 +175,10 @@ Public Class frmDCSDemandBooking
         gv1.MasterTemplate.Columns.Add(repoCreditType)
         Dim repoOutstanding As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoOutstanding.FormatString = ""
-        repoOutstanding.HeaderText = "OutStanding Amt"
+        repoOutstanding.HeaderText = "OutStanding Amount"
         repoOutstanding.Name = colOutstanding
-        repoOutstanding.Width = 150
+        repoOutstanding.Width = 50
+        repoOutstanding.WrapText = True
         repoOutstanding.ReadOnly = True
         repoOutstanding.IsVisible = True
         repoOutstanding.IsPinned = True
@@ -176,11 +187,32 @@ Public Class frmDCSDemandBooking
         repoLastMilkdate.FormatString = ""
         repoLastMilkdate.HeaderText = "Last Milk Date"
         repoLastMilkdate.Name = colLastMilkdate
-        repoLastMilkdate.Width = 150
+        repoLastMilkdate.Width = 80
+        repoLastMilkdate.WrapText = True
         repoLastMilkdate.ReadOnly = True
         repoLastMilkdate.IsVisible = True
         repoLastMilkdate.IsPinned = True
         gv1.MasterTemplate.Columns.Add(repoLastMilkdate)
+        Dim repoLastUnBilledMilkAmt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoLastUnBilledMilkAmt.FormatString = ""
+        repoLastUnBilledMilkAmt.HeaderText = "Unbilled Milk Amount"
+        repoLastUnBilledMilkAmt.Name = colunbilledMilkAmt
+        repoLastUnBilledMilkAmt.Width = 80
+        repoLastUnBilledMilkAmt.WrapText = True
+        repoLastUnBilledMilkAmt.ReadOnly = True
+        repoLastUnBilledMilkAmt.IsVisible = True
+        repoLastUnBilledMilkAmt.IsPinned = True
+        gv1.MasterTemplate.Columns.Add(repoLastUnBilledMilkAmt)
+        Dim repoCalAmtforSale As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoCalAmtforSale.FormatString = ""
+        repoCalAmtforSale.HeaderText = "Calculated Amount For Sale"
+        repoCalAmtforSale.Name = colCalAmtforSale
+        repoCalAmtforSale.Width = 80
+        repoCalAmtforSale.WrapText = True
+        repoCalAmtforSale.ReadOnly = True
+        repoCalAmtforSale.IsVisible = True
+        repoCalAmtforSale.IsPinned = True
+        gv1.MasterTemplate.Columns.Add(repoCalAmtforSale)
 
         Dim repoIName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         qry = "select * from (
@@ -267,6 +299,8 @@ Public Class frmDCSDemandBooking
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colCreditType).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colOutstanding).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colLastMilkdate).Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colunbilledMilkAmt).Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colCalAmtforSale).Name)
 
                 view.ColumnGroups(0).IsPinned = True
                 Dim TempColGroupCount As Integer = 1
@@ -331,7 +365,10 @@ Public Class frmDCSDemandBooking
             Dim LineNo As Integer = 1
             If (AllowToSave(Nothing)) Then
                 Dim obj As New clsDCSDemand()
-                isNewEntry = True
+                'isNewEntry = True
+                If Not isNewEntry Then
+                    obj.Document_No = txtDocNo.Value
+                End If
                 obj.Document_Date = txtDate.Value
                 obj.Route_No = txtRouteNo.Value
                 obj.Location = txtLocation.Value
@@ -346,7 +383,7 @@ Public Class frmDCSDemandBooking
                 Dim intLine As Integer = 0
                 For dblrows As Integer = 0 To gv1.Rows.Count - 1
                     Dim k As Integer = 1
-                    For dblcolumns As Integer = 6 To gv1.Columns.Count - 1
+                    For dblcolumns As Integer = 8 To gv1.Columns.Count - 1
                         Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                         k = k + 1
                         If obj1 IsNot Nothing Then
@@ -357,6 +394,9 @@ Public Class frmDCSDemandBooking
                                 objTr.CreditType = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCreditType).Value)
                                 objTr.OutStandingAmt = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colOutstanding).Value)
                                 objTr.LastMilkDate = clsCommon.GetPrintDate(gv1.Rows(dblrows).Cells(colLastMilkdate).Value, "dd/MMM/yyyy hh:mm tt")
+                                objTr.UnbilledMilkAmt = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colunbilledMilkAmt).Value)
+                                objTr.CalAmtforSale = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colCalAmtforSale).Value)
+
                                 If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0 Then
                                     objTr.Item_Code = clsCommon.myCstr(obj1.itemCode)
                                     objTr.Unit_code = clsCommon.myCstr(obj1.Unit_code)
@@ -385,8 +425,9 @@ Public Class frmDCSDemandBooking
             'Dim intRow As Integer
             obj = clsDCSDemand.GetData(strCode, NavTyep)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
-                isNewEntry = False
+
                 AddNew()
+                isNewEntry = False
                 'Catel Feed=CF,Ghee=G,Other=O
                 If clsCommon.CompairString(obj.Categories, "CF") = CompairStringResult.Equal Then
                     rbtnCatelFeed.IsChecked = True
@@ -410,21 +451,24 @@ Public Class frmDCSDemandBooking
                     UsLock1.Status = ERPTransactionStatus.Approved
 
                 End If
+                LoadDCS(obj.Route_No)
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                    Dim LineNo As Integer = 1
-                    LoadDCS(obj.Route_No)
+                    'Dim LineNo As Integer = 1
+
                     For Each objTr As clsDCSDemandDetail In obj.Arr
                         For dblrows As Integer = 0 To gv1.Rows.Count - 1
                             'gv1.Rows(dblrows).Cells(colLineNo).Value = LineNo
                             'gv1.Rows(dblrows).Cells(colDCSCode).Value = objTr.VLC_Uploader
                             'gv1.Rows(dblrows).Cells(colDCSName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Name from TSPL_VLC_master_Head where VLC_Code_VLC_Uploader='" + objTr.VLC_Uploader + "'"))
-                            gv1.Rows(dblrows).Cells(colDCSName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Name from TSPL_VLC_master_Head where VLC_Code_VLC_Uploader='" + objTr.VLC_Uploader + "'"))
+                            'gv1.Rows(dblrows).Cells(colDCSName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Name from TSPL_VLC_master_Head where VLC_Code_VLC_Uploader='" + objTr.VLC_Uploader + "'"))
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colDCSCode).Value), objTr.VLC_Uploader) = CompairStringResult.Equal Then
                                 Dim k As Integer = 1
                                 gv1.Rows(dblrows).Cells(colCreditType).Value = objTr.CreditType
                                 gv1.Rows(dblrows).Cells(colOutstanding).Value = objTr.OutStandingAmt
                                 gv1.Rows(dblrows).Cells(colLastMilkdate).Value = objTr.LastMilkDate
-                                For columns = 6 To gv1.Columns.Count - 1
+                                gv1.Rows(dblrows).Cells(colunbilledMilkAmt).Value = objTr.UnbilledMilkAmt
+                                gv1.Rows(dblrows).Cells(colCalAmtforSale).Value = objTr.CalAmtforSale
+                                For columns = 8 To gv1.Columns.Count - 1
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                     k = k + 1
                                     If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal Then
@@ -564,6 +608,10 @@ Public Class frmDCSDemandBooking
             rbtnGhee.IsChecked = False
             rbtnOther.IsChecked = False
             LoadBlankGrid()
+            If clsCommon.myLen(txtRouteNo.Value) > 0 Then
+                LoadDCS(txtRouteNo.Value)
+            End If
+
         End If
     End Sub
 
@@ -572,6 +620,9 @@ Public Class frmDCSDemandBooking
             rbtnCatelFeed.IsChecked = False
             rbtnOther.IsChecked = False
             LoadBlankGrid()
+            If clsCommon.myLen(txtRouteNo.Value) > 0 Then
+                LoadDCS(txtRouteNo.Value)
+            End If
         End If
     End Sub
 
@@ -580,6 +631,9 @@ Public Class frmDCSDemandBooking
             rbtnGhee.IsChecked = False
             rbtnCatelFeed.IsChecked = False
             LoadBlankGrid()
+            If clsCommon.myLen(txtRouteNo.Value) > 0 Then
+                LoadDCS(txtRouteNo.Value)
+            End If
         End If
     End Sub
 
@@ -590,6 +644,7 @@ Public Class frmDCSDemandBooking
             txtRouteNo.Value = clsCommon.ShowSelectForm("DCSDemandRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
 
             lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRouteNo.Value, Nothing))
+            LoadBlankGrid()
             LoadDCS(txtRouteNo.Value)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -637,7 +692,7 @@ Public Class frmDCSDemandBooking
         Try
             If clsCommon.myLen(RouteNo) > 0 Then
                 Dim dbrow As Double = 0
-                Dim StrQry As String = "select VLC_Code_VLC_Uploader,VLC_Name from TSPL_VLC_master_Head  where Route_Code='" + RouteNo + "'"
+                Dim StrQry As String = "select VLC_Code_VLC_Uploader,VLC_Name,VSP_Code from TSPL_VLC_master_Head  where Route_Code='" + RouteNo + "'"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(StrQry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     LoadBlankGrid()
@@ -645,7 +700,15 @@ Public Class frmDCSDemandBooking
                         gv1.Rows(dbrow).Cells(colLineNo).Value = dbrow + 1
                         gv1.Rows(dbrow).Cells(colDCSCode).Value = clsCommon.myCstr(dr("VLC_Code_VLC_Uploader"))
                         gv1.Rows(dbrow).Cells(colDCSName).Value = clsCommon.myCstr(dr("VLC_Name"))
-                        gv1.Rows(dbrow).Cells(colOutstanding).Value = GetOutStandingBal(clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")), clsCommon.GetPrintDate(txtDate.Value))
+                        gv1.Rows(dbrow).Cells(colOutstanding).Value = GetOutStandingBal(clsCommon.myCstr(dr("VSP_Code")), clsCommon.GetPrintDate(txtDate.Value))
+                        gv1.Rows(dbrow).Cells(colLastMilkdate).Value = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select top 1 DOC_DATE from TSPL_MILK_RECEIPT_DETAIL Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' order by TSPL_MILK_RECEIPT_DETAIL.DOC_DATE desc"), "dd-MMM-yyyy")
+                        gv1.Rows(dbrow).Cells(colunbilledMilkAmt).Value = GetUnbilledAmt(clsCommon.myCstr(dr("VSP_Code")))
+                        Dim chkCreditlimt As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Credit_Limit_On_Milk_Receipt_Per from TSPL_VENDOR_MASTER where vendor_code='" + clsCommon.myCstr(dr("VSP_Code")) + "' "))
+                        If chkCreditlimt > 0 Then
+                            gv1.Rows(dbrow).Cells(colCalAmtforSale).Value = (clsCommon.myCdbl(gv1.Rows(dbrow).Cells(colunbilledMilkAmt).Value) * chkCreditlimt) / 100
+                        Else
+                            gv1.Rows(dbrow).Cells(colCalAmtforSale).Value = 0
+                        End If
                         dbrow += 1
                         gv1.Rows.AddNew()
                     Next
@@ -681,6 +744,8 @@ Public Class frmDCSDemandBooking
         coll.Add("VLC_Uploader", "Varchar(30) Not null")
         coll.Add("CreditType", "Varchar(30) Not null")
         coll.Add("OutStandingAmt", "decimal(18,2) null")
+        coll.Add("UnbilledMilkAmt", "decimal(18,2) null")
+        coll.Add("CalAmtforSale", "decimal(18,2) null")
         coll.Add("LastMilkDate", "Datetime NULL")
         coll.Add("Item_Code", "Varchar(50) null references TSPL_Item_MASTER(Item_Code)")
         coll.Add("Qty", "decimal(18,2) null")
@@ -719,23 +784,61 @@ Public Class frmDCSDemandBooking
         Dim OSBal As Decimal = 0
         Try
             Dim strcustomerfilter As String = String.Empty
+            Dim fromDate As DateTime = Nothing
+            Dim toDate As DateTime = Nothing
+            If clsCommon.myCdbl(dtDoc.Day) < 16 Then
+                fromDate = New DateTime(dtDoc.Year, dtDoc.Month, 1)
+                toDate = New Date(dtDoc.Year, dtDoc.Month, 15)
+            Else
+                fromDate = New DateTime(dtDoc.Year, dtDoc.Month, 16)
+                toDate = New DateTime(dtDoc.Year, dtDoc.Month, DateTime.DaysInMonth(dtDoc.Year, dtDoc.Month))
+            End If
+            'If dtDoc.Day
             strcustomerfilter = "'" + VendorNo + "'"
             'Dim qry = ""
-            Dim qry As String = "Select  case when (( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt)) )>=0 then -abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) else abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) end  as BalAmt From ( " &
-                    "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
-                    "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
-                    "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
-                    "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
-                    "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", strcustomerfilter, True, clsCommon.GetPrintDate(dtDoc.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, Nothing, False) & "   " &
-                    " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
-                    "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
-                    "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(dtDoc, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & VendorNo & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
-                    ") XXX GROUP BY ACode ORDER BY ACode"
+            'Dim qry As String = "Select  case when (( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt)) )>=0 then -abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) else abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) end  as BalAmt From ( " &
+            '        "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
+            '        "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
+            '        "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
+            '        "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
+            '        "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", strcustomerfilter, True, clsCommon.GetPrintDate(dtDoc.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, Nothing, False) & "   " &
+            '        " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
+            '        "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
+            '        "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(dtDoc, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & VendorNo & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
+            '        ") XXX GROUP BY ACode ORDER BY ACode"
+            'Dim qry As String = "Select (OP + Sale) as [Balance Amount] from ( 
+            '    select max( TSPL_DEDUCTION_MASTER.Description ) as DeductionName, TSPL_VENDOR_MASTER.Vendor_Code, max(VLC_Code_VLC_Uploader) as DCSCode, max(TSPL_VENDOR_MASTER.Vendor_Name) as [DCS Name],
+            'sum( (Amount - Reduce_Deduc_Amt) * ( case when convert(date,Document_Date,103) < '" + clsCommon.GetPrintDate(fromDate) + "' then 1 else 0 end ) * (case when RI = 1 then 1 else -1 end) ) as OP,
+            'sum( Amount * ( case when convert(date,Document_Date,103) >= '" + clsCommon.GetPrintDate(fromDate) + "' and convert(date,Document_Date,103) <= '" + clsCommon.GetPrintDate(toDate) + "' then 1 else 0 end ) * (case when RI = 1 then 1 else 0 end) ) as Sale,
+            'sum( (Amount - Reduce_Deduc_Amt) * ( case when convert(date,Document_Date,103) <= '" + clsCommon.GetPrintDate(fromDate) + "' and convert(date,Document_Date,103) <= '" + clsCommon.GetPrintDate(toDate) + "' then 1 else 0 end ) * (case when RI = 1 then 0 else 1 end) ) as AMTDeducted 
+            'from ( select TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No, TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date, TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo as AP_Invoice_No, TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date, TSPL_VENDOR_INVOICE_HEAD.Document_Type, TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode, TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount, 0 as Reduce_Deduc_Amt, 1 as RI from TSPL_MULTIPLE_DEDUCTION_DETAIL left join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where 2 = 2 and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader = '" + VendorNo + "' 
+            'Union all select TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date, TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No, TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date, TSPL_VENDOR_INVOICE_HEAD.Document_Type, TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_PAYMENT_PROCESS_DEDUCTION.Amount, TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt, 2 as RI from TSPL_PAYMENT_PROCESS_DEDUCTION left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No left join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where 2 = 2 and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader = '" + VendorNo + "' 
+            'Union all select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date, TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No, TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date, TSPL_VENDOR_INVOICE_HEAD.Document_Type, TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode, TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount, 0 as Reduce_Deduc_Amt, 3 as RI from TSPL_PAYMENT_PROCESS_CREDIT_NOTE left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No left join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where 2 = 2 and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader = '" + VendorNo + "' ) xx 
+            'left join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = xx.DeductionCode left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = xx.Vendor_Code group by TSPL_VENDOR_MASTER.Vendor_Code ) xxx"
+
+            Dim qry As String = "select 
+(Sum(X.DrBal)-sum(X.CrBal)) as Balance
+from(
+select case when Document_Type='C' then sum(Balance_Amt) else 0 end  as CrBal ,
+case when  Document_Type='D' then sum(Balance_Amt) else 0 end as DrBal from TSPL_VENDOR_INVOICE_HEAD where Vendor_Code='" + VendorNo + "' and Document_Type not in ('I') and Balance_Amt>0 group by Document_Type
+) X
+"
             Dim dblBal As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, Nothing))
             OSBal = dblBal
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return OSBal
+    End Function
+    Public Function GetUnbilledAmt(ByVal VSP_Code As String) As Decimal
+        Dim dblBal As Decimal
+        Dim qry As String = "select sum(AMOUNT) as unbilledAmt
+from TSPL_MILK_SRN_HEAD
+left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+where TSPL_MILK_SRN_HEAD.DOC_CODE not in( select SRN_CODE from TSPL_MILK_PURCHASE_INVOICE_DETAIL) and TSPL_MILK_SRN_HEAD.VSP_CODE='" + VSP_Code + "'"
+        dblBal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, Nothing))
+
+
+        Return dblBal
     End Function
 End Class
