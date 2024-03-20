@@ -22,6 +22,8 @@ Partial Class frmVendorItemChargeMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.rdmenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.File = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
@@ -103,27 +105,20 @@ Partial Class frmVendorItemChargeMaster
         Me.rdmenu1.Name = "rdmenu1"
         Me.rdmenu1.Size = New System.Drawing.Size(806, 20)
         Me.rdmenu1.TabIndex = 1
-        Me.rdmenu1.Text = "rdmenu"
         '
         'File
         '
-        Me.File.AccessibleDescription = "File"
-        Me.File.AccessibleName = "File"
         Me.File.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Import, Me.Export, Me.RadMenuItem1})
         Me.File.Name = "File"
         Me.File.Text = "File"
         '
         'Import
         '
-        Me.Import.AccessibleDescription = "Import"
-        Me.Import.AccessibleName = "Import"
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
         '
         'Export
         '
-        Me.Export.AccessibleDescription = "Export"
-        Me.Export.AccessibleName = "Export"
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '
@@ -138,8 +133,6 @@ Partial Class frmVendorItemChargeMaster
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "RadMenuItem2"
-        Me.RadMenuItem2.AccessibleName = "RadMenuItem2"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "RadMenuItem2"
         '
@@ -177,7 +170,6 @@ Partial Class frmVendorItemChargeMaster
         Me.RadSplitContainer1.Size = New System.Drawing.Size(785, 81)
         Me.RadSplitContainer1.TabIndex = 0
         Me.RadSplitContainer1.TabStop = False
-        Me.RadSplitContainer1.Text = "RadSplitContainer1"
         '
         'SplitPanel1
         '
@@ -315,6 +307,7 @@ Partial Class frmVendorItemChargeMaster
         Me.cboItemType.AutoCompleteDisplayMember = Nothing
         Me.cboItemType.AutoCompleteValueMember = Nothing
         Me.cboItemType.CalculationExpression = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
         Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboItemType.FieldCode = Nothing
         Me.cboItemType.FieldDesc = Nothing
@@ -345,7 +338,6 @@ Partial Class frmVendorItemChargeMaster
         Me.lblPriceCode.Name = "lblPriceCode"
         Me.lblPriceCode.Size = New System.Drawing.Size(298, 18)
         Me.lblPriceCode.TabIndex = 6
-        Me.lblPriceCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblPriceCode.TextWrap = False
         '
         'RadLabel18
@@ -442,7 +434,7 @@ Partial Class frmVendorItemChargeMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(215, 21)
@@ -465,9 +457,12 @@ Partial Class frmVendorItemChargeMaster
         Me.gv1.Enabled = False
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(785, 282)
@@ -543,7 +538,6 @@ Partial Class frmVendorItemChargeMaster
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(806, 415)
         Me.RadPageView1.TabIndex = 3
-        Me.RadPageView1.Text = "Main Page"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -579,14 +573,16 @@ Partial Class frmVendorItemChargeMaster
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(785, 351)
         Me.gv.TabIndex = 4
-        Me.gv.Text = "gv"
         '
         'btnShowHistory
         '

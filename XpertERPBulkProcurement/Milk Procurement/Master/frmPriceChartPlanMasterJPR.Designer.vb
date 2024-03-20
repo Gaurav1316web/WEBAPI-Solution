@@ -22,11 +22,12 @@ Partial Class frmPriceChartPlanMasterJPR
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtStdFATRate = New common.MyNumBox()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
@@ -76,13 +77,13 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtStdFATRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -135,7 +136,6 @@ Partial Class frmPriceChartPlanMasterJPR
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -200,6 +200,16 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(654, 344)
         Me.RadPageViewPage1.Text = "Detail"
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel2.Location = New System.Drawing.Point(529, 48)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(114, 16)
+        Me.MyLabel2.TabIndex = 1032
+        Me.MyLabel2.Text = "Consider SNF Range"
         '
         'MyLabel1
         '
@@ -297,7 +307,8 @@ Partial Class frmPriceChartPlanMasterJPR
         '
         Me.gvFATDed.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFATDed.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvFATDed.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvFATDed.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvFATDed.MyStopExport = False
         Me.gvFATDed.Name = "gvFATDed"
         Me.gvFATDed.ShowHeaderCellButtons = True
         Me.gvFATDed.Size = New System.Drawing.Size(649, 168)
@@ -691,7 +702,7 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblvandorno
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(273, 20)
@@ -725,8 +736,12 @@ Partial Class frmPriceChartPlanMasterJPR
         '
         '
         '
-        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
+        Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(654, 311)
         Me.gv.TabIndex = 0
         '
@@ -960,16 +975,6 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel2.Location = New System.Drawing.Point(529, 48)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(114, 16)
-        Me.MyLabel2.TabIndex = 1032
-        Me.MyLabel2.Text = "Consider SNF Range"
-        '
         'frmPriceChartPlanMasterJPR
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -989,6 +994,7 @@ Partial Class frmPriceChartPlanMasterJPR
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtStdFATRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1045,7 +1051,6 @@ Partial Class frmPriceChartPlanMasterJPR
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

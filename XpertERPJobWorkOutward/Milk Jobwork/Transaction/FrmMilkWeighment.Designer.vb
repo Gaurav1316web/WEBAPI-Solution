@@ -22,6 +22,8 @@ Partial Class FrmMilkWeighment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.mnuSetting = New Telerik.WinControls.UI.RadMenuItem()
@@ -158,34 +160,25 @@ Partial Class FrmMilkWeighment
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(863, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'mnuSetting
         '
-        Me.mnuSetting.AccessibleDescription = "Setting"
-        Me.mnuSetting.AccessibleName = "Setting"
         Me.mnuSetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuSaveLayout, Me.mnuDeleteLayout, Me.mnuExit})
         Me.mnuSetting.Name = "mnuSetting"
         Me.mnuSetting.Text = "Setting"
         '
         'mnuSaveLayout
         '
-        Me.mnuSaveLayout.AccessibleDescription = "Save Layout"
-        Me.mnuSaveLayout.AccessibleName = "Save Layout"
         Me.mnuSaveLayout.Name = "mnuSaveLayout"
         Me.mnuSaveLayout.Text = "Save Layout"
         '
         'mnuDeleteLayout
         '
-        Me.mnuDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.mnuDeleteLayout.AccessibleName = "Delete Layout"
         Me.mnuDeleteLayout.Name = "mnuDeleteLayout"
         Me.mnuDeleteLayout.Text = "Delete Layout"
         '
         'mnuExit
         '
-        Me.mnuExit.AccessibleDescription = "Exit"
-        Me.mnuExit.AccessibleName = "Exit"
         Me.mnuExit.Name = "mnuExit"
         Me.mnuExit.Text = "Exit"
         '
@@ -267,9 +260,18 @@ Partial Class FrmMilkWeighment
         '
         'dtpTareWeight
         '
+        Me.dtpTareWeight.CalculationExpression = Nothing
         Me.dtpTareWeight.CustomFormat = "dd/MM/yyyy hh:mm tt"
         Me.dtpTareWeight.Enabled = False
+        Me.dtpTareWeight.FieldCode = Nothing
+        Me.dtpTareWeight.FieldDesc = Nothing
+        Me.dtpTareWeight.FieldMaxLength = 0
+        Me.dtpTareWeight.FieldName = Nothing
         Me.dtpTareWeight.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpTareWeight.isCalculatedField = False
+        Me.dtpTareWeight.IsSourceFromTable = False
+        Me.dtpTareWeight.IsSourceFromValueList = False
+        Me.dtpTareWeight.IsUnique = False
         Me.dtpTareWeight.Location = New System.Drawing.Point(633, 61)
         Me.dtpTareWeight.MendatroryField = False
         Me.dtpTareWeight.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -277,6 +279,9 @@ Partial Class FrmMilkWeighment
         Me.dtpTareWeight.MyLinkLable2 = Nothing
         Me.dtpTareWeight.Name = "dtpTareWeight"
         Me.dtpTareWeight.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpTareWeight.ReferenceFieldDesc = Nothing
+        Me.dtpTareWeight.ReferenceFieldName = Nothing
+        Me.dtpTareWeight.ReferenceTableName = Nothing
         Me.dtpTareWeight.Size = New System.Drawing.Size(132, 20)
         Me.dtpTareWeight.TabIndex = 346
         Me.dtpTareWeight.TabStop = False
@@ -285,6 +290,7 @@ Partial Class FrmMilkWeighment
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(523, 62)
         Me.MyLabel1.Name = "MyLabel1"
@@ -336,6 +342,15 @@ Partial Class FrmMilkWeighment
         '
         'fndTankerNo
         '
+        Me.fndTankerNo.CalculationExpression = Nothing
+        Me.fndTankerNo.FieldCode = Nothing
+        Me.fndTankerNo.FieldDesc = Nothing
+        Me.fndTankerNo.FieldMaxLength = 0
+        Me.fndTankerNo.FieldName = Nothing
+        Me.fndTankerNo.isCalculatedField = False
+        Me.fndTankerNo.IsSourceFromTable = False
+        Me.fndTankerNo.IsSourceFromValueList = False
+        Me.fndTankerNo.IsUnique = False
         Me.fndTankerNo.Location = New System.Drawing.Point(134, 40)
         Me.fndTankerNo.MendatroryField = True
         Me.fndTankerNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -344,6 +359,9 @@ Partial Class FrmMilkWeighment
         Me.fndTankerNo.MyReadOnly = False
         Me.fndTankerNo.MyShowMasterFormButton = False
         Me.fndTankerNo.Name = "fndTankerNo"
+        Me.fndTankerNo.ReferenceFieldDesc = Nothing
+        Me.fndTankerNo.ReferenceFieldName = Nothing
+        Me.fndTankerNo.ReferenceTableName = Nothing
         Me.fndTankerNo.Size = New System.Drawing.Size(338, 19)
         Me.fndTankerNo.TabIndex = 344
         Me.fndTankerNo.Value = ""
@@ -361,97 +379,182 @@ Partial Class FrmMilkWeighment
         '
         'lblVendorCodeBulk
         '
+        Me.lblVendorCodeBulk.CalculationExpression = Nothing
         Me.lblVendorCodeBulk.Enabled = False
+        Me.lblVendorCodeBulk.FieldCode = Nothing
+        Me.lblVendorCodeBulk.FieldDesc = Nothing
+        Me.lblVendorCodeBulk.FieldMaxLength = 0
+        Me.lblVendorCodeBulk.FieldName = Nothing
         Me.lblVendorCodeBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVendorCodeBulk.isCalculatedField = False
+        Me.lblVendorCodeBulk.IsSourceFromTable = False
+        Me.lblVendorCodeBulk.IsSourceFromValueList = False
+        Me.lblVendorCodeBulk.IsUnique = False
         Me.lblVendorCodeBulk.Location = New System.Drawing.Point(135, 166)
         Me.lblVendorCodeBulk.MaxLength = 50
         Me.lblVendorCodeBulk.MendatroryField = True
         Me.lblVendorCodeBulk.MyLinkLable1 = Nothing
         Me.lblVendorCodeBulk.MyLinkLable2 = Nothing
         Me.lblVendorCodeBulk.Name = "lblVendorCodeBulk"
+        Me.lblVendorCodeBulk.ReferenceFieldDesc = Nothing
+        Me.lblVendorCodeBulk.ReferenceFieldName = Nothing
+        Me.lblVendorCodeBulk.ReferenceTableName = Nothing
         Me.lblVendorCodeBulk.Size = New System.Drawing.Size(333, 18)
         Me.lblVendorCodeBulk.TabIndex = 298
         '
         'lblLocationCodeBulk
         '
+        Me.lblLocationCodeBulk.CalculationExpression = Nothing
         Me.lblLocationCodeBulk.Enabled = False
+        Me.lblLocationCodeBulk.FieldCode = Nothing
+        Me.lblLocationCodeBulk.FieldDesc = Nothing
+        Me.lblLocationCodeBulk.FieldMaxLength = 0
+        Me.lblLocationCodeBulk.FieldName = Nothing
         Me.lblLocationCodeBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocationCodeBulk.isCalculatedField = False
+        Me.lblLocationCodeBulk.IsSourceFromTable = False
+        Me.lblLocationCodeBulk.IsSourceFromValueList = False
+        Me.lblLocationCodeBulk.IsUnique = False
         Me.lblLocationCodeBulk.Location = New System.Drawing.Point(135, 145)
         Me.lblLocationCodeBulk.MaxLength = 50
         Me.lblLocationCodeBulk.MendatroryField = True
         Me.lblLocationCodeBulk.MyLinkLable1 = Nothing
         Me.lblLocationCodeBulk.MyLinkLable2 = Nothing
         Me.lblLocationCodeBulk.Name = "lblLocationCodeBulk"
+        Me.lblLocationCodeBulk.ReferenceFieldDesc = Nothing
+        Me.lblLocationCodeBulk.ReferenceFieldName = Nothing
+        Me.lblLocationCodeBulk.ReferenceTableName = Nothing
         Me.lblLocationCodeBulk.Size = New System.Drawing.Size(333, 18)
         Me.lblLocationCodeBulk.TabIndex = 297
         '
         'lblChallanDateBulk
         '
+        Me.lblChallanDateBulk.CalculationExpression = Nothing
         Me.lblChallanDateBulk.Enabled = False
+        Me.lblChallanDateBulk.FieldCode = Nothing
+        Me.lblChallanDateBulk.FieldDesc = Nothing
+        Me.lblChallanDateBulk.FieldMaxLength = 0
+        Me.lblChallanDateBulk.FieldName = Nothing
         Me.lblChallanDateBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblChallanDateBulk.isCalculatedField = False
+        Me.lblChallanDateBulk.IsSourceFromTable = False
+        Me.lblChallanDateBulk.IsSourceFromValueList = False
+        Me.lblChallanDateBulk.IsUnique = False
         Me.lblChallanDateBulk.Location = New System.Drawing.Point(135, 124)
         Me.lblChallanDateBulk.MaxLength = 50
         Me.lblChallanDateBulk.MendatroryField = True
         Me.lblChallanDateBulk.MyLinkLable1 = Nothing
         Me.lblChallanDateBulk.MyLinkLable2 = Nothing
         Me.lblChallanDateBulk.Name = "lblChallanDateBulk"
+        Me.lblChallanDateBulk.ReferenceFieldDesc = Nothing
+        Me.lblChallanDateBulk.ReferenceFieldName = Nothing
+        Me.lblChallanDateBulk.ReferenceTableName = Nothing
         Me.lblChallanDateBulk.Size = New System.Drawing.Size(334, 18)
         Me.lblChallanDateBulk.TabIndex = 296
         '
         'lblChallanNoBulk
         '
+        Me.lblChallanNoBulk.CalculationExpression = Nothing
         Me.lblChallanNoBulk.Enabled = False
+        Me.lblChallanNoBulk.FieldCode = Nothing
+        Me.lblChallanNoBulk.FieldDesc = Nothing
+        Me.lblChallanNoBulk.FieldMaxLength = 0
+        Me.lblChallanNoBulk.FieldName = Nothing
         Me.lblChallanNoBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblChallanNoBulk.isCalculatedField = False
+        Me.lblChallanNoBulk.IsSourceFromTable = False
+        Me.lblChallanNoBulk.IsSourceFromValueList = False
+        Me.lblChallanNoBulk.IsUnique = False
         Me.lblChallanNoBulk.Location = New System.Drawing.Point(135, 103)
         Me.lblChallanNoBulk.MaxLength = 50
         Me.lblChallanNoBulk.MendatroryField = True
         Me.lblChallanNoBulk.MyLinkLable1 = Nothing
         Me.lblChallanNoBulk.MyLinkLable2 = Nothing
         Me.lblChallanNoBulk.Name = "lblChallanNoBulk"
+        Me.lblChallanNoBulk.ReferenceFieldDesc = Nothing
+        Me.lblChallanNoBulk.ReferenceFieldName = Nothing
+        Me.lblChallanNoBulk.ReferenceTableName = Nothing
         Me.lblChallanNoBulk.Size = New System.Drawing.Size(334, 18)
         Me.lblChallanNoBulk.TabIndex = 295
         '
         'lblTankerNoBulk
         '
+        Me.lblTankerNoBulk.CalculationExpression = Nothing
         Me.lblTankerNoBulk.Enabled = False
+        Me.lblTankerNoBulk.FieldCode = Nothing
+        Me.lblTankerNoBulk.FieldDesc = Nothing
+        Me.lblTankerNoBulk.FieldMaxLength = 0
+        Me.lblTankerNoBulk.FieldName = Nothing
         Me.lblTankerNoBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTankerNoBulk.isCalculatedField = False
+        Me.lblTankerNoBulk.IsSourceFromTable = False
+        Me.lblTankerNoBulk.IsSourceFromValueList = False
+        Me.lblTankerNoBulk.IsUnique = False
         Me.lblTankerNoBulk.Location = New System.Drawing.Point(134, 40)
         Me.lblTankerNoBulk.MaxLength = 50
         Me.lblTankerNoBulk.MendatroryField = True
         Me.lblTankerNoBulk.MyLinkLable1 = Nothing
         Me.lblTankerNoBulk.MyLinkLable2 = Nothing
         Me.lblTankerNoBulk.Name = "lblTankerNoBulk"
+        Me.lblTankerNoBulk.ReferenceFieldDesc = Nothing
+        Me.lblTankerNoBulk.ReferenceFieldName = Nothing
+        Me.lblTankerNoBulk.ReferenceTableName = Nothing
         Me.lblTankerNoBulk.Size = New System.Drawing.Size(290, 18)
         Me.lblTankerNoBulk.TabIndex = 294
         Me.lblTankerNoBulk.Visible = False
         '
         'lblGateEntryDateAndTimeValueBulk
         '
+        Me.lblGateEntryDateAndTimeValueBulk.CalculationExpression = Nothing
         Me.lblGateEntryDateAndTimeValueBulk.Enabled = False
+        Me.lblGateEntryDateAndTimeValueBulk.FieldCode = Nothing
+        Me.lblGateEntryDateAndTimeValueBulk.FieldDesc = Nothing
+        Me.lblGateEntryDateAndTimeValueBulk.FieldMaxLength = 0
+        Me.lblGateEntryDateAndTimeValueBulk.FieldName = Nothing
         Me.lblGateEntryDateAndTimeValueBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGateEntryDateAndTimeValueBulk.isCalculatedField = False
+        Me.lblGateEntryDateAndTimeValueBulk.IsSourceFromTable = False
+        Me.lblGateEntryDateAndTimeValueBulk.IsSourceFromValueList = False
+        Me.lblGateEntryDateAndTimeValueBulk.IsUnique = False
         Me.lblGateEntryDateAndTimeValueBulk.Location = New System.Drawing.Point(135, 83)
         Me.lblGateEntryDateAndTimeValueBulk.MaxLength = 50
         Me.lblGateEntryDateAndTimeValueBulk.MendatroryField = True
         Me.lblGateEntryDateAndTimeValueBulk.MyLinkLable1 = Nothing
         Me.lblGateEntryDateAndTimeValueBulk.MyLinkLable2 = Nothing
         Me.lblGateEntryDateAndTimeValueBulk.Name = "lblGateEntryDateAndTimeValueBulk"
+        Me.lblGateEntryDateAndTimeValueBulk.ReferenceFieldDesc = Nothing
+        Me.lblGateEntryDateAndTimeValueBulk.ReferenceFieldName = Nothing
+        Me.lblGateEntryDateAndTimeValueBulk.ReferenceTableName = Nothing
         Me.lblGateEntryDateAndTimeValueBulk.Size = New System.Drawing.Size(334, 18)
         Me.lblGateEntryDateAndTimeValueBulk.TabIndex = 293
         '
         'txtWeighmentSlipNo
         '
+        Me.txtWeighmentSlipNo.CalculationExpression = Nothing
+        Me.txtWeighmentSlipNo.FieldCode = Nothing
+        Me.txtWeighmentSlipNo.FieldDesc = Nothing
+        Me.txtWeighmentSlipNo.FieldMaxLength = 0
+        Me.txtWeighmentSlipNo.FieldName = Nothing
         Me.txtWeighmentSlipNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtWeighmentSlipNo.isCalculatedField = False
+        Me.txtWeighmentSlipNo.IsSourceFromTable = False
+        Me.txtWeighmentSlipNo.IsSourceFromValueList = False
+        Me.txtWeighmentSlipNo.IsUnique = False
         Me.txtWeighmentSlipNo.Location = New System.Drawing.Point(633, 124)
         Me.txtWeighmentSlipNo.MaxLength = 50
         Me.txtWeighmentSlipNo.MendatroryField = False
         Me.txtWeighmentSlipNo.MyLinkLable1 = Nothing
         Me.txtWeighmentSlipNo.MyLinkLable2 = Nothing
         Me.txtWeighmentSlipNo.Name = "txtWeighmentSlipNo"
+        Me.txtWeighmentSlipNo.ReferenceFieldDesc = Nothing
+        Me.txtWeighmentSlipNo.ReferenceFieldName = Nothing
+        Me.txtWeighmentSlipNo.ReferenceTableName = Nothing
         Me.txtWeighmentSlipNo.Size = New System.Drawing.Size(148, 18)
         Me.txtWeighmentSlipNo.TabIndex = 291
         '
         'lblWeighmentSlipNo
         '
+        Me.lblWeighmentSlipNo.FieldName = Nothing
         Me.lblWeighmentSlipNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblWeighmentSlipNo.Location = New System.Drawing.Point(523, 126)
         Me.lblWeighmentSlipNo.Name = "lblWeighmentSlipNo"
@@ -461,18 +564,31 @@ Partial Class FrmMilkWeighment
         '
         'txtDipValue
         '
+        Me.txtDipValue.CalculationExpression = Nothing
+        Me.txtDipValue.FieldCode = Nothing
+        Me.txtDipValue.FieldDesc = Nothing
+        Me.txtDipValue.FieldMaxLength = 0
+        Me.txtDipValue.FieldName = Nothing
         Me.txtDipValue.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDipValue.isCalculatedField = False
+        Me.txtDipValue.IsSourceFromTable = False
+        Me.txtDipValue.IsSourceFromValueList = False
+        Me.txtDipValue.IsUnique = False
         Me.txtDipValue.Location = New System.Drawing.Point(633, 104)
         Me.txtDipValue.MaxLength = 50
         Me.txtDipValue.MendatroryField = False
         Me.txtDipValue.MyLinkLable1 = Nothing
         Me.txtDipValue.MyLinkLable2 = Nothing
         Me.txtDipValue.Name = "txtDipValue"
+        Me.txtDipValue.ReferenceFieldDesc = Nothing
+        Me.txtDipValue.ReferenceFieldName = Nothing
+        Me.txtDipValue.ReferenceTableName = Nothing
         Me.txtDipValue.Size = New System.Drawing.Size(148, 18)
         Me.txtDipValue.TabIndex = 3
         '
         'lblDipValue
         '
+        Me.lblDipValue.FieldName = Nothing
         Me.lblDipValue.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDipValue.Location = New System.Drawing.Point(522, 105)
         Me.lblDipValue.Name = "lblDipValue"
@@ -494,7 +610,7 @@ Partial Class FrmMilkWeighment
         'btnReset
         '
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Image = My.Resources._new
+        Me.btnReset.Image = Global.XpertERPJobWorkOutward.My.Resources.Resources._new
         Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnReset.Location = New System.Drawing.Point(454, 19)
         Me.btnReset.Name = "btnReset"
@@ -503,6 +619,7 @@ Partial Class FrmMilkWeighment
         '
         'lblStatus
         '
+        Me.lblStatus.FieldName = Nothing
         Me.lblStatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatus.Location = New System.Drawing.Point(523, 83)
         Me.lblStatus.Name = "lblStatus"
@@ -512,13 +629,14 @@ Partial Class FrmMilkWeighment
         '
         'fndDocNO
         '
+        Me.fndDocNO.FieldName = Nothing
         Me.fndDocNO.Location = New System.Drawing.Point(136, 19)
         Me.fndDocNO.MendatroryField = False
         Me.fndDocNO.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.fndDocNO.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndDocNO.MyLinkLable1 = Me.lblDocNo
         Me.fndDocNO.MyLinkLable2 = Nothing
-        Me.fndDocNO.MyMaxLength = 32767
+        Me.fndDocNO.MyMaxLength = 30
         Me.fndDocNO.MyReadOnly = False
         Me.fndDocNO.Name = "fndDocNO"
         Me.fndDocNO.Size = New System.Drawing.Size(317, 18)
@@ -527,6 +645,7 @@ Partial Class FrmMilkWeighment
         '
         'lblDocNo
         '
+        Me.lblDocNo.FieldName = Nothing
         Me.lblDocNo.Location = New System.Drawing.Point(12, 20)
         Me.lblDocNo.Name = "lblDocNo"
         Me.lblDocNo.Size = New System.Drawing.Size(79, 18)
@@ -535,8 +654,17 @@ Partial Class FrmMilkWeighment
         '
         'dtpWeighmentDateBulk
         '
+        Me.dtpWeighmentDateBulk.CalculationExpression = Nothing
         Me.dtpWeighmentDateBulk.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.dtpWeighmentDateBulk.FieldCode = Nothing
+        Me.dtpWeighmentDateBulk.FieldDesc = Nothing
+        Me.dtpWeighmentDateBulk.FieldMaxLength = 0
+        Me.dtpWeighmentDateBulk.FieldName = Nothing
         Me.dtpWeighmentDateBulk.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpWeighmentDateBulk.isCalculatedField = False
+        Me.dtpWeighmentDateBulk.IsSourceFromTable = False
+        Me.dtpWeighmentDateBulk.IsSourceFromValueList = False
+        Me.dtpWeighmentDateBulk.IsUnique = False
         Me.dtpWeighmentDateBulk.Location = New System.Drawing.Point(633, 40)
         Me.dtpWeighmentDateBulk.MendatroryField = False
         Me.dtpWeighmentDateBulk.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -544,6 +672,9 @@ Partial Class FrmMilkWeighment
         Me.dtpWeighmentDateBulk.MyLinkLable2 = Nothing
         Me.dtpWeighmentDateBulk.Name = "dtpWeighmentDateBulk"
         Me.dtpWeighmentDateBulk.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpWeighmentDateBulk.ReferenceFieldDesc = Nothing
+        Me.dtpWeighmentDateBulk.ReferenceFieldName = Nothing
+        Me.dtpWeighmentDateBulk.ReferenceTableName = Nothing
         Me.dtpWeighmentDateBulk.Size = New System.Drawing.Size(132, 20)
         Me.dtpWeighmentDateBulk.TabIndex = 2
         Me.dtpWeighmentDateBulk.TabStop = False
@@ -552,6 +683,7 @@ Partial Class FrmMilkWeighment
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(523, 42)
         Me.MyLabel2.Name = "MyLabel2"
@@ -561,6 +693,7 @@ Partial Class FrmMilkWeighment
         '
         'lblTankerNo
         '
+        Me.lblTankerNo.FieldName = Nothing
         Me.lblTankerNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTankerNo.Location = New System.Drawing.Point(10, 40)
         Me.lblTankerNo.Name = "lblTankerNo"
@@ -570,7 +703,16 @@ Partial Class FrmMilkWeighment
         '
         'fndGateEntryNoBulk
         '
+        Me.fndGateEntryNoBulk.CalculationExpression = Nothing
         Me.fndGateEntryNoBulk.Enabled = False
+        Me.fndGateEntryNoBulk.FieldCode = Nothing
+        Me.fndGateEntryNoBulk.FieldDesc = Nothing
+        Me.fndGateEntryNoBulk.FieldMaxLength = 0
+        Me.fndGateEntryNoBulk.FieldName = Nothing
+        Me.fndGateEntryNoBulk.isCalculatedField = False
+        Me.fndGateEntryNoBulk.IsSourceFromTable = False
+        Me.fndGateEntryNoBulk.IsSourceFromValueList = False
+        Me.fndGateEntryNoBulk.IsUnique = False
         Me.fndGateEntryNoBulk.Location = New System.Drawing.Point(135, 62)
         Me.fndGateEntryNoBulk.MendatroryField = True
         Me.fndGateEntryNoBulk.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -579,6 +721,9 @@ Partial Class FrmMilkWeighment
         Me.fndGateEntryNoBulk.MyReadOnly = False
         Me.fndGateEntryNoBulk.MyShowMasterFormButton = False
         Me.fndGateEntryNoBulk.Name = "fndGateEntryNoBulk"
+        Me.fndGateEntryNoBulk.ReferenceFieldDesc = Nothing
+        Me.fndGateEntryNoBulk.ReferenceFieldName = Nothing
+        Me.fndGateEntryNoBulk.ReferenceTableName = Nothing
         Me.fndGateEntryNoBulk.Size = New System.Drawing.Size(335, 19)
         Me.fndGateEntryNoBulk.TabIndex = 1
         Me.fndGateEntryNoBulk.Value = ""
@@ -587,14 +732,15 @@ Partial Class FrmMilkWeighment
         '
         Me.lblLocationNameBulk.AutoSize = False
         Me.lblLocationNameBulk.BorderVisible = True
+        Me.lblLocationNameBulk.FieldName = Nothing
         Me.lblLocationNameBulk.Location = New System.Drawing.Point(473, 145)
         Me.lblLocationNameBulk.Name = "lblLocationNameBulk"
         Me.lblLocationNameBulk.Size = New System.Drawing.Size(308, 18)
         Me.lblLocationNameBulk.TabIndex = 275
-        Me.lblLocationNameBulk.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblLocationBulk
         '
+        Me.lblLocationBulk.FieldName = Nothing
         Me.lblLocationBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLocationBulk.Location = New System.Drawing.Point(10, 145)
         Me.lblLocationBulk.Name = "lblLocationBulk"
@@ -606,15 +752,16 @@ Partial Class FrmMilkWeighment
         '
         Me.lblStatusBulk.AutoSize = False
         Me.lblStatusBulk.BorderVisible = True
+        Me.lblStatusBulk.FieldName = Nothing
         Me.lblStatusBulk.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblStatusBulk.Location = New System.Drawing.Point(633, 83)
         Me.lblStatusBulk.Name = "lblStatusBulk"
         Me.lblStatusBulk.Size = New System.Drawing.Size(148, 18)
         Me.lblStatusBulk.TabIndex = 286
-        Me.lblStatusBulk.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDateAndTimeBulk
         '
+        Me.lblDateAndTimeBulk.FieldName = Nothing
         Me.lblDateAndTimeBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDateAndTimeBulk.Location = New System.Drawing.Point(9, 83)
         Me.lblDateAndTimeBulk.Name = "lblDateAndTimeBulk"
@@ -624,6 +771,7 @@ Partial Class FrmMilkWeighment
         '
         'lblChallanDate
         '
+        Me.lblChallanDate.FieldName = Nothing
         Me.lblChallanDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChallanDate.Location = New System.Drawing.Point(10, 124)
         Me.lblChallanDate.Name = "lblChallanDate"
@@ -633,6 +781,7 @@ Partial Class FrmMilkWeighment
         '
         'lblChallanNo
         '
+        Me.lblChallanNo.FieldName = Nothing
         Me.lblChallanNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChallanNo.Location = New System.Drawing.Point(10, 103)
         Me.lblChallanNo.Name = "lblChallanNo"
@@ -644,14 +793,15 @@ Partial Class FrmMilkWeighment
         '
         Me.lblVendorNameBulk.AutoSize = False
         Me.lblVendorNameBulk.BorderVisible = True
+        Me.lblVendorNameBulk.FieldName = Nothing
         Me.lblVendorNameBulk.Location = New System.Drawing.Point(473, 166)
         Me.lblVendorNameBulk.Name = "lblVendorNameBulk"
         Me.lblVendorNameBulk.Size = New System.Drawing.Size(308, 18)
         Me.lblVendorNameBulk.TabIndex = 278
-        Me.lblVendorNameBulk.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblVendorBulk
         '
+        Me.lblVendorBulk.FieldName = Nothing
         Me.lblVendorBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblVendorBulk.Location = New System.Drawing.Point(10, 166)
         Me.lblVendorBulk.Name = "lblVendorBulk"
@@ -661,6 +811,7 @@ Partial Class FrmMilkWeighment
         '
         'lblGateEntryNO
         '
+        Me.lblGateEntryNO.FieldName = Nothing
         Me.lblGateEntryNO.Location = New System.Drawing.Point(11, 61)
         Me.lblGateEntryNO.Name = "lblGateEntryNO"
         Me.lblGateEntryNO.Size = New System.Drawing.Size(82, 18)
@@ -683,10 +834,17 @@ Partial Class FrmMilkWeighment
         '
         Me.gvItemBulk.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvItemBulk.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvItemBulk.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvItemBulk.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItemBulk.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItemBulk.MyStopExport = False
         Me.gvItemBulk.Name = "gvItemBulk"
+        Me.gvItemBulk.ShowHeaderCellButtons = True
         Me.gvItemBulk.Size = New System.Drawing.Size(859, 229)
         Me.gvItemBulk.TabIndex = 264
-        Me.gvItemBulk.Text = "RadGridView1"
         '
         'btnPrint
         '
@@ -748,6 +906,10 @@ Partial Class FrmMilkWeighment
         Me.btnSave.Size = New System.Drawing.Size(68, 18)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
+        '
+        'gvItemMcc
+        '
+        Me.gvItemMcc.ViewDefinition = TableViewDefinition2
         '
         'FrmMilkWeighment
         '

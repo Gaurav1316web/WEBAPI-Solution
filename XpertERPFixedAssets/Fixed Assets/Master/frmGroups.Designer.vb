@@ -103,12 +103,9 @@ Partial Class FrmGroups
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(702, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExport, Me.rmiImport, Me.rmiExit})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -116,22 +113,16 @@ Partial Class FrmGroups
         '
         'rmiExport
         '
-        Me.rmiExport.AccessibleDescription = "Export"
-        Me.rmiExport.AccessibleName = "Export"
         Me.rmiExport.Name = "rmiExport"
         Me.rmiExport.Text = "Export"
         '
         'rmiImport
         '
-        Me.rmiImport.AccessibleDescription = "Import"
-        Me.rmiImport.AccessibleName = "Import"
         Me.rmiImport.Name = "rmiImport"
         Me.rmiImport.Text = "Import"
         '
         'rmiExit
         '
-        Me.rmiExit.AccessibleDescription = "Exit"
-        Me.rmiExit.AccessibleName = "Exit"
         Me.rmiExit.Name = "rmiExit"
         Me.rmiExit.Text = "Exit"
         '
@@ -342,7 +333,6 @@ Partial Class FrmGroups
         Me.lblCategoryDesc.Name = "lblCategoryDesc"
         Me.lblCategoryDesc.Size = New System.Drawing.Size(373, 20)
         Me.lblCategoryDesc.TabIndex = 54
-        Me.lblCategoryDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtCategory
         '
@@ -412,7 +402,7 @@ Partial Class FrmGroups
         Me.txtGroupCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtGroupCode.MyLinkLable1 = Nothing
         Me.txtGroupCode.MyLinkLable2 = Nothing
-        Me.txtGroupCode.MyMaxLength = 32767
+        Me.txtGroupCode.MyMaxLength = 30
         Me.txtGroupCode.MyReadOnly = False
         Me.txtGroupCode.Name = "txtGroupCode"
         Me.txtGroupCode.Size = New System.Drawing.Size(264, 20)

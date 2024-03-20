@@ -22,20 +22,20 @@ Partial Class frmFinancialYearMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton
-        Me.RadLabel2 = New common.Controls.MyLabel
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.txtName = New Telerik.WinControls.UI.RadTextBox
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.txtStartDate = New common.Controls.MyDateTimePicker
-        Me.MyLabel3 = New common.Controls.MyLabel
-        Me.txtEndDate = New common.Controls.MyDateTimePicker
-        Me.ChkCurrFin = New Telerik.WinControls.UI.RadCheckBox
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.txtName = New Telerik.WinControls.UI.RadTextBox()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtStartDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtEndDate = New common.Controls.MyDateTimePicker()
+        Me.ChkCurrFin = New Telerik.WinControls.UI.RadCheckBox()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -66,7 +66,7 @@ Partial Class frmFinancialYearMaster
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = My.Resources._new
+        Me.btnAddNew.Image = Global.XpertERPGeneralLedger.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(264, 11)
         Me.btnAddNew.Name = "btnAddNew"
@@ -75,6 +75,7 @@ Partial Class frmFinancialYearMaster
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel2.Location = New System.Drawing.Point(15, 13)
         Me.RadLabel2.Name = "RadLabel2"
@@ -110,13 +111,14 @@ Partial Class frmFinancialYearMaster
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(77, 11)
         Me.txtCode.MendatroryField = False
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Nothing
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(187, 20)
@@ -125,6 +127,7 @@ Partial Class frmFinancialYearMaster
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(15, 40)
         Me.MyLabel1.Name = "MyLabel1"
@@ -134,6 +137,7 @@ Partial Class frmFinancialYearMaster
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(15, 66)
         Me.MyLabel2.Name = "MyLabel2"
@@ -143,8 +147,17 @@ Partial Class frmFinancialYearMaster
         '
         'txtStartDate
         '
+        Me.txtStartDate.CalculationExpression = Nothing
         Me.txtStartDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtStartDate.FieldCode = Nothing
+        Me.txtStartDate.FieldDesc = Nothing
+        Me.txtStartDate.FieldMaxLength = 0
+        Me.txtStartDate.FieldName = Nothing
         Me.txtStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtStartDate.isCalculatedField = False
+        Me.txtStartDate.IsSourceFromTable = False
+        Me.txtStartDate.IsSourceFromValueList = False
+        Me.txtStartDate.IsUnique = False
         Me.txtStartDate.Location = New System.Drawing.Point(77, 65)
         Me.txtStartDate.MendatroryField = False
         Me.txtStartDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -152,6 +165,9 @@ Partial Class frmFinancialYearMaster
         Me.txtStartDate.MyLinkLable2 = Nothing
         Me.txtStartDate.Name = "txtStartDate"
         Me.txtStartDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtStartDate.ReferenceFieldDesc = Nothing
+        Me.txtStartDate.ReferenceFieldName = Nothing
+        Me.txtStartDate.ReferenceTableName = Nothing
         Me.txtStartDate.Size = New System.Drawing.Size(80, 20)
         Me.txtStartDate.TabIndex = 4
         Me.txtStartDate.TabStop = False
@@ -160,6 +176,7 @@ Partial Class frmFinancialYearMaster
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(174, 66)
         Me.MyLabel3.Name = "MyLabel3"
@@ -169,8 +186,17 @@ Partial Class frmFinancialYearMaster
         '
         'txtEndDate
         '
+        Me.txtEndDate.CalculationExpression = Nothing
         Me.txtEndDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtEndDate.FieldCode = Nothing
+        Me.txtEndDate.FieldDesc = Nothing
+        Me.txtEndDate.FieldMaxLength = 0
+        Me.txtEndDate.FieldName = Nothing
         Me.txtEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtEndDate.isCalculatedField = False
+        Me.txtEndDate.IsSourceFromTable = False
+        Me.txtEndDate.IsSourceFromValueList = False
+        Me.txtEndDate.IsUnique = False
         Me.txtEndDate.Location = New System.Drawing.Point(232, 65)
         Me.txtEndDate.MendatroryField = False
         Me.txtEndDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -179,6 +205,9 @@ Partial Class frmFinancialYearMaster
         Me.txtEndDate.Name = "txtEndDate"
         Me.txtEndDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtEndDate.ReadOnly = True
+        Me.txtEndDate.ReferenceFieldDesc = Nothing
+        Me.txtEndDate.ReferenceFieldName = Nothing
+        Me.txtEndDate.ReferenceTableName = Nothing
         Me.txtEndDate.Size = New System.Drawing.Size(80, 20)
         Me.txtEndDate.TabIndex = 5
         Me.txtEndDate.TabStop = False

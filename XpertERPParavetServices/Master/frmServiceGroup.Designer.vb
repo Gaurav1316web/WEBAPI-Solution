@@ -25,6 +25,9 @@ Partial Class FrmServiceGroup
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmServiceGroup))
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -37,9 +40,6 @@ Partial Class FrmServiceGroup
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -65,15 +65,28 @@ Partial Class FrmServiceGroup
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(642, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
         Me.RadMenuItem1.AccessibleName = "rdmenufile"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3, Me.RadMenuItem4})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
+        '
+        'RadMenuItem2
+        '
+        Me.RadMenuItem2.Name = "RadMenuItem2"
+        Me.RadMenuItem2.Text = "Import"
+        '
+        'RadMenuItem3
+        '
+        Me.RadMenuItem3.Name = "RadMenuItem3"
+        Me.RadMenuItem3.Text = "Export"
+        '
+        'RadMenuItem4
+        '
+        Me.RadMenuItem4.Name = "RadMenuItem4"
+        Me.RadMenuItem4.Text = "Exit"
         '
         'SplitContainer1
         '
@@ -158,7 +171,7 @@ Partial Class FrmServiceGroup
         Me.txtServiceGroupCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtServiceGroupCode.MyLinkLable1 = Nothing
         Me.txtServiceGroupCode.MyLinkLable2 = Nothing
-        Me.txtServiceGroupCode.MyMaxLength = 12
+        Me.txtServiceGroupCode.MyMaxLength = 30
         Me.txtServiceGroupCode.MyReadOnly = False
         Me.txtServiceGroupCode.Name = "txtServiceGroupCode"
         Me.txtServiceGroupCode.Size = New System.Drawing.Size(282, 21)
@@ -250,27 +263,6 @@ Partial Class FrmServiceGroup
         Me.btndelete.Size = New System.Drawing.Size(66, 21)
         Me.btndelete.TabIndex = 9
         Me.btndelete.Text = "Delete"
-        '
-        'RadMenuItem2
-        '
-        Me.RadMenuItem2.AccessibleDescription = "Import"
-        Me.RadMenuItem2.AccessibleName = "Import"
-        Me.RadMenuItem2.Name = "RadMenuItem2"
-        Me.RadMenuItem2.Text = "Import"
-        '
-        'RadMenuItem3
-        '
-        Me.RadMenuItem3.AccessibleDescription = "Export"
-        Me.RadMenuItem3.AccessibleName = "Export"
-        Me.RadMenuItem3.Name = "RadMenuItem3"
-        Me.RadMenuItem3.Text = "Export"
-        '
-        'RadMenuItem4
-        '
-        Me.RadMenuItem4.AccessibleDescription = "Exit"
-        Me.RadMenuItem4.AccessibleName = "Exit"
-        Me.RadMenuItem4.Name = "RadMenuItem4"
-        Me.RadMenuItem4.Text = "Exit"
         '
         'FrmServiceGroup
         '

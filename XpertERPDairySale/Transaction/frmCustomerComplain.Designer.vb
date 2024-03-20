@@ -22,6 +22,7 @@ Partial Class frmCustomerComplain
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -91,14 +92,16 @@ Partial Class frmCustomerComplain
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'Gv1
         '
+        '
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(848, 305)
         Me.Gv1.TabIndex = 1
-        Me.Gv1.Text = "RadGridView1"
         '
         'lblSalesman
         '
@@ -145,6 +148,7 @@ Partial Class frmCustomerComplain
         Me.cboType.AutoCompleteDisplayMember = Nothing
         Me.cboType.AutoCompleteValueMember = Nothing
         Me.cboType.CalculationExpression = Nothing
+        Me.cboType.DropDownAnimationEnabled = True
         Me.cboType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboType.FieldCode = Nothing
         Me.cboType.FieldDesc = Nothing
@@ -191,7 +195,6 @@ Partial Class frmCustomerComplain
         Me.lblCustomer.Name = "lblCustomer"
         Me.lblCustomer.Size = New System.Drawing.Size(230, 18)
         Me.lblCustomer.TabIndex = 94
-        Me.lblCustomer.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCustomer.TextWrap = False
         '
         'fndCustom
@@ -283,7 +286,6 @@ Partial Class frmCustomerComplain
         Me.lblComplainCode.Name = "lblComplainCode"
         Me.lblComplainCode.Size = New System.Drawing.Size(142, 18)
         Me.lblComplainCode.TabIndex = 89
-        Me.lblComplainCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblComplainCode.TextWrap = False
         Me.lblComplainCode.Visible = False
         '
@@ -297,7 +299,6 @@ Partial Class frmCustomerComplain
         Me.lblInvocieDate.Name = "lblInvocieDate"
         Me.lblInvocieDate.Size = New System.Drawing.Size(158, 18)
         Me.lblInvocieDate.TabIndex = 88
-        Me.lblInvocieDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblInvocieDate.TextWrap = False
         '
         'txtDocDate
@@ -339,7 +340,7 @@ Partial Class frmCustomerComplain
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Nothing
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(226, 18)
@@ -545,7 +546,6 @@ Partial Class frmCustomerComplain
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(848, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'frmCustomerComplain
         '

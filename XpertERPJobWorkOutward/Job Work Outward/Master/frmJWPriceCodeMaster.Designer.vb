@@ -60,27 +60,20 @@ Partial Class frmJWPriceCodeMaster
         Me.rdmenu1.Name = "rdmenu1"
         Me.rdmenu1.Size = New System.Drawing.Size(605, 20)
         Me.rdmenu1.TabIndex = 1
-        Me.rdmenu1.Text = "rdmenu"
         '
         'File
         '
-        Me.File.AccessibleDescription = "File"
-        Me.File.AccessibleName = "File"
         Me.File.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Import, Me.Export, Me.RadMenuItem1})
         Me.File.Name = "File"
         Me.File.Text = "File"
         '
         'Import
         '
-        Me.Import.AccessibleDescription = "Import"
-        Me.Import.AccessibleName = "Import"
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
         '
         'Export
         '
-        Me.Export.AccessibleDescription = "Export"
-        Me.Export.AccessibleName = "Export"
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '
@@ -95,8 +88,6 @@ Partial Class frmJWPriceCodeMaster
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "RadMenuItem2"
-        Me.RadMenuItem2.AccessibleName = "RadMenuItem2"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "RadMenuItem2"
         '
@@ -161,7 +152,7 @@ Partial Class frmJWPriceCodeMaster
         '
         'rdbtnreset
         '
-        Me.rdbtnreset.Image = XpertERPJobWorkOutward.My.Resources.new1
+        Me.rdbtnreset.Image = Global.XpertERPJobWorkOutward.My.Resources.Resources.new1
         Me.rdbtnreset.Location = New System.Drawing.Point(321, 17)
         Me.rdbtnreset.Name = "rdbtnreset"
         Me.rdbtnreset.Size = New System.Drawing.Size(18, 20)
@@ -176,7 +167,7 @@ Partial Class frmJWPriceCodeMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(215, 21)

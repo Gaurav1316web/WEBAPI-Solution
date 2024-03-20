@@ -185,7 +185,6 @@ Partial Class FrmNDDBMaster
         Me.lblUsedBy.Name = "lblUsedBy"
         Me.lblUsedBy.Size = New System.Drawing.Size(266, 18)
         Me.lblUsedBy.TabIndex = 276
-        Me.lblUsedBy.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblUsedBy.TextWrap = False
         '
         'txtFarmerID
@@ -224,7 +223,6 @@ Partial Class FrmNDDBMaster
         Me.lblCattleType.Name = "lblCattleType"
         Me.lblCattleType.Size = New System.Drawing.Size(266, 18)
         Me.lblCattleType.TabIndex = 273
-        Me.lblCattleType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCattleType.TextWrap = False
         '
         'MyLabel6
@@ -247,7 +245,6 @@ Partial Class FrmNDDBMaster
         Me.lblCattleDesc.Name = "lblCattleDesc"
         Me.lblCattleDesc.Size = New System.Drawing.Size(266, 18)
         Me.lblCattleDesc.TabIndex = 270
-        Me.lblCattleDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCattleDesc.TextWrap = False
         '
         'MyLabel5
@@ -270,7 +267,6 @@ Partial Class FrmNDDBMaster
         Me.lblFarmer.Name = "lblFarmer"
         Me.lblFarmer.Size = New System.Drawing.Size(266, 18)
         Me.lblFarmer.TabIndex = 267
-        Me.lblFarmer.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFarmer.TextWrap = False
         '
         'MyLabel19
@@ -458,7 +454,7 @@ Partial Class FrmNDDBMaster
         Me.txtNDDBNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtNDDBNo.MyLinkLable1 = Nothing
         Me.txtNDDBNo.MyLinkLable2 = Nothing
-        Me.txtNDDBNo.MyMaxLength = 16
+        Me.txtNDDBNo.MyMaxLength = 30
         Me.txtNDDBNo.MyReadOnly = False
         Me.txtNDDBNo.Name = "txtNDDBNo"
         Me.txtNDDBNo.Size = New System.Drawing.Size(323, 21)
@@ -502,11 +498,9 @@ Partial Class FrmNDDBMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(898, 20)
         Me.RadMenu1.TabIndex = 4
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
         Me.RadMenuItem1.AccessibleName = "rdmenufile"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3, Me.RadMenuItem4})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -514,22 +508,16 @@ Partial Class FrmNDDBMaster
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Import"
-        Me.RadMenuItem2.AccessibleName = "Import"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Export"
-        Me.RadMenuItem3.AccessibleName = "Export"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Export"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Exit"
-        Me.RadMenuItem4.AccessibleName = "Exit"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Exit"
         '

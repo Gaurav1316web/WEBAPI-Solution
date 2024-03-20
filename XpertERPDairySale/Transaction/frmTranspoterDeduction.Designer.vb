@@ -22,6 +22,7 @@ Partial Class frmTranspoterDeduction
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.lblpaymentno = New common.Controls.MyLabel()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
@@ -88,14 +89,16 @@ Partial Class frmTranspoterDeduction
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'Gv1
         '
+        '
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(848, 305)
         Me.Gv1.TabIndex = 1
-        Me.Gv1.Text = "RadGridView1"
         '
         'lblpaymentno
         '
@@ -137,7 +140,6 @@ Partial Class frmTranspoterDeduction
         Me.lblTranspoter.Name = "lblTranspoter"
         Me.lblTranspoter.Size = New System.Drawing.Size(230, 18)
         Me.lblTranspoter.TabIndex = 94
-        Me.lblTranspoter.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTranspoter.TextWrap = False
         '
         'fndTranspoter
@@ -205,7 +207,7 @@ Partial Class frmTranspoterDeduction
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Nothing
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(226, 18)
@@ -374,7 +376,6 @@ Partial Class frmTranspoterDeduction
         Me.lblRoute.Name = "lblRoute"
         Me.lblRoute.Size = New System.Drawing.Size(230, 18)
         Me.lblRoute.TabIndex = 103
-        Me.lblRoute.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRoute.TextWrap = False
         Me.lblRoute.Visible = False
         '
@@ -544,7 +545,6 @@ Partial Class frmTranspoterDeduction
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(848, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'frmTranspoterDeduction
         '

@@ -751,7 +751,7 @@ Partial Class frmMilkTransferInReturn
         Me.fndRcptChalanNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndRcptChalanNo.MyLinkLable1 = Me.lChalanNo
         Me.fndRcptChalanNo.MyLinkLable2 = Nothing
-        Me.fndRcptChalanNo.MyMaxLength = 32767
+        Me.fndRcptChalanNo.MyMaxLength = 30
         Me.fndRcptChalanNo.MyReadOnly = False
         Me.fndRcptChalanNo.Name = "fndRcptChalanNo"
         Me.fndRcptChalanNo.Size = New System.Drawing.Size(304, 21)

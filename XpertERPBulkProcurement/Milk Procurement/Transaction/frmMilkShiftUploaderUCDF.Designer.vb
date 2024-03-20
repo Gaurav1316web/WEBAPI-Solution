@@ -982,7 +982,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(250, 19)
@@ -1172,6 +1172,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1196,6 +1197,7 @@ Partial Class frmMilkShiftUploaderUCDF
         Me.gvP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvP.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvP.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvP.MyStopExport = False
         Me.gvP.Name = "gvP"
         Me.gvP.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvP.ShowGroupPanel = False

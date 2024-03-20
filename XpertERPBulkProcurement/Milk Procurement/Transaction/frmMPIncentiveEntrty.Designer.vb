@@ -636,7 +636,7 @@ Partial Class frmMPIncentiveEntrty
         Me.txtDocumentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocumentNo.MyLinkLable1 = Me.lblCode
         Me.txtDocumentNo.MyLinkLable2 = Nothing
-        Me.txtDocumentNo.MyMaxLength = 32767
+        Me.txtDocumentNo.MyMaxLength = 30
         Me.txtDocumentNo.MyReadOnly = False
         Me.txtDocumentNo.Name = "txtDocumentNo"
         Me.txtDocumentNo.Size = New System.Drawing.Size(256, 20)
@@ -654,6 +654,7 @@ Partial Class frmMPIncentiveEntrty
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(996, 350)

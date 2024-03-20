@@ -36,15 +36,15 @@ Partial Class frmPPLogSheetMaster
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.chkReq_Para_Mst = New System.Windows.Forms.CheckBox()
+        Me.cmbtype = New common.Controls.MyComboBox()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtISRef = New common.Controls.MyTextBox()
         Me.lblAliasName = New common.Controls.MyLabel()
         Me.txtClsRef = New common.Controls.MyTextBox()
         Me.txtAliasName = New common.Controls.MyTextBox()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.cmbtype = New common.Controls.MyComboBox()
         Me.chk_batch_no = New System.Windows.Forms.CheckBox()
-        Me.chkReq_Para_Mst = New System.Windows.Forms.CheckBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.cbgUsers = New common.MyCheckBoxGrid()
         Me.Panel5 = New System.Windows.Forms.Panel()
@@ -79,13 +79,13 @@ Partial Class frmPPLogSheetMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbtype, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtISRef, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAliasName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtClsRef, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAliasName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbtype, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         Me.Panel5.SuspendLayout()
@@ -259,6 +259,52 @@ Partial Class frmPPLogSheetMaster
         Me.MyLabel5.TabIndex = 41
         Me.MyLabel5.Text = "IS Ref."
         '
+        'chkReq_Para_Mst
+        '
+        Me.chkReq_Para_Mst.AutoSize = True
+        Me.chkReq_Para_Mst.Location = New System.Drawing.Point(238, 181)
+        Me.chkReq_Para_Mst.Name = "chkReq_Para_Mst"
+        Me.chkReq_Para_Mst.Size = New System.Drawing.Size(178, 17)
+        Me.chkReq_Para_Mst.TabIndex = 7
+        Me.chkReq_Para_Mst.Text = "Required in Parameter Master"
+        Me.chkReq_Para_Mst.UseVisualStyleBackColor = True
+        '
+        'cmbtype
+        '
+        Me.cmbtype.AutoCompleteDisplayMember = Nothing
+        Me.cmbtype.AutoCompleteValueMember = Nothing
+        Me.cmbtype.CalculationExpression = Nothing
+        Me.cmbtype.DropDownAnimationEnabled = True
+        Me.cmbtype.FieldCode = Nothing
+        Me.cmbtype.FieldDesc = Nothing
+        Me.cmbtype.FieldMaxLength = 0
+        Me.cmbtype.FieldName = Nothing
+        Me.cmbtype.isCalculatedField = False
+        Me.cmbtype.IsSourceFromTable = False
+        Me.cmbtype.IsSourceFromValueList = False
+        Me.cmbtype.IsUnique = False
+        Me.cmbtype.Location = New System.Drawing.Point(86, 179)
+        Me.cmbtype.MendatroryField = True
+        Me.cmbtype.MyLinkLable1 = Me.MyLabel3
+        Me.cmbtype.MyLinkLable2 = Nothing
+        Me.cmbtype.Name = "cmbtype"
+        Me.cmbtype.ReferenceFieldDesc = Nothing
+        Me.cmbtype.ReferenceFieldName = Nothing
+        Me.cmbtype.ReferenceTableName = Nothing
+        Me.cmbtype.Size = New System.Drawing.Size(142, 20)
+        Me.cmbtype.TabIndex = 6
+        Me.cmbtype.Text = "MyComboBox1"
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(12, 180)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(31, 16)
+        Me.MyLabel3.TabIndex = 5
+        Me.MyLabel3.Text = "Type"
+        '
         'MyLabel4
         '
         Me.MyLabel4.FieldName = Nothing
@@ -354,42 +400,6 @@ Partial Class frmPPLogSheetMaster
         Me.txtAliasName.TabIndex = 37
         Me.txtAliasName.TabStop = False
         '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(12, 180)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(31, 16)
-        Me.MyLabel3.TabIndex = 5
-        Me.MyLabel3.Text = "Type"
-        '
-        'cmbtype
-        '
-        Me.cmbtype.AutoCompleteDisplayMember = Nothing
-        Me.cmbtype.AutoCompleteValueMember = Nothing
-        Me.cmbtype.CalculationExpression = Nothing
-        Me.cmbtype.DropDownAnimationEnabled = True
-        Me.cmbtype.FieldCode = Nothing
-        Me.cmbtype.FieldDesc = Nothing
-        Me.cmbtype.FieldMaxLength = 0
-        Me.cmbtype.FieldName = Nothing
-        Me.cmbtype.isCalculatedField = False
-        Me.cmbtype.IsSourceFromTable = False
-        Me.cmbtype.IsSourceFromValueList = False
-        Me.cmbtype.IsUnique = False
-        Me.cmbtype.Location = New System.Drawing.Point(86, 179)
-        Me.cmbtype.MendatroryField = True
-        Me.cmbtype.MyLinkLable1 = Me.MyLabel3
-        Me.cmbtype.MyLinkLable2 = Nothing
-        Me.cmbtype.Name = "cmbtype"
-        Me.cmbtype.ReferenceFieldDesc = Nothing
-        Me.cmbtype.ReferenceFieldName = Nothing
-        Me.cmbtype.ReferenceTableName = Nothing
-        Me.cmbtype.Size = New System.Drawing.Size(142, 20)
-        Me.cmbtype.TabIndex = 6
-        Me.cmbtype.Text = "MyComboBox1"
-        '
         'chk_batch_no
         '
         Me.chk_batch_no.AutoSize = True
@@ -399,16 +409,6 @@ Partial Class frmPPLogSheetMaster
         Me.chk_batch_no.TabIndex = 4
         Me.chk_batch_no.Text = "Pick Batch No."
         Me.chk_batch_no.UseVisualStyleBackColor = True
-        '
-        'chkReq_Para_Mst
-        '
-        Me.chkReq_Para_Mst.AutoSize = True
-        Me.chkReq_Para_Mst.Location = New System.Drawing.Point(238, 181)
-        Me.chkReq_Para_Mst.Name = "chkReq_Para_Mst"
-        Me.chkReq_Para_Mst.Size = New System.Drawing.Size(178, 17)
-        Me.chkReq_Para_Mst.TabIndex = 7
-        Me.chkReq_Para_Mst.Text = "Required in Parameter Master"
-        Me.chkReq_Para_Mst.UseVisualStyleBackColor = True
         '
         'RadGroupBox2
         '
@@ -622,7 +622,7 @@ Partial Class frmPPLogSheetMaster
         Me.fndNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndNo.MyLinkLable1 = Me.lblvandorno
         Me.fndNo.MyLinkLable2 = Nothing
-        Me.fndNo.MyMaxLength = 32767
+        Me.fndNo.MyMaxLength = 30
         Me.fndNo.MyReadOnly = False
         Me.fndNo.Name = "fndNo"
         Me.fndNo.Size = New System.Drawing.Size(301, 21)
@@ -701,13 +701,13 @@ Partial Class frmPPLogSheetMaster
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbtype, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtISRef, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAliasName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtClsRef, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAliasName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbtype, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.Panel5.ResumeLayout(False)

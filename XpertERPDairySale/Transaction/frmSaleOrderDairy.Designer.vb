@@ -23,6 +23,9 @@ Partial Class frmSaleOrderDairy
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSaleOrderDairy))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -132,9 +135,9 @@ Partial Class frmSaleOrderDairy
         Me.RadLabel31 = New common.Controls.MyLabel()
         Me.lblAddCharges = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.lblInvoiceDiscAmt = New common.Controls.MyLabel()
         Me.MyLabel6 = New common.Controls.MyLabel()
@@ -383,10 +386,9 @@ Partial Class frmSaleOrderDairy
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1189, 491)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -462,20 +464,33 @@ Partial Class frmSaleOrderDairy
         '
         'txtrate
         '
+        Me.txtrate.CalculationExpression = Nothing
         Me.txtrate.DecimalPlaces = 2
+        Me.txtrate.FieldCode = Nothing
+        Me.txtrate.FieldDesc = Nothing
+        Me.txtrate.FieldMaxLength = 0
+        Me.txtrate.FieldName = Nothing
+        Me.txtrate.isCalculatedField = False
+        Me.txtrate.IsSourceFromTable = False
+        Me.txtrate.IsSourceFromValueList = False
+        Me.txtrate.IsUnique = False
         Me.txtrate.Location = New System.Drawing.Point(362, 134)
         Me.txtrate.MendatroryField = True
         Me.txtrate.MyLinkLable1 = Me.MyLabel16
         Me.txtrate.MyLinkLable2 = Nothing
         Me.txtrate.Name = "txtrate"
+        Me.txtrate.ReferenceFieldDesc = Nothing
+        Me.txtrate.ReferenceFieldName = Nothing
+        Me.txtrate.ReferenceTableName = Nothing
         Me.txtrate.Size = New System.Drawing.Size(121, 20)
         Me.txtrate.TabIndex = 1384
         Me.txtrate.Text = "0"
         Me.txtrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtrate.Value = 0.0R
+        Me.txtrate.Value = 0R
         '
         'MyLabel16
         '
+        Me.MyLabel16.FieldName = Nothing
         Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel16.Location = New System.Drawing.Point(262, 136)
         Me.MyLabel16.Name = "MyLabel16"
@@ -485,6 +500,7 @@ Partial Class frmSaleOrderDairy
         '
         'MyLabel15
         '
+        Me.MyLabel15.FieldName = Nothing
         Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel15.Location = New System.Drawing.Point(490, 136)
         Me.MyLabel15.Name = "MyLabel15"
@@ -496,6 +512,7 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblCommAmt.AutoSize = False
         Me.lblCommAmt.BorderVisible = True
+        Me.lblCommAmt.FieldName = Nothing
         Me.lblCommAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCommAmt.Location = New System.Drawing.Point(609, 136)
         Me.lblCommAmt.Name = "lblCommAmt"
@@ -514,6 +531,7 @@ Partial Class frmSaleOrderDairy
         '
         'MyLabel14
         '
+        Me.MyLabel14.FieldName = Nothing
         Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel14.Location = New System.Drawing.Point(-1, 131)
         Me.MyLabel14.Name = "MyLabel14"
@@ -524,17 +542,29 @@ Partial Class frmSaleOrderDairy
         'txtAdvance
         '
         Me.txtAdvance.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtAdvance.CalculationExpression = Nothing
         Me.txtAdvance.DecimalPlaces = 0
+        Me.txtAdvance.FieldCode = Nothing
+        Me.txtAdvance.FieldDesc = Nothing
+        Me.txtAdvance.FieldMaxLength = 0
+        Me.txtAdvance.FieldName = Nothing
+        Me.txtAdvance.isCalculatedField = False
+        Me.txtAdvance.IsSourceFromTable = False
+        Me.txtAdvance.IsSourceFromValueList = False
+        Me.txtAdvance.IsUnique = False
         Me.txtAdvance.Location = New System.Drawing.Point(97, 132)
         Me.txtAdvance.MendatroryField = False
         Me.txtAdvance.MyLinkLable1 = Nothing
         Me.txtAdvance.MyLinkLable2 = Nothing
         Me.txtAdvance.Name = "txtAdvance"
+        Me.txtAdvance.ReferenceFieldDesc = Nothing
+        Me.txtAdvance.ReferenceFieldName = Nothing
+        Me.txtAdvance.ReferenceTableName = Nothing
         Me.txtAdvance.Size = New System.Drawing.Size(98, 20)
         Me.txtAdvance.TabIndex = 161
         Me.txtAdvance.Text = "0"
         Me.txtAdvance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtAdvance.Value = 0.0R
+        Me.txtAdvance.Value = 0R
         '
         'chkItemwise
         '
@@ -546,6 +576,7 @@ Partial Class frmSaleOrderDairy
         '
         'MyLabel13
         '
+        Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel13.Location = New System.Drawing.Point(716, 47)
         Me.MyLabel13.Name = "MyLabel13"
@@ -555,9 +586,18 @@ Partial Class frmSaleOrderDairy
         '
         'txtCustPODate
         '
+        Me.txtCustPODate.CalculationExpression = Nothing
         Me.txtCustPODate.CustomFormat = "dd/MM/yyyy"
+        Me.txtCustPODate.FieldCode = Nothing
+        Me.txtCustPODate.FieldDesc = Nothing
+        Me.txtCustPODate.FieldMaxLength = 0
+        Me.txtCustPODate.FieldName = Nothing
         Me.txtCustPODate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustPODate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtCustPODate.isCalculatedField = False
+        Me.txtCustPODate.IsSourceFromTable = False
+        Me.txtCustPODate.IsSourceFromValueList = False
+        Me.txtCustPODate.IsUnique = False
         Me.txtCustPODate.Location = New System.Drawing.Point(808, 46)
         Me.txtCustPODate.MendatroryField = False
         Me.txtCustPODate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -565,6 +605,9 @@ Partial Class frmSaleOrderDairy
         Me.txtCustPODate.MyLinkLable2 = Nothing
         Me.txtCustPODate.Name = "txtCustPODate"
         Me.txtCustPODate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtCustPODate.ReferenceFieldDesc = Nothing
+        Me.txtCustPODate.ReferenceFieldName = Nothing
+        Me.txtCustPODate.ReferenceTableName = Nothing
         Me.txtCustPODate.ShowCheckBox = True
         Me.txtCustPODate.Size = New System.Drawing.Size(91, 18)
         Me.txtCustPODate.TabIndex = 158
@@ -574,19 +617,32 @@ Partial Class frmSaleOrderDairy
         '
         'txtRoadPermitNo
         '
+        Me.txtRoadPermitNo.CalculationExpression = Nothing
+        Me.txtRoadPermitNo.FieldCode = Nothing
+        Me.txtRoadPermitNo.FieldDesc = Nothing
+        Me.txtRoadPermitNo.FieldMaxLength = 0
+        Me.txtRoadPermitNo.FieldName = Nothing
         Me.txtRoadPermitNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRoadPermitNo.isCalculatedField = False
+        Me.txtRoadPermitNo.IsSourceFromTable = False
+        Me.txtRoadPermitNo.IsSourceFromValueList = False
+        Me.txtRoadPermitNo.IsUnique = False
         Me.txtRoadPermitNo.Location = New System.Drawing.Point(1005, 162)
         Me.txtRoadPermitNo.MaxLength = 50
         Me.txtRoadPermitNo.MendatroryField = False
         Me.txtRoadPermitNo.MyLinkLable1 = Me.MyLabel20
         Me.txtRoadPermitNo.MyLinkLable2 = Nothing
         Me.txtRoadPermitNo.Name = "txtRoadPermitNo"
+        Me.txtRoadPermitNo.ReferenceFieldDesc = Nothing
+        Me.txtRoadPermitNo.ReferenceFieldName = Nothing
+        Me.txtRoadPermitNo.ReferenceTableName = Nothing
         Me.txtRoadPermitNo.Size = New System.Drawing.Size(119, 18)
         Me.txtRoadPermitNo.TabIndex = 154
         Me.txtRoadPermitNo.Visible = False
         '
         'MyLabel20
         '
+        Me.MyLabel20.FieldName = Nothing
         Me.MyLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel20.Location = New System.Drawing.Point(908, 161)
         Me.MyLabel20.Name = "MyLabel20"
@@ -597,6 +653,7 @@ Partial Class frmSaleOrderDairy
         '
         'MyLabel11
         '
+        Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel11.Location = New System.Drawing.Point(908, 54)
         Me.MyLabel11.Name = "MyLabel11"
@@ -608,21 +665,34 @@ Partial Class frmSaleOrderDairy
         'txtDispatchPeriod
         '
         Me.txtDispatchPeriod.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtDispatchPeriod.CalculationExpression = Nothing
         Me.txtDispatchPeriod.DecimalPlaces = 0
+        Me.txtDispatchPeriod.FieldCode = Nothing
+        Me.txtDispatchPeriod.FieldDesc = Nothing
+        Me.txtDispatchPeriod.FieldMaxLength = 0
+        Me.txtDispatchPeriod.FieldName = Nothing
+        Me.txtDispatchPeriod.isCalculatedField = False
+        Me.txtDispatchPeriod.IsSourceFromTable = False
+        Me.txtDispatchPeriod.IsSourceFromValueList = False
+        Me.txtDispatchPeriod.IsUnique = False
         Me.txtDispatchPeriod.Location = New System.Drawing.Point(1004, 55)
         Me.txtDispatchPeriod.MendatroryField = False
         Me.txtDispatchPeriod.MyLinkLable1 = Nothing
         Me.txtDispatchPeriod.MyLinkLable2 = Nothing
         Me.txtDispatchPeriod.Name = "txtDispatchPeriod"
+        Me.txtDispatchPeriod.ReferenceFieldDesc = Nothing
+        Me.txtDispatchPeriod.ReferenceFieldName = Nothing
+        Me.txtDispatchPeriod.ReferenceTableName = Nothing
         Me.txtDispatchPeriod.Size = New System.Drawing.Size(125, 20)
         Me.txtDispatchPeriod.TabIndex = 144
         Me.txtDispatchPeriod.Text = "0"
         Me.txtDispatchPeriod.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDispatchPeriod.Value = 0.0R
+        Me.txtDispatchPeriod.Value = 0R
         Me.txtDispatchPeriod.Visible = False
         '
         'MyLabel12
         '
+        Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel12.Location = New System.Drawing.Point(0, 110)
         Me.MyLabel12.Name = "MyLabel12"
@@ -634,17 +704,31 @@ Partial Class frmSaleOrderDairy
         '
         Me.ddlPaymentTerms.AutoCompleteDisplayMember = Nothing
         Me.ddlPaymentTerms.AutoCompleteValueMember = Nothing
+        Me.ddlPaymentTerms.CalculationExpression = Nothing
+        Me.ddlPaymentTerms.DropDownAnimationEnabled = True
         Me.ddlPaymentTerms.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlPaymentTerms.FieldCode = Nothing
+        Me.ddlPaymentTerms.FieldDesc = Nothing
+        Me.ddlPaymentTerms.FieldMaxLength = 0
+        Me.ddlPaymentTerms.FieldName = Nothing
+        Me.ddlPaymentTerms.isCalculatedField = False
+        Me.ddlPaymentTerms.IsSourceFromTable = False
+        Me.ddlPaymentTerms.IsSourceFromValueList = False
+        Me.ddlPaymentTerms.IsUnique = False
         Me.ddlPaymentTerms.Location = New System.Drawing.Point(97, 108)
         Me.ddlPaymentTerms.MendatroryField = False
         Me.ddlPaymentTerms.MyLinkLable1 = Me.MyLabel7
         Me.ddlPaymentTerms.MyLinkLable2 = Nothing
         Me.ddlPaymentTerms.Name = "ddlPaymentTerms"
+        Me.ddlPaymentTerms.ReferenceFieldDesc = Nothing
+        Me.ddlPaymentTerms.ReferenceFieldName = Nothing
+        Me.ddlPaymentTerms.ReferenceTableName = Nothing
         Me.ddlPaymentTerms.Size = New System.Drawing.Size(98, 20)
         Me.ddlPaymentTerms.TabIndex = 143
         '
         'MyLabel7
         '
+        Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Location = New System.Drawing.Point(1121, 156)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(94, 18)
@@ -654,6 +738,7 @@ Partial Class frmSaleOrderDairy
         '
         'lblInvoiceType
         '
+        Me.lblInvoiceType.FieldName = Nothing
         Me.lblInvoiceType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblInvoiceType.Location = New System.Drawing.Point(262, 111)
         Me.lblInvoiceType.Name = "lblInvoiceType"
@@ -665,12 +750,25 @@ Partial Class frmSaleOrderDairy
         '
         Me.ddlDispatchTerms.AutoCompleteDisplayMember = Nothing
         Me.ddlDispatchTerms.AutoCompleteValueMember = Nothing
+        Me.ddlDispatchTerms.CalculationExpression = Nothing
+        Me.ddlDispatchTerms.DropDownAnimationEnabled = True
         Me.ddlDispatchTerms.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlDispatchTerms.FieldCode = Nothing
+        Me.ddlDispatchTerms.FieldDesc = Nothing
+        Me.ddlDispatchTerms.FieldMaxLength = 0
+        Me.ddlDispatchTerms.FieldName = Nothing
+        Me.ddlDispatchTerms.isCalculatedField = False
+        Me.ddlDispatchTerms.IsSourceFromTable = False
+        Me.ddlDispatchTerms.IsSourceFromValueList = False
+        Me.ddlDispatchTerms.IsUnique = False
         Me.ddlDispatchTerms.Location = New System.Drawing.Point(362, 111)
         Me.ddlDispatchTerms.MendatroryField = False
         Me.ddlDispatchTerms.MyLinkLable1 = Me.MyLabel7
         Me.ddlDispatchTerms.MyLinkLable2 = Nothing
         Me.ddlDispatchTerms.Name = "ddlDispatchTerms"
+        Me.ddlDispatchTerms.ReferenceFieldDesc = Nothing
+        Me.ddlDispatchTerms.ReferenceFieldName = Nothing
+        Me.ddlDispatchTerms.ReferenceTableName = Nothing
         Me.ddlDispatchTerms.Size = New System.Drawing.Size(119, 20)
         Me.ddlDispatchTerms.TabIndex = 141
         '
@@ -678,16 +776,25 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblCloseRemarksdesc.AutoSize = False
         Me.lblCloseRemarksdesc.BorderVisible = True
+        Me.lblCloseRemarksdesc.FieldName = Nothing
         Me.lblCloseRemarksdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCloseRemarksdesc.Location = New System.Drawing.Point(718, 90)
         Me.lblCloseRemarksdesc.Name = "lblCloseRemarksdesc"
         Me.lblCloseRemarksdesc.Size = New System.Drawing.Size(184, 20)
         Me.lblCloseRemarksdesc.TabIndex = 133
-        Me.lblCloseRemarksdesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCloseRemarksdesc.TextWrap = False
         '
         'txtCloseRemarks
         '
+        Me.txtCloseRemarks.CalculationExpression = Nothing
+        Me.txtCloseRemarks.FieldCode = Nothing
+        Me.txtCloseRemarks.FieldDesc = Nothing
+        Me.txtCloseRemarks.FieldMaxLength = 0
+        Me.txtCloseRemarks.FieldName = Nothing
+        Me.txtCloseRemarks.isCalculatedField = False
+        Me.txtCloseRemarks.IsSourceFromTable = False
+        Me.txtCloseRemarks.IsSourceFromValueList = False
+        Me.txtCloseRemarks.IsUnique = False
         Me.txtCloseRemarks.Location = New System.Drawing.Point(585, 90)
         Me.txtCloseRemarks.MendatroryField = False
         Me.txtCloseRemarks.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -696,12 +803,16 @@ Partial Class frmSaleOrderDairy
         Me.txtCloseRemarks.MyReadOnly = False
         Me.txtCloseRemarks.MyShowMasterFormButton = False
         Me.txtCloseRemarks.Name = "txtCloseRemarks"
+        Me.txtCloseRemarks.ReferenceFieldDesc = Nothing
+        Me.txtCloseRemarks.ReferenceFieldName = Nothing
+        Me.txtCloseRemarks.ReferenceTableName = Nothing
         Me.txtCloseRemarks.Size = New System.Drawing.Size(126, 19)
         Me.txtCloseRemarks.TabIndex = 132
         Me.txtCloseRemarks.Value = ""
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(2, 1)
         Me.MyLabel4.Name = "MyLabel4"
@@ -713,16 +824,17 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblProject.AutoSize = False
         Me.lblProject.BorderVisible = True
+        Me.lblProject.FieldName = Nothing
         Me.lblProject.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblProject.Location = New System.Drawing.Point(219, 1)
         Me.lblProject.Name = "lblProject"
         Me.lblProject.Size = New System.Drawing.Size(185, 20)
         Me.lblProject.TabIndex = 1
-        Me.lblProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblProject.TextWrap = False
         '
         'MyLabel9
         '
+        Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel9.Location = New System.Drawing.Point(490, 92)
         Me.MyLabel9.Name = "MyLabel9"
@@ -749,6 +861,7 @@ Partial Class frmSaleOrderDairy
         '
         'MyLabel8
         '
+        Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel8.Location = New System.Drawing.Point(490, 48)
         Me.MyLabel8.Name = "MyLabel8"
@@ -758,13 +871,25 @@ Partial Class frmSaleOrderDairy
         '
         'txtPONo
         '
+        Me.txtPONo.CalculationExpression = Nothing
+        Me.txtPONo.FieldCode = Nothing
+        Me.txtPONo.FieldDesc = Nothing
+        Me.txtPONo.FieldMaxLength = 0
+        Me.txtPONo.FieldName = Nothing
         Me.txtPONo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPONo.isCalculatedField = False
+        Me.txtPONo.IsSourceFromTable = False
+        Me.txtPONo.IsSourceFromValueList = False
+        Me.txtPONo.IsUnique = False
         Me.txtPONo.Location = New System.Drawing.Point(585, 45)
         Me.txtPONo.MaxLength = 200
         Me.txtPONo.MendatroryField = False
         Me.txtPONo.MyLinkLable1 = Me.MyLabel8
         Me.txtPONo.MyLinkLable2 = Nothing
         Me.txtPONo.Name = "txtPONo"
+        Me.txtPONo.ReferenceFieldDesc = Nothing
+        Me.txtPONo.ReferenceFieldName = Nothing
+        Me.txtPONo.ReferenceTableName = Nothing
         Me.txtPONo.Size = New System.Drawing.Size(127, 18)
         Me.txtPONo.TabIndex = 11
         '
@@ -780,6 +905,7 @@ Partial Class frmSaleOrderDairy
         'RadLabel12
         '
         Me.RadLabel12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
         Me.RadLabel12.Location = New System.Drawing.Point(847, 432)
@@ -792,6 +918,7 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblTotRAmt1.AutoSize = False
         Me.lblTotRAmt1.BorderVisible = True
+        Me.lblTotRAmt1.FieldName = Nothing
         Me.lblTotRAmt1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotRAmt1.Location = New System.Drawing.Point(609, 114)
         Me.lblTotRAmt1.Name = "lblTotRAmt1"
@@ -805,7 +932,7 @@ Partial Class frmSaleOrderDairy
         Me.UcItemBalance1.CommitedQty = False
         Me.UcItemBalance1.CommitedQtyLbl = False
         Me.UcItemBalance1.ItemCode = ""
-        Me.UcItemBalance1.ItemMRP = 0.0R
+        Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
         Me.UcItemBalance1.Location = New System.Drawing.Point(2, 373)
         Me.UcItemBalance1.LocationCode = ""
@@ -824,6 +951,7 @@ Partial Class frmSaleOrderDairy
         '
         'MyLabel5
         '
+        Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.Location = New System.Drawing.Point(490, 115)
         Me.MyLabel5.Name = "MyLabel5"
@@ -833,6 +961,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel21
         '
+        Me.RadLabel21.FieldName = Nothing
         Me.RadLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel21.Location = New System.Drawing.Point(1111, 185)
         Me.RadLabel21.Name = "RadLabel21"
@@ -845,18 +974,32 @@ Partial Class frmSaleOrderDairy
         '
         Me.cboItemType.AutoCompleteDisplayMember = Nothing
         Me.cboItemType.AutoCompleteValueMember = Nothing
+        Me.cboItemType.CalculationExpression = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
         Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboItemType.FieldCode = Nothing
+        Me.cboItemType.FieldDesc = Nothing
+        Me.cboItemType.FieldMaxLength = 0
+        Me.cboItemType.FieldName = Nothing
+        Me.cboItemType.isCalculatedField = False
+        Me.cboItemType.IsSourceFromTable = False
+        Me.cboItemType.IsSourceFromValueList = False
+        Me.cboItemType.IsUnique = False
         Me.cboItemType.Location = New System.Drawing.Point(1174, 183)
         Me.cboItemType.MendatroryField = True
         Me.cboItemType.MyLinkLable1 = Me.RadLabel21
         Me.cboItemType.MyLinkLable2 = Nothing
         Me.cboItemType.Name = "cboItemType"
+        Me.cboItemType.ReferenceFieldDesc = Nothing
+        Me.cboItemType.ReferenceFieldName = Nothing
+        Me.cboItemType.ReferenceTableName = Nothing
         Me.cboItemType.Size = New System.Drawing.Size(135, 20)
         Me.cboItemType.TabIndex = 19
         Me.cboItemType.Visible = False
         '
         'lblAbandonmentNo
         '
+        Me.lblAbandonmentNo.FieldName = Nothing
         Me.lblAbandonmentNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAbandonmentNo.Location = New System.Drawing.Point(821, 90)
         Me.lblAbandonmentNo.Name = "lblAbandonmentNo"
@@ -865,6 +1008,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel23
         '
+        Me.RadLabel23.FieldName = Nothing
         Me.RadLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel23.Location = New System.Drawing.Point(490, 3)
         Me.RadLabel23.Name = "RadLabel23"
@@ -876,18 +1020,32 @@ Partial Class frmSaleOrderDairy
         '
         Me.cboPOType.AutoCompleteDisplayMember = Nothing
         Me.cboPOType.AutoCompleteValueMember = Nothing
+        Me.cboPOType.CalculationExpression = Nothing
+        Me.cboPOType.DropDownAnimationEnabled = True
         Me.cboPOType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboPOType.FieldCode = Nothing
+        Me.cboPOType.FieldDesc = Nothing
+        Me.cboPOType.FieldMaxLength = 0
+        Me.cboPOType.FieldName = Nothing
+        Me.cboPOType.isCalculatedField = False
+        Me.cboPOType.IsSourceFromTable = False
+        Me.cboPOType.IsSourceFromValueList = False
+        Me.cboPOType.IsUnique = False
         Me.cboPOType.Location = New System.Drawing.Point(994, 181)
         Me.cboPOType.MendatroryField = True
         Me.cboPOType.MyLinkLable1 = Me.RadLabel8
         Me.cboPOType.MyLinkLable2 = Nothing
         Me.cboPOType.Name = "cboPOType"
+        Me.cboPOType.ReferenceFieldDesc = Nothing
+        Me.cboPOType.ReferenceFieldName = Nothing
+        Me.cboPOType.ReferenceTableName = Nothing
         Me.cboPOType.Size = New System.Drawing.Size(77, 20)
         Me.cboPOType.TabIndex = 18
         Me.cboPOType.Visible = False
         '
         'RadLabel8
         '
+        Me.RadLabel8.FieldName = Nothing
         Me.RadLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel8.Location = New System.Drawing.Point(899, 183)
         Me.RadLabel8.Name = "RadLabel8"
@@ -898,6 +1056,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel5
         '
+        Me.RadLabel5.FieldName = Nothing
         Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel5.Location = New System.Drawing.Point(490, 69)
         Me.RadLabel5.Name = "RadLabel5"
@@ -909,16 +1068,17 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblBillToLocation.AutoSize = False
         Me.lblBillToLocation.BorderVisible = True
+        Me.lblBillToLocation.FieldName = Nothing
         Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBillToLocation.Location = New System.Drawing.Point(242, 24)
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(242, 18)
         Me.lblBillToLocation.TabIndex = 7
-        Me.lblBillToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBillToLocation.TextWrap = False
         '
         'RadLabel6
         '
+        Me.RadLabel6.FieldName = Nothing
         Me.RadLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel6.Location = New System.Drawing.Point(-1, 68)
         Me.RadLabel6.Name = "RadLabel6"
@@ -928,6 +1088,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel3.Location = New System.Drawing.Point(490, 25)
         Me.RadLabel3.Name = "RadLabel3"
@@ -937,6 +1098,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel15
         '
+        Me.RadLabel15.FieldName = Nothing
         Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel15.Location = New System.Drawing.Point(-1, 25)
         Me.RadLabel15.Name = "RadLabel15"
@@ -994,16 +1156,20 @@ Partial Class frmSaleOrderDairy
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1143, 178)
         Me.gv1.TabIndex = 17
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'pnlPCJ
         '
@@ -1018,6 +1184,15 @@ Partial Class frmSaleOrderDairy
         '
         'fndProject
         '
+        Me.fndProject.CalculationExpression = Nothing
+        Me.fndProject.FieldCode = Nothing
+        Me.fndProject.FieldDesc = Nothing
+        Me.fndProject.FieldMaxLength = 0
+        Me.fndProject.FieldName = Nothing
+        Me.fndProject.isCalculatedField = False
+        Me.fndProject.IsSourceFromTable = False
+        Me.fndProject.IsSourceFromValueList = False
+        Me.fndProject.IsUnique = False
         Me.fndProject.Location = New System.Drawing.Point(96, 2)
         Me.fndProject.MendatroryField = False
         Me.fndProject.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1026,12 +1201,16 @@ Partial Class frmSaleOrderDairy
         Me.fndProject.MyReadOnly = False
         Me.fndProject.MyShowMasterFormButton = False
         Me.fndProject.Name = "fndProject"
+        Me.fndProject.ReferenceFieldDesc = Nothing
+        Me.fndProject.ReferenceFieldName = Nothing
+        Me.fndProject.ReferenceTableName = Nothing
         Me.fndProject.Size = New System.Drawing.Size(119, 20)
         Me.fndProject.TabIndex = 0
         Me.fndProject.Value = ""
         '
         'RadLabel18
         '
+        Me.RadLabel18.FieldName = Nothing
         Me.RadLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel18.Location = New System.Drawing.Point(876, 46)
         Me.RadLabel18.Name = "RadLabel18"
@@ -1043,22 +1222,43 @@ Partial Class frmSaleOrderDairy
         'txtCreditLimit
         '
         Me.txtCreditLimit.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtCreditLimit.CalculationExpression = Nothing
         Me.txtCreditLimit.DecimalPlaces = 5
         Me.txtCreditLimit.Enabled = False
+        Me.txtCreditLimit.FieldCode = Nothing
+        Me.txtCreditLimit.FieldDesc = Nothing
+        Me.txtCreditLimit.FieldMaxLength = 0
+        Me.txtCreditLimit.FieldName = Nothing
+        Me.txtCreditLimit.isCalculatedField = False
+        Me.txtCreditLimit.IsSourceFromTable = False
+        Me.txtCreditLimit.IsSourceFromValueList = False
+        Me.txtCreditLimit.IsUnique = False
         Me.txtCreditLimit.Location = New System.Drawing.Point(577, 30)
         Me.txtCreditLimit.MendatroryField = True
         Me.txtCreditLimit.MyLinkLable1 = Nothing
         Me.txtCreditLimit.MyLinkLable2 = Nothing
         Me.txtCreditLimit.Name = "txtCreditLimit"
+        Me.txtCreditLimit.ReferenceFieldDesc = Nothing
+        Me.txtCreditLimit.ReferenceFieldName = Nothing
+        Me.txtCreditLimit.ReferenceTableName = Nothing
         Me.txtCreditLimit.Size = New System.Drawing.Size(119, 20)
         Me.txtCreditLimit.TabIndex = 157
         Me.txtCreditLimit.Text = "0"
         Me.txtCreditLimit.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCreditLimit.Value = 0.0R
+        Me.txtCreditLimit.Value = 0R
         Me.txtCreditLimit.Visible = False
         '
         'txtShipToLocation
         '
+        Me.txtShipToLocation.CalculationExpression = Nothing
+        Me.txtShipToLocation.FieldCode = Nothing
+        Me.txtShipToLocation.FieldDesc = Nothing
+        Me.txtShipToLocation.FieldMaxLength = 0
+        Me.txtShipToLocation.FieldName = Nothing
+        Me.txtShipToLocation.isCalculatedField = False
+        Me.txtShipToLocation.IsSourceFromTable = False
+        Me.txtShipToLocation.IsSourceFromValueList = False
+        Me.txtShipToLocation.IsUnique = False
         Me.txtShipToLocation.Location = New System.Drawing.Point(975, 45)
         Me.txtShipToLocation.MendatroryField = False
         Me.txtShipToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1067,6 +1267,9 @@ Partial Class frmSaleOrderDairy
         Me.txtShipToLocation.MyReadOnly = False
         Me.txtShipToLocation.MyShowMasterFormButton = False
         Me.txtShipToLocation.Name = "txtShipToLocation"
+        Me.txtShipToLocation.ReferenceFieldDesc = Nothing
+        Me.txtShipToLocation.ReferenceFieldName = Nothing
+        Me.txtShipToLocation.ReferenceTableName = Nothing
         Me.txtShipToLocation.Size = New System.Drawing.Size(143, 18)
         Me.txtShipToLocation.TabIndex = 12
         Me.txtShipToLocation.Value = ""
@@ -1076,17 +1279,18 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblShipToLocation.AutoSize = False
         Me.lblShipToLocation.BorderVisible = True
+        Me.lblShipToLocation.FieldName = Nothing
         Me.lblShipToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblShipToLocation.Location = New System.Drawing.Point(1119, 45)
         Me.lblShipToLocation.Name = "lblShipToLocation"
         Me.lblShipToLocation.Size = New System.Drawing.Size(242, 18)
         Me.lblShipToLocation.TabIndex = 13
-        Me.lblShipToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblShipToLocation.TextWrap = False
         Me.lblShipToLocation.Visible = False
         '
         'lblCreditLimit
         '
+        Me.lblCreditLimit.FieldName = Nothing
         Me.lblCreditLimit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCreditLimit.Location = New System.Drawing.Point(482, 31)
         Me.lblCreditLimit.Name = "lblCreditLimit"
@@ -1097,13 +1301,25 @@ Partial Class frmSaleOrderDairy
         '
         'lblVhicleNo
         '
+        Me.lblVhicleNo.CalculationExpression = Nothing
+        Me.lblVhicleNo.FieldCode = Nothing
+        Me.lblVhicleNo.FieldDesc = Nothing
+        Me.lblVhicleNo.FieldMaxLength = 0
+        Me.lblVhicleNo.FieldName = Nothing
         Me.lblVhicleNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVhicleNo.isCalculatedField = False
+        Me.lblVhicleNo.IsSourceFromTable = False
+        Me.lblVhicleNo.IsSourceFromValueList = False
+        Me.lblVhicleNo.IsUnique = False
         Me.lblVhicleNo.Location = New System.Drawing.Point(1118, 131)
         Me.lblVhicleNo.MaxLength = 200
         Me.lblVhicleNo.MendatroryField = False
         Me.lblVhicleNo.MyLinkLable1 = Me.RadLabel6
         Me.lblVhicleNo.MyLinkLable2 = Nothing
         Me.lblVhicleNo.Name = "lblVhicleNo"
+        Me.lblVhicleNo.ReferenceFieldDesc = Nothing
+        Me.lblVhicleNo.ReferenceFieldName = Nothing
+        Me.lblVhicleNo.ReferenceTableName = Nothing
         Me.lblVhicleNo.Size = New System.Drawing.Size(242, 18)
         Me.lblVhicleNo.TabIndex = 147
         Me.lblVhicleNo.Visible = False
@@ -1111,21 +1327,42 @@ Partial Class frmSaleOrderDairy
         'txtVehicleCapacity
         '
         Me.txtVehicleCapacity.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtVehicleCapacity.CalculationExpression = Nothing
         Me.txtVehicleCapacity.DecimalPlaces = 0
+        Me.txtVehicleCapacity.FieldCode = Nothing
+        Me.txtVehicleCapacity.FieldDesc = Nothing
+        Me.txtVehicleCapacity.FieldMaxLength = 0
+        Me.txtVehicleCapacity.FieldName = Nothing
+        Me.txtVehicleCapacity.isCalculatedField = False
+        Me.txtVehicleCapacity.IsSourceFromTable = False
+        Me.txtVehicleCapacity.IsSourceFromValueList = False
+        Me.txtVehicleCapacity.IsUnique = False
         Me.txtVehicleCapacity.Location = New System.Drawing.Point(849, 33)
         Me.txtVehicleCapacity.MendatroryField = False
         Me.txtVehicleCapacity.MyLinkLable1 = Nothing
         Me.txtVehicleCapacity.MyLinkLable2 = Nothing
         Me.txtVehicleCapacity.Name = "txtVehicleCapacity"
+        Me.txtVehicleCapacity.ReferenceFieldDesc = Nothing
+        Me.txtVehicleCapacity.ReferenceFieldName = Nothing
+        Me.txtVehicleCapacity.ReferenceTableName = Nothing
         Me.txtVehicleCapacity.Size = New System.Drawing.Size(45, 20)
         Me.txtVehicleCapacity.TabIndex = 146
         Me.txtVehicleCapacity.Text = "0"
         Me.txtVehicleCapacity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtVehicleCapacity.Value = 0.0R
+        Me.txtVehicleCapacity.Value = 0R
         Me.txtVehicleCapacity.Visible = False
         '
         'txtSalesman
         '
+        Me.txtSalesman.CalculationExpression = Nothing
+        Me.txtSalesman.FieldCode = Nothing
+        Me.txtSalesman.FieldDesc = Nothing
+        Me.txtSalesman.FieldMaxLength = 0
+        Me.txtSalesman.FieldName = Nothing
+        Me.txtSalesman.isCalculatedField = False
+        Me.txtSalesman.IsSourceFromTable = False
+        Me.txtSalesman.IsSourceFromValueList = False
+        Me.txtSalesman.IsUnique = False
         Me.txtSalesman.Location = New System.Drawing.Point(974, 66)
         Me.txtSalesman.MendatroryField = False
         Me.txtSalesman.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1134,6 +1371,9 @@ Partial Class frmSaleOrderDairy
         Me.txtSalesman.MyReadOnly = False
         Me.txtSalesman.MyShowMasterFormButton = False
         Me.txtSalesman.Name = "txtSalesman"
+        Me.txtSalesman.ReferenceFieldDesc = Nothing
+        Me.txtSalesman.ReferenceFieldName = Nothing
+        Me.txtSalesman.ReferenceTableName = Nothing
         Me.txtSalesman.Size = New System.Drawing.Size(143, 18)
         Me.txtSalesman.TabIndex = 16
         Me.txtSalesman.Value = ""
@@ -1141,6 +1381,7 @@ Partial Class frmSaleOrderDairy
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(875, 67)
         Me.MyLabel2.Name = "MyLabel2"
@@ -1153,17 +1394,18 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblSalesman.AutoSize = False
         Me.lblSalesman.BorderVisible = True
+        Me.lblSalesman.FieldName = Nothing
         Me.lblSalesman.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSalesman.Location = New System.Drawing.Point(1118, 66)
         Me.lblSalesman.Name = "lblSalesman"
         Me.lblSalesman.Size = New System.Drawing.Size(242, 18)
         Me.lblSalesman.TabIndex = 17
-        Me.lblSalesman.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblSalesman.TextWrap = False
         Me.lblSalesman.Visible = False
         '
         'lblPriceCode
         '
+        Me.lblPriceCode.FieldName = Nothing
         Me.lblPriceCode.Location = New System.Drawing.Point(877, 155)
         Me.lblPriceCode.Name = "lblPriceCode"
         Me.lblPriceCode.Size = New System.Drawing.Size(60, 18)
@@ -1175,6 +1417,7 @@ Partial Class frmSaleOrderDairy
         '
         Me.txtPriceCode.AutoSize = False
         Me.txtPriceCode.BorderVisible = True
+        Me.txtPriceCode.FieldName = Nothing
         Me.txtPriceCode.Location = New System.Drawing.Point(973, 155)
         Me.txtPriceCode.Name = "txtPriceCode"
         Me.txtPriceCode.Size = New System.Drawing.Size(142, 19)
@@ -1184,6 +1427,7 @@ Partial Class frmSaleOrderDairy
         '
         'lblRouteNo
         '
+        Me.lblRouteNo.FieldName = Nothing
         Me.lblRouteNo.Location = New System.Drawing.Point(876, 109)
         Me.lblRouteNo.Name = "lblRouteNo"
         Me.lblRouteNo.Size = New System.Drawing.Size(54, 18)
@@ -1193,6 +1437,15 @@ Partial Class frmSaleOrderDairy
         '
         'txtRouteNo
         '
+        Me.txtRouteNo.CalculationExpression = Nothing
+        Me.txtRouteNo.FieldCode = Nothing
+        Me.txtRouteNo.FieldDesc = Nothing
+        Me.txtRouteNo.FieldMaxLength = 0
+        Me.txtRouteNo.FieldName = Nothing
+        Me.txtRouteNo.isCalculatedField = False
+        Me.txtRouteNo.IsSourceFromTable = False
+        Me.txtRouteNo.IsSourceFromValueList = False
+        Me.txtRouteNo.IsUnique = False
         Me.txtRouteNo.Location = New System.Drawing.Point(973, 108)
         Me.txtRouteNo.MendatroryField = False
         Me.txtRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1201,6 +1454,9 @@ Partial Class frmSaleOrderDairy
         Me.txtRouteNo.MyReadOnly = False
         Me.txtRouteNo.MyShowMasterFormButton = False
         Me.txtRouteNo.Name = "txtRouteNo"
+        Me.txtRouteNo.ReferenceFieldDesc = Nothing
+        Me.txtRouteNo.ReferenceFieldName = Nothing
+        Me.txtRouteNo.ReferenceTableName = Nothing
         Me.txtRouteNo.Size = New System.Drawing.Size(142, 19)
         Me.txtRouteNo.TabIndex = 22
         Me.txtRouteNo.Value = ""
@@ -1208,6 +1464,7 @@ Partial Class frmSaleOrderDairy
         '
         'MyLabel10
         '
+        Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel10.Location = New System.Drawing.Point(703, 34)
         Me.MyLabel10.Name = "MyLabel10"
@@ -1220,6 +1477,7 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblRouteDesc.AutoSize = False
         Me.lblRouteDesc.BorderVisible = True
+        Me.lblRouteDesc.FieldName = Nothing
         Me.lblRouteDesc.Location = New System.Drawing.Point(1118, 111)
         Me.lblRouteDesc.Name = "lblRouteDesc"
         Me.lblRouteDesc.Size = New System.Drawing.Size(244, 17)
@@ -1228,6 +1486,15 @@ Partial Class frmSaleOrderDairy
         '
         'txtVehicleCode
         '
+        Me.txtVehicleCode.CalculationExpression = Nothing
+        Me.txtVehicleCode.FieldCode = Nothing
+        Me.txtVehicleCode.FieldDesc = Nothing
+        Me.txtVehicleCode.FieldMaxLength = 0
+        Me.txtVehicleCode.FieldName = Nothing
+        Me.txtVehicleCode.isCalculatedField = False
+        Me.txtVehicleCode.IsSourceFromTable = False
+        Me.txtVehicleCode.IsSourceFromValueList = False
+        Me.txtVehicleCode.IsUnique = False
         Me.txtVehicleCode.Location = New System.Drawing.Point(973, 130)
         Me.txtVehicleCode.MendatroryField = False
         Me.txtVehicleCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1236,6 +1503,9 @@ Partial Class frmSaleOrderDairy
         Me.txtVehicleCode.MyReadOnly = False
         Me.txtVehicleCode.MyShowMasterFormButton = False
         Me.txtVehicleCode.Name = "txtVehicleCode"
+        Me.txtVehicleCode.ReferenceFieldDesc = Nothing
+        Me.txtVehicleCode.ReferenceFieldName = Nothing
+        Me.txtVehicleCode.ReferenceTableName = Nothing
         Me.txtVehicleCode.Size = New System.Drawing.Size(142, 19)
         Me.txtVehicleCode.TabIndex = 136
         Me.txtVehicleCode.Value = ""
@@ -1243,6 +1513,7 @@ Partial Class frmSaleOrderDairy
         '
         'lblVehicleCode
         '
+        Me.lblVehicleCode.FieldName = Nothing
         Me.lblVehicleCode.Location = New System.Drawing.Point(875, 132)
         Me.lblVehicleCode.Name = "lblVehicleCode"
         Me.lblVehicleCode.Size = New System.Drawing.Size(72, 18)
@@ -1254,6 +1525,7 @@ Partial Class frmSaleOrderDairy
         '
         Me.txtPriceGroupCode.AutoSize = False
         Me.txtPriceGroupCode.BorderVisible = True
+        Me.txtPriceGroupCode.FieldName = Nothing
         Me.txtPriceGroupCode.Location = New System.Drawing.Point(1219, 156)
         Me.txtPriceGroupCode.Name = "txtPriceGroupCode"
         Me.txtPriceGroupCode.Size = New System.Drawing.Size(142, 19)
@@ -1263,6 +1535,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel20
         '
+        Me.RadLabel20.FieldName = Nothing
         Me.RadLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel20.Location = New System.Drawing.Point(69, 38)
         Me.RadLabel20.Name = "RadLabel20"
@@ -1273,6 +1546,15 @@ Partial Class frmSaleOrderDairy
         '
         'txtDept
         '
+        Me.txtDept.CalculationExpression = Nothing
+        Me.txtDept.FieldCode = Nothing
+        Me.txtDept.FieldDesc = Nothing
+        Me.txtDept.FieldMaxLength = 0
+        Me.txtDept.FieldName = Nothing
+        Me.txtDept.isCalculatedField = False
+        Me.txtDept.IsSourceFromTable = False
+        Me.txtDept.IsSourceFromValueList = False
+        Me.txtDept.IsUnique = False
         Me.txtDept.Location = New System.Drawing.Point(168, 37)
         Me.txtDept.MendatroryField = False
         Me.txtDept.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1281,6 +1563,9 @@ Partial Class frmSaleOrderDairy
         Me.txtDept.MyReadOnly = False
         Me.txtDept.MyShowMasterFormButton = False
         Me.txtDept.Name = "txtDept"
+        Me.txtDept.ReferenceFieldDesc = Nothing
+        Me.txtDept.ReferenceFieldName = Nothing
+        Me.txtDept.ReferenceTableName = Nothing
         Me.txtDept.Size = New System.Drawing.Size(143, 18)
         Me.txtDept.TabIndex = 10
         Me.txtDept.Value = ""
@@ -1290,17 +1575,18 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblDept.AutoSize = False
         Me.lblDept.BorderVisible = True
+        Me.lblDept.FieldName = Nothing
         Me.lblDept.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDept.Location = New System.Drawing.Point(312, 37)
         Me.lblDept.Name = "lblDept"
         Me.lblDept.Size = New System.Drawing.Size(242, 18)
         Me.lblDept.TabIndex = 16
-        Me.lblDept.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDept.TextWrap = False
         Me.lblDept.Visible = False
         '
         'RadLabel7
         '
+        Me.RadLabel7.FieldName = Nothing
         Me.RadLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel7.Location = New System.Drawing.Point(-2, 88)
         Me.RadLabel7.Name = "RadLabel7"
@@ -1310,6 +1596,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel13
         '
+        Me.RadLabel13.FieldName = Nothing
         Me.RadLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel13.Location = New System.Drawing.Point(718, 69)
         Me.RadLabel13.Name = "RadLabel13"
@@ -1319,6 +1606,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel4.Location = New System.Drawing.Point(375, 3)
         Me.RadLabel4.Name = "RadLabel4"
@@ -1340,16 +1628,17 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblVendorName.AutoSize = False
         Me.lblVendorName.BorderVisible = True
+        Me.lblVendorName.FieldName = Nothing
         Me.lblVendorName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblVendorName.Location = New System.Drawing.Point(242, 46)
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(241, 18)
         Me.lblVendorName.TabIndex = 10
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel2.Location = New System.Drawing.Point(-3, 47)
         Me.RadLabel2.Name = "RadLabel2"
@@ -1359,6 +1648,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(-1, 3)
         Me.RadLabel1.Name = "RadLabel1"
@@ -1369,7 +1659,7 @@ Partial Class frmSaleOrderDairy
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = My.Resources._new
+        Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(349, 1)
         Me.btnAddNew.Name = "btnAddNew"
@@ -1380,29 +1670,63 @@ Partial Class frmSaleOrderDairy
         '
         Me.cboModeOfTransport.AutoCompleteDisplayMember = Nothing
         Me.cboModeOfTransport.AutoCompleteValueMember = Nothing
+        Me.cboModeOfTransport.CalculationExpression = Nothing
+        Me.cboModeOfTransport.DropDownAnimationEnabled = True
         Me.cboModeOfTransport.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboModeOfTransport.FieldCode = Nothing
+        Me.cboModeOfTransport.FieldDesc = Nothing
+        Me.cboModeOfTransport.FieldMaxLength = 0
+        Me.cboModeOfTransport.FieldName = Nothing
+        Me.cboModeOfTransport.isCalculatedField = False
+        Me.cboModeOfTransport.IsSourceFromTable = False
+        Me.cboModeOfTransport.IsSourceFromValueList = False
+        Me.cboModeOfTransport.IsUnique = False
         Me.cboModeOfTransport.Location = New System.Drawing.Point(585, 67)
         Me.cboModeOfTransport.MendatroryField = False
         Me.cboModeOfTransport.MyLinkLable1 = Me.RadLabel5
         Me.cboModeOfTransport.MyLinkLable2 = Nothing
         Me.cboModeOfTransport.Name = "cboModeOfTransport"
+        Me.cboModeOfTransport.ReferenceFieldDesc = Nothing
+        Me.cboModeOfTransport.ReferenceFieldName = Nothing
+        Me.cboModeOfTransport.ReferenceTableName = Nothing
         Me.cboModeOfTransport.Size = New System.Drawing.Size(127, 20)
         Me.cboModeOfTransport.TabIndex = 14
         '
         'txtRemarks
         '
+        Me.txtRemarks.CalculationExpression = Nothing
+        Me.txtRemarks.FieldCode = Nothing
+        Me.txtRemarks.FieldDesc = Nothing
+        Me.txtRemarks.FieldMaxLength = 0
+        Me.txtRemarks.FieldName = Nothing
         Me.txtRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRemarks.isCalculatedField = False
+        Me.txtRemarks.IsSourceFromTable = False
+        Me.txtRemarks.IsSourceFromValueList = False
+        Me.txtRemarks.IsUnique = False
         Me.txtRemarks.Location = New System.Drawing.Point(97, 67)
         Me.txtRemarks.MaxLength = 200
         Me.txtRemarks.MendatroryField = False
         Me.txtRemarks.MyLinkLable1 = Me.RadLabel6
         Me.txtRemarks.MyLinkLable2 = Nothing
         Me.txtRemarks.Name = "txtRemarks"
+        Me.txtRemarks.ReferenceFieldDesc = Nothing
+        Me.txtRemarks.ReferenceFieldName = Nothing
+        Me.txtRemarks.ReferenceTableName = Nothing
         Me.txtRemarks.Size = New System.Drawing.Size(385, 18)
         Me.txtRemarks.TabIndex = 24
         '
         'txtReqNo
         '
+        Me.txtReqNo.CalculationExpression = Nothing
+        Me.txtReqNo.FieldCode = Nothing
+        Me.txtReqNo.FieldDesc = Nothing
+        Me.txtReqNo.FieldMaxLength = 0
+        Me.txtReqNo.FieldName = Nothing
+        Me.txtReqNo.isCalculatedField = False
+        Me.txtReqNo.IsSourceFromTable = False
+        Me.txtReqNo.IsSourceFromValueList = False
+        Me.txtReqNo.IsUnique = False
         Me.txtReqNo.Location = New System.Drawing.Point(585, 2)
         Me.txtReqNo.MendatroryField = False
         Me.txtReqNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1411,12 +1735,24 @@ Partial Class frmSaleOrderDairy
         Me.txtReqNo.MyReadOnly = True
         Me.txtReqNo.MyShowMasterFormButton = False
         Me.txtReqNo.Name = "txtReqNo"
+        Me.txtReqNo.ReferenceFieldDesc = Nothing
+        Me.txtReqNo.ReferenceFieldName = Nothing
+        Me.txtReqNo.ReferenceTableName = Nothing
         Me.txtReqNo.Size = New System.Drawing.Size(148, 18)
         Me.txtReqNo.TabIndex = 3
         Me.txtReqNo.Value = ""
         '
         'txtVendorNo
         '
+        Me.txtVendorNo.CalculationExpression = Nothing
+        Me.txtVendorNo.FieldCode = Nothing
+        Me.txtVendorNo.FieldDesc = Nothing
+        Me.txtVendorNo.FieldMaxLength = 0
+        Me.txtVendorNo.FieldName = Nothing
+        Me.txtVendorNo.isCalculatedField = False
+        Me.txtVendorNo.IsSourceFromTable = False
+        Me.txtVendorNo.IsSourceFromValueList = False
+        Me.txtVendorNo.IsUnique = False
         Me.txtVendorNo.Location = New System.Drawing.Point(97, 46)
         Me.txtVendorNo.MendatroryField = True
         Me.txtVendorNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1425,12 +1761,24 @@ Partial Class frmSaleOrderDairy
         Me.txtVendorNo.MyReadOnly = False
         Me.txtVendorNo.MyShowMasterFormButton = False
         Me.txtVendorNo.Name = "txtVendorNo"
+        Me.txtVendorNo.ReferenceFieldDesc = Nothing
+        Me.txtVendorNo.ReferenceFieldName = Nothing
+        Me.txtVendorNo.ReferenceTableName = Nothing
         Me.txtVendorNo.Size = New System.Drawing.Size(143, 18)
         Me.txtVendorNo.TabIndex = 9
         Me.txtVendorNo.Value = ""
         '
         'txtBillToLocation
         '
+        Me.txtBillToLocation.CalculationExpression = Nothing
+        Me.txtBillToLocation.FieldCode = Nothing
+        Me.txtBillToLocation.FieldDesc = Nothing
+        Me.txtBillToLocation.FieldMaxLength = 0
+        Me.txtBillToLocation.FieldName = Nothing
+        Me.txtBillToLocation.isCalculatedField = False
+        Me.txtBillToLocation.IsSourceFromTable = False
+        Me.txtBillToLocation.IsSourceFromValueList = False
+        Me.txtBillToLocation.IsUnique = False
         Me.txtBillToLocation.Location = New System.Drawing.Point(98, 24)
         Me.txtBillToLocation.MendatroryField = True
         Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1439,6 +1787,9 @@ Partial Class frmSaleOrderDairy
         Me.txtBillToLocation.MyReadOnly = False
         Me.txtBillToLocation.MyShowMasterFormButton = False
         Me.txtBillToLocation.Name = "txtBillToLocation"
+        Me.txtBillToLocation.ReferenceFieldDesc = Nothing
+        Me.txtBillToLocation.ReferenceFieldName = Nothing
+        Me.txtBillToLocation.ReferenceTableName = Nothing
         Me.txtBillToLocation.Size = New System.Drawing.Size(143, 18)
         Me.txtBillToLocation.TabIndex = 6
         Me.txtBillToLocation.Value = ""
@@ -1455,13 +1806,14 @@ Partial Class frmSaleOrderDairy
         '
         'txtDocNo
         '
+        Me.txtDocNo.FieldName = Nothing
         Me.txtDocNo.Location = New System.Drawing.Point(98, 1)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
@@ -1471,9 +1823,18 @@ Partial Class frmSaleOrderDairy
         '
         'txtDeliveryDate
         '
+        Me.txtDeliveryDate.CalculationExpression = Nothing
         Me.txtDeliveryDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtDeliveryDate.FieldCode = Nothing
+        Me.txtDeliveryDate.FieldDesc = Nothing
+        Me.txtDeliveryDate.FieldMaxLength = 0
+        Me.txtDeliveryDate.FieldName = Nothing
         Me.txtDeliveryDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDeliveryDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDeliveryDate.isCalculatedField = False
+        Me.txtDeliveryDate.IsSourceFromTable = False
+        Me.txtDeliveryDate.IsSourceFromValueList = False
+        Me.txtDeliveryDate.IsUnique = False
         Me.txtDeliveryDate.Location = New System.Drawing.Point(810, 68)
         Me.txtDeliveryDate.MendatroryField = False
         Me.txtDeliveryDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -1481,6 +1842,9 @@ Partial Class frmSaleOrderDairy
         Me.txtDeliveryDate.MyLinkLable2 = Nothing
         Me.txtDeliveryDate.Name = "txtDeliveryDate"
         Me.txtDeliveryDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDeliveryDate.ReferenceFieldDesc = Nothing
+        Me.txtDeliveryDate.ReferenceFieldName = Nothing
+        Me.txtDeliveryDate.ReferenceTableName = Nothing
         Me.txtDeliveryDate.Size = New System.Drawing.Size(91, 18)
         Me.txtDeliveryDate.TabIndex = 15
         Me.txtDeliveryDate.TabStop = False
@@ -1489,25 +1853,49 @@ Partial Class frmSaleOrderDairy
         '
         'txtRefNo
         '
+        Me.txtRefNo.CalculationExpression = Nothing
+        Me.txtRefNo.FieldCode = Nothing
+        Me.txtRefNo.FieldDesc = Nothing
+        Me.txtRefNo.FieldMaxLength = 0
+        Me.txtRefNo.FieldName = Nothing
         Me.txtRefNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRefNo.isCalculatedField = False
+        Me.txtRefNo.IsSourceFromTable = False
+        Me.txtRefNo.IsSourceFromValueList = False
+        Me.txtRefNo.IsUnique = False
         Me.txtRefNo.Location = New System.Drawing.Point(97, 88)
         Me.txtRefNo.MaxLength = 50
         Me.txtRefNo.MendatroryField = False
         Me.txtRefNo.MyLinkLable1 = Me.RadLabel7
         Me.txtRefNo.MyLinkLable2 = Nothing
         Me.txtRefNo.Name = "txtRefNo"
+        Me.txtRefNo.ReferenceFieldDesc = Nothing
+        Me.txtRefNo.ReferenceFieldName = Nothing
+        Me.txtRefNo.ReferenceTableName = Nothing
         Me.txtRefNo.Size = New System.Drawing.Size(386, 18)
         Me.txtRefNo.TabIndex = 20
         '
         'txtDesc
         '
+        Me.txtDesc.CalculationExpression = Nothing
+        Me.txtDesc.FieldCode = Nothing
+        Me.txtDesc.FieldDesc = Nothing
+        Me.txtDesc.FieldMaxLength = 0
+        Me.txtDesc.FieldName = Nothing
         Me.txtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDesc.isCalculatedField = False
+        Me.txtDesc.IsSourceFromTable = False
+        Me.txtDesc.IsSourceFromValueList = False
+        Me.txtDesc.IsUnique = False
         Me.txtDesc.Location = New System.Drawing.Point(585, 24)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel3
         Me.txtDesc.MyLinkLable2 = Nothing
         Me.txtDesc.Name = "txtDesc"
+        Me.txtDesc.ReferenceFieldDesc = Nothing
+        Me.txtDesc.ReferenceFieldName = Nothing
+        Me.txtDesc.ReferenceTableName = Nothing
         Me.txtDesc.Size = New System.Drawing.Size(312, 18)
         Me.txtDesc.TabIndex = 8
         '
@@ -1528,6 +1916,15 @@ Partial Class frmSaleOrderDairy
         '
         'txtTaxGroup
         '
+        Me.txtTaxGroup.CalculationExpression = Nothing
+        Me.txtTaxGroup.FieldCode = Nothing
+        Me.txtTaxGroup.FieldDesc = Nothing
+        Me.txtTaxGroup.FieldMaxLength = 0
+        Me.txtTaxGroup.FieldName = Nothing
+        Me.txtTaxGroup.isCalculatedField = False
+        Me.txtTaxGroup.IsSourceFromTable = False
+        Me.txtTaxGroup.IsSourceFromValueList = False
+        Me.txtTaxGroup.IsUnique = False
         Me.txtTaxGroup.Location = New System.Drawing.Point(69, 3)
         Me.txtTaxGroup.MendatroryField = True
         Me.txtTaxGroup.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1536,12 +1933,16 @@ Partial Class frmSaleOrderDairy
         Me.txtTaxGroup.MyReadOnly = False
         Me.txtTaxGroup.MyShowMasterFormButton = False
         Me.txtTaxGroup.Name = "txtTaxGroup"
+        Me.txtTaxGroup.ReferenceFieldDesc = Nothing
+        Me.txtTaxGroup.ReferenceFieldName = Nothing
+        Me.txtTaxGroup.ReferenceTableName = Nothing
         Me.txtTaxGroup.Size = New System.Drawing.Size(143, 19)
         Me.txtTaxGroup.TabIndex = 0
         Me.txtTaxGroup.Value = ""
         '
         'RadLabel11
         '
+        Me.RadLabel11.FieldName = Nothing
         Me.RadLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel11.Location = New System.Drawing.Point(3, 4)
         Me.RadLabel11.Name = "RadLabel11"
@@ -1553,17 +1954,18 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblTaxGrpName.AutoSize = False
         Me.lblTaxGrpName.BorderVisible = True
+        Me.lblTaxGrpName.FieldName = Nothing
         Me.lblTaxGrpName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTaxGrpName.Location = New System.Drawing.Point(220, 3)
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 19)
         Me.lblTaxGrpName.TabIndex = 1
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'RadLabel10
         '
         Me.RadLabel10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
         Me.RadLabel10.Location = New System.Drawing.Point(1010, 341)
@@ -1593,6 +1995,15 @@ Partial Class frmSaleOrderDairy
         '
         'txtTermCode
         '
+        Me.txtTermCode.CalculationExpression = Nothing
+        Me.txtTermCode.FieldCode = Nothing
+        Me.txtTermCode.FieldDesc = Nothing
+        Me.txtTermCode.FieldMaxLength = 0
+        Me.txtTermCode.FieldName = Nothing
+        Me.txtTermCode.isCalculatedField = False
+        Me.txtTermCode.IsSourceFromTable = False
+        Me.txtTermCode.IsSourceFromValueList = False
+        Me.txtTermCode.IsUnique = False
         Me.txtTermCode.Location = New System.Drawing.Point(68, 23)
         Me.txtTermCode.MendatroryField = False
         Me.txtTermCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1601,12 +2012,16 @@ Partial Class frmSaleOrderDairy
         Me.txtTermCode.MyReadOnly = False
         Me.txtTermCode.MyShowMasterFormButton = False
         Me.txtTermCode.Name = "txtTermCode"
+        Me.txtTermCode.ReferenceFieldDesc = Nothing
+        Me.txtTermCode.ReferenceFieldName = Nothing
+        Me.txtTermCode.ReferenceTableName = Nothing
         Me.txtTermCode.Size = New System.Drawing.Size(143, 19)
         Me.txtTermCode.TabIndex = 0
         Me.txtTermCode.Value = ""
         '
         'RadLabel16
         '
+        Me.RadLabel16.FieldName = Nothing
         Me.RadLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel16.Location = New System.Drawing.Point(6, 24)
         Me.RadLabel16.Name = "RadLabel16"
@@ -1618,19 +2033,28 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblTermName.AutoSize = False
         Me.lblTermName.BorderVisible = True
+        Me.lblTermName.FieldName = Nothing
         Me.lblTermName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTermName.Location = New System.Drawing.Point(220, 22)
         Me.lblTermName.Name = "lblTermName"
         Me.lblTermName.Size = New System.Drawing.Size(321, 20)
         Me.lblTermName.TabIndex = 1
-        Me.lblTermName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTermName.TextWrap = False
         '
         'txtDueDate
         '
+        Me.txtDueDate.CalculationExpression = Nothing
         Me.txtDueDate.CustomFormat = "dd-MM-yyyy"
+        Me.txtDueDate.FieldCode = Nothing
+        Me.txtDueDate.FieldDesc = Nothing
+        Me.txtDueDate.FieldMaxLength = 0
+        Me.txtDueDate.FieldName = Nothing
         Me.txtDueDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDueDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDueDate.isCalculatedField = False
+        Me.txtDueDate.IsSourceFromTable = False
+        Me.txtDueDate.IsSourceFromValueList = False
+        Me.txtDueDate.IsUnique = False
         Me.txtDueDate.Location = New System.Drawing.Point(70, 57)
         Me.txtDueDate.MendatroryField = False
         Me.txtDueDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -1638,6 +2062,9 @@ Partial Class frmSaleOrderDairy
         Me.txtDueDate.MyLinkLable2 = Nothing
         Me.txtDueDate.Name = "txtDueDate"
         Me.txtDueDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDueDate.ReferenceFieldDesc = Nothing
+        Me.txtDueDate.ReferenceFieldName = Nothing
+        Me.txtDueDate.ReferenceTableName = Nothing
         Me.txtDueDate.Size = New System.Drawing.Size(81, 18)
         Me.txtDueDate.TabIndex = 3
         Me.txtDueDate.TabStop = False
@@ -1646,6 +2073,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel17
         '
+        Me.RadLabel17.FieldName = Nothing
         Me.RadLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel17.Location = New System.Drawing.Point(6, 58)
         Me.RadLabel17.Name = "RadLabel17"
@@ -1666,16 +2094,20 @@ Partial Class frmSaleOrderDairy
         Me.gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv2.Location = New System.Drawing.Point(2, 34)
         '
-        'gv2
+        '
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(1163, 303)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -1700,13 +2132,17 @@ Partial Class frmSaleOrderDairy
         '
         '
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
+        Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
+        Me.gvAC.ShowHeaderCellButtons = True
         Me.gvAC.Size = New System.Drawing.Size(902, 396)
         Me.gvAC.TabIndex = 3
         Me.gvAC.TabStop = False
-        Me.gvAC.Text = "RadGridView1"
         '
         'RadPanel1
         '
@@ -1721,6 +2157,7 @@ Partial Class frmSaleOrderDairy
         'RadLabel31
         '
         Me.RadLabel31.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel31.FieldName = Nothing
         Me.RadLabel31.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel31.Location = New System.Drawing.Point(657, 16)
         Me.RadLabel31.Name = "RadLabel31"
@@ -1733,6 +2170,7 @@ Partial Class frmSaleOrderDairy
         Me.lblAddCharges.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lblAddCharges.AutoSize = False
         Me.lblAddCharges.BorderVisible = True
+        Me.lblAddCharges.FieldName = Nothing
         Me.lblAddCharges.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAddCharges.Location = New System.Drawing.Point(788, 16)
         Me.lblAddCharges.Name = "lblAddCharges"
@@ -1809,6 +2247,7 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblInvoiceDiscAmt.AutoSize = False
         Me.lblInvoiceDiscAmt.BorderVisible = True
+        Me.lblInvoiceDiscAmt.FieldName = Nothing
         Me.lblInvoiceDiscAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblInvoiceDiscAmt.Location = New System.Drawing.Point(223, 147)
         Me.lblInvoiceDiscAmt.Name = "lblInvoiceDiscAmt"
@@ -1818,6 +2257,7 @@ Partial Class frmSaleOrderDairy
         '
         'MyLabel6
         '
+        Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel6.Location = New System.Drawing.Point(78, 147)
         Me.MyLabel6.Name = "MyLabel6"
@@ -1827,6 +2267,7 @@ Partial Class frmSaleOrderDairy
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Location = New System.Drawing.Point(147, 99)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(68, 18)
@@ -1869,35 +2310,60 @@ Partial Class frmSaleOrderDairy
         'txtDiscAmt
         '
         Me.txtDiscAmt.BackColor = System.Drawing.Color.White
+        Me.txtDiscAmt.CalculationExpression = Nothing
         Me.txtDiscAmt.DecimalPlaces = 5
+        Me.txtDiscAmt.FieldCode = Nothing
+        Me.txtDiscAmt.FieldDesc = Nothing
+        Me.txtDiscAmt.FieldMaxLength = 0
+        Me.txtDiscAmt.FieldName = Nothing
+        Me.txtDiscAmt.isCalculatedField = False
+        Me.txtDiscAmt.IsSourceFromTable = False
+        Me.txtDiscAmt.IsSourceFromValueList = False
+        Me.txtDiscAmt.IsUnique = False
         Me.txtDiscAmt.Location = New System.Drawing.Point(283, 123)
         Me.txtDiscAmt.MendatroryField = False
         Me.txtDiscAmt.MyLinkLable1 = Nothing
         Me.txtDiscAmt.MyLinkLable2 = Nothing
         Me.txtDiscAmt.Name = "txtDiscAmt"
+        Me.txtDiscAmt.ReferenceFieldDesc = Nothing
+        Me.txtDiscAmt.ReferenceFieldName = Nothing
+        Me.txtDiscAmt.ReferenceTableName = Nothing
         Me.txtDiscAmt.Size = New System.Drawing.Size(80, 20)
         Me.txtDiscAmt.TabIndex = 6
         Me.txtDiscAmt.Text = "0"
         Me.txtDiscAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscAmt.Value = 0.0R
+        Me.txtDiscAmt.Value = 0R
         '
         'txtDiscPer
         '
         Me.txtDiscPer.BackColor = System.Drawing.Color.White
+        Me.txtDiscPer.CalculationExpression = Nothing
         Me.txtDiscPer.DecimalPlaces = 5
+        Me.txtDiscPer.FieldCode = Nothing
+        Me.txtDiscPer.FieldDesc = Nothing
+        Me.txtDiscPer.FieldMaxLength = 0
+        Me.txtDiscPer.FieldName = Nothing
+        Me.txtDiscPer.isCalculatedField = False
+        Me.txtDiscPer.IsSourceFromTable = False
+        Me.txtDiscPer.IsSourceFromValueList = False
+        Me.txtDiscPer.IsUnique = False
         Me.txtDiscPer.Location = New System.Drawing.Point(222, 123)
         Me.txtDiscPer.MendatroryField = False
         Me.txtDiscPer.MyLinkLable1 = Nothing
         Me.txtDiscPer.MyLinkLable2 = Nothing
         Me.txtDiscPer.Name = "txtDiscPer"
+        Me.txtDiscPer.ReferenceFieldDesc = Nothing
+        Me.txtDiscPer.ReferenceFieldName = Nothing
+        Me.txtDiscPer.ReferenceTableName = Nothing
         Me.txtDiscPer.Size = New System.Drawing.Size(39, 20)
         Me.txtDiscPer.TabIndex = 5
         Me.txtDiscPer.Text = "0"
         Me.txtDiscPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscPer.Value = 0.0R
+        Me.txtDiscPer.Value = 0R
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Location = New System.Drawing.Point(264, 125)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(15, 18)
@@ -1921,12 +2387,24 @@ Partial Class frmSaleOrderDairy
         'txtConversionRate
         '
         Me.txtConversionRate.BackColor = System.Drawing.Color.White
+        Me.txtConversionRate.CalculationExpression = Nothing
         Me.txtConversionRate.DecimalPlaces = 2
+        Me.txtConversionRate.FieldCode = Nothing
+        Me.txtConversionRate.FieldDesc = Nothing
+        Me.txtConversionRate.FieldMaxLength = 0
+        Me.txtConversionRate.FieldName = Nothing
+        Me.txtConversionRate.isCalculatedField = False
+        Me.txtConversionRate.IsSourceFromTable = False
+        Me.txtConversionRate.IsSourceFromValueList = False
+        Me.txtConversionRate.IsUnique = False
         Me.txtConversionRate.Location = New System.Drawing.Point(290, 8)
         Me.txtConversionRate.MendatroryField = False
         Me.txtConversionRate.MyLinkLable1 = Nothing
         Me.txtConversionRate.MyLinkLable2 = Nothing
         Me.txtConversionRate.Name = "txtConversionRate"
+        Me.txtConversionRate.ReferenceFieldDesc = Nothing
+        Me.txtConversionRate.ReferenceFieldName = Nothing
+        Me.txtConversionRate.ReferenceTableName = Nothing
         Me.txtConversionRate.Size = New System.Drawing.Size(124, 20)
         Me.txtConversionRate.TabIndex = 1
         Me.txtConversionRate.Text = "1"
@@ -1936,7 +2414,16 @@ Partial Class frmSaleOrderDairy
         'txtCurrencyCode
         '
         Me.txtCurrencyCode.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtCurrencyCode.CalculationExpression = Nothing
         Me.txtCurrencyCode.Enabled = False
+        Me.txtCurrencyCode.FieldCode = Nothing
+        Me.txtCurrencyCode.FieldDesc = Nothing
+        Me.txtCurrencyCode.FieldMaxLength = 0
+        Me.txtCurrencyCode.FieldName = Nothing
+        Me.txtCurrencyCode.isCalculatedField = False
+        Me.txtCurrencyCode.IsSourceFromTable = False
+        Me.txtCurrencyCode.IsSourceFromValueList = False
+        Me.txtCurrencyCode.IsUnique = False
         Me.txtCurrencyCode.Location = New System.Drawing.Point(59, 10)
         Me.txtCurrencyCode.MendatroryField = False
         Me.txtCurrencyCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1945,12 +2432,16 @@ Partial Class frmSaleOrderDairy
         Me.txtCurrencyCode.MyReadOnly = False
         Me.txtCurrencyCode.MyShowMasterFormButton = False
         Me.txtCurrencyCode.Name = "txtCurrencyCode"
+        Me.txtCurrencyCode.ReferenceFieldDesc = Nothing
+        Me.txtCurrencyCode.ReferenceFieldName = Nothing
+        Me.txtCurrencyCode.ReferenceTableName = Nothing
         Me.txtCurrencyCode.Size = New System.Drawing.Size(136, 22)
         Me.txtCurrencyCode.TabIndex = 0
         Me.txtCurrencyCode.Value = ""
         '
         'lblEffectiveFrom
         '
+        Me.lblEffectiveFrom.FieldName = Nothing
         Me.lblEffectiveFrom.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEffectiveFrom.Location = New System.Drawing.Point(420, 12)
         Me.lblEffectiveFrom.Name = "lblEffectiveFrom"
@@ -1962,6 +2453,7 @@ Partial Class frmSaleOrderDairy
         '
         Me.txtApplicableFrom.AutoSize = False
         Me.txtApplicableFrom.BorderVisible = True
+        Me.txtApplicableFrom.FieldName = Nothing
         Me.txtApplicableFrom.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtApplicableFrom.Location = New System.Drawing.Point(516, 10)
         Me.txtApplicableFrom.Name = "txtApplicableFrom"
@@ -1971,6 +2463,7 @@ Partial Class frmSaleOrderDairy
         '
         'lblCurrency
         '
+        Me.lblCurrency.FieldName = Nothing
         Me.lblCurrency.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCurrency.Location = New System.Drawing.Point(4, 12)
         Me.lblCurrency.Name = "lblCurrency"
@@ -1980,6 +2473,7 @@ Partial Class frmSaleOrderDairy
         '
         'lblConvRate
         '
+        Me.lblConvRate.FieldName = Nothing
         Me.lblConvRate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblConvRate.Location = New System.Drawing.Point(193, 12)
         Me.lblConvRate.Name = "lblConvRate"
@@ -1989,6 +2483,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel32
         '
+        Me.RadLabel32.FieldName = Nothing
         Me.RadLabel32.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel32.Location = New System.Drawing.Point(80, 260)
         Me.RadLabel32.Name = "RadLabel32"
@@ -2000,6 +2495,7 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblAddCharges1.AutoSize = False
         Me.lblAddCharges1.BorderVisible = True
+        Me.lblAddCharges1.FieldName = Nothing
         Me.lblAddCharges1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAddCharges1.Location = New System.Drawing.Point(223, 260)
         Me.lblAddCharges1.Name = "lblAddCharges1"
@@ -2017,6 +2513,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel14
         '
+        Me.RadLabel14.FieldName = Nothing
         Me.RadLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel14.Location = New System.Drawing.Point(369, 72)
         Me.RadLabel14.Name = "RadLabel14"
@@ -2026,6 +2523,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel9
         '
+        Me.RadLabel9.FieldName = Nothing
         Me.RadLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel9.Location = New System.Drawing.Point(96, 203)
         Me.RadLabel9.Name = "RadLabel9"
@@ -2035,6 +2533,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel27
         '
+        Me.RadLabel27.FieldName = Nothing
         Me.RadLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel27.Location = New System.Drawing.Point(117, 287)
         Me.RadLabel27.Name = "RadLabel27"
@@ -2046,6 +2545,7 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblTotRAmt.AutoSize = False
         Me.lblTotRAmt.BorderVisible = True
+        Me.lblTotRAmt.FieldName = Nothing
         Me.lblTotRAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotRAmt.Location = New System.Drawing.Point(223, 285)
         Me.lblTotRAmt.Name = "lblTotRAmt"
@@ -2055,6 +2555,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel25
         '
+        Me.RadLabel25.FieldName = Nothing
         Me.RadLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel25.Location = New System.Drawing.Point(140, 233)
         Me.RadLabel25.Name = "RadLabel25"
@@ -2066,6 +2567,7 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblTaxAmt.AutoSize = False
         Me.lblTaxAmt.BorderVisible = True
+        Me.lblTaxAmt.FieldName = Nothing
         Me.lblTaxAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTaxAmt.Location = New System.Drawing.Point(223, 233)
         Me.lblTaxAmt.Name = "lblTaxAmt"
@@ -2077,6 +2579,7 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblAmtAfterDiscount.AutoSize = False
         Me.lblAmtAfterDiscount.BorderVisible = True
+        Me.lblAmtAfterDiscount.FieldName = Nothing
         Me.lblAmtAfterDiscount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAmtAfterDiscount.Location = New System.Drawing.Point(223, 203)
         Me.lblAmtAfterDiscount.Name = "lblAmtAfterDiscount"
@@ -2088,6 +2591,7 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblDiscountAmt.AutoSize = False
         Me.lblDiscountAmt.BorderVisible = True
+        Me.lblDiscountAmt.FieldName = Nothing
         Me.lblDiscountAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDiscountAmt.Location = New System.Drawing.Point(223, 173)
         Me.lblDiscountAmt.Name = "lblDiscountAmt"
@@ -2099,6 +2603,7 @@ Partial Class frmSaleOrderDairy
         '
         Me.lblAmtWithDiscount.AutoSize = False
         Me.lblAmtWithDiscount.BorderVisible = True
+        Me.lblAmtWithDiscount.FieldName = Nothing
         Me.lblAmtWithDiscount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAmtWithDiscount.Location = New System.Drawing.Point(223, 72)
         Me.lblAmtWithDiscount.Name = "lblAmtWithDiscount"
@@ -2108,6 +2613,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel22
         '
+        Me.RadLabel22.FieldName = Nothing
         Me.RadLabel22.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel22.Location = New System.Drawing.Point(116, 173)
         Me.RadLabel22.Name = "RadLabel22"
@@ -2117,6 +2623,7 @@ Partial Class frmSaleOrderDairy
         '
         'RadLabel19
         '
+        Me.RadLabel19.FieldName = Nothing
         Me.RadLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel19.Location = New System.Drawing.Point(32, 72)
         Me.RadLabel19.Name = "RadLabel19"
@@ -2147,22 +2654,16 @@ Partial Class frmSaleOrderDairy
         '
         'btnpreview
         '
-        Me.btnpreview.AccessibleDescription = "Preview"
-        Me.btnpreview.AccessibleName = "Preview"
         Me.btnpreview.Name = "btnpreview"
         Me.btnpreview.Text = "Preview"
         '
         'btnsend
         '
-        Me.btnsend.AccessibleDescription = "Send E-Mail/SMS"
-        Me.btnsend.AccessibleName = "Send E-Mail/SMS"
         Me.btnsend.Name = "btnsend"
         Me.btnsend.Text = "Send E-Mail/SMS"
         '
         'btnSendForApproval
         '
-        Me.btnSendForApproval.AccessibleDescription = "Send For Approval"
-        Me.btnSendForApproval.AccessibleName = "Send For Approval"
         Me.btnSendForApproval.Name = "btnSendForApproval"
         Me.btnSendForApproval.Text = "Send For Approval"
         '
@@ -2223,6 +2724,7 @@ Partial Class frmSaleOrderDairy
         '
         'lblAmbendmentNoCaption
         '
+        Me.lblAmbendmentNoCaption.FieldName = Nothing
         Me.lblAmbendmentNoCaption.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAmbendmentNoCaption.Location = New System.Drawing.Point(743, 5)
         Me.lblAmbendmentNoCaption.Name = "lblAmbendmentNoCaption"
@@ -2286,27 +2788,20 @@ Partial Class frmSaleOrderDairy
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1189, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Setting"
-        Me.RadMenuItem2.AccessibleName = "Setting"
         Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3, Me.RadMenuItem1, Me.RadMenuItem4, Me.RadMenuItem5, Me.btnApproveCreditLimit})
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Setting"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "E-Mail/SMS Setting"
-        Me.RadMenuItem3.AccessibleName = "E-Mail/SMS Setting"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "E-Mail/SMS Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
@@ -2331,7 +2826,7 @@ Partial Class frmSaleOrderDairy
         Me.btnApproveCreditLimit.Name = "btnApproveCreditLimit"
         Me.btnApproveCreditLimit.Text = "Email setting for Credit Approval"
         '
-        'frmSaleOrderProductSale
+        'frmSaleOrderDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
@@ -2339,7 +2834,7 @@ Partial Class frmSaleOrderDairy
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.Panel2)
         Me.MinimumSize = New System.Drawing.Size(890, 467)
-        Me.Name = "frmSaleOrderProductSale"
+        Me.Name = "frmSaleOrderDairy"
         '
         '
         '

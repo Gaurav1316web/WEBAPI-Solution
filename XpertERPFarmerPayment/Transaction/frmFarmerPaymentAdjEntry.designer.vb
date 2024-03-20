@@ -22,15 +22,16 @@ Partial Class frmFarmerPaymentAdjEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim GridViewTextBoxColumn17 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn18 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn19 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn20 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn21 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn22 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn23 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewDecimalColumn3 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
-        Dim GridViewTextBoxColumn24 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn5 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn6 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn7 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim GridViewTextBoxColumn8 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.txtEntrDesc = New common.Controls.MyTextBox()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.lblpaymentno = New common.Controls.MyLabel()
@@ -255,52 +256,54 @@ Partial Class frmFarmerPaymentAdjEntry
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
-        GridViewTextBoxColumn17.HeaderText = "Line No"
-        GridViewTextBoxColumn17.Name = "lineno"
-        GridViewTextBoxColumn17.ReadOnly = True
-        GridViewTextBoxColumn18.HeaderText = "Farmer Code"
-        GridViewTextBoxColumn18.Name = "FarmerCode"
-        GridViewTextBoxColumn18.ReadOnly = True
-        GridViewTextBoxColumn18.Width = 100
-        GridViewTextBoxColumn19.HeaderText = "Farmer Name"
-        GridViewTextBoxColumn19.Name = "FarmerName"
-        GridViewTextBoxColumn19.ReadOnly = True
-        GridViewTextBoxColumn19.Width = 100
-        GridViewTextBoxColumn20.HeaderText = "Discount Code"
-        GridViewTextBoxColumn20.Name = "DiscountCode"
-        GridViewTextBoxColumn20.Width = 150
-        GridViewTextBoxColumn21.HeaderText = "Discount Description"
-        GridViewTextBoxColumn21.Name = "DiscountDescription"
-        GridViewTextBoxColumn21.ReadOnly = True
-        GridViewTextBoxColumn21.Width = 200
-        GridViewTextBoxColumn22.HeaderText = "Account Code"
-        GridViewTextBoxColumn22.Name = "accountcode"
-        GridViewTextBoxColumn22.Width = 150
-        GridViewTextBoxColumn23.HeaderText = "Description"
-        GridViewTextBoxColumn23.Name = "description"
-        GridViewTextBoxColumn23.ReadOnly = True
-        GridViewTextBoxColumn23.Width = 200
-        GridViewDecimalColumn3.HeaderText = "Amount"
-        GridViewDecimalColumn3.Name = "amt"
-        GridViewDecimalColumn3.Width = 100
-        GridViewTextBoxColumn24.HeaderText = "Remarks"
-        GridViewTextBoxColumn24.Name = "Remarks"
-        GridViewTextBoxColumn24.Width = 200
-        Me.gv1.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn17, GridViewTextBoxColumn18, GridViewTextBoxColumn19, GridViewTextBoxColumn20, GridViewTextBoxColumn21, GridViewTextBoxColumn22, GridViewTextBoxColumn23, GridViewDecimalColumn3, GridViewTextBoxColumn24})
+        GridViewTextBoxColumn1.HeaderText = "Line No"
+        GridViewTextBoxColumn1.Name = "lineno"
+        GridViewTextBoxColumn1.ReadOnly = True
+        GridViewTextBoxColumn2.HeaderText = "Farmer Code"
+        GridViewTextBoxColumn2.Name = "FarmerCode"
+        GridViewTextBoxColumn2.ReadOnly = True
+        GridViewTextBoxColumn2.Width = 100
+        GridViewTextBoxColumn3.HeaderText = "Farmer Name"
+        GridViewTextBoxColumn3.Name = "FarmerName"
+        GridViewTextBoxColumn3.ReadOnly = True
+        GridViewTextBoxColumn3.Width = 100
+        GridViewTextBoxColumn4.HeaderText = "Discount Code"
+        GridViewTextBoxColumn4.Name = "DiscountCode"
+        GridViewTextBoxColumn4.Width = 150
+        GridViewTextBoxColumn5.HeaderText = "Discount Description"
+        GridViewTextBoxColumn5.Name = "DiscountDescription"
+        GridViewTextBoxColumn5.ReadOnly = True
+        GridViewTextBoxColumn5.Width = 200
+        GridViewTextBoxColumn6.HeaderText = "Account Code"
+        GridViewTextBoxColumn6.Name = "accountcode"
+        GridViewTextBoxColumn6.Width = 150
+        GridViewTextBoxColumn7.HeaderText = "Description"
+        GridViewTextBoxColumn7.Name = "description"
+        GridViewTextBoxColumn7.ReadOnly = True
+        GridViewTextBoxColumn7.Width = 200
+        GridViewDecimalColumn1.HeaderText = "Amount"
+        GridViewDecimalColumn1.Name = "amt"
+        GridViewDecimalColumn1.Width = 100
+        GridViewTextBoxColumn8.HeaderText = "Remarks"
+        GridViewTextBoxColumn8.Name = "Remarks"
+        GridViewTextBoxColumn8.Width = 200
+        Me.gv1.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewTextBoxColumn5, GridViewTextBoxColumn6, GridViewTextBoxColumn7, GridViewDecimalColumn1, GridViewTextBoxColumn8})
         Me.gv1.MasterTemplate.EnableGrouping = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1083, 312)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel7
         '
@@ -503,9 +506,9 @@ Partial Class frmFarmerPaymentAdjEntry
         '
         'btnNew
         '
-        Me.btnNew.BackgroundImage = My.Resources._new
+        Me.btnNew.BackgroundImage = Global.XpertERPFarmerPayment.My.Resources.Resources._new
         Me.btnNew.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
-        Me.btnNew.Image = My.Resources._new
+        Me.btnNew.Image = Global.XpertERPFarmerPayment.My.Resources.Resources._new
         Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnNew.Location = New System.Drawing.Point(348, 5)
         Me.btnNew.Name = "btnNew"
@@ -541,7 +544,7 @@ Partial Class frmFarmerPaymentAdjEntry
         Me.fndFnAdj.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndFnAdj.MyLinkLable1 = Me.lblpaymentno
         Me.fndFnAdj.MyLinkLable2 = Nothing
-        Me.fndFnAdj.MyMaxLength = 32767
+        Me.fndFnAdj.MyMaxLength = 30
         Me.fndFnAdj.MyReadOnly = False
         Me.fndFnAdj.Name = "fndFnAdj"
         Me.fndFnAdj.Size = New System.Drawing.Size(259, 20)
@@ -654,7 +657,6 @@ Partial Class frmFarmerPaymentAdjEntry
         Me.lblMCCDesc.Name = "lblMCCDesc"
         Me.lblMCCDesc.Size = New System.Drawing.Size(485, 19)
         Me.lblMCCDesc.TabIndex = 22
-        Me.lblMCCDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndMCC_Code
         '
@@ -708,6 +710,7 @@ Partial Class frmFarmerPaymentAdjEntry
         Me.ddlAdjustType.AutoCompleteDisplayMember = Nothing
         Me.ddlAdjustType.AutoCompleteValueMember = Nothing
         Me.ddlAdjustType.CalculationExpression = Nothing
+        Me.ddlAdjustType.DropDownAnimationEnabled = True
         Me.ddlAdjustType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlAdjustType.FieldCode = Nothing
         Me.ddlAdjustType.FieldDesc = Nothing
