@@ -23,41 +23,41 @@ Partial Class frmResourceMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmResourceMaster))
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.txtOtherUOM = New common.Controls.MyTextBox
-        Me.MyLabel3 = New common.Controls.MyLabel
-        Me.txtMaintainedBy = New common.Controls.MyTextBox
-        Me.MyLabel6 = New common.Controls.MyLabel
-        Me.txtLastMaintained = New common.Controls.MyTextBox
-        Me.MyLabel5 = New common.Controls.MyLabel
-        Me.txtCost = New common.MyNumBox
-        Me.MyLabel4 = New common.Controls.MyLabel
-        Me.cboUOM = New common.Controls.MyComboBox
-        Me.cboType = New common.Controls.MyComboBox
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.cboStatus = New common.Controls.MyComboBox
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.txtDescription = New common.Controls.MyTextBox
-        Me.RadLabel3 = New common.Controls.MyLabel
-        Me.RadLabel4 = New common.Controls.MyLabel
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.txtComments = New common.Controls.MyTextBox
-        Me.RadLabel2 = New common.Controls.MyLabel
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtOtherUOM = New common.Controls.MyTextBox()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtMaintainedBy = New common.Controls.MyTextBox()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.txtLastMaintained = New common.Controls.MyTextBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.txtCost = New common.MyNumBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.cboUOM = New common.Controls.MyComboBox()
+        Me.cboType = New common.Controls.MyComboBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.cboStatus = New common.Controls.MyComboBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtDescription = New common.Controls.MyTextBox()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtComments = New common.Controls.MyTextBox()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.txtOtherUOM, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -126,17 +126,30 @@ Partial Class frmResourceMaster
         '
         'txtOtherUOM
         '
+        Me.txtOtherUOM.CalculationExpression = Nothing
+        Me.txtOtherUOM.FieldCode = Nothing
+        Me.txtOtherUOM.FieldDesc = Nothing
+        Me.txtOtherUOM.FieldMaxLength = 0
+        Me.txtOtherUOM.FieldName = Nothing
+        Me.txtOtherUOM.isCalculatedField = False
+        Me.txtOtherUOM.IsSourceFromTable = False
+        Me.txtOtherUOM.IsSourceFromValueList = False
+        Me.txtOtherUOM.IsUnique = False
         Me.txtOtherUOM.Location = New System.Drawing.Point(194, 110)
         Me.txtOtherUOM.MaxLength = 50
         Me.txtOtherUOM.MendatroryField = False
         Me.txtOtherUOM.MyLinkLable1 = Me.MyLabel3
         Me.txtOtherUOM.MyLinkLable2 = Nothing
         Me.txtOtherUOM.Name = "txtOtherUOM"
+        Me.txtOtherUOM.ReferenceFieldDesc = Nothing
+        Me.txtOtherUOM.ReferenceFieldName = Nothing
+        Me.txtOtherUOM.ReferenceTableName = Nothing
         Me.txtOtherUOM.Size = New System.Drawing.Size(97, 20)
         Me.txtOtherUOM.TabIndex = 8
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Location = New System.Drawing.Point(12, 111)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(33, 18)
@@ -145,6 +158,15 @@ Partial Class frmResourceMaster
         '
         'txtMaintainedBy
         '
+        Me.txtMaintainedBy.CalculationExpression = Nothing
+        Me.txtMaintainedBy.FieldCode = Nothing
+        Me.txtMaintainedBy.FieldDesc = Nothing
+        Me.txtMaintainedBy.FieldMaxLength = 0
+        Me.txtMaintainedBy.FieldName = Nothing
+        Me.txtMaintainedBy.isCalculatedField = False
+        Me.txtMaintainedBy.IsSourceFromTable = False
+        Me.txtMaintainedBy.IsSourceFromValueList = False
+        Me.txtMaintainedBy.IsUnique = False
         Me.txtMaintainedBy.Location = New System.Drawing.Point(297, 88)
         Me.txtMaintainedBy.MaxLength = 50
         Me.txtMaintainedBy.MendatroryField = False
@@ -152,11 +174,15 @@ Partial Class frmResourceMaster
         Me.txtMaintainedBy.MyLinkLable2 = Nothing
         Me.txtMaintainedBy.Name = "txtMaintainedBy"
         Me.txtMaintainedBy.ReadOnly = True
+        Me.txtMaintainedBy.ReferenceFieldDesc = Nothing
+        Me.txtMaintainedBy.ReferenceFieldName = Nothing
+        Me.txtMaintainedBy.ReferenceTableName = Nothing
         Me.txtMaintainedBy.Size = New System.Drawing.Size(151, 20)
         Me.txtMaintainedBy.TabIndex = 6
         '
         'MyLabel6
         '
+        Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Location = New System.Drawing.Point(194, 89)
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(78, 18)
@@ -165,6 +191,15 @@ Partial Class frmResourceMaster
         '
         'txtLastMaintained
         '
+        Me.txtLastMaintained.CalculationExpression = Nothing
+        Me.txtLastMaintained.FieldCode = Nothing
+        Me.txtLastMaintained.FieldDesc = Nothing
+        Me.txtLastMaintained.FieldMaxLength = 0
+        Me.txtLastMaintained.FieldName = Nothing
+        Me.txtLastMaintained.isCalculatedField = False
+        Me.txtLastMaintained.IsSourceFromTable = False
+        Me.txtLastMaintained.IsSourceFromValueList = False
+        Me.txtLastMaintained.IsUnique = False
         Me.txtLastMaintained.Location = New System.Drawing.Point(297, 66)
         Me.txtLastMaintained.MaxLength = 50
         Me.txtLastMaintained.MendatroryField = False
@@ -172,11 +207,15 @@ Partial Class frmResourceMaster
         Me.txtLastMaintained.MyLinkLable2 = Nothing
         Me.txtLastMaintained.Name = "txtLastMaintained"
         Me.txtLastMaintained.ReadOnly = True
+        Me.txtLastMaintained.ReferenceFieldDesc = Nothing
+        Me.txtLastMaintained.ReferenceFieldName = Nothing
+        Me.txtLastMaintained.ReferenceTableName = Nothing
         Me.txtLastMaintained.Size = New System.Drawing.Size(151, 20)
         Me.txtLastMaintained.TabIndex = 4
         '
         'MyLabel5
         '
+        Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Location = New System.Drawing.Point(194, 67)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(85, 18)
@@ -186,20 +225,33 @@ Partial Class frmResourceMaster
         'txtCost
         '
         Me.txtCost.BackColor = System.Drawing.Color.White
+        Me.txtCost.CalculationExpression = Nothing
         Me.txtCost.DecimalPlaces = 2
+        Me.txtCost.FieldCode = Nothing
+        Me.txtCost.FieldDesc = Nothing
+        Me.txtCost.FieldMaxLength = 0
+        Me.txtCost.FieldName = Nothing
+        Me.txtCost.isCalculatedField = False
+        Me.txtCost.IsSourceFromTable = False
+        Me.txtCost.IsSourceFromValueList = False
+        Me.txtCost.IsUnique = False
         Me.txtCost.Location = New System.Drawing.Point(88, 132)
         Me.txtCost.MendatroryField = False
         Me.txtCost.MyLinkLable1 = Me.MyLabel4
         Me.txtCost.MyLinkLable2 = Nothing
         Me.txtCost.Name = "txtCost"
+        Me.txtCost.ReferenceFieldDesc = Nothing
+        Me.txtCost.ReferenceFieldName = Nothing
+        Me.txtCost.ReferenceTableName = Nothing
         Me.txtCost.Size = New System.Drawing.Size(100, 20)
         Me.txtCost.TabIndex = 9
         Me.txtCost.Text = "0"
         Me.txtCost.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCost.Value = 0
+        Me.txtCost.Value = 0R
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Location = New System.Drawing.Point(12, 133)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(28, 18)
@@ -209,29 +261,56 @@ Partial Class frmResourceMaster
         'cboUOM
         '
         Me.cboUOM.BackColor = System.Drawing.Color.Transparent
+        Me.cboUOM.CalculationExpression = Nothing
+        Me.cboUOM.DropDownAnimationEnabled = True
+        Me.cboUOM.FieldCode = Nothing
+        Me.cboUOM.FieldDesc = Nothing
+        Me.cboUOM.FieldMaxLength = 0
+        Me.cboUOM.FieldName = Nothing
         Me.cboUOM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboUOM.isCalculatedField = False
+        Me.cboUOM.IsSourceFromTable = False
+        Me.cboUOM.IsSourceFromValueList = False
+        Me.cboUOM.IsUnique = False
         Me.cboUOM.Location = New System.Drawing.Point(88, 111)
         Me.cboUOM.MendatroryField = False
         Me.cboUOM.MyLinkLable1 = Me.MyLabel3
         Me.cboUOM.MyLinkLable2 = Nothing
         Me.cboUOM.Name = "cboUOM"
+        Me.cboUOM.ReferenceFieldDesc = Nothing
+        Me.cboUOM.ReferenceFieldName = Nothing
+        Me.cboUOM.ReferenceTableName = Nothing
         Me.cboUOM.Size = New System.Drawing.Size(100, 18)
         Me.cboUOM.TabIndex = 7
         '
         'cboType
         '
         Me.cboType.BackColor = System.Drawing.Color.Transparent
+        Me.cboType.CalculationExpression = Nothing
+        Me.cboType.DropDownAnimationEnabled = True
+        Me.cboType.FieldCode = Nothing
+        Me.cboType.FieldDesc = Nothing
+        Me.cboType.FieldMaxLength = 0
+        Me.cboType.FieldName = Nothing
         Me.cboType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboType.isCalculatedField = False
+        Me.cboType.IsSourceFromTable = False
+        Me.cboType.IsSourceFromValueList = False
+        Me.cboType.IsUnique = False
         Me.cboType.Location = New System.Drawing.Point(88, 89)
         Me.cboType.MendatroryField = False
         Me.cboType.MyLinkLable1 = Me.MyLabel2
         Me.cboType.MyLinkLable2 = Nothing
         Me.cboType.Name = "cboType"
+        Me.cboType.ReferenceFieldDesc = Nothing
+        Me.cboType.ReferenceFieldName = Nothing
+        Me.cboType.ReferenceTableName = Nothing
         Me.cboType.Size = New System.Drawing.Size(100, 18)
         Me.cboType.TabIndex = 5
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Location = New System.Drawing.Point(12, 89)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(30, 18)
@@ -241,17 +320,31 @@ Partial Class frmResourceMaster
         'cboStatus
         '
         Me.cboStatus.BackColor = System.Drawing.Color.Transparent
+        Me.cboStatus.CalculationExpression = Nothing
+        Me.cboStatus.DropDownAnimationEnabled = True
+        Me.cboStatus.FieldCode = Nothing
+        Me.cboStatus.FieldDesc = Nothing
+        Me.cboStatus.FieldMaxLength = 0
+        Me.cboStatus.FieldName = Nothing
         Me.cboStatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboStatus.isCalculatedField = False
+        Me.cboStatus.IsSourceFromTable = False
+        Me.cboStatus.IsSourceFromValueList = False
+        Me.cboStatus.IsUnique = False
         Me.cboStatus.Location = New System.Drawing.Point(88, 67)
         Me.cboStatus.MendatroryField = False
         Me.cboStatus.MyLinkLable1 = Me.MyLabel1
         Me.cboStatus.MyLinkLable2 = Nothing
         Me.cboStatus.Name = "cboStatus"
+        Me.cboStatus.ReferenceFieldDesc = Nothing
+        Me.cboStatus.ReferenceFieldName = Nothing
+        Me.cboStatus.ReferenceTableName = Nothing
         Me.cboStatus.Size = New System.Drawing.Size(100, 18)
         Me.cboStatus.TabIndex = 3
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Location = New System.Drawing.Point(12, 67)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(37, 18)
@@ -260,17 +353,30 @@ Partial Class frmResourceMaster
         '
         'txtDescription
         '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(88, 44)
         Me.txtDescription.MaxLength = 50
         Me.txtDescription.MendatroryField = False
         Me.txtDescription.MyLinkLable1 = Me.RadLabel3
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(360, 20)
         Me.txtDescription.TabIndex = 2
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Location = New System.Drawing.Point(12, 45)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(63, 18)
@@ -279,6 +385,7 @@ Partial Class frmResourceMaster
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Location = New System.Drawing.Point(12, 89)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(2, 2)
@@ -305,6 +412,15 @@ Partial Class frmResourceMaster
         'txtComments
         '
         Me.txtComments.AutoSize = False
+        Me.txtComments.CalculationExpression = Nothing
+        Me.txtComments.FieldCode = Nothing
+        Me.txtComments.FieldDesc = Nothing
+        Me.txtComments.FieldMaxLength = 0
+        Me.txtComments.FieldName = Nothing
+        Me.txtComments.isCalculatedField = False
+        Me.txtComments.IsSourceFromTable = False
+        Me.txtComments.IsSourceFromValueList = False
+        Me.txtComments.IsUnique = False
         Me.txtComments.Location = New System.Drawing.Point(88, 154)
         Me.txtComments.MaxLength = 50
         Me.txtComments.MendatroryField = False
@@ -312,11 +428,15 @@ Partial Class frmResourceMaster
         Me.txtComments.MyLinkLable1 = Me.RadLabel2
         Me.txtComments.MyLinkLable2 = Nothing
         Me.txtComments.Name = "txtComments"
+        Me.txtComments.ReferenceFieldDesc = Nothing
+        Me.txtComments.ReferenceFieldName = Nothing
+        Me.txtComments.ReferenceTableName = Nothing
         Me.txtComments.Size = New System.Drawing.Size(360, 48)
         Me.txtComments.TabIndex = 10
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Location = New System.Drawing.Point(12, 155)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(60, 18)
@@ -325,13 +445,14 @@ Partial Class frmResourceMaster
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(88, 22)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(281, 21)
@@ -340,6 +461,7 @@ Partial Class frmResourceMaster
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Location = New System.Drawing.Point(12, 23)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
@@ -381,27 +503,18 @@ Partial Class frmResourceMaster
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
-        Me.RadMenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
-        Me.RadMenuItem2.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer1
         '
@@ -431,40 +544,27 @@ Partial Class frmResourceMaster
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(478, 20)
         Me.RadMenu2.TabIndex = 1
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
-        Me.MenuItemImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
-        Me.MenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
-        Me.MenuItemClose.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'frmResourceMaster
         '

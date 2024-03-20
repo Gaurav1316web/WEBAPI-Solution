@@ -303,6 +303,7 @@ Partial Class frmLeaveSetting
         Me.gvCTC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCTC.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCTC.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCTC.MyStopExport = False
         Me.gvCTC.Name = "gvCTC"
         Me.gvCTC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCTC.ShowHeaderCellButtons = True
@@ -1169,7 +1170,7 @@ Partial Class frmLeaveSetting
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblempcode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(202, 21)

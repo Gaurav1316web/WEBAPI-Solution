@@ -24,6 +24,7 @@ Partial Class frmSaleOrder
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -38,6 +39,7 @@ Partial Class frmSaleOrder
         Dim GridViewTextBoxColumn8 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn9 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn10 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.lblLoadOut = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
@@ -275,7 +277,7 @@ Partial Class frmSaleOrder
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.lblLoadOut
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(273, 18)
@@ -310,10 +312,9 @@ Partial Class frmSaleOrder
         Me.pvLoadOut.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.pvLoadOut.Location = New System.Drawing.Point(0, 0)
         Me.pvLoadOut.Name = "pvLoadOut"
-        Me.pvLoadOut.SelectedPage = Me.pageTaxDetails
+        Me.pvLoadOut.SelectedPage = Me.pageLoadOut
         Me.pvLoadOut.Size = New System.Drawing.Size(1012, 460)
         Me.pvLoadOut.TabIndex = 0
-        Me.pvLoadOut.Text = "Load Out"
         CType(Me.pvLoadOut.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'pageLoadOut
@@ -398,7 +399,7 @@ Partial Class frmSaleOrder
         Me.txtshellqty.TabIndex = 43
         Me.txtshellqty.Text = "0"
         Me.txtshellqty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtshellqty.Value = 0.0R
+        Me.txtshellqty.Value = 0R
         '
         'MyLabel7
         '
@@ -434,7 +435,7 @@ Partial Class frmSaleOrder
         Me.txtPaymentAmt.TabIndex = 42
         Me.txtPaymentAmt.Text = "0"
         Me.txtPaymentAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtPaymentAmt.Value = 0.0R
+        Me.txtPaymentAmt.Value = 0R
         '
         'lblSalesMan1
         '
@@ -495,7 +496,6 @@ Partial Class frmSaleOrder
         Me.txtCustomerName.Name = "txtCustomerName"
         Me.txtCustomerName.Size = New System.Drawing.Size(225, 18)
         Me.txtCustomerName.TabIndex = 40
-        Me.txtCustomerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtCustomerName.TextWrap = False
         '
         'lblLocation
@@ -507,7 +507,6 @@ Partial Class frmSaleOrder
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(225, 18)
         Me.lblLocation.TabIndex = 41
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'gv1
@@ -521,20 +520,22 @@ Partial Class frmSaleOrder
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 147)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDragToGroup = False
         Me.gv1.MasterTemplate.EnableGrouping = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ShowRowHeaderColumn = False
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(987, 200)
         Me.gv1.TabIndex = 18
-        Me.gv1.Text = "GV Load Out"
         '
         'txtSalesman
         '
@@ -615,7 +616,6 @@ Partial Class frmSaleOrder
         Me.lblEmpName.Name = "lblEmpName"
         Me.lblEmpName.Size = New System.Drawing.Size(225, 18)
         Me.lblEmpName.TabIndex = 38
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblEmpName.TextWrap = False
         '
         'txtVehicleCode
@@ -662,7 +662,6 @@ Partial Class frmSaleOrder
         Me.lblVhicleNo.Name = "lblVhicleNo"
         Me.lblVhicleNo.Size = New System.Drawing.Size(225, 18)
         Me.lblVhicleNo.TabIndex = 39
-        Me.lblVhicleNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVhicleNo.TextWrap = False
         '
         'lblShipTo
@@ -674,7 +673,6 @@ Partial Class frmSaleOrder
         Me.lblShipTo.Name = "lblShipTo"
         Me.lblShipTo.Size = New System.Drawing.Size(225, 18)
         Me.lblShipTo.TabIndex = 37
-        Me.lblShipTo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblShipTo.TextWrap = False
         '
         'txtShipTo
@@ -834,6 +832,7 @@ Partial Class frmSaleOrder
         '
         Me.cboPriceDate.BackColor = System.Drawing.Color.Transparent
         Me.cboPriceDate.CalculationExpression = Nothing
+        Me.cboPriceDate.DropDownAnimationEnabled = True
         Me.cboPriceDate.Enabled = False
         Me.cboPriceDate.FieldCode = Nothing
         Me.cboPriceDate.FieldDesc = Nothing
@@ -1099,6 +1098,7 @@ Partial Class frmSaleOrder
         'cboModeOfTransport
         '
         Me.cboModeOfTransport.CalculationExpression = Nothing
+        Me.cboModeOfTransport.DropDownAnimationEnabled = True
         Me.cboModeOfTransport.FieldCode = Nothing
         Me.cboModeOfTransport.FieldDesc = Nothing
         Me.cboModeOfTransport.FieldMaxLength = 0
@@ -1335,7 +1335,7 @@ Partial Class frmSaleOrder
         Me.gvTax.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvTax.Location = New System.Drawing.Point(13, 23)
         '
-        'gvTax
+        '
         '
         Me.gvTax.MasterTemplate.AllowAddNewRow = False
         Me.gvTax.MasterTemplate.AllowColumnReorder = False
@@ -1391,7 +1391,10 @@ Partial Class frmSaleOrder
         GridViewTextBoxColumn10.Name = "itemTaxAmt"
         Me.gvTax.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewComboBoxColumn1, GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewTextBoxColumn5, GridViewTextBoxColumn6, GridViewTextBoxColumn7, GridViewTextBoxColumn8, GridViewTextBoxColumn9, GridViewTextBoxColumn10})
         Me.gvTax.MasterTemplate.EnableGrouping = False
+        Me.gvTax.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTax.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTax.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvTax.MyStopExport = False
         Me.gvTax.Name = "gvTax"
         Me.gvTax.ReadOnly = True
         Me.gvTax.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1399,7 +1402,6 @@ Partial Class frmSaleOrder
         Me.gvTax.ShowHeaderCellButtons = True
         Me.gvTax.Size = New System.Drawing.Size(918, 261)
         Me.gvTax.TabIndex = 0
-        Me.gvTax.Text = "GV Tax Details"
         '
         'pageTotal
         '
@@ -1515,7 +1517,7 @@ Partial Class frmSaleOrder
         Me.txtDiscAmt.TabIndex = 4
         Me.txtDiscAmt.Text = "0"
         Me.txtDiscAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscAmt.Value = 0.0R
+        Me.txtDiscAmt.Value = 0R
         '
         'txtDiscPer
         '
@@ -1542,7 +1544,7 @@ Partial Class frmSaleOrder
         Me.txtDiscPer.TabIndex = 3
         Me.txtDiscPer.Text = "0"
         Me.txtDiscPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscPer.Value = 0.0R
+        Me.txtDiscPer.Value = 0R
         '
         'RadLabel12
         '
@@ -1933,23 +1935,17 @@ Partial Class frmSaleOrder
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem4, Me.RadMenuItem5})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem4.AccessibleName = "Save Layout"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Save Layout"
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem5.AccessibleName = "Delete Layout"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Delete Layout"
         '
@@ -1960,7 +1956,6 @@ Partial Class frmSaleOrder
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1012, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'SplitContainer1
         '

@@ -25,6 +25,7 @@ Partial Class frmHourlyAttendance
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmHourlyAttendance))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.UsLock1 = New common.usLock()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
@@ -347,7 +348,7 @@ Partial Class frmHourlyAttendance
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblDaylyAttnCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(221, 21)
@@ -376,19 +377,21 @@ Partial Class frmHourlyAttendance
         Me.gvHourlyAttendance.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvHourlyAttendance.Location = New System.Drawing.Point(9, 86)
         '
-        'gvHourlyAttendance
+        '
         '
         Me.gvHourlyAttendance.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvHourlyAttendance.MasterTemplate.AllowAddNewRow = False
         Me.gvHourlyAttendance.MasterTemplate.AutoGenerateColumns = False
         Me.gvHourlyAttendance.MasterTemplate.EnableGrouping = False
+        Me.gvHourlyAttendance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvHourlyAttendance.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvHourlyAttendance.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvHourlyAttendance.MyStopExport = False
         Me.gvHourlyAttendance.Name = "gvHourlyAttendance"
         Me.gvHourlyAttendance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvHourlyAttendance.ShowHeaderCellButtons = True
         Me.gvHourlyAttendance.Size = New System.Drawing.Size(864, 357)
         Me.gvHourlyAttendance.TabIndex = 6
-        Me.gvHourlyAttendance.Text = "RadGridView4"
         '
         'btnPost
         '
@@ -437,34 +440,25 @@ Partial Class frmHourlyAttendance
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(909, 20)
         Me.RadMenu2.TabIndex = 12
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3, Me.RadMenuItem4, Me.RadMenuItem5})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Export Blank Sheet"
-        Me.RadMenuItem2.AccessibleName = "Export Blank Sheet"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Export Blank Sheet"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Import"
-        Me.RadMenuItem3.AccessibleName = "Import"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Import"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Import from Biometric "
-        Me.RadMenuItem4.AccessibleName = "Import from Biometric "
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Import from Biometric "
         '

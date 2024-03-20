@@ -25,6 +25,9 @@ Partial Class frmGenerateBonus
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGenerateBonus))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.UsLock1 = New common.usLock()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
@@ -142,7 +145,6 @@ Partial Class frmGenerateBonus
         Me.lblPayablePayPeriodName.Name = "lblPayablePayPeriodName"
         Me.lblPayablePayPeriodName.Size = New System.Drawing.Size(189, 18)
         Me.lblPayablePayPeriodName.TabIndex = 7
-        Me.lblPayablePayPeriodName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblFromPayPeriodName
         '
@@ -153,7 +155,6 @@ Partial Class frmGenerateBonus
         Me.lblFromPayPeriodName.Name = "lblFromPayPeriodName"
         Me.lblFromPayPeriodName.Size = New System.Drawing.Size(189, 18)
         Me.lblFromPayPeriodName.TabIndex = 3
-        Me.lblFromPayPeriodName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblToPayPeriodName
         '
@@ -164,7 +165,6 @@ Partial Class frmGenerateBonus
         Me.lblToPayPeriodName.Name = "lblToPayPeriodName"
         Me.lblToPayPeriodName.Size = New System.Drawing.Size(189, 18)
         Me.lblToPayPeriodName.TabIndex = 5
-        Me.lblToPayPeriodName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtToPayPeriodCode
         '
@@ -283,7 +283,7 @@ Partial Class frmGenerateBonus
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.MyLabel3
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(221, 19)
@@ -380,27 +380,20 @@ Partial Class frmGenerateBonus
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(955, 20)
         Me.RadMenu1.TabIndex = 13
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Export Summary"
-        Me.RadMenuItem1.AccessibleName = "Export Summary"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Export Summary"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Export Detail"
-        Me.RadMenuItem2.AccessibleName = "Export Detail"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Export Detail"
         '
@@ -487,7 +480,6 @@ Partial Class frmGenerateBonus
         Me.lblDivision.Name = "lblDivision"
         Me.lblDivision.Size = New System.Drawing.Size(189, 18)
         Me.lblDivision.TabIndex = 194
-        Me.lblDivision.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndDivision
         '
@@ -534,7 +526,6 @@ Partial Class frmGenerateBonus
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(189, 18)
         Me.lblLocation.TabIndex = 191
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndLocation
         '
@@ -574,7 +565,6 @@ Partial Class frmGenerateBonus
         Me.RadPageView1.SelectedPage = Me.PageFinalBonus
         Me.RadPageView1.Size = New System.Drawing.Size(955, 288)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -595,16 +585,18 @@ Partial Class frmGenerateBonus
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowAddNewRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(934, 242)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'pageBonusSummary
         '
@@ -624,13 +616,15 @@ Partial Class frmGenerateBonus
         '
         Me.gvBonusSummary.MasterTemplate.AllowAddNewRow = False
         Me.gvBonusSummary.MasterTemplate.EnableFiltering = True
+        Me.gvBonusSummary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBonusSummary.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvBonusSummary.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvBonusSummary.MyStopExport = False
         Me.gvBonusSummary.Name = "gvBonusSummary"
         Me.gvBonusSummary.ShowHeaderCellButtons = True
         Me.gvBonusSummary.Size = New System.Drawing.Size(934, 242)
         Me.gvBonusSummary.TabIndex = 1
         Me.gvBonusSummary.TabStop = False
-        Me.gvBonusSummary.Text = "RadGridView1"
         '
         'pageBonusDetail
         '
@@ -646,17 +640,19 @@ Partial Class frmGenerateBonus
         Me.gvBonusDetail.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvBonusDetail.Location = New System.Drawing.Point(0, 0)
         '
-        'gvBonusDetail
+        '
         '
         Me.gvBonusDetail.MasterTemplate.AllowAddNewRow = False
         Me.gvBonusDetail.MasterTemplate.EnableFiltering = True
+        Me.gvBonusDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBonusDetail.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvBonusDetail.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvBonusDetail.MyStopExport = False
         Me.gvBonusDetail.Name = "gvBonusDetail"
         Me.gvBonusDetail.ShowHeaderCellButtons = True
         Me.gvBonusDetail.Size = New System.Drawing.Size(934, 242)
         Me.gvBonusDetail.TabIndex = 1
         Me.gvBonusDetail.TabStop = False
-        Me.gvBonusDetail.Text = "RadGridView1"
         '
         'frmGenerateBonus
         '

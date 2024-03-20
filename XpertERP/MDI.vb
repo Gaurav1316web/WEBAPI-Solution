@@ -8279,6 +8279,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptDayWiseCol
                         frm = New rptDayWiseCollection
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptMarginAmt
+                        frm = New rptMarginAmount
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptCattleFeedSaleReport
                         frm = New rptCattleFeedSaleReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

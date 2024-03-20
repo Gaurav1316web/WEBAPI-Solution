@@ -22,13 +22,16 @@ Partial Class frmPriceChartPlanMasterRCDF
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gvException = New common.UserControls.MyRadGridView()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox9 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvSNF = New common.UserControls.MyRadGridView()
@@ -103,15 +106,19 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gvException = New common.UserControls.MyRadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        Me.SplitContainer3.Panel1.SuspendLayout()
+        Me.SplitContainer3.Panel2.SuspendLayout()
+        Me.SplitContainer3.SuspendLayout()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.gvException, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvException.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
@@ -194,13 +201,6 @@ Partial Class frmPriceChartPlanMasterRCDF
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer3.Panel1.SuspendLayout()
-        Me.SplitContainer3.Panel2.SuspendLayout()
-        Me.SplitContainer3.SuspendLayout()
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox3.SuspendLayout()
-        CType(Me.gvException, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvException.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -266,6 +266,50 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.RadPageViewPage1.Size = New System.Drawing.Size(788, 441)
         Me.RadPageViewPage1.Text = "Detail"
         '
+        'SplitContainer3
+        '
+        Me.SplitContainer3.Location = New System.Drawing.Point(5, 168)
+        Me.SplitContainer3.Name = "SplitContainer3"
+        '
+        'SplitContainer3.Panel1
+        '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.RadGroupBox3)
+        '
+        'SplitContainer3.Panel2
+        '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.SplitContainer2)
+        Me.SplitContainer3.Size = New System.Drawing.Size(783, 270)
+        Me.SplitContainer3.SplitterDistance = 261
+        Me.SplitContainer3.TabIndex = 1032
+        '
+        'RadGroupBox3
+        '
+        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox3.Controls.Add(Me.gvException)
+        Me.RadGroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadGroupBox3.HeaderText = "Exception Rate"
+        Me.RadGroupBox3.Location = New System.Drawing.Point(0, 0)
+        Me.RadGroupBox3.Name = "RadGroupBox3"
+        Me.RadGroupBox3.Size = New System.Drawing.Size(261, 270)
+        Me.RadGroupBox3.TabIndex = 368
+        Me.RadGroupBox3.Text = "Exception Rate"
+        '
+        'gvException
+        '
+        Me.gvException.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvException.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvException.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvException.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvException.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvException.MyStopExport = False
+        Me.gvException.Name = "gvException"
+        Me.gvException.ShowHeaderCellButtons = True
+        Me.gvException.Size = New System.Drawing.Size(257, 250)
+        Me.gvException.TabIndex = 97
+        '
         'SplitContainer2
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
@@ -280,7 +324,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadGroupBox2)
         Me.SplitContainer2.Size = New System.Drawing.Size(518, 270)
-        Me.SplitContainer2.SplitterDistance = 248
+        Me.SplitContainer2.SplitterDistance = 247
         Me.SplitContainer2.TabIndex = 1031
         '
         'RadGroupBox9
@@ -291,7 +335,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.RadGroupBox9.HeaderText = "SNF Range"
         Me.RadGroupBox9.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox9.Name = "RadGroupBox9"
-        Me.RadGroupBox9.Size = New System.Drawing.Size(248, 270)
+        Me.RadGroupBox9.Size = New System.Drawing.Size(247, 270)
         Me.RadGroupBox9.TabIndex = 367
         Me.RadGroupBox9.Text = "SNF Range"
         '
@@ -305,9 +349,10 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.gvSNF.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSNF.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSNF.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvSNF.MyStopExport = False
         Me.gvSNF.Name = "gvSNF"
         Me.gvSNF.ShowHeaderCellButtons = True
-        Me.gvSNF.Size = New System.Drawing.Size(244, 250)
+        Me.gvSNF.Size = New System.Drawing.Size(243, 250)
         Me.gvSNF.TabIndex = 97
         '
         'RadGroupBox2
@@ -318,7 +363,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.RadGroupBox2.HeaderText = "FAT Range"
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(266, 270)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(267, 270)
         Me.RadGroupBox2.TabIndex = 368
         Me.RadGroupBox2.Text = "FAT Range"
         '
@@ -332,9 +377,10 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.gvFAT.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFAT.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvFAT.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvFAT.MyStopExport = False
         Me.gvFAT.Name = "gvFAT"
         Me.gvFAT.ShowHeaderCellButtons = True
-        Me.gvFAT.Size = New System.Drawing.Size(262, 250)
+        Me.gvFAT.Size = New System.Drawing.Size(263, 250)
         Me.gvFAT.TabIndex = 97
         '
         'RadGroupBox1
@@ -1179,7 +1225,7 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblvandorno
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(273, 20)
@@ -1204,8 +1250,12 @@ Partial Class frmPriceChartPlanMasterRCDF
         '
         '
         '
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
+        Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(654, 408)
         Me.gv.TabIndex = 0
         '
@@ -1457,49 +1507,6 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'SplitContainer3
-        '
-        Me.SplitContainer3.Location = New System.Drawing.Point(5, 168)
-        Me.SplitContainer3.Name = "SplitContainer3"
-        '
-        'SplitContainer3.Panel1
-        '
-        Me.SplitContainer3.Panel1.Controls.Add(Me.RadGroupBox3)
-        '
-        'SplitContainer3.Panel2
-        '
-        Me.SplitContainer3.Panel2.Controls.Add(Me.SplitContainer2)
-        Me.SplitContainer3.Size = New System.Drawing.Size(783, 270)
-        Me.SplitContainer3.SplitterDistance = 261
-        Me.SplitContainer3.TabIndex = 1032
-        '
-        'RadGroupBox3
-        '
-        Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox3.Controls.Add(Me.gvException)
-        Me.RadGroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox3.HeaderText = "Exception Rate"
-        Me.RadGroupBox3.Location = New System.Drawing.Point(0, 0)
-        Me.RadGroupBox3.Name = "RadGroupBox3"
-        Me.RadGroupBox3.Size = New System.Drawing.Size(261, 270)
-        Me.RadGroupBox3.TabIndex = 368
-        Me.RadGroupBox3.Text = "Exception Rate"
-        '
-        'gvException
-        '
-        Me.gvException.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvException.Location = New System.Drawing.Point(2, 18)
-        '
-        '
-        '
-        Me.gvException.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gvException.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvException.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.gvException.Name = "gvException"
-        Me.gvException.ShowHeaderCellButtons = True
-        Me.gvException.Size = New System.Drawing.Size(257, 250)
-        Me.gvException.TabIndex = 97
-        '
         'frmPriceChartPlanMasterRCDF
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1519,6 +1526,13 @@ Partial Class frmPriceChartPlanMasterRCDF
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        Me.SplitContainer3.Panel1.ResumeLayout(False)
+        Me.SplitContainer3.Panel2.ResumeLayout(False)
+        Me.SplitContainer3.ResumeLayout(False)
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox3.ResumeLayout(False)
+        CType(Me.gvException.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvException, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
@@ -1607,13 +1621,6 @@ Partial Class frmPriceChartPlanMasterRCDF
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer3.Panel1.ResumeLayout(False)
-        Me.SplitContainer3.Panel2.ResumeLayout(False)
-        Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox3.ResumeLayout(False)
-        CType(Me.gvException.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvException, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

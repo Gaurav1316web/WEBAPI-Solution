@@ -43,6 +43,9 @@ Partial Class frmConveyanceClaim
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblLocation = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.fndLocation = New common.UserControls.txtFinder()
         Me.MyLabel9 = New common.Controls.MyLabel()
         Me.lblClaimAmount = New common.Controls.MyLabel()
         Me.MyLabel8 = New common.Controls.MyLabel()
@@ -58,9 +61,6 @@ Partial Class frmConveyanceClaim
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
-        Me.lblLocation = New common.Controls.MyLabel()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.fndLocation = New common.UserControls.txtFinder()
         CType(Me.lblPayPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblEmpName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -74,6 +74,8 @@ Partial Class frmConveyanceClaim
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblClaimAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,8 +87,6 @@ Partial Class frmConveyanceClaim
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -237,7 +237,7 @@ Partial Class frmConveyanceClaim
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(222, 21)
@@ -346,6 +346,52 @@ Partial Class frmConveyanceClaim
         Me.SplitContainer1.Size = New System.Drawing.Size(607, 264)
         Me.SplitContainer1.SplitterDistance = 233
         Me.SplitContainer1.TabIndex = 0
+        '
+        'lblLocation
+        '
+        Me.lblLocation.AutoSize = False
+        Me.lblLocation.BorderVisible = True
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Location = New System.Drawing.Point(323, 209)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(259, 19)
+        Me.lblLocation.TabIndex = 253
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(13, 210)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel2.TabIndex = 252
+        Me.MyLabel2.Text = "Location"
+        '
+        'fndLocation
+        '
+        Me.fndLocation.CalculationExpression = Nothing
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
+        Me.fndLocation.Location = New System.Drawing.Point(131, 209)
+        Me.fndLocation.MendatroryField = True
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndLocation.MyLinkLable1 = Me.MyLabel2
+        Me.fndLocation.MyLinkLable2 = Nothing
+        Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
+        Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
+        Me.fndLocation.Size = New System.Drawing.Size(188, 19)
+        Me.fndLocation.TabIndex = 251
+        Me.fndLocation.Value = ""
         '
         'MyLabel9
         '
@@ -488,52 +534,6 @@ Partial Class frmConveyanceClaim
         Me.btnNew.TabIndex = 1
         Me.btnNew.Text = " "
         '
-        'lblLocation
-        '
-        Me.lblLocation.AutoSize = False
-        Me.lblLocation.BorderVisible = True
-        Me.lblLocation.FieldName = Nothing
-        Me.lblLocation.Location = New System.Drawing.Point(323, 209)
-        Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(259, 19)
-        Me.lblLocation.TabIndex = 253
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(13, 210)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(49, 16)
-        Me.MyLabel2.TabIndex = 252
-        Me.MyLabel2.Text = "Location"
-        '
-        'fndLocation
-        '
-        Me.fndLocation.CalculationExpression = Nothing
-        Me.fndLocation.FieldCode = Nothing
-        Me.fndLocation.FieldDesc = Nothing
-        Me.fndLocation.FieldMaxLength = 0
-        Me.fndLocation.FieldName = Nothing
-        Me.fndLocation.isCalculatedField = False
-        Me.fndLocation.IsSourceFromTable = False
-        Me.fndLocation.IsSourceFromValueList = False
-        Me.fndLocation.IsUnique = False
-        Me.fndLocation.Location = New System.Drawing.Point(131, 209)
-        Me.fndLocation.MendatroryField = True
-        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndLocation.MyLinkLable1 = Me.MyLabel2
-        Me.fndLocation.MyLinkLable2 = Nothing
-        Me.fndLocation.MyReadOnly = False
-        Me.fndLocation.MyShowMasterFormButton = False
-        Me.fndLocation.Name = "fndLocation"
-        Me.fndLocation.ReferenceFieldDesc = Nothing
-        Me.fndLocation.ReferenceFieldName = Nothing
-        Me.fndLocation.ReferenceTableName = Nothing
-        Me.fndLocation.Size = New System.Drawing.Size(188, 19)
-        Me.fndLocation.TabIndex = 251
-        Me.fndLocation.Value = ""
-        '
         'frmConveyanceClaim
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -560,6 +560,8 @@ Partial Class frmConveyanceClaim
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblClaimAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
@@ -571,8 +573,6 @@ Partial Class frmConveyanceClaim
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

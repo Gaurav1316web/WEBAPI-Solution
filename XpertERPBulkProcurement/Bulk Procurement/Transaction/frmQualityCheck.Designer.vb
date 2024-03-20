@@ -47,6 +47,10 @@ Partial Class FrmQualityCheck
         Dim RadListDataItem22 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem23 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem24 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.dtpQCInDateTime = New common.Controls.MyDateTimePicker()
         Me.lblQcInDateAndTime = New common.Controls.MyLabel()
         Me.fndGateEntryNo = New common.UserControls.txtFinder()
@@ -409,7 +413,6 @@ Partial Class FrmQualityCheck
         Me.lblStatusValue.Name = "lblStatusValue"
         Me.lblStatusValue.Size = New System.Drawing.Size(192, 19)
         Me.lblStatusValue.TabIndex = 286
-        Me.lblStatusValue.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblStatus
         '
@@ -430,7 +433,6 @@ Partial Class FrmQualityCheck
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(566, 19)
         Me.lblVendorName.TabIndex = 278
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblGateEntryNO
         '
@@ -450,7 +452,6 @@ Partial Class FrmQualityCheck
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(390, 19)
         Me.lblLocationName.TabIndex = 275
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDateAndTime
         '
@@ -798,6 +799,7 @@ Partial Class FrmQualityCheck
         Me.CmbMachine.AutoCompleteDisplayMember = Nothing
         Me.CmbMachine.AutoCompleteValueMember = Nothing
         Me.CmbMachine.CalculationExpression = Nothing
+        Me.CmbMachine.DropDownAnimationEnabled = True
         Me.CmbMachine.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CmbMachine.FieldCode = Nothing
         Me.CmbMachine.FieldDesc = Nothing
@@ -869,6 +871,7 @@ Partial Class FrmQualityCheck
         Me.CMbCOmport.AutoCompleteDisplayMember = Nothing
         Me.CMbCOmport.AutoCompleteValueMember = Nothing
         Me.CMbCOmport.CalculationExpression = Nothing
+        Me.CMbCOmport.DropDownAnimationEnabled = True
         Me.CMbCOmport.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CMbCOmport.FieldCode = Nothing
         Me.CMbCOmport.FieldDesc = Nothing
@@ -919,6 +922,7 @@ Partial Class FrmQualityCheck
         Me.CmbEcoProAdditional.AutoCompleteDisplayMember = Nothing
         Me.CmbEcoProAdditional.AutoCompleteValueMember = Nothing
         Me.CmbEcoProAdditional.CalculationExpression = Nothing
+        Me.CmbEcoProAdditional.DropDownAnimationEnabled = True
         Me.CmbEcoProAdditional.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CmbEcoProAdditional.FieldCode = Nothing
         Me.CmbEcoProAdditional.FieldDesc = Nothing
@@ -996,6 +1000,7 @@ Partial Class FrmQualityCheck
         Me.CboMachine.AutoCompleteDisplayMember = Nothing
         Me.CboMachine.AutoCompleteValueMember = Nothing
         Me.CboMachine.CalculationExpression = Nothing
+        Me.CboMachine.DropDownAnimationEnabled = True
         Me.CboMachine.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CboMachine.FieldCode = Nothing
         Me.CboMachine.FieldDesc = Nothing
@@ -1078,6 +1083,7 @@ Partial Class FrmQualityCheck
         Me.cboComPort.AutoCompleteDisplayMember = Nothing
         Me.cboComPort.AutoCompleteValueMember = Nothing
         Me.cboComPort.CalculationExpression = Nothing
+        Me.cboComPort.DropDownAnimationEnabled = True
         Me.cboComPort.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboComPort.FieldCode = Nothing
         Me.cboComPort.FieldDesc = Nothing
@@ -1128,6 +1134,7 @@ Partial Class FrmQualityCheck
         Me.cboECOPro.AutoCompleteDisplayMember = Nothing
         Me.cboECOPro.AutoCompleteValueMember = Nothing
         Me.cboECOPro.CalculationExpression = Nothing
+        Me.cboECOPro.DropDownAnimationEnabled = True
         Me.cboECOPro.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboECOPro.FieldCode = Nothing
         Me.cboECOPro.FieldDesc = Nothing
@@ -1265,7 +1272,7 @@ Partial Class FrmQualityCheck
         Me.fndQcNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndQcNo.MyLinkLable1 = Me.lblQcNo
         Me.fndQcNo.MyLinkLable2 = Nothing
-        Me.fndQcNo.MyMaxLength = 32767
+        Me.fndQcNo.MyMaxLength = 30
         Me.fndQcNo.MyReadOnly = False
         Me.fndQcNo.Name = "fndQcNo"
         Me.fndQcNo.Size = New System.Drawing.Size(310, 20)
@@ -1288,48 +1295,36 @@ Partial Class FrmQualityCheck
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1046, 20)
         Me.RadMenu1.TabIndex = 252
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'mnuSetting
         '
-        Me.mnuSetting.AccessibleDescription = "Setting"
-        Me.mnuSetting.AccessibleName = "Setting"
         Me.mnuSetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuSaveLayout, Me.RadMenuSeparatorItem1, Me.mnuDeleteLayout, Me.mnuExit, Me.mnuEmailSmsSetting})
         Me.mnuSetting.Name = "mnuSetting"
         Me.mnuSetting.Text = "Setting"
         '
         'mnuSaveLayout
         '
-        Me.mnuSaveLayout.AccessibleDescription = "Save Layout"
-        Me.mnuSaveLayout.AccessibleName = "Save Layout"
         Me.mnuSaveLayout.Name = "mnuSaveLayout"
         Me.mnuSaveLayout.Text = "Save Layout"
         '
         'RadMenuSeparatorItem1
         '
-        Me.RadMenuSeparatorItem1.AccessibleDescription = "RadMenuSeparatorItem1"
-        Me.RadMenuSeparatorItem1.AccessibleName = "RadMenuSeparatorItem1"
         Me.RadMenuSeparatorItem1.Name = "RadMenuSeparatorItem1"
         Me.RadMenuSeparatorItem1.Text = "RadMenuSeparatorItem1"
+        Me.RadMenuSeparatorItem1.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'mnuDeleteLayout
         '
-        Me.mnuDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.mnuDeleteLayout.AccessibleName = "Delete Layout"
         Me.mnuDeleteLayout.Name = "mnuDeleteLayout"
         Me.mnuDeleteLayout.Text = "Delete Layout"
         '
         'mnuExit
         '
-        Me.mnuExit.AccessibleDescription = "Exit"
-        Me.mnuExit.AccessibleName = "Exit"
         Me.mnuExit.Name = "mnuExit"
         Me.mnuExit.Text = "Exit"
         '
         'mnuEmailSmsSetting
         '
-        Me.mnuEmailSmsSetting.AccessibleDescription = "Email/SMS Setting"
-        Me.mnuEmailSmsSetting.AccessibleName = "Email/SMS Setting"
         Me.mnuEmailSmsSetting.Name = "mnuEmailSmsSetting"
         Me.mnuEmailSmsSetting.Text = "Email/SMS Setting"
         '
@@ -1491,7 +1486,6 @@ Partial Class FrmQualityCheck
         Me.lblShiftName.Name = "lblShiftName"
         Me.lblShiftName.Size = New System.Drawing.Size(139, 19)
         Me.lblShiftName.TabIndex = 362
-        Me.lblShiftName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndShift
         '
@@ -1583,7 +1577,6 @@ Partial Class FrmQualityCheck
         Me.lblSubLocation.Name = "lblSubLocation"
         Me.lblSubLocation.Size = New System.Drawing.Size(180, 19)
         Me.lblSubLocation.TabIndex = 276
-        Me.lblSubLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkJobWork
         '
@@ -2219,14 +2212,16 @@ Partial Class FrmQualityCheck
         Me.gvParam.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvParam.Location = New System.Drawing.Point(2, 18)
         '
-        'gvParam
         '
+        '
+        Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(1021, 71)
         Me.gvParam.TabIndex = 264
-        Me.gvParam.Text = "RadGridView1"
         '
         'RadPageViewPage2
         '
@@ -2254,14 +2249,16 @@ Partial Class FrmQualityCheck
         Me.gvItem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvItem.Location = New System.Drawing.Point(2, 18)
         '
-        'gvItem
         '
+        '
+        Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(1021, 324)
         Me.gvItem.TabIndex = 264
-        Me.gvItem.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -2305,14 +2302,16 @@ Partial Class FrmQualityCheck
         Me.gvManualSeal.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvManualSeal.Location = New System.Drawing.Point(3, 18)
         '
-        'gvManualSeal
         '
+        '
+        Me.gvManualSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvManualSeal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvManualSeal.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvManualSeal.MyStopExport = False
         Me.gvManualSeal.Name = "gvManualSeal"
         Me.gvManualSeal.ShowHeaderCellButtons = True
         Me.gvManualSeal.Size = New System.Drawing.Size(519, 323)
         Me.gvManualSeal.TabIndex = 203
-        Me.gvManualSeal.Text = "RadGridView1"
         '
         'GroupBox2
         '
@@ -2330,14 +2329,16 @@ Partial Class FrmQualityCheck
         Me.gvPaperSeal.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvPaperSeal.Location = New System.Drawing.Point(3, 18)
         '
-        'gvPaperSeal
         '
+        '
+        Me.gvPaperSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPaperSeal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvPaperSeal.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvPaperSeal.MyStopExport = False
         Me.gvPaperSeal.Name = "gvPaperSeal"
         Me.gvPaperSeal.ShowHeaderCellButtons = True
         Me.gvPaperSeal.Size = New System.Drawing.Size(490, 323)
         Me.gvPaperSeal.TabIndex = 203
-        Me.gvPaperSeal.Text = "RadGridView1"
         '
         'btnAmendment
         '

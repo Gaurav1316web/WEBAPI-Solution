@@ -65,10 +65,10 @@ Partial Class FrmDepAccountSet
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.txtDocNo = New common.UserControls.txtNavigator()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -98,10 +98,10 @@ Partial Class FrmDepAccountSet
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -112,27 +112,20 @@ Partial Class FrmDepAccountSet
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(777, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Export, Me.Import})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'Export
         '
-        Me.Export.AccessibleDescription = "Export"
-        Me.Export.AccessibleName = "Export"
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '
         'Import
         '
-        Me.Import.AccessibleDescription = "Import"
-        Me.Import.AccessibleName = "Import"
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
         '
@@ -213,7 +206,6 @@ Partial Class FrmDepAccountSet
         Me.lblWIPDesc.Name = "lblWIPDesc"
         Me.lblWIPDesc.Size = New System.Drawing.Size(384, 18)
         Me.lblWIPDesc.TabIndex = 55
-        Me.lblWIPDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblWIPDesc.TextWrap = False
         '
         'fndWIP
@@ -262,7 +254,6 @@ Partial Class FrmDepAccountSet
         Me.lblLossDesc.Name = "lblLossDesc"
         Me.lblLossDesc.Size = New System.Drawing.Size(384, 18)
         Me.lblLossDesc.TabIndex = 53
-        Me.lblLossDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLossDesc.TextWrap = False
         '
         'lblProfit
@@ -311,7 +302,6 @@ Partial Class FrmDepAccountSet
         Me.lblProfitDesc.Name = "lblProfitDesc"
         Me.lblProfitDesc.Size = New System.Drawing.Size(384, 18)
         Me.lblProfitDesc.TabIndex = 51
-        Me.lblProfitDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblProfitDesc.TextWrap = False
         '
         'fndProfit
@@ -360,7 +350,6 @@ Partial Class FrmDepAccountSet
         Me.lblDepAc.Name = "lblDepAc"
         Me.lblDepAc.Size = New System.Drawing.Size(384, 18)
         Me.lblDepAc.TabIndex = 46
-        Me.lblDepAc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDepAc.TextWrap = False
         '
         'txtDepAccount
@@ -410,7 +399,6 @@ Partial Class FrmDepAccountSet
         Me.lblDisposalProceedAccount.Name = "lblDisposalProceedAccount"
         Me.lblDisposalProceedAccount.Size = New System.Drawing.Size(384, 18)
         Me.lblDisposalProceedAccount.TabIndex = 43
-        Me.lblDisposalProceedAccount.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDisposalProceedAccount.TextWrap = False
         Me.lblDisposalProceedAccount.Visible = False
         '
@@ -461,7 +449,6 @@ Partial Class FrmDepAccountSet
         Me.lblDisposalAccount.Name = "lblDisposalAccount"
         Me.lblDisposalAccount.Size = New System.Drawing.Size(384, 18)
         Me.lblDisposalAccount.TabIndex = 40
-        Me.lblDisposalAccount.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDisposalAccount.TextWrap = False
         '
         'txtDisposalAccount
@@ -510,7 +497,6 @@ Partial Class FrmDepAccountSet
         Me.lblAccumDep.Name = "lblAccumDep"
         Me.lblAccumDep.Size = New System.Drawing.Size(384, 18)
         Me.lblAccumDep.TabIndex = 34
-        Me.lblAccumDep.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblAccumDep.TextWrap = False
         '
         'fndAccumDep
@@ -559,7 +545,6 @@ Partial Class FrmDepAccountSet
         Me.lblDisposalCostAccount.Name = "lblDisposalCostAccount"
         Me.lblDisposalCostAccount.Size = New System.Drawing.Size(384, 18)
         Me.lblDisposalCostAccount.TabIndex = 34
-        Me.lblDisposalCostAccount.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDisposalCostAccount.TextWrap = False
         '
         'MyLabel3
@@ -618,7 +603,6 @@ Partial Class FrmDepAccountSet
         Me.lblTransferClearingAccount.Name = "lblTransferClearingAccount"
         Me.lblTransferClearingAccount.Size = New System.Drawing.Size(384, 18)
         Me.lblTransferClearingAccount.TabIndex = 31
-        Me.lblTransferClearingAccount.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTransferClearingAccount.TextWrap = False
         '
         'fndTransferClearingAccount
@@ -657,7 +641,6 @@ Partial Class FrmDepAccountSet
         Me.lblAssetControl.Name = "lblAssetControl"
         Me.lblAssetControl.Size = New System.Drawing.Size(384, 18)
         Me.lblAssetControl.TabIndex = 28
-        Me.lblAssetControl.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblAssetControl.TextWrap = False
         '
         'fndAssetControl
@@ -758,12 +741,21 @@ Partial Class FrmDepAccountSet
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Nothing
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(259, 20)
         Me.txtDocNo.TabIndex = 0
         Me.txtDocNo.Value = ""
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(171, 5)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(78, 23)
+        Me.btnHistory.TabIndex = 3
+        Me.btnHistory.Text = "&History"
         '
         'btnclose
         '
@@ -791,15 +783,6 @@ Partial Class FrmDepAccountSet
         Me.btnsave.Size = New System.Drawing.Size(78, 23)
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(171, 5)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(78, 23)
-        Me.btnHistory.TabIndex = 3
-        Me.btnHistory.Text = "&History"
         '
         'FrmDepAccountSet
         '
@@ -844,10 +827,10 @@ Partial Class FrmDepAccountSet
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

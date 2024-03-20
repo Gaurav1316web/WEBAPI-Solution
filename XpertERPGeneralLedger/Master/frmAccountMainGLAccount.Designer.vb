@@ -106,7 +106,6 @@ Partial Class frmAccountMainGLAccount
         Me.lblSubGroup.Name = "lblSubGroup"
         Me.lblSubGroup.Size = New System.Drawing.Size(194, 19)
         Me.lblSubGroup.TabIndex = 45
-        Me.lblSubGroup.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblSubGroup.TextWrap = False
         '
         'txtSubGroup
@@ -142,12 +141,9 @@ Partial Class frmAccountMainGLAccount
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(489, 20)
         Me.RadMenu1.TabIndex = 47
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmImport, Me.rmExport})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
@@ -185,7 +181,7 @@ Partial Class frmAccountMainGLAccount
         Me.fndaccgp.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndaccgp.MyLinkLable1 = Me.lblaccgp
         Me.fndaccgp.MyLinkLable2 = Nothing
-        Me.fndaccgp.MyMaxLength = 12
+        Me.fndaccgp.MyMaxLength = 30
         Me.fndaccgp.MyReadOnly = False
         Me.fndaccgp.Name = "fndaccgp"
         Me.fndaccgp.Size = New System.Drawing.Size(202, 21)
@@ -243,7 +239,7 @@ Partial Class frmAccountMainGLAccount
         '
         'btnnew
         '
-        Me.btnnew.Image = My.Resources._new
+        Me.btnnew.Image = Global.XpertERPGeneralLedger.My.Resources.Resources._new
         Me.btnnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnnew.Location = New System.Drawing.Point(281, 32)
         Me.btnnew.Name = "btnnew"

@@ -22,7 +22,7 @@ Partial Class rptPaymentProcessRouteReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -67,6 +67,9 @@ Partial Class rptPaymentProcessRouteReport
         Me.dtpGainLossToDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.dtpGainLossFromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadGroupBox10 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadGroupBox18 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDcs = New System.Windows.Forms.RadioButton()
+        Me.rbtnRoute = New System.Windows.Forms.RadioButton()
         Me.txtRouteName = New common.UserControls.txtMultiSelectFinder()
         Me.txtMultiMCC = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel19 = New common.Controls.MyLabel()
@@ -77,6 +80,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.dtpToDCS_Ledger = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.dtpFromDCS_Ledger = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadGroupBox8 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btnPrintDailySummaryRouteWise = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintDailySummary = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox9 = New Telerik.WinControls.UI.RadGroupBox()
         Me.MyLabel10 = New common.Controls.MyLabel()
@@ -142,9 +146,7 @@ Partial Class rptPaymentProcessRouteReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox18 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnDcs = New System.Windows.Forms.RadioButton()
-        Me.rbtnRoute = New System.Windows.Forms.RadioButton()
+        Me.Payablechk = New common.Controls.MyCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -188,6 +190,8 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.dtpGainLossFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox10, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox10.SuspendLayout()
+        CType(Me.RadGroupBox18, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox18.SuspendLayout()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btn_DCS_Ledger_Report, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -198,6 +202,7 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.dtpFromDCS_Ledger, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox8.SuspendLayout()
+        CType(Me.btnPrintDailySummaryRouteWise, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintDailySummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox9, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox9.SuspendLayout()
@@ -262,8 +267,7 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox18, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox18.SuspendLayout()
+        CType(Me.Payablechk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -774,6 +778,7 @@ Partial Class rptPaymentProcessRouteReport
         'RadGroupBox10
         '
         Me.RadGroupBox10.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox10.Controls.Add(Me.Payablechk)
         Me.RadGroupBox10.Controls.Add(Me.RadGroupBox18)
         Me.RadGroupBox10.Controls.Add(Me.txtRouteName)
         Me.RadGroupBox10.Controls.Add(Me.txtMultiMCC)
@@ -787,6 +792,40 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox10.Size = New System.Drawing.Size(269, 184)
         Me.RadGroupBox10.TabIndex = 7
         Me.RadGroupBox10.Text = "DCS Ledger Report"
+        '
+        'RadGroupBox18
+        '
+        Me.RadGroupBox18.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox18.Controls.Add(Me.rbtnDcs)
+        Me.RadGroupBox18.Controls.Add(Me.rbtnRoute)
+        Me.RadGroupBox18.HeaderText = ""
+        Me.RadGroupBox18.Location = New System.Drawing.Point(75, 124)
+        Me.RadGroupBox18.Name = "RadGroupBox18"
+        Me.RadGroupBox18.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox18.Size = New System.Drawing.Size(185, 25)
+        Me.RadGroupBox18.TabIndex = 1525
+        '
+        'rbtnDcs
+        '
+        Me.rbtnDcs.AutoSize = True
+        Me.rbtnDcs.Checked = True
+        Me.rbtnDcs.Location = New System.Drawing.Point(98, 4)
+        Me.rbtnDcs.Name = "rbtnDcs"
+        Me.rbtnDcs.Size = New System.Drawing.Size(74, 17)
+        Me.rbtnDcs.TabIndex = 1
+        Me.rbtnDcs.TabStop = True
+        Me.rbtnDcs.Text = "DCS Wise"
+        Me.rbtnDcs.UseVisualStyleBackColor = True
+        '
+        'rbtnRoute
+        '
+        Me.rbtnRoute.AutoSize = True
+        Me.rbtnRoute.Location = New System.Drawing.Point(3, 4)
+        Me.rbtnRoute.Name = "rbtnRoute"
+        Me.rbtnRoute.Size = New System.Drawing.Size(84, 17)
+        Me.rbtnRoute.TabIndex = 0
+        Me.rbtnRoute.Text = "Route Wise"
+        Me.rbtnRoute.UseVisualStyleBackColor = True
         '
         'txtRouteName
         '
@@ -902,6 +941,7 @@ Partial Class rptPaymentProcessRouteReport
         'RadGroupBox8
         '
         Me.RadGroupBox8.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox8.Controls.Add(Me.btnPrintDailySummaryRouteWise)
         Me.RadGroupBox8.Controls.Add(Me.btnPrintDailySummary)
         Me.RadGroupBox8.Controls.Add(Me.RadGroupBox9)
         Me.RadGroupBox8.HeaderText = "Daily Summary"
@@ -910,6 +950,15 @@ Partial Class rptPaymentProcessRouteReport
         Me.RadGroupBox8.Size = New System.Drawing.Size(269, 104)
         Me.RadGroupBox8.TabIndex = 6
         Me.RadGroupBox8.Text = "Daily Summary"
+        '
+        'btnPrintDailySummaryRouteWise
+        '
+        Me.btnPrintDailySummaryRouteWise.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintDailySummaryRouteWise.Location = New System.Drawing.Point(82, 67)
+        Me.btnPrintDailySummaryRouteWise.Name = "btnPrintDailySummaryRouteWise"
+        Me.btnPrintDailySummaryRouteWise.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrintDailySummaryRouteWise.TabIndex = 154
+        Me.btnPrintDailySummaryRouteWise.Text = "Print 2"
         '
         'btnPrintDailySummary
         '
@@ -1623,7 +1672,8 @@ Partial Class rptPaymentProcessRouteReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -1690,39 +1740,16 @@ Partial Class rptPaymentProcessRouteReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'RadGroupBox18
+        'Payablechk
         '
-        Me.RadGroupBox18.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox18.Controls.Add(Me.rbtnDcs)
-        Me.RadGroupBox18.Controls.Add(Me.rbtnRoute)
-        Me.RadGroupBox18.HeaderText = ""
-        Me.RadGroupBox18.Location = New System.Drawing.Point(75, 124)
-        Me.RadGroupBox18.Name = "RadGroupBox18"
-        Me.RadGroupBox18.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox18.Size = New System.Drawing.Size(185, 25)
-        Me.RadGroupBox18.TabIndex = 1525
-        '
-        'rbtnDcs
-        '
-        Me.rbtnDcs.AutoSize = True
-        Me.rbtnDcs.Checked = True
-        Me.rbtnDcs.Location = New System.Drawing.Point(98, 4)
-        Me.rbtnDcs.Name = "rbtnDcs"
-        Me.rbtnDcs.Size = New System.Drawing.Size(74, 17)
-        Me.rbtnDcs.TabIndex = 1
-        Me.rbtnDcs.TabStop = True
-        Me.rbtnDcs.Text = "DCS Wise"
-        Me.rbtnDcs.UseVisualStyleBackColor = True
-        '
-        'rbtnRoute
-        '
-        Me.rbtnRoute.AutoSize = True
-        Me.rbtnRoute.Location = New System.Drawing.Point(3, 4)
-        Me.rbtnRoute.Name = "rbtnRoute"
-        Me.rbtnRoute.Size = New System.Drawing.Size(84, 17)
-        Me.rbtnRoute.TabIndex = 0
-        Me.rbtnRoute.Text = "Route Wise"
-        Me.rbtnRoute.UseVisualStyleBackColor = True
+        Me.Payablechk.Location = New System.Drawing.Point(5, 122)
+        Me.Payablechk.MyLinkLable1 = Nothing
+        Me.Payablechk.MyLinkLable2 = Nothing
+        Me.Payablechk.Name = "Payablechk"
+        Me.Payablechk.Size = New System.Drawing.Size(15, 15)
+        Me.Payablechk.TabIndex = 1526
+        Me.Payablechk.Tag1 = Nothing
+        Me.Payablechk.Visible = False
         '
         'rptPaymentProcessRouteReport
         '
@@ -1786,6 +1813,9 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.RadGroupBox10, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox10.ResumeLayout(False)
         Me.RadGroupBox10.PerformLayout()
+        CType(Me.RadGroupBox18, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox18.ResumeLayout(False)
+        Me.RadGroupBox18.PerformLayout()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btn_DCS_Ledger_Report, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1797,6 +1827,7 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.dtpFromDCS_Ledger, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox8, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox8.ResumeLayout(False)
+        CType(Me.btnPrintDailySummaryRouteWise, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintDailySummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox9, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox9.ResumeLayout(False)
@@ -1872,9 +1903,7 @@ Partial Class rptPaymentProcessRouteReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox18, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox18.ResumeLayout(False)
-        Me.RadGroupBox18.PerformLayout()
+        CType(Me.Payablechk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -2002,5 +2031,7 @@ Partial Class rptPaymentProcessRouteReport
     Friend WithEvents RadGroupBox18 As RadGroupBox
     Friend WithEvents rbtnDcs As RadioButton
     Friend WithEvents rbtnRoute As RadioButton
+    Friend WithEvents btnPrintDailySummaryRouteWise As RadButton
+    Friend WithEvents Payablechk As common.Controls.MyCheckBox
 End Class
 

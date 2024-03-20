@@ -22,28 +22,28 @@ Partial Class frmGLStructure
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.radtxt_structcode = New common.Controls.MyTextBox
-        Me.listbox1 = New Telerik.WinControls.UI.RadListControl
-        Me.listbox2 = New Telerik.WinControls.UI.RadListControl
-        Me.btn_delete = New Telerik.WinControls.UI.RadButton
-        Me.btn_close = New Telerik.WinControls.UI.RadButton
-        Me.radmenu_file = New Telerik.WinControls.UI.RadMenuItem
-        Me.radmenu_export = New Telerik.WinControls.UI.RadMenuItem
-        Me.radmenu_import = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenu_options = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.RadLabel2 = New common.Controls.MyLabel
-        Me.RadLabel3 = New common.Controls.MyLabel
-        Me.btn_include = New Telerik.WinControls.UI.RadButton
-        Me.btn_exclude = New Telerik.WinControls.UI.RadButton
-        Me.btn_save = New Telerik.WinControls.UI.RadButton
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.fnd_structurecode = New common.UserControls.txtNavigator
-        Me.btn_reset = New Telerik.WinControls.UI.RadButton
+        Me.components = New System.ComponentModel.Container()
+        Me.radtxt_structcode = New common.Controls.MyTextBox()
+        Me.listbox1 = New Telerik.WinControls.UI.RadListControl()
+        Me.listbox2 = New Telerik.WinControls.UI.RadListControl()
+        Me.btn_delete = New Telerik.WinControls.UI.RadButton()
+        Me.btn_close = New Telerik.WinControls.UI.RadButton()
+        Me.radmenu_file = New Telerik.WinControls.UI.RadMenuItem()
+        Me.radmenu_export = New Telerik.WinControls.UI.RadMenuItem()
+        Me.radmenu_import = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenu_options = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.btn_include = New Telerik.WinControls.UI.RadButton()
+        Me.btn_exclude = New Telerik.WinControls.UI.RadButton()
+        Me.btn_save = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.fnd_structurecode = New common.UserControls.txtNavigator()
+        Me.btn_reset = New Telerik.WinControls.UI.RadButton()
         Me.ToolTipStructure = New System.Windows.Forms.ToolTip(Me.components)
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         CType(Me.radtxt_structcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.listbox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.listbox2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -67,35 +67,41 @@ Partial Class frmGLStructure
         '
         'radtxt_structcode
         '
+        Me.radtxt_structcode.CalculationExpression = Nothing
+        Me.radtxt_structcode.FieldCode = Nothing
+        Me.radtxt_structcode.FieldDesc = Nothing
+        Me.radtxt_structcode.FieldMaxLength = 0
+        Me.radtxt_structcode.FieldName = Nothing
         Me.radtxt_structcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.radtxt_structcode.isCalculatedField = False
+        Me.radtxt_structcode.IsSourceFromTable = False
+        Me.radtxt_structcode.IsSourceFromValueList = False
+        Me.radtxt_structcode.IsUnique = False
         Me.radtxt_structcode.Location = New System.Drawing.Point(341, 30)
         Me.radtxt_structcode.MaxLength = 60
         Me.radtxt_structcode.MendatroryField = False
         Me.radtxt_structcode.MyLinkLable1 = Nothing
         Me.radtxt_structcode.MyLinkLable2 = Nothing
         Me.radtxt_structcode.Name = "radtxt_structcode"
+        Me.radtxt_structcode.ReferenceFieldDesc = Nothing
+        Me.radtxt_structcode.ReferenceFieldName = Nothing
+        Me.radtxt_structcode.ReferenceTableName = Nothing
         Me.radtxt_structcode.Size = New System.Drawing.Size(236, 18)
         Me.radtxt_structcode.TabIndex = 1
         '
         'listbox1
         '
-        Me.listbox1.CaseSensitiveSort = True
-        Me.listbox1.ItemHeight = 18
         Me.listbox1.Location = New System.Drawing.Point(13, 80)
         Me.listbox1.Name = "listbox1"
         Me.listbox1.Size = New System.Drawing.Size(238, 142)
         Me.listbox1.TabIndex = 13
-        Me.listbox1.Text = "RadListControl1"
         '
         'listbox2
         '
-        Me.listbox2.CaseSensitiveSort = True
-        Me.listbox2.ItemHeight = 18
         Me.listbox2.Location = New System.Drawing.Point(345, 80)
         Me.listbox2.Name = "listbox2"
         Me.listbox2.Size = New System.Drawing.Size(232, 142)
         Me.listbox2.TabIndex = 14
-        Me.listbox2.Text = "RadListControl2"
         '
         'btn_delete
         '
@@ -119,22 +125,16 @@ Partial Class frmGLStructure
         '
         'radmenu_file
         '
-        Me.radmenu_file.AccessibleDescription = "File"
-        Me.radmenu_file.AccessibleName = "File"
         Me.radmenu_file.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.radmenu_file.Items.AddRange(New Telerik.WinControls.RadItem() {Me.radmenu_export, Me.radmenu_import, Me.RadMenu_options})
         Me.radmenu_file.Name = "radmenu_file"
         Me.radmenu_file.Text = "File"
-        Me.radmenu_file.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'radmenu_export
         '
-        Me.radmenu_export.AccessibleDescription = "Export..."
-        Me.radmenu_export.AccessibleName = "Export..."
         Me.radmenu_export.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.radmenu_export.Name = "radmenu_export"
         Me.radmenu_export.Text = "Export..."
-        Me.radmenu_export.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'radmenu_import
         '
@@ -143,16 +143,12 @@ Partial Class frmGLStructure
         Me.radmenu_import.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.radmenu_import.Name = "radmenu_import"
         Me.radmenu_import.Text = "Import..."
-        Me.radmenu_import.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenu_options
         '
-        Me.RadMenu_options.AccessibleDescription = "Options"
-        Me.RadMenu_options.AccessibleName = "Options"
         Me.RadMenu_options.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenu_options.Name = "RadMenu_options"
         Me.RadMenu_options.Text = "Options"
-        Me.RadMenu_options.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenu1
         '
@@ -161,10 +157,10 @@ Partial Class frmGLStructure
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(622, 20)
         Me.RadMenu1.TabIndex = 20
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(13, 32)
         Me.RadLabel1.Name = "RadLabel1"
@@ -174,6 +170,7 @@ Partial Class frmGLStructure
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel2.Location = New System.Drawing.Point(13, 58)
         Me.RadLabel2.Name = "RadLabel2"
@@ -183,6 +180,7 @@ Partial Class frmGLStructure
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel3.Location = New System.Drawing.Point(345, 58)
         Me.RadLabel3.Name = "RadLabel3"
@@ -231,32 +229,24 @@ Partial Class frmGLStructure
         Me.RadGroupBox1.Controls.Add(Me.btn_include)
         Me.RadGroupBox1.Controls.Add(Me.RadLabel3)
         Me.RadGroupBox1.Controls.Add(Me.listbox2)
-        Me.RadGroupBox1.FooterImageIndex = -1
-        Me.RadGroupBox1.FooterImageKey = ""
-        Me.RadGroupBox1.HeaderImageIndex = -1
-        Me.RadGroupBox1.HeaderImageKey = ""
-        Me.RadGroupBox1.HeaderMargin = New System.Windows.Forms.Padding(0)
         Me.RadGroupBox1.HeaderText = "Account Structure"
         Me.RadGroupBox1.Location = New System.Drawing.Point(14, 14)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        '
-        '
-        '
-        Me.RadGroupBox1.RootElement.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(590, 283)
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.Text = "Account Structure"
         '
         'fnd_structurecode
         '
+        Me.fnd_structurecode.FieldName = Nothing
         Me.fnd_structurecode.Location = New System.Drawing.Point(102, 28)
         Me.fnd_structurecode.MendatroryField = True
         Me.fnd_structurecode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fnd_structurecode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fnd_structurecode.MyLinkLable1 = Me.RadLabel1
         Me.fnd_structurecode.MyLinkLable2 = Nothing
-        Me.fnd_structurecode.MyMaxLength = 32767
+        Me.fnd_structurecode.MyMaxLength = 30
         Me.fnd_structurecode.MyReadOnly = False
         Me.fnd_structurecode.Name = "fnd_structurecode"
         Me.fnd_structurecode.Size = New System.Drawing.Size(214, 21)
@@ -265,7 +255,7 @@ Partial Class frmGLStructure
         '
         'btn_reset
         '
-        Me.btn_reset.Image = My.Resources._new
+        Me.btn_reset.Image = Global.XpertERPGeneralLedger.My.Resources.Resources._new
         Me.btn_reset.Location = New System.Drawing.Point(320, 29)
         Me.btn_reset.Name = "btn_reset"
         Me.btn_reset.Size = New System.Drawing.Size(15, 20)
@@ -300,7 +290,6 @@ Partial Class frmGLStructure
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.KeyPreview = True
         Me.Name = "frmGLStructure"
         '
         '

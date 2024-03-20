@@ -22,57 +22,58 @@ Partial Class frmBillOfMaterial
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBillOfMaterial))
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lblCode = New common.Controls.MyLabel
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.gvBOM = New common.UserControls.MyRadGridView
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.btnNewFile = New Telerik.WinControls.UI.RadButton
-        Me.lblApprovedByName = New common.Controls.MyLabel
-        Me.lblApprovedBy = New common.Controls.MyLabel
-        Me.lblCreatedByName = New common.Controls.MyLabel
-        Me.lblCreatedBy = New common.Controls.MyLabel
-        Me.txtMinBatchQty = New common.MyNumBox
-        Me.lblMinBatchSize = New common.Controls.MyLabel
-        Me.lblUnitName = New common.Controls.MyLabel
-        Me.txtBuildQty = New common.MyNumBox
-        Me.lblBuildQty = New common.Controls.MyLabel
-        Me.lblRevisionNo = New common.Controls.MyLabel
-        Me.btnBrowse = New Telerik.WinControls.UI.RadButton
-        Me.txtDocPath = New common.Controls.MyTextBox
-        Me.lblDocument = New common.Controls.MyLabel
-        Me.chkDefaultBOM = New Telerik.WinControls.UI.RadCheckBox
-        Me.cboBOMStatus = New common.Controls.MyComboBox
-        Me.lblBOMStatus = New common.Controls.MyLabel
-        Me.lblBomDesc = New common.Controls.MyLabel
-        Me.dtpEndDate = New common.Controls.MyDateTimePicker
-        Me.lblEndDate = New common.Controls.MyLabel
-        Me.UsLock1 = New common.usLock
-        Me.txtDescription = New common.Controls.MyTextBox
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.dtpStartDate = New common.Controls.MyDateTimePicker
-        Me.lblStartDate = New common.Controls.MyLabel
-        Me.lblMasterItem = New common.Controls.MyLabel
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.lblMasterItemName = New common.Controls.MyLabel
-        Me.txtProducedItem = New common.UserControls.txtFinder
-        Me.dtpBOMDate = New common.Controls.MyDateTimePicker
-        Me.lblBomDate = New common.Controls.MyLabel
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton
-        Me.btnPost = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lblCode = New common.Controls.MyLabel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gvBOM = New common.UserControls.MyRadGridView()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.btnNewFile = New Telerik.WinControls.UI.RadButton()
+        Me.lblApprovedByName = New common.Controls.MyLabel()
+        Me.lblApprovedBy = New common.Controls.MyLabel()
+        Me.lblCreatedByName = New common.Controls.MyLabel()
+        Me.lblCreatedBy = New common.Controls.MyLabel()
+        Me.txtMinBatchQty = New common.MyNumBox()
+        Me.lblMinBatchSize = New common.Controls.MyLabel()
+        Me.lblUnitName = New common.Controls.MyLabel()
+        Me.txtBuildQty = New common.MyNumBox()
+        Me.lblBuildQty = New common.Controls.MyLabel()
+        Me.lblRevisionNo = New common.Controls.MyLabel()
+        Me.btnBrowse = New Telerik.WinControls.UI.RadButton()
+        Me.txtDocPath = New common.Controls.MyTextBox()
+        Me.lblDocument = New common.Controls.MyLabel()
+        Me.chkDefaultBOM = New Telerik.WinControls.UI.RadCheckBox()
+        Me.cboBOMStatus = New common.Controls.MyComboBox()
+        Me.lblBOMStatus = New common.Controls.MyLabel()
+        Me.lblBomDesc = New common.Controls.MyLabel()
+        Me.dtpEndDate = New common.Controls.MyDateTimePicker()
+        Me.lblEndDate = New common.Controls.MyLabel()
+        Me.UsLock1 = New common.usLock()
+        Me.txtDescription = New common.Controls.MyTextBox()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.dtpStartDate = New common.Controls.MyDateTimePicker()
+        Me.lblStartDate = New common.Controls.MyLabel()
+        Me.lblMasterItem = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.lblMasterItemName = New common.Controls.MyLabel()
+        Me.txtProducedItem = New common.UserControls.txtFinder()
+        Me.dtpBOMDate = New common.Controls.MyDateTimePicker()
+        Me.lblBomDate = New common.Controls.MyLabel()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -121,13 +122,14 @@ Partial Class frmBillOfMaterial
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(110, 14)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(322, 21)
@@ -136,6 +138,7 @@ Partial Class frmBillOfMaterial
         '
         'lblCode
         '
+        Me.lblCode.FieldName = Nothing
         Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCode.Location = New System.Drawing.Point(20, 40)
         Me.lblCode.Name = "lblCode"
@@ -160,8 +163,8 @@ Partial Class frmBillOfMaterial
         'gvBOM
         '
         Me.gvBOM.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gvBOM.BackColor = System.Drawing.Color.FromArgb(CType(CType(191, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.gvBOM.Cursor = System.Windows.Forms.Cursors.Default
         Me.gvBOM.Font = New System.Drawing.Font("Arial", 8.25!)
@@ -169,18 +172,22 @@ Partial Class frmBillOfMaterial
         Me.gvBOM.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvBOM.Location = New System.Drawing.Point(13, 190)
         '
-        'gvBOM
+        '
         '
         Me.gvBOM.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvBOM.MasterTemplate.AllowAddNewRow = False
         Me.gvBOM.MasterTemplate.AutoGenerateColumns = False
         Me.gvBOM.MasterTemplate.EnableGrouping = False
+        Me.gvBOM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvBOM.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvBOM.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvBOM.MyStopExport = False
         Me.gvBOM.Name = "gvBOM"
         Me.gvBOM.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvBOM.ShowHeaderCellButtons = True
         Me.gvBOM.Size = New System.Drawing.Size(917, 290)
         Me.gvBOM.TabIndex = 0
         Me.gvBOM.TabStop = False
-        Me.gvBOM.Text = "RadGridView1"
         '
         'SplitContainer1
         '
@@ -248,14 +255,15 @@ Partial Class frmBillOfMaterial
         '
         Me.lblApprovedByName.AutoSize = False
         Me.lblApprovedByName.BorderVisible = True
+        Me.lblApprovedByName.FieldName = Nothing
         Me.lblApprovedByName.Location = New System.Drawing.Point(657, 127)
         Me.lblApprovedByName.Name = "lblApprovedByName"
         Me.lblApprovedByName.Size = New System.Drawing.Size(260, 19)
         Me.lblApprovedByName.TabIndex = 18
-        Me.lblApprovedByName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblApprovedBy
         '
+        Me.lblApprovedBy.FieldName = Nothing
         Me.lblApprovedBy.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblApprovedBy.Location = New System.Drawing.Point(566, 129)
         Me.lblApprovedBy.Name = "lblApprovedBy"
@@ -267,14 +275,15 @@ Partial Class frmBillOfMaterial
         '
         Me.lblCreatedByName.AutoSize = False
         Me.lblCreatedByName.BorderVisible = True
+        Me.lblCreatedByName.FieldName = Nothing
         Me.lblCreatedByName.Location = New System.Drawing.Point(657, 107)
         Me.lblCreatedByName.Name = "lblCreatedByName"
         Me.lblCreatedByName.Size = New System.Drawing.Size(260, 19)
         Me.lblCreatedByName.TabIndex = 19
-        Me.lblCreatedByName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCreatedBy
         '
+        Me.lblCreatedBy.FieldName = Nothing
         Me.lblCreatedBy.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblCreatedBy.Location = New System.Drawing.Point(566, 107)
         Me.lblCreatedBy.Name = "lblCreatedBy"
@@ -285,20 +294,33 @@ Partial Class frmBillOfMaterial
         'txtMinBatchQty
         '
         Me.txtMinBatchQty.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtMinBatchQty.CalculationExpression = Nothing
         Me.txtMinBatchQty.DecimalPlaces = 0
+        Me.txtMinBatchQty.FieldCode = Nothing
+        Me.txtMinBatchQty.FieldDesc = Nothing
+        Me.txtMinBatchQty.FieldMaxLength = 0
+        Me.txtMinBatchQty.FieldName = Nothing
+        Me.txtMinBatchQty.isCalculatedField = False
+        Me.txtMinBatchQty.IsSourceFromTable = False
+        Me.txtMinBatchQty.IsSourceFromValueList = False
+        Me.txtMinBatchQty.IsUnique = False
         Me.txtMinBatchQty.Location = New System.Drawing.Point(657, 84)
         Me.txtMinBatchQty.MendatroryField = True
         Me.txtMinBatchQty.MyLinkLable1 = Me.lblMinBatchSize
         Me.txtMinBatchQty.MyLinkLable2 = Nothing
         Me.txtMinBatchQty.Name = "txtMinBatchQty"
+        Me.txtMinBatchQty.ReferenceFieldDesc = Nothing
+        Me.txtMinBatchQty.ReferenceFieldName = Nothing
+        Me.txtMinBatchQty.ReferenceTableName = Nothing
         Me.txtMinBatchQty.Size = New System.Drawing.Size(129, 20)
         Me.txtMinBatchQty.TabIndex = 6
         Me.txtMinBatchQty.Text = "0"
         Me.txtMinBatchQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMinBatchQty.Value = 0
+        Me.txtMinBatchQty.Value = 0R
         '
         'lblMinBatchSize
         '
+        Me.lblMinBatchSize.FieldName = Nothing
         Me.lblMinBatchSize.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblMinBatchSize.Location = New System.Drawing.Point(566, 86)
         Me.lblMinBatchSize.Name = "lblMinBatchSize"
@@ -310,29 +332,42 @@ Partial Class frmBillOfMaterial
         '
         Me.lblUnitName.AutoSize = False
         Me.lblUnitName.BorderVisible = True
+        Me.lblUnitName.FieldName = Nothing
         Me.lblUnitName.Location = New System.Drawing.Point(791, 62)
         Me.lblUnitName.Name = "lblUnitName"
         Me.lblUnitName.Size = New System.Drawing.Size(128, 19)
         Me.lblUnitName.TabIndex = 25
-        Me.lblUnitName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtBuildQty
         '
         Me.txtBuildQty.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtBuildQty.CalculationExpression = Nothing
         Me.txtBuildQty.DecimalPlaces = 0
+        Me.txtBuildQty.FieldCode = Nothing
+        Me.txtBuildQty.FieldDesc = Nothing
+        Me.txtBuildQty.FieldMaxLength = 0
+        Me.txtBuildQty.FieldName = Nothing
+        Me.txtBuildQty.isCalculatedField = False
+        Me.txtBuildQty.IsSourceFromTable = False
+        Me.txtBuildQty.IsSourceFromValueList = False
+        Me.txtBuildQty.IsUnique = False
         Me.txtBuildQty.Location = New System.Drawing.Point(657, 61)
         Me.txtBuildQty.MendatroryField = True
         Me.txtBuildQty.MyLinkLable1 = Me.lblBuildQty
         Me.txtBuildQty.MyLinkLable2 = Nothing
         Me.txtBuildQty.Name = "txtBuildQty"
+        Me.txtBuildQty.ReferenceFieldDesc = Nothing
+        Me.txtBuildQty.ReferenceFieldName = Nothing
+        Me.txtBuildQty.ReferenceTableName = Nothing
         Me.txtBuildQty.Size = New System.Drawing.Size(129, 20)
         Me.txtBuildQty.TabIndex = 4
         Me.txtBuildQty.Text = "0"
         Me.txtBuildQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBuildQty.Value = 0
+        Me.txtBuildQty.Value = 0R
         '
         'lblBuildQty
         '
+        Me.lblBuildQty.FieldName = Nothing
         Me.lblBuildQty.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblBuildQty.Location = New System.Drawing.Point(566, 63)
         Me.lblBuildQty.Name = "lblBuildQty"
@@ -344,11 +379,11 @@ Partial Class frmBillOfMaterial
         '
         Me.lblRevisionNo.AutoSize = False
         Me.lblRevisionNo.BorderVisible = True
+        Me.lblRevisionNo.FieldName = Nothing
         Me.lblRevisionNo.Location = New System.Drawing.Point(338, 83)
         Me.lblRevisionNo.Name = "lblRevisionNo"
         Me.lblRevisionNo.Size = New System.Drawing.Size(218, 19)
         Me.lblRevisionNo.TabIndex = 26
-        Me.lblRevisionNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnBrowse
         '
@@ -361,18 +396,31 @@ Partial Class frmBillOfMaterial
         '
         'txtDocPath
         '
+        Me.txtDocPath.CalculationExpression = Nothing
+        Me.txtDocPath.FieldCode = Nothing
+        Me.txtDocPath.FieldDesc = Nothing
+        Me.txtDocPath.FieldMaxLength = 0
+        Me.txtDocPath.FieldName = Nothing
         Me.txtDocPath.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDocPath.isCalculatedField = False
+        Me.txtDocPath.IsSourceFromTable = False
+        Me.txtDocPath.IsSourceFromValueList = False
+        Me.txtDocPath.IsUnique = False
         Me.txtDocPath.Location = New System.Drawing.Point(657, 148)
         Me.txtDocPath.MaxLength = 49
         Me.txtDocPath.MendatroryField = False
         Me.txtDocPath.MyLinkLable1 = Me.lblDocument
         Me.txtDocPath.MyLinkLable2 = Nothing
         Me.txtDocPath.Name = "txtDocPath"
+        Me.txtDocPath.ReferenceFieldDesc = Nothing
+        Me.txtDocPath.ReferenceFieldName = Nothing
+        Me.txtDocPath.ReferenceTableName = Nothing
         Me.txtDocPath.Size = New System.Drawing.Size(173, 18)
         Me.txtDocPath.TabIndex = 11
         '
         'lblDocument
         '
+        Me.lblDocument.FieldName = Nothing
         Me.lblDocument.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblDocument.Location = New System.Drawing.Point(566, 149)
         Me.lblDocument.Name = "lblDocument"
@@ -390,16 +438,22 @@ Partial Class frmBillOfMaterial
         '
         'cboBOMStatus
         '
+        Me.cboBOMStatus.CalculationExpression = Nothing
+        Me.cboBOMStatus.DropDownAnimationEnabled = True
         Me.cboBOMStatus.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboBOMStatus.FieldCode = Nothing
+        Me.cboBOMStatus.FieldDesc = Nothing
+        Me.cboBOMStatus.FieldMaxLength = 0
+        Me.cboBOMStatus.FieldName = Nothing
         Me.cboBOMStatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboBOMStatus.isCalculatedField = False
+        Me.cboBOMStatus.IsSourceFromTable = False
+        Me.cboBOMStatus.IsSourceFromValueList = False
+        Me.cboBOMStatus.IsUnique = False
         RadListDataItem1.Text = "Open"
-        RadListDataItem1.TextWrap = True
         RadListDataItem2.Text = "Approved"
-        RadListDataItem2.TextWrap = True
         RadListDataItem3.Text = "On Hold"
-        RadListDataItem3.TextWrap = True
         RadListDataItem4.Text = "Discountinued"
-        RadListDataItem4.TextWrap = True
         Me.cboBOMStatus.Items.Add(RadListDataItem1)
         Me.cboBOMStatus.Items.Add(RadListDataItem2)
         Me.cboBOMStatus.Items.Add(RadListDataItem3)
@@ -409,11 +463,15 @@ Partial Class frmBillOfMaterial
         Me.cboBOMStatus.MyLinkLable1 = Me.lblBOMStatus
         Me.cboBOMStatus.MyLinkLable2 = Nothing
         Me.cboBOMStatus.Name = "cboBOMStatus"
+        Me.cboBOMStatus.ReferenceFieldDesc = Nothing
+        Me.cboBOMStatus.ReferenceFieldName = Nothing
+        Me.cboBOMStatus.ReferenceTableName = Nothing
         Me.cboBOMStatus.Size = New System.Drawing.Size(219, 18)
         Me.cboBOMStatus.TabIndex = 9
         '
         'lblBOMStatus
         '
+        Me.lblBOMStatus.FieldName = Nothing
         Me.lblBOMStatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBOMStatus.Location = New System.Drawing.Point(11, 148)
         Me.lblBOMStatus.Name = "lblBOMStatus"
@@ -423,6 +481,7 @@ Partial Class frmBillOfMaterial
         '
         'lblBomDesc
         '
+        Me.lblBomDesc.FieldName = Nothing
         Me.lblBomDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBomDesc.Location = New System.Drawing.Point(10, 40)
         Me.lblBomDesc.Name = "lblBomDesc"
@@ -432,9 +491,18 @@ Partial Class frmBillOfMaterial
         '
         'dtpEndDate
         '
+        Me.dtpEndDate.CalculationExpression = Nothing
         Me.dtpEndDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpEndDate.FieldCode = Nothing
+        Me.dtpEndDate.FieldDesc = Nothing
+        Me.dtpEndDate.FieldMaxLength = 0
+        Me.dtpEndDate.FieldName = Nothing
         Me.dtpEndDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpEndDate.isCalculatedField = False
+        Me.dtpEndDate.IsSourceFromTable = False
+        Me.dtpEndDate.IsSourceFromValueList = False
+        Me.dtpEndDate.IsUnique = False
         Me.dtpEndDate.Location = New System.Drawing.Point(110, 127)
         Me.dtpEndDate.MendatroryField = False
         Me.dtpEndDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -442,6 +510,9 @@ Partial Class frmBillOfMaterial
         Me.dtpEndDate.MyLinkLable2 = Nothing
         Me.dtpEndDate.Name = "dtpEndDate"
         Me.dtpEndDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpEndDate.ReferenceFieldDesc = Nothing
+        Me.dtpEndDate.ReferenceFieldName = Nothing
+        Me.dtpEndDate.ReferenceTableName = Nothing
         Me.dtpEndDate.ShowCheckBox = True
         Me.dtpEndDate.Size = New System.Drawing.Size(143, 18)
         Me.dtpEndDate.TabIndex = 8
@@ -451,6 +522,7 @@ Partial Class frmBillOfMaterial
         '
         'lblEndDate
         '
+        Me.lblEndDate.FieldName = Nothing
         Me.lblEndDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEndDate.Location = New System.Drawing.Point(12, 129)
         Me.lblEndDate.Name = "lblEndDate"
@@ -470,11 +542,23 @@ Partial Class frmBillOfMaterial
         '
         'txtDescription
         '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(110, 38)
         Me.txtDescription.MendatroryField = True
         Me.txtDescription.MyLinkLable1 = Me.lblBomDesc
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(807, 20)
         Me.txtDescription.TabIndex = 2
         '
@@ -489,9 +573,18 @@ Partial Class frmBillOfMaterial
         '
         'dtpStartDate
         '
+        Me.dtpStartDate.CalculationExpression = Nothing
         Me.dtpStartDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpStartDate.FieldCode = Nothing
+        Me.dtpStartDate.FieldDesc = Nothing
+        Me.dtpStartDate.FieldMaxLength = 0
+        Me.dtpStartDate.FieldName = Nothing
         Me.dtpStartDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpStartDate.isCalculatedField = False
+        Me.dtpStartDate.IsSourceFromTable = False
+        Me.dtpStartDate.IsSourceFromValueList = False
+        Me.dtpStartDate.IsUnique = False
         Me.dtpStartDate.Location = New System.Drawing.Point(110, 105)
         Me.dtpStartDate.MendatroryField = False
         Me.dtpStartDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -499,6 +592,9 @@ Partial Class frmBillOfMaterial
         Me.dtpStartDate.MyLinkLable2 = Nothing
         Me.dtpStartDate.Name = "dtpStartDate"
         Me.dtpStartDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpStartDate.ReferenceFieldDesc = Nothing
+        Me.dtpStartDate.ReferenceFieldName = Nothing
+        Me.dtpStartDate.ReferenceTableName = Nothing
         Me.dtpStartDate.Size = New System.Drawing.Size(143, 18)
         Me.dtpStartDate.TabIndex = 7
         Me.dtpStartDate.TabStop = False
@@ -507,6 +603,7 @@ Partial Class frmBillOfMaterial
         '
         'lblStartDate
         '
+        Me.lblStartDate.FieldName = Nothing
         Me.lblStartDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStartDate.Location = New System.Drawing.Point(11, 107)
         Me.lblStartDate.Name = "lblStartDate"
@@ -516,6 +613,7 @@ Partial Class frmBillOfMaterial
         '
         'lblMasterItem
         '
+        Me.lblMasterItem.FieldName = Nothing
         Me.lblMasterItem.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.lblMasterItem.Location = New System.Drawing.Point(12, 63)
         Me.lblMasterItem.Name = "lblMasterItem"
@@ -525,6 +623,7 @@ Partial Class frmBillOfMaterial
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(262, 86)
         Me.MyLabel1.Name = "MyLabel1"
@@ -536,30 +635,52 @@ Partial Class frmBillOfMaterial
         '
         Me.lblMasterItemName.AutoSize = False
         Me.lblMasterItemName.BorderVisible = True
+        Me.lblMasterItemName.FieldName = Nothing
         Me.lblMasterItemName.Location = New System.Drawing.Point(338, 62)
         Me.lblMasterItemName.Name = "lblMasterItemName"
         Me.lblMasterItemName.Size = New System.Drawing.Size(218, 19)
         Me.lblMasterItemName.TabIndex = 27
-        Me.lblMasterItemName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtProducedItem
         '
+        Me.txtProducedItem.CalculationExpression = Nothing
+        Me.txtProducedItem.FieldCode = Nothing
+        Me.txtProducedItem.FieldDesc = Nothing
+        Me.txtProducedItem.FieldMaxLength = 0
+        Me.txtProducedItem.FieldName = Nothing
+        Me.txtProducedItem.isCalculatedField = False
+        Me.txtProducedItem.IsSourceFromTable = False
+        Me.txtProducedItem.IsSourceFromValueList = False
+        Me.txtProducedItem.IsUnique = False
         Me.txtProducedItem.Location = New System.Drawing.Point(110, 62)
         Me.txtProducedItem.MendatroryField = True
         Me.txtProducedItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtProducedItem.MyLinkLable1 = Me.lblMasterItem
         Me.txtProducedItem.MyLinkLable2 = Nothing
         Me.txtProducedItem.MyReadOnly = False
+        Me.txtProducedItem.MyShowMasterFormButton = False
         Me.txtProducedItem.Name = "txtProducedItem"
+        Me.txtProducedItem.ReferenceFieldDesc = Nothing
+        Me.txtProducedItem.ReferenceFieldName = Nothing
+        Me.txtProducedItem.ReferenceTableName = Nothing
         Me.txtProducedItem.Size = New System.Drawing.Size(219, 19)
         Me.txtProducedItem.TabIndex = 3
         Me.txtProducedItem.Value = ""
         '
         'dtpBOMDate
         '
+        Me.dtpBOMDate.CalculationExpression = Nothing
         Me.dtpBOMDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpBOMDate.FieldCode = Nothing
+        Me.dtpBOMDate.FieldDesc = Nothing
+        Me.dtpBOMDate.FieldMaxLength = 0
+        Me.dtpBOMDate.FieldName = Nothing
         Me.dtpBOMDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpBOMDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpBOMDate.isCalculatedField = False
+        Me.dtpBOMDate.IsSourceFromTable = False
+        Me.dtpBOMDate.IsSourceFromValueList = False
+        Me.dtpBOMDate.IsUnique = False
         Me.dtpBOMDate.Location = New System.Drawing.Point(110, 84)
         Me.dtpBOMDate.MendatroryField = True
         Me.dtpBOMDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -567,6 +688,9 @@ Partial Class frmBillOfMaterial
         Me.dtpBOMDate.MyLinkLable2 = Nothing
         Me.dtpBOMDate.Name = "dtpBOMDate"
         Me.dtpBOMDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpBOMDate.ReferenceFieldDesc = Nothing
+        Me.dtpBOMDate.ReferenceFieldName = Nothing
+        Me.dtpBOMDate.ReferenceTableName = Nothing
         Me.dtpBOMDate.Size = New System.Drawing.Size(143, 18)
         Me.dtpBOMDate.TabIndex = 5
         Me.dtpBOMDate.TabStop = False
@@ -575,6 +699,7 @@ Partial Class frmBillOfMaterial
         '
         'lblBomDate
         '
+        Me.lblBomDate.FieldName = Nothing
         Me.lblBomDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBomDate.Location = New System.Drawing.Point(12, 86)
         Me.lblBomDate.Name = "lblBomDate"
@@ -639,40 +764,27 @@ Partial Class frmBillOfMaterial
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(943, 20)
         Me.RadMenu2.TabIndex = 1
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
-        Me.MenuItemImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
-        Me.MenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
-        Me.MenuItemClose.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'frmBillOfMaterial
         '

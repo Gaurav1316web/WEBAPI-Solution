@@ -24,24 +24,24 @@ Partial Class frmchannelCategory
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.rdbtnsave = New Telerik.WinControls.UI.RadButton
-        Me.rdbtndelete = New Telerik.WinControls.UI.RadButton
-        Me.rdbtnclose = New Telerik.WinControls.UI.RadButton
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.rdmenufile = New Telerik.WinControls.UI.RadMenuItem
-        Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem
-        Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem
-        Me.rdmenuexit = New Telerik.WinControls.UI.RadMenuItem
-        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
-        Me.rdgrpbxchannelcategory = New Telerik.WinControls.UI.RadGroupBox
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.fndID = New common.UserControls.txtNavigator
-        Me.rdlblchanelcategoryid = New common.Controls.MyLabel
-        Me.rdtxtcategoryname1 = New common.Controls.MyTextBox
-        Me.rdlblcategoryname = New common.Controls.MyLabel
-        Me.rdreset = New Telerik.WinControls.UI.RadButton
-        Me.rdtxtcategoryname = New common.Controls.MyTextBox
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.rdbtnsave = New Telerik.WinControls.UI.RadButton()
+        Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
+        Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.rdmenufile = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rdmenuexit = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
+        Me.rdgrpbxchannelcategory = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.fndID = New common.UserControls.txtNavigator()
+        Me.rdlblchanelcategoryid = New common.Controls.MyLabel()
+        Me.rdtxtcategoryname1 = New common.Controls.MyTextBox()
+        Me.rdlblcategoryname = New common.Controls.MyLabel()
+        Me.rdreset = New Telerik.WinControls.UI.RadButton()
+        Me.rdtxtcategoryname = New common.Controls.MyTextBox()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         CType(Me.rdbtnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -98,59 +98,37 @@ Partial Class frmchannelCategory
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(411, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'rdmenufile
         '
-        Me.rdmenufile.AccessibleDescription = "FILE"
-        Me.rdmenufile.AccessibleName = "FILE"
         Me.rdmenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenuimport, Me.rdmenuexport, Me.rdmenuexit})
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Text = "FILE"
-        Me.rdmenufile.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdmenuimport
         '
-        Me.rdmenuimport.AccessibleDescription = "Import"
-        Me.rdmenuimport.AccessibleName = "Import"
         Me.rdmenuimport.Name = "rdmenuimport"
         Me.rdmenuimport.Text = "Import"
-        Me.rdmenuimport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdmenuexport
         '
-        Me.rdmenuexport.AccessibleDescription = "Export"
-        Me.rdmenuexport.AccessibleName = "Export"
         Me.rdmenuexport.Name = "rdmenuexport"
         Me.rdmenuexport.Text = "Export"
-        Me.rdmenuexport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdmenuexit
         '
-        Me.rdmenuexit.AccessibleDescription = "Exit"
-        Me.rdmenuexit.AccessibleName = "Exit"
         Me.rdmenuexit.Name = "rdmenuexit"
         Me.rdmenuexit.Text = "Exit"
-        Me.rdmenuexit.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdgrpbxchannelcategory
         '
         Me.rdgrpbxchannelcategory.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.rdgrpbxchannelcategory.Controls.Add(Me.RadGroupBox1)
         Me.rdgrpbxchannelcategory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdgrpbxchannelcategory.FooterImageIndex = -1
-        Me.rdgrpbxchannelcategory.FooterImageKey = ""
-        Me.rdgrpbxchannelcategory.HeaderImageIndex = -1
-        Me.rdgrpbxchannelcategory.HeaderImageKey = ""
-        Me.rdgrpbxchannelcategory.HeaderMargin = New System.Windows.Forms.Padding(0)
         Me.rdgrpbxchannelcategory.HeaderText = ""
         Me.rdgrpbxchannelcategory.Location = New System.Drawing.Point(15, 17)
         Me.rdgrpbxchannelcategory.Name = "rdgrpbxchannelcategory"
         Me.rdgrpbxchannelcategory.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        '
-        '
-        '
-        Me.rdgrpbxchannelcategory.RootElement.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.rdgrpbxchannelcategory.Size = New System.Drawing.Size(381, 127)
         Me.rdgrpbxchannelcategory.TabIndex = 0
         '
@@ -163,30 +141,23 @@ Partial Class frmchannelCategory
         Me.RadGroupBox1.Controls.Add(Me.rdlblcategoryname)
         Me.RadGroupBox1.Controls.Add(Me.rdlblchanelcategoryid)
         Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadGroupBox1.FooterImageIndex = -1
-        Me.RadGroupBox1.FooterImageKey = ""
-        Me.RadGroupBox1.HeaderImageIndex = -1
-        Me.RadGroupBox1.HeaderImageKey = ""
-        Me.RadGroupBox1.HeaderMargin = New System.Windows.Forms.Padding(0)
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(13, 23)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        '
-        '
-        '
-        Me.RadGroupBox1.RootElement.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(356, 89)
         Me.RadGroupBox1.TabIndex = 0
         '
         'fndID
         '
+        Me.fndID.FieldName = Nothing
         Me.fndID.Location = New System.Drawing.Point(112, 17)
         Me.fndID.MendatroryField = True
         Me.fndID.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.fndID.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndID.MyLinkLable1 = Me.rdlblchanelcategoryid
         Me.fndID.MyLinkLable2 = Nothing
-        Me.fndID.MyMaxLength = 32767
+        Me.fndID.MyMaxLength = 30
         Me.fndID.MyReadOnly = False
         Me.fndID.Name = "fndID"
         Me.fndID.Size = New System.Drawing.Size(202, 21)
@@ -195,6 +166,7 @@ Partial Class frmchannelCategory
         '
         'rdlblchanelcategoryid
         '
+        Me.rdlblchanelcategoryid.FieldName = Nothing
         Me.rdlblchanelcategoryid.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.rdlblchanelcategoryid.Location = New System.Drawing.Point(25, 20)
         Me.rdlblchanelcategoryid.Name = "rdlblchanelcategoryid"
@@ -204,17 +176,30 @@ Partial Class frmchannelCategory
         '
         'rdtxtcategoryname1
         '
+        Me.rdtxtcategoryname1.CalculationExpression = Nothing
+        Me.rdtxtcategoryname1.FieldCode = Nothing
+        Me.rdtxtcategoryname1.FieldDesc = Nothing
+        Me.rdtxtcategoryname1.FieldMaxLength = 0
+        Me.rdtxtcategoryname1.FieldName = Nothing
+        Me.rdtxtcategoryname1.isCalculatedField = False
+        Me.rdtxtcategoryname1.IsSourceFromTable = False
+        Me.rdtxtcategoryname1.IsSourceFromValueList = False
+        Me.rdtxtcategoryname1.IsUnique = False
         Me.rdtxtcategoryname1.Location = New System.Drawing.Point(112, 48)
         Me.rdtxtcategoryname1.MaxLength = 50
         Me.rdtxtcategoryname1.MendatroryField = False
         Me.rdtxtcategoryname1.MyLinkLable1 = Me.rdlblcategoryname
         Me.rdtxtcategoryname1.MyLinkLable2 = Nothing
         Me.rdtxtcategoryname1.Name = "rdtxtcategoryname1"
+        Me.rdtxtcategoryname1.ReferenceFieldDesc = Nothing
+        Me.rdtxtcategoryname1.ReferenceFieldName = Nothing
+        Me.rdtxtcategoryname1.ReferenceTableName = Nothing
         Me.rdtxtcategoryname1.Size = New System.Drawing.Size(203, 20)
         Me.rdtxtcategoryname1.TabIndex = 2
         '
         'rdlblcategoryname
         '
+        Me.rdlblcategoryname.FieldName = Nothing
         Me.rdlblcategoryname.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rdlblcategoryname.Location = New System.Drawing.Point(25, 48)
         Me.rdlblcategoryname.Name = "rdlblcategoryname"
@@ -232,11 +217,23 @@ Partial Class frmchannelCategory
         '
         'rdtxtcategoryname
         '
+        Me.rdtxtcategoryname.CalculationExpression = Nothing
+        Me.rdtxtcategoryname.FieldCode = Nothing
+        Me.rdtxtcategoryname.FieldDesc = Nothing
+        Me.rdtxtcategoryname.FieldMaxLength = 0
+        Me.rdtxtcategoryname.FieldName = Nothing
+        Me.rdtxtcategoryname.isCalculatedField = False
+        Me.rdtxtcategoryname.IsSourceFromTable = False
+        Me.rdtxtcategoryname.IsSourceFromValueList = False
+        Me.rdtxtcategoryname.IsUnique = False
         Me.rdtxtcategoryname.Location = New System.Drawing.Point(116, 48)
         Me.rdtxtcategoryname.MendatroryField = False
         Me.rdtxtcategoryname.MyLinkLable1 = Nothing
         Me.rdtxtcategoryname.MyLinkLable2 = Nothing
         Me.rdtxtcategoryname.Name = "rdtxtcategoryname"
+        Me.rdtxtcategoryname.ReferenceFieldDesc = Nothing
+        Me.rdtxtcategoryname.ReferenceFieldName = Nothing
+        Me.rdtxtcategoryname.ReferenceTableName = Nothing
         Me.rdtxtcategoryname.Size = New System.Drawing.Size(196, 20)
         Me.rdtxtcategoryname.TabIndex = 5
         '
@@ -269,7 +266,6 @@ Partial Class frmchannelCategory
         Me.ClientSize = New System.Drawing.Size(411, 203)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
-        Me.KeyPreview = True
         Me.Name = "frmchannelCategory"
         '
         '

@@ -66,6 +66,8 @@ Partial Class FrmSecondaryCustomerMaster
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtPhone2 = New common.Controls.MyTextBox()
+        Me.txtPhone1 = New common.Controls.MyTextBox()
         Me.txtPinNo = New common.Controls.MyTextBox()
         Me.lblPinNo = New common.Controls.MyLabel()
         Me.fndCountry = New common.UserControls.txtFinder()
@@ -101,8 +103,9 @@ Partial Class FrmSecondaryCustomerMaster
         Me.txtAdd3 = New common.Controls.MyTextBox()
         Me.txtCusgrp = New common.Controls.MyTextBox()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadLabel41 = New common.Controls.MyLabel()
+        Me.txtContPhone = New common.Controls.MyTextBox()
         Me.RadLabel16 = New common.Controls.MyLabel()
+        Me.RadLabel41 = New common.Controls.MyLabel()
         Me.RadLabel14 = New common.Controls.MyLabel()
         Me.txtContactFax = New common.Controls.MyTextBox()
         Me.RadLabel15 = New common.Controls.MyLabel()
@@ -224,9 +227,6 @@ Partial Class FrmSecondaryCustomerMaster
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExportCompetitor = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.txtPhone1 = New common.Controls.MyTextBox()
-        Me.txtPhone2 = New common.Controls.MyTextBox()
-        Me.txtContPhone = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -257,6 +257,8 @@ Partial Class FrmSecondaryCustomerMaster
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPinNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPinNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -290,8 +292,9 @@ Partial Class FrmSecondaryCustomerMaster
         CType(Me.txtAdd3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCusgrp, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
-        CType(Me.RadLabel41, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtContPhone, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel41, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtContactFax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -399,9 +402,6 @@ Partial Class FrmSecondaryCustomerMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtContPhone, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -817,7 +817,7 @@ Partial Class FrmSecondaryCustomerMaster
         Me.fndCustomer.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndCustomer.MyLinkLable1 = Nothing
         Me.fndCustomer.MyLinkLable2 = Nothing
-        Me.fndCustomer.MyMaxLength = 32767
+        Me.fndCustomer.MyMaxLength = 12
         Me.fndCustomer.MyReadOnly = False
         Me.fndCustomer.Name = "fndCustomer"
         Me.fndCustomer.Size = New System.Drawing.Size(218, 21)
@@ -947,6 +947,52 @@ Partial Class FrmSecondaryCustomerMaster
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(935, 388)
         Me.RadPageViewPage1.Text = "Address"
+        '
+        'txtPhone2
+        '
+        Me.txtPhone2.CalculationExpression = Nothing
+        Me.txtPhone2.FieldCode = Nothing
+        Me.txtPhone2.FieldDesc = Nothing
+        Me.txtPhone2.FieldMaxLength = 0
+        Me.txtPhone2.FieldName = Nothing
+        Me.txtPhone2.isCalculatedField = False
+        Me.txtPhone2.IsSourceFromTable = False
+        Me.txtPhone2.IsSourceFromValueList = False
+        Me.txtPhone2.IsUnique = False
+        Me.txtPhone2.Location = New System.Drawing.Point(110, 229)
+        Me.txtPhone2.MaxLength = 15
+        Me.txtPhone2.MendatroryField = False
+        Me.txtPhone2.MyLinkLable1 = Nothing
+        Me.txtPhone2.MyLinkLable2 = Nothing
+        Me.txtPhone2.Name = "txtPhone2"
+        Me.txtPhone2.ReferenceFieldDesc = Nothing
+        Me.txtPhone2.ReferenceFieldName = Nothing
+        Me.txtPhone2.ReferenceTableName = Nothing
+        Me.txtPhone2.Size = New System.Drawing.Size(225, 20)
+        Me.txtPhone2.TabIndex = 15
+        '
+        'txtPhone1
+        '
+        Me.txtPhone1.CalculationExpression = Nothing
+        Me.txtPhone1.FieldCode = Nothing
+        Me.txtPhone1.FieldDesc = Nothing
+        Me.txtPhone1.FieldMaxLength = 0
+        Me.txtPhone1.FieldName = Nothing
+        Me.txtPhone1.isCalculatedField = False
+        Me.txtPhone1.IsSourceFromTable = False
+        Me.txtPhone1.IsSourceFromValueList = False
+        Me.txtPhone1.IsUnique = False
+        Me.txtPhone1.Location = New System.Drawing.Point(111, 206)
+        Me.txtPhone1.MaxLength = 15
+        Me.txtPhone1.MendatroryField = False
+        Me.txtPhone1.MyLinkLable1 = Nothing
+        Me.txtPhone1.MyLinkLable2 = Nothing
+        Me.txtPhone1.Name = "txtPhone1"
+        Me.txtPhone1.ReferenceFieldDesc = Nothing
+        Me.txtPhone1.ReferenceFieldName = Nothing
+        Me.txtPhone1.ReferenceTableName = Nothing
+        Me.txtPhone1.Size = New System.Drawing.Size(225, 20)
+        Me.txtPhone1.TabIndex = 15
         '
         'txtPinNo
         '
@@ -1538,15 +1584,28 @@ Partial Class FrmSecondaryCustomerMaster
         Me.RadPageViewPage2.Size = New System.Drawing.Size(935, 388)
         Me.RadPageViewPage2.Text = "Contact Person"
         '
-        'RadLabel41
+        'txtContPhone
         '
-        Me.RadLabel41.FieldName = Nothing
-        Me.RadLabel41.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel41.Location = New System.Drawing.Point(8, 46)
-        Me.RadLabel41.Name = "RadLabel41"
-        Me.RadLabel41.Size = New System.Drawing.Size(39, 16)
-        Me.RadLabel41.TabIndex = 83
-        Me.RadLabel41.Text = "Phone"
+        Me.txtContPhone.CalculationExpression = Nothing
+        Me.txtContPhone.FieldCode = Nothing
+        Me.txtContPhone.FieldDesc = Nothing
+        Me.txtContPhone.FieldMaxLength = 0
+        Me.txtContPhone.FieldName = Nothing
+        Me.txtContPhone.isCalculatedField = False
+        Me.txtContPhone.IsSourceFromTable = False
+        Me.txtContPhone.IsSourceFromValueList = False
+        Me.txtContPhone.IsUnique = False
+        Me.txtContPhone.Location = New System.Drawing.Point(100, 45)
+        Me.txtContPhone.MaxLength = 15
+        Me.txtContPhone.MendatroryField = False
+        Me.txtContPhone.MyLinkLable1 = Me.RadLabel16
+        Me.txtContPhone.MyLinkLable2 = Nothing
+        Me.txtContPhone.Name = "txtContPhone"
+        Me.txtContPhone.ReferenceFieldDesc = Nothing
+        Me.txtContPhone.ReferenceFieldName = Nothing
+        Me.txtContPhone.ReferenceTableName = Nothing
+        Me.txtContPhone.Size = New System.Drawing.Size(229, 20)
+        Me.txtContPhone.TabIndex = 3
         '
         'RadLabel16
         '
@@ -1557,6 +1616,16 @@ Partial Class FrmSecondaryCustomerMaster
         Me.RadLabel16.Size = New System.Drawing.Size(25, 16)
         Me.RadLabel16.TabIndex = 81
         Me.RadLabel16.Text = "Fax"
+        '
+        'RadLabel41
+        '
+        Me.RadLabel41.FieldName = Nothing
+        Me.RadLabel41.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel41.Location = New System.Drawing.Point(8, 46)
+        Me.RadLabel41.Name = "RadLabel41"
+        Me.RadLabel41.Size = New System.Drawing.Size(39, 16)
+        Me.RadLabel41.TabIndex = 83
+        Me.RadLabel41.Text = "Phone"
         '
         'RadLabel14
         '
@@ -2441,6 +2510,7 @@ Partial Class FrmSecondaryCustomerMaster
         Me.grdTax.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.grdTax.MasterTemplate.ShowHeaderCellButtons = True
         Me.grdTax.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.grdTax.MyStopExport = False
         Me.grdTax.Name = "grdTax"
         Me.grdTax.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.grdTax.ShowHeaderCellButtons = True
@@ -3294,6 +3364,7 @@ Partial Class FrmSecondaryCustomerMaster
         Me.gvDB.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDB.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvDB.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDB.MyStopExport = False
         Me.gvDB.Name = "gvDB"
         Me.gvDB.ShowGroupPanel = False
         Me.gvDB.ShowHeaderCellButtons = True
@@ -3527,6 +3598,7 @@ Partial Class FrmSecondaryCustomerMaster
         Me.gvCrate.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCrate.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCrate.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvCrate.MyStopExport = False
         Me.gvCrate.Name = "gvCrate"
         Me.gvCrate.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCrate.ShowHeaderCellButtons = True
@@ -3558,6 +3630,7 @@ Partial Class FrmSecondaryCustomerMaster
         Me.gvCompetitor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCompetitor.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCompetitor.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvCompetitor.MyStopExport = False
         Me.gvCompetitor.Name = "gvCompetitor"
         Me.gvCompetitor.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCompetitor.ShowGroupPanel = False
@@ -3633,75 +3706,6 @@ Partial Class FrmSecondaryCustomerMaster
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Exit"
         '
-        'txtPhone1
-        '
-        Me.txtPhone1.CalculationExpression = Nothing
-        Me.txtPhone1.FieldCode = Nothing
-        Me.txtPhone1.FieldDesc = Nothing
-        Me.txtPhone1.FieldMaxLength = 0
-        Me.txtPhone1.FieldName = Nothing
-        Me.txtPhone1.isCalculatedField = False
-        Me.txtPhone1.IsSourceFromTable = False
-        Me.txtPhone1.IsSourceFromValueList = False
-        Me.txtPhone1.IsUnique = False
-        Me.txtPhone1.Location = New System.Drawing.Point(111, 206)
-        Me.txtPhone1.MaxLength = 15
-        Me.txtPhone1.MendatroryField = False
-        Me.txtPhone1.MyLinkLable1 = Nothing
-        Me.txtPhone1.MyLinkLable2 = Nothing
-        Me.txtPhone1.Name = "txtPhone1"
-        Me.txtPhone1.ReferenceFieldDesc = Nothing
-        Me.txtPhone1.ReferenceFieldName = Nothing
-        Me.txtPhone1.ReferenceTableName = Nothing
-        Me.txtPhone1.Size = New System.Drawing.Size(225, 20)
-        Me.txtPhone1.TabIndex = 15
-        '
-        'txtPhone2
-        '
-        Me.txtPhone2.CalculationExpression = Nothing
-        Me.txtPhone2.FieldCode = Nothing
-        Me.txtPhone2.FieldDesc = Nothing
-        Me.txtPhone2.FieldMaxLength = 0
-        Me.txtPhone2.FieldName = Nothing
-        Me.txtPhone2.isCalculatedField = False
-        Me.txtPhone2.IsSourceFromTable = False
-        Me.txtPhone2.IsSourceFromValueList = False
-        Me.txtPhone2.IsUnique = False
-        Me.txtPhone2.Location = New System.Drawing.Point(110, 229)
-        Me.txtPhone2.MaxLength = 15
-        Me.txtPhone2.MendatroryField = False
-        Me.txtPhone2.MyLinkLable1 = Nothing
-        Me.txtPhone2.MyLinkLable2 = Nothing
-        Me.txtPhone2.Name = "txtPhone2"
-        Me.txtPhone2.ReferenceFieldDesc = Nothing
-        Me.txtPhone2.ReferenceFieldName = Nothing
-        Me.txtPhone2.ReferenceTableName = Nothing
-        Me.txtPhone2.Size = New System.Drawing.Size(225, 20)
-        Me.txtPhone2.TabIndex = 15
-        '
-        'txtContPhone
-        '
-        Me.txtContPhone.CalculationExpression = Nothing
-        Me.txtContPhone.FieldCode = Nothing
-        Me.txtContPhone.FieldDesc = Nothing
-        Me.txtContPhone.FieldMaxLength = 0
-        Me.txtContPhone.FieldName = Nothing
-        Me.txtContPhone.isCalculatedField = False
-        Me.txtContPhone.IsSourceFromTable = False
-        Me.txtContPhone.IsSourceFromValueList = False
-        Me.txtContPhone.IsUnique = False
-        Me.txtContPhone.Location = New System.Drawing.Point(100, 45)
-        Me.txtContPhone.MaxLength = 15
-        Me.txtContPhone.MendatroryField = False
-        Me.txtContPhone.MyLinkLable1 = Me.RadLabel16
-        Me.txtContPhone.MyLinkLable2 = Nothing
-        Me.txtContPhone.Name = "txtContPhone"
-        Me.txtContPhone.ReferenceFieldDesc = Nothing
-        Me.txtContPhone.ReferenceFieldName = Nothing
-        Me.txtContPhone.ReferenceTableName = Nothing
-        Me.txtContPhone.Size = New System.Drawing.Size(229, 20)
-        Me.txtContPhone.TabIndex = 3
-        '
         'FrmSecondaryCustomerMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3747,6 +3751,8 @@ Partial Class FrmSecondaryCustomerMaster
         Me.pageCus.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPinNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPinNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3783,8 +3789,9 @@ Partial Class FrmSecondaryCustomerMaster
         CType(Me.txtCusgrp, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         Me.RadPageViewPage2.PerformLayout()
-        CType(Me.RadLabel41, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtContPhone, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel41, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtContactFax, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3898,9 +3905,6 @@ Partial Class FrmSecondaryCustomerMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPhone1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPhone2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtContPhone, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

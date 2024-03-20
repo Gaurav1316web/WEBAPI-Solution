@@ -239,7 +239,7 @@ Partial Class frmResponsiblePerson
         Me.fndCodeNew.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndCodeNew.MyLinkLable1 = Me.lblCode
         Me.fndCodeNew.MyLinkLable2 = Nothing
-        Me.fndCodeNew.MyMaxLength = 32767
+        Me.fndCodeNew.MyMaxLength = 30
         Me.fndCodeNew.MyReadOnly = False
         Me.fndCodeNew.Name = "fndCodeNew"
         Me.fndCodeNew.Size = New System.Drawing.Size(225, 21)
@@ -769,34 +769,25 @@ Partial Class frmResponsiblePerson
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(623, 20)
         Me.rdmenufile.TabIndex = 0
-        Me.rdmenufile.Text = "FILE"
         '
         'radmenu
         '
-        Me.radmenu.AccessibleDescription = "File"
-        Me.radmenu.AccessibleName = "File"
         Me.radmenu.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItemImport, Me.RadMenuItemExport, Me.RadMenuItemClose})
         Me.radmenu.Name = "radmenu"
         Me.radmenu.Text = "File"
         '
         'RadMenuItemImport
         '
-        Me.RadMenuItemImport.AccessibleDescription = "Import"
-        Me.RadMenuItemImport.AccessibleName = "Import"
         Me.RadMenuItemImport.Name = "RadMenuItemImport"
         Me.RadMenuItemImport.Text = "Import"
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "Export"
-        Me.RadMenuItemExport.AccessibleName = "Export"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "Export"
         '
         'RadMenuItemClose
         '
-        Me.RadMenuItemClose.AccessibleDescription = "Close"
-        Me.RadMenuItemClose.AccessibleName = "Close"
         Me.RadMenuItemClose.Name = "RadMenuItemClose"
         Me.RadMenuItemClose.Text = "Close"
         '

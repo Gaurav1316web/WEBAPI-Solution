@@ -22,9 +22,13 @@ Partial Class FrmOwnBmcExpanse
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.dtpEndDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.dtStartDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.gvTs = New common.UserControls.MyRadGridView()
         Me.txtRate = New common.MyNumBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -32,10 +36,6 @@ Partial Class FrmOwnBmcExpanse
         Me.txtSNF = New common.MyNumBox()
         Me.txtFat = New common.MyNumBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.dtpEndDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel13 = New common.Controls.MyLabel()
-        Me.dtStartDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.txtDescription = New common.Controls.MyTextBox()
         Me.lblDescription = New common.Controls.MyLabel()
         Me.chkInactive = New Telerik.WinControls.UI.RadCheckBox()
@@ -51,6 +51,10 @@ Partial Class FrmOwnBmcExpanse
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvTs, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvTs.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -59,10 +63,6 @@ Partial Class FrmOwnBmcExpanse
         CType(Me.txtSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtStartDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -125,6 +125,87 @@ Partial Class FrmOwnBmcExpanse
         Me.RadButton1.TabIndex = 1087
         Me.RadButton1.Text = "CC"
         '
+        'dtpEndDate
+        '
+        Me.dtpEndDate.CalculationExpression = Nothing
+        Me.dtpEndDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpEndDate.FieldCode = Nothing
+        Me.dtpEndDate.FieldDesc = Nothing
+        Me.dtpEndDate.FieldMaxLength = 0
+        Me.dtpEndDate.FieldName = Nothing
+        Me.dtpEndDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtpEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpEndDate.isCalculatedField = False
+        Me.dtpEndDate.IsSourceFromTable = False
+        Me.dtpEndDate.IsSourceFromValueList = False
+        Me.dtpEndDate.IsUnique = False
+        Me.dtpEndDate.Location = New System.Drawing.Point(229, 50)
+        Me.dtpEndDate.MendatroryField = False
+        Me.dtpEndDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpEndDate.MyLinkLable1 = Me.MyLabel13
+        Me.dtpEndDate.MyLinkLable2 = Nothing
+        Me.dtpEndDate.Name = "dtpEndDate"
+        Me.dtpEndDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpEndDate.ReferenceFieldDesc = Nothing
+        Me.dtpEndDate.ReferenceFieldName = Nothing
+        Me.dtpEndDate.ReferenceTableName = Nothing
+        Me.dtpEndDate.ShowCheckBox = True
+        Me.dtpEndDate.Size = New System.Drawing.Size(91, 18)
+        Me.dtpEndDate.TabIndex = 1095
+        Me.dtpEndDate.TabStop = False
+        Me.dtpEndDate.Text = "13/06/2011"
+        Me.dtpEndDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel13
+        '
+        Me.MyLabel13.FieldName = Nothing
+        Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel13.Location = New System.Drawing.Point(168, 51)
+        Me.MyLabel13.Name = "MyLabel13"
+        Me.MyLabel13.Size = New System.Drawing.Size(53, 16)
+        Me.MyLabel13.TabIndex = 1094
+        Me.MyLabel13.Text = "End Date"
+        '
+        'dtStartDate
+        '
+        Me.dtStartDate.CalculationExpression = Nothing
+        Me.dtStartDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtStartDate.FieldCode = Nothing
+        Me.dtStartDate.FieldDesc = Nothing
+        Me.dtStartDate.FieldMaxLength = 0
+        Me.dtStartDate.FieldName = Nothing
+        Me.dtStartDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtStartDate.isCalculatedField = False
+        Me.dtStartDate.IsSourceFromTable = False
+        Me.dtStartDate.IsSourceFromValueList = False
+        Me.dtStartDate.IsUnique = False
+        Me.dtStartDate.Location = New System.Drawing.Point(85, 50)
+        Me.dtStartDate.MendatroryField = False
+        Me.dtStartDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtStartDate.MyLinkLable1 = Me.MyLabel3
+        Me.dtStartDate.MyLinkLable2 = Nothing
+        Me.dtStartDate.Name = "dtStartDate"
+        Me.dtStartDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtStartDate.ReferenceFieldDesc = Nothing
+        Me.dtStartDate.ReferenceFieldName = Nothing
+        Me.dtStartDate.ReferenceTableName = Nothing
+        Me.dtStartDate.Size = New System.Drawing.Size(80, 18)
+        Me.dtStartDate.TabIndex = 1093
+        Me.dtStartDate.TabStop = False
+        Me.dtStartDate.Text = "13/06/2011"
+        Me.dtStartDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(12, 51)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(57, 16)
+        Me.MyLabel3.TabIndex = 1092
+        Me.MyLabel3.Text = "Start Date"
+        '
         'gvTs
         '
         Me.gvTs.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
@@ -134,8 +215,12 @@ Partial Class FrmOwnBmcExpanse
         '
         '
         '
-        Me.gvTs.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvTs.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvTs.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTs.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvTs.MyStopExport = False
         Me.gvTs.Name = "gvTs"
+        Me.gvTs.ShowHeaderCellButtons = True
         Me.gvTs.Size = New System.Drawing.Size(685, 189)
         Me.gvTs.TabIndex = 1102
         '
@@ -256,87 +341,6 @@ Partial Class FrmOwnBmcExpanse
         Me.MyLabel1.TabIndex = 1096
         Me.MyLabel1.Text = "FAT"
         '
-        'dtpEndDate
-        '
-        Me.dtpEndDate.CalculationExpression = Nothing
-        Me.dtpEndDate.CustomFormat = "dd/MM/yyyy"
-        Me.dtpEndDate.FieldCode = Nothing
-        Me.dtpEndDate.FieldDesc = Nothing
-        Me.dtpEndDate.FieldMaxLength = 0
-        Me.dtpEndDate.FieldName = Nothing
-        Me.dtpEndDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtpEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpEndDate.isCalculatedField = False
-        Me.dtpEndDate.IsSourceFromTable = False
-        Me.dtpEndDate.IsSourceFromValueList = False
-        Me.dtpEndDate.IsUnique = False
-        Me.dtpEndDate.Location = New System.Drawing.Point(229, 50)
-        Me.dtpEndDate.MendatroryField = False
-        Me.dtpEndDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpEndDate.MyLinkLable1 = Me.MyLabel13
-        Me.dtpEndDate.MyLinkLable2 = Nothing
-        Me.dtpEndDate.Name = "dtpEndDate"
-        Me.dtpEndDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpEndDate.ReferenceFieldDesc = Nothing
-        Me.dtpEndDate.ReferenceFieldName = Nothing
-        Me.dtpEndDate.ReferenceTableName = Nothing
-        Me.dtpEndDate.ShowCheckBox = True
-        Me.dtpEndDate.Size = New System.Drawing.Size(91, 18)
-        Me.dtpEndDate.TabIndex = 1095
-        Me.dtpEndDate.TabStop = False
-        Me.dtpEndDate.Text = "13/06/2011"
-        Me.dtpEndDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'MyLabel13
-        '
-        Me.MyLabel13.FieldName = Nothing
-        Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(168, 51)
-        Me.MyLabel13.Name = "MyLabel13"
-        Me.MyLabel13.Size = New System.Drawing.Size(53, 16)
-        Me.MyLabel13.TabIndex = 1094
-        Me.MyLabel13.Text = "End Date"
-        '
-        'dtStartDate
-        '
-        Me.dtStartDate.CalculationExpression = Nothing
-        Me.dtStartDate.CustomFormat = "dd/MM/yyyy"
-        Me.dtStartDate.FieldCode = Nothing
-        Me.dtStartDate.FieldDesc = Nothing
-        Me.dtStartDate.FieldMaxLength = 0
-        Me.dtStartDate.FieldName = Nothing
-        Me.dtStartDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtStartDate.isCalculatedField = False
-        Me.dtStartDate.IsSourceFromTable = False
-        Me.dtStartDate.IsSourceFromValueList = False
-        Me.dtStartDate.IsUnique = False
-        Me.dtStartDate.Location = New System.Drawing.Point(85, 50)
-        Me.dtStartDate.MendatroryField = False
-        Me.dtStartDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtStartDate.MyLinkLable1 = Me.MyLabel3
-        Me.dtStartDate.MyLinkLable2 = Nothing
-        Me.dtStartDate.Name = "dtStartDate"
-        Me.dtStartDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtStartDate.ReferenceFieldDesc = Nothing
-        Me.dtStartDate.ReferenceFieldName = Nothing
-        Me.dtStartDate.ReferenceTableName = Nothing
-        Me.dtStartDate.Size = New System.Drawing.Size(80, 18)
-        Me.dtStartDate.TabIndex = 1093
-        Me.dtStartDate.TabStop = False
-        Me.dtStartDate.Text = "13/06/2011"
-        Me.dtStartDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(12, 51)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(57, 16)
-        Me.MyLabel3.TabIndex = 1092
-        Me.MyLabel3.Text = "Start Date"
-        '
         'txtDescription
         '
         Me.txtDescription.CalculationExpression = Nothing
@@ -408,7 +412,7 @@ Partial Class FrmOwnBmcExpanse
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(358, 21)
@@ -475,6 +479,10 @@ Partial Class FrmOwnBmcExpanse
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpEndDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtStartDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvTs.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvTs, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -483,10 +491,6 @@ Partial Class FrmOwnBmcExpanse
         CType(Me.txtSNF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFat, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpEndDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtStartDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).EndInit()
@@ -524,5 +528,5 @@ Partial Class FrmOwnBmcExpanse
     Friend WithEvents btnDelete As RadButton
     Friend WithEvents btnPost As RadButton
     Friend WithEvents rdbtnclose As RadButton
-    Friend WithEvents gvTs As RadGridView
+    Friend WithEvents gvTs As common.UserControls.MyRadGridView
 End Class

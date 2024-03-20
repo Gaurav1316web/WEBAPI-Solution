@@ -23,29 +23,28 @@ Partial Class frmChannelMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.rdmenufile = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenufile = New Telerik.WinControls.UI.RadMenuItem
-        Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem
-        Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem
-        Me.rdmenuexit = New Telerik.WinControls.UI.RadMenuItem
-        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog
-        Me.rdgpbxchannelmaster = New Telerik.WinControls.UI.RadGroupBox
-        Me.rdbtnsave = New Telerik.WinControls.UI.RadButton
-        Me.rdgpbxchannel = New Telerik.WinControls.UI.RadGroupBox
-        Me.fndcategory = New common.UserControls.txtFinder
-        Me.rdlblcategory = New common.Controls.MyLabel
-        Me.fndID = New common.UserControls.txtNavigator
-        Me.rdlblId = New common.Controls.MyLabel
-        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton
-        Me.rdtxtname = New common.Controls.MyTextBox
-        Me.rdlblname = New common.Controls.MyLabel
-        Me.rdbtndelete = New Telerik.WinControls.UI.RadButton
-        Me.rdbtnclose = New Telerik.WinControls.UI.RadButton
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.rdmenufile = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenufile = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rdmenuexit = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SaveFileDialog1 = New System.Windows.Forms.SaveFileDialog()
+        Me.rdgpbxchannelmaster = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdgpbxchannel = New Telerik.WinControls.UI.RadGroupBox()
+        Me.fndcategory = New common.UserControls.txtFinder()
+        Me.rdlblcategory = New common.Controls.MyLabel()
+        Me.fndID = New common.UserControls.txtNavigator()
+        Me.rdlblId = New common.Controls.MyLabel()
+        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
+        Me.rdtxtname = New common.Controls.MyTextBox()
+        Me.rdlblname = New common.Controls.MyLabel()
+        Me.rdbtnsave = New Telerik.WinControls.UI.RadButton()
+        Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
+        Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdgpbxchannelmaster, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rdgpbxchannelmaster.SuspendLayout()
-        CType(Me.rdbtnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdgpbxchannel, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rdgpbxchannel.SuspendLayout()
         CType(Me.rdlblcategory, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -53,6 +52,7 @@ Partial Class frmChannelMaster
         CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdtxtname, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdlblname, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbtnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -68,71 +68,39 @@ Partial Class frmChannelMaster
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(443, 20)
         Me.rdmenufile.TabIndex = 0
-        Me.rdmenufile.Text = "File"
         '
         'RadMenufile
         '
-        Me.RadMenufile.AccessibleDescription = "File"
-        Me.RadMenufile.AccessibleName = "File"
         Me.RadMenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenuimport, Me.rdmenuexport, Me.rdmenuexit})
         Me.RadMenufile.Name = "RadMenufile"
         Me.RadMenufile.Text = "File"
-        Me.RadMenufile.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdmenuimport
         '
-        Me.rdmenuimport.AccessibleDescription = "Import"
-        Me.rdmenuimport.AccessibleName = "Import"
         Me.rdmenuimport.Name = "rdmenuimport"
         Me.rdmenuimport.Text = "Import"
-        Me.rdmenuimport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdmenuexport
         '
-        Me.rdmenuexport.AccessibleDescription = "Export"
-        Me.rdmenuexport.AccessibleName = "Export"
         Me.rdmenuexport.Name = "rdmenuexport"
         Me.rdmenuexport.Text = "Export"
-        Me.rdmenuexport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdmenuexit
         '
-        Me.rdmenuexit.AccessibleDescription = "Exit"
-        Me.rdmenuexit.AccessibleName = "Exit"
         Me.rdmenuexit.Name = "rdmenuexit"
         Me.rdmenuexit.Text = "Exit"
-        Me.rdmenuexit.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdgpbxchannelmaster
         '
         Me.rdgpbxchannelmaster.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.rdgpbxchannelmaster.Controls.Add(Me.rdgpbxchannel)
         Me.rdgpbxchannelmaster.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdgpbxchannelmaster.FooterImageIndex = -1
-        Me.rdgpbxchannelmaster.FooterImageKey = ""
-        Me.rdgpbxchannelmaster.HeaderImageIndex = -1
-        Me.rdgpbxchannelmaster.HeaderImageKey = ""
-        Me.rdgpbxchannelmaster.HeaderMargin = New System.Windows.Forms.Padding(0)
         Me.rdgpbxchannelmaster.HeaderText = ""
         Me.rdgpbxchannelmaster.Location = New System.Drawing.Point(13, 16)
         Me.rdgpbxchannelmaster.Name = "rdgpbxchannelmaster"
         Me.rdgpbxchannelmaster.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        '
-        '
-        '
-        Me.rdgpbxchannelmaster.RootElement.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.rdgpbxchannelmaster.Size = New System.Drawing.Size(417, 140)
         Me.rdgpbxchannelmaster.TabIndex = 0
-        '
-        'rdbtnsave
-        '
-        Me.rdbtnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.rdbtnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdbtnsave.Location = New System.Drawing.Point(13, 8)
-        Me.rdbtnsave.Name = "rdbtnsave"
-        Me.rdbtnsave.Size = New System.Drawing.Size(66, 18)
-        Me.rdbtnsave.TabIndex = 1
-        Me.rdbtnsave.Text = "Save"
         '
         'rdgpbxchannel
         '
@@ -145,36 +113,42 @@ Partial Class frmChannelMaster
         Me.rdgpbxchannel.Controls.Add(Me.rdlblcategory)
         Me.rdgpbxchannel.Controls.Add(Me.rdlblId)
         Me.rdgpbxchannel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdgpbxchannel.FooterImageIndex = -1
-        Me.rdgpbxchannel.FooterImageKey = ""
-        Me.rdgpbxchannel.HeaderImageIndex = -1
-        Me.rdgpbxchannel.HeaderImageKey = ""
-        Me.rdgpbxchannel.HeaderMargin = New System.Windows.Forms.Padding(0)
         Me.rdgpbxchannel.HeaderText = ""
         Me.rdgpbxchannel.Location = New System.Drawing.Point(11, 15)
         Me.rdgpbxchannel.Name = "rdgpbxchannel"
         Me.rdgpbxchannel.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        '
-        '
-        '
-        Me.rdgpbxchannel.RootElement.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.rdgpbxchannel.Size = New System.Drawing.Size(391, 110)
         Me.rdgpbxchannel.TabIndex = 0
         '
         'fndcategory
         '
+        Me.fndcategory.CalculationExpression = Nothing
+        Me.fndcategory.FieldCode = Nothing
+        Me.fndcategory.FieldDesc = Nothing
+        Me.fndcategory.FieldMaxLength = 0
+        Me.fndcategory.FieldName = Nothing
+        Me.fndcategory.isCalculatedField = False
+        Me.fndcategory.IsSourceFromTable = False
+        Me.fndcategory.IsSourceFromValueList = False
+        Me.fndcategory.IsUnique = False
         Me.fndcategory.Location = New System.Drawing.Point(114, 46)
         Me.fndcategory.MendatroryField = False
+        Me.fndcategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndcategory.MyLinkLable1 = Me.rdlblcategory
         Me.fndcategory.MyLinkLable2 = Nothing
         Me.fndcategory.MyReadOnly = False
+        Me.fndcategory.MyShowMasterFormButton = False
         Me.fndcategory.Name = "fndcategory"
+        Me.fndcategory.ReferenceFieldDesc = Nothing
+        Me.fndcategory.ReferenceFieldName = Nothing
+        Me.fndcategory.ReferenceTableName = Nothing
         Me.fndcategory.Size = New System.Drawing.Size(201, 19)
         Me.fndcategory.TabIndex = 2
         Me.fndcategory.Value = ""
         '
         'rdlblcategory
         '
+        Me.rdlblcategory.FieldName = Nothing
         Me.rdlblcategory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rdlblcategory.Location = New System.Drawing.Point(13, 45)
         Me.rdlblcategory.Name = "rdlblcategory"
@@ -184,12 +158,14 @@ Partial Class frmChannelMaster
         '
         'fndID
         '
+        Me.fndID.FieldName = Nothing
         Me.fndID.Location = New System.Drawing.Point(114, 19)
         Me.fndID.MendatroryField = True
         Me.fndID.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.fndID.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndID.MyLinkLable1 = Me.rdlblId
         Me.fndID.MyLinkLable2 = Nothing
-        Me.fndID.MyMaxLength = 32767
+        Me.fndID.MyMaxLength = 12
         Me.fndID.MyReadOnly = False
         Me.fndID.Name = "fndID"
         Me.fndID.Size = New System.Drawing.Size(202, 21)
@@ -198,14 +174,11 @@ Partial Class frmChannelMaster
         '
         'rdlblId
         '
+        Me.rdlblId.FieldName = Nothing
         Me.rdlblId.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.rdlblId.ForeColor = System.Drawing.Color.Black
         Me.rdlblId.Location = New System.Drawing.Point(13, 20)
         Me.rdlblId.Name = "rdlblId"
-        '
-        '
-        '
-        Me.rdlblId.RootElement.ForeColor = System.Drawing.Color.Black
         Me.rdlblId.Size = New System.Drawing.Size(64, 16)
         Me.rdlblId.TabIndex = 0
         Me.rdlblId.Text = "Channel Id"
@@ -220,24 +193,47 @@ Partial Class frmChannelMaster
         '
         'rdtxtname
         '
+        Me.rdtxtname.CalculationExpression = Nothing
+        Me.rdtxtname.FieldCode = Nothing
+        Me.rdtxtname.FieldDesc = Nothing
+        Me.rdtxtname.FieldMaxLength = 0
+        Me.rdtxtname.FieldName = Nothing
         Me.rdtxtname.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rdtxtname.isCalculatedField = False
+        Me.rdtxtname.IsSourceFromTable = False
+        Me.rdtxtname.IsSourceFromValueList = False
+        Me.rdtxtname.IsUnique = False
         Me.rdtxtname.Location = New System.Drawing.Point(114, 71)
         Me.rdtxtname.MaxLength = 50
         Me.rdtxtname.MendatroryField = False
         Me.rdtxtname.MyLinkLable1 = Me.rdlblname
         Me.rdtxtname.MyLinkLable2 = Nothing
         Me.rdtxtname.Name = "rdtxtname"
+        Me.rdtxtname.ReferenceFieldDesc = Nothing
+        Me.rdtxtname.ReferenceFieldName = Nothing
+        Me.rdtxtname.ReferenceTableName = Nothing
         Me.rdtxtname.Size = New System.Drawing.Size(235, 18)
         Me.rdtxtname.TabIndex = 3
         '
         'rdlblname
         '
+        Me.rdlblname.FieldName = Nothing
         Me.rdlblname.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rdlblname.Location = New System.Drawing.Point(13, 71)
         Me.rdlblname.Name = "rdlblname"
         Me.rdlblname.Size = New System.Drawing.Size(82, 16)
         Me.rdlblname.TabIndex = 1
         Me.rdlblname.Text = "Channel Name"
+        '
+        'rdbtnsave
+        '
+        Me.rdbtnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.rdbtnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rdbtnsave.Location = New System.Drawing.Point(13, 8)
+        Me.rdbtnsave.Name = "rdbtnsave"
+        Me.rdbtnsave.Size = New System.Drawing.Size(66, 18)
+        Me.rdbtnsave.TabIndex = 1
+        Me.rdbtnsave.Text = "Save"
         '
         'rdbtndelete
         '
@@ -290,18 +286,15 @@ Partial Class frmChannelMaster
         Me.Controls.Add(Me.rdmenufile)
         Me.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.ForeColor = System.Drawing.Color.White
-        Me.KeyPreview = True
         Me.Name = "frmChannelMaster"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.RootElement.ForeColor = System.Drawing.Color.White
         Me.Text = "Channel Master"
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdgpbxchannelmaster, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rdgpbxchannelmaster.ResumeLayout(False)
-        CType(Me.rdbtnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdgpbxchannel, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rdgpbxchannel.ResumeLayout(False)
         Me.rdgpbxchannel.PerformLayout()
@@ -310,6 +303,7 @@ Partial Class frmChannelMaster
         CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdtxtname, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdlblname, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbtnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)

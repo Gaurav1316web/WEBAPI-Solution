@@ -24,30 +24,32 @@ Partial Class FrmCartMaintenanceEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.txtdesc = New common.Controls.MyTextBox
-        Me.MyLabel24 = New common.Controls.MyLabel
-        Me.RadLabel4 = New common.Controls.MyLabel
-        Me.txtDate = New common.Controls.MyDateTimePicker
-        Me.UsLock1 = New common.usLock
-        Me.txtdocno = New common.UserControls.txtNavigator
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.btngo = New Telerik.WinControls.UI.RadButton
-        Me.RadGroupBox8 = New Telerik.WinControls.UI.RadGroupBox
-        Me.cbgCustomer = New common.UserControls.MyRadGridView
-        Me.Panel7 = New System.Windows.Forms.Panel
-        Me.rdselect = New Telerik.WinControls.UI.RadRadioButton
-        Me.rdall = New Telerik.WinControls.UI.RadRadioButton
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage
-        Me.gv1 = New common.UserControls.MyRadGridView
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.btnPost = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.txtdesc = New common.Controls.MyTextBox()
+        Me.MyLabel24 = New common.Controls.MyLabel()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.UsLock1 = New common.usLock()
+        Me.txtdocno = New common.UserControls.txtNavigator()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btngo = New Telerik.WinControls.UI.RadButton()
+        Me.RadGroupBox8 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.cbgCustomer = New common.UserControls.MyRadGridView()
+        Me.Panel7 = New System.Windows.Forms.Panel()
+        Me.rdselect = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rdall = New Telerik.WinControls.UI.RadRadioButton()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         CType(Me.txtdesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,18 +86,31 @@ Partial Class FrmCartMaintenanceEntry
         '
         'txtdesc
         '
+        Me.txtdesc.CalculationExpression = Nothing
+        Me.txtdesc.FieldCode = Nothing
+        Me.txtdesc.FieldDesc = Nothing
+        Me.txtdesc.FieldMaxLength = 0
+        Me.txtdesc.FieldName = Nothing
         Me.txtdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdesc.isCalculatedField = False
+        Me.txtdesc.IsSourceFromTable = False
+        Me.txtdesc.IsSourceFromValueList = False
+        Me.txtdesc.IsUnique = False
         Me.txtdesc.Location = New System.Drawing.Point(108, 33)
         Me.txtdesc.MaxLength = 50
         Me.txtdesc.MendatroryField = False
         Me.txtdesc.MyLinkLable1 = Me.MyLabel24
         Me.txtdesc.MyLinkLable2 = Nothing
         Me.txtdesc.Name = "txtdesc"
+        Me.txtdesc.ReferenceFieldDesc = Nothing
+        Me.txtdesc.ReferenceFieldName = Nothing
+        Me.txtdesc.ReferenceTableName = Nothing
         Me.txtdesc.Size = New System.Drawing.Size(403, 18)
         Me.txtdesc.TabIndex = 3
         '
         'MyLabel24
         '
+        Me.MyLabel24.FieldName = Nothing
         Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel24.Location = New System.Drawing.Point(15, 33)
         Me.MyLabel24.Name = "MyLabel24"
@@ -105,6 +120,7 @@ Partial Class FrmCartMaintenanceEntry
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel4.Location = New System.Drawing.Point(391, 11)
         Me.RadLabel4.Name = "RadLabel4"
@@ -114,9 +130,18 @@ Partial Class FrmCartMaintenanceEntry
         '
         'txtDate
         '
+        Me.txtDate.CalculationExpression = Nothing
         Me.txtDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtDate.FieldCode = Nothing
+        Me.txtDate.FieldDesc = Nothing
+        Me.txtDate.FieldMaxLength = 0
+        Me.txtDate.FieldName = Nothing
         Me.txtDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.isCalculatedField = False
+        Me.txtDate.IsSourceFromTable = False
+        Me.txtDate.IsSourceFromValueList = False
+        Me.txtDate.IsUnique = False
         Me.txtDate.Location = New System.Drawing.Point(424, 10)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -124,6 +149,9 @@ Partial Class FrmCartMaintenanceEntry
         Me.txtDate.MyLinkLable2 = Nothing
         Me.txtDate.Name = "txtDate"
         Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.ReferenceFieldDesc = Nothing
+        Me.txtDate.ReferenceFieldName = Nothing
+        Me.txtDate.ReferenceTableName = Nothing
         Me.txtDate.Size = New System.Drawing.Size(87, 18)
         Me.txtDate.TabIndex = 2
         Me.txtDate.TabStop = False
@@ -143,13 +171,14 @@ Partial Class FrmCartMaintenanceEntry
         '
         'txtdocno
         '
+        Me.txtdocno.FieldName = Nothing
         Me.txtdocno.Location = New System.Drawing.Point(108, 8)
         Me.txtdocno.MendatroryField = False
         Me.txtdocno.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtdocno.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtdocno.MyLinkLable1 = Me.RadLabel1
         Me.txtdocno.MyLinkLable2 = Nothing
-        Me.txtdocno.MyMaxLength = 32767
+        Me.txtdocno.MyMaxLength = 30
         Me.txtdocno.MyReadOnly = False
         Me.txtdocno.Name = "txtdocno"
         Me.txtdocno.Size = New System.Drawing.Size(252, 20)
@@ -158,6 +187,7 @@ Partial Class FrmCartMaintenanceEntry
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(15, 10)
         Me.RadLabel1.Name = "RadLabel1"
@@ -168,7 +198,7 @@ Partial Class FrmCartMaintenanceEntry
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = My.Resources._new
+        Me.btnAddNew.Image = Global.XpertERPService.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(362, 8)
         Me.btnAddNew.Name = "btnAddNew"
@@ -178,7 +208,7 @@ Partial Class FrmCartMaintenanceEntry
         'SplitContainer1
         '
         Me.SplitContainer1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
         Me.SplitContainer1.IsSplitterFixed = True
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
@@ -204,7 +234,7 @@ Partial Class FrmCartMaintenanceEntry
         'SplitContainer2
         '
         Me.SplitContainer2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
         Me.SplitContainer2.IsSplitterFixed = True
         Me.SplitContainer2.Location = New System.Drawing.Point(6, 6)
@@ -229,8 +259,8 @@ Partial Class FrmCartMaintenanceEntry
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadGroupBox1.Controls.Add(Me.btngo)
         Me.RadGroupBox1.Controls.Add(Me.RadLabel1)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel24)
@@ -260,8 +290,8 @@ Partial Class FrmCartMaintenanceEntry
         '
         Me.RadGroupBox8.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox8.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadGroupBox8.Controls.Add(Me.cbgCustomer)
         Me.RadGroupBox8.Controls.Add(Me.Panel7)
         Me.RadGroupBox8.HeaderText = "Customer"
@@ -276,14 +306,21 @@ Partial Class FrmCartMaintenanceEntry
         'cbgCustomer
         '
         Me.cbgCustomer.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.cbgCustomer.Location = New System.Drawing.Point(10, 40)
+        '
+        '
+        '
+        Me.cbgCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.cbgCustomer.MasterTemplate.ShowHeaderCellButtons = True
+        Me.cbgCustomer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.cbgCustomer.MyStopExport = False
         Me.cbgCustomer.Name = "cbgCustomer"
+        Me.cbgCustomer.ShowHeaderCellButtons = True
         Me.cbgCustomer.Size = New System.Drawing.Size(476, 146)
         Me.cbgCustomer.TabIndex = 0
         Me.cbgCustomer.TabStop = False
-        Me.cbgCustomer.Text = "RadGridView1"
         '
         'Panel7
         '
@@ -323,13 +360,13 @@ Partial Class FrmCartMaintenanceEntry
         Me.RadPageView1.Size = New System.Drawing.Size(700, 308)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.TabStop = False
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).Padding = New System.Windows.Forms.Padding(5)
         '
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.gv1)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(104.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(680, 261)
@@ -339,11 +376,18 @@ Partial Class FrmCartMaintenanceEntry
         '
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(680, 261)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'btnDelete
         '

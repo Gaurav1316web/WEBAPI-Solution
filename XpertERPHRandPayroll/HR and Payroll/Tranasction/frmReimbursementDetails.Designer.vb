@@ -25,6 +25,7 @@ Partial Class frmReimbursementDetails
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmReimbursementDetails))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.UsLock1 = New common.usLock()
@@ -42,11 +43,11 @@ Partial Class frmReimbursementDetails
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
         Me.gvReimbursement = New common.UserControls.MyRadGridView()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -64,11 +65,11 @@ Partial Class frmReimbursementDetails
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvReimbursement, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvReimbursement.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -150,7 +151,6 @@ Partial Class frmReimbursementDetails
         Me.lblEmpName.Name = "lblEmpName"
         Me.lblEmpName.Size = New System.Drawing.Size(222, 19)
         Me.lblEmpName.TabIndex = 5
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblPayPeriodName
         '
@@ -161,7 +161,6 @@ Partial Class frmReimbursementDetails
         Me.lblPayPeriodName.Name = "lblPayPeriodName"
         Me.lblPayPeriodName.Size = New System.Drawing.Size(222, 19)
         Me.lblPayPeriodName.TabIndex = 3
-        Me.lblPayPeriodName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'findPayperiod
         '
@@ -320,7 +319,7 @@ Partial Class frmReimbursementDetails
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(221, 21)
@@ -349,19 +348,31 @@ Partial Class frmReimbursementDetails
         Me.gvReimbursement.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvReimbursement.Location = New System.Drawing.Point(9, 163)
         '
-        'gvReimbursement
+        '
         '
         Me.gvReimbursement.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvReimbursement.MasterTemplate.AutoGenerateColumns = False
         Me.gvReimbursement.MasterTemplate.EnableGrouping = False
+        Me.gvReimbursement.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvReimbursement.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvReimbursement.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvReimbursement.MyStopExport = False
         Me.gvReimbursement.Name = "gvReimbursement"
         Me.gvReimbursement.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvReimbursement.ShowHeaderCellButtons = True
         Me.gvReimbursement.Size = New System.Drawing.Size(736, 236)
         Me.gvReimbursement.TabIndex = 8
         Me.gvReimbursement.TabStop = False
-        Me.gvReimbursement.Text = "RadGridView4"
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(225, 16)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(66, 18)
+        Me.btnReverse.TabIndex = 4
+        Me.btnReverse.Text = "Reverse"
         '
         'btnPost
         '
@@ -403,16 +414,6 @@ Partial Class frmReimbursementDetails
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
-        'btnReverse
-        '
-        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(225, 16)
-        Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(66, 18)
-        Me.btnReverse.TabIndex = 4
-        Me.btnReverse.Text = "Reverse"
-        '
         'frmReimbursementDetails
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -443,11 +444,11 @@ Partial Class frmReimbursementDetails
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvReimbursement.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvReimbursement, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

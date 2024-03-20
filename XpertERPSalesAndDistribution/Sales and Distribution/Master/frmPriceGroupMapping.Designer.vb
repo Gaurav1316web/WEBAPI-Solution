@@ -22,35 +22,36 @@ Partial Class FrmPriceGroupMapping
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim GridViewMultiComboBoxColumn1 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn
-        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn
-        Dim GridViewCheckBoxColumn1 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn
-        Dim SortDescriptor1 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.RadLabel2 = New common.Controls.MyLabel
-        Me.RadLabel9 = New common.Controls.MyLabel
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnReset = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.fndPriceGrp = New common.UserControls.txtNavigator
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox
-        Me.grdPrice = New common.UserControls.MyRadGridView
-        Me.txtRemarks = New common.Controls.MyTextBox
-        Me.txtDesc = New common.Controls.MyTextBox
-        Me.MenuFile = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.mbtnExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.mbtnImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage
-        Me.chkprinciple = New common.Controls.MyCheckBox
-        Me.txtprinciple = New common.Controls.MyLabel
-        Me.txtpri_code = New common.UserControls.txtFinder
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage
-        Me.UcCustomFields1 = New ucCustomFields
+        Dim GridViewMultiComboBoxColumn1 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
+        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewCheckBoxColumn1 As Telerik.WinControls.UI.GridViewCheckBoxColumn = New Telerik.WinControls.UI.GridViewCheckBoxColumn()
+        Dim SortDescriptor1 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.RadLabel9 = New common.Controls.MyLabel()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.fndPriceGrp = New common.UserControls.txtNavigator()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.grdPrice = New common.UserControls.MyRadGridView()
+        Me.txtRemarks = New common.Controls.MyTextBox()
+        Me.txtDesc = New common.Controls.MyTextBox()
+        Me.MenuFile = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.mbtnExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.mbtnImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkprinciple = New common.Controls.MyCheckBox()
+        Me.txtprinciple = New common.Controls.MyLabel()
+        Me.txtpri_code = New common.UserControls.txtFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New XpertERPSalesAndDistribution.ucCustomFields()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -80,6 +81,7 @@ Partial Class FrmPriceGroupMapping
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.RadLabel1.Location = New System.Drawing.Point(5, 2)
         Me.RadLabel1.Name = "RadLabel1"
@@ -89,6 +91,7 @@ Partial Class FrmPriceGroupMapping
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel2.Location = New System.Drawing.Point(5, 23)
         Me.RadLabel2.Name = "RadLabel2"
@@ -98,6 +101,7 @@ Partial Class FrmPriceGroupMapping
         '
         'RadLabel9
         '
+        Me.RadLabel9.FieldName = Nothing
         Me.RadLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel9.Location = New System.Drawing.Point(5, 43)
         Me.RadLabel9.Name = "RadLabel9"
@@ -146,13 +150,14 @@ Partial Class FrmPriceGroupMapping
         '
         'fndPriceGrp
         '
+        Me.fndPriceGrp.FieldName = Nothing
         Me.fndPriceGrp.Location = New System.Drawing.Point(86, 2)
         Me.fndPriceGrp.MendatroryField = True
         Me.fndPriceGrp.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndPriceGrp.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndPriceGrp.MyLinkLable1 = Me.RadLabel1
         Me.fndPriceGrp.MyLinkLable2 = Nothing
-        Me.fndPriceGrp.MyMaxLength = 32767
+        Me.fndPriceGrp.MyMaxLength = 20
         Me.fndPriceGrp.MyReadOnly = False
         Me.fndPriceGrp.Name = "fndPriceGrp"
         Me.fndPriceGrp.Size = New System.Drawing.Size(231, 18)
@@ -180,7 +185,7 @@ Partial Class FrmPriceGroupMapping
         Me.grdPrice.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.grdPrice.Location = New System.Drawing.Point(10, 20)
         '
-        'grdPrice
+        '
         '
         Me.grdPrice.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.grdPrice.MasterTemplate.AllowAddNewRow = False
@@ -199,36 +204,64 @@ Partial Class FrmPriceGroupMapping
         Me.grdPrice.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewMultiComboBoxColumn1, GridViewTextBoxColumn1, GridViewCheckBoxColumn1})
         Me.grdPrice.MasterTemplate.EnableFiltering = True
         Me.grdPrice.MasterTemplate.EnableSorting = False
+        Me.grdPrice.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.grdPrice.MasterTemplate.ShowHeaderCellButtons = True
         SortDescriptor1.PropertyName = "Price Component Code"
         Me.grdPrice.MasterTemplate.SortDescriptors.AddRange(New Telerik.WinControls.Data.SortDescriptor() {SortDescriptor1})
+        Me.grdPrice.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.grdPrice.MyStopExport = False
         Me.grdPrice.Name = "grdPrice"
         Me.grdPrice.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.grdPrice.ShowGroupPanel = False
+        Me.grdPrice.ShowHeaderCellButtons = True
         Me.grdPrice.Size = New System.Drawing.Size(646, 287)
         Me.grdPrice.TabIndex = 0
         Me.grdPrice.TabStop = False
-        Me.grdPrice.Text = "RadGridView1"
         '
         'txtRemarks
         '
+        Me.txtRemarks.CalculationExpression = Nothing
+        Me.txtRemarks.FieldCode = Nothing
+        Me.txtRemarks.FieldDesc = Nothing
+        Me.txtRemarks.FieldMaxLength = 0
+        Me.txtRemarks.FieldName = Nothing
         Me.txtRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRemarks.isCalculatedField = False
+        Me.txtRemarks.IsSourceFromTable = False
+        Me.txtRemarks.IsSourceFromValueList = False
+        Me.txtRemarks.IsUnique = False
         Me.txtRemarks.Location = New System.Drawing.Point(86, 45)
         Me.txtRemarks.MendatroryField = False
         Me.txtRemarks.MyLinkLable1 = Me.RadLabel9
         Me.txtRemarks.MyLinkLable2 = Nothing
         Me.txtRemarks.Name = "txtRemarks"
+        Me.txtRemarks.ReferenceFieldDesc = Nothing
+        Me.txtRemarks.ReferenceFieldName = Nothing
+        Me.txtRemarks.ReferenceTableName = Nothing
         Me.txtRemarks.Size = New System.Drawing.Size(583, 18)
         Me.txtRemarks.TabIndex = 3
         '
         'txtDesc
         '
+        Me.txtDesc.CalculationExpression = Nothing
+        Me.txtDesc.FieldCode = Nothing
+        Me.txtDesc.FieldDesc = Nothing
+        Me.txtDesc.FieldMaxLength = 0
+        Me.txtDesc.FieldName = Nothing
         Me.txtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDesc.isCalculatedField = False
+        Me.txtDesc.IsSourceFromTable = False
+        Me.txtDesc.IsSourceFromValueList = False
+        Me.txtDesc.IsUnique = False
         Me.txtDesc.Location = New System.Drawing.Point(86, 24)
         Me.txtDesc.MaxLength = 50
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel2
         Me.txtDesc.MyLinkLable2 = Nothing
         Me.txtDesc.Name = "txtDesc"
+        Me.txtDesc.ReferenceFieldDesc = Nothing
+        Me.txtDesc.ReferenceFieldName = Nothing
+        Me.txtDesc.ReferenceTableName = Nothing
         Me.txtDesc.Size = New System.Drawing.Size(583, 18)
         Me.txtDesc.TabIndex = 2
         '
@@ -239,33 +272,24 @@ Partial Class FrmPriceGroupMapping
         Me.MenuFile.Name = "MenuFile"
         Me.MenuFile.Size = New System.Drawing.Size(694, 20)
         Me.MenuFile.TabIndex = 1
-        Me.MenuFile.Text = "File"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
         Me.RadMenuItem1.AccessibleName = "FIleMenu"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mbtnExport, Me.mbtnImport})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'mbtnExport
         '
-        Me.mbtnExport.AccessibleDescription = "Export"
-        Me.mbtnExport.AccessibleName = "Export"
         Me.mbtnExport.Name = "mbtnExport"
         Me.mbtnExport.Text = "Export"
-        Me.mbtnExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'mbtnImport
         '
-        Me.mbtnImport.AccessibleDescription = "Import"
-        Me.mbtnImport.AccessibleName = "Import"
         Me.mbtnImport.Name = "mbtnImport"
         Me.mbtnImport.Text = "Import"
-        Me.mbtnImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer1
         '
@@ -298,7 +322,6 @@ Partial Class FrmPriceGroupMapping
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(694, 464)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -337,30 +360,44 @@ Partial Class FrmPriceGroupMapping
         Me.txtprinciple.AutoSize = False
         Me.txtprinciple.BorderVisible = True
         Me.txtprinciple.Enabled = False
+        Me.txtprinciple.FieldName = Nothing
         Me.txtprinciple.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtprinciple.Location = New System.Drawing.Point(212, 67)
         Me.txtprinciple.Name = "txtprinciple"
         Me.txtprinciple.Size = New System.Drawing.Size(359, 18)
         Me.txtprinciple.TabIndex = 109
-        Me.txtprinciple.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtprinciple.TextWrap = False
         '
         'txtpri_code
         '
+        Me.txtpri_code.CalculationExpression = Nothing
         Me.txtpri_code.Enabled = False
+        Me.txtpri_code.FieldCode = Nothing
+        Me.txtpri_code.FieldDesc = Nothing
+        Me.txtpri_code.FieldMaxLength = 0
+        Me.txtpri_code.FieldName = Nothing
+        Me.txtpri_code.isCalculatedField = False
+        Me.txtpri_code.IsSourceFromTable = False
+        Me.txtpri_code.IsSourceFromValueList = False
+        Me.txtpri_code.IsUnique = False
         Me.txtpri_code.Location = New System.Drawing.Point(86, 67)
         Me.txtpri_code.MendatroryField = False
         Me.txtpri_code.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtpri_code.MyLinkLable1 = Me.MyLabel1
         Me.txtpri_code.MyLinkLable2 = Me.txtprinciple
         Me.txtpri_code.MyReadOnly = False
+        Me.txtpri_code.MyShowMasterFormButton = False
         Me.txtpri_code.Name = "txtpri_code"
+        Me.txtpri_code.ReferenceFieldDesc = Nothing
+        Me.txtpri_code.ReferenceFieldName = Nothing
+        Me.txtpri_code.ReferenceTableName = Nothing
         Me.txtpri_code.Size = New System.Drawing.Size(122, 18)
         Me.txtpri_code.TabIndex = 4
         Me.txtpri_code.Value = ""
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(5, 69)
         Me.MyLabel1.Name = "MyLabel1"

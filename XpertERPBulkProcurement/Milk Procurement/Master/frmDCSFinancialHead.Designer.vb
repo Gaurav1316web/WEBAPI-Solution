@@ -194,6 +194,7 @@ Partial Class frmDCSFinancialHead
         '
         Me.cboSubType.AutoCompleteDisplayMember = Nothing
         Me.cboSubType.AutoCompleteValueMember = Nothing
+        Me.cboSubType.DropDownAnimationEnabled = True
         Me.cboSubType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboSubType.Location = New System.Drawing.Point(81, 75)
         Me.cboSubType.Name = "cboSubType"
@@ -213,6 +214,7 @@ Partial Class frmDCSFinancialHead
         '
         Me.cboType.AutoCompleteDisplayMember = Nothing
         Me.cboType.AutoCompleteValueMember = Nothing
+        Me.cboType.DropDownAnimationEnabled = True
         Me.cboType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboType.Location = New System.Drawing.Point(81, 54)
         Me.cboType.Name = "cboType"
@@ -261,7 +263,7 @@ Partial Class frmDCSFinancialHead
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(269, 21)

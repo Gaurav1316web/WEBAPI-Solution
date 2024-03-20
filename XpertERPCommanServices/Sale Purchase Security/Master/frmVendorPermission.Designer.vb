@@ -22,24 +22,26 @@ Partial Class FrmVendorPermission
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.rlblUserCode = New common.Controls.MyLabel
-        Me.fndUser_Name = New common.UserControls.txtNavigator
-        Me.rbtnReset = New Telerik.WinControls.UI.RadButton
-        Me.TxtUserName = New common.Controls.MyTextBox
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.Panel2 = New System.Windows.Forms.Panel
-        Me.ChkVendorSelect = New common.Controls.MyRadioButton
-        Me.ChkVendorAll = New common.Controls.MyRadioButton
-        Me.GvVendor = New common.UserControls.MyRadGridView
-        Me.GrpVendorGroup = New System.Windows.Forms.GroupBox
-        Me.gv = New common.UserControls.MyRadGridView
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.chkVendorGroupSelect = New common.Controls.MyRadioButton
-        Me.chkVendorGroupAll = New common.Controls.MyRadioButton
-        Me.rbtnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.rlblUserCode = New common.Controls.MyLabel()
+        Me.fndUser_Name = New common.UserControls.txtNavigator()
+        Me.rbtnReset = New Telerik.WinControls.UI.RadButton()
+        Me.TxtUserName = New common.Controls.MyTextBox()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.ChkVendorSelect = New common.Controls.MyRadioButton()
+        Me.ChkVendorAll = New common.Controls.MyRadioButton()
+        Me.GvVendor = New common.UserControls.MyRadGridView()
+        Me.GrpVendorGroup = New System.Windows.Forms.GroupBox()
+        Me.gv = New common.UserControls.MyRadGridView()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.chkVendorGroupSelect = New common.Controls.MyRadioButton()
+        Me.chkVendorGroupAll = New common.Controls.MyRadioButton()
+        Me.rbtnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -93,6 +95,7 @@ Partial Class FrmVendorPermission
         '
         'rlblUserCode
         '
+        Me.rlblUserCode.FieldName = Nothing
         Me.rlblUserCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rlblUserCode.Location = New System.Drawing.Point(17, 15)
         Me.rlblUserCode.Name = "rlblUserCode"
@@ -102,13 +105,14 @@ Partial Class FrmVendorPermission
         '
         'fndUser_Name
         '
+        Me.fndUser_Name.FieldName = Nothing
         Me.fndUser_Name.Location = New System.Drawing.Point(81, 12)
         Me.fndUser_Name.MendatroryField = True
         Me.fndUser_Name.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndUser_Name.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndUser_Name.MyLinkLable1 = Nothing
         Me.fndUser_Name.MyLinkLable2 = Nothing
-        Me.fndUser_Name.MyMaxLength = 32767
+        Me.fndUser_Name.MyMaxLength = 30
         Me.fndUser_Name.MyReadOnly = False
         Me.fndUser_Name.Name = "fndUser_Name"
         Me.fndUser_Name.Size = New System.Drawing.Size(210, 21)
@@ -118,7 +122,7 @@ Partial Class FrmVendorPermission
         'rbtnReset
         '
         Me.rbtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtnReset.Image = My.Resources._new
+        Me.rbtnReset.Image = Global.XpertERPCommanServices.My.Resources.Resources._new
         Me.rbtnReset.Location = New System.Drawing.Point(302, 15)
         Me.rbtnReset.Name = "rbtnReset"
         Me.rbtnReset.Size = New System.Drawing.Size(14, 18)
@@ -126,7 +130,16 @@ Partial Class FrmVendorPermission
         '
         'TxtUserName
         '
+        Me.TxtUserName.CalculationExpression = Nothing
+        Me.TxtUserName.FieldCode = Nothing
+        Me.TxtUserName.FieldDesc = Nothing
+        Me.TxtUserName.FieldMaxLength = 0
+        Me.TxtUserName.FieldName = Nothing
         Me.TxtUserName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtUserName.isCalculatedField = False
+        Me.TxtUserName.IsSourceFromTable = False
+        Me.TxtUserName.IsSourceFromValueList = False
+        Me.TxtUserName.IsUnique = False
         Me.TxtUserName.Location = New System.Drawing.Point(329, 14)
         Me.TxtUserName.MaxLength = 25
         Me.TxtUserName.MendatroryField = False
@@ -134,6 +147,9 @@ Partial Class FrmVendorPermission
         Me.TxtUserName.MyLinkLable2 = Nothing
         Me.TxtUserName.Name = "TxtUserName"
         Me.TxtUserName.ReadOnly = True
+        Me.TxtUserName.ReferenceFieldDesc = Nothing
+        Me.TxtUserName.ReferenceFieldName = Nothing
+        Me.TxtUserName.ReferenceTableName = Nothing
         Me.TxtUserName.Size = New System.Drawing.Size(186, 18)
         Me.TxtUserName.TabIndex = 124
         '
@@ -181,17 +197,21 @@ Partial Class FrmVendorPermission
         '
         Me.GvVendor.Location = New System.Drawing.Point(8, 50)
         '
-        'GvVendor
+        '
         '
         Me.GvVendor.MasterTemplate.AllowAddNewRow = False
         Me.GvVendor.MasterTemplate.AllowEditRow = False
         Me.GvVendor.MasterTemplate.EnableFiltering = True
+        Me.GvVendor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.GvVendor.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GvVendor.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.GvVendor.MyStopExport = False
         Me.GvVendor.Name = "GvVendor"
         Me.GvVendor.ShowGroupPanel = False
+        Me.GvVendor.ShowHeaderCellButtons = True
         Me.GvVendor.Size = New System.Drawing.Size(464, 311)
         Me.GvVendor.TabIndex = 1
         Me.GvVendor.TabStop = False
-        Me.GvVendor.Text = "RadGridView1"
         '
         'GrpVendorGroup
         '
@@ -208,17 +228,21 @@ Partial Class FrmVendorPermission
         '
         Me.gv.Location = New System.Drawing.Point(6, 49)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowEditRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowGroupPanel = False
+        Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(327, 311)
         Me.gv.TabIndex = 2
         Me.gv.TabStop = False
-        Me.gv.Text = "RadGridView1"
         '
         'Panel1
         '

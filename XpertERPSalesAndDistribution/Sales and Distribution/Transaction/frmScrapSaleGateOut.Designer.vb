@@ -119,7 +119,6 @@ Partial Class FrmScrapSaleGateOut
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(836, 267)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -166,7 +165,6 @@ Partial Class FrmScrapSaleGateOut
         Me.lblTransportName.Name = "lblTransportName"
         Me.lblTransportName.Size = New System.Drawing.Size(193, 18)
         Me.lblTransportName.TabIndex = 457
-        Me.lblTransportName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTransportName.TextWrap = False
         '
         'txtTransportId
@@ -327,7 +325,6 @@ Partial Class FrmScrapSaleGateOut
         Me.lblToLoc.Name = "lblToLoc"
         Me.lblToLoc.Size = New System.Drawing.Size(193, 18)
         Me.lblToLoc.TabIndex = 424
-        Me.lblToLoc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblToLoc.TextWrap = False
         '
         'lblFromLoc
@@ -340,7 +337,6 @@ Partial Class FrmScrapSaleGateOut
         Me.lblFromLoc.Name = "lblFromLoc"
         Me.lblFromLoc.Size = New System.Drawing.Size(193, 18)
         Me.lblFromLoc.TabIndex = 423
-        Me.lblFromLoc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFromLoc.TextWrap = False
         '
         'txtToLoc
@@ -561,7 +557,7 @@ Partial Class FrmScrapSaleGateOut
         Me.fndDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndDocNo.MyLinkLable1 = Me.lblDocNo
         Me.fndDocNo.MyLinkLable2 = Nothing
-        Me.fndDocNo.MyMaxLength = 32767
+        Me.fndDocNo.MyMaxLength = 30
         Me.fndDocNo.MyReadOnly = False
         Me.fndDocNo.Name = "fndDocNo"
         Me.fndDocNo.Size = New System.Drawing.Size(288, 18)

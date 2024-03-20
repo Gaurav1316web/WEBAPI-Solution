@@ -23,6 +23,7 @@ Partial Class frmSectionConsumptionMapping
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
@@ -143,30 +144,22 @@ Partial Class frmSectionConsumptionMapping
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.import, Me.export, Me.cityclose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'import
         '
-        Me.import.AccessibleDescription = "Import"
-        Me.import.AccessibleName = "Import"
         Me.import.Name = "import"
         Me.import.Text = "Import"
         '
         'export
         '
-        Me.export.AccessibleDescription = "Export"
-        Me.export.AccessibleName = "Export"
         Me.export.Name = "export"
         Me.export.Text = "Export"
         '
         'cityclose
         '
-        Me.cityclose.AccessibleDescription = "Close"
-        Me.cityclose.AccessibleName = "Close"
         Me.cityclose.Name = "cityclose"
         Me.cityclose.Text = "Close"
         '
@@ -177,7 +170,6 @@ Partial Class frmSectionConsumptionMapping
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(573, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'btnnew
         '
@@ -216,7 +208,7 @@ Partial Class frmSectionConsumptionMapping
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblid
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 50
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(202, 18)
@@ -244,11 +236,14 @@ Partial Class frmSectionConsumptionMapping
         Me.dgv.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgv.Location = New System.Drawing.Point(10, 20)
         '
-        'dgv
+        '
         '
         Me.dgv.MasterTemplate.AllowAddNewRow = False
         Me.dgv.MasterTemplate.EnableFiltering = True
+        Me.dgv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgv.MyStopExport = False
         Me.dgv.Name = "dgv"
         Me.dgv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgv.ShowGroupPanel = False
@@ -256,7 +251,6 @@ Partial Class frmSectionConsumptionMapping
         Me.dgv.Size = New System.Drawing.Size(485, 292)
         Me.dgv.TabIndex = 1
         Me.dgv.TabStop = False
-        Me.dgv.Text = "RadGridView1"
         '
         'SplitContainer1
         '

@@ -308,7 +308,7 @@ Partial Class frmNatureOfDeduction
         Me.Fnd_DeductionNew.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.Fnd_DeductionNew.MyLinkLable1 = Me.lblnDeduc
         Me.Fnd_DeductionNew.MyLinkLable2 = Nothing
-        Me.Fnd_DeductionNew.MyMaxLength = 32767
+        Me.Fnd_DeductionNew.MyMaxLength = 30
         Me.Fnd_DeductionNew.MyReadOnly = False
         Me.Fnd_DeductionNew.Name = "Fnd_DeductionNew"
         Me.Fnd_DeductionNew.Size = New System.Drawing.Size(202, 21)
@@ -432,6 +432,7 @@ Partial Class frmNatureOfDeduction
         Me.dgvdeduction.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvdeduction.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvdeduction.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvdeduction.MyStopExport = False
         Me.dgvdeduction.Name = "dgvdeduction"
         Me.dgvdeduction.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvdeduction.ShowHeaderCellButtons = True

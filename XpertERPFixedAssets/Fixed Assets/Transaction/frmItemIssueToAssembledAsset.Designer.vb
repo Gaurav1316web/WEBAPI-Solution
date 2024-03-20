@@ -24,15 +24,22 @@ Partial Class frmItemIssueToAssembledAsset
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtCostCenter = New common.UserControls.txtFinder()
+        Me.lblCostCenterDesc = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtHCode = New common.UserControls.txtFinder()
+        Me.lblHDesc = New common.Controls.MyLabel()
         Me.lblAssetType = New common.Controls.MyLabel()
         Me.cboAssetType = New common.Controls.MyComboBox()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.UcItemBalance1 = New XpertERPEngine.ucItemBalance()
-        Me.txtHCode = New common.UserControls.txtFinder()
-        Me.lblHDesc = New common.Controls.MyLabel()
         Me.chkWithoutRefNo = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtComment = New common.Controls.MyTextBox()
         Me.RadLabel3 = New common.Controls.MyLabel()
@@ -70,7 +77,7 @@ Partial Class frmItemIssueToAssembledAsset
         Me.gv2 = New common.UserControls.MyRadGridView()
         Me.RadLabel11 = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -86,21 +93,20 @@ Partial Class frmItemIssueToAssembledAsset
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.txtCostCenter = New common.UserControls.txtFinder()
-        Me.lblCostCenterDesc = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCostCenterDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblHDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAssetType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboAssetType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblHDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkWithoutRefNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -149,10 +155,6 @@ Partial Class frmItemIssueToAssembledAsset
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCostCenterDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -195,7 +197,6 @@ Partial Class frmItemIssueToAssembledAsset
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(839, 533)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -238,6 +239,117 @@ Partial Class frmItemIssueToAssembledAsset
         Me.RadPageViewPage1.Text = "IssueTo Assemble Asset"
         Me.RadPageViewPage1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText
         '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.MyLabel2)
+        Me.GroupBox1.Controls.Add(Me.txtCostCenter)
+        Me.GroupBox1.Controls.Add(Me.lblCostCenterDesc)
+        Me.GroupBox1.Controls.Add(Me.MyLabel1)
+        Me.GroupBox1.Controls.Add(Me.txtHCode)
+        Me.GroupBox1.Controls.Add(Me.lblHDesc)
+        Me.GroupBox1.Location = New System.Drawing.Point(202, 69)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(610, 74)
+        Me.GroupBox1.TabIndex = 61
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Issue To"
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(9, 44)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(67, 16)
+        Me.MyLabel2.TabIndex = 64
+        Me.MyLabel2.Text = "Cost Center"
+        '
+        'txtCostCenter
+        '
+        Me.txtCostCenter.CalculationExpression = Nothing
+        Me.txtCostCenter.FieldCode = Nothing
+        Me.txtCostCenter.FieldDesc = Nothing
+        Me.txtCostCenter.FieldMaxLength = 0
+        Me.txtCostCenter.FieldName = Nothing
+        Me.txtCostCenter.isCalculatedField = False
+        Me.txtCostCenter.IsSourceFromTable = False
+        Me.txtCostCenter.IsSourceFromValueList = False
+        Me.txtCostCenter.IsUnique = False
+        Me.txtCostCenter.Location = New System.Drawing.Point(102, 42)
+        Me.txtCostCenter.MendatroryField = False
+        Me.txtCostCenter.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCostCenter.MyLinkLable1 = Nothing
+        Me.txtCostCenter.MyLinkLable2 = Me.lblCostCenterDesc
+        Me.txtCostCenter.MyReadOnly = False
+        Me.txtCostCenter.MyShowMasterFormButton = False
+        Me.txtCostCenter.Name = "txtCostCenter"
+        Me.txtCostCenter.ReferenceFieldDesc = Nothing
+        Me.txtCostCenter.ReferenceFieldName = Nothing
+        Me.txtCostCenter.ReferenceTableName = Nothing
+        Me.txtCostCenter.Size = New System.Drawing.Size(144, 20)
+        Me.txtCostCenter.TabIndex = 62
+        Me.txtCostCenter.Value = ""
+        '
+        'lblCostCenterDesc
+        '
+        Me.lblCostCenterDesc.AutoSize = False
+        Me.lblCostCenterDesc.BorderVisible = True
+        Me.lblCostCenterDesc.FieldName = Nothing
+        Me.lblCostCenterDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCostCenterDesc.Location = New System.Drawing.Point(252, 42)
+        Me.lblCostCenterDesc.Name = "lblCostCenterDesc"
+        Me.lblCostCenterDesc.Size = New System.Drawing.Size(353, 18)
+        Me.lblCostCenterDesc.TabIndex = 63
+        Me.lblCostCenterDesc.TextWrap = False
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(9, 20)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(85, 16)
+        Me.MyLabel1.TabIndex = 61
+        Me.MyLabel1.Text = "Hierarchy Level"
+        '
+        'txtHCode
+        '
+        Me.txtHCode.CalculationExpression = Nothing
+        Me.txtHCode.FieldCode = Nothing
+        Me.txtHCode.FieldDesc = Nothing
+        Me.txtHCode.FieldMaxLength = 0
+        Me.txtHCode.FieldName = Nothing
+        Me.txtHCode.isCalculatedField = False
+        Me.txtHCode.IsSourceFromTable = False
+        Me.txtHCode.IsSourceFromValueList = False
+        Me.txtHCode.IsUnique = False
+        Me.txtHCode.Location = New System.Drawing.Point(102, 17)
+        Me.txtHCode.MendatroryField = False
+        Me.txtHCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtHCode.MyLinkLable1 = Nothing
+        Me.txtHCode.MyLinkLable2 = Me.lblHDesc
+        Me.txtHCode.MyReadOnly = False
+        Me.txtHCode.MyShowMasterFormButton = False
+        Me.txtHCode.Name = "txtHCode"
+        Me.txtHCode.ReferenceFieldDesc = Nothing
+        Me.txtHCode.ReferenceFieldName = Nothing
+        Me.txtHCode.ReferenceTableName = Nothing
+        Me.txtHCode.Size = New System.Drawing.Size(144, 19)
+        Me.txtHCode.TabIndex = 2
+        Me.txtHCode.Value = ""
+        '
+        'lblHDesc
+        '
+        Me.lblHDesc.AutoSize = False
+        Me.lblHDesc.BorderVisible = True
+        Me.lblHDesc.FieldName = Nothing
+        Me.lblHDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblHDesc.Location = New System.Drawing.Point(252, 18)
+        Me.lblHDesc.Name = "lblHDesc"
+        Me.lblHDesc.Size = New System.Drawing.Size(353, 18)
+        Me.lblHDesc.TabIndex = 3
+        Me.lblHDesc.TextWrap = False
+        '
         'lblAssetType
         '
         Me.lblAssetType.FieldName = Nothing
@@ -253,6 +365,7 @@ Partial Class frmItemIssueToAssembledAsset
         Me.cboAssetType.AutoCompleteDisplayMember = Nothing
         Me.cboAssetType.AutoCompleteValueMember = Nothing
         Me.cboAssetType.CalculationExpression = Nothing
+        Me.cboAssetType.DropDownAnimationEnabled = True
         Me.cboAssetType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboAssetType.FieldCode = Nothing
         Me.cboAssetType.FieldDesc = Nothing
@@ -291,7 +404,7 @@ Partial Class frmItemIssueToAssembledAsset
         Me.UcItemBalance1.CommitedQty = False
         Me.UcItemBalance1.CommitedQtyLbl = False
         Me.UcItemBalance1.ItemCode = ""
-        Me.UcItemBalance1.ItemMRP = 0.0R
+        Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
         Me.UcItemBalance1.Location = New System.Drawing.Point(3, 411)
         Me.UcItemBalance1.LocationCode = ""
@@ -307,44 +420,6 @@ Partial Class frmItemIssueToAssembledAsset
         Me.UcItemBalance1.TransDate = New Date(CType(0, Long))
         Me.UcItemBalance1.TransNo = ""
         Me.UcItemBalance1.UOM = ""
-        '
-        'txtHCode
-        '
-        Me.txtHCode.CalculationExpression = Nothing
-        Me.txtHCode.FieldCode = Nothing
-        Me.txtHCode.FieldDesc = Nothing
-        Me.txtHCode.FieldMaxLength = 0
-        Me.txtHCode.FieldName = Nothing
-        Me.txtHCode.isCalculatedField = False
-        Me.txtHCode.IsSourceFromTable = False
-        Me.txtHCode.IsSourceFromValueList = False
-        Me.txtHCode.IsUnique = False
-        Me.txtHCode.Location = New System.Drawing.Point(102, 17)
-        Me.txtHCode.MendatroryField = False
-        Me.txtHCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtHCode.MyLinkLable2 = Me.lblHDesc
-        Me.txtHCode.MyReadOnly = False
-        Me.txtHCode.MyShowMasterFormButton = False
-        Me.txtHCode.Name = "txtHCode"
-        Me.txtHCode.ReferenceFieldDesc = Nothing
-        Me.txtHCode.ReferenceFieldName = Nothing
-        Me.txtHCode.ReferenceTableName = Nothing
-        Me.txtHCode.Size = New System.Drawing.Size(144, 19)
-        Me.txtHCode.TabIndex = 2
-        Me.txtHCode.Value = ""
-        '
-        'lblHDesc
-        '
-        Me.lblHDesc.AutoSize = False
-        Me.lblHDesc.BorderVisible = True
-        Me.lblHDesc.FieldName = Nothing
-        Me.lblHDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblHDesc.Location = New System.Drawing.Point(252, 18)
-        Me.lblHDesc.Name = "lblHDesc"
-        Me.lblHDesc.Size = New System.Drawing.Size(353, 18)
-        Me.lblHDesc.TabIndex = 3
-        Me.lblHDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblHDesc.TextWrap = False
         '
         'chkWithoutRefNo
         '
@@ -437,7 +512,6 @@ Partial Class frmItemIssueToAssembledAsset
         Me.lblReq3.Name = "lblReq3"
         Me.lblReq3.Size = New System.Drawing.Size(103, 18)
         Me.lblReq3.TabIndex = 5
-        Me.lblReq3.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblReq3.TextWrap = False
         Me.lblReq3.Visible = False
         '
@@ -451,7 +525,6 @@ Partial Class frmItemIssueToAssembledAsset
         Me.lblReqDate.Name = "lblReqDate"
         Me.lblReqDate.Size = New System.Drawing.Size(170, 18)
         Me.lblReqDate.TabIndex = 4
-        Me.lblReqDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblReqDate.TextWrap = False
         '
         'lblReq2
@@ -514,16 +587,18 @@ Partial Class frmItemIssueToAssembledAsset
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(795, 166)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel9
         '
@@ -573,7 +648,6 @@ Partial Class frmItemIssueToAssembledAsset
         Me.lblAssetDesc.Name = "lblAssetDesc"
         Me.lblAssetDesc.Size = New System.Drawing.Size(171, 18)
         Me.lblAssetDesc.TabIndex = 9
-        Me.lblAssetDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblAssetDesc.TextWrap = False
         Me.lblAssetDesc.Visible = False
         '
@@ -597,7 +671,6 @@ Partial Class frmItemIssueToAssembledAsset
         Me.lblRequestBy.Name = "lblRequestBy"
         Me.lblRequestBy.Size = New System.Drawing.Size(238, 18)
         Me.lblRequestBy.TabIndex = 5
-        Me.lblRequestBy.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRequestBy.TextWrap = False
         '
         'chkOnHold
@@ -629,7 +702,6 @@ Partial Class frmItemIssueToAssembledAsset
         Me.lblFromLocation.Name = "lblFromLocation"
         Me.lblFromLocation.Size = New System.Drawing.Size(170, 18)
         Me.lblFromLocation.TabIndex = 7
-        Me.lblFromLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFromLocation.TextWrap = False
         '
         'RadLabel8
@@ -709,6 +781,7 @@ Partial Class frmItemIssueToAssembledAsset
         Me.cboDocType.AutoCompleteDisplayMember = Nothing
         Me.cboDocType.AutoCompleteValueMember = Nothing
         Me.cboDocType.CalculationExpression = Nothing
+        Me.cboDocType.DropDownAnimationEnabled = True
         Me.cboDocType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDocType.FieldCode = Nothing
         Me.cboDocType.FieldDesc = Nothing
@@ -774,7 +847,7 @@ Partial Class frmItemIssueToAssembledAsset
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(260, 20)
@@ -870,7 +943,6 @@ Partial Class frmItemIssueToAssembledAsset
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 1
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'RadLabel10
@@ -902,13 +974,15 @@ Partial Class frmItemIssueToAssembledAsset
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(815, 434)
         Me.gv2.TabIndex = 2
-        Me.gv2.Text = "RadGridView1"
         '
         'RadLabel11
         '
@@ -1091,80 +1165,6 @@ Partial Class frmItemIssueToAssembledAsset
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.MyLabel2)
-        Me.GroupBox1.Controls.Add(Me.txtCostCenter)
-        Me.GroupBox1.Controls.Add(Me.lblCostCenterDesc)
-        Me.GroupBox1.Controls.Add(Me.MyLabel1)
-        Me.GroupBox1.Controls.Add(Me.txtHCode)
-        Me.GroupBox1.Controls.Add(Me.lblHDesc)
-        Me.GroupBox1.Location = New System.Drawing.Point(202, 69)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(610, 74)
-        Me.GroupBox1.TabIndex = 61
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Issue To"
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(9, 20)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(85, 16)
-        Me.MyLabel1.TabIndex = 61
-        Me.MyLabel1.Text = "Hierarchy Level"
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(9, 44)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(67, 16)
-        Me.MyLabel2.TabIndex = 64
-        Me.MyLabel2.Text = "Cost Center"
-        '
-        'txtCostCenter
-        '
-        Me.txtCostCenter.CalculationExpression = Nothing
-        Me.txtCostCenter.FieldCode = Nothing
-        Me.txtCostCenter.FieldDesc = Nothing
-        Me.txtCostCenter.FieldMaxLength = 0
-        Me.txtCostCenter.FieldName = Nothing
-        Me.txtCostCenter.isCalculatedField = False
-        Me.txtCostCenter.IsSourceFromTable = False
-        Me.txtCostCenter.IsSourceFromValueList = False
-        Me.txtCostCenter.IsUnique = False
-        Me.txtCostCenter.Location = New System.Drawing.Point(102, 42)
-        Me.txtCostCenter.MendatroryField = False
-        Me.txtCostCenter.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCostCenter.MyLinkLable1 = Nothing
-        Me.txtCostCenter.MyLinkLable2 = Me.lblCostCenterDesc
-        Me.txtCostCenter.MyReadOnly = False
-        Me.txtCostCenter.MyShowMasterFormButton = False
-        Me.txtCostCenter.Name = "txtCostCenter"
-        Me.txtCostCenter.ReferenceFieldDesc = Nothing
-        Me.txtCostCenter.ReferenceFieldName = Nothing
-        Me.txtCostCenter.ReferenceTableName = Nothing
-        Me.txtCostCenter.Size = New System.Drawing.Size(144, 20)
-        Me.txtCostCenter.TabIndex = 62
-        Me.txtCostCenter.Value = ""
-        '
-        'lblCostCenterDesc
-        '
-        Me.lblCostCenterDesc.AutoSize = False
-        Me.lblCostCenterDesc.BorderVisible = True
-        Me.lblCostCenterDesc.FieldName = Nothing
-        Me.lblCostCenterDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCostCenterDesc.Location = New System.Drawing.Point(252, 42)
-        Me.lblCostCenterDesc.Name = "lblCostCenterDesc"
-        Me.lblCostCenterDesc.Size = New System.Drawing.Size(353, 18)
-        Me.lblCostCenterDesc.TabIndex = 63
-        Me.lblCostCenterDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblCostCenterDesc.TextWrap = False
-        '
         'frmItemIssueToAssembledAsset
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1184,10 +1184,15 @@ Partial Class frmItemIssueToAssembledAsset
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCostCenterDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblHDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAssetType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboAssetType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblHDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkWithoutRefNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1239,11 +1244,6 @@ Partial Class frmItemIssueToAssembledAsset
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCostCenterDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

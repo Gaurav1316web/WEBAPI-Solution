@@ -22,9 +22,12 @@ Partial Class FrmUnloading
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.fndReferenceNo = New common.UserControls.txtFinder()
+        Me.MyLabel10 = New common.Controls.MyLabel()
         Me.MyLabel9 = New common.Controls.MyLabel()
         Me.lblVendorName = New common.Controls.MyLabel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -65,8 +68,6 @@ Partial Class FrmUnloading
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.fndReferenceNo = New common.UserControls.txtFinder()
-        Me.MyLabel10 = New common.Controls.MyLabel()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -74,6 +75,7 @@ Partial Class FrmUnloading
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel3.SuspendLayout()
@@ -110,7 +112,6 @@ Partial Class FrmUnloading
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -198,6 +199,43 @@ Partial Class FrmUnloading
         Me.SplitContainer2.SplitterDistance = 178
         Me.SplitContainer2.TabIndex = 0
         '
+        'fndReferenceNo
+        '
+        Me.fndReferenceNo.CalculationExpression = Nothing
+        Me.fndReferenceNo.Enabled = False
+        Me.fndReferenceNo.FieldCode = Nothing
+        Me.fndReferenceNo.FieldDesc = Nothing
+        Me.fndReferenceNo.FieldMaxLength = 0
+        Me.fndReferenceNo.FieldName = Nothing
+        Me.fndReferenceNo.isCalculatedField = False
+        Me.fndReferenceNo.IsSourceFromTable = False
+        Me.fndReferenceNo.IsSourceFromValueList = False
+        Me.fndReferenceNo.IsUnique = False
+        Me.fndReferenceNo.Location = New System.Drawing.Point(828, 59)
+        Me.fndReferenceNo.MendatroryField = True
+        Me.fndReferenceNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndReferenceNo.MyLinkLable1 = Nothing
+        Me.fndReferenceNo.MyLinkLable2 = Nothing
+        Me.fndReferenceNo.MyReadOnly = False
+        Me.fndReferenceNo.MyShowMasterFormButton = False
+        Me.fndReferenceNo.Name = "fndReferenceNo"
+        Me.fndReferenceNo.ReferenceFieldDesc = Nothing
+        Me.fndReferenceNo.ReferenceFieldName = Nothing
+        Me.fndReferenceNo.ReferenceTableName = Nothing
+        Me.fndReferenceNo.Size = New System.Drawing.Size(288, 19)
+        Me.fndReferenceNo.TabIndex = 360
+        Me.fndReferenceNo.Value = ""
+        '
+        'MyLabel10
+        '
+        Me.MyLabel10.FieldName = Nothing
+        Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel10.Location = New System.Drawing.Point(728, 60)
+        Me.MyLabel10.Name = "MyLabel10"
+        Me.MyLabel10.Size = New System.Drawing.Size(76, 16)
+        Me.MyLabel10.TabIndex = 359
+        Me.MyLabel10.Text = "Reference No"
+        '
         'MyLabel9
         '
         Me.MyLabel9.FieldName = Nothing
@@ -217,7 +255,6 @@ Partial Class FrmUnloading
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(310, 19)
         Me.lblVendorName.TabIndex = 357
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'Panel3
         '
@@ -240,7 +277,6 @@ Partial Class FrmUnloading
         Me.lblSubLocation.Name = "lblSubLocation"
         Me.lblSubLocation.Size = New System.Drawing.Size(180, 19)
         Me.lblSubLocation.TabIndex = 276
-        Me.lblSubLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkJobWork
         '
@@ -465,7 +501,6 @@ Partial Class FrmUnloading
         Me.lblSubLocationName.Name = "lblSubLocationName"
         Me.lblSubLocationName.Size = New System.Drawing.Size(316, 19)
         Me.lblSubLocationName.TabIndex = 312
-        Me.lblSubLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblLocationName
         '
@@ -476,7 +511,6 @@ Partial Class FrmUnloading
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(316, 19)
         Me.lblLocationName.TabIndex = 313
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel5
         '
@@ -683,7 +717,7 @@ Partial Class FrmUnloading
         Me.fndUnloadingNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndUnloadingNo.MyLinkLable1 = Me.lblQcNo
         Me.fndUnloadingNo.MyLinkLable2 = Nothing
-        Me.fndUnloadingNo.MyMaxLength = 32767
+        Me.fndUnloadingNo.MyMaxLength = 30
         Me.fndUnloadingNo.MyReadOnly = False
         Me.fndUnloadingNo.Name = "fndUnloadingNo"
         Me.fndUnloadingNo.Size = New System.Drawing.Size(266, 18)
@@ -737,14 +771,16 @@ Partial Class FrmUnloading
         Me.gvItem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvItem.Location = New System.Drawing.Point(2, 18)
         '
-        'gvItem
         '
+        '
+        Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(1126, 242)
         Me.gvItem.TabIndex = 0
-        Me.gvItem.Text = "RadGridView1"
         '
         'btnReverse
         '
@@ -797,43 +833,6 @@ Partial Class FrmUnloading
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
-        'fndReferenceNo
-        '
-        Me.fndReferenceNo.CalculationExpression = Nothing
-        Me.fndReferenceNo.Enabled = False
-        Me.fndReferenceNo.FieldCode = Nothing
-        Me.fndReferenceNo.FieldDesc = Nothing
-        Me.fndReferenceNo.FieldMaxLength = 0
-        Me.fndReferenceNo.FieldName = Nothing
-        Me.fndReferenceNo.isCalculatedField = False
-        Me.fndReferenceNo.IsSourceFromTable = False
-        Me.fndReferenceNo.IsSourceFromValueList = False
-        Me.fndReferenceNo.IsUnique = False
-        Me.fndReferenceNo.Location = New System.Drawing.Point(828, 59)
-        Me.fndReferenceNo.MendatroryField = True
-        Me.fndReferenceNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndReferenceNo.MyLinkLable1 = Nothing
-        Me.fndReferenceNo.MyLinkLable2 = Nothing
-        Me.fndReferenceNo.MyReadOnly = False
-        Me.fndReferenceNo.MyShowMasterFormButton = False
-        Me.fndReferenceNo.Name = "fndReferenceNo"
-        Me.fndReferenceNo.ReferenceFieldDesc = Nothing
-        Me.fndReferenceNo.ReferenceFieldName = Nothing
-        Me.fndReferenceNo.ReferenceTableName = Nothing
-        Me.fndReferenceNo.Size = New System.Drawing.Size(288, 19)
-        Me.fndReferenceNo.TabIndex = 360
-        Me.fndReferenceNo.Value = ""
-        '
-        'MyLabel10
-        '
-        Me.MyLabel10.FieldName = Nothing
-        Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(728, 60)
-        Me.MyLabel10.Name = "MyLabel10"
-        Me.MyLabel10.Size = New System.Drawing.Size(76, 16)
-        Me.MyLabel10.TabIndex = 359
-        Me.MyLabel10.Text = "Reference No"
-        '
         'FrmUnloading
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -854,6 +853,7 @@ Partial Class FrmUnloading
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel3.ResumeLayout(False)
@@ -891,7 +891,6 @@ Partial Class FrmUnloading
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

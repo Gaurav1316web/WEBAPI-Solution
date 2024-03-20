@@ -22,10 +22,10 @@ Partial Class frmHeadLoadMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -100,8 +100,10 @@ Partial Class frmHeadLoadMaster
         '
         '
         '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -281,7 +283,7 @@ Partial Class frmHeadLoadMaster
         Me.txtDocumentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocumentNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocumentNo.MyLinkLable2 = Nothing
-        Me.txtDocumentNo.MyMaxLength = 32767
+        Me.txtDocumentNo.MyMaxLength = 30
         Me.txtDocumentNo.MyReadOnly = False
         Me.txtDocumentNo.Name = "txtDocumentNo"
         Me.txtDocumentNo.Size = New System.Drawing.Size(250, 19)
@@ -473,12 +475,12 @@ Partial Class frmHeadLoadMaster
         Me.cmbHeadLoadBasis.IsSourceFromTable = False
         Me.cmbHeadLoadBasis.IsSourceFromValueList = False
         Me.cmbHeadLoadBasis.IsUnique = False
-        RadListDataItem4.Text = "Select"
-        RadListDataItem5.Text = "Rate/Kg"
-        RadListDataItem6.Text = "Rate/Ltr"
-        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem4)
-        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem5)
-        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Select"
+        RadListDataItem2.Text = "Rate/Kg"
+        RadListDataItem3.Text = "Rate/Ltr"
+        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem1)
+        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem2)
+        Me.cmbHeadLoadBasis.Items.Add(RadListDataItem3)
         Me.cmbHeadLoadBasis.Location = New System.Drawing.Point(100, 2)
         Me.cmbHeadLoadBasis.MendatroryField = True
         Me.cmbHeadLoadBasis.MyLinkLable1 = Me.MyLabel1

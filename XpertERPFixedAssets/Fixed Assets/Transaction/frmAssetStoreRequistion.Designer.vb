@@ -24,6 +24,7 @@ Partial Class frmAssetStoreRequistion
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -33,6 +34,29 @@ Partial Class frmAssetStoreRequistion
         Me.RdEmailAndSmsSetting = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.lbl_capexcode = New common.Controls.MyLabel()
+        Me.fndcapexcode = New common.UserControls.txtFinder()
+        Me.MyLabel34 = New common.Controls.MyLabel()
+        Me.MyLabel37 = New common.Controls.MyLabel()
+        Me.MyLabel36 = New common.Controls.MyLabel()
+        Me.lbl_rebudgetamt = New common.Controls.MyLabel()
+        Me.MyLabel38 = New common.Controls.MyLabel()
+        Me.MyLabel40 = New common.Controls.MyLabel()
+        Me.lbl_rebudgetamtwithtolerence = New common.Controls.MyLabel()
+        Me.lbl_budgetamt = New common.Controls.MyLabel()
+        Me.lbl_budgetamtwithtolerence = New common.Controls.MyLabel()
+        Me.fndcapexsubcode = New common.UserControls.txtFinder()
+        Me.lbl_capexsubcode = New common.Controls.MyLabel()
+        Me.MyLabel35 = New common.Controls.MyLabel()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.txtRequiredDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel9 = New common.Controls.MyLabel()
+        Me.RadLabel13 = New common.Controls.MyLabel()
+        Me.RadLabel11 = New common.Controls.MyLabel()
+        Me.txtExpireDate = New common.Controls.MyDateTimePicker()
+        Me.cboModeOfTransport = New common.Controls.MyComboBox()
         Me.UcItemBalance1 = New XpertERPEngine.ucItemBalance()
         Me.pnlPCJ = New System.Windows.Forms.Panel()
         Me.RadLabel15 = New common.Controls.MyLabel()
@@ -51,14 +75,6 @@ Partial Class frmAssetStoreRequistion
         Me.lblTotRAmt = New common.Controls.MyLabel()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.RadLabel5 = New common.Controls.MyLabel()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.txtRequiredDate = New common.Controls.MyDateTimePicker()
-        Me.RadLabel9 = New common.Controls.MyLabel()
-        Me.RadLabel13 = New common.Controls.MyLabel()
-        Me.RadLabel11 = New common.Controls.MyLabel()
-        Me.txtExpireDate = New common.Controls.MyDateTimePicker()
-        Me.cboModeOfTransport = New common.Controls.MyComboBox()
         Me.RadLabel3 = New common.Controls.MyLabel()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel8 = New common.Controls.MyLabel()
@@ -78,7 +94,7 @@ Partial Class frmAssetStoreRequistion
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnEmailsetting = New Telerik.WinControls.UI.RadSplitButton()
@@ -91,21 +107,6 @@ Partial Class frmAssetStoreRequistion
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
-        Me.lbl_capexcode = New common.Controls.MyLabel()
-        Me.fndcapexcode = New common.UserControls.txtFinder()
-        Me.MyLabel34 = New common.Controls.MyLabel()
-        Me.MyLabel37 = New common.Controls.MyLabel()
-        Me.MyLabel36 = New common.Controls.MyLabel()
-        Me.lbl_rebudgetamt = New common.Controls.MyLabel()
-        Me.MyLabel38 = New common.Controls.MyLabel()
-        Me.MyLabel40 = New common.Controls.MyLabel()
-        Me.lbl_rebudgetamtwithtolerence = New common.Controls.MyLabel()
-        Me.lbl_budgetamt = New common.Controls.MyLabel()
-        Me.lbl_budgetamtwithtolerence = New common.Controls.MyLabel()
-        Me.fndcapexsubcode = New common.UserControls.txtFinder()
-        Me.lbl_capexsubcode = New common.Controls.MyLabel()
-        Me.MyLabel35 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -116,6 +117,32 @@ Partial Class frmAssetStoreRequistion
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        Me.SplitContainer3.Panel1.SuspendLayout()
+        Me.SplitContainer3.Panel2.SuspendLayout()
+        Me.SplitContainer3.SuspendLayout()
+        CType(Me.lbl_capexcode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lbl_rebudgetamt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lbl_rebudgetamtwithtolerence, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lbl_budgetamt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lbl_budgetamtwithtolerence, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lbl_capexsubcode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gv1.SuspendLayout()
+        CType(Me.txtRequiredDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtExpireDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboModeOfTransport, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlPCJ.SuspendLayout()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblProject, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -131,17 +158,6 @@ Partial Class frmAssetStoreRequistion
         CType(Me.lblTotRAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gv1.SuspendLayout()
-        CType(Me.txtRequiredDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtExpireDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboModeOfTransport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -166,21 +182,6 @@ Partial Class frmAssetStoreRequistion
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer3.Panel1.SuspendLayout()
-        Me.SplitContainer3.Panel2.SuspendLayout()
-        Me.SplitContainer3.SuspendLayout()
-        CType(Me.lbl_capexcode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lbl_rebudgetamt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lbl_rebudgetamtwithtolerence, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lbl_budgetamt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lbl_budgetamtwithtolerence, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lbl_capexsubcode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -237,7 +238,6 @@ Partial Class frmAssetStoreRequistion
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(935, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
@@ -249,22 +249,16 @@ Partial Class frmAssetStoreRequistion
         '
         'SaveLayoutbtn
         '
-        Me.SaveLayoutbtn.AccessibleDescription = "Save Layout"
-        Me.SaveLayoutbtn.AccessibleName = "Save Layout"
         Me.SaveLayoutbtn.Name = "SaveLayoutbtn"
         Me.SaveLayoutbtn.Text = "Save Layout"
         '
         'DeleteLayout
         '
-        Me.DeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.DeleteLayout.AccessibleName = "Delete Layout"
         Me.DeleteLayout.Name = "DeleteLayout"
         Me.DeleteLayout.Text = "Delete Layout"
         '
         'RdEmailAndSmsSetting
         '
-        Me.RdEmailAndSmsSetting.AccessibleDescription = "Email And SMS Setting"
-        Me.RdEmailAndSmsSetting.AccessibleName = "Email And SMS Setting"
         Me.RdEmailAndSmsSetting.Name = "RdEmailAndSmsSetting"
         Me.RdEmailAndSmsSetting.Text = "Email And SMS Setting"
         '
@@ -280,7 +274,6 @@ Partial Class frmAssetStoreRequistion
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(935, 456)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "Custom Fields"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -328,286 +321,224 @@ Partial Class frmAssetStoreRequistion
         Me.RadPageViewPage1.Size = New System.Drawing.Size(914, 410)
         Me.RadPageViewPage1.Text = "Store Requisition"
         '
-        'UcItemBalance1
+        'SplitContainer3
         '
-        Me.UcItemBalance1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.UcItemBalance1.CommitedQty = False
-        Me.UcItemBalance1.CommitedQtyLbl = False
-        Me.UcItemBalance1.ItemCode = ""
-        Me.UcItemBalance1.ItemMRP = 0.0R
-        Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 344)
-        Me.UcItemBalance1.LocationCode = ""
-        Me.UcItemBalance1.LocationName = ""
-        Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 65)
-        Me.UcItemBalance1.MinimumSize = New System.Drawing.Size(710, 65)
-        Me.UcItemBalance1.Name = "UcItemBalance1"
-        Me.UcItemBalance1.ShowCSADOQty = False
-        Me.UcItemBalance1.ShowPOQty = False
-        Me.UcItemBalance1.ShowSOQty = False
-        Me.UcItemBalance1.Size = New System.Drawing.Size(710, 65)
-        Me.UcItemBalance1.TabIndex = 20
-        Me.UcItemBalance1.TabStop = False
-        Me.UcItemBalance1.TransDate = New Date(CType(0, Long))
-        Me.UcItemBalance1.TransNo = ""
-        Me.UcItemBalance1.UOM = ""
+        Me.SplitContainer3.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer3.Location = New System.Drawing.Point(3, 108)
+        Me.SplitContainer3.Name = "SplitContainer3"
+        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
-        'pnlPCJ
+        'SplitContainer3.Panel1
         '
-        Me.pnlPCJ.Controls.Add(Me.RadLabel15)
-        Me.pnlPCJ.Controls.Add(Me.fndProject)
-        Me.pnlPCJ.Controls.Add(Me.lblProject)
-        Me.pnlPCJ.Location = New System.Drawing.Point(458, 84)
-        Me.pnlPCJ.Name = "pnlPCJ"
-        Me.pnlPCJ.Size = New System.Drawing.Size(455, 22)
-        Me.pnlPCJ.TabIndex = 17
+        Me.SplitContainer3.Panel1.Controls.Add(Me.lbl_capexcode)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.fndcapexcode)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel37)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel36)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel34)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.lbl_rebudgetamt)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel38)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel40)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.lbl_rebudgetamtwithtolerence)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.lbl_budgetamt)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.lbl_budgetamtwithtolerence)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.fndcapexsubcode)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.lbl_capexsubcode)
+        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel35)
         '
-        'RadLabel15
+        'SplitContainer3.Panel2
         '
-        Me.RadLabel15.FieldName = Nothing
-        Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel15.Location = New System.Drawing.Point(6, 1)
-        Me.RadLabel15.Name = "RadLabel15"
-        Me.RadLabel15.Size = New System.Drawing.Size(41, 16)
-        Me.RadLabel15.TabIndex = 1
-        Me.RadLabel15.Text = "Project"
+        Me.SplitContainer3.Panel2.Controls.Add(Me.RadGroupBox2)
+        Me.SplitContainer3.Size = New System.Drawing.Size(910, 240)
+        Me.SplitContainer3.SplitterDistance = 70
+        Me.SplitContainer3.TabIndex = 37
         '
-        'fndProject
+        'lbl_capexcode
         '
-        Me.fndProject.CalculationExpression = Nothing
-        Me.fndProject.FieldCode = Nothing
-        Me.fndProject.FieldDesc = Nothing
-        Me.fndProject.FieldMaxLength = 0
-        Me.fndProject.FieldName = Nothing
-        Me.fndProject.isCalculatedField = False
-        Me.fndProject.IsSourceFromTable = False
-        Me.fndProject.IsSourceFromValueList = False
-        Me.fndProject.IsUnique = False
-        Me.fndProject.Location = New System.Drawing.Point(115, 1)
-        Me.fndProject.MendatroryField = False
-        Me.fndProject.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndProject.MyLinkLable1 = Me.RadLabel15
-        Me.fndProject.MyLinkLable2 = Me.lblProject
-        Me.fndProject.MyReadOnly = False
-        Me.fndProject.MyShowMasterFormButton = False
-        Me.fndProject.Name = "fndProject"
-        Me.fndProject.ReferenceFieldDesc = Nothing
-        Me.fndProject.ReferenceFieldName = Nothing
-        Me.fndProject.ReferenceTableName = Nothing
-        Me.fndProject.Size = New System.Drawing.Size(143, 19)
-        Me.fndProject.TabIndex = 0
-        Me.fndProject.Value = ""
+        Me.lbl_capexcode.AutoSize = False
+        Me.lbl_capexcode.BorderVisible = True
+        Me.lbl_capexcode.FieldName = Nothing
+        Me.lbl_capexcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbl_capexcode.Location = New System.Drawing.Point(716, 6)
+        Me.lbl_capexcode.Name = "lbl_capexcode"
+        Me.lbl_capexcode.Size = New System.Drawing.Size(193, 19)
+        Me.lbl_capexcode.TabIndex = 106
+        Me.lbl_capexcode.TextWrap = False
         '
-        'lblProject
+        'fndcapexcode
         '
-        Me.lblProject.AutoSize = False
-        Me.lblProject.BorderVisible = True
-        Me.lblProject.FieldName = Nothing
-        Me.lblProject.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblProject.Location = New System.Drawing.Point(261, 1)
-        Me.lblProject.Name = "lblProject"
-        Me.lblProject.Size = New System.Drawing.Size(193, 20)
-        Me.lblProject.TabIndex = 2
-        Me.lblProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblProject.TextWrap = False
+        Me.fndcapexcode.CalculationExpression = Nothing
+        Me.fndcapexcode.Enabled = False
+        Me.fndcapexcode.FieldCode = Nothing
+        Me.fndcapexcode.FieldDesc = Nothing
+        Me.fndcapexcode.FieldMaxLength = 0
+        Me.fndcapexcode.FieldName = Nothing
+        Me.fndcapexcode.isCalculatedField = False
+        Me.fndcapexcode.IsSourceFromTable = False
+        Me.fndcapexcode.IsSourceFromValueList = False
+        Me.fndcapexcode.IsUnique = False
+        Me.fndcapexcode.Location = New System.Drawing.Point(570, 6)
+        Me.fndcapexcode.MendatroryField = False
+        Me.fndcapexcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndcapexcode.MyLinkLable1 = Me.MyLabel34
+        Me.fndcapexcode.MyLinkLable2 = Me.lbl_capexcode
+        Me.fndcapexcode.MyReadOnly = False
+        Me.fndcapexcode.MyShowMasterFormButton = False
+        Me.fndcapexcode.Name = "fndcapexcode"
+        Me.fndcapexcode.ReferenceFieldDesc = Nothing
+        Me.fndcapexcode.ReferenceFieldName = Nothing
+        Me.fndcapexcode.ReferenceTableName = Nothing
+        Me.fndcapexcode.Size = New System.Drawing.Size(143, 19)
+        Me.fndcapexcode.TabIndex = 104
+        Me.fndcapexcode.Value = ""
         '
-        'cboPOType
+        'MyLabel34
         '
-        Me.cboPOType.AutoCompleteDisplayMember = Nothing
-        Me.cboPOType.AutoCompleteValueMember = Nothing
-        Me.cboPOType.CalculationExpression = Nothing
-        Me.cboPOType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboPOType.FieldCode = Nothing
-        Me.cboPOType.FieldDesc = Nothing
-        Me.cboPOType.FieldMaxLength = 0
-        Me.cboPOType.FieldName = Nothing
-        Me.cboPOType.isCalculatedField = False
-        Me.cboPOType.IsSourceFromTable = False
-        Me.cboPOType.IsSourceFromValueList = False
-        Me.cboPOType.IsUnique = False
-        Me.cboPOType.Location = New System.Drawing.Point(574, 22)
-        Me.cboPOType.MendatroryField = True
-        Me.cboPOType.MyLinkLable1 = Me.MyLabel1
-        Me.cboPOType.MyLinkLable2 = Nothing
-        Me.cboPOType.Name = "cboPOType"
-        Me.cboPOType.ReferenceFieldDesc = Nothing
-        Me.cboPOType.ReferenceFieldName = Nothing
-        Me.cboPOType.ReferenceTableName = Nothing
-        Me.cboPOType.Size = New System.Drawing.Size(144, 20)
-        Me.cboPOType.TabIndex = 16
+        Me.MyLabel34.FieldName = Nothing
+        Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel34.Location = New System.Drawing.Point(479, 7)
+        Me.MyLabel34.Name = "MyLabel34"
+        Me.MyLabel34.Size = New System.Drawing.Size(69, 16)
+        Me.MyLabel34.TabIndex = 105
+        Me.MyLabel34.Text = "Capex Code"
         '
-        'MyLabel1
+        'MyLabel37
         '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(465, 25)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(31, 16)
-        Me.MyLabel1.TabIndex = 31
-        Me.MyLabel1.Text = "Type"
+        Me.MyLabel37.FieldName = Nothing
+        Me.MyLabel37.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel37.Location = New System.Drawing.Point(208, 50)
+        Me.MyLabel37.Name = "MyLabel37"
+        Me.MyLabel37.Size = New System.Drawing.Size(147, 16)
+        Me.MyLabel37.TabIndex = 102
+        Me.MyLabel37.Text = "Bal. Amount With Tolerence"
         '
-        'RadLabel12
+        'MyLabel36
         '
-        Me.RadLabel12.FieldName = Nothing
-        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel12.Location = New System.Drawing.Point(227, 86)
-        Me.RadLabel12.Name = "RadLabel12"
-        Me.RadLabel12.Size = New System.Drawing.Size(77, 16)
-        Me.RadLabel12.TabIndex = 30
-        Me.RadLabel12.Text = "Requested By"
+        Me.MyLabel36.FieldName = Nothing
+        Me.MyLabel36.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel36.Location = New System.Drawing.Point(0, 7)
+        Me.MyLabel36.Name = "MyLabel36"
+        Me.MyLabel36.Size = New System.Drawing.Size(93, 16)
+        Me.MyLabel36.TabIndex = 94
+        Me.MyLabel36.Text = "Capex Sub-Code"
         '
-        'txtRequestBy
+        'lbl_rebudgetamt
         '
-        Me.txtRequestBy.CalculationExpression = Nothing
-        Me.txtRequestBy.FieldCode = Nothing
-        Me.txtRequestBy.FieldDesc = Nothing
-        Me.txtRequestBy.FieldMaxLength = 0
-        Me.txtRequestBy.FieldName = Nothing
-        Me.txtRequestBy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtRequestBy.isCalculatedField = False
-        Me.txtRequestBy.IsSourceFromTable = False
-        Me.txtRequestBy.IsSourceFromValueList = False
-        Me.txtRequestBy.IsUnique = False
-        Me.txtRequestBy.Location = New System.Drawing.Point(310, 85)
-        Me.txtRequestBy.MaxLength = 100
-        Me.txtRequestBy.MendatroryField = False
-        Me.txtRequestBy.MyLinkLable1 = Me.RadLabel12
-        Me.txtRequestBy.MyLinkLable2 = Nothing
-        Me.txtRequestBy.Name = "txtRequestBy"
-        Me.txtRequestBy.ReferenceFieldDesc = Nothing
-        Me.txtRequestBy.ReferenceFieldName = Nothing
-        Me.txtRequestBy.ReferenceTableName = Nothing
-        Me.txtRequestBy.Size = New System.Drawing.Size(148, 18)
-        Me.txtRequestBy.TabIndex = 14
+        Me.lbl_rebudgetamt.AutoSize = False
+        Me.lbl_rebudgetamt.BorderVisible = True
+        Me.lbl_rebudgetamt.FieldName = Nothing
+        Me.lbl_rebudgetamt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbl_rebudgetamt.Location = New System.Drawing.Point(96, 48)
+        Me.lbl_rebudgetamt.Name = "lbl_rebudgetamt"
+        Me.lbl_rebudgetamt.Size = New System.Drawing.Size(108, 20)
+        Me.lbl_rebudgetamt.TabIndex = 101
+        Me.lbl_rebudgetamt.TextWrap = False
         '
-        'lblDept
+        'MyLabel38
         '
-        Me.lblDept.AutoSize = False
-        Me.lblDept.BorderVisible = True
-        Me.lblDept.FieldName = Nothing
-        Me.lblDept.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDept.Location = New System.Drawing.Point(720, 63)
-        Me.lblDept.Name = "lblDept"
-        Me.lblDept.Size = New System.Drawing.Size(193, 20)
-        Me.lblDept.TabIndex = 19
-        Me.lblDept.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        Me.MyLabel38.FieldName = Nothing
+        Me.MyLabel38.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel38.Location = New System.Drawing.Point(210, 29)
+        Me.MyLabel38.Name = "MyLabel38"
+        Me.MyLabel38.Size = New System.Drawing.Size(125, 16)
+        Me.MyLabel38.TabIndex = 98
+        Me.MyLabel38.Text = "Amount With Tolerence"
         '
-        'RadLabel14
+        'MyLabel40
         '
-        Me.RadLabel14.FieldName = Nothing
-        Me.RadLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel14.Location = New System.Drawing.Point(465, 66)
-        Me.RadLabel14.Name = "RadLabel14"
-        Me.RadLabel14.Size = New System.Drawing.Size(65, 16)
-        Me.RadLabel14.TabIndex = 24
-        Me.RadLabel14.Text = "Department"
+        Me.MyLabel40.FieldName = Nothing
+        Me.MyLabel40.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel40.Location = New System.Drawing.Point(3, 48)
+        Me.MyLabel40.Name = "MyLabel40"
+        Me.MyLabel40.Size = New System.Drawing.Size(68, 16)
+        Me.MyLabel40.TabIndex = 100
+        Me.MyLabel40.Text = "Bal. Amount"
         '
-        'cboItemType
+        'lbl_rebudgetamtwithtolerence
         '
-        Me.cboItemType.AutoCompleteDisplayMember = Nothing
-        Me.cboItemType.AutoCompleteValueMember = Nothing
-        Me.cboItemType.CalculationExpression = Nothing
-        Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboItemType.FieldCode = Nothing
-        Me.cboItemType.FieldDesc = Nothing
-        Me.cboItemType.FieldMaxLength = 0
-        Me.cboItemType.FieldName = Nothing
-        Me.cboItemType.isCalculatedField = False
-        Me.cboItemType.IsSourceFromTable = False
-        Me.cboItemType.IsSourceFromValueList = False
-        Me.cboItemType.IsUnique = False
-        Me.cboItemType.Location = New System.Drawing.Point(86, 84)
-        Me.cboItemType.MendatroryField = True
-        Me.cboItemType.MyLinkLable1 = Me.RadLabel10
-        Me.cboItemType.MyLinkLable2 = Nothing
-        Me.cboItemType.Name = "cboItemType"
-        Me.cboItemType.ReferenceFieldDesc = Nothing
-        Me.cboItemType.ReferenceFieldName = Nothing
-        Me.cboItemType.ReferenceTableName = Nothing
-        Me.cboItemType.Size = New System.Drawing.Size(136, 20)
-        Me.cboItemType.TabIndex = 13
+        Me.lbl_rebudgetamtwithtolerence.AutoSize = False
+        Me.lbl_rebudgetamtwithtolerence.BorderVisible = True
+        Me.lbl_rebudgetamtwithtolerence.FieldName = Nothing
+        Me.lbl_rebudgetamtwithtolerence.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbl_rebudgetamtwithtolerence.Location = New System.Drawing.Point(358, 49)
+        Me.lbl_rebudgetamtwithtolerence.Name = "lbl_rebudgetamtwithtolerence"
+        Me.lbl_rebudgetamtwithtolerence.Size = New System.Drawing.Size(111, 19)
+        Me.lbl_rebudgetamtwithtolerence.TabIndex = 103
+        Me.lbl_rebudgetamtwithtolerence.TextWrap = False
         '
-        'RadLabel10
+        'lbl_budgetamt
         '
-        Me.RadLabel10.FieldName = Nothing
-        Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel10.Location = New System.Drawing.Point(1, 86)
-        Me.RadLabel10.Name = "RadLabel10"
-        Me.RadLabel10.Size = New System.Drawing.Size(57, 16)
-        Me.RadLabel10.TabIndex = 32
-        Me.RadLabel10.Text = "Item Type"
+        Me.lbl_budgetamt.AutoSize = False
+        Me.lbl_budgetamt.BorderVisible = True
+        Me.lbl_budgetamt.FieldName = Nothing
+        Me.lbl_budgetamt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbl_budgetamt.Location = New System.Drawing.Point(96, 28)
+        Me.lbl_budgetamt.Name = "lbl_budgetamt"
+        Me.lbl_budgetamt.Size = New System.Drawing.Size(108, 20)
+        Me.lbl_budgetamt.TabIndex = 97
+        Me.lbl_budgetamt.TextWrap = False
         '
-        'txtDept
+        'lbl_budgetamtwithtolerence
         '
-        Me.txtDept.CalculationExpression = Nothing
-        Me.txtDept.FieldCode = Nothing
-        Me.txtDept.FieldDesc = Nothing
-        Me.txtDept.FieldMaxLength = 0
-        Me.txtDept.FieldName = Nothing
-        Me.txtDept.isCalculatedField = False
-        Me.txtDept.IsSourceFromTable = False
-        Me.txtDept.IsSourceFromValueList = False
-        Me.txtDept.IsUnique = False
-        Me.txtDept.Location = New System.Drawing.Point(574, 64)
-        Me.txtDept.MendatroryField = True
-        Me.txtDept.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDept.MyLinkLable1 = Me.RadLabel14
-        Me.txtDept.MyLinkLable2 = Me.lblDept
-        Me.txtDept.MyReadOnly = False
-        Me.txtDept.MyShowMasterFormButton = False
-        Me.txtDept.Name = "txtDept"
-        Me.txtDept.ReferenceFieldDesc = Nothing
-        Me.txtDept.ReferenceFieldName = Nothing
-        Me.txtDept.ReferenceTableName = Nothing
-        Me.txtDept.Size = New System.Drawing.Size(143, 19)
-        Me.txtDept.TabIndex = 15
-        Me.txtDept.Value = ""
+        Me.lbl_budgetamtwithtolerence.AutoSize = False
+        Me.lbl_budgetamtwithtolerence.BorderVisible = True
+        Me.lbl_budgetamtwithtolerence.FieldName = Nothing
+        Me.lbl_budgetamtwithtolerence.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbl_budgetamtwithtolerence.Location = New System.Drawing.Point(358, 28)
+        Me.lbl_budgetamtwithtolerence.Name = "lbl_budgetamtwithtolerence"
+        Me.lbl_budgetamtwithtolerence.Size = New System.Drawing.Size(111, 19)
+        Me.lbl_budgetamtwithtolerence.TabIndex = 99
+        Me.lbl_budgetamtwithtolerence.TextWrap = False
         '
-        'RadLabel27
+        'fndcapexsubcode
         '
-        Me.RadLabel27.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadLabel27.FieldName = Nothing
-        Me.RadLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel27.Location = New System.Drawing.Point(724, 393)
-        Me.RadLabel27.Name = "RadLabel27"
-        Me.RadLabel27.Size = New System.Drawing.Size(74, 16)
-        Me.RadLabel27.TabIndex = 20
-        Me.RadLabel27.Text = "Total Amount"
+        Me.fndcapexsubcode.CalculationExpression = Nothing
+        Me.fndcapexsubcode.FieldCode = Nothing
+        Me.fndcapexsubcode.FieldDesc = Nothing
+        Me.fndcapexsubcode.FieldMaxLength = 0
+        Me.fndcapexsubcode.FieldName = Nothing
+        Me.fndcapexsubcode.isCalculatedField = False
+        Me.fndcapexsubcode.IsSourceFromTable = False
+        Me.fndcapexsubcode.IsSourceFromValueList = False
+        Me.fndcapexsubcode.IsUnique = False
+        Me.fndcapexsubcode.Location = New System.Drawing.Point(96, 7)
+        Me.fndcapexsubcode.MendatroryField = True
+        Me.fndcapexsubcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndcapexsubcode.MyLinkLable1 = Me.MyLabel36
+        Me.fndcapexsubcode.MyLinkLable2 = Me.lbl_capexsubcode
+        Me.fndcapexsubcode.MyReadOnly = False
+        Me.fndcapexsubcode.MyShowMasterFormButton = False
+        Me.fndcapexsubcode.Name = "fndcapexsubcode"
+        Me.fndcapexsubcode.ReferenceFieldDesc = Nothing
+        Me.fndcapexsubcode.ReferenceFieldName = Nothing
+        Me.fndcapexsubcode.ReferenceTableName = Nothing
+        Me.fndcapexsubcode.Size = New System.Drawing.Size(141, 18)
+        Me.fndcapexsubcode.TabIndex = 93
+        Me.fndcapexsubcode.Value = ""
         '
-        'lblTotRAmt
+        'lbl_capexsubcode
         '
-        Me.lblTotRAmt.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblTotRAmt.AutoSize = False
-        Me.lblTotRAmt.BorderVisible = True
-        Me.lblTotRAmt.FieldName = Nothing
-        Me.lblTotRAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt.Location = New System.Drawing.Point(803, 391)
-        Me.lblTotRAmt.Name = "lblTotRAmt"
-        Me.lblTotRAmt.Size = New System.Drawing.Size(110, 18)
-        Me.lblTotRAmt.TabIndex = 19
-        Me.lblTotRAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lbl_capexsubcode.AutoSize = False
+        Me.lbl_capexsubcode.BorderVisible = True
+        Me.lbl_capexsubcode.FieldName = Nothing
+        Me.lbl_capexsubcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbl_capexsubcode.Location = New System.Drawing.Point(237, 6)
+        Me.lbl_capexsubcode.Name = "lbl_capexsubcode"
+        Me.lbl_capexsubcode.Size = New System.Drawing.Size(232, 19)
+        Me.lbl_capexsubcode.TabIndex = 95
+        Me.lbl_capexsubcode.TextWrap = False
         '
-        'lblLocation
+        'MyLabel35
         '
-        Me.lblLocation.AutoSize = False
-        Me.lblLocation.BorderVisible = True
-        Me.lblLocation.FieldName = Nothing
-        Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(720, 43)
-        Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(193, 20)
-        Me.lblLocation.TabIndex = 20
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'RadLabel5
-        '
-        Me.RadLabel5.FieldName = Nothing
-        Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel5.Location = New System.Drawing.Point(1, 25)
-        Me.RadLabel5.Name = "RadLabel5"
-        Me.RadLabel5.Size = New System.Drawing.Size(63, 16)
-        Me.RadLabel5.TabIndex = 35
-        Me.RadLabel5.Text = "Description"
+        Me.MyLabel35.FieldName = Nothing
+        Me.MyLabel35.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel35.Location = New System.Drawing.Point(4, 29)
+        Me.MyLabel35.Name = "MyLabel35"
+        Me.MyLabel35.Size = New System.Drawing.Size(45, 16)
+        Me.MyLabel35.TabIndex = 96
+        Me.MyLabel35.Text = "Amount"
         '
         'RadGroupBox2
         '
@@ -639,10 +570,13 @@ Partial Class frmAssetStoreRequistion
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -650,7 +584,6 @@ Partial Class frmAssetStoreRequistion
         Me.gv1.Size = New System.Drawing.Size(890, 136)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'txtRequiredDate
         '
@@ -754,6 +687,7 @@ Partial Class frmAssetStoreRequistion
         Me.cboModeOfTransport.AutoCompleteDisplayMember = Nothing
         Me.cboModeOfTransport.AutoCompleteValueMember = Nothing
         Me.cboModeOfTransport.CalculationExpression = Nothing
+        Me.cboModeOfTransport.DropDownAnimationEnabled = True
         Me.cboModeOfTransport.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboModeOfTransport.FieldCode = Nothing
         Me.cboModeOfTransport.FieldDesc = Nothing
@@ -774,6 +708,286 @@ Partial Class frmAssetStoreRequistion
         Me.cboModeOfTransport.Size = New System.Drawing.Size(143, 20)
         Me.cboModeOfTransport.TabIndex = 9
         Me.cboModeOfTransport.Visible = False
+        '
+        'UcItemBalance1
+        '
+        Me.UcItemBalance1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.UcItemBalance1.CommitedQty = False
+        Me.UcItemBalance1.CommitedQtyLbl = False
+        Me.UcItemBalance1.ItemCode = ""
+        Me.UcItemBalance1.ItemMRP = 0R
+        Me.UcItemBalance1.ItemName = ""
+        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 344)
+        Me.UcItemBalance1.LocationCode = ""
+        Me.UcItemBalance1.LocationName = ""
+        Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 65)
+        Me.UcItemBalance1.MinimumSize = New System.Drawing.Size(710, 65)
+        Me.UcItemBalance1.Name = "UcItemBalance1"
+        Me.UcItemBalance1.ShowCSADOQty = False
+        Me.UcItemBalance1.ShowPOQty = False
+        Me.UcItemBalance1.ShowSOQty = False
+        Me.UcItemBalance1.Size = New System.Drawing.Size(710, 65)
+        Me.UcItemBalance1.TabIndex = 20
+        Me.UcItemBalance1.TabStop = False
+        Me.UcItemBalance1.TransDate = New Date(CType(0, Long))
+        Me.UcItemBalance1.TransNo = ""
+        Me.UcItemBalance1.UOM = ""
+        '
+        'pnlPCJ
+        '
+        Me.pnlPCJ.Controls.Add(Me.RadLabel15)
+        Me.pnlPCJ.Controls.Add(Me.fndProject)
+        Me.pnlPCJ.Controls.Add(Me.lblProject)
+        Me.pnlPCJ.Location = New System.Drawing.Point(458, 84)
+        Me.pnlPCJ.Name = "pnlPCJ"
+        Me.pnlPCJ.Size = New System.Drawing.Size(455, 22)
+        Me.pnlPCJ.TabIndex = 17
+        '
+        'RadLabel15
+        '
+        Me.RadLabel15.FieldName = Nothing
+        Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel15.Location = New System.Drawing.Point(6, 1)
+        Me.RadLabel15.Name = "RadLabel15"
+        Me.RadLabel15.Size = New System.Drawing.Size(41, 16)
+        Me.RadLabel15.TabIndex = 1
+        Me.RadLabel15.Text = "Project"
+        '
+        'fndProject
+        '
+        Me.fndProject.CalculationExpression = Nothing
+        Me.fndProject.FieldCode = Nothing
+        Me.fndProject.FieldDesc = Nothing
+        Me.fndProject.FieldMaxLength = 0
+        Me.fndProject.FieldName = Nothing
+        Me.fndProject.isCalculatedField = False
+        Me.fndProject.IsSourceFromTable = False
+        Me.fndProject.IsSourceFromValueList = False
+        Me.fndProject.IsUnique = False
+        Me.fndProject.Location = New System.Drawing.Point(115, 1)
+        Me.fndProject.MendatroryField = False
+        Me.fndProject.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndProject.MyLinkLable1 = Me.RadLabel15
+        Me.fndProject.MyLinkLable2 = Me.lblProject
+        Me.fndProject.MyReadOnly = False
+        Me.fndProject.MyShowMasterFormButton = False
+        Me.fndProject.Name = "fndProject"
+        Me.fndProject.ReferenceFieldDesc = Nothing
+        Me.fndProject.ReferenceFieldName = Nothing
+        Me.fndProject.ReferenceTableName = Nothing
+        Me.fndProject.Size = New System.Drawing.Size(143, 19)
+        Me.fndProject.TabIndex = 0
+        Me.fndProject.Value = ""
+        '
+        'lblProject
+        '
+        Me.lblProject.AutoSize = False
+        Me.lblProject.BorderVisible = True
+        Me.lblProject.FieldName = Nothing
+        Me.lblProject.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblProject.Location = New System.Drawing.Point(261, 1)
+        Me.lblProject.Name = "lblProject"
+        Me.lblProject.Size = New System.Drawing.Size(193, 20)
+        Me.lblProject.TabIndex = 2
+        Me.lblProject.TextWrap = False
+        '
+        'cboPOType
+        '
+        Me.cboPOType.AutoCompleteDisplayMember = Nothing
+        Me.cboPOType.AutoCompleteValueMember = Nothing
+        Me.cboPOType.CalculationExpression = Nothing
+        Me.cboPOType.DropDownAnimationEnabled = True
+        Me.cboPOType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboPOType.FieldCode = Nothing
+        Me.cboPOType.FieldDesc = Nothing
+        Me.cboPOType.FieldMaxLength = 0
+        Me.cboPOType.FieldName = Nothing
+        Me.cboPOType.isCalculatedField = False
+        Me.cboPOType.IsSourceFromTable = False
+        Me.cboPOType.IsSourceFromValueList = False
+        Me.cboPOType.IsUnique = False
+        Me.cboPOType.Location = New System.Drawing.Point(574, 22)
+        Me.cboPOType.MendatroryField = True
+        Me.cboPOType.MyLinkLable1 = Me.MyLabel1
+        Me.cboPOType.MyLinkLable2 = Nothing
+        Me.cboPOType.Name = "cboPOType"
+        Me.cboPOType.ReferenceFieldDesc = Nothing
+        Me.cboPOType.ReferenceFieldName = Nothing
+        Me.cboPOType.ReferenceTableName = Nothing
+        Me.cboPOType.Size = New System.Drawing.Size(144, 20)
+        Me.cboPOType.TabIndex = 16
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(465, 25)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(31, 16)
+        Me.MyLabel1.TabIndex = 31
+        Me.MyLabel1.Text = "Type"
+        '
+        'RadLabel12
+        '
+        Me.RadLabel12.FieldName = Nothing
+        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel12.Location = New System.Drawing.Point(227, 86)
+        Me.RadLabel12.Name = "RadLabel12"
+        Me.RadLabel12.Size = New System.Drawing.Size(77, 16)
+        Me.RadLabel12.TabIndex = 30
+        Me.RadLabel12.Text = "Requested By"
+        '
+        'txtRequestBy
+        '
+        Me.txtRequestBy.CalculationExpression = Nothing
+        Me.txtRequestBy.FieldCode = Nothing
+        Me.txtRequestBy.FieldDesc = Nothing
+        Me.txtRequestBy.FieldMaxLength = 0
+        Me.txtRequestBy.FieldName = Nothing
+        Me.txtRequestBy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRequestBy.isCalculatedField = False
+        Me.txtRequestBy.IsSourceFromTable = False
+        Me.txtRequestBy.IsSourceFromValueList = False
+        Me.txtRequestBy.IsUnique = False
+        Me.txtRequestBy.Location = New System.Drawing.Point(310, 85)
+        Me.txtRequestBy.MaxLength = 100
+        Me.txtRequestBy.MendatroryField = False
+        Me.txtRequestBy.MyLinkLable1 = Me.RadLabel12
+        Me.txtRequestBy.MyLinkLable2 = Nothing
+        Me.txtRequestBy.Name = "txtRequestBy"
+        Me.txtRequestBy.ReferenceFieldDesc = Nothing
+        Me.txtRequestBy.ReferenceFieldName = Nothing
+        Me.txtRequestBy.ReferenceTableName = Nothing
+        Me.txtRequestBy.Size = New System.Drawing.Size(148, 18)
+        Me.txtRequestBy.TabIndex = 14
+        '
+        'lblDept
+        '
+        Me.lblDept.AutoSize = False
+        Me.lblDept.BorderVisible = True
+        Me.lblDept.FieldName = Nothing
+        Me.lblDept.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblDept.Location = New System.Drawing.Point(720, 63)
+        Me.lblDept.Name = "lblDept"
+        Me.lblDept.Size = New System.Drawing.Size(193, 20)
+        Me.lblDept.TabIndex = 19
+        '
+        'RadLabel14
+        '
+        Me.RadLabel14.FieldName = Nothing
+        Me.RadLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel14.Location = New System.Drawing.Point(465, 66)
+        Me.RadLabel14.Name = "RadLabel14"
+        Me.RadLabel14.Size = New System.Drawing.Size(65, 16)
+        Me.RadLabel14.TabIndex = 24
+        Me.RadLabel14.Text = "Department"
+        '
+        'cboItemType
+        '
+        Me.cboItemType.AutoCompleteDisplayMember = Nothing
+        Me.cboItemType.AutoCompleteValueMember = Nothing
+        Me.cboItemType.CalculationExpression = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
+        Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboItemType.FieldCode = Nothing
+        Me.cboItemType.FieldDesc = Nothing
+        Me.cboItemType.FieldMaxLength = 0
+        Me.cboItemType.FieldName = Nothing
+        Me.cboItemType.isCalculatedField = False
+        Me.cboItemType.IsSourceFromTable = False
+        Me.cboItemType.IsSourceFromValueList = False
+        Me.cboItemType.IsUnique = False
+        Me.cboItemType.Location = New System.Drawing.Point(86, 84)
+        Me.cboItemType.MendatroryField = True
+        Me.cboItemType.MyLinkLable1 = Me.RadLabel10
+        Me.cboItemType.MyLinkLable2 = Nothing
+        Me.cboItemType.Name = "cboItemType"
+        Me.cboItemType.ReferenceFieldDesc = Nothing
+        Me.cboItemType.ReferenceFieldName = Nothing
+        Me.cboItemType.ReferenceTableName = Nothing
+        Me.cboItemType.Size = New System.Drawing.Size(136, 20)
+        Me.cboItemType.TabIndex = 13
+        '
+        'RadLabel10
+        '
+        Me.RadLabel10.FieldName = Nothing
+        Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel10.Location = New System.Drawing.Point(1, 86)
+        Me.RadLabel10.Name = "RadLabel10"
+        Me.RadLabel10.Size = New System.Drawing.Size(57, 16)
+        Me.RadLabel10.TabIndex = 32
+        Me.RadLabel10.Text = "Item Type"
+        '
+        'txtDept
+        '
+        Me.txtDept.CalculationExpression = Nothing
+        Me.txtDept.FieldCode = Nothing
+        Me.txtDept.FieldDesc = Nothing
+        Me.txtDept.FieldMaxLength = 0
+        Me.txtDept.FieldName = Nothing
+        Me.txtDept.isCalculatedField = False
+        Me.txtDept.IsSourceFromTable = False
+        Me.txtDept.IsSourceFromValueList = False
+        Me.txtDept.IsUnique = False
+        Me.txtDept.Location = New System.Drawing.Point(574, 64)
+        Me.txtDept.MendatroryField = True
+        Me.txtDept.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDept.MyLinkLable1 = Me.RadLabel14
+        Me.txtDept.MyLinkLable2 = Me.lblDept
+        Me.txtDept.MyReadOnly = False
+        Me.txtDept.MyShowMasterFormButton = False
+        Me.txtDept.Name = "txtDept"
+        Me.txtDept.ReferenceFieldDesc = Nothing
+        Me.txtDept.ReferenceFieldName = Nothing
+        Me.txtDept.ReferenceTableName = Nothing
+        Me.txtDept.Size = New System.Drawing.Size(143, 19)
+        Me.txtDept.TabIndex = 15
+        Me.txtDept.Value = ""
+        '
+        'RadLabel27
+        '
+        Me.RadLabel27.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel27.FieldName = Nothing
+        Me.RadLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel27.Location = New System.Drawing.Point(724, 393)
+        Me.RadLabel27.Name = "RadLabel27"
+        Me.RadLabel27.Size = New System.Drawing.Size(74, 16)
+        Me.RadLabel27.TabIndex = 20
+        Me.RadLabel27.Text = "Total Amount"
+        '
+        'lblTotRAmt
+        '
+        Me.lblTotRAmt.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTotRAmt.AutoSize = False
+        Me.lblTotRAmt.BorderVisible = True
+        Me.lblTotRAmt.FieldName = Nothing
+        Me.lblTotRAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotRAmt.Location = New System.Drawing.Point(803, 391)
+        Me.lblTotRAmt.Name = "lblTotRAmt"
+        Me.lblTotRAmt.Size = New System.Drawing.Size(110, 18)
+        Me.lblTotRAmt.TabIndex = 19
+        Me.lblTotRAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblLocation
+        '
+        Me.lblLocation.AutoSize = False
+        Me.lblLocation.BorderVisible = True
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(720, 43)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(193, 20)
+        Me.lblLocation.TabIndex = 20
+        '
+        'RadLabel5
+        '
+        Me.RadLabel5.FieldName = Nothing
+        Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel5.Location = New System.Drawing.Point(1, 25)
+        Me.RadLabel5.Name = "RadLabel5"
+        Me.RadLabel5.Size = New System.Drawing.Size(63, 16)
+        Me.RadLabel5.TabIndex = 35
+        Me.RadLabel5.Text = "Description"
         '
         'RadLabel3
         '
@@ -900,7 +1114,7 @@ Partial Class frmAssetStoreRequistion
         Me.txtReqNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtReqNo.MyLinkLable1 = Me.RadLabel1
         Me.txtReqNo.MyLinkLable2 = Nothing
-        Me.txtReqNo.MyMaxLength = 32767
+        Me.txtReqNo.MyMaxLength = 30
         Me.txtReqNo.MyReadOnly = False
         Me.txtReqNo.Name = "txtReqNo"
         Me.txtReqNo.Size = New System.Drawing.Size(230, 20)
@@ -1113,15 +1327,11 @@ Partial Class frmAssetStoreRequistion
         '
         'BtnMailPreview
         '
-        Me.BtnMailPreview.AccessibleDescription = "Preview"
-        Me.BtnMailPreview.AccessibleName = "Preview"
         Me.BtnMailPreview.Name = "BtnMailPreview"
         Me.BtnMailPreview.Text = "Preview"
         '
         'btnMailSendemail
         '
-        Me.btnMailSendemail.AccessibleDescription = "Send E-Mail/SMS"
-        Me.btnMailSendemail.AccessibleName = "Send E-Mail/SMS"
         Me.btnMailSendemail.Name = "btnMailSendemail"
         Me.btnMailSendemail.Text = "Send E-Mail/SMS"
         '
@@ -1197,231 +1407,6 @@ Partial Class frmAssetStoreRequistion
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'SplitContainer3
-        '
-        Me.SplitContainer3.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.SplitContainer3.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
-        Me.SplitContainer3.Location = New System.Drawing.Point(3, 108)
-        Me.SplitContainer3.Name = "SplitContainer3"
-        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer3.Panel1
-        '
-        Me.SplitContainer3.Panel1.Controls.Add(Me.lbl_capexcode)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.fndcapexcode)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel37)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel36)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel34)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.lbl_rebudgetamt)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel38)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel40)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.lbl_rebudgetamtwithtolerence)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.lbl_budgetamt)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.lbl_budgetamtwithtolerence)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.fndcapexsubcode)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.lbl_capexsubcode)
-        Me.SplitContainer3.Panel1.Controls.Add(Me.MyLabel35)
-        '
-        'SplitContainer3.Panel2
-        '
-        Me.SplitContainer3.Panel2.Controls.Add(Me.RadGroupBox2)
-        Me.SplitContainer3.Size = New System.Drawing.Size(910, 240)
-        Me.SplitContainer3.SplitterDistance = 70
-        Me.SplitContainer3.TabIndex = 37
-        '
-        'lbl_capexcode
-        '
-        Me.lbl_capexcode.AutoSize = False
-        Me.lbl_capexcode.BorderVisible = True
-        Me.lbl_capexcode.FieldName = Nothing
-        Me.lbl_capexcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_capexcode.Location = New System.Drawing.Point(716, 6)
-        Me.lbl_capexcode.Name = "lbl_capexcode"
-        Me.lbl_capexcode.Size = New System.Drawing.Size(193, 19)
-        Me.lbl_capexcode.TabIndex = 106
-        Me.lbl_capexcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lbl_capexcode.TextWrap = False
-        '
-        'fndcapexcode
-        '
-        Me.fndcapexcode.CalculationExpression = Nothing
-        Me.fndcapexcode.Enabled = False
-        Me.fndcapexcode.FieldCode = Nothing
-        Me.fndcapexcode.FieldDesc = Nothing
-        Me.fndcapexcode.FieldMaxLength = 0
-        Me.fndcapexcode.FieldName = Nothing
-        Me.fndcapexcode.isCalculatedField = False
-        Me.fndcapexcode.IsSourceFromTable = False
-        Me.fndcapexcode.IsSourceFromValueList = False
-        Me.fndcapexcode.IsUnique = False
-        Me.fndcapexcode.Location = New System.Drawing.Point(570, 6)
-        Me.fndcapexcode.MendatroryField = False
-        Me.fndcapexcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndcapexcode.MyLinkLable1 = Me.MyLabel34
-        Me.fndcapexcode.MyLinkLable2 = Me.lbl_capexcode
-        Me.fndcapexcode.MyReadOnly = False
-        Me.fndcapexcode.MyShowMasterFormButton = False
-        Me.fndcapexcode.Name = "fndcapexcode"
-        Me.fndcapexcode.ReferenceFieldDesc = Nothing
-        Me.fndcapexcode.ReferenceFieldName = Nothing
-        Me.fndcapexcode.ReferenceTableName = Nothing
-        Me.fndcapexcode.Size = New System.Drawing.Size(143, 19)
-        Me.fndcapexcode.TabIndex = 104
-        Me.fndcapexcode.Value = ""
-        '
-        'MyLabel34
-        '
-        Me.MyLabel34.FieldName = Nothing
-        Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel34.Location = New System.Drawing.Point(479, 7)
-        Me.MyLabel34.Name = "MyLabel34"
-        Me.MyLabel34.Size = New System.Drawing.Size(69, 16)
-        Me.MyLabel34.TabIndex = 105
-        Me.MyLabel34.Text = "Capex Code"
-        '
-        'MyLabel37
-        '
-        Me.MyLabel37.FieldName = Nothing
-        Me.MyLabel37.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel37.Location = New System.Drawing.Point(208, 50)
-        Me.MyLabel37.Name = "MyLabel37"
-        Me.MyLabel37.Size = New System.Drawing.Size(147, 16)
-        Me.MyLabel37.TabIndex = 102
-        Me.MyLabel37.Text = "Bal. Amount With Tolerence"
-        '
-        'MyLabel36
-        '
-        Me.MyLabel36.FieldName = Nothing
-        Me.MyLabel36.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel36.Location = New System.Drawing.Point(0, 7)
-        Me.MyLabel36.Name = "MyLabel36"
-        Me.MyLabel36.Size = New System.Drawing.Size(93, 16)
-        Me.MyLabel36.TabIndex = 94
-        Me.MyLabel36.Text = "Capex Sub-Code"
-        '
-        'lbl_rebudgetamt
-        '
-        Me.lbl_rebudgetamt.AutoSize = False
-        Me.lbl_rebudgetamt.BorderVisible = True
-        Me.lbl_rebudgetamt.FieldName = Nothing
-        Me.lbl_rebudgetamt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_rebudgetamt.Location = New System.Drawing.Point(96, 48)
-        Me.lbl_rebudgetamt.Name = "lbl_rebudgetamt"
-        Me.lbl_rebudgetamt.Size = New System.Drawing.Size(108, 20)
-        Me.lbl_rebudgetamt.TabIndex = 101
-        Me.lbl_rebudgetamt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lbl_rebudgetamt.TextWrap = False
-        '
-        'MyLabel38
-        '
-        Me.MyLabel38.FieldName = Nothing
-        Me.MyLabel38.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel38.Location = New System.Drawing.Point(210, 29)
-        Me.MyLabel38.Name = "MyLabel38"
-        Me.MyLabel38.Size = New System.Drawing.Size(125, 16)
-        Me.MyLabel38.TabIndex = 98
-        Me.MyLabel38.Text = "Amount With Tolerence"
-        '
-        'MyLabel40
-        '
-        Me.MyLabel40.FieldName = Nothing
-        Me.MyLabel40.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel40.Location = New System.Drawing.Point(3, 48)
-        Me.MyLabel40.Name = "MyLabel40"
-        Me.MyLabel40.Size = New System.Drawing.Size(68, 16)
-        Me.MyLabel40.TabIndex = 100
-        Me.MyLabel40.Text = "Bal. Amount"
-        '
-        'lbl_rebudgetamtwithtolerence
-        '
-        Me.lbl_rebudgetamtwithtolerence.AutoSize = False
-        Me.lbl_rebudgetamtwithtolerence.BorderVisible = True
-        Me.lbl_rebudgetamtwithtolerence.FieldName = Nothing
-        Me.lbl_rebudgetamtwithtolerence.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_rebudgetamtwithtolerence.Location = New System.Drawing.Point(358, 49)
-        Me.lbl_rebudgetamtwithtolerence.Name = "lbl_rebudgetamtwithtolerence"
-        Me.lbl_rebudgetamtwithtolerence.Size = New System.Drawing.Size(111, 19)
-        Me.lbl_rebudgetamtwithtolerence.TabIndex = 103
-        Me.lbl_rebudgetamtwithtolerence.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lbl_rebudgetamtwithtolerence.TextWrap = False
-        '
-        'lbl_budgetamt
-        '
-        Me.lbl_budgetamt.AutoSize = False
-        Me.lbl_budgetamt.BorderVisible = True
-        Me.lbl_budgetamt.FieldName = Nothing
-        Me.lbl_budgetamt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_budgetamt.Location = New System.Drawing.Point(96, 28)
-        Me.lbl_budgetamt.Name = "lbl_budgetamt"
-        Me.lbl_budgetamt.Size = New System.Drawing.Size(108, 20)
-        Me.lbl_budgetamt.TabIndex = 97
-        Me.lbl_budgetamt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lbl_budgetamt.TextWrap = False
-        '
-        'lbl_budgetamtwithtolerence
-        '
-        Me.lbl_budgetamtwithtolerence.AutoSize = False
-        Me.lbl_budgetamtwithtolerence.BorderVisible = True
-        Me.lbl_budgetamtwithtolerence.FieldName = Nothing
-        Me.lbl_budgetamtwithtolerence.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_budgetamtwithtolerence.Location = New System.Drawing.Point(358, 28)
-        Me.lbl_budgetamtwithtolerence.Name = "lbl_budgetamtwithtolerence"
-        Me.lbl_budgetamtwithtolerence.Size = New System.Drawing.Size(111, 19)
-        Me.lbl_budgetamtwithtolerence.TabIndex = 99
-        Me.lbl_budgetamtwithtolerence.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lbl_budgetamtwithtolerence.TextWrap = False
-        '
-        'fndcapexsubcode
-        '
-        Me.fndcapexsubcode.CalculationExpression = Nothing
-        Me.fndcapexsubcode.FieldCode = Nothing
-        Me.fndcapexsubcode.FieldDesc = Nothing
-        Me.fndcapexsubcode.FieldMaxLength = 0
-        Me.fndcapexsubcode.FieldName = Nothing
-        Me.fndcapexsubcode.isCalculatedField = False
-        Me.fndcapexsubcode.IsSourceFromTable = False
-        Me.fndcapexsubcode.IsSourceFromValueList = False
-        Me.fndcapexsubcode.IsUnique = False
-        Me.fndcapexsubcode.Location = New System.Drawing.Point(96, 7)
-        Me.fndcapexsubcode.MendatroryField = True
-        Me.fndcapexsubcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndcapexsubcode.MyLinkLable1 = Me.MyLabel36
-        Me.fndcapexsubcode.MyLinkLable2 = Me.lbl_capexsubcode
-        Me.fndcapexsubcode.MyReadOnly = False
-        Me.fndcapexsubcode.MyShowMasterFormButton = False
-        Me.fndcapexsubcode.Name = "fndcapexsubcode"
-        Me.fndcapexsubcode.ReferenceFieldDesc = Nothing
-        Me.fndcapexsubcode.ReferenceFieldName = Nothing
-        Me.fndcapexsubcode.ReferenceTableName = Nothing
-        Me.fndcapexsubcode.Size = New System.Drawing.Size(141, 18)
-        Me.fndcapexsubcode.TabIndex = 93
-        Me.fndcapexsubcode.Value = ""
-        '
-        'lbl_capexsubcode
-        '
-        Me.lbl_capexsubcode.AutoSize = False
-        Me.lbl_capexsubcode.BorderVisible = True
-        Me.lbl_capexsubcode.FieldName = Nothing
-        Me.lbl_capexsubcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbl_capexsubcode.Location = New System.Drawing.Point(237, 6)
-        Me.lbl_capexsubcode.Name = "lbl_capexsubcode"
-        Me.lbl_capexsubcode.Size = New System.Drawing.Size(232, 19)
-        Me.lbl_capexsubcode.TabIndex = 95
-        Me.lbl_capexsubcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lbl_capexsubcode.TextWrap = False
-        '
-        'MyLabel35
-        '
-        Me.MyLabel35.FieldName = Nothing
-        Me.MyLabel35.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel35.Location = New System.Drawing.Point(4, 29)
-        Me.MyLabel35.Name = "MyLabel35"
-        Me.MyLabel35.Size = New System.Drawing.Size(45, 16)
-        Me.MyLabel35.TabIndex = 96
-        Me.MyLabel35.Text = "Amount"
-        '
         'frmAssetStoreRequistion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1448,6 +1433,34 @@ Partial Class frmAssetStoreRequistion
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        Me.SplitContainer3.Panel1.ResumeLayout(False)
+        Me.SplitContainer3.Panel1.PerformLayout()
+        Me.SplitContainer3.Panel2.ResumeLayout(False)
+        Me.SplitContainer3.ResumeLayout(False)
+        CType(Me.lbl_capexcode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lbl_rebudgetamt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lbl_rebudgetamtwithtolerence, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lbl_budgetamt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lbl_budgetamtwithtolerence, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lbl_capexsubcode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gv1.ResumeLayout(False)
+        Me.gv1.PerformLayout()
+        CType(Me.txtRequiredDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtExpireDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboModeOfTransport, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlPCJ.ResumeLayout(False)
         Me.pnlPCJ.PerformLayout()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1464,18 +1477,6 @@ Partial Class frmAssetStoreRequistion
         CType(Me.lblTotRAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gv1.ResumeLayout(False)
-        Me.gv1.PerformLayout()
-        CType(Me.txtRequiredDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtExpireDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboModeOfTransport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1500,22 +1501,6 @@ Partial Class frmAssetStoreRequistion
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer3.Panel1.ResumeLayout(False)
-        Me.SplitContainer3.Panel1.PerformLayout()
-        Me.SplitContainer3.Panel2.ResumeLayout(False)
-        Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.lbl_capexcode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lbl_rebudgetamt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lbl_rebudgetamtwithtolerence, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lbl_budgetamt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lbl_budgetamtwithtolerence, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lbl_capexsubcode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
