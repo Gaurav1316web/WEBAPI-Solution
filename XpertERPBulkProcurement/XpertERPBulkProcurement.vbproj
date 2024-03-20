@@ -839,6 +839,9 @@
     <EmbeddedResource Include="Milk Procurement\Report\rptCattleFeedSaleReport.resx">
       <DependentUpon>rptCattleFeedSaleReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptDayWiseCollection.resx">
+      <DependentUpon>rptDayWiseCollection.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptDBTMilkPayment.resx">
       <DependentUpon>rptDBTMilkPayment.vb</DependentUpon>
     </EmbeddedResource>
