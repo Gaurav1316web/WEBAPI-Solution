@@ -25,6 +25,7 @@ Partial Class frmAssetInstallPullOut
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.chkPullOut = New Telerik.WinControls.UI.RadRadioButton()
         Me.chkInstall = New Telerik.WinControls.UI.RadRadioButton()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
@@ -172,6 +173,7 @@ Partial Class frmAssetInstallPullOut
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(6, 27)
         Me.MyLabel3.Name = "MyLabel3"
@@ -181,6 +183,7 @@ Partial Class frmAssetInstallPullOut
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(6, 48)
         Me.MyLabel2.Name = "MyLabel2"
@@ -198,6 +201,7 @@ Partial Class frmAssetInstallPullOut
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(6, 5)
         Me.RadLabel1.Name = "RadLabel1"
@@ -209,23 +213,24 @@ Partial Class frmAssetInstallPullOut
         '
         Me.lblRoute.AutoSize = False
         Me.lblRoute.BorderVisible = True
+        Me.lblRoute.FieldName = Nothing
         Me.lblRoute.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRoute.Location = New System.Drawing.Point(179, 46)
         Me.lblRoute.Name = "lblRoute"
         Me.lblRoute.Size = New System.Drawing.Size(505, 20)
         Me.lblRoute.TabIndex = 98
-        Me.lblRoute.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRoute.TextWrap = False
         '
         'fndCustomer
         '
+        Me.fndCustomer.FieldName = Nothing
         Me.fndCustomer.Location = New System.Drawing.Point(179, 3)
         Me.fndCustomer.MendatroryField = True
         Me.fndCustomer.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndCustomer.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndCustomer.MyLinkLable1 = Nothing
         Me.fndCustomer.MyLinkLable2 = Nothing
-        Me.fndCustomer.MyMaxLength = 32767
+        Me.fndCustomer.MyMaxLength = 30
         Me.fndCustomer.MyReadOnly = False
         Me.fndCustomer.Name = "fndCustomer"
         Me.fndCustomer.Size = New System.Drawing.Size(218, 20)
@@ -234,7 +239,7 @@ Partial Class frmAssetInstallPullOut
         '
         'btnNew
         '
-        Me.btnNew.Image = My.Resources._new
+        Me.btnNew.Image = Global.XpertERPService.My.Resources.Resources._new
         Me.btnNew.Location = New System.Drawing.Point(403, 3)
         Me.btnNew.Name = "btnNew"
         Me.btnNew.Size = New System.Drawing.Size(15, 20)
@@ -244,12 +249,12 @@ Partial Class frmAssetInstallPullOut
         '
         Me.lblCustomerName.AutoSize = False
         Me.lblCustomerName.BorderVisible = True
+        Me.lblCustomerName.FieldName = Nothing
         Me.lblCustomerName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCustomerName.Location = New System.Drawing.Point(179, 25)
         Me.lblCustomerName.Name = "lblCustomerName"
         Me.lblCustomerName.Size = New System.Drawing.Size(505, 20)
         Me.lblCustomerName.TabIndex = 97
-        Me.lblCustomerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCustomerName.TextWrap = False
         '
         'GroupBox1
@@ -271,6 +276,7 @@ Partial Class frmAssetInstallPullOut
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(6, 43)
         Me.MyLabel1.Name = "MyLabel1"
@@ -280,6 +286,7 @@ Partial Class frmAssetInstallPullOut
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(6, 63)
         Me.MyLabel4.Name = "MyLabel4"
@@ -291,28 +298,29 @@ Partial Class frmAssetInstallPullOut
         '
         Me.lblRoute1.AutoSize = False
         Me.lblRoute1.BorderVisible = True
+        Me.lblRoute1.FieldName = Nothing
         Me.lblRoute1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRoute1.Location = New System.Drawing.Point(136, 63)
         Me.lblRoute1.Name = "lblRoute1"
         Me.lblRoute1.Size = New System.Drawing.Size(505, 20)
         Me.lblRoute1.TabIndex = 98
-        Me.lblRoute1.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRoute1.TextWrap = False
         '
         'lblCustomerName1
         '
         Me.lblCustomerName1.AutoSize = False
         Me.lblCustomerName1.BorderVisible = True
+        Me.lblCustomerName1.FieldName = Nothing
         Me.lblCustomerName1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCustomerName1.Location = New System.Drawing.Point(136, 41)
         Me.lblCustomerName1.Name = "lblCustomerName1"
         Me.lblCustomerName1.Size = New System.Drawing.Size(505, 20)
         Me.lblCustomerName1.TabIndex = 97
-        Me.lblCustomerName1.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCustomerName1.TextWrap = False
         '
         'MyLabel7
         '
+        Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel7.Location = New System.Drawing.Point(6, 21)
         Me.MyLabel7.Name = "MyLabel7"
@@ -322,13 +330,14 @@ Partial Class frmAssetInstallPullOut
         '
         'fndCustomer1
         '
+        Me.fndCustomer1.FieldName = Nothing
         Me.fndCustomer1.Location = New System.Drawing.Point(136, 19)
         Me.fndCustomer1.MendatroryField = True
         Me.fndCustomer1.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndCustomer1.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndCustomer1.MyLinkLable1 = Nothing
         Me.fndCustomer1.MyLinkLable2 = Nothing
-        Me.fndCustomer1.MyMaxLength = 32767
+        Me.fndCustomer1.MyMaxLength = 30
         Me.fndCustomer1.MyReadOnly = False
         Me.fndCustomer1.Name = "fndCustomer1"
         Me.fndCustomer1.Size = New System.Drawing.Size(218, 20)
@@ -338,7 +347,7 @@ Partial Class frmAssetInstallPullOut
         '
         'btnNew1
         '
-        Me.btnNew1.Image = My.Resources._new
+        Me.btnNew1.Image = Global.XpertERPService.My.Resources.Resources._new
         Me.btnNew1.Location = New System.Drawing.Point(360, 20)
         Me.btnNew1.Name = "btnNew1"
         Me.btnNew1.Size = New System.Drawing.Size(15, 20)
@@ -354,16 +363,20 @@ Partial Class frmAssetInstallPullOut
         Me.dgvVisi.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgvVisi.Location = New System.Drawing.Point(4, 99)
         '
-        'dgvVisi
+        '
         '
         Me.dgvVisi.MasterTemplate.AllowDeleteRow = False
+        Me.dgvVisi.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.dgvVisi.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvVisi.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvVisi.MyStopExport = False
         Me.dgvVisi.Name = "dgvVisi"
         Me.dgvVisi.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvVisi.ShowGroupPanel = False
+        Me.dgvVisi.ShowHeaderCellButtons = True
         Me.dgvVisi.Size = New System.Drawing.Size(957, 200)
         Me.dgvVisi.TabIndex = 1
         Me.dgvVisi.TabStop = False
-        Me.dgvVisi.Text = "RadGridView1"
         '
         'SplitContainer1
         '
@@ -420,15 +433,11 @@ Partial Class frmAssetInstallPullOut
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "File"
-        Me.RadMenuItem2.AccessibleName = "File"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "File"
         '
@@ -440,88 +449,65 @@ Partial Class frmAssetInstallPullOut
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(964, 20)
         Me.RadMenu1.TabIndex = 93
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Export, Me.Import})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'Export
         '
-        Me.Export.AccessibleDescription = "Export"
-        Me.Export.AccessibleName = "Export"
         Me.Export.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Install, Me.PullOut, Me.All, Me.PullOutAndInstall})
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '
         'Install
         '
-        Me.Install.AccessibleDescription = "Install"
-        Me.Install.AccessibleName = "Install"
         Me.Install.Name = "Install"
         Me.Install.Text = "Install"
         '
         'PullOut
         '
-        Me.PullOut.AccessibleDescription = "Pull Out"
-        Me.PullOut.AccessibleName = "Pull Out"
         Me.PullOut.Name = "PullOut"
         Me.PullOut.Text = "Pull Out"
         '
         'All
         '
-        Me.All.AccessibleDescription = "All"
-        Me.All.AccessibleName = "All"
         Me.All.Name = "All"
         Me.All.Text = "All"
         Me.All.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
         'PullOutAndInstall
         '
-        Me.PullOutAndInstall.AccessibleDescription = "Pull Out And Install"
-        Me.PullOutAndInstall.AccessibleName = "Pull Out And Install"
         Me.PullOutAndInstall.Name = "PullOutAndInstall"
         Me.PullOutAndInstall.Text = "Pull Out And Install"
         Me.PullOutAndInstall.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
         'Import
         '
-        Me.Import.AccessibleDescription = "Import"
-        Me.Import.AccessibleName = "Import"
         Me.Import.Items.AddRange(New Telerik.WinControls.RadItem() {Me.InstallSheet, Me.PullOutSheet, Me.PullOutAndinstallSheet, Me.RMInstallSheetAll})
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
         '
         'InstallSheet
         '
-        Me.InstallSheet.AccessibleDescription = "Install Sheet"
-        Me.InstallSheet.AccessibleName = "Install Sheet"
         Me.InstallSheet.Name = "InstallSheet"
         Me.InstallSheet.Text = "Install Sheet"
         '
         'PullOutSheet
         '
-        Me.PullOutSheet.AccessibleDescription = "Pull Out Sheet"
-        Me.PullOutSheet.AccessibleName = "Pull Out Sheet"
         Me.PullOutSheet.Name = "PullOutSheet"
         Me.PullOutSheet.Text = "Pull Out Sheet"
         '
         'PullOutAndinstallSheet
         '
-        Me.PullOutAndinstallSheet.AccessibleDescription = "Pull Out And Install Sheet"
-        Me.PullOutAndinstallSheet.AccessibleName = "Pull Out And Install Sheet"
         Me.PullOutAndinstallSheet.Name = "PullOutAndinstallSheet"
         Me.PullOutAndinstallSheet.Text = "Pull Out And Install Sheet"
         Me.PullOutAndinstallSheet.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
         'RMInstallSheetAll
         '
-        Me.RMInstallSheetAll.AccessibleDescription = "Install Sheet new"
-        Me.RMInstallSheetAll.AccessibleName = "Install Sheet new"
         Me.RMInstallSheetAll.Name = "RMInstallSheetAll"
         Me.RMInstallSheetAll.Text = "Install Sheet new"
         '

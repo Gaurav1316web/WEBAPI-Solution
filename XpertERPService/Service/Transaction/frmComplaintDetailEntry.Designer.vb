@@ -24,6 +24,8 @@ Partial Class FrmComplaintDetailEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
@@ -347,7 +349,6 @@ Partial Class FrmComplaintDetailEntry
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(780, 537)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -435,15 +436,17 @@ Partial Class FrmComplaintDetailEntry
         '
         Me.gv1.Location = New System.Drawing.Point(6, 22)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(469, 109)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
         '
         'RadGroupBox1
         '
@@ -466,18 +469,31 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtworkorderno
         '
+        Me.txtworkorderno.CalculationExpression = Nothing
+        Me.txtworkorderno.FieldCode = Nothing
+        Me.txtworkorderno.FieldDesc = Nothing
+        Me.txtworkorderno.FieldMaxLength = 0
+        Me.txtworkorderno.FieldName = Nothing
         Me.txtworkorderno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtworkorderno.isCalculatedField = False
+        Me.txtworkorderno.IsSourceFromTable = False
+        Me.txtworkorderno.IsSourceFromValueList = False
+        Me.txtworkorderno.IsUnique = False
         Me.txtworkorderno.Location = New System.Drawing.Point(110, 45)
         Me.txtworkorderno.MaxLength = 50
         Me.txtworkorderno.MendatroryField = False
         Me.txtworkorderno.MyLinkLable1 = Me.MyLabel25
         Me.txtworkorderno.MyLinkLable2 = Nothing
         Me.txtworkorderno.Name = "txtworkorderno"
+        Me.txtworkorderno.ReferenceFieldDesc = Nothing
+        Me.txtworkorderno.ReferenceFieldName = Nothing
+        Me.txtworkorderno.ReferenceTableName = Nothing
         Me.txtworkorderno.Size = New System.Drawing.Size(136, 18)
         Me.txtworkorderno.TabIndex = 2
         '
         'MyLabel25
         '
+        Me.MyLabel25.FieldName = Nothing
         Me.MyLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel25.Location = New System.Drawing.Point(5, 45)
         Me.MyLabel25.Name = "MyLabel25"
@@ -487,6 +503,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel5
         '
+        Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.Location = New System.Drawing.Point(5, 69)
         Me.MyLabel5.Name = "MyLabel5"
@@ -496,30 +513,55 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtbillno
         '
+        Me.txtbillno.CalculationExpression = Nothing
+        Me.txtbillno.FieldCode = Nothing
+        Me.txtbillno.FieldDesc = Nothing
+        Me.txtbillno.FieldMaxLength = 0
+        Me.txtbillno.FieldName = Nothing
         Me.txtbillno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtbillno.isCalculatedField = False
+        Me.txtbillno.IsSourceFromTable = False
+        Me.txtbillno.IsSourceFromValueList = False
+        Me.txtbillno.IsUnique = False
         Me.txtbillno.Location = New System.Drawing.Point(110, 67)
         Me.txtbillno.MaxLength = 50
         Me.txtbillno.MendatroryField = False
         Me.txtbillno.MyLinkLable1 = Me.MyLabel5
         Me.txtbillno.MyLinkLable2 = Nothing
         Me.txtbillno.Name = "txtbillno"
+        Me.txtbillno.ReferenceFieldDesc = Nothing
+        Me.txtbillno.ReferenceFieldName = Nothing
+        Me.txtbillno.ReferenceTableName = Nothing
         Me.txtbillno.Size = New System.Drawing.Size(137, 18)
         Me.txtbillno.TabIndex = 3
         '
         'txtaddamt
         '
+        Me.txtaddamt.CalculationExpression = Nothing
+        Me.txtaddamt.FieldCode = Nothing
+        Me.txtaddamt.FieldDesc = Nothing
+        Me.txtaddamt.FieldMaxLength = 0
+        Me.txtaddamt.FieldName = Nothing
         Me.txtaddamt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtaddamt.isCalculatedField = False
+        Me.txtaddamt.IsSourceFromTable = False
+        Me.txtaddamt.IsSourceFromValueList = False
+        Me.txtaddamt.IsUnique = False
         Me.txtaddamt.Location = New System.Drawing.Point(110, 110)
         Me.txtaddamt.MaxLength = 50
         Me.txtaddamt.MendatroryField = False
         Me.txtaddamt.MyLinkLable1 = Me.MyLabel11
         Me.txtaddamt.MyLinkLable2 = Nothing
         Me.txtaddamt.Name = "txtaddamt"
+        Me.txtaddamt.ReferenceFieldDesc = Nothing
+        Me.txtaddamt.ReferenceFieldName = Nothing
+        Me.txtaddamt.ReferenceTableName = Nothing
         Me.txtaddamt.Size = New System.Drawing.Size(137, 18)
         Me.txtaddamt.TabIndex = 5
         '
         'MyLabel11
         '
+        Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel11.Location = New System.Drawing.Point(5, 110)
         Me.MyLabel11.Name = "MyLabel11"
@@ -529,6 +571,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel7
         '
+        Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel7.Location = New System.Drawing.Point(5, 91)
         Me.MyLabel7.Name = "MyLabel7"
@@ -538,13 +581,25 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtbillamt
         '
+        Me.txtbillamt.CalculationExpression = Nothing
+        Me.txtbillamt.FieldCode = Nothing
+        Me.txtbillamt.FieldDesc = Nothing
+        Me.txtbillamt.FieldMaxLength = 0
+        Me.txtbillamt.FieldName = Nothing
         Me.txtbillamt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtbillamt.isCalculatedField = False
+        Me.txtbillamt.IsSourceFromTable = False
+        Me.txtbillamt.IsSourceFromValueList = False
+        Me.txtbillamt.IsUnique = False
         Me.txtbillamt.Location = New System.Drawing.Point(110, 89)
         Me.txtbillamt.MaxLength = 50
         Me.txtbillamt.MendatroryField = False
         Me.txtbillamt.MyLinkLable1 = Me.MyLabel7
         Me.txtbillamt.MyLinkLable2 = Nothing
         Me.txtbillamt.Name = "txtbillamt"
+        Me.txtbillamt.ReferenceFieldDesc = Nothing
+        Me.txtbillamt.ReferenceFieldName = Nothing
+        Me.txtbillamt.ReferenceTableName = Nothing
         Me.txtbillamt.Size = New System.Drawing.Size(137, 18)
         Me.txtbillamt.TabIndex = 4
         '
@@ -561,7 +616,16 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtpendcode
         '
+        Me.txtpendcode.CalculationExpression = Nothing
         Me.txtpendcode.Enabled = False
+        Me.txtpendcode.FieldCode = Nothing
+        Me.txtpendcode.FieldDesc = Nothing
+        Me.txtpendcode.FieldMaxLength = 0
+        Me.txtpendcode.FieldName = Nothing
+        Me.txtpendcode.isCalculatedField = False
+        Me.txtpendcode.IsSourceFromTable = False
+        Me.txtpendcode.IsSourceFromValueList = False
+        Me.txtpendcode.IsUnique = False
         Me.txtpendcode.Location = New System.Drawing.Point(112, 305)
         Me.txtpendcode.MendatroryField = True
         Me.txtpendcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -570,12 +634,16 @@ Partial Class FrmComplaintDetailEntry
         Me.txtpendcode.MyReadOnly = False
         Me.txtpendcode.MyShowMasterFormButton = False
         Me.txtpendcode.Name = "txtpendcode"
+        Me.txtpendcode.ReferenceFieldDesc = Nothing
+        Me.txtpendcode.ReferenceFieldName = Nothing
+        Me.txtpendcode.ReferenceTableName = Nothing
         Me.txtpendcode.Size = New System.Drawing.Size(143, 18)
         Me.txtpendcode.TabIndex = 14
         Me.txtpendcode.Value = ""
         '
         'MyLabel22
         '
+        Me.MyLabel22.FieldName = Nothing
         Me.MyLabel22.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel22.Location = New System.Drawing.Point(0, 305)
         Me.MyLabel22.Name = "MyLabel22"
@@ -588,41 +656,54 @@ Partial Class FrmComplaintDetailEntry
         Me.txtpendrsn.AutoSize = False
         Me.txtpendrsn.BorderVisible = True
         Me.txtpendrsn.Enabled = False
+        Me.txtpendrsn.FieldName = Nothing
         Me.txtpendrsn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtpendrsn.Location = New System.Drawing.Point(256, 305)
         Me.txtpendrsn.Name = "txtpendrsn"
         Me.txtpendrsn.Size = New System.Drawing.Size(242, 18)
         Me.txtpendrsn.TabIndex = 74
-        Me.txtpendrsn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtpendrsn.TextWrap = False
         '
         'txtsecresn
         '
         Me.txtsecresn.AutoSize = False
         Me.txtsecresn.BorderVisible = True
+        Me.txtsecresn.FieldName = Nothing
         Me.txtsecresn.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtsecresn.Location = New System.Drawing.Point(256, 182)
         Me.txtsecresn.Name = "txtsecresn"
         Me.txtsecresn.Size = New System.Drawing.Size(242, 18)
         Me.txtsecresn.TabIndex = 44
-        Me.txtsecresn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtsecresn.TextWrap = False
         '
         'txtresponse
         '
+        Me.txtresponse.CalculationExpression = Nothing
+        Me.txtresponse.FieldCode = Nothing
+        Me.txtresponse.FieldDesc = Nothing
+        Me.txtresponse.FieldMaxLength = 0
+        Me.txtresponse.FieldName = Nothing
         Me.txtresponse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtresponse.isCalculatedField = False
+        Me.txtresponse.IsSourceFromTable = False
+        Me.txtresponse.IsSourceFromValueList = False
+        Me.txtresponse.IsUnique = False
         Me.txtresponse.Location = New System.Drawing.Point(617, 299)
         Me.txtresponse.MaxLength = 50
         Me.txtresponse.MendatroryField = False
         Me.txtresponse.MyLinkLable1 = Me.MyLabel13
         Me.txtresponse.MyLinkLable2 = Nothing
         Me.txtresponse.Name = "txtresponse"
+        Me.txtresponse.ReferenceFieldDesc = Nothing
+        Me.txtresponse.ReferenceFieldName = Nothing
+        Me.txtresponse.ReferenceTableName = Nothing
         Me.txtresponse.Size = New System.Drawing.Size(130, 18)
         Me.txtresponse.TabIndex = 49
         Me.txtresponse.TabStop = False
         '
         'MyLabel13
         '
+        Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel13.Location = New System.Drawing.Point(526, 300)
         Me.MyLabel13.Name = "MyLabel13"
@@ -632,6 +713,15 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtseccode
         '
+        Me.txtseccode.CalculationExpression = Nothing
+        Me.txtseccode.FieldCode = Nothing
+        Me.txtseccode.FieldDesc = Nothing
+        Me.txtseccode.FieldMaxLength = 0
+        Me.txtseccode.FieldName = Nothing
+        Me.txtseccode.isCalculatedField = False
+        Me.txtseccode.IsSourceFromTable = False
+        Me.txtseccode.IsSourceFromValueList = False
+        Me.txtseccode.IsUnique = False
         Me.txtseccode.Location = New System.Drawing.Point(112, 182)
         Me.txtseccode.MendatroryField = False
         Me.txtseccode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -640,12 +730,16 @@ Partial Class FrmComplaintDetailEntry
         Me.txtseccode.MyReadOnly = False
         Me.txtseccode.MyShowMasterFormButton = False
         Me.txtseccode.Name = "txtseccode"
+        Me.txtseccode.ReferenceFieldDesc = Nothing
+        Me.txtseccode.ReferenceFieldName = Nothing
+        Me.txtseccode.ReferenceTableName = Nothing
         Me.txtseccode.Size = New System.Drawing.Size(143, 18)
         Me.txtseccode.TabIndex = 8
         Me.txtseccode.Value = ""
         '
         'MyLabel21
         '
+        Me.MyLabel21.FieldName = Nothing
         Me.MyLabel21.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel21.Location = New System.Drawing.Point(0, 182)
         Me.MyLabel21.Name = "MyLabel21"
@@ -657,28 +751,37 @@ Partial Class FrmComplaintDetailEntry
         '
         Me.txtprimarydesc.AutoSize = False
         Me.txtprimarydesc.BorderVisible = True
+        Me.txtprimarydesc.FieldName = Nothing
         Me.txtprimarydesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtprimarydesc.Location = New System.Drawing.Point(256, 137)
         Me.txtprimarydesc.Name = "txtprimarydesc"
         Me.txtprimarydesc.Size = New System.Drawing.Size(242, 18)
         Me.txtprimarydesc.TabIndex = 43
-        Me.txtprimarydesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtprimarydesc.TextWrap = False
         '
         'txtreptserialno
         '
         Me.txtreptserialno.AutoSize = False
+        Me.txtreptserialno.FieldName = Nothing
         Me.txtreptserialno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtreptserialno.Location = New System.Drawing.Point(506, 138)
         Me.txtreptserialno.Name = "txtreptserialno"
         Me.txtreptserialno.Size = New System.Drawing.Size(242, 18)
         Me.txtreptserialno.TabIndex = 41
         Me.txtreptserialno.Text = "Serial No. Repeated 0 Times"
-        Me.txtreptserialno.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtreptserialno.TextWrap = False
         '
         'txtprimarycode
         '
+        Me.txtprimarycode.CalculationExpression = Nothing
+        Me.txtprimarycode.FieldCode = Nothing
+        Me.txtprimarycode.FieldDesc = Nothing
+        Me.txtprimarycode.FieldMaxLength = 0
+        Me.txtprimarycode.FieldName = Nothing
+        Me.txtprimarycode.isCalculatedField = False
+        Me.txtprimarycode.IsSourceFromTable = False
+        Me.txtprimarycode.IsSourceFromValueList = False
+        Me.txtprimarycode.IsUnique = False
         Me.txtprimarycode.Location = New System.Drawing.Point(112, 137)
         Me.txtprimarycode.MendatroryField = False
         Me.txtprimarycode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -687,12 +790,16 @@ Partial Class FrmComplaintDetailEntry
         Me.txtprimarycode.MyReadOnly = False
         Me.txtprimarycode.MyShowMasterFormButton = False
         Me.txtprimarycode.Name = "txtprimarycode"
+        Me.txtprimarycode.ReferenceFieldDesc = Nothing
+        Me.txtprimarycode.ReferenceFieldName = Nothing
+        Me.txtprimarycode.ReferenceTableName = Nothing
         Me.txtprimarycode.Size = New System.Drawing.Size(143, 18)
         Me.txtprimarycode.TabIndex = 6
         Me.txtprimarycode.Value = ""
         '
         'MyLabel27
         '
+        Me.MyLabel27.FieldName = Nothing
         Me.MyLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel27.Location = New System.Drawing.Point(0, 139)
         Me.MyLabel27.Name = "MyLabel27"
@@ -702,11 +809,24 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtapexno
         '
+        Me.txtapexno.CalculationExpression = Nothing
+        Me.txtapexno.DropDownAnimationEnabled = True
+        Me.txtapexno.FieldCode = Nothing
+        Me.txtapexno.FieldDesc = Nothing
+        Me.txtapexno.FieldMaxLength = 0
+        Me.txtapexno.FieldName = Nothing
+        Me.txtapexno.isCalculatedField = False
+        Me.txtapexno.IsSourceFromTable = False
+        Me.txtapexno.IsSourceFromValueList = False
+        Me.txtapexno.IsUnique = False
         Me.txtapexno.Location = New System.Drawing.Point(595, 112)
         Me.txtapexno.MendatroryField = True
         Me.txtapexno.MyLinkLable1 = Nothing
         Me.txtapexno.MyLinkLable2 = Nothing
         Me.txtapexno.Name = "txtapexno"
+        Me.txtapexno.ReferenceFieldDesc = Nothing
+        Me.txtapexno.ReferenceFieldName = Nothing
+        Me.txtapexno.ReferenceTableName = Nothing
         Me.txtapexno.Size = New System.Drawing.Size(153, 20)
         Me.txtapexno.TabIndex = 5
         '
@@ -722,6 +842,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel17
         '
+        Me.MyLabel17.FieldName = Nothing
         Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel17.Location = New System.Drawing.Point(0, 251)
         Me.MyLabel17.Name = "MyLabel17"
@@ -731,6 +852,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel20
         '
+        Me.MyLabel20.FieldName = Nothing
         Me.MyLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel20.Location = New System.Drawing.Point(516, 276)
         Me.MyLabel20.Name = "MyLabel20"
@@ -750,9 +872,18 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtcmpldt
         '
+        Me.txtcmpldt.CalculationExpression = Nothing
         Me.txtcmpldt.CustomFormat = "dd/MM/yyyy h:mm:ss tt"
+        Me.txtcmpldt.FieldCode = Nothing
+        Me.txtcmpldt.FieldDesc = Nothing
+        Me.txtcmpldt.FieldMaxLength = 0
+        Me.txtcmpldt.FieldName = Nothing
         Me.txtcmpldt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtcmpldt.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtcmpldt.isCalculatedField = False
+        Me.txtcmpldt.IsSourceFromTable = False
+        Me.txtcmpldt.IsSourceFromValueList = False
+        Me.txtcmpldt.IsUnique = False
         Me.txtcmpldt.Location = New System.Drawing.Point(607, 275)
         Me.txtcmpldt.MendatroryField = False
         Me.txtcmpldt.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -760,6 +891,9 @@ Partial Class FrmComplaintDetailEntry
         Me.txtcmpldt.MyLinkLable2 = Nothing
         Me.txtcmpldt.Name = "txtcmpldt"
         Me.txtcmpldt.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtcmpldt.ReferenceFieldDesc = Nothing
+        Me.txtcmpldt.ReferenceFieldName = Nothing
+        Me.txtcmpldt.ReferenceTableName = Nothing
         Me.txtcmpldt.Size = New System.Drawing.Size(141, 18)
         Me.txtcmpldt.TabIndex = 13
         Me.txtcmpldt.TabStop = False
@@ -768,6 +902,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(-1, 91)
         Me.MyLabel4.Name = "MyLabel4"
@@ -777,6 +912,15 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtsrvcdlr
         '
+        Me.txtsrvcdlr.CalculationExpression = Nothing
+        Me.txtsrvcdlr.FieldCode = Nothing
+        Me.txtsrvcdlr.FieldDesc = Nothing
+        Me.txtsrvcdlr.FieldMaxLength = 0
+        Me.txtsrvcdlr.FieldName = Nothing
+        Me.txtsrvcdlr.isCalculatedField = False
+        Me.txtsrvcdlr.IsSourceFromTable = False
+        Me.txtsrvcdlr.IsSourceFromValueList = False
+        Me.txtsrvcdlr.IsUnique = False
         Me.txtsrvcdlr.Location = New System.Drawing.Point(112, 250)
         Me.txtsrvcdlr.MendatroryField = True
         Me.txtsrvcdlr.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -785,6 +929,9 @@ Partial Class FrmComplaintDetailEntry
         Me.txtsrvcdlr.MyReadOnly = False
         Me.txtsrvcdlr.MyShowMasterFormButton = False
         Me.txtsrvcdlr.Name = "txtsrvcdlr"
+        Me.txtsrvcdlr.ReferenceFieldDesc = Nothing
+        Me.txtsrvcdlr.ReferenceFieldName = Nothing
+        Me.txtsrvcdlr.ReferenceTableName = Nothing
         Me.txtsrvcdlr.Size = New System.Drawing.Size(143, 18)
         Me.txtsrvcdlr.TabIndex = 15
         Me.txtsrvcdlr.Value = ""
@@ -794,18 +941,27 @@ Partial Class FrmComplaintDetailEntry
         Me.txtsrvcdlrname.AutoSize = False
         Me.txtsrvcdlrname.BorderVisible = True
         Me.txtsrvcdlrname.Enabled = False
+        Me.txtsrvcdlrname.FieldName = Nothing
         Me.txtsrvcdlrname.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtsrvcdlrname.Location = New System.Drawing.Point(256, 250)
         Me.txtsrvcdlrname.Name = "txtsrvcdlrname"
         Me.txtsrvcdlrname.Size = New System.Drawing.Size(242, 18)
         Me.txtsrvcdlrname.TabIndex = 52
-        Me.txtsrvcdlrname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtsrvcdlrname.TextWrap = False
         '
         'txtremarks
         '
         Me.txtremarks.AutoSize = False
+        Me.txtremarks.CalculationExpression = Nothing
+        Me.txtremarks.FieldCode = Nothing
+        Me.txtremarks.FieldDesc = Nothing
+        Me.txtremarks.FieldMaxLength = 0
+        Me.txtremarks.FieldName = Nothing
         Me.txtremarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtremarks.isCalculatedField = False
+        Me.txtremarks.IsSourceFromTable = False
+        Me.txtremarks.IsSourceFromValueList = False
+        Me.txtremarks.IsUnique = False
         Me.txtremarks.Location = New System.Drawing.Point(111, 328)
         Me.txtremarks.MaxLength = 50
         Me.txtremarks.MendatroryField = False
@@ -813,11 +969,15 @@ Partial Class FrmComplaintDetailEntry
         Me.txtremarks.MyLinkLable1 = Me.MyLabel23
         Me.txtremarks.MyLinkLable2 = Nothing
         Me.txtremarks.Name = "txtremarks"
+        Me.txtremarks.ReferenceFieldDesc = Nothing
+        Me.txtremarks.ReferenceFieldName = Nothing
+        Me.txtremarks.ReferenceTableName = Nothing
         Me.txtremarks.Size = New System.Drawing.Size(636, 19)
         Me.txtremarks.TabIndex = 17
         '
         'MyLabel23
         '
+        Me.MyLabel23.FieldName = Nothing
         Me.MyLabel23.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel23.Location = New System.Drawing.Point(-1, 329)
         Me.MyLabel23.Name = "MyLabel23"
@@ -838,6 +998,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel18
         '
+        Me.MyLabel18.FieldName = Nothing
         Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel18.Location = New System.Drawing.Point(464, 114)
         Me.MyLabel18.Name = "MyLabel18"
@@ -850,16 +1011,25 @@ Partial Class FrmComplaintDetailEntry
         Me.txttdmdesc.AutoSize = False
         Me.txttdmdesc.BorderVisible = True
         Me.txttdmdesc.Enabled = False
+        Me.txttdmdesc.FieldName = Nothing
         Me.txttdmdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txttdmdesc.Location = New System.Drawing.Point(256, 228)
         Me.txttdmdesc.Name = "txttdmdesc"
         Me.txttdmdesc.Size = New System.Drawing.Size(242, 18)
         Me.txttdmdesc.TabIndex = 55
-        Me.txttdmdesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txttdmdesc.TextWrap = False
         '
         'txttdmcode
         '
+        Me.txttdmcode.CalculationExpression = Nothing
+        Me.txttdmcode.FieldCode = Nothing
+        Me.txttdmcode.FieldDesc = Nothing
+        Me.txttdmcode.FieldMaxLength = 0
+        Me.txttdmcode.FieldName = Nothing
+        Me.txttdmcode.isCalculatedField = False
+        Me.txttdmcode.IsSourceFromTable = False
+        Me.txttdmcode.IsSourceFromValueList = False
+        Me.txttdmcode.IsUnique = False
         Me.txttdmcode.Location = New System.Drawing.Point(112, 228)
         Me.txttdmcode.MendatroryField = True
         Me.txttdmcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -868,12 +1038,16 @@ Partial Class FrmComplaintDetailEntry
         Me.txttdmcode.MyReadOnly = False
         Me.txttdmcode.MyShowMasterFormButton = False
         Me.txttdmcode.Name = "txttdmcode"
+        Me.txttdmcode.ReferenceFieldDesc = Nothing
+        Me.txttdmcode.ReferenceFieldName = Nothing
+        Me.txttdmcode.ReferenceTableName = Nothing
         Me.txttdmcode.Size = New System.Drawing.Size(143, 18)
         Me.txttdmcode.TabIndex = 16
         Me.txttdmcode.Value = ""
         '
         'MyLabel19
         '
+        Me.MyLabel19.FieldName = Nothing
         Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel19.Location = New System.Drawing.Point(0, 229)
         Me.MyLabel19.Name = "MyLabel19"
@@ -883,18 +1057,31 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtcompgivento
         '
+        Me.txtcompgivento.CalculationExpression = Nothing
+        Me.txtcompgivento.FieldCode = Nothing
+        Me.txtcompgivento.FieldDesc = Nothing
+        Me.txtcompgivento.FieldMaxLength = 0
+        Me.txtcompgivento.FieldName = Nothing
         Me.txtcompgivento.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtcompgivento.isCalculatedField = False
+        Me.txtcompgivento.IsSourceFromTable = False
+        Me.txtcompgivento.IsSourceFromValueList = False
+        Me.txtcompgivento.IsUnique = False
         Me.txtcompgivento.Location = New System.Drawing.Point(493, 205)
         Me.txtcompgivento.MaxLength = 50
         Me.txtcompgivento.MendatroryField = False
         Me.txtcompgivento.MyLinkLable1 = Me.MyLabel16
         Me.txtcompgivento.MyLinkLable2 = Nothing
         Me.txtcompgivento.Name = "txtcompgivento"
+        Me.txtcompgivento.ReferenceFieldDesc = Nothing
+        Me.txtcompgivento.ReferenceFieldName = Nothing
+        Me.txtcompgivento.ReferenceTableName = Nothing
         Me.txtcompgivento.Size = New System.Drawing.Size(255, 18)
         Me.txtcompgivento.TabIndex = 10
         '
         'MyLabel16
         '
+        Me.MyLabel16.FieldName = Nothing
         Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel16.Location = New System.Drawing.Point(377, 206)
         Me.MyLabel16.Name = "MyLabel16"
@@ -904,18 +1091,31 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtcompgivenby
         '
+        Me.txtcompgivenby.CalculationExpression = Nothing
+        Me.txtcompgivenby.FieldCode = Nothing
+        Me.txtcompgivenby.FieldDesc = Nothing
+        Me.txtcompgivenby.FieldMaxLength = 0
+        Me.txtcompgivenby.FieldName = Nothing
         Me.txtcompgivenby.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtcompgivenby.isCalculatedField = False
+        Me.txtcompgivenby.IsSourceFromTable = False
+        Me.txtcompgivenby.IsSourceFromValueList = False
+        Me.txtcompgivenby.IsUnique = False
         Me.txtcompgivenby.Location = New System.Drawing.Point(112, 205)
         Me.txtcompgivenby.MaxLength = 50
         Me.txtcompgivenby.MendatroryField = False
         Me.txtcompgivenby.MyLinkLable1 = Me.MyLabel15
         Me.txtcompgivenby.MyLinkLable2 = Nothing
         Me.txtcompgivenby.Name = "txtcompgivenby"
+        Me.txtcompgivenby.ReferenceFieldDesc = Nothing
+        Me.txtcompgivenby.ReferenceFieldName = Nothing
+        Me.txtcompgivenby.ReferenceTableName = Nothing
         Me.txtcompgivenby.Size = New System.Drawing.Size(255, 18)
         Me.txtcompgivenby.TabIndex = 9
         '
         'MyLabel15
         '
+        Me.MyLabel15.FieldName = Nothing
         Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel15.Location = New System.Drawing.Point(0, 205)
         Me.MyLabel15.Name = "MyLabel15"
@@ -925,18 +1125,31 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtphnno
         '
+        Me.txtphnno.CalculationExpression = Nothing
+        Me.txtphnno.FieldCode = Nothing
+        Me.txtphnno.FieldDesc = Nothing
+        Me.txtphnno.FieldMaxLength = 0
+        Me.txtphnno.FieldName = Nothing
         Me.txtphnno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtphnno.isCalculatedField = False
+        Me.txtphnno.IsSourceFromTable = False
+        Me.txtphnno.IsSourceFromValueList = False
+        Me.txtphnno.IsUnique = False
         Me.txtphnno.Location = New System.Drawing.Point(558, 47)
         Me.txtphnno.MaxLength = 50
         Me.txtphnno.MendatroryField = False
         Me.txtphnno.MyLinkLable1 = Me.MyLabel14
         Me.txtphnno.MyLinkLable2 = Nothing
         Me.txtphnno.Name = "txtphnno"
+        Me.txtphnno.ReferenceFieldDesc = Nothing
+        Me.txtphnno.ReferenceFieldName = Nothing
+        Me.txtphnno.ReferenceTableName = Nothing
         Me.txtphnno.Size = New System.Drawing.Size(190, 18)
         Me.txtphnno.TabIndex = 1
         '
         'MyLabel14
         '
+        Me.MyLabel14.FieldName = Nothing
         Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel14.Location = New System.Drawing.Point(495, 47)
         Me.MyLabel14.Name = "MyLabel14"
@@ -948,16 +1161,17 @@ Partial Class FrmComplaintDetailEntry
         '
         Me.txtdistributor.AutoSize = False
         Me.txtdistributor.BorderVisible = True
+        Me.txtdistributor.FieldName = Nothing
         Me.txtdistributor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtdistributor.Location = New System.Drawing.Point(538, 3)
         Me.txtdistributor.Name = "txtdistributor"
         Me.txtdistributor.Size = New System.Drawing.Size(210, 18)
         Me.txtdistributor.TabIndex = 48
-        Me.txtdistributor.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtdistributor.TextWrap = False
         '
         'Type
         '
+        Me.Type.FieldName = Nothing
         Me.Type.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Type.Location = New System.Drawing.Point(501, 3)
         Me.Type.Name = "Type"
@@ -967,18 +1181,31 @@ Partial Class FrmComplaintDetailEntry
         '
         'txttagno
         '
+        Me.txttagno.CalculationExpression = Nothing
+        Me.txttagno.FieldCode = Nothing
+        Me.txttagno.FieldDesc = Nothing
+        Me.txttagno.FieldMaxLength = 0
+        Me.txttagno.FieldName = Nothing
         Me.txttagno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txttagno.isCalculatedField = False
+        Me.txttagno.IsSourceFromTable = False
+        Me.txttagno.IsSourceFromValueList = False
+        Me.txttagno.IsUnique = False
         Me.txttagno.Location = New System.Drawing.Point(314, 114)
         Me.txttagno.MaxLength = 50
         Me.txttagno.MendatroryField = False
         Me.txttagno.MyLinkLable1 = Me.MyLabel10
         Me.txttagno.MyLinkLable2 = Nothing
         Me.txttagno.Name = "txttagno"
+        Me.txttagno.ReferenceFieldDesc = Nothing
+        Me.txttagno.ReferenceFieldName = Nothing
+        Me.txttagno.ReferenceTableName = Nothing
         Me.txttagno.Size = New System.Drawing.Size(146, 18)
         Me.txttagno.TabIndex = 4
         '
         'MyLabel10
         '
+        Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel10.Location = New System.Drawing.Point(262, 114)
         Me.MyLabel10.Name = "MyLabel10"
@@ -988,18 +1215,31 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtserialno
         '
+        Me.txtserialno.CalculationExpression = Nothing
+        Me.txtserialno.FieldCode = Nothing
+        Me.txtserialno.FieldDesc = Nothing
+        Me.txtserialno.FieldMaxLength = 0
+        Me.txtserialno.FieldName = Nothing
         Me.txtserialno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtserialno.isCalculatedField = False
+        Me.txtserialno.IsSourceFromTable = False
+        Me.txtserialno.IsSourceFromValueList = False
+        Me.txtserialno.IsUnique = False
         Me.txtserialno.Location = New System.Drawing.Point(112, 114)
         Me.txtserialno.MaxLength = 50
         Me.txtserialno.MendatroryField = False
         Me.txtserialno.MyLinkLable1 = Me.MyLabel6
         Me.txtserialno.MyLinkLable2 = Nothing
         Me.txtserialno.Name = "txtserialno"
+        Me.txtserialno.ReferenceFieldDesc = Nothing
+        Me.txtserialno.ReferenceFieldName = Nothing
+        Me.txtserialno.ReferenceTableName = Nothing
         Me.txtserialno.Size = New System.Drawing.Size(146, 18)
         Me.txtserialno.TabIndex = 3
         '
         'MyLabel6
         '
+        Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel6.Location = New System.Drawing.Point(0, 114)
         Me.MyLabel6.Name = "MyLabel6"
@@ -1011,52 +1251,61 @@ Partial Class FrmComplaintDetailEntry
         '
         Me.txtSize.AutoSize = False
         Me.txtSize.BorderVisible = True
+        Me.txtSize.FieldName = Nothing
         Me.txtSize.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSize.Location = New System.Drawing.Point(538, 90)
         Me.txtSize.Name = "txtSize"
         Me.txtSize.Size = New System.Drawing.Size(210, 18)
         Me.txtSize.TabIndex = 45
-        Me.txtSize.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtSize.TextWrap = False
         '
         'txtmodel
         '
         Me.txtmodel.AutoSize = False
         Me.txtmodel.BorderVisible = True
+        Me.txtmodel.FieldName = Nothing
         Me.txtmodel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtmodel.Location = New System.Drawing.Point(325, 90)
         Me.txtmodel.Name = "txtmodel"
         Me.txtmodel.Size = New System.Drawing.Size(210, 18)
         Me.txtmodel.TabIndex = 45
-        Me.txtmodel.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtmodel.TextWrap = False
         '
         'txtmake
         '
         Me.txtmake.AutoSize = False
         Me.txtmake.BorderVisible = True
+        Me.txtmake.FieldName = Nothing
         Me.txtmake.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtmake.Location = New System.Drawing.Point(112, 90)
         Me.txtmake.Name = "txtmake"
         Me.txtmake.Size = New System.Drawing.Size(210, 18)
         Me.txtmake.TabIndex = 44
-        Me.txtmake.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtmake.TextWrap = False
         '
         'txtassetdesc
         '
         Me.txtassetdesc.AutoSize = False
         Me.txtassetdesc.BorderVisible = True
+        Me.txtassetdesc.FieldName = Nothing
         Me.txtassetdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtassetdesc.Location = New System.Drawing.Point(256, 68)
         Me.txtassetdesc.Name = "txtassetdesc"
         Me.txtassetdesc.Size = New System.Drawing.Size(242, 18)
         Me.txtassetdesc.TabIndex = 43
-        Me.txtassetdesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtassetdesc.TextWrap = False
         '
         'txtassetcode
         '
+        Me.txtassetcode.CalculationExpression = Nothing
+        Me.txtassetcode.FieldCode = Nothing
+        Me.txtassetcode.FieldDesc = Nothing
+        Me.txtassetcode.FieldMaxLength = 0
+        Me.txtassetcode.FieldName = Nothing
+        Me.txtassetcode.isCalculatedField = False
+        Me.txtassetcode.IsSourceFromTable = False
+        Me.txtassetcode.IsSourceFromValueList = False
+        Me.txtassetcode.IsUnique = False
         Me.txtassetcode.Location = New System.Drawing.Point(112, 68)
         Me.txtassetcode.MendatroryField = True
         Me.txtassetcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1065,12 +1314,16 @@ Partial Class FrmComplaintDetailEntry
         Me.txtassetcode.MyReadOnly = False
         Me.txtassetcode.MyShowMasterFormButton = False
         Me.txtassetcode.Name = "txtassetcode"
+        Me.txtassetcode.ReferenceFieldDesc = Nothing
+        Me.txtassetcode.ReferenceFieldName = Nothing
+        Me.txtassetcode.ReferenceTableName = Nothing
         Me.txtassetcode.Size = New System.Drawing.Size(143, 18)
         Me.txtassetcode.TabIndex = 2
         Me.txtassetcode.Value = ""
         '
         'MyLabel9
         '
+        Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel9.Location = New System.Drawing.Point(0, 71)
         Me.MyLabel9.Name = "MyLabel9"
@@ -1082,16 +1335,25 @@ Partial Class FrmComplaintDetailEntry
         '
         Me.txtcmplntdesc.AutoSize = False
         Me.txtcmplntdesc.BorderVisible = True
+        Me.txtcmplntdesc.FieldName = Nothing
         Me.txtcmplntdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtcmplntdesc.Location = New System.Drawing.Point(256, 159)
         Me.txtcmplntdesc.Name = "txtcmplntdesc"
         Me.txtcmplntdesc.Size = New System.Drawing.Size(242, 18)
         Me.txtcmplntdesc.TabIndex = 40
-        Me.txtcmplntdesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtcmplntdesc.TextWrap = False
         '
         'txtcomplntcode
         '
+        Me.txtcomplntcode.CalculationExpression = Nothing
+        Me.txtcomplntcode.FieldCode = Nothing
+        Me.txtcomplntcode.FieldDesc = Nothing
+        Me.txtcomplntcode.FieldMaxLength = 0
+        Me.txtcomplntcode.FieldName = Nothing
+        Me.txtcomplntcode.isCalculatedField = False
+        Me.txtcomplntcode.IsSourceFromTable = False
+        Me.txtcomplntcode.IsSourceFromValueList = False
+        Me.txtcomplntcode.IsUnique = False
         Me.txtcomplntcode.Location = New System.Drawing.Point(112, 159)
         Me.txtcomplntcode.MendatroryField = False
         Me.txtcomplntcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1100,12 +1362,16 @@ Partial Class FrmComplaintDetailEntry
         Me.txtcomplntcode.MyReadOnly = False
         Me.txtcomplntcode.MyShowMasterFormButton = False
         Me.txtcomplntcode.Name = "txtcomplntcode"
+        Me.txtcomplntcode.ReferenceFieldDesc = Nothing
+        Me.txtcomplntcode.ReferenceFieldName = Nothing
+        Me.txtcomplntcode.ReferenceTableName = Nothing
         Me.txtcomplntcode.Size = New System.Drawing.Size(143, 18)
         Me.txtcomplntcode.TabIndex = 7
         Me.txtcomplntcode.Value = ""
         '
         'MyLabel8
         '
+        Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel8.Location = New System.Drawing.Point(0, 161)
         Me.MyLabel8.Name = "MyLabel8"
@@ -1117,40 +1383,41 @@ Partial Class FrmComplaintDetailEntry
         '
         Me.txtcountry.AutoSize = False
         Me.txtcountry.BorderVisible = True
+        Me.txtcountry.FieldName = Nothing
         Me.txtcountry.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtcountry.Location = New System.Drawing.Point(538, 25)
         Me.txtcountry.Name = "txtcountry"
         Me.txtcountry.Size = New System.Drawing.Size(210, 18)
         Me.txtcountry.TabIndex = 34
-        Me.txtcountry.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtcountry.TextWrap = False
         '
         'txtstate
         '
         Me.txtstate.AutoSize = False
         Me.txtstate.BorderVisible = True
+        Me.txtstate.FieldName = Nothing
         Me.txtstate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtstate.Location = New System.Drawing.Point(325, 25)
         Me.txtstate.Name = "txtstate"
         Me.txtstate.Size = New System.Drawing.Size(210, 18)
         Me.txtstate.TabIndex = 31
-        Me.txtstate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtstate.TextWrap = False
         '
         'txtcity
         '
         Me.txtcity.AutoSize = False
         Me.txtcity.BorderVisible = True
+        Me.txtcity.FieldName = Nothing
         Me.txtcity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtcity.Location = New System.Drawing.Point(112, 25)
         Me.txtcity.Name = "txtcity"
         Me.txtcity.Size = New System.Drawing.Size(210, 18)
         Me.txtcity.TabIndex = 31
-        Me.txtcity.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtcity.TextWrap = False
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(0, 25)
         Me.MyLabel3.Name = "MyLabel3"
@@ -1162,16 +1429,17 @@ Partial Class FrmComplaintDetailEntry
         '
         Me.txtoutletadd.AutoSize = False
         Me.txtoutletadd.BorderVisible = True
+        Me.txtoutletadd.FieldName = Nothing
         Me.txtoutletadd.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtoutletadd.Location = New System.Drawing.Point(112, 47)
         Me.txtoutletadd.Name = "txtoutletadd"
         Me.txtoutletadd.Size = New System.Drawing.Size(383, 18)
         Me.txtoutletadd.TabIndex = 31
-        Me.txtoutletadd.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtoutletadd.TextWrap = False
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(0, 48)
         Me.MyLabel2.Name = "MyLabel2"
@@ -1183,16 +1451,25 @@ Partial Class FrmComplaintDetailEntry
         '
         Me.txtoutletdesc.AutoSize = False
         Me.txtoutletdesc.BorderVisible = True
+        Me.txtoutletdesc.FieldName = Nothing
         Me.txtoutletdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtoutletdesc.Location = New System.Drawing.Point(256, 3)
         Me.txtoutletdesc.Name = "txtoutletdesc"
         Me.txtoutletdesc.Size = New System.Drawing.Size(242, 18)
         Me.txtoutletdesc.TabIndex = 30
-        Me.txtoutletdesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtoutletdesc.TextWrap = False
         '
         'txtoutletcode
         '
+        Me.txtoutletcode.CalculationExpression = Nothing
+        Me.txtoutletcode.FieldCode = Nothing
+        Me.txtoutletcode.FieldDesc = Nothing
+        Me.txtoutletcode.FieldMaxLength = 0
+        Me.txtoutletcode.FieldName = Nothing
+        Me.txtoutletcode.isCalculatedField = False
+        Me.txtoutletcode.IsSourceFromTable = False
+        Me.txtoutletcode.IsSourceFromValueList = False
+        Me.txtoutletcode.IsUnique = False
         Me.txtoutletcode.Location = New System.Drawing.Point(112, 3)
         Me.txtoutletcode.MendatroryField = True
         Me.txtoutletcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1201,12 +1478,16 @@ Partial Class FrmComplaintDetailEntry
         Me.txtoutletcode.MyReadOnly = False
         Me.txtoutletcode.MyShowMasterFormButton = False
         Me.txtoutletcode.Name = "txtoutletcode"
+        Me.txtoutletcode.ReferenceFieldDesc = Nothing
+        Me.txtoutletcode.ReferenceFieldName = Nothing
+        Me.txtoutletcode.ReferenceTableName = Nothing
         Me.txtoutletcode.Size = New System.Drawing.Size(143, 18)
         Me.txtoutletcode.TabIndex = 0
         Me.txtoutletcode.Value = ""
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(0, 3)
         Me.MyLabel1.Name = "MyLabel1"
@@ -1296,18 +1577,31 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtWorkOrder1
         '
+        Me.txtWorkOrder1.CalculationExpression = Nothing
+        Me.txtWorkOrder1.FieldCode = Nothing
+        Me.txtWorkOrder1.FieldDesc = Nothing
+        Me.txtWorkOrder1.FieldMaxLength = 0
+        Me.txtWorkOrder1.FieldName = Nothing
         Me.txtWorkOrder1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtWorkOrder1.isCalculatedField = False
+        Me.txtWorkOrder1.IsSourceFromTable = False
+        Me.txtWorkOrder1.IsSourceFromValueList = False
+        Me.txtWorkOrder1.IsUnique = False
         Me.txtWorkOrder1.Location = New System.Drawing.Point(110, 45)
         Me.txtWorkOrder1.MaxLength = 50
         Me.txtWorkOrder1.MendatroryField = False
         Me.txtWorkOrder1.MyLinkLable1 = Me.MyLabel46
         Me.txtWorkOrder1.MyLinkLable2 = Nothing
         Me.txtWorkOrder1.Name = "txtWorkOrder1"
+        Me.txtWorkOrder1.ReferenceFieldDesc = Nothing
+        Me.txtWorkOrder1.ReferenceFieldName = Nothing
+        Me.txtWorkOrder1.ReferenceTableName = Nothing
         Me.txtWorkOrder1.Size = New System.Drawing.Size(132, 18)
         Me.txtWorkOrder1.TabIndex = 0
         '
         'MyLabel46
         '
+        Me.MyLabel46.FieldName = Nothing
         Me.MyLabel46.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel46.Location = New System.Drawing.Point(5, 45)
         Me.MyLabel46.Name = "MyLabel46"
@@ -1317,6 +1611,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel47
         '
+        Me.MyLabel47.FieldName = Nothing
         Me.MyLabel47.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel47.Location = New System.Drawing.Point(5, 69)
         Me.MyLabel47.Name = "MyLabel47"
@@ -1326,30 +1621,55 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtBillNo1
         '
+        Me.txtBillNo1.CalculationExpression = Nothing
+        Me.txtBillNo1.FieldCode = Nothing
+        Me.txtBillNo1.FieldDesc = Nothing
+        Me.txtBillNo1.FieldMaxLength = 0
+        Me.txtBillNo1.FieldName = Nothing
         Me.txtBillNo1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBillNo1.isCalculatedField = False
+        Me.txtBillNo1.IsSourceFromTable = False
+        Me.txtBillNo1.IsSourceFromValueList = False
+        Me.txtBillNo1.IsUnique = False
         Me.txtBillNo1.Location = New System.Drawing.Point(110, 67)
         Me.txtBillNo1.MaxLength = 50
         Me.txtBillNo1.MendatroryField = False
         Me.txtBillNo1.MyLinkLable1 = Me.MyLabel47
         Me.txtBillNo1.MyLinkLable2 = Nothing
         Me.txtBillNo1.Name = "txtBillNo1"
+        Me.txtBillNo1.ReferenceFieldDesc = Nothing
+        Me.txtBillNo1.ReferenceFieldName = Nothing
+        Me.txtBillNo1.ReferenceTableName = Nothing
         Me.txtBillNo1.Size = New System.Drawing.Size(132, 18)
         Me.txtBillNo1.TabIndex = 1
         '
         'txtAdditionalCharge
         '
+        Me.txtAdditionalCharge.CalculationExpression = Nothing
+        Me.txtAdditionalCharge.FieldCode = Nothing
+        Me.txtAdditionalCharge.FieldDesc = Nothing
+        Me.txtAdditionalCharge.FieldMaxLength = 0
+        Me.txtAdditionalCharge.FieldName = Nothing
         Me.txtAdditionalCharge.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAdditionalCharge.isCalculatedField = False
+        Me.txtAdditionalCharge.IsSourceFromTable = False
+        Me.txtAdditionalCharge.IsSourceFromValueList = False
+        Me.txtAdditionalCharge.IsUnique = False
         Me.txtAdditionalCharge.Location = New System.Drawing.Point(110, 110)
         Me.txtAdditionalCharge.MaxLength = 50
         Me.txtAdditionalCharge.MendatroryField = False
         Me.txtAdditionalCharge.MyLinkLable1 = Me.MyLabel48
         Me.txtAdditionalCharge.MyLinkLable2 = Nothing
         Me.txtAdditionalCharge.Name = "txtAdditionalCharge"
+        Me.txtAdditionalCharge.ReferenceFieldDesc = Nothing
+        Me.txtAdditionalCharge.ReferenceFieldName = Nothing
+        Me.txtAdditionalCharge.ReferenceTableName = Nothing
         Me.txtAdditionalCharge.Size = New System.Drawing.Size(132, 18)
         Me.txtAdditionalCharge.TabIndex = 3
         '
         'MyLabel48
         '
+        Me.MyLabel48.FieldName = Nothing
         Me.MyLabel48.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel48.Location = New System.Drawing.Point(5, 110)
         Me.MyLabel48.Name = "MyLabel48"
@@ -1359,6 +1679,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel49
         '
+        Me.MyLabel49.FieldName = Nothing
         Me.MyLabel49.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel49.Location = New System.Drawing.Point(5, 91)
         Me.MyLabel49.Name = "MyLabel49"
@@ -1368,13 +1689,25 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtBillAmt1
         '
+        Me.txtBillAmt1.CalculationExpression = Nothing
+        Me.txtBillAmt1.FieldCode = Nothing
+        Me.txtBillAmt1.FieldDesc = Nothing
+        Me.txtBillAmt1.FieldMaxLength = 0
+        Me.txtBillAmt1.FieldName = Nothing
         Me.txtBillAmt1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBillAmt1.isCalculatedField = False
+        Me.txtBillAmt1.IsSourceFromTable = False
+        Me.txtBillAmt1.IsSourceFromValueList = False
+        Me.txtBillAmt1.IsUnique = False
         Me.txtBillAmt1.Location = New System.Drawing.Point(110, 89)
         Me.txtBillAmt1.MaxLength = 50
         Me.txtBillAmt1.MendatroryField = False
         Me.txtBillAmt1.MyLinkLable1 = Me.MyLabel49
         Me.txtBillAmt1.MyLinkLable2 = Nothing
         Me.txtBillAmt1.Name = "txtBillAmt1"
+        Me.txtBillAmt1.ReferenceFieldDesc = Nothing
+        Me.txtBillAmt1.ReferenceFieldName = Nothing
+        Me.txtBillAmt1.ReferenceTableName = Nothing
         Me.txtBillAmt1.Size = New System.Drawing.Size(132, 18)
         Me.txtBillAmt1.TabIndex = 2
         '
@@ -1394,30 +1727,45 @@ Partial Class FrmComplaintDetailEntry
         '
         Me.gv2.Location = New System.Drawing.Point(6, 22)
         '
-        'gv2
         '
+        '
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowFilteringRow = False
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(469, 109)
         Me.gv2.TabIndex = 0
-        Me.gv2.Text = "gv2"
         '
         'txtPending1
         '
+        Me.txtPending1.CalculationExpression = Nothing
+        Me.txtPending1.FieldCode = Nothing
+        Me.txtPending1.FieldDesc = Nothing
+        Me.txtPending1.FieldMaxLength = 0
+        Me.txtPending1.FieldName = Nothing
         Me.txtPending1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPending1.isCalculatedField = False
+        Me.txtPending1.IsSourceFromTable = False
+        Me.txtPending1.IsSourceFromValueList = False
+        Me.txtPending1.IsUnique = False
         Me.txtPending1.Location = New System.Drawing.Point(113, 294)
         Me.txtPending1.MaxLength = 50
         Me.txtPending1.MendatroryField = False
         Me.txtPending1.MyLinkLable1 = Me.MyLabel6
         Me.txtPending1.MyLinkLable2 = Nothing
         Me.txtPending1.Name = "txtPending1"
+        Me.txtPending1.ReferenceFieldDesc = Nothing
+        Me.txtPending1.ReferenceFieldName = Nothing
+        Me.txtPending1.ReferenceTableName = Nothing
         Me.txtPending1.Size = New System.Drawing.Size(330, 18)
         Me.txtPending1.TabIndex = 25
         '
         'MyLabel45
         '
+        Me.MyLabel45.FieldName = Nothing
         Me.MyLabel45.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel45.Location = New System.Drawing.Point(4, 298)
         Me.MyLabel45.Name = "MyLabel45"
@@ -1427,19 +1775,32 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtResponseTime
         '
+        Me.txtResponseTime.CalculationExpression = Nothing
+        Me.txtResponseTime.FieldCode = Nothing
+        Me.txtResponseTime.FieldDesc = Nothing
+        Me.txtResponseTime.FieldMaxLength = 0
+        Me.txtResponseTime.FieldName = Nothing
         Me.txtResponseTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtResponseTime.isCalculatedField = False
+        Me.txtResponseTime.IsSourceFromTable = False
+        Me.txtResponseTime.IsSourceFromValueList = False
+        Me.txtResponseTime.IsUnique = False
         Me.txtResponseTime.Location = New System.Drawing.Point(586, 294)
         Me.txtResponseTime.MaxLength = 50
         Me.txtResponseTime.MendatroryField = False
         Me.txtResponseTime.MyLinkLable1 = Me.MyLabel42
         Me.txtResponseTime.MyLinkLable2 = Nothing
         Me.txtResponseTime.Name = "txtResponseTime"
+        Me.txtResponseTime.ReferenceFieldDesc = Nothing
+        Me.txtResponseTime.ReferenceFieldName = Nothing
+        Me.txtResponseTime.ReferenceTableName = Nothing
         Me.txtResponseTime.Size = New System.Drawing.Size(155, 18)
         Me.txtResponseTime.TabIndex = 26
         Me.txtResponseTime.TabStop = False
         '
         'MyLabel42
         '
+        Me.MyLabel42.FieldName = Nothing
         Me.MyLabel42.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel42.Location = New System.Drawing.Point(494, 294)
         Me.MyLabel42.Name = "MyLabel42"
@@ -1449,6 +1810,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel43
         '
+        Me.MyLabel43.FieldName = Nothing
         Me.MyLabel43.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel43.Location = New System.Drawing.Point(494, 272)
         Me.MyLabel43.Name = "MyLabel43"
@@ -1458,9 +1820,18 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtCompleteDate
         '
+        Me.txtCompleteDate.CalculationExpression = Nothing
         Me.txtCompleteDate.CustomFormat = "dd/MM/yyyy h:mm:ss tt"
+        Me.txtCompleteDate.FieldCode = Nothing
+        Me.txtCompleteDate.FieldDesc = Nothing
+        Me.txtCompleteDate.FieldMaxLength = 0
+        Me.txtCompleteDate.FieldName = Nothing
         Me.txtCompleteDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCompleteDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtCompleteDate.isCalculatedField = False
+        Me.txtCompleteDate.IsSourceFromTable = False
+        Me.txtCompleteDate.IsSourceFromValueList = False
+        Me.txtCompleteDate.IsUnique = False
         Me.txtCompleteDate.Location = New System.Drawing.Point(588, 272)
         Me.txtCompleteDate.MendatroryField = False
         Me.txtCompleteDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -1468,6 +1839,9 @@ Partial Class FrmComplaintDetailEntry
         Me.txtCompleteDate.MyLinkLable2 = Nothing
         Me.txtCompleteDate.Name = "txtCompleteDate"
         Me.txtCompleteDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtCompleteDate.ReferenceFieldDesc = Nothing
+        Me.txtCompleteDate.ReferenceFieldName = Nothing
+        Me.txtCompleteDate.ReferenceTableName = Nothing
         Me.txtCompleteDate.Size = New System.Drawing.Size(153, 18)
         Me.txtCompleteDate.TabIndex = 24
         Me.txtCompleteDate.TabStop = False
@@ -1477,7 +1851,16 @@ Partial Class FrmComplaintDetailEntry
         'txtRemarks1
         '
         Me.txtRemarks1.AutoSize = False
+        Me.txtRemarks1.CalculationExpression = Nothing
+        Me.txtRemarks1.FieldCode = Nothing
+        Me.txtRemarks1.FieldDesc = Nothing
+        Me.txtRemarks1.FieldMaxLength = 0
+        Me.txtRemarks1.FieldName = Nothing
         Me.txtRemarks1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRemarks1.isCalculatedField = False
+        Me.txtRemarks1.IsSourceFromTable = False
+        Me.txtRemarks1.IsSourceFromValueList = False
+        Me.txtRemarks1.IsUnique = False
         Me.txtRemarks1.Location = New System.Drawing.Point(113, 316)
         Me.txtRemarks1.MaxLength = 50
         Me.txtRemarks1.MendatroryField = False
@@ -1485,11 +1868,15 @@ Partial Class FrmComplaintDetailEntry
         Me.txtRemarks1.MyLinkLable1 = Me.MyLabel44
         Me.txtRemarks1.MyLinkLable2 = Nothing
         Me.txtRemarks1.Name = "txtRemarks1"
+        Me.txtRemarks1.ReferenceFieldDesc = Nothing
+        Me.txtRemarks1.ReferenceFieldName = Nothing
+        Me.txtRemarks1.ReferenceTableName = Nothing
         Me.txtRemarks1.Size = New System.Drawing.Size(629, 19)
         Me.txtRemarks1.TabIndex = 27
         '
         'MyLabel44
         '
+        Me.MyLabel44.FieldName = Nothing
         Me.MyLabel44.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel44.Location = New System.Drawing.Point(8, 320)
         Me.MyLabel44.Name = "MyLabel44"
@@ -1541,78 +1928,151 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtService1
         '
+        Me.txtService1.CalculationExpression = Nothing
+        Me.txtService1.FieldCode = Nothing
+        Me.txtService1.FieldDesc = Nothing
+        Me.txtService1.FieldMaxLength = 0
+        Me.txtService1.FieldName = Nothing
         Me.txtService1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtService1.isCalculatedField = False
+        Me.txtService1.IsSourceFromTable = False
+        Me.txtService1.IsSourceFromValueList = False
+        Me.txtService1.IsUnique = False
         Me.txtService1.Location = New System.Drawing.Point(113, 249)
         Me.txtService1.MaxLength = 50
         Me.txtService1.MendatroryField = False
         Me.txtService1.MyLinkLable1 = Me.MyLabel6
         Me.txtService1.MyLinkLable2 = Nothing
         Me.txtService1.Name = "txtService1"
+        Me.txtService1.ReferenceFieldDesc = Nothing
+        Me.txtService1.ReferenceFieldName = Nothing
+        Me.txtService1.ReferenceTableName = Nothing
         Me.txtService1.Size = New System.Drawing.Size(330, 18)
         Me.txtService1.TabIndex = 20
         '
         'txtfranchise1
         '
+        Me.txtfranchise1.CalculationExpression = Nothing
+        Me.txtfranchise1.FieldCode = Nothing
+        Me.txtfranchise1.FieldDesc = Nothing
+        Me.txtfranchise1.FieldMaxLength = 0
+        Me.txtfranchise1.FieldName = Nothing
         Me.txtfranchise1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtfranchise1.isCalculatedField = False
+        Me.txtfranchise1.IsSourceFromTable = False
+        Me.txtfranchise1.IsSourceFromValueList = False
+        Me.txtfranchise1.IsUnique = False
         Me.txtfranchise1.Location = New System.Drawing.Point(113, 225)
         Me.txtfranchise1.MaxLength = 50
         Me.txtfranchise1.MendatroryField = False
         Me.txtfranchise1.MyLinkLable1 = Me.MyLabel6
         Me.txtfranchise1.MyLinkLable2 = Nothing
         Me.txtfranchise1.Name = "txtfranchise1"
+        Me.txtfranchise1.ReferenceFieldDesc = Nothing
+        Me.txtfranchise1.ReferenceFieldName = Nothing
+        Me.txtfranchise1.ReferenceTableName = Nothing
         Me.txtfranchise1.Size = New System.Drawing.Size(330, 18)
         Me.txtfranchise1.TabIndex = 19
         '
         'txtSecondary1
         '
+        Me.txtSecondary1.CalculationExpression = Nothing
+        Me.txtSecondary1.FieldCode = Nothing
+        Me.txtSecondary1.FieldDesc = Nothing
+        Me.txtSecondary1.FieldMaxLength = 0
+        Me.txtSecondary1.FieldName = Nothing
         Me.txtSecondary1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSecondary1.isCalculatedField = False
+        Me.txtSecondary1.IsSourceFromTable = False
+        Me.txtSecondary1.IsSourceFromValueList = False
+        Me.txtSecondary1.IsUnique = False
         Me.txtSecondary1.Location = New System.Drawing.Point(113, 178)
         Me.txtSecondary1.MaxLength = 50
         Me.txtSecondary1.MendatroryField = False
         Me.txtSecondary1.MyLinkLable1 = Me.MyLabel6
         Me.txtSecondary1.MyLinkLable2 = Nothing
         Me.txtSecondary1.Name = "txtSecondary1"
+        Me.txtSecondary1.ReferenceFieldDesc = Nothing
+        Me.txtSecondary1.ReferenceFieldName = Nothing
+        Me.txtSecondary1.ReferenceTableName = Nothing
         Me.txtSecondary1.Size = New System.Drawing.Size(330, 18)
         Me.txtSecondary1.TabIndex = 16
         '
         'txtComplaintType
         '
+        Me.txtComplaintType.CalculationExpression = Nothing
+        Me.txtComplaintType.FieldCode = Nothing
+        Me.txtComplaintType.FieldDesc = Nothing
+        Me.txtComplaintType.FieldMaxLength = 0
+        Me.txtComplaintType.FieldName = Nothing
         Me.txtComplaintType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtComplaintType.isCalculatedField = False
+        Me.txtComplaintType.IsSourceFromTable = False
+        Me.txtComplaintType.IsSourceFromValueList = False
+        Me.txtComplaintType.IsUnique = False
         Me.txtComplaintType.Location = New System.Drawing.Point(113, 158)
         Me.txtComplaintType.MaxLength = 50
         Me.txtComplaintType.MendatroryField = False
         Me.txtComplaintType.MyLinkLable1 = Me.MyLabel6
         Me.txtComplaintType.MyLinkLable2 = Nothing
         Me.txtComplaintType.Name = "txtComplaintType"
+        Me.txtComplaintType.ReferenceFieldDesc = Nothing
+        Me.txtComplaintType.ReferenceFieldName = Nothing
+        Me.txtComplaintType.ReferenceTableName = Nothing
         Me.txtComplaintType.Size = New System.Drawing.Size(330, 18)
         Me.txtComplaintType.TabIndex = 15
         '
         'txtprimary1
         '
+        Me.txtprimary1.CalculationExpression = Nothing
+        Me.txtprimary1.FieldCode = Nothing
+        Me.txtprimary1.FieldDesc = Nothing
+        Me.txtprimary1.FieldMaxLength = 0
+        Me.txtprimary1.FieldName = Nothing
         Me.txtprimary1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtprimary1.isCalculatedField = False
+        Me.txtprimary1.IsSourceFromTable = False
+        Me.txtprimary1.IsSourceFromValueList = False
+        Me.txtprimary1.IsUnique = False
         Me.txtprimary1.Location = New System.Drawing.Point(113, 138)
         Me.txtprimary1.MaxLength = 50
         Me.txtprimary1.MendatroryField = False
         Me.txtprimary1.MyLinkLable1 = Me.MyLabel6
         Me.txtprimary1.MyLinkLable2 = Nothing
         Me.txtprimary1.Name = "txtprimary1"
+        Me.txtprimary1.ReferenceFieldDesc = Nothing
+        Me.txtprimary1.ReferenceFieldName = Nothing
+        Me.txtprimary1.ReferenceTableName = Nothing
         Me.txtprimary1.Size = New System.Drawing.Size(330, 18)
         Me.txtprimary1.TabIndex = 14
         '
         'txtComplaintGivento
         '
+        Me.txtComplaintGivento.CalculationExpression = Nothing
+        Me.txtComplaintGivento.FieldCode = Nothing
+        Me.txtComplaintGivento.FieldDesc = Nothing
+        Me.txtComplaintGivento.FieldMaxLength = 0
+        Me.txtComplaintGivento.FieldName = Nothing
         Me.txtComplaintGivento.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtComplaintGivento.isCalculatedField = False
+        Me.txtComplaintGivento.IsSourceFromTable = False
+        Me.txtComplaintGivento.IsSourceFromValueList = False
+        Me.txtComplaintGivento.IsUnique = False
         Me.txtComplaintGivento.Location = New System.Drawing.Point(494, 202)
         Me.txtComplaintGivento.MaxLength = 50
         Me.txtComplaintGivento.MendatroryField = False
         Me.txtComplaintGivento.MyLinkLable1 = Me.MyLabel41
         Me.txtComplaintGivento.MyLinkLable2 = Nothing
         Me.txtComplaintGivento.Name = "txtComplaintGivento"
+        Me.txtComplaintGivento.ReferenceFieldDesc = Nothing
+        Me.txtComplaintGivento.ReferenceFieldName = Nothing
+        Me.txtComplaintGivento.ReferenceTableName = Nothing
         Me.txtComplaintGivento.Size = New System.Drawing.Size(247, 18)
         Me.txtComplaintGivento.TabIndex = 18
         '
         'MyLabel41
         '
+        Me.MyLabel41.FieldName = Nothing
         Me.MyLabel41.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel41.Location = New System.Drawing.Point(380, 203)
         Me.MyLabel41.Name = "MyLabel41"
@@ -1622,30 +2082,43 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtComplaintGivenBy
         '
+        Me.txtComplaintGivenBy.CalculationExpression = Nothing
+        Me.txtComplaintGivenBy.FieldCode = Nothing
+        Me.txtComplaintGivenBy.FieldDesc = Nothing
+        Me.txtComplaintGivenBy.FieldMaxLength = 0
+        Me.txtComplaintGivenBy.FieldName = Nothing
         Me.txtComplaintGivenBy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtComplaintGivenBy.isCalculatedField = False
+        Me.txtComplaintGivenBy.IsSourceFromTable = False
+        Me.txtComplaintGivenBy.IsSourceFromValueList = False
+        Me.txtComplaintGivenBy.IsUnique = False
         Me.txtComplaintGivenBy.Location = New System.Drawing.Point(113, 202)
         Me.txtComplaintGivenBy.MaxLength = 50
         Me.txtComplaintGivenBy.MendatroryField = False
         Me.txtComplaintGivenBy.MyLinkLable1 = Me.MyLabel15
         Me.txtComplaintGivenBy.MyLinkLable2 = Nothing
         Me.txtComplaintGivenBy.Name = "txtComplaintGivenBy"
+        Me.txtComplaintGivenBy.ReferenceFieldDesc = Nothing
+        Me.txtComplaintGivenBy.ReferenceFieldName = Nothing
+        Me.txtComplaintGivenBy.ReferenceTableName = Nothing
         Me.txtComplaintGivenBy.Size = New System.Drawing.Size(257, 18)
         Me.txtComplaintGivenBy.TabIndex = 17
         '
         'rptdSerialNo
         '
         Me.rptdSerialNo.AutoSize = False
+        Me.rptdSerialNo.FieldName = Nothing
         Me.rptdSerialNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rptdSerialNo.Location = New System.Drawing.Point(465, 142)
         Me.rptdSerialNo.Name = "rptdSerialNo"
         Me.rptdSerialNo.Size = New System.Drawing.Size(242, 18)
         Me.rptdSerialNo.TabIndex = 75
         Me.rptdSerialNo.Text = "Serial No. Repeated 0 Times"
-        Me.rptdSerialNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.rptdSerialNo.TextWrap = False
         '
         'MyLabel39
         '
+        Me.MyLabel39.FieldName = Nothing
         Me.MyLabel39.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel39.Location = New System.Drawing.Point(265, 120)
         Me.MyLabel39.Name = "MyLabel39"
@@ -1655,16 +2128,30 @@ Partial Class FrmComplaintDetailEntry
         '
         'cboApex1
         '
+        Me.cboApex1.CalculationExpression = Nothing
+        Me.cboApex1.DropDownAnimationEnabled = True
+        Me.cboApex1.FieldCode = Nothing
+        Me.cboApex1.FieldDesc = Nothing
+        Me.cboApex1.FieldMaxLength = 0
+        Me.cboApex1.FieldName = Nothing
+        Me.cboApex1.isCalculatedField = False
+        Me.cboApex1.IsSourceFromTable = False
+        Me.cboApex1.IsSourceFromValueList = False
+        Me.cboApex1.IsUnique = False
         Me.cboApex1.Location = New System.Drawing.Point(596, 118)
         Me.cboApex1.MendatroryField = True
         Me.cboApex1.MyLinkLable1 = Nothing
         Me.cboApex1.MyLinkLable2 = Nothing
         Me.cboApex1.Name = "cboApex1"
+        Me.cboApex1.ReferenceFieldDesc = Nothing
+        Me.cboApex1.ReferenceFieldName = Nothing
+        Me.cboApex1.ReferenceTableName = Nothing
         Me.cboApex1.Size = New System.Drawing.Size(145, 20)
         Me.cboApex1.TabIndex = 13
         '
         'MyLabel30
         '
+        Me.MyLabel30.FieldName = Nothing
         Me.MyLabel30.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel30.Location = New System.Drawing.Point(465, 118)
         Me.MyLabel30.Name = "MyLabel30"
@@ -1674,78 +2161,151 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtTag1
         '
+        Me.txtTag1.CalculationExpression = Nothing
+        Me.txtTag1.FieldCode = Nothing
+        Me.txtTag1.FieldDesc = Nothing
+        Me.txtTag1.FieldMaxLength = 0
+        Me.txtTag1.FieldName = Nothing
         Me.txtTag1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTag1.isCalculatedField = False
+        Me.txtTag1.IsSourceFromTable = False
+        Me.txtTag1.IsSourceFromValueList = False
+        Me.txtTag1.IsUnique = False
         Me.txtTag1.Location = New System.Drawing.Point(315, 118)
         Me.txtTag1.MaxLength = 50
         Me.txtTag1.MendatroryField = False
         Me.txtTag1.MyLinkLable1 = Me.MyLabel10
         Me.txtTag1.MyLinkLable2 = Nothing
         Me.txtTag1.Name = "txtTag1"
+        Me.txtTag1.ReferenceFieldDesc = Nothing
+        Me.txtTag1.ReferenceFieldName = Nothing
+        Me.txtTag1.ReferenceTableName = Nothing
         Me.txtTag1.Size = New System.Drawing.Size(128, 18)
         Me.txtTag1.TabIndex = 12
         '
         'txtSerialNo1
         '
+        Me.txtSerialNo1.CalculationExpression = Nothing
+        Me.txtSerialNo1.FieldCode = Nothing
+        Me.txtSerialNo1.FieldDesc = Nothing
+        Me.txtSerialNo1.FieldMaxLength = 0
+        Me.txtSerialNo1.FieldName = Nothing
         Me.txtSerialNo1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSerialNo1.isCalculatedField = False
+        Me.txtSerialNo1.IsSourceFromTable = False
+        Me.txtSerialNo1.IsSourceFromValueList = False
+        Me.txtSerialNo1.IsUnique = False
         Me.txtSerialNo1.Location = New System.Drawing.Point(113, 118)
         Me.txtSerialNo1.MaxLength = 50
         Me.txtSerialNo1.MendatroryField = False
         Me.txtSerialNo1.MyLinkLable1 = Me.MyLabel6
         Me.txtSerialNo1.MyLinkLable2 = Nothing
         Me.txtSerialNo1.Name = "txtSerialNo1"
+        Me.txtSerialNo1.ReferenceFieldDesc = Nothing
+        Me.txtSerialNo1.ReferenceFieldName = Nothing
+        Me.txtSerialNo1.ReferenceTableName = Nothing
         Me.txtSerialNo1.Size = New System.Drawing.Size(146, 18)
         Me.txtSerialNo1.TabIndex = 11
         '
         'txtSize1
         '
+        Me.txtSize1.CalculationExpression = Nothing
+        Me.txtSize1.FieldCode = Nothing
+        Me.txtSize1.FieldDesc = Nothing
+        Me.txtSize1.FieldMaxLength = 0
+        Me.txtSize1.FieldName = Nothing
         Me.txtSize1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSize1.isCalculatedField = False
+        Me.txtSize1.IsSourceFromTable = False
+        Me.txtSize1.IsSourceFromValueList = False
+        Me.txtSize1.IsUnique = False
         Me.txtSize1.Location = New System.Drawing.Point(512, 93)
         Me.txtSize1.MaxLength = 50
         Me.txtSize1.MendatroryField = False
         Me.txtSize1.MyLinkLable1 = Me.MyLabel6
         Me.txtSize1.MyLinkLable2 = Nothing
         Me.txtSize1.Name = "txtSize1"
+        Me.txtSize1.ReferenceFieldDesc = Nothing
+        Me.txtSize1.ReferenceFieldName = Nothing
+        Me.txtSize1.ReferenceTableName = Nothing
         Me.txtSize1.Size = New System.Drawing.Size(229, 18)
         Me.txtSize1.TabIndex = 10
         '
         'txtModel1
         '
+        Me.txtModel1.CalculationExpression = Nothing
+        Me.txtModel1.FieldCode = Nothing
+        Me.txtModel1.FieldDesc = Nothing
+        Me.txtModel1.FieldMaxLength = 0
+        Me.txtModel1.FieldName = Nothing
         Me.txtModel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtModel1.isCalculatedField = False
+        Me.txtModel1.IsSourceFromTable = False
+        Me.txtModel1.IsSourceFromValueList = False
+        Me.txtModel1.IsUnique = False
         Me.txtModel1.Location = New System.Drawing.Point(313, 93)
         Me.txtModel1.MaxLength = 50
         Me.txtModel1.MendatroryField = False
         Me.txtModel1.MyLinkLable1 = Me.MyLabel6
         Me.txtModel1.MyLinkLable2 = Nothing
         Me.txtModel1.Name = "txtModel1"
+        Me.txtModel1.ReferenceFieldDesc = Nothing
+        Me.txtModel1.ReferenceFieldName = Nothing
+        Me.txtModel1.ReferenceTableName = Nothing
         Me.txtModel1.Size = New System.Drawing.Size(193, 18)
         Me.txtModel1.TabIndex = 9
         '
         'txtMake1
         '
+        Me.txtMake1.CalculationExpression = Nothing
+        Me.txtMake1.FieldCode = Nothing
+        Me.txtMake1.FieldDesc = Nothing
+        Me.txtMake1.FieldMaxLength = 0
+        Me.txtMake1.FieldName = Nothing
         Me.txtMake1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMake1.isCalculatedField = False
+        Me.txtMake1.IsSourceFromTable = False
+        Me.txtMake1.IsSourceFromValueList = False
+        Me.txtMake1.IsUnique = False
         Me.txtMake1.Location = New System.Drawing.Point(113, 93)
         Me.txtMake1.MaxLength = 50
         Me.txtMake1.MendatroryField = False
         Me.txtMake1.MyLinkLable1 = Me.MyLabel6
         Me.txtMake1.MyLinkLable2 = Nothing
         Me.txtMake1.Name = "txtMake1"
+        Me.txtMake1.ReferenceFieldDesc = Nothing
+        Me.txtMake1.ReferenceFieldName = Nothing
+        Me.txtMake1.ReferenceTableName = Nothing
         Me.txtMake1.Size = New System.Drawing.Size(194, 18)
         Me.txtMake1.TabIndex = 8
         '
         'txtAssetType1
         '
+        Me.txtAssetType1.CalculationExpression = Nothing
+        Me.txtAssetType1.FieldCode = Nothing
+        Me.txtAssetType1.FieldDesc = Nothing
+        Me.txtAssetType1.FieldMaxLength = 0
+        Me.txtAssetType1.FieldName = Nothing
         Me.txtAssetType1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAssetType1.isCalculatedField = False
+        Me.txtAssetType1.IsSourceFromTable = False
+        Me.txtAssetType1.IsSourceFromValueList = False
+        Me.txtAssetType1.IsUnique = False
         Me.txtAssetType1.Location = New System.Drawing.Point(113, 72)
         Me.txtAssetType1.MaxLength = 50
         Me.txtAssetType1.MendatroryField = False
         Me.txtAssetType1.MyLinkLable1 = Me.MyLabel38
         Me.txtAssetType1.MyLinkLable2 = Nothing
         Me.txtAssetType1.Name = "txtAssetType1"
+        Me.txtAssetType1.ReferenceFieldDesc = Nothing
+        Me.txtAssetType1.ReferenceFieldName = Nothing
+        Me.txtAssetType1.ReferenceTableName = Nothing
         Me.txtAssetType1.Size = New System.Drawing.Size(330, 18)
         Me.txtAssetType1.TabIndex = 7
         '
         'MyLabel38
         '
+        Me.MyLabel38.FieldName = Nothing
         Me.MyLabel38.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel38.Location = New System.Drawing.Point(449, 50)
         Me.MyLabel38.Name = "MyLabel38"
@@ -1755,66 +2315,127 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtLocation1
         '
+        Me.txtLocation1.CalculationExpression = Nothing
+        Me.txtLocation1.FieldCode = Nothing
+        Me.txtLocation1.FieldDesc = Nothing
+        Me.txtLocation1.FieldMaxLength = 0
+        Me.txtLocation1.FieldName = Nothing
         Me.txtLocation1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocation1.isCalculatedField = False
+        Me.txtLocation1.IsSourceFromTable = False
+        Me.txtLocation1.IsSourceFromValueList = False
+        Me.txtLocation1.IsUnique = False
         Me.txtLocation1.Location = New System.Drawing.Point(113, 49)
         Me.txtLocation1.MaxLength = 50
         Me.txtLocation1.MendatroryField = False
         Me.txtLocation1.MyLinkLable1 = Me.MyLabel38
         Me.txtLocation1.MyLinkLable2 = Nothing
         Me.txtLocation1.Name = "txtLocation1"
+        Me.txtLocation1.ReferenceFieldDesc = Nothing
+        Me.txtLocation1.ReferenceFieldName = Nothing
+        Me.txtLocation1.ReferenceTableName = Nothing
         Me.txtLocation1.Size = New System.Drawing.Size(330, 18)
         Me.txtLocation1.TabIndex = 5
         '
         'txtCountry1
         '
+        Me.txtCountry1.CalculationExpression = Nothing
+        Me.txtCountry1.FieldCode = Nothing
+        Me.txtCountry1.FieldDesc = Nothing
+        Me.txtCountry1.FieldMaxLength = 0
+        Me.txtCountry1.FieldName = Nothing
         Me.txtCountry1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCountry1.isCalculatedField = False
+        Me.txtCountry1.IsSourceFromTable = False
+        Me.txtCountry1.IsSourceFromValueList = False
+        Me.txtCountry1.IsUnique = False
         Me.txtCountry1.Location = New System.Drawing.Point(512, 27)
         Me.txtCountry1.MaxLength = 50
         Me.txtCountry1.MendatroryField = False
         Me.txtCountry1.MyLinkLable1 = Me.MyLabel38
         Me.txtCountry1.MyLinkLable2 = Nothing
         Me.txtCountry1.Name = "txtCountry1"
+        Me.txtCountry1.ReferenceFieldDesc = Nothing
+        Me.txtCountry1.ReferenceFieldName = Nothing
+        Me.txtCountry1.ReferenceTableName = Nothing
         Me.txtCountry1.Size = New System.Drawing.Size(229, 18)
         Me.txtCountry1.TabIndex = 4
         '
         'txtState1
         '
+        Me.txtState1.CalculationExpression = Nothing
+        Me.txtState1.FieldCode = Nothing
+        Me.txtState1.FieldDesc = Nothing
+        Me.txtState1.FieldMaxLength = 0
+        Me.txtState1.FieldName = Nothing
         Me.txtState1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtState1.isCalculatedField = False
+        Me.txtState1.IsSourceFromTable = False
+        Me.txtState1.IsSourceFromValueList = False
+        Me.txtState1.IsUnique = False
         Me.txtState1.Location = New System.Drawing.Point(313, 27)
         Me.txtState1.MaxLength = 50
         Me.txtState1.MendatroryField = False
         Me.txtState1.MyLinkLable1 = Me.MyLabel38
         Me.txtState1.MyLinkLable2 = Nothing
         Me.txtState1.Name = "txtState1"
+        Me.txtState1.ReferenceFieldDesc = Nothing
+        Me.txtState1.ReferenceFieldName = Nothing
+        Me.txtState1.ReferenceTableName = Nothing
         Me.txtState1.Size = New System.Drawing.Size(193, 18)
         Me.txtState1.TabIndex = 3
         '
         'txtCity1
         '
+        Me.txtCity1.CalculationExpression = Nothing
+        Me.txtCity1.FieldCode = Nothing
+        Me.txtCity1.FieldDesc = Nothing
+        Me.txtCity1.FieldMaxLength = 0
+        Me.txtCity1.FieldName = Nothing
         Me.txtCity1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCity1.isCalculatedField = False
+        Me.txtCity1.IsSourceFromTable = False
+        Me.txtCity1.IsSourceFromValueList = False
+        Me.txtCity1.IsUnique = False
         Me.txtCity1.Location = New System.Drawing.Point(113, 27)
         Me.txtCity1.MaxLength = 50
         Me.txtCity1.MendatroryField = False
         Me.txtCity1.MyLinkLable1 = Me.MyLabel38
         Me.txtCity1.MyLinkLable2 = Nothing
         Me.txtCity1.Name = "txtCity1"
+        Me.txtCity1.ReferenceFieldDesc = Nothing
+        Me.txtCity1.ReferenceFieldName = Nothing
+        Me.txtCity1.ReferenceTableName = Nothing
         Me.txtCity1.Size = New System.Drawing.Size(194, 18)
         Me.txtCity1.TabIndex = 2
         '
         'txtPhn1
         '
+        Me.txtPhn1.CalculationExpression = Nothing
+        Me.txtPhn1.FieldCode = Nothing
+        Me.txtPhn1.FieldDesc = Nothing
+        Me.txtPhn1.FieldMaxLength = 0
+        Me.txtPhn1.FieldName = Nothing
         Me.txtPhn1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPhn1.isCalculatedField = False
+        Me.txtPhn1.IsSourceFromTable = False
+        Me.txtPhn1.IsSourceFromValueList = False
+        Me.txtPhn1.IsUnique = False
         Me.txtPhn1.Location = New System.Drawing.Point(512, 50)
         Me.txtPhn1.MaxLength = 50
         Me.txtPhn1.MendatroryField = False
         Me.txtPhn1.MyLinkLable1 = Me.MyLabel38
         Me.txtPhn1.MyLinkLable2 = Nothing
         Me.txtPhn1.Name = "txtPhn1"
+        Me.txtPhn1.ReferenceFieldDesc = Nothing
+        Me.txtPhn1.ReferenceFieldName = Nothing
+        Me.txtPhn1.ReferenceTableName = Nothing
         Me.txtPhn1.Size = New System.Drawing.Size(229, 18)
         Me.txtPhn1.TabIndex = 6
         '
         'MyLabel32
         '
+        Me.MyLabel32.FieldName = Nothing
         Me.MyLabel32.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel32.Location = New System.Drawing.Point(3, 250)
         Me.MyLabel32.Name = "MyLabel32"
@@ -1824,6 +2445,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel33
         '
+        Me.MyLabel33.FieldName = Nothing
         Me.MyLabel33.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel33.Location = New System.Drawing.Point(3, 138)
         Me.MyLabel33.Name = "MyLabel33"
@@ -1833,6 +2455,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel34
         '
+        Me.MyLabel34.FieldName = Nothing
         Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel34.Location = New System.Drawing.Point(3, 181)
         Me.MyLabel34.Name = "MyLabel34"
@@ -1842,6 +2465,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel35
         '
+        Me.MyLabel35.FieldName = Nothing
         Me.MyLabel35.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel35.Location = New System.Drawing.Point(3, 228)
         Me.MyLabel35.Name = "MyLabel35"
@@ -1851,6 +2475,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel36
         '
+        Me.MyLabel36.FieldName = Nothing
         Me.MyLabel36.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel36.Location = New System.Drawing.Point(3, 204)
         Me.MyLabel36.Name = "MyLabel36"
@@ -1860,6 +2485,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel37
         '
+        Me.MyLabel37.FieldName = Nothing
         Me.MyLabel37.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel37.Location = New System.Drawing.Point(3, 160)
         Me.MyLabel37.Name = "MyLabel37"
@@ -1869,6 +2495,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel26
         '
+        Me.MyLabel26.FieldName = Nothing
         Me.MyLabel26.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel26.Location = New System.Drawing.Point(2, 93)
         Me.MyLabel26.Name = "MyLabel26"
@@ -1878,6 +2505,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel28
         '
+        Me.MyLabel28.FieldName = Nothing
         Me.MyLabel28.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel28.Location = New System.Drawing.Point(3, 116)
         Me.MyLabel28.Name = "MyLabel28"
@@ -1887,6 +2515,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel29
         '
+        Me.MyLabel29.FieldName = Nothing
         Me.MyLabel29.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel29.Location = New System.Drawing.Point(3, 73)
         Me.MyLabel29.Name = "MyLabel29"
@@ -1896,6 +2525,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'lblCity
         '
+        Me.lblCity.FieldName = Nothing
         Me.lblCity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCity.Location = New System.Drawing.Point(3, 27)
         Me.lblCity.Name = "lblCity"
@@ -1905,6 +2535,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'MyLabel31
         '
+        Me.MyLabel31.FieldName = Nothing
         Me.MyLabel31.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel31.Location = New System.Drawing.Point(3, 50)
         Me.MyLabel31.Name = "MyLabel31"
@@ -1914,18 +2545,31 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtType
         '
+        Me.txtType.CalculationExpression = Nothing
+        Me.txtType.FieldCode = Nothing
+        Me.txtType.FieldDesc = Nothing
+        Me.txtType.FieldMaxLength = 0
+        Me.txtType.FieldName = Nothing
         Me.txtType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtType.isCalculatedField = False
+        Me.txtType.IsSourceFromTable = False
+        Me.txtType.IsSourceFromValueList = False
+        Me.txtType.IsUnique = False
         Me.txtType.Location = New System.Drawing.Point(486, 3)
         Me.txtType.MaxLength = 50
         Me.txtType.MendatroryField = False
         Me.txtType.MyLinkLable1 = Me.MyLabel10
         Me.txtType.MyLinkLable2 = Nothing
         Me.txtType.Name = "txtType"
+        Me.txtType.ReferenceFieldDesc = Nothing
+        Me.txtType.ReferenceFieldName = Nothing
+        Me.txtType.ReferenceTableName = Nothing
         Me.txtType.Size = New System.Drawing.Size(255, 18)
         Me.txtType.TabIndex = 1
         '
         'lblType
         '
+        Me.lblType.FieldName = Nothing
         Me.lblType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblType.Location = New System.Drawing.Point(449, 3)
         Me.lblType.Name = "lblType"
@@ -1935,18 +2579,31 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtOutletName
         '
+        Me.txtOutletName.CalculationExpression = Nothing
+        Me.txtOutletName.FieldCode = Nothing
+        Me.txtOutletName.FieldDesc = Nothing
+        Me.txtOutletName.FieldMaxLength = 0
+        Me.txtOutletName.FieldName = Nothing
         Me.txtOutletName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtOutletName.isCalculatedField = False
+        Me.txtOutletName.IsSourceFromTable = False
+        Me.txtOutletName.IsSourceFromValueList = False
+        Me.txtOutletName.IsUnique = False
         Me.txtOutletName.Location = New System.Drawing.Point(113, 3)
         Me.txtOutletName.MaxLength = 50
         Me.txtOutletName.MendatroryField = False
         Me.txtOutletName.MyLinkLable1 = Me.MyLabel10
         Me.txtOutletName.MyLinkLable2 = Nothing
         Me.txtOutletName.Name = "txtOutletName"
+        Me.txtOutletName.ReferenceFieldDesc = Nothing
+        Me.txtOutletName.ReferenceFieldName = Nothing
+        Me.txtOutletName.ReferenceTableName = Nothing
         Me.txtOutletName.Size = New System.Drawing.Size(330, 18)
         Me.txtOutletName.TabIndex = 0
         '
         'MyLabel12
         '
+        Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel12.Location = New System.Drawing.Point(3, 3)
         Me.MyLabel12.Name = "MyLabel12"
@@ -1956,18 +2613,31 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtdesc
         '
+        Me.txtdesc.CalculationExpression = Nothing
+        Me.txtdesc.FieldCode = Nothing
+        Me.txtdesc.FieldDesc = Nothing
+        Me.txtdesc.FieldMaxLength = 0
+        Me.txtdesc.FieldName = Nothing
         Me.txtdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdesc.isCalculatedField = False
+        Me.txtdesc.IsSourceFromTable = False
+        Me.txtdesc.IsSourceFromValueList = False
+        Me.txtdesc.IsUnique = False
         Me.txtdesc.Location = New System.Drawing.Point(81, 28)
         Me.txtdesc.MaxLength = 50
         Me.txtdesc.MendatroryField = False
         Me.txtdesc.MyLinkLable1 = Me.MyLabel24
         Me.txtdesc.MyLinkLable2 = Nothing
         Me.txtdesc.Name = "txtdesc"
+        Me.txtdesc.ReferenceFieldDesc = Nothing
+        Me.txtdesc.ReferenceFieldName = Nothing
+        Me.txtdesc.ReferenceTableName = Nothing
         Me.txtdesc.Size = New System.Drawing.Size(367, 18)
         Me.txtdesc.TabIndex = 2
         '
         'MyLabel24
         '
+        Me.MyLabel24.FieldName = Nothing
         Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel24.Location = New System.Drawing.Point(5, 29)
         Me.MyLabel24.Name = "MyLabel24"
@@ -1988,6 +2658,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel4.Location = New System.Drawing.Point(357, 8)
         Me.RadLabel4.Name = "RadLabel4"
@@ -1997,6 +2668,7 @@ Partial Class FrmComplaintDetailEntry
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(5, 6)
         Me.RadLabel1.Name = "RadLabel1"
@@ -2007,7 +2679,7 @@ Partial Class FrmComplaintDetailEntry
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = My.Resources._new
+        Me.btnAddNew.Image = Global.XpertERPService.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(335, 5)
         Me.btnAddNew.Name = "btnAddNew"
@@ -2016,13 +2688,14 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtcomid
         '
+        Me.txtcomid.FieldName = Nothing
         Me.txtcomid.Location = New System.Drawing.Point(81, 5)
         Me.txtcomid.MendatroryField = False
         Me.txtcomid.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtcomid.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtcomid.MyLinkLable1 = Me.RadLabel1
         Me.txtcomid.MyLinkLable2 = Nothing
-        Me.txtcomid.MyMaxLength = 32767
+        Me.txtcomid.MyMaxLength = 30
         Me.txtcomid.MyReadOnly = False
         Me.txtcomid.Name = "txtcomid"
         Me.txtcomid.Size = New System.Drawing.Size(252, 20)
@@ -2031,9 +2704,18 @@ Partial Class FrmComplaintDetailEntry
         '
         'txtDate
         '
+        Me.txtDate.CalculationExpression = Nothing
         Me.txtDate.CustomFormat = "dd/MM/yyyy h:mm:ss tt"
+        Me.txtDate.FieldCode = Nothing
+        Me.txtDate.FieldDesc = Nothing
+        Me.txtDate.FieldMaxLength = 0
+        Me.txtDate.FieldName = Nothing
         Me.txtDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.isCalculatedField = False
+        Me.txtDate.IsSourceFromTable = False
+        Me.txtDate.IsSourceFromValueList = False
+        Me.txtDate.IsUnique = False
         Me.txtDate.Location = New System.Drawing.Point(448, 7)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -2041,6 +2723,9 @@ Partial Class FrmComplaintDetailEntry
         Me.txtDate.MyLinkLable2 = Nothing
         Me.txtDate.Name = "txtDate"
         Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.ReferenceFieldDesc = Nothing
+        Me.txtDate.ReferenceFieldName = Nothing
+        Me.txtDate.ReferenceTableName = Nothing
         Me.txtDate.Size = New System.Drawing.Size(149, 18)
         Me.txtDate.TabIndex = 1
         Me.txtDate.TabStop = False
@@ -2181,7 +2866,6 @@ Partial Class FrmComplaintDetailEntry
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(780, 20)
         Me.rdmenufile.TabIndex = 105
-        Me.rdmenufile.Text = "File"
         '
         'RadMenufile
         '
@@ -2193,8 +2877,6 @@ Partial Class FrmComplaintDetailEntry
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Email And SMS Setting"
-        Me.RadMenuItem1.AccessibleName = "Email And SMS Setting"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Email And SMS Setting"
         '

@@ -22,37 +22,38 @@ Partial Class frmProductionRequisition
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage
-        Me.btnShowItems = New Telerik.WinControls.UI.RadButton
-        Me.lblRequestedBy = New common.Controls.MyLabel
-        Me.txtRequestBy = New common.UserControls.txtFinder
-        Me.RadLabel6 = New common.Controls.MyLabel
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.cbgBatchNo = New common.MyCheckBoxGrid
-        Me.RadLabel12 = New common.Controls.MyLabel
-        Me.RadLabel13 = New common.Controls.MyLabel
-        Me.lblLocation = New common.Controls.MyLabel
-        Me.RadLabel5 = New common.Controls.MyLabel
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox
-        Me.gv1 = New common.UserControls.MyRadGridView
-        Me.RadLabel2 = New common.Controls.MyLabel
-        Me.RadLabel4 = New common.Controls.MyLabel
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.txtLocation = New common.UserControls.txtFinder
-        Me.UsLock1 = New common.usLock
-        Me.txtReqNo = New common.UserControls.txtNavigator
-        Me.txtExpireDate = New common.Controls.MyDateTimePicker
-        Me.txtComment = New common.Controls.MyTextBox
-        Me.txtDate = New common.Controls.MyDateTimePicker
-        Me.txtDesc = New common.Controls.MyTextBox
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnPost = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnShowItems = New Telerik.WinControls.UI.RadButton()
+        Me.lblRequestedBy = New common.Controls.MyLabel()
+        Me.txtRequestBy = New common.UserControls.txtFinder()
+        Me.RadLabel6 = New common.Controls.MyLabel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.cbgBatchNo = New common.MyCheckBoxGrid()
+        Me.RadLabel12 = New common.Controls.MyLabel()
+        Me.RadLabel13 = New common.Controls.MyLabel()
+        Me.lblLocation = New common.Controls.MyLabel()
+        Me.RadLabel5 = New common.Controls.MyLabel()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.txtLocation = New common.UserControls.txtFinder()
+        Me.UsLock1 = New common.usLock()
+        Me.txtReqNo = New common.UserControls.txtNavigator()
+        Me.txtExpireDate = New common.Controls.MyDateTimePicker()
+        Me.txtComment = New common.Controls.MyTextBox()
+        Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.txtDesc = New common.Controls.MyTextBox()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -122,7 +123,6 @@ Partial Class frmProductionRequisition
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1020, 486)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -151,6 +151,7 @@ Partial Class frmProductionRequisition
         Me.RadPageViewPage1.Controls.Add(Me.txtDesc)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(130.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(999, 440)
@@ -169,29 +170,43 @@ Partial Class frmProductionRequisition
         '
         Me.lblRequestedBy.AutoSize = False
         Me.lblRequestedBy.BorderVisible = True
+        Me.lblRequestedBy.FieldName = Nothing
         Me.lblRequestedBy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRequestedBy.Location = New System.Drawing.Point(717, 21)
         Me.lblRequestedBy.Name = "lblRequestedBy"
         Me.lblRequestedBy.Size = New System.Drawing.Size(193, 20)
         Me.lblRequestedBy.TabIndex = 13
-        Me.lblRequestedBy.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRequestedBy.TextWrap = False
         '
         'txtRequestBy
         '
+        Me.txtRequestBy.CalculationExpression = Nothing
+        Me.txtRequestBy.FieldCode = Nothing
+        Me.txtRequestBy.FieldDesc = Nothing
+        Me.txtRequestBy.FieldMaxLength = 0
+        Me.txtRequestBy.FieldName = Nothing
+        Me.txtRequestBy.isCalculatedField = False
+        Me.txtRequestBy.IsSourceFromTable = False
+        Me.txtRequestBy.IsSourceFromValueList = False
+        Me.txtRequestBy.IsUnique = False
         Me.txtRequestBy.Location = New System.Drawing.Point(557, 22)
         Me.txtRequestBy.MendatroryField = True
         Me.txtRequestBy.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRequestBy.MyLinkLable1 = Me.RadLabel6
         Me.txtRequestBy.MyLinkLable2 = Me.lblRequestedBy
         Me.txtRequestBy.MyReadOnly = False
+        Me.txtRequestBy.MyShowMasterFormButton = False
         Me.txtRequestBy.Name = "txtRequestBy"
+        Me.txtRequestBy.ReferenceFieldDesc = Nothing
+        Me.txtRequestBy.ReferenceFieldName = Nothing
+        Me.txtRequestBy.ReferenceTableName = Nothing
         Me.txtRequestBy.Size = New System.Drawing.Size(156, 19)
         Me.txtRequestBy.TabIndex = 5
         Me.txtRequestBy.Value = ""
         '
         'RadLabel6
         '
+        Me.RadLabel6.FieldName = Nothing
         Me.RadLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel6.Location = New System.Drawing.Point(475, 43)
         Me.RadLabel6.Name = "RadLabel6"
@@ -227,6 +242,7 @@ Partial Class frmProductionRequisition
         '
         'RadLabel12
         '
+        Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.Location = New System.Drawing.Point(475, 23)
         Me.RadLabel12.Name = "RadLabel12"
@@ -236,6 +252,7 @@ Partial Class frmProductionRequisition
         '
         'RadLabel13
         '
+        Me.RadLabel13.FieldName = Nothing
         Me.RadLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel13.Location = New System.Drawing.Point(475, 3)
         Me.RadLabel13.Name = "RadLabel13"
@@ -248,16 +265,17 @@ Partial Class frmProductionRequisition
         '
         Me.lblLocation.AutoSize = False
         Me.lblLocation.BorderVisible = True
+        Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLocation.Location = New System.Drawing.Point(717, 41)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(193, 20)
         Me.lblLocation.TabIndex = 12
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'RadLabel5
         '
+        Me.RadLabel5.FieldName = Nothing
         Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel5.Location = New System.Drawing.Point(1, 23)
         Me.RadLabel5.Name = "RadLabel5"
@@ -269,8 +287,8 @@ Partial Class frmProductionRequisition
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Item Details"
@@ -291,19 +309,24 @@ Partial Class frmProductionRequisition
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(974, 180)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel2.Location = New System.Drawing.Point(1, 43)
         Me.RadLabel2.Name = "RadLabel2"
@@ -313,6 +336,7 @@ Partial Class frmProductionRequisition
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel4.Location = New System.Drawing.Point(348, 3)
         Me.RadLabel4.Name = "RadLabel4"
@@ -322,6 +346,7 @@ Partial Class frmProductionRequisition
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(1, 3)
         Me.RadLabel1.Name = "RadLabel1"
@@ -331,13 +356,26 @@ Partial Class frmProductionRequisition
         '
         'txtLocation
         '
+        Me.txtLocation.CalculationExpression = Nothing
+        Me.txtLocation.FieldCode = Nothing
+        Me.txtLocation.FieldDesc = Nothing
+        Me.txtLocation.FieldMaxLength = 0
+        Me.txtLocation.FieldName = Nothing
+        Me.txtLocation.isCalculatedField = False
+        Me.txtLocation.IsSourceFromTable = False
+        Me.txtLocation.IsSourceFromValueList = False
+        Me.txtLocation.IsUnique = False
         Me.txtLocation.Location = New System.Drawing.Point(557, 42)
         Me.txtLocation.MendatroryField = True
         Me.txtLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLocation.MyLinkLable1 = Me.RadLabel6
         Me.txtLocation.MyLinkLable2 = Me.lblLocation
         Me.txtLocation.MyReadOnly = False
+        Me.txtLocation.MyShowMasterFormButton = False
         Me.txtLocation.Name = "txtLocation"
+        Me.txtLocation.ReferenceFieldDesc = Nothing
+        Me.txtLocation.ReferenceFieldName = Nothing
+        Me.txtLocation.ReferenceTableName = Nothing
         Me.txtLocation.Size = New System.Drawing.Size(156, 18)
         Me.txtLocation.TabIndex = 7
         Me.txtLocation.Value = ""
@@ -354,13 +392,14 @@ Partial Class frmProductionRequisition
         '
         'txtReqNo
         '
+        Me.txtReqNo.FieldName = Nothing
         Me.txtReqNo.Location = New System.Drawing.Point(86, 1)
         Me.txtReqNo.MendatroryField = False
         Me.txtReqNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtReqNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtReqNo.MyLinkLable1 = Me.RadLabel1
         Me.txtReqNo.MyLinkLable2 = Nothing
-        Me.txtReqNo.MyMaxLength = 32767
+        Me.txtReqNo.MyMaxLength = 30
         Me.txtReqNo.MyReadOnly = False
         Me.txtReqNo.Name = "txtReqNo"
         Me.txtReqNo.Size = New System.Drawing.Size(230, 20)
@@ -369,9 +408,18 @@ Partial Class frmProductionRequisition
         '
         'txtExpireDate
         '
+        Me.txtExpireDate.CalculationExpression = Nothing
         Me.txtExpireDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtExpireDate.FieldCode = Nothing
+        Me.txtExpireDate.FieldDesc = Nothing
+        Me.txtExpireDate.FieldMaxLength = 0
+        Me.txtExpireDate.FieldName = Nothing
         Me.txtExpireDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtExpireDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtExpireDate.isCalculatedField = False
+        Me.txtExpireDate.IsSourceFromTable = False
+        Me.txtExpireDate.IsSourceFromValueList = False
+        Me.txtExpireDate.IsUnique = False
         Me.txtExpireDate.Location = New System.Drawing.Point(557, 2)
         Me.txtExpireDate.MendatroryField = False
         Me.txtExpireDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -379,6 +427,9 @@ Partial Class frmProductionRequisition
         Me.txtExpireDate.MyLinkLable2 = Nothing
         Me.txtExpireDate.Name = "txtExpireDate"
         Me.txtExpireDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtExpireDate.ReferenceFieldDesc = Nothing
+        Me.txtExpireDate.ReferenceFieldName = Nothing
+        Me.txtExpireDate.ReferenceTableName = Nothing
         Me.txtExpireDate.ShowCheckBox = True
         Me.txtExpireDate.Size = New System.Drawing.Size(92, 18)
         Me.txtExpireDate.TabIndex = 3
@@ -389,21 +440,42 @@ Partial Class frmProductionRequisition
         '
         'txtComment
         '
+        Me.txtComment.CalculationExpression = Nothing
+        Me.txtComment.FieldCode = Nothing
+        Me.txtComment.FieldDesc = Nothing
+        Me.txtComment.FieldMaxLength = 0
+        Me.txtComment.FieldName = Nothing
         Me.txtComment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtComment.isCalculatedField = False
+        Me.txtComment.IsSourceFromTable = False
+        Me.txtComment.IsSourceFromValueList = False
+        Me.txtComment.IsUnique = False
         Me.txtComment.Location = New System.Drawing.Point(86, 42)
         Me.txtComment.MaxLength = 200
         Me.txtComment.MendatroryField = False
         Me.txtComment.MyLinkLable1 = Me.RadLabel2
         Me.txtComment.MyLinkLable2 = Nothing
         Me.txtComment.Name = "txtComment"
+        Me.txtComment.ReferenceFieldDesc = Nothing
+        Me.txtComment.ReferenceFieldName = Nothing
+        Me.txtComment.ReferenceTableName = Nothing
         Me.txtComment.Size = New System.Drawing.Size(372, 18)
         Me.txtComment.TabIndex = 6
         '
         'txtDate
         '
+        Me.txtDate.CalculationExpression = Nothing
         Me.txtDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtDate.FieldCode = Nothing
+        Me.txtDate.FieldDesc = Nothing
+        Me.txtDate.FieldMaxLength = 0
+        Me.txtDate.FieldName = Nothing
         Me.txtDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.isCalculatedField = False
+        Me.txtDate.IsSourceFromTable = False
+        Me.txtDate.IsSourceFromValueList = False
+        Me.txtDate.IsUnique = False
         Me.txtDate.Location = New System.Drawing.Point(380, 2)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -411,6 +483,9 @@ Partial Class frmProductionRequisition
         Me.txtDate.MyLinkLable2 = Nothing
         Me.txtDate.Name = "txtDate"
         Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.ReferenceFieldDesc = Nothing
+        Me.txtDate.ReferenceFieldName = Nothing
+        Me.txtDate.ReferenceTableName = Nothing
         Me.txtDate.Size = New System.Drawing.Size(79, 18)
         Me.txtDate.TabIndex = 2
         Me.txtDate.TabStop = False
@@ -419,13 +494,25 @@ Partial Class frmProductionRequisition
         '
         'txtDesc
         '
+        Me.txtDesc.CalculationExpression = Nothing
+        Me.txtDesc.FieldCode = Nothing
+        Me.txtDesc.FieldDesc = Nothing
+        Me.txtDesc.FieldMaxLength = 0
+        Me.txtDesc.FieldName = Nothing
         Me.txtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDesc.isCalculatedField = False
+        Me.txtDesc.IsSourceFromTable = False
+        Me.txtDesc.IsSourceFromValueList = False
+        Me.txtDesc.IsUnique = False
         Me.txtDesc.Location = New System.Drawing.Point(86, 22)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel5
         Me.txtDesc.MyLinkLable2 = Nothing
         Me.txtDesc.Name = "txtDesc"
+        Me.txtDesc.ReferenceFieldDesc = Nothing
+        Me.txtDesc.ReferenceFieldName = Nothing
+        Me.txtDesc.ReferenceTableName = Nothing
         Me.txtDesc.Size = New System.Drawing.Size(372, 18)
         Me.txtDesc.TabIndex = 4
         '

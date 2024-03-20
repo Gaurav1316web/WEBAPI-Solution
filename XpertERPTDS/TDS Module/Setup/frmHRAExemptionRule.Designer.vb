@@ -24,10 +24,14 @@ Partial Class FrmHRAExemptionRule
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.txtSalStructure = New common.UserControls.txtFinder()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.txtcode = New common.UserControls.txtNavigator()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnPer = New Telerik.WinControls.UI.RadButton()
         Me.btnClBr = New Telerik.WinControls.UI.RadButton()
@@ -45,9 +49,6 @@ Partial Class FrmHRAExemptionRule
         Me.lblDescription = New common.Controls.MyLabel()
         Me.TxtParticulars = New common.Controls.MyTextBox()
         Me.lblItemCategoryCode = New common.Controls.MyLabel()
-        Me.btnnew = New Telerik.WinControls.UI.RadButton()
-        Me.txtcode = New common.UserControls.txtNavigator()
-        Me.txtSalStructure = New common.UserControls.txtFinder()
         Me.gv = New common.UserControls.MyRadGridView()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
@@ -59,6 +60,7 @@ Partial Class FrmHRAExemptionRule
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClBr, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,7 +78,6 @@ Partial Class FrmHRAExemptionRule
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtParticulars, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItemCategoryCode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,12 +93,9 @@ Partial Class FrmHRAExemptionRule
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(592, 20)
         Me.RadMenu2.TabIndex = 66
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
@@ -161,6 +159,56 @@ Partial Class FrmHRAExemptionRule
         Me.SplitContainer2.Size = New System.Drawing.Size(592, 436)
         Me.SplitContainer2.SplitterDistance = 159
         Me.SplitContainer2.TabIndex = 0
+        '
+        'txtSalStructure
+        '
+        Me.txtSalStructure.CalculationExpression = Nothing
+        Me.txtSalStructure.FieldCode = Nothing
+        Me.txtSalStructure.FieldDesc = Nothing
+        Me.txtSalStructure.FieldMaxLength = 0
+        Me.txtSalStructure.FieldName = Nothing
+        Me.txtSalStructure.isCalculatedField = False
+        Me.txtSalStructure.IsSourceFromTable = False
+        Me.txtSalStructure.IsSourceFromValueList = False
+        Me.txtSalStructure.IsUnique = False
+        Me.txtSalStructure.Location = New System.Drawing.Point(106, 53)
+        Me.txtSalStructure.MendatroryField = True
+        Me.txtSalStructure.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSalStructure.MyLinkLable1 = Nothing
+        Me.txtSalStructure.MyLinkLable2 = Nothing
+        Me.txtSalStructure.MyReadOnly = False
+        Me.txtSalStructure.MyShowMasterFormButton = False
+        Me.txtSalStructure.Name = "txtSalStructure"
+        Me.txtSalStructure.ReferenceFieldDesc = Nothing
+        Me.txtSalStructure.ReferenceFieldName = Nothing
+        Me.txtSalStructure.ReferenceTableName = Nothing
+        Me.txtSalStructure.Size = New System.Drawing.Size(227, 20)
+        Me.txtSalStructure.TabIndex = 301
+        Me.txtSalStructure.Value = ""
+        '
+        'btnnew
+        '
+        Me.btnnew.Image = Global.XpertERPTDS.My.Resources.Resources._new
+        Me.btnnew.Location = New System.Drawing.Point(318, 7)
+        Me.btnnew.Name = "btnnew"
+        Me.btnnew.Size = New System.Drawing.Size(15, 21)
+        Me.btnnew.TabIndex = 249
+        '
+        'txtcode
+        '
+        Me.txtcode.FieldName = Nothing
+        Me.txtcode.Location = New System.Drawing.Point(106, 7)
+        Me.txtcode.MendatroryField = True
+        Me.txtcode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtcode.MyLinkLable1 = Nothing
+        Me.txtcode.MyLinkLable2 = Nothing
+        Me.txtcode.MyMaxLength = 30
+        Me.txtcode.MyReadOnly = False
+        Me.txtcode.Name = "txtcode"
+        Me.txtcode.Size = New System.Drawing.Size(212, 21)
+        Me.txtcode.TabIndex = 248
+        Me.txtcode.Value = ""
         '
         'btnReset
         '
@@ -248,6 +296,15 @@ Partial Class FrmHRAExemptionRule
         'txtFormula
         '
         Me.txtFormula.AutoSize = False
+        Me.txtFormula.CalculationExpression = Nothing
+        Me.txtFormula.FieldCode = Nothing
+        Me.txtFormula.FieldDesc = Nothing
+        Me.txtFormula.FieldMaxLength = 0
+        Me.txtFormula.FieldName = Nothing
+        Me.txtFormula.isCalculatedField = False
+        Me.txtFormula.IsSourceFromTable = False
+        Me.txtFormula.IsSourceFromValueList = False
+        Me.txtFormula.IsUnique = False
         Me.txtFormula.Location = New System.Drawing.Point(17, 123)
         Me.txtFormula.MaxLength = 50
         Me.txtFormula.MendatroryField = False
@@ -256,11 +313,15 @@ Partial Class FrmHRAExemptionRule
         Me.txtFormula.MyLinkLable2 = Nothing
         Me.txtFormula.Name = "txtFormula"
         Me.txtFormula.ReadOnly = True
+        Me.txtFormula.ReferenceFieldDesc = Nothing
+        Me.txtFormula.ReferenceFieldName = Nothing
+        Me.txtFormula.ReferenceTableName = Nothing
         Me.txtFormula.Size = New System.Drawing.Size(497, 26)
         Me.txtFormula.TabIndex = 245
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Location = New System.Drawing.Point(13, 101)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(89, 18)
@@ -269,6 +330,7 @@ Partial Class FrmHRAExemptionRule
         '
         'lblOperator
         '
+        Me.lblOperator.FieldName = Nothing
         Me.lblOperator.Location = New System.Drawing.Point(12, 79)
         Me.lblOperator.Name = "lblOperator"
         Me.lblOperator.Size = New System.Drawing.Size(84, 18)
@@ -277,6 +339,7 @@ Partial Class FrmHRAExemptionRule
         '
         'MyLabel84
         '
+        Me.MyLabel84.FieldName = Nothing
         Me.MyLabel84.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel84.Location = New System.Drawing.Point(12, 53)
         Me.MyLabel84.Name = "MyLabel84"
@@ -288,17 +351,31 @@ Partial Class FrmHRAExemptionRule
         '
         Me.cmbLocation.AutoCompleteDisplayMember = Nothing
         Me.cmbLocation.AutoCompleteValueMember = Nothing
+        Me.cmbLocation.CalculationExpression = Nothing
+        Me.cmbLocation.DropDownAnimationEnabled = True
         Me.cmbLocation.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbLocation.FieldCode = Nothing
+        Me.cmbLocation.FieldDesc = Nothing
+        Me.cmbLocation.FieldMaxLength = 0
+        Me.cmbLocation.FieldName = Nothing
+        Me.cmbLocation.isCalculatedField = False
+        Me.cmbLocation.IsSourceFromTable = False
+        Me.cmbLocation.IsSourceFromValueList = False
+        Me.cmbLocation.IsUnique = False
         Me.cmbLocation.Location = New System.Drawing.Point(451, 28)
         Me.cmbLocation.MendatroryField = True
         Me.cmbLocation.MyLinkLable1 = Me.MyLabel18
         Me.cmbLocation.MyLinkLable2 = Nothing
         Me.cmbLocation.Name = "cmbLocation"
+        Me.cmbLocation.ReferenceFieldDesc = Nothing
+        Me.cmbLocation.ReferenceFieldName = Nothing
+        Me.cmbLocation.ReferenceTableName = Nothing
         Me.cmbLocation.Size = New System.Drawing.Size(135, 20)
         Me.cmbLocation.TabIndex = 232
         '
         'MyLabel18
         '
+        Me.MyLabel18.FieldName = Nothing
         Me.MyLabel18.Location = New System.Drawing.Point(393, 30)
         Me.MyLabel18.Name = "MyLabel18"
         Me.MyLabel18.Size = New System.Drawing.Size(52, 18)
@@ -307,6 +384,7 @@ Partial Class FrmHRAExemptionRule
         '
         'lblDescription
         '
+        Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDescription.Location = New System.Drawing.Point(12, 32)
         Me.lblDescription.Name = "lblDescription"
@@ -317,7 +395,16 @@ Partial Class FrmHRAExemptionRule
         'TxtParticulars
         '
         Me.TxtParticulars.AutoSize = False
+        Me.TxtParticulars.CalculationExpression = Nothing
+        Me.TxtParticulars.FieldCode = Nothing
+        Me.TxtParticulars.FieldDesc = Nothing
+        Me.TxtParticulars.FieldMaxLength = 0
+        Me.TxtParticulars.FieldName = Nothing
         Me.TxtParticulars.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtParticulars.isCalculatedField = False
+        Me.TxtParticulars.IsSourceFromTable = False
+        Me.TxtParticulars.IsSourceFromValueList = False
+        Me.TxtParticulars.IsUnique = False
         Me.TxtParticulars.Location = New System.Drawing.Point(107, 30)
         Me.TxtParticulars.MaxLength = 100
         Me.TxtParticulars.MendatroryField = False
@@ -325,55 +412,22 @@ Partial Class FrmHRAExemptionRule
         Me.TxtParticulars.MyLinkLable1 = Me.lblDescription
         Me.TxtParticulars.MyLinkLable2 = Nothing
         Me.TxtParticulars.Name = "TxtParticulars"
+        Me.TxtParticulars.ReferenceFieldDesc = Nothing
+        Me.TxtParticulars.ReferenceFieldName = Nothing
+        Me.TxtParticulars.ReferenceTableName = Nothing
         Me.TxtParticulars.Size = New System.Drawing.Size(226, 21)
         Me.TxtParticulars.TabIndex = 231
         Me.TxtParticulars.Text = " "
         '
         'lblItemCategoryCode
         '
+        Me.lblItemCategoryCode.FieldName = Nothing
         Me.lblItemCategoryCode.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblItemCategoryCode.Location = New System.Drawing.Point(12, 8)
         Me.lblItemCategoryCode.Name = "lblItemCategoryCode"
         Me.lblItemCategoryCode.Size = New System.Drawing.Size(36, 16)
         Me.lblItemCategoryCode.TabIndex = 240
         Me.lblItemCategoryCode.Text = "Code "
-        '
-        'btnnew
-        '
-        Me.btnnew.Image = My.Resources.Resources._new
-        Me.btnnew.Location = New System.Drawing.Point(318, 7)
-        Me.btnnew.Name = "btnnew"
-        Me.btnnew.Size = New System.Drawing.Size(15, 21)
-        Me.btnnew.TabIndex = 249
-        '
-        'txtcode
-        '
-        Me.txtcode.Location = New System.Drawing.Point(106, 7)
-        Me.txtcode.MendatroryField = True
-        Me.txtcode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtcode.MyLinkLable1 = Nothing
-        Me.txtcode.MyLinkLable2 = Nothing
-        Me.txtcode.MyMaxLength = 32767
-        Me.txtcode.MyReadOnly = False
-        Me.txtcode.Name = "txtcode"
-        Me.txtcode.Size = New System.Drawing.Size(212, 21)
-        Me.txtcode.TabIndex = 248
-        Me.txtcode.Value = ""
-        '
-        'txtSalStructure
-        '
-        Me.txtSalStructure.Location = New System.Drawing.Point(106, 53)
-        Me.txtSalStructure.MendatroryField = True
-        Me.txtSalStructure.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSalStructure.MyLinkLable1 = Nothing
-        Me.txtSalStructure.MyLinkLable2 = Nothing
-        Me.txtSalStructure.MyReadOnly = False
-        Me.txtSalStructure.MyShowMasterFormButton = False
-        Me.txtSalStructure.Name = "txtSalStructure"
-        Me.txtSalStructure.Size = New System.Drawing.Size(227, 20)
-        Me.txtSalStructure.TabIndex = 301
-        Me.txtSalStructure.Value = ""
         '
         'gv
         '
@@ -386,15 +440,20 @@ Partial Class FrmHRAExemptionRule
         Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AutoGenerateColumns = False
         Me.gv.MasterTemplate.EnableCustomFiltering = True
         Me.gv.MasterTemplate.EnableGrouping = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(592, 273)
         Me.gv.TabIndex = 13
         '
@@ -449,6 +508,7 @@ Partial Class FrmHRAExemptionRule
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClBr, System.ComponentModel.ISupportInitialize).EndInit()
@@ -466,7 +526,6 @@ Partial Class FrmHRAExemptionRule
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtParticulars, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItemCategoryCode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
