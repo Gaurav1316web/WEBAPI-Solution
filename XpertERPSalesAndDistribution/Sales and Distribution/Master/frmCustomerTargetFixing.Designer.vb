@@ -25,29 +25,30 @@ Partial Class frmCustomerTargetFixing
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmCustomerTargetFixing))
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.rdbFlavourwise = New Telerik.WinControls.UI.RadRadioButton
-        Me.rdbPackwise = New Telerik.WinControls.UI.RadRadioButton
-        Me.rdbItemwise = New Telerik.WinControls.UI.RadRadioButton
-        Me.lblIncentive = New common.Controls.MyLabel
-        Me.lblTarget = New common.Controls.MyLabel
-        Me.txtIncentive = New common.MyNumBox
-        Me.txtTarget = New common.MyNumBox
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.lblCustomerName = New common.Controls.MyLabel
-        Me.txtDescription = New common.Controls.MyTextBox
-        Me.lblRemarks = New common.Controls.MyLabel
-        Me.lblMonthYear = New common.Controls.MyLabel
-        Me.dtpMonthYear = New common.Controls.MyDateTimePicker
-        Me.lbCustomerCode = New common.Controls.MyLabel
-        Me.txtCustomerCode = New common.UserControls.txtFinder
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lblCode = New common.Controls.MyLabel
-        Me.gvItems = New common.UserControls.MyRadGridView
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.rdbFlavourwise = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rdbPackwise = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rdbItemwise = New Telerik.WinControls.UI.RadRadioButton()
+        Me.lblIncentive = New common.Controls.MyLabel()
+        Me.lblTarget = New common.Controls.MyLabel()
+        Me.txtIncentive = New common.MyNumBox()
+        Me.txtTarget = New common.MyNumBox()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.lblCustomerName = New common.Controls.MyLabel()
+        Me.txtDescription = New common.Controls.MyTextBox()
+        Me.lblRemarks = New common.Controls.MyLabel()
+        Me.lblMonthYear = New common.Controls.MyLabel()
+        Me.dtpMonthYear = New common.Controls.MyDateTimePicker()
+        Me.lbCustomerCode = New common.Controls.MyLabel()
+        Me.txtCustomerCode = New common.UserControls.txtFinder()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lblCode = New common.Controls.MyLabel()
+        Me.gvItems = New common.UserControls.MyRadGridView()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -81,19 +82,10 @@ Partial Class frmCustomerTargetFixing
         Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox3.Controls.Add(Me.SplitContainer1)
         Me.RadGroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox3.FooterImageIndex = -1
-        Me.RadGroupBox3.FooterImageKey = ""
-        Me.RadGroupBox3.HeaderImageIndex = -1
-        Me.RadGroupBox3.HeaderImageKey = ""
-        Me.RadGroupBox3.HeaderMargin = New System.Windows.Forms.Padding(0)
         Me.RadGroupBox3.HeaderText = ""
         Me.RadGroupBox3.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        '
-        '
-        '
-        Me.RadGroupBox3.RootElement.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(810, 507)
         Me.RadGroupBox3.TabIndex = 0
         '
@@ -138,7 +130,7 @@ Partial Class frmCustomerTargetFixing
         '
         Me.rdbFlavourwise.Location = New System.Drawing.Point(389, 106)
         Me.rdbFlavourwise.Name = "rdbFlavourwise"
-        Me.rdbFlavourwise.Size = New System.Drawing.Size(110, 18)
+        Me.rdbFlavourwise.Size = New System.Drawing.Size(78, 18)
         Me.rdbFlavourwise.TabIndex = 8
         Me.rdbFlavourwise.Text = "Flavourwise"
         '
@@ -146,7 +138,7 @@ Partial Class frmCustomerTargetFixing
         '
         Me.rdbPackwise.Location = New System.Drawing.Point(272, 106)
         Me.rdbPackwise.Name = "rdbPackwise"
-        Me.rdbPackwise.Size = New System.Drawing.Size(110, 18)
+        Me.rdbPackwise.Size = New System.Drawing.Size(65, 18)
         Me.rdbPackwise.TabIndex = 7
         Me.rdbPackwise.Text = "Packwise"
         '
@@ -154,12 +146,13 @@ Partial Class frmCustomerTargetFixing
         '
         Me.rdbItemwise.Location = New System.Drawing.Point(133, 106)
         Me.rdbItemwise.Name = "rdbItemwise"
-        Me.rdbItemwise.Size = New System.Drawing.Size(110, 18)
+        Me.rdbItemwise.Size = New System.Drawing.Size(64, 18)
         Me.rdbItemwise.TabIndex = 6
         Me.rdbItemwise.Text = "Itemwise"
         '
         'lblIncentive
         '
+        Me.lblIncentive.FieldName = Nothing
         Me.lblIncentive.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblIncentive.Location = New System.Drawing.Point(260, 81)
         Me.lblIncentive.Name = "lblIncentive"
@@ -169,6 +162,7 @@ Partial Class frmCustomerTargetFixing
         '
         'lblTarget
         '
+        Me.lblTarget.FieldName = Nothing
         Me.lblTarget.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTarget.Location = New System.Drawing.Point(16, 81)
         Me.lblTarget.Name = "lblTarget"
@@ -179,34 +173,58 @@ Partial Class frmCustomerTargetFixing
         'txtIncentive
         '
         Me.txtIncentive.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtIncentive.CalculationExpression = Nothing
         Me.txtIncentive.DecimalPlaces = 2
+        Me.txtIncentive.FieldCode = Nothing
+        Me.txtIncentive.FieldDesc = Nothing
+        Me.txtIncentive.FieldMaxLength = 0
+        Me.txtIncentive.FieldName = Nothing
+        Me.txtIncentive.isCalculatedField = False
+        Me.txtIncentive.IsSourceFromTable = False
+        Me.txtIncentive.IsSourceFromValueList = False
+        Me.txtIncentive.IsUnique = False
         Me.txtIncentive.Location = New System.Drawing.Point(319, 78)
         Me.txtIncentive.MaxLength = 6
         Me.txtIncentive.MendatroryField = True
         Me.txtIncentive.MyLinkLable1 = Me.lblIncentive
         Me.txtIncentive.MyLinkLable2 = Nothing
         Me.txtIncentive.Name = "txtIncentive"
+        Me.txtIncentive.ReferenceFieldDesc = Nothing
+        Me.txtIncentive.ReferenceFieldName = Nothing
+        Me.txtIncentive.ReferenceTableName = Nothing
         Me.txtIncentive.Size = New System.Drawing.Size(122, 20)
         Me.txtIncentive.TabIndex = 5
         Me.txtIncentive.Text = "0"
         Me.txtIncentive.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtIncentive.Value = 0
+        Me.txtIncentive.Value = 0R
         '
         'txtTarget
         '
         Me.txtTarget.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtTarget.CalculationExpression = Nothing
         Me.txtTarget.DecimalPlaces = 2
+        Me.txtTarget.FieldCode = Nothing
+        Me.txtTarget.FieldDesc = Nothing
+        Me.txtTarget.FieldMaxLength = 0
+        Me.txtTarget.FieldName = Nothing
+        Me.txtTarget.isCalculatedField = False
+        Me.txtTarget.IsSourceFromTable = False
+        Me.txtTarget.IsSourceFromValueList = False
+        Me.txtTarget.IsUnique = False
         Me.txtTarget.Location = New System.Drawing.Point(133, 78)
         Me.txtTarget.MaxLength = 6
         Me.txtTarget.MendatroryField = True
         Me.txtTarget.MyLinkLable1 = Me.lblTarget
         Me.txtTarget.MyLinkLable2 = Nothing
         Me.txtTarget.Name = "txtTarget"
+        Me.txtTarget.ReferenceFieldDesc = Nothing
+        Me.txtTarget.ReferenceFieldName = Nothing
+        Me.txtTarget.ReferenceTableName = Nothing
         Me.txtTarget.Size = New System.Drawing.Size(122, 20)
         Me.txtTarget.TabIndex = 4
         Me.txtTarget.Text = "0"
         Me.txtTarget.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTarget.Value = 0
+        Me.txtTarget.Value = 0R
         '
         'btnNew
         '
@@ -221,15 +239,24 @@ Partial Class frmCustomerTargetFixing
         '
         Me.lblCustomerName.AutoSize = False
         Me.lblCustomerName.BorderVisible = True
+        Me.lblCustomerName.FieldName = Nothing
         Me.lblCustomerName.Location = New System.Drawing.Point(357, 31)
         Me.lblCustomerName.Name = "lblCustomerName"
         Me.lblCustomerName.Size = New System.Drawing.Size(222, 19)
         Me.lblCustomerName.TabIndex = 201
-        Me.lblCustomerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtDescription
         '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
         Me.txtDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(132, 134)
         Me.txtDescription.MaxLength = 49
         Me.txtDescription.MendatroryField = True
@@ -237,6 +264,9 @@ Partial Class frmCustomerTargetFixing
         Me.txtDescription.MyLinkLable1 = Me.lblRemarks
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         '
         '
         '
@@ -246,6 +276,7 @@ Partial Class frmCustomerTargetFixing
         '
         'lblRemarks
         '
+        Me.lblRemarks.FieldName = Nothing
         Me.lblRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRemarks.Location = New System.Drawing.Point(18, 134)
         Me.lblRemarks.Name = "lblRemarks"
@@ -255,6 +286,7 @@ Partial Class frmCustomerTargetFixing
         '
         'lblMonthYear
         '
+        Me.lblMonthYear.FieldName = Nothing
         Me.lblMonthYear.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblMonthYear.Location = New System.Drawing.Point(14, 54)
         Me.lblMonthYear.Name = "lblMonthYear"
@@ -264,24 +296,37 @@ Partial Class frmCustomerTargetFixing
         '
         'dtpMonthYear
         '
+        Me.dtpMonthYear.CalculationExpression = Nothing
         Me.dtpMonthYear.CustomFormat = "MMM/yyyy"
+        Me.dtpMonthYear.FieldCode = Nothing
+        Me.dtpMonthYear.FieldDesc = Nothing
+        Me.dtpMonthYear.FieldMaxLength = 0
+        Me.dtpMonthYear.FieldName = Nothing
         Me.dtpMonthYear.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpMonthYear.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpMonthYear.isCalculatedField = False
+        Me.dtpMonthYear.IsSourceFromTable = False
+        Me.dtpMonthYear.IsSourceFromValueList = False
+        Me.dtpMonthYear.IsUnique = False
         Me.dtpMonthYear.Location = New System.Drawing.Point(133, 54)
-        Me.dtpMonthYear.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
         Me.dtpMonthYear.MendatroryField = True
         Me.dtpMonthYear.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpMonthYear.MyLinkLable1 = Me.lblMonthYear
         Me.dtpMonthYear.MyLinkLable2 = Nothing
         Me.dtpMonthYear.Name = "dtpMonthYear"
         Me.dtpMonthYear.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpMonthYear.ReferenceFieldDesc = Nothing
+        Me.dtpMonthYear.ReferenceFieldName = Nothing
+        Me.dtpMonthYear.ReferenceTableName = Nothing
         Me.dtpMonthYear.Size = New System.Drawing.Size(130, 18)
         Me.dtpMonthYear.TabIndex = 3
-        Me.dtpMonthYear.Text = "RadDateTimePicker2"
+        Me.dtpMonthYear.TabStop = False
+        Me.dtpMonthYear.Text = "May/2011"
         Me.dtpMonthYear.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
         '
         'lbCustomerCode
         '
+        Me.lbCustomerCode.FieldName = Nothing
         Me.lbCustomerCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbCustomerCode.Location = New System.Drawing.Point(13, 33)
         Me.lbCustomerCode.Name = "lbCustomerCode"
@@ -291,26 +336,40 @@ Partial Class frmCustomerTargetFixing
         '
         'txtCustomerCode
         '
+        Me.txtCustomerCode.CalculationExpression = Nothing
+        Me.txtCustomerCode.FieldCode = Nothing
+        Me.txtCustomerCode.FieldDesc = Nothing
+        Me.txtCustomerCode.FieldMaxLength = 0
+        Me.txtCustomerCode.FieldName = Nothing
+        Me.txtCustomerCode.isCalculatedField = False
+        Me.txtCustomerCode.IsSourceFromTable = False
+        Me.txtCustomerCode.IsSourceFromValueList = False
+        Me.txtCustomerCode.IsUnique = False
         Me.txtCustomerCode.Location = New System.Drawing.Point(133, 31)
         Me.txtCustomerCode.MendatroryField = True
         Me.txtCustomerCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCustomerCode.MyLinkLable1 = Me.lbCustomerCode
         Me.txtCustomerCode.MyLinkLable2 = Nothing
         Me.txtCustomerCode.MyReadOnly = False
+        Me.txtCustomerCode.MyShowMasterFormButton = False
         Me.txtCustomerCode.Name = "txtCustomerCode"
+        Me.txtCustomerCode.ReferenceFieldDesc = Nothing
+        Me.txtCustomerCode.ReferenceFieldName = Nothing
+        Me.txtCustomerCode.ReferenceTableName = Nothing
         Me.txtCustomerCode.Size = New System.Drawing.Size(221, 19)
         Me.txtCustomerCode.TabIndex = 1
         Me.txtCustomerCode.Value = ""
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(133, 6)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(221, 21)
@@ -319,6 +378,7 @@ Partial Class frmCustomerTargetFixing
         '
         'lblCode
         '
+        Me.lblCode.FieldName = Nothing
         Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCode.Location = New System.Drawing.Point(12, 11)
         Me.lblCode.Name = "lblCode"
@@ -329,8 +389,8 @@ Partial Class frmCustomerTargetFixing
         'gvItems
         '
         Me.gvItems.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gvItems.BackColor = System.Drawing.Color.FromArgb(CType(CType(191, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.gvItems.Cursor = System.Windows.Forms.Cursors.Default
         Me.gvItems.Font = New System.Drawing.Font("Arial", 8.25!)
@@ -338,20 +398,20 @@ Partial Class frmCustomerTargetFixing
         Me.gvItems.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvItems.Location = New System.Drawing.Point(9, 203)
         '
-        'gvItems
+        '
         '
         Me.gvItems.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvItems.MasterTemplate.AutoGenerateColumns = False
         Me.gvItems.MasterTemplate.EnableGrouping = False
+        Me.gvItems.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvItems.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItems.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItems.MyStopExport = False
         Me.gvItems.Name = "gvItems"
         Me.gvItems.RightToLeft = System.Windows.Forms.RightToLeft.No
-        '
-        '
-        '
-        Me.gvItems.RootElement.ForeColor = System.Drawing.Color.Black
+        Me.gvItems.ShowHeaderCellButtons = True
         Me.gvItems.Size = New System.Drawing.Size(772, 219)
         Me.gvItems.TabIndex = 6
-        Me.gvItems.Text = "RadGridView4"
         '
         'btnsave
         '

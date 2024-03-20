@@ -551,7 +551,7 @@ Partial Class frmNIRQC
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(235, 19)

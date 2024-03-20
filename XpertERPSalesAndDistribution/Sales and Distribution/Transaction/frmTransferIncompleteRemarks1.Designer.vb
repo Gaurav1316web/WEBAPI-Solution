@@ -23,28 +23,28 @@ Partial Class FrmTransferIncompleteRemarks1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmTransferIncompleteRemarks1))
-        Me.fndTransferNo = New common.UserControls.txtNavigator
-        Me.lblTransferNo = New Telerik.WinControls.UI.RadLabel
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.rtftxtInvoiceremarks = New System.Windows.Forms.RichTextBox
-        Me.rtftxtQuickRemarks = New System.Windows.Forms.RichTextBox
-        Me.txtRouteDesc = New common.Controls.MyTextBox
-        Me.txtSalesmanDesc = New common.Controls.MyTextBox
-        Me.txtSalesManCode = New common.Controls.MyTextBox
-        Me.txtRouteNo = New common.Controls.MyTextBox
-        Me.dtptransferDate = New common.Controls.MyDateTimePicker
-        Me.lblSaleManDesc = New Telerik.WinControls.UI.RadLabel
-        Me.lblSalesmanCode = New Telerik.WinControls.UI.RadLabel
-        Me.btnreset = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.lblInvoiceRemarks = New Telerik.WinControls.UI.RadLabel
-        Me.lblQuickSettlementremarks = New Telerik.WinControls.UI.RadLabel
-        Me.lblRouteDesc = New Telerik.WinControls.UI.RadLabel
-        Me.lblRouteNo = New Telerik.WinControls.UI.RadLabel
-        Me.lblTransferdate = New Telerik.WinControls.UI.RadLabel
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.fndTransferNo = New common.UserControls.txtNavigator()
+        Me.lblTransferNo = New Telerik.WinControls.UI.RadLabel()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rtftxtInvoiceremarks = New System.Windows.Forms.RichTextBox()
+        Me.rtftxtQuickRemarks = New System.Windows.Forms.RichTextBox()
+        Me.txtRouteDesc = New common.Controls.MyTextBox()
+        Me.txtSalesmanDesc = New common.Controls.MyTextBox()
+        Me.txtSalesManCode = New common.Controls.MyTextBox()
+        Me.txtRouteNo = New common.Controls.MyTextBox()
+        Me.dtptransferDate = New common.Controls.MyDateTimePicker()
+        Me.lblSaleManDesc = New Telerik.WinControls.UI.RadLabel()
+        Me.lblSalesmanCode = New Telerik.WinControls.UI.RadLabel()
+        Me.btnreset = New Telerik.WinControls.UI.RadButton()
+        Me.lblInvoiceRemarks = New Telerik.WinControls.UI.RadLabel()
+        Me.lblQuickSettlementremarks = New Telerik.WinControls.UI.RadLabel()
+        Me.lblRouteDesc = New Telerik.WinControls.UI.RadLabel()
+        Me.lblRouteNo = New Telerik.WinControls.UI.RadLabel()
+        Me.lblTransferdate = New Telerik.WinControls.UI.RadLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         CType(Me.lblTransferNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -56,14 +56,14 @@ Partial Class FrmTransferIncompleteRemarks1
         CType(Me.lblSaleManDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesmanCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblInvoiceRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblQuickSettlementremarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTransferdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -72,12 +72,14 @@ Partial Class FrmTransferIncompleteRemarks1
         '
         'fndTransferNo
         '
+        Me.fndTransferNo.FieldName = Nothing
         Me.fndTransferNo.Location = New System.Drawing.Point(71, 10)
         Me.fndTransferNo.MendatroryField = False
         Me.fndTransferNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.fndTransferNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndTransferNo.MyLinkLable1 = Nothing
         Me.fndTransferNo.MyLinkLable2 = Nothing
-        Me.fndTransferNo.MyMaxLength = 32767
+        Me.fndTransferNo.MyMaxLength = 30
         Me.fndTransferNo.MyReadOnly = False
         Me.fndTransferNo.Name = "fndTransferNo"
         Me.fndTransferNo.Size = New System.Drawing.Size(230, 21)
@@ -112,19 +114,10 @@ Partial Class FrmTransferIncompleteRemarks1
         Me.RadGroupBox1.Controls.Add(Me.lblTransferdate)
         Me.RadGroupBox1.Controls.Add(Me.lblTransferNo)
         Me.RadGroupBox1.Controls.Add(Me.fndTransferNo)
-        Me.RadGroupBox1.FooterImageIndex = -1
-        Me.RadGroupBox1.FooterImageKey = ""
-        Me.RadGroupBox1.HeaderImageIndex = -1
-        Me.RadGroupBox1.HeaderImageKey = ""
-        Me.RadGroupBox1.HeaderMargin = New System.Windows.Forms.Padding(0)
         Me.RadGroupBox1.HeaderText = ""
         Me.RadGroupBox1.Location = New System.Drawing.Point(3, 3)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        '
-        '
-        '
-        Me.RadGroupBox1.RootElement.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(502, 539)
         Me.RadGroupBox1.TabIndex = 0
         '
@@ -146,63 +139,124 @@ Partial Class FrmTransferIncompleteRemarks1
         '
         'txtRouteDesc
         '
+        Me.txtRouteDesc.CalculationExpression = Nothing
+        Me.txtRouteDesc.FieldCode = Nothing
+        Me.txtRouteDesc.FieldDesc = Nothing
+        Me.txtRouteDesc.FieldMaxLength = 0
+        Me.txtRouteDesc.FieldName = Nothing
+        Me.txtRouteDesc.isCalculatedField = False
+        Me.txtRouteDesc.IsSourceFromTable = False
+        Me.txtRouteDesc.IsSourceFromValueList = False
+        Me.txtRouteDesc.IsUnique = False
         Me.txtRouteDesc.Location = New System.Drawing.Point(254, 41)
         Me.txtRouteDesc.MendatroryField = False
         Me.txtRouteDesc.MyLinkLable1 = Nothing
         Me.txtRouteDesc.MyLinkLable2 = Nothing
         Me.txtRouteDesc.Name = "txtRouteDesc"
         Me.txtRouteDesc.ReadOnly = True
+        Me.txtRouteDesc.ReferenceFieldDesc = Nothing
+        Me.txtRouteDesc.ReferenceFieldName = Nothing
+        Me.txtRouteDesc.ReferenceTableName = Nothing
         Me.txtRouteDesc.Size = New System.Drawing.Size(236, 20)
         Me.txtRouteDesc.TabIndex = 4
         '
         'txtSalesmanDesc
         '
+        Me.txtSalesmanDesc.CalculationExpression = Nothing
+        Me.txtSalesmanDesc.FieldCode = Nothing
+        Me.txtSalesmanDesc.FieldDesc = Nothing
+        Me.txtSalesmanDesc.FieldMaxLength = 0
+        Me.txtSalesmanDesc.FieldName = Nothing
+        Me.txtSalesmanDesc.isCalculatedField = False
+        Me.txtSalesmanDesc.IsSourceFromTable = False
+        Me.txtSalesmanDesc.IsSourceFromValueList = False
+        Me.txtSalesmanDesc.IsUnique = False
         Me.txtSalesmanDesc.Location = New System.Drawing.Point(254, 69)
         Me.txtSalesmanDesc.MendatroryField = False
         Me.txtSalesmanDesc.MyLinkLable1 = Nothing
         Me.txtSalesmanDesc.MyLinkLable2 = Nothing
         Me.txtSalesmanDesc.Name = "txtSalesmanDesc"
         Me.txtSalesmanDesc.ReadOnly = True
+        Me.txtSalesmanDesc.ReferenceFieldDesc = Nothing
+        Me.txtSalesmanDesc.ReferenceFieldName = Nothing
+        Me.txtSalesmanDesc.ReferenceTableName = Nothing
         Me.txtSalesmanDesc.Size = New System.Drawing.Size(236, 20)
         Me.txtSalesmanDesc.TabIndex = 6
         '
         'txtSalesManCode
         '
+        Me.txtSalesManCode.CalculationExpression = Nothing
+        Me.txtSalesManCode.FieldCode = Nothing
+        Me.txtSalesManCode.FieldDesc = Nothing
+        Me.txtSalesManCode.FieldMaxLength = 0
+        Me.txtSalesManCode.FieldName = Nothing
+        Me.txtSalesManCode.isCalculatedField = False
+        Me.txtSalesManCode.IsSourceFromTable = False
+        Me.txtSalesManCode.IsSourceFromValueList = False
+        Me.txtSalesManCode.IsUnique = False
         Me.txtSalesManCode.Location = New System.Drawing.Point(92, 69)
         Me.txtSalesManCode.MendatroryField = False
         Me.txtSalesManCode.MyLinkLable1 = Nothing
         Me.txtSalesManCode.MyLinkLable2 = Nothing
         Me.txtSalesManCode.Name = "txtSalesManCode"
         Me.txtSalesManCode.ReadOnly = True
+        Me.txtSalesManCode.ReferenceFieldDesc = Nothing
+        Me.txtSalesManCode.ReferenceFieldName = Nothing
+        Me.txtSalesManCode.ReferenceTableName = Nothing
         Me.txtSalesManCode.Size = New System.Drawing.Size(87, 20)
         Me.txtSalesManCode.TabIndex = 5
         '
         'txtRouteNo
         '
+        Me.txtRouteNo.CalculationExpression = Nothing
+        Me.txtRouteNo.FieldCode = Nothing
+        Me.txtRouteNo.FieldDesc = Nothing
+        Me.txtRouteNo.FieldMaxLength = 0
+        Me.txtRouteNo.FieldName = Nothing
+        Me.txtRouteNo.isCalculatedField = False
+        Me.txtRouteNo.IsSourceFromTable = False
+        Me.txtRouteNo.IsSourceFromValueList = False
+        Me.txtRouteNo.IsUnique = False
         Me.txtRouteNo.Location = New System.Drawing.Point(92, 43)
         Me.txtRouteNo.MendatroryField = False
         Me.txtRouteNo.MyLinkLable1 = Nothing
         Me.txtRouteNo.MyLinkLable2 = Nothing
         Me.txtRouteNo.Name = "txtRouteNo"
         Me.txtRouteNo.ReadOnly = True
+        Me.txtRouteNo.ReferenceFieldDesc = Nothing
+        Me.txtRouteNo.ReferenceFieldName = Nothing
+        Me.txtRouteNo.ReferenceTableName = Nothing
         Me.txtRouteNo.Size = New System.Drawing.Size(87, 20)
         Me.txtRouteNo.TabIndex = 3
         '
         'dtptransferDate
         '
+        Me.dtptransferDate.CalculationExpression = Nothing
+        Me.dtptransferDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
         Me.dtptransferDate.Enabled = False
+        Me.dtptransferDate.FieldCode = Nothing
+        Me.dtptransferDate.FieldDesc = Nothing
+        Me.dtptransferDate.FieldMaxLength = 0
+        Me.dtptransferDate.FieldName = Nothing
         Me.dtptransferDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtptransferDate.isCalculatedField = False
+        Me.dtptransferDate.IsSourceFromTable = False
+        Me.dtptransferDate.IsSourceFromValueList = False
+        Me.dtptransferDate.IsUnique = False
         Me.dtptransferDate.Location = New System.Drawing.Point(410, 10)
-        Me.dtptransferDate.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
         Me.dtptransferDate.MendatroryField = False
         Me.dtptransferDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtptransferDate.MyLinkLable1 = Nothing
         Me.dtptransferDate.MyLinkLable2 = Nothing
         Me.dtptransferDate.Name = "dtptransferDate"
         Me.dtptransferDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtptransferDate.ReferenceFieldDesc = Nothing
+        Me.dtptransferDate.ReferenceFieldName = Nothing
+        Me.dtptransferDate.ReferenceTableName = Nothing
         Me.dtptransferDate.Size = New System.Drawing.Size(80, 20)
         Me.dtptransferDate.TabIndex = 2
-        Me.dtptransferDate.Text = "MyDateTimePicker1"
+        Me.dtptransferDate.TabStop = False
+        Me.dtptransferDate.Text = "22/06/2012 12:00 AM"
         Me.dtptransferDate.Value = New Date(2012, 6, 22, 0, 0, 0, 0)
         '
         'lblSaleManDesc
@@ -228,33 +282,6 @@ Partial Class FrmTransferIncompleteRemarks1
         Me.btnreset.Name = "btnreset"
         Me.btnreset.Size = New System.Drawing.Size(17, 21)
         Me.btnreset.TabIndex = 1
-        '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Location = New System.Drawing.Point(439, 3)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(66, 22)
-        Me.btnClose.TabIndex = 2
-        Me.btnClose.Text = "Close"
-        '
-        'btndelete
-        '
-        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btndelete.Location = New System.Drawing.Point(79, 3)
-        Me.btndelete.Name = "btndelete"
-        Me.btndelete.Size = New System.Drawing.Size(66, 22)
-        Me.btndelete.TabIndex = 1
-        Me.btndelete.Text = "Delete"
-        '
-        'btnSave
-        '
-        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Location = New System.Drawing.Point(3, 3)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(66, 22)
-        Me.btnSave.TabIndex = 0
-        Me.btnSave.Text = "Save"
         '
         'lblInvoiceRemarks
         '
@@ -296,6 +323,33 @@ Partial Class FrmTransferIncompleteRemarks1
         Me.lblTransferdate.TabIndex = 2
         Me.lblTransferdate.Text = "Transfer Date"
         '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Location = New System.Drawing.Point(439, 3)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(66, 22)
+        Me.btnClose.TabIndex = 2
+        Me.btnClose.Text = "Close"
+        '
+        'btndelete
+        '
+        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btndelete.Location = New System.Drawing.Point(79, 3)
+        Me.btndelete.Name = "btndelete"
+        Me.btndelete.Size = New System.Drawing.Size(66, 22)
+        Me.btndelete.TabIndex = 1
+        Me.btndelete.Text = "Delete"
+        '
+        'btnSave
+        '
+        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSave.Location = New System.Drawing.Point(3, 3)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(66, 22)
+        Me.btnSave.TabIndex = 0
+        Me.btnSave.Text = "Save"
+        '
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
@@ -322,7 +376,6 @@ Partial Class FrmTransferIncompleteRemarks1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(508, 545)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.KeyPreview = True
         Me.Name = "FrmTransferIncompleteRemarks1"
         '
         '
@@ -341,14 +394,14 @@ Partial Class FrmTransferIncompleteRemarks1
         CType(Me.lblSaleManDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSalesmanCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblInvoiceRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblQuickSettlementremarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTransferdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)

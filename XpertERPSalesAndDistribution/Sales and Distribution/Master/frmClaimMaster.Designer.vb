@@ -22,17 +22,18 @@ Partial Class frmClaimMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.txtCustCode = New common.UserControls.txtNavigator
-        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton
-        Me.UsLock1 = New common.usLock
-        Me.lblEmpCode = New common.Controls.MyLabel
-        Me.gvDeduction = New common.UserControls.MyRadGridView
-        Me.btnPost = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtCustCode = New common.UserControls.txtNavigator()
+        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
+        Me.UsLock1 = New common.usLock()
+        Me.lblEmpCode = New common.Controls.MyLabel()
+        Me.gvDeduction = New common.UserControls.MyRadGridView()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -54,19 +55,10 @@ Partial Class frmClaimMaster
         Me.RadGroupBox3.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox3.Controls.Add(Me.SplitContainer1)
         Me.RadGroupBox3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox3.FooterImageIndex = -1
-        Me.RadGroupBox3.FooterImageKey = ""
-        Me.RadGroupBox3.HeaderImageIndex = -1
-        Me.RadGroupBox3.HeaderImageKey = ""
-        Me.RadGroupBox3.HeaderMargin = New System.Windows.Forms.Padding(0)
         Me.RadGroupBox3.HeaderText = ""
         Me.RadGroupBox3.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        '
-        '
-        '
-        Me.RadGroupBox3.RootElement.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(849, 510)
         Me.RadGroupBox3.TabIndex = 0
         '
@@ -97,13 +89,14 @@ Partial Class frmClaimMaster
         '
         'txtCustCode
         '
+        Me.txtCustCode.FieldName = Nothing
         Me.txtCustCode.Location = New System.Drawing.Point(104, 6)
         Me.txtCustCode.MendatroryField = False
         Me.txtCustCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtCustCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCustCode.MyLinkLable1 = Nothing
         Me.txtCustCode.MyLinkLable2 = Nothing
-        Me.txtCustCode.MyMaxLength = 32767
+        Me.txtCustCode.MyMaxLength = 12
         Me.txtCustCode.MyReadOnly = False
         Me.txtCustCode.Name = "txtCustCode"
         Me.txtCustCode.Size = New System.Drawing.Size(252, 20)
@@ -132,6 +125,7 @@ Partial Class frmClaimMaster
         '
         'lblEmpCode
         '
+        Me.lblEmpCode.FieldName = Nothing
         Me.lblEmpCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEmpCode.Location = New System.Drawing.Point(13, 8)
         Me.lblEmpCode.Name = "lblEmpCode"
@@ -142,8 +136,8 @@ Partial Class frmClaimMaster
         'gvDeduction
         '
         Me.gvDeduction.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gvDeduction.BackColor = System.Drawing.Color.FromArgb(CType(CType(191, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.gvDeduction.Cursor = System.Windows.Forms.Cursors.Default
         Me.gvDeduction.Font = New System.Drawing.Font("Arial", 8.25!)
@@ -151,21 +145,21 @@ Partial Class frmClaimMaster
         Me.gvDeduction.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvDeduction.Location = New System.Drawing.Point(9, 30)
         '
-        'gvDeduction
+        '
         '
         Me.gvDeduction.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvDeduction.MasterTemplate.AllowAddNewRow = False
         Me.gvDeduction.MasterTemplate.AutoGenerateColumns = False
         Me.gvDeduction.MasterTemplate.EnableGrouping = False
+        Me.gvDeduction.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvDeduction.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDeduction.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDeduction.MyStopExport = False
         Me.gvDeduction.Name = "gvDeduction"
         Me.gvDeduction.RightToLeft = System.Windows.Forms.RightToLeft.No
-        '
-        '
-        '
-        Me.gvDeduction.RootElement.ForeColor = System.Drawing.Color.Black
+        Me.gvDeduction.ShowHeaderCellButtons = True
         Me.gvDeduction.Size = New System.Drawing.Size(811, 397)
         Me.gvDeduction.TabIndex = 6
-        Me.gvDeduction.Text = "RadGridView4"
         '
         'btnPost
         '

@@ -25,6 +25,7 @@ Partial Class frmDCSforSale
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDCSforSale))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.chkActive = New common.Controls.MyCheckBox()
         Me.lblCustomerDesc = New common.Controls.MyLabel()
         Me.lblCustomer = New common.Controls.MyLabel()
         Me.lblZoneDesc = New common.Controls.MyLabel()
@@ -48,10 +49,10 @@ Partial Class frmDCSforSale
         Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenufile = New Telerik.WinControls.UI.RadMenu()
-        Me.chkActive = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.chkActive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomerDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblZoneDesc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -68,7 +69,6 @@ Partial Class frmDCSforSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkActive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -109,6 +109,17 @@ Partial Class frmDCSforSale
         Me.SplitContainer1.Size = New System.Drawing.Size(636, 224)
         Me.SplitContainer1.SplitterDistance = 175
         Me.SplitContainer1.TabIndex = 0
+        '
+        'chkActive
+        '
+        Me.chkActive.Location = New System.Drawing.Point(410, 13)
+        Me.chkActive.MyLinkLable1 = Nothing
+        Me.chkActive.MyLinkLable2 = Nothing
+        Me.chkActive.Name = "chkActive"
+        Me.chkActive.Size = New System.Drawing.Size(51, 18)
+        Me.chkActive.TabIndex = 60
+        Me.chkActive.Tag1 = Nothing
+        Me.chkActive.Text = "Active"
         '
         'lblCustomerDesc
         '
@@ -344,7 +355,7 @@ Partial Class frmDCSforSale
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblDescription
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(252, 21)
@@ -430,17 +441,6 @@ Partial Class frmDCSforSale
         Me.rdmenufile.Size = New System.Drawing.Size(636, 20)
         Me.rdmenufile.TabIndex = 8
         '
-        'chkActive
-        '
-        Me.chkActive.Location = New System.Drawing.Point(410, 13)
-        Me.chkActive.MyLinkLable1 = Nothing
-        Me.chkActive.MyLinkLable2 = Nothing
-        Me.chkActive.Name = "chkActive"
-        Me.chkActive.Size = New System.Drawing.Size(51, 18)
-        Me.chkActive.TabIndex = 60
-        Me.chkActive.Tag1 = Nothing
-        Me.chkActive.Text = "Active"
-        '
         'frmDCSforSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -458,6 +458,7 @@ Partial Class frmDCSforSale
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.chkActive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomerDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblZoneDesc, System.ComponentModel.ISupportInitialize).EndInit()
@@ -474,7 +475,6 @@ Partial Class frmDCSforSale
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkActive, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

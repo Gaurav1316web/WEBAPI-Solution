@@ -26,6 +26,9 @@ Partial Class frmOTSheet
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmOTSheet))
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblLocationName = New common.Controls.MyLabel()
+        Me.fndLocation = New common.UserControls.txtFinder()
+        Me.MyLabel9 = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
         Me.lblPayPeriod = New common.Controls.MyLabel()
         Me.txtPayPeriod = New common.UserControls.txtFinder()
@@ -60,11 +63,10 @@ Partial Class frmOTSheet
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel9 = New common.Controls.MyLabel()
-        Me.fndLocation = New common.UserControls.txtFinder()
-        Me.lblLocationName = New common.Controls.MyLabel()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPayPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtOtRate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,8 +91,6 @@ Partial Class frmOTSheet
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -128,6 +128,52 @@ Partial Class frmOTSheet
         Me.RadGroupBox1.Size = New System.Drawing.Size(618, 209)
         Me.RadGroupBox1.TabIndex = 0
         Me.RadGroupBox1.Text = " "
+        '
+        'lblLocationName
+        '
+        Me.lblLocationName.AutoSize = False
+        Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
+        Me.lblLocationName.Location = New System.Drawing.Point(317, 46)
+        Me.lblLocationName.Name = "lblLocationName"
+        Me.lblLocationName.Size = New System.Drawing.Size(288, 19)
+        Me.lblLocationName.TabIndex = 252
+        '
+        'fndLocation
+        '
+        Me.fndLocation.CalculationExpression = Nothing
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
+        Me.fndLocation.Location = New System.Drawing.Point(132, 46)
+        Me.fndLocation.MendatroryField = True
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndLocation.MyLinkLable1 = Me.MyLabel9
+        Me.fndLocation.MyLinkLable2 = Nothing
+        Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
+        Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
+        Me.fndLocation.Size = New System.Drawing.Size(181, 19)
+        Me.fndLocation.TabIndex = 251
+        Me.fndLocation.Value = ""
+        '
+        'MyLabel9
+        '
+        Me.MyLabel9.FieldName = Nothing
+        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel9.Location = New System.Drawing.Point(13, 47)
+        Me.MyLabel9.Name = "MyLabel9"
+        Me.MyLabel9.Size = New System.Drawing.Size(49, 16)
+        Me.MyLabel9.TabIndex = 250
+        Me.MyLabel9.Text = "Location"
         '
         'UsLock1
         '
@@ -407,7 +453,7 @@ Partial Class frmOTSheet
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(222, 21)
@@ -535,52 +581,6 @@ Partial Class frmOTSheet
         Me.btnPost.TabIndex = 2
         Me.btnPost.Text = "Post"
         '
-        'MyLabel9
-        '
-        Me.MyLabel9.FieldName = Nothing
-        Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(13, 47)
-        Me.MyLabel9.Name = "MyLabel9"
-        Me.MyLabel9.Size = New System.Drawing.Size(49, 16)
-        Me.MyLabel9.TabIndex = 250
-        Me.MyLabel9.Text = "Location"
-        '
-        'fndLocation
-        '
-        Me.fndLocation.CalculationExpression = Nothing
-        Me.fndLocation.FieldCode = Nothing
-        Me.fndLocation.FieldDesc = Nothing
-        Me.fndLocation.FieldMaxLength = 0
-        Me.fndLocation.FieldName = Nothing
-        Me.fndLocation.isCalculatedField = False
-        Me.fndLocation.IsSourceFromTable = False
-        Me.fndLocation.IsSourceFromValueList = False
-        Me.fndLocation.IsUnique = False
-        Me.fndLocation.Location = New System.Drawing.Point(132, 46)
-        Me.fndLocation.MendatroryField = True
-        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndLocation.MyLinkLable1 = Me.MyLabel9
-        Me.fndLocation.MyLinkLable2 = Nothing
-        Me.fndLocation.MyReadOnly = False
-        Me.fndLocation.MyShowMasterFormButton = False
-        Me.fndLocation.Name = "fndLocation"
-        Me.fndLocation.ReferenceFieldDesc = Nothing
-        Me.fndLocation.ReferenceFieldName = Nothing
-        Me.fndLocation.ReferenceTableName = Nothing
-        Me.fndLocation.Size = New System.Drawing.Size(181, 19)
-        Me.fndLocation.TabIndex = 251
-        Me.fndLocation.Value = ""
-        '
-        'lblLocationName
-        '
-        Me.lblLocationName.AutoSize = False
-        Me.lblLocationName.BorderVisible = True
-        Me.lblLocationName.FieldName = Nothing
-        Me.lblLocationName.Location = New System.Drawing.Point(317, 46)
-        Me.lblLocationName.Name = "lblLocationName"
-        Me.lblLocationName.Size = New System.Drawing.Size(288, 19)
-        Me.lblLocationName.TabIndex = 252
-        '
         'frmOTSheet
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -596,6 +596,8 @@ Partial Class frmOTSheet
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPayPeriod, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtOtRate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -621,8 +623,6 @@ Partial Class frmOTSheet
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

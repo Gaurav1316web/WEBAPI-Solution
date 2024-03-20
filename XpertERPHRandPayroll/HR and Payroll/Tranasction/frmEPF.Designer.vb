@@ -23,7 +23,7 @@ Partial Class frmEPF
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEPF))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -40,6 +40,7 @@ Partial Class frmEPF
         Me.lblRemarks = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
+        Me.btnreverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
@@ -47,7 +48,6 @@ Partial Class frmEPF
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnreverse = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -62,11 +62,11 @@ Partial Class frmEPF
         CType(Me.txtRemaks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -165,7 +165,7 @@ Partial Class frmEPF
         Me.gv1.MasterTemplate.EnableGrouping = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -319,7 +319,7 @@ Partial Class frmEPF
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(221, 21)
@@ -335,6 +335,17 @@ Partial Class frmEPF
         Me.lblCode.Size = New System.Drawing.Size(88, 16)
         Me.lblCode.TabIndex = 267
         Me.lblCode.Text = "Document Code"
+        '
+        'btnreverse
+        '
+        Me.btnreverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnreverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnreverse.Location = New System.Drawing.Point(228, 6)
+        Me.btnreverse.Name = "btnreverse"
+        Me.btnreverse.Size = New System.Drawing.Size(153, 18)
+        Me.btnreverse.TabIndex = 8
+        Me.btnreverse.Text = "Reverse and Unpost"
+        Me.btnreverse.Visible = False
         '
         'btnPost
         '
@@ -395,17 +406,6 @@ Partial Class frmEPF
         Me.RadMenuItem1.Text = "Import"
         Me.RadMenuItem1.UseCompatibleTextRendering = False
         '
-        'btnreverse
-        '
-        Me.btnreverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnreverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnreverse.Location = New System.Drawing.Point(228, 6)
-        Me.btnreverse.Name = "btnreverse"
-        Me.btnreverse.Size = New System.Drawing.Size(153, 18)
-        Me.btnreverse.TabIndex = 8
-        Me.btnreverse.Text = "Reverse and Unpost"
-        Me.btnreverse.Visible = False
-        '
         'frmEPF
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -433,11 +433,11 @@ Partial Class frmEPF
         CType(Me.txtRemaks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblRemarks, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnreverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
