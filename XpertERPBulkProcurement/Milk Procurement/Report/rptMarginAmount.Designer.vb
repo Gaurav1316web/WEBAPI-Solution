@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class rptDayWiseCollection
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+Partial Class rptMarginAmount
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()>
+    <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,9 +20,9 @@ Partial Class rptDayWiseCollection
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()>
+    <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -33,13 +33,10 @@ Partial Class rptDayWiseCollection
         Me.lblFromdate = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.btnreset = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btngo = New Telerik.WinControls.UI.RadButton()
-        Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
-        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnreset = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -55,11 +52,10 @@ Partial Class rptDayWiseCollection
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -76,13 +72,12 @@ Partial Class rptDayWiseCollection
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnreset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btngo)
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
-        Me.SplitContainer1.SplitterDistance = 420
+        Me.SplitContainer1.SplitterDistance = 418
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -93,7 +88,7 @@ Partial Class rptDayWiseCollection
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(800, 420)
+        Me.RadPageView1.Size = New System.Drawing.Size(800, 418)
         Me.RadPageView1.TabIndex = 6
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
@@ -103,7 +98,7 @@ Partial Class rptDayWiseCollection
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 372)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 370)
         Me.RadPageViewPage1.Text = "Filter"
         '
         'RadPanel1
@@ -115,7 +110,7 @@ Partial Class rptDayWiseCollection
         Me.RadPanel1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPanel1.Location = New System.Drawing.Point(0, 0)
         Me.RadPanel1.Name = "RadPanel1"
-        Me.RadPanel1.Size = New System.Drawing.Size(779, 372)
+        Me.RadPanel1.Size = New System.Drawing.Size(779, 370)
         Me.RadPanel1.TabIndex = 15
         '
         'txtFromDate
@@ -217,83 +212,61 @@ Partial Class rptDayWiseCollection
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition11
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(779, 368)
         Me.gv1.TabIndex = 2
         '
-        'btnclose
-        '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Location = New System.Drawing.Point(711, 4)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(77, 18)
-        Me.btnclose.TabIndex = 338
-        Me.btnclose.Text = "Close"
-        '
-        'btnreset
-        '
-        Me.btnreset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnreset.Location = New System.Drawing.Point(170, 4)
-        Me.btnreset.Name = "btnreset"
-        Me.btnreset.Size = New System.Drawing.Size(77, 18)
-        Me.btnreset.TabIndex = 337
-        Me.btnreset.Text = "Reset"
-        '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Location = New System.Drawing.Point(89, 4)
+        Me.btnPrint.Location = New System.Drawing.Point(83, 5)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(77, 18)
-        Me.btnPrint.TabIndex = 335
+        Me.btnPrint.TabIndex = 336
         Me.btnPrint.Text = "Print"
         '
         'btngo
         '
         Me.btngo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btngo.Location = New System.Drawing.Point(8, 4)
+        Me.btngo.Location = New System.Drawing.Point(3, 5)
         Me.btngo.Name = "btngo"
         Me.btngo.Size = New System.Drawing.Size(77, 18)
-        Me.btngo.TabIndex = 334
+        Me.btngo.TabIndex = 335
         Me.btngo.Text = ">>>"
         '
-        'btnExp
+        'btnreset
         '
-        Me.btnExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnExp.Location = New System.Drawing.Point(251, 4)
-        Me.btnExp.Name = "btnExp"
-        Me.btnExp.Size = New System.Drawing.Size(81, 18)
-        Me.btnExp.TabIndex = 339
-        Me.btnExp.Text = "Export"
+        Me.btnreset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnreset.Location = New System.Drawing.Point(163, 5)
+        Me.btnreset.Name = "btnreset"
+        Me.btnreset.Size = New System.Drawing.Size(77, 18)
+        Me.btnreset.TabIndex = 337
+        Me.btnreset.Text = "Reset"
         '
-        'rmiExcel
+        'btnclose
         '
-        Me.rmiExcel.Name = "rmiExcel"
-        Me.rmiExcel.Text = "Excel"
-        Me.rmiExcel.UseCompatibleTextRendering = False
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Location = New System.Drawing.Point(712, 5)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(77, 18)
+        Me.btnclose.TabIndex = 338
+        Me.btnclose.Text = "Close"
         '
-        'rmiPDF
-        '
-        Me.rmiPDF.Name = "rmiPDF"
-        Me.rmiPDF.Text = "PDF"
-        Me.rmiPDF.UseCompatibleTextRendering = False
-        '
-        'rptDayWiseCollection
+        'rptMarginAmount
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "rptDayWiseCollection"
+        Me.Name = "rptMarginAmount"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "rptDayWiseCollection"
+        Me.Text = "rptMarginAmount"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
@@ -310,11 +283,10 @@ Partial Class rptDayWiseCollection
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -330,11 +302,8 @@ Partial Class rptDayWiseCollection
     Friend WithEvents lblFromdate As common.Controls.MyLabel
     Friend WithEvents RadPageViewPage2 As RadPageViewPage
     Friend WithEvents gv1 As common.UserControls.MyRadGridView
-    Friend WithEvents btngo As RadButton
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents btngo As RadButton
     Friend WithEvents btnreset As RadButton
     Friend WithEvents btnclose As RadButton
-    Friend WithEvents btnExp As RadSplitButton
-    Friend WithEvents rmiExcel As RadMenuItem
-    Friend WithEvents rmiPDF As RadMenuItem
 End Class

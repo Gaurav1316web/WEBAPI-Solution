@@ -1,23 +1,21 @@
 ﻿Imports common
-Public Class rptDCSSecurity
+Public Class rptMarginAmount
     Inherits FrmMainTranScreen
     Dim isLoad As Boolean = False
-
-    Private Sub rptDCSSecurity_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+    Private Sub rptMarginAmount_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = clsCommon.GETSERVERDATE()
         SetUserMgmtNew()
         funreset()
+    End Sub
+    Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
+        Me.Close()
     End Sub
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
         End If
         btnPrint.Visible = MyBase.isPrintFlag
-    End Sub
-
-    Private Sub btnreset_Click(sender As Object, e As EventArgs) Handles btnreset.Click
-        funreset()
     End Sub
     Sub funreset()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
@@ -28,6 +26,10 @@ Public Class rptDCSSecurity
         gv1.Columns.Clear()
         gv1.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
+    End Sub
+
+    Private Sub txtFromDate_Validated(sender As Object, e As EventArgs) Handles txtFromDate.Validated
+        SetToDateNew()
     End Sub
     Sub SetToDateNew()
         If Not isLoad Then
@@ -83,34 +85,40 @@ Public Class rptDCSSecurity
             End If
         End If
     End Sub
-
-    Private Sub txtFromDate_Validated(sender As Object, e As EventArgs) Handles txtFromDate.Validated
-        SetToDateNew()
-    End Sub
-
     Private Sub txtFromDate_Leave(sender As Object, e As EventArgs) Handles txtFromDate.Leave
         SetToDateNew()
     End Sub
+
+    Private Sub btnreset_Click(sender As Object, e As EventArgs) Handles btnreset.Click
+        funreset()
+    End Sub
+
+    Private Sub btngo_Click(sender As Object, e As EventArgs) Handles btngo.Click
+        griddata()
+    End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-            Dim qry As String = "select '" + txtFromDate.Value + "' as Fromdate,'" + txtToDate.Value + "' as ToDate,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name
+            Dim qry As String = "select '" + txtFromDate.Value + "' as Fromdate,'" + txtToDate.Value + "' as ToDate,row_number() over(order by(select 1)) as SNo,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_COMPANY_MASTER.Comp_Name
+                                    ,Applicable_Value as [Formula]
                                     ,CASE when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then
                                     cast((TSPL_VENDOR_INVOICE_DETAIL.Total_Amount*100)/TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value as decimal(18,2)) 
                                      when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then
                                     cast(TSPL_VENDOR_INVOICE_DETAIL.Total_Amount/TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value as decimal(18,2)) 
-                                    else 0 end AS [Base Amount/Quantity] ,TSPL_COMPANY_MASTER.Comp_Name  ,TSPL_VENDOR_INVOICE_DETAIL.Total_Amount As [Addition/Deduction Amount]                                   
+                                    else 0 end AS [Base Amount/Quantity]                                    
+                                    ,TSPL_VENDOR_INVOICE_DETAIL.Total_Amount As [Addition/Deduction Amount]
+                                    
                                      from TSPL_VENDOR_INVOICE_DETAIL
                                     LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
                                     LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
                                     left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
                                     left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
-                                    left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VLC_MASTER_HEAD.comp_code
-                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'  and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=1 and  Applicable_DCS_Type=2 "
+									left join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=TSPL_VLC_MASTER_HEAD.comp_code
+                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'  and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=0 and Applicable_Value=2 order by VLC_Code_VLC_Uploader asc"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
-                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptDcsSecurity", "")
+                frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptMarginPerAmt", "")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -122,14 +130,20 @@ Public Class rptDCSSecurity
     End Sub
     Public Sub griddata()
         Try
-            Dim qry As String = "select   row_number() over(order by(select 1)) as SNo, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name
-                                    ,TSPL_VENDOR_INVOICE_DETAIL.Total_Amount As [Addition/Deduction Amount]                                   
+            Dim qry As String = "select row_number() over(order by(select 1)) as SNo, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name
+                                    ,Applicable_Value as [Formula]
+                                    ,CASE when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then
+                                    cast((TSPL_VENDOR_INVOICE_DETAIL.Total_Amount*100)/TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value as decimal(18,2)) 
+                                     when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then
+                                    cast(TSPL_VENDOR_INVOICE_DETAIL.Total_Amount/TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value as decimal(18,2)) 
+                                    else 0 end AS [Base Amount/Quantity]                                    
+                                    ,TSPL_VENDOR_INVOICE_DETAIL.Total_Amount As [Addition/Deduction Amount]
                                      from TSPL_VENDOR_INVOICE_DETAIL
                                     LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
                                     LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
                                     left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
                                     left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
-                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'  and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=1 and  Applicable_DCS_Type=2 "
+                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value) + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value) + "'  and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=0 and Applicable_Value=2 "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             gv1.DataSource = Nothing
             gv1.Rows.Clear()
@@ -177,11 +191,20 @@ Public Class rptDCSSecurity
         gv1.Columns("DCS Code").HeaderText = "DCS Code"
         gv1.Columns("DCS Code").Width = 250
         gv1.Columns("DCS Code").IsVisible = True
-        gv1.Columns("VLC_Name").FormatString = "{0:n2}"
+        'gv1.Columns("VLC_Name").FormatString = "{0:n2}"
 
         gv1.Columns("VLC_Name").HeaderText = "DCS Name"
         gv1.Columns("VLC_Name").Width = 500
 
+
+        gv1.Columns("Formula").HeaderText = "Formula"
+        gv1.Columns("Formula").Width = 250
+        gv1.Columns("Formula").FormatString = "{0:n2}"
+        gv1.Columns("Formula").IsVisible = False
+
+        gv1.Columns("Base Amount/Quantity").HeaderText = "Base Amount"
+        gv1.Columns("Base Amount/Quantity").Width = 500
+        gv1.Columns("Base Amount/Quantity").IsVisible = False
 
         gv1.Columns("Addition/Deduction Amount").HeaderText = "Amount"
         gv1.Columns("Addition/Deduction Amount").Width = 250
@@ -191,18 +214,6 @@ Public Class rptDCSSecurity
         Dim item1 As New GridViewSummaryItem("Addition/Deduction Amount", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
-    End Sub
-
-    Private Sub btngo_Click(sender As Object, e As EventArgs) Handles btngo.Click
-        griddata()
-    End Sub
-
-    Private Sub btnclose_Click(sender As Object, e As EventArgs) Handles btnclose.Click
-        Me.Close()
-    End Sub
-
-    Private Sub RadPanel1_Paint(sender As Object, e As PaintEventArgs) Handles RadPanel1.Paint
 
     End Sub
 End Class
