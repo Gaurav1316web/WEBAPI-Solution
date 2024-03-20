@@ -24,25 +24,26 @@ Partial Class FrmTemplateCreation
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.TxtTmplateId = New common.UserControls.txtNavigator
-        Me.lblvendor = New common.Controls.MyLabel
-        Me.txtDesc = New common.Controls.MyTextBox
-        Me.RadLabel12 = New common.Controls.MyLabel
-        Me.dtpStartDate = New common.Controls.MyDateTimePicker
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.dgvCustomer = New common.UserControls.MyRadGridView
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItemExportt = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItemImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItemExit = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.btnAddCustomer = New Telerik.WinControls.UI.RadButton
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.TxtTmplateId = New common.UserControls.txtNavigator()
+        Me.lblvendor = New common.Controls.MyLabel()
+        Me.txtDesc = New common.Controls.MyTextBox()
+        Me.RadLabel12 = New common.Controls.MyLabel()
+        Me.dtpStartDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.dgvCustomer = New common.UserControls.MyRadGridView()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItemExportt = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItemExit = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.btnAddCustomer = New Telerik.WinControls.UI.RadButton()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
         CType(Me.lblvendor, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -65,12 +66,14 @@ Partial Class FrmTemplateCreation
         '
         'TxtTmplateId
         '
+        Me.TxtTmplateId.FieldName = Nothing
         Me.TxtTmplateId.Location = New System.Drawing.Point(106, 5)
         Me.TxtTmplateId.MendatroryField = False
         Me.TxtTmplateId.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TxtTmplateId.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.TxtTmplateId.MyLinkLable1 = Me.lblvendor
         Me.TxtTmplateId.MyLinkLable2 = Nothing
-        Me.TxtTmplateId.MyMaxLength = 32767
+        Me.TxtTmplateId.MyMaxLength = 12
         Me.TxtTmplateId.MyReadOnly = False
         Me.TxtTmplateId.Name = "TxtTmplateId"
         Me.TxtTmplateId.Size = New System.Drawing.Size(243, 21)
@@ -79,6 +82,7 @@ Partial Class FrmTemplateCreation
         '
         'lblvendor
         '
+        Me.lblvendor.FieldName = Nothing
         Me.lblvendor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblvendor.Location = New System.Drawing.Point(13, 8)
         Me.lblvendor.Name = "lblvendor"
@@ -88,17 +92,30 @@ Partial Class FrmTemplateCreation
         '
         'txtDesc
         '
+        Me.txtDesc.CalculationExpression = Nothing
+        Me.txtDesc.FieldCode = Nothing
+        Me.txtDesc.FieldDesc = Nothing
+        Me.txtDesc.FieldMaxLength = 0
+        Me.txtDesc.FieldName = Nothing
+        Me.txtDesc.isCalculatedField = False
+        Me.txtDesc.IsSourceFromTable = False
+        Me.txtDesc.IsSourceFromValueList = False
+        Me.txtDesc.IsUnique = False
         Me.txtDesc.Location = New System.Drawing.Point(106, 28)
         Me.txtDesc.MaxLength = 50
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel12
         Me.txtDesc.MyLinkLable2 = Nothing
         Me.txtDesc.Name = "txtDesc"
+        Me.txtDesc.ReferenceFieldDesc = Nothing
+        Me.txtDesc.ReferenceFieldName = Nothing
+        Me.txtDesc.ReferenceTableName = Nothing
         Me.txtDesc.Size = New System.Drawing.Size(661, 20)
         Me.txtDesc.TabIndex = 2
         '
         'RadLabel12
         '
+        Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.Location = New System.Drawing.Point(13, 29)
         Me.RadLabel12.Name = "RadLabel12"
@@ -108,22 +125,35 @@ Partial Class FrmTemplateCreation
         '
         'dtpStartDate
         '
-        Me.dtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.[Long]
+        Me.dtpStartDate.CalculationExpression = Nothing
+        Me.dtpStartDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.dtpStartDate.FieldCode = Nothing
+        Me.dtpStartDate.FieldDesc = Nothing
+        Me.dtpStartDate.FieldMaxLength = 0
+        Me.dtpStartDate.FieldName = Nothing
+        Me.dtpStartDate.isCalculatedField = False
+        Me.dtpStartDate.IsSourceFromTable = False
+        Me.dtpStartDate.IsSourceFromValueList = False
+        Me.dtpStartDate.IsUnique = False
         Me.dtpStartDate.Location = New System.Drawing.Point(106, 50)
-        Me.dtpStartDate.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
         Me.dtpStartDate.MendatroryField = False
         Me.dtpStartDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpStartDate.MyLinkLable1 = Me.RadLabel1
         Me.dtpStartDate.MyLinkLable2 = Nothing
         Me.dtpStartDate.Name = "dtpStartDate"
         Me.dtpStartDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpStartDate.ReferenceFieldDesc = Nothing
+        Me.dtpStartDate.ReferenceFieldName = Nothing
+        Me.dtpStartDate.ReferenceTableName = Nothing
         Me.dtpStartDate.Size = New System.Drawing.Size(116, 20)
         Me.dtpStartDate.TabIndex = 3
-        Me.dtpStartDate.Text = "RadDateTimePicker1"
+        Me.dtpStartDate.TabStop = False
+        Me.dtpStartDate.Text = "Tuesday, March 13, 2012"
         Me.dtpStartDate.Value = New Date(2012, 3, 13, 12, 7, 19, 78)
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(13, 51)
         Me.RadLabel1.Name = "RadLabel1"
@@ -171,18 +201,18 @@ Partial Class FrmTemplateCreation
         Me.dgvCustomer.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgvCustomer.Location = New System.Drawing.Point(0, 76)
         '
-        'dgvCustomer
+        '
         '
         Me.dgvCustomer.MasterTemplate.EnableGrouping = False
+        Me.dgvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.dgvCustomer.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvCustomer.MyStopExport = False
         Me.dgvCustomer.Name = "dgvCustomer"
         Me.dgvCustomer.RightToLeft = System.Windows.Forms.RightToLeft.No
-        '
-        '
-        '
-        Me.dgvCustomer.RootElement.ForeColor = System.Drawing.Color.Black
+        Me.dgvCustomer.ShowHeaderCellButtons = True
         Me.dgvCustomer.Size = New System.Drawing.Size(776, 229)
         Me.dgvCustomer.TabIndex = 1
-        Me.dgvCustomer.Text = "RadGridView1"
         '
         'RadMenu1
         '
@@ -192,41 +222,27 @@ Partial Class FrmTemplateCreation
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(776, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
-        Me.RadMenuItemExport.Class = ""
         Me.RadMenuItemExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItemExportt, Me.RadMenuItemImport, Me.RadMenuItemExit})
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
-        Me.RadMenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItemExportt
         '
-        Me.RadMenuItemExportt.AccessibleDescription = "Export"
-        Me.RadMenuItemExportt.AccessibleName = "Export"
         Me.RadMenuItemExportt.Name = "RadMenuItemExportt"
         Me.RadMenuItemExportt.Text = "Export"
-        Me.RadMenuItemExportt.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItemImport
         '
-        Me.RadMenuItemImport.AccessibleDescription = "Import"
-        Me.RadMenuItemImport.AccessibleName = "Import"
         Me.RadMenuItemImport.Name = "RadMenuItemImport"
         Me.RadMenuItemImport.Text = "Import"
-        Me.RadMenuItemImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItemExit
         '
-        Me.RadMenuItemExit.AccessibleDescription = "Exit"
-        Me.RadMenuItemExit.AccessibleName = "Exit"
         Me.RadMenuItemExit.Name = "RadMenuItemExit"
         Me.RadMenuItemExit.Text = "Exit"
-        Me.RadMenuItemExit.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer1
         '
@@ -290,7 +306,6 @@ Partial Class FrmTemplateCreation
         Me.ClientSize = New System.Drawing.Size(776, 354)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
-        Me.KeyPreview = True
         Me.Name = "FrmTemplateCreation"
         '
         '

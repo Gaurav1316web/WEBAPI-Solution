@@ -24,9 +24,12 @@ Partial Class frmLeaveApplication
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblLocationName = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
+        Me.fndLocation = New common.UserControls.txtFinder()
+        Me.MyLabel17 = New common.Controls.MyLabel()
         Me.lblLeaveName = New common.Controls.MyLabel()
         Me.lblEmpName = New common.Controls.MyLabel()
         Me.lblPayPeriodName = New common.Controls.MyLabel()
@@ -62,12 +65,11 @@ Partial Class frmLeaveApplication
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.lblLocationName = New common.Controls.MyLabel()
-        Me.fndLocation = New common.UserControls.txtFinder()
-        Me.MyLabel17 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLeaveName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblEmpName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPayPeriodName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -98,8 +100,6 @@ Partial Class frmLeaveApplication
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -157,6 +157,16 @@ Partial Class frmLeaveApplication
         Me.SplitContainer1.SplitterDistance = 477
         Me.SplitContainer1.TabIndex = 0
         '
+        'lblLocationName
+        '
+        Me.lblLocationName.AutoSize = False
+        Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
+        Me.lblLocationName.Location = New System.Drawing.Point(370, 99)
+        Me.lblLocationName.Name = "lblLocationName"
+        Me.lblLocationName.Size = New System.Drawing.Size(256, 19)
+        Me.lblLocationName.TabIndex = 261
+        '
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
@@ -166,6 +176,42 @@ Partial Class frmLeaveApplication
         Me.UsLock1.Size = New System.Drawing.Size(98, 20)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 187
+        '
+        'fndLocation
+        '
+        Me.fndLocation.CalculationExpression = Nothing
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
+        Me.fndLocation.Location = New System.Drawing.Point(145, 99)
+        Me.fndLocation.MendatroryField = True
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndLocation.MyLinkLable1 = Me.MyLabel17
+        Me.fndLocation.MyLinkLable2 = Nothing
+        Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
+        Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
+        Me.fndLocation.Size = New System.Drawing.Size(221, 19)
+        Me.fndLocation.TabIndex = 259
+        Me.fndLocation.Value = ""
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel17.Location = New System.Drawing.Point(23, 99)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(49, 18)
+        Me.MyLabel17.TabIndex = 260
+        Me.MyLabel17.Text = "Location"
         '
         'lblLeaveName
         '
@@ -518,7 +564,8 @@ Partial Class frmLeaveApplication
         Me.gv1.MasterTemplate.EnableGrouping = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowHeaderCellButtons = True
@@ -571,7 +618,7 @@ Partial Class frmLeaveApplication
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblLeaveApplicationCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(221, 21)
@@ -662,52 +709,6 @@ Partial Class frmLeaveApplication
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Mail Receipt"
         '
-        'lblLocationName
-        '
-        Me.lblLocationName.AutoSize = False
-        Me.lblLocationName.BorderVisible = True
-        Me.lblLocationName.FieldName = Nothing
-        Me.lblLocationName.Location = New System.Drawing.Point(370, 99)
-        Me.lblLocationName.Name = "lblLocationName"
-        Me.lblLocationName.Size = New System.Drawing.Size(256, 19)
-        Me.lblLocationName.TabIndex = 261
-        '
-        'fndLocation
-        '
-        Me.fndLocation.CalculationExpression = Nothing
-        Me.fndLocation.FieldCode = Nothing
-        Me.fndLocation.FieldDesc = Nothing
-        Me.fndLocation.FieldMaxLength = 0
-        Me.fndLocation.FieldName = Nothing
-        Me.fndLocation.isCalculatedField = False
-        Me.fndLocation.IsSourceFromTable = False
-        Me.fndLocation.IsSourceFromValueList = False
-        Me.fndLocation.IsUnique = False
-        Me.fndLocation.Location = New System.Drawing.Point(145, 99)
-        Me.fndLocation.MendatroryField = True
-        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndLocation.MyLinkLable1 = Me.MyLabel17
-        Me.fndLocation.MyLinkLable2 = Nothing
-        Me.fndLocation.MyReadOnly = False
-        Me.fndLocation.MyShowMasterFormButton = False
-        Me.fndLocation.Name = "fndLocation"
-        Me.fndLocation.ReferenceFieldDesc = Nothing
-        Me.fndLocation.ReferenceFieldName = Nothing
-        Me.fndLocation.ReferenceTableName = Nothing
-        Me.fndLocation.Size = New System.Drawing.Size(221, 19)
-        Me.fndLocation.TabIndex = 259
-        Me.fndLocation.Value = ""
-        '
-        'MyLabel17
-        '
-        Me.MyLabel17.FieldName = Nothing
-        Me.MyLabel17.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel17.Location = New System.Drawing.Point(23, 99)
-        Me.MyLabel17.Name = "MyLabel17"
-        Me.MyLabel17.Size = New System.Drawing.Size(49, 18)
-        Me.MyLabel17.TabIndex = 260
-        Me.MyLabel17.Text = "Location"
-        '
         'frmLeaveApplication
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -725,6 +726,8 @@ Partial Class frmLeaveApplication
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLeaveName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblEmpName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPayPeriodName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -755,8 +758,6 @@ Partial Class frmLeaveApplication
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

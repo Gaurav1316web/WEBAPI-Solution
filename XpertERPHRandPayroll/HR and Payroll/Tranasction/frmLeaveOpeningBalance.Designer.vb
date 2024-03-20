@@ -26,6 +26,7 @@ Partial Class frmLeaveOpeningBalance
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLeaveOpeningBalance))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.dtpOpeningDate = New common.Controls.MyDateTimePicker()
         Me.lblPayPeriodName = New common.Controls.MyLabel()
         Me.fndPayPeriod = New common.UserControls.txtFinder()
         Me.lblPayPeriod = New common.Controls.MyLabel()
@@ -49,10 +50,10 @@ Partial Class frmLeaveOpeningBalance
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.dtpOpeningDate = New common.Controls.MyDateTimePicker()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.dtpOpeningDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPayPeriodName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPayPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLeaveDesc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -68,7 +69,6 @@ Partial Class frmLeaveOpeningBalance
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpOpeningDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -110,18 +110,54 @@ Partial Class frmLeaveOpeningBalance
         Me.SplitContainer1.SplitterDistance = 197
         Me.SplitContainer1.TabIndex = 0
         '
+        'dtpOpeningDate
+        '
+        Me.dtpOpeningDate.CalculationExpression = Nothing
+        Me.dtpOpeningDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.dtpOpeningDate.FieldCode = Nothing
+        Me.dtpOpeningDate.FieldDesc = Nothing
+        Me.dtpOpeningDate.FieldMaxLength = 0
+        Me.dtpOpeningDate.FieldName = Nothing
+        Me.dtpOpeningDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
+        Me.dtpOpeningDate.isCalculatedField = False
+        Me.dtpOpeningDate.IsSourceFromTable = False
+        Me.dtpOpeningDate.IsSourceFromValueList = False
+        Me.dtpOpeningDate.IsUnique = False
+        Me.dtpOpeningDate.Location = New System.Drawing.Point(133, 119)
+        Me.dtpOpeningDate.MendatroryField = False
+        Me.dtpOpeningDate.MyLinkLable1 = Nothing
+        Me.dtpOpeningDate.MyLinkLable2 = Nothing
+        Me.dtpOpeningDate.Name = "dtpOpeningDate"
+        Me.dtpOpeningDate.ReferenceFieldDesc = Nothing
+        Me.dtpOpeningDate.ReferenceFieldName = Nothing
+        Me.dtpOpeningDate.ReferenceTableName = Nothing
+        Me.dtpOpeningDate.Size = New System.Drawing.Size(195, 20)
+        Me.dtpOpeningDate.TabIndex = 176
+        Me.dtpOpeningDate.TabStop = False
+        Me.dtpOpeningDate.Text = "30/10/2015"
+        Me.dtpOpeningDate.Value = New Date(2015, 10, 30, 11, 14, 30, 0)
+        '
         'lblPayPeriodName
         '
         Me.lblPayPeriodName.AutoSize = False
         Me.lblPayPeriodName.BorderVisible = True
+        Me.lblPayPeriodName.FieldName = Nothing
         Me.lblPayPeriodName.Location = New System.Drawing.Point(336, 97)
         Me.lblPayPeriodName.Name = "lblPayPeriodName"
         Me.lblPayPeriodName.Size = New System.Drawing.Size(288, 19)
         Me.lblPayPeriodName.TabIndex = 175
-        Me.lblPayPeriodName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndPayPeriod
         '
+        Me.fndPayPeriod.CalculationExpression = Nothing
+        Me.fndPayPeriod.FieldCode = Nothing
+        Me.fndPayPeriod.FieldDesc = Nothing
+        Me.fndPayPeriod.FieldMaxLength = 0
+        Me.fndPayPeriod.FieldName = Nothing
+        Me.fndPayPeriod.isCalculatedField = False
+        Me.fndPayPeriod.IsSourceFromTable = False
+        Me.fndPayPeriod.IsSourceFromValueList = False
+        Me.fndPayPeriod.IsUnique = False
         Me.fndPayPeriod.Location = New System.Drawing.Point(133, 97)
         Me.fndPayPeriod.MendatroryField = True
         Me.fndPayPeriod.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -130,12 +166,16 @@ Partial Class frmLeaveOpeningBalance
         Me.fndPayPeriod.MyReadOnly = False
         Me.fndPayPeriod.MyShowMasterFormButton = False
         Me.fndPayPeriod.Name = "fndPayPeriod"
+        Me.fndPayPeriod.ReferenceFieldDesc = Nothing
+        Me.fndPayPeriod.ReferenceFieldName = Nothing
+        Me.fndPayPeriod.ReferenceTableName = Nothing
         Me.fndPayPeriod.Size = New System.Drawing.Size(195, 19)
         Me.fndPayPeriod.TabIndex = 174
         Me.fndPayPeriod.Value = ""
         '
         'lblPayPeriod
         '
+        Me.lblPayPeriod.FieldName = Nothing
         Me.lblPayPeriod.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPayPeriod.Location = New System.Drawing.Point(15, 100)
         Me.lblPayPeriod.Name = "lblPayPeriod"
@@ -147,24 +187,25 @@ Partial Class frmLeaveOpeningBalance
         '
         Me.lblLeaveDesc.AutoSize = False
         Me.lblLeaveDesc.BorderVisible = True
+        Me.lblLeaveDesc.FieldName = Nothing
         Me.lblLeaveDesc.Location = New System.Drawing.Point(336, 75)
         Me.lblLeaveDesc.Name = "lblLeaveDesc"
         Me.lblLeaveDesc.Size = New System.Drawing.Size(288, 19)
         Me.lblLeaveDesc.TabIndex = 172
-        Me.lblLeaveDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblEmpName
         '
         Me.lblEmpName.AutoSize = False
         Me.lblEmpName.BorderVisible = True
+        Me.lblEmpName.FieldName = Nothing
         Me.lblEmpName.Location = New System.Drawing.Point(336, 52)
         Me.lblEmpName.Name = "lblEmpName"
         Me.lblEmpName.Size = New System.Drawing.Size(288, 19)
         Me.lblEmpName.TabIndex = 170
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel6
         '
+        Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel6.Location = New System.Drawing.Point(12, 56)
         Me.MyLabel6.Name = "MyLabel6"
@@ -174,6 +215,15 @@ Partial Class frmLeaveOpeningBalance
         '
         'txtEmpCode
         '
+        Me.txtEmpCode.CalculationExpression = Nothing
+        Me.txtEmpCode.FieldCode = Nothing
+        Me.txtEmpCode.FieldDesc = Nothing
+        Me.txtEmpCode.FieldMaxLength = 0
+        Me.txtEmpCode.FieldName = Nothing
+        Me.txtEmpCode.isCalculatedField = False
+        Me.txtEmpCode.IsSourceFromTable = False
+        Me.txtEmpCode.IsSourceFromValueList = False
+        Me.txtEmpCode.IsUnique = False
         Me.txtEmpCode.Location = New System.Drawing.Point(133, 52)
         Me.txtEmpCode.MendatroryField = True
         Me.txtEmpCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -182,6 +232,9 @@ Partial Class frmLeaveOpeningBalance
         Me.txtEmpCode.MyReadOnly = False
         Me.txtEmpCode.MyShowMasterFormButton = False
         Me.txtEmpCode.Name = "txtEmpCode"
+        Me.txtEmpCode.ReferenceFieldDesc = Nothing
+        Me.txtEmpCode.ReferenceFieldName = Nothing
+        Me.txtEmpCode.ReferenceTableName = Nothing
         Me.txtEmpCode.Size = New System.Drawing.Size(197, 19)
         Me.txtEmpCode.TabIndex = 169
         Me.txtEmpCode.Value = ""
@@ -193,34 +246,25 @@ Partial Class frmLeaveOpeningBalance
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(631, 20)
         Me.RadMenu2.TabIndex = 168
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
         '
@@ -235,13 +279,14 @@ Partial Class frmLeaveOpeningBalance
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(131, 26)
         Me.txtCode.MendatroryField = False
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.MyLabel4
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(199, 21)
@@ -250,6 +295,7 @@ Partial Class frmLeaveOpeningBalance
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(12, 30)
         Me.MyLabel4.Name = "MyLabel4"
@@ -259,6 +305,15 @@ Partial Class frmLeaveOpeningBalance
         '
         'txtLeaveCode
         '
+        Me.txtLeaveCode.CalculationExpression = Nothing
+        Me.txtLeaveCode.FieldCode = Nothing
+        Me.txtLeaveCode.FieldDesc = Nothing
+        Me.txtLeaveCode.FieldMaxLength = 0
+        Me.txtLeaveCode.FieldName = Nothing
+        Me.txtLeaveCode.isCalculatedField = False
+        Me.txtLeaveCode.IsSourceFromTable = False
+        Me.txtLeaveCode.IsSourceFromValueList = False
+        Me.txtLeaveCode.IsUnique = False
         Me.txtLeaveCode.Location = New System.Drawing.Point(133, 76)
         Me.txtLeaveCode.MendatroryField = True
         Me.txtLeaveCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -267,12 +322,16 @@ Partial Class frmLeaveOpeningBalance
         Me.txtLeaveCode.MyReadOnly = False
         Me.txtLeaveCode.MyShowMasterFormButton = False
         Me.txtLeaveCode.Name = "txtLeaveCode"
+        Me.txtLeaveCode.ReferenceFieldDesc = Nothing
+        Me.txtLeaveCode.ReferenceFieldName = Nothing
+        Me.txtLeaveCode.ReferenceTableName = Nothing
         Me.txtLeaveCode.Size = New System.Drawing.Size(195, 19)
         Me.txtLeaveCode.TabIndex = 3
         Me.txtLeaveCode.Value = ""
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(12, 78)
         Me.MyLabel2.Name = "MyLabel2"
@@ -282,6 +341,7 @@ Partial Class frmLeaveOpeningBalance
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(12, 150)
         Me.MyLabel3.Name = "MyLabel3"
@@ -292,21 +352,34 @@ Partial Class frmLeaveOpeningBalance
         'txtOpeningBalance
         '
         Me.txtOpeningBalance.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtOpeningBalance.CalculationExpression = Nothing
         Me.txtOpeningBalance.DecimalPlaces = 2
+        Me.txtOpeningBalance.FieldCode = Nothing
+        Me.txtOpeningBalance.FieldDesc = Nothing
+        Me.txtOpeningBalance.FieldMaxLength = 0
+        Me.txtOpeningBalance.FieldName = Nothing
+        Me.txtOpeningBalance.isCalculatedField = False
+        Me.txtOpeningBalance.IsSourceFromTable = False
+        Me.txtOpeningBalance.IsSourceFromValueList = False
+        Me.txtOpeningBalance.IsUnique = False
         Me.txtOpeningBalance.Location = New System.Drawing.Point(133, 145)
         Me.txtOpeningBalance.MaxLength = 6
         Me.txtOpeningBalance.MendatroryField = True
         Me.txtOpeningBalance.MyLinkLable1 = Me.MyLabel4
         Me.txtOpeningBalance.MyLinkLable2 = Nothing
         Me.txtOpeningBalance.Name = "txtOpeningBalance"
+        Me.txtOpeningBalance.ReferenceFieldDesc = Nothing
+        Me.txtOpeningBalance.ReferenceFieldName = Nothing
+        Me.txtOpeningBalance.ReferenceTableName = Nothing
         Me.txtOpeningBalance.Size = New System.Drawing.Size(197, 20)
         Me.txtOpeningBalance.TabIndex = 5
         Me.txtOpeningBalance.Text = "0"
         Me.txtOpeningBalance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtOpeningBalance.Value = 0.0R
+        Me.txtOpeningBalance.Value = 0R
         '
         'lblOpeningDate
         '
+        Me.lblOpeningDate.FieldName = Nothing
         Me.lblOpeningDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblOpeningDate.Location = New System.Drawing.Point(12, 125)
         Me.lblOpeningDate.Name = "lblOpeningDate"
@@ -344,21 +417,6 @@ Partial Class frmLeaveOpeningBalance
         Me.btnclose.TabIndex = 2
         Me.btnclose.Text = "Close"
         '
-        'dtpOpeningDate
-        '
-        Me.dtpOpeningDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
-        Me.dtpOpeningDate.Format = System.Windows.Forms.DateTimePickerFormat.[Short]
-        Me.dtpOpeningDate.Location = New System.Drawing.Point(133, 119)
-        Me.dtpOpeningDate.MendatroryField = False
-        Me.dtpOpeningDate.MyLinkLable1 = Nothing
-        Me.dtpOpeningDate.MyLinkLable2 = Nothing
-        Me.dtpOpeningDate.Name = "dtpOpeningDate"
-        Me.dtpOpeningDate.Size = New System.Drawing.Size(195, 20)
-        Me.dtpOpeningDate.TabIndex = 176
-        Me.dtpOpeningDate.TabStop = False
-        Me.dtpOpeningDate.Text = "30/10/2015"
-        Me.dtpOpeningDate.Value = New Date(2015, 10, 30, 11, 14, 30, 0)
-        '
         'frmLeaveOpeningBalance
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -375,6 +433,7 @@ Partial Class frmLeaveOpeningBalance
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.dtpOpeningDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPayPeriodName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPayPeriod, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLeaveDesc, System.ComponentModel.ISupportInitialize).EndInit()
@@ -390,7 +449,6 @@ Partial Class frmLeaveOpeningBalance
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpOpeningDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

@@ -196,16 +196,25 @@ Partial Class FrmEmployeeTransfer
         '
         Me.lblChangedDivisionName.AutoSize = False
         Me.lblChangedDivisionName.BorderVisible = True
+        Me.lblChangedDivisionName.FieldName = Nothing
         Me.lblChangedDivisionName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChangedDivisionName.Location = New System.Drawing.Point(315, 274)
         Me.lblChangedDivisionName.Name = "lblChangedDivisionName"
         Me.lblChangedDivisionName.Size = New System.Drawing.Size(180, 18)
         Me.lblChangedDivisionName.TabIndex = 430
-        Me.lblChangedDivisionName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblChangedDivisionName.TextWrap = False
         '
         'fndChangedDivision
         '
+        Me.fndChangedDivision.CalculationExpression = Nothing
+        Me.fndChangedDivision.FieldCode = Nothing
+        Me.fndChangedDivision.FieldDesc = Nothing
+        Me.fndChangedDivision.FieldMaxLength = 0
+        Me.fndChangedDivision.FieldName = Nothing
+        Me.fndChangedDivision.isCalculatedField = False
+        Me.fndChangedDivision.IsSourceFromTable = False
+        Me.fndChangedDivision.IsSourceFromValueList = False
+        Me.fndChangedDivision.IsUnique = False
         Me.fndChangedDivision.Location = New System.Drawing.Point(128, 274)
         Me.fndChangedDivision.MendatroryField = True
         Me.fndChangedDivision.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -214,12 +223,16 @@ Partial Class FrmEmployeeTransfer
         Me.fndChangedDivision.MyReadOnly = False
         Me.fndChangedDivision.MyShowMasterFormButton = False
         Me.fndChangedDivision.Name = "fndChangedDivision"
+        Me.fndChangedDivision.ReferenceFieldDesc = Nothing
+        Me.fndChangedDivision.ReferenceFieldName = Nothing
+        Me.fndChangedDivision.ReferenceTableName = Nothing
         Me.fndChangedDivision.Size = New System.Drawing.Size(181, 19)
         Me.fndChangedDivision.TabIndex = 429
         Me.fndChangedDivision.Value = ""
         '
         'lblChangedDivision
         '
+        Me.lblChangedDivision.FieldName = Nothing
         Me.lblChangedDivision.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChangedDivision.Location = New System.Drawing.Point(14, 277)
         Me.lblChangedDivision.Name = "lblChangedDivision"
@@ -231,28 +244,29 @@ Partial Class FrmEmployeeTransfer
         '
         Me.lblCurrentDivisionName.AutoSize = False
         Me.lblCurrentDivisionName.BorderVisible = True
+        Me.lblCurrentDivisionName.FieldName = Nothing
         Me.lblCurrentDivisionName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCurrentDivisionName.Location = New System.Drawing.Point(316, 187)
         Me.lblCurrentDivisionName.Name = "lblCurrentDivisionName"
         Me.lblCurrentDivisionName.Size = New System.Drawing.Size(180, 18)
         Me.lblCurrentDivisionName.TabIndex = 427
-        Me.lblCurrentDivisionName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCurrentDivisionName.TextWrap = False
         '
         'lblCurrentDivisionCode
         '
         Me.lblCurrentDivisionCode.AutoSize = False
         Me.lblCurrentDivisionCode.BorderVisible = True
+        Me.lblCurrentDivisionCode.FieldName = Nothing
         Me.lblCurrentDivisionCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCurrentDivisionCode.Location = New System.Drawing.Point(130, 187)
         Me.lblCurrentDivisionCode.Name = "lblCurrentDivisionCode"
         Me.lblCurrentDivisionCode.Size = New System.Drawing.Size(180, 18)
         Me.lblCurrentDivisionCode.TabIndex = 426
-        Me.lblCurrentDivisionCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCurrentDivisionCode.TextWrap = False
         '
         'lblCurrentDivision
         '
+        Me.lblCurrentDivision.FieldName = Nothing
         Me.lblCurrentDivision.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblCurrentDivision.Location = New System.Drawing.Point(14, 189)
         Me.lblCurrentDivision.Name = "lblCurrentDivision"
@@ -264,16 +278,17 @@ Partial Class FrmEmployeeTransfer
         '
         Me.lblPreviousSalary.AutoSize = False
         Me.lblPreviousSalary.BorderVisible = True
+        Me.lblPreviousSalary.FieldName = Nothing
         Me.lblPreviousSalary.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPreviousSalary.Location = New System.Drawing.Point(317, 294)
         Me.lblPreviousSalary.Name = "lblPreviousSalary"
         Me.lblPreviousSalary.Size = New System.Drawing.Size(180, 18)
         Me.lblPreviousSalary.TabIndex = 424
-        Me.lblPreviousSalary.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblPreviousSalary.TextWrap = False
         '
         'lblEffDate
         '
+        Me.lblEffDate.FieldName = Nothing
         Me.lblEffDate.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblEffDate.Location = New System.Drawing.Point(427, 36)
         Me.lblEffDate.Name = "lblEffDate"
@@ -283,8 +298,17 @@ Partial Class FrmEmployeeTransfer
         '
         'txtEffDate
         '
+        Me.txtEffDate.CalculationExpression = Nothing
         Me.txtEffDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtEffDate.FieldCode = Nothing
+        Me.txtEffDate.FieldDesc = Nothing
+        Me.txtEffDate.FieldMaxLength = 0
+        Me.txtEffDate.FieldName = Nothing
         Me.txtEffDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtEffDate.isCalculatedField = False
+        Me.txtEffDate.IsSourceFromTable = False
+        Me.txtEffDate.IsSourceFromValueList = False
+        Me.txtEffDate.IsUnique = False
         Me.txtEffDate.Location = New System.Drawing.Point(507, 35)
         Me.txtEffDate.MendatroryField = False
         Me.txtEffDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -292,6 +316,9 @@ Partial Class FrmEmployeeTransfer
         Me.txtEffDate.MyLinkLable2 = Nothing
         Me.txtEffDate.Name = "txtEffDate"
         Me.txtEffDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtEffDate.ReferenceFieldDesc = Nothing
+        Me.txtEffDate.ReferenceFieldName = Nothing
+        Me.txtEffDate.ReferenceTableName = Nothing
         Me.txtEffDate.Size = New System.Drawing.Size(142, 20)
         Me.txtEffDate.TabIndex = 422
         Me.txtEffDate.TabStop = False
@@ -300,6 +327,7 @@ Partial Class FrmEmployeeTransfer
         '
         'lblSalaryAffected
         '
+        Me.lblSalaryAffected.FieldName = Nothing
         Me.lblSalaryAffected.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSalaryAffected.Location = New System.Drawing.Point(16, 293)
         Me.lblSalaryAffected.Name = "lblSalaryAffected"
@@ -321,12 +349,12 @@ Partial Class FrmEmployeeTransfer
         '
         Me.lblSalaryCode.AutoSize = False
         Me.lblSalaryCode.BorderVisible = True
+        Me.lblSalaryCode.FieldName = Nothing
         Me.lblSalaryCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSalaryCode.Location = New System.Drawing.Point(92, 16)
         Me.lblSalaryCode.Name = "lblSalaryCode"
         Me.lblSalaryCode.Size = New System.Drawing.Size(272, 18)
         Me.lblSalaryCode.TabIndex = 160
-        Me.lblSalaryCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblSalaryCode.TextWrap = False
         '
         'btnProceed
@@ -343,8 +371,18 @@ Partial Class FrmEmployeeTransfer
         '
         Me.cboSalary.AutoCompleteDisplayMember = Nothing
         Me.cboSalary.AutoCompleteValueMember = Nothing
+        Me.cboSalary.CalculationExpression = Nothing
+        Me.cboSalary.DropDownAnimationEnabled = True
         Me.cboSalary.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboSalary.FieldCode = Nothing
+        Me.cboSalary.FieldDesc = Nothing
+        Me.cboSalary.FieldMaxLength = 0
+        Me.cboSalary.FieldName = Nothing
         Me.cboSalary.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboSalary.isCalculatedField = False
+        Me.cboSalary.IsSourceFromTable = False
+        Me.cboSalary.IsSourceFromValueList = False
+        Me.cboSalary.IsUnique = False
         RadListDataItem1.Text = "Yes"
         RadListDataItem2.Text = "No"
         Me.cboSalary.Items.Add(RadListDataItem1)
@@ -354,11 +392,15 @@ Partial Class FrmEmployeeTransfer
         Me.cboSalary.MyLinkLable1 = Me.lblDocType
         Me.cboSalary.MyLinkLable2 = Nothing
         Me.cboSalary.Name = "cboSalary"
+        Me.cboSalary.ReferenceFieldDesc = Nothing
+        Me.cboSalary.ReferenceFieldName = Nothing
+        Me.cboSalary.ReferenceTableName = Nothing
         Me.cboSalary.Size = New System.Drawing.Size(184, 18)
         Me.cboSalary.TabIndex = 160
         '
         'lblDocType
         '
+        Me.lblDocType.FieldName = Nothing
         Me.lblDocType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDocType.Location = New System.Drawing.Point(13, 37)
         Me.lblDocType.Name = "lblDocType"
@@ -379,6 +421,7 @@ Partial Class FrmEmployeeTransfer
         '
         'lblDate
         '
+        Me.lblDate.FieldName = Nothing
         Me.lblDate.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblDate.Location = New System.Drawing.Point(427, 17)
         Me.lblDate.Name = "lblDate"
@@ -388,8 +431,17 @@ Partial Class FrmEmployeeTransfer
         '
         'txtDate
         '
+        Me.txtDate.CalculationExpression = Nothing
         Me.txtDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtDate.FieldCode = Nothing
+        Me.txtDate.FieldDesc = Nothing
+        Me.txtDate.FieldMaxLength = 0
+        Me.txtDate.FieldName = Nothing
         Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.isCalculatedField = False
+        Me.txtDate.IsSourceFromTable = False
+        Me.txtDate.IsSourceFromValueList = False
+        Me.txtDate.IsUnique = False
         Me.txtDate.Location = New System.Drawing.Point(507, 15)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -397,6 +449,9 @@ Partial Class FrmEmployeeTransfer
         Me.txtDate.MyLinkLable2 = Nothing
         Me.txtDate.Name = "txtDate"
         Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.ReferenceFieldDesc = Nothing
+        Me.txtDate.ReferenceFieldName = Nothing
+        Me.txtDate.ReferenceTableName = Nothing
         Me.txtDate.Size = New System.Drawing.Size(142, 20)
         Me.txtDate.TabIndex = 418
         Me.txtDate.TabStop = False
@@ -405,6 +460,7 @@ Partial Class FrmEmployeeTransfer
         '
         'lblDescription
         '
+        Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblDescription.Location = New System.Drawing.Point(16, 59)
         Me.lblDescription.Name = "lblDescription"
@@ -415,7 +471,16 @@ Partial Class FrmEmployeeTransfer
         'txtDescription
         '
         Me.txtDescription.AutoSize = False
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
         Me.txtDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(131, 59)
         Me.txtDescription.MaxLength = 200
         Me.txtDescription.MendatroryField = True
@@ -423,6 +488,9 @@ Partial Class FrmEmployeeTransfer
         Me.txtDescription.MyLinkLable1 = Me.lblDescription
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(282, 33)
         Me.txtDescription.TabIndex = 413
         '
@@ -430,16 +498,17 @@ Partial Class FrmEmployeeTransfer
         '
         Me.lblChangedDepartmentName.AutoSize = False
         Me.lblChangedDepartmentName.BorderVisible = True
+        Me.lblChangedDepartmentName.FieldName = Nothing
         Me.lblChangedDepartmentName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChangedDepartmentName.Location = New System.Drawing.Point(316, 206)
         Me.lblChangedDepartmentName.Name = "lblChangedDepartmentName"
         Me.lblChangedDepartmentName.Size = New System.Drawing.Size(180, 18)
         Me.lblChangedDepartmentName.TabIndex = 156
-        Me.lblChangedDepartmentName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblChangedDepartmentName.TextWrap = False
         '
         'lblChangedDepartment
         '
+        Me.lblChangedDepartment.FieldName = Nothing
         Me.lblChangedDepartment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChangedDepartment.Location = New System.Drawing.Point(14, 211)
         Me.lblChangedDepartment.Name = "lblChangedDepartment"
@@ -449,6 +518,15 @@ Partial Class FrmEmployeeTransfer
         '
         'fndChangedDepartment
         '
+        Me.fndChangedDepartment.CalculationExpression = Nothing
+        Me.fndChangedDepartment.FieldCode = Nothing
+        Me.fndChangedDepartment.FieldDesc = Nothing
+        Me.fndChangedDepartment.FieldMaxLength = 0
+        Me.fndChangedDepartment.FieldName = Nothing
+        Me.fndChangedDepartment.isCalculatedField = False
+        Me.fndChangedDepartment.IsSourceFromTable = False
+        Me.fndChangedDepartment.IsSourceFromValueList = False
+        Me.fndChangedDepartment.IsUnique = False
         Me.fndChangedDepartment.Location = New System.Drawing.Point(130, 207)
         Me.fndChangedDepartment.MendatroryField = True
         Me.fndChangedDepartment.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -457,6 +535,9 @@ Partial Class FrmEmployeeTransfer
         Me.fndChangedDepartment.MyReadOnly = False
         Me.fndChangedDepartment.MyShowMasterFormButton = False
         Me.fndChangedDepartment.Name = "fndChangedDepartment"
+        Me.fndChangedDepartment.ReferenceFieldDesc = Nothing
+        Me.fndChangedDepartment.ReferenceFieldName = Nothing
+        Me.fndChangedDepartment.ReferenceTableName = Nothing
         Me.fndChangedDepartment.Size = New System.Drawing.Size(180, 18)
         Me.fndChangedDepartment.TabIndex = 155
         Me.fndChangedDepartment.Value = ""
@@ -465,16 +546,17 @@ Partial Class FrmEmployeeTransfer
         '
         Me.lblChangedDesignationName.AutoSize = False
         Me.lblChangedDesignationName.BorderVisible = True
+        Me.lblChangedDesignationName.FieldName = Nothing
         Me.lblChangedDesignationName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChangedDesignationName.Location = New System.Drawing.Point(315, 229)
         Me.lblChangedDesignationName.Name = "lblChangedDesignationName"
         Me.lblChangedDesignationName.Size = New System.Drawing.Size(180, 18)
         Me.lblChangedDesignationName.TabIndex = 153
-        Me.lblChangedDesignationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblChangedDesignationName.TextWrap = False
         '
         'lblChangedDesignation
         '
+        Me.lblChangedDesignation.FieldName = Nothing
         Me.lblChangedDesignation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChangedDesignation.Location = New System.Drawing.Point(14, 232)
         Me.lblChangedDesignation.Name = "lblChangedDesignation"
@@ -484,6 +566,15 @@ Partial Class FrmEmployeeTransfer
         '
         'fndChangedDesignation
         '
+        Me.fndChangedDesignation.CalculationExpression = Nothing
+        Me.fndChangedDesignation.FieldCode = Nothing
+        Me.fndChangedDesignation.FieldDesc = Nothing
+        Me.fndChangedDesignation.FieldMaxLength = 0
+        Me.fndChangedDesignation.FieldName = Nothing
+        Me.fndChangedDesignation.isCalculatedField = False
+        Me.fndChangedDesignation.IsSourceFromTable = False
+        Me.fndChangedDesignation.IsSourceFromValueList = False
+        Me.fndChangedDesignation.IsUnique = False
         Me.fndChangedDesignation.Location = New System.Drawing.Point(130, 230)
         Me.fndChangedDesignation.MendatroryField = True
         Me.fndChangedDesignation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -492,6 +583,9 @@ Partial Class FrmEmployeeTransfer
         Me.fndChangedDesignation.MyReadOnly = False
         Me.fndChangedDesignation.MyShowMasterFormButton = False
         Me.fndChangedDesignation.Name = "fndChangedDesignation"
+        Me.fndChangedDesignation.ReferenceFieldDesc = Nothing
+        Me.fndChangedDesignation.ReferenceFieldName = Nothing
+        Me.fndChangedDesignation.ReferenceTableName = Nothing
         Me.fndChangedDesignation.Size = New System.Drawing.Size(180, 18)
         Me.fndChangedDesignation.TabIndex = 152
         Me.fndChangedDesignation.Value = ""
@@ -500,8 +594,18 @@ Partial Class FrmEmployeeTransfer
         '
         Me.cboDocType.AutoCompleteDisplayMember = Nothing
         Me.cboDocType.AutoCompleteValueMember = Nothing
+        Me.cboDocType.CalculationExpression = Nothing
+        Me.cboDocType.DropDownAnimationEnabled = True
         Me.cboDocType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboDocType.FieldCode = Nothing
+        Me.cboDocType.FieldDesc = Nothing
+        Me.cboDocType.FieldMaxLength = 0
+        Me.cboDocType.FieldName = Nothing
         Me.cboDocType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboDocType.isCalculatedField = False
+        Me.cboDocType.IsSourceFromTable = False
+        Me.cboDocType.IsSourceFromValueList = False
+        Me.cboDocType.IsUnique = False
         RadListDataItem3.Text = "Transfer Letter(For Location)"
         RadListDataItem4.Text = "Promotion Letter"
         RadListDataItem5.Text = "Transfer Letter(For Department)"
@@ -513,6 +617,9 @@ Partial Class FrmEmployeeTransfer
         Me.cboDocType.MyLinkLable1 = Me.lblDocType
         Me.cboDocType.MyLinkLable2 = Nothing
         Me.cboDocType.Name = "cboDocType"
+        Me.cboDocType.ReferenceFieldDesc = Nothing
+        Me.cboDocType.ReferenceFieldName = Nothing
+        Me.cboDocType.ReferenceTableName = Nothing
         Me.cboDocType.Size = New System.Drawing.Size(282, 18)
         Me.cboDocType.TabIndex = 149
         '
@@ -520,16 +627,17 @@ Partial Class FrmEmployeeTransfer
         '
         Me.lblEmployeeName.AutoSize = False
         Me.lblEmployeeName.BorderVisible = True
+        Me.lblEmployeeName.FieldName = Nothing
         Me.lblEmployeeName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEmployeeName.Location = New System.Drawing.Point(315, 98)
         Me.lblEmployeeName.Name = "lblEmployeeName"
         Me.lblEmployeeName.Size = New System.Drawing.Size(180, 18)
         Me.lblEmployeeName.TabIndex = 148
-        Me.lblEmployeeName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblEmployeeName.TextWrap = False
         '
         'lblEmployeeCode
         '
+        Me.lblEmployeeCode.FieldName = Nothing
         Me.lblEmployeeCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEmployeeCode.Location = New System.Drawing.Point(14, 100)
         Me.lblEmployeeCode.Name = "lblEmployeeCode"
@@ -539,6 +647,15 @@ Partial Class FrmEmployeeTransfer
         '
         'fndEmployeeCode
         '
+        Me.fndEmployeeCode.CalculationExpression = Nothing
+        Me.fndEmployeeCode.FieldCode = Nothing
+        Me.fndEmployeeCode.FieldDesc = Nothing
+        Me.fndEmployeeCode.FieldMaxLength = 0
+        Me.fndEmployeeCode.FieldName = Nothing
+        Me.fndEmployeeCode.isCalculatedField = False
+        Me.fndEmployeeCode.IsSourceFromTable = False
+        Me.fndEmployeeCode.IsSourceFromValueList = False
+        Me.fndEmployeeCode.IsUnique = False
         Me.fndEmployeeCode.Location = New System.Drawing.Point(130, 99)
         Me.fndEmployeeCode.MendatroryField = True
         Me.fndEmployeeCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -547,6 +664,9 @@ Partial Class FrmEmployeeTransfer
         Me.fndEmployeeCode.MyReadOnly = False
         Me.fndEmployeeCode.MyShowMasterFormButton = False
         Me.fndEmployeeCode.Name = "fndEmployeeCode"
+        Me.fndEmployeeCode.ReferenceFieldDesc = Nothing
+        Me.fndEmployeeCode.ReferenceFieldName = Nothing
+        Me.fndEmployeeCode.ReferenceTableName = Nothing
         Me.fndEmployeeCode.Size = New System.Drawing.Size(180, 18)
         Me.fndEmployeeCode.TabIndex = 147
         Me.fndEmployeeCode.Value = ""
@@ -555,16 +675,17 @@ Partial Class FrmEmployeeTransfer
         '
         Me.lblChangedLocationName.AutoSize = False
         Me.lblChangedLocationName.BorderVisible = True
+        Me.lblChangedLocationName.FieldName = Nothing
         Me.lblChangedLocationName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChangedLocationName.Location = New System.Drawing.Point(316, 252)
         Me.lblChangedLocationName.Name = "lblChangedLocationName"
         Me.lblChangedLocationName.Size = New System.Drawing.Size(180, 18)
         Me.lblChangedLocationName.TabIndex = 145
-        Me.lblChangedLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblChangedLocationName.TextWrap = False
         '
         'lblChangedLocation
         '
+        Me.lblChangedLocation.FieldName = Nothing
         Me.lblChangedLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChangedLocation.Location = New System.Drawing.Point(13, 255)
         Me.lblChangedLocation.Name = "lblChangedLocation"
@@ -574,6 +695,15 @@ Partial Class FrmEmployeeTransfer
         '
         'fndChangedLocation
         '
+        Me.fndChangedLocation.CalculationExpression = Nothing
+        Me.fndChangedLocation.FieldCode = Nothing
+        Me.fndChangedLocation.FieldDesc = Nothing
+        Me.fndChangedLocation.FieldMaxLength = 0
+        Me.fndChangedLocation.FieldName = Nothing
+        Me.fndChangedLocation.isCalculatedField = False
+        Me.fndChangedLocation.IsSourceFromTable = False
+        Me.fndChangedLocation.IsSourceFromValueList = False
+        Me.fndChangedLocation.IsUnique = False
         Me.fndChangedLocation.Location = New System.Drawing.Point(129, 252)
         Me.fndChangedLocation.MendatroryField = True
         Me.fndChangedLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -582,6 +712,9 @@ Partial Class FrmEmployeeTransfer
         Me.fndChangedLocation.MyReadOnly = False
         Me.fndChangedLocation.MyShowMasterFormButton = False
         Me.fndChangedLocation.Name = "fndChangedLocation"
+        Me.fndChangedLocation.ReferenceFieldDesc = Nothing
+        Me.fndChangedLocation.ReferenceFieldName = Nothing
+        Me.fndChangedLocation.ReferenceTableName = Nothing
         Me.fndChangedLocation.Size = New System.Drawing.Size(180, 18)
         Me.fndChangedLocation.TabIndex = 144
         Me.fndChangedLocation.Value = ""
@@ -590,16 +723,17 @@ Partial Class FrmEmployeeTransfer
         '
         Me.lblLocationName.AutoSize = False
         Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
         Me.lblLocationName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLocationName.Location = New System.Drawing.Point(315, 163)
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(180, 18)
         Me.lblLocationName.TabIndex = 142
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocationName.TextWrap = False
         '
         'lblLocationCode
         '
+        Me.lblLocationCode.FieldName = Nothing
         Me.lblLocationCode.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblLocationCode.Location = New System.Drawing.Point(12, 167)
         Me.lblLocationCode.Name = "lblLocationCode"
@@ -611,28 +745,29 @@ Partial Class FrmEmployeeTransfer
         '
         Me.lblLocation.AutoSize = False
         Me.lblLocation.BorderVisible = True
+        Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLocation.Location = New System.Drawing.Point(129, 166)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(180, 18)
         Me.lblLocation.TabIndex = 141
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'lblDesignationName
         '
         Me.lblDesignationName.AutoSize = False
         Me.lblDesignationName.BorderVisible = True
+        Me.lblDesignationName.FieldName = Nothing
         Me.lblDesignationName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDesignationName.Location = New System.Drawing.Point(315, 141)
         Me.lblDesignationName.Name = "lblDesignationName"
         Me.lblDesignationName.Size = New System.Drawing.Size(180, 18)
         Me.lblDesignationName.TabIndex = 139
-        Me.lblDesignationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDesignationName.TextWrap = False
         '
         'lblDesignationCode
         '
+        Me.lblDesignationCode.FieldName = Nothing
         Me.lblDesignationCode.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblDesignationCode.Location = New System.Drawing.Point(12, 146)
         Me.lblDesignationCode.Name = "lblDesignationCode"
@@ -644,28 +779,29 @@ Partial Class FrmEmployeeTransfer
         '
         Me.lblDesignation.AutoSize = False
         Me.lblDesignation.BorderVisible = True
+        Me.lblDesignation.FieldName = Nothing
         Me.lblDesignation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDesignation.Location = New System.Drawing.Point(130, 143)
         Me.lblDesignation.Name = "lblDesignation"
         Me.lblDesignation.Size = New System.Drawing.Size(180, 18)
         Me.lblDesignation.TabIndex = 138
-        Me.lblDesignation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDesignation.TextWrap = False
         '
         'lblDepartmentName
         '
         Me.lblDepartmentName.AutoSize = False
         Me.lblDepartmentName.BorderVisible = True
+        Me.lblDepartmentName.FieldName = Nothing
         Me.lblDepartmentName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDepartmentName.Location = New System.Drawing.Point(315, 120)
         Me.lblDepartmentName.Name = "lblDepartmentName"
         Me.lblDepartmentName.Size = New System.Drawing.Size(180, 18)
         Me.lblDepartmentName.TabIndex = 136
-        Me.lblDepartmentName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDepartmentName.TextWrap = False
         '
         'lblDepartmentCode
         '
+        Me.lblDepartmentCode.FieldName = Nothing
         Me.lblDepartmentCode.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblDepartmentCode.Location = New System.Drawing.Point(12, 124)
         Me.lblDepartmentCode.Name = "lblDepartmentCode"
@@ -677,16 +813,17 @@ Partial Class FrmEmployeeTransfer
         '
         Me.lblDepartment.AutoSize = False
         Me.lblDepartment.BorderVisible = True
+        Me.lblDepartment.FieldName = Nothing
         Me.lblDepartment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDepartment.Location = New System.Drawing.Point(130, 120)
         Me.lblDepartment.Name = "lblDepartment"
         Me.lblDepartment.Size = New System.Drawing.Size(180, 18)
         Me.lblDepartment.TabIndex = 135
-        Me.lblDepartment.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDepartment.TextWrap = False
         '
         'lblDocCode
         '
+        Me.lblDocCode.FieldName = Nothing
         Me.lblDocCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblDocCode.Location = New System.Drawing.Point(12, 15)
         Me.lblDocCode.Name = "lblDocCode"
@@ -696,13 +833,14 @@ Partial Class FrmEmployeeTransfer
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(131, 13)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblDocCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(266, 21)

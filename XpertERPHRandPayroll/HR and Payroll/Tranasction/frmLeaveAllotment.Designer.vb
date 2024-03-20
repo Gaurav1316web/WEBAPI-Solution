@@ -24,8 +24,11 @@ Partial Class frmLeaveAllotment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLeaveAllotment))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblDivisionName = New common.Controls.MyLabel()
+        Me.fndDivision = New common.UserControls.txtFinder()
         Me.lblDivision = New common.Controls.MyLabel()
         Me.lblLocationDesc = New common.Controls.MyLabel()
         Me.MyLabel9 = New common.Controls.MyLabel()
@@ -50,11 +53,10 @@ Partial Class frmLeaveAllotment
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.fndDivision = New common.UserControls.txtFinder()
-        Me.lblDivisionName = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblDivisionName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDivision, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,7 +78,6 @@ Partial Class frmLeaveAllotment
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDivisionName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -124,8 +125,45 @@ Partial Class frmLeaveAllotment
         Me.SplitContainer1.SplitterDistance = 624
         Me.SplitContainer1.TabIndex = 158
         '
+        'lblDivisionName
+        '
+        Me.lblDivisionName.AutoSize = False
+        Me.lblDivisionName.BorderVisible = True
+        Me.lblDivisionName.FieldName = Nothing
+        Me.lblDivisionName.Location = New System.Drawing.Point(372, 58)
+        Me.lblDivisionName.Name = "lblDivisionName"
+        Me.lblDivisionName.Size = New System.Drawing.Size(223, 19)
+        Me.lblDivisionName.TabIndex = 256
+        '
+        'fndDivision
+        '
+        Me.fndDivision.CalculationExpression = Nothing
+        Me.fndDivision.FieldCode = Nothing
+        Me.fndDivision.FieldDesc = Nothing
+        Me.fndDivision.FieldMaxLength = 0
+        Me.fndDivision.FieldName = Nothing
+        Me.fndDivision.isCalculatedField = False
+        Me.fndDivision.IsSourceFromTable = False
+        Me.fndDivision.IsSourceFromValueList = False
+        Me.fndDivision.IsUnique = False
+        Me.fndDivision.Location = New System.Drawing.Point(144, 58)
+        Me.fndDivision.MendatroryField = False
+        Me.fndDivision.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndDivision.MyLinkLable1 = Nothing
+        Me.fndDivision.MyLinkLable2 = Nothing
+        Me.fndDivision.MyReadOnly = False
+        Me.fndDivision.MyShowMasterFormButton = False
+        Me.fndDivision.Name = "fndDivision"
+        Me.fndDivision.ReferenceFieldDesc = Nothing
+        Me.fndDivision.ReferenceFieldName = Nothing
+        Me.fndDivision.ReferenceTableName = Nothing
+        Me.fndDivision.Size = New System.Drawing.Size(221, 19)
+        Me.fndDivision.TabIndex = 255
+        Me.fndDivision.Value = ""
+        '
         'lblDivision
         '
+        Me.lblDivision.FieldName = Nothing
         Me.lblDivision.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDivision.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.lblDivision.Location = New System.Drawing.Point(12, 61)
@@ -138,14 +176,15 @@ Partial Class frmLeaveAllotment
         '
         Me.lblLocationDesc.AutoSize = False
         Me.lblLocationDesc.BorderVisible = True
+        Me.lblLocationDesc.FieldName = Nothing
         Me.lblLocationDesc.Location = New System.Drawing.Point(372, 36)
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(223, 19)
         Me.lblLocationDesc.TabIndex = 253
-        Me.lblLocationDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel9
         '
+        Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel9.Location = New System.Drawing.Point(12, 39)
         Me.MyLabel9.Name = "MyLabel9"
@@ -155,6 +194,15 @@ Partial Class frmLeaveAllotment
         '
         'txtBranch
         '
+        Me.txtBranch.CalculationExpression = Nothing
+        Me.txtBranch.FieldCode = Nothing
+        Me.txtBranch.FieldDesc = Nothing
+        Me.txtBranch.FieldMaxLength = 0
+        Me.txtBranch.FieldName = Nothing
+        Me.txtBranch.isCalculatedField = False
+        Me.txtBranch.IsSourceFromTable = False
+        Me.txtBranch.IsSourceFromValueList = False
+        Me.txtBranch.IsUnique = False
         Me.txtBranch.Location = New System.Drawing.Point(144, 36)
         Me.txtBranch.MendatroryField = True
         Me.txtBranch.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -163,12 +211,16 @@ Partial Class frmLeaveAllotment
         Me.txtBranch.MyReadOnly = False
         Me.txtBranch.MyShowMasterFormButton = False
         Me.txtBranch.Name = "txtBranch"
+        Me.txtBranch.ReferenceFieldDesc = Nothing
+        Me.txtBranch.ReferenceFieldName = Nothing
+        Me.txtBranch.ReferenceTableName = Nothing
         Me.txtBranch.Size = New System.Drawing.Size(222, 19)
         Me.txtBranch.TabIndex = 251
         Me.txtBranch.Value = ""
         '
         'MyLabel8
         '
+        Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel8.Location = New System.Drawing.Point(12, 179)
         Me.MyLabel8.Name = "MyLabel8"
@@ -178,6 +230,7 @@ Partial Class frmLeaveAllotment
         '
         'MyLabel7
         '
+        Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel7.Location = New System.Drawing.Point(12, 154)
         Me.MyLabel7.Name = "MyLabel7"
@@ -187,6 +240,7 @@ Partial Class frmLeaveAllotment
         '
         'MyLabel6
         '
+        Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel6.Location = New System.Drawing.Point(12, 129)
         Me.MyLabel6.Name = "MyLabel6"
@@ -198,31 +252,31 @@ Partial Class frmLeaveAllotment
         '
         Me.lblDepartmentName.AutoSize = False
         Me.lblDepartmentName.BorderVisible = True
+        Me.lblDepartmentName.FieldName = Nothing
         Me.lblDepartmentName.Location = New System.Drawing.Point(144, 176)
         Me.lblDepartmentName.Name = "lblDepartmentName"
         Me.lblDepartmentName.Size = New System.Drawing.Size(451, 19)
         Me.lblDepartmentName.TabIndex = 163
-        Me.lblDepartmentName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDesignationName
         '
         Me.lblDesignationName.AutoSize = False
         Me.lblDesignationName.BorderVisible = True
+        Me.lblDesignationName.FieldName = Nothing
         Me.lblDesignationName.Location = New System.Drawing.Point(144, 151)
         Me.lblDesignationName.Name = "lblDesignationName"
         Me.lblDesignationName.Size = New System.Drawing.Size(450, 19)
         Me.lblDesignationName.TabIndex = 162
-        Me.lblDesignationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblLocationName
         '
         Me.lblLocationName.AutoSize = False
         Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
         Me.lblLocationName.Location = New System.Drawing.Point(144, 126)
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(450, 19)
         Me.lblLocationName.TabIndex = 161
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'gvLeaveAllotment
         '
@@ -237,14 +291,17 @@ Partial Class frmLeaveAllotment
         Me.gvLeaveAllotment.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvLeaveAllotment.Location = New System.Drawing.Point(10, 201)
         '
-        'gvLeaveAllotment
+        '
         '
         Me.gvLeaveAllotment.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvLeaveAllotment.MasterTemplate.AllowAddNewRow = False
         Me.gvLeaveAllotment.MasterTemplate.AutoGenerateColumns = False
         Me.gvLeaveAllotment.MasterTemplate.EnableCustomFiltering = True
         Me.gvLeaveAllotment.MasterTemplate.EnableGrouping = False
+        Me.gvLeaveAllotment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvLeaveAllotment.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvLeaveAllotment.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvLeaveAllotment.MyStopExport = False
         Me.gvLeaveAllotment.Name = "gvLeaveAllotment"
         Me.gvLeaveAllotment.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvLeaveAllotment.ShowHeaderCellButtons = True
@@ -254,6 +311,7 @@ Partial Class frmLeaveAllotment
         '
         'lblLeaveAllotmentCode
         '
+        Me.lblLeaveAllotmentCode.FieldName = Nothing
         Me.lblLeaveAllotmentCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLeaveAllotmentCode.Location = New System.Drawing.Point(12, 12)
         Me.lblLeaveAllotmentCode.Name = "lblLeaveAllotmentCode"
@@ -272,6 +330,15 @@ Partial Class frmLeaveAllotment
         '
         'txtPayPeriodCode
         '
+        Me.txtPayPeriodCode.CalculationExpression = Nothing
+        Me.txtPayPeriodCode.FieldCode = Nothing
+        Me.txtPayPeriodCode.FieldDesc = Nothing
+        Me.txtPayPeriodCode.FieldMaxLength = 0
+        Me.txtPayPeriodCode.FieldName = Nothing
+        Me.txtPayPeriodCode.isCalculatedField = False
+        Me.txtPayPeriodCode.IsSourceFromTable = False
+        Me.txtPayPeriodCode.IsSourceFromValueList = False
+        Me.txtPayPeriodCode.IsUnique = False
         Me.txtPayPeriodCode.Location = New System.Drawing.Point(144, 80)
         Me.txtPayPeriodCode.MendatroryField = False
         Me.txtPayPeriodCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -280,12 +347,16 @@ Partial Class frmLeaveAllotment
         Me.txtPayPeriodCode.MyReadOnly = False
         Me.txtPayPeriodCode.MyShowMasterFormButton = False
         Me.txtPayPeriodCode.Name = "txtPayPeriodCode"
+        Me.txtPayPeriodCode.ReferenceFieldDesc = Nothing
+        Me.txtPayPeriodCode.ReferenceFieldName = Nothing
+        Me.txtPayPeriodCode.ReferenceTableName = Nothing
         Me.txtPayPeriodCode.Size = New System.Drawing.Size(222, 19)
         Me.txtPayPeriodCode.TabIndex = 2
         Me.txtPayPeriodCode.Value = ""
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(12, 83)
         Me.MyLabel4.Name = "MyLabel4"
@@ -297,24 +368,25 @@ Partial Class frmLeaveAllotment
         '
         Me.lblPayPeriodName.AutoSize = False
         Me.lblPayPeriodName.BorderVisible = True
+        Me.lblPayPeriodName.FieldName = Nothing
         Me.lblPayPeriodName.Location = New System.Drawing.Point(372, 80)
         Me.lblPayPeriodName.Name = "lblPayPeriodName"
         Me.lblPayPeriodName.Size = New System.Drawing.Size(222, 19)
         Me.lblPayPeriodName.TabIndex = 3
-        Me.lblPayPeriodName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblEmpName
         '
         Me.lblEmpName.AutoSize = False
         Me.lblEmpName.BorderVisible = True
+        Me.lblEmpName.FieldName = Nothing
         Me.lblEmpName.Location = New System.Drawing.Point(372, 102)
         Me.lblEmpName.Name = "lblEmpName"
         Me.lblEmpName.Size = New System.Drawing.Size(222, 19)
         Me.lblEmpName.TabIndex = 5
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(12, 105)
         Me.MyLabel1.Name = "MyLabel1"
@@ -324,13 +396,14 @@ Partial Class frmLeaveAllotment
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(144, 10)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblLeaveAllotmentCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(221, 21)
@@ -339,6 +412,15 @@ Partial Class frmLeaveAllotment
         '
         'txtEmpCode
         '
+        Me.txtEmpCode.CalculationExpression = Nothing
+        Me.txtEmpCode.FieldCode = Nothing
+        Me.txtEmpCode.FieldDesc = Nothing
+        Me.txtEmpCode.FieldMaxLength = 0
+        Me.txtEmpCode.FieldName = Nothing
+        Me.txtEmpCode.isCalculatedField = False
+        Me.txtEmpCode.IsSourceFromTable = False
+        Me.txtEmpCode.IsSourceFromValueList = False
+        Me.txtEmpCode.IsUnique = False
         Me.txtEmpCode.Location = New System.Drawing.Point(144, 102)
         Me.txtEmpCode.MendatroryField = False
         Me.txtEmpCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -347,6 +429,9 @@ Partial Class frmLeaveAllotment
         Me.txtEmpCode.MyReadOnly = False
         Me.txtEmpCode.MyShowMasterFormButton = False
         Me.txtEmpCode.Name = "txtEmpCode"
+        Me.txtEmpCode.ReferenceFieldDesc = Nothing
+        Me.txtEmpCode.ReferenceFieldName = Nothing
+        Me.txtEmpCode.ReferenceTableName = Nothing
         Me.txtEmpCode.Size = New System.Drawing.Size(222, 19)
         Me.txtEmpCode.TabIndex = 4
         Me.txtEmpCode.Value = ""
@@ -391,30 +476,6 @@ Partial Class frmLeaveAllotment
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
-        'fndDivision
-        '
-        Me.fndDivision.Location = New System.Drawing.Point(144, 58)
-        Me.fndDivision.MendatroryField = False
-        Me.fndDivision.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndDivision.MyLinkLable1 = Nothing
-        Me.fndDivision.MyLinkLable2 = Nothing
-        Me.fndDivision.MyReadOnly = False
-        Me.fndDivision.MyShowMasterFormButton = False
-        Me.fndDivision.Name = "fndDivision"
-        Me.fndDivision.Size = New System.Drawing.Size(221, 19)
-        Me.fndDivision.TabIndex = 255
-        Me.fndDivision.Value = ""
-        '
-        'lblDivisionName
-        '
-        Me.lblDivisionName.AutoSize = False
-        Me.lblDivisionName.BorderVisible = True
-        Me.lblDivisionName.Location = New System.Drawing.Point(372, 58)
-        Me.lblDivisionName.Name = "lblDivisionName"
-        Me.lblDivisionName.Size = New System.Drawing.Size(223, 19)
-        Me.lblDivisionName.TabIndex = 256
-        Me.lblDivisionName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        '
         'frmLeaveAllotment
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -431,6 +492,7 @@ Partial Class frmLeaveAllotment
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblDivisionName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDivision, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
@@ -452,7 +514,6 @@ Partial Class frmLeaveAllotment
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDivisionName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
