@@ -102,11 +102,15 @@ Public Class clsDCSDemand
                     objTr = New clsDCSDemandDetail
                     objTr.VLC_Uploader = clsCommon.myCstr(dr("VLC_Uploader"))
                     objTr.CreditType = clsCommon.myCstr(dr("CreditType"))
-                    objTr.OutStandingAmt = clsCommon.myCstr(dr("OutStandingAmt"))
+                    objTr.OutStandingAmt = clsCommon.myCdbl(dr("OutStandingAmt"))
                     If dt.Rows(0)("LastMilkDate") IsNot DBNull.Value Then
                         objTr.LastMilkDate = clsCommon.myCstr(dr("LastMilkDate"))
 
                     End If
+                    objTr.UnbilledMilkAmt = clsCommon.myCdbl(dr("UnbilledMilkAmt"))
+                    objTr.CalAmtforSale = clsCommon.myCdbl(dr("CalAmtforSale"))
+
+
                     objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
                     objTr.Line_No = clsCommon.myCstr(dr("Line_No"))
                     objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
@@ -222,6 +226,8 @@ Public Class clsDCSDemandDetail
     Public VLC_Uploader As String = ""
     Public CreditType As String = ""
     Public OutStandingAmt As Double = 0
+    Public UnbilledMilkAmt As Double = 0
+    Public CalAmtforSale As Double = 0
     Public LastMilkDate As Date? = Nothing
     Public Item_Code As String = ""
     Public Qty As Double = 0
@@ -244,6 +250,8 @@ Public Class clsDCSDemandDetail
                 Else
                     clsCommon.AddColumnsForChange(coll, "LastMilkDate", Nothing, True)
                 End If
+                clsCommon.AddColumnsForChange(coll, "UnbilledMilkAmt", obj.UnbilledMilkAmt)
+                clsCommon.AddColumnsForChange(coll, "CalAmtforSale", obj.CalAmtforSale)
 
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                 clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)

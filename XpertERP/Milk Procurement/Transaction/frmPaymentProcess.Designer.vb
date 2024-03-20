@@ -74,7 +74,6 @@ Partial Class FrmPaymentProcess
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.dtpFromDate = New common.Controls.MyDateTimePicker()
         Me.lblPending = New common.usLock()
-        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.lblDocNo = New common.Controls.MyLabel()
         Me.fndDocNo = New common.UserControls.txtNavigator()
         Me.gv = New common.UserControls.MyRadGridView()
@@ -119,6 +118,7 @@ Partial Class FrmPaymentProcess
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.chkHoldSavingPayment = New common.Controls.MyCheckBox()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
@@ -155,7 +155,6 @@ Partial Class FrmPaymentProcess
         CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -210,6 +209,7 @@ Partial Class FrmPaymentProcess
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkHoldSavingPayment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -217,10 +217,10 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(100.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(96.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(924, 425)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(924, 429)
         Me.RadPageViewPage1.Text = "Payment Process"
         '
         'SplitContainer2
@@ -266,7 +266,7 @@ Partial Class FrmPaymentProcess
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gv)
-        Me.SplitContainer2.Size = New System.Drawing.Size(924, 425)
+        Me.SplitContainer2.Size = New System.Drawing.Size(924, 429)
         Me.SplitContainer2.SplitterDistance = 160
         Me.SplitContainer2.TabIndex = 265
         '
@@ -847,16 +847,6 @@ Partial Class FrmPaymentProcess
         Me.lblPending.Status = common.ERPTransactionStatus.Pending
         Me.lblPending.TabIndex = 256
         '
-        'btnReset
-        '
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Image = Global.ERP.My.Resources.Resources._new
-        Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnReset.Location = New System.Drawing.Point(331, 4)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(19, 21)
-        Me.btnReset.TabIndex = 260
-        '
         'lblDocNo
         '
         Me.lblDocNo.FieldName = Nothing
@@ -896,7 +886,7 @@ Partial Class FrmPaymentProcess
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(924, 261)
+        Me.gv.Size = New System.Drawing.Size(924, 265)
         Me.gv.TabIndex = 0
         '
         'SplitContainer1
@@ -955,7 +945,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.gvInvoice)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(56.0!, 28.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(52.0!, 24.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(924, 425)
@@ -981,7 +971,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.gvMccSale)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(64.0!, 28.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(60.0!, 24.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(924, 425)
@@ -1007,7 +997,7 @@ Partial Class FrmPaymentProcess
         'RDPMccSaleReturn
         '
         Me.RDPMccSaleReturn.Controls.Add(Me.GvMccSaleReturn)
-        Me.RDPMccSaleReturn.ItemSize = New System.Drawing.SizeF(97.0!, 28.0!)
+        Me.RDPMccSaleReturn.ItemSize = New System.Drawing.SizeF(93.0!, 24.0!)
         Me.RDPMccSaleReturn.Location = New System.Drawing.Point(10, 37)
         Me.RDPMccSaleReturn.Name = "RDPMccSaleReturn"
         Me.RDPMccSaleReturn.Size = New System.Drawing.Size(924, 425)
@@ -1033,7 +1023,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage4
         '
         Me.RadPageViewPage4.Controls.Add(Me.gvItemIssue)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(67.0!, 28.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(63.0!, 24.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(924, 425)
@@ -1059,7 +1049,7 @@ Partial Class FrmPaymentProcess
         'PageItemIssueReturn
         '
         Me.PageItemIssueReturn.Controls.Add(Me.gvItemIssueReturn)
-        Me.PageItemIssueReturn.ItemSize = New System.Drawing.SizeF(103.0!, 28.0!)
+        Me.PageItemIssueReturn.ItemSize = New System.Drawing.SizeF(99.0!, 24.0!)
         Me.PageItemIssueReturn.Location = New System.Drawing.Point(10, 37)
         Me.PageItemIssueReturn.Name = "PageItemIssueReturn"
         Me.PageItemIssueReturn.Size = New System.Drawing.Size(924, 425)
@@ -1085,7 +1075,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.gvDeduction)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(73.0!, 28.0!)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(69.0!, 24.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(924, 425)
@@ -1111,7 +1101,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.gvCreditNote)
-        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(74.0!, 28.0!)
+        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(70.0!, 24.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
         Me.RadPageViewPage6.Size = New System.Drawing.Size(924, 425)
@@ -1137,7 +1127,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage7
         '
         Me.RadPageViewPage7.Controls.Add(Me.gvAdvancePayment)
-        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(106.0!, 28.0!)
+        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(102.0!, 24.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
         Me.RadPageViewPage7.Size = New System.Drawing.Size(818, 425)
@@ -1163,7 +1153,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage8
         '
         Me.RadPageViewPage8.Controls.Add(Me.gvAssetLost)
-        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(67.0!, 28.0!)
+        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(63.0!, 24.0!)
         Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage8.Name = "RadPageViewPage8"
         Me.RadPageViewPage8.Size = New System.Drawing.Size(924, 425)
@@ -1189,7 +1179,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage9
         '
         Me.RadPageViewPage9.Controls.Add(Me.gvSaving)
-        Me.RadPageViewPage9.ItemSize = New System.Drawing.SizeF(49.0!, 28.0!)
+        Me.RadPageViewPage9.ItemSize = New System.Drawing.SizeF(45.0!, 24.0!)
         Me.RadPageViewPage9.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage9.Name = "RadPageViewPage9"
         Me.RadPageViewPage9.Size = New System.Drawing.Size(924, 425)
@@ -1215,7 +1205,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewCompulsory
         '
         Me.RadPageViewCompulsory.Controls.Add(Me.gvCompulsory)
-        Me.RadPageViewCompulsory.ItemSize = New System.Drawing.SizeF(76.0!, 28.0!)
+        Me.RadPageViewCompulsory.ItemSize = New System.Drawing.SizeF(72.0!, 24.0!)
         Me.RadPageViewCompulsory.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewCompulsory.Name = "RadPageViewCompulsory"
         Me.RadPageViewCompulsory.Size = New System.Drawing.Size(924, 425)
@@ -1377,6 +1367,16 @@ Partial Class FrmPaymentProcess
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
+        'btnReset
+        '
+        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReset.Image = Global.ERP.My.Resources.Resources._new
+        Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnReset.Location = New System.Drawing.Point(331, 4)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(19, 21)
+        Me.btnReset.TabIndex = 260
+        '
         'chkHoldSavingPayment
         '
         Me.chkHoldSavingPayment.Location = New System.Drawing.Point(239, -1)
@@ -1440,7 +1440,6 @@ Partial Class FrmPaymentProcess
         CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1496,6 +1495,7 @@ Partial Class FrmPaymentProcess
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkHoldSavingPayment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
