@@ -25,14 +25,14 @@ Partial Class frmVSP_VLCMaster
         Me.components = New System.ComponentModel.Container()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmVSP_VLCMaster))
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadPrintWatermark1 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
+        Dim RadPrintWatermark5 As Telerik.WinControls.UI.RadPrintWatermark = New Telerik.WinControls.UI.RadPrintWatermark()
         Me.btnclear = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
@@ -652,7 +652,7 @@ Partial Class frmVSP_VLCMaster
         Me.pageCus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage1
+        Me.pageCus.SelectedPage = Me.RadPageViewPage2
         Me.pageCus.Size = New System.Drawing.Size(1078, 444)
         Me.pageCus.TabIndex = 5
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -920,12 +920,12 @@ Partial Class frmVSP_VLCMaster
         Me.CmbHeadLoadServiceBasis.IsUnique = False
         RadListDataItem1.Text = "Select"
         RadListDataItem2.Text = "%(Percentage)"
-        RadListDataItem3.Text = "Rate/Kg"
-        RadListDataItem4.Text = "Rate/Ltr"
+        RadListDataItem9.Text = "Rate/Kg"
+        RadListDataItem10.Text = "Rate/Ltr"
         Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem1)
         Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem2)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem3)
-        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem4)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem9)
+        Me.CmbHeadLoadServiceBasis.Items.Add(RadListDataItem10)
         Me.CmbHeadLoadServiceBasis.Location = New System.Drawing.Point(588, 230)
         Me.CmbHeadLoadServiceBasis.MendatroryField = True
         Me.CmbHeadLoadServiceBasis.MyLinkLable1 = Me.MyLabel54
@@ -1389,10 +1389,10 @@ Partial Class frmVSP_VLCMaster
         Me.cmbGender.IsSourceFromTable = False
         Me.cmbGender.IsSourceFromValueList = False
         Me.cmbGender.IsUnique = False
-        RadListDataItem5.Text = "Male"
-        RadListDataItem6.Text = "Female"
-        Me.cmbGender.Items.Add(RadListDataItem5)
-        Me.cmbGender.Items.Add(RadListDataItem6)
+        RadListDataItem3.Text = "Male"
+        RadListDataItem4.Text = "Female"
+        Me.cmbGender.Items.Add(RadListDataItem3)
+        Me.cmbGender.Items.Add(RadListDataItem4)
         Me.cmbGender.Location = New System.Drawing.Point(178, 134)
         Me.cmbGender.MendatroryField = True
         Me.cmbGender.MyLinkLable1 = Me.MyLabel29
@@ -1431,10 +1431,10 @@ Partial Class frmVSP_VLCMaster
         Me.ddlGender.IsSourceFromTable = False
         Me.ddlGender.IsSourceFromValueList = False
         Me.ddlGender.IsUnique = False
-        RadListDataItem7.Text = "Male"
-        RadListDataItem8.Text = "Female"
-        Me.ddlGender.Items.Add(RadListDataItem7)
-        Me.ddlGender.Items.Add(RadListDataItem8)
+        RadListDataItem5.Text = "Male"
+        RadListDataItem6.Text = "Female"
+        Me.ddlGender.Items.Add(RadListDataItem5)
+        Me.ddlGender.Items.Add(RadListDataItem6)
         Me.ddlGender.Location = New System.Drawing.Point(747, 463)
         Me.ddlGender.MendatroryField = True
         Me.ddlGender.MyLinkLable1 = Me.MyLabel27
@@ -1504,27 +1504,7 @@ Partial Class frmVSP_VLCMaster
         '
         'RadPageViewPage2
         '
-        Me.RadPageViewPage2.Controls.Add(Me.txtSavingCompanyBank)
-        Me.RadPageViewPage2.Controls.Add(Me.lblSavingCompanyBank)
-        Me.RadPageViewPage2.Controls.Add(Me.MyLabel44)
         Me.RadPageViewPage2.Controls.Add(Me.gbBank2Details)
-        Me.RadPageViewPage2.Controls.Add(Me.findfndbankcode)
-        Me.RadPageViewPage2.Controls.Add(Me.fndbankcode)
-        Me.RadPageViewPage2.Controls.Add(Me.MyLabel15)
-        Me.RadPageViewPage2.Controls.Add(Me.MyLabel16)
-        Me.RadPageViewPage2.Controls.Add(Me.TxtSecurityCharges)
-        Me.RadPageViewPage2.Controls.Add(Me.cmbAccountType)
-        Me.RadPageViewPage2.Controls.Add(Me.MyLabel11)
-        Me.RadPageViewPage2.Controls.Add(Me.MyLabel12)
-        Me.RadPageViewPage2.Controls.Add(Me.TxtAccNo)
-        Me.RadPageViewPage2.Controls.Add(Me.MyLabel13)
-        Me.RadPageViewPage2.Controls.Add(Me.TxtBankBranch)
-        Me.RadPageViewPage2.Controls.Add(Me.MyLabel14)
-        Me.RadPageViewPage2.Controls.Add(Me.TxtBankName)
-        Me.RadPageViewPage2.Controls.Add(Me.txtbankcodedes)
-        Me.RadPageViewPage2.Controls.Add(Me.lblbankcode)
-        Me.RadPageViewPage2.Controls.Add(Me.RadLabel30)
-        Me.RadPageViewPage2.Controls.Add(Me.txtCredit)
         Me.RadPageViewPage2.Controls.Add(Me.GroupBox5)
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(80.0!, 26.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
@@ -1543,7 +1523,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtSavingCompanyBank.IsSourceFromTable = False
         Me.txtSavingCompanyBank.IsSourceFromValueList = False
         Me.txtSavingCompanyBank.IsUnique = False
-        Me.txtSavingCompanyBank.Location = New System.Drawing.Point(148, 275)
+        Me.txtSavingCompanyBank.Location = New System.Drawing.Point(93, 123)
         Me.txtSavingCompanyBank.MendatroryField = False
         Me.txtSavingCompanyBank.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtSavingCompanyBank.MyLinkLable1 = Nothing
@@ -1570,7 +1550,7 @@ Partial Class frmVSP_VLCMaster
         Me.lblSavingCompanyBank.IsSourceFromTable = False
         Me.lblSavingCompanyBank.IsSourceFromValueList = False
         Me.lblSavingCompanyBank.IsUnique = False
-        Me.lblSavingCompanyBank.Location = New System.Drawing.Point(365, 277)
+        Me.lblSavingCompanyBank.Location = New System.Drawing.Point(310, 123)
         Me.lblSavingCompanyBank.MaxLength = 50
         Me.lblSavingCompanyBank.MendatroryField = False
         Me.lblSavingCompanyBank.MyLinkLable1 = Me.MyLabel44
@@ -1580,7 +1560,7 @@ Partial Class frmVSP_VLCMaster
         Me.lblSavingCompanyBank.ReferenceFieldDesc = Nothing
         Me.lblSavingCompanyBank.ReferenceFieldName = Nothing
         Me.lblSavingCompanyBank.ReferenceTableName = Nothing
-        Me.lblSavingCompanyBank.Size = New System.Drawing.Size(346, 18)
+        Me.lblSavingCompanyBank.Size = New System.Drawing.Size(379, 18)
         Me.lblSavingCompanyBank.TabIndex = 317
         Me.lblSavingCompanyBank.TabStop = False
         '
@@ -1588,22 +1568,25 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel44.FieldName = Nothing
         Me.MyLabel44.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel44.Location = New System.Drawing.Point(21, 278)
+        Me.MyLabel44.Location = New System.Drawing.Point(5, 124)
         Me.MyLabel44.Name = "MyLabel44"
-        Me.MyLabel44.Size = New System.Drawing.Size(121, 16)
+        Me.MyLabel44.Size = New System.Drawing.Size(84, 16)
         Me.MyLabel44.TabIndex = 318
-        Me.MyLabel44.Text = "Saving Company Bank"
+        Me.MyLabel44.Text = "Company Bank"
         '
         'gbBank2Details
         '
+        Me.gbBank2Details.Controls.Add(Me.txtSavingCompanyBank)
         Me.gbBank2Details.Controls.Add(Me.txtIFSCCode2)
+        Me.gbBank2Details.Controls.Add(Me.cmbAccountType2)
+        Me.gbBank2Details.Controls.Add(Me.MyLabel32)
+        Me.gbBank2Details.Controls.Add(Me.lblSavingCompanyBank)
         Me.gbBank2Details.Controls.Add(Me.findfndbankcode2)
+        Me.gbBank2Details.Controls.Add(Me.MyLabel44)
         Me.gbBank2Details.Controls.Add(Me.findTxtIFSCCode2)
         Me.gbBank2Details.Controls.Add(Me.fndbankcode2)
         Me.gbBank2Details.Controls.Add(Me.MyLabel31)
         Me.gbBank2Details.Controls.Add(Me.TxtSecurityCharges2)
-        Me.gbBank2Details.Controls.Add(Me.cmbAccountType2)
-        Me.gbBank2Details.Controls.Add(Me.MyLabel32)
         Me.gbBank2Details.Controls.Add(Me.MyLabel33)
         Me.gbBank2Details.Controls.Add(Me.TxtAccNo2)
         Me.gbBank2Details.Controls.Add(Me.MyLabel34)
@@ -1615,12 +1598,12 @@ Partial Class frmVSP_VLCMaster
         Me.gbBank2Details.Controls.Add(Me.MyLabel36)
         Me.gbBank2Details.Controls.Add(Me.MyLabel37)
         Me.gbBank2Details.Controls.Add(Me.txtCredit2)
-        Me.gbBank2Details.Location = New System.Drawing.Point(3, 136)
+        Me.gbBank2Details.Location = New System.Drawing.Point(3, 159)
         Me.gbBank2Details.Name = "gbBank2Details"
-        Me.gbBank2Details.Size = New System.Drawing.Size(916, 171)
+        Me.gbBank2Details.Size = New System.Drawing.Size(693, 149)
         Me.gbBank2Details.TabIndex = 316
         Me.gbBank2Details.TabStop = False
-        Me.gbBank2Details.Text = "Bank 2 Details"
+        Me.gbBank2Details.Text = "Bank Details of Saving Account"
         '
         'txtIFSCCode2
         '
@@ -1634,7 +1617,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtIFSCCode2.IsSourceFromTable = False
         Me.txtIFSCCode2.IsSourceFromValueList = False
         Me.txtIFSCCode2.IsUnique = False
-        Me.txtIFSCCode2.Location = New System.Drawing.Point(115, 66)
+        Me.txtIFSCCode2.Location = New System.Drawing.Point(93, 81)
         Me.txtIFSCCode2.MaxLength = 50
         Me.txtIFSCCode2.MendatroryField = False
         Me.txtIFSCCode2.MyLinkLable1 = Me.MyLabel26
@@ -1650,7 +1633,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel26.FieldName = Nothing
         Me.MyLabel26.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel26.Location = New System.Drawing.Point(332, 45)
+        Me.MyLabel26.Location = New System.Drawing.Point(310, 60)
         Me.MyLabel26.Name = "MyLabel26"
         Me.MyLabel26.Size = New System.Drawing.Size(65, 16)
         Me.MyLabel26.TabIndex = 71
@@ -1667,7 +1650,7 @@ Partial Class frmVSP_VLCMaster
         Me.findfndbankcode2.IsSourceFromTable = False
         Me.findfndbankcode2.IsSourceFromValueList = False
         Me.findfndbankcode2.IsUnique = False
-        Me.findfndbankcode2.Location = New System.Drawing.Point(114, 16)
+        Me.findfndbankcode2.Location = New System.Drawing.Point(94, 37)
         Me.findfndbankcode2.MendatroryField = False
         Me.findfndbankcode2.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.findfndbankcode2.MyLinkLable1 = Nothing
@@ -1678,7 +1661,7 @@ Partial Class frmVSP_VLCMaster
         Me.findfndbankcode2.ReferenceFieldDesc = Nothing
         Me.findfndbankcode2.ReferenceFieldName = Nothing
         Me.findfndbankcode2.ReferenceTableName = Nothing
-        Me.findfndbankcode2.Size = New System.Drawing.Size(211, 19)
+        Me.findfndbankcode2.Size = New System.Drawing.Size(211, 18)
         Me.findfndbankcode2.TabIndex = 77
         Me.findfndbankcode2.Value = ""
         '
@@ -1693,7 +1676,7 @@ Partial Class frmVSP_VLCMaster
         Me.findTxtIFSCCode2.IsSourceFromTable = False
         Me.findTxtIFSCCode2.IsSourceFromValueList = False
         Me.findTxtIFSCCode2.IsUnique = False
-        Me.findTxtIFSCCode2.Location = New System.Drawing.Point(114, 66)
+        Me.findTxtIFSCCode2.Location = New System.Drawing.Point(94, 102)
         Me.findTxtIFSCCode2.MendatroryField = False
         Me.findTxtIFSCCode2.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.findTxtIFSCCode2.MyLinkLable1 = Nothing
@@ -1704,7 +1687,7 @@ Partial Class frmVSP_VLCMaster
         Me.findTxtIFSCCode2.ReferenceFieldDesc = Nothing
         Me.findTxtIFSCCode2.ReferenceFieldName = Nothing
         Me.findTxtIFSCCode2.ReferenceTableName = Nothing
-        Me.findTxtIFSCCode2.Size = New System.Drawing.Size(211, 19)
+        Me.findTxtIFSCCode2.Size = New System.Drawing.Size(211, 18)
         Me.findTxtIFSCCode2.TabIndex = 78
         Me.findTxtIFSCCode2.Value = ""
         '
@@ -1720,7 +1703,7 @@ Partial Class frmVSP_VLCMaster
         Me.fndbankcode2.IsSourceFromTable = False
         Me.fndbankcode2.IsSourceFromValueList = False
         Me.fndbankcode2.IsUnique = False
-        Me.fndbankcode2.Location = New System.Drawing.Point(114, 18)
+        Me.fndbankcode2.Location = New System.Drawing.Point(93, 37)
         Me.fndbankcode2.MaxLength = 50
         Me.fndbankcode2.MendatroryField = False
         Me.fndbankcode2.MyLinkLable1 = Me.MyLabel26
@@ -1736,7 +1719,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel31.FieldName = Nothing
         Me.MyLabel31.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel31.Location = New System.Drawing.Point(332, 91)
+        Me.MyLabel31.Location = New System.Drawing.Point(310, 103)
         Me.MyLabel31.Name = "MyLabel31"
         Me.MyLabel31.Size = New System.Drawing.Size(93, 16)
         Me.MyLabel31.TabIndex = 74
@@ -1754,7 +1737,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtSecurityCharges2.IsSourceFromTable = False
         Me.TxtSecurityCharges2.IsSourceFromValueList = False
         Me.TxtSecurityCharges2.IsUnique = False
-        Me.TxtSecurityCharges2.Location = New System.Drawing.Point(431, 89)
+        Me.TxtSecurityCharges2.Location = New System.Drawing.Point(410, 101)
         Me.TxtSecurityCharges2.MaxLength = 12
         Me.TxtSecurityCharges2.MendatroryField = False
         Me.TxtSecurityCharges2.MyLinkLable1 = Me.MyLabel31
@@ -1776,6 +1759,7 @@ Partial Class frmVSP_VLCMaster
         Me.cmbAccountType2.CalculationExpression = Nothing
         Me.cmbAccountType2.DropDownAnimationEnabled = True
         Me.cmbAccountType2.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbAccountType2.Enabled = False
         Me.cmbAccountType2.FieldCode = Nothing
         Me.cmbAccountType2.FieldDesc = Nothing
         Me.cmbAccountType2.FieldMaxLength = 0
@@ -1785,7 +1769,7 @@ Partial Class frmVSP_VLCMaster
         Me.cmbAccountType2.IsSourceFromTable = False
         Me.cmbAccountType2.IsSourceFromValueList = False
         Me.cmbAccountType2.IsUnique = False
-        Me.cmbAccountType2.Location = New System.Drawing.Point(114, 112)
+        Me.cmbAccountType2.Location = New System.Drawing.Point(93, 16)
         Me.cmbAccountType2.MendatroryField = False
         Me.cmbAccountType2.MyLinkLable1 = Me.MyLabel32
         Me.cmbAccountType2.MyLinkLable2 = Nothing
@@ -1793,14 +1777,14 @@ Partial Class frmVSP_VLCMaster
         Me.cmbAccountType2.ReferenceFieldDesc = Nothing
         Me.cmbAccountType2.ReferenceFieldName = Nothing
         Me.cmbAccountType2.ReferenceTableName = Nothing
-        Me.cmbAccountType2.Size = New System.Drawing.Size(132, 18)
+        Me.cmbAccountType2.Size = New System.Drawing.Size(211, 18)
         Me.cmbAccountType2.TabIndex = 64
         '
         'MyLabel32
         '
         Me.MyLabel32.FieldName = Nothing
         Me.MyLabel32.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel32.Location = New System.Drawing.Point(18, 113)
+        Me.MyLabel32.Location = New System.Drawing.Point(5, 17)
         Me.MyLabel32.Name = "MyLabel32"
         Me.MyLabel32.Size = New System.Drawing.Size(75, 16)
         Me.MyLabel32.TabIndex = 72
@@ -1810,7 +1794,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel33.FieldName = Nothing
         Me.MyLabel33.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel33.Location = New System.Drawing.Point(18, 90)
+        Me.MyLabel33.Location = New System.Drawing.Point(5, 103)
         Me.MyLabel33.Name = "MyLabel33"
         Me.MyLabel33.Size = New System.Drawing.Size(46, 16)
         Me.MyLabel33.TabIndex = 68
@@ -1828,7 +1812,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtAccNo2.IsSourceFromTable = False
         Me.TxtAccNo2.IsSourceFromValueList = False
         Me.TxtAccNo2.IsUnique = False
-        Me.TxtAccNo2.Location = New System.Drawing.Point(114, 89)
+        Me.TxtAccNo2.Location = New System.Drawing.Point(93, 102)
         Me.TxtAccNo2.MaxLength = 50
         Me.TxtAccNo2.MendatroryField = False
         Me.TxtAccNo2.MyLinkLable1 = Me.MyLabel33
@@ -1844,7 +1828,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel34.FieldName = Nothing
         Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel34.Location = New System.Drawing.Point(332, 67)
+        Me.MyLabel34.Location = New System.Drawing.Point(310, 82)
         Me.MyLabel34.Name = "MyLabel34"
         Me.MyLabel34.Size = New System.Drawing.Size(71, 16)
         Me.MyLabel34.TabIndex = 70
@@ -1862,7 +1846,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtBankBranch2.IsSourceFromTable = False
         Me.txtBankBranch2.IsSourceFromValueList = False
         Me.txtBankBranch2.IsUnique = False
-        Me.txtBankBranch2.Location = New System.Drawing.Point(431, 66)
+        Me.txtBankBranch2.Location = New System.Drawing.Point(410, 81)
         Me.txtBankBranch2.MaxLength = 50
         Me.txtBankBranch2.MendatroryField = False
         Me.txtBankBranch2.MyLinkLable1 = Me.MyLabel34
@@ -1878,7 +1862,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel35.FieldName = Nothing
         Me.MyLabel35.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel35.Location = New System.Drawing.Point(18, 68)
+        Me.MyLabel35.Location = New System.Drawing.Point(5, 82)
         Me.MyLabel35.Name = "MyLabel35"
         Me.MyLabel35.Size = New System.Drawing.Size(62, 16)
         Me.MyLabel35.TabIndex = 69
@@ -1896,7 +1880,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtBankName2.IsSourceFromTable = False
         Me.TxtBankName2.IsSourceFromValueList = False
         Me.TxtBankName2.IsUnique = False
-        Me.TxtBankName2.Location = New System.Drawing.Point(431, 42)
+        Me.TxtBankName2.Location = New System.Drawing.Point(410, 59)
         Me.TxtBankName2.MaxLength = 50
         Me.TxtBankName2.MendatroryField = False
         Me.TxtBankName2.MyLinkLable1 = Me.MyLabel26
@@ -1920,7 +1904,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtbankcodedes2.IsSourceFromTable = False
         Me.txtbankcodedes2.IsSourceFromValueList = False
         Me.txtbankcodedes2.IsUnique = False
-        Me.txtbankcodedes2.Location = New System.Drawing.Point(331, 18)
+        Me.txtbankcodedes2.Location = New System.Drawing.Point(310, 37)
         Me.txtbankcodedes2.MaxLength = 50
         Me.txtbankcodedes2.MendatroryField = True
         Me.txtbankcodedes2.MyLinkLable1 = Me.MyLabel36
@@ -1938,7 +1922,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel36.FieldName = Nothing
         Me.MyLabel36.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel36.Location = New System.Drawing.Point(18, 19)
+        Me.MyLabel36.Location = New System.Drawing.Point(5, 38)
         Me.MyLabel36.Name = "MyLabel36"
         Me.MyLabel36.Size = New System.Drawing.Size(62, 16)
         Me.MyLabel36.TabIndex = 67
@@ -1948,7 +1932,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel37.FieldName = Nothing
         Me.MyLabel37.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel37.Location = New System.Drawing.Point(18, 44)
+        Me.MyLabel37.Location = New System.Drawing.Point(5, 60)
         Me.MyLabel37.Name = "MyLabel37"
         Me.MyLabel37.Size = New System.Drawing.Size(63, 16)
         Me.MyLabel37.TabIndex = 66
@@ -1965,7 +1949,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtCredit2.IsSourceFromTable = False
         Me.txtCredit2.IsSourceFromValueList = False
         Me.txtCredit2.IsUnique = False
-        Me.txtCredit2.Location = New System.Drawing.Point(114, 42)
+        Me.txtCredit2.Location = New System.Drawing.Point(93, 58)
         Me.txtCredit2.MaxLength = 12
         Me.txtCredit2.MendatroryField = False
         Me.txtCredit2.MyLinkLable1 = Me.MyLabel37
@@ -1990,7 +1974,7 @@ Partial Class frmVSP_VLCMaster
         Me.findfndbankcode.IsSourceFromTable = False
         Me.findfndbankcode.IsSourceFromValueList = False
         Me.findfndbankcode.IsUnique = False
-        Me.findfndbankcode.Location = New System.Drawing.Point(117, 8)
+        Me.findfndbankcode.Location = New System.Drawing.Point(92, 41)
         Me.findfndbankcode.MendatroryField = False
         Me.findfndbankcode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.findfndbankcode.MyLinkLable1 = Nothing
@@ -2001,7 +1985,7 @@ Partial Class frmVSP_VLCMaster
         Me.findfndbankcode.ReferenceFieldDesc = Nothing
         Me.findfndbankcode.ReferenceFieldName = Nothing
         Me.findfndbankcode.ReferenceTableName = Nothing
-        Me.findfndbankcode.Size = New System.Drawing.Size(211, 19)
+        Me.findfndbankcode.Size = New System.Drawing.Size(211, 18)
         Me.findfndbankcode.TabIndex = 58
         Me.findfndbankcode.Value = ""
         '
@@ -2017,7 +2001,7 @@ Partial Class frmVSP_VLCMaster
         Me.fndbankcode.IsSourceFromTable = False
         Me.fndbankcode.IsSourceFromValueList = False
         Me.fndbankcode.IsUnique = False
-        Me.fndbankcode.Location = New System.Drawing.Point(117, 10)
+        Me.fndbankcode.Location = New System.Drawing.Point(93, 41)
         Me.fndbankcode.MaxLength = 50
         Me.fndbankcode.MendatroryField = False
         Me.fndbankcode.MyLinkLable1 = Me.MyLabel15
@@ -2033,7 +2017,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel15.FieldName = Nothing
         Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(335, 37)
+        Me.MyLabel15.Location = New System.Drawing.Point(310, 63)
         Me.MyLabel15.Name = "MyLabel15"
         Me.MyLabel15.Size = New System.Drawing.Size(65, 16)
         Me.MyLabel15.TabIndex = 52
@@ -2043,7 +2027,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel16.FieldName = Nothing
         Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(335, 83)
+        Me.MyLabel16.Location = New System.Drawing.Point(310, 104)
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(93, 16)
         Me.MyLabel16.TabIndex = 55
@@ -2061,7 +2045,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtSecurityCharges.IsSourceFromTable = False
         Me.TxtSecurityCharges.IsSourceFromValueList = False
         Me.TxtSecurityCharges.IsUnique = False
-        Me.TxtSecurityCharges.Location = New System.Drawing.Point(466, 81)
+        Me.TxtSecurityCharges.Location = New System.Drawing.Point(410, 102)
         Me.TxtSecurityCharges.MaxLength = 12
         Me.TxtSecurityCharges.MendatroryField = False
         Me.TxtSecurityCharges.MyLinkLable1 = Me.MyLabel16
@@ -2083,6 +2067,7 @@ Partial Class frmVSP_VLCMaster
         Me.cmbAccountType.CalculationExpression = Nothing
         Me.cmbAccountType.DropDownAnimationEnabled = True
         Me.cmbAccountType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbAccountType.Enabled = False
         Me.cmbAccountType.FieldCode = Nothing
         Me.cmbAccountType.FieldDesc = Nothing
         Me.cmbAccountType.FieldMaxLength = 0
@@ -2092,7 +2077,7 @@ Partial Class frmVSP_VLCMaster
         Me.cmbAccountType.IsSourceFromTable = False
         Me.cmbAccountType.IsSourceFromValueList = False
         Me.cmbAccountType.IsUnique = False
-        Me.cmbAccountType.Location = New System.Drawing.Point(117, 104)
+        Me.cmbAccountType.Location = New System.Drawing.Point(93, 21)
         Me.cmbAccountType.MendatroryField = False
         Me.cmbAccountType.MyLinkLable1 = Me.MyLabel11
         Me.cmbAccountType.MyLinkLable2 = Nothing
@@ -2100,14 +2085,14 @@ Partial Class frmVSP_VLCMaster
         Me.cmbAccountType.ReferenceFieldDesc = Nothing
         Me.cmbAccountType.ReferenceFieldName = Nothing
         Me.cmbAccountType.ReferenceTableName = Nothing
-        Me.cmbAccountType.Size = New System.Drawing.Size(132, 18)
+        Me.cmbAccountType.Size = New System.Drawing.Size(212, 18)
         Me.cmbAccountType.TabIndex = 12
         '
         'MyLabel11
         '
         Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel11.Location = New System.Drawing.Point(21, 105)
+        Me.MyLabel11.Location = New System.Drawing.Point(5, 22)
         Me.MyLabel11.Name = "MyLabel11"
         Me.MyLabel11.Size = New System.Drawing.Size(75, 16)
         Me.MyLabel11.TabIndex = 53
@@ -2117,7 +2102,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(21, 82)
+        Me.MyLabel12.Location = New System.Drawing.Point(5, 104)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(46, 16)
         Me.MyLabel12.TabIndex = 49
@@ -2135,7 +2120,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtAccNo.IsSourceFromTable = False
         Me.TxtAccNo.IsSourceFromValueList = False
         Me.TxtAccNo.IsUnique = False
-        Me.TxtAccNo.Location = New System.Drawing.Point(117, 81)
+        Me.TxtAccNo.Location = New System.Drawing.Point(93, 103)
         Me.TxtAccNo.MaxLength = 50
         Me.TxtAccNo.MendatroryField = False
         Me.TxtAccNo.MyLinkLable1 = Me.MyLabel12
@@ -2151,7 +2136,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(335, 59)
+        Me.MyLabel13.Location = New System.Drawing.Point(310, 84)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(71, 16)
         Me.MyLabel13.TabIndex = 51
@@ -2169,7 +2154,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtBankBranch.IsSourceFromTable = False
         Me.TxtBankBranch.IsSourceFromValueList = False
         Me.TxtBankBranch.IsUnique = False
-        Me.TxtBankBranch.Location = New System.Drawing.Point(466, 58)
+        Me.TxtBankBranch.Location = New System.Drawing.Point(410, 83)
         Me.TxtBankBranch.MaxLength = 50
         Me.TxtBankBranch.MendatroryField = False
         Me.TxtBankBranch.MyLinkLable1 = Me.MyLabel13
@@ -2185,7 +2170,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel14.FieldName = Nothing
         Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel14.Location = New System.Drawing.Point(21, 60)
+        Me.MyLabel14.Location = New System.Drawing.Point(5, 84)
         Me.MyLabel14.Name = "MyLabel14"
         Me.MyLabel14.Size = New System.Drawing.Size(62, 16)
         Me.MyLabel14.TabIndex = 50
@@ -2203,7 +2188,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtBankName.IsSourceFromTable = False
         Me.TxtBankName.IsSourceFromValueList = False
         Me.TxtBankName.IsUnique = False
-        Me.TxtBankName.Location = New System.Drawing.Point(466, 34)
+        Me.TxtBankName.Location = New System.Drawing.Point(410, 62)
         Me.TxtBankName.MaxLength = 50
         Me.TxtBankName.MendatroryField = False
         Me.TxtBankName.MyLinkLable1 = Me.MyLabel15
@@ -2227,7 +2212,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtbankcodedes.IsSourceFromTable = False
         Me.txtbankcodedes.IsSourceFromValueList = False
         Me.txtbankcodedes.IsUnique = False
-        Me.txtbankcodedes.Location = New System.Drawing.Point(339, 10)
+        Me.txtbankcodedes.Location = New System.Drawing.Point(310, 41)
         Me.txtbankcodedes.MaxLength = 50
         Me.txtbankcodedes.MendatroryField = True
         Me.txtbankcodedes.MyLinkLable1 = Me.lblbankcode
@@ -2237,7 +2222,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtbankcodedes.ReferenceFieldDesc = Nothing
         Me.txtbankcodedes.ReferenceFieldName = Nothing
         Me.txtbankcodedes.ReferenceTableName = Nothing
-        Me.txtbankcodedes.Size = New System.Drawing.Size(405, 18)
+        Me.txtbankcodedes.Size = New System.Drawing.Size(379, 18)
         Me.txtbankcodedes.TabIndex = 16
         Me.txtbankcodedes.TabStop = False
         '
@@ -2245,7 +2230,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.lblbankcode.FieldName = Nothing
         Me.lblbankcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblbankcode.Location = New System.Drawing.Point(21, 11)
+        Me.lblbankcode.Location = New System.Drawing.Point(5, 42)
         Me.lblbankcode.Name = "lblbankcode"
         Me.lblbankcode.Size = New System.Drawing.Size(62, 16)
         Me.lblbankcode.TabIndex = 26
@@ -2255,7 +2240,7 @@ Partial Class frmVSP_VLCMaster
         '
         Me.RadLabel30.FieldName = Nothing
         Me.RadLabel30.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel30.Location = New System.Drawing.Point(21, 36)
+        Me.RadLabel30.Location = New System.Drawing.Point(5, 63)
         Me.RadLabel30.Name = "RadLabel30"
         Me.RadLabel30.Size = New System.Drawing.Size(63, 16)
         Me.RadLabel30.TabIndex = 21
@@ -2272,7 +2257,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtCredit.IsSourceFromTable = False
         Me.txtCredit.IsSourceFromValueList = False
         Me.txtCredit.IsUnique = False
-        Me.txtCredit.Location = New System.Drawing.Point(117, 34)
+        Me.txtCredit.Location = New System.Drawing.Point(93, 61)
         Me.txtCredit.MaxLength = 12
         Me.txtCredit.MendatroryField = False
         Me.txtCredit.MyLinkLable1 = Me.RadLabel30
@@ -2289,16 +2274,33 @@ Partial Class frmVSP_VLCMaster
         'GroupBox5
         '
         Me.GroupBox5.Controls.Add(Me.lblCurrentCompanyBank)
+        Me.GroupBox5.Controls.Add(Me.fndbankcode)
+        Me.GroupBox5.Controls.Add(Me.findfndbankcode)
         Me.GroupBox5.Controls.Add(Me.txtCurrentCompanyBank)
         Me.GroupBox5.Controls.Add(Me.MyLabel58)
+        Me.GroupBox5.Controls.Add(Me.MyLabel15)
         Me.GroupBox5.Controls.Add(Me.TxtIFSCCode)
+        Me.GroupBox5.Controls.Add(Me.MyLabel16)
         Me.GroupBox5.Controls.Add(Me.findTxtIFSCCode)
-        Me.GroupBox5.Location = New System.Drawing.Point(3, -3)
+        Me.GroupBox5.Controls.Add(Me.TxtSecurityCharges)
+        Me.GroupBox5.Controls.Add(Me.cmbAccountType)
+        Me.GroupBox5.Controls.Add(Me.MyLabel12)
+        Me.GroupBox5.Controls.Add(Me.MyLabel11)
+        Me.GroupBox5.Controls.Add(Me.TxtAccNo)
+        Me.GroupBox5.Controls.Add(Me.lblbankcode)
+        Me.GroupBox5.Controls.Add(Me.MyLabel13)
+        Me.GroupBox5.Controls.Add(Me.txtCredit)
+        Me.GroupBox5.Controls.Add(Me.TxtBankBranch)
+        Me.GroupBox5.Controls.Add(Me.RadLabel30)
+        Me.GroupBox5.Controls.Add(Me.MyLabel14)
+        Me.GroupBox5.Controls.Add(Me.txtbankcodedes)
+        Me.GroupBox5.Controls.Add(Me.TxtBankName)
+        Me.GroupBox5.Location = New System.Drawing.Point(3, 2)
         Me.GroupBox5.Name = "GroupBox5"
-        Me.GroupBox5.Size = New System.Drawing.Size(916, 132)
+        Me.GroupBox5.Size = New System.Drawing.Size(693, 149)
         Me.GroupBox5.TabIndex = 320
         Me.GroupBox5.TabStop = False
-        Me.GroupBox5.Text = "Bank 1 Details"
+        Me.GroupBox5.Text = "Bank Details of Current  Account"
         '
         'lblCurrentCompanyBank
         '
@@ -2312,7 +2314,7 @@ Partial Class frmVSP_VLCMaster
         Me.lblCurrentCompanyBank.IsSourceFromTable = False
         Me.lblCurrentCompanyBank.IsSourceFromValueList = False
         Me.lblCurrentCompanyBank.IsUnique = False
-        Me.lblCurrentCompanyBank.Location = New System.Drawing.Point(682, 110)
+        Me.lblCurrentCompanyBank.Location = New System.Drawing.Point(310, 123)
         Me.lblCurrentCompanyBank.MaxLength = 50
         Me.lblCurrentCompanyBank.MendatroryField = False
         Me.lblCurrentCompanyBank.MyLinkLable1 = Me.MyLabel44
@@ -2322,7 +2324,7 @@ Partial Class frmVSP_VLCMaster
         Me.lblCurrentCompanyBank.ReferenceFieldDesc = Nothing
         Me.lblCurrentCompanyBank.ReferenceFieldName = Nothing
         Me.lblCurrentCompanyBank.ReferenceTableName = Nothing
-        Me.lblCurrentCompanyBank.Size = New System.Drawing.Size(228, 18)
+        Me.lblCurrentCompanyBank.Size = New System.Drawing.Size(379, 18)
         Me.lblCurrentCompanyBank.TabIndex = 321
         Me.lblCurrentCompanyBank.TabStop = False
         '
@@ -2337,7 +2339,7 @@ Partial Class frmVSP_VLCMaster
         Me.txtCurrentCompanyBank.IsSourceFromTable = False
         Me.txtCurrentCompanyBank.IsSourceFromValueList = False
         Me.txtCurrentCompanyBank.IsUnique = False
-        Me.txtCurrentCompanyBank.Location = New System.Drawing.Point(463, 108)
+        Me.txtCurrentCompanyBank.Location = New System.Drawing.Point(93, 123)
         Me.txtCurrentCompanyBank.MendatroryField = False
         Me.txtCurrentCompanyBank.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtCurrentCompanyBank.MyLinkLable1 = Nothing
@@ -2356,11 +2358,11 @@ Partial Class frmVSP_VLCMaster
         '
         Me.MyLabel58.FieldName = Nothing
         Me.MyLabel58.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel58.Location = New System.Drawing.Point(333, 108)
+        Me.MyLabel58.Location = New System.Drawing.Point(5, 124)
         Me.MyLabel58.Name = "MyLabel58"
-        Me.MyLabel58.Size = New System.Drawing.Size(125, 16)
+        Me.MyLabel58.Size = New System.Drawing.Size(84, 16)
         Me.MyLabel58.TabIndex = 319
-        Me.MyLabel58.Text = "Current Company Bank"
+        Me.MyLabel58.Text = "Company Bank"
         '
         'TxtIFSCCode
         '
@@ -2374,7 +2376,7 @@ Partial Class frmVSP_VLCMaster
         Me.TxtIFSCCode.IsSourceFromTable = False
         Me.TxtIFSCCode.IsSourceFromValueList = False
         Me.TxtIFSCCode.IsUnique = False
-        Me.TxtIFSCCode.Location = New System.Drawing.Point(114, 63)
+        Me.TxtIFSCCode.Location = New System.Drawing.Point(93, 83)
         Me.TxtIFSCCode.MaxLength = 50
         Me.TxtIFSCCode.MendatroryField = False
         Me.TxtIFSCCode.MyLinkLable1 = Me.MyLabel15
@@ -2397,7 +2399,7 @@ Partial Class frmVSP_VLCMaster
         Me.findTxtIFSCCode.IsSourceFromTable = False
         Me.findTxtIFSCCode.IsSourceFromValueList = False
         Me.findTxtIFSCCode.IsUnique = False
-        Me.findTxtIFSCCode.Location = New System.Drawing.Point(114, 63)
+        Me.findTxtIFSCCode.Location = New System.Drawing.Point(94, 83)
         Me.findTxtIFSCCode.MendatroryField = False
         Me.findTxtIFSCCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.findTxtIFSCCode.MyLinkLable1 = Nothing
@@ -2408,7 +2410,7 @@ Partial Class frmVSP_VLCMaster
         Me.findTxtIFSCCode.ReferenceFieldDesc = Nothing
         Me.findTxtIFSCCode.ReferenceFieldName = Nothing
         Me.findTxtIFSCCode.ReferenceTableName = Nothing
-        Me.findTxtIFSCCode.Size = New System.Drawing.Size(211, 19)
+        Me.findTxtIFSCCode.Size = New System.Drawing.Size(211, 18)
         Me.findTxtIFSCCode.TabIndex = 59
         Me.findTxtIFSCCode.Value = ""
         '
@@ -5190,7 +5192,7 @@ Partial Class frmVSP_VLCMaster
         Me.ClsMyPrintDocument1.LeftMiddleText = Nothing
         Me.ClsMyPrintDocument1.LeftUpperFont = Nothing
         Me.ClsMyPrintDocument1.LeftUpperText = Nothing
-        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark1
+        Me.ClsMyPrintDocument1.Watermark = RadPrintWatermark5
         '
         'frmVSP_VLCMaster
         '
@@ -5262,7 +5264,6 @@ Partial Class frmVSP_VLCMaster
         Me.RadGroupBox3.PerformLayout()
         CType(Me.chkHold, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
-        Me.RadPageViewPage2.PerformLayout()
         CType(Me.lblSavingCompanyBank, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gbBank2Details.ResumeLayout(False)
