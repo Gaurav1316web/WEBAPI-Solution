@@ -25,6 +25,7 @@ Partial Class frmLoanGeneration
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLoanGeneration))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.lblDivisionName = New common.Controls.MyLabel()
@@ -147,7 +148,6 @@ Partial Class frmLoanGeneration
         Me.lblDivisionName.Name = "lblDivisionName"
         Me.lblDivisionName.Size = New System.Drawing.Size(222, 19)
         Me.lblDivisionName.TabIndex = 213
-        Me.lblDivisionName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndDivision
         '
@@ -194,7 +194,6 @@ Partial Class frmLoanGeneration
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(222, 19)
         Me.lblLocationName.TabIndex = 210
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndLocation
         '
@@ -270,7 +269,6 @@ Partial Class frmLoanGeneration
         Me.lblGeneratedByName.Name = "lblGeneratedByName"
         Me.lblGeneratedByName.Size = New System.Drawing.Size(222, 19)
         Me.lblGeneratedByName.TabIndex = 6
-        Me.lblGeneratedByName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblPayPeriodName
         '
@@ -281,7 +279,6 @@ Partial Class frmLoanGeneration
         Me.lblPayPeriodName.Name = "lblPayPeriodName"
         Me.lblPayPeriodName.Size = New System.Drawing.Size(222, 19)
         Me.lblPayPeriodName.TabIndex = 3
-        Me.lblPayPeriodName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'findPayperiod
         '
@@ -440,7 +437,7 @@ Partial Class frmLoanGeneration
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblGenerationCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(221, 21)
@@ -468,20 +465,22 @@ Partial Class frmLoanGeneration
         Me.gvLoanGeneration.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvLoanGeneration.Location = New System.Drawing.Point(3, 212)
         '
-        'gvLoanGeneration
+        '
         '
         Me.gvLoanGeneration.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvLoanGeneration.MasterTemplate.AllowAddNewRow = False
         Me.gvLoanGeneration.MasterTemplate.AutoGenerateColumns = False
         Me.gvLoanGeneration.MasterTemplate.EnableGrouping = False
+        Me.gvLoanGeneration.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvLoanGeneration.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvLoanGeneration.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvLoanGeneration.MyStopExport = False
         Me.gvLoanGeneration.Name = "gvLoanGeneration"
         Me.gvLoanGeneration.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvLoanGeneration.ShowHeaderCellButtons = True
         Me.gvLoanGeneration.Size = New System.Drawing.Size(817, 223)
         Me.gvLoanGeneration.TabIndex = 9
         Me.gvLoanGeneration.TabStop = False
-        Me.gvLoanGeneration.Text = "RadGridView4"
         '
         'btnPost
         '

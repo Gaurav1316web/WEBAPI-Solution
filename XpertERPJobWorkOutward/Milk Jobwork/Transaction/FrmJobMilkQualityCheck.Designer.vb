@@ -23,10 +23,6 @@ Partial Class FrmJobMilkQualityCheck
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -35,6 +31,14 @@ Partial Class FrmJobMilkQualityCheck
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.dtpQCInDateTime = New common.Controls.MyDateTimePicker()
         Me.lblQcInDateAndTime = New common.Controls.MyLabel()
         Me.fndGateEntryNo = New common.UserControls.txtFinder()
@@ -234,8 +238,17 @@ Partial Class FrmJobMilkQualityCheck
         '
         'dtpQCInDateTime
         '
+        Me.dtpQCInDateTime.CalculationExpression = Nothing
         Me.dtpQCInDateTime.CustomFormat = "dd/MM/yyyy hh:mm:ss tt"
+        Me.dtpQCInDateTime.FieldCode = Nothing
+        Me.dtpQCInDateTime.FieldDesc = Nothing
+        Me.dtpQCInDateTime.FieldMaxLength = 0
+        Me.dtpQCInDateTime.FieldName = Nothing
         Me.dtpQCInDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpQCInDateTime.isCalculatedField = False
+        Me.dtpQCInDateTime.IsSourceFromTable = False
+        Me.dtpQCInDateTime.IsSourceFromValueList = False
+        Me.dtpQCInDateTime.IsUnique = False
         Me.dtpQCInDateTime.Location = New System.Drawing.Point(138, 30)
         Me.dtpQCInDateTime.MendatroryField = False
         Me.dtpQCInDateTime.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -243,6 +256,9 @@ Partial Class FrmJobMilkQualityCheck
         Me.dtpQCInDateTime.MyLinkLable2 = Nothing
         Me.dtpQCInDateTime.Name = "dtpQCInDateTime"
         Me.dtpQCInDateTime.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpQCInDateTime.ReferenceFieldDesc = Nothing
+        Me.dtpQCInDateTime.ReferenceFieldName = Nothing
+        Me.dtpQCInDateTime.ReferenceTableName = Nothing
         Me.dtpQCInDateTime.Size = New System.Drawing.Size(190, 20)
         Me.dtpQCInDateTime.TabIndex = 288
         Me.dtpQCInDateTime.TabStop = False
@@ -251,6 +267,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'lblQcInDateAndTime
         '
+        Me.lblQcInDateAndTime.FieldName = Nothing
         Me.lblQcInDateAndTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblQcInDateAndTime.Location = New System.Drawing.Point(13, 30)
         Me.lblQcInDateAndTime.Name = "lblQcInDateAndTime"
@@ -260,7 +277,16 @@ Partial Class FrmJobMilkQualityCheck
         '
         'fndGateEntryNo
         '
+        Me.fndGateEntryNo.CalculationExpression = Nothing
         Me.fndGateEntryNo.Enabled = False
+        Me.fndGateEntryNo.FieldCode = Nothing
+        Me.fndGateEntryNo.FieldDesc = Nothing
+        Me.fndGateEntryNo.FieldMaxLength = 0
+        Me.fndGateEntryNo.FieldName = Nothing
+        Me.fndGateEntryNo.isCalculatedField = False
+        Me.fndGateEntryNo.IsSourceFromTable = False
+        Me.fndGateEntryNo.IsSourceFromValueList = False
+        Me.fndGateEntryNo.IsUnique = False
         Me.fndGateEntryNo.Location = New System.Drawing.Point(138, 53)
         Me.fndGateEntryNo.MendatroryField = True
         Me.fndGateEntryNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -269,6 +295,9 @@ Partial Class FrmJobMilkQualityCheck
         Me.fndGateEntryNo.MyReadOnly = True
         Me.fndGateEntryNo.MyShowMasterFormButton = False
         Me.fndGateEntryNo.Name = "fndGateEntryNo"
+        Me.fndGateEntryNo.ReferenceFieldDesc = Nothing
+        Me.fndGateEntryNo.ReferenceFieldName = Nothing
+        Me.fndGateEntryNo.ReferenceTableName = Nothing
         Me.fndGateEntryNo.Size = New System.Drawing.Size(190, 19)
         Me.fndGateEntryNo.TabIndex = 0
         Me.fndGateEntryNo.Value = ""
@@ -277,15 +306,16 @@ Partial Class FrmJobMilkQualityCheck
         '
         Me.lblStatusValue.AutoSize = False
         Me.lblStatusValue.BorderVisible = True
+        Me.lblStatusValue.FieldName = Nothing
         Me.lblStatusValue.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblStatusValue.Location = New System.Drawing.Point(138, 121)
         Me.lblStatusValue.Name = "lblStatusValue"
         Me.lblStatusValue.Size = New System.Drawing.Size(192, 19)
         Me.lblStatusValue.TabIndex = 286
-        Me.lblStatusValue.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblStatus
         '
+        Me.lblStatus.FieldName = Nothing
         Me.lblStatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatus.Location = New System.Drawing.Point(13, 122)
         Me.lblStatus.Name = "lblStatus"
@@ -297,14 +327,15 @@ Partial Class FrmJobMilkQualityCheck
         '
         Me.lblVendorName.AutoSize = False
         Me.lblVendorName.BorderVisible = True
+        Me.lblVendorName.FieldName = Nothing
         Me.lblVendorName.Location = New System.Drawing.Point(329, 145)
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(391, 19)
         Me.lblVendorName.TabIndex = 278
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblGateEntryNO
         '
+        Me.lblGateEntryNO.FieldName = Nothing
         Me.lblGateEntryNO.Location = New System.Drawing.Point(13, 53)
         Me.lblGateEntryNO.Name = "lblGateEntryNO"
         Me.lblGateEntryNO.Size = New System.Drawing.Size(82, 18)
@@ -315,14 +346,15 @@ Partial Class FrmJobMilkQualityCheck
         '
         Me.lblLocationName.AutoSize = False
         Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
         Me.lblLocationName.Location = New System.Drawing.Point(330, 166)
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(390, 19)
         Me.lblLocationName.TabIndex = 275
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDateAndTime
         '
+        Me.lblDateAndTime.FieldName = Nothing
         Me.lblDateAndTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDateAndTime.Location = New System.Drawing.Point(330, 53)
         Me.lblDateAndTime.Name = "lblDateAndTime"
@@ -402,6 +434,7 @@ Partial Class FrmJobMilkQualityCheck
         'MyLabel10
         '
         Me.MyLabel10.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
         Me.MyLabel10.ForeColor = System.Drawing.Color.WhiteSmoke
         Me.MyLabel10.Location = New System.Drawing.Point(811, 95)
@@ -414,22 +447,35 @@ Partial Class FrmJobMilkQualityCheck
         '
         Me.CboMachine.AutoCompleteDisplayMember = Nothing
         Me.CboMachine.AutoCompleteValueMember = Nothing
+        Me.CboMachine.CalculationExpression = Nothing
+        Me.CboMachine.DropDownAnimationEnabled = True
         Me.CboMachine.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.CboMachine.FieldCode = Nothing
+        Me.CboMachine.FieldDesc = Nothing
+        Me.CboMachine.FieldMaxLength = 0
+        Me.CboMachine.FieldName = Nothing
         Me.CboMachine.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.CboMachine.ForeColor = System.Drawing.Color.Lime
-        RadListDataItem13.Text = "COM1"
-        RadListDataItem14.Text = "COM2"
-        RadListDataItem15.Text = "COM3"
-        RadListDataItem16.Text = "COM4"
-        Me.CboMachine.Items.Add(RadListDataItem13)
-        Me.CboMachine.Items.Add(RadListDataItem14)
-        Me.CboMachine.Items.Add(RadListDataItem15)
-        Me.CboMachine.Items.Add(RadListDataItem16)
+        Me.CboMachine.isCalculatedField = False
+        Me.CboMachine.IsSourceFromTable = False
+        Me.CboMachine.IsSourceFromValueList = False
+        Me.CboMachine.IsUnique = False
+        RadListDataItem1.Text = "COM1"
+        RadListDataItem2.Text = "COM2"
+        RadListDataItem3.Text = "COM3"
+        RadListDataItem4.Text = "COM4"
+        Me.CboMachine.Items.Add(RadListDataItem1)
+        Me.CboMachine.Items.Add(RadListDataItem2)
+        Me.CboMachine.Items.Add(RadListDataItem3)
+        Me.CboMachine.Items.Add(RadListDataItem4)
         Me.CboMachine.Location = New System.Drawing.Point(594, 46)
         Me.CboMachine.MendatroryField = True
         Me.CboMachine.MyLinkLable1 = Me.MyLabel15
         Me.CboMachine.MyLinkLable2 = Nothing
         Me.CboMachine.Name = "CboMachine"
+        Me.CboMachine.ReferenceFieldDesc = Nothing
+        Me.CboMachine.ReferenceFieldName = Nothing
+        Me.CboMachine.ReferenceTableName = Nothing
         '
         '
         '
@@ -439,6 +485,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'MyLabel15
         '
+        Me.MyLabel15.FieldName = Nothing
         Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel15.ForeColor = System.Drawing.Color.Lime
         Me.MyLabel15.Location = New System.Drawing.Point(534, 47)
@@ -459,6 +506,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'MyLabel5
         '
+        Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.ForeColor = System.Drawing.Color.Lime
         Me.MyLabel5.Location = New System.Drawing.Point(214, 45)
@@ -469,6 +517,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'MyLabel6
         '
+        Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 20.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel6.ForeColor = System.Drawing.Color.Lime
         Me.MyLabel6.Location = New System.Drawing.Point(503, 11)
@@ -481,22 +530,35 @@ Partial Class FrmJobMilkQualityCheck
         '
         Me.cboComPort.AutoCompleteDisplayMember = Nothing
         Me.cboComPort.AutoCompleteValueMember = Nothing
+        Me.cboComPort.CalculationExpression = Nothing
+        Me.cboComPort.DropDownAnimationEnabled = True
         Me.cboComPort.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboComPort.FieldCode = Nothing
+        Me.cboComPort.FieldDesc = Nothing
+        Me.cboComPort.FieldMaxLength = 0
+        Me.cboComPort.FieldName = Nothing
         Me.cboComPort.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboComPort.ForeColor = System.Drawing.Color.Lime
-        RadListDataItem1.Text = "COM1"
-        RadListDataItem2.Text = "COM2"
-        RadListDataItem3.Text = "COM3"
-        RadListDataItem4.Text = "COM4"
-        Me.cboComPort.Items.Add(RadListDataItem1)
-        Me.cboComPort.Items.Add(RadListDataItem2)
-        Me.cboComPort.Items.Add(RadListDataItem3)
-        Me.cboComPort.Items.Add(RadListDataItem4)
+        Me.cboComPort.isCalculatedField = False
+        Me.cboComPort.IsSourceFromTable = False
+        Me.cboComPort.IsSourceFromValueList = False
+        Me.cboComPort.IsUnique = False
+        RadListDataItem5.Text = "COM1"
+        RadListDataItem6.Text = "COM2"
+        RadListDataItem7.Text = "COM3"
+        RadListDataItem8.Text = "COM4"
+        Me.cboComPort.Items.Add(RadListDataItem5)
+        Me.cboComPort.Items.Add(RadListDataItem6)
+        Me.cboComPort.Items.Add(RadListDataItem7)
+        Me.cboComPort.Items.Add(RadListDataItem8)
         Me.cboComPort.Location = New System.Drawing.Point(427, 45)
         Me.cboComPort.MendatroryField = True
         Me.cboComPort.MyLinkLable1 = Me.lblComPort
         Me.cboComPort.MyLinkLable2 = Nothing
         Me.cboComPort.Name = "cboComPort"
+        Me.cboComPort.ReferenceFieldDesc = Nothing
+        Me.cboComPort.ReferenceFieldName = Nothing
+        Me.cboComPort.ReferenceTableName = Nothing
         '
         '
         '
@@ -506,6 +568,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'lblComPort
         '
+        Me.lblComPort.FieldName = Nothing
         Me.lblComPort.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblComPort.ForeColor = System.Drawing.Color.Lime
         Me.lblComPort.Location = New System.Drawing.Point(367, 46)
@@ -518,22 +581,35 @@ Partial Class FrmJobMilkQualityCheck
         '
         Me.cboECOPro.AutoCompleteDisplayMember = Nothing
         Me.cboECOPro.AutoCompleteValueMember = Nothing
+        Me.cboECOPro.CalculationExpression = Nothing
+        Me.cboECOPro.DropDownAnimationEnabled = True
         Me.cboECOPro.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboECOPro.FieldCode = Nothing
+        Me.cboECOPro.FieldDesc = Nothing
+        Me.cboECOPro.FieldMaxLength = 0
+        Me.cboECOPro.FieldName = Nothing
         Me.cboECOPro.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.cboECOPro.ForeColor = System.Drawing.Color.Lime
-        RadListDataItem5.Text = "COM1"
-        RadListDataItem6.Text = "COM2"
-        RadListDataItem7.Text = "COM3"
-        RadListDataItem8.Text = "COM4"
-        Me.cboECOPro.Items.Add(RadListDataItem5)
-        Me.cboECOPro.Items.Add(RadListDataItem6)
-        Me.cboECOPro.Items.Add(RadListDataItem7)
-        Me.cboECOPro.Items.Add(RadListDataItem8)
+        Me.cboECOPro.isCalculatedField = False
+        Me.cboECOPro.IsSourceFromTable = False
+        Me.cboECOPro.IsSourceFromValueList = False
+        Me.cboECOPro.IsUnique = False
+        RadListDataItem9.Text = "COM1"
+        RadListDataItem10.Text = "COM2"
+        RadListDataItem11.Text = "COM3"
+        RadListDataItem12.Text = "COM4"
+        Me.cboECOPro.Items.Add(RadListDataItem9)
+        Me.cboECOPro.Items.Add(RadListDataItem10)
+        Me.cboECOPro.Items.Add(RadListDataItem11)
+        Me.cboECOPro.Items.Add(RadListDataItem12)
         Me.cboECOPro.Location = New System.Drawing.Point(274, 44)
         Me.cboECOPro.MendatroryField = True
         Me.cboECOPro.MyLinkLable1 = Me.MyLabel5
         Me.cboECOPro.MyLinkLable2 = Nothing
         Me.cboECOPro.Name = "cboECOPro"
+        Me.cboECOPro.ReferenceFieldDesc = Nothing
+        Me.cboECOPro.ReferenceFieldName = Nothing
+        Me.cboECOPro.ReferenceTableName = Nothing
         '
         '
         '
@@ -543,6 +619,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'LblSnf
         '
+        Me.LblSnf.FieldName = Nothing
         Me.LblSnf.Font = New System.Drawing.Font("Arial", 20.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblSnf.ForeColor = System.Drawing.Color.Red
         Me.LblSnf.Location = New System.Drawing.Point(416, 11)
@@ -553,6 +630,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'MyLabel7
         '
+        Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 20.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel7.ForeColor = System.Drawing.Color.Lime
         Me.MyLabel7.Location = New System.Drawing.Point(349, 10)
@@ -563,6 +641,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'LblFAT
         '
+        Me.LblFAT.FieldName = Nothing
         Me.LblFAT.Font = New System.Drawing.Font("Arial", 20.0!, System.Drawing.FontStyle.Bold)
         Me.LblFAT.ForeColor = System.Drawing.Color.Red
         Me.LblFAT.Location = New System.Drawing.Point(575, 11)
@@ -596,7 +675,7 @@ Partial Class FrmJobMilkQualityCheck
         'btnReset
         '
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Image = My.Resources._new
+        Me.btnReset.Image = Global.XpertERPJobWorkOutward.My.Resources.Resources._new
         Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnReset.Location = New System.Drawing.Point(448, 14)
         Me.btnReset.Name = "btnReset"
@@ -605,13 +684,14 @@ Partial Class FrmJobMilkQualityCheck
         '
         'fndQcNo
         '
+        Me.fndQcNo.FieldName = Nothing
         Me.fndQcNo.Location = New System.Drawing.Point(137, 14)
         Me.fndQcNo.MendatroryField = False
         Me.fndQcNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.fndQcNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndQcNo.MyLinkLable1 = Me.lblQcNo
         Me.fndQcNo.MyLinkLable2 = Nothing
-        Me.fndQcNo.MyMaxLength = 32767
+        Me.fndQcNo.MyMaxLength = 30
         Me.fndQcNo.MyReadOnly = False
         Me.fndQcNo.Name = "fndQcNo"
         Me.fndQcNo.Size = New System.Drawing.Size(310, 18)
@@ -620,6 +700,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'lblQcNo
         '
+        Me.lblQcNo.FieldName = Nothing
         Me.lblQcNo.Location = New System.Drawing.Point(10, 15)
         Me.lblQcNo.Name = "lblQcNo"
         Me.lblQcNo.Size = New System.Drawing.Size(42, 18)
@@ -633,48 +714,36 @@ Partial Class FrmJobMilkQualityCheck
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(988, 20)
         Me.RadMenu1.TabIndex = 252
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'mnuSetting
         '
-        Me.mnuSetting.AccessibleDescription = "Setting"
-        Me.mnuSetting.AccessibleName = "Setting"
         Me.mnuSetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuSaveLayout, Me.RadMenuSeparatorItem1, Me.mnuDeleteLayout, Me.mnuExit, Me.mnuEmailSmsSetting})
         Me.mnuSetting.Name = "mnuSetting"
         Me.mnuSetting.Text = "Setting"
         '
         'mnuSaveLayout
         '
-        Me.mnuSaveLayout.AccessibleDescription = "Save Layout"
-        Me.mnuSaveLayout.AccessibleName = "Save Layout"
         Me.mnuSaveLayout.Name = "mnuSaveLayout"
         Me.mnuSaveLayout.Text = "Save Layout"
         '
         'RadMenuSeparatorItem1
         '
-        Me.RadMenuSeparatorItem1.AccessibleDescription = "RadMenuSeparatorItem1"
-        Me.RadMenuSeparatorItem1.AccessibleName = "RadMenuSeparatorItem1"
         Me.RadMenuSeparatorItem1.Name = "RadMenuSeparatorItem1"
         Me.RadMenuSeparatorItem1.Text = "RadMenuSeparatorItem1"
+        Me.RadMenuSeparatorItem1.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'mnuDeleteLayout
         '
-        Me.mnuDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.mnuDeleteLayout.AccessibleName = "Delete Layout"
         Me.mnuDeleteLayout.Name = "mnuDeleteLayout"
         Me.mnuDeleteLayout.Text = "Delete Layout"
         '
         'mnuExit
         '
-        Me.mnuExit.AccessibleDescription = "Exit"
-        Me.mnuExit.AccessibleName = "Exit"
         Me.mnuExit.Name = "mnuExit"
         Me.mnuExit.Text = "Exit"
         '
         'mnuEmailSmsSetting
         '
-        Me.mnuEmailSmsSetting.AccessibleDescription = "Email/SMS Setting"
-        Me.mnuEmailSmsSetting.AccessibleName = "Email/SMS Setting"
         Me.mnuEmailSmsSetting.Name = "mnuEmailSmsSetting"
         Me.mnuEmailSmsSetting.Text = "Email/SMS Setting"
         '
@@ -796,6 +865,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'MyLabel12
         '
+        Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Location = New System.Drawing.Point(243, 34)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(156, 18)
@@ -804,28 +874,53 @@ Partial Class FrmJobMilkQualityCheck
         '
         'txtRcptControlSampleSNF
         '
+        Me.txtRcptControlSampleSNF.CalculationExpression = Nothing
+        Me.txtRcptControlSampleSNF.FieldCode = Nothing
+        Me.txtRcptControlSampleSNF.FieldDesc = Nothing
+        Me.txtRcptControlSampleSNF.FieldMaxLength = 0
+        Me.txtRcptControlSampleSNF.FieldName = Nothing
+        Me.txtRcptControlSampleSNF.isCalculatedField = False
+        Me.txtRcptControlSampleSNF.IsSourceFromTable = False
+        Me.txtRcptControlSampleSNF.IsSourceFromValueList = False
+        Me.txtRcptControlSampleSNF.IsUnique = False
         Me.txtRcptControlSampleSNF.Location = New System.Drawing.Point(408, 35)
         Me.txtRcptControlSampleSNF.MaxLength = 50
         Me.txtRcptControlSampleSNF.MendatroryField = False
         Me.txtRcptControlSampleSNF.MyLinkLable1 = Nothing
         Me.txtRcptControlSampleSNF.MyLinkLable2 = Nothing
         Me.txtRcptControlSampleSNF.Name = "txtRcptControlSampleSNF"
+        Me.txtRcptControlSampleSNF.ReferenceFieldDesc = Nothing
+        Me.txtRcptControlSampleSNF.ReferenceFieldName = Nothing
+        Me.txtRcptControlSampleSNF.ReferenceTableName = Nothing
         Me.txtRcptControlSampleSNF.Size = New System.Drawing.Size(63, 20)
         Me.txtRcptControlSampleSNF.TabIndex = 366
         '
         'txtRcptControlSampleFAT
         '
+        Me.txtRcptControlSampleFAT.CalculationExpression = Nothing
+        Me.txtRcptControlSampleFAT.FieldCode = Nothing
+        Me.txtRcptControlSampleFAT.FieldDesc = Nothing
+        Me.txtRcptControlSampleFAT.FieldMaxLength = 0
+        Me.txtRcptControlSampleFAT.FieldName = Nothing
+        Me.txtRcptControlSampleFAT.isCalculatedField = False
+        Me.txtRcptControlSampleFAT.IsSourceFromTable = False
+        Me.txtRcptControlSampleFAT.IsSourceFromValueList = False
+        Me.txtRcptControlSampleFAT.IsUnique = False
         Me.txtRcptControlSampleFAT.Location = New System.Drawing.Point(174, 35)
         Me.txtRcptControlSampleFAT.MaxLength = 50
         Me.txtRcptControlSampleFAT.MendatroryField = False
         Me.txtRcptControlSampleFAT.MyLinkLable1 = Nothing
         Me.txtRcptControlSampleFAT.MyLinkLable2 = Nothing
         Me.txtRcptControlSampleFAT.Name = "txtRcptControlSampleFAT"
+        Me.txtRcptControlSampleFAT.ReferenceFieldDesc = Nothing
+        Me.txtRcptControlSampleFAT.ReferenceFieldName = Nothing
+        Me.txtRcptControlSampleFAT.ReferenceTableName = Nothing
         Me.txtRcptControlSampleFAT.Size = New System.Drawing.Size(63, 20)
         Me.txtRcptControlSampleFAT.TabIndex = 364
         '
         'MyLabel13
         '
+        Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Location = New System.Drawing.Point(7, 34)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(155, 18)
@@ -834,6 +929,15 @@ Partial Class FrmJobMilkQualityCheck
         '
         'txtDispControlSampleSNF
         '
+        Me.txtDispControlSampleSNF.CalculationExpression = Nothing
+        Me.txtDispControlSampleSNF.FieldCode = Nothing
+        Me.txtDispControlSampleSNF.FieldDesc = Nothing
+        Me.txtDispControlSampleSNF.FieldMaxLength = 0
+        Me.txtDispControlSampleSNF.FieldName = Nothing
+        Me.txtDispControlSampleSNF.isCalculatedField = False
+        Me.txtDispControlSampleSNF.IsSourceFromTable = False
+        Me.txtDispControlSampleSNF.IsSourceFromValueList = False
+        Me.txtDispControlSampleSNF.IsUnique = False
         Me.txtDispControlSampleSNF.Location = New System.Drawing.Point(408, 12)
         Me.txtDispControlSampleSNF.MaxLength = 50
         Me.txtDispControlSampleSNF.MendatroryField = False
@@ -841,11 +945,15 @@ Partial Class FrmJobMilkQualityCheck
         Me.txtDispControlSampleSNF.MyLinkLable2 = Nothing
         Me.txtDispControlSampleSNF.Name = "txtDispControlSampleSNF"
         Me.txtDispControlSampleSNF.ReadOnly = True
+        Me.txtDispControlSampleSNF.ReferenceFieldDesc = Nothing
+        Me.txtDispControlSampleSNF.ReferenceFieldName = Nothing
+        Me.txtDispControlSampleSNF.ReferenceTableName = Nothing
         Me.txtDispControlSampleSNF.Size = New System.Drawing.Size(63, 20)
         Me.txtDispControlSampleSNF.TabIndex = 362
         '
         'MyLabel11
         '
+        Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Location = New System.Drawing.Point(241, 12)
         Me.MyLabel11.Name = "MyLabel11"
         Me.MyLabel11.Size = New System.Drawing.Size(162, 18)
@@ -854,6 +962,15 @@ Partial Class FrmJobMilkQualityCheck
         '
         'txtDispControlSampleFAT
         '
+        Me.txtDispControlSampleFAT.CalculationExpression = Nothing
+        Me.txtDispControlSampleFAT.FieldCode = Nothing
+        Me.txtDispControlSampleFAT.FieldDesc = Nothing
+        Me.txtDispControlSampleFAT.FieldMaxLength = 0
+        Me.txtDispControlSampleFAT.FieldName = Nothing
+        Me.txtDispControlSampleFAT.isCalculatedField = False
+        Me.txtDispControlSampleFAT.IsSourceFromTable = False
+        Me.txtDispControlSampleFAT.IsSourceFromValueList = False
+        Me.txtDispControlSampleFAT.IsUnique = False
         Me.txtDispControlSampleFAT.Location = New System.Drawing.Point(174, 12)
         Me.txtDispControlSampleFAT.MaxLength = 50
         Me.txtDispControlSampleFAT.MendatroryField = False
@@ -861,11 +978,15 @@ Partial Class FrmJobMilkQualityCheck
         Me.txtDispControlSampleFAT.MyLinkLable2 = Nothing
         Me.txtDispControlSampleFAT.Name = "txtDispControlSampleFAT"
         Me.txtDispControlSampleFAT.ReadOnly = True
+        Me.txtDispControlSampleFAT.ReferenceFieldDesc = Nothing
+        Me.txtDispControlSampleFAT.ReferenceFieldName = Nothing
+        Me.txtDispControlSampleFAT.ReferenceTableName = Nothing
         Me.txtDispControlSampleFAT.Size = New System.Drawing.Size(63, 20)
         Me.txtDispControlSampleFAT.TabIndex = 360
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Location = New System.Drawing.Point(7, 13)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(161, 18)
@@ -874,6 +995,15 @@ Partial Class FrmJobMilkQualityCheck
         '
         'fndTankerNo
         '
+        Me.fndTankerNo.CalculationExpression = Nothing
+        Me.fndTankerNo.FieldCode = Nothing
+        Me.fndTankerNo.FieldDesc = Nothing
+        Me.fndTankerNo.FieldMaxLength = 0
+        Me.fndTankerNo.FieldName = Nothing
+        Me.fndTankerNo.isCalculatedField = False
+        Me.fndTankerNo.IsSourceFromTable = False
+        Me.fndTankerNo.IsSourceFromValueList = False
+        Me.fndTankerNo.IsUnique = False
         Me.fndTankerNo.Location = New System.Drawing.Point(138, 8)
         Me.fndTankerNo.MendatroryField = True
         Me.fndTankerNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -882,6 +1012,9 @@ Partial Class FrmJobMilkQualityCheck
         Me.fndTankerNo.MyReadOnly = False
         Me.fndTankerNo.MyShowMasterFormButton = False
         Me.fndTankerNo.Name = "fndTankerNo"
+        Me.fndTankerNo.ReferenceFieldDesc = Nothing
+        Me.fndTankerNo.ReferenceFieldName = Nothing
+        Me.fndTankerNo.ReferenceTableName = Nothing
         Me.fndTankerNo.Size = New System.Drawing.Size(190, 19)
         Me.fndTankerNo.TabIndex = 309
         Me.fndTankerNo.Value = ""
@@ -931,21 +1064,34 @@ Partial Class FrmJobMilkQualityCheck
         'TxtDeductionAmount
         '
         Me.TxtDeductionAmount.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.TxtDeductionAmount.CalculationExpression = Nothing
         Me.TxtDeductionAmount.DecimalPlaces = 2
         Me.TxtDeductionAmount.Enabled = False
+        Me.TxtDeductionAmount.FieldCode = Nothing
+        Me.TxtDeductionAmount.FieldDesc = Nothing
+        Me.TxtDeductionAmount.FieldMaxLength = 0
+        Me.TxtDeductionAmount.FieldName = Nothing
+        Me.TxtDeductionAmount.isCalculatedField = False
+        Me.TxtDeductionAmount.IsSourceFromTable = False
+        Me.TxtDeductionAmount.IsSourceFromValueList = False
+        Me.TxtDeductionAmount.IsUnique = False
         Me.TxtDeductionAmount.Location = New System.Drawing.Point(458, 96)
         Me.TxtDeductionAmount.MendatroryField = True
         Me.TxtDeductionAmount.MyLinkLable1 = Nothing
         Me.TxtDeductionAmount.MyLinkLable2 = Nothing
         Me.TxtDeductionAmount.Name = "TxtDeductionAmount"
+        Me.TxtDeductionAmount.ReferenceFieldDesc = Nothing
+        Me.TxtDeductionAmount.ReferenceFieldName = Nothing
+        Me.TxtDeductionAmount.ReferenceTableName = Nothing
         Me.TxtDeductionAmount.Size = New System.Drawing.Size(262, 20)
         Me.TxtDeductionAmount.TabIndex = 306
         Me.TxtDeductionAmount.Text = "0"
         Me.TxtDeductionAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtDeductionAmount.Value = 0.0R
+        Me.TxtDeductionAmount.Value = 0R
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel1.Location = New System.Drawing.Point(330, 98)
         Me.MyLabel1.Name = "MyLabel1"
@@ -956,6 +1102,7 @@ Partial Class FrmJobMilkQualityCheck
         'lblQcAcceptedOrRejected
         '
         Me.lblQcAcceptedOrRejected.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.lblQcAcceptedOrRejected.FieldName = Nothing
         Me.lblQcAcceptedOrRejected.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold)
         Me.lblQcAcceptedOrRejected.Location = New System.Drawing.Point(725, 8)
         Me.lblQcAcceptedOrRejected.Name = "lblQcAcceptedOrRejected"
@@ -964,9 +1111,18 @@ Partial Class FrmJobMilkQualityCheck
         '
         'dtpWeighmentDate
         '
+        Me.dtpWeighmentDate.CalculationExpression = Nothing
         Me.dtpWeighmentDate.CustomFormat = "dd/MM/yyyy"
         Me.dtpWeighmentDate.Enabled = False
+        Me.dtpWeighmentDate.FieldCode = Nothing
+        Me.dtpWeighmentDate.FieldDesc = Nothing
+        Me.dtpWeighmentDate.FieldMaxLength = 0
+        Me.dtpWeighmentDate.FieldName = Nothing
         Me.dtpWeighmentDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpWeighmentDate.isCalculatedField = False
+        Me.dtpWeighmentDate.IsSourceFromTable = False
+        Me.dtpWeighmentDate.IsSourceFromValueList = False
+        Me.dtpWeighmentDate.IsUnique = False
         Me.dtpWeighmentDate.Location = New System.Drawing.Point(624, 119)
         Me.dtpWeighmentDate.MendatroryField = False
         Me.dtpWeighmentDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -975,6 +1131,9 @@ Partial Class FrmJobMilkQualityCheck
         Me.dtpWeighmentDate.Name = "dtpWeighmentDate"
         Me.dtpWeighmentDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpWeighmentDate.ReadOnly = True
+        Me.dtpWeighmentDate.ReferenceFieldDesc = Nothing
+        Me.dtpWeighmentDate.ReferenceFieldName = Nothing
+        Me.dtpWeighmentDate.ReferenceTableName = Nothing
         Me.dtpWeighmentDate.Size = New System.Drawing.Size(96, 20)
         Me.dtpWeighmentDate.TabIndex = 300
         Me.dtpWeighmentDate.TabStop = False
@@ -983,6 +1142,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(593, 120)
         Me.MyLabel3.Name = "MyLabel3"
@@ -992,17 +1152,30 @@ Partial Class FrmJobMilkQualityCheck
         '
         'txtDipValue
         '
+        Me.txtDipValue.CalculationExpression = Nothing
+        Me.txtDipValue.FieldCode = Nothing
+        Me.txtDipValue.FieldDesc = Nothing
+        Me.txtDipValue.FieldMaxLength = 0
+        Me.txtDipValue.FieldName = Nothing
+        Me.txtDipValue.isCalculatedField = False
+        Me.txtDipValue.IsSourceFromTable = False
+        Me.txtDipValue.IsSourceFromValueList = False
+        Me.txtDipValue.IsUnique = False
         Me.txtDipValue.Location = New System.Drawing.Point(138, 99)
         Me.txtDipValue.MaxLength = 50
         Me.txtDipValue.MendatroryField = False
         Me.txtDipValue.MyLinkLable1 = Nothing
         Me.txtDipValue.MyLinkLable2 = Nothing
         Me.txtDipValue.Name = "txtDipValue"
+        Me.txtDipValue.ReferenceFieldDesc = Nothing
+        Me.txtDipValue.ReferenceFieldName = Nothing
+        Me.txtDipValue.ReferenceTableName = Nothing
         Me.txtDipValue.Size = New System.Drawing.Size(191, 20)
         Me.txtDipValue.TabIndex = 304
         '
         'lblDipValue
         '
+        Me.lblDipValue.FieldName = Nothing
         Me.lblDipValue.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDipValue.Location = New System.Drawing.Point(13, 99)
         Me.lblDipValue.Name = "lblDipValue"
@@ -1012,6 +1185,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'lblChallanDate
         '
+        Me.lblChallanDate.FieldName = Nothing
         Me.lblChallanDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChallanDate.Location = New System.Drawing.Point(330, 76)
         Me.lblChallanDate.Name = "lblChallanDate"
@@ -1021,7 +1195,16 @@ Partial Class FrmJobMilkQualityCheck
         '
         'fndLocation
         '
+        Me.fndLocation.CalculationExpression = Nothing
         Me.fndLocation.Enabled = False
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
         Me.fndLocation.Location = New System.Drawing.Point(138, 166)
         Me.fndLocation.MendatroryField = True
         Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1030,12 +1213,16 @@ Partial Class FrmJobMilkQualityCheck
         Me.fndLocation.MyReadOnly = True
         Me.fndLocation.MyShowMasterFormButton = False
         Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
         Me.fndLocation.Size = New System.Drawing.Size(190, 19)
         Me.fndLocation.TabIndex = 302
         Me.fndLocation.Value = ""
         '
         'lblChallanNo
         '
+        Me.lblChallanNo.FieldName = Nothing
         Me.lblChallanNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChallanNo.Location = New System.Drawing.Point(13, 75)
         Me.lblChallanNo.Name = "lblChallanNo"
@@ -1045,7 +1232,16 @@ Partial Class FrmJobMilkQualityCheck
         '
         'fndVendor
         '
+        Me.fndVendor.CalculationExpression = Nothing
         Me.fndVendor.Enabled = False
+        Me.fndVendor.FieldCode = Nothing
+        Me.fndVendor.FieldDesc = Nothing
+        Me.fndVendor.FieldMaxLength = 0
+        Me.fndVendor.FieldName = Nothing
+        Me.fndVendor.isCalculatedField = False
+        Me.fndVendor.IsSourceFromTable = False
+        Me.fndVendor.IsSourceFromValueList = False
+        Me.fndVendor.IsUnique = False
         Me.fndVendor.Location = New System.Drawing.Point(138, 143)
         Me.fndVendor.MendatroryField = True
         Me.fndVendor.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1054,12 +1250,16 @@ Partial Class FrmJobMilkQualityCheck
         Me.fndVendor.MyReadOnly = True
         Me.fndVendor.MyShowMasterFormButton = False
         Me.fndVendor.Name = "fndVendor"
+        Me.fndVendor.ReferenceFieldDesc = Nothing
+        Me.fndVendor.ReferenceFieldName = Nothing
+        Me.fndVendor.ReferenceTableName = Nothing
         Me.fndVendor.Size = New System.Drawing.Size(190, 19)
         Me.fndVendor.TabIndex = 301
         Me.fndVendor.Value = ""
         '
         'lblVendor
         '
+        Me.lblVendor.FieldName = Nothing
         Me.lblVendor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblVendor.Location = New System.Drawing.Point(13, 143)
         Me.lblVendor.Name = "lblVendor"
@@ -1069,6 +1269,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'lblLocation
         '
+        Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLocation.Location = New System.Drawing.Point(13, 166)
         Me.lblLocation.Name = "lblLocation"
@@ -1078,7 +1279,16 @@ Partial Class FrmJobMilkQualityCheck
         '
         'txtWeighmentNo
         '
+        Me.txtWeighmentNo.CalculationExpression = Nothing
         Me.txtWeighmentNo.Enabled = False
+        Me.txtWeighmentNo.FieldCode = Nothing
+        Me.txtWeighmentNo.FieldDesc = Nothing
+        Me.txtWeighmentNo.FieldMaxLength = 0
+        Me.txtWeighmentNo.FieldName = Nothing
+        Me.txtWeighmentNo.isCalculatedField = False
+        Me.txtWeighmentNo.IsSourceFromTable = False
+        Me.txtWeighmentNo.IsSourceFromValueList = False
+        Me.txtWeighmentNo.IsUnique = False
         Me.txtWeighmentNo.Location = New System.Drawing.Point(458, 119)
         Me.txtWeighmentNo.MaxLength = 50
         Me.txtWeighmentNo.MendatroryField = False
@@ -1086,11 +1296,15 @@ Partial Class FrmJobMilkQualityCheck
         Me.txtWeighmentNo.MyLinkLable2 = Nothing
         Me.txtWeighmentNo.Name = "txtWeighmentNo"
         Me.txtWeighmentNo.ReadOnly = True
+        Me.txtWeighmentNo.ReferenceFieldDesc = Nothing
+        Me.txtWeighmentNo.ReferenceFieldName = Nothing
+        Me.txtWeighmentNo.ReferenceTableName = Nothing
         Me.txtWeighmentNo.Size = New System.Drawing.Size(130, 20)
         Me.txtWeighmentNo.TabIndex = 299
         '
         'lblTankerNo
         '
+        Me.lblTankerNo.FieldName = Nothing
         Me.lblTankerNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTankerNo.Location = New System.Drawing.Point(13, 7)
         Me.lblTankerNo.Name = "lblTankerNo"
@@ -1100,9 +1314,18 @@ Partial Class FrmJobMilkQualityCheck
         '
         'dtpChallanDate
         '
+        Me.dtpChallanDate.CalculationExpression = Nothing
         Me.dtpChallanDate.CustomFormat = "dd/MM/yyyy"
         Me.dtpChallanDate.Enabled = False
+        Me.dtpChallanDate.FieldCode = Nothing
+        Me.dtpChallanDate.FieldDesc = Nothing
+        Me.dtpChallanDate.FieldMaxLength = 0
+        Me.dtpChallanDate.FieldName = Nothing
         Me.dtpChallanDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpChallanDate.isCalculatedField = False
+        Me.dtpChallanDate.IsSourceFromTable = False
+        Me.dtpChallanDate.IsSourceFromValueList = False
+        Me.dtpChallanDate.IsUnique = False
         Me.dtpChallanDate.Location = New System.Drawing.Point(458, 74)
         Me.dtpChallanDate.MendatroryField = False
         Me.dtpChallanDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -1111,6 +1334,9 @@ Partial Class FrmJobMilkQualityCheck
         Me.dtpChallanDate.Name = "dtpChallanDate"
         Me.dtpChallanDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpChallanDate.ReadOnly = True
+        Me.dtpChallanDate.ReferenceFieldDesc = Nothing
+        Me.dtpChallanDate.ReferenceFieldName = Nothing
+        Me.dtpChallanDate.ReferenceTableName = Nothing
         Me.dtpChallanDate.Size = New System.Drawing.Size(262, 20)
         Me.dtpChallanDate.TabIndex = 298
         Me.dtpChallanDate.TabStop = False
@@ -1119,7 +1345,16 @@ Partial Class FrmJobMilkQualityCheck
         '
         'txtChallanNo
         '
+        Me.txtChallanNo.CalculationExpression = Nothing
         Me.txtChallanNo.Enabled = False
+        Me.txtChallanNo.FieldCode = Nothing
+        Me.txtChallanNo.FieldDesc = Nothing
+        Me.txtChallanNo.FieldMaxLength = 0
+        Me.txtChallanNo.FieldName = Nothing
+        Me.txtChallanNo.isCalculatedField = False
+        Me.txtChallanNo.IsSourceFromTable = False
+        Me.txtChallanNo.IsSourceFromValueList = False
+        Me.txtChallanNo.IsUnique = False
         Me.txtChallanNo.Location = New System.Drawing.Point(138, 75)
         Me.txtChallanNo.MaxLength = 50
         Me.txtChallanNo.MendatroryField = False
@@ -1127,14 +1362,26 @@ Partial Class FrmJobMilkQualityCheck
         Me.txtChallanNo.MyLinkLable2 = Nothing
         Me.txtChallanNo.Name = "txtChallanNo"
         Me.txtChallanNo.ReadOnly = True
+        Me.txtChallanNo.ReferenceFieldDesc = Nothing
+        Me.txtChallanNo.ReferenceFieldName = Nothing
+        Me.txtChallanNo.ReferenceTableName = Nothing
         Me.txtChallanNo.Size = New System.Drawing.Size(191, 20)
         Me.txtChallanNo.TabIndex = 297
         '
         'dtpGateEntryDateTime
         '
+        Me.dtpGateEntryDateTime.CalculationExpression = Nothing
         Me.dtpGateEntryDateTime.CustomFormat = "dd/MM/yyyy hh:mm:ss tt"
         Me.dtpGateEntryDateTime.Enabled = False
+        Me.dtpGateEntryDateTime.FieldCode = Nothing
+        Me.dtpGateEntryDateTime.FieldDesc = Nothing
+        Me.dtpGateEntryDateTime.FieldMaxLength = 0
+        Me.dtpGateEntryDateTime.FieldName = Nothing
         Me.dtpGateEntryDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpGateEntryDateTime.isCalculatedField = False
+        Me.dtpGateEntryDateTime.IsSourceFromTable = False
+        Me.dtpGateEntryDateTime.IsSourceFromValueList = False
+        Me.dtpGateEntryDateTime.IsUnique = False
         Me.dtpGateEntryDateTime.Location = New System.Drawing.Point(458, 50)
         Me.dtpGateEntryDateTime.MendatroryField = False
         Me.dtpGateEntryDateTime.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -1143,6 +1390,9 @@ Partial Class FrmJobMilkQualityCheck
         Me.dtpGateEntryDateTime.Name = "dtpGateEntryDateTime"
         Me.dtpGateEntryDateTime.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtpGateEntryDateTime.ReadOnly = True
+        Me.dtpGateEntryDateTime.ReferenceFieldDesc = Nothing
+        Me.dtpGateEntryDateTime.ReferenceFieldName = Nothing
+        Me.dtpGateEntryDateTime.ReferenceTableName = Nothing
         Me.dtpGateEntryDateTime.Size = New System.Drawing.Size(261, 20)
         Me.dtpGateEntryDateTime.TabIndex = 295
         Me.dtpGateEntryDateTime.TabStop = False
@@ -1151,6 +1401,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(330, 121)
         Me.MyLabel2.Name = "MyLabel2"
@@ -1160,8 +1411,17 @@ Partial Class FrmJobMilkQualityCheck
         '
         'dtpQCOutDateTime
         '
+        Me.dtpQCOutDateTime.CalculationExpression = Nothing
         Me.dtpQCOutDateTime.CustomFormat = "dd/MM/yyyy hh:mm:ss tt"
+        Me.dtpQCOutDateTime.FieldCode = Nothing
+        Me.dtpQCOutDateTime.FieldDesc = Nothing
+        Me.dtpQCOutDateTime.FieldMaxLength = 0
+        Me.dtpQCOutDateTime.FieldName = Nothing
         Me.dtpQCOutDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpQCOutDateTime.isCalculatedField = False
+        Me.dtpQCOutDateTime.IsSourceFromTable = False
+        Me.dtpQCOutDateTime.IsSourceFromValueList = False
+        Me.dtpQCOutDateTime.IsUnique = False
         Me.dtpQCOutDateTime.Location = New System.Drawing.Point(458, 26)
         Me.dtpQCOutDateTime.MendatroryField = False
         Me.dtpQCOutDateTime.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -1169,6 +1429,9 @@ Partial Class FrmJobMilkQualityCheck
         Me.dtpQCOutDateTime.MyLinkLable2 = Nothing
         Me.dtpQCOutDateTime.Name = "dtpQCOutDateTime"
         Me.dtpQCOutDateTime.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpQCOutDateTime.ReferenceFieldDesc = Nothing
+        Me.dtpQCOutDateTime.ReferenceFieldName = Nothing
+        Me.dtpQCOutDateTime.ReferenceTableName = Nothing
         Me.dtpQCOutDateTime.Size = New System.Drawing.Size(260, 20)
         Me.dtpQCOutDateTime.TabIndex = 290
         Me.dtpQCOutDateTime.TabStop = False
@@ -1177,6 +1440,7 @@ Partial Class FrmJobMilkQualityCheck
         '
         'lblQCOutDateAndTime
         '
+        Me.lblQCOutDateAndTime.FieldName = Nothing
         Me.lblQCOutDateAndTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblQCOutDateAndTime.Location = New System.Drawing.Point(329, 30)
         Me.lblQCOutDateAndTime.Name = "lblQCOutDateAndTime"
@@ -1200,10 +1464,17 @@ Partial Class FrmJobMilkQualityCheck
         '
         Me.gvParam.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvParam.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
+        Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(963, 128)
         Me.gvParam.TabIndex = 264
-        Me.gvParam.Text = "RadGridView1"
         '
         'RadPageViewPage2
         '
@@ -1230,10 +1501,17 @@ Partial Class FrmJobMilkQualityCheck
         '
         Me.gvItem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvItem.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
+        Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(963, 324)
         Me.gvItem.TabIndex = 264
-        Me.gvItem.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -1276,10 +1554,17 @@ Partial Class FrmJobMilkQualityCheck
         '
         Me.gvManualSeal.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvManualSeal.Location = New System.Drawing.Point(3, 18)
+        '
+        '
+        '
+        Me.gvManualSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvManualSeal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvManualSeal.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvManualSeal.MyStopExport = False
         Me.gvManualSeal.Name = "gvManualSeal"
+        Me.gvManualSeal.ShowHeaderCellButtons = True
         Me.gvManualSeal.Size = New System.Drawing.Size(490, 323)
         Me.gvManualSeal.TabIndex = 203
-        Me.gvManualSeal.Text = "RadGridView1"
         '
         'GroupBox2
         '
@@ -1296,10 +1581,17 @@ Partial Class FrmJobMilkQualityCheck
         '
         Me.gvPaperSeal.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvPaperSeal.Location = New System.Drawing.Point(3, 18)
+        '
+        '
+        '
+        Me.gvPaperSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvPaperSeal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvPaperSeal.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvPaperSeal.MyStopExport = False
         Me.gvPaperSeal.Name = "gvPaperSeal"
+        Me.gvPaperSeal.ShowHeaderCellButtons = True
         Me.gvPaperSeal.Size = New System.Drawing.Size(461, 323)
         Me.gvPaperSeal.TabIndex = 203
-        Me.gvPaperSeal.Text = "RadGridView1"
         '
         'btnReverse
         '

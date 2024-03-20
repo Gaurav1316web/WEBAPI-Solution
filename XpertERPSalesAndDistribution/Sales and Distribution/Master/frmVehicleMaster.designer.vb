@@ -1525,7 +1525,7 @@ Partial Class frmVehicleMaster
         Me.fndVehicle_id.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndVehicle_id.MyLinkLable1 = Me.rlblVehicleID
         Me.fndVehicle_id.MyLinkLable2 = Nothing
-        Me.fndVehicle_id.MyMaxLength = 32767
+        Me.fndVehicle_id.MyMaxLength = 12
         Me.fndVehicle_id.MyReadOnly = False
         Me.fndVehicle_id.Name = "fndVehicle_id"
         Me.fndVehicle_id.Size = New System.Drawing.Size(181, 18)
@@ -1667,6 +1667,7 @@ Partial Class frmVehicleMaster
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(495, 239)

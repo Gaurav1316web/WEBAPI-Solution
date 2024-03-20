@@ -22,6 +22,8 @@ Partial Class FrmMilkPurchaseReturn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Panel3 = New System.Windows.Forms.Panel()
         Me.lblSubLocation = New common.Controls.MyLabel()
@@ -67,13 +69,13 @@ Partial Class FrmMilkPurchaseReturn
         Me.lblWeighmentNo = New common.Controls.MyLabel()
         Me.lblSRNNo = New common.Controls.MyLabel()
         Me.lblPending = New common.usLock()
+        Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.gvItem = New Telerik.WinControls.UI.MasterGridViewTemplate()
-        Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -119,13 +121,13 @@ Partial Class FrmMilkPurchaseReturn
         CType(Me.dtpDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblWeighmentNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSRNNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItem, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -211,7 +213,6 @@ Partial Class FrmMilkPurchaseReturn
         Me.lblSubLocation.Name = "lblSubLocation"
         Me.lblSubLocation.Size = New System.Drawing.Size(180, 19)
         Me.lblSubLocation.TabIndex = 276
-        Me.lblSubLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkJobWork
         '
@@ -318,11 +319,14 @@ Partial Class FrmMilkPurchaseReturn
         Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv.Location = New System.Drawing.Point(2, 18)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowColumnHeaderContextMenu = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -330,7 +334,6 @@ Partial Class FrmMilkPurchaseReturn
         Me.gv.Size = New System.Drawing.Size(1236, 244)
         Me.gv.TabIndex = 2
         Me.gv.TabStop = False
-        Me.gv.Text = "RadGridView1"
         '
         'txtVendor
         '
@@ -461,7 +464,7 @@ Partial Class FrmMilkPurchaseReturn
         Me.fndDocNoReturn.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndDocNoReturn.MyLinkLable1 = Me.MyLabel9
         Me.fndDocNoReturn.MyLinkLable2 = Nothing
-        Me.fndDocNoReturn.MyMaxLength = 50
+        Me.fndDocNoReturn.MyMaxLength = 30
         Me.fndDocNoReturn.MyReadOnly = False
         Me.fndDocNoReturn.Name = "fndDocNoReturn"
         Me.fndDocNoReturn.Size = New System.Drawing.Size(342, 21)
@@ -757,7 +760,6 @@ Partial Class FrmMilkPurchaseReturn
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(354, 21)
         Me.lblLocationName.TabIndex = 416
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtTotalSNFKg
         '
@@ -835,11 +837,10 @@ Partial Class FrmMilkPurchaseReturn
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(354, 21)
         Me.lblVendorName.TabIndex = 407
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnReset
         '
-        Me.btnReset.Image = My.Resources._new
+        Me.btnReset.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
         Me.btnReset.Location = New System.Drawing.Point(444, 3)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(13, 20)
@@ -916,6 +917,16 @@ Partial Class FrmMilkPurchaseReturn
         Me.lblPending.Status = common.ERPTransactionStatus.Pending
         Me.lblPending.TabIndex = 403
         '
+        'btnShowInventory
+        '
+        Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnShowInventory.Location = New System.Drawing.Point(1076, 14)
+        Me.btnShowInventory.Name = "btnShowInventory"
+        Me.btnShowInventory.Size = New System.Drawing.Size(96, 18)
+        Me.btnShowInventory.TabIndex = 48
+        Me.btnShowInventory.Text = "Show Inventory"
+        '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -972,16 +983,7 @@ Partial Class FrmMilkPurchaseReturn
         Me.gvItem.AllowColumnHeaderContextMenu = False
         Me.gvItem.AllowDeleteRow = False
         Me.gvItem.ShowHeaderCellButtons = True
-        '
-        'btnShowInventory
-        '
-        Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnShowInventory.Location = New System.Drawing.Point(1076, 14)
-        Me.btnShowInventory.Name = "btnShowInventory"
-        Me.btnShowInventory.Size = New System.Drawing.Size(96, 18)
-        Me.btnShowInventory.TabIndex = 48
-        Me.btnShowInventory.Text = "Show Inventory"
+        Me.gvItem.ViewDefinition = TableViewDefinition2
         '
         'FrmMilkPurchaseReturn
         '
@@ -1042,13 +1044,13 @@ Partial Class FrmMilkPurchaseReturn
         CType(Me.dtpDocDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblWeighmentNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSRNNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItem, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

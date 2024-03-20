@@ -24,25 +24,25 @@ Partial Class frmItemChargeCategoryMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.lblchrcat = New common.Controls.MyLabel
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
-        Me.lblchrdesc = New common.Controls.MyLabel
-        Me.txtchrdesc = New common.Controls.MyTextBox
-        Me.fndchrcat = New common.UserControls.txtNavigator
-        Me.lblglacc = New common.Controls.MyLabel
-        Me.lblGLDesc = New common.Controls.MyLabel
-        Me.txtGLCode = New common.UserControls.txtFinder
-        Me.RadMenufile = New Telerik.WinControls.UI.RadMenuItem
-        Me.Rdmenuexport = New Telerik.WinControls.UI.RadMenuItem
-        Me.Rdmenuimport = New Telerik.WinControls.UI.RadMenuItem
-        Me.rbmenuexit = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.rdmenufile = New Telerik.WinControls.UI.RadMenu
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.MyLabel1 = New common.Controls.MyLabel
+        Me.lblchrcat = New common.Controls.MyLabel()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.lblchrdesc = New common.Controls.MyLabel()
+        Me.txtchrdesc = New common.Controls.MyTextBox()
+        Me.fndchrcat = New common.UserControls.txtNavigator()
+        Me.lblglacc = New common.Controls.MyLabel()
+        Me.lblGLDesc = New common.Controls.MyLabel()
+        Me.txtGLCode = New common.UserControls.txtFinder()
+        Me.RadMenufile = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rbmenuexit = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.rdmenufile = New Telerik.WinControls.UI.RadMenu()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         CType(Me.lblchrcat, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblchrdesc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -64,6 +64,7 @@ Partial Class frmItemChargeCategoryMaster
         '
         'lblchrcat
         '
+        Me.lblchrcat.FieldName = Nothing
         Me.lblchrcat.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblchrcat.Location = New System.Drawing.Point(6, 10)
         Me.lblchrcat.Name = "lblchrcat"
@@ -73,7 +74,7 @@ Partial Class frmItemChargeCategoryMaster
         '
         'btnnew
         '
-        Me.btnnew.Image = My.Resources._new
+        Me.btnnew.Image = Global.XpertERPService.My.Resources.Resources._new
         Me.btnnew.Location = New System.Drawing.Point(410, 10)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(15, 20)
@@ -81,6 +82,7 @@ Partial Class frmItemChargeCategoryMaster
         '
         'lblchrdesc
         '
+        Me.lblchrdesc.FieldName = Nothing
         Me.lblchrdesc.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblchrdesc.Location = New System.Drawing.Point(6, 35)
         Me.lblchrdesc.Name = "lblchrdesc"
@@ -90,25 +92,38 @@ Partial Class frmItemChargeCategoryMaster
         '
         'txtchrdesc
         '
+        Me.txtchrdesc.CalculationExpression = Nothing
+        Me.txtchrdesc.FieldCode = Nothing
+        Me.txtchrdesc.FieldDesc = Nothing
+        Me.txtchrdesc.FieldMaxLength = 0
+        Me.txtchrdesc.FieldName = Nothing
         Me.txtchrdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtchrdesc.isCalculatedField = False
+        Me.txtchrdesc.IsSourceFromTable = False
+        Me.txtchrdesc.IsSourceFromValueList = False
+        Me.txtchrdesc.IsUnique = False
         Me.txtchrdesc.Location = New System.Drawing.Point(104, 35)
         Me.txtchrdesc.MaxLength = 50
         Me.txtchrdesc.MendatroryField = False
         Me.txtchrdesc.MyLinkLable1 = Me.lblchrdesc
         Me.txtchrdesc.MyLinkLable2 = Nothing
         Me.txtchrdesc.Name = "txtchrdesc"
+        Me.txtchrdesc.ReferenceFieldDesc = Nothing
+        Me.txtchrdesc.ReferenceFieldName = Nothing
+        Me.txtchrdesc.ReferenceTableName = Nothing
         Me.txtchrdesc.Size = New System.Drawing.Size(321, 18)
         Me.txtchrdesc.TabIndex = 2
         '
         'fndchrcat
         '
+        Me.fndchrcat.FieldName = Nothing
         Me.fndchrcat.Location = New System.Drawing.Point(104, 8)
         Me.fndchrcat.MendatroryField = True
         Me.fndchrcat.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndchrcat.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndchrcat.MyLinkLable1 = Me.lblchrcat
         Me.fndchrcat.MyLinkLable2 = Nothing
-        Me.fndchrcat.MyMaxLength = 32767
+        Me.fndchrcat.MyMaxLength = 30
         Me.fndchrcat.MyReadOnly = False
         Me.fndchrcat.Name = "fndchrcat"
         Me.fndchrcat.Size = New System.Drawing.Size(300, 21)
@@ -117,6 +132,7 @@ Partial Class frmItemChargeCategoryMaster
         '
         'lblglacc
         '
+        Me.lblglacc.FieldName = Nothing
         Me.lblglacc.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblglacc.Location = New System.Drawing.Point(6, 57)
         Me.lblglacc.Name = "lblglacc"
@@ -128,59 +144,60 @@ Partial Class frmItemChargeCategoryMaster
         '
         Me.lblGLDesc.AutoSize = False
         Me.lblGLDesc.BorderVisible = True
+        Me.lblGLDesc.FieldName = Nothing
         Me.lblGLDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblGLDesc.Location = New System.Drawing.Point(104, 81)
         Me.lblGLDesc.Name = "lblGLDesc"
         Me.lblGLDesc.Size = New System.Drawing.Size(321, 18)
         Me.lblGLDesc.TabIndex = 8
-        Me.lblGLDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblGLDesc.TextWrap = False
         '
         'txtGLCode
         '
+        Me.txtGLCode.CalculationExpression = Nothing
+        Me.txtGLCode.FieldCode = Nothing
+        Me.txtGLCode.FieldDesc = Nothing
+        Me.txtGLCode.FieldMaxLength = 0
+        Me.txtGLCode.FieldName = Nothing
+        Me.txtGLCode.isCalculatedField = False
+        Me.txtGLCode.IsSourceFromTable = False
+        Me.txtGLCode.IsSourceFromValueList = False
+        Me.txtGLCode.IsUnique = False
         Me.txtGLCode.Location = New System.Drawing.Point(104, 56)
         Me.txtGLCode.MendatroryField = True
         Me.txtGLCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtGLCode.MyLinkLable1 = Me.lblglacc
         Me.txtGLCode.MyLinkLable2 = Me.lblGLDesc
         Me.txtGLCode.MyReadOnly = False
+        Me.txtGLCode.MyShowMasterFormButton = False
         Me.txtGLCode.Name = "txtGLCode"
+        Me.txtGLCode.ReferenceFieldDesc = Nothing
+        Me.txtGLCode.ReferenceFieldName = Nothing
+        Me.txtGLCode.ReferenceTableName = Nothing
         Me.txtGLCode.Size = New System.Drawing.Size(154, 19)
         Me.txtGLCode.TabIndex = 3
         Me.txtGLCode.Value = ""
         '
         'RadMenufile
         '
-        Me.RadMenufile.AccessibleDescription = "File"
-        Me.RadMenufile.AccessibleName = "File"
         Me.RadMenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Rdmenuexport, Me.Rdmenuimport, Me.rbmenuexit})
         Me.RadMenufile.Name = "RadMenufile"
         Me.RadMenufile.Text = "File"
-        Me.RadMenufile.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'Rdmenuexport
         '
-        Me.Rdmenuexport.AccessibleDescription = "Export"
-        Me.Rdmenuexport.AccessibleName = "Export"
         Me.Rdmenuexport.Name = "Rdmenuexport"
         Me.Rdmenuexport.Text = "Export"
-        Me.Rdmenuexport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'Rdmenuimport
         '
-        Me.Rdmenuimport.AccessibleDescription = "Import"
-        Me.Rdmenuimport.AccessibleName = "Import"
         Me.Rdmenuimport.Name = "Rdmenuimport"
         Me.Rdmenuimport.Text = "Import"
-        Me.Rdmenuimport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rbmenuexit
         '
-        Me.rbmenuexit.AccessibleDescription = "Exit"
-        Me.rbmenuexit.AccessibleName = "Exit"
         Me.rbmenuexit.Name = "rbmenuexit"
         Me.rbmenuexit.Text = "Exit"
-        Me.rbmenuexit.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnclose
         '
@@ -219,7 +236,6 @@ Partial Class frmItemChargeCategoryMaster
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(456, 20)
         Me.rdmenufile.TabIndex = 1
-        Me.rdmenufile.Text = "File"
         '
         'SplitContainer1
         '
@@ -265,6 +281,7 @@ Partial Class frmItemChargeCategoryMaster
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel1.Location = New System.Drawing.Point(6, 82)
         Me.MyLabel1.Name = "MyLabel1"

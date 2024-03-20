@@ -22,29 +22,30 @@ Partial Class FrmLabourWorkingSheet
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.gv1 = New common.UserControls.MyRadGridView
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.RadLabel15 = New common.Controls.MyLabel
-        Me.lblOperatorName = New common.Controls.MyLabel
-        Me.txtOperator = New common.UserControls.txtFinder
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.txtDate = New common.Controls.MyDateTimePicker
-        Me.RadLabel4 = New common.Controls.MyLabel
-        Me.txtDocNo = New common.UserControls.txtNavigator
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton
-        Me.MyLabel8 = New common.Controls.MyLabel
-        Me.lblInRunTime = New common.Controls.MyLabel
-        Me.MyLabel6 = New common.Controls.MyLabel
-        Me.lblQty = New common.Controls.MyLabel
-        Me.MyLabel4 = New common.Controls.MyLabel
-        Me.lblRunTime = New common.Controls.MyLabel
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.lblEfficiency = New common.Controls.MyLabel
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.RadLabel15 = New common.Controls.MyLabel()
+        Me.lblOperatorName = New common.Controls.MyLabel()
+        Me.txtOperator = New common.UserControls.txtFinder()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.txtDocNo = New common.UserControls.txtNavigator()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.lblInRunTime = New common.Controls.MyLabel()
+        Me.MyLabel6 = New common.Controls.MyLabel()
+        Me.lblQty = New common.Controls.MyLabel()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.lblRunTime = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.lblEfficiency = New common.Controls.MyLabel()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,16 +85,20 @@ Partial Class FrmLabourWorkingSheet
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1016, 400)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'btnDelete
         '
@@ -190,6 +195,7 @@ Partial Class FrmLabourWorkingSheet
         '
         'RadLabel15
         '
+        Me.RadLabel15.FieldName = Nothing
         Me.RadLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel15.Location = New System.Drawing.Point(3, 26)
         Me.RadLabel15.Name = "RadLabel15"
@@ -201,29 +207,43 @@ Partial Class FrmLabourWorkingSheet
         '
         Me.lblOperatorName.AutoSize = False
         Me.lblOperatorName.BorderVisible = True
+        Me.lblOperatorName.FieldName = Nothing
         Me.lblOperatorName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblOperatorName.Location = New System.Drawing.Point(234, 25)
         Me.lblOperatorName.Name = "lblOperatorName"
         Me.lblOperatorName.Size = New System.Drawing.Size(549, 18)
         Me.lblOperatorName.TabIndex = 6
-        Me.lblOperatorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblOperatorName.TextWrap = False
         '
         'txtOperator
         '
+        Me.txtOperator.CalculationExpression = Nothing
+        Me.txtOperator.FieldCode = Nothing
+        Me.txtOperator.FieldDesc = Nothing
+        Me.txtOperator.FieldMaxLength = 0
+        Me.txtOperator.FieldName = Nothing
+        Me.txtOperator.isCalculatedField = False
+        Me.txtOperator.IsSourceFromTable = False
+        Me.txtOperator.IsSourceFromValueList = False
+        Me.txtOperator.IsUnique = False
         Me.txtOperator.Location = New System.Drawing.Point(89, 25)
         Me.txtOperator.MendatroryField = True
         Me.txtOperator.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtOperator.MyLinkLable1 = Me.RadLabel15
         Me.txtOperator.MyLinkLable2 = Me.lblOperatorName
         Me.txtOperator.MyReadOnly = False
+        Me.txtOperator.MyShowMasterFormButton = False
         Me.txtOperator.Name = "txtOperator"
+        Me.txtOperator.ReferenceFieldDesc = Nothing
+        Me.txtOperator.ReferenceFieldName = Nothing
+        Me.txtOperator.ReferenceTableName = Nothing
         Me.txtOperator.Size = New System.Drawing.Size(143, 18)
         Me.txtOperator.TabIndex = 3
         Me.txtOperator.Value = ""
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(3, 6)
         Me.RadLabel1.Name = "RadLabel1"
@@ -233,9 +253,18 @@ Partial Class FrmLabourWorkingSheet
         '
         'txtDate
         '
+        Me.txtDate.CalculationExpression = Nothing
         Me.txtDate.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.txtDate.FieldCode = Nothing
+        Me.txtDate.FieldDesc = Nothing
+        Me.txtDate.FieldMaxLength = 0
+        Me.txtDate.FieldName = Nothing
         Me.txtDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.isCalculatedField = False
+        Me.txtDate.IsSourceFromTable = False
+        Me.txtDate.IsSourceFromValueList = False
+        Me.txtDate.IsUnique = False
         Me.txtDate.Location = New System.Drawing.Point(397, 5)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -243,6 +272,9 @@ Partial Class FrmLabourWorkingSheet
         Me.txtDate.MyLinkLable2 = Nothing
         Me.txtDate.Name = "txtDate"
         Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.ReferenceFieldDesc = Nothing
+        Me.txtDate.ReferenceFieldName = Nothing
+        Me.txtDate.ReferenceTableName = Nothing
         Me.txtDate.Size = New System.Drawing.Size(127, 18)
         Me.txtDate.TabIndex = 2
         Me.txtDate.TabStop = False
@@ -251,6 +283,7 @@ Partial Class FrmLabourWorkingSheet
         '
         'RadLabel4
         '
+        Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel4.Location = New System.Drawing.Point(365, 6)
         Me.RadLabel4.Name = "RadLabel4"
@@ -260,13 +293,14 @@ Partial Class FrmLabourWorkingSheet
         '
         'txtDocNo
         '
+        Me.txtDocNo.FieldName = Nothing
         Me.txtDocNo.Location = New System.Drawing.Point(89, 4)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
@@ -285,6 +319,7 @@ Partial Class FrmLabourWorkingSheet
         '
         'MyLabel8
         '
+        Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel8.Location = New System.Drawing.Point(427, 5)
         Me.MyLabel8.Name = "MyLabel8"
@@ -296,16 +331,17 @@ Partial Class FrmLabourWorkingSheet
         '
         Me.lblInRunTime.AutoSize = False
         Me.lblInRunTime.BorderVisible = True
+        Me.lblInRunTime.FieldName = Nothing
         Me.lblInRunTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblInRunTime.Location = New System.Drawing.Point(495, 4)
         Me.lblInRunTime.Name = "lblInRunTime"
         Me.lblInRunTime.Size = New System.Drawing.Size(77, 18)
         Me.lblInRunTime.TabIndex = 8
-        Me.lblInRunTime.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblInRunTime.TextWrap = False
         '
         'MyLabel6
         '
+        Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel6.Location = New System.Drawing.Point(292, 5)
         Me.MyLabel6.Name = "MyLabel6"
@@ -317,16 +353,17 @@ Partial Class FrmLabourWorkingSheet
         '
         Me.lblQty.AutoSize = False
         Me.lblQty.BorderVisible = True
+        Me.lblQty.FieldName = Nothing
         Me.lblQty.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblQty.Location = New System.Drawing.Point(345, 4)
         Me.lblQty.Name = "lblQty"
         Me.lblQty.Size = New System.Drawing.Size(77, 18)
         Me.lblQty.TabIndex = 6
-        Me.lblQty.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblQty.TextWrap = False
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(154, 5)
         Me.MyLabel4.Name = "MyLabel4"
@@ -338,16 +375,17 @@ Partial Class FrmLabourWorkingSheet
         '
         Me.lblRunTime.AutoSize = False
         Me.lblRunTime.BorderVisible = True
+        Me.lblRunTime.FieldName = Nothing
         Me.lblRunTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRunTime.Location = New System.Drawing.Point(211, 4)
         Me.lblRunTime.Name = "lblRunTime"
         Me.lblRunTime.Size = New System.Drawing.Size(77, 18)
         Me.lblRunTime.TabIndex = 4
-        Me.lblRunTime.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRunTime.TextWrap = False
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(749, 5)
         Me.MyLabel2.Name = "MyLabel2"
@@ -359,12 +397,12 @@ Partial Class FrmLabourWorkingSheet
         '
         Me.lblEfficiency.AutoSize = False
         Me.lblEfficiency.BorderVisible = True
+        Me.lblEfficiency.FieldName = Nothing
         Me.lblEfficiency.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEfficiency.Location = New System.Drawing.Point(815, 4)
         Me.lblEfficiency.Name = "lblEfficiency"
         Me.lblEfficiency.Size = New System.Drawing.Size(116, 18)
         Me.lblEfficiency.TabIndex = 10
-        Me.lblEfficiency.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblEfficiency.TextWrap = False
         '
         'FrmLabourWorkingSheet

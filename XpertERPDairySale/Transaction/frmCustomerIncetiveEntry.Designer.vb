@@ -22,6 +22,11 @@ Partial Class frmCustomerIncetiveEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.pnlSecuity = New System.Windows.Forms.Panel()
         Me.txtSecuityPart = New common.MyNumBox()
@@ -63,6 +68,10 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvCustomer = New common.UserControls.MyRadGridView()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.TxtTotalAmount = New common.MyNumBox()
+        Me.TxtTotDeductionAmount = New common.MyNumBox()
+        Me.TxtTotIncentiveAmt = New common.MyNumBox()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvCustomerIncentive = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -73,10 +82,6 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvInvoice = New common.UserControls.MyRadGridView()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.TxtTotIncentiveAmt = New common.MyNumBox()
-        Me.TxtTotDeductionAmount = New common.MyNumBox()
-        Me.TxtTotalAmount = New common.MyNumBox()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.pnlSecuity.SuspendLayout()
@@ -115,6 +120,12 @@ Partial Class frmCustomerIncetiveEntry
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage4.SuspendLayout()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        CType(Me.TxtTotalAmount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtTotDeductionAmount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtTotIncentiveAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage3.SuspendLayout()
         CType(Me.gvCustomerIncentive, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvCustomerIncentive.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -129,12 +140,6 @@ Partial Class frmCustomerIncetiveEntry
         CType(Me.gvInvoice.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer1.Panel1.SuspendLayout()
-        Me.SplitContainer1.Panel2.SuspendLayout()
-        Me.SplitContainer1.SuspendLayout()
-        CType(Me.TxtTotIncentiveAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TxtTotDeductionAmount, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TxtTotalAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -444,7 +449,7 @@ Partial Class frmCustomerIncetiveEntry
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(320, 21)
@@ -560,7 +565,7 @@ Partial Class frmCustomerIncetiveEntry
         Me.txtMonth.ReferenceFieldName = Nothing
         Me.txtMonth.ReferenceTableName = Nothing
         Me.txtMonth.ShowUpDown = True
-        Me.txtMonth.Size = New System.Drawing.Size(141, 20)
+        Me.txtMonth.Size = New System.Drawing.Size(141, 19)
         Me.txtMonth.TabIndex = 1
         Me.txtMonth.TabStop = False
         Me.txtMonth.Text = "Sep/2014"
@@ -677,16 +682,20 @@ Partial Class frmCustomerIncetiveEntry
         Me.gvCustomer.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvCustomer.Location = New System.Drawing.Point(0, 0)
         '
-        'gvCustomer
+        '
         '
         Me.gvCustomer.MasterTemplate.AllowDeleteRow = False
         Me.gvCustomer.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvCustomer.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCustomer.MyStopExport = False
         Me.gvCustomer.Name = "gvCustomer"
         Me.gvCustomer.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCustomer.ShowGroupPanel = False
+        Me.gvCustomer.ShowHeaderCellButtons = True
         Me.gvCustomer.Size = New System.Drawing.Size(797, 292)
         Me.gvCustomer.TabIndex = 3
-        Me.gvCustomer.Text = "RadGridView1"
         '
         'RadPageView1
         '
@@ -701,7 +710,6 @@ Partial Class frmCustomerIncetiveEntry
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(818, 375)
         Me.RadPageView1.TabIndex = 218
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage4
@@ -712,148 +720,6 @@ Partial Class frmCustomerIncetiveEntry
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(797, 327)
         Me.RadPageViewPage4.Text = "Detail"
-        '
-        'RadPageViewPage3
-        '
-        Me.RadPageViewPage3.Controls.Add(Me.gvCustomerIncentive)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(163.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(797, 327)
-        Me.RadPageViewPage3.Text = "Customer And Incentive Wise"
-        '
-        'gvCustomerIncentive
-        '
-        Me.gvCustomerIncentive.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gvCustomerIncentive.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gvCustomerIncentive.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvCustomerIncentive.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gvCustomerIncentive.ForeColor = System.Drawing.Color.Black
-        Me.gvCustomerIncentive.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gvCustomerIncentive.Location = New System.Drawing.Point(0, 0)
-        '
-        'gvCustomerIncentive
-        '
-        Me.gvCustomerIncentive.MasterTemplate.AllowDeleteRow = False
-        Me.gvCustomerIncentive.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gvCustomerIncentive.Name = "gvCustomerIncentive"
-        Me.gvCustomerIncentive.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gvCustomerIncentive.ShowGroupPanel = False
-        Me.gvCustomerIncentive.Size = New System.Drawing.Size(797, 327)
-        Me.gvCustomerIncentive.TabIndex = 7
-        Me.gvCustomerIncentive.Text = "RadGridView1"
-        '
-        'RadPageViewPage2
-        '
-        Me.RadPageViewPage2.Controls.Add(Me.gvCustomerStructure)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(164.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(797, 327)
-        Me.RadPageViewPage2.Text = "Customer And Structure Wise"
-        '
-        'gvCustomerStructure
-        '
-        Me.gvCustomerStructure.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gvCustomerStructure.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gvCustomerStructure.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvCustomerStructure.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gvCustomerStructure.ForeColor = System.Drawing.Color.Black
-        Me.gvCustomerStructure.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gvCustomerStructure.Location = New System.Drawing.Point(0, 0)
-        '
-        'gvCustomerStructure
-        '
-        Me.gvCustomerStructure.MasterTemplate.AllowDeleteRow = False
-        Me.gvCustomerStructure.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gvCustomerStructure.Name = "gvCustomerStructure"
-        Me.gvCustomerStructure.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gvCustomerStructure.ShowGroupPanel = False
-        Me.gvCustomerStructure.Size = New System.Drawing.Size(797, 327)
-        Me.gvCustomerStructure.TabIndex = 6
-        Me.gvCustomerStructure.Text = "RadGridView1"
-        '
-        'RadPageViewPage1
-        '
-        Me.RadPageViewPage1.Controls.Add(Me.gvCustomerItem)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(146.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(797, 327)
-        Me.RadPageViewPage1.Text = "Customer And Item Detail"
-        '
-        'gvCustomerItem
-        '
-        Me.gvCustomerItem.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gvCustomerItem.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gvCustomerItem.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvCustomerItem.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gvCustomerItem.ForeColor = System.Drawing.Color.Black
-        Me.gvCustomerItem.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gvCustomerItem.Location = New System.Drawing.Point(0, 0)
-        '
-        'gvCustomerItem
-        '
-        Me.gvCustomerItem.MasterTemplate.AllowDeleteRow = False
-        Me.gvCustomerItem.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gvCustomerItem.Name = "gvCustomerItem"
-        Me.gvCustomerItem.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gvCustomerItem.ShowGroupPanel = False
-        Me.gvCustomerItem.Size = New System.Drawing.Size(797, 327)
-        Me.gvCustomerItem.TabIndex = 5
-        Me.gvCustomerItem.Text = "RadGridView1"
-        '
-        'RadPageViewPage5
-        '
-        Me.RadPageViewPage5.Controls.Add(Me.gvInvoice)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(84.0!, 28.0!)
-        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(797, 327)
-        Me.RadPageViewPage5.Text = "Invoice Detail"
-        '
-        'gvInvoice
-        '
-        Me.gvInvoice.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gvInvoice.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gvInvoice.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gvInvoice.ForeColor = System.Drawing.Color.Black
-        Me.gvInvoice.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gvInvoice.Location = New System.Drawing.Point(0, 0)
-        '
-        'gvInvoice
-        '
-        Me.gvInvoice.MasterTemplate.AllowDeleteRow = False
-        Me.gvInvoice.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gvInvoice.Name = "gvInvoice"
-        Me.gvInvoice.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gvInvoice.ShowGroupPanel = False
-        Me.gvInvoice.Size = New System.Drawing.Size(797, 327)
-        Me.gvInvoice.TabIndex = 4
-        Me.gvInvoice.Text = "RadGridView1"
-        '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox2.HeaderText = "Manual Seal"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(0, 100)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(818, 375)
-        Me.RadGroupBox2.TabIndex = 220
-        Me.RadGroupBox2.Text = "Manual Seal"
-        '
-        'RadGroupBox4
-        '
-        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadGroupBox4.HeaderText = "Paper Seal"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(0, 100)
-        Me.RadGroupBox4.Name = "RadGroupBox4"
-        Me.RadGroupBox4.Size = New System.Drawing.Size(818, 375)
-        Me.RadGroupBox4.TabIndex = 219
-        Me.RadGroupBox4.Text = "Paper Seal"
         '
         'SplitContainer1
         '
@@ -877,32 +743,32 @@ Partial Class frmCustomerIncetiveEntry
         Me.SplitContainer1.SplitterDistance = 292
         Me.SplitContainer1.TabIndex = 4
         '
-        'TxtTotIncentiveAmt
+        'TxtTotalAmount
         '
-        Me.TxtTotIncentiveAmt.BackColor = System.Drawing.Color.White
-        Me.TxtTotIncentiveAmt.CalculationExpression = Nothing
-        Me.TxtTotIncentiveAmt.DecimalPlaces = 0
-        Me.TxtTotIncentiveAmt.FieldCode = Nothing
-        Me.TxtTotIncentiveAmt.FieldDesc = Nothing
-        Me.TxtTotIncentiveAmt.FieldMaxLength = 5
-        Me.TxtTotIncentiveAmt.FieldName = Nothing
-        Me.TxtTotIncentiveAmt.isCalculatedField = False
-        Me.TxtTotIncentiveAmt.IsSourceFromTable = False
-        Me.TxtTotIncentiveAmt.IsSourceFromValueList = False
-        Me.TxtTotIncentiveAmt.IsUnique = False
-        Me.TxtTotIncentiveAmt.Location = New System.Drawing.Point(373, 5)
-        Me.TxtTotIncentiveAmt.MendatroryField = False
-        Me.TxtTotIncentiveAmt.MyLinkLable1 = Me.MyLabel42
-        Me.TxtTotIncentiveAmt.MyLinkLable2 = Nothing
-        Me.TxtTotIncentiveAmt.Name = "TxtTotIncentiveAmt"
-        Me.TxtTotIncentiveAmt.ReferenceFieldDesc = Nothing
-        Me.TxtTotIncentiveAmt.ReferenceFieldName = Nothing
-        Me.TxtTotIncentiveAmt.ReferenceTableName = Nothing
-        Me.TxtTotIncentiveAmt.Size = New System.Drawing.Size(110, 20)
-        Me.TxtTotIncentiveAmt.TabIndex = 77
-        Me.TxtTotIncentiveAmt.Text = "0"
-        Me.TxtTotIncentiveAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtTotIncentiveAmt.Value = 0R
+        Me.TxtTotalAmount.BackColor = System.Drawing.Color.White
+        Me.TxtTotalAmount.CalculationExpression = Nothing
+        Me.TxtTotalAmount.DecimalPlaces = 0
+        Me.TxtTotalAmount.FieldCode = Nothing
+        Me.TxtTotalAmount.FieldDesc = Nothing
+        Me.TxtTotalAmount.FieldMaxLength = 5
+        Me.TxtTotalAmount.FieldName = Nothing
+        Me.TxtTotalAmount.isCalculatedField = False
+        Me.TxtTotalAmount.IsSourceFromTable = False
+        Me.TxtTotalAmount.IsSourceFromValueList = False
+        Me.TxtTotalAmount.IsUnique = False
+        Me.TxtTotalAmount.Location = New System.Drawing.Point(601, 5)
+        Me.TxtTotalAmount.MendatroryField = False
+        Me.TxtTotalAmount.MyLinkLable1 = Me.MyLabel42
+        Me.TxtTotalAmount.MyLinkLable2 = Nothing
+        Me.TxtTotalAmount.Name = "TxtTotalAmount"
+        Me.TxtTotalAmount.ReferenceFieldDesc = Nothing
+        Me.TxtTotalAmount.ReferenceFieldName = Nothing
+        Me.TxtTotalAmount.ReferenceTableName = Nothing
+        Me.TxtTotalAmount.Size = New System.Drawing.Size(110, 20)
+        Me.TxtTotalAmount.TabIndex = 78
+        Me.TxtTotalAmount.Text = "0"
+        Me.TxtTotalAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtTotalAmount.Value = 0R
         '
         'TxtTotDeductionAmount
         '
@@ -931,32 +797,190 @@ Partial Class frmCustomerIncetiveEntry
         Me.TxtTotDeductionAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.TxtTotDeductionAmount.Value = 0R
         '
-        'TxtTotalAmount
+        'TxtTotIncentiveAmt
         '
-        Me.TxtTotalAmount.BackColor = System.Drawing.Color.White
-        Me.TxtTotalAmount.CalculationExpression = Nothing
-        Me.TxtTotalAmount.DecimalPlaces = 0
-        Me.TxtTotalAmount.FieldCode = Nothing
-        Me.TxtTotalAmount.FieldDesc = Nothing
-        Me.TxtTotalAmount.FieldMaxLength = 5
-        Me.TxtTotalAmount.FieldName = Nothing
-        Me.TxtTotalAmount.isCalculatedField = False
-        Me.TxtTotalAmount.IsSourceFromTable = False
-        Me.TxtTotalAmount.IsSourceFromValueList = False
-        Me.TxtTotalAmount.IsUnique = False
-        Me.TxtTotalAmount.Location = New System.Drawing.Point(601, 5)
-        Me.TxtTotalAmount.MendatroryField = False
-        Me.TxtTotalAmount.MyLinkLable1 = Me.MyLabel42
-        Me.TxtTotalAmount.MyLinkLable2 = Nothing
-        Me.TxtTotalAmount.Name = "TxtTotalAmount"
-        Me.TxtTotalAmount.ReferenceFieldDesc = Nothing
-        Me.TxtTotalAmount.ReferenceFieldName = Nothing
-        Me.TxtTotalAmount.ReferenceTableName = Nothing
-        Me.TxtTotalAmount.Size = New System.Drawing.Size(110, 20)
-        Me.TxtTotalAmount.TabIndex = 78
-        Me.TxtTotalAmount.Text = "0"
-        Me.TxtTotalAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtTotalAmount.Value = 0R
+        Me.TxtTotIncentiveAmt.BackColor = System.Drawing.Color.White
+        Me.TxtTotIncentiveAmt.CalculationExpression = Nothing
+        Me.TxtTotIncentiveAmt.DecimalPlaces = 0
+        Me.TxtTotIncentiveAmt.FieldCode = Nothing
+        Me.TxtTotIncentiveAmt.FieldDesc = Nothing
+        Me.TxtTotIncentiveAmt.FieldMaxLength = 5
+        Me.TxtTotIncentiveAmt.FieldName = Nothing
+        Me.TxtTotIncentiveAmt.isCalculatedField = False
+        Me.TxtTotIncentiveAmt.IsSourceFromTable = False
+        Me.TxtTotIncentiveAmt.IsSourceFromValueList = False
+        Me.TxtTotIncentiveAmt.IsUnique = False
+        Me.TxtTotIncentiveAmt.Location = New System.Drawing.Point(373, 5)
+        Me.TxtTotIncentiveAmt.MendatroryField = False
+        Me.TxtTotIncentiveAmt.MyLinkLable1 = Me.MyLabel42
+        Me.TxtTotIncentiveAmt.MyLinkLable2 = Nothing
+        Me.TxtTotIncentiveAmt.Name = "TxtTotIncentiveAmt"
+        Me.TxtTotIncentiveAmt.ReferenceFieldDesc = Nothing
+        Me.TxtTotIncentiveAmt.ReferenceFieldName = Nothing
+        Me.TxtTotIncentiveAmt.ReferenceTableName = Nothing
+        Me.TxtTotIncentiveAmt.Size = New System.Drawing.Size(110, 20)
+        Me.TxtTotIncentiveAmt.TabIndex = 77
+        Me.TxtTotIncentiveAmt.Text = "0"
+        Me.TxtTotIncentiveAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtTotIncentiveAmt.Value = 0R
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.gvCustomerIncentive)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(163.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(797, 327)
+        Me.RadPageViewPage3.Text = "Customer And Incentive Wise"
+        '
+        'gvCustomerIncentive
+        '
+        Me.gvCustomerIncentive.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvCustomerIncentive.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvCustomerIncentive.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvCustomerIncentive.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvCustomerIncentive.ForeColor = System.Drawing.Color.Black
+        Me.gvCustomerIncentive.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvCustomerIncentive.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvCustomerIncentive.MasterTemplate.AllowDeleteRow = False
+        Me.gvCustomerIncentive.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gvCustomerIncentive.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvCustomerIncentive.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCustomerIncentive.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCustomerIncentive.MyStopExport = False
+        Me.gvCustomerIncentive.Name = "gvCustomerIncentive"
+        Me.gvCustomerIncentive.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvCustomerIncentive.ShowGroupPanel = False
+        Me.gvCustomerIncentive.ShowHeaderCellButtons = True
+        Me.gvCustomerIncentive.Size = New System.Drawing.Size(797, 327)
+        Me.gvCustomerIncentive.TabIndex = 7
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.gvCustomerStructure)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(164.0!, 28.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(797, 327)
+        Me.RadPageViewPage2.Text = "Customer And Structure Wise"
+        '
+        'gvCustomerStructure
+        '
+        Me.gvCustomerStructure.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvCustomerStructure.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvCustomerStructure.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvCustomerStructure.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvCustomerStructure.ForeColor = System.Drawing.Color.Black
+        Me.gvCustomerStructure.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvCustomerStructure.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvCustomerStructure.MasterTemplate.AllowDeleteRow = False
+        Me.gvCustomerStructure.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gvCustomerStructure.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvCustomerStructure.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCustomerStructure.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvCustomerStructure.MyStopExport = False
+        Me.gvCustomerStructure.Name = "gvCustomerStructure"
+        Me.gvCustomerStructure.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvCustomerStructure.ShowGroupPanel = False
+        Me.gvCustomerStructure.ShowHeaderCellButtons = True
+        Me.gvCustomerStructure.Size = New System.Drawing.Size(797, 327)
+        Me.gvCustomerStructure.TabIndex = 6
+        '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.gvCustomerItem)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(146.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(797, 327)
+        Me.RadPageViewPage1.Text = "Customer And Item Detail"
+        '
+        'gvCustomerItem
+        '
+        Me.gvCustomerItem.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvCustomerItem.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvCustomerItem.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvCustomerItem.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvCustomerItem.ForeColor = System.Drawing.Color.Black
+        Me.gvCustomerItem.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvCustomerItem.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvCustomerItem.MasterTemplate.AllowDeleteRow = False
+        Me.gvCustomerItem.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gvCustomerItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvCustomerItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCustomerItem.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvCustomerItem.MyStopExport = False
+        Me.gvCustomerItem.Name = "gvCustomerItem"
+        Me.gvCustomerItem.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvCustomerItem.ShowGroupPanel = False
+        Me.gvCustomerItem.ShowHeaderCellButtons = True
+        Me.gvCustomerItem.Size = New System.Drawing.Size(797, 327)
+        Me.gvCustomerItem.TabIndex = 5
+        '
+        'RadPageViewPage5
+        '
+        Me.RadPageViewPage5.Controls.Add(Me.gvInvoice)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(84.0!, 28.0!)
+        Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage5.Name = "RadPageViewPage5"
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(797, 327)
+        Me.RadPageViewPage5.Text = "Invoice Detail"
+        '
+        'gvInvoice
+        '
+        Me.gvInvoice.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvInvoice.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvInvoice.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvInvoice.ForeColor = System.Drawing.Color.Black
+        Me.gvInvoice.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvInvoice.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvInvoice.MasterTemplate.AllowDeleteRow = False
+        Me.gvInvoice.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gvInvoice.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvInvoice.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvInvoice.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvInvoice.MyStopExport = False
+        Me.gvInvoice.Name = "gvInvoice"
+        Me.gvInvoice.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvInvoice.ShowGroupPanel = False
+        Me.gvInvoice.ShowHeaderCellButtons = True
+        Me.gvInvoice.Size = New System.Drawing.Size(797, 327)
+        Me.gvInvoice.TabIndex = 4
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadGroupBox2.HeaderText = "Manual Seal"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(0, 100)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(818, 375)
+        Me.RadGroupBox2.TabIndex = 220
+        Me.RadGroupBox2.Text = "Manual Seal"
+        '
+        'RadGroupBox4
+        '
+        Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadGroupBox4.HeaderText = "Paper Seal"
+        Me.RadGroupBox4.Location = New System.Drawing.Point(0, 100)
+        Me.RadGroupBox4.Name = "RadGroupBox4"
+        Me.RadGroupBox4.Size = New System.Drawing.Size(818, 375)
+        Me.RadGroupBox4.TabIndex = 219
+        Me.RadGroupBox4.Text = "Paper Seal"
         '
         'frmCustomerIncetiveEntry
         '
@@ -1016,6 +1040,13 @@ Partial Class frmCustomerIncetiveEntry
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.ResumeLayout(False)
+        Me.SplitContainer1.Panel2.PerformLayout()
+        Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.TxtTotalAmount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtTotDeductionAmount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtTotIncentiveAmt, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage3.ResumeLayout(False)
         CType(Me.gvCustomerIncentive.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvCustomerIncentive, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1030,13 +1061,6 @@ Partial Class frmCustomerIncetiveEntry
         CType(Me.gvInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer1.Panel1.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.PerformLayout()
-        Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.TxtTotIncentiveAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TxtTotDeductionAmount, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TxtTotalAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

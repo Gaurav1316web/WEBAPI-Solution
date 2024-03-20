@@ -27,6 +27,12 @@ Partial Class frmGeneralHolidays
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmGeneralHolidays))
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.FndDivision = New common.UserControls.txtFinder()
+        Me.fndLocation = New common.UserControls.txtFinder()
+        Me.lblDivisionName = New common.Controls.MyLabel()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.lblLocationName = New common.Controls.MyLabel()
+        Me.lblLocationCode = New common.Controls.MyLabel()
         Me.lblAttendName = New common.Controls.MyLabel()
         Me.txtAttendCode = New common.UserControls.txtFinder()
         Me.MyLabel4 = New common.Controls.MyLabel()
@@ -41,17 +47,15 @@ Partial Class frmGeneralHolidays
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.lblDivisionName = New common.Controls.MyLabel()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.lblLocationName = New common.Controls.MyLabel()
-        Me.lblLocationCode = New common.Controls.MyLabel()
-        Me.fndLocation = New common.UserControls.txtFinder()
-        Me.FndDivision = New common.UserControls.txtFinder()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblDivisionName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocationCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAttendName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -64,10 +68,6 @@ Partial Class frmGeneralHolidays
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDivisionName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLocationCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -121,18 +121,119 @@ Partial Class frmGeneralHolidays
         Me.SplitContainer1.SplitterDistance = 385
         Me.SplitContainer1.TabIndex = 0
         '
+        'FndDivision
+        '
+        Me.FndDivision.CalculationExpression = Nothing
+        Me.FndDivision.FieldCode = Nothing
+        Me.FndDivision.FieldDesc = Nothing
+        Me.FndDivision.FieldMaxLength = 0
+        Me.FndDivision.FieldName = Nothing
+        Me.FndDivision.isCalculatedField = False
+        Me.FndDivision.IsSourceFromTable = False
+        Me.FndDivision.IsSourceFromValueList = False
+        Me.FndDivision.IsUnique = False
+        Me.FndDivision.Location = New System.Drawing.Point(135, 139)
+        Me.FndDivision.MendatroryField = True
+        Me.FndDivision.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FndDivision.MyLinkLable1 = Nothing
+        Me.FndDivision.MyLinkLable2 = Nothing
+        Me.FndDivision.MyReadOnly = False
+        Me.FndDivision.MyShowMasterFormButton = False
+        Me.FndDivision.Name = "FndDivision"
+        Me.FndDivision.ReferenceFieldDesc = Nothing
+        Me.FndDivision.ReferenceFieldName = Nothing
+        Me.FndDivision.ReferenceTableName = Nothing
+        Me.FndDivision.Size = New System.Drawing.Size(195, 19)
+        Me.FndDivision.TabIndex = 210
+        Me.FndDivision.Value = ""
+        '
+        'fndLocation
+        '
+        Me.fndLocation.CalculationExpression = Nothing
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
+        Me.fndLocation.Location = New System.Drawing.Point(135, 117)
+        Me.fndLocation.MendatroryField = True
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndLocation.MyLinkLable1 = Nothing
+        Me.fndLocation.MyLinkLable2 = Nothing
+        Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
+        Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
+        Me.fndLocation.Size = New System.Drawing.Size(195, 19)
+        Me.fndLocation.TabIndex = 209
+        Me.fndLocation.Value = ""
+        '
+        'lblDivisionName
+        '
+        Me.lblDivisionName.AutoSize = False
+        Me.lblDivisionName.BorderVisible = True
+        Me.lblDivisionName.FieldName = Nothing
+        Me.lblDivisionName.Location = New System.Drawing.Point(332, 137)
+        Me.lblDivisionName.Name = "lblDivisionName"
+        Me.lblDivisionName.Size = New System.Drawing.Size(159, 19)
+        Me.lblDivisionName.TabIndex = 208
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(11, 139)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(76, 16)
+        Me.MyLabel5.TabIndex = 207
+        Me.MyLabel5.Text = "Division Code"
+        '
+        'lblLocationName
+        '
+        Me.lblLocationName.AutoSize = False
+        Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
+        Me.lblLocationName.Location = New System.Drawing.Point(332, 115)
+        Me.lblLocationName.Name = "lblLocationName"
+        Me.lblLocationName.Size = New System.Drawing.Size(159, 19)
+        Me.lblLocationName.TabIndex = 206
+        '
+        'lblLocationCode
+        '
+        Me.lblLocationCode.FieldName = Nothing
+        Me.lblLocationCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocationCode.Location = New System.Drawing.Point(11, 117)
+        Me.lblLocationCode.Name = "lblLocationCode"
+        Me.lblLocationCode.Size = New System.Drawing.Size(79, 16)
+        Me.lblLocationCode.TabIndex = 205
+        Me.lblLocationCode.Text = "Location Code"
+        '
         'lblAttendName
         '
         Me.lblAttendName.AutoSize = False
         Me.lblAttendName.BorderVisible = True
+        Me.lblAttendName.FieldName = Nothing
         Me.lblAttendName.Location = New System.Drawing.Point(332, 47)
         Me.lblAttendName.Name = "lblAttendName"
         Me.lblAttendName.Size = New System.Drawing.Size(159, 19)
         Me.lblAttendName.TabIndex = 3
-        Me.lblAttendName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtAttendCode
         '
+        Me.txtAttendCode.CalculationExpression = Nothing
+        Me.txtAttendCode.FieldCode = Nothing
+        Me.txtAttendCode.FieldDesc = Nothing
+        Me.txtAttendCode.FieldMaxLength = 0
+        Me.txtAttendCode.FieldName = Nothing
+        Me.txtAttendCode.isCalculatedField = False
+        Me.txtAttendCode.IsSourceFromTable = False
+        Me.txtAttendCode.IsSourceFromValueList = False
+        Me.txtAttendCode.IsUnique = False
         Me.txtAttendCode.Location = New System.Drawing.Point(135, 47)
         Me.txtAttendCode.MendatroryField = True
         Me.txtAttendCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -141,12 +242,16 @@ Partial Class frmGeneralHolidays
         Me.txtAttendCode.MyReadOnly = False
         Me.txtAttendCode.MyShowMasterFormButton = False
         Me.txtAttendCode.Name = "txtAttendCode"
+        Me.txtAttendCode.ReferenceFieldDesc = Nothing
+        Me.txtAttendCode.ReferenceFieldName = Nothing
+        Me.txtAttendCode.ReferenceTableName = Nothing
         Me.txtAttendCode.Size = New System.Drawing.Size(195, 19)
         Me.txtAttendCode.TabIndex = 2
         Me.txtAttendCode.Value = ""
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(11, 50)
         Me.MyLabel4.Name = "MyLabel4"
@@ -165,13 +270,14 @@ Partial Class frmGeneralHolidays
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(135, 18)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(222, 21)
@@ -180,6 +286,7 @@ Partial Class frmGeneralHolidays
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Location = New System.Drawing.Point(11, 19)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(32, 18)
@@ -196,18 +303,31 @@ Partial Class frmGeneralHolidays
         '
         'txtDescription
         '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
         Me.txtDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(135, 72)
         Me.txtDescription.MaxLength = 49
         Me.txtDescription.MendatroryField = False
         Me.txtDescription.MyLinkLable1 = Me.lblcardno
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(356, 18)
         Me.txtDescription.TabIndex = 4
         '
         'lblcardno
         '
+        Me.lblcardno.FieldName = Nothing
         Me.lblcardno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblcardno.Location = New System.Drawing.Point(11, 72)
         Me.lblcardno.Name = "lblcardno"
@@ -217,9 +337,18 @@ Partial Class frmGeneralHolidays
         '
         'dtpHolidayDate
         '
+        Me.dtpHolidayDate.CalculationExpression = Nothing
         Me.dtpHolidayDate.CustomFormat = "dd/MMM/yyyy"
+        Me.dtpHolidayDate.FieldCode = Nothing
+        Me.dtpHolidayDate.FieldDesc = Nothing
+        Me.dtpHolidayDate.FieldMaxLength = 0
+        Me.dtpHolidayDate.FieldName = Nothing
         Me.dtpHolidayDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpHolidayDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpHolidayDate.isCalculatedField = False
+        Me.dtpHolidayDate.IsSourceFromTable = False
+        Me.dtpHolidayDate.IsSourceFromValueList = False
+        Me.dtpHolidayDate.IsUnique = False
         Me.dtpHolidayDate.Location = New System.Drawing.Point(135, 96)
         Me.dtpHolidayDate.MendatroryField = False
         Me.dtpHolidayDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -227,6 +356,9 @@ Partial Class frmGeneralHolidays
         Me.dtpHolidayDate.MyLinkLable2 = Nothing
         Me.dtpHolidayDate.Name = "dtpHolidayDate"
         Me.dtpHolidayDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpHolidayDate.ReferenceFieldDesc = Nothing
+        Me.dtpHolidayDate.ReferenceFieldName = Nothing
+        Me.dtpHolidayDate.ReferenceTableName = Nothing
         Me.dtpHolidayDate.Size = New System.Drawing.Size(108, 18)
         Me.dtpHolidayDate.TabIndex = 5
         Me.dtpHolidayDate.TabStop = False
@@ -235,6 +367,7 @@ Partial Class frmGeneralHolidays
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(11, 95)
         Me.MyLabel2.Name = "MyLabel2"
@@ -272,72 +405,6 @@ Partial Class frmGeneralHolidays
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
         '
-        'lblDivisionName
-        '
-        Me.lblDivisionName.AutoSize = False
-        Me.lblDivisionName.BorderVisible = True
-        Me.lblDivisionName.Location = New System.Drawing.Point(332, 137)
-        Me.lblDivisionName.Name = "lblDivisionName"
-        Me.lblDivisionName.Size = New System.Drawing.Size(159, 19)
-        Me.lblDivisionName.TabIndex = 208
-        Me.lblDivisionName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(11, 139)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(76, 16)
-        Me.MyLabel5.TabIndex = 207
-        Me.MyLabel5.Text = "Division Code"
-        '
-        'lblLocationName
-        '
-        Me.lblLocationName.AutoSize = False
-        Me.lblLocationName.BorderVisible = True
-        Me.lblLocationName.Location = New System.Drawing.Point(332, 115)
-        Me.lblLocationName.Name = "lblLocationName"
-        Me.lblLocationName.Size = New System.Drawing.Size(159, 19)
-        Me.lblLocationName.TabIndex = 206
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblLocationCode
-        '
-        Me.lblLocationCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocationCode.Location = New System.Drawing.Point(11, 117)
-        Me.lblLocationCode.Name = "lblLocationCode"
-        Me.lblLocationCode.Size = New System.Drawing.Size(79, 16)
-        Me.lblLocationCode.TabIndex = 205
-        Me.lblLocationCode.Text = "Location Code"
-        '
-        'fndLocation
-        '
-        Me.fndLocation.Location = New System.Drawing.Point(135, 117)
-        Me.fndLocation.MendatroryField = True
-        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndLocation.MyLinkLable1 = Nothing
-        Me.fndLocation.MyLinkLable2 = Nothing
-        Me.fndLocation.MyReadOnly = False
-        Me.fndLocation.MyShowMasterFormButton = False
-        Me.fndLocation.Name = "fndLocation"
-        Me.fndLocation.Size = New System.Drawing.Size(195, 19)
-        Me.fndLocation.TabIndex = 209
-        Me.fndLocation.Value = ""
-        '
-        'FndDivision
-        '
-        Me.FndDivision.Location = New System.Drawing.Point(135, 139)
-        Me.FndDivision.MendatroryField = True
-        Me.FndDivision.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.FndDivision.MyLinkLable1 = Nothing
-        Me.FndDivision.MyLinkLable2 = Nothing
-        Me.FndDivision.MyReadOnly = False
-        Me.FndDivision.MyShowMasterFormButton = False
-        Me.FndDivision.Name = "FndDivision"
-        Me.FndDivision.Size = New System.Drawing.Size(195, 19)
-        Me.FndDivision.TabIndex = 210
-        Me.FndDivision.Value = ""
-        '
         'frmGeneralHolidays
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -356,6 +423,10 @@ Partial Class frmGeneralHolidays
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblDivisionName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocationCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAttendName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
@@ -368,10 +439,6 @@ Partial Class frmGeneralHolidays
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDivisionName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLocationCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

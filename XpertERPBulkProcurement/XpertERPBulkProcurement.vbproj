@@ -294,6 +294,12 @@
     <Compile Include="Milk Procurement\Report\rptDCSSecurity.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptMarginAmount.Designer.vb">
+      <DependentUpon>rptMarginAmount.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptMarginAmount.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptMilkPaymentSummary.Designer.vb">
       <DependentUpon>rptMilkPaymentSummary.vb</DependentUpon>
     </Compile>
@@ -853,6 +859,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptDCSSecurity.resx">
       <DependentUpon>rptDCSSecurity.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptMarginAmount.resx">
+      <DependentUpon>rptMarginAmount.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMilkPaymentSummary.resx">
       <DependentUpon>rptMilkPaymentSummary.vb</DependentUpon>

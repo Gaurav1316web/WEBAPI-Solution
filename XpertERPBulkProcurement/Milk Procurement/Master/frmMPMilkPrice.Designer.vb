@@ -23,25 +23,18 @@ Partial Class frmMPMilkPrice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.txtCreatedDate = New common.Controls.MyDateTimePicker()
-        Me.lblvandorno = New common.Controls.MyLabel()
-        Me.MyLabel17 = New common.Controls.MyLabel()
-        Me.cmbaxis = New common.Controls.MyComboBox()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.cmbmatrix = New common.Controls.MyComboBox()
-        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.BtnGo = New Telerik.WinControls.UI.RadButton()
         Me.TxtFindRate = New common.MyNumBox()
@@ -50,6 +43,14 @@ Partial Class frmMPMilkPrice
         Me.TxtFindFAT = New common.MyNumBox()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.UsLock1 = New common.usLock()
+        Me.txtCreatedDate = New common.Controls.MyDateTimePicker()
+        Me.lblvandorno = New common.Controls.MyLabel()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.cmbaxis = New common.Controls.MyComboBox()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.cmbmatrix = New common.Controls.MyComboBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtDocNo = New common.UserControls.txtNavigator()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.cboDockCollectionMilkType = New common.Controls.MyComboBox()
@@ -62,25 +63,17 @@ Partial Class frmMPMilkPrice
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtdate = New common.Controls.MyDateTimePicker()
         Me.gvViewScreen = New Telerik.WinControls.UI.RadGridView()
+        Me.btnExport = New Telerik.WinControls.UI.RadButton()
         Me.btnImport = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
-        Me.btnExport = New Telerik.WinControls.UI.RadButton()
-        Me.UsLock1 = New common.usLock()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.txtCreatedDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbaxis, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbmatrix, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.BtnGo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -90,6 +83,13 @@ Partial Class frmMPMilkPrice
         CType(Me.TxtFindFAT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCreatedDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbaxis, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbmatrix, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboDockCollectionMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -100,11 +100,11 @@ Partial Class frmMPMilkPrice
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvViewScreen, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvViewScreen.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -169,141 +169,6 @@ Partial Class frmMPMilkPrice
         Me.SplitContainer2.Size = New System.Drawing.Size(920, 467)
         Me.SplitContainer2.SplitterDistance = 107
         Me.SplitContainer2.TabIndex = 0
-        '
-        'txtCreatedDate
-        '
-        Me.txtCreatedDate.CalculationExpression = Nothing
-        Me.txtCreatedDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtCreatedDate.FieldCode = Nothing
-        Me.txtCreatedDate.FieldDesc = Nothing
-        Me.txtCreatedDate.FieldMaxLength = 0
-        Me.txtCreatedDate.FieldName = Nothing
-        Me.txtCreatedDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtCreatedDate.isCalculatedField = False
-        Me.txtCreatedDate.IsSourceFromTable = False
-        Me.txtCreatedDate.IsSourceFromValueList = False
-        Me.txtCreatedDate.IsUnique = False
-        Me.txtCreatedDate.Location = New System.Drawing.Point(77, 80)
-        Me.txtCreatedDate.MendatroryField = True
-        Me.txtCreatedDate.MinDate = New Date(1973, 1, 1, 0, 0, 0, 0)
-        Me.txtCreatedDate.MyLinkLable1 = Me.lblvandorno
-        Me.txtCreatedDate.MyLinkLable2 = Nothing
-        Me.txtCreatedDate.Name = "txtCreatedDate"
-        Me.txtCreatedDate.ReadOnly = True
-        Me.txtCreatedDate.ReferenceFieldDesc = Nothing
-        Me.txtCreatedDate.ReferenceFieldName = Nothing
-        Me.txtCreatedDate.ReferenceTableName = Nothing
-        Me.txtCreatedDate.Size = New System.Drawing.Size(80, 20)
-        Me.txtCreatedDate.TabIndex = 1058
-        Me.txtCreatedDate.TabStop = False
-        Me.txtCreatedDate.Text = "28/05/2014"
-        Me.txtCreatedDate.Value = New Date(2014, 5, 28, 15, 5, 19, 923)
-        '
-        'lblvandorno
-        '
-        Me.lblvandorno.FieldName = Nothing
-        Me.lblvandorno.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblvandorno.Location = New System.Drawing.Point(306, 12)
-        Me.lblvandorno.Name = "lblvandorno"
-        Me.lblvandorno.Size = New System.Drawing.Size(30, 16)
-        Me.lblvandorno.TabIndex = 1036
-        Me.lblvandorno.Text = "Date"
-        '
-        'MyLabel17
-        '
-        Me.MyLabel17.FieldName = Nothing
-        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel17.Location = New System.Drawing.Point(9, 82)
-        Me.MyLabel17.Name = "MyLabel17"
-        Me.MyLabel17.Size = New System.Drawing.Size(62, 16)
-        Me.MyLabel17.TabIndex = 1057
-        Me.MyLabel17.Text = "Created on"
-        '
-        'cmbaxis
-        '
-        Me.cmbaxis.AutoCompleteDisplayMember = Nothing
-        Me.cmbaxis.AutoCompleteValueMember = Nothing
-        Me.cmbaxis.CalculationExpression = Nothing
-        Me.cmbaxis.DropDownAnimationEnabled = True
-        Me.cmbaxis.FieldCode = Nothing
-        Me.cmbaxis.FieldDesc = Nothing
-        Me.cmbaxis.FieldMaxLength = 0
-        Me.cmbaxis.FieldName = Nothing
-        Me.cmbaxis.isCalculatedField = False
-        Me.cmbaxis.IsSourceFromTable = False
-        Me.cmbaxis.IsSourceFromValueList = False
-        Me.cmbaxis.IsUnique = False
-        RadListDataItem4.Text = "None"
-        RadListDataItem5.Text = "Single"
-        RadListDataItem6.Text = "Double"
-        Me.cmbaxis.Items.Add(RadListDataItem4)
-        Me.cmbaxis.Items.Add(RadListDataItem5)
-        Me.cmbaxis.Items.Add(RadListDataItem6)
-        Me.cmbaxis.Location = New System.Drawing.Point(234, 80)
-        Me.cmbaxis.MendatroryField = False
-        Me.cmbaxis.MyLinkLable1 = Me.MyLabel3
-        Me.cmbaxis.MyLinkLable2 = Nothing
-        Me.cmbaxis.Name = "cmbaxis"
-        Me.cmbaxis.ReferenceFieldDesc = Nothing
-        Me.cmbaxis.ReferenceFieldName = Nothing
-        Me.cmbaxis.ReferenceTableName = Nothing
-        Me.cmbaxis.Size = New System.Drawing.Size(93, 20)
-        Me.cmbaxis.TabIndex = 1052
-        Me.cmbaxis.Visible = False
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel3.Location = New System.Drawing.Point(163, 82)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(56, 16)
-        Me.MyLabel3.TabIndex = 1055
-        Me.MyLabel3.Text = "Axis Type"
-        Me.MyLabel3.Visible = False
-        '
-        'cmbmatrix
-        '
-        Me.cmbmatrix.AutoCompleteDisplayMember = Nothing
-        Me.cmbmatrix.AutoCompleteValueMember = Nothing
-        Me.cmbmatrix.CalculationExpression = Nothing
-        Me.cmbmatrix.DropDownAnimationEnabled = True
-        Me.cmbmatrix.FieldCode = Nothing
-        Me.cmbmatrix.FieldDesc = Nothing
-        Me.cmbmatrix.FieldMaxLength = 0
-        Me.cmbmatrix.FieldName = Nothing
-        Me.cmbmatrix.isCalculatedField = False
-        Me.cmbmatrix.IsSourceFromTable = False
-        Me.cmbmatrix.IsSourceFromValueList = False
-        Me.cmbmatrix.IsUnique = False
-        RadListDataItem7.Text = "None"
-        RadListDataItem8.Text = "6.5/9.0"
-        RadListDataItem9.Text = "4.0/8.5"
-        Me.cmbmatrix.Items.Add(RadListDataItem7)
-        Me.cmbmatrix.Items.Add(RadListDataItem8)
-        Me.cmbmatrix.Items.Add(RadListDataItem9)
-        Me.cmbmatrix.Location = New System.Drawing.Point(404, 80)
-        Me.cmbmatrix.MendatroryField = False
-        Me.cmbmatrix.MyLinkLable1 = Me.MyLabel4
-        Me.cmbmatrix.MyLinkLable2 = Nothing
-        Me.cmbmatrix.Name = "cmbmatrix"
-        Me.cmbmatrix.ReferenceFieldDesc = Nothing
-        Me.cmbmatrix.ReferenceFieldName = Nothing
-        Me.cmbmatrix.ReferenceTableName = Nothing
-        Me.cmbmatrix.Size = New System.Drawing.Size(93, 20)
-        Me.cmbmatrix.TabIndex = 1053
-        Me.cmbmatrix.Visible = False
-        '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel4.Location = New System.Drawing.Point(333, 82)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(65, 16)
-        Me.MyLabel4.TabIndex = 1054
-        Me.MyLabel4.Text = "Matrix Type"
-        Me.MyLabel4.Visible = False
         '
         'RadGroupBox1
         '
@@ -442,6 +307,151 @@ Partial Class frmMPMilkPrice
         Me.MyLabel12.TabIndex = 29
         Me.MyLabel12.Text = "SNF"
         '
+        'UsLock1
+        '
+        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock1.Location = New System.Drawing.Point(730, 5)
+        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock1.Name = "UsLock1"
+        Me.UsLock1.Size = New System.Drawing.Size(178, 23)
+        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock1.TabIndex = 1059
+        '
+        'txtCreatedDate
+        '
+        Me.txtCreatedDate.CalculationExpression = Nothing
+        Me.txtCreatedDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtCreatedDate.FieldCode = Nothing
+        Me.txtCreatedDate.FieldDesc = Nothing
+        Me.txtCreatedDate.FieldMaxLength = 0
+        Me.txtCreatedDate.FieldName = Nothing
+        Me.txtCreatedDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtCreatedDate.isCalculatedField = False
+        Me.txtCreatedDate.IsSourceFromTable = False
+        Me.txtCreatedDate.IsSourceFromValueList = False
+        Me.txtCreatedDate.IsUnique = False
+        Me.txtCreatedDate.Location = New System.Drawing.Point(77, 80)
+        Me.txtCreatedDate.MendatroryField = True
+        Me.txtCreatedDate.MinDate = New Date(1973, 1, 1, 0, 0, 0, 0)
+        Me.txtCreatedDate.MyLinkLable1 = Me.lblvandorno
+        Me.txtCreatedDate.MyLinkLable2 = Nothing
+        Me.txtCreatedDate.Name = "txtCreatedDate"
+        Me.txtCreatedDate.ReadOnly = True
+        Me.txtCreatedDate.ReferenceFieldDesc = Nothing
+        Me.txtCreatedDate.ReferenceFieldName = Nothing
+        Me.txtCreatedDate.ReferenceTableName = Nothing
+        Me.txtCreatedDate.Size = New System.Drawing.Size(80, 20)
+        Me.txtCreatedDate.TabIndex = 1058
+        Me.txtCreatedDate.TabStop = False
+        Me.txtCreatedDate.Text = "28/05/2014"
+        Me.txtCreatedDate.Value = New Date(2014, 5, 28, 15, 5, 19, 923)
+        '
+        'lblvandorno
+        '
+        Me.lblvandorno.FieldName = Nothing
+        Me.lblvandorno.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblvandorno.Location = New System.Drawing.Point(306, 12)
+        Me.lblvandorno.Name = "lblvandorno"
+        Me.lblvandorno.Size = New System.Drawing.Size(30, 16)
+        Me.lblvandorno.TabIndex = 1036
+        Me.lblvandorno.Text = "Date"
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel17.Location = New System.Drawing.Point(9, 82)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(62, 16)
+        Me.MyLabel17.TabIndex = 1057
+        Me.MyLabel17.Text = "Created on"
+        '
+        'cmbaxis
+        '
+        Me.cmbaxis.AutoCompleteDisplayMember = Nothing
+        Me.cmbaxis.AutoCompleteValueMember = Nothing
+        Me.cmbaxis.CalculationExpression = Nothing
+        Me.cmbaxis.DropDownAnimationEnabled = True
+        Me.cmbaxis.FieldCode = Nothing
+        Me.cmbaxis.FieldDesc = Nothing
+        Me.cmbaxis.FieldMaxLength = 0
+        Me.cmbaxis.FieldName = Nothing
+        Me.cmbaxis.isCalculatedField = False
+        Me.cmbaxis.IsSourceFromTable = False
+        Me.cmbaxis.IsSourceFromValueList = False
+        Me.cmbaxis.IsUnique = False
+        RadListDataItem1.Text = "None"
+        RadListDataItem2.Text = "Single"
+        RadListDataItem3.Text = "Double"
+        Me.cmbaxis.Items.Add(RadListDataItem1)
+        Me.cmbaxis.Items.Add(RadListDataItem2)
+        Me.cmbaxis.Items.Add(RadListDataItem3)
+        Me.cmbaxis.Location = New System.Drawing.Point(234, 80)
+        Me.cmbaxis.MendatroryField = False
+        Me.cmbaxis.MyLinkLable1 = Me.MyLabel3
+        Me.cmbaxis.MyLinkLable2 = Nothing
+        Me.cmbaxis.Name = "cmbaxis"
+        Me.cmbaxis.ReferenceFieldDesc = Nothing
+        Me.cmbaxis.ReferenceFieldName = Nothing
+        Me.cmbaxis.ReferenceTableName = Nothing
+        Me.cmbaxis.Size = New System.Drawing.Size(93, 20)
+        Me.cmbaxis.TabIndex = 1052
+        Me.cmbaxis.Visible = False
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel3.Location = New System.Drawing.Point(163, 82)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(56, 16)
+        Me.MyLabel3.TabIndex = 1055
+        Me.MyLabel3.Text = "Axis Type"
+        Me.MyLabel3.Visible = False
+        '
+        'cmbmatrix
+        '
+        Me.cmbmatrix.AutoCompleteDisplayMember = Nothing
+        Me.cmbmatrix.AutoCompleteValueMember = Nothing
+        Me.cmbmatrix.CalculationExpression = Nothing
+        Me.cmbmatrix.DropDownAnimationEnabled = True
+        Me.cmbmatrix.FieldCode = Nothing
+        Me.cmbmatrix.FieldDesc = Nothing
+        Me.cmbmatrix.FieldMaxLength = 0
+        Me.cmbmatrix.FieldName = Nothing
+        Me.cmbmatrix.isCalculatedField = False
+        Me.cmbmatrix.IsSourceFromTable = False
+        Me.cmbmatrix.IsSourceFromValueList = False
+        Me.cmbmatrix.IsUnique = False
+        RadListDataItem4.Text = "None"
+        RadListDataItem5.Text = "6.5/9.0"
+        RadListDataItem6.Text = "4.0/8.5"
+        Me.cmbmatrix.Items.Add(RadListDataItem4)
+        Me.cmbmatrix.Items.Add(RadListDataItem5)
+        Me.cmbmatrix.Items.Add(RadListDataItem6)
+        Me.cmbmatrix.Location = New System.Drawing.Point(404, 80)
+        Me.cmbmatrix.MendatroryField = False
+        Me.cmbmatrix.MyLinkLable1 = Me.MyLabel4
+        Me.cmbmatrix.MyLinkLable2 = Nothing
+        Me.cmbmatrix.Name = "cmbmatrix"
+        Me.cmbmatrix.ReferenceFieldDesc = Nothing
+        Me.cmbmatrix.ReferenceFieldName = Nothing
+        Me.cmbmatrix.ReferenceTableName = Nothing
+        Me.cmbmatrix.Size = New System.Drawing.Size(93, 20)
+        Me.cmbmatrix.TabIndex = 1053
+        Me.cmbmatrix.Visible = False
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel4.Location = New System.Drawing.Point(333, 82)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(65, 16)
+        Me.MyLabel4.TabIndex = 1054
+        Me.MyLabel4.Text = "Matrix Type"
+        Me.MyLabel4.Visible = False
+        '
         'txtDocNo
         '
         Me.txtDocNo.FieldName = Nothing
@@ -451,7 +461,7 @@ Partial Class frmMPMilkPrice
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Nothing
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(207, 20)
@@ -557,12 +567,12 @@ Partial Class frmMPMilkPrice
         Me.CmbShift.IsSourceFromTable = False
         Me.CmbShift.IsSourceFromValueList = False
         Me.CmbShift.IsUnique = False
-        RadListDataItem10.Text = "None"
-        RadListDataItem11.Text = "Declared Rate"
-        RadListDataItem12.Text = "Effective Rate"
-        Me.CmbShift.Items.Add(RadListDataItem10)
-        Me.CmbShift.Items.Add(RadListDataItem11)
-        Me.CmbShift.Items.Add(RadListDataItem12)
+        RadListDataItem7.Text = "None"
+        RadListDataItem8.Text = "Declared Rate"
+        RadListDataItem9.Text = "Effective Rate"
+        Me.CmbShift.Items.Add(RadListDataItem7)
+        Me.CmbShift.Items.Add(RadListDataItem8)
+        Me.CmbShift.Items.Add(RadListDataItem9)
         Me.CmbShift.Location = New System.Drawing.Point(508, 10)
         Me.CmbShift.MendatroryField = False
         Me.CmbShift.MyLinkLable1 = Me.MyLabel10
@@ -635,11 +645,19 @@ Partial Class frmMPMilkPrice
         Me.gvViewScreen.MasterTemplate.AllowDragToGroup = False
         Me.gvViewScreen.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvViewScreen.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvViewScreen.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvViewScreen.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvViewScreen.Name = "gvViewScreen"
         Me.gvViewScreen.ShowHeaderCellButtons = True
         Me.gvViewScreen.Size = New System.Drawing.Size(920, 356)
         Me.gvViewScreen.TabIndex = 0
+        '
+        'btnExport
+        '
+        Me.btnExport.Location = New System.Drawing.Point(9, 4)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(86, 24)
+        Me.btnExport.TabIndex = 5
+        Me.btnExport.Text = "Export"
         '
         'btnImport
         '
@@ -674,24 +692,6 @@ Partial Class frmMPMilkPrice
         Me.btnPost.TabIndex = 1
         Me.btnPost.Text = "Post"
         '
-        'btnExport
-        '
-        Me.btnExport.Location = New System.Drawing.Point(9, 4)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(86, 24)
-        Me.btnExport.TabIndex = 5
-        Me.btnExport.Text = "Export"
-        '
-        'UsLock1
-        '
-        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(730, 5)
-        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(178, 23)
-        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
-        Me.UsLock1.TabIndex = 1059
-        '
         'frmMPMilkPrice
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -711,13 +711,6 @@ Partial Class frmMPMilkPrice
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.txtCreatedDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbaxis, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbmatrix, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -728,6 +721,13 @@ Partial Class frmMPMilkPrice
         CType(Me.TxtFindFAT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCreatedDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblvandorno, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbaxis, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbmatrix, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboDockCollectionMilkType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
@@ -738,11 +738,11 @@ Partial Class frmMPMilkPrice
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvViewScreen.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvViewScreen, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnImport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

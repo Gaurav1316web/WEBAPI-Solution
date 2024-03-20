@@ -25,10 +25,20 @@ Partial Class frmAssetDispatchRetailer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.lblAltVehicleDesc = New common.Controls.MyLabel()
+        Me.txtAltVehicle = New common.UserControls.txtFinder()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.lblVehicleDesc = New common.Controls.MyLabel()
+        Me.lblRouteDesc = New common.Controls.MyLabel()
+        Me.txtRouteNo = New common.UserControls.txtFinder()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.chkItem = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.lblDistributor = New common.Controls.MyLabel()
@@ -63,8 +73,6 @@ Partial Class frmAssetDispatchRetailer
         Me.txtComment = New common.Controls.MyTextBox()
         Me.RadLabel3 = New common.Controls.MyLabel()
         Me.chkOnHold = New Telerik.WinControls.UI.RadCheckBox()
-        Me.lblVehicleDesc = New common.Controls.MyLabel()
-        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.TxtVehicle = New common.UserControls.txtFinder()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
@@ -101,12 +109,6 @@ Partial Class frmAssetDispatchRetailer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.BtnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.BtnDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.txtRouteNo = New common.UserControls.txtFinder()
-        Me.lblRouteDesc = New common.Controls.MyLabel()
-        Me.txtAltVehicle = New common.UserControls.txtFinder()
-        Me.lblAltVehicleDesc = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -116,6 +118,12 @@ Partial Class frmAssetDispatchRetailer
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.lblAltVehicleDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVehicleDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -142,8 +150,6 @@ Partial Class frmAssetDispatchRetailer
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkOnHold, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblVehicleDesc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -173,10 +179,6 @@ Partial Class frmAssetDispatchRetailer
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblAltVehicleDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -222,7 +224,6 @@ Partial Class frmAssetDispatchRetailer
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(909, 524)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -239,7 +240,7 @@ Partial Class frmAssetDispatchRetailer
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer2.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.SplitContainer2.Margin = New System.Windows.Forms.Padding(2)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
@@ -297,6 +298,126 @@ Partial Class frmAssetDispatchRetailer
         Me.SplitContainer2.SplitterWidth = 3
         Me.SplitContainer2.TabIndex = 50
         '
+        'lblAltVehicleDesc
+        '
+        Me.lblAltVehicleDesc.AutoSize = False
+        Me.lblAltVehicleDesc.BorderVisible = True
+        Me.lblAltVehicleDesc.FieldName = Nothing
+        Me.lblAltVehicleDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAltVehicleDesc.Location = New System.Drawing.Point(604, 118)
+        Me.lblAltVehicleDesc.Name = "lblAltVehicleDesc"
+        Me.lblAltVehicleDesc.Size = New System.Drawing.Size(132, 18)
+        Me.lblAltVehicleDesc.TabIndex = 56
+        Me.lblAltVehicleDesc.TextWrap = False
+        '
+        'txtAltVehicle
+        '
+        Me.txtAltVehicle.CalculationExpression = Nothing
+        Me.txtAltVehicle.FieldCode = Nothing
+        Me.txtAltVehicle.FieldDesc = Nothing
+        Me.txtAltVehicle.FieldMaxLength = 0
+        Me.txtAltVehicle.FieldName = Nothing
+        Me.txtAltVehicle.isCalculatedField = False
+        Me.txtAltVehicle.IsSourceFromTable = False
+        Me.txtAltVehicle.IsSourceFromValueList = False
+        Me.txtAltVehicle.IsUnique = False
+        Me.txtAltVehicle.Location = New System.Drawing.Point(474, 116)
+        Me.txtAltVehicle.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtAltVehicle.MendatroryField = True
+        Me.txtAltVehicle.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAltVehicle.MyLinkLable1 = Me.MyLabel4
+        Me.txtAltVehicle.MyLinkLable2 = Me.lblVehicleDesc
+        Me.txtAltVehicle.MyReadOnly = False
+        Me.txtAltVehicle.MyShowMasterFormButton = False
+        Me.txtAltVehicle.Name = "txtAltVehicle"
+        Me.txtAltVehicle.ReferenceFieldDesc = Nothing
+        Me.txtAltVehicle.ReferenceFieldName = Nothing
+        Me.txtAltVehicle.ReferenceTableName = Nothing
+        Me.txtAltVehicle.Size = New System.Drawing.Size(123, 20)
+        Me.txtAltVehicle.TabIndex = 55
+        Me.txtAltVehicle.Value = ""
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(404, 95)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(43, 16)
+        Me.MyLabel4.TabIndex = 19
+        Me.MyLabel4.Text = "Vehicle"
+        '
+        'lblVehicleDesc
+        '
+        Me.lblVehicleDesc.AutoSize = False
+        Me.lblVehicleDesc.BorderVisible = True
+        Me.lblVehicleDesc.FieldName = Nothing
+        Me.lblVehicleDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblVehicleDesc.Location = New System.Drawing.Point(604, 95)
+        Me.lblVehicleDesc.Name = "lblVehicleDesc"
+        Me.lblVehicleDesc.Size = New System.Drawing.Size(132, 18)
+        Me.lblVehicleDesc.TabIndex = 20
+        Me.lblVehicleDesc.TextWrap = False
+        '
+        'lblRouteDesc
+        '
+        Me.lblRouteDesc.AutoSize = False
+        Me.lblRouteDesc.BorderVisible = True
+        Me.lblRouteDesc.FieldName = Nothing
+        Me.lblRouteDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRouteDesc.Location = New System.Drawing.Point(604, 70)
+        Me.lblRouteDesc.Name = "lblRouteDesc"
+        Me.lblRouteDesc.Size = New System.Drawing.Size(132, 18)
+        Me.lblRouteDesc.TabIndex = 54
+        Me.lblRouteDesc.TextWrap = False
+        '
+        'txtRouteNo
+        '
+        Me.txtRouteNo.CalculationExpression = Nothing
+        Me.txtRouteNo.FieldCode = Nothing
+        Me.txtRouteNo.FieldDesc = Nothing
+        Me.txtRouteNo.FieldMaxLength = 0
+        Me.txtRouteNo.FieldName = Nothing
+        Me.txtRouteNo.isCalculatedField = False
+        Me.txtRouteNo.IsSourceFromTable = False
+        Me.txtRouteNo.IsSourceFromValueList = False
+        Me.txtRouteNo.IsUnique = False
+        Me.txtRouteNo.Location = New System.Drawing.Point(474, 70)
+        Me.txtRouteNo.Margin = New System.Windows.Forms.Padding(4)
+        Me.txtRouteNo.MendatroryField = True
+        Me.txtRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRouteNo.MyLinkLable1 = Me.MyLabel4
+        Me.txtRouteNo.MyLinkLable2 = Me.lblVehicleDesc
+        Me.txtRouteNo.MyReadOnly = False
+        Me.txtRouteNo.MyShowMasterFormButton = False
+        Me.txtRouteNo.Name = "txtRouteNo"
+        Me.txtRouteNo.ReferenceFieldDesc = Nothing
+        Me.txtRouteNo.ReferenceFieldName = Nothing
+        Me.txtRouteNo.ReferenceTableName = Nothing
+        Me.txtRouteNo.Size = New System.Drawing.Size(123, 20)
+        Me.txtRouteNo.TabIndex = 53
+        Me.txtRouteNo.Value = ""
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(404, 120)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(60, 16)
+        Me.MyLabel5.TabIndex = 52
+        Me.MyLabel5.Text = "Alt Vehicle"
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(404, 70)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(54, 16)
+        Me.MyLabel3.TabIndex = 51
+        Me.MyLabel3.Text = "Route No"
+        '
         'chkItem
         '
         Me.chkItem.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -326,7 +447,6 @@ Partial Class frmAssetDispatchRetailer
         Me.lblDistributor.Name = "lblDistributor"
         Me.lblDistributor.Size = New System.Drawing.Size(132, 18)
         Me.lblDistributor.TabIndex = 49
-        Me.lblDistributor.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDistributor.TextWrap = False
         '
         'btnAddNew
@@ -351,7 +471,7 @@ Partial Class frmAssetDispatchRetailer
         Me.TxtDistributor.IsSourceFromValueList = False
         Me.TxtDistributor.IsUnique = False
         Me.TxtDistributor.Location = New System.Drawing.Point(474, 27)
-        Me.TxtDistributor.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TxtDistributor.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtDistributor.MendatroryField = False
         Me.TxtDistributor.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtDistributor.MyLinkLable1 = Me.RadLabel2
@@ -430,13 +550,13 @@ Partial Class frmAssetDispatchRetailer
         '
         Me.txtDocNo.FieldName = Nothing
         Me.txtDocNo.Location = New System.Drawing.Point(92, 6)
-        Me.txtDocNo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtDocNo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
@@ -456,7 +576,7 @@ Partial Class frmAssetDispatchRetailer
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
         Me.UsLock1.Location = New System.Drawing.Point(743, 6)
-        Me.UsLock1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.UsLock1.Margin = New System.Windows.Forms.Padding(4)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
         Me.UsLock1.Size = New System.Drawing.Size(97, 20)
@@ -473,7 +593,6 @@ Partial Class frmAssetDispatchRetailer
         Me.lblIssueTo.Name = "lblIssueTo"
         Me.lblIssueTo.Size = New System.Drawing.Size(132, 18)
         Me.lblIssueTo.TabIndex = 45
-        Me.lblIssueTo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblIssueTo.TextWrap = False
         '
         'txtFromLocation
@@ -488,7 +607,7 @@ Partial Class frmAssetDispatchRetailer
         Me.txtFromLocation.IsSourceFromValueList = False
         Me.txtFromLocation.IsUnique = False
         Me.txtFromLocation.Location = New System.Drawing.Point(92, 50)
-        Me.txtFromLocation.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtFromLocation.Margin = New System.Windows.Forms.Padding(4)
         Me.txtFromLocation.MendatroryField = True
         Me.txtFromLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtFromLocation.MyLinkLable1 = Me.LblLoc
@@ -523,7 +642,6 @@ Partial Class frmAssetDispatchRetailer
         Me.lblFromLocation.Name = "lblFromLocation"
         Me.lblFromLocation.Size = New System.Drawing.Size(179, 18)
         Me.lblFromLocation.TabIndex = 36
-        Me.lblFromLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFromLocation.TextWrap = False
         '
         'LblIssueNo
@@ -541,6 +659,7 @@ Partial Class frmAssetDispatchRetailer
         Me.cboDocType.AutoCompleteDisplayMember = Nothing
         Me.cboDocType.AutoCompleteValueMember = Nothing
         Me.cboDocType.CalculationExpression = Nothing
+        Me.cboDocType.DropDownAnimationEnabled = True
         Me.cboDocType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDocType.FieldCode = Nothing
         Me.cboDocType.FieldDesc = Nothing
@@ -583,7 +702,7 @@ Partial Class frmAssetDispatchRetailer
         Me.txtIssueNo.IsSourceFromValueList = False
         Me.txtIssueNo.IsUnique = False
         Me.txtIssueNo.Location = New System.Drawing.Point(92, 28)
-        Me.txtIssueNo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtIssueNo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtIssueNo.MendatroryField = False
         Me.txtIssueNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtIssueNo.MyLinkLable1 = Me.LblIssueNo
@@ -610,7 +729,7 @@ Partial Class frmAssetDispatchRetailer
         Me.txtIssueTo.IsSourceFromValueList = False
         Me.txtIssueTo.IsUnique = False
         Me.txtIssueTo.Location = New System.Drawing.Point(474, 48)
-        Me.txtIssueTo.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtIssueTo.Margin = New System.Windows.Forms.Padding(4)
         Me.txtIssueTo.MendatroryField = False
         Me.txtIssueTo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtIssueTo.MyLinkLable1 = Me.RadLabel2
@@ -635,7 +754,6 @@ Partial Class frmAssetDispatchRetailer
         Me.lblToLocation.Name = "lblToLocation"
         Me.lblToLocation.Size = New System.Drawing.Size(26, 18)
         Me.lblToLocation.TabIndex = 42
-        Me.lblToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblToLocation.TextWrap = False
         Me.lblToLocation.Visible = False
         '
@@ -698,7 +816,7 @@ Partial Class frmAssetDispatchRetailer
         Me.txtRequestBy.IsSourceFromValueList = False
         Me.txtRequestBy.IsUnique = False
         Me.txtRequestBy.Location = New System.Drawing.Point(92, 74)
-        Me.txtRequestBy.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtRequestBy.Margin = New System.Windows.Forms.Padding(4)
         Me.txtRequestBy.MendatroryField = False
         Me.txtRequestBy.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRequestBy.MyLinkLable1 = Me.RadLabel15
@@ -733,7 +851,6 @@ Partial Class frmAssetDispatchRetailer
         Me.lblRequestBy.Name = "lblRequestBy"
         Me.lblRequestBy.Size = New System.Drawing.Size(179, 18)
         Me.lblRequestBy.TabIndex = 34
-        Me.lblRequestBy.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRequestBy.TextWrap = False
         '
         'txtToLocation
@@ -748,7 +865,7 @@ Partial Class frmAssetDispatchRetailer
         Me.txtToLocation.IsSourceFromValueList = False
         Me.txtToLocation.IsUnique = False
         Me.txtToLocation.Location = New System.Drawing.Point(821, 134)
-        Me.txtToLocation.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtToLocation.Margin = New System.Windows.Forms.Padding(4)
         Me.txtToLocation.MendatroryField = True
         Me.txtToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtToLocation.MyLinkLable1 = Me.RadLabel9
@@ -833,29 +950,6 @@ Partial Class frmAssetDispatchRetailer
         Me.chkOnHold.TabIndex = 7
         Me.chkOnHold.Text = "On Hold"
         '
-        'lblVehicleDesc
-        '
-        Me.lblVehicleDesc.AutoSize = False
-        Me.lblVehicleDesc.BorderVisible = True
-        Me.lblVehicleDesc.FieldName = Nothing
-        Me.lblVehicleDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblVehicleDesc.Location = New System.Drawing.Point(604, 95)
-        Me.lblVehicleDesc.Name = "lblVehicleDesc"
-        Me.lblVehicleDesc.Size = New System.Drawing.Size(132, 18)
-        Me.lblVehicleDesc.TabIndex = 20
-        Me.lblVehicleDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblVehicleDesc.TextWrap = False
-        '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(404, 95)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(43, 16)
-        Me.MyLabel4.TabIndex = 19
-        Me.MyLabel4.Text = "Vehicle"
-        '
         'TxtVehicle
         '
         Me.TxtVehicle.CalculationExpression = Nothing
@@ -869,7 +963,7 @@ Partial Class frmAssetDispatchRetailer
         Me.TxtVehicle.IsSourceFromValueList = False
         Me.TxtVehicle.IsUnique = False
         Me.TxtVehicle.Location = New System.Drawing.Point(474, 94)
-        Me.TxtVehicle.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.TxtVehicle.Margin = New System.Windows.Forms.Padding(4)
         Me.TxtVehicle.MendatroryField = True
         Me.TxtVehicle.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtVehicle.MyLinkLable1 = Me.MyLabel4
@@ -908,9 +1002,12 @@ Partial Class frmAssetDispatchRetailer
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -918,7 +1015,6 @@ Partial Class frmAssetDispatchRetailer
         Me.gv1.Size = New System.Drawing.Size(868, 274)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'TaxDetails
         '
@@ -945,7 +1041,7 @@ Partial Class frmAssetDispatchRetailer
         Me.txtTaxGroup.IsSourceFromValueList = False
         Me.txtTaxGroup.IsUnique = False
         Me.txtTaxGroup.Location = New System.Drawing.Point(67, 3)
-        Me.txtTaxGroup.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.txtTaxGroup.Margin = New System.Windows.Forms.Padding(4)
         Me.txtTaxGroup.MendatroryField = True
         Me.txtTaxGroup.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtTaxGroup.MyLinkLable1 = Me.lblTaxGrpName
@@ -970,7 +1066,6 @@ Partial Class frmAssetDispatchRetailer
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 2
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'RadLabel10
@@ -1002,14 +1097,16 @@ Partial Class frmAssetDispatchRetailer
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(871, 434)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'RadLabel11
         '
@@ -1034,7 +1131,7 @@ Partial Class frmAssetDispatchRetailer
         '
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.UcCustomFields1.Margin = New System.Windows.Forms.Padding(4)
         Me.UcCustomFields1.Name = "UcCustomFields1"
         Me.UcCustomFields1.Size = New System.Drawing.Size(874, 485)
         Me.UcCustomFields1.TabIndex = 1
@@ -1052,7 +1149,7 @@ Partial Class frmAssetDispatchRetailer
         '
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
-        Me.UcAttachment1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.UcAttachment1.Margin = New System.Windows.Forms.Padding(4)
         Me.UcAttachment1.Name = "UcAttachment1"
         Me.UcAttachment1.Size = New System.Drawing.Size(874, 485)
         Me.UcAttachment1.TabIndex = 0
@@ -1175,15 +1272,11 @@ Partial Class frmAssetDispatchRetailer
         '
         'Btn_export
         '
-        Me.Btn_export.AccessibleDescription = "Export"
-        Me.Btn_export.AccessibleName = "Export"
         Me.Btn_export.Name = "Btn_export"
         Me.Btn_export.Text = "Export"
         '
         'BtnImport
         '
-        Me.BtnImport.AccessibleDescription = "Import"
-        Me.BtnImport.AccessibleName = "Import"
         Me.BtnImport.Name = "BtnImport"
         Me.BtnImport.Text = "Import"
         '
@@ -1262,129 +1355,22 @@ Partial Class frmAssetDispatchRetailer
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(909, 20)
         Me.RadMenu1.TabIndex = 51
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Layout"
-        Me.RadMenuItem1.AccessibleName = "Layout"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.BtnSaveLayout, Me.BtnDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Layout"
         '
         'BtnSaveLayout
         '
-        Me.BtnSaveLayout.AccessibleDescription = "Save Layout"
-        Me.BtnSaveLayout.AccessibleName = "Save Layout"
         Me.BtnSaveLayout.Name = "BtnSaveLayout"
         Me.BtnSaveLayout.Text = "Save Layout"
         '
         'BtnDeleteLayout
         '
-        Me.BtnDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.BtnDeleteLayout.AccessibleName = "Delete Layout"
         Me.BtnDeleteLayout.Name = "BtnDeleteLayout"
         Me.BtnDeleteLayout.Text = "Delete Layout"
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(404, 70)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(54, 16)
-        Me.MyLabel3.TabIndex = 51
-        Me.MyLabel3.Text = "Route No"
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(404, 120)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(60, 16)
-        Me.MyLabel5.TabIndex = 52
-        Me.MyLabel5.Text = "Alt Vehicle"
-        '
-        'txtRouteNo
-        '
-        Me.txtRouteNo.CalculationExpression = Nothing
-        Me.txtRouteNo.FieldCode = Nothing
-        Me.txtRouteNo.FieldDesc = Nothing
-        Me.txtRouteNo.FieldMaxLength = 0
-        Me.txtRouteNo.FieldName = Nothing
-        Me.txtRouteNo.isCalculatedField = False
-        Me.txtRouteNo.IsSourceFromTable = False
-        Me.txtRouteNo.IsSourceFromValueList = False
-        Me.txtRouteNo.IsUnique = False
-        Me.txtRouteNo.Location = New System.Drawing.Point(474, 70)
-        Me.txtRouteNo.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtRouteNo.MendatroryField = True
-        Me.txtRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtRouteNo.MyLinkLable1 = Me.MyLabel4
-        Me.txtRouteNo.MyLinkLable2 = Me.lblVehicleDesc
-        Me.txtRouteNo.MyReadOnly = False
-        Me.txtRouteNo.MyShowMasterFormButton = False
-        Me.txtRouteNo.Name = "txtRouteNo"
-        Me.txtRouteNo.ReferenceFieldDesc = Nothing
-        Me.txtRouteNo.ReferenceFieldName = Nothing
-        Me.txtRouteNo.ReferenceTableName = Nothing
-        Me.txtRouteNo.Size = New System.Drawing.Size(123, 20)
-        Me.txtRouteNo.TabIndex = 53
-        Me.txtRouteNo.Value = ""
-        '
-        'lblRouteDesc
-        '
-        Me.lblRouteDesc.AutoSize = False
-        Me.lblRouteDesc.BorderVisible = True
-        Me.lblRouteDesc.FieldName = Nothing
-        Me.lblRouteDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRouteDesc.Location = New System.Drawing.Point(604, 70)
-        Me.lblRouteDesc.Name = "lblRouteDesc"
-        Me.lblRouteDesc.Size = New System.Drawing.Size(132, 18)
-        Me.lblRouteDesc.TabIndex = 54
-        Me.lblRouteDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblRouteDesc.TextWrap = False
-        '
-        'txtAltVehicle
-        '
-        Me.txtAltVehicle.CalculationExpression = Nothing
-        Me.txtAltVehicle.FieldCode = Nothing
-        Me.txtAltVehicle.FieldDesc = Nothing
-        Me.txtAltVehicle.FieldMaxLength = 0
-        Me.txtAltVehicle.FieldName = Nothing
-        Me.txtAltVehicle.isCalculatedField = False
-        Me.txtAltVehicle.IsSourceFromTable = False
-        Me.txtAltVehicle.IsSourceFromValueList = False
-        Me.txtAltVehicle.IsUnique = False
-        Me.txtAltVehicle.Location = New System.Drawing.Point(474, 116)
-        Me.txtAltVehicle.Margin = New System.Windows.Forms.Padding(4)
-        Me.txtAltVehicle.MendatroryField = True
-        Me.txtAltVehicle.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtAltVehicle.MyLinkLable1 = Me.MyLabel4
-        Me.txtAltVehicle.MyLinkLable2 = Me.lblVehicleDesc
-        Me.txtAltVehicle.MyReadOnly = False
-        Me.txtAltVehicle.MyShowMasterFormButton = False
-        Me.txtAltVehicle.Name = "txtAltVehicle"
-        Me.txtAltVehicle.ReferenceFieldDesc = Nothing
-        Me.txtAltVehicle.ReferenceFieldName = Nothing
-        Me.txtAltVehicle.ReferenceTableName = Nothing
-        Me.txtAltVehicle.Size = New System.Drawing.Size(123, 20)
-        Me.txtAltVehicle.TabIndex = 55
-        Me.txtAltVehicle.Value = ""
-        '
-        'lblAltVehicleDesc
-        '
-        Me.lblAltVehicleDesc.AutoSize = False
-        Me.lblAltVehicleDesc.BorderVisible = True
-        Me.lblAltVehicleDesc.FieldName = Nothing
-        Me.lblAltVehicleDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAltVehicleDesc.Location = New System.Drawing.Point(604, 118)
-        Me.lblAltVehicleDesc.Name = "lblAltVehicleDesc"
-        Me.lblAltVehicleDesc.Size = New System.Drawing.Size(132, 18)
-        Me.lblAltVehicleDesc.TabIndex = 56
-        Me.lblAltVehicleDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblAltVehicleDesc.TextWrap = False
         '
         'frmAssetDispatchRetailer
         '
@@ -1393,7 +1379,7 @@ Partial Class frmAssetDispatchRetailer
         Me.ClientSize = New System.Drawing.Size(909, 581)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
-        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Margin = New System.Windows.Forms.Padding(4)
         Me.Name = "frmAssetDispatchRetailer"
         '
         '
@@ -1410,6 +1396,12 @@ Partial Class frmAssetDispatchRetailer
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.lblAltVehicleDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVehicleDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkItem, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDistributor, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1436,8 +1428,6 @@ Partial Class frmAssetDispatchRetailer
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkOnHold, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblVehicleDesc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1469,10 +1459,6 @@ Partial Class frmAssetDispatchRetailer
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblAltVehicleDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

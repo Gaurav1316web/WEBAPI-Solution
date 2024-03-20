@@ -23,6 +23,10 @@ Partial Class frmSaleInvoiceDairy
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmSaleInvoiceDairy))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -136,7 +140,7 @@ Partial Class frmSaleInvoiceDairy
         Me.RadLabel31 = New common.Controls.MyLabel()
         Me.lblAddCharges = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPEngine.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -423,7 +427,6 @@ Partial Class frmSaleInvoiceDairy
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1016, 436)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -553,6 +556,7 @@ Partial Class frmSaleInvoiceDairy
         Me.ddlPaymentTerms.AutoCompleteDisplayMember = Nothing
         Me.ddlPaymentTerms.AutoCompleteValueMember = Nothing
         Me.ddlPaymentTerms.CalculationExpression = Nothing
+        Me.ddlPaymentTerms.DropDownAnimationEnabled = True
         Me.ddlPaymentTerms.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlPaymentTerms.Enabled = False
         Me.ddlPaymentTerms.FieldCode = Nothing
@@ -599,6 +603,7 @@ Partial Class frmSaleInvoiceDairy
         Me.ddlDispatchTerms.AutoCompleteDisplayMember = Nothing
         Me.ddlDispatchTerms.AutoCompleteValueMember = Nothing
         Me.ddlDispatchTerms.CalculationExpression = Nothing
+        Me.ddlDispatchTerms.DropDownAnimationEnabled = True
         Me.ddlDispatchTerms.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlDispatchTerms.Enabled = False
         Me.ddlDispatchTerms.FieldCode = Nothing
@@ -789,7 +794,6 @@ Partial Class frmSaleInvoiceDairy
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(288, 18)
         Me.lblVendorName.TabIndex = 10
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'ddlInvoiceType
@@ -797,6 +801,7 @@ Partial Class frmSaleInvoiceDairy
         Me.ddlInvoiceType.AutoCompleteDisplayMember = Nothing
         Me.ddlInvoiceType.AutoCompleteValueMember = Nothing
         Me.ddlInvoiceType.CalculationExpression = Nothing
+        Me.ddlInvoiceType.DropDownAnimationEnabled = True
         Me.ddlInvoiceType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlInvoiceType.FieldCode = Nothing
         Me.ddlInvoiceType.FieldDesc = Nothing
@@ -842,7 +847,6 @@ Partial Class frmSaleInvoiceDairy
         Me.lblSalesman.Name = "lblSalesman"
         Me.lblSalesman.Size = New System.Drawing.Size(287, 18)
         Me.lblSalesman.TabIndex = 21
-        Me.lblSalesman.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblSalesman.TextWrap = False
         '
         'chkCreateAutoReceipt
@@ -1034,7 +1038,6 @@ Partial Class frmSaleInvoiceDairy
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(287, 18)
         Me.lblBillToLocation.TabIndex = 7
-        Me.lblBillToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBillToLocation.TextWrap = False
         '
         'RadLabel14
@@ -1132,10 +1135,13 @@ Partial Class frmSaleInvoiceDairy
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1143,7 +1149,6 @@ Partial Class frmSaleInvoiceDairy
         Me.gv1.Size = New System.Drawing.Size(970, 203)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel29
         '
@@ -1176,7 +1181,6 @@ Partial Class frmSaleInvoiceDairy
         Me.txtVehcileCode.Name = "txtVehcileCode"
         Me.txtVehcileCode.Size = New System.Drawing.Size(141, 20)
         Me.txtVehcileCode.TabIndex = 23
-        Me.txtVehcileCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtVehcileCode.TextWrap = False
         Me.txtVehcileCode.Visible = False
         '
@@ -1238,7 +1242,7 @@ Partial Class frmSaleInvoiceDairy
         Me.txtVehicleCapacity.TabIndex = 167
         Me.txtVehicleCapacity.Text = "0"
         Me.txtVehicleCapacity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtVehicleCapacity.Value = 0.0R
+        Me.txtVehicleCapacity.Value = 0R
         Me.txtVehicleCapacity.Visible = False
         '
         'txtVehicleNo
@@ -1251,7 +1255,6 @@ Partial Class frmSaleInvoiceDairy
         Me.txtVehicleNo.Name = "txtVehicleNo"
         Me.txtVehicleNo.Size = New System.Drawing.Size(287, 18)
         Me.txtVehicleNo.TabIndex = 24
-        Me.txtVehicleNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtVehicleNo.TextWrap = False
         Me.txtVehicleNo.Visible = False
         '
@@ -1298,7 +1301,6 @@ Partial Class frmSaleInvoiceDairy
         Me.fndProject.Name = "fndProject"
         Me.fndProject.Size = New System.Drawing.Size(104, 20)
         Me.fndProject.TabIndex = 0
-        Me.fndProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.fndProject.TextWrap = False
         '
         'MyLabel4
@@ -1321,7 +1323,6 @@ Partial Class frmSaleInvoiceDairy
         Me.lblProject.Name = "lblProject"
         Me.lblProject.Size = New System.Drawing.Size(236, 20)
         Me.lblProject.TabIndex = 1
-        Me.lblProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblProject.TextWrap = False
         '
         'txtSOvalidity
@@ -1350,7 +1351,7 @@ Partial Class frmSaleInvoiceDairy
         Me.txtSOvalidity.TabIndex = 177
         Me.txtSOvalidity.Text = "0"
         Me.txtSOvalidity.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSOvalidity.Value = 0.0R
+        Me.txtSOvalidity.Value = 0R
         Me.txtSOvalidity.Visible = False
         '
         'lblKMReading
@@ -1368,6 +1369,7 @@ Partial Class frmSaleInvoiceDairy
         Me.cboItemType.AutoCompleteDisplayMember = Nothing
         Me.cboItemType.AutoCompleteValueMember = Nothing
         Me.cboItemType.CalculationExpression = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
         Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboItemType.FieldCode = Nothing
         Me.cboItemType.FieldDesc = Nothing
@@ -1580,7 +1582,7 @@ Partial Class frmSaleInvoiceDairy
         Me.txtDispatchPeriod.TabIndex = 173
         Me.txtDispatchPeriod.Text = "0"
         Me.txtDispatchPeriod.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDispatchPeriod.Value = 0.0R
+        Me.txtDispatchPeriod.Value = 0R
         Me.txtDispatchPeriod.Visible = False
         '
         'txtPriceCode
@@ -1785,7 +1787,6 @@ Partial Class frmSaleInvoiceDairy
         Me.lblDept.Name = "lblDept"
         Me.lblDept.Size = New System.Drawing.Size(287, 18)
         Me.lblDept.TabIndex = 18
-        Me.lblDept.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDept.TextWrap = False
         Me.lblDept.Visible = False
         '
@@ -1837,7 +1838,6 @@ Partial Class frmSaleInvoiceDairy
         Me.lblShipToLocation.Name = "lblShipToLocation"
         Me.lblShipToLocation.Size = New System.Drawing.Size(287, 18)
         Me.lblShipToLocation.TabIndex = 14
-        Me.lblShipToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblShipToLocation.TextWrap = False
         Me.lblShipToLocation.Visible = False
         '
@@ -1863,7 +1863,7 @@ Partial Class frmSaleInvoiceDairy
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = My.Resources._new
+        Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(350, 0)
         Me.btnAddNew.Name = "btnAddNew"
@@ -1939,7 +1939,7 @@ Partial Class frmSaleInvoiceDairy
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
@@ -2064,7 +2064,6 @@ Partial Class frmSaleInvoiceDairy
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 1
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'RadLabel10
@@ -2144,7 +2143,6 @@ Partial Class frmSaleInvoiceDairy
         Me.lblTermName.Name = "lblTermName"
         Me.lblTermName.Size = New System.Drawing.Size(321, 20)
         Me.lblTermName.TabIndex = 1
-        Me.lblTermName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTermName.TextWrap = False
         '
         'txtDueDate
@@ -2200,18 +2198,20 @@ Partial Class frmSaleInvoiceDairy
         Me.gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv2.Location = New System.Drawing.Point(2, 34)
         '
-        'gv2
+        '
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(990, 248)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -2251,10 +2251,13 @@ Partial Class frmSaleInvoiceDairy
         Me.gvAC.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvAC.Location = New System.Drawing.Point(0, 0)
         '
-        'gvAC
+        '
         '
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
+        Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -2262,7 +2265,6 @@ Partial Class frmSaleInvoiceDairy
         Me.gvAC.Size = New System.Drawing.Size(995, 353)
         Me.gvAC.TabIndex = 1
         Me.gvAC.TabStop = False
-        Me.gvAC.Text = "RadGridView1"
         '
         'RadLabel31
         '
@@ -2449,7 +2451,7 @@ Partial Class frmSaleInvoiceDairy
         Me.txtMannaulInvoiceNo.TabIndex = 1
         Me.txtMannaulInvoiceNo.Text = "0"
         Me.txtMannaulInvoiceNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMannaulInvoiceNo.Value = 0.0R
+        Me.txtMannaulInvoiceNo.Value = 0R
         '
         'MyLabel11
         '
@@ -2549,7 +2551,7 @@ Partial Class frmSaleInvoiceDairy
         Me.txtDiscAmt.TabIndex = 6
         Me.txtDiscAmt.Text = "0"
         Me.txtDiscAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscAmt.Value = 0.0R
+        Me.txtDiscAmt.Value = 0R
         '
         'txtDiscPer
         '
@@ -2576,7 +2578,7 @@ Partial Class frmSaleInvoiceDairy
         Me.txtDiscPer.TabIndex = 5
         Me.txtDiscPer.Text = "0"
         Me.txtDiscPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscPer.Value = 0.0R
+        Me.txtDiscPer.Value = 0R
         '
         'MyLabel5
         '
@@ -2875,8 +2877,6 @@ Partial Class frmSaleInvoiceDairy
         '
         'btnSendEmailSMS
         '
-        Me.btnSendEmailSMS.AccessibleDescription = "SendEmailSMS"
-        Me.btnSendEmailSMS.AccessibleName = "SendEmailSMS"
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "SendEmailSMS"
         '
@@ -3044,34 +3044,25 @@ Partial Class frmSaleInvoiceDairy
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1016, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem4, Me.RadMenuItem5})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem4.AccessibleName = "Delete Layout"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Delete Layout"
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "E-Mail/SMS Setting"
-        Me.RadMenuItem5.AccessibleName = "E-Mail/SMS Setting"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "E-Mail/SMS Setting"
         '
@@ -3099,6 +3090,7 @@ Partial Class frmSaleInvoiceDairy
         Me.RadMenuItem2.FadeAnimationType = Telerik.WinControls.UI.FadeAnimationType.FadeIn
         Me.RadMenuItem2.FitToScreenMode = CType((Telerik.WinControls.UI.FitToScreenModes.FitWidth Or Telerik.WinControls.UI.FitToScreenModes.FitHeight), Telerik.WinControls.UI.FitToScreenModes)
         Me.RadMenuItem2.HorizontalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
+        Me.RadMenuItem2.LastShowDpiScaleFactor = New System.Drawing.SizeF(1.0!, 1.0!)
         Me.RadMenuItem2.Location = New System.Drawing.Point(0, 0)
         Me.RadMenuItem2.Maximum = New System.Drawing.Size(0, 0)
         Me.RadMenuItem2.Minimum = New System.Drawing.Size(0, 0)
@@ -3110,6 +3102,9 @@ Partial Class frmSaleInvoiceDairy
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'frmSaleInvoiceDairy
         '

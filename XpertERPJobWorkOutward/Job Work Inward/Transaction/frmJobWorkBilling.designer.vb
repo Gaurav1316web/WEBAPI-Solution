@@ -24,6 +24,8 @@ Partial Class frmJobWorkBillig
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -213,7 +215,6 @@ Partial Class frmJobWorkBillig
         Me.RadPageView1.Size = New System.Drawing.Size(1092, 485)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.TabStop = False
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -546,6 +547,7 @@ Partial Class frmJobWorkBillig
         Me.ddlInvoiceType.AutoCompleteDisplayMember = Nothing
         Me.ddlInvoiceType.AutoCompleteValueMember = Nothing
         Me.ddlInvoiceType.CalculationExpression = Nothing
+        Me.ddlInvoiceType.DropDownAnimationEnabled = True
         Me.ddlInvoiceType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlInvoiceType.FieldCode = Nothing
         Me.ddlInvoiceType.FieldDesc = Nothing
@@ -758,18 +760,20 @@ Partial Class frmJobWorkBillig
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1051, 165)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel1
         '
@@ -826,7 +830,7 @@ Partial Class frmJobWorkBillig
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
@@ -904,7 +908,6 @@ Partial Class frmJobWorkBillig
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 5
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'RadLabel10
@@ -984,7 +987,6 @@ Partial Class frmJobWorkBillig
         Me.lblTermName.Name = "lblTermName"
         Me.lblTermName.Size = New System.Drawing.Size(321, 20)
         Me.lblTermName.TabIndex = 2
-        Me.lblTermName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTermName.TextWrap = False
         '
         'txtDueDate
@@ -1044,14 +1046,16 @@ Partial Class frmJobWorkBillig
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(1068, 297)
         Me.gv2.TabIndex = 2
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'pvpCustomFields
         '
@@ -1274,23 +1278,17 @@ Partial Class frmJobWorkBillig
         '
         'Setting
         '
-        Me.Setting.AccessibleDescription = "Setting"
-        Me.Setting.AccessibleName = "Setting"
         Me.Setting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.layoutrbtn, Me.RadMenuItem1})
         Me.Setting.Name = "Setting"
         Me.Setting.Text = "Setting"
         '
         'layoutrbtn
         '
-        Me.layoutrbtn.AccessibleDescription = "Save Layout"
-        Me.layoutrbtn.AccessibleName = "Save Layout"
         Me.layoutrbtn.Name = "layoutrbtn"
         Me.layoutrbtn.Text = "Save Layout"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem1.AccessibleName = "Delete Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Delete Layout"
         '
@@ -1310,7 +1308,6 @@ Partial Class frmJobWorkBillig
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1092, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'frmJobWorkBillig
         '

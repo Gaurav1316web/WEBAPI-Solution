@@ -63,6 +63,9 @@ Public Class rptPaymentProcessRouteReport
             btnReset.Visible = True
             RadSplitExp.Visible = True
         End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+            Payablechk.Visible = True
+        End If
         isLoad = False
     End Sub
     Sub Reset()
@@ -2028,7 +2031,12 @@ from TSPL_PAYMENT_PROCESS_DETAIL
 left join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No =TSPL_PAYMENT_PROCESS_DETAIL.Doc_No 
 left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader =TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader  
 left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No"
-            legerMainQuery += " where 2=2  and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1  "
+            legerMainQuery += " where 2=2  and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 "
+
+            If Payablechk.Checked = True Then
+                legerMainQuery += " and TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount=0 "
+            End If
+
             If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
                 legerMainQuery += " and tspl_vlc_master_head.mcc in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ") "
             End If

@@ -141,12 +141,9 @@ Partial Class frmAssetBookMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(702, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExport, Me.rmiImport, Me.rmiExit})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -154,22 +151,16 @@ Partial Class frmAssetBookMaster
         '
         'rmiExport
         '
-        Me.rmiExport.AccessibleDescription = "Export"
-        Me.rmiExport.AccessibleName = "Export"
         Me.rmiExport.Name = "rmiExport"
         Me.rmiExport.Text = "Export"
         '
         'rmiImport
         '
-        Me.rmiImport.AccessibleDescription = "Import"
-        Me.rmiImport.AccessibleName = "Import"
         Me.rmiImport.Name = "rmiImport"
         Me.rmiImport.Text = "Import"
         '
         'rmiExit
         '
-        Me.rmiExit.AccessibleDescription = "Exit"
-        Me.rmiExit.AccessibleName = "Exit"
         Me.rmiExit.Name = "rmiExit"
         Me.rmiExit.Text = "Exit"
         '
@@ -286,6 +277,7 @@ Partial Class frmAssetBookMaster
         'cboTaxDepType
         '
         Me.cboTaxDepType.CalculationExpression = Nothing
+        Me.cboTaxDepType.DropDownAnimationEnabled = True
         Me.cboTaxDepType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboTaxDepType.FieldCode = Nothing
         Me.cboTaxDepType.FieldDesc = Nothing
@@ -320,6 +312,7 @@ Partial Class frmAssetBookMaster
         'cboDepType
         '
         Me.cboDepType.CalculationExpression = Nothing
+        Me.cboDepType.DropDownAnimationEnabled = True
         Me.cboDepType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDepType.FieldCode = Nothing
         Me.cboDepType.FieldDesc = Nothing
@@ -377,7 +370,7 @@ Partial Class frmAssetBookMaster
         Me.txtnetvalue.TabIndex = 236
         Me.txtnetvalue.Text = "0"
         Me.txtnetvalue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtnetvalue.Value = 0.0R
+        Me.txtnetvalue.Value = 0R
         '
         'lblNetValue
         '
@@ -414,7 +407,7 @@ Partial Class frmAssetBookMaster
         Me.txtSalvageRate.TabIndex = 234
         Me.txtSalvageRate.Text = "0"
         Me.txtSalvageRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSalvageRate.Value = 0.0R
+        Me.txtSalvageRate.Value = 0R
         '
         'MyLabel4
         '
@@ -451,7 +444,7 @@ Partial Class frmAssetBookMaster
         Me.txtSalvageValue.TabIndex = 220
         Me.txtSalvageValue.Text = "0"
         Me.txtSalvageValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSalvageValue.Value = 0.0R
+        Me.txtSalvageValue.Value = 0R
         '
         'txtSourceValue
         '
@@ -478,7 +471,7 @@ Partial Class frmAssetBookMaster
         Me.txtSourceValue.TabIndex = 219
         Me.txtSourceValue.Text = "0"
         Me.txtSourceValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSourceValue.Value = 0.0R
+        Me.txtSourceValue.Value = 0R
         '
         'txtSourceOrgValue
         '
@@ -505,7 +498,7 @@ Partial Class frmAssetBookMaster
         Me.txtSourceOrgValue.TabIndex = 218
         Me.txtSourceOrgValue.Text = "0"
         Me.txtSourceOrgValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSourceOrgValue.Value = 0.0R
+        Me.txtSourceOrgValue.Value = 0R
         '
         'txtDepTaxRate
         '
@@ -532,7 +525,7 @@ Partial Class frmAssetBookMaster
         Me.txtDepTaxRate.TabIndex = 216
         Me.txtDepTaxRate.Text = "0"
         Me.txtDepTaxRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDepTaxRate.Value = 0.0R
+        Me.txtDepTaxRate.Value = 0R
         '
         'txtDepRate
         '
@@ -559,7 +552,7 @@ Partial Class frmAssetBookMaster
         Me.txtDepRate.TabIndex = 215
         Me.txtDepRate.Text = "0"
         Me.txtDepRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDepRate.Value = 0.0R
+        Me.txtDepRate.Value = 0R
         '
         'MyLabel12
         '
@@ -580,7 +573,6 @@ Partial Class frmAssetBookMaster
         Me.lblDepMethodTax.Name = "lblDepMethodTax"
         Me.lblDepMethodTax.Size = New System.Drawing.Size(287, 18)
         Me.lblDepMethodTax.TabIndex = 231
-        Me.lblDepMethodTax.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDepMethodTax.TextWrap = False
         '
         'MyLabel13
@@ -662,7 +654,7 @@ Partial Class frmAssetBookMaster
         Me.txtEstLife.TabIndex = 217
         Me.txtEstLife.Text = "0"
         Me.txtEstLife.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtEstLife.Value = 0.0R
+        Me.txtEstLife.Value = 0R
         '
         'MyLabel5
         '
@@ -701,7 +693,6 @@ Partial Class frmAssetBookMaster
         Me.lblDepPeriod.Name = "lblDepPeriod"
         Me.lblDepPeriod.Size = New System.Drawing.Size(287, 18)
         Me.lblDepPeriod.TabIndex = 225
-        Me.lblDepPeriod.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDepPeriod.TextWrap = False
         '
         'MyLabel2
@@ -754,7 +745,6 @@ Partial Class frmAssetBookMaster
         Me.lblDepMethod.Name = "lblDepMethod"
         Me.lblDepMethod.Size = New System.Drawing.Size(287, 18)
         Me.lblDepMethod.TabIndex = 221
-        Me.lblDepMethod.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDepMethod.TextWrap = False
         '
         'MyLabel3
@@ -838,7 +828,7 @@ Partial Class frmAssetBookMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Nothing
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(264, 20)

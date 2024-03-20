@@ -306,10 +306,14 @@ Partial Class frmMilkCollectionMCC
         '
         Me.gvTotal.MasterTemplate.AllowDeleteRow = False
         Me.gvTotal.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gvTotal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvTotal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTotal.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvTotal.MyStopExport = False
         Me.gvTotal.Name = "gvTotal"
         Me.gvTotal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTotal.ShowGroupPanel = False
+        Me.gvTotal.ShowHeaderCellButtons = True
         Me.gvTotal.Size = New System.Drawing.Size(220, 116)
         Me.gvTotal.TabIndex = 7
         Me.gvTotal.TabStop = False
@@ -1035,7 +1039,7 @@ Partial Class frmMilkCollectionMCC
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(250, 20)
@@ -1120,10 +1124,14 @@ Partial Class frmMilkCollectionMCC
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1018, 123)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
@@ -1180,10 +1188,14 @@ Partial Class frmMilkCollectionMCC
         '
         Me.gvParam.MasterTemplate.AllowDeleteRow = False
         Me.gvParam.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvParam.ShowGroupPanel = False
+        Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(794, 116)
         Me.gvParam.TabIndex = 3
         Me.gvParam.TabStop = False
@@ -1311,7 +1323,6 @@ Partial Class frmMilkCollectionMCC
     Friend WithEvents MyLabel10 As common.Controls.MyLabel
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents cboFATSNFType As common.Controls.MyComboBox
-    Friend WithEvents gvTotal As RadGridView
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents txtTankerNo As common.UserControls.txtFinder
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
@@ -1320,7 +1331,6 @@ Partial Class frmMilkCollectionMCC
     Friend WithEvents btnBlankSheetUploder As RadButton
     Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents SplitContainer1 As SplitContainer
-    Friend WithEvents gvParam As RadGridView
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents btnPrint As RadButton
@@ -1342,5 +1352,7 @@ Partial Class frmMilkCollectionMCC
     Friend WithEvents btnTankerData As RadSplitButton
     Friend WithEvents btnImport As RadMenuItem
     Friend WithEvents btnExport As RadMenuItem
+    Friend WithEvents gvTotal As common.UserControls.MyRadGridView
+    Friend WithEvents gvParam As common.UserControls.MyRadGridView
 End Class
 

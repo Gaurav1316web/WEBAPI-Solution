@@ -25,36 +25,36 @@ Partial Class frmLoanAdjustment
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLoanAdjustment))
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.UsLock1 = New common.usLock
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.lblAdjustedByName = New common.Controls.MyLabel
-        Me.lblEmpName = New common.Controls.MyLabel
-        Me.lblEmpCode = New common.Controls.MyLabel
-        Me.txtEmpCode = New common.UserControls.txtFinder
-        Me.lblLoanName = New common.Controls.MyLabel
-        Me.lblPayPeriodName = New common.Controls.MyLabel
-        Me.findPayperiod = New common.UserControls.txtFinder
-        Me.lblPayPeriodCode = New common.Controls.MyLabel
-        Me.lblAdjustmentMinus = New common.Controls.MyLabel
-        Me.lblAdjustmentPlus = New common.Controls.MyLabel
-        Me.txtAdjustMinus = New common.Controls.MyTextBox
-        Me.txtAdjustPlus = New common.Controls.MyTextBox
-        Me.txtDescription = New common.Controls.MyTextBox
-        Me.lblReason = New common.Controls.MyLabel
-        Me.lblAdjustmentBy = New common.Controls.MyLabel
-        Me.findLoanAdjustby = New common.UserControls.txtFinder
-        Me.lblAdjustmentDate = New common.Controls.MyLabel
-        Me.dtpLoanAdjustDate = New common.Controls.MyDateTimePicker
-        Me.lblLoanCode = New common.Controls.MyLabel
-        Me.txtLoanCode = New common.UserControls.txtFinder
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lblCode = New common.Controls.MyLabel
-        Me.btnPost = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.UsLock1 = New common.usLock()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.lblAdjustedByName = New common.Controls.MyLabel()
+        Me.lblEmpName = New common.Controls.MyLabel()
+        Me.lblEmpCode = New common.Controls.MyLabel()
+        Me.txtEmpCode = New common.UserControls.txtFinder()
+        Me.lblLoanName = New common.Controls.MyLabel()
+        Me.lblPayPeriodName = New common.Controls.MyLabel()
+        Me.findPayperiod = New common.UserControls.txtFinder()
+        Me.lblPayPeriodCode = New common.Controls.MyLabel()
+        Me.lblAdjustmentMinus = New common.Controls.MyLabel()
+        Me.lblAdjustmentPlus = New common.Controls.MyLabel()
+        Me.txtAdjustMinus = New common.Controls.MyTextBox()
+        Me.txtAdjustPlus = New common.Controls.MyTextBox()
+        Me.txtDescription = New common.Controls.MyTextBox()
+        Me.lblReason = New common.Controls.MyLabel()
+        Me.lblAdjustmentBy = New common.Controls.MyLabel()
+        Me.findLoanAdjustby = New common.UserControls.txtFinder()
+        Me.lblAdjustmentDate = New common.Controls.MyLabel()
+        Me.dtpLoanAdjustDate = New common.Controls.MyDateTimePicker()
+        Me.lblLoanCode = New common.Controls.MyLabel()
+        Me.txtLoanCode = New common.UserControls.txtFinder()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lblCode = New common.Controls.MyLabel()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -166,24 +166,25 @@ Partial Class frmLoanAdjustment
         '
         Me.lblAdjustedByName.AutoSize = False
         Me.lblAdjustedByName.BorderVisible = True
+        Me.lblAdjustedByName.FieldName = Nothing
         Me.lblAdjustedByName.Location = New System.Drawing.Point(376, 189)
         Me.lblAdjustedByName.Name = "lblAdjustedByName"
         Me.lblAdjustedByName.Size = New System.Drawing.Size(222, 19)
         Me.lblAdjustedByName.TabIndex = 12
-        Me.lblAdjustedByName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblEmpName
         '
         Me.lblEmpName.AutoSize = False
         Me.lblEmpName.BorderVisible = True
+        Me.lblEmpName.FieldName = Nothing
         Me.lblEmpName.Location = New System.Drawing.Point(376, 93)
         Me.lblEmpName.Name = "lblEmpName"
         Me.lblEmpName.Size = New System.Drawing.Size(222, 19)
         Me.lblEmpName.TabIndex = 7
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblEmpCode
         '
+        Me.lblEmpCode.FieldName = Nothing
         Me.lblEmpCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEmpCode.Location = New System.Drawing.Point(14, 96)
         Me.lblEmpCode.Name = "lblEmpCode"
@@ -193,13 +194,26 @@ Partial Class frmLoanAdjustment
         '
         'txtEmpCode
         '
+        Me.txtEmpCode.CalculationExpression = Nothing
+        Me.txtEmpCode.FieldCode = Nothing
+        Me.txtEmpCode.FieldDesc = Nothing
+        Me.txtEmpCode.FieldMaxLength = 0
+        Me.txtEmpCode.FieldName = Nothing
+        Me.txtEmpCode.isCalculatedField = False
+        Me.txtEmpCode.IsSourceFromTable = False
+        Me.txtEmpCode.IsSourceFromValueList = False
+        Me.txtEmpCode.IsUnique = False
         Me.txtEmpCode.Location = New System.Drawing.Point(148, 93)
         Me.txtEmpCode.MendatroryField = True
         Me.txtEmpCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtEmpCode.MyLinkLable1 = Me.lblEmpCode
         Me.txtEmpCode.MyLinkLable2 = Nothing
         Me.txtEmpCode.MyReadOnly = True
+        Me.txtEmpCode.MyShowMasterFormButton = False
         Me.txtEmpCode.Name = "txtEmpCode"
+        Me.txtEmpCode.ReferenceFieldDesc = Nothing
+        Me.txtEmpCode.ReferenceFieldName = Nothing
+        Me.txtEmpCode.ReferenceTableName = Nothing
         Me.txtEmpCode.Size = New System.Drawing.Size(221, 19)
         Me.txtEmpCode.TabIndex = 6
         Me.txtEmpCode.Value = ""
@@ -208,37 +222,51 @@ Partial Class frmLoanAdjustment
         '
         Me.lblLoanName.AutoSize = False
         Me.lblLoanName.BorderVisible = True
+        Me.lblLoanName.FieldName = Nothing
         Me.lblLoanName.Location = New System.Drawing.Point(376, 70)
         Me.lblLoanName.Name = "lblLoanName"
         Me.lblLoanName.Size = New System.Drawing.Size(222, 19)
         Me.lblLoanName.TabIndex = 5
-        Me.lblLoanName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblPayPeriodName
         '
         Me.lblPayPeriodName.AutoSize = False
         Me.lblPayPeriodName.BorderVisible = True
+        Me.lblPayPeriodName.FieldName = Nothing
         Me.lblPayPeriodName.Location = New System.Drawing.Point(376, 47)
         Me.lblPayPeriodName.Name = "lblPayPeriodName"
         Me.lblPayPeriodName.Size = New System.Drawing.Size(222, 19)
         Me.lblPayPeriodName.TabIndex = 3
-        Me.lblPayPeriodName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'findPayperiod
         '
+        Me.findPayperiod.CalculationExpression = Nothing
+        Me.findPayperiod.FieldCode = Nothing
+        Me.findPayperiod.FieldDesc = Nothing
+        Me.findPayperiod.FieldMaxLength = 0
+        Me.findPayperiod.FieldName = Nothing
+        Me.findPayperiod.isCalculatedField = False
+        Me.findPayperiod.IsSourceFromTable = False
+        Me.findPayperiod.IsSourceFromValueList = False
+        Me.findPayperiod.IsUnique = False
         Me.findPayperiod.Location = New System.Drawing.Point(148, 46)
         Me.findPayperiod.MendatroryField = True
         Me.findPayperiod.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.findPayperiod.MyLinkLable1 = Me.lblPayPeriodCode
         Me.findPayperiod.MyLinkLable2 = Nothing
         Me.findPayperiod.MyReadOnly = False
+        Me.findPayperiod.MyShowMasterFormButton = False
         Me.findPayperiod.Name = "findPayperiod"
+        Me.findPayperiod.ReferenceFieldDesc = Nothing
+        Me.findPayperiod.ReferenceFieldName = Nothing
+        Me.findPayperiod.ReferenceTableName = Nothing
         Me.findPayperiod.Size = New System.Drawing.Size(221, 19)
         Me.findPayperiod.TabIndex = 2
         Me.findPayperiod.Value = ""
         '
         'lblPayPeriodCode
         '
+        Me.lblPayPeriodCode.FieldName = Nothing
         Me.lblPayPeriodCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPayPeriodCode.Location = New System.Drawing.Point(14, 50)
         Me.lblPayPeriodCode.Name = "lblPayPeriodCode"
@@ -248,6 +276,7 @@ Partial Class frmLoanAdjustment
         '
         'lblAdjustmentMinus
         '
+        Me.lblAdjustmentMinus.FieldName = Nothing
         Me.lblAdjustmentMinus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAdjustmentMinus.Location = New System.Drawing.Point(14, 165)
         Me.lblAdjustmentMinus.Name = "lblAdjustmentMinus"
@@ -257,6 +286,7 @@ Partial Class frmLoanAdjustment
         '
         'lblAdjustmentPlus
         '
+        Me.lblAdjustmentPlus.FieldName = Nothing
         Me.lblAdjustmentPlus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAdjustmentPlus.Location = New System.Drawing.Point(14, 143)
         Me.lblAdjustmentPlus.Name = "lblAdjustmentPlus"
@@ -266,32 +296,65 @@ Partial Class frmLoanAdjustment
         '
         'txtAdjustMinus
         '
+        Me.txtAdjustMinus.CalculationExpression = Nothing
+        Me.txtAdjustMinus.FieldCode = Nothing
+        Me.txtAdjustMinus.FieldDesc = Nothing
+        Me.txtAdjustMinus.FieldMaxLength = 0
+        Me.txtAdjustMinus.FieldName = Nothing
         Me.txtAdjustMinus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAdjustMinus.isCalculatedField = False
+        Me.txtAdjustMinus.IsSourceFromTable = False
+        Me.txtAdjustMinus.IsSourceFromValueList = False
+        Me.txtAdjustMinus.IsUnique = False
         Me.txtAdjustMinus.Location = New System.Drawing.Point(148, 165)
         Me.txtAdjustMinus.MaxLength = 49
         Me.txtAdjustMinus.MendatroryField = True
         Me.txtAdjustMinus.MyLinkLable1 = Me.lblAdjustmentMinus
         Me.txtAdjustMinus.MyLinkLable2 = Nothing
         Me.txtAdjustMinus.Name = "txtAdjustMinus"
+        Me.txtAdjustMinus.ReferenceFieldDesc = Nothing
+        Me.txtAdjustMinus.ReferenceFieldName = Nothing
+        Me.txtAdjustMinus.ReferenceTableName = Nothing
         Me.txtAdjustMinus.Size = New System.Drawing.Size(221, 18)
         Me.txtAdjustMinus.TabIndex = 10
         '
         'txtAdjustPlus
         '
+        Me.txtAdjustPlus.CalculationExpression = Nothing
+        Me.txtAdjustPlus.FieldCode = Nothing
+        Me.txtAdjustPlus.FieldDesc = Nothing
+        Me.txtAdjustPlus.FieldMaxLength = 0
+        Me.txtAdjustPlus.FieldName = Nothing
         Me.txtAdjustPlus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAdjustPlus.isCalculatedField = False
+        Me.txtAdjustPlus.IsSourceFromTable = False
+        Me.txtAdjustPlus.IsSourceFromValueList = False
+        Me.txtAdjustPlus.IsUnique = False
         Me.txtAdjustPlus.Location = New System.Drawing.Point(148, 143)
         Me.txtAdjustPlus.MaxLength = 49
         Me.txtAdjustPlus.MendatroryField = True
         Me.txtAdjustPlus.MyLinkLable1 = Me.lblAdjustmentPlus
         Me.txtAdjustPlus.MyLinkLable2 = Nothing
         Me.txtAdjustPlus.Name = "txtAdjustPlus"
+        Me.txtAdjustPlus.ReferenceFieldDesc = Nothing
+        Me.txtAdjustPlus.ReferenceFieldName = Nothing
+        Me.txtAdjustPlus.ReferenceTableName = Nothing
         Me.txtAdjustPlus.Size = New System.Drawing.Size(221, 18)
         Me.txtAdjustPlus.TabIndex = 9
         '
         'txtDescription
         '
         Me.txtDescription.AutoSize = False
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
         Me.txtDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(148, 214)
         Me.txtDescription.MaxLength = 49
         Me.txtDescription.MendatroryField = True
@@ -299,11 +362,15 @@ Partial Class frmLoanAdjustment
         Me.txtDescription.MyLinkLable1 = Me.lblReason
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(222, 43)
         Me.txtDescription.TabIndex = 13
         '
         'lblReason
         '
+        Me.lblReason.FieldName = Nothing
         Me.lblReason.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblReason.Location = New System.Drawing.Point(14, 214)
         Me.lblReason.Name = "lblReason"
@@ -313,6 +380,7 @@ Partial Class frmLoanAdjustment
         '
         'lblAdjustmentBy
         '
+        Me.lblAdjustmentBy.FieldName = Nothing
         Me.lblAdjustmentBy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAdjustmentBy.Location = New System.Drawing.Point(14, 192)
         Me.lblAdjustmentBy.Name = "lblAdjustmentBy"
@@ -322,19 +390,33 @@ Partial Class frmLoanAdjustment
         '
         'findLoanAdjustby
         '
+        Me.findLoanAdjustby.CalculationExpression = Nothing
+        Me.findLoanAdjustby.FieldCode = Nothing
+        Me.findLoanAdjustby.FieldDesc = Nothing
+        Me.findLoanAdjustby.FieldMaxLength = 0
+        Me.findLoanAdjustby.FieldName = Nothing
+        Me.findLoanAdjustby.isCalculatedField = False
+        Me.findLoanAdjustby.IsSourceFromTable = False
+        Me.findLoanAdjustby.IsSourceFromValueList = False
+        Me.findLoanAdjustby.IsUnique = False
         Me.findLoanAdjustby.Location = New System.Drawing.Point(148, 189)
         Me.findLoanAdjustby.MendatroryField = False
         Me.findLoanAdjustby.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.findLoanAdjustby.MyLinkLable1 = Me.lblAdjustmentBy
         Me.findLoanAdjustby.MyLinkLable2 = Nothing
         Me.findLoanAdjustby.MyReadOnly = False
+        Me.findLoanAdjustby.MyShowMasterFormButton = False
         Me.findLoanAdjustby.Name = "findLoanAdjustby"
+        Me.findLoanAdjustby.ReferenceFieldDesc = Nothing
+        Me.findLoanAdjustby.ReferenceFieldName = Nothing
+        Me.findLoanAdjustby.ReferenceTableName = Nothing
         Me.findLoanAdjustby.Size = New System.Drawing.Size(221, 19)
         Me.findLoanAdjustby.TabIndex = 11
         Me.findLoanAdjustby.Value = ""
         '
         'lblAdjustmentDate
         '
+        Me.lblAdjustmentDate.FieldName = Nothing
         Me.lblAdjustmentDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAdjustmentDate.Location = New System.Drawing.Point(14, 118)
         Me.lblAdjustmentDate.Name = "lblAdjustmentDate"
@@ -344,9 +426,18 @@ Partial Class frmLoanAdjustment
         '
         'dtpLoanAdjustDate
         '
+        Me.dtpLoanAdjustDate.CalculationExpression = Nothing
         Me.dtpLoanAdjustDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpLoanAdjustDate.FieldCode = Nothing
+        Me.dtpLoanAdjustDate.FieldDesc = Nothing
+        Me.dtpLoanAdjustDate.FieldMaxLength = 0
+        Me.dtpLoanAdjustDate.FieldName = Nothing
         Me.dtpLoanAdjustDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpLoanAdjustDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpLoanAdjustDate.isCalculatedField = False
+        Me.dtpLoanAdjustDate.IsSourceFromTable = False
+        Me.dtpLoanAdjustDate.IsSourceFromValueList = False
+        Me.dtpLoanAdjustDate.IsUnique = False
         Me.dtpLoanAdjustDate.Location = New System.Drawing.Point(148, 119)
         Me.dtpLoanAdjustDate.MendatroryField = True
         Me.dtpLoanAdjustDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -354,6 +445,9 @@ Partial Class frmLoanAdjustment
         Me.dtpLoanAdjustDate.MyLinkLable2 = Nothing
         Me.dtpLoanAdjustDate.Name = "dtpLoanAdjustDate"
         Me.dtpLoanAdjustDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpLoanAdjustDate.ReferenceFieldDesc = Nothing
+        Me.dtpLoanAdjustDate.ReferenceFieldName = Nothing
+        Me.dtpLoanAdjustDate.ReferenceTableName = Nothing
         Me.dtpLoanAdjustDate.Size = New System.Drawing.Size(130, 18)
         Me.dtpLoanAdjustDate.TabIndex = 8
         Me.dtpLoanAdjustDate.TabStop = False
@@ -362,6 +456,7 @@ Partial Class frmLoanAdjustment
         '
         'lblLoanCode
         '
+        Me.lblLoanCode.FieldName = Nothing
         Me.lblLoanCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLoanCode.Location = New System.Drawing.Point(14, 72)
         Me.lblLoanCode.Name = "lblLoanCode"
@@ -371,26 +466,40 @@ Partial Class frmLoanAdjustment
         '
         'txtLoanCode
         '
+        Me.txtLoanCode.CalculationExpression = Nothing
+        Me.txtLoanCode.FieldCode = Nothing
+        Me.txtLoanCode.FieldDesc = Nothing
+        Me.txtLoanCode.FieldMaxLength = 0
+        Me.txtLoanCode.FieldName = Nothing
+        Me.txtLoanCode.isCalculatedField = False
+        Me.txtLoanCode.IsSourceFromTable = False
+        Me.txtLoanCode.IsSourceFromValueList = False
+        Me.txtLoanCode.IsUnique = False
         Me.txtLoanCode.Location = New System.Drawing.Point(148, 69)
         Me.txtLoanCode.MendatroryField = True
         Me.txtLoanCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLoanCode.MyLinkLable1 = Me.lblLoanCode
         Me.txtLoanCode.MyLinkLable2 = Nothing
         Me.txtLoanCode.MyReadOnly = False
+        Me.txtLoanCode.MyShowMasterFormButton = False
         Me.txtLoanCode.Name = "txtLoanCode"
+        Me.txtLoanCode.ReferenceFieldDesc = Nothing
+        Me.txtLoanCode.ReferenceFieldName = Nothing
+        Me.txtLoanCode.ReferenceTableName = Nothing
         Me.txtLoanCode.Size = New System.Drawing.Size(221, 19)
         Me.txtLoanCode.TabIndex = 4
         Me.txtLoanCode.Value = ""
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(149, 19)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(221, 21)
@@ -399,6 +508,7 @@ Partial Class frmLoanAdjustment
         '
         'lblCode
         '
+        Me.lblCode.FieldName = Nothing
         Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCode.Location = New System.Drawing.Point(14, 24)
         Me.lblCode.Name = "lblCode"

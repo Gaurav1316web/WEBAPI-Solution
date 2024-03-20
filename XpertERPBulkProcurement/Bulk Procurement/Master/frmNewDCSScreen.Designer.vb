@@ -10,16 +10,21 @@ Partial Class frmNewDCSScreen
     'Inherits System.Windows.Forms.Form
 
     Private Sub InitializeComponent()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmNewDCSScreen))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel34 = New common.Controls.MyLabel()
+        Me.txtLoyaltyRate = New common.Controls.MyTextBox()
+        Me.lblbankcode = New common.Controls.MyLabel()
+        Me.MyLabel7 = New common.Controls.MyLabel()
         Me.txtHeadLoad = New common.Controls.MyComboBox()
         Me.MyLabel27 = New common.Controls.MyLabel()
+        Me.txtPanNo = New common.Controls.MyTextBox()
         Me.chkOwnBMC = New Telerik.WinControls.UI.RadCheckBox()
         Me.ddlGender = New common.Controls.MyComboBox()
         Me.chkDefaultValue = New Telerik.WinControls.UI.RadCheckBox()
@@ -31,7 +36,6 @@ Partial Class frmNewDCSScreen
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.txtHeadLoadRate = New common.Controls.MyTextBox()
-        Me.lblbankcode = New common.Controls.MyLabel()
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.txtHeadLoadBasi = New common.Controls.MyTextBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
@@ -112,18 +116,19 @@ Partial Class frmNewDCSScreen
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnUpdate = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.txtPanNo = New common.Controls.MyTextBox()
-        Me.MyLabel34 = New common.Controls.MyLabel()
-        Me.txtLoyaltyRate = New common.Controls.MyTextBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtLoyaltyRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblbankcode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtHeadLoad, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPanNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkOwnBMC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.ddlGender, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDefaultValue, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -135,7 +140,6 @@ Partial Class frmNewDCSScreen
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtHeadLoadRate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblbankcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtHeadLoadBasi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -205,10 +209,6 @@ Partial Class frmNewDCSScreen
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPanNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtLoyaltyRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -296,6 +296,62 @@ Partial Class frmNewDCSScreen
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1003, 339)
         Me.RadPageViewPage1.Text = "Secretary/DCS"
         '
+        'MyLabel34
+        '
+        Me.MyLabel34.FieldName = Nothing
+        Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel34.Location = New System.Drawing.Point(752, 226)
+        Me.MyLabel34.Name = "MyLabel34"
+        Me.MyLabel34.Size = New System.Drawing.Size(42, 16)
+        Me.MyLabel34.TabIndex = 75
+        Me.MyLabel34.Text = "Loyalty"
+        '
+        'txtLoyaltyRate
+        '
+        Me.txtLoyaltyRate.CalculationExpression = Nothing
+        Me.txtLoyaltyRate.FieldCode = Nothing
+        Me.txtLoyaltyRate.FieldDesc = Nothing
+        Me.txtLoyaltyRate.FieldMaxLength = 0
+        Me.txtLoyaltyRate.FieldName = Nothing
+        Me.txtLoyaltyRate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLoyaltyRate.isCalculatedField = False
+        Me.txtLoyaltyRate.IsSourceFromTable = False
+        Me.txtLoyaltyRate.IsSourceFromValueList = False
+        Me.txtLoyaltyRate.IsUnique = False
+        Me.txtLoyaltyRate.Location = New System.Drawing.Point(870, 223)
+        Me.txtLoyaltyRate.MaxLength = 50
+        Me.txtLoyaltyRate.MendatroryField = True
+        Me.txtLoyaltyRate.MyLinkLable1 = Me.lblbankcode
+        Me.txtLoyaltyRate.MyLinkLable2 = Nothing
+        Me.txtLoyaltyRate.Name = "txtLoyaltyRate"
+        Me.txtLoyaltyRate.ReadOnly = True
+        Me.txtLoyaltyRate.ReferenceFieldDesc = Nothing
+        Me.txtLoyaltyRate.ReferenceFieldName = Nothing
+        Me.txtLoyaltyRate.ReferenceTableName = Nothing
+        Me.txtLoyaltyRate.Size = New System.Drawing.Size(121, 18)
+        Me.txtLoyaltyRate.TabIndex = 74
+        Me.txtLoyaltyRate.TabStop = False
+        '
+        'lblbankcode
+        '
+        Me.lblbankcode.FieldName = Nothing
+        Me.lblbankcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblbankcode.Location = New System.Drawing.Point(13, 10)
+        Me.lblbankcode.Name = "lblbankcode"
+        Me.lblbankcode.Size = New System.Drawing.Size(60, 16)
+        Me.lblbankcode.TabIndex = 60
+        Me.lblbankcode.Text = "DCS Code"
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(13, 226)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(47, 16)
+        Me.MyLabel7.TabIndex = 65
+        Me.MyLabel7.Text = "PAN No"
+        '
         'txtHeadLoad
         '
         Me.txtHeadLoad.AutoCompleteDisplayMember = Nothing
@@ -312,10 +368,10 @@ Partial Class frmNewDCSScreen
         Me.txtHeadLoad.IsSourceFromTable = False
         Me.txtHeadLoad.IsSourceFromValueList = False
         Me.txtHeadLoad.IsUnique = False
-        RadListDataItem5.Text = "Yes"
-        RadListDataItem6.Text = "No"
-        Me.txtHeadLoad.Items.Add(RadListDataItem5)
-        Me.txtHeadLoad.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "Yes"
+        RadListDataItem2.Text = "No"
+        Me.txtHeadLoad.Items.Add(RadListDataItem1)
+        Me.txtHeadLoad.Items.Add(RadListDataItem2)
         Me.txtHeadLoad.Location = New System.Drawing.Point(494, 203)
         Me.txtHeadLoad.MendatroryField = True
         Me.txtHeadLoad.MyLinkLable1 = Me.MyLabel27
@@ -336,6 +392,32 @@ Partial Class frmNewDCSScreen
         Me.MyLabel27.Size = New System.Drawing.Size(65, 16)
         Me.MyLabel27.TabIndex = 398
         Me.MyLabel27.Text = "Bank Name"
+        '
+        'txtPanNo
+        '
+        Me.txtPanNo.CalculationExpression = Nothing
+        Me.txtPanNo.FieldCode = Nothing
+        Me.txtPanNo.FieldDesc = Nothing
+        Me.txtPanNo.FieldMaxLength = 0
+        Me.txtPanNo.FieldName = Nothing
+        Me.txtPanNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPanNo.isCalculatedField = False
+        Me.txtPanNo.IsSourceFromTable = False
+        Me.txtPanNo.IsSourceFromValueList = False
+        Me.txtPanNo.IsUnique = False
+        Me.txtPanNo.Location = New System.Drawing.Point(136, 225)
+        Me.txtPanNo.MaxLength = 50
+        Me.txtPanNo.MendatroryField = True
+        Me.txtPanNo.MyLinkLable1 = Me.lblbankcode
+        Me.txtPanNo.MyLinkLable2 = Nothing
+        Me.txtPanNo.Name = "txtPanNo"
+        Me.txtPanNo.ReadOnly = True
+        Me.txtPanNo.ReferenceFieldDesc = Nothing
+        Me.txtPanNo.ReferenceFieldName = Nothing
+        Me.txtPanNo.ReferenceTableName = Nothing
+        Me.txtPanNo.Size = New System.Drawing.Size(244, 18)
+        Me.txtPanNo.TabIndex = 64
+        Me.txtPanNo.TabStop = False
         '
         'chkOwnBMC
         '
@@ -361,10 +443,10 @@ Partial Class frmNewDCSScreen
         Me.ddlGender.IsSourceFromTable = False
         Me.ddlGender.IsSourceFromValueList = False
         Me.ddlGender.IsUnique = False
-        RadListDataItem1.Text = "Male"
-        RadListDataItem2.Text = "Female"
-        Me.ddlGender.Items.Add(RadListDataItem1)
-        Me.ddlGender.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "Male"
+        RadListDataItem4.Text = "Female"
+        Me.ddlGender.Items.Add(RadListDataItem3)
+        Me.ddlGender.Items.Add(RadListDataItem4)
         Me.ddlGender.Location = New System.Drawing.Point(870, 49)
         Me.ddlGender.MendatroryField = True
         Me.ddlGender.MyLinkLable1 = Me.MyLabel27
@@ -498,16 +580,6 @@ Partial Class frmNewDCSScreen
         Me.txtHeadLoadRate.Size = New System.Drawing.Size(244, 18)
         Me.txtHeadLoadRate.TabIndex = 74
         Me.txtHeadLoadRate.TabStop = False
-        '
-        'lblbankcode
-        '
-        Me.lblbankcode.FieldName = Nothing
-        Me.lblbankcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblbankcode.Location = New System.Drawing.Point(13, 10)
-        Me.lblbankcode.Name = "lblbankcode"
-        Me.lblbankcode.Size = New System.Drawing.Size(60, 16)
-        Me.lblbankcode.TabIndex = 60
-        Me.lblbankcode.Text = "DCS Code"
         '
         'MyLabel10
         '
@@ -840,7 +912,7 @@ Partial Class frmNewDCSScreen
         Me.fndDCSCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndDCSCode.MyLinkLable1 = Nothing
         Me.fndDCSCode.MyLinkLable2 = Nothing
-        Me.fndDCSCode.MyMaxLength = 32767
+        Me.fndDCSCode.MyMaxLength = 30
         Me.fndDCSCode.MyReadOnly = False
         Me.fndDCSCode.Name = "fndDCSCode"
         Me.fndDCSCode.Size = New System.Drawing.Size(225, 18)
@@ -1992,78 +2064,6 @@ Partial Class frmNewDCSScreen
         Me.btnUpdate.TabIndex = 4
         Me.btnUpdate.Text = "Update"
         '
-        'MyLabel7
-        '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(13, 226)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(47, 16)
-        Me.MyLabel7.TabIndex = 65
-        Me.MyLabel7.Text = "PAN No"
-        '
-        'txtPanNo
-        '
-        Me.txtPanNo.CalculationExpression = Nothing
-        Me.txtPanNo.FieldCode = Nothing
-        Me.txtPanNo.FieldDesc = Nothing
-        Me.txtPanNo.FieldMaxLength = 0
-        Me.txtPanNo.FieldName = Nothing
-        Me.txtPanNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPanNo.isCalculatedField = False
-        Me.txtPanNo.IsSourceFromTable = False
-        Me.txtPanNo.IsSourceFromValueList = False
-        Me.txtPanNo.IsUnique = False
-        Me.txtPanNo.Location = New System.Drawing.Point(136, 225)
-        Me.txtPanNo.MaxLength = 50
-        Me.txtPanNo.MendatroryField = True
-        Me.txtPanNo.MyLinkLable1 = Me.lblbankcode
-        Me.txtPanNo.MyLinkLable2 = Nothing
-        Me.txtPanNo.Name = "txtPanNo"
-        Me.txtPanNo.ReadOnly = True
-        Me.txtPanNo.ReferenceFieldDesc = Nothing
-        Me.txtPanNo.ReferenceFieldName = Nothing
-        Me.txtPanNo.ReferenceTableName = Nothing
-        Me.txtPanNo.Size = New System.Drawing.Size(244, 18)
-        Me.txtPanNo.TabIndex = 64
-        Me.txtPanNo.TabStop = False
-        '
-        'MyLabel34
-        '
-        Me.MyLabel34.FieldName = Nothing
-        Me.MyLabel34.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel34.Location = New System.Drawing.Point(752, 226)
-        Me.MyLabel34.Name = "MyLabel34"
-        Me.MyLabel34.Size = New System.Drawing.Size(42, 16)
-        Me.MyLabel34.TabIndex = 75
-        Me.MyLabel34.Text = "Loyalty"
-        '
-        'txtLoyaltyRate
-        '
-        Me.txtLoyaltyRate.CalculationExpression = Nothing
-        Me.txtLoyaltyRate.FieldCode = Nothing
-        Me.txtLoyaltyRate.FieldDesc = Nothing
-        Me.txtLoyaltyRate.FieldMaxLength = 0
-        Me.txtLoyaltyRate.FieldName = Nothing
-        Me.txtLoyaltyRate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtLoyaltyRate.isCalculatedField = False
-        Me.txtLoyaltyRate.IsSourceFromTable = False
-        Me.txtLoyaltyRate.IsSourceFromValueList = False
-        Me.txtLoyaltyRate.IsUnique = False
-        Me.txtLoyaltyRate.Location = New System.Drawing.Point(870, 223)
-        Me.txtLoyaltyRate.MaxLength = 50
-        Me.txtLoyaltyRate.MendatroryField = True
-        Me.txtLoyaltyRate.MyLinkLable1 = Me.lblbankcode
-        Me.txtLoyaltyRate.MyLinkLable2 = Nothing
-        Me.txtLoyaltyRate.Name = "txtLoyaltyRate"
-        Me.txtLoyaltyRate.ReadOnly = True
-        Me.txtLoyaltyRate.ReferenceFieldDesc = Nothing
-        Me.txtLoyaltyRate.ReferenceFieldName = Nothing
-        Me.txtLoyaltyRate.ReferenceTableName = Nothing
-        Me.txtLoyaltyRate.Size = New System.Drawing.Size(121, 18)
-        Me.txtLoyaltyRate.TabIndex = 74
-        Me.txtLoyaltyRate.TabStop = False
-        '
         'frmNewDCSScreen
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2081,8 +2081,13 @@ Partial Class frmNewDCSScreen
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtLoyaltyRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblbankcode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtHeadLoad, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPanNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkOwnBMC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.ddlGender, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDefaultValue, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2094,7 +2099,6 @@ Partial Class frmNewDCSScreen
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtHeadLoadRate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblbankcode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtHeadLoadBasi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2166,10 +2170,6 @@ Partial Class frmNewDCSScreen
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPanNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtLoyaltyRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

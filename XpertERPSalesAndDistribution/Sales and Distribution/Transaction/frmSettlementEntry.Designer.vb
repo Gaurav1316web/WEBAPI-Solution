@@ -22,39 +22,40 @@ Partial Class FrmSettlementEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.btnEmptySettlement = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton
-        Me.gv1 = New common.UserControls.MyRadGridView
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.MyLabel3 = New common.Controls.MyLabel
-        Me.btnPost = New Telerik.WinControls.UI.RadButton
-        Me.lblunappliedamt = New common.Controls.MyLabel
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.txtSettlementAmt = New common.Controls.MyTextBox
-        Me.txtAppliedAmt = New common.Controls.MyTextBox
-        Me.lblTotPayment = New common.Controls.MyLabel
-        Me.txtBalanceAmt = New common.Controls.MyTextBox
-        Me.txtLocationDesc = New common.Controls.MyTextBox
-        Me.lblDescription = New common.Controls.MyLabel
-        Me.fndLocation = New common.UserControls.txtFinder
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.txtRouteDesc = New common.Controls.MyTextBox
-        Me.fndRouteNo = New common.UserControls.txtFinder
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.txtSalesManName = New common.Controls.MyTextBox
-        Me.fndSalesMan = New common.UserControls.txtFinder
-        Me.lblSalesman = New common.Controls.MyLabel
-        Me.fndloadno = New common.UserControls.txtFinder
-        Me.rdlblloadoutno = New common.Controls.MyLabel
-        Me.txtDesc = New common.Controls.MyTextBox
-        Me.fndSettlementEntry = New common.UserControls.txtNavigator
-        Me.lblOrderNo = New common.Controls.MyLabel
-        Me.btnReset = New Telerik.WinControls.UI.RadButton
-        Me.lblOrderDate = New common.Controls.MyLabel
-        Me.dtSettlement = New common.Controls.MyDateTimePicker
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.btnEmptySettlement = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.lblunappliedamt = New common.Controls.MyLabel()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.txtSettlementAmt = New common.Controls.MyTextBox()
+        Me.txtAppliedAmt = New common.Controls.MyTextBox()
+        Me.lblTotPayment = New common.Controls.MyLabel()
+        Me.txtBalanceAmt = New common.Controls.MyTextBox()
+        Me.txtLocationDesc = New common.Controls.MyTextBox()
+        Me.lblDescription = New common.Controls.MyLabel()
+        Me.fndLocation = New common.UserControls.txtFinder()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtRouteDesc = New common.Controls.MyTextBox()
+        Me.fndRouteNo = New common.UserControls.txtFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtSalesManName = New common.Controls.MyTextBox()
+        Me.fndSalesMan = New common.UserControls.txtFinder()
+        Me.lblSalesman = New common.Controls.MyLabel()
+        Me.fndloadno = New common.UserControls.txtFinder()
+        Me.rdlblloadoutno = New common.Controls.MyLabel()
+        Me.txtDesc = New common.Controls.MyTextBox()
+        Me.fndSettlementEntry = New common.UserControls.txtNavigator()
+        Me.lblOrderNo = New common.Controls.MyLabel()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.lblOrderDate = New common.Controls.MyLabel()
+        Me.dtSettlement = New common.Controls.MyDateTimePicker()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
         CType(Me.btnEmptySettlement, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -131,21 +132,21 @@ Partial Class FrmSettlementEntry
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        '
-        '
-        '
-        Me.gv1.RootElement.ForeColor = System.Drawing.Color.Black
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(756, 314)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
         '
         'btnDelete
         '
@@ -159,6 +160,7 @@ Partial Class FrmSettlementEntry
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(521, 147)
         Me.MyLabel3.Name = "MyLabel3"
@@ -179,6 +181,7 @@ Partial Class FrmSettlementEntry
         '
         'lblunappliedamt
         '
+        Me.lblunappliedamt.FieldName = Nothing
         Me.lblunappliedamt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblunappliedamt.Location = New System.Drawing.Point(16, 146)
         Me.lblunappliedamt.Name = "lblunappliedamt"
@@ -198,12 +201,24 @@ Partial Class FrmSettlementEntry
         '
         'txtSettlementAmt
         '
+        Me.txtSettlementAmt.CalculationExpression = Nothing
         Me.txtSettlementAmt.Enabled = False
+        Me.txtSettlementAmt.FieldCode = Nothing
+        Me.txtSettlementAmt.FieldDesc = Nothing
+        Me.txtSettlementAmt.FieldMaxLength = 0
+        Me.txtSettlementAmt.FieldName = Nothing
+        Me.txtSettlementAmt.isCalculatedField = False
+        Me.txtSettlementAmt.IsSourceFromTable = False
+        Me.txtSettlementAmt.IsSourceFromValueList = False
+        Me.txtSettlementAmt.IsUnique = False
         Me.txtSettlementAmt.Location = New System.Drawing.Point(106, 143)
         Me.txtSettlementAmt.MendatroryField = False
         Me.txtSettlementAmt.MyLinkLable1 = Nothing
         Me.txtSettlementAmt.MyLinkLable2 = Nothing
         Me.txtSettlementAmt.Name = "txtSettlementAmt"
+        Me.txtSettlementAmt.ReferenceFieldDesc = Nothing
+        Me.txtSettlementAmt.ReferenceFieldName = Nothing
+        Me.txtSettlementAmt.ReferenceTableName = Nothing
         Me.txtSettlementAmt.Size = New System.Drawing.Size(159, 20)
         Me.txtSettlementAmt.TabIndex = 11
         Me.txtSettlementAmt.Text = "0"
@@ -211,8 +226,17 @@ Partial Class FrmSettlementEntry
         '
         'txtAppliedAmt
         '
+        Me.txtAppliedAmt.CalculationExpression = Nothing
         Me.txtAppliedAmt.Enabled = False
+        Me.txtAppliedAmt.FieldCode = Nothing
+        Me.txtAppliedAmt.FieldDesc = Nothing
+        Me.txtAppliedAmt.FieldMaxLength = 0
+        Me.txtAppliedAmt.FieldName = Nothing
         Me.txtAppliedAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtAppliedAmt.isCalculatedField = False
+        Me.txtAppliedAmt.IsSourceFromTable = False
+        Me.txtAppliedAmt.IsSourceFromValueList = False
+        Me.txtAppliedAmt.IsUnique = False
         Me.txtAppliedAmt.Location = New System.Drawing.Point(360, 145)
         Me.txtAppliedAmt.MaxLength = 18
         Me.txtAppliedAmt.MendatroryField = False
@@ -221,6 +245,9 @@ Partial Class FrmSettlementEntry
         Me.txtAppliedAmt.MyLinkLable2 = Nothing
         Me.txtAppliedAmt.Name = "txtAppliedAmt"
         Me.txtAppliedAmt.ReadOnly = True
+        Me.txtAppliedAmt.ReferenceFieldDesc = Nothing
+        Me.txtAppliedAmt.ReferenceFieldName = Nothing
+        Me.txtAppliedAmt.ReferenceTableName = Nothing
         '
         '
         '
@@ -233,6 +260,7 @@ Partial Class FrmSettlementEntry
         '
         'lblTotPayment
         '
+        Me.lblTotPayment.FieldName = Nothing
         Me.lblTotPayment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotPayment.Location = New System.Drawing.Point(286, 147)
         Me.lblTotPayment.Name = "lblTotPayment"
@@ -243,8 +271,17 @@ Partial Class FrmSettlementEntry
         '
         'txtBalanceAmt
         '
+        Me.txtBalanceAmt.CalculationExpression = Nothing
         Me.txtBalanceAmt.Enabled = False
+        Me.txtBalanceAmt.FieldCode = Nothing
+        Me.txtBalanceAmt.FieldDesc = Nothing
+        Me.txtBalanceAmt.FieldMaxLength = 0
+        Me.txtBalanceAmt.FieldName = Nothing
         Me.txtBalanceAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBalanceAmt.isCalculatedField = False
+        Me.txtBalanceAmt.IsSourceFromTable = False
+        Me.txtBalanceAmt.IsSourceFromValueList = False
+        Me.txtBalanceAmt.IsUnique = False
         Me.txtBalanceAmt.Location = New System.Drawing.Point(600, 145)
         Me.txtBalanceAmt.MaxLength = 18
         Me.txtBalanceAmt.MendatroryField = False
@@ -252,6 +289,9 @@ Partial Class FrmSettlementEntry
         Me.txtBalanceAmt.MyLinkLable1 = Nothing
         Me.txtBalanceAmt.MyLinkLable2 = Nothing
         Me.txtBalanceAmt.Name = "txtBalanceAmt"
+        Me.txtBalanceAmt.ReferenceFieldDesc = Nothing
+        Me.txtBalanceAmt.ReferenceFieldName = Nothing
+        Me.txtBalanceAmt.ReferenceTableName = Nothing
         '
         '
         '
@@ -264,19 +304,32 @@ Partial Class FrmSettlementEntry
         '
         'txtLocationDesc
         '
+        Me.txtLocationDesc.CalculationExpression = Nothing
         Me.txtLocationDesc.Enabled = False
+        Me.txtLocationDesc.FieldCode = Nothing
+        Me.txtLocationDesc.FieldDesc = Nothing
+        Me.txtLocationDesc.FieldMaxLength = 0
+        Me.txtLocationDesc.FieldName = Nothing
         Me.txtLocationDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtLocationDesc.isCalculatedField = False
+        Me.txtLocationDesc.IsSourceFromTable = False
+        Me.txtLocationDesc.IsSourceFromValueList = False
+        Me.txtLocationDesc.IsUnique = False
         Me.txtLocationDesc.Location = New System.Drawing.Point(287, 121)
         Me.txtLocationDesc.MaxLength = 200
         Me.txtLocationDesc.MendatroryField = False
         Me.txtLocationDesc.MyLinkLable1 = Me.lblDescription
         Me.txtLocationDesc.MyLinkLable2 = Nothing
         Me.txtLocationDesc.Name = "txtLocationDesc"
+        Me.txtLocationDesc.ReferenceFieldDesc = Nothing
+        Me.txtLocationDesc.ReferenceFieldName = Nothing
+        Me.txtLocationDesc.ReferenceTableName = Nothing
         Me.txtLocationDesc.Size = New System.Drawing.Size(456, 18)
         Me.txtLocationDesc.TabIndex = 10
         '
         'lblDescription
         '
+        Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Location = New System.Drawing.Point(14, 28)
         Me.lblDescription.Name = "lblDescription"
         Me.lblDescription.Size = New System.Drawing.Size(63, 18)
@@ -285,19 +338,34 @@ Partial Class FrmSettlementEntry
         '
         'fndLocation
         '
+        Me.fndLocation.CalculationExpression = Nothing
         Me.fndLocation.Enabled = False
+        Me.fndLocation.FieldCode = Nothing
+        Me.fndLocation.FieldDesc = Nothing
+        Me.fndLocation.FieldMaxLength = 0
+        Me.fndLocation.FieldName = Nothing
+        Me.fndLocation.isCalculatedField = False
+        Me.fndLocation.IsSourceFromTable = False
+        Me.fndLocation.IsSourceFromValueList = False
+        Me.fndLocation.IsUnique = False
         Me.fndLocation.Location = New System.Drawing.Point(107, 121)
         Me.fndLocation.MendatroryField = False
+        Me.fndLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndLocation.MyLinkLable1 = Me.MyLabel2
         Me.fndLocation.MyLinkLable2 = Nothing
         Me.fndLocation.MyReadOnly = False
+        Me.fndLocation.MyShowMasterFormButton = False
         Me.fndLocation.Name = "fndLocation"
+        Me.fndLocation.ReferenceFieldDesc = Nothing
+        Me.fndLocation.ReferenceFieldName = Nothing
+        Me.fndLocation.ReferenceTableName = Nothing
         Me.fndLocation.Size = New System.Drawing.Size(174, 19)
         Me.fndLocation.TabIndex = 9
         Me.fndLocation.Value = ""
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Location = New System.Drawing.Point(16, 122)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(49, 18)
@@ -306,32 +374,59 @@ Partial Class FrmSettlementEntry
         '
         'txtRouteDesc
         '
+        Me.txtRouteDesc.CalculationExpression = Nothing
         Me.txtRouteDesc.Enabled = False
+        Me.txtRouteDesc.FieldCode = Nothing
+        Me.txtRouteDesc.FieldDesc = Nothing
+        Me.txtRouteDesc.FieldMaxLength = 0
+        Me.txtRouteDesc.FieldName = Nothing
         Me.txtRouteDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtRouteDesc.isCalculatedField = False
+        Me.txtRouteDesc.IsSourceFromTable = False
+        Me.txtRouteDesc.IsSourceFromValueList = False
+        Me.txtRouteDesc.IsUnique = False
         Me.txtRouteDesc.Location = New System.Drawing.Point(287, 97)
         Me.txtRouteDesc.MaxLength = 200
         Me.txtRouteDesc.MendatroryField = False
         Me.txtRouteDesc.MyLinkLable1 = Me.lblDescription
         Me.txtRouteDesc.MyLinkLable2 = Nothing
         Me.txtRouteDesc.Name = "txtRouteDesc"
+        Me.txtRouteDesc.ReferenceFieldDesc = Nothing
+        Me.txtRouteDesc.ReferenceFieldName = Nothing
+        Me.txtRouteDesc.ReferenceTableName = Nothing
         Me.txtRouteDesc.Size = New System.Drawing.Size(456, 18)
         Me.txtRouteDesc.TabIndex = 8
         '
         'fndRouteNo
         '
+        Me.fndRouteNo.CalculationExpression = Nothing
         Me.fndRouteNo.Enabled = False
+        Me.fndRouteNo.FieldCode = Nothing
+        Me.fndRouteNo.FieldDesc = Nothing
+        Me.fndRouteNo.FieldMaxLength = 0
+        Me.fndRouteNo.FieldName = Nothing
+        Me.fndRouteNo.isCalculatedField = False
+        Me.fndRouteNo.IsSourceFromTable = False
+        Me.fndRouteNo.IsSourceFromValueList = False
+        Me.fndRouteNo.IsUnique = False
         Me.fndRouteNo.Location = New System.Drawing.Point(107, 97)
         Me.fndRouteNo.MendatroryField = False
+        Me.fndRouteNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndRouteNo.MyLinkLable1 = Me.MyLabel1
         Me.fndRouteNo.MyLinkLable2 = Nothing
         Me.fndRouteNo.MyReadOnly = False
+        Me.fndRouteNo.MyShowMasterFormButton = False
         Me.fndRouteNo.Name = "fndRouteNo"
+        Me.fndRouteNo.ReferenceFieldDesc = Nothing
+        Me.fndRouteNo.ReferenceFieldName = Nothing
+        Me.fndRouteNo.ReferenceTableName = Nothing
         Me.fndRouteNo.Size = New System.Drawing.Size(174, 19)
         Me.fndRouteNo.TabIndex = 7
         Me.fndRouteNo.Value = ""
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Location = New System.Drawing.Point(16, 98)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(56, 18)
@@ -340,32 +435,59 @@ Partial Class FrmSettlementEntry
         '
         'txtSalesManName
         '
+        Me.txtSalesManName.CalculationExpression = Nothing
         Me.txtSalesManName.Enabled = False
+        Me.txtSalesManName.FieldCode = Nothing
+        Me.txtSalesManName.FieldDesc = Nothing
+        Me.txtSalesManName.FieldMaxLength = 0
+        Me.txtSalesManName.FieldName = Nothing
         Me.txtSalesManName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSalesManName.isCalculatedField = False
+        Me.txtSalesManName.IsSourceFromTable = False
+        Me.txtSalesManName.IsSourceFromValueList = False
+        Me.txtSalesManName.IsUnique = False
         Me.txtSalesManName.Location = New System.Drawing.Point(287, 73)
         Me.txtSalesManName.MaxLength = 200
         Me.txtSalesManName.MendatroryField = False
         Me.txtSalesManName.MyLinkLable1 = Me.lblDescription
         Me.txtSalesManName.MyLinkLable2 = Nothing
         Me.txtSalesManName.Name = "txtSalesManName"
+        Me.txtSalesManName.ReferenceFieldDesc = Nothing
+        Me.txtSalesManName.ReferenceFieldName = Nothing
+        Me.txtSalesManName.ReferenceTableName = Nothing
         Me.txtSalesManName.Size = New System.Drawing.Size(456, 18)
         Me.txtSalesManName.TabIndex = 6
         '
         'fndSalesMan
         '
+        Me.fndSalesMan.CalculationExpression = Nothing
         Me.fndSalesMan.Enabled = False
+        Me.fndSalesMan.FieldCode = Nothing
+        Me.fndSalesMan.FieldDesc = Nothing
+        Me.fndSalesMan.FieldMaxLength = 0
+        Me.fndSalesMan.FieldName = Nothing
+        Me.fndSalesMan.isCalculatedField = False
+        Me.fndSalesMan.IsSourceFromTable = False
+        Me.fndSalesMan.IsSourceFromValueList = False
+        Me.fndSalesMan.IsUnique = False
         Me.fndSalesMan.Location = New System.Drawing.Point(107, 73)
         Me.fndSalesMan.MendatroryField = False
+        Me.fndSalesMan.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndSalesMan.MyLinkLable1 = Me.lblSalesman
         Me.fndSalesMan.MyLinkLable2 = Nothing
         Me.fndSalesMan.MyReadOnly = False
+        Me.fndSalesMan.MyShowMasterFormButton = False
         Me.fndSalesMan.Name = "fndSalesMan"
+        Me.fndSalesMan.ReferenceFieldDesc = Nothing
+        Me.fndSalesMan.ReferenceFieldName = Nothing
+        Me.fndSalesMan.ReferenceTableName = Nothing
         Me.fndSalesMan.Size = New System.Drawing.Size(174, 19)
         Me.fndSalesMan.TabIndex = 5
         Me.fndSalesMan.Value = ""
         '
         'lblSalesman
         '
+        Me.lblSalesman.FieldName = Nothing
         Me.lblSalesman.Location = New System.Drawing.Point(16, 74)
         Me.lblSalesman.Name = "lblSalesman"
         Me.lblSalesman.Size = New System.Drawing.Size(83, 18)
@@ -374,18 +496,33 @@ Partial Class FrmSettlementEntry
         '
         'fndloadno
         '
+        Me.fndloadno.CalculationExpression = Nothing
+        Me.fndloadno.FieldCode = Nothing
+        Me.fndloadno.FieldDesc = Nothing
+        Me.fndloadno.FieldMaxLength = 0
+        Me.fndloadno.FieldName = Nothing
+        Me.fndloadno.isCalculatedField = False
+        Me.fndloadno.IsSourceFromTable = False
+        Me.fndloadno.IsSourceFromValueList = False
+        Me.fndloadno.IsUnique = False
         Me.fndloadno.Location = New System.Drawing.Point(107, 51)
         Me.fndloadno.MendatroryField = True
+        Me.fndloadno.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndloadno.MyLinkLable1 = Nothing
         Me.fndloadno.MyLinkLable2 = Nothing
         Me.fndloadno.MyReadOnly = False
+        Me.fndloadno.MyShowMasterFormButton = False
         Me.fndloadno.Name = "fndloadno"
+        Me.fndloadno.ReferenceFieldDesc = Nothing
+        Me.fndloadno.ReferenceFieldName = Nothing
+        Me.fndloadno.ReferenceTableName = Nothing
         Me.fndloadno.Size = New System.Drawing.Size(174, 20)
         Me.fndloadno.TabIndex = 4
         Me.fndloadno.Value = ""
         '
         'rdlblloadoutno
         '
+        Me.rdlblloadoutno.FieldName = Nothing
         Me.rdlblloadoutno.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rdlblloadoutno.Location = New System.Drawing.Point(16, 52)
         Me.rdlblloadoutno.Name = "rdlblloadoutno"
@@ -395,24 +532,38 @@ Partial Class FrmSettlementEntry
         '
         'txtDesc
         '
+        Me.txtDesc.CalculationExpression = Nothing
+        Me.txtDesc.FieldCode = Nothing
+        Me.txtDesc.FieldDesc = Nothing
+        Me.txtDesc.FieldMaxLength = 0
+        Me.txtDesc.FieldName = Nothing
         Me.txtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDesc.isCalculatedField = False
+        Me.txtDesc.IsSourceFromTable = False
+        Me.txtDesc.IsSourceFromValueList = False
+        Me.txtDesc.IsUnique = False
         Me.txtDesc.Location = New System.Drawing.Point(107, 28)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.lblDescription
         Me.txtDesc.MyLinkLable2 = Nothing
         Me.txtDesc.Name = "txtDesc"
+        Me.txtDesc.ReferenceFieldDesc = Nothing
+        Me.txtDesc.ReferenceFieldName = Nothing
+        Me.txtDesc.ReferenceTableName = Nothing
         Me.txtDesc.Size = New System.Drawing.Size(636, 18)
         Me.txtDesc.TabIndex = 3
         '
         'fndSettlementEntry
         '
+        Me.fndSettlementEntry.FieldName = Nothing
         Me.fndSettlementEntry.Location = New System.Drawing.Point(107, 2)
         Me.fndSettlementEntry.MendatroryField = True
         Me.fndSettlementEntry.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.fndSettlementEntry.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndSettlementEntry.MyLinkLable1 = Me.lblOrderNo
         Me.fndSettlementEntry.MyLinkLable2 = Nothing
-        Me.fndSettlementEntry.MyMaxLength = 32767
+        Me.fndSettlementEntry.MyMaxLength = 30
         Me.fndSettlementEntry.MyReadOnly = False
         Me.fndSettlementEntry.Name = "fndSettlementEntry"
         Me.fndSettlementEntry.Size = New System.Drawing.Size(262, 20)
@@ -421,6 +572,7 @@ Partial Class FrmSettlementEntry
         '
         'lblOrderNo
         '
+        Me.lblOrderNo.FieldName = Nothing
         Me.lblOrderNo.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.lblOrderNo.Location = New System.Drawing.Point(12, 3)
         Me.lblOrderNo.Name = "lblOrderNo"
@@ -440,6 +592,7 @@ Partial Class FrmSettlementEntry
         '
         'lblOrderDate
         '
+        Me.lblOrderDate.FieldName = Nothing
         Me.lblOrderDate.Location = New System.Drawing.Point(411, 4)
         Me.lblOrderDate.Name = "lblOrderDate"
         Me.lblOrderDate.Size = New System.Drawing.Size(87, 18)
@@ -448,19 +601,33 @@ Partial Class FrmSettlementEntry
         '
         'dtSettlement
         '
+        Me.dtSettlement.CalculationExpression = Nothing
+        Me.dtSettlement.CustomFormat = "dd/MM/yyyy hh:mm tt"
         Me.dtSettlement.Enabled = False
+        Me.dtSettlement.FieldCode = Nothing
+        Me.dtSettlement.FieldDesc = Nothing
+        Me.dtSettlement.FieldMaxLength = 0
+        Me.dtSettlement.FieldName = Nothing
         Me.dtSettlement.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtSettlement.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtSettlement.isCalculatedField = False
+        Me.dtSettlement.IsSourceFromTable = False
+        Me.dtSettlement.IsSourceFromValueList = False
+        Me.dtSettlement.IsUnique = False
         Me.dtSettlement.Location = New System.Drawing.Point(504, 4)
-        Me.dtSettlement.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
         Me.dtSettlement.MendatroryField = False
         Me.dtSettlement.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtSettlement.MyLinkLable1 = Me.lblOrderDate
         Me.dtSettlement.MyLinkLable2 = Nothing
         Me.dtSettlement.Name = "dtSettlement"
         Me.dtSettlement.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtSettlement.ReferenceFieldDesc = Nothing
+        Me.dtSettlement.ReferenceFieldName = Nothing
+        Me.dtSettlement.ReferenceTableName = Nothing
         Me.dtSettlement.Size = New System.Drawing.Size(97, 18)
         Me.dtSettlement.TabIndex = 2
+        Me.dtSettlement.TabStop = False
+        Me.dtSettlement.Text = "18/05/2011 02:11 PM"
         Me.dtSettlement.Value = New Date(2011, 5, 18, 14, 11, 58, 609)
         '
         'SplitContainer1
@@ -508,7 +675,7 @@ Partial Class FrmSettlementEntry
         'RadPanel1
         '
         Me.RadPanel1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadPanel1.Controls.Add(Me.btnEmptySettlement)
         Me.RadPanel1.Controls.Add(Me.btnPost)
         Me.RadPanel1.Controls.Add(Me.btnClose)
@@ -528,7 +695,6 @@ Partial Class FrmSettlementEntry
         Me.ClientSize = New System.Drawing.Size(756, 486)
         Me.Controls.Add(Me.RadPanel1)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.KeyPreview = True
         Me.Name = "FrmSettlementEntry"
         '
         '

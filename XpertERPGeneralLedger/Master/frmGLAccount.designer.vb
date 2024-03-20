@@ -25,14 +25,17 @@ Partial Class frmGLAccount
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim GridViewMultiComboBoxColumn1 As Telerik.WinControls.UI.GridViewMultiComboBoxColumn = New Telerik.WinControls.UI.GridViewMultiComboBoxColumn()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim GridViewComboBoxColumn1 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
         Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewComboBoxColumn2 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
         Dim GridViewTextBoxColumn5 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
@@ -158,12 +161,9 @@ Partial Class frmGLAccount
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(957, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3, Me.RadMenuItem4})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -171,8 +171,6 @@ Partial Class frmGLAccount
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Import"
-        Me.RadMenuItem2.AccessibleName = "Import"
         Me.RadMenuItem2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Basic, Me.Rollup, Me.ImportRollupSeq, Me.RadMenuItem6})
         Me.RadMenuItem2.Name = "RadMenuItem2"
@@ -180,24 +178,18 @@ Partial Class frmGLAccount
         '
         'Basic
         '
-        Me.Basic.AccessibleDescription = "Basic Profile"
-        Me.Basic.AccessibleName = "Basic Profile"
         Me.Basic.Name = "Basic"
         Me.Basic.Text = "Basic Profile"
         Me.Basic.Visibility = Telerik.WinControls.ElementVisibility.Collapsed
         '
         'Rollup
         '
-        Me.Rollup.AccessibleDescription = "Roll Up"
-        Me.Rollup.AccessibleName = "Roll Up"
         Me.Rollup.Name = "Rollup"
         Me.Rollup.Text = "Roll Up"
         Me.Rollup.Visibility = Telerik.WinControls.ElementVisibility.Collapsed
         '
         'ImportRollupSeq
         '
-        Me.ImportRollupSeq.AccessibleDescription = "Import RollUp A/c  Sorting"
-        Me.ImportRollupSeq.AccessibleName = "Import RollUp A/c  Sorting"
         Me.ImportRollupSeq.Name = "ImportRollupSeq"
         Me.ImportRollupSeq.Text = "Import RollUp A/c  Sorting"
         Me.ImportRollupSeq.Visibility = Telerik.WinControls.ElementVisibility.Collapsed
@@ -211,8 +203,6 @@ Partial Class frmGLAccount
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Export"
-        Me.RadMenuItem3.AccessibleName = "Export"
         Me.RadMenuItem3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.BasicEx, Me.RollUpex, Me.ExportRollupSorting, Me.RadMenuItem5})
         Me.RadMenuItem3.Name = "RadMenuItem3"
@@ -220,24 +210,18 @@ Partial Class frmGLAccount
         '
         'BasicEx
         '
-        Me.BasicEx.AccessibleDescription = "Basic Profile"
-        Me.BasicEx.AccessibleName = "Basic Profile"
         Me.BasicEx.Name = "BasicEx"
         Me.BasicEx.Text = "Basic Profile"
         Me.BasicEx.Visibility = Telerik.WinControls.ElementVisibility.Collapsed
         '
         'RollUpex
         '
-        Me.RollUpex.AccessibleDescription = "Roll Up"
-        Me.RollUpex.AccessibleName = "Roll Up"
         Me.RollUpex.Name = "RollUpex"
         Me.RollUpex.Text = "Roll Up"
         Me.RollUpex.Visibility = Telerik.WinControls.ElementVisibility.Collapsed
         '
         'ExportRollupSorting
         '
-        Me.ExportRollupSorting.AccessibleDescription = "Export RollUp A/c  Sorting"
-        Me.ExportRollupSorting.AccessibleName = "Export RollUp A/c  Sorting"
         Me.ExportRollupSorting.Name = "ExportRollupSorting"
         Me.ExportRollupSorting.Text = "Export RollUp A/c  Sorting"
         Me.ExportRollupSorting.Visibility = Telerik.WinControls.ElementVisibility.Collapsed
@@ -251,8 +235,6 @@ Partial Class frmGLAccount
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Close"
-        Me.RadMenuItem4.AccessibleName = "Close"
         Me.RadMenuItem4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Close"
@@ -288,7 +270,7 @@ Partial Class frmGLAccount
         '
         'btnreset
         '
-        Me.btnreset.Image = My.Resources._new
+        Me.btnreset.Image = Global.XpertERPGeneralLedger.My.Resources.Resources._new
         Me.btnreset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnreset.Location = New System.Drawing.Point(362, 11)
         Me.btnreset.Name = "btnreset"
@@ -310,7 +292,6 @@ Partial Class frmGLAccount
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(945, 402)
         Me.RadPageView1.TabIndex = 2
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -450,6 +431,7 @@ Partial Class frmGLAccount
         Me.cboTaxType.AutoCompleteDisplayMember = Nothing
         Me.cboTaxType.AutoCompleteValueMember = Nothing
         Me.cboTaxType.CalculationExpression = Nothing
+        Me.cboTaxType.DropDownAnimationEnabled = True
         Me.cboTaxType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboTaxType.FieldCode = Nothing
         Me.cboTaxType.FieldDesc = Nothing
@@ -560,6 +542,7 @@ Partial Class frmGLAccount
         Me.ddlclosetosegment.AutoCompleteDisplayMember = Nothing
         Me.ddlclosetosegment.AutoCompleteValueMember = Nothing
         Me.ddlclosetosegment.CalculationExpression = Nothing
+        Me.ddlclosetosegment.DropDownAnimationEnabled = True
         Me.ddlclosetosegment.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlclosetosegment.FieldCode = Nothing
         Me.ddlclosetosegment.FieldDesc = Nothing
@@ -664,6 +647,7 @@ Partial Class frmGLAccount
         Me.ddlnormalbal.AutoCompleteDisplayMember = Nothing
         Me.ddlnormalbal.AutoCompleteValueMember = Nothing
         Me.ddlnormalbal.CalculationExpression = Nothing
+        Me.ddlnormalbal.DropDownAnimationEnabled = True
         Me.ddlnormalbal.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlnormalbal.FieldCode = Nothing
         Me.ddlnormalbal.FieldDesc = Nothing
@@ -733,7 +717,7 @@ Partial Class frmGLAccount
         Me.dgvsubledger.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgvsubledger.Location = New System.Drawing.Point(14, 19)
         '
-        'dgvsubledger
+        '
         '
         Me.dgvsubledger.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         GridViewMultiComboBoxColumn1.HeaderText = "Sub Ledger"
@@ -741,13 +725,15 @@ Partial Class frmGLAccount
         GridViewMultiComboBoxColumn1.Width = 180
         Me.dgvsubledger.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewMultiComboBoxColumn1})
         Me.dgvsubledger.MasterTemplate.EnableGrouping = False
+        Me.dgvsubledger.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvsubledger.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvsubledger.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvsubledger.MyStopExport = False
         Me.dgvsubledger.Name = "dgvsubledger"
         Me.dgvsubledger.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvsubledger.ShowHeaderCellButtons = True
         Me.dgvsubledger.Size = New System.Drawing.Size(199, 283)
         Me.dgvsubledger.TabIndex = 0
-        Me.dgvsubledger.Text = "dgvsubledger"
         '
         'RadPageViewPage4
         '
@@ -829,13 +815,15 @@ Partial Class frmGLAccount
         GridViewDecimalColumn1.Width = 100
         Me.dgvallocation.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewComboBoxColumn1, GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewTextBoxColumn3, GridViewDecimalColumn1})
         Me.dgvallocation.MasterTemplate.EnableGrouping = False
+        Me.dgvallocation.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvallocation.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvallocation.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvallocation.MyStopExport = False
         Me.dgvallocation.Name = "dgvallocation"
         Me.dgvallocation.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvallocation.ShowHeaderCellButtons = True
         Me.dgvallocation.Size = New System.Drawing.Size(858, 267)
         Me.dgvallocation.TabIndex = 2
-        Me.dgvallocation.Text = "RadGridView3"
         '
         'RadPageViewPage5
         '
@@ -871,7 +859,10 @@ Partial Class frmGLAccount
         GridViewTextBoxColumn5.Width = 250
         Me.dgvsegment.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn4, GridViewComboBoxColumn2, GridViewTextBoxColumn5})
         Me.dgvsegment.MasterTemplate.EnableGrouping = False
+        Me.dgvsegment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvsegment.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvsegment.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.dgvsegment.MyStopExport = False
         Me.dgvsegment.Name = "dgvsegment"
         Me.dgvsegment.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvsegment.ShowHeaderCellButtons = True
@@ -938,7 +929,7 @@ Partial Class frmGLAccount
         Me.fndaccount.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndaccount.MyLinkLable1 = Nothing
         Me.fndaccount.MyLinkLable2 = Nothing
-        Me.fndaccount.MyMaxLength = 32767
+        Me.fndaccount.MyMaxLength = 30
         Me.fndaccount.MyReadOnly = False
         Me.fndaccount.Name = "fndaccount"
         Me.fndaccount.Size = New System.Drawing.Size(271, 21)
