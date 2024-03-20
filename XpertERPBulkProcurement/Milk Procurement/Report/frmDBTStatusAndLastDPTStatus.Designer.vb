@@ -23,20 +23,30 @@ Partial Class frmDBTStatusAndLastDPTStatus
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.txtFinYr = New common.UserControls.txtFinder()
-        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.rbtnTranasctionAll = New System.Windows.Forms.RadioButton()
+        Me.rbtnTransactionPosted = New System.Windows.Forms.RadioButton()
         Me.rdbLastDBTStatus = New System.Windows.Forms.RadioButton()
+        Me.txtFinYr = New common.UserControls.txtFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.rdbDBTStatus = New System.Windows.Forms.RadioButton()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gvData = New common.UserControls.MyRadGridView()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RMIALL = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
+        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadButton4 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
@@ -44,12 +54,19 @@ Partial Class frmDBTStatusAndLastDPTStatus
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageView1.SuspendLayout()
+        Me.RadPageViewPage1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.gvData, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -66,33 +83,90 @@ Partial Class frmDBTStatusAndLastDPTStatus
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtFinYr)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.gv1)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.rdbLastDBTStatus)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.rdbDBTStatus)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadMenu1)
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnExport)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton4)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton3)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnreset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReport)
-        Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
-        Me.SplitContainer1.SplitterDistance = 407
+        Me.SplitContainer1.Size = New System.Drawing.Size(940, 471)
+        Me.SplitContainer1.SplitterDistance = 435
         Me.SplitContainer1.TabIndex = 0
         '
-        'MyLabel1
+        'RadPageView1
         '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Location = New System.Drawing.Point(261, 27)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(75, 18)
-        Me.MyLabel1.TabIndex = 323
-        Me.MyLabel1.Text = "Financial Year"
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
+        Me.RadPageView1.Name = "RadPageView1"
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.Size = New System.Drawing.Size(940, 415)
+        Me.RadPageView1.TabIndex = 75
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
+        '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.GroupBox1)
+        Me.RadPageViewPage1.Controls.Add(Me.rdbLastDBTStatus)
+        Me.RadPageViewPage1.Controls.Add(Me.txtFinYr)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
+        Me.RadPageViewPage1.Controls.Add(Me.rdbDBTStatus)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(919, 367)
+        Me.RadPageViewPage1.Text = "Filters"
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.rbtnTranasctionAll)
+        Me.GroupBox1.Controls.Add(Me.rbtnTransactionPosted)
+        Me.GroupBox1.Location = New System.Drawing.Point(11, 29)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(776, 43)
+        Me.GroupBox1.TabIndex = 321
+        Me.GroupBox1.TabStop = False
+        '
+        'rbtnTranasctionAll
+        '
+        Me.rbtnTranasctionAll.AutoSize = True
+        Me.rbtnTranasctionAll.Location = New System.Drawing.Point(134, 21)
+        Me.rbtnTranasctionAll.Name = "rbtnTranasctionAll"
+        Me.rbtnTranasctionAll.Size = New System.Drawing.Size(100, 17)
+        Me.rbtnTranasctionAll.TabIndex = 13
+        Me.rbtnTranasctionAll.Text = "All Transaction"
+        Me.rbtnTranasctionAll.UseVisualStyleBackColor = True
+        '
+        'rbtnTransactionPosted
+        '
+        Me.rbtnTransactionPosted.AutoSize = True
+        Me.rbtnTransactionPosted.Checked = True
+        Me.rbtnTransactionPosted.Location = New System.Drawing.Point(6, 20)
+        Me.rbtnTransactionPosted.Name = "rbtnTransactionPosted"
+        Me.rbtnTransactionPosted.Size = New System.Drawing.Size(122, 17)
+        Me.rbtnTransactionPosted.TabIndex = 12
+        Me.rbtnTransactionPosted.TabStop = True
+        Me.rbtnTransactionPosted.Text = "Posted Transaction"
+        Me.rbtnTransactionPosted.UseVisualStyleBackColor = True
+        '
+        'rdbLastDBTStatus
+        '
+        Me.rdbLastDBTStatus.AutoSize = True
+        Me.rdbLastDBTStatus.Location = New System.Drawing.Point(301, 6)
+        Me.rdbLastDBTStatus.Name = "rdbLastDBTStatus"
+        Me.rdbLastDBTStatus.Size = New System.Drawing.Size(103, 17)
+        Me.rdbLastDBTStatus.TabIndex = 320
+        Me.rdbLastDBTStatus.TabStop = True
+        Me.rdbLastDBTStatus.Text = "Last DBT Status"
+        Me.rdbLastDBTStatus.UseVisualStyleBackColor = True
         '
         'txtFinYr
         '
@@ -105,7 +179,7 @@ Partial Class frmDBTStatusAndLastDPTStatus
         Me.txtFinYr.IsSourceFromTable = False
         Me.txtFinYr.IsSourceFromValueList = False
         Me.txtFinYr.IsUnique = False
-        Me.txtFinYr.Location = New System.Drawing.Point(342, 26)
+        Me.txtFinYr.Location = New System.Drawing.Point(174, 6)
         Me.txtFinYr.MendatroryField = False
         Me.txtFinYr.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtFinYr.MyLinkLable1 = Nothing
@@ -117,56 +191,61 @@ Partial Class frmDBTStatusAndLastDPTStatus
         Me.txtFinYr.ReferenceFieldName = Nothing
         Me.txtFinYr.ReferenceTableName = Nothing
         Me.txtFinYr.Size = New System.Drawing.Size(119, 19)
-        Me.txtFinYr.TabIndex = 322
+        Me.txtFinYr.TabIndex = 319
         Me.txtFinYr.Value = ""
         '
-        'gv1
+        'MyLabel1
         '
-        Me.gv1.Location = New System.Drawing.Point(12, 67)
-        '
-        '
-        '
-        Me.gv1.MasterTemplate.AllowAddNewRow = False
-        Me.gv1.MasterTemplate.EnableFiltering = True
-        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.gv1.MyStopExport = False
-        Me.gv1.Name = "gv1"
-        Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(767, 324)
-        Me.gv1.TabIndex = 321
-        Me.gv1.TabStop = False
-        '
-        'rdbLastDBTStatus
-        '
-        Me.rdbLastDBTStatus.AutoSize = True
-        Me.rdbLastDBTStatus.Location = New System.Drawing.Point(12, 26)
-        Me.rdbLastDBTStatus.Name = "rdbLastDBTStatus"
-        Me.rdbLastDBTStatus.Size = New System.Drawing.Size(103, 17)
-        Me.rdbLastDBTStatus.TabIndex = 320
-        Me.rdbLastDBTStatus.TabStop = True
-        Me.rdbLastDBTStatus.Text = "Last DBT Status"
-        Me.rdbLastDBTStatus.UseVisualStyleBackColor = True
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Location = New System.Drawing.Point(90, 6)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(75, 18)
+        Me.MyLabel1.TabIndex = 318
+        Me.MyLabel1.Text = "Financial Year"
         '
         'rdbDBTStatus
         '
         Me.rdbDBTStatus.AutoSize = True
-        Me.rdbDBTStatus.Location = New System.Drawing.Point(121, 26)
+        Me.rdbDBTStatus.Location = New System.Drawing.Point(11, 7)
         Me.rdbDBTStatus.Name = "rdbDBTStatus"
         Me.rdbDBTStatus.Size = New System.Drawing.Size(80, 17)
-        Me.rdbDBTStatus.TabIndex = 319
+        Me.rdbDBTStatus.TabIndex = 12
         Me.rdbDBTStatus.TabStop = True
         Me.rdbDBTStatus.Text = "DBT Status"
         Me.rdbDBTStatus.UseVisualStyleBackColor = True
+        '
+        'RadPageViewPage2
+        '
+        Me.RadPageViewPage2.Controls.Add(Me.gvData)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Name = "RadPageViewPage2"
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(919, 367)
+        Me.RadPageViewPage2.Text = "Report"
+        '
+        'gvData
+        '
+        Me.gvData.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvData.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvData.MyStopExport = False
+        Me.gvData.Name = "gvData"
+        Me.gvData.ShowHeaderCellButtons = True
+        Me.gvData.Size = New System.Drawing.Size(919, 367)
+        Me.gvData.TabIndex = 0
         '
         'RadMenu1
         '
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(800, 20)
-        Me.RadMenu1.TabIndex = 76
+        Me.RadMenu1.Size = New System.Drawing.Size(940, 20)
+        Me.RadMenu1.TabIndex = 2
         '
         'RadMenuItem1
         '
@@ -193,28 +272,59 @@ Partial Class frmDBTStatusAndLastDPTStatus
         Me.RMIALL.Text = "ALL"
         Me.RMIALL.UseCompatibleTextRendering = False
         '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Location = New System.Drawing.Point(865, 9)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(70, 19)
+        Me.btnclose.TabIndex = 85
+        Me.btnclose.Text = "Close"
+        '
+        'btnExport
+        '
+        Me.btnExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
+        Me.btnExport.Location = New System.Drawing.Point(164, 9)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(70, 19)
+        Me.btnExport.TabIndex = 84
+        Me.btnExport.Text = "Export"
+        '
+        'rmiExcel
+        '
+        Me.rmiExcel.Name = "rmiExcel"
+        Me.rmiExcel.Text = "Excel"
+        Me.rmiExcel.UseCompatibleTextRendering = False
+        '
+        'rmiPDF
+        '
+        Me.rmiPDF.Name = "rmiPDF"
+        Me.rmiPDF.Text = "PDF"
+        Me.rmiPDF.UseCompatibleTextRendering = False
+        '
         'RadButton4
         '
         Me.RadButton4.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton4.Location = New System.Drawing.Point(88, 8)
+        Me.RadButton4.Location = New System.Drawing.Point(88, 9)
         Me.RadButton4.Name = "RadButton4"
         Me.RadButton4.Size = New System.Drawing.Size(70, 19)
         Me.RadButton4.TabIndex = 10
         Me.RadButton4.Text = "Reset"
         '
-        'RadButton3
+        'btnGo
         '
-        Me.RadButton3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton3.Location = New System.Drawing.Point(12, 8)
-        Me.RadButton3.Name = "RadButton3"
-        Me.RadButton3.Size = New System.Drawing.Size(70, 19)
-        Me.RadButton3.TabIndex = 9
-        Me.RadButton3.Text = ">>>"
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Location = New System.Drawing.Point(12, 9)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(70, 19)
+        Me.btnGo.TabIndex = 9
+        Me.btnGo.Text = ">>>"
         '
         'RadButton1
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton1.Location = New System.Drawing.Point(88, -403)
+        Me.RadButton1.Location = New System.Drawing.Point(88, -405)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(70, 19)
         Me.RadButton1.TabIndex = 7
@@ -223,7 +333,7 @@ Partial Class frmDBTStatusAndLastDPTStatus
         'RadButton2
         '
         Me.RadButton2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton2.Location = New System.Drawing.Point(12, -403)
+        Me.RadButton2.Location = New System.Drawing.Point(12, -405)
         Me.RadButton2.Name = "RadButton2"
         Me.RadButton2.Size = New System.Drawing.Size(70, 19)
         Me.RadButton2.TabIndex = 8
@@ -232,7 +342,7 @@ Partial Class frmDBTStatusAndLastDPTStatus
         'btnreset
         '
         Me.btnreset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnreset.Location = New System.Drawing.Point(84, -799)
+        Me.btnreset.Location = New System.Drawing.Point(84, -801)
         Me.btnreset.Name = "btnreset"
         Me.btnreset.Size = New System.Drawing.Size(70, 19)
         Me.btnreset.TabIndex = 5
@@ -241,7 +351,7 @@ Partial Class frmDBTStatusAndLastDPTStatus
         'btnReport
         '
         Me.btnReport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReport.Location = New System.Drawing.Point(8, -799)
+        Me.btnReport.Location = New System.Drawing.Point(8, -801)
         Me.btnReport.Name = "btnReport"
         Me.btnReport.Size = New System.Drawing.Size(70, 19)
         Me.btnReport.TabIndex = 6
@@ -251,7 +361,7 @@ Partial Class frmDBTStatusAndLastDPTStatus
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(800, 450)
+        Me.ClientSize = New System.Drawing.Size(940, 471)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmDBTStatusAndLastDPTStatus"
         '
@@ -263,12 +373,21 @@ Partial Class frmDBTStatusAndLastDPTStatus
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageView1.ResumeLayout(False)
+        Me.RadPageViewPage1.ResumeLayout(False)
+        Me.RadPageViewPage1.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage2.ResumeLayout(False)
+        CType(Me.gvData.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvData, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
@@ -283,16 +402,26 @@ Partial Class frmDBTStatusAndLastDPTStatus
     Friend WithEvents btnReport As RadButton
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents RadButton2 As RadButton
+    Friend WithEvents btnGo As RadButton
+    Friend WithEvents RadButton4 As RadButton
+    Friend WithEvents btnExport As RadSplitButton
+    Friend WithEvents rmiExcel As RadMenuItem
+    Friend WithEvents rmiPDF As RadMenuItem
+    Friend WithEvents btnclose As RadButton
     Friend WithEvents RadMenu1 As RadMenu
     Friend WithEvents RadMenuItem1 As RadMenuItem
     Friend WithEvents RadMenuItem2 As RadMenuItem
     Friend WithEvents RadMenuItem4 As RadMenuItem
     Friend WithEvents RMIALL As RadMenuItem
-    Friend WithEvents rdbLastDBTStatus As RadioButton
+    Friend WithEvents RadPageView1 As RadPageView
+    Friend WithEvents RadPageViewPage2 As RadPageViewPage
+    Friend WithEvents gvData As common.UserControls.MyRadGridView
+    Friend WithEvents RadPageViewPage1 As RadPageViewPage
     Friend WithEvents rdbDBTStatus As RadioButton
-    Friend WithEvents RadButton3 As RadButton
-    Friend WithEvents gv1 As common.UserControls.MyRadGridView
-    Friend WithEvents RadButton4 As RadButton
-    Friend WithEvents txtFinYr As common.UserControls.txtFinder
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtFinYr As common.UserControls.txtFinder
+    Friend WithEvents rdbLastDBTStatus As RadioButton
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents rbtnTransactionPosted As RadioButton
+    Friend WithEvents rbtnTranasctionAll As RadioButton
 End Class
