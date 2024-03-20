@@ -30,6 +30,8 @@ Public Class FrmPaymentProcess
     Public Const colVLCName As String = "colVLCName"
     Public Const colVLCUploaderCode As String = "colVLCUploaderCode"
     Public Const colMCCCode As String = "colMCCCode"
+    Public Const colRouteCode As String = "colRouteCode"
+    Public Const colRouteName As String = "colRouteName"
     Public Const colVendorCode As String = "colVendorCode"
     Public Const colVendorDesc As String = "colVendorDesc"
     Public Const colCustomerCode As String = "colCustomerCode"
@@ -152,6 +154,16 @@ Public Class FrmPaymentProcess
     Public colActualVSPCode As String = "colActualVSPCode"
     Public colActualVSPName As String = "colActualVSPName"
 
+
+
+    Public Const colBankCodeSaving As String = "colBankCodeSaving"
+    Public Const colBankDescSaving As String = "colBankDescSaving"
+    Public Const colPayModeSaving As String = "colPayModeSaving"
+
+    Public Const colIsPaymentProcessHoldSaving As String = "colIsPaymentProcessHoldSaving"
+    Public Const colIsPaymentProcessHoldSavingAuto As String = "colIsPaymentProcessHoldSavingAuto"
+    Public Const colIsPaymentProcessHoldSavingManual As String = "colIsPaymentProcessHoldSavingManual"
+
     '============Added By Rohit,========================
     Public Const colMccSaleReturnTotalAmount As String = "colMccSaleReturnTotalAmount"
 
@@ -171,6 +183,17 @@ Public Class FrmPaymentProcess
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        'Dim coll As New Dictionary(Of String, String)()
+        'coll.Add("is_Hold_Payment_Process_Saving", "integer not null default 0")
+        'coll.Add("is_Hold_Payment_Process_Saving_Auto", "integer not null default 0")
+        'coll.Add("is_Hold_Payment_Process_Saving_Manual", "integer not null default 0")
+        'coll.Add("Bank_Code_Saving", "varchar(30) ")
+        'coll.Add("Bank_Desc_Saving", "varchar(50) ")
+        'coll.Add("Payment_Mode_Saving", "varchar(30) ")
+        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
+
+
+
         SetUserMgmtNew()
         SetCowFatPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
         SettVSPHoldPaymentNotCompanyBank = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPHoldPaymentNotCompanyBank, clsFixedParameterCode.VSPHoldPaymentNotCompanyBank, Nothing)) = 1)
@@ -317,6 +340,22 @@ Public Class FrmPaymentProcess
         colTextBox.FormatString = ""
         colTextBox.HeaderText = "MCC Code"
         colTextBox.Name = colMCCCode
+        colTextBox.Width = 150
+        colTextBox.ReadOnly = True
+        gvInvoice.MasterTemplate.Columns.Add(colTextBox)
+
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Route Code"
+        colTextBox.Name = colRouteCode
+        colTextBox.Width = 100
+        colTextBox.ReadOnly = True
+        gvInvoice.MasterTemplate.Columns.Add(colTextBox)
+
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Route"
+        colTextBox.Name = colRouteName
         colTextBox.Width = 150
         colTextBox.ReadOnly = True
         gvInvoice.MasterTemplate.Columns.Add(colTextBox)
@@ -1075,6 +1114,32 @@ Public Class FrmPaymentProcess
         colChkBox.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
         gv.MasterTemplate.Columns.Add(colChkBox)
 
+        colChkBox = New GridViewCheckBoxColumn()
+        colChkBox.HeaderText = "On Hold Saving"
+        colChkBox.Name = colIsPaymentProcessHoldSaving
+        colChkBox.ReadOnly = True
+        colChkBox.Width = 50
+        colChkBox.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        gv.MasterTemplate.Columns.Add(colChkBox)
+
+        colChkBox = New GridViewCheckBoxColumn()
+        colChkBox.HeaderText = "On Hold Saving Auto"
+        colChkBox.Name = colIsPaymentProcessHoldSavingAuto
+        colChkBox.ReadOnly = True
+        colChkBox.IsVisible = False
+        colChkBox.Width = 50
+        colChkBox.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        gv.MasterTemplate.Columns.Add(colChkBox)
+
+        colChkBox = New GridViewCheckBoxColumn()
+        colChkBox.HeaderText = "On Hold Saving Manual"
+        colChkBox.Name = colIsPaymentProcessHoldSavingManual
+        colChkBox.ReadOnly = True
+        colChkBox.Width = 50
+        colChkBox.IsVisible = False
+        colChkBox.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        gv.MasterTemplate.Columns.Add(colChkBox)
+
         colTextBox = New GridViewTextBoxColumn()
         colTextBox.FormatString = ""
         colTextBox.HeaderText = "Purchase Invoice No"
@@ -1082,14 +1147,6 @@ Public Class FrmPaymentProcess
         colTextBox.Width = 200
         colTextBox.ReadOnly = True
         gv.MasterTemplate.Columns.Add(colTextBox)
-
-        'Dim colDateBox = New GridViewDateTimeColumn()
-        'colTextBox.FormatString = ""
-        'colTextBox.HeaderText = "Purchase Invoice Date"
-        'colTextBox.Name = colPurchaseInvoiceDate
-        'colTextBox.Width = 150
-        'colTextBox.ReadOnly = True
-        'gv.MasterTemplate.Columns.Add(colTextBox)
 
         colDate = New GridViewDateTimeColumn
         colDate.HeaderText = "Purchase Invoice Date"
@@ -1110,14 +1167,7 @@ Public Class FrmPaymentProcess
         colTextBox.ReadOnly = True
         gv.MasterTemplate.Columns.Add(colTextBox)
 
-        'colTextBox = New GridViewTextBoxColumn()
-        'colTextBox.FormatString = ""
-        'colTextBox.HeaderText = "AP Invoice Date"
-        'colTextBox.Name = colAPInvoiceDate
-        'colTextBox.Width = 150
-        'colTextBox.ReadOnly = True
-        'colTextBox.ExcelExportType = DisplayFormatType.ShortDate
-        'gv.MasterTemplate.Columns.Add(colTextBox)
+
 
         colDate = New GridViewDateTimeColumn
         colDate.HeaderText = "AP Invoice Date"
@@ -1149,6 +1199,22 @@ Public Class FrmPaymentProcess
         colTextBox.FormatString = ""
         colTextBox.HeaderText = "MCC Code"
         colTextBox.Name = colMCCCode
+        colTextBox.Width = 150
+        colTextBox.ReadOnly = True
+        gv.MasterTemplate.Columns.Add(colTextBox)
+
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Route Code"
+        colTextBox.Name = colRouteCode
+        colTextBox.Width = 100
+        colTextBox.ReadOnly = True
+        gv.MasterTemplate.Columns.Add(colTextBox)
+
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Route"
+        colTextBox.Name = colRouteName
         colTextBox.Width = 150
         colTextBox.ReadOnly = True
         gv.MasterTemplate.Columns.Add(colTextBox)
@@ -1247,17 +1313,17 @@ Public Class FrmPaymentProcess
 
         Dim colTextBox1 As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         colTextBox1.FormatString = ""
-        colTextBox1.HeaderText = "Bank code"
+        colTextBox1.HeaderText = "Current Bank code"
         colTextBox1.Name = colBankCode
         colTextBox1.Width = 200
-        colTextBox1.ReadOnly = False
+        colTextBox1.ReadOnly = True
 
         'colTextBox.IsVisible = False
         gv.MasterTemplate.Columns.Add(colTextBox1)
 
         colTextBox = New GridViewTextBoxColumn()
         colTextBox.FormatString = ""
-        colTextBox.HeaderText = "Bank Desc"
+        colTextBox.HeaderText = "Current Bank Desc"
         colTextBox.Name = colBankDesc
         colTextBox.Width = 200
         colTextBox.ReadOnly = True
@@ -1266,16 +1332,16 @@ Public Class FrmPaymentProcess
 
         colTextBox = New GridViewTextBoxColumn()
         colTextBox.FormatString = ""
-        colTextBox.HeaderText = "Payment Mode"
+        colTextBox.HeaderText = "Current Payment Mode"
         colTextBox.Name = colPayMode
         colTextBox.Width = 200
-        colTextBox.ReadOnly = False
+        colTextBox.ReadOnly = True
         'colTextBox.IsVisible = False
         gv.MasterTemplate.Columns.Add(colTextBox)
 
         colTextBox = New GridViewTextBoxColumn()
         colTextBox.FormatString = ""
-        colTextBox.HeaderText = "Cheque No"
+        colTextBox.HeaderText = "Current Cheque No"
         colTextBox.Name = colChequeNo
         colTextBox.Width = 200
         colTextBox.ReadOnly = False
@@ -1284,16 +1350,39 @@ Public Class FrmPaymentProcess
 
         colDate = New GridViewDateTimeColumn
         colDate.FormatString = ""
-        colDate.HeaderText = "Cheque Date"
+        colDate.HeaderText = "Current Cheque Date"
         colDate.Name = colChequeDate
-
         colDate.CustomFormat = "dd/MM/yyyy"
         colDate.FormatString = "{0:dd/MM/yyyy}"
-
         colDate.Width = 100
         colDate.ReadOnly = False
         colDate.IsVisible = True
         gv.MasterTemplate.Columns.Add(colDate)
+
+
+        colTextBox1 = New GridViewTextBoxColumn()
+        colTextBox1.FormatString = ""
+        colTextBox1.HeaderText = "Saving Bank code"
+        colTextBox1.Name = colBankCodeSaving
+        colTextBox1.Width = 200
+        colTextBox1.ReadOnly = True
+        gv.MasterTemplate.Columns.Add(colTextBox1)
+
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Saving Bank Desc"
+        colTextBox.Name = colBankDescSaving
+        colTextBox.Width = 200
+        colTextBox.ReadOnly = True
+        gv.MasterTemplate.Columns.Add(colTextBox)
+
+        colTextBox = New GridViewTextBoxColumn()
+        colTextBox.FormatString = ""
+        colTextBox.HeaderText = "Saving Payment Mode"
+        colTextBox.Name = colPayModeSaving
+        colTextBox.Width = 200
+        colTextBox.ReadOnly = True
+        gv.MasterTemplate.Columns.Add(colTextBox)
 
         colDecimal = New GridViewDecimalColumn()
         colDecimal.FormatString = ""
@@ -1703,11 +1792,12 @@ Public Class FrmPaymentProcess
     Sub LoadInvoiceGridData()
         Try
             LoadBlankGridInvoice()
-            Dim qry As String = "select cast(1 as bit) as Sel,ROW_NUMBER() over(order by x.[Milk Purchase Invoice Doc No]) as SNo ,x.*,Extra.Milk_OW_Amt_Document_No,Extra.HeadLoadAmt_Document_No,Extra.MilkDedAmt_Document_No,Extra.Milk_OW_Amt,Extra.HeadLoadAmt,Extra.MilkDedAmt from (select   MAX( xxx.[AP Invoice Doc No]) as [AP Invoice Doc No] ,max(xxx.[Ap Invoice Doc Date]) as [Ap Invoice Doc Date] ,xxx.[Milk Purchase Invoice Doc No] as [Milk Purchase Invoice Doc No],max(xxx.[Milk Purchase Invoice Doc Date]) as [Milk Purchase Invoice Doc Date],max(VLC_Code) as VLC_Code,max(xxx.VLC_Name) as VLC_Name,max(xxx.Vendor_Code)  as Vendor_Code,max(xxx.Vendor_Name) as Vendor_Name,max(xxx.[Payee/Joint Name]) as [Payee/Joint Name],max(xxx.[Bank Code]) as [Bank Code],max(xxx.[Bank Name]) as  [Bank Name] , max(xxx.[Branch Code]) as [Branch Code],max(xxx.[Branch Name]) as [Branch Name],max(xxx.[IFSC Code]) as  [IFSC Code],SUM(xxx.qty) as [Total Qty]   ,max(xxx.TOTAL_basic_amount) as TOTAL_basic_amount,max(xxx.TOTAL_AMOUNT ) as TOTAL_AMOUNT,MAX(xxx.TOTAL_PaymentCOMMISSION) as TOTAL_PaymentCOMMISSION,MAX(xxx.Incentive_Head ) as Incentive_Head, MAX(xxx .IncentiveEMP_Head ) as  IncentiveEMP_Head,sum(Service_Charge_Amount) as Service_Charge_Amount,max(xxx.TOTAL_AMOUNT_Acc  ) as TOTAL_AMOUNT_Acc,max(xxx.MCC_CODE) as  MCC_CODE,max(xxx.AccountNo) as AccountNo,max(MP_Amount) as MP_Amount,max(MP_EMP) as MP_EMP,max(MP_Incentive) as MP_Incentive,max(MP_IncentiveEMP) as MP_IncentiveEMP,max(Handling_Charges_Amount) as Handling_Charges_Amount,max(SRN_Net_Amount) as SRN_Net_Amount,max(SRN_RO_Amount) as SRN_RO_Amount,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer  ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer,max(Calculated_TDS) as Calculated_TDS 
-from ( 	   select  TSPL_VENDOR_INVOICE_HEAD.Document_No as [AP Invoice Doc No], TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date as [Ap Invoice Doc Date], TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as [Milk Purchase Invoice Doc No],TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE  as [Milk Purchase Invoice Doc Date],coalesce(TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader,mp_vlc.vlc_code_vlc_uploader) as VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,coalesce(TSPL_VLC_MASTER_HEAD.VLC_Name ,mp_vlc.vlc_name) as vlc_name,coalesce(TSPL_VENDOR_MASTER.Vendor_Code,mp_v.vendor_Code) as vendor_Code,coalesce(TSPL_VENDOR_MASTER.Vendor_Name,mp_v.Vendor_name) as Vendor_name , coalesce(TSPL_VENDOR_MASTER.VSP_Payee_Name,Mp_V.VSP_Payee_Name) as [Payee/Joint Name], case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then ''  else ''   end as [Branch Code],case when isnull (coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(SelfBank .Bank_Name,selfBank_mp.bank_name)  else coalesce(jointBank .Bank_Name,jointBank_MP .Bank_Code)   end as [Bank Name],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(SelfBank .Bank_Code,SelfBank_MP .Bank_Code)   else coalesce(jointBank .Bank_Code,jointBank_Mp .Bank_Code)    end as [Bank Code],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .Branch_Name,MP_V .Branch_Name )   else coalesce(TSPL_VENDOR_MASTER .Joint_Branch_Name,Mp_V.Joint_Branch_Name)   end as [Branch Name],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .IFSC_Code,mp_V.IFSC_Code)   else coalesce(TSPL_VENDOR_MASTER .Joint_IFSC_Code,mp_v.Joint_IFSC_Code)   end as [IFSC Code],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .Account_No,mp_V .Account_No)    else coalesce(TSPL_VENDOR_MASTER.Joint_Account_No,mp_V.Joint_Account_No)    end as [AccountNo],TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty,TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_basic_amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_AMOUNT  , TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION, TSPL_MILK_PURCHASE_INVOICE_HEAD.Incentive_Head,TSPL_MILK_PURCHASE_INVOICE_HEAD.IncentiveEMP_Head, TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_AMOUNT_Acc ,  TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE,TSPL_MILK_PURCHASE_INVOICE_DETAIL.Service_Charge_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_EMP,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_Incentive,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_IncentiveEMP,TSPL_MILK_PURCHASE_INVOICE_HEAD.Handling_Charges_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.SRN_Net_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.SRN_RO_Amount,TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty,cast((TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty*TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER/100) as decimal(18,2)) as FATKg,cast((TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty*TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER/100)as decimal(18,2)) as SNFKg,TSPL_REMITTANCE.Calculated_TDS 
+            Dim qry As String = "select cast(1 as bit) as Sel,ROW_NUMBER() over(order by x.[Milk Purchase Invoice Doc No]) as SNo ,x.*,Extra.Milk_OW_Amt_Document_No,Extra.HeadLoadAmt_Document_No,Extra.MilkDedAmt_Document_No,Extra.Milk_OW_Amt,Extra.HeadLoadAmt,Extra.MilkDedAmt from (select   MAX( xxx.[AP Invoice Doc No]) as [AP Invoice Doc No] ,max(xxx.[Ap Invoice Doc Date]) as [Ap Invoice Doc Date] ,xxx.[Milk Purchase Invoice Doc No] as [Milk Purchase Invoice Doc No],max(xxx.[Milk Purchase Invoice Doc Date]) as [Milk Purchase Invoice Doc Date],max(VLC_Code) as VLC_Code,max(xxx.VLC_Name) as VLC_Name,max(xxx.Vendor_Code)  as Vendor_Code,max(xxx.Vendor_Name) as Vendor_Name,max(xxx.[Payee/Joint Name]) as [Payee/Joint Name],max(xxx.[Bank Code]) as [Bank Code],max(xxx.[Bank Name]) as  [Bank Name] , max(xxx.[Branch Code]) as [Branch Code],max(xxx.[Branch Name]) as [Branch Name],max(xxx.[IFSC Code]) as  [IFSC Code],SUM(xxx.qty) as [Total Qty]   ,max(xxx.TOTAL_basic_amount) as TOTAL_basic_amount,max(xxx.TOTAL_AMOUNT ) as TOTAL_AMOUNT,MAX(xxx.TOTAL_PaymentCOMMISSION) as TOTAL_PaymentCOMMISSION,MAX(xxx.Incentive_Head ) as Incentive_Head, MAX(xxx .IncentiveEMP_Head ) as  IncentiveEMP_Head,sum(Service_Charge_Amount) as Service_Charge_Amount,max(xxx.TOTAL_AMOUNT_Acc  ) as TOTAL_AMOUNT_Acc,max(xxx.MCC_CODE) as  MCC_CODE,max(xxx.AccountNo) as AccountNo,max(MP_Amount) as MP_Amount,max(MP_EMP) as MP_EMP,max(MP_Incentive) as MP_Incentive,max(MP_IncentiveEMP) as MP_IncentiveEMP,max(Handling_Charges_Amount) as Handling_Charges_Amount,max(SRN_Net_Amount) as SRN_Net_Amount,max(SRN_RO_Amount) as SRN_RO_Amount,cast( sum(FATKg) as decimal(18,3)) as FATKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(FATKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as FATPer  ,cast( sum(SNFKg) as decimal(18,3)) as SNFKg,cast(case when sum(ACC_Qty)=0 then 0 else sum(SNFKg)*100/sum(ACC_Qty) end as decimal(18,2) ) as SNFPer,max(Calculated_TDS) as Calculated_TDS ,max(ROUTE_CODE) as ROUTE_CODE ,max(ROUTE_NAME) as ROUTE_NAME
+from ( 	   select  TSPL_VENDOR_INVOICE_HEAD.Document_No as [AP Invoice Doc No], TSPL_VENDOR_INVOICE_HEAD.Invoice_Entry_Date as [Ap Invoice Doc Date], TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE as [Milk Purchase Invoice Doc No],TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE  as [Milk Purchase Invoice Doc Date],coalesce(TSPL_VLC_MASTER_HEAD.vlc_code_vlc_uploader,mp_vlc.vlc_code_vlc_uploader) as VLC_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,coalesce(TSPL_VLC_MASTER_HEAD.VLC_Name ,mp_vlc.vlc_name) as vlc_name,coalesce(TSPL_VENDOR_MASTER.Vendor_Code,mp_v.vendor_Code) as vendor_Code,coalesce(TSPL_VENDOR_MASTER.Vendor_Name,mp_v.Vendor_name) as Vendor_name , coalesce(TSPL_VENDOR_MASTER.VSP_Payee_Name,Mp_V.VSP_Payee_Name) as [Payee/Joint Name], case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then ''  else ''   end as [Branch Code],case when isnull (coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(SelfBank .Bank_Name,selfBank_mp.bank_name)  else coalesce(jointBank .Bank_Name,jointBank_MP .Bank_Code)   end as [Bank Name],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(SelfBank .Bank_Code,SelfBank_MP .Bank_Code)   else coalesce(jointBank .Bank_Code,jointBank_Mp .Bank_Code)    end as [Bank Code],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .Branch_Name,MP_V .Branch_Name )   else coalesce(TSPL_VENDOR_MASTER .Joint_Branch_Name,Mp_V.Joint_Branch_Name)   end as [Branch Name],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .IFSC_Code,mp_V.IFSC_Code)   else coalesce(TSPL_VENDOR_MASTER .Joint_IFSC_Code,mp_v.Joint_IFSC_Code)   end as [IFSC Code],case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .Account_No,mp_V .Account_No)    else coalesce(TSPL_VENDOR_MASTER.Joint_Account_No,mp_V.Joint_Account_No)    end as [AccountNo],TSPL_MILK_PURCHASE_INVOICE_DETAIL.Qty,TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_basic_amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_AMOUNT  , TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_PaymentCOMMISSION, TSPL_MILK_PURCHASE_INVOICE_HEAD.Incentive_Head,TSPL_MILK_PURCHASE_INVOICE_HEAD.IncentiveEMP_Head, TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_AMOUNT_Acc ,  TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE,TSPL_MILK_PURCHASE_INVOICE_DETAIL.Service_Charge_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_EMP,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_Incentive,TSPL_MILK_PURCHASE_INVOICE_HEAD.MP_IncentiveEMP,TSPL_MILK_PURCHASE_INVOICE_HEAD.Handling_Charges_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.SRN_Net_Amount,TSPL_MILK_PURCHASE_INVOICE_HEAD.SRN_RO_Amount,TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty,cast((TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty*TSPL_MILK_PURCHASE_INVOICE_DETAIL.FAT_PER/100) as decimal(18,2)) as FATKg,cast((TSPL_MILK_PURCHASE_INVOICE_DETAIL.ACC_Qty*TSPL_MILK_PURCHASE_INVOICE_DETAIL.SNF_PER/100)as decimal(18,2)) as SNFKg,TSPL_REMITTANCE.Calculated_TDS,TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME 
 from TSPL_VENDOR_INVOICE_HEAD   
 left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
 left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE= TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No 
+left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE
 left outer join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE  
 left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_HEAD.VLC_CODE
@@ -1767,6 +1857,8 @@ group by Against_MillkPurchaseInvoice_No) as Extra on Extra.Against_MillkPurchas
                 gvInvoice.Columns(colVLCName).FieldName = "VLC_Name"
                 gvInvoice.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
                 gvInvoice.Columns(colMCCCode).FieldName = "MCC_Code"
+                gvInvoice.Columns(colRouteCode).FieldName = "ROUTE_CODE"
+                gvInvoice.Columns(colRouteName).FieldName = "ROUTE_NAME"
                 gvInvoice.Columns(colVendorCode).FieldName = "Vendor_Code"
                 gvInvoice.Columns(colVendorDesc).FieldName = "Vendor_Name"
                 gvInvoice.Columns(colPayeeJointName).FieldName = "Payee/Joint Name"
@@ -4186,6 +4278,11 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPPDetail = New clsPaymentProcessDetail()
                         objPPDetail.Is_select = clsCommon.myCBool(gv.Rows(i).Cells(colSelect).Value)
                         objPPDetail.is_Hold_Payment_Process = clsCommon.myCBool(gv.Rows(i).Cells(colIsPaymentProcessHold).Value)
+
+                        objPPDetail.is_Hold_Payment_Process_Saving = clsCommon.myCBool(gv.Rows(i).Cells(colIsPaymentProcessHoldSaving).Value)
+                        objPPDetail.is_Hold_Payment_Process_Saving_Auto = clsCommon.myCBool(gv.Rows(i).Cells(colIsPaymentProcessHoldSavingAuto).Value)
+                        objPPDetail.is_Hold_Payment_Process_Saving_Manual = clsCommon.myCBool(gv.Rows(i).Cells(colIsPaymentProcessHoldSavingManual).Value)
+
                         objPPDetail.SNo = clsCommon.myCstr(gv.Rows(i).Cells(colSlno).Value)
                         objPPDetail.Milk_Purchase_Invoice_No = clsCommon.myCstr(gv.Rows(i).Cells(colPurchaseInvoiceNo).Value)
                         objPPDetail.Milk_Purchase_Invoice_Date = clsCommon.myCDate(gv.Rows(i).Cells(colPurchaseInvoiceDate).Value)
@@ -4209,6 +4306,12 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPPDetail.Bank_Desc = clsCommon.myCstr(gv.Rows(i).Cells(colBankDesc).Value)
                         objPPDetail.Payment_Mode = clsCommon.myCstr(gv.Rows(i).Cells(colPayMode).Value)
                         objPPDetail.Cheque_No = clsCommon.myCstr(gv.Rows(i).Cells(colChequeNo).Value)
+
+
+                        objPPDetail.Bank_Code_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colBankCodeSaving).Value)
+                        objPPDetail.Bank_Desc_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colBankDescSaving).Value)
+                        objPPDetail.Payment_Mode_Saving = clsCommon.myCstr(gv.Rows(i).Cells(colPayModeSaving).Value)
+
                         If clsCommon.CompairString(objPPDetail.Payment_Mode, "Cheque") = CompairStringResult.Equal Then
                             objPPDetail.Cheque_Dated = clsCommon.myCstr(gv.Rows(i).Cells(colChequeDate).Value)
                         Else
@@ -4398,6 +4501,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gvInvoice.Columns(colVLCName).FieldName = "VLC_Name"
                     gvInvoice.Columns(colVLCUploaderCode).FieldName = "VLC_Code_VLC_Uploader"
                     gvInvoice.Columns(colMCCCode).FieldName = "MCC_Code"
+                    gvInvoice.Columns(colRouteCode).FieldName = "ROUTE_CODE"
+                    gvInvoice.Columns(colRouteName).FieldName = "ROUTE_NAME"
                     gvInvoice.Columns(colVendorCode).FieldName = "VSP_CODE"
                     gvInvoice.Columns(colVendorDesc).FieldName = "VSP_NAME"
                     gvInvoice.Columns(colPayeeJointName).FieldName = "Payee_Joint_Name"
@@ -4442,7 +4547,6 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gvInvoice.Columns(colSNFKG).FieldName = "SNFKg"
                     gvInvoice.Columns(colSNFPer).FieldName = "SNFPer"
                 End If
-
                 If obj.dtClsPaymentProcessMccSale IsNot Nothing AndAlso obj.dtClsPaymentProcessMccSale.Rows.Count > 0 Then
                     gvMccSale.DataSource = Nothing
                     gvMccSale.AutoGenerateColumns = False
@@ -4464,7 +4568,6 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gvMccSale.Columns(colOrgBalanceAmt).FieldName = "Original_Balance_Amount"
                     gvMccSale.Columns(colInstallmentAmt).FieldName = "Instalment_Amt"
                 End If
-
                 If obj.dtClsPaymentProcessItemIssue IsNot Nothing AndAlso obj.dtClsPaymentProcessItemIssue.Rows.Count > 0 Then
                     gvItemIssue.DataSource = Nothing
                     gvItemIssue.AutoGenerateColumns = False
@@ -4482,7 +4585,6 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gvItemIssue.Columns(colItemAmt).FieldName = "Amount"
                     gvItemIssue.Columns(colReduceDeduc).FieldName = "Reduce_Deduc_Amt"
                 End If
-
                 If obj.dtClsPaymentProcessItemIssueReturn IsNot Nothing AndAlso obj.dtClsPaymentProcessItemIssueReturn.Rows.Count > 0 Then
                     gvItemIssueReturn.DataSource = Nothing
                     gvItemIssueReturn.AutoGenerateColumns = False
@@ -4629,6 +4731,11 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gv.Columns(colSelect).FieldName = "Is_select"
                     gv.Columns(colSlno).FieldName = "SNo"
                     gv.Columns(colIsPaymentProcessHold).FieldName = "is_Hold_Payment_Process"
+
+                    gv.Columns(colIsPaymentProcessHoldSaving).FieldName = "is_Hold_Payment_Process_Saving"
+                    gv.Columns(colIsPaymentProcessHoldSavingAuto).FieldName = "is_Hold_Payment_Process_Saving_Auto"
+                    gv.Columns(colIsPaymentProcessHoldSavingManual).FieldName = "is_Hold_Payment_Process_Saving_Manual"
+
                     gv.Columns(colPurchaseInvoiceNo).FieldName = "Milk_Purchase_Invoice_No"
                     gv.Columns(colPurchaseInvoiceDate).FieldName = "Milk_Purchase_Invoice_Date"
                     gv.Columns(colAPInvoiceNo).FieldName = "AP_Invoice_No"
@@ -4636,6 +4743,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gv.Columns(colVLCUploaderCode).FieldName = "VLC_CODE_Uploader"
                     gv.Columns(colVLCName).FieldName = "VLC_Name"
                     gv.Columns(colMCCCode).FieldName = "MCC_Code"
+                    gv.Columns(colRouteCode).FieldName = "ROUTE_CODE"
+                    gv.Columns(colRouteName).FieldName = "ROUTE_NAME"
                     gv.Columns(colVendorCode).FieldName = "VSP_CODE"
                     gv.Columns(colVendorDesc).FieldName = "VSP_NAME"
                     gv.Columns(colActualVSPCode).FieldName = "Main_VSP_CODE"
@@ -4652,6 +4761,9 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gv.Columns(colPayMode).FieldName = "Payment_Mode"
                     gv.Columns(colChequeNo).FieldName = "Cheque_No"
                     gv.Columns(colChequeDate).FieldName = "Cheque_Dated"
+                    gv.Columns(colBankCodeSaving).FieldName = "Bank_Code_Saving"
+                    gv.Columns(colBankDescSaving).FieldName = "Bank_Desc_Saving"
+                    gv.Columns(colPayModeSaving).FieldName = "Payment_Mode_Saving"
                     gv.Columns(colMilkQty).FieldName = "Milk_Qty"
                     gv.Columns(colVSPAmount).FieldName = "VSP_Amount"
                     gv.Columns(colHandlingCharges).FieldName = "Handling_Charges_Amount"
@@ -5138,6 +5250,8 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 gv.Rows(k).Cells(colVLCName).Value = gvInvoice.Rows(i).Cells(colVLCName).Value
                 gv.Rows(k).Cells(colVLCUploaderCode).Value = gvInvoice.Rows(i).Cells(colVLCCode).Value
                 gv.Rows(k).Cells(colMCCCode).Value = gvInvoice.Rows(i).Cells(colMCCCode).Value
+                gv.Rows(k).Cells(colRouteCode).Value = gvInvoice.Rows(i).Cells(colRouteCode).Value
+                gv.Rows(k).Cells(colRouteName).Value = gvInvoice.Rows(i).Cells(colRouteName).Value
                 gv.Rows(k).Cells(colVendorCode).Value = gvInvoice.Rows(i).Cells(colVendorCode).Value
                 gv.Rows(k).Cells(colVendorDesc).Value = gvInvoice.Rows(i).Cells(colVendorDesc).Value
                 gv.Rows(k).Cells(colIsPaymentProcessHold).Value = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select is_Hold_Payment_Process  from TSPL_VENDOR_MASTER where Vendor_Code='" + clsCommon.myCstr(gvInvoice.Rows(i).Cells(colVendorCode).Value) + "'")) = 1, True, False)
@@ -5205,16 +5319,29 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 CalculateAdvanceKnockOff(k)
 
                 If SettVSPHoldPaymentNotCompanyBank Then
-                    Dim qry As String = "select TSPL_VENDOR_MASTER.Company_Bank,TSPL_BANK_MASTER.DESCRIPTION from TSPL_VENDOR_MASTER left outer join TSPL_BANK_MASTER on TSPL_BANK_MASTER.BANK_CODE=TSPL_VENDOR_MASTER.Company_Bank where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value + "'"
+                    Dim qry As String = "select TSPL_VENDOR_MASTER.Company_Bank_Current,TSPL_BANK_MASTER_CURRENT.DESCRIPTION as DESCRIPTION_Current,TSPL_VENDOR_MASTER.Company_Bank,TSPL_BANK_MASTER_SAVING.DESCRIPTION as DESCRIPTION_Saving 
+from TSPL_VENDOR_MASTER 
+left outer join TSPL_BANK_MASTER as TSPL_BANK_MASTER_CURRENT on TSPL_BANK_MASTER_CURRENT.BANK_CODE=TSPL_VENDOR_MASTER.Company_Bank_Current
+left outer join TSPL_BANK_MASTER as TSPL_BANK_MASTER_SAVING on TSPL_BANK_MASTER_SAVING.BANK_CODE=TSPL_VENDOR_MASTER.Company_Bank 
+where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value + "'"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                        If clsCommon.myLen(dt.Rows(0)("Company_Bank")) > 0 Then
-                            gv.Rows(i).Cells(colBankCode).Value = clsCommon.myCstr(dt.Rows(0)("Company_Bank"))
-                            gv.Rows(i).Cells(colBankDesc).Value = clsCommon.myCstr(dt.Rows(0)("DESCRIPTION"))
+                        If clsCommon.myLen(dt.Rows(0)("Company_Bank_Current")) > 0 Then
+                            gv.Rows(i).Cells(colBankCode).Value = clsCommon.myCstr(dt.Rows(0)("Company_Bank_Current"))
+                            gv.Rows(i).Cells(colBankDesc).Value = clsCommon.myCstr(dt.Rows(0)("DESCRIPTION_Current"))
                             gv.Rows(i).Cells(colPayMode).Value = "NEFT"
                         Else
                             gv.Rows(i).Cells(colIsPaymentProcessHold).Value = True
                         End If
+
+                        If clsCommon.myLen(dt.Rows(0)("Company_Bank")) > 0 Then
+                            gv.Rows(i).Cells(colBankCodeSaving).Value = clsCommon.myCstr(dt.Rows(0)("Company_Bank"))
+                            gv.Rows(i).Cells(colBankDescSaving).Value = clsCommon.myCstr(dt.Rows(0)("DESCRIPTION_Saving"))
+                            gv.Rows(i).Cells(colPayModeSaving).Value = "NEFT"
+                        Else
+                            gv.Rows(i).Cells(colIsPaymentProcessHoldSavingAuto).Value = True
+                        End If
+                        SetPaymentProcessHoldSaving(i)
                     End If
                 End If
             Next
@@ -8529,5 +8656,20 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.ToString)
         End Try
+    End Sub
+
+    Private Sub chkHoldSavingPayment_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkHoldSavingPayment.ToggleStateChanged
+        Try
+            For ii As Integer = 0 To gv.Rows.Count - 1
+                gv.Rows(ii).Cells(colIsPaymentProcessHoldSavingManual).Value = chkHoldSavingPayment.Checked
+                SetPaymentProcessHoldSaving(ii)
+            Next
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub SetPaymentProcessHoldSaving(ii As Integer)
+        gv.Rows(ii).Cells(colIsPaymentProcessHoldSaving).Value = (clsCommon.myCBool(gv.Rows(ii).Cells(colIsPaymentProcessHoldSavingAuto).Value) OrElse clsCommon.myCBool(gv.Rows(ii).Cells(colIsPaymentProcessHoldSavingManual).Value))
     End Sub
 End Class
