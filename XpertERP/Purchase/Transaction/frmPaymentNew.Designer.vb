@@ -1453,7 +1453,7 @@ Partial Class FrmPaymentNew
         Me.fndloanNo.IsSourceFromTable = False
         Me.fndloanNo.IsSourceFromValueList = False
         Me.fndloanNo.IsUnique = False
-        Me.fndloanNo.Location = New System.Drawing.Point(887, 3)
+        Me.fndloanNo.Location = New System.Drawing.Point(821, 3)
         Me.fndloanNo.MendatroryField = False
         Me.fndloanNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndloanNo.MyLinkLable1 = Nothing
@@ -1473,7 +1473,7 @@ Partial Class FrmPaymentNew
         '
         Me.lblApplyLoanNo.FieldName = Nothing
         Me.lblApplyLoanNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblApplyLoanNo.Location = New System.Drawing.Point(827, 5)
+        Me.lblApplyLoanNo.Location = New System.Drawing.Point(761, 4)
         Me.lblApplyLoanNo.Name = "lblApplyLoanNo"
         Me.lblApplyLoanNo.Size = New System.Drawing.Size(52, 16)
         Me.lblApplyLoanNo.TabIndex = 12116
@@ -1732,7 +1732,7 @@ Partial Class FrmPaymentNew
         '
         Me.lblLoadOutNo.FieldName = Nothing
         Me.lblLoadOutNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLoadOutNo.Location = New System.Drawing.Point(681, 5)
+        Me.lblLoadOutNo.Location = New System.Drawing.Point(940, 4)
         Me.lblLoadOutNo.Name = "lblLoadOutNo"
         Me.lblLoadOutNo.Size = New System.Drawing.Size(68, 16)
         Me.lblLoadOutNo.TabIndex = 5
@@ -1750,7 +1750,7 @@ Partial Class FrmPaymentNew
         Me.txtLoadOutno.IsSourceFromTable = False
         Me.txtLoadOutno.IsSourceFromValueList = False
         Me.txtLoadOutno.IsUnique = False
-        Me.txtLoadOutno.Location = New System.Drawing.Point(755, 4)
+        Me.txtLoadOutno.Location = New System.Drawing.Point(1014, 3)
         Me.txtLoadOutno.MendatroryField = True
         Me.txtLoadOutno.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLoadOutno.MyLinkLable1 = Nothing
@@ -2252,10 +2252,10 @@ Partial Class FrmPaymentNew
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(1010, 2)
+        Me.UsLock1.Location = New System.Drawing.Point(682, 3)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(70, 20)
+        Me.UsLock1.Size = New System.Drawing.Size(75, 20)
         Me.UsLock1.Status = common.ERPTransactionStatus.Pending
         Me.UsLock1.TabIndex = 7
         '
@@ -2380,6 +2380,7 @@ Partial Class FrmPaymentNew
         Me.gvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDetails.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDetails.MyStopExport = False
         Me.gvDetails.Name = "gvDetails"
         Me.gvDetails.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvDetails.ShowGroupPanel = False
@@ -2392,18 +2393,18 @@ Partial Class FrmPaymentNew
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
         Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
-        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
+        Me.pvpCustomFields.Location = New System.Drawing.Point(10, 33)
         Me.pvpCustomFields.Name = "pvpCustomFields"
-        Me.pvpCustomFields.Size = New System.Drawing.Size(1115, 441)
+        Me.pvpCustomFields.Size = New System.Drawing.Size(1113, 445)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
         Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
-        Me.Attachments.Location = New System.Drawing.Point(10, 37)
+        Me.Attachments.Location = New System.Drawing.Point(10, 33)
         Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(1115, 441)
+        Me.Attachments.Size = New System.Drawing.Size(1113, 445)
         Me.Attachments.Text = "Attachments"
         '
         'UcAttachment1
@@ -2411,16 +2412,16 @@ Partial Class FrmPaymentNew
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(1115, 441)
+        Me.UcAttachment1.Size = New System.Drawing.Size(1113, 445)
         Me.UcAttachment1.TabIndex = 0
         '
         'TabForGST
         '
         Me.TabForGST.Controls.Add(Me.SplitContainer3)
         Me.TabForGST.ItemSize = New System.Drawing.SizeF(32.0!, 24.0!)
-        Me.TabForGST.Location = New System.Drawing.Point(10, 37)
+        Me.TabForGST.Location = New System.Drawing.Point(10, 33)
         Me.TabForGST.Name = "TabForGST"
-        Me.TabForGST.Size = New System.Drawing.Size(1115, 441)
+        Me.TabForGST.Size = New System.Drawing.Size(1113, 445)
         Me.TabForGST.Text = "GST"
         '
         'SplitContainer3
@@ -2451,7 +2452,7 @@ Partial Class FrmPaymentNew
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.SplitContainer4)
-        Me.SplitContainer3.Size = New System.Drawing.Size(1115, 441)
+        Me.SplitContainer3.Size = New System.Drawing.Size(1113, 445)
         Me.SplitContainer3.SplitterDistance = 78
         Me.SplitContainer3.TabIndex = 0
         '
@@ -2668,7 +2669,7 @@ Partial Class FrmPaymentNew
         'SplitContainer4.Panel2
         '
         Me.SplitContainer4.Panel2.Controls.Add(Me.gvItem)
-        Me.SplitContainer4.Size = New System.Drawing.Size(1115, 359)
+        Me.SplitContainer4.Size = New System.Drawing.Size(1113, 363)
         Me.SplitContainer4.SplitterDistance = 125
         Me.SplitContainer4.TabIndex = 0
         '
@@ -2690,10 +2691,11 @@ Partial Class FrmPaymentNew
         Me.gvTaxDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxDetail.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvTaxDetail.MyStopExport = False
         Me.gvTaxDetail.Name = "gvTaxDetail"
         Me.gvTaxDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTaxDetail.ShowHeaderCellButtons = True
-        Me.gvTaxDetail.Size = New System.Drawing.Size(1115, 125)
+        Me.gvTaxDetail.Size = New System.Drawing.Size(1113, 125)
         Me.gvTaxDetail.TabIndex = 7
         Me.gvTaxDetail.TabStop = False
         '
@@ -2715,10 +2717,11 @@ Partial Class FrmPaymentNew
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItem.ShowHeaderCellButtons = True
-        Me.gvItem.Size = New System.Drawing.Size(1115, 230)
+        Me.gvItem.Size = New System.Drawing.Size(1113, 234)
         Me.gvItem.TabIndex = 8
         Me.gvItem.TabStop = False
         '
@@ -2732,16 +2735,16 @@ Partial Class FrmPaymentNew
         Me.TabBankChargesTax.Controls.Add(Me.gv2)
         Me.TabBankChargesTax.Controls.Add(Me.MyLabel12)
         Me.TabBankChargesTax.ItemSize = New System.Drawing.SizeF(116.0!, 24.0!)
-        Me.TabBankChargesTax.Location = New System.Drawing.Point(10, 37)
+        Me.TabBankChargesTax.Location = New System.Drawing.Point(10, 33)
         Me.TabBankChargesTax.Name = "TabBankChargesTax"
-        Me.TabBankChargesTax.Size = New System.Drawing.Size(1113, 441)
+        Me.TabBankChargesTax.Size = New System.Drawing.Size(1113, 445)
         Me.TabBankChargesTax.Text = "Tax on Bank Charges"
         '
         'butCostCenterAndHirerachy_Update_AfterPost
         '
         Me.butCostCenterAndHirerachy_Update_AfterPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.butCostCenterAndHirerachy_Update_AfterPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(924, 419)
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(924, 423)
         Me.butCostCenterAndHirerachy_Update_AfterPost.Name = "butCostCenterAndHirerachy_Update_AfterPost"
         Me.butCostCenterAndHirerachy_Update_AfterPost.Size = New System.Drawing.Size(186, 22)
         Me.butCostCenterAndHirerachy_Update_AfterPost.TabIndex = 11
@@ -2835,7 +2838,7 @@ Partial Class FrmPaymentNew
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(862, 323)
+        Me.RadLabel10.Location = New System.Drawing.Point(862, 327)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(162, 16)
         Me.RadLabel10.TabIndex = 9
@@ -2861,10 +2864,11 @@ Partial Class FrmPaymentNew
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(1005, 271)
+        Me.gv2.Size = New System.Drawing.Size(1005, 275)
         Me.gv2.TabIndex = 7
         Me.gv2.TabStop = False
         '
@@ -3041,7 +3045,7 @@ Partial Class FrmPaymentNew
         Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
         Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1115, 441)
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1113, 445)
         Me.UcCustomFields1.TabIndex = 1
         '
         'FrmPaymentNew

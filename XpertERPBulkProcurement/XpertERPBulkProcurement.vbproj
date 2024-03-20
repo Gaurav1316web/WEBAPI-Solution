@@ -354,6 +354,12 @@
     <Compile Include="Milk Procurement\Transaction\frmDCSMilkCollectionMergeSetting.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMakeSavingPayment.Designer.vb">
+      <DependentUpon>frmMakeSavingPayment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMakeSavingPayment.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Transaction\frmMilkCollectionDCSMultipleDays.Designer.vb">
       <DependentUpon>frmMilkCollectionDCSMultipleDays.vb</DependentUpon>
     </Compile>
@@ -883,6 +889,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmDCSMilkCollectionMergeSetting.resx">
       <DependentUpon>frmDCSMilkCollectionMergeSetting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmMakeSavingPayment.resx">
+      <DependentUpon>frmMakeSavingPayment.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkCollectionDCSMultipleDays.resx">
       <DependentUpon>frmMilkCollectionDCSMultipleDays.vb</DependentUpon>
