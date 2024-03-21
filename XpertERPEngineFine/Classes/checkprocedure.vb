@@ -848,6 +848,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptPerformanceReport, "Performance Report", "1.08.03.47", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.VehicleUnloadingReport, "Vehicle Unloading Report", "1.08.03.48", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptRMUnloading, "RM Unloading Report", "1.08.03.49", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTransactionWiseStock, "Transaction Wise Stock", "1.08.03.50", clsUserMgtCode.SubModulePurchaseReport, 37)
         '=================End=====================
 
 
