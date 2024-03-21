@@ -22,6 +22,20 @@ Partial Class frmPaymentProcessFarmer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.chkSelected = New common.Controls.MyCheckBox()
@@ -665,7 +679,7 @@ Partial Class frmPaymentProcessFarmer
         Me.fndDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndDocNo.MyLinkLable1 = Me.lblDocNo
         Me.fndDocNo.MyLinkLable2 = Nothing
-        Me.fndDocNo.MyMaxLength = 32767
+        Me.fndDocNo.MyMaxLength = 30
         Me.fndDocNo.MyReadOnly = False
         Me.fndDocNo.Name = "fndDocNo"
         Me.fndDocNo.Size = New System.Drawing.Size(265, 21)
@@ -677,14 +691,16 @@ Partial Class frmPaymentProcessFarmer
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
         '
+        '
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(1172, 286)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
         '
         'SplitContainer1
         '
@@ -738,7 +754,6 @@ Partial Class frmPaymentProcessFarmer
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1193, 471)
         Me.RadPageView1.TabIndex = 2
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage8
@@ -755,16 +770,18 @@ Partial Class frmPaymentProcessFarmer
         Me.gvPaymentToFarmer.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvPaymentToFarmer.Location = New System.Drawing.Point(0, 0)
         '
-        'gvPaymentToFarmer
+        '
         '
         Me.gvPaymentToFarmer.MasterTemplate.EnableAlternatingRowColor = True
         Me.gvPaymentToFarmer.MasterTemplate.EnableFiltering = True
+        Me.gvPaymentToFarmer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPaymentToFarmer.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvPaymentToFarmer.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvPaymentToFarmer.MyStopExport = False
         Me.gvPaymentToFarmer.Name = "gvPaymentToFarmer"
         Me.gvPaymentToFarmer.ShowHeaderCellButtons = True
         Me.gvPaymentToFarmer.Size = New System.Drawing.Size(1172, 423)
         Me.gvPaymentToFarmer.TabIndex = 1
-        Me.gvPaymentToFarmer.Text = "RadGridView1"
         '
         'RadPageViewPage2
         '
@@ -784,12 +801,14 @@ Partial Class frmPaymentProcessFarmer
         '
         '
         Me.gvInvoice.MasterTemplate.EnableFiltering = True
+        Me.gvInvoice.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInvoice.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvInvoice.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvInvoice.MyStopExport = False
         Me.gvInvoice.Name = "gvInvoice"
         Me.gvInvoice.ShowHeaderCellButtons = True
         Me.gvInvoice.Size = New System.Drawing.Size(1172, 423)
         Me.gvInvoice.TabIndex = 266
-        Me.gvInvoice.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -808,12 +827,14 @@ Partial Class frmPaymentProcessFarmer
         '
         '
         Me.gvMccSale.MasterTemplate.EnableFiltering = True
+        Me.gvMccSale.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMccSale.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvMccSale.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvMccSale.MyStopExport = False
         Me.gvMccSale.Name = "gvMccSale"
         Me.gvMccSale.ShowHeaderCellButtons = True
         Me.gvMccSale.Size = New System.Drawing.Size(1172, 423)
         Me.gvMccSale.TabIndex = 266
-        Me.gvMccSale.Text = "RadGridView1"
         '
         'RDPMccSaleReturn
         '
@@ -832,12 +853,14 @@ Partial Class frmPaymentProcessFarmer
         '
         '
         Me.GvMccSaleReturn.MasterTemplate.EnableFiltering = True
+        Me.GvMccSaleReturn.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GvMccSaleReturn.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GvMccSaleReturn.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.GvMccSaleReturn.MyStopExport = False
         Me.GvMccSaleReturn.Name = "GvMccSaleReturn"
         Me.GvMccSaleReturn.ShowHeaderCellButtons = True
         Me.GvMccSaleReturn.Size = New System.Drawing.Size(1172, 423)
         Me.GvMccSaleReturn.TabIndex = 267
-        Me.GvMccSaleReturn.Text = "RadGridView1"
         '
         'RDPMccSaleFarmer
         '
@@ -856,12 +879,14 @@ Partial Class frmPaymentProcessFarmer
         '
         '
         Me.gvMccSaleFarmer.MasterTemplate.EnableFiltering = True
+        Me.gvMccSaleFarmer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMccSaleFarmer.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvMccSaleFarmer.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvMccSaleFarmer.MyStopExport = False
         Me.gvMccSaleFarmer.Name = "gvMccSaleFarmer"
         Me.gvMccSaleFarmer.ShowHeaderCellButtons = True
         Me.gvMccSaleFarmer.Size = New System.Drawing.Size(1172, 423)
         Me.gvMccSaleFarmer.TabIndex = 267
-        Me.gvMccSaleFarmer.Text = "RadGridView1"
         '
         'RDPMccSaleReturnFarmer
         '
@@ -880,12 +905,14 @@ Partial Class frmPaymentProcessFarmer
         '
         '
         Me.gvMccSaleReturnFarmer.MasterTemplate.EnableFiltering = True
+        Me.gvMccSaleReturnFarmer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMccSaleReturnFarmer.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvMccSaleReturnFarmer.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvMccSaleReturnFarmer.MyStopExport = False
         Me.gvMccSaleReturnFarmer.Name = "gvMccSaleReturnFarmer"
         Me.gvMccSaleReturnFarmer.ShowHeaderCellButtons = True
         Me.gvMccSaleReturnFarmer.Size = New System.Drawing.Size(1172, 423)
         Me.gvMccSaleReturnFarmer.TabIndex = 267
-        Me.gvMccSaleReturnFarmer.Text = "RadGridView1"
         '
         'RDPFarmerdjustment
         '
@@ -904,12 +931,14 @@ Partial Class frmPaymentProcessFarmer
         '
         '
         Me.gvMPAdj.MasterTemplate.EnableFiltering = True
+        Me.gvMPAdj.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMPAdj.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvMPAdj.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvMPAdj.MyStopExport = False
         Me.gvMPAdj.Name = "gvMPAdj"
         Me.gvMPAdj.ShowHeaderCellButtons = True
         Me.gvMPAdj.Size = New System.Drawing.Size(1172, 423)
         Me.gvMPAdj.TabIndex = 268
-        Me.gvMPAdj.Text = "RadGridView1"
         '
         'RadPageViewPage4
         '
@@ -928,12 +957,14 @@ Partial Class frmPaymentProcessFarmer
         '
         '
         Me.gvItemIssue.MasterTemplate.EnableFiltering = True
+        Me.gvItemIssue.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItemIssue.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItemIssue.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvItemIssue.MyStopExport = False
         Me.gvItemIssue.Name = "gvItemIssue"
         Me.gvItemIssue.ShowHeaderCellButtons = True
         Me.gvItemIssue.Size = New System.Drawing.Size(897, 423)
         Me.gvItemIssue.TabIndex = 266
-        Me.gvItemIssue.Text = "RadGridView1"
         '
         'PageItemIssueReturn
         '
@@ -952,12 +983,14 @@ Partial Class frmPaymentProcessFarmer
         '
         '
         Me.gvItemIssueReturn.MasterTemplate.EnableFiltering = True
+        Me.gvItemIssueReturn.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItemIssueReturn.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItemIssueReturn.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvItemIssueReturn.MyStopExport = False
         Me.gvItemIssueReturn.Name = "gvItemIssueReturn"
         Me.gvItemIssueReturn.ShowHeaderCellButtons = True
         Me.gvItemIssueReturn.Size = New System.Drawing.Size(897, 423)
         Me.gvItemIssueReturn.TabIndex = 267
-        Me.gvItemIssueReturn.Text = "RadGridView1"
         '
         'RadPageViewPage5
         '
@@ -976,12 +1009,14 @@ Partial Class frmPaymentProcessFarmer
         '
         '
         Me.gvDeduction.MasterTemplate.EnableFiltering = True
+        Me.gvDeduction.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDeduction.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDeduction.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvDeduction.MyStopExport = False
         Me.gvDeduction.Name = "gvDeduction"
         Me.gvDeduction.ShowHeaderCellButtons = True
         Me.gvDeduction.Size = New System.Drawing.Size(897, 423)
         Me.gvDeduction.TabIndex = 267
-        Me.gvDeduction.Text = "RadGridView1"
         '
         'RadPageViewPage6
         '
@@ -1000,7 +1035,10 @@ Partial Class frmPaymentProcessFarmer
         '
         '
         Me.gvCreditNote.MasterTemplate.EnableFiltering = True
+        Me.gvCreditNote.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCreditNote.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCreditNote.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvCreditNote.MyStopExport = False
         Me.gvCreditNote.Name = "gvCreditNote"
         Me.gvCreditNote.ShowHeaderCellButtons = True
         Me.gvCreditNote.Size = New System.Drawing.Size(1172, 423)
@@ -1020,9 +1058,12 @@ Partial Class frmPaymentProcessFarmer
         Me.gvAdvancePayment.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvAdvancePayment.Location = New System.Drawing.Point(0, 0)
         '
-        'gvAdvancePayment
         '
+        '
+        Me.gvAdvancePayment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAdvancePayment.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAdvancePayment.MasterTemplate.ViewDefinition = TableViewDefinition13
+        Me.gvAdvancePayment.MyStopExport = False
         Me.gvAdvancePayment.Name = "gvAdvancePayment"
         Me.gvAdvancePayment.ShowHeaderCellButtons = True
         Me.gvAdvancePayment.Size = New System.Drawing.Size(1172, 423)
@@ -1042,9 +1083,12 @@ Partial Class frmPaymentProcessFarmer
         Me.gvFA.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvFA.Location = New System.Drawing.Point(0, 0)
         '
-        'gvFA
         '
+        '
+        Me.gvFA.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFA.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvFA.MasterTemplate.ViewDefinition = TableViewDefinition14
+        Me.gvFA.MyStopExport = False
         Me.gvFA.Name = "gvFA"
         Me.gvFA.ShowHeaderCellButtons = True
         Me.gvFA.Size = New System.Drawing.Size(1172, 423)
@@ -1164,27 +1208,20 @@ Partial Class frmPaymentProcessFarmer
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1193, 20)
         Me.RadMenu1.TabIndex = 5
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem2.AccessibleName = "Delete Layout"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '

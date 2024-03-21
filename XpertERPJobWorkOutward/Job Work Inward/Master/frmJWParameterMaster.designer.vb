@@ -25,6 +25,7 @@ Partial Class frmJWParameterMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.chkMOISTURE = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadCheckBox1 = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.cboType = New common.Controls.MyComboBox()
@@ -41,8 +42,8 @@ Partial Class frmJWParameterMaster
         Me.RadMenu = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkMOISTURE = New Telerik.WinControls.UI.RadCheckBox()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.chkMOISTURE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadCheckBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -54,7 +55,6 @@ Partial Class frmJWParameterMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkMOISTURE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -75,6 +75,14 @@ Partial Class frmJWParameterMaster
         Me.GroupBox1.Size = New System.Drawing.Size(791, 158)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'chkMOISTURE
+        '
+        Me.chkMOISTURE.Location = New System.Drawing.Point(93, 87)
+        Me.chkMOISTURE.Name = "chkMOISTURE"
+        Me.chkMOISTURE.Size = New System.Drawing.Size(74, 18)
+        Me.chkMOISTURE.TabIndex = 326
+        Me.chkMOISTURE.Text = "MOISTURE"
         '
         'RadCheckBox1
         '
@@ -99,6 +107,7 @@ Partial Class frmJWParameterMaster
         Me.cboType.AutoCompleteDisplayMember = Nothing
         Me.cboType.AutoCompleteValueMember = Nothing
         Me.cboType.CalculationExpression = Nothing
+        Me.cboType.DropDownAnimationEnabled = True
         Me.cboType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboType.FieldCode = Nothing
         Me.cboType.FieldDesc = Nothing
@@ -208,7 +217,7 @@ Partial Class frmJWParameterMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(261, 20)
@@ -252,7 +261,6 @@ Partial Class frmJWParameterMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(948, 20)
         Me.RadMenu1.TabIndex = 322
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenu
         '
@@ -264,25 +272,13 @@ Partial Class frmJWParameterMaster
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
-        '
-        'chkMOISTURE
-        '
-        Me.chkMOISTURE.Location = New System.Drawing.Point(93, 87)
-        Me.chkMOISTURE.Name = "chkMOISTURE"
-        Me.chkMOISTURE.Size = New System.Drawing.Size(74, 18)
-        Me.chkMOISTURE.TabIndex = 326
-        Me.chkMOISTURE.Text = "MOISTURE"
         '
         'frmJWParameterMaster
         '
@@ -302,6 +298,7 @@ Partial Class frmJWParameterMaster
         Me.Text = "Parameter Master"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.chkMOISTURE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadCheckBox1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -313,7 +310,6 @@ Partial Class frmJWParameterMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkMOISTURE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

@@ -28,6 +28,9 @@ Partial Class frmCreateReceivedDairySale
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnMrng = New System.Windows.Forms.RadioButton()
+        Me.rbtnEvng = New System.Windows.Forms.RadioButton()
         Me.comSalesMan = New common.Controls.MyComboBox()
         Me.lblSalesMan = New common.Controls.MyLabel()
         Me.comDriver = New common.Controls.MyComboBox()
@@ -86,15 +89,14 @@ Partial Class frmCreateReceivedDairySale
         Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
-        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rbtnMrng = New System.Windows.Forms.RadioButton()
-        Me.rbtnEvng = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox7.SuspendLayout()
         CType(Me.comSalesMan, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesMan, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.comDriver, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -140,8 +142,6 @@ Partial Class frmCreateReceivedDairySale
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox7.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -232,6 +232,39 @@ Partial Class frmCreateReceivedDairySale
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1222, 423)
         Me.RadPageViewPage1.Text = "Crate Qty Received"
+        '
+        'RadGroupBox7
+        '
+        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.rbtnMrng)
+        Me.RadGroupBox7.Controls.Add(Me.rbtnEvng)
+        Me.RadGroupBox7.HeaderText = ""
+        Me.RadGroupBox7.Location = New System.Drawing.Point(862, 2)
+        Me.RadGroupBox7.Name = "RadGroupBox7"
+        Me.RadGroupBox7.Size = New System.Drawing.Size(167, 26)
+        Me.RadGroupBox7.TabIndex = 1462
+        '
+        'rbtnMrng
+        '
+        Me.rbtnMrng.AutoSize = True
+        Me.rbtnMrng.Checked = True
+        Me.rbtnMrng.Location = New System.Drawing.Point(5, 4)
+        Me.rbtnMrng.Name = "rbtnMrng"
+        Me.rbtnMrng.Size = New System.Drawing.Size(70, 17)
+        Me.rbtnMrng.TabIndex = 440
+        Me.rbtnMrng.TabStop = True
+        Me.rbtnMrng.Text = "Morning"
+        Me.rbtnMrng.UseVisualStyleBackColor = True
+        '
+        'rbtnEvng
+        '
+        Me.rbtnEvng.AutoSize = True
+        Me.rbtnEvng.Location = New System.Drawing.Point(98, 4)
+        Me.rbtnEvng.Name = "rbtnEvng"
+        Me.rbtnEvng.Size = New System.Drawing.Size(66, 17)
+        Me.rbtnEvng.TabIndex = 441
+        Me.rbtnEvng.Text = "Evening"
+        Me.rbtnEvng.UseVisualStyleBackColor = True
         '
         'comSalesMan
         '
@@ -597,7 +630,7 @@ Partial Class frmCreateReceivedDairySale
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 22)
@@ -741,6 +774,7 @@ Partial Class frmCreateReceivedDairySale
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1019,39 +1053,6 @@ Partial Class frmCreateReceivedDairySale
         WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
         Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
-        'RadGroupBox7
-        '
-        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox7.Controls.Add(Me.rbtnMrng)
-        Me.RadGroupBox7.Controls.Add(Me.rbtnEvng)
-        Me.RadGroupBox7.HeaderText = ""
-        Me.RadGroupBox7.Location = New System.Drawing.Point(862, 2)
-        Me.RadGroupBox7.Name = "RadGroupBox7"
-        Me.RadGroupBox7.Size = New System.Drawing.Size(167, 26)
-        Me.RadGroupBox7.TabIndex = 1462
-        '
-        'rbtnMrng
-        '
-        Me.rbtnMrng.AutoSize = True
-        Me.rbtnMrng.Checked = True
-        Me.rbtnMrng.Location = New System.Drawing.Point(5, 4)
-        Me.rbtnMrng.Name = "rbtnMrng"
-        Me.rbtnMrng.Size = New System.Drawing.Size(70, 17)
-        Me.rbtnMrng.TabIndex = 440
-        Me.rbtnMrng.TabStop = True
-        Me.rbtnMrng.Text = "Morning"
-        Me.rbtnMrng.UseVisualStyleBackColor = True
-        '
-        'rbtnEvng
-        '
-        Me.rbtnEvng.AutoSize = True
-        Me.rbtnEvng.Location = New System.Drawing.Point(98, 4)
-        Me.rbtnEvng.Name = "rbtnEvng"
-        Me.rbtnEvng.Size = New System.Drawing.Size(66, 17)
-        Me.rbtnEvng.TabIndex = 441
-        Me.rbtnEvng.Text = "Evening"
-        Me.rbtnEvng.UseVisualStyleBackColor = True
-        '
         'frmCreateReceivedDairySale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1073,6 +1074,9 @@ Partial Class frmCreateReceivedDairySale
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox7.ResumeLayout(False)
+        Me.RadGroupBox7.PerformLayout()
         CType(Me.comSalesMan, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSalesMan, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.comDriver, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1118,9 +1122,6 @@ Partial Class frmCreateReceivedDairySale
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox7.ResumeLayout(False)
-        Me.RadGroupBox7.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

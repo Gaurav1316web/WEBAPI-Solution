@@ -96,6 +96,7 @@ Partial Class frmPurchaseRequistion
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.WorkOrder = New Telerik.WinControls.UI.RadPageViewPage()
@@ -122,7 +123,6 @@ Partial Class frmPurchaseRequistion
         Me.SaveLayoutbtn = New Telerik.WinControls.UI.RadMenuItem()
         Me.DeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RdEmailAndSmsSetting = New Telerik.WinControls.UI.RadMenuItem()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -306,10 +306,10 @@ Partial Class frmPurchaseRequistion
         Me.RadPageViewPage1.Controls.Add(Me.txtDesc)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(95.0!, 22.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(99.0!, 26.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(914, 423)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(914, 419)
         Me.RadPageViewPage1.Text = "Purchase Indent"
         '
         'chkTender
@@ -340,7 +340,7 @@ Partial Class frmPurchaseRequistion
         'SplitContainer3.Panel2
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.RadGroupBox2)
-        Me.SplitContainer3.Size = New System.Drawing.Size(908, 222)
+        Me.SplitContainer3.Size = New System.Drawing.Size(908, 218)
         Me.SplitContainer3.SplitterDistance = 92
         Me.SplitContainer3.TabIndex = 72
         '
@@ -681,7 +681,7 @@ Partial Class frmPurchaseRequistion
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(908, 126)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(908, 122)
         Me.RadGroupBox2.TabIndex = 18
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -701,11 +701,12 @@ Partial Class frmPurchaseRequistion
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(888, 96)
+        Me.gv1.Size = New System.Drawing.Size(888, 92)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
@@ -764,7 +765,7 @@ Partial Class frmPurchaseRequistion
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 357)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 353)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 65)
@@ -1047,7 +1048,7 @@ Partial Class frmPurchaseRequistion
         Me.RadLabel27.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadLabel27.FieldName = Nothing
         Me.RadLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel27.Location = New System.Drawing.Point(724, 406)
+        Me.RadLabel27.Location = New System.Drawing.Point(724, 402)
         Me.RadLabel27.Name = "RadLabel27"
         Me.RadLabel27.Size = New System.Drawing.Size(74, 16)
         Me.RadLabel27.TabIndex = 20
@@ -1060,7 +1061,7 @@ Partial Class frmPurchaseRequistion
         Me.lblTotRAmt.BorderVisible = True
         Me.lblTotRAmt.FieldName = Nothing
         Me.lblTotRAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt.Location = New System.Drawing.Point(803, 404)
+        Me.lblTotRAmt.Location = New System.Drawing.Point(803, 400)
         Me.lblTotRAmt.Name = "lblTotRAmt"
         Me.lblTotRAmt.Size = New System.Drawing.Size(110, 18)
         Me.lblTotRAmt.TabIndex = 19
@@ -1202,7 +1203,7 @@ Partial Class frmPurchaseRequistion
         Me.txtReqNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtReqNo.MyLinkLable1 = Me.RadLabel1
         Me.txtReqNo.MyLinkLable2 = Nothing
-        Me.txtReqNo.MyMaxLength = 32767
+        Me.txtReqNo.MyMaxLength = 30
         Me.txtReqNo.MyReadOnly = False
         Me.txtReqNo.Name = "txtReqNo"
         Me.txtReqNo.Size = New System.Drawing.Size(230, 20)
@@ -1403,16 +1404,24 @@ Partial Class frmPurchaseRequistion
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(914, 419)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(914, 419)
+        Me.UcCustomFields1.TabIndex = 0
+        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(914, 419)
@@ -1436,7 +1445,7 @@ Partial Class frmPurchaseRequistion
         Me.WorkOrder.Controls.Add(Me.txtSubject)
         Me.WorkOrder.Controls.Add(Me.txtTo)
         Me.WorkOrder.Controls.Add(Me.lblTo)
-        Me.WorkOrder.ItemSize = New System.Drawing.SizeF(71.0!, 22.0!)
+        Me.WorkOrder.ItemSize = New System.Drawing.SizeF(75.0!, 26.0!)
         Me.WorkOrder.Location = New System.Drawing.Point(10, 35)
         Me.WorkOrder.Name = "WorkOrder"
         Me.WorkOrder.Size = New System.Drawing.Size(914, 419)
@@ -1708,14 +1717,6 @@ Partial Class frmPurchaseRequistion
         '
         Me.RdEmailAndSmsSetting.Name = "RdEmailAndSmsSetting"
         Me.RdEmailAndSmsSetting.Text = "Email And SMS Setting"
-        '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(914, 419)
-        Me.UcCustomFields1.TabIndex = 0
         '
         'frmPurchaseRequistion
         '

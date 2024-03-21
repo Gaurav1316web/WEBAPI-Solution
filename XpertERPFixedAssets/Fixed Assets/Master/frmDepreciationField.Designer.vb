@@ -24,15 +24,15 @@ Partial Class FrmDepreciationField
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox
-        Me.RadLabel3 = New common.Controls.MyLabel
-        Me.txtDesc = New common.Controls.MyTextBox
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.txtDesc = New common.Controls.MyTextBox()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox1.SuspendLayout()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -59,6 +59,7 @@ Partial Class FrmDepreciationField
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel3.Location = New System.Drawing.Point(6, 42)
         Me.RadLabel3.Name = "RadLabel3"
@@ -68,18 +69,31 @@ Partial Class FrmDepreciationField
         '
         'txtDesc
         '
+        Me.txtDesc.CalculationExpression = Nothing
+        Me.txtDesc.FieldCode = Nothing
+        Me.txtDesc.FieldDesc = Nothing
+        Me.txtDesc.FieldMaxLength = 0
+        Me.txtDesc.FieldName = Nothing
         Me.txtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDesc.isCalculatedField = False
+        Me.txtDesc.IsSourceFromTable = False
+        Me.txtDesc.IsSourceFromValueList = False
+        Me.txtDesc.IsUnique = False
         Me.txtDesc.Location = New System.Drawing.Point(82, 41)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = True
         Me.txtDesc.MyLinkLable1 = Me.RadLabel3
         Me.txtDesc.MyLinkLable2 = Nothing
         Me.txtDesc.Name = "txtDesc"
+        Me.txtDesc.ReferenceFieldDesc = Nothing
+        Me.txtDesc.ReferenceFieldName = Nothing
+        Me.txtDesc.ReferenceTableName = Nothing
         Me.txtDesc.Size = New System.Drawing.Size(272, 18)
         Me.txtDesc.TabIndex = 2
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(6, 18)
         Me.RadLabel1.Name = "RadLabel1"
@@ -90,7 +104,6 @@ Partial Class FrmDepreciationField
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        ' Me.btnAddNew.Image = Global.ERP.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(334, 16)
         Me.btnAddNew.Name = "btnAddNew"
@@ -99,13 +112,14 @@ Partial Class FrmDepreciationField
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(82, 16)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(252, 20)

@@ -25,8 +25,12 @@ Partial Class frmTankerTransporterMaster
         Me.components = New System.ComponentModel.Container()
         Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewComboBoxColumn1 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.vendorgrpbox = New Telerik.WinControls.UI.RadGroupBox()
         Me.chkBulkProcurement = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkTagAsFranchise = New Telerik.WinControls.UI.RadCheckBox()
@@ -535,7 +539,7 @@ Partial Class frmTankerTransporterMaster
         Me.fndvendorNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndvendorNo.MyLinkLable1 = Me.lblvandorno
         Me.fndvendorNo.MyLinkLable2 = Nothing
-        Me.fndvendorNo.MyMaxLength = 32767
+        Me.fndvendorNo.MyMaxLength = 30
         Me.fndvendorNo.MyReadOnly = False
         Me.fndvendorNo.Name = "fndvendorNo"
         Me.fndvendorNo.Size = New System.Drawing.Size(202, 21)
@@ -833,6 +837,7 @@ Partial Class frmTankerTransporterMaster
         Me.cmbsecurity.AutoCompleteDisplayMember = Nothing
         Me.cmbsecurity.AutoCompleteValueMember = Nothing
         Me.cmbsecurity.CalculationExpression = Nothing
+        Me.cmbsecurity.DropDownAnimationEnabled = True
         Me.cmbsecurity.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbsecurity.Enabled = False
         Me.cmbsecurity.FieldCode = Nothing
@@ -899,6 +904,7 @@ Partial Class frmTankerTransporterMaster
         Me.cmbagreemnt.AutoCompleteDisplayMember = Nothing
         Me.cmbagreemnt.AutoCompleteValueMember = Nothing
         Me.cmbagreemnt.CalculationExpression = Nothing
+        Me.cmbagreemnt.DropDownAnimationEnabled = True
         Me.cmbagreemnt.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbagreemnt.Enabled = False
         Me.cmbagreemnt.FieldCode = Nothing
@@ -1215,7 +1221,6 @@ Partial Class frmTankerTransporterMaster
         Me.txtCountry.Name = "txtCountry"
         Me.txtCountry.Size = New System.Drawing.Size(458, 18)
         Me.txtCountry.TabIndex = 30
-        Me.txtCountry.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtCountry.TextWrap = False
         '
         'txtState
@@ -1228,7 +1233,6 @@ Partial Class frmTankerTransporterMaster
         Me.txtState.Name = "txtState"
         Me.txtState.Size = New System.Drawing.Size(458, 18)
         Me.txtState.TabIndex = 29
-        Me.txtState.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtState.TextWrap = False
         '
         'txtstatecode
@@ -2076,7 +2080,7 @@ Partial Class frmTankerTransporterMaster
         Me.TxtMinimumQtyRequired.TabIndex = 21
         Me.TxtMinimumQtyRequired.Text = "0"
         Me.TxtMinimumQtyRequired.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtMinimumQtyRequired.Value = 0.0R
+        Me.TxtMinimumQtyRequired.Value = 0R
         '
         'MyLabel9
         '
@@ -2448,14 +2452,16 @@ Partial Class frmTankerTransporterMaster
         GridViewComboBoxColumn1.Width = 300
         Me.grdTax.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewComboBoxColumn1})
         Me.grdTax.MasterTemplate.EnableGrouping = False
+        Me.grdTax.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.grdTax.MasterTemplate.ShowHeaderCellButtons = True
+        Me.grdTax.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.grdTax.MyStopExport = False
         Me.grdTax.Name = "grdTax"
         Me.grdTax.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.grdTax.ShowHeaderCellButtons = True
         Me.grdTax.Size = New System.Drawing.Size(684, 95)
         Me.grdTax.TabIndex = 1
         Me.grdTax.TabStop = False
-        Me.grdTax.Text = "RadGridView1"
         '
         'RadLabel35
         '
@@ -2589,7 +2595,7 @@ Partial Class frmTankerTransporterMaster
         Me.txtaccno.TabIndex = 119
         Me.txtaccno.Text = "0"
         Me.txtaccno.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtaccno.Value = 0.0R
+        Me.txtaccno.Value = 0R
         '
         'MyLabel55
         '
@@ -2682,7 +2688,10 @@ Partial Class frmTankerTransporterMaster
         '
         '
         '
+        Me.gvCheque.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCheque.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCheque.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCheque.MyStopExport = False
         Me.gvCheque.Name = "gvCheque"
         Me.gvCheque.ShowHeaderCellButtons = True
         Me.gvCheque.Size = New System.Drawing.Size(766, 142)
@@ -2693,6 +2702,7 @@ Partial Class frmTankerTransporterMaster
         Me.cmbBlankCheque.AutoCompleteDisplayMember = Nothing
         Me.cmbBlankCheque.AutoCompleteValueMember = Nothing
         Me.cmbBlankCheque.CalculationExpression = Nothing
+        Me.cmbBlankCheque.DropDownAnimationEnabled = True
         Me.cmbBlankCheque.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbBlankCheque.FieldCode = Nothing
         Me.cmbBlankCheque.FieldDesc = Nothing
@@ -2722,6 +2732,7 @@ Partial Class frmTankerTransporterMaster
         Me.cmbAccount_Type.AutoCompleteDisplayMember = Nothing
         Me.cmbAccount_Type.AutoCompleteValueMember = Nothing
         Me.cmbAccount_Type.CalculationExpression = Nothing
+        Me.cmbAccount_Type.DropDownAnimationEnabled = True
         Me.cmbAccount_Type.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbAccount_Type.FieldCode = Nothing
         Me.cmbAccount_Type.FieldDesc = Nothing
@@ -2800,7 +2811,7 @@ Partial Class frmTankerTransporterMaster
         Me.TxtTotalAmount.TabIndex = 103
         Me.TxtTotalAmount.Text = "0"
         Me.TxtTotalAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtTotalAmount.Value = 0.0R
+        Me.TxtTotalAmount.Value = 0R
         '
         'GrpSecurity
         '
@@ -2842,7 +2853,7 @@ Partial Class frmTankerTransporterMaster
         Me.txtSecurityDeductedAmount.TabIndex = 105
         Me.txtSecurityDeductedAmount.Text = "0"
         Me.txtSecurityDeductedAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSecurityDeductedAmount.Value = 0.0R
+        Me.txtSecurityDeductedAmount.Value = 0R
         '
         'MyLabel48
         '
@@ -2880,7 +2891,7 @@ Partial Class frmTankerTransporterMaster
         Me.TxtSecurityAmount.TabIndex = 103
         Me.TxtSecurityAmount.Text = "0"
         Me.TxtSecurityAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSecurityAmount.Value = 0.0R
+        Me.TxtSecurityAmount.Value = 0R
         '
         'txtbranchcode
         '
@@ -2941,7 +2952,6 @@ Partial Class frmTankerTransporterMaster
         Me.txtbankcity.Name = "txtbankcity"
         Me.txtbankcity.Size = New System.Drawing.Size(550, 18)
         Me.txtbankcity.TabIndex = 43
-        Me.txtbankcity.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtbankcity.TextWrap = False
         '
         'txtbankcountry
@@ -2954,7 +2964,6 @@ Partial Class frmTankerTransporterMaster
         Me.txtbankcountry.Name = "txtbankcountry"
         Me.txtbankcountry.Size = New System.Drawing.Size(551, 18)
         Me.txtbankcountry.TabIndex = 41
-        Me.txtbankcountry.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtbankcountry.TextWrap = False
         '
         'txtbankstate
@@ -2967,7 +2976,6 @@ Partial Class frmTankerTransporterMaster
         Me.txtbankstate.Name = "txtbankstate"
         Me.txtbankstate.Size = New System.Drawing.Size(550, 18)
         Me.txtbankstate.TabIndex = 40
-        Me.txtbankstate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtbankstate.TextWrap = False
         '
         'MyLabel20
@@ -3189,7 +3197,10 @@ Partial Class frmTankerTransporterMaster
         '
         '
         '
+        Me.GVPaymentEntry.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GVPaymentEntry.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GVPaymentEntry.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.GVPaymentEntry.MyStopExport = False
         Me.GVPaymentEntry.Name = "GVPaymentEntry"
         Me.GVPaymentEntry.ShowHeaderCellButtons = True
         Me.GVPaymentEntry.Size = New System.Drawing.Size(838, 529)
@@ -3749,7 +3760,7 @@ Partial Class frmTankerTransporterMaster
         Me.txtGSTStateCode.TabIndex = 307
         Me.txtGSTStateCode.Text = "0"
         Me.txtGSTStateCode.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGSTStateCode.Value = 0.0R
+        Me.txtGSTStateCode.Value = 0R
         '
         'RadPageViewPage8
         '
@@ -3767,7 +3778,10 @@ Partial Class frmTankerTransporterMaster
         '
         '
         '
+        Me.gvTankerDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTankerDetails.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTankerDetails.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvTankerDetails.MyStopExport = False
         Me.gvTankerDetails.Name = "gvTankerDetails"
         Me.gvTankerDetails.ShowHeaderCellButtons = True
         Me.gvTankerDetails.Size = New System.Drawing.Size(838, 501)
@@ -3837,12 +3851,9 @@ Partial Class frmTankerTransporterMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(875, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuImport, Me.MenuExport, Me.RadMenuItem4})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
@@ -3857,14 +3868,12 @@ Partial Class frmTankerTransporterMaster
         'MenuExport
         '
         Me.MenuExport.AccessibleDescription = "MenuExport"
-        Me.MenuExport.AccessibleName = "Export"
         Me.MenuExport.Name = "MenuExport"
         Me.MenuExport.Text = "Export"
         '
         'RadMenuItem4
         '
         Me.RadMenuItem4.AccessibleDescription = "RadMenuItem4"
-        Me.RadMenuItem4.AccessibleName = "Close"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Close"
         '

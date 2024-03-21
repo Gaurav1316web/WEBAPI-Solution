@@ -22,10 +22,14 @@ Partial Class FrmWeighment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.UcWeighing1 = New XpertERPEngine.ucWeighing()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.fndRefrencesNo = New common.UserControls.txtFinder()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.txtLineNo = New common.MyNumBox()
         Me.btnUpdateWeight = New Telerik.WinControls.UI.RadButton()
@@ -95,8 +99,6 @@ Partial Class FrmWeighment
         Me.mnuDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuExit = New Telerik.WinControls.UI.RadMenuItem()
         Me.gvItemMcc = New Telerik.WinControls.UI.MasterGridViewTemplate()
-        Me.fndRefrencesNo = New common.UserControls.txtFinder()
-        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -106,6 +108,7 @@ Partial Class FrmWeighment
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.txtLineNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUpdateWeight, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -169,7 +172,6 @@ Partial Class FrmWeighment
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvItemMcc, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -285,6 +287,43 @@ Partial Class FrmWeighment
         Me.SplitContainer3.Size = New System.Drawing.Size(1137, 407)
         Me.SplitContainer3.SplitterDistance = 185
         Me.SplitContainer3.TabIndex = 0
+        '
+        'fndRefrencesNo
+        '
+        Me.fndRefrencesNo.CalculationExpression = Nothing
+        Me.fndRefrencesNo.Enabled = False
+        Me.fndRefrencesNo.FieldCode = Nothing
+        Me.fndRefrencesNo.FieldDesc = Nothing
+        Me.fndRefrencesNo.FieldMaxLength = 0
+        Me.fndRefrencesNo.FieldName = Nothing
+        Me.fndRefrencesNo.isCalculatedField = False
+        Me.fndRefrencesNo.IsSourceFromTable = False
+        Me.fndRefrencesNo.IsSourceFromValueList = False
+        Me.fndRefrencesNo.IsUnique = False
+        Me.fndRefrencesNo.Location = New System.Drawing.Point(95, 165)
+        Me.fndRefrencesNo.MendatroryField = True
+        Me.fndRefrencesNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndRefrencesNo.MyLinkLable1 = Nothing
+        Me.fndRefrencesNo.MyLinkLable2 = Nothing
+        Me.fndRefrencesNo.MyReadOnly = False
+        Me.fndRefrencesNo.MyShowMasterFormButton = False
+        Me.fndRefrencesNo.Name = "fndRefrencesNo"
+        Me.fndRefrencesNo.ReferenceFieldDesc = Nothing
+        Me.fndRefrencesNo.ReferenceFieldName = Nothing
+        Me.fndRefrencesNo.ReferenceTableName = Nothing
+        Me.fndRefrencesNo.Size = New System.Drawing.Size(385, 19)
+        Me.fndRefrencesNo.TabIndex = 358
+        Me.fndRefrencesNo.Value = ""
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(3, 166)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(76, 16)
+        Me.MyLabel3.TabIndex = 357
+        Me.MyLabel3.Text = "Reference No"
         '
         'Panel2
         '
@@ -482,7 +521,6 @@ Partial Class FrmWeighment
         Me.lblSubLocation.Name = "lblSubLocation"
         Me.lblSubLocation.Size = New System.Drawing.Size(180, 19)
         Me.lblSubLocation.TabIndex = 276
-        Me.lblSubLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkJobWork
         '
@@ -993,7 +1031,7 @@ Partial Class FrmWeighment
         Me.fndDocNO.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndDocNO.MyLinkLable1 = Me.lblDocNo
         Me.fndDocNO.MyLinkLable2 = Nothing
-        Me.fndDocNO.MyMaxLength = 32767
+        Me.fndDocNO.MyMaxLength = 30
         Me.fndDocNO.MyReadOnly = False
         Me.fndDocNO.Name = "fndDocNO"
         Me.fndDocNO.Size = New System.Drawing.Size(363, 18)
@@ -1084,7 +1122,6 @@ Partial Class FrmWeighment
         Me.lblLocationNameBulk.Name = "lblLocationNameBulk"
         Me.lblLocationNameBulk.Size = New System.Drawing.Size(181, 18)
         Me.lblLocationNameBulk.TabIndex = 275
-        Me.lblLocationNameBulk.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocationNameBulk.TextWrap = False
         '
         'lblLocationBulk
@@ -1107,7 +1144,6 @@ Partial Class FrmWeighment
         Me.lblStatusBulk.Name = "lblStatusBulk"
         Me.lblStatusBulk.Size = New System.Drawing.Size(132, 18)
         Me.lblStatusBulk.TabIndex = 286
-        Me.lblStatusBulk.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDateAndTimeBulk
         '
@@ -1148,7 +1184,6 @@ Partial Class FrmWeighment
         Me.lblVendorNameBulk.Name = "lblVendorNameBulk"
         Me.lblVendorNameBulk.Size = New System.Drawing.Size(181, 18)
         Me.lblVendorNameBulk.TabIndex = 278
-        Me.lblVendorNameBulk.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorNameBulk.TextWrap = False
         '
         'lblGateEntryNO
@@ -1177,14 +1212,16 @@ Partial Class FrmWeighment
         Me.gvItemBulk.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvItemBulk.Location = New System.Drawing.Point(2, 18)
         '
-        'gvItemBulk
         '
+        '
+        Me.gvItemBulk.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItemBulk.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItemBulk.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItemBulk.MyStopExport = False
         Me.gvItemBulk.Name = "gvItemBulk"
         Me.gvItemBulk.ShowHeaderCellButtons = True
         Me.gvItemBulk.Size = New System.Drawing.Size(1133, 198)
         Me.gvItemBulk.TabIndex = 264
-        Me.gvItemBulk.Text = "RadGridView1"
         '
         'btnPrint
         '
@@ -1254,73 +1291,31 @@ Partial Class FrmWeighment
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1137, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'mnuSetting
         '
-        Me.mnuSetting.AccessibleDescription = "Setting"
-        Me.mnuSetting.AccessibleName = "Setting"
         Me.mnuSetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuSaveLayout, Me.mnuDeleteLayout, Me.mnuExit})
         Me.mnuSetting.Name = "mnuSetting"
         Me.mnuSetting.Text = "Setting"
         '
         'mnuSaveLayout
         '
-        Me.mnuSaveLayout.AccessibleDescription = "Save Layout"
-        Me.mnuSaveLayout.AccessibleName = "Save Layout"
         Me.mnuSaveLayout.Name = "mnuSaveLayout"
         Me.mnuSaveLayout.Text = "Save Layout"
         '
         'mnuDeleteLayout
         '
-        Me.mnuDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.mnuDeleteLayout.AccessibleName = "Delete Layout"
         Me.mnuDeleteLayout.Name = "mnuDeleteLayout"
         Me.mnuDeleteLayout.Text = "Delete Layout"
         '
         'mnuExit
         '
-        Me.mnuExit.AccessibleDescription = "Exit"
-        Me.mnuExit.AccessibleName = "Exit"
         Me.mnuExit.Name = "mnuExit"
         Me.mnuExit.Text = "Exit"
         '
-        'fndRefrencesNo
+        'gvItemMcc
         '
-        Me.fndRefrencesNo.CalculationExpression = Nothing
-        Me.fndRefrencesNo.Enabled = False
-        Me.fndRefrencesNo.FieldCode = Nothing
-        Me.fndRefrencesNo.FieldDesc = Nothing
-        Me.fndRefrencesNo.FieldMaxLength = 0
-        Me.fndRefrencesNo.FieldName = Nothing
-        Me.fndRefrencesNo.isCalculatedField = False
-        Me.fndRefrencesNo.IsSourceFromTable = False
-        Me.fndRefrencesNo.IsSourceFromValueList = False
-        Me.fndRefrencesNo.IsUnique = False
-        Me.fndRefrencesNo.Location = New System.Drawing.Point(95, 165)
-        Me.fndRefrencesNo.MendatroryField = True
-        Me.fndRefrencesNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndRefrencesNo.MyLinkLable1 = Nothing
-        Me.fndRefrencesNo.MyLinkLable2 = Nothing
-        Me.fndRefrencesNo.MyReadOnly = False
-        Me.fndRefrencesNo.MyShowMasterFormButton = False
-        Me.fndRefrencesNo.Name = "fndRefrencesNo"
-        Me.fndRefrencesNo.ReferenceFieldDesc = Nothing
-        Me.fndRefrencesNo.ReferenceFieldName = Nothing
-        Me.fndRefrencesNo.ReferenceTableName = Nothing
-        Me.fndRefrencesNo.Size = New System.Drawing.Size(385, 19)
-        Me.fndRefrencesNo.TabIndex = 358
-        Me.fndRefrencesNo.Value = ""
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(3, 166)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(76, 16)
-        Me.MyLabel3.TabIndex = 357
-        Me.MyLabel3.Text = "Reference No"
+        Me.gvItemMcc.ViewDefinition = TableViewDefinition2
         '
         'FrmWeighment
         '
@@ -1345,6 +1340,7 @@ Partial Class FrmWeighment
         Me.SplitContainer3.Panel1.PerformLayout()
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.txtLineNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1412,7 +1408,6 @@ Partial Class FrmWeighment
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvItemMcc, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

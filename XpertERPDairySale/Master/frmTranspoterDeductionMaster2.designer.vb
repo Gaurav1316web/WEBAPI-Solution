@@ -22,6 +22,7 @@ Partial Class frmTranspoterDeductionMaster2
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
@@ -76,12 +77,9 @@ Partial Class frmTranspoterDeductionMaster2
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(795, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiImport, Me.rmiExport, Me.rmiClose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -89,8 +87,6 @@ Partial Class frmTranspoterDeductionMaster2
         '
         'rmiImport
         '
-        Me.rmiImport.AccessibleDescription = "Import"
-        Me.rmiImport.AccessibleName = "Import"
         Me.rmiImport.Name = "rmiImport"
         Me.rmiImport.Text = "Import"
         '
@@ -103,8 +99,6 @@ Partial Class frmTranspoterDeductionMaster2
         '
         'rmiClose
         '
-        Me.rmiClose.AccessibleDescription = "Close"
-        Me.rmiClose.AccessibleName = "Close"
         Me.rmiClose.Name = "rmiClose"
         Me.rmiClose.Text = "Close"
         '
@@ -281,7 +275,7 @@ Partial Class frmTranspoterDeductionMaster2
         Me.txtDeductionCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDeductionCode.MyLinkLable1 = Me.RadLabel1
         Me.txtDeductionCode.MyLinkLable2 = Nothing
-        Me.txtDeductionCode.MyMaxLength = 32767
+        Me.txtDeductionCode.MyMaxLength = 30
         Me.txtDeductionCode.MyReadOnly = False
         Me.txtDeductionCode.Name = "txtDeductionCode"
         Me.txtDeductionCode.Size = New System.Drawing.Size(241, 18)
@@ -351,11 +345,14 @@ Partial Class frmTranspoterDeductionMaster2
         Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowColumnHeaderContextMenu = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -363,7 +360,6 @@ Partial Class frmTranspoterDeductionMaster2
         Me.gv.Size = New System.Drawing.Size(795, 250)
         Me.gv.TabIndex = 2
         Me.gv.TabStop = False
-        Me.gv.Text = "RadGridView1"
         '
         'btnPost
         '

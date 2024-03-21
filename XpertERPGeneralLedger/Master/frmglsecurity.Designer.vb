@@ -151,6 +151,7 @@ Partial Class Frmglsecurity
         Me.dgvsegment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvsegment.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvsegment.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvsegment.MyStopExport = False
         Me.dgvsegment.Name = "dgvsegment"
         Me.dgvsegment.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvsegment.ShowHeaderCellButtons = True
@@ -185,6 +186,7 @@ Partial Class Frmglsecurity
         Me.dgvaccount.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvaccount.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvaccount.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvaccount.MyStopExport = False
         Me.dgvaccount.Name = "dgvaccount"
         Me.dgvaccount.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvaccount.ShowHeaderCellButtons = True
@@ -302,7 +304,7 @@ Partial Class Frmglsecurity
         Me.fndUserCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndUserCode.MyLinkLable1 = Me.lbluserid
         Me.fndUserCode.MyLinkLable2 = Nothing
-        Me.fndUserCode.MyMaxLength = 32767
+        Me.fndUserCode.MyMaxLength = 30
         Me.fndUserCode.MyReadOnly = False
         Me.fndUserCode.Name = "fndUserCode"
         Me.fndUserCode.Size = New System.Drawing.Size(264, 21)

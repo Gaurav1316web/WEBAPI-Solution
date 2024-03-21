@@ -27,6 +27,8 @@ Partial Class frmMilkTypeMaster
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.cmbMilkType = New common.Controls.MyComboBox()
+        Me.MyLabel56 = New common.Controls.MyLabel()
         Me.fndMilkTypeCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
         Me.lblDescription = New common.Controls.MyLabel()
@@ -41,10 +43,10 @@ Partial Class frmMilkTypeMaster
         Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuexit = New Telerik.WinControls.UI.RadMenuItem()
-        Me.cmbMilkType = New common.Controls.MyComboBox()
-        Me.MyLabel56 = New common.Controls.MyLabel()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.cmbMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -56,8 +58,6 @@ Partial Class frmMilkTypeMaster
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbMilkType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -78,6 +78,57 @@ Partial Class frmMilkTypeMaster
         Me.RadGroupBox1.Size = New System.Drawing.Size(558, 102)
         Me.RadGroupBox1.TabIndex = 0
         '
+        'cmbMilkType
+        '
+        Me.cmbMilkType.AutoCompleteDisplayMember = Nothing
+        Me.cmbMilkType.AutoCompleteValueMember = Nothing
+        Me.cmbMilkType.CalculationExpression = Nothing
+        Me.cmbMilkType.DropDownAnimationEnabled = True
+        Me.cmbMilkType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbMilkType.FieldCode = Nothing
+        Me.cmbMilkType.FieldDesc = Nothing
+        Me.cmbMilkType.FieldMaxLength = 0
+        Me.cmbMilkType.FieldName = Nothing
+        Me.cmbMilkType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbMilkType.ForeColor = System.Drawing.Color.Lime
+        Me.cmbMilkType.isCalculatedField = False
+        Me.cmbMilkType.IsSourceFromTable = False
+        Me.cmbMilkType.IsSourceFromValueList = False
+        Me.cmbMilkType.IsUnique = False
+        RadListDataItem1.Text = "COM1"
+        RadListDataItem2.Text = "COM2"
+        RadListDataItem3.Text = "COM3"
+        RadListDataItem4.Text = "COM4"
+        Me.cmbMilkType.Items.Add(RadListDataItem1)
+        Me.cmbMilkType.Items.Add(RadListDataItem2)
+        Me.cmbMilkType.Items.Add(RadListDataItem3)
+        Me.cmbMilkType.Items.Add(RadListDataItem4)
+        Me.cmbMilkType.Location = New System.Drawing.Point(113, 71)
+        Me.cmbMilkType.MendatroryField = True
+        Me.cmbMilkType.MyLinkLable1 = Me.MyLabel56
+        Me.cmbMilkType.MyLinkLable2 = Nothing
+        Me.cmbMilkType.Name = "cmbMilkType"
+        Me.cmbMilkType.ReferenceFieldDesc = Nothing
+        Me.cmbMilkType.ReferenceFieldName = Nothing
+        Me.cmbMilkType.ReferenceTableName = Nothing
+        '
+        '
+        '
+        Me.cmbMilkType.RootElement.StretchVertically = True
+        Me.cmbMilkType.Size = New System.Drawing.Size(135, 18)
+        Me.cmbMilkType.TabIndex = 1049
+        '
+        'MyLabel56
+        '
+        Me.MyLabel56.FieldName = Nothing
+        Me.MyLabel56.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel56.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.MyLabel56.Location = New System.Drawing.Point(13, 73)
+        Me.MyLabel56.Name = "MyLabel56"
+        Me.MyLabel56.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel56.TabIndex = 1050
+        Me.MyLabel56.Text = "Milk Type"
+        '
         'fndMilkTypeCode
         '
         Me.fndMilkTypeCode.FieldName = Nothing
@@ -87,7 +138,7 @@ Partial Class frmMilkTypeMaster
         Me.fndMilkTypeCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndMilkTypeCode.MyLinkLable1 = Me.lblCode
         Me.fndMilkTypeCode.MyLinkLable2 = Nothing
-        Me.fndMilkTypeCode.MyMaxLength = 32767
+        Me.fndMilkTypeCode.MyMaxLength = 30
         Me.fndMilkTypeCode.MyReadOnly = False
         Me.fndMilkTypeCode.Name = "fndMilkTypeCode"
         Me.fndMilkTypeCode.Size = New System.Drawing.Size(199, 21)
@@ -207,12 +258,9 @@ Partial Class frmMilkTypeMaster
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(563, 20)
         Me.rdmenufile.TabIndex = 1
-        Me.rdmenufile.Text = "File"
         '
         'RadMenufile
         '
-        Me.RadMenufile.AccessibleDescription = "File"
-        Me.RadMenufile.AccessibleName = "File"
         Me.RadMenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenuimport, Me.rdmenuexport, Me.rdmenuexit})
         Me.RadMenufile.Name = "RadMenufile"
         Me.RadMenufile.Text = "File"
@@ -226,67 +274,13 @@ Partial Class frmMilkTypeMaster
         '
         'rdmenuexport
         '
-        Me.rdmenuexport.AccessibleDescription = "Export"
-        Me.rdmenuexport.AccessibleName = "Export"
         Me.rdmenuexport.Name = "rdmenuexport"
         Me.rdmenuexport.Text = "Export"
         '
         'rdmenuexit
         '
-        Me.rdmenuexit.AccessibleDescription = "Exit"
-        Me.rdmenuexit.AccessibleName = "Exit"
         Me.rdmenuexit.Name = "rdmenuexit"
         Me.rdmenuexit.Text = "Exit"
-        '
-        'cmbMilkType
-        '
-        Me.cmbMilkType.AutoCompleteDisplayMember = Nothing
-        Me.cmbMilkType.AutoCompleteValueMember = Nothing
-        Me.cmbMilkType.CalculationExpression = Nothing
-        Me.cmbMilkType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbMilkType.FieldCode = Nothing
-        Me.cmbMilkType.FieldDesc = Nothing
-        Me.cmbMilkType.FieldMaxLength = 0
-        Me.cmbMilkType.FieldName = Nothing
-        Me.cmbMilkType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmbMilkType.ForeColor = System.Drawing.Color.Lime
-        Me.cmbMilkType.isCalculatedField = False
-        Me.cmbMilkType.IsSourceFromTable = False
-        Me.cmbMilkType.IsSourceFromValueList = False
-        Me.cmbMilkType.IsUnique = False
-        RadListDataItem1.Text = "COM1"
-        RadListDataItem2.Text = "COM2"
-        RadListDataItem3.Text = "COM3"
-        RadListDataItem4.Text = "COM4"
-        Me.cmbMilkType.Items.Add(RadListDataItem1)
-        Me.cmbMilkType.Items.Add(RadListDataItem2)
-        Me.cmbMilkType.Items.Add(RadListDataItem3)
-        Me.cmbMilkType.Items.Add(RadListDataItem4)
-        Me.cmbMilkType.Location = New System.Drawing.Point(113, 71)
-        Me.cmbMilkType.MendatroryField = True
-        Me.cmbMilkType.MyLinkLable1 = Me.MyLabel56
-        Me.cmbMilkType.MyLinkLable2 = Nothing
-        Me.cmbMilkType.Name = "cmbMilkType"
-        Me.cmbMilkType.ReferenceFieldDesc = Nothing
-        Me.cmbMilkType.ReferenceFieldName = Nothing
-        Me.cmbMilkType.ReferenceTableName = Nothing
-        '
-        '
-        '
-        Me.cmbMilkType.RootElement.StretchVertically = True
-        Me.cmbMilkType.Size = New System.Drawing.Size(135, 18)
-        Me.cmbMilkType.TabIndex = 1049
-        '
-        'MyLabel56
-        '
-        Me.MyLabel56.FieldName = Nothing
-        Me.MyLabel56.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel56.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
-        Me.MyLabel56.Location = New System.Drawing.Point(13, 73)
-        Me.MyLabel56.Name = "MyLabel56"
-        Me.MyLabel56.Size = New System.Drawing.Size(55, 16)
-        Me.MyLabel56.TabIndex = 1050
-        Me.MyLabel56.Text = "Milk Type"
         '
         'frmMilkTypeMaster
         '
@@ -303,6 +297,8 @@ Partial Class frmMilkTypeMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.cmbMilkType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnReset, System.ComponentModel.ISupportInitialize).EndInit()
@@ -315,8 +311,6 @@ Partial Class frmMilkTypeMaster
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.rdmenufile, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbMilkType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

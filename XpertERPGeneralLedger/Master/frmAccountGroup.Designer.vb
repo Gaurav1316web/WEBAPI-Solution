@@ -69,34 +69,25 @@ Partial Class frmAccountGroup
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(522, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.accgrpim, Me.accgpex, Me.accgpclose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'accgrpim
         '
-        Me.accgrpim.AccessibleDescription = "Import"
-        Me.accgrpim.AccessibleName = "Import"
         Me.accgrpim.Name = "accgrpim"
         Me.accgrpim.Text = "Import"
         '
         'accgpex
         '
-        Me.accgpex.AccessibleDescription = "Export"
-        Me.accgpex.AccessibleName = "Export"
         Me.accgpex.Name = "accgpex"
         Me.accgpex.Text = "Export"
         '
         'accgpclose
         '
-        Me.accgpclose.AccessibleDescription = "Close"
-        Me.accgpclose.AccessibleName = "Close"
         Me.accgpclose.Name = "accgpclose"
         Me.accgpclose.Text = "Close"
         '
@@ -132,7 +123,7 @@ Partial Class frmAccountGroup
         '
         'btnnew
         '
-        Me.btnnew.Image = My.Resources._new
+        Me.btnnew.Image = Global.XpertERPGeneralLedger.My.Resources.Resources._new
         Me.btnnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnnew.Location = New System.Drawing.Point(316, 20)
         Me.btnnew.Name = "btnnew"
@@ -215,7 +206,6 @@ Partial Class frmAccountGroup
         Me.lblAccMain.Name = "lblAccMain"
         Me.lblAccMain.Size = New System.Drawing.Size(230, 18)
         Me.lblAccMain.TabIndex = 42
-        Me.lblAccMain.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblAccMain.TextWrap = False
         '
         'txtAccMainGrp
@@ -263,7 +253,7 @@ Partial Class frmAccountGroup
         Me.fndaccgp.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndaccgp.MyLinkLable1 = Me.lblaccgp
         Me.fndaccgp.MyLinkLable2 = Nothing
-        Me.fndaccgp.MyMaxLength = 32767
+        Me.fndaccgp.MyMaxLength = 30
         Me.fndaccgp.MyReadOnly = False
         Me.fndaccgp.Name = "fndaccgp"
         Me.fndaccgp.Size = New System.Drawing.Size(187, 21)

@@ -22,10 +22,12 @@ Partial Class FrmMilkRouteMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.chkSelfRoute = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel17 = New common.Controls.MyLabel()
         Me.txtShortDescription = New common.Controls.MyTextBox()
         Me.pnlMEDistance = New System.Windows.Forms.Panel()
@@ -94,7 +96,6 @@ Partial Class FrmMilkRouteMaster
         Me.btnimport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmMilkRouteDetails = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmVLCDetails = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkSelfRoute = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -104,6 +105,7 @@ Partial Class FrmMilkRouteMaster
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.chkSelfRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtShortDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlMEDistance.SuspendLayout()
@@ -159,7 +161,6 @@ Partial Class FrmMilkRouteMaster
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSelfRoute, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -198,7 +199,6 @@ Partial Class FrmMilkRouteMaster
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(926, 380)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -258,6 +258,14 @@ Partial Class FrmMilkRouteMaster
         Me.SplitContainer2.Size = New System.Drawing.Size(905, 332)
         Me.SplitContainer2.SplitterDistance = 154
         Me.SplitContainer2.TabIndex = 0
+        '
+        'chkSelfRoute
+        '
+        Me.chkSelfRoute.Location = New System.Drawing.Point(680, 131)
+        Me.chkSelfRoute.Name = "chkSelfRoute"
+        Me.chkSelfRoute.Size = New System.Drawing.Size(71, 18)
+        Me.chkSelfRoute.TabIndex = 1451
+        Me.chkSelfRoute.Text = "Self Route"
         '
         'MyLabel17
         '
@@ -524,7 +532,7 @@ Partial Class FrmMilkRouteMaster
         Me.fndcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndcode.MyLinkLable1 = Me.lblvandorno
         Me.fndcode.MyLinkLable2 = Nothing
-        Me.fndcode.MyMaxLength = 32767
+        Me.fndcode.MyMaxLength = 30
         Me.fndcode.MyReadOnly = False
         Me.fndcode.Name = "fndcode"
         Me.fndcode.Size = New System.Drawing.Size(300, 21)
@@ -662,7 +670,6 @@ Partial Class FrmMilkRouteMaster
         Me.txtmccname.Name = "txtmccname"
         Me.txtmccname.Size = New System.Drawing.Size(239, 18)
         Me.txtmccname.TabIndex = 70
-        Me.txtmccname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtmccname.TextWrap = False
         '
         'chkInActive
@@ -784,7 +791,6 @@ Partial Class FrmMilkRouteMaster
         Me.txtvehiclename.Name = "txtvehiclename"
         Me.txtvehiclename.Size = New System.Drawing.Size(239, 18)
         Me.txtvehiclename.TabIndex = 74
-        Me.txtvehiclename.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtvehiclename.TextWrap = False
         '
         'RadGroupBox1
@@ -825,7 +831,6 @@ Partial Class FrmMilkRouteMaster
         Me.txtSuperVisorName.Name = "txtSuperVisorName"
         Me.txtSuperVisorName.Size = New System.Drawing.Size(161, 18)
         Me.txtSuperVisorName.TabIndex = 5
-        Me.txtSuperVisorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtSuperVisorName.TextWrap = False
         '
         'fndSuperVisorCode
@@ -984,7 +989,6 @@ Partial Class FrmMilkRouteMaster
         Me.txtcityname.Name = "txtcityname"
         Me.txtcityname.Size = New System.Drawing.Size(10, 10)
         Me.txtcityname.TabIndex = 77
-        Me.txtcityname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtcityname.TextWrap = False
         Me.txtcityname.Visible = False
         '
@@ -1038,7 +1042,6 @@ Partial Class FrmMilkRouteMaster
         Me.txtstatename.Name = "txtstatename"
         Me.txtstatename.Size = New System.Drawing.Size(10, 10)
         Me.txtstatename.TabIndex = 77
-        Me.txtstatename.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtstatename.TextWrap = False
         Me.txtstatename.Visible = False
         '
@@ -1053,7 +1056,6 @@ Partial Class FrmMilkRouteMaster
         Me.txtcountryname.Name = "txtcountryname"
         Me.txtcountryname.Size = New System.Drawing.Size(10, 10)
         Me.txtcountryname.TabIndex = 82
-        Me.txtcountryname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtcountryname.TextWrap = False
         Me.txtcountryname.Visible = False
         '
@@ -1152,9 +1154,12 @@ Partial Class FrmMilkRouteMaster
         Me.gvVLC.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvVLC.Location = New System.Drawing.Point(2, 18)
         '
-        'gvVLC
         '
+        '
+        Me.gvVLC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvVLC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvVLC.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvVLC.MyStopExport = False
         Me.gvVLC.Name = "gvVLC"
         Me.gvVLC.ShowHeaderCellButtons = True
         Me.gvVLC.Size = New System.Drawing.Size(895, 148)
@@ -1237,67 +1242,44 @@ Partial Class FrmMilkRouteMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(932, 20)
         Me.RadMenu1.TabIndex = 12
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexport, Me.btnimport})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rxMilkRouteDetails, Me.rxVLCDetails})
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
         '
         'rxMilkRouteDetails
         '
-        Me.rxMilkRouteDetails.AccessibleDescription = "Milk Route Details"
-        Me.rxMilkRouteDetails.AccessibleName = "Milk Route Details"
         Me.rxMilkRouteDetails.Name = "rxMilkRouteDetails"
         Me.rxMilkRouteDetails.Text = "Milk Route Details"
         '
         'rxVLCDetails
         '
-        Me.rxVLCDetails.AccessibleDescription = "VLC Details"
-        Me.rxVLCDetails.AccessibleName = "VLC Details"
         Me.rxVLCDetails.Name = "rxVLCDetails"
         Me.rxVLCDetails.Text = "VLC Details"
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmMilkRouteDetails, Me.rmVLCDetails})
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
         '
         'rmMilkRouteDetails
         '
-        Me.rmMilkRouteDetails.AccessibleDescription = "Milk Route Details"
-        Me.rmMilkRouteDetails.AccessibleName = "Milk Route Details"
         Me.rmMilkRouteDetails.Name = "rmMilkRouteDetails"
         Me.rmMilkRouteDetails.Text = "Milk Route Details"
         '
         'rmVLCDetails
         '
-        Me.rmVLCDetails.AccessibleDescription = "VLC Details"
-        Me.rmVLCDetails.AccessibleName = "VLC Details"
         Me.rmVLCDetails.Name = "rmVLCDetails"
         Me.rmVLCDetails.Text = "VLC Details"
-        '
-        'chkSelfRoute
-        '
-        Me.chkSelfRoute.Location = New System.Drawing.Point(680, 131)
-        Me.chkSelfRoute.Name = "chkSelfRoute"
-        Me.chkSelfRoute.Size = New System.Drawing.Size(71, 18)
-        Me.chkSelfRoute.TabIndex = 1451
-        Me.chkSelfRoute.Text = "Self Route"
         '
         'FrmMilkRouteMaster
         '
@@ -1322,6 +1304,7 @@ Partial Class FrmMilkRouteMaster
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.chkSelfRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtShortDescription, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlMEDistance.ResumeLayout(False)
@@ -1379,7 +1362,6 @@ Partial Class FrmMilkRouteMaster
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSelfRoute, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

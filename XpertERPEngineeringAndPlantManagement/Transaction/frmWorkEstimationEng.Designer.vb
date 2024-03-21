@@ -22,6 +22,8 @@ Partial Class frmWorkEstimationEng
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -389,7 +391,6 @@ Partial Class frmWorkEstimationEng
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(935, 465)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "Custom Fields"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -628,7 +629,6 @@ Partial Class frmWorkEstimationEng
         Me.lbl_rebudgetamtwithtolerence.Name = "lbl_rebudgetamtwithtolerence"
         Me.lbl_rebudgetamtwithtolerence.Size = New System.Drawing.Size(100, 19)
         Me.lbl_rebudgetamtwithtolerence.TabIndex = 53
-        Me.lbl_rebudgetamtwithtolerence.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_rebudgetamtwithtolerence.TextWrap = False
         '
         'lbl_rebudgetamt
@@ -641,7 +641,6 @@ Partial Class frmWorkEstimationEng
         Me.lbl_rebudgetamt.Name = "lbl_rebudgetamt"
         Me.lbl_rebudgetamt.Size = New System.Drawing.Size(100, 19)
         Me.lbl_rebudgetamt.TabIndex = 51
-        Me.lbl_rebudgetamt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_rebudgetamt.TextWrap = False
         '
         'MyLabel35
@@ -664,7 +663,6 @@ Partial Class frmWorkEstimationEng
         Me.lbl_budgetamtwithtolerence.Name = "lbl_budgetamtwithtolerence"
         Me.lbl_budgetamtwithtolerence.Size = New System.Drawing.Size(100, 19)
         Me.lbl_budgetamtwithtolerence.TabIndex = 49
-        Me.lbl_budgetamtwithtolerence.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_budgetamtwithtolerence.TextWrap = False
         '
         'lbl_budgetamt
@@ -677,7 +675,6 @@ Partial Class frmWorkEstimationEng
         Me.lbl_budgetamt.Name = "lbl_budgetamt"
         Me.lbl_budgetamt.Size = New System.Drawing.Size(100, 19)
         Me.lbl_budgetamt.TabIndex = 47
-        Me.lbl_budgetamt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_budgetamt.TextWrap = False
         '
         'MyLabel3
@@ -700,7 +697,6 @@ Partial Class frmWorkEstimationEng
         Me.lblApprovalDate.Name = "lblApprovalDate"
         Me.lblApprovalDate.Size = New System.Drawing.Size(193, 19)
         Me.lblApprovalDate.TabIndex = 45
-        Me.lblApprovalDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblApprovalDate.TextWrap = False
         '
         'chk_emergency
@@ -719,6 +715,7 @@ Partial Class frmWorkEstimationEng
         Me.ddl_category.AutoCompleteDisplayMember = Nothing
         Me.ddl_category.AutoCompleteValueMember = Nothing
         Me.ddl_category.CalculationExpression = Nothing
+        Me.ddl_category.DropDownAnimationEnabled = True
         Me.ddl_category.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddl_category.FieldCode = Nothing
         Me.ddl_category.FieldDesc = Nothing
@@ -795,7 +792,6 @@ Partial Class frmWorkEstimationEng
         Me.lbl_capexsubcode.Name = "lbl_capexsubcode"
         Me.lbl_capexsubcode.Size = New System.Drawing.Size(205, 19)
         Me.lbl_capexsubcode.TabIndex = 8
-        Me.lbl_capexsubcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_capexsubcode.TextWrap = False
         '
         'MyLabel34
@@ -845,7 +841,6 @@ Partial Class frmWorkEstimationEng
         Me.lbl_capexcode.Name = "lbl_capexcode"
         Me.lbl_capexcode.Size = New System.Drawing.Size(192, 19)
         Me.lbl_capexcode.TabIndex = 5
-        Me.lbl_capexcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_capexcode.TextWrap = False
         '
         'RadGroupBox2
@@ -872,10 +867,13 @@ Partial Class frmWorkEstimationEng
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -883,7 +881,6 @@ Partial Class frmWorkEstimationEng
         Me.gv1.Size = New System.Drawing.Size(888, 92)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'chkOpenPO
         '
@@ -901,6 +898,7 @@ Partial Class frmWorkEstimationEng
         Me.cboItemType.AutoCompleteDisplayMember = Nothing
         Me.cboItemType.AutoCompleteValueMember = Nothing
         Me.cboItemType.CalculationExpression = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
         Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboItemType.FieldCode = Nothing
         Me.cboItemType.FieldDesc = Nothing
@@ -1011,7 +1009,6 @@ Partial Class frmWorkEstimationEng
         Me.lblProject.Name = "lblProject"
         Me.lblProject.Size = New System.Drawing.Size(193, 20)
         Me.lblProject.TabIndex = 2
-        Me.lblProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblProject.TextWrap = False
         '
         'cboPOType
@@ -1019,6 +1016,7 @@ Partial Class frmWorkEstimationEng
         Me.cboPOType.AutoCompleteDisplayMember = Nothing
         Me.cboPOType.AutoCompleteValueMember = Nothing
         Me.cboPOType.CalculationExpression = Nothing
+        Me.cboPOType.DropDownAnimationEnabled = True
         Me.cboPOType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboPOType.FieldCode = Nothing
         Me.cboPOType.FieldDesc = Nothing
@@ -1083,7 +1081,6 @@ Partial Class frmWorkEstimationEng
         Me.lblDept.Name = "lblDept"
         Me.lblDept.Size = New System.Drawing.Size(193, 20)
         Me.lblDept.TabIndex = 19
-        Me.lblDept.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel14
         '
@@ -1177,6 +1174,7 @@ Partial Class frmWorkEstimationEng
         Me.cboModeOfTransport.AutoCompleteDisplayMember = Nothing
         Me.cboModeOfTransport.AutoCompleteValueMember = Nothing
         Me.cboModeOfTransport.CalculationExpression = Nothing
+        Me.cboModeOfTransport.DropDownAnimationEnabled = True
         Me.cboModeOfTransport.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboModeOfTransport.FieldCode = Nothing
         Me.cboModeOfTransport.FieldDesc = Nothing
@@ -1251,7 +1249,6 @@ Partial Class frmWorkEstimationEng
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(193, 20)
         Me.lblLocation.TabIndex = 20
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel5
         '
@@ -1378,7 +1375,7 @@ Partial Class frmWorkEstimationEng
         Me.txtReqNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtReqNo.MyLinkLable1 = Me.RadLabel1
         Me.txtReqNo.MyLinkLable2 = Nothing
-        Me.txtReqNo.MyMaxLength = 32767
+        Me.txtReqNo.MyMaxLength = 30
         Me.txtReqNo.MyReadOnly = False
         Me.txtReqNo.Name = "txtReqNo"
         Me.txtReqNo.Size = New System.Drawing.Size(229, 20)
@@ -1824,14 +1821,16 @@ Partial Class frmWorkEstimationEng
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(907, 206)
         Me.gv2.TabIndex = 10
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'txtTaxGroup
         '
@@ -1869,7 +1868,6 @@ Partial Class frmWorkEstimationEng
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 19)
         Me.lblTaxGrpName.TabIndex = 7
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'MyLabel5
@@ -1938,7 +1936,6 @@ Partial Class frmWorkEstimationEng
         Me.lblConfirmatory_PO_SRN_No.Name = "lblConfirmatory_PO_SRN_No"
         Me.lblConfirmatory_PO_SRN_No.Size = New System.Drawing.Size(183, 19)
         Me.lblConfirmatory_PO_SRN_No.TabIndex = 36
-        Me.lblConfirmatory_PO_SRN_No.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblConfirmatory_PO_SRN_No.TextWrap = False
         '
         'txtFreight
@@ -2067,7 +2064,6 @@ Partial Class frmWorkEstimationEng
         Me.txtDeliveryDesc.Name = "txtDeliveryDesc"
         Me.txtDeliveryDesc.Size = New System.Drawing.Size(248, 20)
         Me.txtDeliveryDesc.TabIndex = 12
-        Me.txtDeliveryDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtDeliveryDesc.TextWrap = False
         '
         'txtDelivery_Code
@@ -2248,7 +2244,6 @@ Partial Class frmWorkEstimationEng
         Me.lblTermName.Name = "lblTermName"
         Me.lblTermName.Size = New System.Drawing.Size(248, 20)
         Me.lblTermName.TabIndex = 6
-        Me.lblTermName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTermName.TextWrap = False
         '
         'txtDueDate
@@ -2764,15 +2759,11 @@ Partial Class frmWorkEstimationEng
         '
         'BtnMailPreview
         '
-        Me.BtnMailPreview.AccessibleDescription = "Preview"
-        Me.BtnMailPreview.AccessibleName = "Preview"
         Me.BtnMailPreview.Name = "BtnMailPreview"
         Me.BtnMailPreview.Text = "Preview"
         '
         'btnMailSendemail
         '
-        Me.btnMailSendemail.AccessibleDescription = "Send E-Mail/SMS"
-        Me.btnMailSendemail.AccessibleName = "Send E-Mail/SMS"
         Me.btnMailSendemail.Name = "btnMailSendemail"
         Me.btnMailSendemail.Text = "Send E-Mail/SMS"
         '
@@ -2855,7 +2846,6 @@ Partial Class frmWorkEstimationEng
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(935, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
@@ -2867,22 +2857,16 @@ Partial Class frmWorkEstimationEng
         '
         'SaveLayoutbtn
         '
-        Me.SaveLayoutbtn.AccessibleDescription = "Save Layout"
-        Me.SaveLayoutbtn.AccessibleName = "Save Layout"
         Me.SaveLayoutbtn.Name = "SaveLayoutbtn"
         Me.SaveLayoutbtn.Text = "Save Layout"
         '
         'DeleteLayout
         '
-        Me.DeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.DeleteLayout.AccessibleName = "Delete Layout"
         Me.DeleteLayout.Name = "DeleteLayout"
         Me.DeleteLayout.Text = "Delete Layout"
         '
         'RdEmailAndSmsSetting
         '
-        Me.RdEmailAndSmsSetting.AccessibleDescription = "Email And SMS Setting"
-        Me.RdEmailAndSmsSetting.AccessibleName = "Email And SMS Setting"
         Me.RdEmailAndSmsSetting.Name = "RdEmailAndSmsSetting"
         Me.RdEmailAndSmsSetting.Text = "Email And SMS Setting"
         '

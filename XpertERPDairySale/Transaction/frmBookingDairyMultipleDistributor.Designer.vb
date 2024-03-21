@@ -22,8 +22,13 @@ Partial Class frmBookingDairyMultipleDistributor
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtCustomer = New common.UserControls.txtFinder()
+        Me.lblCustomerName = New common.Controls.MyLabel()
         Me.btnCopyOrder = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtCustGrp = New common.UserControls.txtFinder()
@@ -57,13 +62,12 @@ Partial Class frmBookingDairyMultipleDistributor
         Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnSendEmailSMS = New Telerik.WinControls.UI.RadMenuItem()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.txtCustomer = New common.UserControls.txtFinder()
-        Me.lblCustomerName = New common.Controls.MyLabel()
         CType(Me.RadSplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadSplitContainer1.SuspendLayout()
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitPanel1.SuspendLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnCopyOrder, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustGrp, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,8 +97,6 @@ Partial Class frmBookingDairyMultipleDistributor
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -113,7 +115,6 @@ Partial Class frmBookingDairyMultipleDistributor
         Me.RadSplitContainer1.Size = New System.Drawing.Size(839, 456)
         Me.RadSplitContainer1.TabIndex = 0
         Me.RadSplitContainer1.TabStop = False
-        Me.RadSplitContainer1.Text = "RadSplitContainer1"
         '
         'SplitPanel1
         '
@@ -141,11 +142,59 @@ Partial Class frmBookingDairyMultipleDistributor
         '
         Me.SplitPanel1.RootElement.MinSize = New System.Drawing.Size(0, 0)
         Me.SplitPanel1.Size = New System.Drawing.Size(839, 417)
-        Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, 0.4220183!)
+        Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, 0.4220183!)
         Me.SplitPanel1.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, 154)
         Me.SplitPanel1.TabIndex = 0
         Me.SplitPanel1.TabStop = False
         Me.SplitPanel1.Text = "SplitPanel1"
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(13, 78)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel2.TabIndex = 59
+        Me.MyLabel2.Text = "Customer"
+        '
+        'txtCustomer
+        '
+        Me.txtCustomer.CalculationExpression = Nothing
+        Me.txtCustomer.FieldCode = Nothing
+        Me.txtCustomer.FieldDesc = Nothing
+        Me.txtCustomer.FieldMaxLength = 0
+        Me.txtCustomer.FieldName = Nothing
+        Me.txtCustomer.isCalculatedField = False
+        Me.txtCustomer.IsSourceFromTable = False
+        Me.txtCustomer.IsSourceFromValueList = False
+        Me.txtCustomer.IsUnique = False
+        Me.txtCustomer.Location = New System.Drawing.Point(114, 78)
+        Me.txtCustomer.MendatroryField = True
+        Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCustomer.MyLinkLable1 = Me.MyLabel2
+        Me.txtCustomer.MyLinkLable2 = Me.lblCustomerName
+        Me.txtCustomer.MyReadOnly = False
+        Me.txtCustomer.MyShowMasterFormButton = False
+        Me.txtCustomer.Name = "txtCustomer"
+        Me.txtCustomer.ReferenceFieldDesc = Nothing
+        Me.txtCustomer.ReferenceFieldName = Nothing
+        Me.txtCustomer.ReferenceTableName = Nothing
+        Me.txtCustomer.Size = New System.Drawing.Size(143, 18)
+        Me.txtCustomer.TabIndex = 57
+        Me.txtCustomer.Value = ""
+        '
+        'lblCustomerName
+        '
+        Me.lblCustomerName.AutoSize = False
+        Me.lblCustomerName.BorderVisible = True
+        Me.lblCustomerName.FieldName = Nothing
+        Me.lblCustomerName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCustomerName.Location = New System.Drawing.Point(260, 78)
+        Me.lblCustomerName.Name = "lblCustomerName"
+        Me.lblCustomerName.Size = New System.Drawing.Size(242, 18)
+        Me.lblCustomerName.TabIndex = 58
+        Me.lblCustomerName.TextWrap = False
         '
         'btnCopyOrder
         '
@@ -202,7 +251,6 @@ Partial Class frmBookingDairyMultipleDistributor
         Me.lblCustGrp.Name = "lblCustGrp"
         Me.lblCustGrp.Size = New System.Drawing.Size(242, 18)
         Me.lblCustGrp.TabIndex = 54
-        Me.lblCustGrp.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCustGrp.TextWrap = False
         '
         'RadLabel15
@@ -260,13 +308,12 @@ Partial Class frmBookingDairyMultipleDistributor
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(242, 18)
         Me.lblLocation.TabIndex = 22
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = My.Resources._new
+        Me.btnAddNew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(373, 10)
         Me.btnAddNew.Name = "btnAddNew"
@@ -301,12 +348,15 @@ Partial Class frmBookingDairyMultipleDistributor
         Me.gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv2.Location = New System.Drawing.Point(10, 20)
         '
-        'gv2
+        '
         '
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.HorizontalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
@@ -314,7 +364,6 @@ Partial Class frmBookingDairyMultipleDistributor
         Me.gv2.Size = New System.Drawing.Size(808, 267)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'gv1
         '
@@ -327,12 +376,15 @@ Partial Class frmBookingDairyMultipleDistributor
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.HorizontalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.VerticalScrollState = Telerik.WinControls.UI.ScrollState.AlwaysShow
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -340,7 +392,6 @@ Partial Class frmBookingDairyMultipleDistributor
         Me.gv1.Size = New System.Drawing.Size(808, 267)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'txtDate
         '
@@ -401,7 +452,7 @@ Partial Class frmBookingDairyMultipleDistributor
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
@@ -427,7 +478,7 @@ Partial Class frmBookingDairyMultipleDistributor
         '
         Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(0, 0)
         Me.SplitPanel2.Size = New System.Drawing.Size(839, 35)
-        Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, -0.4220183!)
+        Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, -0.4220183!)
         Me.SplitPanel2.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -154)
         Me.SplitPanel2.TabIndex = 1
         Me.SplitPanel2.TabStop = False
@@ -530,99 +581,37 @@ Partial Class frmBookingDairyMultipleDistributor
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(839, 20)
         Me.RadMenu1.TabIndex = 7
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnSaveLayout, Me.btnLayout, Me.btnExport, Me.btnImport, Me.btnSendEmailSMS})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'btnSaveLayout
         '
-        Me.btnSaveLayout.AccessibleDescription = "Save Layout"
-        Me.btnSaveLayout.AccessibleName = "Save Layout"
         Me.btnSaveLayout.Name = "btnSaveLayout"
         Me.btnSaveLayout.Text = "Save Layout"
         '
         'btnLayout
         '
-        Me.btnLayout.AccessibleDescription = "Delete Layout"
-        Me.btnLayout.AccessibleName = "Delete Layout"
         Me.btnLayout.Name = "btnLayout"
         Me.btnLayout.Text = "Delete Layout"
         '
         'btnExport
         '
-        Me.btnExport.AccessibleDescription = "Export"
-        Me.btnExport.AccessibleName = "Export"
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Text = "Export"
         '
         'btnImport
         '
-        Me.btnImport.AccessibleDescription = "Import"
-        Me.btnImport.AccessibleName = "Import"
         Me.btnImport.Name = "btnImport"
         Me.btnImport.Text = "Import"
         '
         'btnSendEmailSMS
         '
-        Me.btnSendEmailSMS.AccessibleDescription = "E-Mail/SMS Setting"
-        Me.btnSendEmailSMS.AccessibleName = "E-Mail/SMS Setting"
         Me.btnSendEmailSMS.Name = "btnSendEmailSMS"
         Me.btnSendEmailSMS.Text = "E-Mail/SMS Setting"
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(13, 78)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(55, 16)
-        Me.MyLabel2.TabIndex = 59
-        Me.MyLabel2.Text = "Customer"
-        '
-        'txtCustomer
-        '
-        Me.txtCustomer.CalculationExpression = Nothing
-        Me.txtCustomer.FieldCode = Nothing
-        Me.txtCustomer.FieldDesc = Nothing
-        Me.txtCustomer.FieldMaxLength = 0
-        Me.txtCustomer.FieldName = Nothing
-        Me.txtCustomer.isCalculatedField = False
-        Me.txtCustomer.IsSourceFromTable = False
-        Me.txtCustomer.IsSourceFromValueList = False
-        Me.txtCustomer.IsUnique = False
-        Me.txtCustomer.Location = New System.Drawing.Point(114, 78)
-        Me.txtCustomer.MendatroryField = True
-        Me.txtCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCustomer.MyLinkLable1 = Me.MyLabel2
-        Me.txtCustomer.MyLinkLable2 = Me.lblCustomerName
-        Me.txtCustomer.MyReadOnly = False
-        Me.txtCustomer.MyShowMasterFormButton = False
-        Me.txtCustomer.Name = "txtCustomer"
-        Me.txtCustomer.ReferenceFieldDesc = Nothing
-        Me.txtCustomer.ReferenceFieldName = Nothing
-        Me.txtCustomer.ReferenceTableName = Nothing
-        Me.txtCustomer.Size = New System.Drawing.Size(143, 18)
-        Me.txtCustomer.TabIndex = 57
-        Me.txtCustomer.Value = ""
-        '
-        'lblCustomerName
-        '
-        Me.lblCustomerName.AutoSize = False
-        Me.lblCustomerName.BorderVisible = True
-        Me.lblCustomerName.FieldName = Nothing
-        Me.lblCustomerName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCustomerName.Location = New System.Drawing.Point(260, 78)
-        Me.lblCustomerName.Name = "lblCustomerName"
-        Me.lblCustomerName.Size = New System.Drawing.Size(242, 18)
-        Me.lblCustomerName.TabIndex = 58
-        Me.lblCustomerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        Me.lblCustomerName.TextWrap = False
         '
         'frmBookingDairyMultipleDistributor
         '
@@ -643,6 +632,8 @@ Partial Class frmBookingDairyMultipleDistributor
         CType(Me.SplitPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitPanel1.ResumeLayout(False)
         Me.SplitPanel1.PerformLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnCopyOrder, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustGrp, System.ComponentModel.ISupportInitialize).EndInit()
@@ -673,8 +664,6 @@ Partial Class frmBookingDairyMultipleDistributor
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

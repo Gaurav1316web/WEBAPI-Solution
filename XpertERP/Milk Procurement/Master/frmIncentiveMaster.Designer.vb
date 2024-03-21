@@ -22,6 +22,7 @@ Partial Class frmIncentiveMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -123,7 +124,7 @@ Partial Class frmIncentiveMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(280, 21)
@@ -164,20 +165,22 @@ Partial Class frmIncentiveMaster
         Me.gvPP.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvPP.Location = New System.Drawing.Point(10, 20)
         '
-        'gvPP
+        '
         '
         Me.gvPP.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvPP.MasterTemplate.AllowAddNewRow = False
         Me.gvPP.MasterTemplate.AutoGenerateColumns = False
         Me.gvPP.MasterTemplate.EnableGrouping = False
+        Me.gvPP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPP.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvPP.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvPP.MyStopExport = False
         Me.gvPP.Name = "gvPP"
         Me.gvPP.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPP.ShowHeaderCellButtons = True
         Me.gvPP.Size = New System.Drawing.Size(829, 220)
         Me.gvPP.TabIndex = 1
         Me.gvPP.TabStop = False
-        Me.gvPP.Text = "RadGridView1"
         '
         'SplitContainer1
         '
@@ -229,6 +232,7 @@ Partial Class frmIncentiveMaster
         Me.ddlQtyType.AutoCompleteDisplayMember = Nothing
         Me.ddlQtyType.AutoCompleteValueMember = Nothing
         Me.ddlQtyType.CalculationExpression = Nothing
+        Me.ddlQtyType.DropDownAnimationEnabled = True
         Me.ddlQtyType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlQtyType.FieldCode = Nothing
         Me.ddlQtyType.FieldDesc = Nothing
@@ -270,6 +274,7 @@ Partial Class frmIncentiveMaster
         Me.CmbEndingShift.AutoCompleteDisplayMember = Nothing
         Me.CmbEndingShift.AutoCompleteValueMember = Nothing
         Me.CmbEndingShift.CalculationExpression = Nothing
+        Me.CmbEndingShift.DropDownAnimationEnabled = True
         Me.CmbEndingShift.FieldCode = Nothing
         Me.CmbEndingShift.FieldDesc = Nothing
         Me.CmbEndingShift.FieldMaxLength = 0
@@ -310,6 +315,7 @@ Partial Class frmIncentiveMaster
         Me.CmbSTartingShift.AutoCompleteDisplayMember = Nothing
         Me.CmbSTartingShift.AutoCompleteValueMember = Nothing
         Me.CmbSTartingShift.CalculationExpression = Nothing
+        Me.CmbSTartingShift.DropDownAnimationEnabled = True
         Me.CmbSTartingShift.FieldCode = Nothing
         Me.CmbSTartingShift.FieldDesc = Nothing
         Me.CmbSTartingShift.FieldMaxLength = 0
@@ -350,6 +356,7 @@ Partial Class frmIncentiveMaster
         Me.CmbrateType.AutoCompleteDisplayMember = Nothing
         Me.CmbrateType.AutoCompleteValueMember = Nothing
         Me.CmbrateType.CalculationExpression = Nothing
+        Me.CmbrateType.DropDownAnimationEnabled = True
         Me.CmbrateType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CmbrateType.FieldCode = Nothing
         Me.CmbrateType.FieldDesc = Nothing
@@ -391,6 +398,7 @@ Partial Class frmIncentiveMaster
         Me.CmbCalculationFlatorAvg.AutoCompleteDisplayMember = Nothing
         Me.CmbCalculationFlatorAvg.AutoCompleteValueMember = Nothing
         Me.CmbCalculationFlatorAvg.CalculationExpression = Nothing
+        Me.CmbCalculationFlatorAvg.DropDownAnimationEnabled = True
         Me.CmbCalculationFlatorAvg.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CmbCalculationFlatorAvg.FieldCode = Nothing
         Me.CmbCalculationFlatorAvg.FieldDesc = Nothing
@@ -432,6 +440,7 @@ Partial Class frmIncentiveMaster
         Me.cboSchemeFor.AutoCompleteDisplayMember = Nothing
         Me.cboSchemeFor.AutoCompleteValueMember = Nothing
         Me.cboSchemeFor.CalculationExpression = Nothing
+        Me.cboSchemeFor.DropDownAnimationEnabled = True
         Me.cboSchemeFor.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboSchemeFor.FieldCode = Nothing
         Me.cboSchemeFor.FieldDesc = Nothing
@@ -473,6 +482,7 @@ Partial Class frmIncentiveMaster
         Me.cboIncentiveType.AutoCompleteDisplayMember = Nothing
         Me.cboIncentiveType.AutoCompleteValueMember = Nothing
         Me.cboIncentiveType.CalculationExpression = Nothing
+        Me.cboIncentiveType.DropDownAnimationEnabled = True
         Me.cboIncentiveType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboIncentiveType.FieldCode = Nothing
         Me.cboIncentiveType.FieldDesc = Nothing
@@ -709,41 +719,30 @@ Partial Class frmIncentiveMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(872, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Setting"
-        Me.RadMenuItem2.AccessibleName = "Setting"
         Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem3, Me.BtnExport, Me.BtnImport})
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem3.AccessibleName = "Delete Layout"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Delete Layout"
         '
         'BtnExport
         '
-        Me.BtnExport.AccessibleDescription = "Export"
-        Me.BtnExport.AccessibleName = "Export"
         Me.BtnExport.Name = "BtnExport"
         Me.BtnExport.Text = "Export"
         '
         'BtnImport
         '
-        Me.BtnImport.AccessibleDescription = "Import"
-        Me.BtnImport.AccessibleName = "Import"
         Me.BtnImport.Name = "BtnImport"
         Me.BtnImport.Text = "Import"
         '

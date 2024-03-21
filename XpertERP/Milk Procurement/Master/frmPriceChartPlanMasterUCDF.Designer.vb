@@ -22,6 +22,7 @@ Partial Class frmPriceChartPlanMasterUCDF
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -197,7 +198,6 @@ Partial Class frmPriceChartPlanMasterUCDF
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(675, 392)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -240,6 +240,7 @@ Partial Class frmPriceChartPlanMasterUCDF
         Me.cboDockCollectionMilkType.AutoCompleteDisplayMember = Nothing
         Me.cboDockCollectionMilkType.AutoCompleteValueMember = Nothing
         Me.cboDockCollectionMilkType.CalculationExpression = Nothing
+        Me.cboDockCollectionMilkType.DropDownAnimationEnabled = True
         Me.cboDockCollectionMilkType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDockCollectionMilkType.FieldCode = Nothing
         Me.cboDockCollectionMilkType.FieldDesc = Nothing
@@ -530,6 +531,7 @@ Partial Class frmPriceChartPlanMasterUCDF
         Me.CboShift.AutoCompleteDisplayMember = Nothing
         Me.CboShift.AutoCompleteValueMember = Nothing
         Me.CboShift.CalculationExpression = Nothing
+        Me.CboShift.DropDownAnimationEnabled = True
         Me.CboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CboShift.FieldCode = Nothing
         Me.CboShift.FieldDesc = Nothing
@@ -967,7 +969,7 @@ Partial Class frmPriceChartPlanMasterUCDF
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblvandorno
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(273, 20)
@@ -989,10 +991,17 @@ Partial Class frmPriceChartPlanMasterUCDF
         '
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(0, 33)
+        '
+        '
+        '
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
+        Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(654, 311)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
         '
         'Panel1
         '

@@ -22,6 +22,7 @@ Partial Class FrmPrimaryTransporterVehicalMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -262,28 +263,21 @@ Partial Class FrmPrimaryTransporterVehicalMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(990, 20)
         Me.RadMenu1.TabIndex = 11
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexport, Me.btnimport})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Export_Vehical_Details, Me.Export_Slab_Details})
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
         '
         'Export_Vehical_Details
         '
-        Me.Export_Vehical_Details.AccessibleDescription = "Vehicle Details"
-        Me.Export_Vehical_Details.AccessibleName = "Vehicle Details"
         Me.Export_Vehical_Details.Name = "Export_Vehical_Details"
         Me.Export_Vehical_Details.Text = "Vehicle Details"
         '
@@ -296,8 +290,6 @@ Partial Class FrmPrimaryTransporterVehicalMaster
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Import_Vehical_Details, Me.Import_Slab_Details})
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
@@ -311,8 +303,6 @@ Partial Class FrmPrimaryTransporterVehicalMaster
         '
         'Import_Slab_Details
         '
-        Me.Import_Slab_Details.AccessibleDescription = "Slab Details"
-        Me.Import_Slab_Details.AccessibleName = "Slab Details"
         Me.Import_Slab_Details.Name = "Import_Slab_Details"
         Me.Import_Slab_Details.Text = "Slab Details"
         '
@@ -328,7 +318,6 @@ Partial Class FrmPrimaryTransporterVehicalMaster
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(984, 502)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -499,7 +488,7 @@ Partial Class FrmPrimaryTransporterVehicalMaster
         Me.fndcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndcode.MyLinkLable1 = Me.lblvandorno
         Me.fndcode.MyLinkLable2 = Nothing
-        Me.fndcode.MyMaxLength = 32767
+        Me.fndcode.MyMaxLength = 30
         Me.fndcode.MyReadOnly = False
         Me.fndcode.Name = "fndcode"
         Me.fndcode.Size = New System.Drawing.Size(302, 21)
@@ -563,7 +552,6 @@ Partial Class FrmPrimaryTransporterVehicalMaster
         Me.LblRoute.Name = "LblRoute"
         Me.LblRoute.Size = New System.Drawing.Size(476, 18)
         Me.LblRoute.TabIndex = 71
-        Me.LblRoute.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblRoute.TextWrap = False
         '
         'txtTankerNo
@@ -775,9 +763,12 @@ Partial Class FrmPrimaryTransporterVehicalMaster
         Me.gv.Enabled = False
         Me.gv.Location = New System.Drawing.Point(258, 43)
         '
-        'gv
         '
+        '
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(495, 273)
@@ -941,6 +932,7 @@ Partial Class FrmPrimaryTransporterVehicalMaster
         Me.cmbRentalType.AutoCompleteDisplayMember = Nothing
         Me.cmbRentalType.AutoCompleteValueMember = Nothing
         Me.cmbRentalType.CalculationExpression = Nothing
+        Me.cmbRentalType.DropDownAnimationEnabled = True
         Me.cmbRentalType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbRentalType.FieldCode = Nothing
         Me.cmbRentalType.FieldDesc = Nothing
@@ -1082,6 +1074,7 @@ Partial Class FrmPrimaryTransporterVehicalMaster
         Me.cmbLtrKG.AutoCompleteDisplayMember = Nothing
         Me.cmbLtrKG.AutoCompleteValueMember = Nothing
         Me.cmbLtrKG.CalculationExpression = Nothing
+        Me.cmbLtrKG.DropDownAnimationEnabled = True
         Me.cmbLtrKG.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbLtrKG.FieldCode = Nothing
         Me.cmbLtrKG.FieldDesc = Nothing
@@ -1225,7 +1218,6 @@ Partial Class FrmPrimaryTransporterVehicalMaster
         Me.txtmccname.Name = "txtmccname"
         Me.txtmccname.Size = New System.Drawing.Size(476, 18)
         Me.txtmccname.TabIndex = 63
-        Me.txtmccname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtmccname.TextWrap = False
         '
         'txtyear
@@ -1350,7 +1342,6 @@ Partial Class FrmPrimaryTransporterVehicalMaster
         Me.txtprimaryname.Name = "txtprimaryname"
         Me.txtprimaryname.Size = New System.Drawing.Size(476, 18)
         Me.txtprimaryname.TabIndex = 52
-        Me.txtprimaryname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtprimaryname.TextWrap = False
         '
         'txtdesc

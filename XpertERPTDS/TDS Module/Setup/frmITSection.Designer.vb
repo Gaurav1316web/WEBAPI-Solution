@@ -98,7 +98,7 @@ Partial Class FrmITSection
         '
         'btnnew
         '
-        Me.btnnew.Image = My.Resources.Resources._new
+        Me.btnnew.Image = Global.XpertERPTDS.My.Resources.Resources._new
         Me.btnnew.Location = New System.Drawing.Point(377, 11)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(15, 21)
@@ -106,13 +106,14 @@ Partial Class FrmITSection
         '
         'txtcode
         '
+        Me.txtcode.FieldName = Nothing
         Me.txtcode.Location = New System.Drawing.Point(116, 11)
         Me.txtcode.MendatroryField = True
         Me.txtcode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtcode.MyLinkLable1 = Nothing
         Me.txtcode.MyLinkLable2 = Nothing
-        Me.txtcode.MyMaxLength = 32767
+        Me.txtcode.MyMaxLength = 30
         Me.txtcode.MyReadOnly = False
         Me.txtcode.Name = "txtcode"
         Me.txtcode.Size = New System.Drawing.Size(261, 21)
@@ -121,6 +122,7 @@ Partial Class FrmITSection
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(12, 65)
         Me.MyLabel2.Name = "MyLabel2"
@@ -131,7 +133,16 @@ Partial Class FrmITSection
         'txtITAct
         '
         Me.txtITAct.AutoSize = False
+        Me.txtITAct.CalculationExpression = Nothing
+        Me.txtITAct.FieldCode = Nothing
+        Me.txtITAct.FieldDesc = Nothing
+        Me.txtITAct.FieldMaxLength = 0
+        Me.txtITAct.FieldName = Nothing
         Me.txtITAct.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtITAct.isCalculatedField = False
+        Me.txtITAct.IsSourceFromTable = False
+        Me.txtITAct.IsSourceFromValueList = False
+        Me.txtITAct.IsUnique = False
         Me.txtITAct.Location = New System.Drawing.Point(116, 62)
         Me.txtITAct.MaxLength = 50
         Me.txtITAct.MendatroryField = True
@@ -139,6 +150,9 @@ Partial Class FrmITSection
         Me.txtITAct.MyLinkLable1 = Me.MyLabel2
         Me.txtITAct.MyLinkLable2 = Nothing
         Me.txtITAct.Name = "txtITAct"
+        Me.txtITAct.ReferenceFieldDesc = Nothing
+        Me.txtITAct.ReferenceFieldName = Nothing
+        Me.txtITAct.ReferenceTableName = Nothing
         Me.txtITAct.Size = New System.Drawing.Size(274, 21)
         Me.txtITAct.TabIndex = 205
         Me.txtITAct.Text = " "
@@ -146,21 +160,34 @@ Partial Class FrmITSection
         'txtMaxAmt
         '
         Me.txtMaxAmt.BackColor = System.Drawing.Color.White
+        Me.txtMaxAmt.CalculationExpression = Nothing
         Me.txtMaxAmt.DecimalPlaces = 2
+        Me.txtMaxAmt.FieldCode = Nothing
+        Me.txtMaxAmt.FieldDesc = Nothing
+        Me.txtMaxAmt.FieldMaxLength = 0
+        Me.txtMaxAmt.FieldName = Nothing
+        Me.txtMaxAmt.isCalculatedField = False
+        Me.txtMaxAmt.IsSourceFromTable = False
+        Me.txtMaxAmt.IsSourceFromValueList = False
+        Me.txtMaxAmt.IsUnique = False
         Me.txtMaxAmt.Location = New System.Drawing.Point(116, 110)
         Me.txtMaxAmt.MaxLength = 10
         Me.txtMaxAmt.MendatroryField = False
         Me.txtMaxAmt.MyLinkLable1 = Me.MyLabel1
         Me.txtMaxAmt.MyLinkLable2 = Nothing
         Me.txtMaxAmt.Name = "txtMaxAmt"
+        Me.txtMaxAmt.ReferenceFieldDesc = Nothing
+        Me.txtMaxAmt.ReferenceFieldName = Nothing
+        Me.txtMaxAmt.ReferenceTableName = Nothing
         Me.txtMaxAmt.Size = New System.Drawing.Size(110, 20)
         Me.txtMaxAmt.TabIndex = 207
         Me.txtMaxAmt.Text = "0"
         Me.txtMaxAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMaxAmt.Value = 0.0R
+        Me.txtMaxAmt.Value = 0R
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Location = New System.Drawing.Point(11, 110)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(103, 18)
@@ -170,21 +197,34 @@ Partial Class FrmITSection
         'txtMinAmt
         '
         Me.txtMinAmt.BackColor = System.Drawing.Color.White
+        Me.txtMinAmt.CalculationExpression = Nothing
         Me.txtMinAmt.DecimalPlaces = 2
+        Me.txtMinAmt.FieldCode = Nothing
+        Me.txtMinAmt.FieldDesc = Nothing
+        Me.txtMinAmt.FieldMaxLength = 0
+        Me.txtMinAmt.FieldName = Nothing
+        Me.txtMinAmt.isCalculatedField = False
+        Me.txtMinAmt.IsSourceFromTable = False
+        Me.txtMinAmt.IsSourceFromValueList = False
+        Me.txtMinAmt.IsUnique = False
         Me.txtMinAmt.Location = New System.Drawing.Point(116, 87)
         Me.txtMinAmt.MaxLength = 10
         Me.txtMinAmt.MendatroryField = False
         Me.txtMinAmt.MyLinkLable1 = Me.RadLabel8
         Me.txtMinAmt.MyLinkLable2 = Nothing
         Me.txtMinAmt.Name = "txtMinAmt"
+        Me.txtMinAmt.ReferenceFieldDesc = Nothing
+        Me.txtMinAmt.ReferenceFieldName = Nothing
+        Me.txtMinAmt.ReferenceTableName = Nothing
         Me.txtMinAmt.Size = New System.Drawing.Size(110, 20)
         Me.txtMinAmt.TabIndex = 206
         Me.txtMinAmt.Text = "0"
         Me.txtMinAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMinAmt.Value = 0.0R
+        Me.txtMinAmt.Value = 0R
         '
         'RadLabel8
         '
+        Me.RadLabel8.FieldName = Nothing
         Me.RadLabel8.Location = New System.Drawing.Point(12, 88)
         Me.RadLabel8.Name = "RadLabel8"
         Me.RadLabel8.Size = New System.Drawing.Size(101, 18)
@@ -193,6 +233,7 @@ Partial Class FrmITSection
         '
         'lblDescription
         '
+        Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDescription.Location = New System.Drawing.Point(12, 40)
         Me.lblDescription.Name = "lblDescription"
@@ -203,7 +244,16 @@ Partial Class FrmITSection
         'TxtDesp
         '
         Me.TxtDesp.AutoSize = False
+        Me.TxtDesp.CalculationExpression = Nothing
+        Me.TxtDesp.FieldCode = Nothing
+        Me.TxtDesp.FieldDesc = Nothing
+        Me.TxtDesp.FieldMaxLength = 0
+        Me.TxtDesp.FieldName = Nothing
         Me.TxtDesp.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtDesp.isCalculatedField = False
+        Me.TxtDesp.IsSourceFromTable = False
+        Me.TxtDesp.IsSourceFromValueList = False
+        Me.TxtDesp.IsUnique = False
         Me.TxtDesp.Location = New System.Drawing.Point(116, 38)
         Me.TxtDesp.MaxLength = 100
         Me.TxtDesp.MendatroryField = False
@@ -211,12 +261,16 @@ Partial Class FrmITSection
         Me.TxtDesp.MyLinkLable1 = Me.lblDescription
         Me.TxtDesp.MyLinkLable2 = Nothing
         Me.TxtDesp.Name = "TxtDesp"
+        Me.TxtDesp.ReferenceFieldDesc = Nothing
+        Me.TxtDesp.ReferenceFieldName = Nothing
+        Me.TxtDesp.ReferenceTableName = Nothing
         Me.TxtDesp.Size = New System.Drawing.Size(274, 21)
         Me.TxtDesp.TabIndex = 204
         Me.TxtDesp.Text = " "
         '
         'lblItemCategoryCode
         '
+        Me.lblItemCategoryCode.FieldName = Nothing
         Me.lblItemCategoryCode.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblItemCategoryCode.Location = New System.Drawing.Point(12, 15)
         Me.lblItemCategoryCode.Name = "lblItemCategoryCode"
@@ -271,27 +325,21 @@ Partial Class FrmITSection
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(517, 20)
         Me.RadMenu2.TabIndex = 64
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "File"
-        Me.rmImport.AccessibleName = "File"
         Me.rmImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RmExport, Me.RadMenuItem2})
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "File"
         '
         'RmExport
         '
-        Me.RmExport.AccessibleDescription = "Export"
-        Me.RmExport.AccessibleName = "Export"
         Me.RmExport.Name = "RmExport"
         Me.RmExport.Text = "Export"
         '
         'RadMenuItem2
         '
         Me.RadMenuItem2.AccessibleDescription = "rmImporter"
-        Me.RadMenuItem2.AccessibleName = "Import"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '

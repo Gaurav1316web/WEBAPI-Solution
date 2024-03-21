@@ -141,6 +141,7 @@ Public Class FrmPaymentProcess
     Public Const colAssetLostAmount As String = "colAssetLostAmount"
     Public Const colTotalCreditNoteAmount As String = "colTotalCreditNoteAmount"
     Public Const colTotalCompulsoryAmount As String = "colTotalCompulsoryAmount"
+    Public Const colTotalSavingAmount As String = "colTotalSavingAmount"
     Public Const colAdvanceAmount As String = "colAdvanceTotal"
     Public Const colAdvanceKnockOffAmount As String = "colAdvanceKnockOffAmount"
 
@@ -183,17 +184,6 @@ Public Class FrmPaymentProcess
 #End Region
 
     Private Sub FrmProvisionEntry_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        'Dim coll As New Dictionary(Of String, String)()
-        'coll.Add("is_Hold_Payment_Process_Saving", "integer not null default 0")
-        'coll.Add("is_Hold_Payment_Process_Saving_Auto", "integer not null default 0")
-        'coll.Add("is_Hold_Payment_Process_Saving_Manual", "integer not null default 0")
-        'coll.Add("Bank_Code_Saving", "varchar(30) ")
-        'coll.Add("Bank_Desc_Saving", "varchar(50) ")
-        'coll.Add("Payment_Mode_Saving", "varchar(30) ")
-        'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
-
-
-
         SetUserMgmtNew()
         SetCowFatPer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
         SettVSPHoldPaymentNotCompanyBank = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPHoldPaymentNotCompanyBank, clsFixedParameterCode.VSPHoldPaymentNotCompanyBank, Nothing)) = 1)
@@ -800,6 +790,21 @@ Public Class FrmPaymentProcess
                 For i As Integer = 0 To gvCreditNote.Rows.Count - 1
                     If gvCreditNote.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvCreditNote.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal Then
                         rValue = rValue + clsCommon.myCdbl(gvCreditNote.Rows(i).Cells(colTDSAmt).Value)
+                    End If
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return rValue
+    End Function
+    Function getTotalSavingSum(ByVal vsp As String) As Double
+        Dim rValue As Double = 0
+        Try
+            If clsCommon.myLen(vsp) > 0 AndAlso gvSaving IsNot Nothing AndAlso gvSaving.Rows.Count > 0 Then
+                For i As Integer = 0 To gvSaving.Rows.Count - 1
+                    If gvSaving.Rows(i).Cells(colSelect).Value = True AndAlso clsCommon.CompairString(gvSaving.Rows(i).Cells(colVendorCode).Value, vsp) = CompairStringResult.Equal Then
+                        rValue = rValue + clsCommon.myCdbl(gvSaving.Rows(i).Cells(colItemAmt).Value)
                     End If
                 Next
             End If
@@ -1694,6 +1699,14 @@ Public Class FrmPaymentProcess
         colDecimal.HeaderText = "Credit Note Amount"
         colDecimal.Name = colTotalCreditNoteAmount
         colDecimal.Width = 200
+        colDecimal.ReadOnly = True
+        gv.MasterTemplate.Columns.Add(colDecimal)
+
+        colDecimal = New GridViewDecimalColumn()
+        colDecimal.FormatString = ""
+        colDecimal.HeaderText = "Saving Amount"
+        colDecimal.Name = colTotalSavingAmount
+        colDecimal.Width = 100
         colDecimal.ReadOnly = True
         gv.MasterTemplate.Columns.Add(colDecimal)
 
@@ -4348,6 +4361,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                         objPPDetail.Deduction_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colDeductionTotalAmount).Value)
                         objPPDetail.Asset_Lost_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colAssetLostAmount).Value)
                         objPPDetail.Credit_Note_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colTotalCreditNoteAmount).Value)
+                        objPPDetail.Saving_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colTotalSavingAmount).Value)
                         objPPDetail.Compulsory_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colTotalCompulsoryAmount).Value)
 
                         objPPDetail.Payable_Amount = clsCommon.myCdbl(gv.Rows(i).Cells(colPaybleAmt).Value)
@@ -4795,6 +4809,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                     gv.Columns(colDeductionTotalAmount).FieldName = "Deduction_Amount"
                     gv.Columns(colAssetLostAmount).FieldName = "Asset_Lost_Amount"
                     gv.Columns(colTotalCreditNoteAmount).FieldName = "Credit_Note_Amount"
+                    gv.Columns(colTotalSavingAmount).FieldName = "Saving_Amount"
                     gv.Columns(colTotalCompulsoryAmount).FieldName = "Compulsory_Amount"
                     gv.Columns(colPaybleAmt).FieldName = "Payable_Amount"
                     gv.Columns(colServiceChargeAmt).FieldName = "Service_Charge_Amt"
@@ -5308,6 +5323,7 @@ and TSPL_VSPItem_HEAD.From_Location in  ( " + strMCCcode + " )  "
                 gv.Rows(k).Cells(colMccSaleTotalAmount).Value = getTotalMccSaleSum(gv.Rows(k).Cells(colVendorCode).Value)
                 gv.Rows(k).Cells(colMccSaleReturnTotalAmount).Value = getTotalMccSaleReturnSum(gv.Rows(k).Cells(colVendorCode).Value)
                 gv.Rows(k).Cells(colTotalCreditNoteAmount).Value = getTotalCreditNoteSum(gv.Rows(k).Cells(colVendorCode).Value)
+                gv.Rows(k).Cells(colTotalSavingAmount).Value = getTotalSavingSum(gv.Rows(k).Cells(colVendorCode).Value)
                 gv.Rows(k).Cells(colTotalCompulsoryAmount).Value = getTotalCompulsorySum(gv.Rows(k).Cells(colVendorCode).Value)
                 gv.Rows(k).Cells(colItemIssueTotalAmount).Value = getTotalItemIssueSum(gv.Rows(k).Cells(colVendorCode).Value)
                 gv.Rows(k).Cells(colItemIssueReturnTotalAmount).Value = getTotalItemIssueReturnSum(gv.Rows(k).Cells(colVendorCode).Value)
@@ -5418,8 +5434,6 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
             For ii As Integer = 0 To gv.Rows.Count - 1
                 gv.Rows(ii).Cells(colPaybleAmt).Value += clsCommon.myCDecimal(gv.Rows(ii).Cells(colTotalCompulsoryAmount).Value)
             Next
-        Else
-            'gv.Rows(indx).Cells(colPaybleAmt).Value += clsCommon.myCDecimal(gv.Rows(indx).Cells(colTotalCompulsoryAmount).Value)
         End If
     End Sub
 

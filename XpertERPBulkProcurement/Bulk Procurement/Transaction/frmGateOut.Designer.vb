@@ -24,13 +24,15 @@ Partial Class FrmGateOut
     Private Sub InitializeComponent()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.fndReferenceNo = New common.UserControls.txtFinder()
+        Me.lblGateEntryNo = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtMilkTransferIn = New common.Controls.MyTextBox()
         Me.lblWeighmentNo = New common.Controls.MyLabel()
         Me.lblMilkTransferIn = New common.Controls.MyLabel()
         Me.txtDriver = New common.Controls.MyTextBox()
         Me.lblDriver = New common.Controls.MyLabel()
         Me.fndAllocate = New common.UserControls.txtFinder()
-        Me.lblGateEntryNo = New common.Controls.MyLabel()
         Me.lblAllocateTo = New common.Controls.MyLabel()
         Me.lblAllocate = New common.Controls.MyLabel()
         Me.Panel3 = New System.Windows.Forms.Panel()
@@ -54,18 +56,17 @@ Partial Class FrmGateOut
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.fndReferenceNo = New common.UserControls.txtFinder()
-        Me.MyLabel1 = New common.Controls.MyLabel()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblGateEntryNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtMilkTransferIn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblWeighmentNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblMilkTransferIn, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDriver, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDriver, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblGateEntryNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAllocateTo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAllocate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel3.SuspendLayout()
@@ -85,7 +86,6 @@ Partial Class FrmGateOut
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -144,6 +144,53 @@ Partial Class FrmGateOut
         Me.SplitContainer1.Size = New System.Drawing.Size(836, 296)
         Me.SplitContainer1.SplitterDistance = 253
         Me.SplitContainer1.TabIndex = 2
+        '
+        'fndReferenceNo
+        '
+        Me.fndReferenceNo.CalculationExpression = Nothing
+        Me.fndReferenceNo.Enabled = False
+        Me.fndReferenceNo.FieldCode = Nothing
+        Me.fndReferenceNo.FieldDesc = Nothing
+        Me.fndReferenceNo.FieldMaxLength = 0
+        Me.fndReferenceNo.FieldName = Nothing
+        Me.fndReferenceNo.isCalculatedField = False
+        Me.fndReferenceNo.IsSourceFromTable = False
+        Me.fndReferenceNo.IsSourceFromValueList = False
+        Me.fndReferenceNo.IsUnique = False
+        Me.fndReferenceNo.Location = New System.Drawing.Point(99, 116)
+        Me.fndReferenceNo.MendatroryField = True
+        Me.fndReferenceNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndReferenceNo.MyLinkLable1 = Me.lblGateEntryNo
+        Me.fndReferenceNo.MyLinkLable2 = Nothing
+        Me.fndReferenceNo.MyReadOnly = False
+        Me.fndReferenceNo.MyShowMasterFormButton = False
+        Me.fndReferenceNo.Name = "fndReferenceNo"
+        Me.fndReferenceNo.ReferenceFieldDesc = Nothing
+        Me.fndReferenceNo.ReferenceFieldName = Nothing
+        Me.fndReferenceNo.ReferenceTableName = Nothing
+        Me.fndReferenceNo.Size = New System.Drawing.Size(323, 19)
+        Me.fndReferenceNo.TabIndex = 1447
+        Me.fndReferenceNo.Value = ""
+        '
+        'lblGateEntryNo
+        '
+        Me.lblGateEntryNo.FieldName = Nothing
+        Me.lblGateEntryNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblGateEntryNo.Location = New System.Drawing.Point(428, 52)
+        Me.lblGateEntryNo.Name = "lblGateEntryNo"
+        Me.lblGateEntryNo.Size = New System.Drawing.Size(81, 16)
+        Me.lblGateEntryNo.TabIndex = 338
+        Me.lblGateEntryNo.Text = "Gate Entry No."
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(6, 116)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(76, 16)
+        Me.MyLabel1.TabIndex = 1446
+        Me.MyLabel1.Text = "Reference No"
         '
         'txtMilkTransferIn
         '
@@ -249,16 +296,6 @@ Partial Class FrmGateOut
         Me.fndAllocate.TabIndex = 361
         Me.fndAllocate.Value = ""
         '
-        'lblGateEntryNo
-        '
-        Me.lblGateEntryNo.FieldName = Nothing
-        Me.lblGateEntryNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblGateEntryNo.Location = New System.Drawing.Point(428, 52)
-        Me.lblGateEntryNo.Name = "lblGateEntryNo"
-        Me.lblGateEntryNo.Size = New System.Drawing.Size(81, 16)
-        Me.lblGateEntryNo.TabIndex = 338
-        Me.lblGateEntryNo.Text = "Gate Entry No."
-        '
         'lblAllocateTo
         '
         Me.lblAllocateTo.AutoSize = False
@@ -268,7 +305,6 @@ Partial Class FrmGateOut
         Me.lblAllocateTo.Name = "lblAllocateTo"
         Me.lblAllocateTo.Size = New System.Drawing.Size(396, 19)
         Me.lblAllocateTo.TabIndex = 360
-        Me.lblAllocateTo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblAllocate
         '
@@ -301,7 +337,6 @@ Partial Class FrmGateOut
         Me.lblSubLocation.Name = "lblSubLocation"
         Me.lblSubLocation.Size = New System.Drawing.Size(180, 19)
         Me.lblSubLocation.TabIndex = 276
-        Me.lblSubLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkJobWork
         '
@@ -517,7 +552,7 @@ Partial Class FrmGateOut
         Me.fndDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndDocNo.MyLinkLable1 = Me.lblDocNo
         Me.fndDocNo.MyLinkLable2 = Nothing
-        Me.fndDocNo.MyMaxLength = 32767
+        Me.fndDocNo.MyMaxLength = 30
         Me.fndDocNo.MyReadOnly = False
         Me.fndDocNo.Name = "fndDocNo"
         Me.fndDocNo.Size = New System.Drawing.Size(305, 18)
@@ -593,43 +628,6 @@ Partial Class FrmGateOut
         Me.btnDelete.TabIndex = 4
         Me.btnDelete.Text = "Delete"
         '
-        'fndReferenceNo
-        '
-        Me.fndReferenceNo.CalculationExpression = Nothing
-        Me.fndReferenceNo.Enabled = False
-        Me.fndReferenceNo.FieldCode = Nothing
-        Me.fndReferenceNo.FieldDesc = Nothing
-        Me.fndReferenceNo.FieldMaxLength = 0
-        Me.fndReferenceNo.FieldName = Nothing
-        Me.fndReferenceNo.isCalculatedField = False
-        Me.fndReferenceNo.IsSourceFromTable = False
-        Me.fndReferenceNo.IsSourceFromValueList = False
-        Me.fndReferenceNo.IsUnique = False
-        Me.fndReferenceNo.Location = New System.Drawing.Point(99, 116)
-        Me.fndReferenceNo.MendatroryField = True
-        Me.fndReferenceNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndReferenceNo.MyLinkLable1 = Me.lblGateEntryNo
-        Me.fndReferenceNo.MyLinkLable2 = Nothing
-        Me.fndReferenceNo.MyReadOnly = False
-        Me.fndReferenceNo.MyShowMasterFormButton = False
-        Me.fndReferenceNo.Name = "fndReferenceNo"
-        Me.fndReferenceNo.ReferenceFieldDesc = Nothing
-        Me.fndReferenceNo.ReferenceFieldName = Nothing
-        Me.fndReferenceNo.ReferenceTableName = Nothing
-        Me.fndReferenceNo.Size = New System.Drawing.Size(323, 19)
-        Me.fndReferenceNo.TabIndex = 1447
-        Me.fndReferenceNo.Value = ""
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(6, 116)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(76, 16)
-        Me.MyLabel1.TabIndex = 1446
-        Me.MyLabel1.Text = "Reference No"
-        '
         'FrmGateOut
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -647,12 +645,13 @@ Partial Class FrmGateOut
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblGateEntryNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtMilkTransferIn, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblWeighmentNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblMilkTransferIn, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDriver, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDriver, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblGateEntryNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAllocateTo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAllocate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel3.ResumeLayout(False)
@@ -673,7 +672,6 @@ Partial Class FrmGateOut
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

@@ -68,7 +68,7 @@ Public Class FrmProductionAndSaleReport
             ',TSPL_LOCATION_MASTER.location_code as [Location Code]
             If rdbDaily.Checked = True Then
                 fDate = New DateTime(Year, Month, 1)
-                tDate = fromDate.Value
+                tDate = clsCommon.GetDateWithEndTime(fromDate.Value)
                 DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
                 Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT LOCATION_CODE FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0'")
                 'Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from TSPL_ITEM_MASTER where Structure_Code='FG' and Item_Desc like '%SARAS%'")

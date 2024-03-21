@@ -26,6 +26,8 @@ Partial Class frmAssetWork
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -100,6 +102,7 @@ Partial Class frmAssetWork
         Me.RadLabel25 = New common.Controls.MyLabel()
         Me.lblTaxAmt = New common.Controls.MyLabel()
         Me.lblTotalAmt = New common.Controls.MyLabel()
+        Me.butCostCenterAndHirerachy_Update_AfterPost = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintJV = New Telerik.WinControls.UI.RadButton()
         Me.btnViewTDSDetails = New Telerik.WinControls.UI.RadButton()
@@ -108,7 +111,6 @@ Partial Class frmAssetWork
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.butCostCenterAndHirerachy_Update_AfterPost = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -179,6 +181,7 @@ Partial Class frmAssetWork
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTaxAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintJV, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -187,7 +190,6 @@ Partial Class frmAssetWork
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -232,7 +234,6 @@ Partial Class frmAssetWork
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1106, 431)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -308,7 +309,6 @@ Partial Class frmAssetWork
         Me.lbltaxAmount.Name = "lbltaxAmount"
         Me.lbltaxAmount.Size = New System.Drawing.Size(78, 18)
         Me.lbltaxAmount.TabIndex = 642
-        Me.lbltaxAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbltaxAmount.TextWrap = False
         '
         'MyLabel7
@@ -331,7 +331,6 @@ Partial Class frmAssetWork
         Me.lblWOBalAmount.Name = "lblWOBalAmount"
         Me.lblWOBalAmount.Size = New System.Drawing.Size(119, 18)
         Me.lblWOBalAmount.TabIndex = 640
-        Me.lblWOBalAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblWOBalAmount.TextWrap = False
         '
         'MyLabel8
@@ -354,7 +353,6 @@ Partial Class frmAssetWork
         Me.lblWOAmount.Name = "lblWOAmount"
         Me.lblWOAmount.Size = New System.Drawing.Size(120, 18)
         Me.lblWOAmount.TabIndex = 638
-        Me.lblWOAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblWOAmount.TextWrap = False
         '
         'MyLabel6
@@ -413,7 +411,6 @@ Partial Class frmAssetWork
         Me.lbl_BalAmountWithTolerenace.Name = "lbl_BalAmountWithTolerenace"
         Me.lbl_BalAmountWithTolerenace.Size = New System.Drawing.Size(78, 18)
         Me.lbl_BalAmountWithTolerenace.TabIndex = 636
-        Me.lbl_BalAmountWithTolerenace.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_BalAmountWithTolerenace.TextWrap = False
         '
         'lbl_AmountWithTol
@@ -426,7 +423,6 @@ Partial Class frmAssetWork
         Me.lbl_AmountWithTol.Name = "lbl_AmountWithTol"
         Me.lbl_AmountWithTol.Size = New System.Drawing.Size(78, 18)
         Me.lbl_AmountWithTol.TabIndex = 635
-        Me.lbl_AmountWithTol.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_AmountWithTol.TextWrap = False
         '
         'RadLabel14
@@ -445,6 +441,7 @@ Partial Class frmAssetWork
         Me.cmbRefType.AutoCompleteDisplayMember = Nothing
         Me.cmbRefType.AutoCompleteValueMember = Nothing
         Me.cmbRefType.CalculationExpression = Nothing
+        Me.cmbRefType.DropDownAnimationEnabled = True
         Me.cmbRefType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbRefType.FieldCode = Nothing
         Me.cmbRefType.FieldDesc = Nothing
@@ -497,7 +494,6 @@ Partial Class frmAssetWork
         Me.lbl_BalAmount.Name = "lbl_BalAmount"
         Me.lbl_BalAmount.Size = New System.Drawing.Size(120, 18)
         Me.lbl_BalAmount.TabIndex = 632
-        Me.lbl_BalAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_BalAmount.TextWrap = False
         '
         'lbl_Amount
@@ -510,7 +506,6 @@ Partial Class frmAssetWork
         Me.lbl_Amount.Name = "lbl_Amount"
         Me.lbl_Amount.Size = New System.Drawing.Size(120, 18)
         Me.lbl_Amount.TabIndex = 631
-        Me.lbl_Amount.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_Amount.TextWrap = False
         '
         'lblBalancAmount
@@ -543,7 +538,6 @@ Partial Class frmAssetWork
         Me.lbl_capexcode.Name = "lbl_capexcode"
         Me.lbl_capexcode.Size = New System.Drawing.Size(253, 18)
         Me.lbl_capexcode.TabIndex = 628
-        Me.lbl_capexcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_capexcode.TextWrap = False
         '
         'lbl_capexsubcode
@@ -556,7 +550,6 @@ Partial Class frmAssetWork
         Me.lbl_capexsubcode.Name = "lbl_capexsubcode"
         Me.lbl_capexsubcode.Size = New System.Drawing.Size(253, 18)
         Me.lbl_capexsubcode.TabIndex = 627
-        Me.lbl_capexsubcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_capexsubcode.TextWrap = False
         '
         'fndcapexcode
@@ -653,7 +646,6 @@ Partial Class frmAssetWork
         Me.lblAccountDesc.Name = "lblAccountDesc"
         Me.lblAccountDesc.Size = New System.Drawing.Size(137, 20)
         Me.lblAccountDesc.TabIndex = 621
-        Me.lblAccountDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblAccountDesc.TextWrap = False
         Me.lblAccountDesc.Visible = False
         '
@@ -698,6 +690,7 @@ Partial Class frmAssetWork
         'ddlype
         '
         Me.ddlype.CalculationExpression = Nothing
+        Me.ddlype.DropDownAnimationEnabled = True
         Me.ddlype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlype.FieldCode = Nothing
         Me.ddlype.FieldDesc = Nothing
@@ -756,7 +749,6 @@ Partial Class frmAssetWork
         Me.lblAsset.Name = "lblAsset"
         Me.lblAsset.Size = New System.Drawing.Size(253, 20)
         Me.lblAsset.TabIndex = 30
-        Me.lblAsset.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblAsset.TextWrap = False
         '
         'lblLocation
@@ -769,7 +761,6 @@ Partial Class frmAssetWork
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(253, 20)
         Me.lblLocation.TabIndex = 27
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'MyLabel3
@@ -902,18 +893,20 @@ Partial Class frmAssetWork
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1060, 126)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel4
         '
@@ -949,7 +942,6 @@ Partial Class frmAssetWork
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(253, 20)
         Me.lblVendorName.TabIndex = 18
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'RadLabel2
@@ -1051,7 +1043,7 @@ Partial Class frmAssetWork
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(263, 18)
@@ -1205,7 +1197,6 @@ Partial Class frmAssetWork
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 19)
         Me.lblTaxGrpName.TabIndex = 3
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'RadLabel10
@@ -1237,14 +1228,16 @@ Partial Class frmAssetWork
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowFilteringRow = False
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(943, 243)
         Me.gv2.TabIndex = 1
-        Me.gv2.Text = "RadGridView1"
         '
         'RadPageViewPage4
         '
@@ -1341,6 +1334,15 @@ Partial Class frmAssetWork
         Me.lblTotalAmt.TabIndex = 123
         Me.lblTotalAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
+        'butCostCenterAndHirerachy_Update_AfterPost
+        '
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(562, 2)
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Name = "butCostCenterAndHirerachy_Update_AfterPost"
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Size = New System.Drawing.Size(186, 22)
+        Me.butCostCenterAndHirerachy_Update_AfterPost.TabIndex = 142
+        Me.butCostCenterAndHirerachy_Update_AfterPost.Text = "Update Cost Center And Hirerachy"
+        '
         'btnReverse
         '
         Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -1415,15 +1417,6 @@ Partial Class frmAssetWork
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
-        '
-        'butCostCenterAndHirerachy_Update_AfterPost
-        '
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Location = New System.Drawing.Point(562, 2)
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Name = "butCostCenterAndHirerachy_Update_AfterPost"
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Size = New System.Drawing.Size(186, 22)
-        Me.butCostCenterAndHirerachy_Update_AfterPost.TabIndex = 142
-        Me.butCostCenterAndHirerachy_Update_AfterPost.Text = "Update Cost Center And Hirerachy"
         '
         'frmAssetWork
         '
@@ -1513,6 +1506,7 @@ Partial Class frmAssetWork
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTaxAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintJV, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnViewTDSDetails, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1521,7 +1515,6 @@ Partial Class frmAssetWork
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

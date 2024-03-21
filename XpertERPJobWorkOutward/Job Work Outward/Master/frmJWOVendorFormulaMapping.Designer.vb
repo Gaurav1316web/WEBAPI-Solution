@@ -24,6 +24,7 @@ Partial Class frmJWOVendorFormulaMapping
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.gbPriceCode = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvPriceCode = New common.UserControls.MyRadGridView()
@@ -37,11 +38,11 @@ Partial Class frmJWOVendorFormulaMapping
         Me.lblAdvanceCode = New common.Controls.MyLabel()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel12 = New common.Controls.MyLabel()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.RadLabel12 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -56,11 +57,11 @@ Partial Class frmJWOVendorFormulaMapping
         CType(Me.lblAdvanceCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -111,18 +112,20 @@ Partial Class frmJWOVendorFormulaMapping
         Me.gvPriceCode.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvPriceCode.Location = New System.Drawing.Point(10, 20)
         '
-        'gvPriceCode
+        '
         '
         Me.gvPriceCode.MasterTemplate.AllowAddNewRow = False
         Me.gvPriceCode.MasterTemplate.EnableFiltering = True
+        Me.gvPriceCode.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPriceCode.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvPriceCode.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvPriceCode.MyStopExport = False
         Me.gvPriceCode.Name = "gvPriceCode"
         Me.gvPriceCode.ShowGroupPanel = False
         Me.gvPriceCode.ShowHeaderCellButtons = True
         Me.gvPriceCode.Size = New System.Drawing.Size(704, 189)
         Me.gvPriceCode.TabIndex = 3
         Me.gvPriceCode.TabStop = False
-        Me.gvPriceCode.Text = "RadGridView1"
         '
         'Label2
         '
@@ -195,7 +198,7 @@ Partial Class frmJWOVendorFormulaMapping
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(215, 21)
@@ -252,6 +255,18 @@ Partial Class frmJWOVendorFormulaMapping
         Me.txtDate.Text = "13/06/2011"
         Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
+        'RadLabel12
+        '
+        Me.RadLabel12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel12.FieldName = Nothing
+        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
+        Me.RadLabel12.Location = New System.Drawing.Point(380, 8)
+        Me.RadLabel12.Name = "RadLabel12"
+        Me.RadLabel12.Size = New System.Drawing.Size(257, 16)
+        Me.RadLabel12.TabIndex = 26
+        Me.RadLabel12.Text = "Double click on Grid Column To Select Vendor"
+        '
         'btnPost
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -288,25 +303,13 @@ Partial Class frmJWOVendorFormulaMapping
         Me.btnsave.TabIndex = 3
         Me.btnsave.Text = "Save"
         '
-        'RadLabel12
-        '
-        Me.RadLabel12.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadLabel12.FieldName = Nothing
-        Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(380, 8)
-        Me.RadLabel12.Name = "RadLabel12"
-        Me.RadLabel12.Size = New System.Drawing.Size(257, 16)
-        Me.RadLabel12.TabIndex = 26
-        Me.RadLabel12.Text = "Double click on Grid Column To Select Vendor"
-        '
-        'frmVendorFormulaMapping
+        'frmJWOVendorFormulaMapping
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(730, 299)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "frmVendorFormulaMapping"
+        Me.Name = "frmJWOVendorFormulaMapping"
         '
         '
         '
@@ -329,11 +332,11 @@ Partial Class frmJWOVendorFormulaMapping
         CType(Me.lblAdvanceCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

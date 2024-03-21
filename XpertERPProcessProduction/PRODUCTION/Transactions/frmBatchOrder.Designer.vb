@@ -22,11 +22,19 @@ Partial Class frmBatchOrder
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBatchOrder))
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblApprovedBy = New common.Controls.MyLabel()
+        Me.lblApprovedByName = New common.Controls.MyLabel()
+        Me.lblPPDate = New common.Controls.MyLabel()
+        Me.dtpBODate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtManualBatchNo = New common.Controls.MyTextBox()
         Me.lblLocationDesc = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.fndLocation = New common.UserControls.txtFinder()
@@ -41,29 +49,29 @@ Partial Class frmBatchOrder
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.gvPP = New common.UserControls.MyRadGridView()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
-        Me.lblApprovedByName = New common.Controls.MyLabel()
-        Me.lblApprovedBy = New common.Controls.MyLabel()
         Me.lblCreatedByName = New common.Controls.MyLabel()
         Me.lblCreatedBy = New common.Controls.MyLabel()
         Me.lblBomDesc = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
         Me.txtDescription = New common.Controls.MyTextBox()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
-        Me.dtpBODate = New common.Controls.MyDateTimePicker()
-        Me.lblPPDate = New common.Controls.MyLabel()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.txtManualBatchNo = New common.Controls.MyTextBox()
-        Me.MyLabel3 = New common.Controls.MyLabel()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblApprovedBy, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblApprovedByName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPPDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpBODate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtManualBatchNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnFillPP, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,22 +89,16 @@ Partial Class frmBatchOrder
         CType(Me.gvPP, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvPP.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblApprovedByName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblApprovedBy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCreatedByName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCreatedBy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBomDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpBODate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblPPDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtManualBatchNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -109,7 +111,7 @@ Partial Class frmBatchOrder
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(322, 21)
@@ -180,6 +182,100 @@ Partial Class frmBatchOrder
         Me.SplitContainer1.SplitterDistance = 541
         Me.SplitContainer1.TabIndex = 0
         '
+        'lblApprovedBy
+        '
+        Me.lblApprovedBy.FieldName = Nothing
+        Me.lblApprovedBy.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.lblApprovedBy.Location = New System.Drawing.Point(453, 39)
+        Me.lblApprovedBy.Name = "lblApprovedBy"
+        Me.lblApprovedBy.Size = New System.Drawing.Size(71, 16)
+        Me.lblApprovedBy.TabIndex = 13
+        Me.lblApprovedBy.Text = "Approved By"
+        '
+        'lblApprovedByName
+        '
+        Me.lblApprovedByName.AutoSize = False
+        Me.lblApprovedByName.BorderVisible = True
+        Me.lblApprovedByName.FieldName = Nothing
+        Me.lblApprovedByName.Location = New System.Drawing.Point(536, 38)
+        Me.lblApprovedByName.Name = "lblApprovedByName"
+        Me.lblApprovedByName.Size = New System.Drawing.Size(178, 19)
+        Me.lblApprovedByName.TabIndex = 14
+        '
+        'lblPPDate
+        '
+        Me.lblPPDate.FieldName = Nothing
+        Me.lblPPDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblPPDate.Location = New System.Drawing.Point(720, 39)
+        Me.lblPPDate.Name = "lblPPDate"
+        Me.lblPPDate.Size = New System.Drawing.Size(50, 16)
+        Me.lblPPDate.TabIndex = 8
+        Me.lblPPDate.Text = "BO Date"
+        '
+        'dtpBODate
+        '
+        Me.dtpBODate.CalculationExpression = Nothing
+        Me.dtpBODate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpBODate.FieldCode = Nothing
+        Me.dtpBODate.FieldDesc = Nothing
+        Me.dtpBODate.FieldMaxLength = 0
+        Me.dtpBODate.FieldName = Nothing
+        Me.dtpBODate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.dtpBODate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpBODate.isCalculatedField = False
+        Me.dtpBODate.IsSourceFromTable = False
+        Me.dtpBODate.IsSourceFromValueList = False
+        Me.dtpBODate.IsUnique = False
+        Me.dtpBODate.Location = New System.Drawing.Point(776, 38)
+        Me.dtpBODate.MendatroryField = True
+        Me.dtpBODate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpBODate.MyLinkLable1 = Me.lblPPDate
+        Me.dtpBODate.MyLinkLable2 = Nothing
+        Me.dtpBODate.Name = "dtpBODate"
+        Me.dtpBODate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpBODate.ReferenceFieldDesc = Nothing
+        Me.dtpBODate.ReferenceFieldName = Nothing
+        Me.dtpBODate.ReferenceTableName = Nothing
+        Me.dtpBODate.Size = New System.Drawing.Size(91, 18)
+        Me.dtpBODate.TabIndex = 3
+        Me.dtpBODate.TabStop = False
+        Me.dtpBODate.Text = "03/05/2011"
+        Me.dtpBODate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.MyLabel3.Location = New System.Drawing.Point(12, 59)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(93, 18)
+        Me.MyLabel3.TabIndex = 51
+        Me.MyLabel3.Text = "Manual Batch No"
+        '
+        'txtManualBatchNo
+        '
+        Me.txtManualBatchNo.CalculationExpression = Nothing
+        Me.txtManualBatchNo.FieldCode = Nothing
+        Me.txtManualBatchNo.FieldDesc = Nothing
+        Me.txtManualBatchNo.FieldMaxLength = 0
+        Me.txtManualBatchNo.FieldName = Nothing
+        Me.txtManualBatchNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtManualBatchNo.isCalculatedField = False
+        Me.txtManualBatchNo.IsSourceFromTable = False
+        Me.txtManualBatchNo.IsSourceFromValueList = False
+        Me.txtManualBatchNo.IsUnique = False
+        Me.txtManualBatchNo.Location = New System.Drawing.Point(110, 59)
+        Me.txtManualBatchNo.MaxLength = 200
+        Me.txtManualBatchNo.MendatroryField = False
+        Me.txtManualBatchNo.MyLinkLable1 = Nothing
+        Me.txtManualBatchNo.MyLinkLable2 = Nothing
+        Me.txtManualBatchNo.Name = "txtManualBatchNo"
+        Me.txtManualBatchNo.ReferenceFieldDesc = Nothing
+        Me.txtManualBatchNo.ReferenceFieldName = Nothing
+        Me.txtManualBatchNo.ReferenceTableName = Nothing
+        Me.txtManualBatchNo.Size = New System.Drawing.Size(337, 18)
+        Me.txtManualBatchNo.TabIndex = 50
+        '
         'lblLocationDesc
         '
         Me.lblLocationDesc.AutoSize = False
@@ -189,7 +285,6 @@ Partial Class frmBatchOrder
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(203, 19)
         Me.lblLocationDesc.TabIndex = 49
-        Me.lblLocationDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel2
         '
@@ -300,20 +395,22 @@ Partial Class frmBatchOrder
         Me.gvRM.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvRM.Location = New System.Drawing.Point(10, 20)
         '
-        'gvRM
+        '
         '
         Me.gvRM.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvRM.MasterTemplate.AllowAddNewRow = False
         Me.gvRM.MasterTemplate.AutoGenerateColumns = False
         Me.gvRM.MasterTemplate.EnableGrouping = False
+        Me.gvRM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRM.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvRM.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvRM.MyStopExport = False
         Me.gvRM.Name = "gvRM"
         Me.gvRM.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvRM.ShowHeaderCellButtons = True
         Me.gvRM.Size = New System.Drawing.Size(887, 138)
         Me.gvRM.TabIndex = 5
         Me.gvRM.TabStop = False
-        Me.gvRM.Text = "RadGridView1"
         '
         'RadButton2
         '
@@ -358,20 +455,22 @@ Partial Class frmBatchOrder
         Me.gvPP.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvPP.Location = New System.Drawing.Point(10, 20)
         '
-        'gvPP
+        '
         '
         Me.gvPP.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvPP.MasterTemplate.AllowAddNewRow = False
         Me.gvPP.MasterTemplate.AutoGenerateColumns = False
         Me.gvPP.MasterTemplate.EnableGrouping = False
+        Me.gvPP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPP.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvPP.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvPP.MyStopExport = False
         Me.gvPP.Name = "gvPP"
         Me.gvPP.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPP.ShowHeaderCellButtons = True
         Me.gvPP.Size = New System.Drawing.Size(887, 104)
         Me.gvPP.TabIndex = 5
         Me.gvPP.TabStop = False
-        Me.gvPP.Text = "RadGridView1"
         '
         'RadButton1
         '
@@ -382,27 +481,6 @@ Partial Class frmBatchOrder
         Me.RadButton1.TabIndex = 17
         Me.RadButton1.Text = " "
         '
-        'lblApprovedByName
-        '
-        Me.lblApprovedByName.AutoSize = False
-        Me.lblApprovedByName.BorderVisible = True
-        Me.lblApprovedByName.FieldName = Nothing
-        Me.lblApprovedByName.Location = New System.Drawing.Point(536, 38)
-        Me.lblApprovedByName.Name = "lblApprovedByName"
-        Me.lblApprovedByName.Size = New System.Drawing.Size(178, 19)
-        Me.lblApprovedByName.TabIndex = 14
-        Me.lblApprovedByName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'lblApprovedBy
-        '
-        Me.lblApprovedBy.FieldName = Nothing
-        Me.lblApprovedBy.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblApprovedBy.Location = New System.Drawing.Point(453, 39)
-        Me.lblApprovedBy.Name = "lblApprovedBy"
-        Me.lblApprovedBy.Size = New System.Drawing.Size(71, 16)
-        Me.lblApprovedBy.TabIndex = 13
-        Me.lblApprovedBy.Text = "Approved By"
-        '
         'lblCreatedByName
         '
         Me.lblCreatedByName.AutoSize = False
@@ -412,7 +490,6 @@ Partial Class frmBatchOrder
         Me.lblCreatedByName.Name = "lblCreatedByName"
         Me.lblCreatedByName.Size = New System.Drawing.Size(178, 19)
         Me.lblCreatedByName.TabIndex = 12
-        Me.lblCreatedByName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCreatedBy
         '
@@ -476,46 +553,6 @@ Partial Class frmBatchOrder
         Me.btnNew.TabIndex = 1
         Me.btnNew.Text = " "
         '
-        'dtpBODate
-        '
-        Me.dtpBODate.CalculationExpression = Nothing
-        Me.dtpBODate.CustomFormat = "dd/MM/yyyy"
-        Me.dtpBODate.FieldCode = Nothing
-        Me.dtpBODate.FieldDesc = Nothing
-        Me.dtpBODate.FieldMaxLength = 0
-        Me.dtpBODate.FieldName = Nothing
-        Me.dtpBODate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.dtpBODate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpBODate.isCalculatedField = False
-        Me.dtpBODate.IsSourceFromTable = False
-        Me.dtpBODate.IsSourceFromValueList = False
-        Me.dtpBODate.IsUnique = False
-        Me.dtpBODate.Location = New System.Drawing.Point(776, 38)
-        Me.dtpBODate.MendatroryField = True
-        Me.dtpBODate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpBODate.MyLinkLable1 = Me.lblPPDate
-        Me.dtpBODate.MyLinkLable2 = Nothing
-        Me.dtpBODate.Name = "dtpBODate"
-        Me.dtpBODate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpBODate.ReferenceFieldDesc = Nothing
-        Me.dtpBODate.ReferenceFieldName = Nothing
-        Me.dtpBODate.ReferenceTableName = Nothing
-        Me.dtpBODate.Size = New System.Drawing.Size(91, 18)
-        Me.dtpBODate.TabIndex = 3
-        Me.dtpBODate.TabStop = False
-        Me.dtpBODate.Text = "03/05/2011"
-        Me.dtpBODate.Value = New Date(2011, 5, 3, 0, 0, 0, 0)
-        '
-        'lblPPDate
-        '
-        Me.lblPPDate.FieldName = Nothing
-        Me.lblPPDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPPDate.Location = New System.Drawing.Point(720, 39)
-        Me.lblPPDate.Name = "lblPPDate"
-        Me.lblPPDate.Size = New System.Drawing.Size(50, 16)
-        Me.lblPPDate.TabIndex = 8
-        Me.lblPPDate.Text = "BO Date"
-        '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -566,40 +603,6 @@ Partial Class frmBatchOrder
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
-        'txtManualBatchNo
-        '
-        Me.txtManualBatchNo.CalculationExpression = Nothing
-        Me.txtManualBatchNo.FieldCode = Nothing
-        Me.txtManualBatchNo.FieldDesc = Nothing
-        Me.txtManualBatchNo.FieldMaxLength = 0
-        Me.txtManualBatchNo.FieldName = Nothing
-        Me.txtManualBatchNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtManualBatchNo.isCalculatedField = False
-        Me.txtManualBatchNo.IsSourceFromTable = False
-        Me.txtManualBatchNo.IsSourceFromValueList = False
-        Me.txtManualBatchNo.IsUnique = False
-        Me.txtManualBatchNo.Location = New System.Drawing.Point(110, 59)
-        Me.txtManualBatchNo.MaxLength = 200
-        Me.txtManualBatchNo.MendatroryField = False
-        Me.txtManualBatchNo.MyLinkLable1 = Nothing
-        Me.txtManualBatchNo.MyLinkLable2 = Nothing
-        Me.txtManualBatchNo.Name = "txtManualBatchNo"
-        Me.txtManualBatchNo.ReferenceFieldDesc = Nothing
-        Me.txtManualBatchNo.ReferenceFieldName = Nothing
-        Me.txtManualBatchNo.ReferenceTableName = Nothing
-        Me.txtManualBatchNo.Size = New System.Drawing.Size(337, 18)
-        Me.txtManualBatchNo.TabIndex = 50
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.MyLabel3.Location = New System.Drawing.Point(12, 59)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(93, 18)
-        Me.MyLabel3.TabIndex = 51
-        Me.MyLabel3.Text = "Manual Batch No"
-        '
         'frmBatchOrder
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -620,6 +623,12 @@ Partial Class frmBatchOrder
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblApprovedBy, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblApprovedByName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPPDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpBODate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtManualBatchNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnFillPP, System.ComponentModel.ISupportInitialize).EndInit()
@@ -639,22 +648,16 @@ Partial Class frmBatchOrder
         CType(Me.gvPP.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvPP, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblApprovedByName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblApprovedBy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCreatedByName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCreatedBy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBomDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpBODate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblPPDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtManualBatchNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

@@ -124,7 +124,7 @@ Partial Class frmDGMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(261, 20)
@@ -168,7 +168,6 @@ Partial Class frmDGMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(487, 20)
         Me.RadMenu1.TabIndex = 322
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenu
         '
@@ -180,15 +179,11 @@ Partial Class frmDGMaster
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
         '

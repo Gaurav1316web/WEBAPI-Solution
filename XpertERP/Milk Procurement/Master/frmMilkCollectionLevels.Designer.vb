@@ -22,23 +22,25 @@ Partial Class frmMilkCollectionLevels
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.lblHigherLevelDesg = New common.Controls.MyLabel
-        Me.lblHigherLevelDesgName = New common.Controls.MyLabel
-        Me.txtParentCode = New common.UserControls.txtFinder
-        Me.btnUser = New Telerik.WinControls.UI.RadButton
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lblDesignation = New common.Controls.MyLabel
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.rdlbldescription = New common.Controls.MyLabel
-        Me.txtAccdescription = New common.Controls.MyTextBox
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.rdlbldescription = New common.Controls.MyLabel()
+        Me.txtAccdescription = New common.Controls.MyTextBox()
+        Me.lblHigherLevelDesg = New common.Controls.MyLabel()
+        Me.lblHigherLevelDesgName = New common.Controls.MyLabel()
+        Me.txtParentCode = New common.UserControls.txtFinder()
+        Me.btnUser = New Telerik.WinControls.UI.RadButton()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lblDesignation = New common.Controls.MyLabel()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.rdlbldescription, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAccdescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblHigherLevelDesg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblHigherLevelDesgName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUser, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -46,8 +48,6 @@ Partial Class frmMilkCollectionLevels
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rdlbldescription, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtAccdescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -91,8 +91,42 @@ Partial Class frmMilkCollectionLevels
         Me.SplitContainer1.SplitterDistance = 110
         Me.SplitContainer1.TabIndex = 1
         '
+        'rdlbldescription
+        '
+        Me.rdlbldescription.FieldName = Nothing
+        Me.rdlbldescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rdlbldescription.Location = New System.Drawing.Point(8, 35)
+        Me.rdlbldescription.Name = "rdlbldescription"
+        Me.rdlbldescription.Size = New System.Drawing.Size(63, 16)
+        Me.rdlbldescription.TabIndex = 27
+        Me.rdlbldescription.Text = "Description"
+        '
+        'txtAccdescription
+        '
+        Me.txtAccdescription.CalculationExpression = Nothing
+        Me.txtAccdescription.FieldCode = Nothing
+        Me.txtAccdescription.FieldDesc = Nothing
+        Me.txtAccdescription.FieldMaxLength = 0
+        Me.txtAccdescription.FieldName = Nothing
+        Me.txtAccdescription.isCalculatedField = False
+        Me.txtAccdescription.IsSourceFromTable = False
+        Me.txtAccdescription.IsSourceFromValueList = False
+        Me.txtAccdescription.IsUnique = False
+        Me.txtAccdescription.Location = New System.Drawing.Point(94, 31)
+        Me.txtAccdescription.MaxLength = 50
+        Me.txtAccdescription.MendatroryField = True
+        Me.txtAccdescription.MyLinkLable1 = Me.rdlbldescription
+        Me.txtAccdescription.MyLinkLable2 = Nothing
+        Me.txtAccdescription.Name = "txtAccdescription"
+        Me.txtAccdescription.ReferenceFieldDesc = Nothing
+        Me.txtAccdescription.ReferenceFieldName = Nothing
+        Me.txtAccdescription.ReferenceTableName = Nothing
+        Me.txtAccdescription.Size = New System.Drawing.Size(416, 20)
+        Me.txtAccdescription.TabIndex = 1
+        '
         'lblHigherLevelDesg
         '
+        Me.lblHigherLevelDesg.FieldName = Nothing
         Me.lblHigherLevelDesg.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblHigherLevelDesg.Location = New System.Drawing.Point(8, 56)
         Me.lblHigherLevelDesg.Name = "lblHigherLevelDesg"
@@ -104,23 +138,36 @@ Partial Class frmMilkCollectionLevels
         '
         Me.lblHigherLevelDesgName.AutoSize = False
         Me.lblHigherLevelDesgName.BorderVisible = True
+        Me.lblHigherLevelDesgName.FieldName = Nothing
         Me.lblHigherLevelDesgName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblHigherLevelDesgName.Location = New System.Drawing.Point(322, 54)
         Me.lblHigherLevelDesgName.Name = "lblHigherLevelDesgName"
         Me.lblHigherLevelDesgName.Size = New System.Drawing.Size(188, 19)
         Me.lblHigherLevelDesgName.TabIndex = 25
-        Me.lblHigherLevelDesgName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblHigherLevelDesgName.TextWrap = False
         '
         'txtParentCode
         '
+        Me.txtParentCode.CalculationExpression = Nothing
+        Me.txtParentCode.FieldCode = Nothing
+        Me.txtParentCode.FieldDesc = Nothing
+        Me.txtParentCode.FieldMaxLength = 0
+        Me.txtParentCode.FieldName = Nothing
+        Me.txtParentCode.isCalculatedField = False
+        Me.txtParentCode.IsSourceFromTable = False
+        Me.txtParentCode.IsSourceFromValueList = False
+        Me.txtParentCode.IsUnique = False
         Me.txtParentCode.Location = New System.Drawing.Point(94, 53)
         Me.txtParentCode.MendatroryField = True
         Me.txtParentCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtParentCode.MyLinkLable1 = Nothing
         Me.txtParentCode.MyLinkLable2 = Me.lblHigherLevelDesg
         Me.txtParentCode.MyReadOnly = False
+        Me.txtParentCode.MyShowMasterFormButton = False
         Me.txtParentCode.Name = "txtParentCode"
+        Me.txtParentCode.ReferenceFieldDesc = Nothing
+        Me.txtParentCode.ReferenceFieldName = Nothing
+        Me.txtParentCode.ReferenceTableName = Nothing
         Me.txtParentCode.Size = New System.Drawing.Size(223, 19)
         Me.txtParentCode.TabIndex = 2
         Me.txtParentCode.Value = ""
@@ -136,13 +183,14 @@ Partial Class frmMilkCollectionLevels
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(94, 9)
         Me.txtCode.MendatroryField = False
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblDesignation
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(242, 20)
@@ -151,6 +199,7 @@ Partial Class frmMilkCollectionLevels
         '
         'lblDesignation
         '
+        Me.lblDesignation.FieldName = Nothing
         Me.lblDesignation.Location = New System.Drawing.Point(7, 12)
         Me.lblDesignation.Name = "lblDesignation"
         Me.lblDesignation.Size = New System.Drawing.Size(32, 18)
@@ -185,26 +234,6 @@ Partial Class frmMilkCollectionLevels
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'rdlbldescription
-        '
-        Me.rdlbldescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdlbldescription.Location = New System.Drawing.Point(8, 35)
-        Me.rdlbldescription.Name = "rdlbldescription"
-        Me.rdlbldescription.Size = New System.Drawing.Size(63, 16)
-        Me.rdlbldescription.TabIndex = 27
-        Me.rdlbldescription.Text = "Description"
-        '
-        'txtAccdescription
-        '
-        Me.txtAccdescription.Location = New System.Drawing.Point(94, 31)
-        Me.txtAccdescription.MaxLength = 50
-        Me.txtAccdescription.MendatroryField = True
-        Me.txtAccdescription.MyLinkLable1 = Me.rdlbldescription
-        Me.txtAccdescription.MyLinkLable2 = Nothing
-        Me.txtAccdescription.Name = "txtAccdescription"
-        Me.txtAccdescription.Size = New System.Drawing.Size(416, 20)
-        Me.txtAccdescription.TabIndex = 1
-        '
         'frmMilkCollectionLevels
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -223,6 +252,8 @@ Partial Class frmMilkCollectionLevels
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.rdlbldescription, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAccdescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblHigherLevelDesg, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblHigherLevelDesgName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUser, System.ComponentModel.ISupportInitialize).EndInit()
@@ -230,8 +261,6 @@ Partial Class frmMilkCollectionLevels
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rdlbldescription, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtAccdescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
