@@ -45817,6 +45817,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Bank_Code_Saving", "varchar(30) ")
             coll.Add("Bank_Desc_Saving", "varchar(50) ")
             coll.Add("Payment_Mode_Saving", "varchar(30) ")
+            coll.Add("Saving_Amount", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
 
