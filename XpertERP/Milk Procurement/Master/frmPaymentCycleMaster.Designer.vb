@@ -22,10 +22,11 @@ Partial Class frmPaymentCycleMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPaymentCycleMaster))
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkIsDefault = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtValue = New common.Controls.MyTextBox()
@@ -52,9 +53,9 @@ Partial Class frmPaymentCycleMaster
         Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkIsDefault = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.chkIsDefault, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
@@ -77,7 +78,6 @@ Partial Class frmPaymentCycleMaster
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkIsDefault, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -102,6 +102,15 @@ Partial Class frmPaymentCycleMaster
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(569, 111)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'chkIsDefault
+        '
+        Me.chkIsDefault.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkIsDefault.Location = New System.Drawing.Point(434, 10)
+        Me.chkIsDefault.Name = "chkIsDefault"
+        Me.chkIsDefault.Size = New System.Drawing.Size(68, 16)
+        Me.chkIsDefault.TabIndex = 169
+        Me.chkIsDefault.Text = "Is Default"
         '
         'SplitContainer2
         '
@@ -205,12 +214,12 @@ Partial Class frmPaymentCycleMaster
         Me.cboPCType.IsSourceFromTable = False
         Me.cboPCType.IsSourceFromValueList = False
         Me.cboPCType.IsUnique = False
-        RadListDataItem3.Tag = "Fat"
-        RadListDataItem3.Text = "Fat"
-        RadListDataItem4.Tag = "SNF"
-        RadListDataItem4.Text = "SNF"
-        Me.cboPCType.Items.Add(RadListDataItem3)
-        Me.cboPCType.Items.Add(RadListDataItem4)
+        RadListDataItem1.Tag = "Fat"
+        RadListDataItem1.Text = "Fat"
+        RadListDataItem2.Tag = "SNF"
+        RadListDataItem2.Text = "SNF"
+        Me.cboPCType.Items.Add(RadListDataItem1)
+        Me.cboPCType.Items.Add(RadListDataItem2)
         Me.cboPCType.Location = New System.Drawing.Point(79, 50)
         Me.cboPCType.MendatroryField = True
         Me.cboPCType.MyLinkLable1 = Nothing
@@ -300,7 +309,7 @@ Partial Class frmPaymentCycleMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(295, 21)
@@ -416,15 +425,6 @@ Partial Class frmPaymentCycleMaster
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
         '
-        'chkIsDefault
-        '
-        Me.chkIsDefault.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkIsDefault.Location = New System.Drawing.Point(434, 10)
-        Me.chkIsDefault.Name = "chkIsDefault"
-        Me.chkIsDefault.Size = New System.Drawing.Size(68, 16)
-        Me.chkIsDefault.TabIndex = 169
-        Me.chkIsDefault.Text = "Is Default"
-        '
         'frmPaymentCycleMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -440,6 +440,7 @@ Partial Class frmPaymentCycleMaster
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.chkIsDefault, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
@@ -465,7 +466,6 @@ Partial Class frmPaymentCycleMaster
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkIsDefault, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

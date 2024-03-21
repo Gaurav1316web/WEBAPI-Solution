@@ -29,43 +29,43 @@ Partial Class frmVSPCommission
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtCommissionNoOfPaymentCycleForNewVSP = New common.MyNumBox()
+        Me.MyLabel83 = New common.Controls.MyLabel()
         Me.lblDescription = New common.Controls.MyLabel()
+        Me.txtCommissionMinimumQtyInShift = New common.MyNumBox()
+        Me.MyLabel82 = New common.Controls.MyLabel()
         Me.txtDescription = New common.Controls.MyTextBox()
+        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
+        Me.txtCommissionMinimumShiftInPaymentCycle = New common.MyNumBox()
+        Me.MyLabel81 = New common.Controls.MyLabel()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblAdvanceCode = New common.Controls.MyLabel()
+        Me.txtCommissionRate = New common.MyNumBox()
+        Me.MyLabel80 = New common.Controls.MyLabel()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
-        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
-        Me.txtCommissionNoOfPaymentCycleForNewVSP = New common.MyNumBox()
-        Me.MyLabel83 = New common.Controls.MyLabel()
-        Me.txtCommissionMinimumQtyInShift = New common.MyNumBox()
-        Me.MyLabel82 = New common.Controls.MyLabel()
-        Me.txtCommissionMinimumShiftInPaymentCycle = New common.MyNumBox()
-        Me.MyLabel81 = New common.Controls.MyLabel()
-        Me.txtCommissionRate = New common.MyNumBox()
-        Me.MyLabel80 = New common.Controls.MyLabel()
         CType(Me.rdmenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtCommissionNoOfPaymentCycleForNewVSP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel83, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCommissionMinimumQtyInShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel82, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCommissionMinimumShiftInPaymentCycle, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel81, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAdvanceCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCommissionRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel80, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCommissionNoOfPaymentCycleForNewVSP, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel83, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCommissionMinimumQtyInShift, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel82, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCommissionMinimumShiftInPaymentCycle, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel81, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtCommissionRate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel80, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -76,27 +76,20 @@ Partial Class frmVSPCommission
         Me.rdmenu1.Name = "rdmenu1"
         Me.rdmenu1.Size = New System.Drawing.Size(605, 20)
         Me.rdmenu1.TabIndex = 1
-        Me.rdmenu1.Text = "rdmenu"
         '
         'File
         '
-        Me.File.AccessibleDescription = "File"
-        Me.File.AccessibleName = "File"
         Me.File.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Import, Me.Export, Me.RadMenuItem1})
         Me.File.Name = "File"
         Me.File.Text = "File"
         '
         'Import
         '
-        Me.Import.AccessibleDescription = "Import"
-        Me.Import.AccessibleName = "Import"
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
         '
         'Export
         '
-        Me.Export.AccessibleDescription = "Export"
-        Me.Export.AccessibleName = "Export"
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '
@@ -111,8 +104,6 @@ Partial Class frmVSPCommission
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "RadMenuItem2"
-        Me.RadMenuItem2.AccessibleName = "RadMenuItem2"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "RadMenuItem2"
         '
@@ -151,110 +142,6 @@ Partial Class frmVSPCommission
         Me.SplitContainer1.SplitterDistance = 321
         Me.SplitContainer1.TabIndex = 1
         '
-        'lblDescription
-        '
-        Me.lblDescription.FieldName = Nothing
-        Me.lblDescription.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.lblDescription.Location = New System.Drawing.Point(14, 41)
-        Me.lblDescription.Name = "lblDescription"
-        Me.lblDescription.Size = New System.Drawing.Size(63, 18)
-        Me.lblDescription.TabIndex = 6
-        Me.lblDescription.Text = "Description"
-        '
-        'txtDescription
-        '
-        Me.txtDescription.CalculationExpression = Nothing
-        Me.txtDescription.FieldCode = Nothing
-        Me.txtDescription.FieldDesc = Nothing
-        Me.txtDescription.FieldMaxLength = 0
-        Me.txtDescription.FieldName = Nothing
-        Me.txtDescription.isCalculatedField = False
-        Me.txtDescription.IsSourceFromTable = False
-        Me.txtDescription.IsSourceFromValueList = False
-        Me.txtDescription.IsUnique = False
-        Me.txtDescription.Location = New System.Drawing.Point(96, 40)
-        Me.txtDescription.MaxLength = 100
-        Me.txtDescription.MendatroryField = False
-        Me.txtDescription.MyLinkLable1 = Nothing
-        Me.txtDescription.MyLinkLable2 = Nothing
-        Me.txtDescription.Name = "txtDescription"
-        Me.txtDescription.ReferenceFieldDesc = Nothing
-        Me.txtDescription.ReferenceFieldName = Nothing
-        Me.txtDescription.ReferenceTableName = Nothing
-        Me.txtDescription.Size = New System.Drawing.Size(233, 20)
-        Me.txtDescription.TabIndex = 1
-        '
-        'txtCode
-        '
-        Me.txtCode.FieldName = Nothing
-        Me.txtCode.Location = New System.Drawing.Point(96, 16)
-        Me.txtCode.MendatroryField = False
-        Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
-        Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
-        Me.txtCode.MyReadOnly = False
-        Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(216, 21)
-        Me.txtCode.TabIndex = 0
-        Me.txtCode.Value = ""
-        '
-        'lblAdvanceCode
-        '
-        Me.lblAdvanceCode.FieldName = Nothing
-        Me.lblAdvanceCode.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.lblAdvanceCode.Location = New System.Drawing.Point(14, 17)
-        Me.lblAdvanceCode.Name = "lblAdvanceCode"
-        Me.lblAdvanceCode.Size = New System.Drawing.Size(32, 18)
-        Me.lblAdvanceCode.TabIndex = 2
-        Me.lblAdvanceCode.Text = "Code"
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(143, 10)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(66, 23)
-        Me.btnHistory.TabIndex = 108
-        Me.btnHistory.Text = "&History"
-        '
-        'btnsave
-        '
-        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnsave.Location = New System.Drawing.Point(5, 10)
-        Me.btnsave.Name = "btnsave"
-        Me.btnsave.Size = New System.Drawing.Size(66, 23)
-        Me.btnsave.TabIndex = 0
-        Me.btnsave.Text = "Save"
-        '
-        'rdbtnclose
-        '
-        Me.rdbtnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.rdbtnclose.Location = New System.Drawing.Point(536, 10)
-        Me.rdbtnclose.Name = "rdbtnclose"
-        Me.rdbtnclose.Size = New System.Drawing.Size(66, 23)
-        Me.rdbtnclose.TabIndex = 2
-        Me.rdbtnclose.Text = "Close"
-        '
-        'rdbtndelete
-        '
-        Me.rdbtndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.rdbtndelete.Location = New System.Drawing.Point(74, 10)
-        Me.rdbtndelete.Name = "rdbtndelete"
-        Me.rdbtndelete.Size = New System.Drawing.Size(66, 23)
-        Me.rdbtndelete.TabIndex = 1
-        Me.rdbtndelete.Text = "Delete"
-        '
-        'rdbtnreset
-        '
-        Me.rdbtnreset.Image = Global.ERP.My.Resources.Resources._new
-        Me.rdbtnreset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.rdbtnreset.Location = New System.Drawing.Point(311, 16)
-        Me.rdbtnreset.Name = "rdbtnreset"
-        Me.rdbtnreset.Size = New System.Drawing.Size(18, 21)
-        Me.rdbtnreset.TabIndex = 1
-        '
         'txtCommissionNoOfPaymentCycleForNewVSP
         '
         Me.txtCommissionNoOfPaymentCycleForNewVSP.BackColor = System.Drawing.Color.White
@@ -291,6 +178,16 @@ Partial Class frmVSPCommission
         Me.MyLabel83.Size = New System.Drawing.Size(237, 16)
         Me.MyLabel83.TabIndex = 104
         Me.MyLabel83.Text = "Applicable For New VSP After Payment Cycle"
+        '
+        'lblDescription
+        '
+        Me.lblDescription.FieldName = Nothing
+        Me.lblDescription.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.lblDescription.Location = New System.Drawing.Point(14, 41)
+        Me.lblDescription.Name = "lblDescription"
+        Me.lblDescription.Size = New System.Drawing.Size(63, 18)
+        Me.lblDescription.TabIndex = 6
+        Me.lblDescription.Text = "Description"
         '
         'txtCommissionMinimumQtyInShift
         '
@@ -329,6 +226,38 @@ Partial Class frmVSPCommission
         Me.MyLabel82.TabIndex = 102
         Me.MyLabel82.Text = "Minimum Milk Qty in One Shift"
         '
+        'txtDescription
+        '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
+        Me.txtDescription.Location = New System.Drawing.Point(96, 40)
+        Me.txtDescription.MaxLength = 100
+        Me.txtDescription.MendatroryField = False
+        Me.txtDescription.MyLinkLable1 = Nothing
+        Me.txtDescription.MyLinkLable2 = Nothing
+        Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
+        Me.txtDescription.Size = New System.Drawing.Size(233, 20)
+        Me.txtDescription.TabIndex = 1
+        '
+        'rdbtnreset
+        '
+        Me.rdbtnreset.Image = Global.ERP.My.Resources.Resources._new
+        Me.rdbtnreset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.rdbtnreset.Location = New System.Drawing.Point(311, 16)
+        Me.rdbtnreset.Name = "rdbtnreset"
+        Me.rdbtnreset.Size = New System.Drawing.Size(18, 21)
+        Me.rdbtnreset.TabIndex = 1
+        '
         'txtCommissionMinimumShiftInPaymentCycle
         '
         Me.txtCommissionMinimumShiftInPaymentCycle.BackColor = System.Drawing.Color.White
@@ -365,6 +294,32 @@ Partial Class frmVSPCommission
         Me.MyLabel81.Size = New System.Drawing.Size(169, 16)
         Me.MyLabel81.TabIndex = 102
         Me.MyLabel81.Text = "Minimum Shift in Payment Cycle"
+        '
+        'txtCode
+        '
+        Me.txtCode.FieldName = Nothing
+        Me.txtCode.Location = New System.Drawing.Point(96, 16)
+        Me.txtCode.MendatroryField = False
+        Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
+        Me.txtCode.MyLinkLable2 = Nothing
+        Me.txtCode.MyMaxLength = 30
+        Me.txtCode.MyReadOnly = False
+        Me.txtCode.Name = "txtCode"
+        Me.txtCode.Size = New System.Drawing.Size(216, 21)
+        Me.txtCode.TabIndex = 0
+        Me.txtCode.Value = ""
+        '
+        'lblAdvanceCode
+        '
+        Me.lblAdvanceCode.FieldName = Nothing
+        Me.lblAdvanceCode.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.lblAdvanceCode.Location = New System.Drawing.Point(14, 17)
+        Me.lblAdvanceCode.Name = "lblAdvanceCode"
+        Me.lblAdvanceCode.Size = New System.Drawing.Size(32, 18)
+        Me.lblAdvanceCode.TabIndex = 2
+        Me.lblAdvanceCode.Text = "Code"
         '
         'txtCommissionRate
         '
@@ -403,6 +358,42 @@ Partial Class frmVSPCommission
         Me.MyLabel80.TabIndex = 100
         Me.MyLabel80.Text = "VSP Commission Rate"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(143, 10)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 23)
+        Me.btnHistory.TabIndex = 108
+        Me.btnHistory.Text = "&History"
+        '
+        'btnsave
+        '
+        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnsave.Location = New System.Drawing.Point(5, 10)
+        Me.btnsave.Name = "btnsave"
+        Me.btnsave.Size = New System.Drawing.Size(66, 23)
+        Me.btnsave.TabIndex = 0
+        Me.btnsave.Text = "Save"
+        '
+        'rdbtnclose
+        '
+        Me.rdbtnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.rdbtnclose.Location = New System.Drawing.Point(536, 10)
+        Me.rdbtnclose.Name = "rdbtnclose"
+        Me.rdbtnclose.Size = New System.Drawing.Size(66, 23)
+        Me.rdbtnclose.TabIndex = 2
+        Me.rdbtnclose.Text = "Close"
+        '
+        'rdbtndelete
+        '
+        Me.rdbtndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.rdbtndelete.Location = New System.Drawing.Point(74, 10)
+        Me.rdbtndelete.Name = "rdbtndelete"
+        Me.rdbtndelete.Size = New System.Drawing.Size(66, 23)
+        Me.rdbtndelete.TabIndex = 1
+        Me.rdbtndelete.Text = "Delete"
+        '
         'frmVSPCommission
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -422,22 +413,22 @@ Partial Class frmVSPCommission
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtCommissionNoOfPaymentCycleForNewVSP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel83, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCommissionMinimumQtyInShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel82, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCommissionMinimumShiftInPaymentCycle, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel81, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAdvanceCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCommissionRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel80, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCommissionNoOfPaymentCycleForNewVSP, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel83, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCommissionMinimumQtyInShift, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel82, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCommissionMinimumShiftInPaymentCycle, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel81, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtCommissionRate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel80, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

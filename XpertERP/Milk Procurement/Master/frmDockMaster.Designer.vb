@@ -22,26 +22,6 @@ Partial Class frmDockMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem47 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem48 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem49 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem50 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem51 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem52 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem53 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem54 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem55 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem56 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem57 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem58 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem59 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem60 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem61 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem62 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem63 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem64 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem65 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem66 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -78,6 +58,26 @@ Partial Class frmDockMaster
         Dim RadListDataItem34 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem35 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem36 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem37 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem38 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem39 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem40 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem41 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem42 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem43 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem44 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem45 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem46 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem47 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem48 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem49 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem50 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem51 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem52 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem53 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem54 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem55 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem56 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.CmbSampleComport4 = New common.Controls.MyComboBox()
         Me.MyLabel56 = New common.Controls.MyLabel()
@@ -179,6 +179,7 @@ Partial Class frmDockMaster
         Me.CmbSampleComport4.AutoCompleteDisplayMember = Nothing
         Me.CmbSampleComport4.AutoCompleteValueMember = Nothing
         Me.CmbSampleComport4.CalculationExpression = Nothing
+        Me.CmbSampleComport4.DropDownAnimationEnabled = True
         Me.CmbSampleComport4.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CmbSampleComport4.FieldCode = Nothing
         Me.CmbSampleComport4.FieldDesc = Nothing
@@ -190,26 +191,26 @@ Partial Class frmDockMaster
         Me.CmbSampleComport4.IsSourceFromTable = False
         Me.CmbSampleComport4.IsSourceFromValueList = False
         Me.CmbSampleComport4.IsUnique = False
-        RadListDataItem47.Text = "COM1"
-        RadListDataItem48.Text = "COM2"
-        RadListDataItem49.Text = "COM3"
-        RadListDataItem50.Text = "COM4"
-        RadListDataItem51.Text = "COM5"
-        RadListDataItem52.Text = "COM6"
-        RadListDataItem53.Text = "COM7"
-        RadListDataItem54.Text = "COM8"
-        RadListDataItem55.Text = "COM9"
-        RadListDataItem56.Text = "COM10"
-        Me.CmbSampleComport4.Items.Add(RadListDataItem47)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem48)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem49)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem50)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem51)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem52)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem53)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem54)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem55)
-        Me.CmbSampleComport4.Items.Add(RadListDataItem56)
+        RadListDataItem1.Text = "COM1"
+        RadListDataItem2.Text = "COM2"
+        RadListDataItem3.Text = "COM3"
+        RadListDataItem4.Text = "COM4"
+        RadListDataItem5.Text = "COM5"
+        RadListDataItem6.Text = "COM6"
+        RadListDataItem7.Text = "COM7"
+        RadListDataItem8.Text = "COM8"
+        RadListDataItem9.Text = "COM9"
+        RadListDataItem10.Text = "COM10"
+        Me.CmbSampleComport4.Items.Add(RadListDataItem1)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem2)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem3)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem4)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem5)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem6)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem7)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem8)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem9)
+        Me.CmbSampleComport4.Items.Add(RadListDataItem10)
         Me.CmbSampleComport4.Location = New System.Drawing.Point(402, 83)
         Me.CmbSampleComport4.MendatroryField = False
         Me.CmbSampleComport4.MyLinkLable1 = Me.MyLabel56
@@ -241,6 +242,7 @@ Partial Class frmDockMaster
         Me.CmbSampleComport3.AutoCompleteDisplayMember = Nothing
         Me.CmbSampleComport3.AutoCompleteValueMember = Nothing
         Me.CmbSampleComport3.CalculationExpression = Nothing
+        Me.CmbSampleComport3.DropDownAnimationEnabled = True
         Me.CmbSampleComport3.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CmbSampleComport3.FieldCode = Nothing
         Me.CmbSampleComport3.FieldDesc = Nothing
@@ -252,26 +254,26 @@ Partial Class frmDockMaster
         Me.CmbSampleComport3.IsSourceFromTable = False
         Me.CmbSampleComport3.IsSourceFromValueList = False
         Me.CmbSampleComport3.IsUnique = False
-        RadListDataItem57.Text = "COM1"
-        RadListDataItem58.Text = "COM2"
-        RadListDataItem59.Text = "COM3"
-        RadListDataItem60.Text = "COM4"
-        RadListDataItem61.Text = "COM5"
-        RadListDataItem62.Text = "COM6"
-        RadListDataItem63.Text = "COM7"
-        RadListDataItem64.Text = "COM8"
-        RadListDataItem65.Text = "COM9"
-        RadListDataItem66.Text = "COM10"
-        Me.CmbSampleComport3.Items.Add(RadListDataItem57)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem58)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem59)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem60)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem61)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem62)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem63)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem64)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem65)
-        Me.CmbSampleComport3.Items.Add(RadListDataItem66)
+        RadListDataItem11.Text = "COM1"
+        RadListDataItem12.Text = "COM2"
+        RadListDataItem13.Text = "COM3"
+        RadListDataItem14.Text = "COM4"
+        RadListDataItem15.Text = "COM5"
+        RadListDataItem16.Text = "COM6"
+        RadListDataItem17.Text = "COM7"
+        RadListDataItem18.Text = "COM8"
+        RadListDataItem19.Text = "COM9"
+        RadListDataItem20.Text = "COM10"
+        Me.CmbSampleComport3.Items.Add(RadListDataItem11)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem12)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem13)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem14)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem15)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem16)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem17)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem18)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem19)
+        Me.CmbSampleComport3.Items.Add(RadListDataItem20)
         Me.CmbSampleComport3.Location = New System.Drawing.Point(316, 83)
         Me.CmbSampleComport3.MendatroryField = False
         Me.CmbSampleComport3.MyLinkLable1 = Me.MyLabel56
@@ -292,6 +294,7 @@ Partial Class frmDockMaster
         Me.cboSampleMachine4.AutoCompleteDisplayMember = Nothing
         Me.cboSampleMachine4.AutoCompleteValueMember = Nothing
         Me.cboSampleMachine4.CalculationExpression = Nothing
+        Me.cboSampleMachine4.DropDownAnimationEnabled = True
         Me.cboSampleMachine4.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboSampleMachine4.FieldCode = Nothing
         Me.cboSampleMachine4.FieldDesc = Nothing
@@ -303,14 +306,14 @@ Partial Class frmDockMaster
         Me.cboSampleMachine4.IsSourceFromTable = False
         Me.cboSampleMachine4.IsSourceFromValueList = False
         Me.cboSampleMachine4.IsUnique = False
-        RadListDataItem1.Text = "COM1"
-        RadListDataItem2.Text = "COM2"
-        RadListDataItem3.Text = "COM3"
-        RadListDataItem4.Text = "COM4"
-        Me.cboSampleMachine4.Items.Add(RadListDataItem1)
-        Me.cboSampleMachine4.Items.Add(RadListDataItem2)
-        Me.cboSampleMachine4.Items.Add(RadListDataItem3)
-        Me.cboSampleMachine4.Items.Add(RadListDataItem4)
+        RadListDataItem21.Text = "COM1"
+        RadListDataItem22.Text = "COM2"
+        RadListDataItem23.Text = "COM3"
+        RadListDataItem24.Text = "COM4"
+        Me.cboSampleMachine4.Items.Add(RadListDataItem21)
+        Me.cboSampleMachine4.Items.Add(RadListDataItem22)
+        Me.cboSampleMachine4.Items.Add(RadListDataItem23)
+        Me.cboSampleMachine4.Items.Add(RadListDataItem24)
         Me.cboSampleMachine4.Location = New System.Drawing.Point(402, 107)
         Me.cboSampleMachine4.MendatroryField = False
         Me.cboSampleMachine4.MyLinkLable1 = Me.MyLabel46
@@ -342,6 +345,7 @@ Partial Class frmDockMaster
         Me.cboSampleMachine3.AutoCompleteDisplayMember = Nothing
         Me.cboSampleMachine3.AutoCompleteValueMember = Nothing
         Me.cboSampleMachine3.CalculationExpression = Nothing
+        Me.cboSampleMachine3.DropDownAnimationEnabled = True
         Me.cboSampleMachine3.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboSampleMachine3.FieldCode = Nothing
         Me.cboSampleMachine3.FieldDesc = Nothing
@@ -353,14 +357,14 @@ Partial Class frmDockMaster
         Me.cboSampleMachine3.IsSourceFromTable = False
         Me.cboSampleMachine3.IsSourceFromValueList = False
         Me.cboSampleMachine3.IsUnique = False
-        RadListDataItem5.Text = "COM1"
-        RadListDataItem6.Text = "COM2"
-        RadListDataItem7.Text = "COM3"
-        RadListDataItem8.Text = "COM4"
-        Me.cboSampleMachine3.Items.Add(RadListDataItem5)
-        Me.cboSampleMachine3.Items.Add(RadListDataItem6)
-        Me.cboSampleMachine3.Items.Add(RadListDataItem7)
-        Me.cboSampleMachine3.Items.Add(RadListDataItem8)
+        RadListDataItem25.Text = "COM1"
+        RadListDataItem26.Text = "COM2"
+        RadListDataItem27.Text = "COM3"
+        RadListDataItem28.Text = "COM4"
+        Me.cboSampleMachine3.Items.Add(RadListDataItem25)
+        Me.cboSampleMachine3.Items.Add(RadListDataItem26)
+        Me.cboSampleMachine3.Items.Add(RadListDataItem27)
+        Me.cboSampleMachine3.Items.Add(RadListDataItem28)
         Me.cboSampleMachine3.Location = New System.Drawing.Point(316, 107)
         Me.cboSampleMachine3.MendatroryField = False
         Me.cboSampleMachine3.MyLinkLable1 = Me.MyLabel46
@@ -381,6 +385,7 @@ Partial Class frmDockMaster
         Me.CmbSampleComport2.AutoCompleteDisplayMember = Nothing
         Me.CmbSampleComport2.AutoCompleteValueMember = Nothing
         Me.CmbSampleComport2.CalculationExpression = Nothing
+        Me.CmbSampleComport2.DropDownAnimationEnabled = True
         Me.CmbSampleComport2.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CmbSampleComport2.FieldCode = Nothing
         Me.CmbSampleComport2.FieldDesc = Nothing
@@ -392,26 +397,26 @@ Partial Class frmDockMaster
         Me.CmbSampleComport2.IsSourceFromTable = False
         Me.CmbSampleComport2.IsSourceFromValueList = False
         Me.CmbSampleComport2.IsUnique = False
-        RadListDataItem9.Text = "COM1"
-        RadListDataItem10.Text = "COM2"
-        RadListDataItem11.Text = "COM3"
-        RadListDataItem12.Text = "COM4"
-        RadListDataItem13.Text = "COM5"
-        RadListDataItem14.Text = "COM6"
-        RadListDataItem15.Text = "COM7"
-        RadListDataItem16.Text = "COM8"
-        RadListDataItem17.Text = "COM9"
-        RadListDataItem18.Text = "COM10"
-        Me.CmbSampleComport2.Items.Add(RadListDataItem9)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem10)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem11)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem12)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem13)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem14)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem15)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem16)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem17)
-        Me.CmbSampleComport2.Items.Add(RadListDataItem18)
+        RadListDataItem29.Text = "COM1"
+        RadListDataItem30.Text = "COM2"
+        RadListDataItem31.Text = "COM3"
+        RadListDataItem32.Text = "COM4"
+        RadListDataItem33.Text = "COM5"
+        RadListDataItem34.Text = "COM6"
+        RadListDataItem35.Text = "COM7"
+        RadListDataItem36.Text = "COM8"
+        RadListDataItem37.Text = "COM9"
+        RadListDataItem38.Text = "COM10"
+        Me.CmbSampleComport2.Items.Add(RadListDataItem29)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem30)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem31)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem32)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem33)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem34)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem35)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem36)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem37)
+        Me.CmbSampleComport2.Items.Add(RadListDataItem38)
         Me.CmbSampleComport2.Location = New System.Drawing.Point(230, 84)
         Me.CmbSampleComport2.MendatroryField = False
         Me.CmbSampleComport2.MyLinkLable1 = Me.MyLabel56
@@ -432,6 +437,7 @@ Partial Class frmDockMaster
         Me.cboSampleMachine2.AutoCompleteDisplayMember = Nothing
         Me.cboSampleMachine2.AutoCompleteValueMember = Nothing
         Me.cboSampleMachine2.CalculationExpression = Nothing
+        Me.cboSampleMachine2.DropDownAnimationEnabled = True
         Me.cboSampleMachine2.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboSampleMachine2.FieldCode = Nothing
         Me.cboSampleMachine2.FieldDesc = Nothing
@@ -443,14 +449,14 @@ Partial Class frmDockMaster
         Me.cboSampleMachine2.IsSourceFromTable = False
         Me.cboSampleMachine2.IsSourceFromValueList = False
         Me.cboSampleMachine2.IsUnique = False
-        RadListDataItem19.Text = "COM1"
-        RadListDataItem20.Text = "COM2"
-        RadListDataItem21.Text = "COM3"
-        RadListDataItem22.Text = "COM4"
-        Me.cboSampleMachine2.Items.Add(RadListDataItem19)
-        Me.cboSampleMachine2.Items.Add(RadListDataItem20)
-        Me.cboSampleMachine2.Items.Add(RadListDataItem21)
-        Me.cboSampleMachine2.Items.Add(RadListDataItem22)
+        RadListDataItem39.Text = "COM1"
+        RadListDataItem40.Text = "COM2"
+        RadListDataItem41.Text = "COM3"
+        RadListDataItem42.Text = "COM4"
+        Me.cboSampleMachine2.Items.Add(RadListDataItem39)
+        Me.cboSampleMachine2.Items.Add(RadListDataItem40)
+        Me.cboSampleMachine2.Items.Add(RadListDataItem41)
+        Me.cboSampleMachine2.Items.Add(RadListDataItem42)
         Me.cboSampleMachine2.Location = New System.Drawing.Point(230, 108)
         Me.cboSampleMachine2.MendatroryField = False
         Me.cboSampleMachine2.MyLinkLable1 = Me.MyLabel46
@@ -471,6 +477,7 @@ Partial Class frmDockMaster
         Me.CmbSampleComport1.AutoCompleteDisplayMember = Nothing
         Me.CmbSampleComport1.AutoCompleteValueMember = Nothing
         Me.CmbSampleComport1.CalculationExpression = Nothing
+        Me.CmbSampleComport1.DropDownAnimationEnabled = True
         Me.CmbSampleComport1.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CmbSampleComport1.FieldCode = Nothing
         Me.CmbSampleComport1.FieldDesc = Nothing
@@ -482,26 +489,26 @@ Partial Class frmDockMaster
         Me.CmbSampleComport1.IsSourceFromTable = False
         Me.CmbSampleComport1.IsSourceFromValueList = False
         Me.CmbSampleComport1.IsUnique = False
-        RadListDataItem23.Text = "COM1"
-        RadListDataItem24.Text = "COM2"
-        RadListDataItem25.Text = "COM3"
-        RadListDataItem26.Text = "COM4"
-        RadListDataItem27.Text = "COM5"
-        RadListDataItem28.Text = "COM6"
-        RadListDataItem29.Text = "COM7"
-        RadListDataItem30.Text = "COM8"
-        RadListDataItem31.Text = "COM9"
-        RadListDataItem32.Text = "COM10"
-        Me.CmbSampleComport1.Items.Add(RadListDataItem23)
-        Me.CmbSampleComport1.Items.Add(RadListDataItem24)
-        Me.CmbSampleComport1.Items.Add(RadListDataItem25)
-        Me.CmbSampleComport1.Items.Add(RadListDataItem26)
-        Me.CmbSampleComport1.Items.Add(RadListDataItem27)
-        Me.CmbSampleComport1.Items.Add(RadListDataItem28)
-        Me.CmbSampleComport1.Items.Add(RadListDataItem29)
-        Me.CmbSampleComport1.Items.Add(RadListDataItem30)
-        Me.CmbSampleComport1.Items.Add(RadListDataItem31)
-        Me.CmbSampleComport1.Items.Add(RadListDataItem32)
+        RadListDataItem43.Text = "COM1"
+        RadListDataItem44.Text = "COM2"
+        RadListDataItem45.Text = "COM3"
+        RadListDataItem46.Text = "COM4"
+        RadListDataItem47.Text = "COM5"
+        RadListDataItem48.Text = "COM6"
+        RadListDataItem49.Text = "COM7"
+        RadListDataItem50.Text = "COM8"
+        RadListDataItem51.Text = "COM9"
+        RadListDataItem52.Text = "COM10"
+        Me.CmbSampleComport1.Items.Add(RadListDataItem43)
+        Me.CmbSampleComport1.Items.Add(RadListDataItem44)
+        Me.CmbSampleComport1.Items.Add(RadListDataItem45)
+        Me.CmbSampleComport1.Items.Add(RadListDataItem46)
+        Me.CmbSampleComport1.Items.Add(RadListDataItem47)
+        Me.CmbSampleComport1.Items.Add(RadListDataItem48)
+        Me.CmbSampleComport1.Items.Add(RadListDataItem49)
+        Me.CmbSampleComport1.Items.Add(RadListDataItem50)
+        Me.CmbSampleComport1.Items.Add(RadListDataItem51)
+        Me.CmbSampleComport1.Items.Add(RadListDataItem52)
         Me.CmbSampleComport1.Location = New System.Drawing.Point(144, 84)
         Me.CmbSampleComport1.MendatroryField = False
         Me.CmbSampleComport1.MyLinkLable1 = Me.MyLabel56
@@ -522,6 +529,7 @@ Partial Class frmDockMaster
         Me.cboSampleMachine1.AutoCompleteDisplayMember = Nothing
         Me.cboSampleMachine1.AutoCompleteValueMember = Nothing
         Me.cboSampleMachine1.CalculationExpression = Nothing
+        Me.cboSampleMachine1.DropDownAnimationEnabled = True
         Me.cboSampleMachine1.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboSampleMachine1.FieldCode = Nothing
         Me.cboSampleMachine1.FieldDesc = Nothing
@@ -533,14 +541,14 @@ Partial Class frmDockMaster
         Me.cboSampleMachine1.IsSourceFromTable = False
         Me.cboSampleMachine1.IsSourceFromValueList = False
         Me.cboSampleMachine1.IsUnique = False
-        RadListDataItem33.Text = "COM1"
-        RadListDataItem34.Text = "COM2"
-        RadListDataItem35.Text = "COM3"
-        RadListDataItem36.Text = "COM4"
-        Me.cboSampleMachine1.Items.Add(RadListDataItem33)
-        Me.cboSampleMachine1.Items.Add(RadListDataItem34)
-        Me.cboSampleMachine1.Items.Add(RadListDataItem35)
-        Me.cboSampleMachine1.Items.Add(RadListDataItem36)
+        RadListDataItem53.Text = "COM1"
+        RadListDataItem54.Text = "COM2"
+        RadListDataItem55.Text = "COM3"
+        RadListDataItem56.Text = "COM4"
+        Me.cboSampleMachine1.Items.Add(RadListDataItem53)
+        Me.cboSampleMachine1.Items.Add(RadListDataItem54)
+        Me.cboSampleMachine1.Items.Add(RadListDataItem55)
+        Me.cboSampleMachine1.Items.Add(RadListDataItem56)
         Me.cboSampleMachine1.Location = New System.Drawing.Point(144, 108)
         Me.cboSampleMachine1.MendatroryField = False
         Me.cboSampleMachine1.MyLinkLable1 = Me.MyLabel46
@@ -565,7 +573,6 @@ Partial Class frmDockMaster
         Me.LblMccName.Name = "LblMccName"
         Me.LblMccName.Size = New System.Drawing.Size(170, 21)
         Me.LblMccName.TabIndex = 1025
-        Me.LblMccName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblMCCCode
         '
@@ -654,7 +661,7 @@ Partial Class frmDockMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(324, 21)
@@ -711,27 +718,20 @@ Partial Class frmDockMaster
         Me.rdmenu1.Name = "rdmenu1"
         Me.rdmenu1.Size = New System.Drawing.Size(496, 20)
         Me.rdmenu1.TabIndex = 1
-        Me.rdmenu1.Text = "rdmenu"
         '
         'File
         '
-        Me.File.AccessibleDescription = "File"
-        Me.File.AccessibleName = "File"
         Me.File.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Import, Me.Export, Me.RadMenuItem1})
         Me.File.Name = "File"
         Me.File.Text = "File"
         '
         'Import
         '
-        Me.Import.AccessibleDescription = "Import"
-        Me.Import.AccessibleName = "Import"
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
         '
         'Export
         '
-        Me.Export.AccessibleDescription = "Export"
-        Me.Export.AccessibleName = "Export"
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '
@@ -746,8 +746,6 @@ Partial Class frmDockMaster
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "RadMenuItem2"
-        Me.RadMenuItem2.AccessibleName = "RadMenuItem2"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "RadMenuItem2"
         '

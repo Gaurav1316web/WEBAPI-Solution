@@ -22,6 +22,7 @@ Partial Class FrmMilkTruckSheet
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -139,7 +140,6 @@ Partial Class FrmMilkTruckSheet
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(929, 531)
         Me.RadPageView1.TabIndex = 417
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -175,15 +175,17 @@ Partial Class FrmMilkTruckSheet
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(879, 292)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'Panel1
         '
@@ -260,7 +262,6 @@ Partial Class FrmMilkTruckSheet
         Me.lblMccName.Name = "lblMccName"
         Me.lblMccName.Size = New System.Drawing.Size(527, 19)
         Me.lblMccName.TabIndex = 12
-        Me.lblMccName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtUnloadingTime
         '
@@ -401,7 +402,7 @@ Partial Class FrmMilkTruckSheet
         Me.fndDocCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndDocCode.MyLinkLable1 = Me.lblDocCode
         Me.fndDocCode.MyLinkLable2 = Nothing
-        Me.fndDocCode.MyMaxLength = 32767
+        Me.fndDocCode.MyMaxLength = 30
         Me.fndDocCode.MyReadOnly = False
         Me.fndDocCode.Name = "fndDocCode"
         Me.fndDocCode.Size = New System.Drawing.Size(288, 21)
@@ -417,7 +418,6 @@ Partial Class FrmMilkTruckSheet
         Me.lblRouteName.Name = "lblRouteName"
         Me.lblRouteName.Size = New System.Drawing.Size(527, 19)
         Me.lblRouteName.TabIndex = 15
-        Me.lblRouteName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDocDate
         '
@@ -434,6 +434,7 @@ Partial Class FrmMilkTruckSheet
         Me.cboShift.AutoCompleteDisplayMember = Nothing
         Me.cboShift.AutoCompleteValueMember = Nothing
         Me.cboShift.CalculationExpression = Nothing
+        Me.cboShift.DropDownAnimationEnabled = True
         Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboShift.FieldCode = Nothing
         Me.cboShift.FieldDesc = Nothing
@@ -641,7 +642,6 @@ Partial Class FrmMilkTruckSheet
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(929, 20)
         Me.rdmenufile.TabIndex = 418
-        Me.rdmenufile.Text = "File"
         '
         'rdmenufile1
         '
@@ -653,15 +653,11 @@ Partial Class FrmMilkTruckSheet
         '
         'BtnsaveLayout
         '
-        Me.BtnsaveLayout.AccessibleDescription = "Save Layout"
-        Me.BtnsaveLayout.AccessibleName = "Save Layout"
         Me.BtnsaveLayout.Name = "BtnsaveLayout"
         Me.BtnsaveLayout.Text = "Save Layout"
         '
         'BtnDeleteLayout
         '
-        Me.BtnDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.BtnDeleteLayout.AccessibleName = "Delete Layout"
         Me.BtnDeleteLayout.Name = "BtnDeleteLayout"
         Me.BtnDeleteLayout.Text = "Delete Layout"
         '

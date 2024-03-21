@@ -155,6 +155,7 @@ Partial Class FrmPaymentNew
         Me.lblpaymenttype = New common.Controls.MyLabel()
         Me.gvDetails = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.TabForGST = New Telerik.WinControls.UI.RadPageViewPage()
@@ -204,7 +205,6 @@ Partial Class FrmPaymentNew
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -426,10 +426,10 @@ Partial Class FrmPaymentNew
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(56.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(60.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1113, 445)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1113, 441)
         Me.RadPageViewPage1.Text = "Payment"
         '
         'SplitContainer2
@@ -454,7 +454,7 @@ Partial Class FrmPaymentNew
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gvDetails)
-        Me.SplitContainer2.Size = New System.Drawing.Size(1113, 445)
+        Me.SplitContainer2.Size = New System.Drawing.Size(1113, 441)
         Me.SplitContainer2.SplitterDistance = 290
         Me.SplitContainer2.TabIndex = 0
         '
@@ -2268,7 +2268,7 @@ Partial Class FrmPaymentNew
         Me.txtPaymentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtPaymentNo.MyLinkLable1 = Nothing
         Me.txtPaymentNo.MyLinkLable2 = Nothing
-        Me.txtPaymentNo.MyMaxLength = 32767
+        Me.txtPaymentNo.MyMaxLength = 30
         Me.txtPaymentNo.MyReadOnly = False
         Me.txtPaymentNo.Name = "txtPaymentNo"
         Me.txtPaymentNo.Size = New System.Drawing.Size(343, 20)
@@ -2380,27 +2380,36 @@ Partial Class FrmPaymentNew
         Me.gvDetails.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDetails.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvDetails.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDetails.MyStopExport = False
         Me.gvDetails.Name = "gvDetails"
         Me.gvDetails.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvDetails.ShowGroupPanel = False
         Me.gvDetails.ShowHeaderCellButtons = True
-        Me.gvDetails.Size = New System.Drawing.Size(1113, 151)
+        Me.gvDetails.Size = New System.Drawing.Size(1113, 147)
         Me.gvDetails.TabIndex = 0
         Me.gvDetails.TabStop = False
         '
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1115, 441)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1115, 441)
+        Me.UcCustomFields1.TabIndex = 1
+        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1115, 441)
@@ -2417,7 +2426,7 @@ Partial Class FrmPaymentNew
         'TabForGST
         '
         Me.TabForGST.Controls.Add(Me.SplitContainer3)
-        Me.TabForGST.ItemSize = New System.Drawing.SizeF(32.0!, 24.0!)
+        Me.TabForGST.ItemSize = New System.Drawing.SizeF(36.0!, 28.0!)
         Me.TabForGST.Location = New System.Drawing.Point(10, 37)
         Me.TabForGST.Name = "TabForGST"
         Me.TabForGST.Size = New System.Drawing.Size(1115, 441)
@@ -2690,6 +2699,7 @@ Partial Class FrmPaymentNew
         Me.gvTaxDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxDetail.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvTaxDetail.MyStopExport = False
         Me.gvTaxDetail.Name = "gvTaxDetail"
         Me.gvTaxDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTaxDetail.ShowHeaderCellButtons = True
@@ -2715,6 +2725,7 @@ Partial Class FrmPaymentNew
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItem.ShowHeaderCellButtons = True
@@ -2731,7 +2742,7 @@ Partial Class FrmPaymentNew
         Me.TabBankChargesTax.Controls.Add(Me.RadLabel10)
         Me.TabBankChargesTax.Controls.Add(Me.gv2)
         Me.TabBankChargesTax.Controls.Add(Me.MyLabel12)
-        Me.TabBankChargesTax.ItemSize = New System.Drawing.SizeF(116.0!, 24.0!)
+        Me.TabBankChargesTax.ItemSize = New System.Drawing.SizeF(120.0!, 28.0!)
         Me.TabBankChargesTax.Location = New System.Drawing.Point(10, 37)
         Me.TabBankChargesTax.Name = "TabBankChargesTax"
         Me.TabBankChargesTax.Size = New System.Drawing.Size(1113, 441)
@@ -2861,6 +2872,7 @@ Partial Class FrmPaymentNew
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -3035,14 +3047,6 @@ Partial Class FrmPaymentNew
         Me.btnclose.Size = New System.Drawing.Size(47, 18)
         Me.btnclose.TabIndex = 8
         Me.btnclose.Text = "Close"
-        '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1115, 441)
-        Me.UcCustomFields1.TabIndex = 1
         '
         'FrmPaymentNew
         '

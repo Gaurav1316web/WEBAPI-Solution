@@ -22,9 +22,9 @@ Partial Class frmProductionEntryWithoutBatch
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -599,7 +599,7 @@ Partial Class frmProductionEntryWithoutBatch
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblReceiptCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(218, 19)
@@ -710,7 +710,8 @@ Partial Class frmProductionEntryWithoutBatch
         Me.gvBatch.MasterTemplate.AllowAddNewRow = False
         Me.gvBatch.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBatch.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvBatch.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvBatch.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvBatch.MyStopExport = False
         Me.gvBatch.Name = "gvBatch"
         Me.gvBatch.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvBatch.ShowGroupPanel = False
@@ -758,7 +759,8 @@ Partial Class frmProductionEntryWithoutBatch
         Me.gvConsumption.MasterTemplate.AllowDeleteRow = False
         Me.gvConsumption.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvConsumption.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvConsumption.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvConsumption.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvConsumption.MyStopExport = False
         Me.gvConsumption.Name = "gvConsumption"
         Me.gvConsumption.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvConsumption.ShowGroupPanel = False
@@ -806,7 +808,8 @@ Partial Class frmProductionEntryWithoutBatch
         Me.gvProductionCost.MasterTemplate.AllowDeleteRow = False
         Me.gvProductionCost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProductionCost.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvProductionCost.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvProductionCost.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvProductionCost.MyStopExport = False
         Me.gvProductionCost.Name = "gvProductionCost"
         Me.gvProductionCost.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvProductionCost.ShowGroupPanel = False

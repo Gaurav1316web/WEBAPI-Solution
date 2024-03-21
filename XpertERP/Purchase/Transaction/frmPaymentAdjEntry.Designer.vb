@@ -33,6 +33,7 @@ Partial Class frmPaymentAdjEntry
         Dim GridViewTextBoxColumn8 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn9 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim SortDescriptor1 As Telerik.WinControls.Data.SortDescriptor = New Telerik.WinControls.Data.SortDescriptor()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.txtEntrDesc = New common.Controls.MyTextBox()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.lblpaymentno = New common.Controls.MyLabel()
@@ -65,12 +66,12 @@ Partial Class frmPaymentAdjEntry
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtBalanceAmt = New common.Controls.MyTextBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.txtAmtBeforeRO = New common.Controls.MyTextBox()
-        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtROAmount = New common.Controls.MyTextBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtAmtBeforeRO = New common.Controls.MyTextBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         CType(Me.txtEntrDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblpaymentno, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -103,12 +104,12 @@ Partial Class frmPaymentAdjEntry
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBalanceAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtAmtBeforeRO, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtROAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAmtBeforeRO, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -256,7 +257,7 @@ Partial Class frmPaymentAdjEntry
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv1.MasterTemplate.AllowAddNewRow = False
@@ -308,16 +309,18 @@ Partial Class frmPaymentAdjEntry
         GridViewTextBoxColumn9.Width = 200
         Me.gv1.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewTextBoxColumn3, GridViewTextBoxColumn4, GridViewTextBoxColumn5, GridViewTextBoxColumn6, GridViewTextBoxColumn7, GridViewDecimalColumn1, GridViewTextBoxColumn8, GridViewTextBoxColumn9})
         Me.gv1.MasterTemplate.EnableGrouping = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         SortDescriptor1.PropertyName = "Farmer Invoice No"
         Me.gv1.MasterTemplate.SortDescriptors.AddRange(New Telerik.WinControls.Data.SortDescriptor() {SortDescriptor1})
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(806, 253)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel7
         '
@@ -646,7 +649,7 @@ Partial Class frmPaymentAdjEntry
         Me.fndFnAdj.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndFnAdj.MyLinkLable1 = Nothing
         Me.fndFnAdj.MyLinkLable2 = Nothing
-        Me.fndFnAdj.MyMaxLength = 32767
+        Me.fndFnAdj.MyMaxLength = 30
         Me.fndFnAdj.MyReadOnly = False
         Me.fndFnAdj.Name = "fndFnAdj"
         Me.fndFnAdj.Size = New System.Drawing.Size(253, 20)
@@ -711,26 +714,44 @@ Partial Class frmPaymentAdjEntry
         Me.Panel1.Size = New System.Drawing.Size(806, 48)
         Me.Panel1.TabIndex = 1
         '
-        'btnReverse
+        'txtROAmount
         '
-        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(592, 24)
-        Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(136, 19)
-        Me.btnReverse.TabIndex = 4
-        Me.btnReverse.Text = "Revese and Unpost"
-        Me.btnReverse.Visible = False
+        Me.txtROAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.txtROAmount.CalculationExpression = Nothing
+        Me.txtROAmount.FieldCode = Nothing
+        Me.txtROAmount.FieldDesc = Nothing
+        Me.txtROAmount.FieldMaxLength = 0
+        Me.txtROAmount.FieldName = Nothing
+        Me.txtROAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtROAmount.isCalculatedField = False
+        Me.txtROAmount.IsSourceFromTable = False
+        Me.txtROAmount.IsSourceFromValueList = False
+        Me.txtROAmount.IsUnique = False
+        Me.txtROAmount.Location = New System.Drawing.Point(498, 3)
+        Me.txtROAmount.MendatroryField = False
+        Me.txtROAmount.MyLinkLable1 = Me.MyLabel3
+        Me.txtROAmount.MyLinkLable2 = Nothing
+        Me.txtROAmount.Name = "txtROAmount"
+        Me.txtROAmount.ReadOnly = True
+        Me.txtROAmount.ReferenceFieldDesc = Nothing
+        Me.txtROAmount.ReferenceFieldName = Nothing
+        Me.txtROAmount.ReferenceTableName = Nothing
+        Me.txtROAmount.Size = New System.Drawing.Size(97, 18)
+        Me.txtROAmount.TabIndex = 9
+        Me.txtROAmount.TabStop = False
+        Me.txtROAmount.Text = "0.00"
+        Me.txtROAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'btnPrint
+        'MyLabel3
         '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(225, 24)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(68, 19)
-        Me.btnPrint.TabIndex = 3
-        Me.btnPrint.Text = "Print"
+        Me.MyLabel3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(443, 4)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(52, 16)
+        Me.MyLabel3.TabIndex = 8
+        Me.MyLabel3.Text = "Roundoff"
         '
         'txtAmtBeforeRO
         '
@@ -771,44 +792,26 @@ Partial Class frmPaymentAdjEntry
         Me.MyLabel2.TabIndex = 6
         Me.MyLabel2.Text = "Amount Before Roundoff"
         '
-        'txtROAmount
+        'btnReverse
         '
-        Me.txtROAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.txtROAmount.CalculationExpression = Nothing
-        Me.txtROAmount.FieldCode = Nothing
-        Me.txtROAmount.FieldDesc = Nothing
-        Me.txtROAmount.FieldMaxLength = 0
-        Me.txtROAmount.FieldName = Nothing
-        Me.txtROAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtROAmount.isCalculatedField = False
-        Me.txtROAmount.IsSourceFromTable = False
-        Me.txtROAmount.IsSourceFromValueList = False
-        Me.txtROAmount.IsUnique = False
-        Me.txtROAmount.Location = New System.Drawing.Point(498, 3)
-        Me.txtROAmount.MendatroryField = False
-        Me.txtROAmount.MyLinkLable1 = Me.MyLabel3
-        Me.txtROAmount.MyLinkLable2 = Nothing
-        Me.txtROAmount.Name = "txtROAmount"
-        Me.txtROAmount.ReadOnly = True
-        Me.txtROAmount.ReferenceFieldDesc = Nothing
-        Me.txtROAmount.ReferenceFieldName = Nothing
-        Me.txtROAmount.ReferenceTableName = Nothing
-        Me.txtROAmount.Size = New System.Drawing.Size(97, 18)
-        Me.txtROAmount.TabIndex = 9
-        Me.txtROAmount.TabStop = False
-        Me.txtROAmount.Text = "0.00"
-        Me.txtROAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(592, 24)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(136, 19)
+        Me.btnReverse.TabIndex = 4
+        Me.btnReverse.Text = "Revese and Unpost"
+        Me.btnReverse.Visible = False
         '
-        'MyLabel3
+        'btnPrint
         '
-        Me.MyLabel3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(443, 4)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(52, 16)
-        Me.MyLabel3.TabIndex = 8
-        Me.MyLabel3.Text = "Roundoff"
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(225, 24)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(68, 19)
+        Me.btnPrint.TabIndex = 3
+        Me.btnPrint.Text = "Print"
         '
         'frmPaymentAdjEntry
         '
@@ -859,12 +862,12 @@ Partial Class frmPaymentAdjEntry
         CType(Me.txtBalanceAmt, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtAmtBeforeRO, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtROAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAmtBeforeRO, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

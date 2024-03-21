@@ -67,12 +67,12 @@ Partial Class frmProcessProductionReturn
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -114,12 +114,12 @@ Partial Class frmProcessProductionReturn
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
         Me.pvpCustomFields.SuspendLayout()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -161,7 +161,6 @@ Partial Class frmProcessProductionReturn
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(884, 420)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -201,6 +200,7 @@ Partial Class frmProcessProductionReturn
         'cmbDocumentType
         '
         Me.cmbDocumentType.CalculationExpression = Nothing
+        Me.cmbDocumentType.DropDownAnimationEnabled = True
         Me.cmbDocumentType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbDocumentType.FieldCode = Nothing
         Me.cmbDocumentType.FieldDesc = Nothing
@@ -284,7 +284,6 @@ Partial Class frmProcessProductionReturn
         Me.lblProfitCenterCode.Name = "lblProfitCenterCode"
         Me.lblProfitCenterCode.Size = New System.Drawing.Size(153, 19)
         Me.lblProfitCenterCode.TabIndex = 91
-        Me.lblProfitCenterCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel5
         '
@@ -315,7 +314,6 @@ Partial Class frmProcessProductionReturn
         Me.TxtManualBatchNo.Name = "TxtManualBatchNo"
         Me.TxtManualBatchNo.Size = New System.Drawing.Size(361, 19)
         Me.TxtManualBatchNo.TabIndex = 90
-        Me.TxtManualBatchNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel4
         '
@@ -397,7 +395,6 @@ Partial Class frmProcessProductionReturn
         Me.lblCostCenterName.Name = "lblCostCenterName"
         Me.lblCostCenterName.Size = New System.Drawing.Size(389, 19)
         Me.lblCostCenterName.TabIndex = 98
-        Me.lblCostCenterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel1
         '
@@ -418,7 +415,6 @@ Partial Class frmProcessProductionReturn
         Me.LblCostCenterCode.Name = "LblCostCenterCode"
         Me.LblCostCenterCode.Size = New System.Drawing.Size(153, 19)
         Me.LblCostCenterCode.TabIndex = 92
-        Me.LblCostCenterCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblConsmSectionLocCode
         '
@@ -430,7 +426,6 @@ Partial Class frmProcessProductionReturn
         Me.lblConsmSectionLocCode.Name = "lblConsmSectionLocCode"
         Me.lblConsmSectionLocCode.Size = New System.Drawing.Size(361, 20)
         Me.lblConsmSectionLocCode.TabIndex = 36
-        Me.lblConsmSectionLocCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblProfitCenterName
         '
@@ -441,7 +436,6 @@ Partial Class frmProcessProductionReturn
         Me.lblProfitCenterName.Name = "lblProfitCenterName"
         Me.lblProfitCenterName.Size = New System.Drawing.Size(389, 19)
         Me.lblProfitCenterName.TabIndex = 94
-        Me.lblProfitCenterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblConsmSectionCode
         '
@@ -453,7 +447,6 @@ Partial Class frmProcessProductionReturn
         Me.lblConsmSectionCode.Name = "lblConsmSectionCode"
         Me.lblConsmSectionCode.Size = New System.Drawing.Size(361, 20)
         Me.lblConsmSectionCode.TabIndex = 35
-        Me.lblConsmSectionCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblLineNo
         '
@@ -464,7 +457,6 @@ Partial Class frmProcessProductionReturn
         Me.lblLineNo.Name = "lblLineNo"
         Me.lblLineNo.Size = New System.Drawing.Size(153, 19)
         Me.lblLineNo.TabIndex = 93
-        Me.lblLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtBatchNo
         '
@@ -504,7 +496,6 @@ Partial Class frmProcessProductionReturn
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(199, 20)
         Me.lblLocation.TabIndex = 31
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel20
         '
@@ -693,7 +684,7 @@ Partial Class frmProcessProductionReturn
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(230, 18)
@@ -798,6 +789,15 @@ Partial Class frmProcessProductionReturn
         Me.UcCustomFields1.Size = New System.Drawing.Size(863, 374)
         Me.UcCustomFields1.TabIndex = 1
         '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(337, 4)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(71, 22)
+        Me.btnHistory.TabIndex = 39
+        Me.btnHistory.Text = "&History"
+        '
         'btnShowInventory
         '
         Me.btnShowInventory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -848,15 +848,6 @@ Partial Class frmProcessProductionReturn
         Me.btnSave.Size = New System.Drawing.Size(63, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(337, 4)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(71, 22)
-        Me.btnHistory.TabIndex = 39
-        Me.btnHistory.Text = "&History"
         '
         'frmProcessProductionReturn
         '
@@ -914,12 +905,12 @@ Partial Class frmProcessProductionReturn
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
         Me.pvpCustomFields.ResumeLayout(False)
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
