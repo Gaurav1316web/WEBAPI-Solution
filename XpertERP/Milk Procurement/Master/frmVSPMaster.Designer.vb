@@ -1455,7 +1455,7 @@ Partial Class frmVSPMaster
         Me.fndvendorNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndvendorNo.MyLinkLable1 = Me.lblvandorno
         Me.fndvendorNo.MyLinkLable2 = Nothing
-        Me.fndvendorNo.MyMaxLength = 32767
+        Me.fndvendorNo.MyMaxLength = 30
         Me.fndvendorNo.MyReadOnly = False
         Me.fndvendorNo.Name = "fndvendorNo"
         Me.fndvendorNo.Size = New System.Drawing.Size(303, 21)

@@ -22,6 +22,7 @@ Partial Class frmPOUnloading
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lblCode = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
@@ -165,7 +166,6 @@ Partial Class frmPOUnloading
         Me.lblGDShipToLocationName.Name = "lblGDShipToLocationName"
         Me.lblGDShipToLocationName.Size = New System.Drawing.Size(296, 18)
         Me.lblGDShipToLocationName.TabIndex = 1049
-        Me.lblGDShipToLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel12
         '
@@ -187,7 +187,6 @@ Partial Class frmPOUnloading
         Me.lblGDShipToLocation.Name = "lblGDShipToLocation"
         Me.lblGDShipToLocation.Size = New System.Drawing.Size(143, 18)
         Me.lblGDShipToLocation.TabIndex = 1050
-        Me.lblGDShipToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblGDShipToLocation.TextWrap = False
         '
         'lblGDGRNDate
@@ -199,7 +198,6 @@ Partial Class frmPOUnloading
         Me.lblGDGRNDate.Name = "lblGDGRNDate"
         Me.lblGDGRNDate.Size = New System.Drawing.Size(143, 18)
         Me.lblGDGRNDate.TabIndex = 1048
-        Me.lblGDGRNDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel9
         '
@@ -220,7 +218,6 @@ Partial Class frmPOUnloading
         Me.lblGDBillToLocationName.Name = "lblGDBillToLocationName"
         Me.lblGDBillToLocationName.Size = New System.Drawing.Size(296, 18)
         Me.lblGDBillToLocationName.TabIndex = 1044
-        Me.lblGDBillToLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblGDVendorName
         '
@@ -231,7 +228,6 @@ Partial Class frmPOUnloading
         Me.lblGDVendorName.Name = "lblGDVendorName"
         Me.lblGDVendorName.Size = New System.Drawing.Size(296, 18)
         Me.lblGDVendorName.TabIndex = 35
-        Me.lblGDVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel5
         '
@@ -252,7 +248,6 @@ Partial Class frmPOUnloading
         Me.lblGDCarrier.Name = "lblGDCarrier"
         Me.lblGDCarrier.Size = New System.Drawing.Size(246, 18)
         Me.lblGDCarrier.TabIndex = 1044
-        Me.lblGDCarrier.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblGDBillToLocation
         '
@@ -264,7 +259,6 @@ Partial Class frmPOUnloading
         Me.lblGDBillToLocation.Name = "lblGDBillToLocation"
         Me.lblGDBillToLocation.Size = New System.Drawing.Size(143, 18)
         Me.lblGDBillToLocation.TabIndex = 1045
-        Me.lblGDBillToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblGDBillToLocation.TextWrap = False
         '
         'RadLabel2
@@ -287,7 +281,6 @@ Partial Class frmPOUnloading
         Me.lblGDVendorCode.Name = "lblGDVendorCode"
         Me.lblGDVendorCode.Size = New System.Drawing.Size(143, 18)
         Me.lblGDVendorCode.TabIndex = 1042
-        Me.lblGDVendorCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblGDVendorCode.TextWrap = False
         '
         'lblGDVehicleNo
@@ -299,7 +292,6 @@ Partial Class frmPOUnloading
         Me.lblGDVehicleNo.Name = "lblGDVehicleNo"
         Me.lblGDVehicleNo.Size = New System.Drawing.Size(143, 18)
         Me.lblGDVehicleNo.TabIndex = 34
-        Me.lblGDVehicleNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDocDate
         '
@@ -349,7 +341,7 @@ Partial Class frmPOUnloading
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(234, 21)
@@ -468,7 +460,7 @@ Partial Class frmPOUnloading
         Me.txtGrossWeight.TabIndex = 1043
         Me.txtGrossWeight.Text = "0"
         Me.txtGrossWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtGrossWeight.Value = 0.0R
+        Me.txtGrossWeight.Value = 0R
         '
         'RadGroupBox2
         '
@@ -494,10 +486,13 @@ Partial Class frmPOUnloading
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -505,7 +500,6 @@ Partial Class frmPOUnloading
         Me.gv1.Size = New System.Drawing.Size(902, 229)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'MyLabel1
         '

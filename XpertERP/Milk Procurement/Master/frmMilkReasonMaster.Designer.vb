@@ -22,22 +22,23 @@ Partial Class frmMilkReasonMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
-        Me.lbl_Name = New Telerik.WinControls.UI.RadLabel
-        Me.lbl_Code = New Telerik.WinControls.UI.RadLabel
-        Me.txt_Code = New common.UserControls.txtNavigator
-        Me.BtnClose = New Telerik.WinControls.UI.RadButton
-        Me.BtnDelete = New Telerik.WinControls.UI.RadButton
-        Me.Btnsave = New Telerik.WinControls.UI.RadButton
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RMFile = New Telerik.WinControls.UI.RadMenuItem
-        Me.RMImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RMExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.txt_Name = New common.Controls.MyTextBox
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txt_Name = New common.Controls.MyTextBox()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.lbl_Name = New Telerik.WinControls.UI.RadLabel()
+        Me.lbl_Code = New Telerik.WinControls.UI.RadLabel()
+        Me.txt_Code = New common.UserControls.txtNavigator()
+        Me.BtnClose = New Telerik.WinControls.UI.RadButton()
+        Me.BtnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.Btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RMFile = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RMImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RMExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txt_Name, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl_Name, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl_Code, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -45,7 +46,6 @@ Partial Class frmMilkReasonMaster
         CType(Me.BtnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txt_Name, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -75,6 +75,30 @@ Partial Class frmMilkReasonMaster
         Me.SplitContainer1.SplitterDistance = 247
         Me.SplitContainer1.TabIndex = 0
         '
+        'txt_Name
+        '
+        Me.txt_Name.CalculationExpression = Nothing
+        Me.txt_Name.FieldCode = Nothing
+        Me.txt_Name.FieldDesc = Nothing
+        Me.txt_Name.FieldMaxLength = 0
+        Me.txt_Name.FieldName = Nothing
+        Me.txt_Name.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txt_Name.isCalculatedField = False
+        Me.txt_Name.IsSourceFromTable = False
+        Me.txt_Name.IsSourceFromValueList = False
+        Me.txt_Name.IsUnique = False
+        Me.txt_Name.Location = New System.Drawing.Point(47, 35)
+        Me.txt_Name.MaxLength = 150
+        Me.txt_Name.MendatroryField = True
+        Me.txt_Name.MyLinkLable1 = Nothing
+        Me.txt_Name.MyLinkLable2 = Nothing
+        Me.txt_Name.Name = "txt_Name"
+        Me.txt_Name.ReferenceFieldDesc = Nothing
+        Me.txt_Name.ReferenceFieldName = Nothing
+        Me.txt_Name.ReferenceTableName = Nothing
+        Me.txt_Name.Size = New System.Drawing.Size(275, 18)
+        Me.txt_Name.TabIndex = 4
+        '
         'btnnew
         '
         Me.btnnew.Image = Global.ERP.My.Resources.Resources._new
@@ -101,13 +125,14 @@ Partial Class frmMilkReasonMaster
         '
         'txt_Code
         '
+        Me.txt_Code.FieldName = Nothing
         Me.txt_Code.Location = New System.Drawing.Point(47, 10)
         Me.txt_Code.MendatroryField = True
         Me.txt_Code.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txt_Code.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txt_Code.MyLinkLable1 = Nothing
         Me.txt_Code.MyLinkLable2 = Nothing
-        Me.txt_Code.MyMaxLength = 32767
+        Me.txt_Code.MyMaxLength = 30
         Me.txt_Code.MyReadOnly = False
         Me.txt_Code.Name = "txt_Code"
         Me.txt_Code.Size = New System.Drawing.Size(275, 20)
@@ -148,53 +173,31 @@ Partial Class frmMilkReasonMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(563, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RMFile
         '
-        Me.RMFile.AccessibleDescription = "File"
-        Me.RMFile.AccessibleName = "File"
         Me.RMFile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RMImport, Me.RMExport})
         Me.RMFile.Name = "RMFile"
         Me.RMFile.Text = "File"
-        Me.RMFile.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RMImport
         '
-        Me.RMImport.AccessibleDescription = "Import"
-        Me.RMImport.AccessibleName = "Import"
         Me.RMImport.Name = "RMImport"
         Me.RMImport.Text = "Import"
-        Me.RMImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RMExport
         '
-        Me.RMExport.AccessibleDescription = "Export"
-        Me.RMExport.AccessibleName = "Export"
         Me.RMExport.Name = "RMExport"
         Me.RMExport.Text = "Export"
-        Me.RMExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
-        'txt_Name
-        '
-        Me.txt_Name.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txt_Name.Location = New System.Drawing.Point(47, 35)
-        Me.txt_Name.MaxLength = 150
-        Me.txt_Name.MendatroryField = True
-        Me.txt_Name.MyLinkLable1 = Nothing
-        Me.txt_Name.MyLinkLable2 = Nothing
-        Me.txt_Name.Name = "txt_Name"
-        Me.txt_Name.Size = New System.Drawing.Size(275, 18)
-        Me.txt_Name.TabIndex = 4
-        '
-        'frmTrainingMaster
+        'frmMilkReasonMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(563, 302)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
-        Me.Name = "frmTrainingMaster"
+        Me.Name = "frmMilkReasonMaster"
         '
         '
         '
@@ -205,6 +208,7 @@ Partial Class frmMilkReasonMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txt_Name, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbl_Name, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbl_Code, System.ComponentModel.ISupportInitialize).EndInit()
@@ -212,7 +216,6 @@ Partial Class frmMilkReasonMaster
         CType(Me.BtnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txt_Name, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

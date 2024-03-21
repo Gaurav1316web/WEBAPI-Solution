@@ -24,6 +24,7 @@ Partial Class frmNRGPBooking
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -129,7 +130,6 @@ Partial Class frmNRGPBooking
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(893, 399)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -168,6 +168,7 @@ Partial Class frmNRGPBooking
         'lbxCsaVendor
         '
         Me.lbxCsaVendor.CalculationExpression = Nothing
+        Me.lbxCsaVendor.DropDownAnimationEnabled = True
         Me.lbxCsaVendor.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.lbxCsaVendor.FieldCode = Nothing
         Me.lbxCsaVendor.FieldDesc = Nothing
@@ -207,6 +208,7 @@ Partial Class frmNRGPBooking
         'ddlReqType
         '
         Me.ddlReqType.CalculationExpression = Nothing
+        Me.ddlReqType.DropDownAnimationEnabled = True
         Me.ddlReqType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlReqType.FieldCode = Nothing
         Me.ddlReqType.FieldDesc = Nothing
@@ -238,7 +240,6 @@ Partial Class frmNRGPBooking
         Me.lbl_location.Name = "lbl_location"
         Me.lbl_location.Size = New System.Drawing.Size(271, 20)
         Me.lbl_location.TabIndex = 24
-        Me.lbl_location.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel2
         '
@@ -308,7 +309,6 @@ Partial Class frmNRGPBooking
         Me.txtCSAName.Name = "txtCSAName"
         Me.txtCSAName.Size = New System.Drawing.Size(272, 20)
         Me.txtCSAName.TabIndex = 21
-        Me.txtCSAName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblBatchNo
         '
@@ -383,11 +383,14 @@ Partial Class frmNRGPBooking
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -395,7 +398,6 @@ Partial Class frmNRGPBooking
         Me.gv1.Size = New System.Drawing.Size(847, 238)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel4
         '
@@ -436,7 +438,7 @@ Partial Class frmNRGPBooking
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblReceiptCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(230, 20)
@@ -578,7 +580,6 @@ Partial Class frmNRGPBooking
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(893, 20)
         Me.RadMenu1.TabIndex = 4
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'rdmenufile
         '
@@ -591,15 +592,11 @@ Partial Class frmNRGPBooking
         '
         'rmiSaveLayout
         '
-        Me.rmiSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmiSaveLayout.AccessibleName = "Save Layout"
         Me.rmiSaveLayout.Name = "rmiSaveLayout"
         Me.rmiSaveLayout.Text = "Save Layout"
         '
         'rmiDeleteLayout
         '
-        Me.rmiDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmiDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmiDeleteLayout.Name = "rmiDeleteLayout"
         Me.rmiDeleteLayout.Text = "Delete Layout"
         '

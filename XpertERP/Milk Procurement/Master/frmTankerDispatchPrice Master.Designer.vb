@@ -25,9 +25,10 @@ Partial Class FrmTankerDispatchPrice_Master
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.penalItemCode = New System.Windows.Forms.Panel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.lblItemCode = New common.Controls.MyLabel()
         Me.txtItemCode = New common.UserControls.txtFinder()
-        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.chkJobWork = New System.Windows.Forms.CheckBox()
         Me.UsLock1 = New common.usLock()
         Me.txtMCC = New common.UserControls.txtMultiSelectFinder()
@@ -49,15 +50,15 @@ Partial Class FrmTankerDispatchPrice_Master
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.penalItemCode = New System.Windows.Forms.Panel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.lblItemCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.penalItemCode.SuspendLayout()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblItemCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtrate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -72,7 +73,6 @@ Partial Class FrmTankerDispatchPrice_Master
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.penalItemCode.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -110,7 +110,6 @@ Partial Class FrmTankerDispatchPrice_Master
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(665, 459)
         Me.RadPageView1.TabIndex = 13
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -134,6 +133,26 @@ Partial Class FrmTankerDispatchPrice_Master
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(644, 411)
         Me.RadPageViewPage1.Text = "Price Details"
+        '
+        'penalItemCode
+        '
+        Me.penalItemCode.Controls.Add(Me.MyLabel2)
+        Me.penalItemCode.Controls.Add(Me.lblItemCode)
+        Me.penalItemCode.Controls.Add(Me.txtItemCode)
+        Me.penalItemCode.Location = New System.Drawing.Point(3, 113)
+        Me.penalItemCode.Name = "penalItemCode"
+        Me.penalItemCode.Size = New System.Drawing.Size(444, 25)
+        Me.penalItemCode.TabIndex = 1462
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel2.Location = New System.Drawing.Point(6, 3)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(58, 16)
+        Me.MyLabel2.TabIndex = 1456
+        Me.MyLabel2.Text = "Item Code"
         '
         'lblItemCode
         '
@@ -171,16 +190,6 @@ Partial Class FrmTankerDispatchPrice_Master
         Me.txtItemCode.Size = New System.Drawing.Size(126, 21)
         Me.txtItemCode.TabIndex = 1460
         Me.txtItemCode.Value = ""
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel2.Location = New System.Drawing.Point(6, 3)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(58, 16)
-        Me.MyLabel2.TabIndex = 1456
-        Me.MyLabel2.Text = "Item Code"
         '
         'chkJobWork
         '
@@ -250,7 +259,7 @@ Partial Class FrmTankerDispatchPrice_Master
         Me.txtrate.TabIndex = 21
         Me.txtrate.Text = "0"
         Me.txtrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtrate.Value = 0.0R
+        Me.txtrate.Value = 0R
         '
         'MyLabel6
         '
@@ -355,7 +364,7 @@ Partial Class FrmTankerDispatchPrice_Master
         Me.fndcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndcode.MyLinkLable1 = Me.lblvandorno
         Me.fndcode.MyLinkLable2 = Nothing
-        Me.fndcode.MyMaxLength = 32767
+        Me.fndcode.MyMaxLength = 30
         Me.fndcode.MyReadOnly = False
         Me.fndcode.Name = "fndcode"
         Me.fndcode.Size = New System.Drawing.Size(302, 21)
@@ -379,28 +388,21 @@ Partial Class FrmTankerDispatchPrice_Master
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(668, 20)
         Me.RadMenu1.TabIndex = 12
-        Me.RadMenu1.Text = "RadMenu1"
         Me.RadMenu1.Visible = False
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Import"
-        Me.RadMenuItem1.AccessibleName = "Import"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Import"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Export"
-        Me.RadMenuItem2.AccessibleName = "Export"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Export"
         '
@@ -440,16 +442,6 @@ Partial Class FrmTankerDispatchPrice_Master
         Me.btnsave.TabIndex = 26
         Me.btnsave.Text = "Save"
         '
-        'penalItemCode
-        '
-        Me.penalItemCode.Controls.Add(Me.MyLabel2)
-        Me.penalItemCode.Controls.Add(Me.lblItemCode)
-        Me.penalItemCode.Controls.Add(Me.txtItemCode)
-        Me.penalItemCode.Location = New System.Drawing.Point(3, 113)
-        Me.penalItemCode.Name = "penalItemCode"
-        Me.penalItemCode.Size = New System.Drawing.Size(444, 25)
-        Me.penalItemCode.TabIndex = 1462
-        '
         'FrmTankerDispatchPrice_Master
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -470,8 +462,10 @@ Partial Class FrmTankerDispatchPrice_Master
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.lblItemCode, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.penalItemCode.ResumeLayout(False)
+        Me.penalItemCode.PerformLayout()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblItemCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtrate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
@@ -486,8 +480,6 @@ Partial Class FrmTankerDispatchPrice_Master
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.penalItemCode.ResumeLayout(False)
-        Me.penalItemCode.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

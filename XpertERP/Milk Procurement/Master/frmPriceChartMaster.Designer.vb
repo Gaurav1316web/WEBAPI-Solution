@@ -22,12 +22,13 @@ Partial Class FrmPriceChartMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -68,6 +69,9 @@ Partial Class FrmPriceChartMaster
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
         Me.txtname = New common.Controls.MyTextBox()
         Me.lblvendorname = New common.Controls.MyLabel()
+        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gvSNFDed = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
@@ -78,9 +82,6 @@ Partial Class FrmPriceChartMaster
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.txteffctv_rate = New common.MyNumBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
-        Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.gvSNFDed = New common.UserControls.MyRadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -125,6 +126,11 @@ Partial Class FrmPriceChartMaster
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtname, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblvendorname, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.gvSNFDed, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvSNFDed.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -134,11 +140,6 @@ Partial Class FrmPriceChartMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txteffctv_rate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage3.SuspendLayout()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
-        CType(Me.gvSNFDed, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvSNFDed.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -200,27 +201,20 @@ Partial Class FrmPriceChartMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(652, 20)
         Me.RadMenu1.TabIndex = 11
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexport, Me.btnimport})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
         '
@@ -235,7 +229,6 @@ Partial Class FrmPriceChartMaster
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(652, 441)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -355,7 +348,7 @@ Partial Class FrmPriceChartMaster
         Me.txtfat.TabIndex = 5
         Me.txtfat.Text = "0"
         Me.txtfat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtfat.Value = 0.0R
+        Me.txtfat.Value = 0R
         '
         'MyLabel8
         '
@@ -392,7 +385,7 @@ Partial Class FrmPriceChartMaster
         Me.txtCLR.TabIndex = 19
         Me.txtCLR.Text = "0"
         Me.txtCLR.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtCLR.Value = 0.0R
+        Me.txtCLR.Value = 0R
         '
         'MyLabel13
         '
@@ -468,6 +461,7 @@ Partial Class FrmPriceChartMaster
         Me.cmbmatrix.AutoCompleteDisplayMember = Nothing
         Me.cmbmatrix.AutoCompleteValueMember = Nothing
         Me.cmbmatrix.CalculationExpression = Nothing
+        Me.cmbmatrix.DropDownAnimationEnabled = True
         Me.cmbmatrix.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbmatrix.FieldCode = Nothing
         Me.cmbmatrix.FieldDesc = Nothing
@@ -477,12 +471,12 @@ Partial Class FrmPriceChartMaster
         Me.cmbmatrix.IsSourceFromTable = False
         Me.cmbmatrix.IsSourceFromValueList = False
         Me.cmbmatrix.IsUnique = False
-        RadListDataItem7.Text = "None"
-        RadListDataItem8.Text = "6.5/9.0"
-        RadListDataItem9.Text = "4.0/8.5"
-        Me.cmbmatrix.Items.Add(RadListDataItem7)
-        Me.cmbmatrix.Items.Add(RadListDataItem8)
-        Me.cmbmatrix.Items.Add(RadListDataItem9)
+        RadListDataItem1.Text = "None"
+        RadListDataItem2.Text = "6.5/9.0"
+        RadListDataItem3.Text = "4.0/8.5"
+        Me.cmbmatrix.Items.Add(RadListDataItem1)
+        Me.cmbmatrix.Items.Add(RadListDataItem2)
+        Me.cmbmatrix.Items.Add(RadListDataItem3)
         Me.cmbmatrix.Location = New System.Drawing.Point(94, 28)
         Me.cmbmatrix.MendatroryField = True
         Me.cmbmatrix.MyLinkLable1 = Me.MyLabel10
@@ -511,6 +505,7 @@ Partial Class FrmPriceChartMaster
         Me.cmbaxis.AutoCompleteDisplayMember = Nothing
         Me.cmbaxis.AutoCompleteValueMember = Nothing
         Me.cmbaxis.CalculationExpression = Nothing
+        Me.cmbaxis.DropDownAnimationEnabled = True
         Me.cmbaxis.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbaxis.FieldCode = Nothing
         Me.cmbaxis.FieldDesc = Nothing
@@ -520,12 +515,12 @@ Partial Class FrmPriceChartMaster
         Me.cmbaxis.IsSourceFromTable = False
         Me.cmbaxis.IsSourceFromValueList = False
         Me.cmbaxis.IsUnique = False
-        RadListDataItem1.Text = "None"
-        RadListDataItem2.Text = "Single"
-        RadListDataItem3.Text = "Double"
-        Me.cmbaxis.Items.Add(RadListDataItem1)
-        Me.cmbaxis.Items.Add(RadListDataItem2)
-        Me.cmbaxis.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "None"
+        RadListDataItem5.Text = "Single"
+        RadListDataItem6.Text = "Double"
+        Me.cmbaxis.Items.Add(RadListDataItem4)
+        Me.cmbaxis.Items.Add(RadListDataItem5)
+        Me.cmbaxis.Items.Add(RadListDataItem6)
         Me.cmbaxis.Location = New System.Drawing.Point(94, 4)
         Me.cmbaxis.MendatroryField = True
         Me.cmbaxis.MyLinkLable1 = Me.MyLabel11
@@ -554,6 +549,7 @@ Partial Class FrmPriceChartMaster
         Me.cmbratetype.AutoCompleteDisplayMember = Nothing
         Me.cmbratetype.AutoCompleteValueMember = Nothing
         Me.cmbratetype.CalculationExpression = Nothing
+        Me.cmbratetype.DropDownAnimationEnabled = True
         Me.cmbratetype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbratetype.FieldCode = Nothing
         Me.cmbratetype.FieldDesc = Nothing
@@ -601,7 +597,7 @@ Partial Class FrmPriceChartMaster
         Me.txtrate.TabIndex = 7
         Me.txtrate.Text = "0"
         Me.txtrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtrate.Value = 0.0R
+        Me.txtrate.Value = 0R
         '
         'txtdeclrd_rate
         '
@@ -628,7 +624,7 @@ Partial Class FrmPriceChartMaster
         Me.txtdeclrd_rate.TabIndex = 3
         Me.txtdeclrd_rate.Text = "0"
         Me.txtdeclrd_rate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtdeclrd_rate.Value = 0.0R
+        Me.txtdeclrd_rate.Value = 0R
         '
         'txtsnf
         '
@@ -655,7 +651,7 @@ Partial Class FrmPriceChartMaster
         Me.txtsnf.TabIndex = 6
         Me.txtsnf.Text = "0"
         Me.txtsnf.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtsnf.Value = 0.0R
+        Me.txtsnf.Value = 0R
         '
         'txtinactvdate
         '
@@ -786,7 +782,7 @@ Partial Class FrmPriceChartMaster
         Me.fndcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndcode.MyLinkLable1 = Me.lblvandorno
         Me.fndcode.MyLinkLable2 = Nothing
-        Me.fndcode.MyMaxLength = 32767
+        Me.fndcode.MyMaxLength = 30
         Me.fndcode.MyReadOnly = False
         Me.fndcode.Name = "fndcode"
         Me.fndcode.Size = New System.Drawing.Size(302, 21)
@@ -836,6 +832,44 @@ Partial Class FrmPriceChartMaster
         Me.lblvendorname.Size = New System.Drawing.Size(63, 16)
         Me.lblvendorname.TabIndex = 14
         Me.lblvendorname.Text = "Description"
+        '
+        'RadPageViewPage3
+        '
+        Me.RadPageViewPage3.Controls.Add(Me.RadGroupBox2)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Name = "RadPageViewPage3"
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(631, 393)
+        Me.RadPageViewPage3.Text = "Deduction"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadGroupBox2.Controls.Add(Me.gvSNFDed)
+        Me.RadGroupBox2.HeaderText = "SNF Deduction"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(0, -2)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(374, 396)
+        Me.RadGroupBox2.TabIndex = 1031
+        Me.RadGroupBox2.Text = "SNF Deduction"
+        '
+        'gvSNFDed
+        '
+        Me.gvSNFDed.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvSNFDed.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvSNFDed.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvSNFDed.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvSNFDed.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvSNFDed.MyStopExport = False
+        Me.gvSNFDed.Name = "gvSNFDed"
+        Me.gvSNFDed.ShowHeaderCellButtons = True
+        Me.gvSNFDed.Size = New System.Drawing.Size(370, 376)
+        Me.gvSNFDed.TabIndex = 97
         '
         'RadPageViewPage2
         '
@@ -933,7 +967,7 @@ Partial Class FrmPriceChartMaster
         Me.txteffctv_rate.TabIndex = 4
         Me.txteffctv_rate.Text = "0"
         Me.txteffctv_rate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txteffctv_rate.Value = 0.0R
+        Me.txteffctv_rate.Value = 0R
         Me.txteffctv_rate.Visible = False
         '
         'MyLabel9
@@ -946,41 +980,6 @@ Partial Class FrmPriceChartMaster
         Me.MyLabel9.TabIndex = 24
         Me.MyLabel9.Text = "Effective Rate"
         Me.MyLabel9.Visible = False
-        '
-        'RadPageViewPage3
-        '
-        Me.RadPageViewPage3.Controls.Add(Me.RadGroupBox2)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(68.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(631, 393)
-        Me.RadPageViewPage3.Text = "Deduction"
-        '
-        'RadGroupBox2
-        '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Anchor = CType(((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadGroupBox2.Controls.Add(Me.gvSNFDed)
-        Me.RadGroupBox2.HeaderText = "SNF Deduction"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(0, -2)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(374, 396)
-        Me.RadGroupBox2.TabIndex = 1031
-        Me.RadGroupBox2.Text = "SNF Deduction"
-        '
-        'gvSNFDed
-        '
-        Me.gvSNFDed.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvSNFDed.Location = New System.Drawing.Point(2, 18)
-        '
-        'gvSNFDed
-        '
-        Me.gvSNFDed.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSNFDed.Name = "gvSNFDed"
-        Me.gvSNFDed.ShowHeaderCellButtons = True
-        Me.gvSNFDed.Size = New System.Drawing.Size(370, 376)
-        Me.gvSNFDed.TabIndex = 97
         '
         'FrmPriceChartMaster
         '
@@ -1044,6 +1043,11 @@ Partial Class FrmPriceChartMaster
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtname, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblvendorname, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage3.ResumeLayout(False)
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        CType(Me.gvSNFDed.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvSNFDed, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1053,11 +1057,6 @@ Partial Class FrmPriceChartMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txteffctv_rate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage3.ResumeLayout(False)
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        CType(Me.gvSNFDed.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvSNFDed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

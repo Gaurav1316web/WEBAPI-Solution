@@ -22,6 +22,8 @@ Partial Class frmContractTanker
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gv = New common.UserControls.MyRadGridView()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -92,9 +94,12 @@ Partial Class frmContractTanker
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(3, 18)
         '
-        'gv
         '
+        '
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(482, 362)
@@ -150,7 +155,6 @@ Partial Class frmContractTanker
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(291, 20)
         Me.lblVendorName.TabIndex = 338
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.Visible = False
         '
         'Panel1
@@ -239,7 +243,7 @@ Partial Class frmContractTanker
         Me.txtTankerCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtTankerCode.MyLinkLable1 = Me.lblMCCCode
         Me.txtTankerCode.MyLinkLable2 = Nothing
-        Me.txtTankerCode.MyMaxLength = 32767
+        Me.txtTankerCode.MyMaxLength = 30
         Me.txtTankerCode.MyReadOnly = False
         Me.txtTankerCode.Name = "txtTankerCode"
         Me.txtTankerCode.Size = New System.Drawing.Size(199, 21)
@@ -324,7 +328,7 @@ Partial Class frmContractTanker
         Me.txtChamborNo.TabIndex = 109
         Me.txtChamborNo.Text = "0"
         Me.txtChamborNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtChamborNo.Value = 0.0R
+        Me.txtChamborNo.Value = 0R
         '
         'MyLabel49
         '
@@ -392,18 +396,20 @@ Partial Class frmContractTanker
         Me.GvVendor.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GvVendor.Location = New System.Drawing.Point(10, 20)
         '
-        'GvVendor
+        '
         '
         Me.GvVendor.MasterTemplate.AllowAddNewRow = False
         Me.GvVendor.MasterTemplate.EnableFiltering = True
+        Me.GvVendor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GvVendor.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GvVendor.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.GvVendor.MyStopExport = False
         Me.GvVendor.Name = "GvVendor"
         Me.GvVendor.ShowGroupPanel = False
         Me.GvVendor.ShowHeaderCellButtons = True
         Me.GvVendor.Size = New System.Drawing.Size(481, 353)
         Me.GvVendor.TabIndex = 2
         Me.GvVendor.TabStop = False
-        Me.GvVendor.Text = "RadGridView1"
         '
         'btnClose
         '
@@ -439,43 +445,32 @@ Partial Class frmContractTanker
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(993, 20)
         Me.rdmenufile.TabIndex = 2
-        Me.rdmenufile.Text = "File"
         '
         'RadMenufile
         '
-        Me.RadMenufile.AccessibleDescription = "File"
-        Me.RadMenufile.AccessibleName = "File"
         Me.RadMenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuImport, Me.mnuExport})
         Me.RadMenufile.Name = "RadMenufile"
         Me.RadMenufile.Text = "File"
         '
         'mnuImport
         '
-        Me.mnuImport.AccessibleDescription = "Import"
-        Me.mnuImport.AccessibleName = "Import"
         Me.mnuImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuImportVendor})
         Me.mnuImport.Name = "mnuImport"
         Me.mnuImport.Text = "Import"
         '
         'mnuImportVendor
         '
-        Me.mnuImportVendor.AccessibleDescription = "Import Vendor "
-        Me.mnuImportVendor.AccessibleName = "Import Vendor "
         Me.mnuImportVendor.Name = "mnuImportVendor"
         Me.mnuImportVendor.Text = "Import Vendor "
         '
         'mnuExport
         '
-        Me.mnuExport.AccessibleDescription = "Export"
-        Me.mnuExport.AccessibleName = "Export"
         Me.mnuExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuExportVendor})
         Me.mnuExport.Name = "mnuExport"
         Me.mnuExport.Text = "Export"
         '
         'mnuExportVendor
         '
-        Me.mnuExportVendor.AccessibleDescription = "Export Vendor"
-        Me.mnuExportVendor.AccessibleName = "Export Vendor"
         Me.mnuExportVendor.Name = "mnuExportVendor"
         Me.mnuExportVendor.Text = "Export Vendor"
         '

@@ -23,6 +23,7 @@ Partial Class FrmMilkRecurringScheduler
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -98,7 +99,7 @@ Partial Class FrmMilkRecurringScheduler
         Me.RdbYearOnThe1 = New System.Windows.Forms.RadioButton()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.PgAttachment = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.Pg_Users = New Telerik.WinControls.UI.RadPageViewPage()
         Me.cbguser = New common.UserControls.MyRadGridView()
         Me.lblScheduleCode = New common.Controls.MyLabel()
@@ -238,27 +239,20 @@ Partial Class FrmMilkRecurringScheduler
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(685, 20)
         Me.RadMenu1.TabIndex = 12
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexport, Me.btnimport})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
         '
@@ -281,7 +275,7 @@ Partial Class FrmMilkRecurringScheduler
         Me.RdbYearly.AutoSize = True
         Me.RdbYearly.Location = New System.Drawing.Point(11, 113)
         Me.RdbYearly.Name = "RdbYearly"
-        Me.RdbYearly.Size = New System.Drawing.Size(54, 17)
+        Me.RdbYearly.Size = New System.Drawing.Size(53, 17)
         Me.RdbYearly.TabIndex = 4
         Me.RdbYearly.TabStop = True
         Me.RdbYearly.Text = "Yearly"
@@ -348,6 +342,7 @@ Partial Class FrmMilkRecurringScheduler
         '
         'MyLabel13
         '
+        Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel13.Location = New System.Drawing.Point(7, 42)
         Me.MyLabel13.Name = "MyLabel13"
@@ -357,6 +352,7 @@ Partial Class FrmMilkRecurringScheduler
         '
         'MyLabel12
         '
+        Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel12.Location = New System.Drawing.Point(235, 42)
         Me.MyLabel12.Name = "MyLabel12"
@@ -366,22 +362,43 @@ Partial Class FrmMilkRecurringScheduler
         '
         'TxtRemindinAdvance
         '
+        Me.TxtRemindinAdvance.CalculationExpression = Nothing
+        Me.TxtRemindinAdvance.FieldCode = Nothing
+        Me.TxtRemindinAdvance.FieldDesc = Nothing
+        Me.TxtRemindinAdvance.FieldMaxLength = 0
+        Me.TxtRemindinAdvance.FieldName = Nothing
         Me.TxtRemindinAdvance.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtRemindinAdvance.isCalculatedField = False
+        Me.TxtRemindinAdvance.IsSourceFromTable = False
+        Me.TxtRemindinAdvance.IsSourceFromValueList = False
+        Me.TxtRemindinAdvance.IsUnique = False
         Me.TxtRemindinAdvance.Location = New System.Drawing.Point(357, 41)
         Me.TxtRemindinAdvance.MaxLength = 50
         Me.TxtRemindinAdvance.MendatroryField = False
         Me.TxtRemindinAdvance.MyLinkLable1 = Nothing
         Me.TxtRemindinAdvance.MyLinkLable2 = Nothing
         Me.TxtRemindinAdvance.Name = "TxtRemindinAdvance"
+        Me.TxtRemindinAdvance.ReferenceFieldDesc = Nothing
+        Me.TxtRemindinAdvance.ReferenceFieldName = Nothing
+        Me.TxtRemindinAdvance.ReferenceTableName = Nothing
         Me.TxtRemindinAdvance.Size = New System.Drawing.Size(59, 18)
         Me.TxtRemindinAdvance.TabIndex = 127
         '
         'DtpStartDate
         '
         Me.DtpStartDate.AccessibleName = "InvDate"
+        Me.DtpStartDate.CalculationExpression = Nothing
         Me.DtpStartDate.CustomFormat = "dd/MM/yyyy"
+        Me.DtpStartDate.FieldCode = Nothing
+        Me.DtpStartDate.FieldDesc = Nothing
+        Me.DtpStartDate.FieldMaxLength = 0
+        Me.DtpStartDate.FieldName = Nothing
         Me.DtpStartDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DtpStartDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DtpStartDate.isCalculatedField = False
+        Me.DtpStartDate.IsSourceFromTable = False
+        Me.DtpStartDate.IsSourceFromValueList = False
+        Me.DtpStartDate.IsUnique = False
         Me.DtpStartDate.Location = New System.Drawing.Point(95, 41)
         Me.DtpStartDate.MendatroryField = False
         Me.DtpStartDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -389,6 +406,9 @@ Partial Class FrmMilkRecurringScheduler
         Me.DtpStartDate.MyLinkLable2 = Nothing
         Me.DtpStartDate.Name = "DtpStartDate"
         Me.DtpStartDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.DtpStartDate.ReferenceFieldDesc = Nothing
+        Me.DtpStartDate.ReferenceFieldName = Nothing
+        Me.DtpStartDate.ReferenceTableName = Nothing
         Me.DtpStartDate.Size = New System.Drawing.Size(134, 18)
         Me.DtpStartDate.TabIndex = 126
         Me.DtpStartDate.TabStop = False
@@ -399,19 +419,33 @@ Partial Class FrmMilkRecurringScheduler
         '
         Me.cboUser.AutoCompleteDisplayMember = Nothing
         Me.cboUser.AutoCompleteValueMember = Nothing
+        Me.cboUser.CalculationExpression = Nothing
+        Me.cboUser.DropDownAnimationEnabled = True
         Me.cboUser.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboUser.FieldCode = Nothing
+        Me.cboUser.FieldDesc = Nothing
+        Me.cboUser.FieldMaxLength = 0
+        Me.cboUser.FieldName = Nothing
         Me.cboUser.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboUser.isCalculatedField = False
+        Me.cboUser.IsSourceFromTable = False
+        Me.cboUser.IsSourceFromValueList = False
+        Me.cboUser.IsUnique = False
         Me.cboUser.Location = New System.Drawing.Point(95, 18)
         Me.cboUser.MendatroryField = False
         Me.cboUser.MyLinkLable1 = Me.RadLabel1
         Me.cboUser.MyLinkLable2 = Nothing
         Me.cboUser.Name = "cboUser"
+        Me.cboUser.ReferenceFieldDesc = Nothing
+        Me.cboUser.ReferenceFieldName = Nothing
+        Me.cboUser.ReferenceTableName = Nothing
         Me.cboUser.Size = New System.Drawing.Size(321, 18)
         Me.cboUser.TabIndex = 39
         Me.cboUser.Text = "RadDropDownList1"
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(7, 20)
         Me.RadLabel1.Name = "RadLabel1"
@@ -433,7 +467,6 @@ Partial Class FrmMilkRecurringScheduler
         Me.RadPageView1.SelectedPage = Me.PgWeekly
         Me.RadPageView1.Size = New System.Drawing.Size(510, 300)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'PgDaily
@@ -543,6 +576,7 @@ Partial Class FrmMilkRecurringScheduler
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(193, 33)
         Me.MyLabel1.Name = "MyLabel1"
@@ -553,24 +587,36 @@ Partial Class FrmMilkRecurringScheduler
         'TxtEveryDay
         '
         Me.TxtEveryDay.BackColor = System.Drawing.Color.White
+        Me.TxtEveryDay.CalculationExpression = Nothing
         Me.TxtEveryDay.DecimalPlaces = 0
+        Me.TxtEveryDay.FieldCode = Nothing
+        Me.TxtEveryDay.FieldDesc = Nothing
+        Me.TxtEveryDay.FieldMaxLength = 0
+        Me.TxtEveryDay.FieldName = Nothing
+        Me.TxtEveryDay.isCalculatedField = False
+        Me.TxtEveryDay.IsSourceFromTable = False
+        Me.TxtEveryDay.IsSourceFromValueList = False
+        Me.TxtEveryDay.IsUnique = False
         Me.TxtEveryDay.Location = New System.Drawing.Point(102, 30)
         Me.TxtEveryDay.MendatroryField = False
         Me.TxtEveryDay.MyLinkLable1 = Nothing
         Me.TxtEveryDay.MyLinkLable2 = Nothing
         Me.TxtEveryDay.Name = "TxtEveryDay"
+        Me.TxtEveryDay.ReferenceFieldDesc = Nothing
+        Me.TxtEveryDay.ReferenceFieldName = Nothing
+        Me.TxtEveryDay.ReferenceTableName = Nothing
         Me.TxtEveryDay.Size = New System.Drawing.Size(85, 20)
         Me.TxtEveryDay.TabIndex = 6
         Me.TxtEveryDay.Text = "0"
         Me.TxtEveryDay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtEveryDay.Value = 0.0R
+        Me.TxtEveryDay.Value = 0R
         '
         'RdbDailyTheseWorkDays
         '
         Me.RdbDailyTheseWorkDays.AutoSize = True
         Me.RdbDailyTheseWorkDays.Location = New System.Drawing.Point(36, 59)
         Me.RdbDailyTheseWorkDays.Name = "RdbDailyTheseWorkDays"
-        Me.RdbDailyTheseWorkDays.Size = New System.Drawing.Size(112, 17)
+        Me.RdbDailyTheseWorkDays.Size = New System.Drawing.Size(113, 17)
         Me.RdbDailyTheseWorkDays.TabIndex = 3
         Me.RdbDailyTheseWorkDays.TabStop = True
         Me.RdbDailyTheseWorkDays.Text = "These Work Days"
@@ -602,6 +648,7 @@ Partial Class FrmMilkRecurringScheduler
         '
         'MyLabel6
         '
+        Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel6.Location = New System.Drawing.Point(55, 22)
         Me.MyLabel6.Name = "MyLabel6"
@@ -612,6 +659,7 @@ Partial Class FrmMilkRecurringScheduler
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(55, 46)
         Me.MyLabel3.Name = "MyLabel3"
@@ -639,7 +687,7 @@ Partial Class FrmMilkRecurringScheduler
         Me.RdbWeeklyThursday.AutoSize = True
         Me.RdbWeeklyThursday.Location = New System.Drawing.Point(180, 21)
         Me.RdbWeeklyThursday.Name = "RdbWeeklyThursday"
-        Me.RdbWeeklyThursday.Size = New System.Drawing.Size(71, 17)
+        Me.RdbWeeklyThursday.Size = New System.Drawing.Size(72, 17)
         Me.RdbWeeklyThursday.TabIndex = 79
         Me.RdbWeeklyThursday.TabStop = True
         Me.RdbWeeklyThursday.Text = "Thursday"
@@ -672,7 +720,7 @@ Partial Class FrmMilkRecurringScheduler
         Me.RdbTuesday.AutoSize = True
         Me.RdbTuesday.Location = New System.Drawing.Point(21, 66)
         Me.RdbTuesday.Name = "RdbTuesday"
-        Me.RdbTuesday.Size = New System.Drawing.Size(66, 17)
+        Me.RdbTuesday.Size = New System.Drawing.Size(67, 17)
         Me.RdbTuesday.TabIndex = 76
         Me.RdbTuesday.TabStop = True
         Me.RdbTuesday.Text = "Tuesday"
@@ -713,6 +761,7 @@ Partial Class FrmMilkRecurringScheduler
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(211, 22)
         Me.MyLabel2.Name = "MyLabel2"
@@ -724,17 +773,29 @@ Partial Class FrmMilkRecurringScheduler
         'TxtWeeklyEvery
         '
         Me.TxtWeeklyEvery.BackColor = System.Drawing.Color.White
+        Me.TxtWeeklyEvery.CalculationExpression = Nothing
         Me.TxtWeeklyEvery.DecimalPlaces = 0
+        Me.TxtWeeklyEvery.FieldCode = Nothing
+        Me.TxtWeeklyEvery.FieldDesc = Nothing
+        Me.TxtWeeklyEvery.FieldMaxLength = 0
+        Me.TxtWeeklyEvery.FieldName = Nothing
+        Me.TxtWeeklyEvery.isCalculatedField = False
+        Me.TxtWeeklyEvery.IsSourceFromTable = False
+        Me.TxtWeeklyEvery.IsSourceFromValueList = False
+        Me.TxtWeeklyEvery.IsUnique = False
         Me.TxtWeeklyEvery.Location = New System.Drawing.Point(120, 19)
         Me.TxtWeeklyEvery.MendatroryField = False
         Me.TxtWeeklyEvery.MyLinkLable1 = Nothing
         Me.TxtWeeklyEvery.MyLinkLable2 = Nothing
         Me.TxtWeeklyEvery.Name = "TxtWeeklyEvery"
+        Me.TxtWeeklyEvery.ReferenceFieldDesc = Nothing
+        Me.TxtWeeklyEvery.ReferenceFieldName = Nothing
+        Me.TxtWeeklyEvery.ReferenceTableName = Nothing
         Me.TxtWeeklyEvery.Size = New System.Drawing.Size(85, 20)
         Me.TxtWeeklyEvery.TabIndex = 74
         Me.TxtWeeklyEvery.Text = "0"
         Me.TxtWeeklyEvery.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtWeeklyEvery.Value = 0.0R
+        Me.TxtWeeklyEvery.Value = 0R
         Me.TxtWeeklyEvery.Visible = False
         '
         'PgSemi
@@ -755,19 +816,33 @@ Partial Class FrmMilkRecurringScheduler
         '
         Me.CboSemiMonthCmb1.AutoCompleteDisplayMember = Nothing
         Me.CboSemiMonthCmb1.AutoCompleteValueMember = Nothing
+        Me.CboSemiMonthCmb1.CalculationExpression = Nothing
+        Me.CboSemiMonthCmb1.DropDownAnimationEnabled = True
         Me.CboSemiMonthCmb1.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.CboSemiMonthCmb1.FieldCode = Nothing
+        Me.CboSemiMonthCmb1.FieldDesc = Nothing
+        Me.CboSemiMonthCmb1.FieldMaxLength = 0
+        Me.CboSemiMonthCmb1.FieldName = Nothing
         Me.CboSemiMonthCmb1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboSemiMonthCmb1.isCalculatedField = False
+        Me.CboSemiMonthCmb1.IsSourceFromTable = False
+        Me.CboSemiMonthCmb1.IsSourceFromValueList = False
+        Me.CboSemiMonthCmb1.IsUnique = False
         Me.CboSemiMonthCmb1.Location = New System.Drawing.Point(140, 34)
         Me.CboSemiMonthCmb1.MendatroryField = False
         Me.CboSemiMonthCmb1.MyLinkLable1 = Me.RadLabel1
         Me.CboSemiMonthCmb1.MyLinkLable2 = Nothing
         Me.CboSemiMonthCmb1.Name = "CboSemiMonthCmb1"
+        Me.CboSemiMonthCmb1.ReferenceFieldDesc = Nothing
+        Me.CboSemiMonthCmb1.ReferenceFieldName = Nothing
+        Me.CboSemiMonthCmb1.ReferenceTableName = Nothing
         Me.CboSemiMonthCmb1.Size = New System.Drawing.Size(85, 18)
         Me.CboSemiMonthCmb1.TabIndex = 88
         Me.CboSemiMonthCmb1.Text = "RadDropDownList1"
         '
         'MyLabel9
         '
+        Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel9.Location = New System.Drawing.Point(235, 60)
         Me.MyLabel9.Name = "MyLabel9"
@@ -779,19 +854,33 @@ Partial Class FrmMilkRecurringScheduler
         '
         Me.CboSemiMonthTheCombo.AutoCompleteDisplayMember = Nothing
         Me.CboSemiMonthTheCombo.AutoCompleteValueMember = Nothing
+        Me.CboSemiMonthTheCombo.CalculationExpression = Nothing
+        Me.CboSemiMonthTheCombo.DropDownAnimationEnabled = True
         Me.CboSemiMonthTheCombo.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.CboSemiMonthTheCombo.FieldCode = Nothing
+        Me.CboSemiMonthTheCombo.FieldDesc = Nothing
+        Me.CboSemiMonthTheCombo.FieldMaxLength = 0
+        Me.CboSemiMonthTheCombo.FieldName = Nothing
         Me.CboSemiMonthTheCombo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboSemiMonthTheCombo.isCalculatedField = False
+        Me.CboSemiMonthTheCombo.IsSourceFromTable = False
+        Me.CboSemiMonthTheCombo.IsSourceFromValueList = False
+        Me.CboSemiMonthTheCombo.IsUnique = False
         Me.CboSemiMonthTheCombo.Location = New System.Drawing.Point(140, 59)
         Me.CboSemiMonthTheCombo.MendatroryField = False
         Me.CboSemiMonthTheCombo.MyLinkLable1 = Me.RadLabel1
         Me.CboSemiMonthTheCombo.MyLinkLable2 = Nothing
         Me.CboSemiMonthTheCombo.Name = "CboSemiMonthTheCombo"
+        Me.CboSemiMonthTheCombo.ReferenceFieldDesc = Nothing
+        Me.CboSemiMonthTheCombo.ReferenceFieldName = Nothing
+        Me.CboSemiMonthTheCombo.ReferenceTableName = Nothing
         Me.CboSemiMonthTheCombo.Size = New System.Drawing.Size(85, 18)
         Me.CboSemiMonthTheCombo.TabIndex = 87
         Me.CboSemiMonthTheCombo.Text = "RadDropDownList1"
         '
         'MyLabel8
         '
+        Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel8.Location = New System.Drawing.Point(235, 35)
         Me.MyLabel8.Name = "MyLabel8"
@@ -804,7 +893,7 @@ Partial Class FrmMilkRecurringScheduler
         Me.RdbSemiThe.AutoSize = True
         Me.RdbSemiThe.Location = New System.Drawing.Point(50, 60)
         Me.RdbSemiThe.Name = "RdbSemiThe"
-        Me.RdbSemiThe.Size = New System.Drawing.Size(43, 17)
+        Me.RdbSemiThe.Size = New System.Drawing.Size(44, 17)
         Me.RdbSemiThe.TabIndex = 86
         Me.RdbSemiThe.TabStop = True
         Me.RdbSemiThe.Text = "The"
@@ -841,6 +930,7 @@ Partial Class FrmMilkRecurringScheduler
         '
         'MyLabel14
         '
+        Me.MyLabel14.FieldName = Nothing
         Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel14.Location = New System.Drawing.Point(217, 24)
         Me.MyLabel14.Name = "MyLabel14"
@@ -852,13 +942,26 @@ Partial Class FrmMilkRecurringScheduler
         '
         Me.CboMonthlyDays.AutoCompleteDisplayMember = Nothing
         Me.CboMonthlyDays.AutoCompleteValueMember = Nothing
+        Me.CboMonthlyDays.CalculationExpression = Nothing
+        Me.CboMonthlyDays.DropDownAnimationEnabled = True
         Me.CboMonthlyDays.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.CboMonthlyDays.FieldCode = Nothing
+        Me.CboMonthlyDays.FieldDesc = Nothing
+        Me.CboMonthlyDays.FieldMaxLength = 0
+        Me.CboMonthlyDays.FieldName = Nothing
         Me.CboMonthlyDays.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboMonthlyDays.isCalculatedField = False
+        Me.CboMonthlyDays.IsSourceFromTable = False
+        Me.CboMonthlyDays.IsSourceFromValueList = False
+        Me.CboMonthlyDays.IsUnique = False
         Me.CboMonthlyDays.Location = New System.Drawing.Point(126, 130)
         Me.CboMonthlyDays.MendatroryField = False
         Me.CboMonthlyDays.MyLinkLable1 = Me.RadLabel1
         Me.CboMonthlyDays.MyLinkLable2 = Nothing
         Me.CboMonthlyDays.Name = "CboMonthlyDays"
+        Me.CboMonthlyDays.ReferenceFieldDesc = Nothing
+        Me.CboMonthlyDays.ReferenceFieldName = Nothing
+        Me.CboMonthlyDays.ReferenceTableName = Nothing
         Me.CboMonthlyDays.Size = New System.Drawing.Size(152, 18)
         Me.CboMonthlyDays.TabIndex = 83
         Me.CboMonthlyDays.Text = "RadDropDownList1"
@@ -868,19 +971,33 @@ Partial Class FrmMilkRecurringScheduler
         '
         Me.CboMonthlyFirst.AutoCompleteDisplayMember = Nothing
         Me.CboMonthlyFirst.AutoCompleteValueMember = Nothing
+        Me.CboMonthlyFirst.CalculationExpression = Nothing
+        Me.CboMonthlyFirst.DropDownAnimationEnabled = True
         Me.CboMonthlyFirst.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.CboMonthlyFirst.FieldCode = Nothing
+        Me.CboMonthlyFirst.FieldDesc = Nothing
+        Me.CboMonthlyFirst.FieldMaxLength = 0
+        Me.CboMonthlyFirst.FieldName = Nothing
         Me.CboMonthlyFirst.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboMonthlyFirst.isCalculatedField = False
+        Me.CboMonthlyFirst.IsSourceFromTable = False
+        Me.CboMonthlyFirst.IsSourceFromValueList = False
+        Me.CboMonthlyFirst.IsUnique = False
         Me.CboMonthlyFirst.Location = New System.Drawing.Point(94, 23)
         Me.CboMonthlyFirst.MendatroryField = False
         Me.CboMonthlyFirst.MyLinkLable1 = Me.RadLabel1
         Me.CboMonthlyFirst.MyLinkLable2 = Nothing
         Me.CboMonthlyFirst.Name = "CboMonthlyFirst"
+        Me.CboMonthlyFirst.ReferenceFieldDesc = Nothing
+        Me.CboMonthlyFirst.ReferenceFieldName = Nothing
+        Me.CboMonthlyFirst.ReferenceTableName = Nothing
         Me.CboMonthlyFirst.Size = New System.Drawing.Size(117, 18)
         Me.CboMonthlyFirst.TabIndex = 82
         Me.CboMonthlyFirst.Text = "RadDropDownList1"
         '
         'MyLabel7
         '
+        Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel7.Location = New System.Drawing.Point(228, 190)
         Me.MyLabel7.Name = "MyLabel7"
@@ -894,7 +1011,7 @@ Partial Class FrmMilkRecurringScheduler
         Me.RdbMonthlyOnThe2.AutoSize = True
         Me.RdbMonthlyOnThe2.Location = New System.Drawing.Point(26, 24)
         Me.RdbMonthlyOnThe2.Name = "RdbMonthlyOnThe2"
-        Me.RdbMonthlyOnThe2.Size = New System.Drawing.Size(62, 17)
+        Me.RdbMonthlyOnThe2.Size = New System.Drawing.Size(63, 17)
         Me.RdbMonthlyOnThe2.TabIndex = 81
         Me.RdbMonthlyOnThe2.TabStop = True
         Me.RdbMonthlyOnThe2.Text = "On The"
@@ -903,17 +1020,29 @@ Partial Class FrmMilkRecurringScheduler
         'TxtMonthlyOnthe
         '
         Me.TxtMonthlyOnthe.BackColor = System.Drawing.Color.White
+        Me.TxtMonthlyOnthe.CalculationExpression = Nothing
         Me.TxtMonthlyOnthe.DecimalPlaces = 0
+        Me.TxtMonthlyOnthe.FieldCode = Nothing
+        Me.TxtMonthlyOnthe.FieldDesc = Nothing
+        Me.TxtMonthlyOnthe.FieldMaxLength = 0
+        Me.TxtMonthlyOnthe.FieldName = Nothing
+        Me.TxtMonthlyOnthe.isCalculatedField = False
+        Me.TxtMonthlyOnthe.IsSourceFromTable = False
+        Me.TxtMonthlyOnthe.IsSourceFromValueList = False
+        Me.TxtMonthlyOnthe.IsUnique = False
         Me.TxtMonthlyOnthe.Location = New System.Drawing.Point(137, 188)
         Me.TxtMonthlyOnthe.MendatroryField = False
         Me.TxtMonthlyOnthe.MyLinkLable1 = Nothing
         Me.TxtMonthlyOnthe.MyLinkLable2 = Nothing
         Me.TxtMonthlyOnthe.Name = "TxtMonthlyOnthe"
+        Me.TxtMonthlyOnthe.ReferenceFieldDesc = Nothing
+        Me.TxtMonthlyOnthe.ReferenceFieldName = Nothing
+        Me.TxtMonthlyOnthe.ReferenceTableName = Nothing
         Me.TxtMonthlyOnthe.Size = New System.Drawing.Size(85, 20)
         Me.TxtMonthlyOnthe.TabIndex = 79
         Me.TxtMonthlyOnthe.Text = "0"
         Me.TxtMonthlyOnthe.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtMonthlyOnthe.Value = 0.0R
+        Me.TxtMonthlyOnthe.Value = 0R
         Me.TxtMonthlyOnthe.Visible = False
         '
         'RdbMonthlyOnTheDay1
@@ -921,7 +1050,7 @@ Partial Class FrmMilkRecurringScheduler
         Me.RdbMonthlyOnTheDay1.AutoSize = True
         Me.RdbMonthlyOnTheDay1.Location = New System.Drawing.Point(69, 190)
         Me.RdbMonthlyOnTheDay1.Name = "RdbMonthlyOnTheDay1"
-        Me.RdbMonthlyOnTheDay1.Size = New System.Drawing.Size(62, 17)
+        Me.RdbMonthlyOnTheDay1.Size = New System.Drawing.Size(63, 17)
         Me.RdbMonthlyOnTheDay1.TabIndex = 80
         Me.RdbMonthlyOnTheDay1.TabStop = True
         Me.RdbMonthlyOnTheDay1.Text = "On The"
@@ -930,6 +1059,7 @@ Partial Class FrmMilkRecurringScheduler
         '
         'MyLabel5
         '
+        Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.Location = New System.Drawing.Point(69, 156)
         Me.MyLabel5.Name = "MyLabel5"
@@ -940,6 +1070,7 @@ Partial Class FrmMilkRecurringScheduler
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(217, 156)
         Me.MyLabel4.Name = "MyLabel4"
@@ -951,17 +1082,29 @@ Partial Class FrmMilkRecurringScheduler
         'TxtMonthlyEvery
         '
         Me.TxtMonthlyEvery.BackColor = System.Drawing.Color.White
+        Me.TxtMonthlyEvery.CalculationExpression = Nothing
         Me.TxtMonthlyEvery.DecimalPlaces = 0
+        Me.TxtMonthlyEvery.FieldCode = Nothing
+        Me.TxtMonthlyEvery.FieldDesc = Nothing
+        Me.TxtMonthlyEvery.FieldMaxLength = 0
+        Me.TxtMonthlyEvery.FieldName = Nothing
+        Me.TxtMonthlyEvery.isCalculatedField = False
+        Me.TxtMonthlyEvery.IsSourceFromTable = False
+        Me.TxtMonthlyEvery.IsSourceFromValueList = False
+        Me.TxtMonthlyEvery.IsUnique = False
         Me.TxtMonthlyEvery.Location = New System.Drawing.Point(126, 154)
         Me.TxtMonthlyEvery.MendatroryField = False
         Me.TxtMonthlyEvery.MyLinkLable1 = Nothing
         Me.TxtMonthlyEvery.MyLinkLable2 = Nothing
         Me.TxtMonthlyEvery.Name = "TxtMonthlyEvery"
+        Me.TxtMonthlyEvery.ReferenceFieldDesc = Nothing
+        Me.TxtMonthlyEvery.ReferenceFieldName = Nothing
+        Me.TxtMonthlyEvery.ReferenceTableName = Nothing
         Me.TxtMonthlyEvery.Size = New System.Drawing.Size(85, 20)
         Me.TxtMonthlyEvery.TabIndex = 77
         Me.TxtMonthlyEvery.Text = "0"
         Me.TxtMonthlyEvery.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtMonthlyEvery.Value = 0.0R
+        Me.TxtMonthlyEvery.Value = 0R
         Me.TxtMonthlyEvery.Visible = False
         '
         'pgYearly
@@ -983,6 +1126,7 @@ Partial Class FrmMilkRecurringScheduler
         '
         'MyLabel15
         '
+        Me.MyLabel15.FieldName = Nothing
         Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel15.Location = New System.Drawing.Point(209, 23)
         Me.MyLabel15.Name = "MyLabel15"
@@ -994,13 +1138,26 @@ Partial Class FrmMilkRecurringScheduler
         '
         Me.CboYearEvery.AutoCompleteDisplayMember = Nothing
         Me.CboYearEvery.AutoCompleteValueMember = Nothing
+        Me.CboYearEvery.CalculationExpression = Nothing
+        Me.CboYearEvery.DropDownAnimationEnabled = True
         Me.CboYearEvery.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.CboYearEvery.FieldCode = Nothing
+        Me.CboYearEvery.FieldDesc = Nothing
+        Me.CboYearEvery.FieldMaxLength = 0
+        Me.CboYearEvery.FieldName = Nothing
         Me.CboYearEvery.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboYearEvery.isCalculatedField = False
+        Me.CboYearEvery.IsSourceFromTable = False
+        Me.CboYearEvery.IsSourceFromValueList = False
+        Me.CboYearEvery.IsUnique = False
         Me.CboYearEvery.Location = New System.Drawing.Point(118, 150)
         Me.CboYearEvery.MendatroryField = False
         Me.CboYearEvery.MyLinkLable1 = Me.RadLabel1
         Me.CboYearEvery.MyLinkLable2 = Nothing
         Me.CboYearEvery.Name = "CboYearEvery"
+        Me.CboYearEvery.ReferenceFieldDesc = Nothing
+        Me.CboYearEvery.ReferenceFieldName = Nothing
+        Me.CboYearEvery.ReferenceTableName = Nothing
         Me.CboYearEvery.Size = New System.Drawing.Size(117, 18)
         Me.CboYearEvery.TabIndex = 93
         Me.CboYearEvery.Text = "RadDropDownList1"
@@ -1010,13 +1167,26 @@ Partial Class FrmMilkRecurringScheduler
         '
         Me.CboYearDays.AutoCompleteDisplayMember = Nothing
         Me.CboYearDays.AutoCompleteValueMember = Nothing
+        Me.CboYearDays.CalculationExpression = Nothing
+        Me.CboYearDays.DropDownAnimationEnabled = True
         Me.CboYearDays.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.CboYearDays.FieldCode = Nothing
+        Me.CboYearDays.FieldDesc = Nothing
+        Me.CboYearDays.FieldMaxLength = 0
+        Me.CboYearDays.FieldName = Nothing
         Me.CboYearDays.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboYearDays.isCalculatedField = False
+        Me.CboYearDays.IsSourceFromTable = False
+        Me.CboYearDays.IsSourceFromValueList = False
+        Me.CboYearDays.IsUnique = False
         Me.CboYearDays.Location = New System.Drawing.Point(118, 126)
         Me.CboYearDays.MendatroryField = False
         Me.CboYearDays.MyLinkLable1 = Me.RadLabel1
         Me.CboYearDays.MyLinkLable2 = Nothing
         Me.CboYearDays.Name = "CboYearDays"
+        Me.CboYearDays.ReferenceFieldDesc = Nothing
+        Me.CboYearDays.ReferenceFieldName = Nothing
+        Me.CboYearDays.ReferenceTableName = Nothing
         Me.CboYearDays.Size = New System.Drawing.Size(152, 18)
         Me.CboYearDays.TabIndex = 92
         Me.CboYearDays.Text = "RadDropDownList1"
@@ -1026,19 +1196,33 @@ Partial Class FrmMilkRecurringScheduler
         '
         Me.CboYearFirst.AutoCompleteDisplayMember = Nothing
         Me.CboYearFirst.AutoCompleteValueMember = Nothing
+        Me.CboYearFirst.CalculationExpression = Nothing
+        Me.CboYearFirst.DropDownAnimationEnabled = True
         Me.CboYearFirst.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.CboYearFirst.FieldCode = Nothing
+        Me.CboYearFirst.FieldDesc = Nothing
+        Me.CboYearFirst.FieldMaxLength = 0
+        Me.CboYearFirst.FieldName = Nothing
         Me.CboYearFirst.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboYearFirst.isCalculatedField = False
+        Me.CboYearFirst.IsSourceFromTable = False
+        Me.CboYearFirst.IsSourceFromValueList = False
+        Me.CboYearFirst.IsUnique = False
         Me.CboYearFirst.Location = New System.Drawing.Point(86, 23)
         Me.CboYearFirst.MendatroryField = False
         Me.CboYearFirst.MyLinkLable1 = Me.RadLabel1
         Me.CboYearFirst.MyLinkLable2 = Nothing
         Me.CboYearFirst.Name = "CboYearFirst"
+        Me.CboYearFirst.ReferenceFieldDesc = Nothing
+        Me.CboYearFirst.ReferenceFieldName = Nothing
+        Me.CboYearFirst.ReferenceTableName = Nothing
         Me.CboYearFirst.Size = New System.Drawing.Size(117, 18)
         Me.CboYearFirst.TabIndex = 91
         Me.CboYearFirst.Text = "RadDropDownList1"
         '
         'MyLabel10
         '
+        Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel10.Location = New System.Drawing.Point(209, 184)
         Me.MyLabel10.Name = "MyLabel10"
@@ -1052,7 +1236,7 @@ Partial Class FrmMilkRecurringScheduler
         Me.RdbYearOnthe2.AutoSize = True
         Me.RdbYearOnthe2.Location = New System.Drawing.Point(18, 23)
         Me.RdbYearOnthe2.Name = "RdbYearOnthe2"
-        Me.RdbYearOnthe2.Size = New System.Drawing.Size(62, 17)
+        Me.RdbYearOnthe2.Size = New System.Drawing.Size(63, 17)
         Me.RdbYearOnthe2.TabIndex = 90
         Me.RdbYearOnthe2.TabStop = True
         Me.RdbYearOnthe2.Text = "On The"
@@ -1061,17 +1245,29 @@ Partial Class FrmMilkRecurringScheduler
         'TxtYearOnthe
         '
         Me.TxtYearOnthe.BackColor = System.Drawing.Color.White
+        Me.TxtYearOnthe.CalculationExpression = Nothing
         Me.TxtYearOnthe.DecimalPlaces = 0
+        Me.TxtYearOnthe.FieldCode = Nothing
+        Me.TxtYearOnthe.FieldDesc = Nothing
+        Me.TxtYearOnthe.FieldMaxLength = 0
+        Me.TxtYearOnthe.FieldName = Nothing
+        Me.TxtYearOnthe.isCalculatedField = False
+        Me.TxtYearOnthe.IsSourceFromTable = False
+        Me.TxtYearOnthe.IsSourceFromValueList = False
+        Me.TxtYearOnthe.IsUnique = False
         Me.TxtYearOnthe.Location = New System.Drawing.Point(118, 182)
         Me.TxtYearOnthe.MendatroryField = False
         Me.TxtYearOnthe.MyLinkLable1 = Nothing
         Me.TxtYearOnthe.MyLinkLable2 = Nothing
         Me.TxtYearOnthe.Name = "TxtYearOnthe"
+        Me.TxtYearOnthe.ReferenceFieldDesc = Nothing
+        Me.TxtYearOnthe.ReferenceFieldName = Nothing
+        Me.TxtYearOnthe.ReferenceTableName = Nothing
         Me.TxtYearOnthe.Size = New System.Drawing.Size(85, 20)
         Me.TxtYearOnthe.TabIndex = 86
         Me.TxtYearOnthe.Text = "0"
         Me.TxtYearOnthe.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtYearOnthe.Value = 0.0R
+        Me.TxtYearOnthe.Value = 0R
         Me.TxtYearOnthe.Visible = False
         '
         'RdbYearOnThe1
@@ -1079,7 +1275,7 @@ Partial Class FrmMilkRecurringScheduler
         Me.RdbYearOnThe1.AutoSize = True
         Me.RdbYearOnThe1.Location = New System.Drawing.Point(50, 184)
         Me.RdbYearOnThe1.Name = "RdbYearOnThe1"
-        Me.RdbYearOnThe1.Size = New System.Drawing.Size(62, 17)
+        Me.RdbYearOnThe1.Size = New System.Drawing.Size(63, 17)
         Me.RdbYearOnThe1.TabIndex = 88
         Me.RdbYearOnThe1.TabStop = True
         Me.RdbYearOnThe1.Text = "On The"
@@ -1088,6 +1284,7 @@ Partial Class FrmMilkRecurringScheduler
         '
         'MyLabel11
         '
+        Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel11.Location = New System.Drawing.Point(50, 152)
         Me.MyLabel11.Name = "MyLabel11"
@@ -1125,13 +1322,21 @@ Partial Class FrmMilkRecurringScheduler
         'cbguser
         '
         Me.cbguser.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.cbguser.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.cbguser.MasterTemplate.ShowHeaderCellButtons = True
+        Me.cbguser.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.cbguser.MyStopExport = False
         Me.cbguser.Name = "cbguser"
+        Me.cbguser.ShowHeaderCellButtons = True
         Me.cbguser.Size = New System.Drawing.Size(489, 252)
         Me.cbguser.TabIndex = 2
-        Me.cbguser.Text = "RadGridView1"
         '
         'lblScheduleCode
         '
+        Me.lblScheduleCode.FieldName = Nothing
         Me.lblScheduleCode.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblScheduleCode.Location = New System.Drawing.Point(10, 16)
         Me.lblScheduleCode.Name = "lblScheduleCode"
@@ -1141,13 +1346,14 @@ Partial Class FrmMilkRecurringScheduler
         '
         'fndcode
         '
+        Me.fndcode.FieldName = Nothing
         Me.fndcode.Location = New System.Drawing.Point(110, 13)
         Me.fndcode.MendatroryField = True
         Me.fndcode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndcode.MyLinkLable1 = Me.lblScheduleCode
         Me.fndcode.MyLinkLable2 = Nothing
-        Me.fndcode.MyMaxLength = 32767
+        Me.fndcode.MyMaxLength = 30
         Me.fndcode.MyReadOnly = False
         Me.fndcode.Name = "fndcode"
         Me.fndcode.Size = New System.Drawing.Size(307, 21)
@@ -1157,6 +1363,7 @@ Partial Class FrmMilkRecurringScheduler
         '
         'LblScheduleName
         '
+        Me.LblScheduleName.FieldName = Nothing
         Me.LblScheduleName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.LblScheduleName.Location = New System.Drawing.Point(10, 42)
         Me.LblScheduleName.Name = "LblScheduleName"
@@ -1174,13 +1381,25 @@ Partial Class FrmMilkRecurringScheduler
         '
         'txtdesc
         '
+        Me.txtdesc.CalculationExpression = Nothing
+        Me.txtdesc.FieldCode = Nothing
+        Me.txtdesc.FieldDesc = Nothing
+        Me.txtdesc.FieldMaxLength = 0
+        Me.txtdesc.FieldName = Nothing
         Me.txtdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdesc.isCalculatedField = False
+        Me.txtdesc.IsSourceFromTable = False
+        Me.txtdesc.IsSourceFromValueList = False
+        Me.txtdesc.IsUnique = False
         Me.txtdesc.Location = New System.Drawing.Point(111, 41)
         Me.txtdesc.MaxLength = 150
         Me.txtdesc.MendatroryField = True
         Me.txtdesc.MyLinkLable1 = Me.LblScheduleName
         Me.txtdesc.MyLinkLable2 = Nothing
         Me.txtdesc.Name = "txtdesc"
+        Me.txtdesc.ReferenceFieldDesc = Nothing
+        Me.txtdesc.ReferenceFieldName = Nothing
+        Me.txtdesc.ReferenceTableName = Nothing
         Me.txtdesc.Size = New System.Drawing.Size(321, 18)
         Me.txtdesc.TabIndex = 1
         '
@@ -1225,7 +1444,6 @@ Partial Class FrmMilkRecurringScheduler
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(691, 525)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Location = New System.Drawing.Point(0, 0)
         Me.Name = "FrmMilkRecurringScheduler"
         '
         '
