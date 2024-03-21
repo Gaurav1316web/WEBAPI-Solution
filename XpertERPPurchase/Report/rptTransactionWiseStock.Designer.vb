@@ -1,5 +1,5 @@
 ﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
-Partial Class ItemStockReport
+Partial Class rptTransactionWiseStock
     'Inherits System.Windows.Forms.Form
     Inherits FrmMainTranScreen
 
@@ -26,12 +26,13 @@ Partial Class ItemStockReport
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.Filter = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblItem = New common.Controls.MyLabel()
+        Me.TxtItem = New common.UserControls.txtFinder()
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.txtItemType = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.cmbUnit = New common.Controls.MyComboBox()
-        Me.TxtItem = New common.UserControls.txtMultiSelectFinder()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.lblBillToLocation = New common.Controls.MyLabel()
         Me.txtBillToLocation = New common.UserControls.txtFinder()
@@ -41,7 +42,7 @@ Partial Class ItemStockReport
         Me.Label2 = New System.Windows.Forms.Label()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
@@ -55,7 +56,8 @@ Partial Class ItemStockReport
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
-        Me.RadPageViewPage1.SuspendLayout()
+        Me.Filter.SuspendLayout()
+        CType(Me.lblItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbUnit, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -64,7 +66,7 @@ Partial Class ItemStockReport
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadPageViewPage2.SuspendLayout()
+        Me.RadPageViewPage1.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -94,70 +96,112 @@ Partial Class ItemStockReport
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
-        Me.SplitContainer1.SplitterDistance = 414
+        Me.SplitContainer1.SplitterDistance = 409
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
         '
+        Me.RadPageView1.Controls.Add(Me.Filter)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(800, 414)
+        Me.RadPageView1.SelectedPage = Me.Filter
+        Me.RadPageView1.Size = New System.Drawing.Size(800, 409)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
-        'RadPageViewPage1
+        'Filter
         '
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel8)
-        Me.RadPageViewPage1.Controls.Add(Me.txtItemType)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
-        Me.RadPageViewPage1.Controls.Add(Me.cmbUnit)
-        Me.RadPageViewPage1.Controls.Add(Me.TxtItem)
-        Me.RadPageViewPage1.Controls.Add(Me.Label4)
-        Me.RadPageViewPage1.Controls.Add(Me.lblBillToLocation)
-        Me.RadPageViewPage1.Controls.Add(Me.txtBillToLocation)
-        Me.RadPageViewPage1.Controls.Add(Me.Label3)
-        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 366)
-        Me.RadPageViewPage1.Text = "Filter"
+        Me.Filter.Controls.Add(Me.lblItem)
+        Me.Filter.Controls.Add(Me.TxtItem)
+        Me.Filter.Controls.Add(Me.MyLabel8)
+        Me.Filter.Controls.Add(Me.txtItemType)
+        Me.Filter.Controls.Add(Me.MyLabel3)
+        Me.Filter.Controls.Add(Me.cmbUnit)
+        Me.Filter.Controls.Add(Me.Label4)
+        Me.Filter.Controls.Add(Me.lblBillToLocation)
+        Me.Filter.Controls.Add(Me.txtBillToLocation)
+        Me.Filter.Controls.Add(Me.Label3)
+        Me.Filter.Controls.Add(Me.RadGroupBox1)
+        Me.Filter.ItemSize = New System.Drawing.SizeF(41.0!, 28.0!)
+        Me.Filter.Location = New System.Drawing.Point(10, 37)
+        Me.Filter.Name = "Filter"
+        Me.Filter.Size = New System.Drawing.Size(779, 361)
+        Me.Filter.Text = "Filter"
+        '
+        'lblItem
+        '
+        Me.lblItem.AutoSize = False
+        Me.lblItem.BorderVisible = True
+        Me.lblItem.FieldName = Nothing
+        Me.lblItem.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItem.Location = New System.Drawing.Point(178, 112)
+        Me.lblItem.Name = "lblItem"
+        Me.lblItem.Size = New System.Drawing.Size(178, 18)
+        Me.lblItem.TabIndex = 359
+        Me.lblItem.TextWrap = False
+        '
+        'TxtItem
+        '
+        Me.TxtItem.CalculationExpression = Nothing
+        Me.TxtItem.FieldCode = Nothing
+        Me.TxtItem.FieldDesc = Nothing
+        Me.TxtItem.FieldMaxLength = 0
+        Me.TxtItem.FieldName = Nothing
+        Me.TxtItem.isCalculatedField = False
+        Me.TxtItem.IsSourceFromTable = False
+        Me.TxtItem.IsSourceFromValueList = False
+        Me.TxtItem.IsUnique = False
+        Me.TxtItem.Location = New System.Drawing.Point(75, 112)
+        Me.TxtItem.MendatroryField = True
+        Me.TxtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtItem.MyLinkLable1 = Nothing
+        Me.TxtItem.MyLinkLable2 = Nothing
+        Me.TxtItem.MyReadOnly = False
+        Me.TxtItem.MyShowMasterFormButton = False
+        Me.TxtItem.Name = "TxtItem"
+        Me.TxtItem.ReferenceFieldDesc = Nothing
+        Me.TxtItem.ReferenceFieldName = Nothing
+        Me.TxtItem.ReferenceTableName = Nothing
+        Me.TxtItem.Size = New System.Drawing.Size(99, 18)
+        Me.TxtItem.TabIndex = 358
+        Me.TxtItem.Value = ""
         '
         'MyLabel8
         '
         Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(24, 139)
+        Me.MyLabel8.Location = New System.Drawing.Point(12, 138)
         Me.MyLabel8.Name = "MyLabel8"
         Me.MyLabel8.Size = New System.Drawing.Size(56, 18)
-        Me.MyLabel8.TabIndex = 347
+        Me.MyLabel8.TabIndex = 357
         Me.MyLabel8.Text = "Item Type"
+        Me.MyLabel8.Visible = False
         '
         'txtItemType
         '
         Me.txtItemType.arrDispalyMember = Nothing
         Me.txtItemType.arrValueMember = Nothing
-        Me.txtItemType.Location = New System.Drawing.Point(87, 138)
+        Me.txtItemType.Location = New System.Drawing.Point(75, 137)
         Me.txtItemType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtItemType.MyLinkLable1 = Me.MyLabel8
         Me.txtItemType.MyLinkLable2 = Nothing
         Me.txtItemType.MyNullText = "All"
         Me.txtItemType.Name = "txtItemType"
         Me.txtItemType.Size = New System.Drawing.Size(281, 21)
-        Me.txtItemType.TabIndex = 344
+        Me.txtItemType.TabIndex = 354
+        Me.txtItemType.Visible = False
         '
         'MyLabel3
         '
         Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Location = New System.Drawing.Point(25, 162)
+        Me.MyLabel3.Location = New System.Drawing.Point(13, 161)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(33, 18)
-        Me.MyLabel3.TabIndex = 346
+        Me.MyLabel3.TabIndex = 356
         Me.MyLabel3.Text = "UOM"
+        Me.MyLabel3.Visible = False
         '
         'cmbUnit
         '
@@ -175,7 +219,7 @@ Partial Class ItemStockReport
         Me.cmbUnit.IsSourceFromTable = False
         Me.cmbUnit.IsSourceFromValueList = False
         Me.cmbUnit.IsUnique = False
-        Me.cmbUnit.Location = New System.Drawing.Point(87, 162)
+        Me.cmbUnit.Location = New System.Drawing.Point(75, 161)
         Me.cmbUnit.MendatroryField = False
         Me.cmbUnit.MyLinkLable1 = Me.MyLabel3
         Me.cmbUnit.MyLinkLable2 = Nothing
@@ -184,28 +228,16 @@ Partial Class ItemStockReport
         Me.cmbUnit.ReferenceFieldName = Nothing
         Me.cmbUnit.ReferenceTableName = Nothing
         Me.cmbUnit.Size = New System.Drawing.Size(141, 18)
-        Me.cmbUnit.TabIndex = 345
-        '
-        'TxtItem
-        '
-        Me.TxtItem.arrDispalyMember = Nothing
-        Me.TxtItem.arrValueMember = Nothing
-        Me.TxtItem.Location = New System.Drawing.Point(87, 114)
-        Me.TxtItem.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtItem.MyLinkLable1 = Nothing
-        Me.TxtItem.MyLinkLable2 = Nothing
-        Me.TxtItem.MyNullText = "All"
-        Me.TxtItem.Name = "TxtItem"
-        Me.TxtItem.Size = New System.Drawing.Size(281, 21)
-        Me.TxtItem.TabIndex = 45
+        Me.cmbUnit.TabIndex = 355
+        Me.cmbUnit.Visible = False
         '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(24, 118)
+        Me.Label4.Location = New System.Drawing.Point(12, 117)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(29, 13)
-        Me.Label4.TabIndex = 44
+        Me.Label4.TabIndex = 352
         Me.Label4.Text = "Item"
         '
         'lblBillToLocation
@@ -214,10 +246,10 @@ Partial Class ItemStockReport
         Me.lblBillToLocation.BorderVisible = True
         Me.lblBillToLocation.FieldName = Nothing
         Me.lblBillToLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblBillToLocation.Location = New System.Drawing.Point(190, 92)
+        Me.lblBillToLocation.Location = New System.Drawing.Point(178, 91)
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(178, 18)
-        Me.lblBillToLocation.TabIndex = 43
+        Me.lblBillToLocation.TabIndex = 351
         Me.lblBillToLocation.TextWrap = False
         '
         'txtBillToLocation
@@ -231,7 +263,7 @@ Partial Class ItemStockReport
         Me.txtBillToLocation.IsSourceFromTable = False
         Me.txtBillToLocation.IsSourceFromValueList = False
         Me.txtBillToLocation.IsUnique = False
-        Me.txtBillToLocation.Location = New System.Drawing.Point(87, 92)
+        Me.txtBillToLocation.Location = New System.Drawing.Point(75, 91)
         Me.txtBillToLocation.MendatroryField = True
         Me.txtBillToLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBillToLocation.MyLinkLable1 = Nothing
@@ -243,16 +275,16 @@ Partial Class ItemStockReport
         Me.txtBillToLocation.ReferenceFieldName = Nothing
         Me.txtBillToLocation.ReferenceTableName = Nothing
         Me.txtBillToLocation.Size = New System.Drawing.Size(99, 18)
-        Me.txtBillToLocation.TabIndex = 42
+        Me.txtBillToLocation.TabIndex = 350
         Me.txtBillToLocation.Value = ""
         '
         'Label3
         '
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(24, 93)
+        Me.Label3.Location = New System.Drawing.Point(12, 92)
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(51, 13)
-        Me.Label3.TabIndex = 41
+        Me.Label3.TabIndex = 349
         Me.Label3.Text = "Location"
         '
         'RadGroupBox1
@@ -263,10 +295,10 @@ Partial Class ItemStockReport
         Me.RadGroupBox1.Controls.Add(Me.txtFromDate)
         Me.RadGroupBox1.Controls.Add(Me.Label1)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(27, 18)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(15, 17)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(341, 46)
-        Me.RadGroupBox1.TabIndex = 0
+        Me.RadGroupBox1.TabIndex = 348
         '
         'txtToDate
         '
@@ -344,14 +376,14 @@ Partial Class ItemStockReport
         Me.Label1.TabIndex = 7
         Me.Label1.Text = "From Date"
         '
-        'RadPageViewPage2
+        'RadPageViewPage1
         '
-        Me.RadPageViewPage2.Controls.Add(Me.Gv1)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(779, 366)
-        Me.RadPageViewPage2.Text = "Report"
+        Me.RadPageViewPage1.Controls.Add(Me.Gv1)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 361)
+        Me.RadPageViewPage1.Text = "Report"
         '
         'Gv1
         '
@@ -366,27 +398,27 @@ Partial Class ItemStockReport
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
-        Me.Gv1.Size = New System.Drawing.Size(779, 366)
-        Me.Gv1.TabIndex = 0
+        Me.Gv1.Size = New System.Drawing.Size(779, 361)
+        Me.Gv1.TabIndex = 1
         '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(240, 8)
+        Me.btnPrint.Location = New System.Drawing.Point(240, 10)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(62, 17)
-        Me.btnPrint.TabIndex = 57
+        Me.btnPrint.Size = New System.Drawing.Size(62, 20)
+        Me.btnPrint.TabIndex = 62
         Me.btnPrint.Text = "Print"
         '
         'btnSplitExport
         '
         Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnSplitExport.Location = New System.Drawing.Point(143, 8)
+        Me.btnSplitExport.Location = New System.Drawing.Point(143, 10)
         Me.btnSplitExport.Name = "btnSplitExport"
-        Me.btnSplitExport.Size = New System.Drawing.Size(95, 17)
-        Me.btnSplitExport.TabIndex = 56
+        Me.btnSplitExport.Size = New System.Drawing.Size(95, 20)
+        Me.btnSplitExport.TabIndex = 61
         Me.btnSplitExport.Text = "Export"
         '
         'rmiExcel
@@ -405,51 +437,52 @@ Partial Class ItemStockReport
         '
         Me.BtnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.BtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnReset.Location = New System.Drawing.Point(79, 8)
+        Me.BtnReset.Location = New System.Drawing.Point(79, 10)
         Me.BtnReset.Name = "BtnReset"
-        Me.BtnReset.Size = New System.Drawing.Size(62, 17)
-        Me.BtnReset.TabIndex = 54
+        Me.BtnReset.Size = New System.Drawing.Size(62, 20)
+        Me.BtnReset.TabIndex = 59
         Me.BtnReset.Text = "Reset"
         '
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(709, 8)
+        Me.btnclose.Location = New System.Drawing.Point(709, 10)
         Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(71, 17)
-        Me.btnclose.TabIndex = 55
+        Me.btnclose.Size = New System.Drawing.Size(71, 20)
+        Me.btnclose.TabIndex = 60
         Me.btnclose.Text = "Close"
         '
         'btnGo
         '
         Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(20, 8)
+        Me.btnGo.Location = New System.Drawing.Point(20, 10)
         Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(57, 17)
-        Me.btnGo.TabIndex = 53
+        Me.btnGo.Size = New System.Drawing.Size(57, 20)
+        Me.btnGo.TabIndex = 58
         Me.btnGo.Text = ">>"
         '
-        'ItemStockReport
+        'rptTransactionWiseStock
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(800, 450)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "ItemStockReport"
+        Me.Name = "rptTransactionWiseStock"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "ItemStockReport"
+        Me.Text = "rptTransactionWiseStock"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
-        Me.RadPageViewPage1.ResumeLayout(False)
-        Me.RadPageViewPage1.PerformLayout()
+        Me.Filter.ResumeLayout(False)
+        Me.Filter.PerformLayout()
+        CType(Me.lblItem, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbUnit, System.ComponentModel.ISupportInitialize).EndInit()
@@ -459,7 +492,7 @@ Partial Class ItemStockReport
         Me.RadGroupBox1.PerformLayout()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadPageViewPage2.ResumeLayout(False)
+        Me.RadPageViewPage1.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
@@ -474,18 +507,23 @@ Partial Class ItemStockReport
 
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents RadPageView1 As RadPageView
+    Friend WithEvents Filter As RadPageViewPage
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
-    Friend WithEvents RadPageViewPage2 As RadPageViewPage
+    Friend WithEvents lblItem As common.Controls.MyLabel
+    Friend WithEvents TxtItem As common.UserControls.txtFinder
+    Friend WithEvents MyLabel8 As common.Controls.MyLabel
+    Friend WithEvents txtItemType As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Protected WithEvents cmbUnit As common.Controls.MyComboBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents lblBillToLocation As common.Controls.MyLabel
+    Friend WithEvents txtBillToLocation As common.UserControls.txtFinder
+    Friend WithEvents Label3 As Label
     Friend WithEvents RadGroupBox1 As RadGroupBox
     Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
     Friend WithEvents Label2 As Label
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents Label1 As Label
-    Friend WithEvents lblBillToLocation As common.Controls.MyLabel
-    Friend WithEvents txtBillToLocation As common.UserControls.txtFinder
-    Friend WithEvents Label3 As Label
-    Friend WithEvents TxtItem As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents Label4 As Label
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents btnSplitExport As RadSplitButton
     Friend WithEvents rmiExcel As RadMenuItem
@@ -494,8 +532,4 @@ Partial Class ItemStockReport
     Friend WithEvents btnclose As RadButton
     Friend WithEvents btnGo As RadButton
     Friend WithEvents Gv1 As common.UserControls.MyRadGridView
-    Friend WithEvents MyLabel8 As common.Controls.MyLabel
-    Friend WithEvents txtItemType As common.UserControls.txtMultiSelectFinder
-    Friend WithEvents MyLabel3 As common.Controls.MyLabel
-    Protected WithEvents cmbUnit As common.Controls.MyComboBox
 End Class
