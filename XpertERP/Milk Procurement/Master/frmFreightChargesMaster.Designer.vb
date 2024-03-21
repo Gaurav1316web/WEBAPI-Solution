@@ -22,6 +22,7 @@ Partial Class frmFreightChargesMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -201,7 +202,7 @@ Partial Class frmFreightChargesMaster
         Me.fndcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndcode.MyLinkLable1 = Me.lblvandorno
         Me.fndcode.MyLinkLable2 = Nothing
-        Me.fndcode.MyMaxLength = 32767
+        Me.fndcode.MyMaxLength = 30
         Me.fndcode.MyReadOnly = False
         Me.fndcode.Name = "fndcode"
         Me.fndcode.Size = New System.Drawing.Size(299, 21)
@@ -278,7 +279,7 @@ Partial Class frmFreightChargesMaster
         Me.txtMRPDRent.TabIndex = 92
         Me.txtMRPDRent.Text = "0"
         Me.txtMRPDRent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMRPDRent.Value = 0.0R
+        Me.txtMRPDRent.Value = 0R
         '
         'MyLabel21
         '
@@ -337,7 +338,7 @@ Partial Class frmFreightChargesMaster
         Me.txtMRPDAverage.TabIndex = 2
         Me.txtMRPDAverage.Text = "0"
         Me.txtMRPDAverage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMRPDAverage.Value = 0.0R
+        Me.txtMRPDAverage.Value = 0R
         '
         'MyLabel20
         '
@@ -375,7 +376,7 @@ Partial Class frmFreightChargesMaster
         Me.txtMRPDDieselRate.TabIndex = 3
         Me.txtMRPDDieselRate.Text = "0"
         Me.txtMRPDDieselRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMRPDDieselRate.Value = 0.0R
+        Me.txtMRPDDieselRate.Value = 0R
         '
         'chkIsAdditional
         '
@@ -393,9 +394,12 @@ Partial Class frmFreightChargesMaster
         Me.gv.Enabled = False
         Me.gv.Location = New System.Drawing.Point(258, 43)
         '
-        'gv
         '
+        '
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(495, 273)
@@ -463,7 +467,7 @@ Partial Class frmFreightChargesMaster
         Me.txtchrg.TabIndex = 1
         Me.txtchrg.Text = "0"
         Me.txtchrg.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtchrg.Value = 0.0R
+        Me.txtchrg.Value = 0R
         '
         'MyLabel9
         '
@@ -501,7 +505,7 @@ Partial Class frmFreightChargesMaster
         Me.txtavgkm.TabIndex = 2
         Me.txtavgkm.Text = "0"
         Me.txtavgkm.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtavgkm.Value = 0.0R
+        Me.txtavgkm.Value = 0R
         '
         'MyLabel10
         '
@@ -539,7 +543,7 @@ Partial Class frmFreightChargesMaster
         Me.txtdiesel.TabIndex = 3
         Me.txtdiesel.Text = "0"
         Me.txtdiesel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtdiesel.Value = 0.0R
+        Me.txtdiesel.Value = 0R
         '
         'GroupBox3
         '
@@ -559,6 +563,7 @@ Partial Class frmFreightChargesMaster
         Me.cmbRentalType.AutoCompleteDisplayMember = Nothing
         Me.cmbRentalType.AutoCompleteValueMember = Nothing
         Me.cmbRentalType.CalculationExpression = Nothing
+        Me.cmbRentalType.DropDownAnimationEnabled = True
         Me.cmbRentalType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbRentalType.FieldCode = Nothing
         Me.cmbRentalType.FieldDesc = Nothing
@@ -633,7 +638,7 @@ Partial Class frmFreightChargesMaster
         Me.txtRentalAmt.TabIndex = 88
         Me.txtRentalAmt.Text = "0"
         Me.txtRentalAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRentalAmt.Value = 0.0R
+        Me.txtRentalAmt.Value = 0R
         '
         'lblRentalAmount
         '
@@ -683,7 +688,7 @@ Partial Class frmFreightChargesMaster
         Me.txt_ltr.TabIndex = 10
         Me.txt_ltr.Text = "0"
         Me.txt_ltr.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_ltr.Value = 0.0R
+        Me.txt_ltr.Value = 0R
         '
         'MyLabel7
         '
@@ -700,6 +705,7 @@ Partial Class frmFreightChargesMaster
         Me.cmbLtrKG.AutoCompleteDisplayMember = Nothing
         Me.cmbLtrKG.AutoCompleteValueMember = Nothing
         Me.cmbLtrKG.CalculationExpression = Nothing
+        Me.cmbLtrKG.DropDownAnimationEnabled = True
         Me.cmbLtrKG.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbLtrKG.FieldCode = Nothing
         Me.cmbLtrKG.FieldDesc = Nothing
@@ -773,7 +779,7 @@ Partial Class frmFreightChargesMaster
         Me.txt_km.TabIndex = 12
         Me.txt_km.Text = "0"
         Me.txt_km.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_km.Value = 0.0R
+        Me.txt_km.Value = 0R
         '
         'MyLabel6
         '
@@ -845,30 +851,22 @@ Partial Class frmFreightChargesMaster
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexport, Me.btnimport})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
         '
         'Export_Vehical_Details
         '
-        Me.Export_Vehical_Details.AccessibleDescription = "Vehical Details"
-        Me.Export_Vehical_Details.AccessibleName = "Vehical Details"
         Me.Export_Vehical_Details.Name = "Export_Vehical_Details"
         Me.Export_Vehical_Details.Text = "Vehical Details"
         '
@@ -881,15 +879,11 @@ Partial Class frmFreightChargesMaster
         '
         'Import_Vehical_Details
         '
-        Me.Import_Vehical_Details.AccessibleDescription = "Vehical Details"
-        Me.Import_Vehical_Details.AccessibleName = "Vehical Details"
         Me.Import_Vehical_Details.Name = "Import_Vehical_Details"
         Me.Import_Vehical_Details.Text = "Vehical Details"
         '
         'Import_Slab_Details
         '
-        Me.Import_Slab_Details.AccessibleDescription = "Slab Details"
-        Me.Import_Slab_Details.AccessibleName = "Slab Details"
         Me.Import_Slab_Details.Name = "Import_Slab_Details"
         Me.Import_Slab_Details.Text = "Slab Details"
         '
@@ -900,7 +894,6 @@ Partial Class frmFreightChargesMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(771, 20)
         Me.RadMenu1.TabIndex = 11
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'frmFreightChargesMaster
         '

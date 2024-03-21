@@ -67,9 +67,9 @@ Partial Class frmPrductionReturn
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -113,9 +113,9 @@ Partial Class frmPrductionReturn
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
         Me.pvpCustomFields.SuspendLayout()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -154,7 +154,6 @@ Partial Class frmPrductionReturn
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(884, 420)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -260,6 +259,7 @@ Partial Class frmPrductionReturn
         Me.MyComboBox1.AutoCompleteDisplayMember = Nothing
         Me.MyComboBox1.AutoCompleteValueMember = Nothing
         Me.MyComboBox1.CalculationExpression = Nothing
+        Me.MyComboBox1.DropDownAnimationEnabled = True
         Me.MyComboBox1.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.MyComboBox1.FieldCode = Nothing
         Me.MyComboBox1.FieldDesc = Nothing
@@ -362,6 +362,7 @@ Partial Class frmPrductionReturn
         'cmbDocumentType
         '
         Me.cmbDocumentType.CalculationExpression = Nothing
+        Me.cmbDocumentType.DropDownAnimationEnabled = True
         Me.cmbDocumentType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbDocumentType.FieldCode = Nothing
         Me.cmbDocumentType.FieldDesc = Nothing
@@ -447,7 +448,6 @@ Partial Class frmPrductionReturn
         Me.lblVendorCode.Name = "lblVendorCode"
         Me.lblVendorCode.Size = New System.Drawing.Size(190, 18)
         Me.lblVendorCode.TabIndex = 15
-        Me.lblVendorCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorCode.TextWrap = False
         '
         'lblVendorName
@@ -460,7 +460,6 @@ Partial Class frmPrductionReturn
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(310, 18)
         Me.lblVendorName.TabIndex = 22
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'MyLabel6
@@ -483,7 +482,6 @@ Partial Class frmPrductionReturn
         Me.lblBillToLocationCode.Name = "lblBillToLocationCode"
         Me.lblBillToLocationCode.Size = New System.Drawing.Size(190, 18)
         Me.lblBillToLocationCode.TabIndex = 23
-        Me.lblBillToLocationCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBillToLocationCode.TextWrap = False
         '
         'lblBillToLocationName
@@ -496,7 +494,6 @@ Partial Class frmPrductionReturn
         Me.lblBillToLocationName.Name = "lblBillToLocationName"
         Me.lblBillToLocationName.Size = New System.Drawing.Size(310, 18)
         Me.lblBillToLocationName.TabIndex = 25
-        Me.lblBillToLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBillToLocationName.TextWrap = False
         '
         'RadLabel19
@@ -674,7 +671,7 @@ Partial Class frmPrductionReturn
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(230, 18)
@@ -779,6 +776,16 @@ Partial Class frmPrductionReturn
         Me.UcCustomFields1.Size = New System.Drawing.Size(863, 378)
         Me.UcCustomFields1.TabIndex = 1
         '
+        'btnPost
+        '
+        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPost.Location = New System.Drawing.Point(73, 6)
+        Me.btnPost.Name = "btnPost"
+        Me.btnPost.Size = New System.Drawing.Size(63, 22)
+        Me.btnPost.TabIndex = 2
+        Me.btnPost.Text = "Post"
+        '
         'btnClose
         '
         Me.btnClose.AccessibleRole = System.Windows.Forms.AccessibleRole.None
@@ -799,16 +806,6 @@ Partial Class frmPrductionReturn
         Me.btnSave.Size = New System.Drawing.Size(63, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
-        '
-        'btnPost
-        '
-        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(73, 6)
-        Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(63, 22)
-        Me.btnPost.TabIndex = 2
-        Me.btnPost.Text = "Post"
         '
         'frmPrductionReturn
         '
@@ -869,9 +866,9 @@ Partial Class frmPrductionReturn
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
         Me.pvpCustomFields.ResumeLayout(False)
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

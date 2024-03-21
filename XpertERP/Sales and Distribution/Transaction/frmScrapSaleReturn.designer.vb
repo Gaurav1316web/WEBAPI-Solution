@@ -22,10 +22,13 @@ Partial Class frmScrapSaleReturn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmScrapSaleReturn))
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -143,6 +146,7 @@ Partial Class frmScrapSaleReturn
         Me.RadLabel25 = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnInvoiceJE = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
@@ -160,7 +164,6 @@ Partial Class frmScrapSaleReturn
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -273,6 +276,7 @@ Partial Class frmScrapSaleReturn
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -283,7 +287,6 @@ Partial Class frmScrapSaleReturn
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -332,7 +335,6 @@ Partial Class frmScrapSaleReturn
         Me.RadPageView1.Size = New System.Drawing.Size(1092, 485)
         Me.RadPageView1.TabIndex = 0
         Me.RadPageView1.TabStop = False
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -461,7 +463,6 @@ Partial Class frmScrapSaleReturn
         Me.lblInvoice.Name = "lblInvoice"
         Me.lblInvoice.Size = New System.Drawing.Size(170, 18)
         Me.lblInvoice.TabIndex = 1436
-        Me.lblInvoice.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblInvoice.TextWrap = False
         '
         'txtShipmentNo
@@ -931,7 +932,6 @@ Partial Class frmScrapSaleReturn
         Me.txtTransporter_desc.Name = "txtTransporter_desc"
         Me.txtTransporter_desc.Size = New System.Drawing.Size(164, 18)
         Me.txtTransporter_desc.TabIndex = 1427
-        Me.txtTransporter_desc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtTransporter_desc.TextWrap = False
         '
         'txtTransporter_Code
@@ -976,6 +976,7 @@ Partial Class frmScrapSaleReturn
         Me.ddlInvoiceType.AutoCompleteDisplayMember = Nothing
         Me.ddlInvoiceType.AutoCompleteValueMember = Nothing
         Me.ddlInvoiceType.CalculationExpression = Nothing
+        Me.ddlInvoiceType.DropDownAnimationEnabled = True
         Me.ddlInvoiceType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlInvoiceType.Enabled = False
         Me.ddlInvoiceType.FieldCode = Nothing
@@ -1008,7 +1009,6 @@ Partial Class frmScrapSaleReturn
         Me.txtVatInvNo.Name = "txtVatInvNo"
         Me.txtVatInvNo.Size = New System.Drawing.Size(133, 18)
         Me.txtVatInvNo.TabIndex = 14
-        Me.txtVatInvNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtVatInvNo.Visible = False
         '
         'lblDocAmount
@@ -1395,18 +1395,20 @@ Partial Class frmScrapSaleReturn
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1051, 109)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel1
         '
@@ -1491,7 +1493,7 @@ Partial Class frmScrapSaleReturn
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
@@ -1627,7 +1629,6 @@ Partial Class frmScrapSaleReturn
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 5
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'RadLabel10
@@ -1707,7 +1708,6 @@ Partial Class frmScrapSaleReturn
         Me.lblTermName.Name = "lblTermName"
         Me.lblTermName.Size = New System.Drawing.Size(321, 20)
         Me.lblTermName.TabIndex = 2
-        Me.lblTermName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTermName.TextWrap = False
         '
         'txtDueDate
@@ -1767,14 +1767,16 @@ Partial Class frmScrapSaleReturn
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(1068, 297)
         Me.gv2.TabIndex = 2
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -1825,14 +1827,16 @@ Partial Class frmScrapSaleReturn
         GridViewDecimalColumn1.Width = 78
         Me.gvadd.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewDecimalColumn1})
         Me.gvadd.MasterTemplate.EnableGrouping = False
+        Me.gvadd.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvadd.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvadd.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvadd.MyStopExport = False
         Me.gvadd.Name = "gvadd"
         Me.gvadd.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvadd.ShowHeaderCellButtons = True
         Me.gvadd.Size = New System.Drawing.Size(855, 324)
         Me.gvadd.TabIndex = 0
         Me.gvadd.TabStop = False
-        Me.gvadd.Text = "RadGridView1"
         '
         'RadLabel4
         '
@@ -2164,6 +2168,14 @@ Partial Class frmScrapSaleReturn
         Me.RadLabel19.TabIndex = 7
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+        'btnHistory
+        '
+        Me.btnHistory.Location = New System.Drawing.Point(635, 3)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(71, 22)
+        Me.btnHistory.TabIndex = 38
+        Me.btnHistory.Text = "&History"
+        '
         'btnShowInventory
         '
         Me.btnShowInventory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -2204,15 +2216,11 @@ Partial Class frmScrapSaleReturn
         '
         'btnPrint
         '
-        Me.btnPrint.AccessibleDescription = "Print"
-        Me.btnPrint.AccessibleName = "Print"
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Text = "Print"
         '
         'btnPrePrint
         '
-        Me.btnPrePrint.AccessibleDescription = "Pre-Print"
-        Me.btnPrePrint.AccessibleName = "Pre-Print"
         Me.btnPrePrint.Name = "btnPrePrint"
         Me.btnPrePrint.Text = "Pre-Print"
         '
@@ -2263,41 +2271,30 @@ Partial Class frmScrapSaleReturn
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1092, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'Setting
         '
-        Me.Setting.AccessibleDescription = "Setting"
-        Me.Setting.AccessibleName = "Setting"
         Me.Setting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.layoutrbtn, Me.RadMenuItem1, Me.rmiImport, Me.rmiExport})
         Me.Setting.Name = "Setting"
         Me.Setting.Text = "Setting"
         '
         'layoutrbtn
         '
-        Me.layoutrbtn.AccessibleDescription = "Save Layout"
-        Me.layoutrbtn.AccessibleName = "Save Layout"
         Me.layoutrbtn.Name = "layoutrbtn"
         Me.layoutrbtn.Text = "Save Layout"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem1.AccessibleName = "Delete Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Delete Layout"
         '
         'rmiImport
         '
-        Me.rmiImport.AccessibleDescription = "Import"
-        Me.rmiImport.AccessibleName = "Import"
         Me.rmiImport.Name = "rmiImport"
         Me.rmiImport.Text = "Import"
         '
         'rmiExport
         '
-        Me.rmiExport.AccessibleDescription = "Export Blank sheet"
-        Me.rmiExport.AccessibleName = "Export Blank sheet"
         Me.rmiExport.Name = "rmiExport"
         Me.rmiExport.Text = "Export Blank sheet"
         '
@@ -2309,14 +2306,6 @@ Partial Class frmScrapSaleReturn
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1092, 517)
         Me.Panel1.TabIndex = 3
-        '
-        'btnHistory
-        '
-        Me.btnHistory.Location = New System.Drawing.Point(635, 3)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(71, 22)
-        Me.btnHistory.TabIndex = 38
-        Me.btnHistory.Text = "&History"
         '
         'frmScrapSaleReturn
         '
@@ -2451,6 +2440,7 @@ Partial Class frmScrapSaleReturn
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2461,7 +2451,6 @@ Partial Class frmScrapSaleReturn
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

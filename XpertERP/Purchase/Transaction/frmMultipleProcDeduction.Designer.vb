@@ -56,6 +56,7 @@ Partial Class FrmMultipleProcDeduction
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnExport = New Telerik.WinControls.UI.RadButton()
         Me.btnsetting = New Telerik.WinControls.UI.RadSplitButton()
         Me.RadMenuItem11 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem12 = New Telerik.WinControls.UI.RadMenuItem()
@@ -75,10 +76,9 @@ Partial Class FrmMultipleProcDeduction
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem7 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.btnExport = New Telerik.WinControls.UI.RadButton()
         Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Panel1 = New System.Windows.Forms.Panel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -114,6 +114,7 @@ Partial Class FrmMultipleProcDeduction
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPanel3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel3.SuspendLayout()
@@ -126,7 +127,6 @@ Partial Class FrmMultipleProcDeduction
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -466,7 +466,7 @@ Partial Class FrmMultipleProcDeduction
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(242, 20)
@@ -640,6 +640,7 @@ Partial Class FrmMultipleProcDeduction
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -666,6 +667,15 @@ Partial Class FrmMultipleProcDeduction
         Me.UcAttachment1.Size = New System.Drawing.Size(1073, 400)
         Me.UcAttachment1.TabIndex = 0
         Me.UcAttachment1.TabStop = False
+        '
+        'btnExport
+        '
+        Me.btnExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnExport.Location = New System.Drawing.Point(230, 6)
+        Me.btnExport.Name = "btnExport"
+        Me.btnExport.Size = New System.Drawing.Size(69, 22)
+        Me.btnExport.TabIndex = 1487
+        Me.btnExport.Text = "Export"
         '
         'btnsetting
         '
@@ -813,24 +823,6 @@ Partial Class FrmMultipleProcDeduction
         Me.RadMenuItem7.Name = "RadMenuItem7"
         Me.RadMenuItem7.Text = "Add/Ded"
         '
-        'Panel1
-        '
-        Me.Panel1.Controls.Add(Me.SplitContainer1)
-        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel1.Location = New System.Drawing.Point(0, 20)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1041, 498)
-        Me.Panel1.TabIndex = 3
-        '
-        'btnExport
-        '
-        Me.btnExport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnExport.Location = New System.Drawing.Point(230, 6)
-        Me.btnExport.Name = "btnExport"
-        Me.btnExport.Size = New System.Drawing.Size(69, 22)
-        Me.btnExport.TabIndex = 1487
-        Me.btnExport.Text = "Export"
-        '
         'btnSaveLayout
         '
         Me.btnSaveLayout.Name = "btnSaveLayout"
@@ -840,6 +832,15 @@ Partial Class FrmMultipleProcDeduction
         '
         Me.btnDeleteLayout.Name = "btnDeleteLayout"
         Me.btnDeleteLayout.Text = "Delete Layout"
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.SplitContainer1)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel1.Location = New System.Drawing.Point(0, 20)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(1041, 498)
+        Me.Panel1.TabIndex = 3
         '
         'FrmMultipleProcDeduction
         '
@@ -892,6 +893,7 @@ Partial Class FrmMultipleProcDeduction
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
+        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadPanel3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel3.ResumeLayout(False)
@@ -905,7 +907,6 @@ Partial Class FrmMultipleProcDeduction
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

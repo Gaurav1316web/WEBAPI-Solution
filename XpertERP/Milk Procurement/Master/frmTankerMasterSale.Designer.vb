@@ -22,6 +22,8 @@ Partial Class frmTankerMasterSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gv = New common.UserControls.MyRadGridView()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -89,9 +91,12 @@ Partial Class frmTankerMasterSale
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(3, 18)
         '
-        'gv
         '
+        '
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(480, 340)
@@ -164,7 +169,7 @@ Partial Class frmTankerMasterSale
         Me.txtTareWeight.TabIndex = 115
         Me.txtTareWeight.Text = "0"
         Me.txtTareWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTareWeight.Value = 0.0R
+        Me.txtTareWeight.Value = 0R
         '
         'MyLabel1
         '
@@ -227,7 +232,7 @@ Partial Class frmTankerMasterSale
         Me.txtTankerCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtTankerCode.MyLinkLable1 = Me.lblMCCCode
         Me.txtTankerCode.MyLinkLable2 = Nothing
-        Me.txtTankerCode.MyMaxLength = 32767
+        Me.txtTankerCode.MyMaxLength = 30
         Me.txtTankerCode.MyReadOnly = False
         Me.txtTankerCode.Name = "txtTankerCode"
         Me.txtTankerCode.Size = New System.Drawing.Size(199, 21)
@@ -312,7 +317,7 @@ Partial Class frmTankerMasterSale
         Me.txtChamborNo.TabIndex = 109
         Me.txtChamborNo.Text = "0"
         Me.txtChamborNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtChamborNo.Value = 0.0R
+        Me.txtChamborNo.Value = 0R
         '
         'MyLabel49
         '
@@ -380,18 +385,20 @@ Partial Class frmTankerMasterSale
         Me.GvDriver.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GvDriver.Location = New System.Drawing.Point(10, 20)
         '
-        'GvDriver
+        '
         '
         Me.GvDriver.MasterTemplate.AllowAddNewRow = False
         Me.GvDriver.MasterTemplate.EnableFiltering = True
+        Me.GvDriver.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GvDriver.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GvDriver.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.GvDriver.MyStopExport = False
         Me.GvDriver.Name = "GvDriver"
         Me.GvDriver.ShowGroupPanel = False
         Me.GvDriver.ShowHeaderCellButtons = True
         Me.GvDriver.Size = New System.Drawing.Size(479, 331)
         Me.GvDriver.TabIndex = 2
         Me.GvDriver.TabStop = False
-        Me.GvDriver.Text = "RadGridView1"
         '
         'btnClose
         '
@@ -427,27 +434,20 @@ Partial Class frmTankerMasterSale
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(993, 20)
         Me.rdmenufile.TabIndex = 2
-        Me.rdmenufile.Text = "File"
         '
         'RadMenufile
         '
-        Me.RadMenufile.AccessibleDescription = "File"
-        Me.RadMenufile.AccessibleName = "File"
         Me.RadMenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuImport, Me.mnuExport})
         Me.RadMenufile.Name = "RadMenufile"
         Me.RadMenufile.Text = "File"
         '
         'mnuImport
         '
-        Me.mnuImport.AccessibleDescription = "Import"
-        Me.mnuImport.AccessibleName = "Import"
         Me.mnuImport.Name = "mnuImport"
         Me.mnuImport.Text = "Import"
         '
         'mnuExport
         '
-        Me.mnuExport.AccessibleDescription = "Export"
-        Me.mnuExport.AccessibleName = "Export"
         Me.mnuExport.Name = "mnuExport"
         Me.mnuExport.Text = "Export"
         '

@@ -22,29 +22,30 @@ Partial Class FrmItemConversion
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.CmbConversion = New common.Controls.MyComboBox
-        Me.MyLabel5 = New common.Controls.MyLabel
-        Me.UsLock1 = New common.usLock
-        Me.lblItemDesc = New common.Controls.MyTextBox
-        Me.frnItemCode = New common.UserControls.txtFinder
-        Me.lblItemCode = New common.Controls.MyLabel
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.txtDesc = New common.Controls.MyTextBox
-        Me.RadLabel3 = New common.Controls.MyLabel
-        Me.txtDocNo = New common.UserControls.txtNavigator
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox
-        Me.gv1 = New common.UserControls.MyRadGridView
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnPost = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RmiExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.CmbConversion = New common.Controls.MyComboBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.UsLock1 = New common.usLock()
+        Me.lblItemDesc = New common.Controls.MyTextBox()
+        Me.frnItemCode = New common.UserControls.txtFinder()
+        Me.lblItemCode = New common.Controls.MyLabel()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.txtDesc = New common.Controls.MyTextBox()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.txtDocNo = New common.UserControls.txtNavigator()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RmiExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -108,21 +109,34 @@ Partial Class FrmItemConversion
         '
         'CmbConversion
         '
-        Me.CmbConversion.AllowShowFocusCues = False
         Me.CmbConversion.AutoCompleteDisplayMember = Nothing
         Me.CmbConversion.AutoCompleteValueMember = Nothing
+        Me.CmbConversion.CalculationExpression = Nothing
+        Me.CmbConversion.DropDownAnimationEnabled = True
         Me.CmbConversion.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.CmbConversion.FieldCode = Nothing
+        Me.CmbConversion.FieldDesc = Nothing
+        Me.CmbConversion.FieldMaxLength = 0
+        Me.CmbConversion.FieldName = Nothing
+        Me.CmbConversion.isCalculatedField = False
+        Me.CmbConversion.IsSourceFromTable = False
+        Me.CmbConversion.IsSourceFromValueList = False
+        Me.CmbConversion.IsUnique = False
         Me.CmbConversion.Location = New System.Drawing.Point(138, 82)
         Me.CmbConversion.MendatroryField = True
         Me.CmbConversion.MyLinkLable1 = Me.MyLabel5
         Me.CmbConversion.MyLinkLable2 = Nothing
         Me.CmbConversion.Name = "CmbConversion"
+        Me.CmbConversion.ReferenceFieldDesc = Nothing
+        Me.CmbConversion.ReferenceFieldName = Nothing
+        Me.CmbConversion.ReferenceTableName = Nothing
         Me.CmbConversion.Size = New System.Drawing.Size(347, 20)
         Me.CmbConversion.TabIndex = 72
         Me.CmbConversion.Text = "MyComboBox1"
         '
         'MyLabel5
         '
+        Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Location = New System.Drawing.Point(14, 83)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(89, 18)
@@ -141,19 +155,40 @@ Partial Class FrmItemConversion
         '
         'lblItemDesc
         '
+        Me.lblItemDesc.CalculationExpression = Nothing
+        Me.lblItemDesc.FieldCode = Nothing
+        Me.lblItemDesc.FieldDesc = Nothing
+        Me.lblItemDesc.FieldMaxLength = 0
+        Me.lblItemDesc.FieldName = Nothing
         Me.lblItemDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblItemDesc.isCalculatedField = False
+        Me.lblItemDesc.IsSourceFromTable = False
+        Me.lblItemDesc.IsSourceFromValueList = False
+        Me.lblItemDesc.IsUnique = False
         Me.lblItemDesc.Location = New System.Drawing.Point(391, 34)
         Me.lblItemDesc.MaxLength = 200
         Me.lblItemDesc.MendatroryField = False
         Me.lblItemDesc.MyLinkLable1 = Nothing
         Me.lblItemDesc.MyLinkLable2 = Nothing
         Me.lblItemDesc.Name = "lblItemDesc"
+        Me.lblItemDesc.ReferenceFieldDesc = Nothing
+        Me.lblItemDesc.ReferenceFieldName = Nothing
+        Me.lblItemDesc.ReferenceTableName = Nothing
         Me.lblItemDesc.Size = New System.Drawing.Size(439, 18)
         Me.lblItemDesc.TabIndex = 11
         Me.lblItemDesc.TabStop = False
         '
         'frnItemCode
         '
+        Me.frnItemCode.CalculationExpression = Nothing
+        Me.frnItemCode.FieldCode = Nothing
+        Me.frnItemCode.FieldDesc = Nothing
+        Me.frnItemCode.FieldMaxLength = 0
+        Me.frnItemCode.FieldName = Nothing
+        Me.frnItemCode.isCalculatedField = False
+        Me.frnItemCode.IsSourceFromTable = False
+        Me.frnItemCode.IsSourceFromValueList = False
+        Me.frnItemCode.IsUnique = False
         Me.frnItemCode.Location = New System.Drawing.Point(138, 34)
         Me.frnItemCode.MendatroryField = True
         Me.frnItemCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -162,12 +197,16 @@ Partial Class FrmItemConversion
         Me.frnItemCode.MyReadOnly = False
         Me.frnItemCode.MyShowMasterFormButton = False
         Me.frnItemCode.Name = "frnItemCode"
+        Me.frnItemCode.ReferenceFieldDesc = Nothing
+        Me.frnItemCode.ReferenceFieldName = Nothing
+        Me.frnItemCode.ReferenceTableName = Nothing
         Me.frnItemCode.Size = New System.Drawing.Size(236, 19)
         Me.frnItemCode.TabIndex = 10
         Me.frnItemCode.Value = ""
         '
         'lblItemCode
         '
+        Me.lblItemCode.FieldName = Nothing
         Me.lblItemCode.Location = New System.Drawing.Point(14, 34)
         Me.lblItemCode.Name = "lblItemCode"
         Me.lblItemCode.Size = New System.Drawing.Size(58, 18)
@@ -176,6 +215,7 @@ Partial Class FrmItemConversion
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(14, 10)
         Me.RadLabel1.Name = "RadLabel1"
@@ -185,18 +225,31 @@ Partial Class FrmItemConversion
         '
         'txtDesc
         '
+        Me.txtDesc.CalculationExpression = Nothing
+        Me.txtDesc.FieldCode = Nothing
+        Me.txtDesc.FieldDesc = Nothing
+        Me.txtDesc.FieldMaxLength = 0
+        Me.txtDesc.FieldName = Nothing
         Me.txtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDesc.isCalculatedField = False
+        Me.txtDesc.IsSourceFromTable = False
+        Me.txtDesc.IsSourceFromValueList = False
+        Me.txtDesc.IsUnique = False
         Me.txtDesc.Location = New System.Drawing.Point(138, 58)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel3
         Me.txtDesc.MyLinkLable2 = Nothing
         Me.txtDesc.Name = "txtDesc"
+        Me.txtDesc.ReferenceFieldDesc = Nothing
+        Me.txtDesc.ReferenceFieldName = Nothing
+        Me.txtDesc.ReferenceTableName = Nothing
         Me.txtDesc.Size = New System.Drawing.Size(692, 18)
         Me.txtDesc.TabIndex = 13
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel3.Location = New System.Drawing.Point(14, 59)
         Me.RadLabel3.Name = "RadLabel3"
@@ -206,13 +259,14 @@ Partial Class FrmItemConversion
         '
         'txtDocNo
         '
+        Me.txtDocNo.FieldName = Nothing
         Me.txtDocNo.Location = New System.Drawing.Point(139, 8)
         Me.txtDocNo.MendatroryField = False
         Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
@@ -223,8 +277,8 @@ Partial Class FrmItemConversion
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox2.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Item Details"
@@ -245,16 +299,20 @@ Partial Class FrmItemConversion
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(894, 261)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'btnAddNew
         '
@@ -316,12 +374,9 @@ Partial Class FrmItemConversion
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RmiExport})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RmiExport
         '
@@ -329,7 +384,6 @@ Partial Class FrmItemConversion
         Me.RmiExport.AccessibleName = "RadMenuItem2"
         Me.RmiExport.Name = "RmiExport"
         Me.RmiExport.Text = "Export excel"
-        Me.RmiExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'Panel1
         '
@@ -347,7 +401,6 @@ Partial Class FrmItemConversion
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(924, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'FrmItemConversion
         '

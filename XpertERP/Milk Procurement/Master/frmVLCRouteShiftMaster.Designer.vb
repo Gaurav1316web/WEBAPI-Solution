@@ -22,38 +22,40 @@ Partial Class FrmVLCRouteShiftMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnexport = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnimport = New Telerik.WinControls.UI.RadMenuItem
-        Me.txtdesc = New common.Controls.MyTextBox
-        Me.MyLabel4 = New common.Controls.MyLabel
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
-        Me.fndcode = New common.UserControls.txtNavigator
-        Me.txtdate = New common.Controls.MyDateTimePicker
-        Me.MyLabel3 = New common.Controls.MyLabel
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.cmbstatus = New common.Controls.MyComboBox
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.gv = New common.UserControls.MyRadGridView
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.lblRouteCode = New common.Controls.MyLabel
-        Me.fndRouteCode = New common.UserControls.txtFinder
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.lblRouteCode = New common.Controls.MyLabel()
+        Me.fndRouteCode = New common.UserControls.txtFinder()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnexport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnimport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.txtdesc = New common.Controls.MyTextBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.fndcode = New common.UserControls.txtNavigator()
+        Me.txtdate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.cmbstatus = New common.Controls.MyComboBox()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gv = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.lblRouteCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtdesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -74,7 +76,6 @@ Partial Class FrmVLCRouteShiftMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRouteCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -133,6 +134,42 @@ Partial Class FrmVLCRouteShiftMaster
         Me.SplitContainer2.SplitterDistance = 99
         Me.SplitContainer2.TabIndex = 54
         '
+        'lblRouteCode
+        '
+        Me.lblRouteCode.FieldName = Nothing
+        Me.lblRouteCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblRouteCode.Location = New System.Drawing.Point(8, 74)
+        Me.lblRouteCode.Name = "lblRouteCode"
+        Me.lblRouteCode.Size = New System.Drawing.Size(51, 16)
+        Me.lblRouteCode.TabIndex = 248
+        Me.lblRouteCode.Text = "Route ID"
+        '
+        'fndRouteCode
+        '
+        Me.fndRouteCode.CalculationExpression = Nothing
+        Me.fndRouteCode.FieldCode = Nothing
+        Me.fndRouteCode.FieldDesc = Nothing
+        Me.fndRouteCode.FieldMaxLength = 0
+        Me.fndRouteCode.FieldName = Nothing
+        Me.fndRouteCode.isCalculatedField = False
+        Me.fndRouteCode.IsSourceFromTable = False
+        Me.fndRouteCode.IsSourceFromValueList = False
+        Me.fndRouteCode.IsUnique = False
+        Me.fndRouteCode.Location = New System.Drawing.Point(83, 74)
+        Me.fndRouteCode.MendatroryField = True
+        Me.fndRouteCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndRouteCode.MyLinkLable1 = Me.lblRouteCode
+        Me.fndRouteCode.MyLinkLable2 = Nothing
+        Me.fndRouteCode.MyReadOnly = False
+        Me.fndRouteCode.MyShowMasterFormButton = False
+        Me.fndRouteCode.Name = "fndRouteCode"
+        Me.fndRouteCode.ReferenceFieldDesc = Nothing
+        Me.fndRouteCode.ReferenceFieldName = Nothing
+        Me.fndRouteCode.ReferenceTableName = Nothing
+        Me.fndRouteCode.Size = New System.Drawing.Size(167, 19)
+        Me.fndRouteCode.TabIndex = 247
+        Me.fndRouteCode.Value = ""
+        '
         'RadMenu1
         '
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuClose})
@@ -140,47 +177,50 @@ Partial Class FrmVLCRouteShiftMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(856, 20)
         Me.RadMenu1.TabIndex = 11
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexport, Me.btnimport})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
-        Me.MenuClose.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
-        Me.btnexport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
-        Me.btnimport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'txtdesc
         '
+        Me.txtdesc.CalculationExpression = Nothing
+        Me.txtdesc.FieldCode = Nothing
+        Me.txtdesc.FieldDesc = Nothing
+        Me.txtdesc.FieldMaxLength = 0
+        Me.txtdesc.FieldName = Nothing
         Me.txtdesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdesc.isCalculatedField = False
+        Me.txtdesc.IsSourceFromTable = False
+        Me.txtdesc.IsSourceFromValueList = False
+        Me.txtdesc.IsUnique = False
         Me.txtdesc.Location = New System.Drawing.Point(84, 52)
         Me.txtdesc.MaxLength = 100
         Me.txtdesc.MendatroryField = True
         Me.txtdesc.MyLinkLable1 = Me.MyLabel4
         Me.txtdesc.MyLinkLable2 = Nothing
         Me.txtdesc.Name = "txtdesc"
+        Me.txtdesc.ReferenceFieldDesc = Nothing
+        Me.txtdesc.ReferenceFieldName = Nothing
+        Me.txtdesc.ReferenceTableName = Nothing
         Me.txtdesc.Size = New System.Drawing.Size(391, 18)
         Me.txtdesc.TabIndex = 2
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel4.Location = New System.Drawing.Point(8, 52)
         Me.MyLabel4.Name = "MyLabel4"
@@ -190,6 +230,7 @@ Partial Class FrmVLCRouteShiftMaster
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel1.Location = New System.Drawing.Point(8, 28)
         Me.MyLabel1.Name = "MyLabel1"
@@ -207,13 +248,14 @@ Partial Class FrmVLCRouteShiftMaster
         '
         'fndcode
         '
+        Me.fndcode.FieldName = Nothing
         Me.fndcode.Location = New System.Drawing.Point(84, 25)
         Me.fndcode.MendatroryField = True
         Me.fndcode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndcode.MyLinkLable1 = Me.MyLabel1
         Me.fndcode.MyLinkLable2 = Nothing
-        Me.fndcode.MyMaxLength = 32767
+        Me.fndcode.MyMaxLength = 30
         Me.fndcode.MyReadOnly = False
         Me.fndcode.Name = "fndcode"
         Me.fndcode.Size = New System.Drawing.Size(222, 21)
@@ -223,8 +265,17 @@ Partial Class FrmVLCRouteShiftMaster
         '
         'txtdate
         '
+        Me.txtdate.CalculationExpression = Nothing
         Me.txtdate.CustomFormat = "dd/MM/yyyy"
+        Me.txtdate.FieldCode = Nothing
+        Me.txtdate.FieldDesc = Nothing
+        Me.txtdate.FieldMaxLength = 0
+        Me.txtdate.FieldName = Nothing
         Me.txtdate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtdate.isCalculatedField = False
+        Me.txtdate.IsSourceFromTable = False
+        Me.txtdate.IsSourceFromValueList = False
+        Me.txtdate.IsUnique = False
         Me.txtdate.Location = New System.Drawing.Point(367, 25)
         Me.txtdate.MendatroryField = True
         Me.txtdate.MinDate = New Date(1973, 1, 1, 0, 0, 0, 0)
@@ -232,6 +283,9 @@ Partial Class FrmVLCRouteShiftMaster
         Me.txtdate.MyLinkLable2 = Nothing
         Me.txtdate.Name = "txtdate"
         Me.txtdate.NullText = "01/01/1973"
+        Me.txtdate.ReferenceFieldDesc = Nothing
+        Me.txtdate.ReferenceFieldName = Nothing
+        Me.txtdate.ReferenceTableName = Nothing
         Me.txtdate.Size = New System.Drawing.Size(108, 20)
         Me.txtdate.TabIndex = 1
         Me.txtdate.TabStop = False
@@ -240,6 +294,7 @@ Partial Class FrmVLCRouteShiftMaster
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel3.Location = New System.Drawing.Point(334, 27)
         Me.MyLabel3.Name = "MyLabel3"
@@ -249,6 +304,7 @@ Partial Class FrmVLCRouteShiftMaster
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel2.Location = New System.Drawing.Point(255, 77)
         Me.MyLabel2.Name = "MyLabel2"
@@ -258,15 +314,27 @@ Partial Class FrmVLCRouteShiftMaster
         '
         'cmbstatus
         '
-        Me.cmbstatus.AllowShowFocusCues = False
         Me.cmbstatus.AutoCompleteDisplayMember = Nothing
         Me.cmbstatus.AutoCompleteValueMember = Nothing
+        Me.cmbstatus.CalculationExpression = Nothing
+        Me.cmbstatus.DropDownAnimationEnabled = True
         Me.cmbstatus.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbstatus.FieldCode = Nothing
+        Me.cmbstatus.FieldDesc = Nothing
+        Me.cmbstatus.FieldMaxLength = 0
+        Me.cmbstatus.FieldName = Nothing
+        Me.cmbstatus.isCalculatedField = False
+        Me.cmbstatus.IsSourceFromTable = False
+        Me.cmbstatus.IsSourceFromValueList = False
+        Me.cmbstatus.IsUnique = False
         Me.cmbstatus.Location = New System.Drawing.Point(299, 74)
         Me.cmbstatus.MendatroryField = True
         Me.cmbstatus.MyLinkLable1 = Me.MyLabel2
         Me.cmbstatus.MyLinkLable2 = Nothing
         Me.cmbstatus.Name = "cmbstatus"
+        Me.cmbstatus.ReferenceFieldDesc = Nothing
+        Me.cmbstatus.ReferenceFieldName = Nothing
+        Me.cmbstatus.ReferenceTableName = Nothing
         Me.cmbstatus.Size = New System.Drawing.Size(177, 20)
         Me.cmbstatus.TabIndex = 3
         Me.cmbstatus.Text = "MyComboBox1"
@@ -281,7 +349,6 @@ Partial Class FrmVLCRouteShiftMaster
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(850, 320)
         Me.RadPageView1.TabIndex = 52
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -310,13 +377,17 @@ Partial Class FrmVLCRouteShiftMaster
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(7, 7)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowDragToGroup = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
+        Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(815, 258)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
         '
         'RadPageViewPage2
         '
@@ -362,29 +433,6 @@ Partial Class FrmVLCRouteShiftMaster
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "&Save"
         '
-        'lblRouteCode
-        '
-        Me.lblRouteCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRouteCode.Location = New System.Drawing.Point(8, 74)
-        Me.lblRouteCode.Name = "lblRouteCode"
-        Me.lblRouteCode.Size = New System.Drawing.Size(51, 16)
-        Me.lblRouteCode.TabIndex = 248
-        Me.lblRouteCode.Text = "Route ID"
-        '
-        'fndRouteCode
-        '
-        Me.fndRouteCode.Location = New System.Drawing.Point(83, 74)
-        Me.fndRouteCode.MendatroryField = True
-        Me.fndRouteCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndRouteCode.MyLinkLable1 = Me.lblRouteCode
-        Me.fndRouteCode.MyLinkLable2 = Nothing
-        Me.fndRouteCode.MyReadOnly = False
-        Me.fndRouteCode.MyShowMasterFormButton = False
-        Me.fndRouteCode.Name = "fndRouteCode"
-        Me.fndRouteCode.Size = New System.Drawing.Size(167, 19)
-        Me.fndRouteCode.TabIndex = 247
-        Me.fndRouteCode.Value = ""
-        '
         'FrmVLCRouteShiftMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -404,6 +452,7 @@ Partial Class FrmVLCRouteShiftMaster
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.lblRouteCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtdesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
@@ -424,7 +473,6 @@ Partial Class FrmVLCRouteShiftMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRouteCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

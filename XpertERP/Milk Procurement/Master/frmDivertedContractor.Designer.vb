@@ -89,7 +89,7 @@ Partial Class frmDivertedContractor
         Me.fndContractCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndContractCode.MyLinkLable1 = Me.lblCode
         Me.fndContractCode.MyLinkLable2 = Nothing
-        Me.fndContractCode.MyMaxLength = 32767
+        Me.fndContractCode.MyMaxLength = 30
         Me.fndContractCode.MyReadOnly = False
         Me.fndContractCode.Name = "fndContractCode"
         Me.fndContractCode.Size = New System.Drawing.Size(199, 21)
@@ -209,12 +209,9 @@ Partial Class frmDivertedContractor
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(563, 20)
         Me.rdmenufile.TabIndex = 1
-        Me.rdmenufile.Text = "File"
         '
         'RadMenufile
         '
-        Me.RadMenufile.AccessibleDescription = "File"
-        Me.RadMenufile.AccessibleName = "File"
         Me.RadMenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenuimport, Me.rdmenuexport, Me.rdmenuexit})
         Me.RadMenufile.Name = "RadMenufile"
         Me.RadMenufile.Text = "File"
@@ -228,15 +225,11 @@ Partial Class frmDivertedContractor
         '
         'rdmenuexport
         '
-        Me.rdmenuexport.AccessibleDescription = "Export"
-        Me.rdmenuexport.AccessibleName = "Export"
         Me.rdmenuexport.Name = "rdmenuexport"
         Me.rdmenuexport.Text = "Export"
         '
         'rdmenuexit
         '
-        Me.rdmenuexit.AccessibleDescription = "Exit"
-        Me.rdmenuexit.AccessibleName = "Exit"
         Me.rdmenuexit.Name = "rdmenuexit"
         Me.rdmenuexit.Text = "Exit"
         '
