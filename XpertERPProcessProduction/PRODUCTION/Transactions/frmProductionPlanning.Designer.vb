@@ -22,6 +22,7 @@ Partial Class frmProductionPlanning
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProductionPlanning))
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
@@ -50,17 +51,17 @@ Partial Class frmProductionPlanning
         Me.lblPlanForDate = New common.Controls.MyLabel()
         Me.dtpBOMDate = New common.Controls.MyDateTimePicker()
         Me.lblPPDate = New common.Controls.MyLabel()
+        Me.mnuImportBOM = New Telerik.WinControls.UI.RadSplitButton()
+        Me.mnuImportPlanHead = New Telerik.WinControls.UI.RadMenuItem()
+        Me.mnuImportPlanDetail = New Telerik.WinControls.UI.RadMenuItem()
+        Me.mnuExportBOM = New Telerik.WinControls.UI.RadSplitButton()
+        Me.mnuExportPlanHead = New Telerik.WinControls.UI.RadMenuItem()
+        Me.mnuExportPlanDetail = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.mnuImportBOM = New Telerik.WinControls.UI.RadSplitButton()
-        Me.mnuExportBOM = New Telerik.WinControls.UI.RadSplitButton()
-        Me.mnuExportPlanHead = New Telerik.WinControls.UI.RadMenuItem()
-        Me.mnuExportPlanDetail = New Telerik.WinControls.UI.RadMenuItem()
-        Me.mnuImportPlanHead = New Telerik.WinControls.UI.RadMenuItem()
-        Me.mnuImportPlanDetail = New Telerik.WinControls.UI.RadMenuItem()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -88,13 +89,13 @@ Partial Class frmProductionPlanning
         CType(Me.lblPlanForDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpBOMDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPPDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.mnuImportBOM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.mnuExportBOM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.mnuImportBOM, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.mnuExportBOM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -107,7 +108,7 @@ Partial Class frmProductionPlanning
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(326, 21)
@@ -150,20 +151,22 @@ Partial Class frmProductionPlanning
         Me.gvPP.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvPP.Location = New System.Drawing.Point(13, 140)
         '
-        'gvPP
+        '
         '
         Me.gvPP.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvPP.MasterTemplate.AllowAddNewRow = False
         Me.gvPP.MasterTemplate.AutoGenerateColumns = False
         Me.gvPP.MasterTemplate.EnableGrouping = False
+        Me.gvPP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPP.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvPP.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvPP.MyStopExport = False
         Me.gvPP.Name = "gvPP"
         Me.gvPP.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPP.ShowHeaderCellButtons = True
         Me.gvPP.Size = New System.Drawing.Size(917, 277)
         Me.gvPP.TabIndex = 0
         Me.gvPP.TabStop = False
-        Me.gvPP.Text = "RadGridView1"
         '
         'SplitContainer1
         '
@@ -263,7 +266,6 @@ Partial Class frmProductionPlanning
         Me.txtloc_name.Name = "txtloc_name"
         Me.txtloc_name.Size = New System.Drawing.Size(194, 20)
         Me.txtloc_name.TabIndex = 20
-        Me.txtloc_name.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtloc_name.Visible = False
         '
         'txtloc_code
@@ -314,7 +316,6 @@ Partial Class frmProductionPlanning
         Me.lblPlannedByName.Name = "lblPlannedByName"
         Me.lblPlannedByName.Size = New System.Drawing.Size(194, 20)
         Me.lblPlannedByName.TabIndex = 8
-        Me.lblPlannedByName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtPlannedBy
         '
@@ -397,7 +398,6 @@ Partial Class frmProductionPlanning
         Me.lblApprovedByName.Name = "lblApprovedByName"
         Me.lblApprovedByName.Size = New System.Drawing.Size(262, 19)
         Me.lblApprovedByName.TabIndex = 14
-        Me.lblApprovedByName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblApprovedBy
         '
@@ -418,7 +418,6 @@ Partial Class frmProductionPlanning
         Me.lblCreatedByName.Name = "lblCreatedByName"
         Me.lblCreatedByName.Size = New System.Drawing.Size(262, 19)
         Me.lblCreatedByName.TabIndex = 15
-        Me.lblCreatedByName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCreatedBy
         '
@@ -562,6 +561,46 @@ Partial Class frmProductionPlanning
         Me.lblPPDate.TabIndex = 11
         Me.lblPPDate.Text = "Planning Date"
         '
+        'mnuImportBOM
+        '
+        Me.mnuImportBOM.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.mnuImportBOM.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuImportPlanHead, Me.mnuImportPlanDetail})
+        Me.mnuImportBOM.Location = New System.Drawing.Point(438, 6)
+        Me.mnuImportBOM.Name = "mnuImportBOM"
+        Me.mnuImportBOM.Size = New System.Drawing.Size(110, 22)
+        Me.mnuImportBOM.TabIndex = 11
+        Me.mnuImportBOM.Text = "Import Plan"
+        '
+        'mnuImportPlanHead
+        '
+        Me.mnuImportPlanHead.Name = "mnuImportPlanHead"
+        Me.mnuImportPlanHead.Text = "Plan Head"
+        '
+        'mnuImportPlanDetail
+        '
+        Me.mnuImportPlanDetail.Name = "mnuImportPlanDetail"
+        Me.mnuImportPlanDetail.Text = "Plan Detail"
+        '
+        'mnuExportBOM
+        '
+        Me.mnuExportBOM.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.mnuExportBOM.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuExportPlanHead, Me.mnuExportPlanDetail})
+        Me.mnuExportBOM.Location = New System.Drawing.Point(314, 6)
+        Me.mnuExportBOM.Name = "mnuExportBOM"
+        Me.mnuExportBOM.Size = New System.Drawing.Size(110, 22)
+        Me.mnuExportBOM.TabIndex = 10
+        Me.mnuExportBOM.Text = "Export Plan"
+        '
+        'mnuExportPlanHead
+        '
+        Me.mnuExportPlanHead.Name = "mnuExportPlanHead"
+        Me.mnuExportPlanHead.Text = "Plan Head"
+        '
+        'mnuExportPlanDetail
+        '
+        Me.mnuExportPlanDetail.Name = "mnuExportPlanDetail"
+        Me.mnuExportPlanDetail.Text = "Plan Detail"
+        '
         'btnPrint
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -612,54 +651,6 @@ Partial Class frmProductionPlanning
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
-        'mnuImportBOM
-        '
-        Me.mnuImportBOM.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.mnuImportBOM.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuImportPlanHead, Me.mnuImportPlanDetail})
-        Me.mnuImportBOM.Location = New System.Drawing.Point(438, 6)
-        Me.mnuImportBOM.Name = "mnuImportBOM"
-        Me.mnuImportBOM.Size = New System.Drawing.Size(110, 22)
-        Me.mnuImportBOM.TabIndex = 11
-        Me.mnuImportBOM.Text = "Import Plan"
-        '
-        'mnuExportBOM
-        '
-        Me.mnuExportBOM.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.mnuExportBOM.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuExportPlanHead, Me.mnuExportPlanDetail})
-        Me.mnuExportBOM.Location = New System.Drawing.Point(314, 6)
-        Me.mnuExportBOM.Name = "mnuExportBOM"
-        Me.mnuExportBOM.Size = New System.Drawing.Size(110, 22)
-        Me.mnuExportBOM.TabIndex = 10
-        Me.mnuExportBOM.Text = "Export Plan"
-        '
-        'mnuExportPlanHead
-        '
-        Me.mnuExportPlanHead.AccessibleDescription = "Plan Head"
-        Me.mnuExportPlanHead.AccessibleName = "Plan Head"
-        Me.mnuExportPlanHead.Name = "mnuExportPlanHead"
-        Me.mnuExportPlanHead.Text = "Plan Head"
-        '
-        'mnuExportPlanDetail
-        '
-        Me.mnuExportPlanDetail.AccessibleDescription = "Plan Detail"
-        Me.mnuExportPlanDetail.AccessibleName = "Plan Detail"
-        Me.mnuExportPlanDetail.Name = "mnuExportPlanDetail"
-        Me.mnuExportPlanDetail.Text = "Plan Detail"
-        '
-        'mnuImportPlanHead
-        '
-        Me.mnuImportPlanHead.AccessibleDescription = "Plan Head"
-        Me.mnuImportPlanHead.AccessibleName = "Plan Head"
-        Me.mnuImportPlanHead.Name = "mnuImportPlanHead"
-        Me.mnuImportPlanHead.Text = "Plan Head"
-        '
-        'mnuImportPlanDetail
-        '
-        Me.mnuImportPlanDetail.AccessibleDescription = "Plan Detail"
-        Me.mnuImportPlanDetail.AccessibleName = "Plan Detail"
-        Me.mnuImportPlanDetail.Name = "mnuImportPlanDetail"
-        Me.mnuImportPlanDetail.Text = "Plan Detail"
-        '
         'frmProductionPlanning
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -701,13 +692,13 @@ Partial Class frmProductionPlanning
         CType(Me.lblPlanForDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpBOMDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPPDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.mnuImportBOM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.mnuExportBOM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.mnuImportBOM, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.mnuExportBOM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

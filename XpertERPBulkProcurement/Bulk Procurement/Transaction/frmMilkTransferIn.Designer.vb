@@ -22,12 +22,12 @@ Partial Class FrmMilkTransferIn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -745,7 +745,7 @@ Partial Class FrmMilkTransferIn
         Me.fndRcptChalanNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndRcptChalanNo.MyLinkLable1 = Me.lChalanNo
         Me.fndRcptChalanNo.MyLinkLable2 = Nothing
-        Me.fndRcptChalanNo.MyMaxLength = 32767
+        Me.fndRcptChalanNo.MyMaxLength = 30
         Me.fndRcptChalanNo.MyReadOnly = False
         Me.fndRcptChalanNo.Name = "fndRcptChalanNo"
         Me.fndRcptChalanNo.Size = New System.Drawing.Size(304, 21)
@@ -1172,7 +1172,7 @@ Partial Class FrmMilkTransferIn
         Me.gvOldSealPaper.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOldSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSealPaper.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvOldSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvOldSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvOldSealPaper.MyStopExport = False
         Me.gvOldSealPaper.Name = "gvOldSealPaper"
         Me.gvOldSealPaper.ShowHeaderCellButtons = True
@@ -1201,7 +1201,7 @@ Partial Class FrmMilkTransferIn
         Me.gvOldSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvOldSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvOldSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvOldSeal.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvOldSeal.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvOldSeal.MyStopExport = False
         Me.gvOldSeal.Name = "gvOldSeal"
         Me.gvOldSeal.ShowHeaderCellButtons = True
@@ -1548,7 +1548,7 @@ Partial Class FrmMilkTransferIn
         Me.gvWeighment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvWeighment.MasterTemplate.ShowFilteringRow = False
         Me.gvWeighment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvWeighment.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvWeighment.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gvWeighment.MyStopExport = False
         Me.gvWeighment.Name = "gvWeighment"
         Me.gvWeighment.ShowHeaderCellButtons = True
@@ -1712,7 +1712,7 @@ Partial Class FrmMilkTransferIn
         Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowFilteringRow = False
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
@@ -1789,7 +1789,7 @@ Partial Class FrmMilkTransferIn
         Me.gvNewSealPaper.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvNewSealPaper.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSealPaper.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvNewSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gvNewSealPaper.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gvNewSealPaper.MyStopExport = False
         Me.gvNewSealPaper.Name = "gvNewSealPaper"
         Me.gvNewSealPaper.ShowHeaderCellButtons = True
@@ -1817,7 +1817,7 @@ Partial Class FrmMilkTransferIn
         Me.gvNewSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvNewSeal.MasterTemplate.ShowFilteringRow = False
         Me.gvNewSeal.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvNewSeal.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gvNewSeal.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gvNewSeal.MyStopExport = False
         Me.gvNewSeal.Name = "gvNewSeal"
         Me.gvNewSeal.ShowHeaderCellButtons = True

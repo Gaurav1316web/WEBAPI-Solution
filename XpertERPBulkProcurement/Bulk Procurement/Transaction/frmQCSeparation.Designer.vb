@@ -23,6 +23,7 @@ Partial Class FrmQCSeparation
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.dtpQCInDateTime = New common.Controls.MyDateTimePicker()
         Me.lblQcInDateAndTime = New common.Controls.MyLabel()
         Me.fndGateEntryNo = New common.UserControls.txtFinder()
@@ -91,6 +92,7 @@ Partial Class FrmQCSeparation
         Me.lblQCOutDateAndTime = New common.Controls.MyLabel()
         Me.grpParameterDetailBulk = New Telerik.WinControls.UI.RadGroupBox()
         Me.gvParam = New common.UserControls.MyRadGridView()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
@@ -98,7 +100,6 @@ Partial Class FrmQCSeparation
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         CType(Me.dtpQCInDateTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblQcInDateAndTime, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblStatusValue, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -164,13 +165,13 @@ Partial Class FrmQCSeparation
         Me.grpParameterDetailBulk.SuspendLayout()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -250,7 +251,6 @@ Partial Class FrmQCSeparation
         Me.lblStatusValue.Name = "lblStatusValue"
         Me.lblStatusValue.Size = New System.Drawing.Size(192, 19)
         Me.lblStatusValue.TabIndex = 286
-        Me.lblStatusValue.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblStatus
         '
@@ -271,7 +271,6 @@ Partial Class FrmQCSeparation
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(566, 19)
         Me.lblVendorName.TabIndex = 278
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblGateEntryNO
         '
@@ -291,7 +290,6 @@ Partial Class FrmQCSeparation
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(390, 19)
         Me.lblLocationName.TabIndex = 275
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDateAndTime
         '
@@ -345,48 +343,36 @@ Partial Class FrmQCSeparation
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1059, 20)
         Me.RadMenu1.TabIndex = 252
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'mnuSetting
         '
-        Me.mnuSetting.AccessibleDescription = "Setting"
-        Me.mnuSetting.AccessibleName = "Setting"
         Me.mnuSetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuSaveLayout, Me.RadMenuSeparatorItem1, Me.mnuDeleteLayout, Me.mnuExit, Me.mnuEmailSmsSetting})
         Me.mnuSetting.Name = "mnuSetting"
         Me.mnuSetting.Text = "Setting"
         '
         'mnuSaveLayout
         '
-        Me.mnuSaveLayout.AccessibleDescription = "Save Layout"
-        Me.mnuSaveLayout.AccessibleName = "Save Layout"
         Me.mnuSaveLayout.Name = "mnuSaveLayout"
         Me.mnuSaveLayout.Text = "Save Layout"
         '
         'RadMenuSeparatorItem1
         '
-        Me.RadMenuSeparatorItem1.AccessibleDescription = "RadMenuSeparatorItem1"
-        Me.RadMenuSeparatorItem1.AccessibleName = "RadMenuSeparatorItem1"
         Me.RadMenuSeparatorItem1.Name = "RadMenuSeparatorItem1"
         Me.RadMenuSeparatorItem1.Text = "RadMenuSeparatorItem1"
+        Me.RadMenuSeparatorItem1.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'mnuDeleteLayout
         '
-        Me.mnuDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.mnuDeleteLayout.AccessibleName = "Delete Layout"
         Me.mnuDeleteLayout.Name = "mnuDeleteLayout"
         Me.mnuDeleteLayout.Text = "Delete Layout"
         '
         'mnuExit
         '
-        Me.mnuExit.AccessibleDescription = "Exit"
-        Me.mnuExit.AccessibleName = "Exit"
         Me.mnuExit.Name = "mnuExit"
         Me.mnuExit.Text = "Exit"
         '
         'mnuEmailSmsSetting
         '
-        Me.mnuEmailSmsSetting.AccessibleDescription = "Email/SMS Setting"
-        Me.mnuEmailSmsSetting.AccessibleName = "Email/SMS Setting"
         Me.mnuEmailSmsSetting.Name = "mnuEmailSmsSetting"
         Me.mnuEmailSmsSetting.Text = "Email/SMS Setting"
         '
@@ -458,7 +444,7 @@ Partial Class FrmQCSeparation
         Me.fndQcNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndQcNo.MyLinkLable1 = Me.lblQcNo
         Me.fndQcNo.MyLinkLable2 = Nothing
-        Me.fndQcNo.MyMaxLength = 32767
+        Me.fndQcNo.MyMaxLength = 30
         Me.fndQcNo.MyReadOnly = False
         Me.fndQcNo.Name = "fndQcNo"
         Me.fndQcNo.Size = New System.Drawing.Size(310, 20)
@@ -585,7 +571,6 @@ Partial Class FrmQCSeparation
         Me.lblSubLocation.Name = "lblSubLocation"
         Me.lblSubLocation.Size = New System.Drawing.Size(180, 19)
         Me.lblSubLocation.TabIndex = 276
-        Me.lblSubLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkJobWork
         '
@@ -843,7 +828,7 @@ Partial Class FrmQCSeparation
         Me.TxtDeductionAmount.TabIndex = 306
         Me.TxtDeductionAmount.Text = "0"
         Me.TxtDeductionAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtDeductionAmount.Value = 0.0R
+        Me.TxtDeductionAmount.Value = 0R
         '
         'MyLabel1
         '
@@ -1221,14 +1206,26 @@ Partial Class FrmQCSeparation
         Me.gvParam.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvParam.Location = New System.Drawing.Point(2, 18)
         '
-        'gvParam
         '
+        '
+        Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(1034, 229)
         Me.gvParam.TabIndex = 264
-        Me.gvParam.Text = "RadGridView1"
+        '
+        'RadButton1
+        '
+        Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton1.Location = New System.Drawing.Point(385, 7)
+        Me.RadButton1.Name = "RadButton1"
+        Me.RadButton1.Size = New System.Drawing.Size(178, 18)
+        Me.RadButton1.TabIndex = 8
+        Me.RadButton1.Text = "Post"
         '
         'btnReverse
         '
@@ -1289,16 +1286,6 @@ Partial Class FrmQCSeparation
         Me.btnSave.Size = New System.Drawing.Size(68, 18)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
-        '
-        'RadButton1
-        '
-        Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(385, 7)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(178, 18)
-        Me.RadButton1.TabIndex = 8
-        Me.RadButton1.Text = "Post"
         '
         'FrmQCSeparation
         '
@@ -1382,13 +1369,13 @@ Partial Class FrmQCSeparation
         Me.grpParameterDetailBulk.ResumeLayout(False)
         CType(Me.gvParam.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvParam, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

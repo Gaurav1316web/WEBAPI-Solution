@@ -1124,6 +1124,7 @@ Partial Class frmAcquisionEntry
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1292,7 +1293,7 @@ Partial Class frmAcquisionEntry
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(258, 20)
@@ -1481,6 +1482,7 @@ Partial Class frmAcquisionEntry
         Me.gv2.MasterTemplate.ShowFilteringRow = False
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -1512,6 +1514,7 @@ Partial Class frmAcquisionEntry
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -1741,6 +1744,7 @@ Partial Class frmAcquisionEntry
         Me.gvAssemble.MasterTemplate.ShowFilteringRow = False
         Me.gvAssemble.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvAssemble.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvAssemble.MyStopExport = False
         Me.gvAssemble.Name = "gvAssemble"
         Me.gvAssemble.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAssemble.ShowGroupPanel = False

@@ -146,7 +146,6 @@ Partial Class frmFarmerPaymentEntry
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1136, 489)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -512,7 +511,6 @@ Partial Class frmFarmerPaymentEntry
         Me.lblFarmerName.Name = "lblFarmerName"
         Me.lblFarmerName.Size = New System.Drawing.Size(381, 19)
         Me.lblFarmerName.TabIndex = 100
-        Me.lblFarmerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtfarmerinvoice
         '
@@ -569,7 +567,6 @@ Partial Class frmFarmerPaymentEntry
         Me.lblVLCDesc.Name = "lblVLCDesc"
         Me.lblVLCDesc.Size = New System.Drawing.Size(381, 19)
         Me.lblVLCDesc.TabIndex = 93
-        Me.lblVLCDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtVSPCode
         '
@@ -631,7 +628,6 @@ Partial Class frmFarmerPaymentEntry
         Me.lblMccName.Name = "lblMccName"
         Me.lblMccName.Size = New System.Drawing.Size(381, 19)
         Me.lblMccName.TabIndex = 81
-        Me.lblMccName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel10
         '
@@ -718,7 +714,6 @@ Partial Class frmFarmerPaymentEntry
         Me.lblVSPDesc.Name = "lblVSPDesc"
         Me.lblVSPDesc.Size = New System.Drawing.Size(381, 19)
         Me.lblVSPDesc.TabIndex = 80
-        Me.lblVSPDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'dtpPayment
         '
@@ -778,7 +773,7 @@ Partial Class frmFarmerPaymentEntry
         Me.txtPaymentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtPaymentNo.MyLinkLable1 = Nothing
         Me.txtPaymentNo.MyLinkLable2 = Nothing
-        Me.txtPaymentNo.MyMaxLength = 32767
+        Me.txtPaymentNo.MyMaxLength = 30
         Me.txtPaymentNo.MyReadOnly = False
         Me.txtPaymentNo.Name = "txtPaymentNo"
         Me.txtPaymentNo.Size = New System.Drawing.Size(343, 20)
@@ -791,7 +786,6 @@ Partial Class frmFarmerPaymentEntry
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1136, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'btnreset
         '

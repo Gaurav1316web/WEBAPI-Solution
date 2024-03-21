@@ -22,6 +22,7 @@ Partial Class FrmMilkUnloading
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
@@ -176,8 +177,17 @@ Partial Class FrmMilkUnloading
         '
         'dtpGateEntryDateTime
         '
+        Me.dtpGateEntryDateTime.CalculationExpression = Nothing
         Me.dtpGateEntryDateTime.CustomFormat = "dd/MM/yyyy hh:mm:ss tt"
+        Me.dtpGateEntryDateTime.FieldCode = Nothing
+        Me.dtpGateEntryDateTime.FieldDesc = Nothing
+        Me.dtpGateEntryDateTime.FieldMaxLength = 0
+        Me.dtpGateEntryDateTime.FieldName = Nothing
         Me.dtpGateEntryDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpGateEntryDateTime.isCalculatedField = False
+        Me.dtpGateEntryDateTime.IsSourceFromTable = False
+        Me.dtpGateEntryDateTime.IsSourceFromValueList = False
+        Me.dtpGateEntryDateTime.IsUnique = False
         Me.dtpGateEntryDateTime.Location = New System.Drawing.Point(534, 107)
         Me.dtpGateEntryDateTime.MendatroryField = False
         Me.dtpGateEntryDateTime.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -185,6 +195,9 @@ Partial Class FrmMilkUnloading
         Me.dtpGateEntryDateTime.MyLinkLable2 = Nothing
         Me.dtpGateEntryDateTime.Name = "dtpGateEntryDateTime"
         Me.dtpGateEntryDateTime.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpGateEntryDateTime.ReferenceFieldDesc = Nothing
+        Me.dtpGateEntryDateTime.ReferenceFieldName = Nothing
+        Me.dtpGateEntryDateTime.ReferenceTableName = Nothing
         Me.dtpGateEntryDateTime.Size = New System.Drawing.Size(188, 20)
         Me.dtpGateEntryDateTime.TabIndex = 319
         Me.dtpGateEntryDateTime.TabStop = False
@@ -193,6 +206,7 @@ Partial Class FrmMilkUnloading
         '
         'MyLabel8
         '
+        Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel8.Location = New System.Drawing.Point(405, 110)
         Me.MyLabel8.Name = "MyLabel8"
@@ -202,8 +216,17 @@ Partial Class FrmMilkUnloading
         '
         'dtpQCDateTime
         '
+        Me.dtpQCDateTime.CalculationExpression = Nothing
         Me.dtpQCDateTime.CustomFormat = "dd/MM/yyyy hh:mm:ss tt"
+        Me.dtpQCDateTime.FieldCode = Nothing
+        Me.dtpQCDateTime.FieldDesc = Nothing
+        Me.dtpQCDateTime.FieldMaxLength = 0
+        Me.dtpQCDateTime.FieldName = Nothing
         Me.dtpQCDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpQCDateTime.isCalculatedField = False
+        Me.dtpQCDateTime.IsSourceFromTable = False
+        Me.dtpQCDateTime.IsSourceFromValueList = False
+        Me.dtpQCDateTime.IsUnique = False
         Me.dtpQCDateTime.Location = New System.Drawing.Point(534, 81)
         Me.dtpQCDateTime.MendatroryField = False
         Me.dtpQCDateTime.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -211,6 +234,9 @@ Partial Class FrmMilkUnloading
         Me.dtpQCDateTime.MyLinkLable2 = Nothing
         Me.dtpQCDateTime.Name = "dtpQCDateTime"
         Me.dtpQCDateTime.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpQCDateTime.ReferenceFieldDesc = Nothing
+        Me.dtpQCDateTime.ReferenceFieldName = Nothing
+        Me.dtpQCDateTime.ReferenceTableName = Nothing
         Me.dtpQCDateTime.Size = New System.Drawing.Size(188, 20)
         Me.dtpQCDateTime.TabIndex = 317
         Me.dtpQCDateTime.TabStop = False
@@ -219,6 +245,7 @@ Partial Class FrmMilkUnloading
         '
         'MyLabel7
         '
+        Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel7.Location = New System.Drawing.Point(405, 84)
         Me.MyLabel7.Name = "MyLabel7"
@@ -228,8 +255,17 @@ Partial Class FrmMilkUnloading
         '
         'dtpWeighmentDateTime
         '
+        Me.dtpWeighmentDateTime.CalculationExpression = Nothing
         Me.dtpWeighmentDateTime.CustomFormat = "dd/MM/yyyy hh:mm:ss tt"
+        Me.dtpWeighmentDateTime.FieldCode = Nothing
+        Me.dtpWeighmentDateTime.FieldDesc = Nothing
+        Me.dtpWeighmentDateTime.FieldMaxLength = 0
+        Me.dtpWeighmentDateTime.FieldName = Nothing
         Me.dtpWeighmentDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpWeighmentDateTime.isCalculatedField = False
+        Me.dtpWeighmentDateTime.IsSourceFromTable = False
+        Me.dtpWeighmentDateTime.IsSourceFromValueList = False
+        Me.dtpWeighmentDateTime.IsUnique = False
         Me.dtpWeighmentDateTime.Location = New System.Drawing.Point(534, 58)
         Me.dtpWeighmentDateTime.MendatroryField = False
         Me.dtpWeighmentDateTime.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -237,6 +273,9 @@ Partial Class FrmMilkUnloading
         Me.dtpWeighmentDateTime.MyLinkLable2 = Nothing
         Me.dtpWeighmentDateTime.Name = "dtpWeighmentDateTime"
         Me.dtpWeighmentDateTime.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpWeighmentDateTime.ReferenceFieldDesc = Nothing
+        Me.dtpWeighmentDateTime.ReferenceFieldName = Nothing
+        Me.dtpWeighmentDateTime.ReferenceTableName = Nothing
         Me.dtpWeighmentDateTime.Size = New System.Drawing.Size(188, 20)
         Me.dtpWeighmentDateTime.TabIndex = 315
         Me.dtpWeighmentDateTime.TabStop = False
@@ -245,6 +284,7 @@ Partial Class FrmMilkUnloading
         '
         'MyLabel6
         '
+        Me.MyLabel6.FieldName = Nothing
         Me.MyLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel6.Location = New System.Drawing.Point(405, 61)
         Me.MyLabel6.Name = "MyLabel6"
@@ -254,6 +294,15 @@ Partial Class FrmMilkUnloading
         '
         'FndTankerNo
         '
+        Me.FndTankerNo.CalculationExpression = Nothing
+        Me.FndTankerNo.FieldCode = Nothing
+        Me.FndTankerNo.FieldDesc = Nothing
+        Me.FndTankerNo.FieldMaxLength = 0
+        Me.FndTankerNo.FieldName = Nothing
+        Me.FndTankerNo.isCalculatedField = False
+        Me.FndTankerNo.IsSourceFromTable = False
+        Me.FndTankerNo.IsSourceFromValueList = False
+        Me.FndTankerNo.IsUnique = False
         Me.FndTankerNo.Location = New System.Drawing.Point(113, 36)
         Me.FndTankerNo.MendatroryField = True
         Me.FndTankerNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -262,12 +311,24 @@ Partial Class FrmMilkUnloading
         Me.FndTankerNo.MyReadOnly = False
         Me.FndTankerNo.MyShowMasterFormButton = False
         Me.FndTankerNo.Name = "FndTankerNo"
+        Me.FndTankerNo.ReferenceFieldDesc = Nothing
+        Me.FndTankerNo.ReferenceFieldName = Nothing
+        Me.FndTankerNo.ReferenceTableName = Nothing
         Me.FndTankerNo.Size = New System.Drawing.Size(608, 19)
         Me.FndTankerNo.TabIndex = 314
         Me.FndTankerNo.Value = ""
         '
         'fndGateEntryNo
         '
+        Me.fndGateEntryNo.CalculationExpression = Nothing
+        Me.fndGateEntryNo.FieldCode = Nothing
+        Me.fndGateEntryNo.FieldDesc = Nothing
+        Me.fndGateEntryNo.FieldMaxLength = 0
+        Me.fndGateEntryNo.FieldName = Nothing
+        Me.fndGateEntryNo.isCalculatedField = False
+        Me.fndGateEntryNo.IsSourceFromTable = False
+        Me.fndGateEntryNo.IsSourceFromValueList = False
+        Me.fndGateEntryNo.IsUnique = False
         Me.fndGateEntryNo.Location = New System.Drawing.Point(113, 107)
         Me.fndGateEntryNo.MendatroryField = True
         Me.fndGateEntryNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -276,6 +337,9 @@ Partial Class FrmMilkUnloading
         Me.fndGateEntryNo.MyReadOnly = True
         Me.fndGateEntryNo.MyShowMasterFormButton = False
         Me.fndGateEntryNo.Name = "fndGateEntryNo"
+        Me.fndGateEntryNo.ReferenceFieldDesc = Nothing
+        Me.fndGateEntryNo.ReferenceFieldName = Nothing
+        Me.fndGateEntryNo.ReferenceTableName = Nothing
         Me.fndGateEntryNo.Size = New System.Drawing.Size(287, 19)
         Me.fndGateEntryNo.TabIndex = 2
         Me.fndGateEntryNo.Value = ""
@@ -284,24 +348,25 @@ Partial Class FrmMilkUnloading
         '
         Me.lblSubLocationName.AutoSize = False
         Me.lblSubLocationName.BorderVisible = True
+        Me.lblSubLocationName.FieldName = Nothing
         Me.lblSubLocationName.Location = New System.Drawing.Point(405, 153)
         Me.lblSubLocationName.Name = "lblSubLocationName"
         Me.lblSubLocationName.Size = New System.Drawing.Size(316, 19)
         Me.lblSubLocationName.TabIndex = 312
-        Me.lblSubLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblLocationName
         '
         Me.lblLocationName.AutoSize = False
         Me.lblLocationName.BorderVisible = True
+        Me.lblLocationName.FieldName = Nothing
         Me.lblLocationName.Location = New System.Drawing.Point(405, 132)
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(316, 19)
         Me.lblLocationName.TabIndex = 313
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel5
         '
+        Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.Location = New System.Drawing.Point(13, 36)
         Me.MyLabel5.Name = "MyLabel5"
@@ -311,6 +376,7 @@ Partial Class FrmMilkUnloading
         '
         'lblGateEntryNO
         '
+        Me.lblGateEntryNO.FieldName = Nothing
         Me.lblGateEntryNO.Location = New System.Drawing.Point(13, 154)
         Me.lblGateEntryNO.Name = "lblGateEntryNO"
         Me.lblGateEntryNO.Size = New System.Drawing.Size(43, 18)
@@ -319,6 +385,15 @@ Partial Class FrmMilkUnloading
         '
         'fndSubLocation
         '
+        Me.fndSubLocation.CalculationExpression = Nothing
+        Me.fndSubLocation.FieldCode = Nothing
+        Me.fndSubLocation.FieldDesc = Nothing
+        Me.fndSubLocation.FieldMaxLength = 0
+        Me.fndSubLocation.FieldName = Nothing
+        Me.fndSubLocation.isCalculatedField = False
+        Me.fndSubLocation.IsSourceFromTable = False
+        Me.fndSubLocation.IsSourceFromValueList = False
+        Me.fndSubLocation.IsUnique = False
         Me.fndSubLocation.Location = New System.Drawing.Point(113, 153)
         Me.fndSubLocation.MendatroryField = True
         Me.fndSubLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -327,12 +402,24 @@ Partial Class FrmMilkUnloading
         Me.fndSubLocation.MyReadOnly = False
         Me.fndSubLocation.MyShowMasterFormButton = False
         Me.fndSubLocation.Name = "fndSubLocation"
+        Me.fndSubLocation.ReferenceFieldDesc = Nothing
+        Me.fndSubLocation.ReferenceFieldName = Nothing
+        Me.fndSubLocation.ReferenceTableName = Nothing
         Me.fndSubLocation.Size = New System.Drawing.Size(288, 19)
         Me.fndSubLocation.TabIndex = 7
         Me.fndSubLocation.Value = ""
         '
         'txtQCNo
         '
+        Me.txtQCNo.CalculationExpression = Nothing
+        Me.txtQCNo.FieldCode = Nothing
+        Me.txtQCNo.FieldDesc = Nothing
+        Me.txtQCNo.FieldMaxLength = 0
+        Me.txtQCNo.FieldName = Nothing
+        Me.txtQCNo.isCalculatedField = False
+        Me.txtQCNo.IsSourceFromTable = False
+        Me.txtQCNo.IsSourceFromValueList = False
+        Me.txtQCNo.IsUnique = False
         Me.txtQCNo.Location = New System.Drawing.Point(113, 82)
         Me.txtQCNo.MaxLength = 50
         Me.txtQCNo.MendatroryField = False
@@ -340,11 +427,15 @@ Partial Class FrmMilkUnloading
         Me.txtQCNo.MyLinkLable2 = Nothing
         Me.txtQCNo.Name = "txtQCNo"
         Me.txtQCNo.ReadOnly = True
+        Me.txtQCNo.ReferenceFieldDesc = Nothing
+        Me.txtQCNo.ReferenceFieldName = Nothing
+        Me.txtQCNo.ReferenceTableName = Nothing
         Me.txtQCNo.Size = New System.Drawing.Size(288, 20)
         Me.txtQCNo.TabIndex = 4
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(13, 85)
         Me.MyLabel3.Name = "MyLabel3"
@@ -354,6 +445,15 @@ Partial Class FrmMilkUnloading
         '
         'txtLocation
         '
+        Me.txtLocation.CalculationExpression = Nothing
+        Me.txtLocation.FieldCode = Nothing
+        Me.txtLocation.FieldDesc = Nothing
+        Me.txtLocation.FieldMaxLength = 0
+        Me.txtLocation.FieldName = Nothing
+        Me.txtLocation.isCalculatedField = False
+        Me.txtLocation.IsSourceFromTable = False
+        Me.txtLocation.IsSourceFromValueList = False
+        Me.txtLocation.IsUnique = False
         Me.txtLocation.Location = New System.Drawing.Point(113, 130)
         Me.txtLocation.MaxLength = 50
         Me.txtLocation.MendatroryField = False
@@ -361,11 +461,15 @@ Partial Class FrmMilkUnloading
         Me.txtLocation.MyLinkLable2 = Nothing
         Me.txtLocation.Name = "txtLocation"
         Me.txtLocation.ReadOnly = True
+        Me.txtLocation.ReferenceFieldDesc = Nothing
+        Me.txtLocation.ReferenceFieldName = Nothing
+        Me.txtLocation.ReferenceTableName = Nothing
         Me.txtLocation.Size = New System.Drawing.Size(288, 20)
         Me.txtLocation.TabIndex = 6
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(13, 132)
         Me.MyLabel4.Name = "MyLabel4"
@@ -375,6 +479,7 @@ Partial Class FrmMilkUnloading
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(13, 107)
         Me.MyLabel1.Name = "MyLabel1"
@@ -384,6 +489,15 @@ Partial Class FrmMilkUnloading
         '
         'txtWeighmentNo
         '
+        Me.txtWeighmentNo.CalculationExpression = Nothing
+        Me.txtWeighmentNo.FieldCode = Nothing
+        Me.txtWeighmentNo.FieldDesc = Nothing
+        Me.txtWeighmentNo.FieldMaxLength = 0
+        Me.txtWeighmentNo.FieldName = Nothing
+        Me.txtWeighmentNo.isCalculatedField = False
+        Me.txtWeighmentNo.IsSourceFromTable = False
+        Me.txtWeighmentNo.IsSourceFromValueList = False
+        Me.txtWeighmentNo.IsUnique = False
         Me.txtWeighmentNo.Location = New System.Drawing.Point(113, 58)
         Me.txtWeighmentNo.MaxLength = 50
         Me.txtWeighmentNo.MendatroryField = False
@@ -391,11 +505,15 @@ Partial Class FrmMilkUnloading
         Me.txtWeighmentNo.MyLinkLable2 = Nothing
         Me.txtWeighmentNo.Name = "txtWeighmentNo"
         Me.txtWeighmentNo.ReadOnly = True
+        Me.txtWeighmentNo.ReferenceFieldDesc = Nothing
+        Me.txtWeighmentNo.ReferenceFieldName = Nothing
+        Me.txtWeighmentNo.ReferenceTableName = Nothing
         Me.txtWeighmentNo.Size = New System.Drawing.Size(287, 20)
         Me.txtWeighmentNo.TabIndex = 3
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(13, 62)
         Me.MyLabel2.Name = "MyLabel2"
@@ -405,8 +523,17 @@ Partial Class FrmMilkUnloading
         '
         'dtpUnloadingDateTime
         '
+        Me.dtpUnloadingDateTime.CalculationExpression = Nothing
         Me.dtpUnloadingDateTime.CustomFormat = "dd/MM/yyyy hh:mm:ss tt"
+        Me.dtpUnloadingDateTime.FieldCode = Nothing
+        Me.dtpUnloadingDateTime.FieldDesc = Nothing
+        Me.dtpUnloadingDateTime.FieldMaxLength = 0
+        Me.dtpUnloadingDateTime.FieldName = Nothing
         Me.dtpUnloadingDateTime.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpUnloadingDateTime.isCalculatedField = False
+        Me.dtpUnloadingDateTime.IsSourceFromTable = False
+        Me.dtpUnloadingDateTime.IsSourceFromValueList = False
+        Me.dtpUnloadingDateTime.IsUnique = False
         Me.dtpUnloadingDateTime.Location = New System.Drawing.Point(534, 14)
         Me.dtpUnloadingDateTime.MendatroryField = False
         Me.dtpUnloadingDateTime.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -414,6 +541,9 @@ Partial Class FrmMilkUnloading
         Me.dtpUnloadingDateTime.MyLinkLable2 = Nothing
         Me.dtpUnloadingDateTime.Name = "dtpUnloadingDateTime"
         Me.dtpUnloadingDateTime.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpUnloadingDateTime.ReferenceFieldDesc = Nothing
+        Me.dtpUnloadingDateTime.ReferenceFieldName = Nothing
+        Me.dtpUnloadingDateTime.ReferenceTableName = Nothing
         Me.dtpUnloadingDateTime.Size = New System.Drawing.Size(188, 20)
         Me.dtpUnloadingDateTime.TabIndex = 1
         Me.dtpUnloadingDateTime.TabStop = False
@@ -422,6 +552,7 @@ Partial Class FrmMilkUnloading
         '
         'lblQCOutDateAndTime
         '
+        Me.lblQCOutDateAndTime.FieldName = Nothing
         Me.lblQCOutDateAndTime.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblQCOutDateAndTime.Location = New System.Drawing.Point(405, 17)
         Me.lblQCOutDateAndTime.Name = "lblQCOutDateAndTime"
@@ -431,13 +562,14 @@ Partial Class FrmMilkUnloading
         '
         'fndUnloadingNo
         '
+        Me.fndUnloadingNo.FieldName = Nothing
         Me.fndUnloadingNo.Location = New System.Drawing.Point(113, 15)
         Me.fndUnloadingNo.MendatroryField = False
         Me.fndUnloadingNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.fndUnloadingNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndUnloadingNo.MyLinkLable1 = Me.lblQcNo
         Me.fndUnloadingNo.MyLinkLable2 = Nothing
-        Me.fndUnloadingNo.MyMaxLength = 32767
+        Me.fndUnloadingNo.MyMaxLength = 30
         Me.fndUnloadingNo.MyReadOnly = False
         Me.fndUnloadingNo.Name = "fndUnloadingNo"
         Me.fndUnloadingNo.Size = New System.Drawing.Size(266, 18)
@@ -446,6 +578,7 @@ Partial Class FrmMilkUnloading
         '
         'lblQcNo
         '
+        Me.lblQcNo.FieldName = Nothing
         Me.lblQcNo.Location = New System.Drawing.Point(13, 15)
         Me.lblQcNo.Name = "lblQcNo"
         Me.lblQcNo.Size = New System.Drawing.Size(82, 18)
@@ -466,7 +599,7 @@ Partial Class FrmMilkUnloading
         'btnReset
         '
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Image = My.Resources._new
+        Me.btnReset.Image = Global.XpertERPJobWorkOutward.My.Resources.Resources._new
         Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnReset.Location = New System.Drawing.Point(382, 16)
         Me.btnReset.Name = "btnReset"
@@ -489,10 +622,17 @@ Partial Class FrmMilkUnloading
         '
         Me.gvItem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvItem.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
+        Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(913, 242)
         Me.gvItem.TabIndex = 0
-        Me.gvItem.Text = "RadGridView1"
         '
         'btnClose
         '

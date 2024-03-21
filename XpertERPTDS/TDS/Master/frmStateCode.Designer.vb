@@ -62,34 +62,25 @@ Partial Class frmStateCode
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(408, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItemImport, Me.RadMenuItemExport, Me.RadMenuItemClose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItemImport
         '
-        Me.RadMenuItemImport.AccessibleDescription = "Import"
-        Me.RadMenuItemImport.AccessibleName = "Import"
         Me.RadMenuItemImport.Name = "RadMenuItemImport"
         Me.RadMenuItemImport.Text = "Import"
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "Export"
-        Me.RadMenuItemExport.AccessibleName = "Export"
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "Export"
         '
         'RadMenuItemClose
         '
-        Me.RadMenuItemClose.AccessibleDescription = "Close"
-        Me.RadMenuItemClose.AccessibleName = "Close"
         Me.RadMenuItemClose.Name = "RadMenuItemClose"
         Me.RadMenuItemClose.Text = "Close"
         '
@@ -118,7 +109,7 @@ Partial Class frmStateCode
         Me.FndStateCodeNew.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.FndStateCodeNew.MyLinkLable1 = Me.lblStateCode
         Me.FndStateCodeNew.MyLinkLable2 = Nothing
-        Me.FndStateCodeNew.MyMaxLength = 32767
+        Me.FndStateCodeNew.MyMaxLength = 30
         Me.FndStateCodeNew.MyReadOnly = False
         Me.FndStateCodeNew.Name = "FndStateCodeNew"
         Me.FndStateCodeNew.Size = New System.Drawing.Size(214, 21)

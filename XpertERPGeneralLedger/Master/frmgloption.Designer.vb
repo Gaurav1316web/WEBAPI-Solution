@@ -23,11 +23,12 @@ Partial Class frmgloption
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
-        Dim GridViewTextBoxColumn11 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewTextBoxColumn12 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
-        Dim GridViewDecimalColumn6 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
-        Dim GridViewComboBoxColumn11 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
-        Dim GridViewComboBoxColumn12 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
+        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim GridViewComboBoxColumn1 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
+        Dim GridViewComboBoxColumn2 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.mnfile = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnclose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadPageView2 = New Telerik.WinControls.UI.RadPageView()
@@ -38,6 +39,11 @@ Partial Class frmgloption
         Me.lblaccountsegment = New common.Controls.MyLabel()
         Me.dgvsegment = New common.UserControls.MyRadGridView()
         Me.pvsegment = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.GBUpdateCA = New System.Windows.Forms.GroupBox()
+        Me.RadButton300 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton299 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton298 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton297 = New Telerik.WinControls.UI.RadButton()
         Me.chkDoubleClickSystem = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblClrAcc = New common.Controls.MyLabel()
         Me.TxtClrAcc = New common.UserControls.txtFinder()
@@ -71,11 +77,6 @@ Partial Class frmgloption
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.GBUpdateCA = New System.Windows.Forms.GroupBox()
-        Me.RadButton300 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton299 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton298 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton297 = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadPageView2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView2.SuspendLayout()
         Me.pvposting.SuspendLayout()
@@ -85,6 +86,11 @@ Partial Class frmgloption
         CType(Me.dgvsegment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dgvsegment.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pvsegment.SuspendLayout()
+        Me.GBUpdateCA.SuspendLayout()
+        CType(Me.RadButton300, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton299, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton298, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton297, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDoubleClickSystem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblClrAcc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -113,26 +119,17 @@ Partial Class frmgloption
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        Me.GBUpdateCA.SuspendLayout()
-        CType(Me.RadButton300, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton299, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton298, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton297, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'mnfile
         '
-        Me.mnfile.AccessibleDescription = "File"
-        Me.mnfile.AccessibleName = "File"
         Me.mnfile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnclose})
         Me.mnfile.Name = "mnfile"
         Me.mnfile.Text = "File"
         '
         'mnclose
         '
-        Me.mnclose.AccessibleDescription = "Close"
-        Me.mnclose.AccessibleName = "Close"
         Me.mnclose.Name = "mnclose"
         Me.mnclose.Text = "Close"
         '
@@ -145,10 +142,9 @@ Partial Class frmgloption
         Me.RadPageView2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView2.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView2.Name = "RadPageView2"
-        Me.RadPageView2.SelectedPage = Me.pvsegment
+        Me.RadPageView2.SelectedPage = Me.pvposting
         Me.RadPageView2.Size = New System.Drawing.Size(832, 462)
         Me.RadPageView2.TabIndex = 0
-        Me.RadPageView2.Text = "Merge Accounts Setting for GL Entry"
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).AnimatedStripScrolling = True
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView2.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).UseDefaultDisabledPaint = True
@@ -207,6 +203,7 @@ Partial Class frmgloption
         Me.ddlaccountsegment.AutoCompleteDisplayMember = Nothing
         Me.ddlaccountsegment.AutoCompleteValueMember = Nothing
         Me.ddlaccountsegment.CalculationExpression = Nothing
+        Me.ddlaccountsegment.DropDownAnimationEnabled = True
         Me.ddlaccountsegment.FieldCode = Nothing
         Me.ddlaccountsegment.FieldDesc = Nothing
         Me.ddlaccountsegment.FieldMaxLength = 0
@@ -245,31 +242,34 @@ Partial Class frmgloption
         Me.dgvsegment.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgvsegment.Location = New System.Drawing.Point(16, 22)
         '
-        'dgvsegment
+        '
         '
         Me.dgvsegment.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        GridViewTextBoxColumn11.HeaderText = "Segment No"
-        GridViewTextBoxColumn11.Name = "column1"
-        GridViewTextBoxColumn11.ReadOnly = True
-        GridViewTextBoxColumn11.Width = 110
-        GridViewTextBoxColumn12.HeaderText = "Segment Name"
-        GridViewTextBoxColumn12.MaxLength = 12
-        GridViewTextBoxColumn12.Name = "column2"
-        GridViewTextBoxColumn12.Width = 260
-        GridViewDecimalColumn6.HeaderText = "Length"
-        GridViewDecimalColumn6.Maximum = New Decimal(New Integer() {20, 0, 0, 0})
-        GridViewDecimalColumn6.Minimum = New Decimal(New Integer() {0, 0, 0, 0})
-        GridViewDecimalColumn6.Name = "column3"
-        GridViewDecimalColumn6.Width = 71
-        GridViewComboBoxColumn11.HeaderText = "Use In Closing"
-        GridViewComboBoxColumn11.Name = "Use In Closing"
-        GridViewComboBoxColumn11.Width = 110
-        GridViewComboBoxColumn12.HeaderText = "Segments Filters For Report"
-        GridViewComboBoxColumn12.Name = "Segments Filters For Report"
-        GridViewComboBoxColumn12.Width = 200
-        Me.dgvsegment.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn11, GridViewTextBoxColumn12, GridViewDecimalColumn6, GridViewComboBoxColumn11, GridViewComboBoxColumn12})
+        GridViewTextBoxColumn1.HeaderText = "Segment No"
+        GridViewTextBoxColumn1.Name = "column1"
+        GridViewTextBoxColumn1.ReadOnly = True
+        GridViewTextBoxColumn1.Width = 110
+        GridViewTextBoxColumn2.HeaderText = "Segment Name"
+        GridViewTextBoxColumn2.MaxLength = 12
+        GridViewTextBoxColumn2.Name = "column2"
+        GridViewTextBoxColumn2.Width = 260
+        GridViewDecimalColumn1.HeaderText = "Length"
+        GridViewDecimalColumn1.Maximum = New Decimal(New Integer() {20, 0, 0, 0})
+        GridViewDecimalColumn1.Minimum = New Decimal(New Integer() {0, 0, 0, 0})
+        GridViewDecimalColumn1.Name = "column3"
+        GridViewDecimalColumn1.Width = 71
+        GridViewComboBoxColumn1.HeaderText = "Use In Closing"
+        GridViewComboBoxColumn1.Name = "Use In Closing"
+        GridViewComboBoxColumn1.Width = 110
+        GridViewComboBoxColumn2.HeaderText = "Segments Filters For Report"
+        GridViewComboBoxColumn2.Name = "Segments Filters For Report"
+        GridViewComboBoxColumn2.Width = 200
+        Me.dgvsegment.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewDecimalColumn1, GridViewComboBoxColumn1, GridViewComboBoxColumn2})
         Me.dgvsegment.MasterTemplate.EnableGrouping = False
+        Me.dgvsegment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvsegment.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvsegment.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvsegment.MyStopExport = False
         Me.dgvsegment.Name = "dgvsegment"
         Me.dgvsegment.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvsegment.ShowHeaderCellButtons = True
@@ -304,6 +304,52 @@ Partial Class frmgloption
         Me.pvsegment.Size = New System.Drawing.Size(811, 416)
         Me.pvsegment.Text = "Posting"
         '
+        'GBUpdateCA
+        '
+        Me.GBUpdateCA.Controls.Add(Me.RadButton300)
+        Me.GBUpdateCA.Controls.Add(Me.RadButton299)
+        Me.GBUpdateCA.Controls.Add(Me.RadButton298)
+        Me.GBUpdateCA.Controls.Add(Me.RadButton297)
+        Me.GBUpdateCA.Location = New System.Drawing.Point(326, 245)
+        Me.GBUpdateCA.Name = "GBUpdateCA"
+        Me.GBUpdateCA.Size = New System.Drawing.Size(186, 96)
+        Me.GBUpdateCA.TabIndex = 382
+        Me.GBUpdateCA.TabStop = False
+        Me.GBUpdateCA.Text = "Update Control Account"
+        Me.GBUpdateCA.Visible = False
+        '
+        'RadButton300
+        '
+        Me.RadButton300.Location = New System.Drawing.Point(7, 13)
+        Me.RadButton300.Name = "RadButton300"
+        Me.RadButton300.Size = New System.Drawing.Size(59, 24)
+        Me.RadButton300.TabIndex = 48
+        Me.RadButton300.Text = "Reset All"
+        '
+        'RadButton299
+        '
+        Me.RadButton299.Location = New System.Drawing.Point(69, 14)
+        Me.RadButton299.Name = "RadButton299"
+        Me.RadButton299.Size = New System.Drawing.Size(94, 24)
+        Me.RadButton299.TabIndex = 47
+        Me.RadButton299.Text = "Pick GL Account"
+        '
+        'RadButton298
+        '
+        Me.RadButton298.Location = New System.Drawing.Point(6, 66)
+        Me.RadButton298.Name = "RadButton298"
+        Me.RadButton298.Size = New System.Drawing.Size(157, 24)
+        Me.RadButton298.TabIndex = 46
+        Me.RadButton298.Text = "Update Control Account 'Y'"
+        '
+        'RadButton297
+        '
+        Me.RadButton297.Location = New System.Drawing.Point(6, 39)
+        Me.RadButton297.Name = "RadButton297"
+        Me.RadButton297.Size = New System.Drawing.Size(157, 24)
+        Me.RadButton297.TabIndex = 45
+        Me.RadButton297.Text = "Update Control Account 'N'"
+        '
         'chkDoubleClickSystem
         '
         Me.chkDoubleClickSystem.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -323,7 +369,6 @@ Partial Class frmgloption
         Me.lblClrAcc.Name = "lblClrAcc"
         Me.lblClrAcc.Size = New System.Drawing.Size(257, 19)
         Me.lblClrAcc.TabIndex = 46
-        Me.lblClrAcc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblClrAcc.TextWrap = False
         '
         'TxtClrAcc
@@ -681,7 +726,6 @@ Partial Class frmgloption
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(832, 20)
         Me.RadMenu2.TabIndex = 0
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'SplitContainer1
         '
@@ -703,52 +747,6 @@ Partial Class frmgloption
         Me.SplitContainer1.Size = New System.Drawing.Size(832, 491)
         Me.SplitContainer1.SplitterDistance = 462
         Me.SplitContainer1.TabIndex = 1
-        '
-        'GBUpdateCA
-        '
-        Me.GBUpdateCA.Controls.Add(Me.RadButton300)
-        Me.GBUpdateCA.Controls.Add(Me.RadButton299)
-        Me.GBUpdateCA.Controls.Add(Me.RadButton298)
-        Me.GBUpdateCA.Controls.Add(Me.RadButton297)
-        Me.GBUpdateCA.Location = New System.Drawing.Point(326, 245)
-        Me.GBUpdateCA.Name = "GBUpdateCA"
-        Me.GBUpdateCA.Size = New System.Drawing.Size(186, 96)
-        Me.GBUpdateCA.TabIndex = 382
-        Me.GBUpdateCA.TabStop = False
-        Me.GBUpdateCA.Text = "Update Control Account"
-        Me.GBUpdateCA.Visible = False
-        '
-        'RadButton300
-        '
-        Me.RadButton300.Location = New System.Drawing.Point(7, 13)
-        Me.RadButton300.Name = "RadButton300"
-        Me.RadButton300.Size = New System.Drawing.Size(59, 24)
-        Me.RadButton300.TabIndex = 48
-        Me.RadButton300.Text = "Reset All"
-        '
-        'RadButton299
-        '
-        Me.RadButton299.Location = New System.Drawing.Point(69, 14)
-        Me.RadButton299.Name = "RadButton299"
-        Me.RadButton299.Size = New System.Drawing.Size(94, 24)
-        Me.RadButton299.TabIndex = 47
-        Me.RadButton299.Text = "Pick GL Account"
-        '
-        'RadButton298
-        '
-        Me.RadButton298.Location = New System.Drawing.Point(6, 66)
-        Me.RadButton298.Name = "RadButton298"
-        Me.RadButton298.Size = New System.Drawing.Size(157, 24)
-        Me.RadButton298.TabIndex = 46
-        Me.RadButton298.Text = "Update Control Account 'Y'"
-        '
-        'RadButton297
-        '
-        Me.RadButton297.Location = New System.Drawing.Point(6, 39)
-        Me.RadButton297.Name = "RadButton297"
-        Me.RadButton297.Size = New System.Drawing.Size(157, 24)
-        Me.RadButton297.TabIndex = 45
-        Me.RadButton297.Text = "Update Control Account 'N'"
         '
         'frmgloption
         '
@@ -775,6 +773,11 @@ Partial Class frmgloption
         CType(Me.dgvsegment, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pvsegment.ResumeLayout(False)
         Me.pvsegment.PerformLayout()
+        Me.GBUpdateCA.ResumeLayout(False)
+        CType(Me.RadButton300, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton299, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton298, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton297, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDoubleClickSystem, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblClrAcc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -804,11 +807,6 @@ Partial Class frmgloption
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        Me.GBUpdateCA.ResumeLayout(False)
-        CType(Me.RadButton300, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton299, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton298, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton297, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

@@ -22,51 +22,55 @@ Partial Class FrmSectionStageMapping
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.txtdate = New common.Controls.MyDateTimePicker
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.txtsec_code = New common.UserControls.txtFinder
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.txtdesc = New common.Controls.MyLabel
-        Me.txtcategorycode = New common.UserControls.txtFinder
-        Me.lblMasterItem = New common.Controls.MyLabel
-        Me.txtcategoryname = New common.Controls.MyLabel
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.fndCode = New common.UserControls.txtNavigator
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage
-        Me.gv1 = New common.UserControls.MyRadGridView
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.btngridclose = New Telerik.WinControls.UI.RadButton
-        Me.gv_user = New common.UserControls.MyRadGridView
-        Me.Panel1 = New System.Windows.Forms.Panel
-        Me.MyLabel3 = New common.Controls.MyLabel
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnIMDetail = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnIMUser = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton
-        Me.RadGridView1 = New common.UserControls.MyRadGridView
-        Me.btnEXDetail = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnEXUser = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.rdmenufile = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnexportExcel = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnimportExcel = New Telerik.WinControls.UI.RadMenuItem
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.rdmenufile = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnexportExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnimportExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.txtdate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtsec_code = New common.UserControls.txtFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtdesc = New common.Controls.MyLabel()
+        Me.txtcategorycode = New common.UserControls.txtFinder()
+        Me.lblMasterItem = New common.Controls.MyLabel()
+        Me.txtcategoryname = New common.Controls.MyLabel()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.fndCode = New common.UserControls.txtNavigator()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.btngridclose = New Telerik.WinControls.UI.RadButton()
+        Me.gv_user = New common.UserControls.MyRadGridView()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnIMDetail = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnIMUser = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.RadGridView1 = New common.UserControls.MyRadGridView()
+        Me.btnEXDetail = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnEXUser = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -95,7 +99,6 @@ Partial Class FrmSectionStageMapping
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -153,15 +156,55 @@ Partial Class FrmSectionStageMapping
         Me.SplitContainer2.SplitterDistance = 115
         Me.SplitContainer2.TabIndex = 24
         '
+        'RadMenu1
+        '
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenufile})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(658, 20)
+        Me.RadMenu1.TabIndex = 47
+        Me.RadMenu1.Visible = False
+        '
+        'rdmenufile
+        '
+        Me.rdmenufile.AccessibleDescription = "RadMenuItem1"
+        Me.rdmenufile.AccessibleName = "RadMenuItem1"
+        Me.rdmenufile.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.rdmenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexportExcel, Me.btnimportExcel})
+        Me.rdmenufile.Name = "rdmenufile"
+        Me.rdmenufile.Text = "File"
+        '
+        'btnexportExcel
+        '
+        Me.btnexportExcel.Name = "btnexportExcel"
+        Me.btnexportExcel.Text = "Export Excel"
+        '
+        'btnimportExcel
+        '
+        Me.btnimportExcel.Name = "btnimportExcel"
+        Me.btnimportExcel.Text = "Import Excel"
+        '
         'txtdate
         '
+        Me.txtdate.CalculationExpression = Nothing
         Me.txtdate.CustomFormat = "dd/MM/yyyy"
+        Me.txtdate.FieldCode = Nothing
+        Me.txtdate.FieldDesc = Nothing
+        Me.txtdate.FieldMaxLength = 0
+        Me.txtdate.FieldName = Nothing
         Me.txtdate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtdate.isCalculatedField = False
+        Me.txtdate.IsSourceFromTable = False
+        Me.txtdate.IsSourceFromValueList = False
+        Me.txtdate.IsUnique = False
         Me.txtdate.Location = New System.Drawing.Point(521, 42)
         Me.txtdate.MendatroryField = False
         Me.txtdate.MyLinkLable1 = Me.MyLabel2
         Me.txtdate.MyLinkLable2 = Nothing
         Me.txtdate.Name = "txtdate"
+        Me.txtdate.ReferenceFieldDesc = Nothing
+        Me.txtdate.ReferenceFieldName = Nothing
+        Me.txtdate.ReferenceTableName = Nothing
         Me.txtdate.Size = New System.Drawing.Size(97, 20)
         Me.txtdate.TabIndex = 1
         Me.txtdate.TabStop = False
@@ -170,6 +213,7 @@ Partial Class FrmSectionStageMapping
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel2.Location = New System.Drawing.Point(486, 43)
         Me.MyLabel2.Name = "MyLabel2"
@@ -179,6 +223,15 @@ Partial Class FrmSectionStageMapping
         '
         'txtsec_code
         '
+        Me.txtsec_code.CalculationExpression = Nothing
+        Me.txtsec_code.FieldCode = Nothing
+        Me.txtsec_code.FieldDesc = Nothing
+        Me.txtsec_code.FieldMaxLength = 0
+        Me.txtsec_code.FieldName = Nothing
+        Me.txtsec_code.isCalculatedField = False
+        Me.txtsec_code.IsSourceFromTable = False
+        Me.txtsec_code.IsSourceFromValueList = False
+        Me.txtsec_code.IsUnique = False
         Me.txtsec_code.Location = New System.Drawing.Point(132, 66)
         Me.txtsec_code.MendatroryField = True
         Me.txtsec_code.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -187,12 +240,16 @@ Partial Class FrmSectionStageMapping
         Me.txtsec_code.MyReadOnly = False
         Me.txtsec_code.MyShowMasterFormButton = False
         Me.txtsec_code.Name = "txtsec_code"
+        Me.txtsec_code.ReferenceFieldDesc = Nothing
+        Me.txtsec_code.ReferenceFieldName = Nothing
+        Me.txtsec_code.ReferenceTableName = Nothing
         Me.txtsec_code.Size = New System.Drawing.Size(135, 19)
         Me.txtsec_code.TabIndex = 2
         Me.txtsec_code.Value = ""
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel1.Location = New System.Drawing.Point(12, 67)
         Me.MyLabel1.Name = "MyLabel1"
@@ -204,14 +261,23 @@ Partial Class FrmSectionStageMapping
         '
         Me.txtdesc.AutoSize = False
         Me.txtdesc.BorderVisible = True
+        Me.txtdesc.FieldName = Nothing
         Me.txtdesc.Location = New System.Drawing.Point(269, 66)
         Me.txtdesc.Name = "txtdesc"
         Me.txtdesc.Size = New System.Drawing.Size(349, 19)
         Me.txtdesc.TabIndex = 41
-        Me.txtdesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtcategorycode
         '
+        Me.txtcategorycode.CalculationExpression = Nothing
+        Me.txtcategorycode.FieldCode = Nothing
+        Me.txtcategorycode.FieldDesc = Nothing
+        Me.txtcategorycode.FieldMaxLength = 0
+        Me.txtcategorycode.FieldName = Nothing
+        Me.txtcategorycode.isCalculatedField = False
+        Me.txtcategorycode.IsSourceFromTable = False
+        Me.txtcategorycode.IsSourceFromValueList = False
+        Me.txtcategorycode.IsUnique = False
         Me.txtcategorycode.Location = New System.Drawing.Point(132, 90)
         Me.txtcategorycode.MendatroryField = True
         Me.txtcategorycode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -220,12 +286,16 @@ Partial Class FrmSectionStageMapping
         Me.txtcategorycode.MyReadOnly = False
         Me.txtcategorycode.MyShowMasterFormButton = False
         Me.txtcategorycode.Name = "txtcategorycode"
+        Me.txtcategorycode.ReferenceFieldDesc = Nothing
+        Me.txtcategorycode.ReferenceFieldName = Nothing
+        Me.txtcategorycode.ReferenceTableName = Nothing
         Me.txtcategorycode.Size = New System.Drawing.Size(135, 19)
         Me.txtcategorycode.TabIndex = 3
         Me.txtcategorycode.Value = ""
         '
         'lblMasterItem
         '
+        Me.lblMasterItem.FieldName = Nothing
         Me.lblMasterItem.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.lblMasterItem.Location = New System.Drawing.Point(12, 89)
         Me.lblMasterItem.Name = "lblMasterItem"
@@ -237,14 +307,15 @@ Partial Class FrmSectionStageMapping
         '
         Me.txtcategoryname.AutoSize = False
         Me.txtcategoryname.BorderVisible = True
+        Me.txtcategoryname.FieldName = Nothing
         Me.txtcategoryname.Location = New System.Drawing.Point(269, 90)
         Me.txtcategoryname.Name = "txtcategoryname"
         Me.txtcategoryname.Size = New System.Drawing.Size(349, 19)
         Me.txtcategoryname.TabIndex = 43
-        Me.txtcategoryname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.RadLabel1.Location = New System.Drawing.Point(12, 43)
         Me.RadLabel1.Name = "RadLabel1"
@@ -254,13 +325,14 @@ Partial Class FrmSectionStageMapping
         '
         'fndCode
         '
+        Me.fndCode.FieldName = Nothing
         Me.fndCode.Location = New System.Drawing.Point(132, 40)
         Me.fndCode.MendatroryField = True
         Me.fndCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.fndCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndCode.MyLinkLable1 = Me.RadLabel1
         Me.fndCode.MyLinkLable2 = Nothing
-        Me.fndCode.MyMaxLength = 32767
+        Me.fndCode.MyMaxLength = 30
         Me.fndCode.MyReadOnly = False
         Me.fndCode.Name = "fndCode"
         Me.fndCode.Size = New System.Drawing.Size(247, 22)
@@ -286,7 +358,6 @@ Partial Class FrmSectionStageMapping
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(652, 295)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -310,27 +381,31 @@ Partial Class FrmSectionStageMapping
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.AllowDragToGroup = False
         Me.gv1.MasterTemplate.EnableGrouping = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(631, 226)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.RadGroupBox1.Controls.Add(Me.btngridclose)
         Me.RadGroupBox1.Controls.Add(Me.gv_user)
         Me.RadGroupBox1.HeaderText = "User Detail"
@@ -362,18 +437,22 @@ Partial Class FrmSectionStageMapping
         '
         Me.gv_user.Location = New System.Drawing.Point(5, 22)
         '
-        'gv_user
+        '
         '
         Me.gv_user.MasterTemplate.AllowAddNewRow = False
         Me.gv_user.MasterTemplate.AllowDeleteRow = False
         Me.gv_user.MasterTemplate.AllowDragToGroup = False
         Me.gv_user.MasterTemplate.EnableFiltering = True
         Me.gv_user.MasterTemplate.EnableGrouping = False
+        Me.gv_user.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv_user.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_user.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv_user.MyStopExport = False
         Me.gv_user.Name = "gv_user"
         Me.gv_user.ShowGroupPanel = False
+        Me.gv_user.ShowHeaderCellButtons = True
         Me.gv_user.Size = New System.Drawing.Size(334, 165)
         Me.gv_user.TabIndex = 0
-        Me.gv_user.Text = "RadGridView1"
         '
         'Panel1
         '
@@ -387,6 +466,7 @@ Partial Class FrmSectionStageMapping
         'MyLabel3
         '
         Me.MyLabel3.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.ForeColor = System.Drawing.Color.FromArgb(CType(CType(0, Byte), Integer), CType(CType(0, Byte), Integer), CType(CType(192, Byte), Integer))
         Me.MyLabel3.Location = New System.Drawing.Point(367, 0)
@@ -446,37 +526,25 @@ Partial Class FrmSectionStageMapping
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnImport})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnImport
         '
-        Me.btnImport.AccessibleDescription = "Import"
-        Me.btnImport.AccessibleName = "Import"
         Me.btnImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnIMDetail, Me.btnIMUser})
         Me.btnImport.Name = "btnImport"
         Me.btnImport.Text = "Import"
-        Me.btnImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnIMDetail
         '
-        Me.btnIMDetail.AccessibleDescription = "Detail Import"
-        Me.btnIMDetail.AccessibleName = "Detail Import"
         Me.btnIMDetail.Name = "btnIMDetail"
         Me.btnIMDetail.Text = "Detail Import"
-        Me.btnIMDetail.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnIMUser
         '
-        Me.btnIMUser.AccessibleDescription = "User Import"
-        Me.btnIMUser.AccessibleName = "User Import"
         Me.btnIMUser.Name = "btnIMUser"
         Me.btnIMUser.Text = "User Import"
-        Me.btnIMUser.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadButton1
         '
@@ -500,72 +568,31 @@ Partial Class FrmSectionStageMapping
         Me.RadGridView1.MasterTemplate.AllowDragToGroup = False
         Me.RadGridView1.MasterTemplate.EnableFiltering = True
         Me.RadGridView1.MasterTemplate.EnableGrouping = False
+        Me.RadGridView1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.RadGridView1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.RadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.RadGridView1.MyStopExport = False
         Me.RadGridView1.Name = "RadGridView1"
         Me.RadGridView1.ShowGroupPanel = False
+        Me.RadGridView1.ShowHeaderCellButtons = True
         Me.RadGridView1.Size = New System.Drawing.Size(334, 165)
         Me.RadGridView1.TabIndex = 0
-        Me.RadGridView1.Text = "RadGridView1"
         '
         'btnEXDetail
         '
-        Me.btnEXDetail.AccessibleDescription = "Detail Export"
-        Me.btnEXDetail.AccessibleName = "Detail Export"
         Me.btnEXDetail.Name = "btnEXDetail"
         Me.btnEXDetail.Text = "Detail Export"
-        Me.btnEXDetail.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnEXUser
         '
-        Me.btnEXUser.AccessibleDescription = "User Export"
-        Me.btnEXUser.AccessibleName = "User Export"
         Me.btnEXUser.Name = "btnEXUser"
         Me.btnEXUser.Text = "User Export"
-        Me.btnEXUser.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnExport
         '
-        Me.btnExport.AccessibleDescription = "Export"
-        Me.btnExport.AccessibleName = "Export"
         Me.btnExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnEXDetail, Me.btnEXUser})
         Me.btnExport.Name = "btnExport"
         Me.btnExport.Text = "Export"
-        Me.btnExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
-        '
-        'RadMenu1
-        '
-        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenufile})
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(658, 20)
-        Me.RadMenu1.TabIndex = 47
-        Me.RadMenu1.Text = "RadMenu1"
-        Me.RadMenu1.Visible = False
-        '
-        'rdmenufile
-        '
-        Me.rdmenufile.AccessibleDescription = "RadMenuItem1"
-        Me.rdmenufile.AccessibleName = "RadMenuItem1"
-        Me.rdmenufile.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rdmenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexportExcel, Me.btnimportExcel})
-        Me.rdmenufile.Name = "rdmenufile"
-        Me.rdmenufile.Text = "File"
-        Me.rdmenufile.Visibility = Telerik.WinControls.ElementVisibility.Visible
-        '
-        'btnexportExcel
-        '
-        Me.btnexportExcel.AccessibleDescription = "Export Excel"
-        Me.btnexportExcel.AccessibleName = "Export Excel"
-        Me.btnexportExcel.Name = "btnexportExcel"
-        Me.btnexportExcel.Text = "Export Excel"
-        Me.btnexportExcel.Visibility = Telerik.WinControls.ElementVisibility.Visible
-        '
-        'btnimportExcel
-        '
-        Me.btnimportExcel.AccessibleDescription = "Import Excel"
-        Me.btnimportExcel.AccessibleName = "Import Excel"
-        Me.btnimportExcel.Name = "btnimportExcel"
-        Me.btnimportExcel.Text = "Import Excel"
-        Me.btnimportExcel.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'FrmSectionStageMapping
         '
@@ -586,6 +613,7 @@ Partial Class FrmSectionStageMapping
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -616,7 +644,6 @@ Partial Class FrmSectionStageMapping
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGridView1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

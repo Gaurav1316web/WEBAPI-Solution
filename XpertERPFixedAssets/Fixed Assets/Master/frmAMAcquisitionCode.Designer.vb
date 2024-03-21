@@ -24,10 +24,10 @@ Partial Class FrmAMAcquisitionCode
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblVendorName = New common.Controls.MyLabel()
         Me.lblDefaultAcct = New common.Controls.MyLabel()
@@ -103,12 +103,12 @@ Partial Class FrmAMAcquisitionCode
         '
         Me.lblVendorName.AutoSize = False
         Me.lblVendorName.BorderVisible = True
+        Me.lblVendorName.FieldName = Nothing
         Me.lblVendorName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblVendorName.Location = New System.Drawing.Point(275, 107)
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(429, 18)
         Me.lblVendorName.TabIndex = 56
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         Me.lblVendorName.Visible = False
         '
@@ -116,16 +116,25 @@ Partial Class FrmAMAcquisitionCode
         '
         Me.lblDefaultAcct.AutoSize = False
         Me.lblDefaultAcct.BorderVisible = True
+        Me.lblDefaultAcct.FieldName = Nothing
         Me.lblDefaultAcct.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDefaultAcct.Location = New System.Drawing.Point(275, 83)
         Me.lblDefaultAcct.Name = "lblDefaultAcct"
         Me.lblDefaultAcct.Size = New System.Drawing.Size(429, 18)
         Me.lblDefaultAcct.TabIndex = 55
-        Me.lblDefaultAcct.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDefaultAcct.TextWrap = False
         '
         'txtAccount
         '
+        Me.txtAccount.CalculationExpression = Nothing
+        Me.txtAccount.FieldCode = Nothing
+        Me.txtAccount.FieldDesc = Nothing
+        Me.txtAccount.FieldMaxLength = 0
+        Me.txtAccount.FieldName = Nothing
+        Me.txtAccount.isCalculatedField = False
+        Me.txtAccount.IsSourceFromTable = False
+        Me.txtAccount.IsSourceFromValueList = False
+        Me.txtAccount.IsUnique = False
         Me.txtAccount.Location = New System.Drawing.Point(110, 83)
         Me.txtAccount.MendatroryField = True
         Me.txtAccount.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -134,12 +143,24 @@ Partial Class FrmAMAcquisitionCode
         Me.txtAccount.MyReadOnly = False
         Me.txtAccount.MyShowMasterFormButton = False
         Me.txtAccount.Name = "txtAccount"
+        Me.txtAccount.ReferenceFieldDesc = Nothing
+        Me.txtAccount.ReferenceFieldName = Nothing
+        Me.txtAccount.ReferenceTableName = Nothing
         Me.txtAccount.Size = New System.Drawing.Size(159, 18)
         Me.txtAccount.TabIndex = 5
         Me.txtAccount.Value = ""
         '
         'txtVendor
         '
+        Me.txtVendor.CalculationExpression = Nothing
+        Me.txtVendor.FieldCode = Nothing
+        Me.txtVendor.FieldDesc = Nothing
+        Me.txtVendor.FieldMaxLength = 0
+        Me.txtVendor.FieldName = Nothing
+        Me.txtVendor.isCalculatedField = False
+        Me.txtVendor.IsSourceFromTable = False
+        Me.txtVendor.IsSourceFromValueList = False
+        Me.txtVendor.IsUnique = False
         Me.txtVendor.Location = New System.Drawing.Point(111, 106)
         Me.txtVendor.MendatroryField = True
         Me.txtVendor.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -148,6 +169,9 @@ Partial Class FrmAMAcquisitionCode
         Me.txtVendor.MyReadOnly = False
         Me.txtVendor.MyShowMasterFormButton = False
         Me.txtVendor.Name = "txtVendor"
+        Me.txtVendor.ReferenceFieldDesc = Nothing
+        Me.txtVendor.ReferenceFieldName = Nothing
+        Me.txtVendor.ReferenceTableName = Nothing
         Me.txtVendor.Size = New System.Drawing.Size(158, 18)
         Me.txtVendor.TabIndex = 6
         Me.txtVendor.Value = ""
@@ -155,45 +179,83 @@ Partial Class FrmAMAcquisitionCode
         '
         'cmbType
         '
+        Me.cmbType.CalculationExpression = Nothing
+        Me.cmbType.DropDownAnimationEnabled = True
         Me.cmbType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbType.FieldCode = Nothing
+        Me.cmbType.FieldDesc = Nothing
+        Me.cmbType.FieldMaxLength = 0
+        Me.cmbType.FieldName = Nothing
         Me.cmbType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        RadListDataItem5.Text = "Create A/P Invoice"
-        RadListDataItem6.Text = "Create Misc Payment"
-        Me.cmbType.Items.Add(RadListDataItem5)
-        Me.cmbType.Items.Add(RadListDataItem6)
+        Me.cmbType.isCalculatedField = False
+        Me.cmbType.IsSourceFromTable = False
+        Me.cmbType.IsSourceFromValueList = False
+        Me.cmbType.IsUnique = False
+        RadListDataItem1.Text = "Create A/P Invoice"
+        RadListDataItem2.Text = "Create Misc Payment"
+        Me.cmbType.Items.Add(RadListDataItem1)
+        Me.cmbType.Items.Add(RadListDataItem2)
         Me.cmbType.Location = New System.Drawing.Point(351, 59)
         Me.cmbType.MendatroryField = False
         Me.cmbType.MyLinkLable1 = Nothing
         Me.cmbType.MyLinkLable2 = Nothing
         Me.cmbType.Name = "cmbType"
+        Me.cmbType.ReferenceFieldDesc = Nothing
+        Me.cmbType.ReferenceFieldName = Nothing
+        Me.cmbType.ReferenceTableName = Nothing
         Me.cmbType.Size = New System.Drawing.Size(159, 18)
         Me.cmbType.TabIndex = 4
         '
         'cmbAcqWith
         '
+        Me.cmbAcqWith.CalculationExpression = Nothing
+        Me.cmbAcqWith.DropDownAnimationEnabled = True
         Me.cmbAcqWith.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbAcqWith.FieldCode = Nothing
+        Me.cmbAcqWith.FieldDesc = Nothing
+        Me.cmbAcqWith.FieldMaxLength = 0
+        Me.cmbAcqWith.FieldName = Nothing
         Me.cmbAcqWith.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        RadListDataItem1.Text = "AP"
-        RadListDataItem2.Text = "GL"
-        Me.cmbAcqWith.Items.Add(RadListDataItem1)
-        Me.cmbAcqWith.Items.Add(RadListDataItem2)
+        Me.cmbAcqWith.isCalculatedField = False
+        Me.cmbAcqWith.IsSourceFromTable = False
+        Me.cmbAcqWith.IsSourceFromValueList = False
+        Me.cmbAcqWith.IsUnique = False
+        RadListDataItem3.Text = "AP"
+        RadListDataItem4.Text = "GL"
+        Me.cmbAcqWith.Items.Add(RadListDataItem3)
+        Me.cmbAcqWith.Items.Add(RadListDataItem4)
         Me.cmbAcqWith.Location = New System.Drawing.Point(110, 59)
         Me.cmbAcqWith.MendatroryField = False
         Me.cmbAcqWith.MyLinkLable1 = Nothing
         Me.cmbAcqWith.MyLinkLable2 = Nothing
         Me.cmbAcqWith.Name = "cmbAcqWith"
+        Me.cmbAcqWith.ReferenceFieldDesc = Nothing
+        Me.cmbAcqWith.ReferenceFieldName = Nothing
+        Me.cmbAcqWith.ReferenceTableName = Nothing
         Me.cmbAcqWith.Size = New System.Drawing.Size(159, 18)
         Me.cmbAcqWith.TabIndex = 3
         '
         'txtDesc
         '
+        Me.txtDesc.CalculationExpression = Nothing
+        Me.txtDesc.FieldCode = Nothing
+        Me.txtDesc.FieldDesc = Nothing
+        Me.txtDesc.FieldMaxLength = 0
+        Me.txtDesc.FieldName = Nothing
         Me.txtDesc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDesc.isCalculatedField = False
+        Me.txtDesc.IsSourceFromTable = False
+        Me.txtDesc.IsSourceFromValueList = False
+        Me.txtDesc.IsUnique = False
         Me.txtDesc.Location = New System.Drawing.Point(110, 38)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Nothing
         Me.txtDesc.MyLinkLable2 = Nothing
         Me.txtDesc.Name = "txtDesc"
+        Me.txtDesc.ReferenceFieldDesc = Nothing
+        Me.txtDesc.ReferenceFieldName = Nothing
+        Me.txtDesc.ReferenceTableName = Nothing
         Me.txtDesc.Size = New System.Drawing.Size(594, 18)
         Me.txtDesc.TabIndex = 2
         '
@@ -209,13 +271,14 @@ Partial Class FrmAMAcquisitionCode
         '
         'txtAcqCode
         '
+        Me.txtAcqCode.FieldName = Nothing
         Me.txtAcqCode.Location = New System.Drawing.Point(110, 11)
         Me.txtAcqCode.MendatroryField = False
         Me.txtAcqCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.txtAcqCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtAcqCode.MyLinkLable1 = Nothing
         Me.txtAcqCode.MyLinkLable2 = Nothing
-        Me.txtAcqCode.MyMaxLength = 32767
+        Me.txtAcqCode.MyMaxLength = 30
         Me.txtAcqCode.MyReadOnly = False
         Me.txtAcqCode.Name = "txtAcqCode"
         Me.txtAcqCode.Size = New System.Drawing.Size(264, 20)
@@ -314,27 +377,20 @@ Partial Class FrmAMAcquisitionCode
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(720, 20)
         Me.RadMenu1.TabIndex = 323
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmImport, Me.rmExport})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
         '

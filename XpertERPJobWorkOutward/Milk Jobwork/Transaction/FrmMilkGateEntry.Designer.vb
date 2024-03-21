@@ -22,6 +22,9 @@ Partial Class FrmMilkGateEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.mnuSetting = New Telerik.WinControls.UI.RadMenuItem()
@@ -154,34 +157,25 @@ Partial Class FrmMilkGateEntry
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(779, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'mnuSetting
         '
-        Me.mnuSetting.AccessibleDescription = "Setting"
-        Me.mnuSetting.AccessibleName = "Setting"
         Me.mnuSetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuSaveLayout, Me.mnuDeleteLayout, Me.mnuExit})
         Me.mnuSetting.Name = "mnuSetting"
         Me.mnuSetting.Text = "Setting"
         '
         'mnuSaveLayout
         '
-        Me.mnuSaveLayout.AccessibleDescription = "Save Layout"
-        Me.mnuSaveLayout.AccessibleName = "Save Layout"
         Me.mnuSaveLayout.Name = "mnuSaveLayout"
         Me.mnuSaveLayout.Text = "Save Layout"
         '
         'mnuDeleteLayout
         '
-        Me.mnuDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.mnuDeleteLayout.AccessibleName = "Delete Layout"
         Me.mnuDeleteLayout.Name = "mnuDeleteLayout"
         Me.mnuDeleteLayout.Text = "Delete Layout"
         '
         'mnuExit
         '
-        Me.mnuExit.AccessibleDescription = "Exit"
-        Me.mnuExit.AccessibleName = "Exit"
         Me.mnuExit.Name = "mnuExit"
         Me.mnuExit.Text = "Exit"
         '
@@ -195,7 +189,6 @@ Partial Class FrmMilkGateEntry
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(779, 559)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         '
         'RadPageViewPage1
         '
@@ -271,6 +264,15 @@ Partial Class FrmMilkGateEntry
         '
         'fndTankerNo
         '
+        Me.fndTankerNo.CalculationExpression = Nothing
+        Me.fndTankerNo.FieldCode = Nothing
+        Me.fndTankerNo.FieldDesc = Nothing
+        Me.fndTankerNo.FieldMaxLength = 0
+        Me.fndTankerNo.FieldName = Nothing
+        Me.fndTankerNo.isCalculatedField = False
+        Me.fndTankerNo.IsSourceFromTable = False
+        Me.fndTankerNo.IsSourceFromValueList = False
+        Me.fndTankerNo.IsUnique = False
         Me.fndTankerNo.Location = New System.Drawing.Point(98, 68)
         Me.fndTankerNo.MendatroryField = True
         Me.fndTankerNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -279,12 +281,16 @@ Partial Class FrmMilkGateEntry
         Me.fndTankerNo.MyReadOnly = False
         Me.fndTankerNo.MyShowMasterFormButton = False
         Me.fndTankerNo.Name = "fndTankerNo"
+        Me.fndTankerNo.ReferenceFieldDesc = Nothing
+        Me.fndTankerNo.ReferenceFieldName = Nothing
+        Me.fndTankerNo.ReferenceTableName = Nothing
         Me.fndTankerNo.Size = New System.Drawing.Size(331, 20)
         Me.fndTankerNo.TabIndex = 273
         Me.fndTankerNo.Value = ""
         '
         'lblVendorBulk
         '
+        Me.lblVendorBulk.FieldName = Nothing
         Me.lblVendorBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblVendorBulk.Location = New System.Drawing.Point(11, 113)
         Me.lblVendorBulk.Name = "lblVendorBulk"
@@ -297,11 +303,11 @@ Partial Class FrmMilkGateEntry
         Me.txtDocType.AutoSize = False
         Me.txtDocType.BorderVisible = True
         Me.txtDocType.Controls.Add(Me.chkBoth)
+        Me.txtDocType.FieldName = Nothing
         Me.txtDocType.Location = New System.Drawing.Point(324, 17)
         Me.txtDocType.Name = "txtDocType"
         Me.txtDocType.Size = New System.Drawing.Size(115, 19)
         Me.txtDocType.TabIndex = 272
-        Me.txtDocType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtDocType.Visible = False
         '
         'chkBoth
@@ -326,7 +332,16 @@ Partial Class FrmMilkGateEntry
         '
         'fndChallanNoMcc
         '
+        Me.fndChallanNoMcc.CalculationExpression = Nothing
         Me.fndChallanNoMcc.Enabled = False
+        Me.fndChallanNoMcc.FieldCode = Nothing
+        Me.fndChallanNoMcc.FieldDesc = Nothing
+        Me.fndChallanNoMcc.FieldMaxLength = 0
+        Me.fndChallanNoMcc.FieldName = Nothing
+        Me.fndChallanNoMcc.isCalculatedField = False
+        Me.fndChallanNoMcc.IsSourceFromTable = False
+        Me.fndChallanNoMcc.IsSourceFromValueList = False
+        Me.fndChallanNoMcc.IsUnique = False
         Me.fndChallanNoMcc.Location = New System.Drawing.Point(98, 133)
         Me.fndChallanNoMcc.MendatroryField = True
         Me.fndChallanNoMcc.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -335,6 +350,9 @@ Partial Class FrmMilkGateEntry
         Me.fndChallanNoMcc.MyReadOnly = False
         Me.fndChallanNoMcc.MyShowMasterFormButton = False
         Me.fndChallanNoMcc.Name = "fndChallanNoMcc"
+        Me.fndChallanNoMcc.ReferenceFieldDesc = Nothing
+        Me.fndChallanNoMcc.ReferenceFieldName = Nothing
+        Me.fndChallanNoMcc.ReferenceTableName = Nothing
         Me.fndChallanNoMcc.Size = New System.Drawing.Size(331, 20)
         Me.fndChallanNoMcc.TabIndex = 4
         Me.fndChallanNoMcc.Value = ""
@@ -369,6 +387,7 @@ Partial Class FrmMilkGateEntry
         '
         'lblTankerNoBulk
         '
+        Me.lblTankerNoBulk.FieldName = Nothing
         Me.lblTankerNoBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTankerNoBulk.Location = New System.Drawing.Point(10, 72)
         Me.lblTankerNoBulk.Name = "lblTankerNoBulk"
@@ -379,7 +398,7 @@ Partial Class FrmMilkGateEntry
         'btnReset
         '
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Image = My.Resources._new
+        Me.btnReset.Image = Global.XpertERPJobWorkOutward.My.Resources.Resources._new
         Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnReset.Location = New System.Drawing.Point(410, 44)
         Me.btnReset.Name = "btnReset"
@@ -388,6 +407,7 @@ Partial Class FrmMilkGateEntry
         '
         'lblDateAndTimeBulk
         '
+        Me.lblDateAndTimeBulk.FieldName = Nothing
         Me.lblDateAndTimeBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDateAndTimeBulk.Location = New System.Drawing.Point(428, 44)
         Me.lblDateAndTimeBulk.Name = "lblDateAndTimeBulk"
@@ -397,13 +417,14 @@ Partial Class FrmMilkGateEntry
         '
         'fndGateEntryNO
         '
+        Me.fndGateEntryNO.FieldName = Nothing
         Me.fndGateEntryNO.Location = New System.Drawing.Point(97, 44)
         Me.fndGateEntryNO.MendatroryField = False
         Me.fndGateEntryNO.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.fndGateEntryNO.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndGateEntryNO.MyLinkLable1 = Me.lblGateEntryNO
         Me.fndGateEntryNO.MyLinkLable2 = Nothing
-        Me.fndGateEntryNO.MyMaxLength = 32767
+        Me.fndGateEntryNO.MyMaxLength = 30
         Me.fndGateEntryNO.MyReadOnly = False
         Me.fndGateEntryNO.Name = "fndGateEntryNO"
         Me.fndGateEntryNO.Size = New System.Drawing.Size(311, 21)
@@ -412,6 +433,7 @@ Partial Class FrmMilkGateEntry
         '
         'lblGateEntryNO
         '
+        Me.lblGateEntryNO.FieldName = Nothing
         Me.lblGateEntryNO.Location = New System.Drawing.Point(9, 45)
         Me.lblGateEntryNO.Name = "lblGateEntryNO"
         Me.lblGateEntryNO.Size = New System.Drawing.Size(82, 18)
@@ -421,11 +443,23 @@ Partial Class FrmMilkGateEntry
         'txtTankerNoBulk
         '
         Me.txtTankerNoBulk.BackColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(187, Byte), Integer), CType(CType(187, Byte), Integer))
+        Me.txtTankerNoBulk.CalculationExpression = Nothing
+        Me.txtTankerNoBulk.FieldCode = Nothing
+        Me.txtTankerNoBulk.FieldDesc = Nothing
+        Me.txtTankerNoBulk.FieldMaxLength = 0
+        Me.txtTankerNoBulk.FieldName = Nothing
+        Me.txtTankerNoBulk.isCalculatedField = False
+        Me.txtTankerNoBulk.IsSourceFromTable = False
+        Me.txtTankerNoBulk.IsSourceFromValueList = False
+        Me.txtTankerNoBulk.IsUnique = False
         Me.txtTankerNoBulk.Location = New System.Drawing.Point(99, 68)
         Me.txtTankerNoBulk.MendatroryField = True
         Me.txtTankerNoBulk.MyLinkLable1 = Me.lblTankerNoBulk
         Me.txtTankerNoBulk.MyLinkLable2 = Nothing
         Me.txtTankerNoBulk.Name = "txtTankerNoBulk"
+        Me.txtTankerNoBulk.ReferenceFieldDesc = Nothing
+        Me.txtTankerNoBulk.ReferenceFieldName = Nothing
+        Me.txtTankerNoBulk.ReferenceTableName = Nothing
         Me.txtTankerNoBulk.Size = New System.Drawing.Size(290, 20)
         Me.txtTankerNoBulk.TabIndex = 7
         '
@@ -433,16 +467,25 @@ Partial Class FrmMilkGateEntry
         '
         Me.lblVendorNameBulk.AutoSize = False
         Me.lblVendorNameBulk.BorderVisible = True
+        Me.lblVendorNameBulk.FieldName = Nothing
         Me.lblVendorNameBulk.Location = New System.Drawing.Point(432, 112)
         Me.lblVendorNameBulk.Name = "lblVendorNameBulk"
         Me.lblVendorNameBulk.Size = New System.Drawing.Size(308, 19)
         Me.lblVendorNameBulk.TabIndex = 271
-        Me.lblVendorNameBulk.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'dtpDateAndTimeBulk
         '
+        Me.dtpDateAndTimeBulk.CalculationExpression = Nothing
         Me.dtpDateAndTimeBulk.CustomFormat = "dd/MM/yyyy hh:mm tt"
+        Me.dtpDateAndTimeBulk.FieldCode = Nothing
+        Me.dtpDateAndTimeBulk.FieldDesc = Nothing
+        Me.dtpDateAndTimeBulk.FieldMaxLength = 0
+        Me.dtpDateAndTimeBulk.FieldName = Nothing
         Me.dtpDateAndTimeBulk.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpDateAndTimeBulk.isCalculatedField = False
+        Me.dtpDateAndTimeBulk.IsSourceFromTable = False
+        Me.dtpDateAndTimeBulk.IsSourceFromValueList = False
+        Me.dtpDateAndTimeBulk.IsUnique = False
         Me.dtpDateAndTimeBulk.Location = New System.Drawing.Point(560, 43)
         Me.dtpDateAndTimeBulk.MendatroryField = False
         Me.dtpDateAndTimeBulk.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -450,6 +493,9 @@ Partial Class FrmMilkGateEntry
         Me.dtpDateAndTimeBulk.MyLinkLable2 = Nothing
         Me.dtpDateAndTimeBulk.Name = "dtpDateAndTimeBulk"
         Me.dtpDateAndTimeBulk.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpDateAndTimeBulk.ReferenceFieldDesc = Nothing
+        Me.dtpDateAndTimeBulk.ReferenceFieldName = Nothing
+        Me.dtpDateAndTimeBulk.ReferenceTableName = Nothing
         Me.dtpDateAndTimeBulk.Size = New System.Drawing.Size(185, 20)
         Me.dtpDateAndTimeBulk.TabIndex = 1
         Me.dtpDateAndTimeBulk.TabStop = False
@@ -459,16 +505,29 @@ Partial Class FrmMilkGateEntry
         'txtChallanNoBulk
         '
         Me.txtChallanNoBulk.BackColor = System.Drawing.Color.FromArgb(CType(CType(208, Byte), Integer), CType(CType(187, Byte), Integer), CType(CType(187, Byte), Integer))
+        Me.txtChallanNoBulk.CalculationExpression = Nothing
+        Me.txtChallanNoBulk.FieldCode = Nothing
+        Me.txtChallanNoBulk.FieldDesc = Nothing
+        Me.txtChallanNoBulk.FieldMaxLength = 0
+        Me.txtChallanNoBulk.FieldName = Nothing
+        Me.txtChallanNoBulk.isCalculatedField = False
+        Me.txtChallanNoBulk.IsSourceFromTable = False
+        Me.txtChallanNoBulk.IsSourceFromValueList = False
+        Me.txtChallanNoBulk.IsUnique = False
         Me.txtChallanNoBulk.Location = New System.Drawing.Point(98, 133)
         Me.txtChallanNoBulk.MendatroryField = True
         Me.txtChallanNoBulk.MyLinkLable1 = Me.lblChallanNoBulk
         Me.txtChallanNoBulk.MyLinkLable2 = Nothing
         Me.txtChallanNoBulk.Name = "txtChallanNoBulk"
+        Me.txtChallanNoBulk.ReferenceFieldDesc = Nothing
+        Me.txtChallanNoBulk.ReferenceFieldName = Nothing
+        Me.txtChallanNoBulk.ReferenceTableName = Nothing
         Me.txtChallanNoBulk.Size = New System.Drawing.Size(290, 20)
         Me.txtChallanNoBulk.TabIndex = 3
         '
         'lblChallanNoBulk
         '
+        Me.lblChallanNoBulk.FieldName = Nothing
         Me.lblChallanNoBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChallanNoBulk.Location = New System.Drawing.Point(10, 134)
         Me.lblChallanNoBulk.Name = "lblChallanNoBulk"
@@ -478,6 +537,7 @@ Partial Class FrmMilkGateEntry
         '
         'lblLocationBulk
         '
+        Me.lblLocationBulk.FieldName = Nothing
         Me.lblLocationBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLocationBulk.Location = New System.Drawing.Point(11, 90)
         Me.lblLocationBulk.Name = "lblLocationBulk"
@@ -487,6 +547,15 @@ Partial Class FrmMilkGateEntry
         '
         'fndVendorBulk
         '
+        Me.fndVendorBulk.CalculationExpression = Nothing
+        Me.fndVendorBulk.FieldCode = Nothing
+        Me.fndVendorBulk.FieldDesc = Nothing
+        Me.fndVendorBulk.FieldMaxLength = 0
+        Me.fndVendorBulk.FieldName = Nothing
+        Me.fndVendorBulk.isCalculatedField = False
+        Me.fndVendorBulk.IsSourceFromTable = False
+        Me.fndVendorBulk.IsSourceFromValueList = False
+        Me.fndVendorBulk.IsUnique = False
         Me.fndVendorBulk.Location = New System.Drawing.Point(97, 112)
         Me.fndVendorBulk.MendatroryField = True
         Me.fndVendorBulk.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -495,14 +564,26 @@ Partial Class FrmMilkGateEntry
         Me.fndVendorBulk.MyReadOnly = False
         Me.fndVendorBulk.MyShowMasterFormButton = False
         Me.fndVendorBulk.Name = "fndVendorBulk"
+        Me.fndVendorBulk.ReferenceFieldDesc = Nothing
+        Me.fndVendorBulk.ReferenceFieldName = Nothing
+        Me.fndVendorBulk.ReferenceTableName = Nothing
         Me.fndVendorBulk.Size = New System.Drawing.Size(331, 19)
         Me.fndVendorBulk.TabIndex = 6
         Me.fndVendorBulk.Value = ""
         '
         'dtpChallanDateBulk
         '
+        Me.dtpChallanDateBulk.CalculationExpression = Nothing
         Me.dtpChallanDateBulk.CustomFormat = "dd/MM/yyyy"
+        Me.dtpChallanDateBulk.FieldCode = Nothing
+        Me.dtpChallanDateBulk.FieldDesc = Nothing
+        Me.dtpChallanDateBulk.FieldMaxLength = 0
+        Me.dtpChallanDateBulk.FieldName = Nothing
         Me.dtpChallanDateBulk.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpChallanDateBulk.isCalculatedField = False
+        Me.dtpChallanDateBulk.IsSourceFromTable = False
+        Me.dtpChallanDateBulk.IsSourceFromValueList = False
+        Me.dtpChallanDateBulk.IsUnique = False
         Me.dtpChallanDateBulk.Location = New System.Drawing.Point(530, 136)
         Me.dtpChallanDateBulk.MendatroryField = False
         Me.dtpChallanDateBulk.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -510,6 +591,9 @@ Partial Class FrmMilkGateEntry
         Me.dtpChallanDateBulk.MyLinkLable2 = Nothing
         Me.dtpChallanDateBulk.Name = "dtpChallanDateBulk"
         Me.dtpChallanDateBulk.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpChallanDateBulk.ReferenceFieldDesc = Nothing
+        Me.dtpChallanDateBulk.ReferenceFieldName = Nothing
+        Me.dtpChallanDateBulk.ReferenceTableName = Nothing
         Me.dtpChallanDateBulk.Size = New System.Drawing.Size(221, 20)
         Me.dtpChallanDateBulk.TabIndex = 5
         Me.dtpChallanDateBulk.TabStop = False
@@ -518,6 +602,7 @@ Partial Class FrmMilkGateEntry
         '
         'lblChallanDateBulk
         '
+        Me.lblChallanDateBulk.FieldName = Nothing
         Me.lblChallanDateBulk.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblChallanDateBulk.Location = New System.Drawing.Point(432, 137)
         Me.lblChallanDateBulk.Name = "lblChallanDateBulk"
@@ -529,14 +614,23 @@ Partial Class FrmMilkGateEntry
         '
         Me.lblLocationDecBulk.AutoSize = False
         Me.lblLocationDecBulk.BorderVisible = True
+        Me.lblLocationDecBulk.FieldName = Nothing
         Me.lblLocationDecBulk.Location = New System.Drawing.Point(431, 90)
         Me.lblLocationDecBulk.Name = "lblLocationDecBulk"
         Me.lblLocationDecBulk.Size = New System.Drawing.Size(307, 19)
         Me.lblLocationDecBulk.TabIndex = 271
-        Me.lblLocationDecBulk.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndLocationBulk
         '
+        Me.fndLocationBulk.CalculationExpression = Nothing
+        Me.fndLocationBulk.FieldCode = Nothing
+        Me.fndLocationBulk.FieldDesc = Nothing
+        Me.fndLocationBulk.FieldMaxLength = 0
+        Me.fndLocationBulk.FieldName = Nothing
+        Me.fndLocationBulk.isCalculatedField = False
+        Me.fndLocationBulk.IsSourceFromTable = False
+        Me.fndLocationBulk.IsSourceFromValueList = False
+        Me.fndLocationBulk.IsUnique = False
         Me.fndLocationBulk.Location = New System.Drawing.Point(98, 90)
         Me.fndLocationBulk.MendatroryField = True
         Me.fndLocationBulk.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -545,6 +639,9 @@ Partial Class FrmMilkGateEntry
         Me.fndLocationBulk.MyReadOnly = False
         Me.fndLocationBulk.MyShowMasterFormButton = False
         Me.fndLocationBulk.Name = "fndLocationBulk"
+        Me.fndLocationBulk.ReferenceFieldDesc = Nothing
+        Me.fndLocationBulk.ReferenceFieldName = Nothing
+        Me.fndLocationBulk.ReferenceTableName = Nothing
         Me.fndLocationBulk.Size = New System.Drawing.Size(331, 19)
         Me.fndLocationBulk.TabIndex = 2
         Me.fndLocationBulk.Value = ""
@@ -565,10 +662,17 @@ Partial Class FrmMilkGateEntry
         '
         Me.gvItemBulk.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvItemBulk.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvItemBulk.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvItemBulk.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItemBulk.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItemBulk.MyStopExport = False
         Me.gvItemBulk.Name = "gvItemBulk"
+        Me.gvItemBulk.ShowHeaderCellButtons = True
         Me.gvItemBulk.Size = New System.Drawing.Size(754, 289)
         Me.gvItemBulk.TabIndex = 264
-        Me.gvItemBulk.Text = "RadGridView1"
         '
         'btnReverse
         '
@@ -663,10 +767,17 @@ Partial Class FrmMilkGateEntry
         '
         Me.gvManualSeal.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvManualSeal.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvManualSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvManualSeal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvManualSeal.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvManualSeal.MyStopExport = False
         Me.gvManualSeal.Name = "gvManualSeal"
+        Me.gvManualSeal.ShowHeaderCellButtons = True
         Me.gvManualSeal.Size = New System.Drawing.Size(369, 491)
         Me.gvManualSeal.TabIndex = 202
-        Me.gvManualSeal.Text = "RadGridView1"
         '
         'RadGroupBox2
         '
@@ -684,10 +795,17 @@ Partial Class FrmMilkGateEntry
         '
         Me.gvPaperSeal.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvPaperSeal.Location = New System.Drawing.Point(2, 18)
+        '
+        '
+        '
+        Me.gvPaperSeal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvPaperSeal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvPaperSeal.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvPaperSeal.MyStopExport = False
         Me.gvPaperSeal.Name = "gvPaperSeal"
+        Me.gvPaperSeal.ShowHeaderCellButtons = True
         Me.gvPaperSeal.Size = New System.Drawing.Size(377, 491)
         Me.gvPaperSeal.TabIndex = 202
-        Me.gvPaperSeal.Text = "RadGridView1"
         '
         'FrmMilkGateEntry
         '

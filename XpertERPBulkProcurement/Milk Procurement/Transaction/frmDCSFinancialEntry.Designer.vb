@@ -21,6 +21,7 @@ Partial Class frmDCSFinancialEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lblDescription = New common.Controls.MyLabel()
@@ -177,6 +178,7 @@ Partial Class frmDCSFinancialEntry
         '
         Me.cboType.AutoCompleteDisplayMember = Nothing
         Me.cboType.AutoCompleteValueMember = Nothing
+        Me.cboType.DropDownAnimationEnabled = True
         Me.cboType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboType.Location = New System.Drawing.Point(80, 73)
         Me.cboType.Name = "cboType"
@@ -192,7 +194,6 @@ Partial Class frmDCSFinancialEntry
         Me.lblFiscalYear.Name = "lblFiscalYear"
         Me.lblFiscalYear.Size = New System.Drawing.Size(292, 19)
         Me.lblFiscalYear.TabIndex = 12
-        Me.lblFiscalYear.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtFiscalYear
         '
@@ -250,7 +251,6 @@ Partial Class frmDCSFinancialEntry
         Me.lblDCSName.Name = "lblDCSName"
         Me.lblDCSName.Size = New System.Drawing.Size(292, 19)
         Me.lblDCSName.TabIndex = 11
-        Me.lblDCSName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtDCS
         '
@@ -356,7 +356,7 @@ Partial Class frmDCSFinancialEntry
         Me.txtDocumentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocumentNo.MyLinkLable1 = Me.lblCode
         Me.txtDocumentNo.MyLinkLable2 = Nothing
-        Me.txtDocumentNo.MyMaxLength = 32767
+        Me.txtDocumentNo.MyMaxLength = 30
         Me.txtDocumentNo.MyReadOnly = False
         Me.txtDocumentNo.Name = "txtDocumentNo"
         Me.txtDocumentNo.Size = New System.Drawing.Size(256, 20)
@@ -368,16 +368,18 @@ Partial Class frmDCSFinancialEntry
         Me.gvItem.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvItem.Location = New System.Drawing.Point(0, 0)
         '
-        'gvItem
+        '
         '
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
+        Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(825, 317)
         Me.gvItem.TabIndex = 0
         Me.gvItem.TabStop = False
-        Me.gvItem.Text = "RadGridView1"
         '
         'btnPost
         '

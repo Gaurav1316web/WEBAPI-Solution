@@ -179,7 +179,7 @@ Partial Class frmMRP
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblempcode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(255, 21)
@@ -819,8 +819,10 @@ Partial Class frmMRP
         Me.gvPO.MasterTemplate.AutoGenerateColumns = False
         Me.gvPO.MasterTemplate.EnableGrouping = False
         Me.gvPO.MasterTemplate.EnableSorting = False
+        Me.gvPO.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPO.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvPO.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvPO.MyStopExport = False
         Me.gvPO.Name = "gvPO"
         Me.gvPO.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvPO.ShowHeaderCellButtons = True
@@ -853,8 +855,10 @@ Partial Class frmMRP
         Me.gvSRN.MasterTemplate.AllowAddNewRow = False
         Me.gvSRN.MasterTemplate.AutoGenerateColumns = False
         Me.gvSRN.MasterTemplate.EnableGrouping = False
+        Me.gvSRN.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSRN.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSRN.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvSRN.MyStopExport = False
         Me.gvSRN.Name = "gvSRN"
         Me.gvSRN.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSRN.ShowHeaderCellButtons = True
@@ -887,8 +891,10 @@ Partial Class frmMRP
         Me.gvMRPDetal.MasterTemplate.AllowAddNewRow = False
         Me.gvMRPDetal.MasterTemplate.AutoGenerateColumns = False
         Me.gvMRPDetal.MasterTemplate.EnableGrouping = False
+        Me.gvMRPDetal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMRPDetal.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvMRPDetal.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvMRPDetal.MyStopExport = False
         Me.gvMRPDetal.Name = "gvMRPDetal"
         Me.gvMRPDetal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvMRPDetal.ShowHeaderCellButtons = True

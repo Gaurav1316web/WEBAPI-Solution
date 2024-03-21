@@ -24,7 +24,10 @@ Partial Class frmDepreciationMethod
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.cboType = New common.Controls.MyComboBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
@@ -41,9 +44,9 @@ Partial Class frmDepreciationMethod
         Me.RadMenu = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
-        Me.cboType = New common.Controls.MyComboBox()
-        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.GroupBox1.SuspendLayout()
+        CType(Me.cboType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -57,8 +60,6 @@ Partial Class frmDepreciationMethod
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -79,6 +80,42 @@ Partial Class frmDepreciationMethod
         Me.GroupBox1.Size = New System.Drawing.Size(740, 231)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
+        '
+        'cboType
+        '
+        Me.cboType.AutoCompleteDisplayMember = Nothing
+        Me.cboType.AutoCompleteValueMember = Nothing
+        Me.cboType.CalculationExpression = Nothing
+        Me.cboType.DropDownAnimationEnabled = True
+        Me.cboType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboType.FieldCode = Nothing
+        Me.cboType.FieldDesc = Nothing
+        Me.cboType.FieldMaxLength = 0
+        Me.cboType.FieldName = Nothing
+        Me.cboType.isCalculatedField = False
+        Me.cboType.IsSourceFromTable = False
+        Me.cboType.IsSourceFromValueList = False
+        Me.cboType.IsUnique = False
+        Me.cboType.Location = New System.Drawing.Point(82, 65)
+        Me.cboType.MendatroryField = True
+        Me.cboType.MyLinkLable1 = Me.MyLabel2
+        Me.cboType.MyLinkLable2 = Nothing
+        Me.cboType.Name = "cboType"
+        Me.cboType.ReferenceFieldDesc = Nothing
+        Me.cboType.ReferenceFieldName = Nothing
+        Me.cboType.ReferenceTableName = Nothing
+        Me.cboType.Size = New System.Drawing.Size(144, 20)
+        Me.cboType.TabIndex = 323
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(6, 68)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(31, 16)
+        Me.MyLabel2.TabIndex = 324
+        Me.MyLabel2.Text = "Type"
         '
         'MyLabel1
         '
@@ -105,16 +142,18 @@ Partial Class frmDepreciationMethod
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Location = New System.Drawing.Point(3, 18)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowAddNewRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(368, 194)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
         '
         'txtFormula
         '
@@ -205,7 +244,7 @@ Partial Class frmDepreciationMethod
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(252, 20)
@@ -249,7 +288,6 @@ Partial Class frmDepreciationMethod
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(756, 20)
         Me.RadMenu1.TabIndex = 322
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenu
         '
@@ -261,52 +299,13 @@ Partial Class frmDepreciationMethod
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
-        '
-        'cboType
-        '
-        Me.cboType.AutoCompleteDisplayMember = Nothing
-        Me.cboType.AutoCompleteValueMember = Nothing
-        Me.cboType.CalculationExpression = Nothing
-        Me.cboType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboType.FieldCode = Nothing
-        Me.cboType.FieldDesc = Nothing
-        Me.cboType.FieldMaxLength = 0
-        Me.cboType.FieldName = Nothing
-        Me.cboType.isCalculatedField = False
-        Me.cboType.IsSourceFromTable = False
-        Me.cboType.IsSourceFromValueList = False
-        Me.cboType.IsUnique = False
-        Me.cboType.Location = New System.Drawing.Point(82, 65)
-        Me.cboType.MendatroryField = True
-        Me.cboType.MyLinkLable1 = Me.MyLabel2
-        Me.cboType.MyLinkLable2 = Nothing
-        Me.cboType.Name = "cboType"
-        Me.cboType.ReferenceFieldDesc = Nothing
-        Me.cboType.ReferenceFieldName = Nothing
-        Me.cboType.ReferenceTableName = Nothing
-        Me.cboType.Size = New System.Drawing.Size(144, 20)
-        Me.cboType.TabIndex = 323
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(6, 68)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(31, 16)
-        Me.MyLabel2.TabIndex = 324
-        Me.MyLabel2.Text = "Type"
         '
         'frmDepreciationMethod
         '
@@ -326,6 +325,8 @@ Partial Class frmDepreciationMethod
         Me.Text = "Depreciation Method"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
+        CType(Me.cboType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -339,8 +340,6 @@ Partial Class frmDepreciationMethod
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

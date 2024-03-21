@@ -2157,6 +2157,7 @@ Public Class clsUserMgtCode
     Public Const frmPaymentProcess As String = "Pay-Pro"
     Public Const frmBankAdvise As String = "BNK-ADVS"
     Public Const frmTransferToSaving As String = "TRA-SAV"
+    Public Const frmMakeSavingPayment As String = "MAK-SAV-PAY"
     Public Const frmTDSReport As String = "TDS-RPT"
     Public Const frmSendBillToDCS As String = "PMT-SND-DCS"
     'Public Const frmDispatchTransfer As String = "M-DIS-TRAN"

@@ -22,6 +22,10 @@ Partial Class FrmSRNJobWorkEstimate
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.lblVendorCode = New common.Controls.MyLabel()
@@ -74,6 +78,10 @@ Partial Class FrmSRNJobWorkEstimate
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.gvRawItem = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.GroupBox92 = New System.Windows.Forms.GroupBox()
+        Me.RadButton291 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton292 = New Telerik.WinControls.UI.RadButton()
+        Me.RadButton293 = New Telerik.WinControls.UI.RadButton()
         Me.lblQtyWeighment = New common.Controls.MyLabel()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.lblSNFKGRawItem = New common.Controls.MyLabel()
@@ -98,10 +106,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.GroupBox92 = New System.Windows.Forms.GroupBox()
-        Me.RadButton291 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton292 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton293 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -160,6 +164,10 @@ Partial Class FrmSRNJobWorkEstimate
         CType(Me.gvRawItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvRawItem.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage5.SuspendLayout()
+        Me.GroupBox92.SuspendLayout()
+        CType(Me.RadButton291, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton292, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton293, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblQtyWeighment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSNFKGRawItem, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -184,10 +192,6 @@ Partial Class FrmSRNJobWorkEstimate
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox92.SuspendLayout()
-        CType(Me.RadButton291, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton292, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton293, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -262,7 +266,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.lblVendorCode.Name = "lblVendorCode"
         Me.lblVendorCode.Size = New System.Drawing.Size(225, 20)
         Me.lblVendorCode.TabIndex = 396
-        Me.lblVendorCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorCode.TextWrap = False
         '
         'RadGroupBox2
@@ -294,7 +297,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.lblFormulaCodeSNF.Name = "lblFormulaCodeSNF"
         Me.lblFormulaCodeSNF.Size = New System.Drawing.Size(137, 20)
         Me.lblFormulaCodeSNF.TabIndex = 389
-        Me.lblFormulaCodeSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaCodeSNF.TextWrap = False
         '
         'MyLabel8
@@ -315,7 +317,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.lblItemStructureSNF.Name = "lblItemStructureSNF"
         Me.lblItemStructureSNF.Size = New System.Drawing.Size(232, 20)
         Me.lblItemStructureSNF.TabIndex = 385
-        Me.lblItemStructureSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblItemStructureSNF.TextWrap = False
         '
         'txtItemStructureSNF
@@ -353,7 +354,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.lblFormulaSNF.Name = "lblFormulaSNF"
         Me.lblFormulaSNF.Size = New System.Drawing.Size(372, 20)
         Me.lblFormulaSNF.TabIndex = 387
-        Me.lblFormulaSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaSNF.TextWrap = False
         '
         'MyLabel12
@@ -383,7 +383,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.lblFormulaNameSNF.Name = "lblFormulaNameSNF"
         Me.lblFormulaNameSNF.Size = New System.Drawing.Size(232, 20)
         Me.lblFormulaNameSNF.TabIndex = 380
-        Me.lblFormulaNameSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaNameSNF.TextWrap = False
         '
         'MyLabel16
@@ -404,7 +403,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.lblFormulaDateSNF.Name = "lblFormulaDateSNF"
         Me.lblFormulaDateSNF.Size = New System.Drawing.Size(137, 20)
         Me.lblFormulaDateSNF.TabIndex = 382
-        Me.lblFormulaDateSNF.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaDateSNF.TextWrap = False
         '
         'RadGroupBox1
@@ -436,7 +434,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.lblFormulaCodeFAT.Name = "lblFormulaCodeFAT"
         Me.lblFormulaCodeFAT.Size = New System.Drawing.Size(137, 20)
         Me.lblFormulaCodeFAT.TabIndex = 389
-        Me.lblFormulaCodeFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaCodeFAT.TextWrap = False
         '
         'MyLabel5
@@ -457,7 +454,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.lblItemStructureFAT.Name = "lblItemStructureFAT"
         Me.lblItemStructureFAT.Size = New System.Drawing.Size(232, 20)
         Me.lblItemStructureFAT.TabIndex = 385
-        Me.lblItemStructureFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblItemStructureFAT.TextWrap = False
         '
         'txtItemStructureFAT
@@ -495,7 +491,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.lblFormulaFAT.Name = "lblFormulaFAT"
         Me.lblFormulaFAT.Size = New System.Drawing.Size(372, 20)
         Me.lblFormulaFAT.TabIndex = 387
-        Me.lblFormulaFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaFAT.TextWrap = False
         '
         'MyLabel3
@@ -525,7 +520,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.lblFormulaNameFAT.Name = "lblFormulaNameFAT"
         Me.lblFormulaNameFAT.Size = New System.Drawing.Size(232, 20)
         Me.lblFormulaNameFAT.TabIndex = 380
-        Me.lblFormulaNameFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaNameFAT.TextWrap = False
         '
         'MyLabel1
@@ -546,7 +540,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.lblFormulaDateFAT.Name = "lblFormulaDateFAT"
         Me.lblFormulaDateFAT.Size = New System.Drawing.Size(137, 20)
         Me.lblFormulaDateFAT.TabIndex = 382
-        Me.lblFormulaDateFAT.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFormulaDateFAT.TextWrap = False
         '
         'ucStatus
@@ -597,7 +590,7 @@ Partial Class FrmSRNJobWorkEstimate
         Me.txtDocumentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocumentNo.MyLinkLable1 = Me.lblSRNNo
         Me.txtDocumentNo.MyLinkLable2 = Nothing
-        Me.txtDocumentNo.MyMaxLength = 100
+        Me.txtDocumentNo.MyMaxLength = 30
         Me.txtDocumentNo.MyReadOnly = False
         Me.txtDocumentNo.Name = "txtDocumentNo"
         Me.txtDocumentNo.Size = New System.Drawing.Size(265, 20)
@@ -652,7 +645,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(354, 20)
         Me.lblLocation.TabIndex = 374
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'txtLocation
@@ -699,7 +691,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(354, 20)
         Me.lblVendorName.TabIndex = 378
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'RadPageView1
@@ -715,7 +706,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
         Me.RadPageView1.Size = New System.Drawing.Size(952, 238)
         Me.RadPageView1.TabIndex = 218
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -738,10 +728,13 @@ Partial Class FrmSRNJobWorkEstimate
         Me.gvWeighment.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvWeighment.Location = New System.Drawing.Point(0, 33)
         '
-        'gvWeighment
+        '
         '
         Me.gvWeighment.MasterTemplate.AllowDeleteRow = False
+        Me.gvWeighment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvWeighment.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvWeighment.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvWeighment.MyStopExport = False
         Me.gvWeighment.Name = "gvWeighment"
         Me.gvWeighment.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvWeighment.ShowGroupPanel = False
@@ -749,7 +742,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.gvWeighment.Size = New System.Drawing.Size(931, 157)
         Me.gvWeighment.TabIndex = 365
         Me.gvWeighment.TabStop = False
-        Me.gvWeighment.Text = "RadGridView1"
         '
         'Panel1
         '
@@ -870,10 +862,13 @@ Partial Class FrmSRNJobWorkEstimate
         Me.gvFAT.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvFAT.Location = New System.Drawing.Point(0, 0)
         '
-        'gvFAT
+        '
         '
         Me.gvFAT.MasterTemplate.AllowDeleteRow = False
+        Me.gvFAT.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFAT.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvFAT.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvFAT.MyStopExport = False
         Me.gvFAT.Name = "gvFAT"
         Me.gvFAT.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvFAT.ShowGroupPanel = False
@@ -881,7 +876,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.gvFAT.Size = New System.Drawing.Size(931, 190)
         Me.gvFAT.TabIndex = 366
         Me.gvFAT.TabStop = False
-        Me.gvFAT.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -905,7 +899,10 @@ Partial Class FrmSRNJobWorkEstimate
         '
         '
         Me.gvSNF.MasterTemplate.AllowDeleteRow = False
+        Me.gvSNF.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSNF.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvSNF.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvSNF.MyStopExport = False
         Me.gvSNF.Name = "gvSNF"
         Me.gvSNF.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSNF.ShowGroupPanel = False
@@ -913,7 +910,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.gvSNF.Size = New System.Drawing.Size(931, 190)
         Me.gvSNF.TabIndex = 366
         Me.gvSNF.TabStop = False
-        Me.gvSNF.Text = "RadGridView1"
         '
         'RadPageViewPage4
         '
@@ -937,7 +933,10 @@ Partial Class FrmSRNJobWorkEstimate
         '
         '
         Me.gvRawItem.MasterTemplate.AllowDeleteRow = False
+        Me.gvRawItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvRawItem.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvRawItem.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvRawItem.MyStopExport = False
         Me.gvRawItem.Name = "gvRawItem"
         Me.gvRawItem.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvRawItem.ShowGroupPanel = False
@@ -945,7 +944,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.gvRawItem.Size = New System.Drawing.Size(931, 190)
         Me.gvRawItem.TabIndex = 366
         Me.gvRawItem.TabStop = False
-        Me.gvRawItem.Text = "RadGridView1"
         '
         'RadPageViewPage5
         '
@@ -969,6 +967,43 @@ Partial Class FrmSRNJobWorkEstimate
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(931, 190)
         Me.RadPageViewPage5.Text = "Total"
+        '
+        'GroupBox92
+        '
+        Me.GroupBox92.Controls.Add(Me.RadButton291)
+        Me.GroupBox92.Controls.Add(Me.RadButton292)
+        Me.GroupBox92.Controls.Add(Me.RadButton293)
+        Me.GroupBox92.Location = New System.Drawing.Point(592, 143)
+        Me.GroupBox92.Name = "GroupBox92"
+        Me.GroupBox92.Size = New System.Drawing.Size(323, 44)
+        Me.GroupBox92.TabIndex = 379
+        Me.GroupBox92.TabStop = False
+        Me.GroupBox92.Text = "Job Work Estimate"
+        Me.GroupBox92.Visible = False
+        '
+        'RadButton291
+        '
+        Me.RadButton291.Location = New System.Drawing.Point(69, 14)
+        Me.RadButton291.Name = "RadButton291"
+        Me.RadButton291.Size = New System.Drawing.Size(92, 24)
+        Me.RadButton291.TabIndex = 41
+        Me.RadButton291.Text = "Pick Doc No"
+        '
+        'RadButton292
+        '
+        Me.RadButton292.Location = New System.Drawing.Point(4, 14)
+        Me.RadButton292.Name = "RadButton292"
+        Me.RadButton292.Size = New System.Drawing.Size(59, 24)
+        Me.RadButton292.TabIndex = 42
+        Me.RadButton292.Text = "Reset All"
+        '
+        'RadButton293
+        '
+        Me.RadButton293.Location = New System.Drawing.Point(164, 14)
+        Me.RadButton293.Name = "RadButton293"
+        Me.RadButton293.Size = New System.Drawing.Size(153, 24)
+        Me.RadButton293.TabIndex = 13
+        Me.RadButton293.Text = "Create Selected Journal Entry"
         '
         'lblQtyWeighment
         '
@@ -1214,43 +1249,6 @@ Partial Class FrmSRNJobWorkEstimate
         Me.btnDelete.TabIndex = 4
         Me.btnDelete.Text = "Delete"
         '
-        'GroupBox92
-        '
-        Me.GroupBox92.Controls.Add(Me.RadButton291)
-        Me.GroupBox92.Controls.Add(Me.RadButton292)
-        Me.GroupBox92.Controls.Add(Me.RadButton293)
-        Me.GroupBox92.Location = New System.Drawing.Point(592, 143)
-        Me.GroupBox92.Name = "GroupBox92"
-        Me.GroupBox92.Size = New System.Drawing.Size(323, 44)
-        Me.GroupBox92.TabIndex = 379
-        Me.GroupBox92.TabStop = False
-        Me.GroupBox92.Text = "Job Work Estimate"
-        Me.GroupBox92.Visible = False
-        '
-        'RadButton291
-        '
-        Me.RadButton291.Location = New System.Drawing.Point(69, 14)
-        Me.RadButton291.Name = "RadButton291"
-        Me.RadButton291.Size = New System.Drawing.Size(92, 24)
-        Me.RadButton291.TabIndex = 41
-        Me.RadButton291.Text = "Pick Doc No"
-        '
-        'RadButton292
-        '
-        Me.RadButton292.Location = New System.Drawing.Point(4, 14)
-        Me.RadButton292.Name = "RadButton292"
-        Me.RadButton292.Size = New System.Drawing.Size(59, 24)
-        Me.RadButton292.TabIndex = 42
-        Me.RadButton292.Text = "Reset All"
-        '
-        'RadButton293
-        '
-        Me.RadButton293.Location = New System.Drawing.Point(164, 14)
-        Me.RadButton293.Name = "RadButton293"
-        Me.RadButton293.Size = New System.Drawing.Size(153, 24)
-        Me.RadButton293.TabIndex = 13
-        Me.RadButton293.Text = "Create Selected Journal Entry"
-        '
         'FrmSRNJobWorkEstimate
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1326,6 +1324,10 @@ Partial Class FrmSRNJobWorkEstimate
         CType(Me.gvRawItem, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage5.ResumeLayout(False)
         Me.RadPageViewPage5.PerformLayout()
+        Me.GroupBox92.ResumeLayout(False)
+        CType(Me.RadButton291, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton292, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton293, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblQtyWeighment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSNFKGRawItem, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1350,10 +1352,6 @@ Partial Class FrmSRNJobWorkEstimate
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox92.ResumeLayout(False)
-        CType(Me.RadButton291, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton292, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton293, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

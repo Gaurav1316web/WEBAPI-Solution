@@ -87,14 +87,23 @@ Partial Class FrmInvestmentType
         '
         Me.lblITSectionName.AutoSize = False
         Me.lblITSectionName.BorderVisible = True
+        Me.lblITSectionName.FieldName = Nothing
         Me.lblITSectionName.Location = New System.Drawing.Point(310, 64)
         Me.lblITSectionName.Name = "lblITSectionName"
         Me.lblITSectionName.Size = New System.Drawing.Size(192, 20)
         Me.lblITSectionName.TabIndex = 301
-        Me.lblITSectionName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtITSec
         '
+        Me.txtITSec.CalculationExpression = Nothing
+        Me.txtITSec.FieldCode = Nothing
+        Me.txtITSec.FieldDesc = Nothing
+        Me.txtITSec.FieldMaxLength = 0
+        Me.txtITSec.FieldName = Nothing
+        Me.txtITSec.isCalculatedField = False
+        Me.txtITSec.IsSourceFromTable = False
+        Me.txtITSec.IsSourceFromValueList = False
+        Me.txtITSec.IsUnique = False
         Me.txtITSec.Location = New System.Drawing.Point(118, 64)
         Me.txtITSec.MendatroryField = True
         Me.txtITSec.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -103,13 +112,16 @@ Partial Class FrmInvestmentType
         Me.txtITSec.MyReadOnly = False
         Me.txtITSec.MyShowMasterFormButton = False
         Me.txtITSec.Name = "txtITSec"
+        Me.txtITSec.ReferenceFieldDesc = Nothing
+        Me.txtITSec.ReferenceFieldName = Nothing
+        Me.txtITSec.ReferenceTableName = Nothing
         Me.txtITSec.Size = New System.Drawing.Size(186, 20)
         Me.txtITSec.TabIndex = 300
         Me.txtITSec.Value = ""
         '
         'btnnew
         '
-        Me.btnnew.Image = My.Resources.Resources._new
+        Me.btnnew.Image = Global.XpertERPTDS.My.Resources.Resources._new
         Me.btnnew.Location = New System.Drawing.Point(484, 10)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(15, 21)
@@ -117,13 +129,14 @@ Partial Class FrmInvestmentType
         '
         'txtcode
         '
+        Me.txtcode.FieldName = Nothing
         Me.txtcode.Location = New System.Drawing.Point(118, 10)
         Me.txtcode.MendatroryField = True
         Me.txtcode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtcode.MyLinkLable1 = Nothing
         Me.txtcode.MyLinkLable2 = Nothing
-        Me.txtcode.MyMaxLength = 32767
+        Me.txtcode.MyMaxLength = 30
         Me.txtcode.MyReadOnly = False
         Me.txtcode.Name = "txtcode"
         Me.txtcode.Size = New System.Drawing.Size(365, 21)
@@ -132,6 +145,7 @@ Partial Class FrmInvestmentType
         '
         'MyLabel84
         '
+        Me.MyLabel84.FieldName = Nothing
         Me.MyLabel84.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel84.Location = New System.Drawing.Point(12, 61)
         Me.MyLabel84.Name = "MyLabel84"
@@ -141,6 +155,7 @@ Partial Class FrmInvestmentType
         '
         'lblDescription
         '
+        Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDescription.Location = New System.Drawing.Point(12, 39)
         Me.lblDescription.Name = "lblDescription"
@@ -151,7 +166,16 @@ Partial Class FrmInvestmentType
         'TxtDesp
         '
         Me.TxtDesp.AutoSize = False
+        Me.TxtDesp.CalculationExpression = Nothing
+        Me.TxtDesp.FieldCode = Nothing
+        Me.TxtDesp.FieldDesc = Nothing
+        Me.TxtDesp.FieldMaxLength = 0
+        Me.TxtDesp.FieldName = Nothing
         Me.TxtDesp.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtDesp.isCalculatedField = False
+        Me.TxtDesp.IsSourceFromTable = False
+        Me.TxtDesp.IsSourceFromValueList = False
+        Me.TxtDesp.IsUnique = False
         Me.TxtDesp.Location = New System.Drawing.Point(118, 37)
         Me.TxtDesp.MaxLength = 100
         Me.TxtDesp.MendatroryField = False
@@ -159,12 +183,16 @@ Partial Class FrmInvestmentType
         Me.TxtDesp.MyLinkLable1 = Me.lblDescription
         Me.TxtDesp.MyLinkLable2 = Nothing
         Me.TxtDesp.Name = "TxtDesp"
+        Me.TxtDesp.ReferenceFieldDesc = Nothing
+        Me.TxtDesp.ReferenceFieldName = Nothing
+        Me.TxtDesp.ReferenceTableName = Nothing
         Me.TxtDesp.Size = New System.Drawing.Size(384, 21)
         Me.TxtDesp.TabIndex = 205
         Me.TxtDesp.Text = " "
         '
         'lblItemCategoryCode
         '
+        Me.lblItemCategoryCode.FieldName = Nothing
         Me.lblItemCategoryCode.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblItemCategoryCode.Location = New System.Drawing.Point(12, 16)
         Me.lblItemCategoryCode.Name = "lblItemCategoryCode"
@@ -209,27 +237,20 @@ Partial Class FrmInvestmentType
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(531, 20)
         Me.RadMenu2.TabIndex = 65
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmExport, Me.rmImport})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
         '

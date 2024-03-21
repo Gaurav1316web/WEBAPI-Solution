@@ -24,23 +24,24 @@ Partial Class FrmVisi_Install_Pullout
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
+        Me.components = New System.ComponentModel.Container()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.fndCustomer = New common.UserControls.txtNavigator
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.chkPullOut = New Telerik.WinControls.UI.RadRadioButton
-        Me.chkInstall = New Telerik.WinControls.UI.RadRadioButton
-        Me.MyLabel3 = New common.Controls.MyLabel
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.lblRoute = New common.Controls.MyLabel
-        Me.lblCustomerName = New common.Controls.MyLabel
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.dgvVisi = New common.UserControls.MyRadGridView
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.fndCustomer = New common.UserControls.txtNavigator()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.chkPullOut = New Telerik.WinControls.UI.RadRadioButton()
+        Me.chkInstall = New Telerik.WinControls.UI.RadRadioButton()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.lblRoute = New common.Controls.MyLabel()
+        Me.lblCustomerName = New common.Controls.MyLabel()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.dgvVisi = New common.UserControls.MyRadGridView()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -93,6 +94,7 @@ Partial Class FrmVisi_Install_Pullout
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(6, 5)
         Me.RadLabel1.Name = "RadLabel1"
@@ -102,13 +104,14 @@ Partial Class FrmVisi_Install_Pullout
         '
         'fndCustomer
         '
+        Me.fndCustomer.FieldName = Nothing
         Me.fndCustomer.Location = New System.Drawing.Point(107, 3)
         Me.fndCustomer.MendatroryField = True
         Me.fndCustomer.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndCustomer.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndCustomer.MyLinkLable1 = Nothing
         Me.fndCustomer.MyLinkLable2 = Nothing
-        Me.fndCustomer.MyMaxLength = 32767
+        Me.fndCustomer.MyMaxLength = 30
         Me.fndCustomer.MyReadOnly = False
         Me.fndCustomer.Name = "fndCustomer"
         Me.fndCustomer.Size = New System.Drawing.Size(218, 20)
@@ -183,6 +186,7 @@ Partial Class FrmVisi_Install_Pullout
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(6, 27)
         Me.MyLabel3.Name = "MyLabel3"
@@ -192,6 +196,7 @@ Partial Class FrmVisi_Install_Pullout
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(6, 48)
         Me.MyLabel2.Name = "MyLabel2"
@@ -203,24 +208,24 @@ Partial Class FrmVisi_Install_Pullout
         '
         Me.lblRoute.AutoSize = False
         Me.lblRoute.BorderVisible = True
+        Me.lblRoute.FieldName = Nothing
         Me.lblRoute.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRoute.Location = New System.Drawing.Point(107, 47)
         Me.lblRoute.Name = "lblRoute"
         Me.lblRoute.Size = New System.Drawing.Size(505, 20)
         Me.lblRoute.TabIndex = 90
-        Me.lblRoute.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRoute.TextWrap = False
         '
         'lblCustomerName
         '
         Me.lblCustomerName.AutoSize = False
         Me.lblCustomerName.BorderVisible = True
+        Me.lblCustomerName.FieldName = Nothing
         Me.lblCustomerName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCustomerName.Location = New System.Drawing.Point(107, 25)
         Me.lblCustomerName.Name = "lblCustomerName"
         Me.lblCustomerName.Size = New System.Drawing.Size(505, 20)
         Me.lblCustomerName.TabIndex = 88
-        Me.lblCustomerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCustomerName.TextWrap = False
         '
         'btnNew
@@ -241,15 +246,19 @@ Partial Class FrmVisi_Install_Pullout
         Me.dgvVisi.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgvVisi.Location = New System.Drawing.Point(0, 0)
         '
-        'dgvVisi
+        '
         '
         Me.dgvVisi.MasterTemplate.AllowDeleteRow = False
+        Me.dgvVisi.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.dgvVisi.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvVisi.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvVisi.MyStopExport = False
         Me.dgvVisi.Name = "dgvVisi"
         Me.dgvVisi.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvVisi.ShowGroupPanel = False
+        Me.dgvVisi.ShowHeaderCellButtons = True
         Me.dgvVisi.Size = New System.Drawing.Size(864, 291)
         Me.dgvVisi.TabIndex = 1
-        Me.dgvVisi.Text = "RadGridView1"
         '
         'FrmVisi_Install_Pullout
         '

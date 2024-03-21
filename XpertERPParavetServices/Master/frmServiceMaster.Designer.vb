@@ -24,6 +24,9 @@ Partial Class FrmServiceMaster
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmServiceMaster))
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblBreedType = New common.Controls.MyLabel()
@@ -48,9 +51,6 @@ Partial Class FrmServiceMaster
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -74,17 +74,31 @@ Partial Class FrmServiceMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
         Me.RadMenuItem1.AccessibleName = "rdmenufile"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3, Me.RadMenuItem4, Me.RadMenuItem5})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
+        '
+        'RadMenuItem3
+        '
+        Me.RadMenuItem3.Name = "RadMenuItem3"
+        Me.RadMenuItem3.Text = "Import"
+        '
+        'RadMenuItem4
+        '
+        Me.RadMenuItem4.Name = "RadMenuItem4"
+        Me.RadMenuItem4.Text = "Export"
+        '
+        'RadMenuItem5
+        '
+        Me.RadMenuItem5.Name = "RadMenuItem5"
+        Me.RadMenuItem5.Text = "Exit"
         '
         'SplitContainer1
         '
@@ -145,7 +159,6 @@ Partial Class FrmServiceMaster
         Me.lblBreedType.Name = "lblBreedType"
         Me.lblBreedType.Size = New System.Drawing.Size(368, 18)
         Me.lblBreedType.TabIndex = 257
-        Me.lblBreedType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBreedType.TextWrap = False
         '
         'lblCattleType
@@ -158,7 +171,6 @@ Partial Class FrmServiceMaster
         Me.lblCattleType.Name = "lblCattleType"
         Me.lblCattleType.Size = New System.Drawing.Size(368, 18)
         Me.lblCattleType.TabIndex = 256
-        Me.lblCattleType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCattleType.TextWrap = False
         '
         'txtDesc
@@ -213,7 +225,7 @@ Partial Class FrmServiceMaster
         Me.txtReminder.TabIndex = 252
         Me.txtReminder.Text = "0"
         Me.txtReminder.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtReminder.Value = 0.0R
+        Me.txtReminder.Value = 0R
         '
         'txtServiceCharge
         '
@@ -240,7 +252,7 @@ Partial Class FrmServiceMaster
         Me.txtServiceCharge.TabIndex = 251
         Me.txtServiceCharge.Text = "0"
         Me.txtServiceCharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtServiceCharge.Value = 0.0R
+        Me.txtServiceCharge.Value = 0R
         '
         'txtBreedType
         '
@@ -425,7 +437,7 @@ Partial Class FrmServiceMaster
         Me.txtServiceCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtServiceCode.MyLinkLable1 = Nothing
         Me.txtServiceCode.MyLinkLable2 = Nothing
-        Me.txtServiceCode.MyMaxLength = 12
+        Me.txtServiceCode.MyMaxLength = 30
         Me.txtServiceCode.MyReadOnly = False
         Me.txtServiceCode.Name = "txtServiceCode"
         Me.txtServiceCode.Size = New System.Drawing.Size(282, 21)
@@ -481,33 +493,6 @@ Partial Class FrmServiceMaster
         Me.btndelete.TabIndex = 12
         Me.btndelete.Text = "Delete"
         '
-        'RadMenuItem3
-        '
-        Me.RadMenuItem3.AccessibleDescription = "Import"
-        Me.RadMenuItem3.AccessibleName = "Import"
-        Me.RadMenuItem3.Name = "RadMenuItem3"
-        Me.RadMenuItem3.Text = "Import"
-        '
-        'RadMenuItem4
-        '
-        Me.RadMenuItem4.AccessibleDescription = "Export"
-        Me.RadMenuItem4.AccessibleName = "Export"
-        Me.RadMenuItem4.Name = "RadMenuItem4"
-        Me.RadMenuItem4.Text = "Export"
-        '
-        'RadMenuItem5
-        '
-        Me.RadMenuItem5.AccessibleDescription = "Exit"
-        Me.RadMenuItem5.AccessibleName = "Exit"
-        Me.RadMenuItem5.Name = "RadMenuItem5"
-        Me.RadMenuItem5.Text = "Exit"
-        '
-        'FrmServiceMaster
-        '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
-        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(904, 528)
-        '
         'RadMenu1
         '
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
@@ -515,7 +500,12 @@ Partial Class FrmServiceMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(904, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
+        '
+        'FrmServiceMaster
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(904, 528)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "FrmServiceMaster"

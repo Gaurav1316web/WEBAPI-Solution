@@ -98,12 +98,9 @@ Partial Class FrmCategories
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(801, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExport, Me.rmiImport, Me.rmiExit})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -111,22 +108,16 @@ Partial Class FrmCategories
         '
         'rmiExport
         '
-        Me.rmiExport.AccessibleDescription = "Export"
-        Me.rmiExport.AccessibleName = "Export"
         Me.rmiExport.Name = "rmiExport"
         Me.rmiExport.Text = "Export"
         '
         'rmiImport
         '
-        Me.rmiImport.AccessibleDescription = "Import"
-        Me.rmiImport.AccessibleName = "Import"
         Me.rmiImport.Name = "rmiImport"
         Me.rmiImport.Text = "Import"
         '
         'rmiExit
         '
-        Me.rmiExit.AccessibleDescription = "Exit"
-        Me.rmiExit.AccessibleName = "Exit"
         Me.rmiExit.Name = "rmiExit"
         Me.rmiExit.Text = "Exit"
         '
@@ -212,7 +203,7 @@ Partial Class FrmCategories
         Me.txtSeries1.TabIndex = 339
         Me.txtSeries1.Text = "0"
         Me.txtSeries1.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSeries1.Value = 0.0R
+        Me.txtSeries1.Value = 0R
         '
         'lblCategoryCOde
         '
@@ -220,7 +211,7 @@ Partial Class FrmCategories
         Me.lblCategoryCOde.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCategoryCOde.Location = New System.Drawing.Point(7, 8)
         Me.lblCategoryCOde.Name = "lblCategoryCOde"
-        Me.lblCategoryCOde.Size = New System.Drawing.Size(82, 16)
+        Me.lblCategoryCOde.Size = New System.Drawing.Size(33, 16)
         Me.lblCategoryCOde.TabIndex = 42
         Me.lblCategoryCOde.Text = "Code"
         '
@@ -338,7 +329,7 @@ Partial Class FrmCategories
         Me.txtNextAutoNo.TabIndex = 8
         Me.txtNextAutoNo.Text = "0"
         Me.txtNextAutoNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNextAutoNo.Value = 0.0R
+        Me.txtNextAutoNo.Value = 0R
         Me.txtNextAutoNo.Visible = False
         '
         'lblLastMaintained
@@ -448,7 +439,6 @@ Partial Class FrmCategories
         Me.lblDefaultSetDesc.Name = "lblDefaultSetDesc"
         Me.lblDefaultSetDesc.Size = New System.Drawing.Size(452, 20)
         Me.lblDefaultSetDesc.TabIndex = 53
-        Me.lblDefaultSetDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblNotes
         '
@@ -551,7 +541,7 @@ Partial Class FrmCategories
         Me.txtCategoryCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCategoryCode.MyLinkLable1 = Nothing
         Me.txtCategoryCode.MyLinkLable2 = Nothing
-        Me.txtCategoryCode.MyMaxLength = 32767
+        Me.txtCategoryCode.MyMaxLength = 30
         Me.txtCategoryCode.MyReadOnly = False
         Me.txtCategoryCode.Name = "txtCategoryCode"
         Me.txtCategoryCode.Size = New System.Drawing.Size(264, 20)
