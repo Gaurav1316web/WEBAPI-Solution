@@ -22,6 +22,7 @@ Partial Class FrmItemWiseTax
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,6 +31,7 @@ Partial Class FrmItemWiseTax
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.btnCopy = New Telerik.WinControls.UI.RadButton()
         Me.lblPending = New common.usLock()
         Me.txtDescription = New common.Controls.MyTextBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
@@ -53,6 +55,7 @@ Partial Class FrmItemWiseTax
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTransType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -74,8 +77,6 @@ Partial Class FrmItemWiseTax
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem4, Me.RadMenuItem3, Me.RadMenuItem6, Me.RadMenuItem5})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -104,15 +105,11 @@ Partial Class FrmItemWiseTax
         '
         'RadMenuItem6
         '
-        Me.RadMenuItem6.AccessibleDescription = "Export Item Tax Details By HSN Code (Grid Data) Blank"
-        Me.RadMenuItem6.AccessibleName = "Export Item Tax Details By HSN Code (Grid Data) Blank"
         Me.RadMenuItem6.Name = "RadMenuItem6"
         Me.RadMenuItem6.Text = "Export Item Tax Details By HSN Code (Grid Data) Blank"
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "Import Item Tax Details By HSN Code(Grid Data)"
-        Me.RadMenuItem5.AccessibleName = "Import Item Tax Details By HSN Code(Grid Data)"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Import Item Tax Details By HSN Code(Grid Data)"
         '
@@ -147,6 +144,7 @@ Partial Class FrmItemWiseTax
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.btnCopy)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblPending)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDescription)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel1)
@@ -165,10 +163,19 @@ Partial Class FrmItemWiseTax
         Me.SplitContainer2.SplitterDistance = 97
         Me.SplitContainer2.TabIndex = 0
         '
+        'btnCopy
+        '
+        Me.btnCopy.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnCopy.Location = New System.Drawing.Point(396, 10)
+        Me.btnCopy.Name = "btnCopy"
+        Me.btnCopy.Size = New System.Drawing.Size(20, 18)
+        Me.btnCopy.TabIndex = 32
+        Me.btnCopy.Text = "CC"
+        '
         'lblPending
         '
         Me.lblPending.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.lblPending.Location = New System.Drawing.Point(419, 8)
+        Me.lblPending.Location = New System.Drawing.Point(426, 8)
         Me.lblPending.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPending.Name = "lblPending"
         Me.lblPending.Size = New System.Drawing.Size(98, 20)
@@ -224,6 +231,7 @@ Partial Class FrmItemWiseTax
         Me.ddlTransType.AutoCompleteDisplayMember = Nothing
         Me.ddlTransType.AutoCompleteValueMember = Nothing
         Me.ddlTransType.CalculationExpression = Nothing
+        Me.ddlTransType.DropDownAnimationEnabled = True
         Me.ddlTransType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlTransType.FieldCode = Nothing
         Me.ddlTransType.FieldDesc = Nothing
@@ -330,19 +338,21 @@ Partial Class FrmItemWiseTax
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv1.MasterTemplate.AutoGenerateColumns = False
         Me.gv1.MasterTemplate.EnableGrouping = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(780, 409)
         Me.gv1.TabIndex = 4
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'btnReverse
         '
@@ -402,7 +412,6 @@ Partial Class FrmItemWiseTax
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(780, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'FrmItemWiseTax
         '
@@ -424,6 +433,7 @@ Partial Class FrmItemWiseTax
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.btnCopy, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTransType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -470,5 +480,6 @@ Partial Class FrmItemWiseTax
     Friend WithEvents RadMenuItem5 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents RadMenuItem6 As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents btnCopy As RadButton
 End Class
 

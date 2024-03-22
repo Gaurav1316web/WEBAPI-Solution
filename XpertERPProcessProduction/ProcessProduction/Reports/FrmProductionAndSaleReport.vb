@@ -61,6 +61,7 @@ Public Class FrmProductionAndSaleReport
 
             Dim fDate As DateTime = Nothing
             Dim tDate As DateTime = Nothing
+            Dim tDate1 As DateTime = Nothing
             Dim dtcurrent As DateTime = Nothing
             Dim dtnext As DateTime = Nothing
             'DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
@@ -163,12 +164,12 @@ Public Class FrmProductionAndSaleReport
                         GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) PSO
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =PSO.Bill_To_Location 
                          LEFT OUTER JOIN
-                        (select TSPL_BREAK_DOWN_ENTRY.Location_Code
-                        ,DATEDIFF(HOUR,Start_Time,End_Time) AS BreakdownHRS,TSPL_BREAK_DOWN_MASTER.Name as BreakdownREASON
+                       (select TSPL_BREAK_DOWN_ENTRY.Location_Code
+                        ,max(DATEDIFF(HOUR,Start_Time,End_Time)) AS BreakdownHRS,max(TSPL_BREAK_DOWN_MASTER.Name) as BreakdownREASON 
                          from TSPL_BREAK_DOWN_ENTRY
                         left join TSPL_BREAK_DOWN_MASTER ON TSPL_BREAK_DOWN_ENTRY.Break_Down_Code = TSPL_BREAK_DOWN_MASTER.CODE
                         left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_BREAK_DOWN_ENTRY.Location_Code
-                        WHERE convert(date,TSPL_BREAK_DOWN_ENTRY.Start_Time,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) group by Start_Time,End_Time,Name,TSPL_BREAK_DOWN_ENTRY.Location_Code) BreakDown
+                        WHERE convert(date,TSPL_BREAK_DOWN_ENTRY.Start_Time,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) group by TSPL_BREAK_DOWN_ENTRY.Location_Code) BreakDown
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =BreakDown.Location_Code "
 
 
