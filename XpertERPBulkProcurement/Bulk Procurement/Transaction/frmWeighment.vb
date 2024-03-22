@@ -2311,7 +2311,7 @@ Public Class FrmWeighment
 
     Private Sub btnPrint_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(fndDocNO.Value) <= 0 Then
-            myMessages.blankValue("Weighment not found to Print")
+            myMessages.blankValue(Me, "Weighment not found to Print", Me.Text)
         Else
             funPrint(fndDocNO.Value)
         End If

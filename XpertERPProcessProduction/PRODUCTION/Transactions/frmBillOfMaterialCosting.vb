@@ -1111,12 +1111,12 @@ Public Class frmBillOfMaterialCosting
     End Function
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtProducedItem.Value) <= 0 Then
-            myMessages.blankValue("Main Item")
+            myMessages.blankValue(Me, "Main Item", Me.Text)
             txtProducedItem.Focus()
             Return False
         End If
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            myMessages.blankValue("Location")
+            myMessages.blankValue(Me, "Location", Me.Text)
             txtLocation.Focus()
             Return False
         End If
@@ -1546,7 +1546,7 @@ Public Class frmBillOfMaterialCosting
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If txtCode.Value = "" Then
-            myMessages.blankValue("BOM Code")
+            myMessages.blankValue(Me, "BOM Code", Me.Text)
         Else
             funPrint()
         End If

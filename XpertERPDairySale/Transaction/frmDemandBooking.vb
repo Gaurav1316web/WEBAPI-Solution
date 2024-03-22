@@ -3622,7 +3622,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     End Sub
     Private Sub btnPrint1_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Booking not found to Print")
+            myMessages.blankValue(Me, "Booking not found to Print", Me.Text)
         End If
         If btnSave.Enabled = True Then
             SaveData(0, True)

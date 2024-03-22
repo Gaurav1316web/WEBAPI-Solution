@@ -2836,7 +2836,7 @@ Public Class FrmCSATransferReturn
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("Document not found to Print")
+            myMessages.blankValue(Me, "Document not found to Print", Me.Text)
         Else
             funPrint(txtCode.Value)
         End If

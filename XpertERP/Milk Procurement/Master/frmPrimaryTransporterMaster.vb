@@ -3040,7 +3040,7 @@ Public Class FrmPrimaryTransporterMaster
 
         Try
             If txtvendorname.Text = "" Then
-                myMessages.blankValue("Please Fill Primary Transporter Name")
+                myMessages.blankValue(Me, "Please Fill Primary Transporter Name", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtvendorname.Focus()
                 txtvendorname.Select()
@@ -3052,7 +3052,7 @@ Public Class FrmPrimaryTransporterMaster
             End If
 
             If fndgroupcode.Value = "" Then
-                myMessages.blankValue("Please Select Group Code")
+                myMessages.blankValue(Me, "Please Select Group Code", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 fndgroupcode.Focus()
                 fndgroupcode.Select()
@@ -3064,7 +3064,7 @@ Public Class FrmPrimaryTransporterMaster
             End If
 
             If fndTrmsCode.Value = "" Then
-                myMessages.blankValue("Please Select Terms Code")
+                myMessages.blankValue(Me, "Please Select Terms Code", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage4
                 fndTrmsCode.Focus()
                 fndTrmsCode.Select()
@@ -3076,7 +3076,7 @@ Public Class FrmPrimaryTransporterMaster
             End If
 
             If fndAccntSet.Value = "" Then
-                myMessages.blankValue("Please Select Account Set")
+                myMessages.blankValue(Me, "Please Select Account Set", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage4
                 fndAccntSet.Focus()
                 fndAccntSet.Select()
@@ -3087,7 +3087,7 @@ Public Class FrmPrimaryTransporterMaster
             End If
 
             If fndbankcode.Value = "" Then
-                myMessages.blankValue("Please Select Bank Code")
+                myMessages.blankValue(Me, "Please Select Bank Code", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 fndbankcode.Focus()
                 fndbankcode.Select()
@@ -3098,7 +3098,7 @@ Public Class FrmPrimaryTransporterMaster
             End If
             ''richa agarwal 27/03/2015
             If txtbranchcode.Value = "" Then
-                myMessages.blankValue("Please Select IFSC Code")
+                myMessages.blankValue(Me, "Please Select IFSC Code", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtbranchcode.Focus()
                 txtbranchcode.Select()
@@ -3109,7 +3109,7 @@ Public Class FrmPrimaryTransporterMaster
             End If
             ''------------------------
             If fndTxGrp.Value = "" Then
-                myMessages.blankValue("Please Select Tax Group")
+                myMessages.blankValue(Me, "Please Select Tax Group", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage4
                 fndTxGrp.Focus()
                 fndTxGrp.Select()
@@ -3121,7 +3121,7 @@ Public Class FrmPrimaryTransporterMaster
 
             For Each grow As GridViewRowInfo In gvMCC.Rows
                 If clsCommon.myLen(grow.Cells("COLMCC_Name").Value) <= 0 Then
-                    myMessages.blankValue("Please Fill Mcc Name")
+                    myMessages.blankValue(Me, "Please Fill Mcc Name", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage6
                     gvMCC.Focus()
                     gvMCC.Select()
@@ -3132,7 +3132,7 @@ Public Class FrmPrimaryTransporterMaster
                 End If
             Next
             If fndTxGrp.Value = "" Then
-                myMessages.blankValue("Please Select Tax Group")
+                myMessages.blankValue(Me, "Please Select Tax Group", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage4
                 fndTxGrp.Focus()
                 fndTxGrp.Select()
@@ -3388,7 +3388,7 @@ Public Class FrmPrimaryTransporterMaster
     End Sub
     Sub DeleteData()
         If fndvendorNo.Value = "" Then
-            myMessages.blankValue("Transporter No.")
+            myMessages.blankValue(Me, "Transporter No.", Me.Text)
         ElseIf myMessages.deleteConfirm() Then
             fundelete()
 

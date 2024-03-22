@@ -99,23 +99,23 @@ Public Class frmConfigureSynchronization
     Function AllowToSave() As Boolean
 
         If clsCommon.myLen(txtServerNameIP.Text) <= 0 Then
-            myMessages.blankValue("Server Name/IP")
+            myMessages.blankValue(Me, "Server Name/IP", Me.Text)
             txtServerNameIP.Focus()
             Return False
         ElseIf clsCommon.myLen(txtServerDBName.Text) <= 0 Then
-            myMessages.blankValue("Server Database Name")
+            myMessages.blankValue(Me, "Server Database Name", Me.Text)
             txtServerDBName.Focus()
             Return False
         ElseIf clsCommon.myLen(txtServerSchema.Text) <= 0 Then
-            myMessages.blankValue("Server Schema Name")
+            myMessages.blankValue(Me, "Server Schema Name", Me.Text)
             txtServerSchema.Focus()
             Return False
         ElseIf clsCommon.myLen(txtServerUserId.Text) <= 0 Then
-            myMessages.blankValue("Server Database User Id")
+            myMessages.blankValue(Me, "Server Database User Id", Me.Text)
             txtServerUserId.Focus()
             Return False
         ElseIf clsCommon.myLen(txtServerPassword.Text) <= 0 Then
-            myMessages.blankValue("Server Database Password")
+            myMessages.blankValue(Me, "Server Database Password", Me.Text)
             txtServerPassword.Focus()
             Return False
         End If

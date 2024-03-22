@@ -321,7 +321,7 @@ Public Class frmAdjustmentVoucher
         '    Return False
         'End If
         If clsCommon.myLen(findPayperiod.Value) <= 0 Then
-            myMessages.blankValue("Pay Period Code")
+            myMessages.blankValue(Me, "Pay Period Code", Me.Text)
             findPayperiod.Focus()
             Return False
         End If
@@ -331,12 +331,12 @@ Public Class frmAdjustmentVoucher
         '    Return False
         'End If
         If clsCommon.myLen(txtDescription.Text) <= 0 Then
-            myMessages.blankValue("Remark Code")
+            myMessages.blankValue(Me, "Remark Code", Me.Text)
             txtDescription.Focus()
             Return False
         End If
         If clsCommon.myLen(dtpAdjustDate.Value) <= 0 Then
-            myMessages.blankValue("Adjustment Date")
+            myMessages.blankValue(Me, "Adjustment Date", Me.Text)
             dtpAdjustDate.Focus()
             Return False
         End If

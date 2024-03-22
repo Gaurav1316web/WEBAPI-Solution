@@ -8897,7 +8897,7 @@ case when isnull((case when len(isnull(TSPL_SD_SALE_INVOICE_DETAIL.Unit_code ,''
             End If
         End If
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             If clsCommon.CompairString(Me.Form_ID, "INVOICE-DS") = CompairStringResult.Equal Then
                 Dim IsTaxable As Double = 0
@@ -9063,7 +9063,7 @@ case when isnull((case when len(isnull(TSPL_SD_SALE_INVOICE_DETAIL.Unit_code ,''
 
     Private Sub btn_Depo_Print_Click(sender As Object, e As EventArgs) Handles btn_Depo_Print.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             funPrint(txtDocNo.Value, False, "DepoPrint")
         End If

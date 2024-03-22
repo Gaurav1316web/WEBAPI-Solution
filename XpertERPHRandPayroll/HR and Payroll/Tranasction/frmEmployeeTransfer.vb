@@ -35,7 +35,7 @@ Public Class FrmEmployeeTransfer
 
     Function allowtosave()
         If clsCommon.myLen(clsCommon.myCstr(txtDescription.Text)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtDescription.Text)) > 200 Then
-            myMessages.blankValue("Description ")
+            myMessages.blankValue(Me, "Description ", Me.Text)
             txtDescription.Focus()
             txtDescription.Select()
             Errorcontrol.SetError(txtDescription, "Description ")
@@ -45,7 +45,7 @@ Public Class FrmEmployeeTransfer
         End If
 
         If clsCommon.myLen(clsCommon.myCstr(fndEmployeeCode.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(fndEmployeeCode.Value)) > 12 Then
-            myMessages.blankValue("Employee Code ")
+            myMessages.blankValue(Me, "Employee Code ", Me.Text)
             txtDescription.Focus()
             txtDescription.Select()
             Errorcontrol.SetError(txtDescription, "Employee Code ")

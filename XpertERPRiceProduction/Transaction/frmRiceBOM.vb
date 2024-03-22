@@ -945,7 +945,7 @@ Public Class frmRiceBOM
         End If
 
         If clsCommon.myCdbl(txtBuildQty.Text) <= 0 Then
-            myMessages.blankValue("Build Quantity must be greater than zero.")
+            myMessages.blankValue(Me, "Build Quantity must be greater than zero.", Me.Text)
             RadPageView1.SelectedPage = pageGeneral
             txtBuildQty.Focus()
             txtBuildQty.Select()
@@ -1282,7 +1282,7 @@ Public Class frmRiceBOM
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If txtCode.Value = "" Then
-            myMessages.blankValue("BOM Code")
+            myMessages.blankValue(Me, "BOM Code", Me.Text)
         Else
             funPrint()
         End If

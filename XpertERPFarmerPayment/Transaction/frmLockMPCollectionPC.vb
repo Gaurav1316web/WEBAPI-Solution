@@ -93,16 +93,16 @@ Public Class frmLockMPCollectionPC
         End If
 
         If clsCommon.myLen(fndLoc.Value) <= 0 Then
-            myMessages.blankValue("MCC")
+            myMessages.blankValue(Me, "MCC", Me.Text)
             fndLoc.Focus()
             Return False
 
         ElseIf clsCommon.myLen(dtpToDate.Value.ToLongDateString()) <= 0 Then
-            myMessages.blankValue("To Date")
+            myMessages.blankValue(Me, "To Date", Me.Text)
             dtpToDate.Focus()
             Return False
         ElseIf clsCommon.myLen(dtpFromDate.Value.ToLongDateString()) <= 0 Then
-            myMessages.blankValue("From Date")
+            myMessages.blankValue(Me, "From Date", Me.Text)
             dtpFromDate.Focus()
             Return False
         End If

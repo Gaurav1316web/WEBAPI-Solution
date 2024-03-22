@@ -18,7 +18,7 @@ Public Class FrmSalarySummary
     Function allowtoCheck()
 
         If clsCommon.myLen(clsCommon.myCstr(txtFromPP.Value)) <= 0 Then
-            myMessages.blankValue("Select Pay Period ")
+            myMessages.blankValue(Me, "Select Pay Period ", Me.Text)
             txtFromPP.Focus()
             txtFromPP.Select()
             Errorcontrol.SetError(txtFromPP, "Select Pay Period ")
@@ -28,7 +28,7 @@ Public Class FrmSalarySummary
         End If
 
         If clsCommon.myLen(clsCommon.myCstr(FndLocationCode.Value)) <= 0 Then
-            myMessages.blankValue("Location ")
+            myMessages.blankValue(Me, "Location ", Me.Text)
             FndLocationCode.Focus()
             FndLocationCode.Select()
             Errorcontrol.SetError(FndLocationCode, "Location ")

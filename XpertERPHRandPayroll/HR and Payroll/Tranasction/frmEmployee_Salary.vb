@@ -436,7 +436,7 @@ Public Class frmEmployee_Salary
         End If
 
         If clsCommon.myLen(txtEmpCode.Value) <= 0 Then
-            myMessages.blankValue("Employee Code")
+            myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtEmpCode.Focus()
             Return False
         End If

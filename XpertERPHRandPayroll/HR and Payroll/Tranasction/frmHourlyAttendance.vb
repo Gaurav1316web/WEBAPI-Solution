@@ -410,7 +410,7 @@ Public Class frmHourlyAttendance
         '    Return False
         'End If
         If clsCommon.myLen(findPayperiod.Value) <= 0 Then
-            myMessages.blankValue("Pay Period Code")
+            myMessages.blankValue(Me, "Pay Period Code", Me.Text)
             findPayperiod.Focus()
             Return False
         End If

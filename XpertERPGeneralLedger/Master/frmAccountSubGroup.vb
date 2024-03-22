@@ -76,7 +76,7 @@ Public Class FrmAccountSubGroup
     Function AllowToSave() As Boolean
         Dim strcode As String = fndaccgp.Value.ToString()
         If clsCommon.myLen(fndaccgp.Value) <= 0 Then
-            myMessages.blankValue("Sub group")
+            myMessages.blankValue(Me, "Sub group", Me.Text)
             fndaccgp.Focus()
             Return False
             'ElseIf Not IsNumeric(strcode) Then
@@ -84,11 +84,11 @@ Public Class FrmAccountSubGroup
             '    fndaccgp.Focus()
             '    Return False
         ElseIf clsCommon.myLen(txtdes.Text) <= 0 Then
-            myMessages.blankValue("Description")
+            myMessages.blankValue(Me, "Description", Me.Text)
             txtdes.Focus()
             Return False
         ElseIf clsCommon.myLen(txtAccGrp.Value) <= 0 Then
-            myMessages.blankValue("Account group")
+            myMessages.blankValue(Me, "Account group", Me.Text)
             txtAccGrp.Focus()
             Return False
         End If

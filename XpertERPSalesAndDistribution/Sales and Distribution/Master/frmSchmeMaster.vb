@@ -411,7 +411,7 @@ Public Class FrmSchmeMaster
                     common.clsCommon.MyMessageBoxShow("Main Item can not be Blank")
                     fndMainItem.Focus()
                 ElseIf fndUnit.Value = "" Then
-                    myMessages.blankValue("UOM")
+                    myMessages.blankValue(Me, "UOM", Me.Text)
                     fndUnit.Focus()
 
                 ElseIf fndcuscategory.Value = "" Then
@@ -1028,7 +1028,7 @@ Public Class FrmSchmeMaster
         If ddlType.Text = "Sampling" Then
         Else
             If fndUnit.Value = "" Then
-                myMessages.blankValue("UOM")
+                myMessages.blankValue(Me, "UOM", Me.Text)
                 fndUnit.Focus()
                 Return False
             End If
@@ -1056,10 +1056,10 @@ Public Class FrmSchmeMaster
 
             Return False
         ElseIf (ddlType.SelectedIndex = 1 Or ddlType.SelectedIndex = 4) And fndUnit.Value.Trim() = "" Then
-            myMessages.blankValue("Unit")
+            myMessages.blankValue(Me, "Unit", Me.Text)
             Return False
         ElseIf (ddlType.SelectedIndex = 1 Or ddlType.SelectedIndex = 4) And (ddlmrp.Text = "Selct" Or ddlmrp.Text = "") Then
-            myMessages.blankValue("MRP")
+            myMessages.blankValue(Me, "MRP", Me.Text)
             Return False
 
             'ElseIf (ddlType.SelectedIndex = 1 Or ddlType.SelectedIndex = 4) And (ddlBasicPrice.Text = "Selct" Or ddlBasicPrice.Text = "") Then

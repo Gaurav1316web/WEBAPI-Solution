@@ -130,7 +130,7 @@ Public Class frmItemCategoryStructure
             Errorcontrol.ResetError(txtDescription)
         End If
         If Me.gvStructLevels.Rows.Count = 0 Then
-            myMessages.blankValue("Second List is Empty")
+            myMessages.blankValue(Me, "Second List is Empty", Me.Text)
             gvStructLevels.Focus()
             Errorcontrol.SetError(gvStructLevels, "Second List is Empty")
             Return False

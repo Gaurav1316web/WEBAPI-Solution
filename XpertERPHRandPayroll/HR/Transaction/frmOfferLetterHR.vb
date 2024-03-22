@@ -541,7 +541,7 @@ Public Class FrmOfferLetterHR
 
     Private Sub btnPrint_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtAppcode.Value) <= 0 Then
-            myMessages.blankValue("Offer Letter not found to Print")
+            myMessages.blankValue(Me, "Offer Letter not found to Print", Me.Text)
         Else
             funPrint()
         End If

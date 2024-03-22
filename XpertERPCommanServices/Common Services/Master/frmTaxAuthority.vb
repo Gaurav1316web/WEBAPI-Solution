@@ -840,7 +840,7 @@ Public Class frmTaxAuthority
             End If
         End If
         If clsCommon.myCstr(drpTaxtype.Text) = "Select" Then
-            myMessages.blankValue("Tax Type")
+            myMessages.blankValue(Me, "Tax Type", Me.Text)
             drpTaxtype.Focus()
             Return False
         End If
@@ -853,54 +853,54 @@ Public Class frmTaxAuthority
         '    End If
         'End If
         If (txtDesc.Text = String.Empty) Then
-            myMessages.blankValue("Description")
+            myMessages.blankValue(Me, "Description", Me.Text)
             txtDesc.Focus()
             Return False
         ElseIf (findTaxRelAcc.Value = String.Empty) Then
-            myMessages.blankValue("Tax Liability Account")
+            myMessages.blankValue(Me, "Tax Liability Account", Me.Text)
             findTaxRelAcc.Focus()
             Return False
 
         ElseIf chkTaxRecover.Checked = True Then
             If (findRecoverTaxAcc.Value = String.Empty) Then
-                myMessages.blankValue("Tax Recoverable Account1")
+                myMessages.blankValue(Me, "Tax Recoverable Account1", Me.Text)
                 findRecoverTaxAcc.Focus()
                 Return False
             ElseIf (findRecoverTaxAcc.Value = String.Empty) AndAlso (fndRecovTaxAcc2.Value <> String.Empty) Then
-                myMessages.blankValue("Tax Recoverable Account1")
+                myMessages.blankValue(Me, "Tax Recoverable Account1", Me.Text)
                 findRecoverTaxAcc.Focus()
                 Return False
             ElseIf ((findRecoverTaxAcc.Value = String.Empty) OrElse (fndRecovTaxAcc2.Value = String.Empty)) AndAlso (fndRecovTaxAcc3.Value <> String.Empty) Then
-                myMessages.blankValue("Other Recoverable Account")
+                myMessages.blankValue(Me, "Other Recoverable Account", Me.Text)
                 ' findRecoverTaxAcc.Focus()
                 Return False
             ElseIf ((findRecoverTaxAcc.Value = String.Empty) OrElse (fndRecovTaxAcc2.Value = String.Empty) OrElse (fndRecovTaxAcc3.Value = String.Empty)) AndAlso (fndRecovTaxAcc4.Value <> String.Empty) Then
-                myMessages.blankValue("Other Recoverable Account")
+                myMessages.blankValue(Me, "Other Recoverable Account", Me.Text)
                 'findRecoverTaxAcc.Focus()
                 Return False
             ElseIf ((findRecoverTaxAcc.Value = String.Empty) OrElse (fndRecovTaxAcc2.Value = String.Empty) OrElse (fndRecovTaxAcc3.Value = String.Empty) OrElse (fndRecovTaxAcc4.Value = String.Empty)) AndAlso (fndRecovTaxAcc5.Value <> String.Empty) Then
-                myMessages.blankValue("Other Recoverable Account")
+                myMessages.blankValue(Me, "Other Recoverable Account", Me.Text)
                 ' findRecoverTaxAcc.Focus()
                 Return False
             Else
                 If (findRecoverTaxAcc.Value <> String.Empty) AndAlso (txtRecoverRate.Value = 0.0) Then
-                    myMessages.blankValue("Tax Recoverable Rate1")
+                    myMessages.blankValue(Me, "Tax Recoverable Rate1", Me.Text)
                     txtRecoverRate.Focus()
                     Return False
                 ElseIf (fndRecovTaxAcc2.Value <> String.Empty) AndAlso (txtRecovRate2.Value = 0.0) Then
-                    myMessages.blankValue("Tax Recoverable Rate2")
+                    myMessages.blankValue(Me, "Tax Recoverable Rate2", Me.Text)
                     txtRecovRate2.Focus()
                     Return False
                 ElseIf (fndRecovTaxAcc3.Value <> String.Empty) AndAlso (txtRecovRate3.Value = 0.0) Then
-                    myMessages.blankValue("Tax Recoverable Rate3")
+                    myMessages.blankValue(Me, "Tax Recoverable Rate3", Me.Text)
                     txtRecovRate3.Focus()
                     Return False
                 ElseIf (fndRecovTaxAcc4.Value <> String.Empty) AndAlso (txtRecovRate4.Value = 0.0) Then
-                    myMessages.blankValue("Tax Recoverable Rate4")
+                    myMessages.blankValue(Me, "Tax Recoverable Rate4", Me.Text)
                     txtRecovRate4.Focus()
                     Return False
                 ElseIf (fndRecovTaxAcc5.Value <> String.Empty) AndAlso (txtRecovRate5.Value = 0.0) Then
-                    myMessages.blankValue("Tax Recoverable Rate5")
+                    myMessages.blankValue(Me, "Tax Recoverable Rate5", Me.Text)
                     txtRecovRate5.Focus()
                     Return False
                 Else
