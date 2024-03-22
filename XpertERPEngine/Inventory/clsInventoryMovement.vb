@@ -27,7 +27,7 @@ Public Class clsItemLocationDetails
         '' done by Panch Raj to call same base query for each balance function
         Dim qry As String = getBaseQryForItemBalanceDuringTransaction(strICode, strUOM, strLocation, dtDocumentDate, strDocumentNo, True, clsCommon.myCdbl(strMRP), Nothing)
         qry = "select (case when max(Minimum_Balance) is null then  ROUND(sum(qty*RI),2) else (case when ROUND(max(Minimum_Balance),2)>ROUND(sum(qty*RI),2) then ROUND(sum(qty*RI),2) else ROUND(max(Minimum_Balance),2) end)  end)  as Qty from (" & qry & ") Final"
-      
+
         Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
     End Function
     Public Shared Function getBalanceWithUnapproveForRMOther(ByVal strICode As String, ByVal strLocation As String, ByVal strDocumentNo As String, ByVal dtDocumentDate As DateTime, ByVal trans As SqlTransaction, ByVal strUOM As String) As Double
@@ -70,7 +70,7 @@ Public Class clsItemLocationDetails
         Dim IsMRPWiseBalance As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsMRPWiseBalance, clsFixedParameterCode.IsMRPWiseBalance, trans)) > 0, True, False)
         Dim qry As String = getBaseQryForItemBalanceDuringTransaction(strICode, strUOM, strLocation, dtDocumentDate, strDocumentNo, IsMRPWiseBalance, dblMRP, trans)
         qry = "select (case when max(Minimum_Balance) is null then  ROUND(sum(qty*RI),2) else (case when ROUND(max(Minimum_Balance),2)>ROUND(sum(qty*RI),2) then ROUND(sum(qty*RI),2) else ROUND(max(Minimum_Balance),2) end)  end)  as Qty from (" & qry & ") Final"
-        Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))    
+        Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
     End Function
     Public Shared Function getBalanceWithUnapproveEmpty(ByVal strICode As String, ByVal strLocation As String, ByVal strMRP As String, ByVal strUOM As String, ByVal strDocumentNo As String, ByVal dtDocumentDate As DateTime) As Double
         Return getBalanceWithUnapproveEmpty(strICode, strLocation, strMRP, strUOM, strDocumentNo, dtDocumentDate, Nothing)
@@ -80,7 +80,7 @@ Public Class clsItemLocationDetails
         Dim qry As String = getBaseQryForItemBalanceDuringTransaction(strICode, strUOM, strLocation, dtDocumentDate, strDocumentNo, True, clsCommon.myCdbl(strMRP), trans)
         qry = "select (case when max(Minimum_Balance) is null then  ROUND(sum(qty*RI),2) else (case when ROUND(max(Minimum_Balance),2)>ROUND(sum(qty*RI),2) then ROUND(sum(qty*RI),2) else ROUND(max(Minimum_Balance),2) end)  end)  as Qty from (" & qry & ") Final"
         Return clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
-       
+
     End Function
 
     Public Shared Function getBalanceWithUnapproveForRMOtherforFinder(ByVal strICode As String, ByVal strLocation As String, ByVal strDocumentNo As String, ByVal dtDocumentDate As DateTime, ByVal trans As SqlTransaction) As String
@@ -156,12 +156,12 @@ Public Class clsItemLocationDetails
         qry += " select Trans_Id,Item_Code ,Location_Code,case when InOut='I' then 1 else -1 end as RI,Qty as QtyNew,UOMNew from("
         qry += " select TSPL_INVENTORY_MOVEMENT.Trans_Id, TSPL_INVENTORY_MOVEMENT.Item_Code ,TSPL_INVENTORY_MOVEMENT.Location_Code , TSPL_INVENTORY_MOVEMENT.InOut,TSPL_INVENTORY_MOVEMENT.Stock_Qty as Qty   ,TSPL_INVENTORY_MOVEMENT.Stock_UOM as UOMNew "
         qry += " from TSPL_INVENTORY_MOVEMENT "
-        qry += " where TSPL_INVENTORY_MOVEMENT.Qty<>0 and TSPL_INVENTORY_MOVEMENT.Item_Code='" + _ICode + "'"
+        qry += " where TSPL_INVENTORY_MOVEMENT.Qty<>0 and TSPL_INVENTORY_MOVEMENT.Item_Code='" + _ICode + "' AND PUNCHING_DAte  <= '" + clsCommon.GetPrintDate(_TransDate, "dd/MMM/yyyy hh:mm:ss tt") + "' "
         If clsCommon.myLen(_LCode) > 0 Then
             qry += "  and Location_Code='" + _LCode + "'"
         End If
         If _IsMRPMandatory AndAlso _MRP > 0 Then
-            qry += " and TSPL_INVENTORY_MOVEMENT.MRP='" + clsCommon.myCstr(_MRP) + "' "
+            qry += " and TSPL_INVENTORY_MOVEMENT.MRP='" + clsCommon.myCstr(_MRP) + "' " 'clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy hh:mm:ss tt")
         End If
 
         If IsItemWithDifferntUnitConsiderAsOtherItem Then
@@ -313,30 +313,30 @@ Public Class clsItemLocationDetails
                 qry += " and TSPL_SD_SALES_ORDER_DETAIL.Unit_code='" + _UOM + "' "
             End If
             qry += " and TSPL_SD_SALES_ORDER_DETAIL.CommitedQty>0 and TSPL_SD_SALES_ORDER_DETAIL.DOCUMENT_CODE not  in('" + _TransNo + "') "
-            qry += "  union all " + Environment.NewLine
-            qry += " select  'Shipment' as TransType,'" + clsCommon.myCstr(clsUserMgtCode.frmShipmentProductSale) + "' as TransCode,TSPL_SD_SHIPMENT_HEAD.Document_Code as DocNo, TSPL_SD_SHIPMENT_DETAIL.Item_Code as ICode,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as Locaion,TSPL_SD_SHIPMENT_DETAIL.Qty as Qty,-1 as RI,TSPL_SD_SHIPMENT_DETAIL.Unit_code AS Uom  "
-            qry += " from TSPL_SD_SHIPMENT_DETAIL "
-            qry += " left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE"
-            qry += " where TSPL_SD_SHIPMENT_HEAD.Status=0 and TSPL_SD_SHIPMENT_DETAIL.Item_Code='" + _ICode + "'"
-            If clsCommon.myLen(_LCode) > 0 Then
-                qry += " and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" + _LCode + "'  "
-            End If
-            If _IsMRPMandatory AndAlso _MRP > 0 Then
-                qry += " and TSPL_SD_SHIPMENT_DETAIL.MRP='" + clsCommon.myCstr(_MRP) + "' "
-            End If
-            If IsItemWithDifferntUnitConsiderAsOtherItem Then
-                qry += " and TSPL_SD_SHIPMENT_DETAIL.Unit_code='" + _UOM + "' "
-            End If
-            qry += " and TSPL_SD_SHIPMENT_DETAIL.Qty<>0 and TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE not in ('" + _TransNo + "')"
+            'qry += "  union all " + Environment.NewLine
+            'qry += " select  'Shipment' as TransType,'" + clsCommon.myCstr(clsUserMgtCode.frmShipmentProductSale) + "' as TransCode,TSPL_SD_SHIPMENT_HEAD.Document_Code as DocNo, TSPL_SD_SHIPMENT_DETAIL.Item_Code as ICode,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location as Locaion,TSPL_SD_SHIPMENT_DETAIL.Qty as Qty,-1 as RI,TSPL_SD_SHIPMENT_DETAIL.Unit_code AS Uom  "
+            'qry += " from TSPL_SD_SHIPMENT_DETAIL "
+            'qry += " left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE"
+            'qry += " where TSPL_SD_SHIPMENT_HEAD.Status=0 and TSPL_SD_SHIPMENT_DETAIL.Item_Code='" + _ICode + "'"
+            'If clsCommon.myLen(_LCode) > 0 Then
+            '    qry += " and TSPL_SD_SHIPMENT_HEAD.Bill_To_Location='" + _LCode + "'  "
+            'End If
+            'If _IsMRPMandatory AndAlso _MRP > 0 Then
+            '    qry += " and TSPL_SD_SHIPMENT_DETAIL.MRP='" + clsCommon.myCstr(_MRP) + "' "
+            'End If
+            'If IsItemWithDifferntUnitConsiderAsOtherItem Then
+            '    qry += " and TSPL_SD_SHIPMENT_DETAIL.Unit_code='" + _UOM + "' "
+            'End If
+            'qry += " and TSPL_SD_SHIPMENT_DETAIL.Qty<>0 and TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE not in ('" + _TransNo + "')"
             If clsCommon.CompairString(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowStockCheckatDOLevel, clsFixedParameterCode.AllowStockCheckatDOLevel, trans)), "1") = CompairStringResult.Equal Then
-                qry += " and TSPL_SD_SHIPMENT_HEAD.Trans_Type not in ( 'PS') " + Environment.NewLine + _
-                " union all " + Environment.NewLine + _
-                " select * from (" + Environment.NewLine + _
-                " select 'DeliveryOrderPS' as TransType,'DeliveryOrderPS' as TransCode,TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code as DocNo, TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Item_Code as ICode,TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Bill_To_Location as Locaion " + Environment.NewLine + _
-                ",case when isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Short_Close,'N')='N' then TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Qty -isnull((select sum( TSPL_SD_SHIPMENT_DETAIL.qty) from TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code= TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS =TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.DOCUMENT_CODE and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Unit_code),0)" + Environment.NewLine + _
-                " else isnull((select sum( TSPL_SD_SHIPMENT_DETAIL.qty) from TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code= TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where TSPL_SD_SHIPMENT_HEAD.Status=0 and TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS =TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.DOCUMENT_CODE and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Unit_code),0)  end as Qty ,-1 as RI,TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Unit_code AS Uom  " + Environment.NewLine + _
-                " from TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE " + Environment.NewLine + _
-                " left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.DOCUMENT_CODE " + Environment.NewLine + _
+                qry += " and TSPL_SD_SHIPMENT_HEAD.Trans_Type not in ( 'PS') " + Environment.NewLine +
+                " union all " + Environment.NewLine +
+                " select * from (" + Environment.NewLine +
+                " select 'DeliveryOrderPS' as TransType,'DeliveryOrderPS' as TransCode,TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code as DocNo, TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Item_Code as ICode,TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Bill_To_Location as Locaion " + Environment.NewLine +
+                ",case when isnull(TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Short_Close,'N')='N' then TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Qty -isnull((select sum( TSPL_SD_SHIPMENT_DETAIL.qty) from TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code= TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where TSPL_SD_SHIPMENT_HEAD.Status=1 and TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS =TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.DOCUMENT_CODE and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Unit_code),0)" + Environment.NewLine +
+                " else isnull((select sum( TSPL_SD_SHIPMENT_DETAIL.qty) from TSPL_SD_SHIPMENT_DETAIL left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code= TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE where TSPL_SD_SHIPMENT_HEAD.Status=0 and TSPL_SD_SHIPMENT_DETAIL.Delivery_Code_PS =TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.DOCUMENT_CODE and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Item_Code and TSPL_SD_SHIPMENT_DETAIL.Unit_code=TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Unit_code),0)  end as Qty ,-1 as RI,TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Unit_code AS Uom  " + Environment.NewLine +
+                " from TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE " + Environment.NewLine +
+                " left outer join TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE on TSPL_DELIVERY_ORDER_HEAD_PRODUCTSALE.Document_Code=TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.DOCUMENT_CODE " + Environment.NewLine +
                 " where TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Item_Code='" + _ICode + "'" + Environment.NewLine
 
                 If clsCommon.myLen(_LCode) > 0 Then
@@ -348,7 +348,7 @@ Public Class clsItemLocationDetails
                 If IsItemWithDifferntUnitConsiderAsOtherItem Then
                     qry += " and TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.Unit_code='" + _UOM + "' "
                 End If
-                qry += " and (TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.DOCUMENT_CODE not in ('" + _TransNo + "'))" + Environment.NewLine + _
+                qry += " and (TSPL_DELIVERY_ORDER_DETAIL_PRODUCTSALE.DOCUMENT_CODE not in ('" + _TransNo + "'))" + Environment.NewLine +
                 " ) x where Qty>0 "
             End If
 
