@@ -136,7 +136,7 @@ Partial Class frmVLCMappingForMP_PaymentProcess
         Me.txtMCC.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtMCC.MyLinkLable1 = Me.RadLabel1
         Me.txtMCC.MyLinkLable2 = Nothing
-        Me.txtMCC.MyMaxLength = 32767
+        Me.txtMCC.MyMaxLength = 30
         Me.txtMCC.MyReadOnly = False
         Me.txtMCC.Name = "txtMCC"
         Me.txtMCC.Size = New System.Drawing.Size(287, 20)
@@ -173,13 +173,13 @@ Partial Class frmVLCMappingForMP_PaymentProcess
         Me.btnSave.TabIndex = 3
         Me.btnSave.Text = "Save"
         '
-        'frmVLCMappingForMPAmount
+        'frmVLCMappingForMP_PaymentProcess
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(559, 130)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "frmVLCMappingForMPAmount"
+        Me.Name = "frmVLCMappingForMP_PaymentProcess"
         '
         '
         '

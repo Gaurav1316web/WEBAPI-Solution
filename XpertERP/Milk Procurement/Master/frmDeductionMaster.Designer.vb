@@ -649,7 +649,7 @@ Partial Class FrmDeductionMaster
         Me.fndCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndCode.MyLinkLable1 = Me.lblCode
         Me.fndCode.MyLinkLable2 = Nothing
-        Me.fndCode.MyMaxLength = 32767
+        Me.fndCode.MyMaxLength = 30
         Me.fndCode.MyReadOnly = False
         Me.fndCode.Name = "fndCode"
         Me.fndCode.Size = New System.Drawing.Size(270, 20)

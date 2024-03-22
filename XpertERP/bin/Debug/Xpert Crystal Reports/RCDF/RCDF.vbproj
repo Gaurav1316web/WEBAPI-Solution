@@ -1507,6 +1507,7 @@
     <None Include="Crystal Reports\Purchase Order\PersonWiseGoodsReturnableBalance.rpt" />
     <None Include="Crystal Reports\Purchase Order\PO-G - Copy.rpt" />
     <None Include="Crystal Reports\Purchase Order\PO-G old1.rpt" />
+    <None Include="Crystal Reports\Purchase Order\PO-G-PLI.rpt" />
     <None Include="Crystal Reports\Purchase Order\PO-G.rpt" />
     <None Include="Crystal Reports\Purchase Order\PO-V.rpt" />
     <None Include="Crystal Reports\Purchase Order\POReport\FrmPurchaseOrderReport-G.rpt" />

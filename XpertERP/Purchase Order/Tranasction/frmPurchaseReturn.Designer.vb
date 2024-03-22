@@ -22,7 +22,11 @@ Partial Class frmPurchaseReturn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPurchaseReturn))
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -147,6 +151,7 @@ Partial Class frmPurchaseReturn
         Me.lblAmtWithDiscount = New common.Controls.MyLabel()
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
+        Me.btnNewHistory = New Telerik.WinControls.UI.RadButton()
         Me.btncancel = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnShowJE = New Telerik.WinControls.UI.RadButton()
@@ -167,7 +172,6 @@ Partial Class frmPurchaseReturn
         Me.SaveLayoutbtn = New Telerik.WinControls.UI.RadMenuItem()
         Me.DeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnNewHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -291,6 +295,7 @@ Partial Class frmPurchaseReturn
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btncancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowJE, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -304,7 +309,6 @@ Partial Class frmPurchaseReturn
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -355,7 +359,6 @@ Partial Class frmPurchaseReturn
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1028, 461)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -435,7 +438,6 @@ Partial Class frmPurchaseReturn
         Me.lblSubLocation.Name = "lblSubLocation"
         Me.lblSubLocation.Size = New System.Drawing.Size(242, 18)
         Me.lblSubLocation.TabIndex = 1471
-        Me.lblSubLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblSubLocation.TextWrap = False
         '
         'MyLabel60
@@ -518,6 +520,7 @@ Partial Class frmPurchaseReturn
         Me.cboTrType.AutoCompleteDisplayMember = Nothing
         Me.cboTrType.AutoCompleteValueMember = Nothing
         Me.cboTrType.CalculationExpression = Nothing
+        Me.cboTrType.DropDownAnimationEnabled = True
         Me.cboTrType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboTrType.FieldCode = Nothing
         Me.cboTrType.FieldDesc = Nothing
@@ -554,6 +557,7 @@ Partial Class frmPurchaseReturn
         Me.CboNoteType.AutoCompleteDisplayMember = Nothing
         Me.CboNoteType.AutoCompleteValueMember = Nothing
         Me.CboNoteType.CalculationExpression = Nothing
+        Me.CboNoteType.DropDownAnimationEnabled = True
         Me.CboNoteType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CboNoteType.FieldCode = Nothing
         Me.CboNoteType.FieldDesc = Nothing
@@ -654,7 +658,6 @@ Partial Class frmPurchaseReturn
         Me.fndProject.Name = "fndProject"
         Me.fndProject.Size = New System.Drawing.Size(98, 20)
         Me.fndProject.TabIndex = 1
-        Me.fndProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.fndProject.TextWrap = False
         '
         'MyLabel4
@@ -677,7 +680,6 @@ Partial Class frmPurchaseReturn
         Me.lblProject.Name = "lblProject"
         Me.lblProject.Size = New System.Drawing.Size(178, 20)
         Me.lblProject.TabIndex = 0
-        Me.lblProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblProject.TextWrap = False
         '
         'RadLabel29
@@ -695,6 +697,7 @@ Partial Class frmPurchaseReturn
         Me.cboItemType.AutoCompleteDisplayMember = Nothing
         Me.cboItemType.AutoCompleteValueMember = Nothing
         Me.cboItemType.CalculationExpression = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
         Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboItemType.FieldCode = Nothing
         Me.cboItemType.FieldDesc = Nothing
@@ -811,7 +814,6 @@ Partial Class frmPurchaseReturn
         Me.lblShipToLocation.Name = "lblShipToLocation"
         Me.lblShipToLocation.Size = New System.Drawing.Size(242, 18)
         Me.lblShipToLocation.TabIndex = 36
-        Me.lblShipToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblShipToLocation.TextWrap = False
         '
         'lblBillToLocation
@@ -824,7 +826,6 @@ Partial Class frmPurchaseReturn
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(242, 18)
         Me.lblBillToLocation.TabIndex = 37
-        Me.lblBillToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBillToLocation.TextWrap = False
         '
         'RadLabel14
@@ -903,10 +904,13 @@ Partial Class frmPurchaseReturn
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -914,7 +918,6 @@ Partial Class frmPurchaseReturn
         Me.gv1.Size = New System.Drawing.Size(982, 146)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel23
         '
@@ -965,7 +968,6 @@ Partial Class frmPurchaseReturn
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(242, 18)
         Me.lblVendorName.TabIndex = 38
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'RadLabel2
@@ -1260,7 +1262,7 @@ Partial Class frmPurchaseReturn
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(247, 20)
@@ -1482,7 +1484,6 @@ Partial Class frmPurchaseReturn
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 1
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'RadLabel10
@@ -1562,7 +1563,6 @@ Partial Class frmPurchaseReturn
         Me.lblTermName.Name = "lblTermName"
         Me.lblTermName.Size = New System.Drawing.Size(321, 20)
         Me.lblTermName.TabIndex = 1
-        Me.lblTermName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTermName.TextWrap = False
         '
         'txtDueDate
@@ -1622,13 +1622,15 @@ Partial Class frmPurchaseReturn
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(1002, 273)
         Me.gv2.TabIndex = 3
-        Me.gv2.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -1678,17 +1680,19 @@ Partial Class frmPurchaseReturn
         Me.gvAC.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvAC.Location = New System.Drawing.Point(3, 16)
         '
-        'gvAC
+        '
         '
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
+        Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
         Me.gvAC.ShowHeaderCellButtons = True
         Me.gvAC.Size = New System.Drawing.Size(597, 369)
         Me.gvAC.TabIndex = 1
-        Me.gvAC.Text = "RadGridView1"
         '
         'Panel1
         '
@@ -1749,7 +1753,10 @@ Partial Class frmPurchaseReturn
         '
         '
         Me.gvACInsurance.MasterTemplate.AllowDeleteRow = False
+        Me.gvACInsurance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvACInsurance.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvACInsurance.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvACInsurance.MyStopExport = False
         Me.gvACInsurance.Name = "gvACInsurance"
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvACInsurance.ShowGroupPanel = False
@@ -1757,7 +1764,6 @@ Partial Class frmPurchaseReturn
         Me.gvACInsurance.Size = New System.Drawing.Size(394, 369)
         Me.gvACInsurance.TabIndex = 3
         Me.gvACInsurance.TabStop = False
-        Me.gvACInsurance.Text = "RadGridView1"
         '
         'RadPanel2
         '
@@ -2199,6 +2205,14 @@ Partial Class frmPurchaseReturn
         Me.RadLabel19.TabIndex = 119
         Me.RadLabel19.Text = "Document Amount without Discount"
         '
+        'btnNewHistory
+        '
+        Me.btnNewHistory.Location = New System.Drawing.Point(807, 4)
+        Me.btnNewHistory.Name = "btnNewHistory"
+        Me.btnNewHistory.Size = New System.Drawing.Size(71, 22)
+        Me.btnNewHistory.TabIndex = 41
+        Me.btnNewHistory.Text = "&History"
+        '
         'btncancel
         '
         Me.btncancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -2252,22 +2266,16 @@ Partial Class frmPurchaseReturn
         '
         'btnpreview
         '
-        Me.btnpreview.AccessibleDescription = "Preview"
-        Me.btnpreview.AccessibleName = "Preview"
         Me.btnpreview.Name = "btnpreview"
         Me.btnpreview.Text = "Preview"
         '
         'btnsend
         '
-        Me.btnsend.AccessibleDescription = "E-Mail/SMS Send"
-        Me.btnsend.AccessibleName = "E-Mail/SMS Send"
         Me.btnsend.Name = "btnsend"
         Me.btnsend.Text = "E-Mail/SMS Send"
         '
         'btnSendForApproval
         '
-        Me.btnSendForApproval.AccessibleDescription = "Send For Approval"
-        Me.btnSendForApproval.AccessibleName = "Send For Approval"
         Me.btnSendForApproval.Name = "btnSendForApproval"
         Me.btnSendForApproval.Text = "Send For Approval"
         '
@@ -2347,7 +2355,6 @@ Partial Class frmPurchaseReturn
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1028, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'Setting
         '
@@ -2359,32 +2366,18 @@ Partial Class frmPurchaseReturn
         '
         'SaveLayoutbtn
         '
-        Me.SaveLayoutbtn.AccessibleDescription = "Save Layout"
-        Me.SaveLayoutbtn.AccessibleName = "Save Layout"
         Me.SaveLayoutbtn.Name = "SaveLayoutbtn"
         Me.SaveLayoutbtn.Text = "Save Layout"
         '
         'DeleteLayout
         '
-        Me.DeleteLayout.AccessibleDescription = " Delete Layout"
-        Me.DeleteLayout.AccessibleName = " Delete Layout"
         Me.DeleteLayout.Name = "DeleteLayout"
         Me.DeleteLayout.Text = " Delete Layout"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "E-Mail/SMS Setting"
-        Me.RadMenuItem1.AccessibleName = "E-Mail/SMS Setting"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "E-Mail/SMS Setting"
-        '
-        'btnNewHistory
-        '
-        Me.btnNewHistory.Location = New System.Drawing.Point(807, 4)
-        Me.btnNewHistory.Name = "btnNewHistory"
-        Me.btnNewHistory.Size = New System.Drawing.Size(71, 22)
-        Me.btnNewHistory.TabIndex = 41
-        Me.btnNewHistory.Text = "&History"
         '
         'frmPurchaseReturn
         '
@@ -2532,6 +2525,7 @@ Partial Class frmPurchaseReturn
         CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btncancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowJE, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2546,7 +2540,6 @@ Partial Class frmPurchaseReturn
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

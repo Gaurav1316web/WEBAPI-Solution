@@ -22,6 +22,8 @@ Partial Class frmPriceChartPlanMasterGHO
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -185,7 +187,6 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(807, 449)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -219,6 +220,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.cboDockCollectionMilkType.AutoCompleteDisplayMember = Nothing
         Me.cboDockCollectionMilkType.AutoCompleteValueMember = Nothing
         Me.cboDockCollectionMilkType.CalculationExpression = Nothing
+        Me.cboDockCollectionMilkType.DropDownAnimationEnabled = True
         Me.cboDockCollectionMilkType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDockCollectionMilkType.FieldCode = Nothing
         Me.cboDockCollectionMilkType.FieldDesc = Nothing
@@ -260,9 +262,12 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.gvTS.Enabled = False
         Me.gvTS.Location = New System.Drawing.Point(2, 18)
         '
-        'gvTS
         '
+        '
+        Me.gvTS.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTS.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTS.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvTS.MyStopExport = False
         Me.gvTS.Name = "gvTS"
         Me.gvTS.ShowHeaderCellButtons = True
         Me.gvTS.Size = New System.Drawing.Size(519, 181)
@@ -310,7 +315,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.txtBuffeloSNFPlusMinus.TabIndex = 2
         Me.txtBuffeloSNFPlusMinus.Text = "0"
         Me.txtBuffeloSNFPlusMinus.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBuffeloSNFPlusMinus.Value = 0.0R
+        Me.txtBuffeloSNFPlusMinus.Value = 0R
         '
         'MyLabel22
         '
@@ -347,7 +352,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.txtBuffeloMininimumSNF.TabIndex = 1
         Me.txtBuffeloMininimumSNF.Text = "0"
         Me.txtBuffeloMininimumSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBuffeloMininimumSNF.Value = 0.0R
+        Me.txtBuffeloMininimumSNF.Value = 0R
         '
         'MyLabel23
         '
@@ -384,7 +389,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.txtBuffeloFatRate.TabIndex = 0
         Me.txtBuffeloFatRate.Text = "0"
         Me.txtBuffeloFatRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtBuffeloFatRate.Value = 0.0R
+        Me.txtBuffeloFatRate.Value = 0R
         '
         'MyLabel24
         '
@@ -401,6 +406,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.CboShift.AutoCompleteDisplayMember = Nothing
         Me.CboShift.AutoCompleteValueMember = Nothing
         Me.CboShift.CalculationExpression = Nothing
+        Me.CboShift.DropDownAnimationEnabled = True
         Me.CboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CboShift.FieldCode = Nothing
         Me.CboShift.FieldDesc = Nothing
@@ -594,7 +600,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.txtFatPer.TabIndex = 2
         Me.txtFatPer.Text = "0"
         Me.txtFatPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFatPer.Value = 0.0R
+        Me.txtFatPer.Value = 0R
         '
         'MyLabel4
         '
@@ -633,7 +639,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.txtSnfPer.TabIndex = 5
         Me.txtSnfPer.Text = "0"
         Me.txtSnfPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSnfPer.Value = 0.0R
+        Me.txtSnfPer.Value = 0R
         '
         'MyLabel3
         '
@@ -681,7 +687,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.txtFatRatio.TabIndex = 1
         Me.txtFatRatio.Text = "0"
         Me.txtFatRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFatRatio.Value = 0.0R
+        Me.txtFatRatio.Value = 0R
         '
         'txtRate
         '
@@ -709,7 +715,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.txtRate.TabIndex = 3
         Me.txtRate.Text = "0"
         Me.txtRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRate.Value = 0.0R
+        Me.txtRate.Value = 0R
         '
         'txtSNFRatio
         '
@@ -737,7 +743,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.txtSNFRatio.TabIndex = 4
         Me.txtSNFRatio.Text = "0"
         Me.txtSNFRatio.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSNFRatio.Value = 0.0R
+        Me.txtSNFRatio.Value = 0R
         '
         'MyLabel12
         '
@@ -838,7 +844,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblvandorno
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(295, 20)
@@ -860,10 +866,17 @@ Partial Class frmPriceChartPlanMasterGHO
         '
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(0, 33)
+        '
+        '
+        '
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
+        Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(786, 368)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
         '
         'Panel1
         '
@@ -952,7 +965,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.txtSearchRate.TabIndex = 20
         Me.txtSearchRate.Text = "0"
         Me.txtSearchRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSearchRate.Value = 0.0R
+        Me.txtSearchRate.Value = 0R
         '
         'MyLabel21
         '
@@ -1002,7 +1015,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.txtSearchSNF.TabIndex = 21
         Me.txtSearchSNF.Text = "0"
         Me.txtSearchSNF.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSearchSNF.Value = 0.0R
+        Me.txtSearchSNF.Value = 0R
         '
         'MyLabel17
         '
@@ -1039,7 +1052,7 @@ Partial Class frmPriceChartPlanMasterGHO
         Me.txtSearchFAT.TabIndex = 20
         Me.txtSearchFAT.Text = "0"
         Me.txtSearchFAT.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSearchFAT.Value = 0.0R
+        Me.txtSearchFAT.Value = 0R
         '
         'MyLabel18
         '

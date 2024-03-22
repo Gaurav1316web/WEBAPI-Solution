@@ -22,24 +22,24 @@ Partial Class MilkComponentMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Me.rdmenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.File = New Telerik.WinControls.UI.RadMenuItem
-        Me.Import = New Telerik.WinControls.UI.RadMenuItem
-        Me.Export = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.ddlType = New common.Controls.MyComboBox
-        Me.lblType = New common.Controls.MyLabel
-        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton
-        Me.lblDescription = New common.Controls.MyLabel
-        Me.txtDescription = New common.Controls.MyTextBox
-        Me.fndComponentCode = New common.UserControls.txtNavigator
-        Me.lblComponentCode = New common.Controls.MyLabel
-        Me.rdbtnsave = New Telerik.WinControls.UI.RadButton
-        Me.rdbtnclose = New Telerik.WinControls.UI.RadButton
-        Me.rdbtndelete = New Telerik.WinControls.UI.RadButton
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Me.rdmenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.File = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Import = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Export = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.ddlType = New common.Controls.MyComboBox()
+        Me.lblType = New common.Controls.MyLabel()
+        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
+        Me.lblDescription = New common.Controls.MyLabel()
+        Me.txtDescription = New common.Controls.MyTextBox()
+        Me.fndComponentCode = New common.UserControls.txtNavigator()
+        Me.lblComponentCode = New common.Controls.MyLabel()
+        Me.rdbtnsave = New Telerik.WinControls.UI.RadButton()
+        Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
+        Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
         CType(Me.rdmenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -63,40 +63,27 @@ Partial Class MilkComponentMaster
         Me.rdmenu1.Name = "rdmenu1"
         Me.rdmenu1.Size = New System.Drawing.Size(730, 20)
         Me.rdmenu1.TabIndex = 2
-        Me.rdmenu1.Text = "rdmenu"
         '
         'File
         '
-        Me.File.AccessibleDescription = "File"
-        Me.File.AccessibleName = "File"
         Me.File.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Import, Me.Export, Me.RadMenuItem1})
         Me.File.Name = "File"
         Me.File.Text = "File"
-        Me.File.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'Import
         '
-        Me.Import.AccessibleDescription = "Import"
-        Me.Import.AccessibleName = "Import"
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
-        Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'Export
         '
-        Me.Export.AccessibleDescription = "Export"
-        Me.Export.AccessibleName = "Export"
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
-        Me.Export.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Exit"
-        Me.RadMenuItem1.AccessibleName = "Exit"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Exit"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer1
         '
@@ -128,25 +115,37 @@ Partial Class MilkComponentMaster
         '
         'ddlType
         '
+        Me.ddlType.CalculationExpression = Nothing
+        Me.ddlType.DropDownAnimationEnabled = True
         Me.ddlType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem3.Tag = "Fat"
-        RadListDataItem3.Text = "Fat"
-        RadListDataItem3.TextWrap = True
-        RadListDataItem4.Tag = "SNF"
-        RadListDataItem4.Text = "SNF"
-        RadListDataItem4.TextWrap = True
-        Me.ddlType.Items.Add(RadListDataItem3)
-        Me.ddlType.Items.Add(RadListDataItem4)
+        Me.ddlType.FieldCode = Nothing
+        Me.ddlType.FieldDesc = Nothing
+        Me.ddlType.FieldMaxLength = 0
+        Me.ddlType.FieldName = Nothing
+        Me.ddlType.isCalculatedField = False
+        Me.ddlType.IsSourceFromTable = False
+        Me.ddlType.IsSourceFromValueList = False
+        Me.ddlType.IsUnique = False
+        RadListDataItem1.Tag = "Fat"
+        RadListDataItem1.Text = "Fat"
+        RadListDataItem2.Tag = "SNF"
+        RadListDataItem2.Text = "SNF"
+        Me.ddlType.Items.Add(RadListDataItem1)
+        Me.ddlType.Items.Add(RadListDataItem2)
         Me.ddlType.Location = New System.Drawing.Point(119, 68)
         Me.ddlType.MendatroryField = True
         Me.ddlType.MyLinkLable1 = Nothing
         Me.ddlType.MyLinkLable2 = Nothing
         Me.ddlType.Name = "ddlType"
+        Me.ddlType.ReferenceFieldDesc = Nothing
+        Me.ddlType.ReferenceFieldName = Nothing
+        Me.ddlType.ReferenceTableName = Nothing
         Me.ddlType.Size = New System.Drawing.Size(215, 20)
         Me.ddlType.TabIndex = 3
         '
         'lblType
         '
+        Me.lblType.FieldName = Nothing
         Me.lblType.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.lblType.Location = New System.Drawing.Point(12, 70)
         Me.lblType.Name = "lblType"
@@ -164,6 +163,7 @@ Partial Class MilkComponentMaster
         '
         'lblDescription
         '
+        Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.lblDescription.Location = New System.Drawing.Point(12, 45)
         Me.lblDescription.Name = "lblDescription"
@@ -173,25 +173,38 @@ Partial Class MilkComponentMaster
         '
         'txtDescription
         '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(119, 43)
         Me.txtDescription.MaxLength = 100
         Me.txtDescription.MendatroryField = False
         Me.txtDescription.MyLinkLable1 = Nothing
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(215, 20)
         Me.txtDescription.TabIndex = 2
         '
         'fndComponentCode
         '
         Me.fndComponentCode.AccessibleRole = System.Windows.Forms.AccessibleRole.TitleBar
+        Me.fndComponentCode.FieldName = Nothing
         Me.fndComponentCode.Location = New System.Drawing.Point(119, 17)
         Me.fndComponentCode.MendatroryField = False
         Me.fndComponentCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndComponentCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndComponentCode.MyLinkLable1 = Me.lblComponentCode
         Me.fndComponentCode.MyLinkLable2 = Nothing
-        Me.fndComponentCode.MyMaxLength = 12
+        Me.fndComponentCode.MyMaxLength = 30
         Me.fndComponentCode.MyReadOnly = False
         Me.fndComponentCode.Name = "fndComponentCode"
         Me.fndComponentCode.Size = New System.Drawing.Size(215, 21)
@@ -200,6 +213,7 @@ Partial Class MilkComponentMaster
         '
         'lblComponentCode
         '
+        Me.lblComponentCode.FieldName = Nothing
         Me.lblComponentCode.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblComponentCode.Location = New System.Drawing.Point(12, 20)
         Me.lblComponentCode.Name = "lblComponentCode"

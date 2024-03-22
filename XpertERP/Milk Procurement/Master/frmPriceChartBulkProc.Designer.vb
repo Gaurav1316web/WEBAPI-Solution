@@ -22,6 +22,7 @@ Partial Class frmPriceChartBulkProc
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RmImport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnImportDetail = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,9 +31,10 @@ Partial Class frmPriceChartBulkProc
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
-        Me.pnlTotalSolid = New System.Windows.Forms.Panel()
+        Me.pnlUOM = New System.Windows.Forms.Panel()
         Me.txtUOM = New common.UserControls.txtFinder()
         Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.pnlTotalSolid = New System.Windows.Forms.Panel()
         Me.MyLabel9 = New common.Controls.MyLabel()
         Me.txtTotalSolidRate = New common.MyNumBox()
         Me.chkPriceGradeWise = New common.Controls.MyCheckBox()
@@ -74,7 +76,6 @@ Partial Class frmPriceChartBulkProc
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.pnlUOM = New System.Windows.Forms.Panel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -84,8 +85,9 @@ Partial Class frmPriceChartBulkProc
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
-        Me.pnlTotalSolid.SuspendLayout()
+        Me.pnlUOM.SuspendLayout()
         CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlTotalSolid.SuspendLayout()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTotalSolidRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkPriceGradeWise, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -126,45 +128,34 @@ Partial Class frmPriceChartBulkProc
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pnlUOM.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RmImport, Me.RmExport})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
         '
         'RmImport
         '
-        Me.RmImport.AccessibleDescription = "Import"
-        Me.RmImport.AccessibleName = "Import"
         Me.RmImport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnImportDetail})
         Me.RmImport.Name = "RmImport"
         Me.RmImport.Text = "Import"
         '
         'btnImportDetail
         '
-        Me.btnImportDetail.AccessibleDescription = "Import Detail"
-        Me.btnImportDetail.AccessibleName = "Import Detail"
         Me.btnImportDetail.Name = "btnImportDetail"
         Me.btnImportDetail.Text = "Import Detail"
         '
         'RmExport
         '
-        Me.RmExport.AccessibleDescription = "Export"
-        Me.RmExport.AccessibleName = "Export"
         Me.RmExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExportDetail})
         Me.RmExport.Name = "RmExport"
         Me.RmExport.Text = "Export"
         '
         'btnExportDetail
         '
-        Me.btnExportDetail.AccessibleDescription = "Export Detail"
-        Me.btnExportDetail.AccessibleName = "Export Detail"
         Me.btnExportDetail.Name = "btnExportDetail"
         Me.btnExportDetail.Text = "Export Detail"
         Me.btnExportDetail.Visibility = Telerik.WinControls.ElementVisibility.Hidden
@@ -254,14 +245,14 @@ Partial Class frmPriceChartBulkProc
         Me.SplitContainer3.SplitterDistance = 76
         Me.SplitContainer3.TabIndex = 0
         '
-        'pnlTotalSolid
+        'pnlUOM
         '
-        Me.pnlTotalSolid.Controls.Add(Me.MyLabel9)
-        Me.pnlTotalSolid.Controls.Add(Me.txtTotalSolidRate)
-        Me.pnlTotalSolid.Location = New System.Drawing.Point(3, 51)
-        Me.pnlTotalSolid.Name = "pnlTotalSolid"
-        Me.pnlTotalSolid.Size = New System.Drawing.Size(224, 22)
-        Me.pnlTotalSolid.TabIndex = 277
+        Me.pnlUOM.Controls.Add(Me.txtUOM)
+        Me.pnlUOM.Controls.Add(Me.MyLabel13)
+        Me.pnlUOM.Location = New System.Drawing.Point(223, 51)
+        Me.pnlUOM.Name = "pnlUOM"
+        Me.pnlUOM.Size = New System.Drawing.Size(223, 22)
+        Me.pnlUOM.TabIndex = 286
         '
         'txtUOM
         '
@@ -299,6 +290,15 @@ Partial Class frmPriceChartBulkProc
         Me.MyLabel13.TabIndex = 293
         Me.MyLabel13.Text = "Calculation UOM"
         '
+        'pnlTotalSolid
+        '
+        Me.pnlTotalSolid.Controls.Add(Me.MyLabel9)
+        Me.pnlTotalSolid.Controls.Add(Me.txtTotalSolidRate)
+        Me.pnlTotalSolid.Location = New System.Drawing.Point(3, 51)
+        Me.pnlTotalSolid.Name = "pnlTotalSolid"
+        Me.pnlTotalSolid.Size = New System.Drawing.Size(224, 22)
+        Me.pnlTotalSolid.TabIndex = 277
+        '
         'MyLabel9
         '
         Me.MyLabel9.FieldName = Nothing
@@ -334,7 +334,7 @@ Partial Class frmPriceChartBulkProc
         Me.txtTotalSolidRate.TabIndex = 286
         Me.txtTotalSolidRate.Text = "0"
         Me.txtTotalSolidRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotalSolidRate.Value = 0.0R
+        Me.txtTotalSolidRate.Value = 0R
         '
         'chkPriceGradeWise
         '
@@ -425,7 +425,6 @@ Partial Class frmPriceChartBulkProc
         Me.lblMilkType.Name = "lblMilkType"
         Me.lblMilkType.Size = New System.Drawing.Size(81, 19)
         Me.lblMilkType.TabIndex = 284
-        Me.lblMilkType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblSRNDate
         '
@@ -582,7 +581,7 @@ Partial Class frmPriceChartBulkProc
         Me.fndcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndcode.MyLinkLable1 = Me.lblvandorno
         Me.fndcode.MyLinkLable2 = Nothing
-        Me.fndcode.MyMaxLength = 32767
+        Me.fndcode.MyMaxLength = 30
         Me.fndcode.MyReadOnly = False
         Me.fndcode.Name = "fndcode"
         Me.fndcode.Size = New System.Drawing.Size(300, 21)
@@ -624,7 +623,7 @@ Partial Class frmPriceChartBulkProc
         Me.TxtFatWeightage.TabIndex = 0
         Me.TxtFatWeightage.Text = "0"
         Me.TxtFatWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtFatWeightage.Value = 0.0R
+        Me.TxtFatWeightage.Value = 0R
         '
         'MyLabel6
         '
@@ -681,7 +680,7 @@ Partial Class frmPriceChartBulkProc
         Me.txtfatPercentage.TabIndex = 2
         Me.txtfatPercentage.Text = "0"
         Me.txtfatPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtfatPercentage.Value = 0.0R
+        Me.txtfatPercentage.Value = 0R
         '
         'fndVendor
         '
@@ -746,7 +745,7 @@ Partial Class frmPriceChartBulkProc
         Me.TxtSNFWeightage.TabIndex = 1
         Me.TxtSNFWeightage.Text = "0"
         Me.TxtSNFWeightage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtSNFWeightage.Value = 0.0R
+        Me.TxtSNFWeightage.Value = 0R
         '
         'txtStanadardrate
         '
@@ -773,7 +772,7 @@ Partial Class frmPriceChartBulkProc
         Me.txtStanadardrate.TabIndex = 4
         Me.txtStanadardrate.Text = "0"
         Me.txtStanadardrate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtStanadardrate.Value = 0.0R
+        Me.txtStanadardrate.Value = 0R
         '
         'MyLabel5
         '
@@ -810,7 +809,7 @@ Partial Class frmPriceChartBulkProc
         Me.txtsnfPercentage.TabIndex = 3
         Me.txtsnfPercentage.Text = "0"
         Me.txtsnfPercentage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtsnfPercentage.Value = 0.0R
+        Me.txtsnfPercentage.Value = 0R
         '
         'lblVendorName
         '
@@ -821,7 +820,6 @@ Partial Class frmPriceChartBulkProc
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(219, 19)
         Me.lblVendorName.TabIndex = 274
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.Visible = False
         '
         'txtTolerance
@@ -849,7 +847,7 @@ Partial Class frmPriceChartBulkProc
         Me.txtTolerance.TabIndex = 5
         Me.txtTolerance.Text = "0"
         Me.txtTolerance.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTolerance.Value = 0.0R
+        Me.txtTolerance.Value = 0R
         '
         'MyLabel4
         '
@@ -879,14 +877,16 @@ Partial Class frmPriceChartBulkProc
         Me.gvPriceChart.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvPriceChart.Location = New System.Drawing.Point(2, 18)
         '
-        'gvPriceChart
         '
+        '
+        Me.gvPriceChart.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPriceChart.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvPriceChart.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvPriceChart.MyStopExport = False
         Me.gvPriceChart.Name = "gvPriceChart"
         Me.gvPriceChart.ShowHeaderCellButtons = True
         Me.gvPriceChart.Size = New System.Drawing.Size(1069, 125)
         Me.gvPriceChart.TabIndex = 264
-        Me.gvPriceChart.Text = "RadGridView1"
         '
         'btnPrint
         '
@@ -940,16 +940,6 @@ Partial Class frmPriceChartBulkProc
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1073, 20)
         Me.RadMenu1.TabIndex = 14
-        Me.RadMenu1.Text = "RadMenu1"
-        '
-        'pnlUOM
-        '
-        Me.pnlUOM.Controls.Add(Me.txtUOM)
-        Me.pnlUOM.Controls.Add(Me.MyLabel13)
-        Me.pnlUOM.Location = New System.Drawing.Point(223, 51)
-        Me.pnlUOM.Name = "pnlUOM"
-        Me.pnlUOM.Size = New System.Drawing.Size(223, 22)
-        Me.pnlUOM.TabIndex = 286
         '
         'frmPriceChartBulkProc
         '
@@ -975,9 +965,11 @@ Partial Class frmPriceChartBulkProc
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.Panel2.PerformLayout()
         Me.SplitContainer3.ResumeLayout(False)
+        Me.pnlUOM.ResumeLayout(False)
+        Me.pnlUOM.PerformLayout()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlTotalSolid.ResumeLayout(False)
         Me.pnlTotalSolid.PerformLayout()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTotalSolidRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkPriceGradeWise, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1019,8 +1011,6 @@ Partial Class frmPriceChartBulkProc
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pnlUOM.ResumeLayout(False)
-        Me.pnlUOM.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

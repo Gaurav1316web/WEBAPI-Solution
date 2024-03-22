@@ -23,19 +23,19 @@ Partial Class FrmDeductionGroup1
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmDeductionGroup1))
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.fndCode = New common.UserControls.txtNavigator
-        Me.lblCode = New common.Controls.MyLabel
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.txtName = New common.Controls.MyTextBox
-        Me.lblName = New common.Controls.MyLabel
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.rmExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.rmIMport = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.fndCode = New common.UserControls.txtNavigator()
+        Me.lblCode = New common.Controls.MyLabel()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtName = New common.Controls.MyTextBox()
+        Me.lblName = New common.Controls.MyLabel()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmIMport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -77,13 +77,14 @@ Partial Class FrmDeductionGroup1
         '
         'fndCode
         '
+        Me.fndCode.FieldName = Nothing
         Me.fndCode.Location = New System.Drawing.Point(101, 26)
         Me.fndCode.MendatroryField = True
         Me.fndCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndCode.MyLinkLable1 = Me.lblCode
         Me.fndCode.MyLinkLable2 = Nothing
-        Me.fndCode.MyMaxLength = 32767
+        Me.fndCode.MyMaxLength = 30
         Me.fndCode.MyReadOnly = False
         Me.fndCode.Name = "fndCode"
         Me.fndCode.Size = New System.Drawing.Size(223, 18)
@@ -92,6 +93,7 @@ Partial Class FrmDeductionGroup1
         '
         'lblCode
         '
+        Me.lblCode.FieldName = Nothing
         Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblCode.Location = New System.Drawing.Point(22, 26)
         Me.lblCode.Name = "lblCode"
@@ -110,18 +112,31 @@ Partial Class FrmDeductionGroup1
         '
         'txtName
         '
+        Me.txtName.CalculationExpression = Nothing
+        Me.txtName.FieldCode = Nothing
+        Me.txtName.FieldDesc = Nothing
+        Me.txtName.FieldMaxLength = 0
+        Me.txtName.FieldName = Nothing
         Me.txtName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtName.isCalculatedField = False
+        Me.txtName.IsSourceFromTable = False
+        Me.txtName.IsSourceFromValueList = False
+        Me.txtName.IsUnique = False
         Me.txtName.Location = New System.Drawing.Point(101, 48)
         Me.txtName.MaxLength = 100
         Me.txtName.MendatroryField = True
         Me.txtName.MyLinkLable1 = Me.lblName
         Me.txtName.MyLinkLable2 = Nothing
         Me.txtName.Name = "txtName"
+        Me.txtName.ReferenceFieldDesc = Nothing
+        Me.txtName.ReferenceFieldName = Nothing
+        Me.txtName.ReferenceTableName = Nothing
         Me.txtName.Size = New System.Drawing.Size(353, 18)
         Me.txtName.TabIndex = 65
         '
         'lblName
         '
+        Me.lblName.FieldName = Nothing
         Me.lblName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblName.Location = New System.Drawing.Point(22, 45)
         Me.lblName.Name = "lblName"
@@ -136,24 +151,17 @@ Partial Class FrmDeductionGroup1
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(480, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmExport, Me.rmIMport})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
-        Me.rmExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rmIMport
         '
@@ -161,7 +169,6 @@ Partial Class FrmDeductionGroup1
         Me.rmIMport.AccessibleName = "RadMenuItem2"
         Me.rmIMport.Name = "rmIMport"
         Me.rmIMport.Text = "Import"
-        Me.rmIMport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnDelete
         '

@@ -21,12 +21,13 @@ Partial Class frmFarmerProMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.cboEndShift = New Telerik.WinControls.UI.RadDropDownList()
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.txtFatRange = New common.MyNumBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.cboEndShift = New Telerik.WinControls.UI.RadDropDownList()
         Me.cboStartShift = New Telerik.WinControls.UI.RadDropDownList()
         Me.lblAdvanceCode = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
@@ -58,10 +59,10 @@ Partial Class frmFarmerProMaster
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.cboEndShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFatRange, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboEndShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cboStartShift, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAdvanceCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -152,6 +153,17 @@ Partial Class frmFarmerProMaster
         Me.SplitContainer2.SplitterDistance = 139
         Me.SplitContainer2.TabIndex = 1082
         '
+        'cboEndShift
+        '
+        Me.cboEndShift.AutoCompleteDisplayMember = Nothing
+        Me.cboEndShift.AutoCompleteValueMember = Nothing
+        Me.cboEndShift.DropDownAnimationEnabled = True
+        Me.cboEndShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboEndShift.Location = New System.Drawing.Point(391, 48)
+        Me.cboEndShift.Name = "cboEndShift"
+        Me.cboEndShift.Size = New System.Drawing.Size(84, 20)
+        Me.cboEndShift.TabIndex = 1083
+        '
         'RadButton1
         '
         Me.RadButton1.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
@@ -202,20 +214,11 @@ Partial Class frmFarmerProMaster
         Me.MyLabel1.Text = "FAT Range For Single Axis"
         Me.MyLabel1.Visible = False
         '
-        'cboEndShift
-        '
-        Me.cboEndShift.AutoCompleteDisplayMember = Nothing
-        Me.cboEndShift.AutoCompleteValueMember = Nothing
-        Me.cboEndShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cboEndShift.Location = New System.Drawing.Point(391, 48)
-        Me.cboEndShift.Name = "cboEndShift"
-        Me.cboEndShift.Size = New System.Drawing.Size(84, 20)
-        Me.cboEndShift.TabIndex = 1083
-        '
         'cboStartShift
         '
         Me.cboStartShift.AutoCompleteDisplayMember = Nothing
         Me.cboStartShift.AutoCompleteValueMember = Nothing
+        Me.cboStartShift.DropDownAnimationEnabled = True
         Me.cboStartShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboStartShift.Location = New System.Drawing.Point(159, 48)
         Me.cboStartShift.Name = "cboStartShift"
@@ -251,7 +254,7 @@ Partial Class frmFarmerProMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(358, 21)
@@ -484,10 +487,13 @@ Partial Class frmFarmerProMaster
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -495,7 +501,6 @@ Partial Class frmFarmerProMaster
         Me.gv1.Size = New System.Drawing.Size(616, 225)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'btnEndDate
         '
@@ -562,10 +567,10 @@ Partial Class frmFarmerProMaster
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.cboEndShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFatRange, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboEndShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cboStartShift, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAdvanceCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).EndInit()
