@@ -67,11 +67,11 @@ Public Class frmLeaveOpeningBalance
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtEmpCode.Value) <= 0 Then
-            myMessages.blankValue("Employee Code")
+            myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtEmpCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtLeaveCode.Value) <= 0 Then
-            myMessages.blankValue("Leave Code")
+            myMessages.blankValue(Me, "Leave Code", Me.Text)
             txtLeaveCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtOpeningBalance.Value) <= 0 Or clsCommon.myCdbl(Me.txtOpeningBalance.Value) > 366 Then

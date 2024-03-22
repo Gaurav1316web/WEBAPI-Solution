@@ -136,7 +136,7 @@ Public Class frmMapPayHeadsToSalaStructure
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("Code")
+            myMessages.blankValue(Me, "Code", Me.Text)
             txtCode.Focus()
             Return False
         End If

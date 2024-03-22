@@ -5492,7 +5492,7 @@ Public Class frmInvoiceFreshSale
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtReqNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             Dim Qry As String = Nothing
             Dim objMultPrintInvoice As New FrmPrintFreshInvoice

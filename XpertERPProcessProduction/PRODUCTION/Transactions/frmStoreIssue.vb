@@ -623,28 +623,28 @@ Public Class frmStoreIssue
             End If
         End If
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            myMessages.blankValue(" To Location")
+            myMessages.blankValue(Me, " To Location", Me.Text)
             txtLocation.Focus()
             Return False
         End If
         If clsCommon.myLen(txtFromLocation.Value) <= 0 Then
-            myMessages.blankValue(" From Location")
+            myMessages.blankValue(Me, " From Location", Me.Text)
             txtFromLocation.Focus()
             Return False
         End If
         If clsCommon.CompairString(txtFromLocation.Value, txtLocation.Value) = CompairStringResult.Equal Then
-            myMessages.blankValue(" From Location and To Location can not be same.")
+            myMessages.blankValue(Me, " From Location and To Location can not be same.", Me.Text)
             txtFromLocation.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtIssuedBy.Value) <= 0 Then
-            myMessages.blankValue(" Issued By")
+            myMessages.blankValue(Me, " Issued By", Me.Text)
             txtIssuedBy.Focus()
             Return False
         End If
         If clsCommon.myLen(txtIssuedTo.Value) <= 0 Then
-            myMessages.blankValue("Issued To")
+            myMessages.blankValue(Me, "Issued To", Me.Text)
             txtIssuedTo.Focus()
             Return False
         End If
@@ -1050,7 +1050,7 @@ Public Class frmStoreIssue
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If txtCode.Value = "" Then
-            myMessages.blankValue("Requisition Number")
+            myMessages.blankValue(Me, "Requisition Number", Me.Text)
         Else
             funPrint()
         End If

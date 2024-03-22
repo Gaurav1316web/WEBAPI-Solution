@@ -39,15 +39,15 @@ Public Class FrmHouseRentDeclaration
             txtcode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtFinYear.Value) <= 0 Then
-            myMessages.blankValue("Financial year entry code")
+            myMessages.blankValue(Me, "Financial year entry code", Me.Text)
             txtFinYear.Focus()
             Return False
         ElseIf clsCommon.myLen(TxtPayPeriod.Value) <= 0 Then
-            myMessages.blankValue("Pay period code")
+            myMessages.blankValue(Me, "Pay period code", Me.Text)
             TxtPayPeriod.Focus()
             Return False
         ElseIf clsCommon.myLen(TxtEmpCode.Value) <= 0 Then
-            myMessages.blankValue("Employee master code")
+            myMessages.blankValue(Me, "Employee master code", Me.Text)
             TxtEmpCode.Focus()
             Return False
         ElseIf clsCommon.myCdbl(txtHouseRentAmt.Text) < 0 Then

@@ -159,7 +159,7 @@ Public Class frmvisimaster
             common.clsCommon.MyMessageBoxShow("Visi Id does not exist")
             Return False
         ElseIf (rdtxtmake.Text = "") Then
-            myMessages.blankValue("Visi Make")
+            myMessages.blankValue(Me, "Visi Make", Me.Text)
             Return False
         ElseIf clsCommon.myLen(txtAssetNo.Text) > 0 Then    ' CHecks Unique Asset No
             Dim VisiId As String = clsDBFuncationality.getSingleValue("Select Visi_Id from TSPL_VISI_MASTER where Asset_No='" + txtAssetNo.Text + "' AND Visi_Id <>'" + fndid.Value + "'")

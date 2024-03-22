@@ -238,23 +238,23 @@ Public Class frmSynchronization
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtClientNameIP.Text) <= 0 Then
-            myMessages.blankValue("Client Name/IP")
+            myMessages.blankValue(Me, "Client Name/IP", Me.Text)
             txtClientNameIP.Focus()
             Return False
         ElseIf clsCommon.myLen(txtClientDBName.Text) <= 0 Then
-            myMessages.blankValue("Client Database Name")
+            myMessages.blankValue(Me, "Client Database Name", Me.Text)
             txtClientDBName.Focus()
             Return False
         ElseIf clsCommon.myLen(txtClientSchema.Text) <= 0 Then
-            myMessages.blankValue("Client Schema Name")
+            myMessages.blankValue(Me, "Client Schema Name", Me.Text)
             txtClientSchema.Focus()
             Return False
         ElseIf clsCommon.myLen(txtClientUserId.Text) <= 0 Then
-            myMessages.blankValue("Client Database User Id")
+            myMessages.blankValue(Me, "Client Database User Id", Me.Text)
             txtClientUserId.Focus()
             Return False
         ElseIf clsCommon.myLen(txtClientPassword.Text) <= 0 Then
-            myMessages.blankValue("Client Database Password")
+            myMessages.blankValue(Me, "Client Database Password", Me.Text)
             txtClientPassword.Focus()
             Return False
         ElseIf clsCommon.CompairString(txtClientPassword.Text, txtClientRetypePWD.Text, True) <> CompairStringResult.Equal Then
@@ -262,23 +262,23 @@ Public Class frmSynchronization
             txtClientPassword.Focus()
             Return False
         ElseIf clsCommon.myLen(txtServerNameIP.Text) <= 0 Then
-            myMessages.blankValue("Server Name/IP")
+            myMessages.blankValue(Me, "Server Name/IP", Me.Text)
             txtServerNameIP.Focus()
             Return False
         ElseIf clsCommon.myLen(txtServerDBName.Text) <= 0 Then
-            myMessages.blankValue("Server Database Name")
+            myMessages.blankValue(Me, "Server Database Name", Me.Text)
             txtServerDBName.Focus()
             Return False
         ElseIf clsCommon.myLen(txtServerSchema.Text) <= 0 Then
-            myMessages.blankValue("Server Schema Name")
+            myMessages.blankValue(Me, "Server Schema Name", Me.Text)
             txtServerSchema.Focus()
             Return False
         ElseIf clsCommon.myLen(txtServerUserId.Text) <= 0 Then
-            myMessages.blankValue("Server Database User Id")
+            myMessages.blankValue(Me, "Server Database User Id", Me.Text)
             txtServerUserId.Focus()
             Return False
         ElseIf clsCommon.myLen(txtServerPassword.Text) <= 0 Then
-            myMessages.blankValue("Server Database Password")
+            myMessages.blankValue(Me, "Server Database Password", Me.Text)
             txtServerPassword.Focus()
             Return False
         ElseIf clsCommon.CompairString(txtServerPassword.Text, txtServerRetypePassword.Text, True) <> CompairStringResult.Equal Then

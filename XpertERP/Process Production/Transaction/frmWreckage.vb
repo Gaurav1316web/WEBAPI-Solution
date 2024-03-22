@@ -810,13 +810,13 @@ Public Class frmWreckage
             Return False
         End If
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            myMessages.blankValue("Location Code")
+            myMessages.blankValue(Me, "Location Code", Me.Text)
             txtLocation.Focus()
             Return False
         End If
         If AllowBookWreckageFromSubLocationOrSection AndAlso clsCommon.CompairString(ddltype.Text, "Warehouse Wreckage") <> CompairStringResult.Equal Then
             If clsCommon.myLen(txtConsSection.Value) <= 0 Then
-                myMessages.blankValue("Section Code")
+                myMessages.blankValue(Me, "Section Code", Me.Text)
                 txtConsSection.Focus()
                 Return False
             End If
@@ -825,7 +825,7 @@ Public Class frmWreckage
         For Each grow As GridViewRowInfo In grdWreckage.Rows
             If clsCommon.myCdbl(grow.Cells(colWFBACK_QTY).Value) > 0 AndAlso clsCommon.CompairString(ddltype.Text, "Warehouse Wreckage") <> CompairStringResult.Equal Then
                 If clsCommon.myLen(grow.Cells(colWFLocation_Code).Value) <= 0 Then
-                    myMessages.blankValue("Enter Back to Location at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Enter Back to Location at line no- " & (grow.Index + 1) & "", Me.Text)
                     grow.Cells(colWFLocation_Code).ReadOnly = False
                     Return False
                 End If

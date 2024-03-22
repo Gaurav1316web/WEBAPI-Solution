@@ -776,7 +776,7 @@ Public Class frmEmployeeMaster
     End Sub
     Sub DeleteData()
         If fndempcode.Value = "" Then
-            myMessages.blankValue("Employee Code")
+            myMessages.blankValue(Me, "Employee Code", Me.Text)
         ElseIf myMessages.deleteConfirm() Then
             fundelete()
 
@@ -790,19 +790,19 @@ Public Class frmEmployeeMaster
     Sub SaveData()
         Try
             If fndempcode.Value = "" Then
-                myMessages.blankValue("Employee Code")
+                myMessages.blankValue(Me, "Employee Code", Me.Text)
                 fndempcode.Focus()
             ElseIf txtname.Text = "" Then
-                myMessages.blankValue("Employee Name")
+                myMessages.blankValue(Me, "Employee Name", Me.Text)
                 txtname.Focus()
             ElseIf fnddesignation.Value = "" Then
-                myMessages.blankValue("Designation")
+                myMessages.blankValue(Me, "Designation", Me.Text)
                 fnddesignation.Focus()
             ElseIf ddlemptype.Text = "" Then
-                myMessages.blankValue("Employee Type")
+                myMessages.blankValue(Me, "Employee Type", Me.Text)
                 ddlemptype.Focus()
             ElseIf ddlempstatus.Text = "" Then
-                myMessages.blankValue("Employee Status")
+                myMessages.blankValue(Me, "Employee Status", Me.Text)
                 ddlempstatus.Focus()
 
             ElseIf txtEmailId.Text IsNot Nothing AndAlso clsCommon.myLen(txtEmailId.Text) > 100 Then

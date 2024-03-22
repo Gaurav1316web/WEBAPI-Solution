@@ -851,7 +851,7 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
-            myMessages.blankValue("Doument not found to Print")
+            myMessages.blankValue(Me, "Doument not found to Print", Me.Text)
         Else
             funPrint(txtDocumentNo.Value)
         End If

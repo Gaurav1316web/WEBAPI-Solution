@@ -7549,7 +7549,7 @@ Public Class frmSNShipment
 
     Private Sub btnPrintInvoice_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrintInvoice.Click
         If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             'Dim objInvoice As New frmSNSaleInvoice
             'objInvoice.funPrint(txtInvoiceNo.Text, False)
@@ -9565,7 +9565,7 @@ a:          End If
 
     Private Sub btnPrintA4_Click(sender As Object, e As EventArgs) Handles btnPrintA4.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             funPrint(True)
         End If
@@ -9573,7 +9573,7 @@ a:          End If
 
     Private Sub btnPrintA5_Click(sender As Object, e As EventArgs) Handles btnPrintA5.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             funPrint(False)
         End If

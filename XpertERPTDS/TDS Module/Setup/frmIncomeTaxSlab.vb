@@ -41,7 +41,7 @@ Public Class frmIncomeTaxSlab
     Function AllowToSave() As Boolean
         btnsave.Focus()
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            myMessages.blankValue("Code ")
+            myMessages.blankValue(Me, "Code ", Me.Text)
             txtcode.Focus()
             txtcode.Select()
             Errorcontrol.SetError(txtcode, "Code")

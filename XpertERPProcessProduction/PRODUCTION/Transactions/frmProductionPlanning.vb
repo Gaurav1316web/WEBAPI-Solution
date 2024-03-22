@@ -657,7 +657,7 @@ Public Class frmProductionPlanning
         'End If
 
         If clsCommon.myLen(txtPlannedBy.Value) <= 0 Then
-            myMessages.blankValue("Planned By")
+            myMessages.blankValue(Me, "Planned By", Me.Text)
             txtCode.Focus()
             Return False
         End If
@@ -1106,7 +1106,7 @@ Public Class frmProductionPlanning
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If txtCode.Value = "" Then
-            myMessages.blankValue("Production Plan Code")
+            myMessages.blankValue(Me, "Production Plan Code", Me.Text)
         Else
             funPrint()
         End If

@@ -1290,59 +1290,59 @@ Public Class frmManufacturingOrder
         End If
 
         If clsCommon.myLen(txtProducedItem.Value) <= 0 Then
-            myMessages.blankValue("Ordered Item Code")
+            myMessages.blankValue(Me, "Ordered Item Code", Me.Text)
             txtProducedItem.Focus()
             Return False
         End If
         If clsCommon.myCdbl(txtOrderedQty.Text) <= 0 Then
-            myMessages.blankValue("Ordered Quantity")
+            myMessages.blankValue(Me, "Ordered Quantity", Me.Text)
             txtOrderedQty.Focus()
             Return False
         End If
 
         If clsCommon.myLen(fndOrderQtyUOM.Value) <= 0 Then
-            myMessages.blankValue("Ordered Item UOM")
+            myMessages.blankValue(Me, "Ordered Item UOM", Me.Text)
             fndOrderQtyUOM.Focus()
             Return False
         End If
 
         If clsCommon.myCdbl(txtOrderedQtyStockUnit.Text) <= 0 Then
-            myMessages.blankValue("Ordered Quantity(Stock Unit)")
+            myMessages.blankValue(Me, "Ordered Quantity(Stock Unit)", Me.Text)
             txtOrderedQtyStockUnit.Focus()
             Return False
         End If
 
         If clsCommon.myLen(lblUnitName.Text) <= 0 Then
-            myMessages.blankValue("Ordered Item UOM")
+            myMessages.blankValue(Me, "Ordered Item UOM", Me.Text)
             fndOrderQtyUOM.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtMOReference.Text) <= 0 Then
-            myMessages.blankValue("MO Reference")
+            myMessages.blankValue(Me, "MO Reference", Me.Text)
             txtMOReference.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtDescription.Text) <= 0 Then
-            myMessages.blankValue("Description")
+            myMessages.blankValue(Me, "Description", Me.Text)
             txtDescription.Focus()
             Return False
         End If
         If clsCommon.myLen(fndBomCode.Value) <= 0 Then
-            myMessages.blankValue("BOM Code")
+            myMessages.blankValue(Me, "BOM Code", Me.Text)
             fndBomCode.Focus()
             Return False
         End If
 
         If clsCommon.myLen(lblRevisionNo.Text) <= 0 Then
-            myMessages.blankValue("BOM Revision No")
+            myMessages.blankValue(Me, "BOM Revision No", Me.Text)
             lblRevisionNo.Focus()
             Return False
         End If
 
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            myMessages.blankValue("Location Code")
+            myMessages.blankValue(Me, "Location Code", Me.Text)
             fndLocation.Focus()
             Return False
         End If
@@ -1641,7 +1641,7 @@ Public Class frmManufacturingOrder
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If txtCode.Value = "" Then
-            myMessages.blankValue("BOM Code")
+            myMessages.blankValue(Me, "BOM Code", Me.Text)
         Else
             funPrint()
         End If

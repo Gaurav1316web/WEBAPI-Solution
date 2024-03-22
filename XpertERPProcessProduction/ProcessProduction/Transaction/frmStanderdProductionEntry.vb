@@ -1169,17 +1169,17 @@ Public Class frmStanderdProductionEntry
         '    Return False
         'End If
         If clsCommon.myLen(CboShift.SelectedValue) <= 0 Then
-            myMessages.blankValue("Shift")
+            myMessages.blankValue(Me, "Shift", Me.Text)
             CboShift.Focus()
             Return False
         End If
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            myMessages.blankValue("Location Code")
+            myMessages.blankValue(Me, "Location Code", Me.Text)
             txtLocation.Focus()
             Return False
         End If
         If clsCommon.myLen(txtConsmLocOther.Value) <= 0 Then
-            myMessages.blankValue("Con. Location")
+            myMessages.blankValue(Me, "Con. Location", Me.Text)
             txtConsmLocOther.Focus()
             Return False
         End If
@@ -1196,7 +1196,7 @@ Public Class frmStanderdProductionEntry
         'End If
 
         If Me.gvBatch.Rows.Count = 0 Then
-            myMessages.blankValue("Batch List is Empty")
+            myMessages.blankValue(Me, "Batch List is Empty", Me.Text)
             Return False
         End If
         'Dim ii As Int16 = 0
@@ -1208,14 +1208,14 @@ Public Class frmStanderdProductionEntry
         Next
 
         If countItem = 0 Then
-            myMessages.blankValue("Please Select BOM First.")
+            myMessages.blankValue(Me, "Please Select BOM First.", Me.Text)
             Return False
         End If
 
         For Each grow As GridViewRowInfo In gvBatch.Rows
             If clsCommon.myLen(grow.Cells(colBOMCode).Value) > 0 Then
                 If clsCommon.myLen(grow.Cells(colSP_Loaction_Code).Value) <= 0 Then
-                    myMessages.blankValue("Enter Location in Batch Production tab at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Enter Location in Batch Production tab at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
             End If
@@ -1225,29 +1225,29 @@ Public Class frmStanderdProductionEntry
             If clsCommon.myLen(grow.Cells(colItemCode).Value) > 0 Then
                 If clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value) > 0 Then
                     If clsCommon.myLen(grow.Cells(colSP_Loaction_Code).Value) <= 0 Then
-                        myMessages.blankValue("Enter Location in consumption tab at line no- " & (grow.Index + 1) & "")
+                        myMessages.blankValue(Me, "Enter Location in consumption tab at line no- " & (grow.Index + 1) & "", Me.Text)
                         Return False
                     End If
                 End If
                 If clsCommon.myLen(grow.Cells(colUOM).Value) <= 0 Then
-                    myMessages.blankValue("Enter UOM in consumption tab at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Enter UOM in consumption tab at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(grow.Cells(colMainUOM).Value) <= 0 Then
-                    myMessages.blankValue("Main UOM in consumption tab is blank at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Main UOM in consumption tab is blank at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(grow.Cells(colMainItemCode).Value) <= 0 Then
-                    myMessages.blankValue("Main Item Code in consumption tab is blank at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Main Item Code in consumption tab is blank at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(grow.Cells(colBOMCode).Value) <= 0 Then
-                    myMessages.blankValue("Bom Code in consumption tab is blank at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Bom Code in consumption tab is blank at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
 
                 If clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value) <= 0 Then
-                    myMessages.blankValue("Consumption Qty in consumption tab should be greter then zero(Item Conversion Factor not available for " + clsCommon.myCstr(grow.Cells(colUOM).Value) + " ). at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Consumption Qty in consumption tab should be greter then zero(Item Conversion Factor not available for " + clsCommon.myCstr(grow.Cells(colUOM).Value) + " ). at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
 
@@ -1257,7 +1257,7 @@ Public Class frmStanderdProductionEntry
                 End If
 
                 If clsCommon.myCDecimal(grow.Cells(colAVG_Cost).Value) < 0 Then
-                    myMessages.blankValue("AVG Cost in consumption tab should be greter then or equals to zero( Stock not available). at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "AVG Cost in consumption tab should be greter then or equals to zero( Stock not available). at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
 

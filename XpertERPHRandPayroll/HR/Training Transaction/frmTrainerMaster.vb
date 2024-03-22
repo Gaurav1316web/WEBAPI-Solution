@@ -972,7 +972,7 @@ Public Class frmTrainerMaster
             End If
 
             If clsCommon.myLen(fndvendorNo.Value) <= 0 Then
-                myMessages.blankValue("Please Fill Code")
+                myMessages.blankValue(Me, "Please Fill Code", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 fndvendorNo.Focus()
                 fndvendorNo.Select()
@@ -983,7 +983,7 @@ Public Class frmTrainerMaster
             End If
 
             If txtName.Text = "" Then
-                myMessages.blankValue("Please Fill Name")
+                myMessages.blankValue(Me, "Please Fill Name", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtName.Focus()
                 txtName.Select()
@@ -997,7 +997,7 @@ Public Class frmTrainerMaster
 
 
             If fndInstitutecode.Value = "" Then
-                myMessages.blankValue("Please Select Institute Code")
+                myMessages.blankValue(Me, "Please Select Institute Code", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 fndInstitutecode.Focus()
                 fndInstitutecode.Select()
@@ -1008,7 +1008,7 @@ Public Class frmTrainerMaster
             End If
 
             If clsCommon.myLen(txtAdd1.Text) <= 0 AndAlso clsCommon.myLen(txtAdd2.Text) <= 0 AndAlso clsCommon.myLen(txtAdd3.Text) <= 0 Then
-                myMessages.blankValue("Please Fill Address")
+                myMessages.blankValue(Me, "Please Fill Address", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtAdd1.Focus()
                 txtAdd1.Select()
@@ -1114,7 +1114,7 @@ Public Class frmTrainerMaster
     End Sub
     Sub DeleteData()
         If fndvendorNo.Value = "" Then
-            myMessages.blankValue("Trainer Code")
+            myMessages.blankValue(Me, "Trainer Code", Me.Text)
         ElseIf myMessages.deleteConfirm() Then
             Dim obj As New clsTrainerMaster
             If obj.DeleteData(fndvendorNo.Value) Then

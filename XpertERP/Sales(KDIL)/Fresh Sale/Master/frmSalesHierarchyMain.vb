@@ -24,7 +24,7 @@ Public Class FrmSalesHierarchyMain
 
     Function allowtosave()
         If clsCommon.myLen(clsCommon.myCstr(txtcode.Value)) <= 0 Then
-            myMessages.blankValue("Code ")
+            myMessages.blankValue(Me, "Code ", Me.Text)
             txtcode.Focus()
             txtcode.Select()
             Errorcontrol.SetError(txtcode, "Code ")
@@ -34,7 +34,7 @@ Public Class FrmSalesHierarchyMain
         End If
 
         If clsCommon.myLen(clsCommon.myCstr(fndLevelCode.Value)) <= 0 Then
-            myMessages.blankValue("Level ")
+            myMessages.blankValue(Me, "Level ", Me.Text)
             fndLevelCode.Focus()
             fndLevelCode.Select()
             Errorcontrol.SetError(fndLevelCode, "Level ")

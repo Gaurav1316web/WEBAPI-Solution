@@ -1615,12 +1615,12 @@ Public Class frmProcessProductionStandardizationFinalQC
                 Errorcontrol.ResetError(fndChildBatchNo)
             End If
             If clsCommon.myLen(lblConsmSectionLocCode.Text) <= 0 Then
-                myMessages.blankValue("Consumption Location Code")
+                myMessages.blankValue(Me, "Consumption Location Code", Me.Text)
                 fndChildBatchNo.Focus()
                 Return False
             End If
             If clsCommon.myLen(lblConsmSectionCode.Text) <= 0 Then
-                myMessages.blankValue("Consumption Section Code")
+                myMessages.blankValue(Me, "Consumption Section Code", Me.Text)
                 fndChildBatchNo.Focus()
                 Return False
             End If

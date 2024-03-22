@@ -107,23 +107,23 @@ Public Class frmLeaveAdjustment
         '    Return False
         'Else
         If clsCommon.myLen(txtLeaveCode.Value) <= 0 Then
-            myMessages.blankValue("Leave Code")
+            myMessages.blankValue(Me, "Leave Code", Me.Text)
             txtLeaveCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtPayPeriodCode.Value) <= 0 Then
-            myMessages.blankValue("Pay Period Code")
+            myMessages.blankValue(Me, "Pay Period Code", Me.Text)
             txtPayPeriodCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtEmpCode.Value) <= 0 Then
-            myMessages.blankValue("Employee Code")
+            myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtEmpCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtReason.Text) <= 0 Then
-            myMessages.blankValue("Leave Reason")
+            myMessages.blankValue(Me, "Leave Reason", Me.Text)
             txtReason.Focus()
             Return False
         ElseIf clsCommon.myLen(dtpAdjustDate.Value) <= 0 Then
-            myMessages.blankValue("Adjustment Date")
+            myMessages.blankValue(Me, "Adjustment Date", Me.Text)
             dtpAdjustDate.Focus()
             Return False
         End If

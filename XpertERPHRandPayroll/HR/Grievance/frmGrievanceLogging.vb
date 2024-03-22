@@ -26,7 +26,7 @@ Public Class frmGrievanceLogging
         'End If
 
         If clsCommon.myLen(txt_Name.Text) <= 0 Then
-            myMessages.blankValue("Description")
+            myMessages.blankValue(Me, "Description", Me.Text)
 
             txt_Name.Focus()
             txt_Name.Select()
@@ -37,7 +37,7 @@ Public Class frmGrievanceLogging
         End If
 
         If clsCommon.myLen(TxtGrievancceType.Value) <= 0 Then
-            myMessages.blankValue("Grievance Type")
+            myMessages.blankValue(Me, "Grievance Type", Me.Text)
 
             TxtGrievancceType.Focus()
             TxtGrievancceType.Select()
@@ -49,7 +49,7 @@ Public Class frmGrievanceLogging
 
 
         If clsCommon.myLen(TxtApplied_By.Value) <= 0 Then
-            myMessages.blankValue("Applied By")
+            myMessages.blankValue(Me, "Applied By", Me.Text)
 
             TxtApplied_By.Focus()
             TxtApplied_By.Select()
@@ -61,7 +61,7 @@ Public Class frmGrievanceLogging
 
 
         If clsCommon.myLen(TxtFrmDepartment.Value) <= 0 Then
-            myMessages.blankValue("From Department")
+            myMessages.blankValue(Me, "From Department", Me.Text)
 
             TxtFrmDepartment.Focus()
             TxtFrmDepartment.Select()
@@ -72,7 +72,7 @@ Public Class frmGrievanceLogging
         End If
 
         If clsCommon.myLen(TxtToDepartment.Value) <= 0 Then
-            myMessages.blankValue("For Department")
+            myMessages.blankValue(Me, "For Department", Me.Text)
 
             TxtToDepartment.Focus()
             TxtToDepartment.Select()

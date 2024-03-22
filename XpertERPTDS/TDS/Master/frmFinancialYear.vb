@@ -82,7 +82,7 @@ Public Class frmFinancialYear
     Sub SaveData()
 
         If dtpFromDate.Text = "" Then
-            myMessages.blankValue("From Date")
+            myMessages.blankValue(Me, "From Date", Me.Text)
             txtToDate.Focus()
         ElseIf rbtnSave.Text = "Save" Then
 

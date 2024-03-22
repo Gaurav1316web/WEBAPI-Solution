@@ -90,7 +90,7 @@ Public Class FrmHRPerformanceMaster
         Try
             btnSave.Focus()
             If clsCommon.myLen(clsCommon.myCstr(txtCode.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtCode.Value)) > 30 Then
-                myMessages.blankValue("Code")
+                myMessages.blankValue(Me, "Code", Me.Text)
                 txtCode.Focus()
                 txtCode.Select()
                 Errorcontrol.SetError(txtCode, "Code")
@@ -99,7 +99,7 @@ Public Class FrmHRPerformanceMaster
                 Errorcontrol.ResetError(txtCode)
             End If
             If clsCommon.myLen(clsCommon.myCstr(txtName.Text)) <= 0 Then
-                myMessages.blankValue("Name")
+                myMessages.blankValue(Me, "Name", Me.Text)
                 txtName.Focus()
                 txtName.Select()
                 Errorcontrol.SetError(txtName, "Name")

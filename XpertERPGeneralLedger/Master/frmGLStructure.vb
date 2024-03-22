@@ -297,7 +297,7 @@ Public Class frmGLStructure
                 End If
             End If
             If fnd_structurecode.Value = "" Then
-                myMessages.blankValue("Structure Code")
+                myMessages.blankValue(Me, "Structure Code", Me.Text)
                 fnd_structurecode.Focus()
             Else
                 If btn_save.Text = "Save" Then

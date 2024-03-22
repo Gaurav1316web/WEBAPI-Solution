@@ -336,14 +336,14 @@ Public Class FrmShipToLocationDetails
 
             If btnAdd.Text = "Save" Then
                 If fndCustomer.Text = "" Then
-                    myMessages.blankValue("Customer Code")
+                    myMessages.blankValue(Me, "Customer Code", Me.Text)
                     Exit Sub
                 ElseIf txtShipToLocation.Text = "" And EnableAutoDocNoShipToLocation = 0 Then
-                    myMessages.blankValue("Ship To Location")
+                    myMessages.blankValue(Me, "Ship To Location", Me.Text)
                     txtShipToLocation.Focus()
                     Exit Sub
                 ElseIf fndLocation.Value = "" And EnableAutoDocNoShipToLocation = 1 Then
-                    myMessages.blankValue("Location")
+                    myMessages.blankValue(Me, "Location", Me.Text)
                     fndLocation.Focus()
                     Exit Sub
                 End If
@@ -362,11 +362,11 @@ Public Class FrmShipToLocationDetails
                 End If
             ElseIf btnAdd.Text = "Update" Then
                 If txtShipToLocation.Text = "" And EnableAutoDocNoShipToLocation = 0 Then
-                    myMessages.blankValue("Ship To Location")
+                    myMessages.blankValue(Me, "Ship To Location", Me.Text)
                     txtShipToLocation.Focus()
                     Exit Sub
                 ElseIf fndLocation.Value = "" And EnableAutoDocNoShipToLocation = 1 Then
-                    myMessages.blankValue("Location")
+                    myMessages.blankValue(Me, "Location", Me.Text)
                     fndLocation.Focus()
                     Exit Sub
                 End If
@@ -851,7 +851,7 @@ Public Class FrmShipToLocationDetails
                     Dim strTelephone As String
                     Dim strEmail As String
                     If grow.Cells(2).Value.ToString() = String.Empty Then
-                        myMessages.blankValue("Customer Code")
+                        myMessages.blankValue(Me, "Customer Code", Me.Text)
                         'trans.Rollback()
                         Exit Sub
                     ElseIf grow.Cells(2).Value.ToString().Length > 12 Then

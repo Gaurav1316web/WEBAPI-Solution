@@ -755,7 +755,7 @@ Public Class frmVSP_VLCMaster
     Public Sub funinsert()
         If chkCreateCustomerAlso.Checked = True Then
             If fndCusgrp.Value = "" Then
-                myMessages.blankValue("Please Select Customer Group Code")
+                myMessages.blankValue(Me, "Please Select Customer Group Code", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 fndCusgrp.Focus()
                 fndCusgrp.Select()
@@ -1486,7 +1486,7 @@ Public Class frmVSP_VLCMaster
     Public Sub funupdate()
         If chkCreateCustomerAlso.Checked = True Then
             If fndCusgrp.Value = "" Then
-                myMessages.blankValue("Please Select Customer Group Code")
+                myMessages.blankValue(Me, "Please Select Customer Group Code", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 fndCusgrp.Focus()
                 fndCusgrp.Select()
@@ -3424,7 +3424,7 @@ Public Class frmVSP_VLCMaster
         Try
             If AllowVSPMasterAutoPrefix = 0 Then
                 If fndvendorNo.Value = "" Then
-                    myMessages.blankValue("Please Fill DCS Code")
+                    myMessages.blankValue(Me, "Please Fill DCS Code", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage1
                     fndvendorNo.Focus()
                     fndvendorNo.Select()
@@ -3436,7 +3436,7 @@ Public Class frmVSP_VLCMaster
 
             End If
             If txtvendorname.Text = "" Then
-                myMessages.blankValue("Please Fill DCS Name")
+                myMessages.blankValue(Me, "Please Fill DCS Name", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtvendorname.Focus()
                 txtvendorname.Select()
@@ -3447,7 +3447,7 @@ Public Class frmVSP_VLCMaster
             End If
 
             If fndgroupcode.Value = "" Then
-                myMessages.blankValue("Please Select Group Code")
+                myMessages.blankValue(Me, "Please Select Group Code", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage5
                 fndgroupcode.Focus()
                 fndgroupcode.Select()
@@ -3532,7 +3532,7 @@ Public Class frmVSP_VLCMaster
 
             If EnableBankFromMaster = True Then
                 If clsCommon.myLen(findfndbankcode.Value) = 0 Then
-                    myMessages.blankValue("Please Enter Bank Code")
+                    myMessages.blankValue(Me, "Please Enter Bank Code", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage2
                     findfndbankcode.Focus()
                     findfndbankcode.Select()
@@ -3543,7 +3543,7 @@ Public Class frmVSP_VLCMaster
                 End If
 
                 If clsCommon.myLen(findTxtIFSCCode.Value) = 0 Then
-                    myMessages.blankValue("Please Enter IFSC Code")
+                    myMessages.blankValue(Me, "Please Enter IFSC Code", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage2
                     findTxtIFSCCode.Focus()
                     findTxtIFSCCode.Select()
@@ -3574,7 +3574,7 @@ Public Class frmVSP_VLCMaster
                 'End If
             Else
                 If clsCommon.myLen(fndbankcode.Text) = 0 Then
-                    myMessages.blankValue("Please Enter Bank Code")
+                    myMessages.blankValue(Me, "Please Enter Bank Code", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage2
                     fndbankcode.Focus()
                     fndbankcode.Select()
@@ -3585,7 +3585,7 @@ Public Class frmVSP_VLCMaster
                 End If
 
                 If clsCommon.myLen(TxtIFSCCode.Text) = 0 Then
-                    myMessages.blankValue("Please Enter IFSC Code")
+                    myMessages.blankValue(Me, "Please Enter IFSC Code", Me.Text)
                     pageCus.SelectedPage = RadPageViewPage2
                     TxtIFSCCode.Focus()
                     TxtIFSCCode.Select()
@@ -3691,7 +3691,7 @@ Public Class frmVSP_VLCMaster
             ''    totcharge += row.Cells("COLRate").Value
             ''Next
             If txtvendorname.Text = "" Then
-                myMessages.blankValue("Please Fill VSP Name")
+                myMessages.blankValue(Me, "Please Fill VSP Name", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtvendorname.Focus()
                 txtvendorname.Select()
@@ -3792,7 +3792,7 @@ Public Class frmVSP_VLCMaster
     End Sub
     Sub DeleteData()
         If fndvendorNo.Value = "" Then
-            myMessages.blankValue("VSP No.")
+            myMessages.blankValue(Me, "VSP No.", Me.Text)
         ElseIf myMessages.deleteConfirm() Then
             fundelete()
 

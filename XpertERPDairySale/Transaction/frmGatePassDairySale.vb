@@ -2097,7 +2097,7 @@ Public Class frmGatePassDairySale
     End Sub
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("No data found to Print")
+            myMessages.blankValue(Me, "No data found to Print", Me.Text)
         Else
             funPrint(txtDocNo.Value)
         End If
@@ -2107,7 +2107,7 @@ Public Class frmGatePassDairySale
     Private Sub BtnPrintDetail_Click(sender As Object, e As EventArgs) Handles BtnPrintDetail.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                myMessages.blankValue("No data found to Print")
+                myMessages.blankValue(Me,"No data found to Print", Me.Text)
             Else
                 Dim Qry As String = ""
                 Dim Qry2 As String = ""
@@ -2225,7 +2225,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKI
     Private Sub BtnPrintSummry_Click(sender As Object, e As EventArgs) Handles BtnPrintSummry.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                myMessages.blankValue("No data found to Print")
+                myMessages.blankValue(Me, "No data found to Print", Me.Text)
             Else
                 ' Dim Qry As String = GetQuery()
                 'Dim Qry2 As String = "select '' as BRAND,'' AS BRANDDESC,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin  ,Main_Final.* from " & _

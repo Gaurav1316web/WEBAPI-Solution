@@ -159,7 +159,7 @@ Public Class FrmSourceCode
     'insert Source Code Details
     Private Sub funInsert()
         If mskSourceCode.Text = "" Then
-            myMessages.blankValue("Source Code")
+            myMessages.blankValue(Me, "Source Code", Me.Text)
             fndSourceCode.Focus()
         ElseIf mskSourceCode.Text.Length < 5 Then
             common.clsCommon.MyMessageBoxShow("Source Code must be fill properly")
@@ -190,7 +190,7 @@ Public Class FrmSourceCode
     'update Source Code Details
     Private Sub funUpdate()
         If mskSourceCode.Text = "" Then
-            myMessages.blankValue("Source Code")
+            myMessages.blankValue(Me, "Source Code", Me.Text)
             fndSourceCode.Focus()
         ElseIf mskSourceCode.Text.Length < 5 Then
             common.clsCommon.MyMessageBoxShow("Source Code must be fill properly")

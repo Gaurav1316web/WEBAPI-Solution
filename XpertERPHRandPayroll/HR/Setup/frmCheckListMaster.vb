@@ -81,7 +81,7 @@ Public Class FrmCheckListMaster
     Private Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(clsCommon.myCstr(txtcode.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtcode.Value)) > 60 Then
-                myMessages.blankValue("Code")
+                myMessages.blankValue(Me, "Code", Me.Text)
                 'pageCus.SelectedPage = RadPageViewPage1
                 txtcode.Focus()
                 txtcode.Select()
@@ -92,7 +92,7 @@ Public Class FrmCheckListMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtdesp.Text)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtdesp.Text)) > 150 Then
-                myMessages.blankValue("Description")
+                myMessages.blankValue(Me, "Description", Me.Text)
                 'pageCus.SelectedPage = RadPageViewPage1
                 txtdesp.Focus()
                 txtdesp.Select()

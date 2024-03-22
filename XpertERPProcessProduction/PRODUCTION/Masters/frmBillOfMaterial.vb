@@ -688,7 +688,7 @@ Public Class frmBillOfMaterial
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If txtCode.Value = "" Then
-            myMessages.blankValue("BOM Code")
+            myMessages.blankValue(Me, "BOM Code", Me.Text)
         Else
             funPrint()
         End If
