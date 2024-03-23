@@ -11,6 +11,7 @@ Public Class frmShipmentDairy
     Dim ConsiderPreviousandCurrentFYForTCSTaxCustOutstanding As Boolean = False
     Dim AllowCrateCanPhysicalStock As Integer = 0
     Public AllowtoChangeTCSBaseAmount As Boolean = False
+    Public AllowIncreaseDispatchQty As Boolean = False
     Dim StockCheckOnPostForDairyDispatchMultiple As Boolean = False
     Dim ApplyRoundOffZero As Boolean = False
     Dim SettDistributorWiseBilling As Boolean = False
@@ -410,6 +411,7 @@ Public Class frmShipmentDairy
         StockCheckOnPostForDairyDispatchMultiple = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StockCheckOnPostForDairyDispatchMultiple, clsFixedParameterCode.StockCheckOnPostForDairyDispatchMultiple, Nothing)) = 1, True, False)
         ApplyRoundOffZero = If(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, Nothing)) = 1, True, False)
         EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
+        AllowIncreaseDispatchQty = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, Nothing)) = 1, True, False)
         btnShowInventory.Visible = True
         IsFormLoad = True
         lblPriceCode.Visible = True
@@ -13299,9 +13301,11 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
         Return True
     End Function
     Private Sub gvDistributor_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvDistributor.CellValueChanged
-        If gvDistributor.CurrentRow.Cells("DemandQty").Value < gvDistributor.CurrentRow.Cells("Qty").Value Then
-            clsCommon.MyMessageBoxShow(Me, "Qty is greater then Demand Qty")
-            gvDistributor.CurrentRow.Cells("Qty").Value = gvDistributor.CurrentRow.Cells("DemandQty").Value
+        If Not AllowIncreaseDispatchQty Then
+            If gvDistributor.CurrentRow.Cells("DemandQty").Value < gvDistributor.CurrentRow.Cells("Qty").Value Then
+                clsCommon.MyMessageBoxShow(Me, "Qty is greater then Demand Qty")
+                gvDistributor.CurrentRow.Cells("Qty").Value = gvDistributor.CurrentRow.Cells("DemandQty").Value
+            End If
         End If
     End Sub
     Private Sub GetTaxRate()
