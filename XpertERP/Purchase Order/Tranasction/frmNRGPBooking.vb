@@ -346,20 +346,20 @@ Public Class frmNRGPBooking
             End If
 
             If clsCommon.myLen(txtBatchNo.Value) <= 0 Then
-                myMessages.blankValue("CSA Code")
+                myMessages.blankValue(Me, "CSA Code", Me.Text)
                 txtBatchNo.Focus()
                 Return False
             End If
 
             If clsCommon.CompairString(clsCommon.myCstr(MainFormId), clsCommon.myCstr(clsUserMgtCode.mbtnNRGP)) = CompairStringResult.Equal Then
                 If clsCommon.myLen(txtlocation.Value) <= 0 Then
-                    myMessages.blankValue("Location Code")
+                    myMessages.blankValue(Me, "Location Code", Me.Text)
                     txtlocation.Focus()
                     Return False
                 End If
 
                 If clsCommon.CompairString(ddlReqType.SelectedValue, "") = CompairStringResult.Equal Then
-                    myMessages.blankValue("Request Type ")
+                    myMessages.blankValue(Me, "Request Type ", Me.Text)
                     ddlReqType.Focus()
                     ddlReqType.Select()
                     Return False
@@ -368,7 +368,7 @@ Public Class frmNRGPBooking
 
 
             If Me.gv1.Rows.Count = 0 Then
-                myMessages.blankValue("List ")
+                myMessages.blankValue(Me, "List ", Me.Text)
                 Return False
             End If
             Dim totalRow As Integer = 0
@@ -426,7 +426,7 @@ Public Class frmNRGPBooking
             Next
 
             If totalRow = 0 Then
-                myMessages.blankValue("List is Empty")
+                myMessages.blankValue(Me, "List is Empty", Me.Text)
                 Return False
             End If
         Catch ex As Exception

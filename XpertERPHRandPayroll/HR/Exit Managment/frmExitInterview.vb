@@ -179,7 +179,7 @@ Public Class FrmExitInterview
 
 
         If clsCommon.myLen(clsCommon.myCstr(txtSupervisorCode.Value)) <= 0 Then
-            myMessages.blankValue("SuperVisor ")
+            myMessages.blankValue(Me, "SuperVisor ", Me.Text)
             txtSupervisorCode.Focus()
             txtSupervisorCode.Select()
             Errorcontrol.SetError(txtSupervisorCode, "SuperVisor ")

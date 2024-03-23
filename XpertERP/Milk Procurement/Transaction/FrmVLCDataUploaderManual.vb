@@ -904,7 +904,7 @@ Where 2=2   and TSPL_MP_MASTER.VLC_Code<>'" + clsCommon.myCstr(fndVLCCode.Tag) +
     End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(fndDocumentNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             funPrint(fndDocumentNo.Value)
         End If

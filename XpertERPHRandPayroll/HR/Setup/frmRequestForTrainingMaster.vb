@@ -20,7 +20,7 @@ Public Class frmRequestForTrainingMaster
         '    Throw New Exception("Code cannot be left blank")
         'End If
         If clsCommon.myLen(FndTrainingCourse.Value) <= 0 Then
-            myMessages.blankValue("Course")
+            myMessages.blankValue(Me, "Course", Me.Text)
 
             FndTrainingCourse.Focus()
             FndTrainingCourse.Select()

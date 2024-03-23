@@ -24,11 +24,13 @@ Partial Class FrmTankerMaster
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -271,27 +273,20 @@ Partial Class FrmTankerMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(795, 20)
         Me.RadMenu1.TabIndex = 15
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexport, Me.btnimport})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
         '
@@ -306,7 +301,6 @@ Partial Class FrmTankerMaster
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(795, 476)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -373,7 +367,7 @@ Partial Class FrmTankerMaster
         Me.txtProvMinQty.TabIndex = 20
         Me.txtProvMinQty.Text = "0"
         Me.txtProvMinQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtProvMinQty.Value = 0.0R
+        Me.txtProvMinQty.Value = 0R
         '
         'MyLabel16
         '
@@ -445,13 +439,14 @@ Partial Class FrmTankerMaster
         Me.txtstorage.TabIndex = 9
         Me.txtstorage.Text = "0"
         Me.txtstorage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtstorage.Value = 0.0R
+        Me.txtstorage.Value = 0R
         '
         'ddlStorageCapacityDescription
         '
         Me.ddlStorageCapacityDescription.AutoCompleteDisplayMember = Nothing
         Me.ddlStorageCapacityDescription.AutoCompleteValueMember = Nothing
         Me.ddlStorageCapacityDescription.CalculationExpression = Nothing
+        Me.ddlStorageCapacityDescription.DropDownAnimationEnabled = True
         Me.ddlStorageCapacityDescription.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlStorageCapacityDescription.FieldCode = Nothing
         Me.ddlStorageCapacityDescription.FieldDesc = Nothing
@@ -535,7 +530,7 @@ Partial Class FrmTankerMaster
         Me.txtMRPDRent.TabIndex = 92
         Me.txtMRPDRent.Text = "0"
         Me.txtMRPDRent.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMRPDRent.Value = 0.0R
+        Me.txtMRPDRent.Value = 0R
         '
         'MyLabel21
         '
@@ -594,7 +589,7 @@ Partial Class FrmTankerMaster
         Me.txtMRPDAverage.TabIndex = 2
         Me.txtMRPDAverage.Text = "0"
         Me.txtMRPDAverage.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMRPDAverage.Value = 0.0R
+        Me.txtMRPDAverage.Value = 0R
         '
         'MyLabel20
         '
@@ -632,16 +627,19 @@ Partial Class FrmTankerMaster
         Me.txtMRPDDieselRate.TabIndex = 3
         Me.txtMRPDDieselRate.Text = "0"
         Me.txtMRPDDieselRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMRPDDieselRate.Value = 0.0R
+        Me.txtMRPDDieselRate.Value = 0R
         '
         'gv
         '
         Me.gv.Enabled = False
         Me.gv.Location = New System.Drawing.Point(281, 43)
         '
-        'gv
         '
+        '
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(472, 280)
@@ -687,6 +685,7 @@ Partial Class FrmTankerMaster
         Me.cmbRentalType.AutoCompleteDisplayMember = Nothing
         Me.cmbRentalType.AutoCompleteValueMember = Nothing
         Me.cmbRentalType.CalculationExpression = Nothing
+        Me.cmbRentalType.DropDownAnimationEnabled = True
         Me.cmbRentalType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbRentalType.FieldCode = Nothing
         Me.cmbRentalType.FieldDesc = Nothing
@@ -760,7 +759,7 @@ Partial Class FrmTankerMaster
         Me.txtRentalAmt.TabIndex = 25
         Me.txtRentalAmt.Text = "0"
         Me.txtRentalAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRentalAmt.Value = 0.0R
+        Me.txtRentalAmt.Value = 0R
         '
         'MyLabel15
         '
@@ -834,7 +833,7 @@ Partial Class FrmTankerMaster
         Me.txtchrg.TabIndex = 2
         Me.txtchrg.Text = "0"
         Me.txtchrg.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtchrg.Value = 0.0R
+        Me.txtchrg.Value = 0R
         '
         'MyLabel9
         '
@@ -872,7 +871,7 @@ Partial Class FrmTankerMaster
         Me.txtavgkm.TabIndex = 4
         Me.txtavgkm.Text = "0"
         Me.txtavgkm.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtavgkm.Value = 0.0R
+        Me.txtavgkm.Value = 0R
         '
         'MyLabel10
         '
@@ -910,7 +909,7 @@ Partial Class FrmTankerMaster
         Me.txtdiesel.TabIndex = 6
         Me.txtdiesel.Text = "0"
         Me.txtdiesel.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtdiesel.Value = 0.0R
+        Me.txtdiesel.Value = 0R
         '
         'GroupBox2
         '
@@ -960,7 +959,7 @@ Partial Class FrmTankerMaster
         Me.txt_km.TabIndex = 21
         Me.txt_km.Text = "0"
         Me.txt_km.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_km.Value = 0.0R
+        Me.txt_km.Value = 0R
         '
         'GroupBox1
         '
@@ -979,6 +978,7 @@ Partial Class FrmTankerMaster
         Me.cmbLtrKG.AutoCompleteDisplayMember = Nothing
         Me.cmbLtrKG.AutoCompleteValueMember = Nothing
         Me.cmbLtrKG.CalculationExpression = Nothing
+        Me.cmbLtrKG.DropDownAnimationEnabled = True
         Me.cmbLtrKG.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbLtrKG.FieldCode = Nothing
         Me.cmbLtrKG.FieldDesc = Nothing
@@ -1051,7 +1051,7 @@ Partial Class FrmTankerMaster
         Me.txt_ltr.TabIndex = 11
         Me.txt_ltr.Text = "0"
         Me.txt_ltr.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_ltr.Value = 0.0R
+        Me.txt_ltr.Value = 0R
         '
         'txtdesc
         '
@@ -1122,7 +1122,6 @@ Partial Class FrmTankerMaster
         Me.txtname.Name = "txtname"
         Me.txtname.Size = New System.Drawing.Size(386, 18)
         Me.txtname.TabIndex = 7
-        Me.txtname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtname.TextWrap = False
         '
         'RadGroupBox3
@@ -1264,7 +1263,7 @@ Partial Class FrmTankerMaster
         Me.fndNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndNo.MyLinkLable1 = Me.lblvandorno
         Me.fndNo.MyLinkLable2 = Nothing
-        Me.fndNo.MyMaxLength = 32767
+        Me.fndNo.MyMaxLength = 30
         Me.fndNo.MyReadOnly = False
         Me.fndNo.Name = "fndNo"
         Me.fndNo.Size = New System.Drawing.Size(301, 21)
@@ -1320,7 +1319,10 @@ Partial Class FrmTankerMaster
         '
         '
         '
+        Me.gvChamber.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvChamber.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvChamber.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvChamber.MyStopExport = False
         Me.gvChamber.Name = "gvChamber"
         Me.gvChamber.ShowHeaderCellButtons = True
         Me.gvChamber.Size = New System.Drawing.Size(768, 392)
@@ -1382,7 +1384,7 @@ Partial Class FrmTankerMaster
         Me.txtChamborNo.TabIndex = 115
         Me.txtChamborNo.Text = "0"
         Me.txtChamborNo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtChamborNo.Value = 0.0R
+        Me.txtChamborNo.Value = 0R
         '
         'RadPageViewPage2
         '
@@ -1457,7 +1459,7 @@ Partial Class FrmTankerMaster
         Me.txtrental_day.TabIndex = 14
         Me.txtrental_day.Text = "0"
         Me.txtrental_day.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtrental_day.Value = 0.0R
+        Me.txtrental_day.Value = 0R
         Me.txtrental_day.Visible = False
         '
         'MyLabel13
@@ -1500,7 +1502,7 @@ Partial Class FrmTankerMaster
         Me.txtrental_week.TabIndex = 16
         Me.txtrental_week.Text = "0"
         Me.txtrental_week.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtrental_week.Value = 0.0R
+        Me.txtrental_week.Value = 0R
         Me.txtrental_week.Visible = False
         '
         'MyLabel11
@@ -1539,7 +1541,7 @@ Partial Class FrmTankerMaster
         Me.txtrental_month.TabIndex = 18
         Me.txtrental_month.Text = "0"
         Me.txtrental_month.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtrental_month.Value = 0.0R
+        Me.txtrental_month.Value = 0R
         '
         'txt_ltr_kg
         '
@@ -1567,7 +1569,7 @@ Partial Class FrmTankerMaster
         Me.txt_ltr_kg.TabIndex = 9
         Me.txt_ltr_kg.Text = "0"
         Me.txt_ltr_kg.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txt_ltr_kg.Value = 0.0R
+        Me.txt_ltr_kg.Value = 0R
         Me.txt_ltr_kg.Visible = False
         '
         'MyLabel7

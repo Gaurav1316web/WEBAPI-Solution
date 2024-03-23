@@ -118,36 +118,36 @@ Public Class frmOwnBMCGainLossRate
 
     Function AllowToSave() As Boolean
         If txtFat.Value < 0 Then
-            myMessages.blankValue("GFAT")
+            myMessages.blankValue(Me, "GFAT", Me.Text)
             txtFat.Focus()
             Return False
         End If
 
         If txtSNF.Value < 0 Then
-            myMessages.blankValue("GSNF")
+            myMessages.blankValue(Me, "GSNF", Me.Text)
             txtSNF.Focus()
             Return False
         End If
 
         If txtLFat.Value < 0 Then
-            myMessages.blankValue("LFAT")
+            myMessages.blankValue(Me, "LFAT", Me.Text)
             txtLFat.Focus()
             Return False
         End If
 
         If txtLSnf.Value < 0 Then
-            myMessages.blankValue("LSNF")
+            myMessages.blankValue(Me, "LSNF", Me.Text)
             txtLSnf.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtDescription.Text) <= 0 Then
-            myMessages.blankValue("Description")
+            myMessages.blankValue(Me, "Description", Me.Text)
             txtDescription.Focus()
             Return False
         End If
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("Code")
+            myMessages.blankValue(Me, "Code", Me.Text)
             txtDescription.Focus()
             Return False
         End If

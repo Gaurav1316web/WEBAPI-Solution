@@ -165,16 +165,16 @@ Public Class frmAssetRequisition
             'myMessages.blankValue("Code")
             'Return False
         ElseIf clsCommon.myLen(txtRemarks.Text) = 0 Then
-            myMessages.blankValue("Remarks")
+            myMessages.blankValue(Me, "Remarks", Me.Text)
             Return False
         ElseIf Me.ddlMoveType.SelectedIndex = -1 Then
-            myMessages.blankValue("Move Type")
+            myMessages.blankValue(Me, "Move Type", Me.Text)
             Return False
         ElseIf clsCommon.myLen(fndLocationCode.Value) = 0 Then
-            myMessages.blankValue("Location Code")
+            myMessages.blankValue(Me, "Location Code", Me.Text)
             Return False
         ElseIf clsCommon.myLen(fndcustomerCode.Value) = 0 Then
-            myMessages.blankValue("Customer Code")
+            myMessages.blankValue(Me, "Customer Code", Me.Text)
             Return False
         End If
         Return True

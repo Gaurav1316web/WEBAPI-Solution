@@ -2375,7 +2375,7 @@ Partial Class FrmMPMaster
         Me.fndMPCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndMPCode.MyLinkLable1 = Me.lblMPCode
         Me.fndMPCode.MyLinkLable2 = Nothing
-        Me.fndMPCode.MyMaxLength = 32767
+        Me.fndMPCode.MyMaxLength = 30
         Me.fndMPCode.MyReadOnly = False
         Me.fndMPCode.Name = "fndMPCode"
         Me.fndMPCode.Size = New System.Drawing.Size(199, 21)

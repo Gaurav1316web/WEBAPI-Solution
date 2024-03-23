@@ -589,7 +589,7 @@ Partial Class FrmBulkRoutMaster
         Me.txtRouteNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtRouteNo.MyLinkLable1 = Me.RadLabel1
         Me.txtRouteNo.MyLinkLable2 = Nothing
-        Me.txtRouteNo.MyMaxLength = 32767
+        Me.txtRouteNo.MyMaxLength = 30
         Me.txtRouteNo.MyReadOnly = False
         Me.txtRouteNo.Name = "txtRouteNo"
         Me.txtRouteNo.Size = New System.Drawing.Size(252, 19)

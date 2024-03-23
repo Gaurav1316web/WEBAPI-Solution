@@ -830,7 +830,7 @@ Public Class frmProductionReturn
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If txtReqNo.Value = "" Then
-            myMessages.blankValue("Requisition Number")
+            myMessages.blankValue(Me, "Requisition Number", Me.Text)
         Else
             funPrint()
         End If

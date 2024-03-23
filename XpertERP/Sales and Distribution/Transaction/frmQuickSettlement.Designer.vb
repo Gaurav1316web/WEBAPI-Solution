@@ -23,62 +23,65 @@ Partial Class FrmQuickSettlement
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmQuickSettlement))
-        Dim GridViewTextBoxColumn4 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn
-        Dim GridViewTextBoxColumn5 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn
-        Dim GridViewDecimalColumn2 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn
-        Dim GridViewTextBoxColumn6 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn
-        Me.grp1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.btnPostfinnancial = New Telerik.WinControls.UI.RadButton
-        Me.txtNetSaleAmount = New Telerik.WinControls.UI.RadTextBox
-        Me.txtSchemeAmt = New Telerik.WinControls.UI.RadTextBox
-        Me.MyLabel5 = New common.Controls.MyLabel
-        Me.MyLabel4 = New common.Controls.MyLabel
-        Me.txtProvisionalSaleAmt = New Telerik.WinControls.UI.RadTextBox
-        Me.MyLabel3 = New common.Controls.MyLabel
-        Me.txtCashMemo = New Telerik.WinControls.UI.RadTextBox
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.fndSalesmanCode = New common.UserControls.txtFinder
-        Me.lblTransferNumber = New common.Controls.MyLabel
-        Me.btnLoadOutView = New Telerik.WinControls.UI.RadButton
-        Me.fndTransferNumber = New common.UserControls.txtFinder
-        Me.UsLock1 = New common.usLock
-        Me.txtBalanceAmount = New Telerik.WinControls.UI.RadTextBox
-        Me.txtempty = New Telerik.WinControls.UI.RadTextBox
-        Me.RadLabel7 = New common.Controls.MyLabel
-        Me.RadLabel6 = New common.Controls.MyLabel
-        Me.RadLabel4 = New common.Controls.MyLabel
-        Me.txtLoadInAmount = New Telerik.WinControls.UI.RadTextBox
-        Me.lblComments = New common.Controls.MyLabel
-        Me.txtComments = New Telerik.WinControls.UI.RadTextBox
-        Me.lblBalanceAmount = New common.Controls.MyLabel
-        Me.RadLabel5 = New common.Controls.MyLabel
-        Me.txtVehicleNo = New Telerik.WinControls.UI.RadTextBox
-        Me.RadLabel2 = New common.Controls.MyLabel
-        Me.txtRouteNo = New Telerik.WinControls.UI.RadTextBox
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.lblRouteDescription = New common.Controls.MyLabel
-        Me.lblSalesman = New common.Controls.MyLabel
-        Me.txtRoutedescription = New Telerik.WinControls.UI.RadTextBox
-        Me.txtSalesman = New Telerik.WinControls.UI.RadTextBox
-        Me.txtTotalAmount = New Telerik.WinControls.UI.RadTextBox
-        Me.lblTotalAmount = New common.Controls.MyLabel
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton
-        Me.btnPost = New Telerik.WinControls.UI.RadButton
-        Me.fndQuickSettlement = New common.UserControls.txtNavigator
-        Me.RadLabel3 = New common.Controls.MyLabel
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.txtTransferDate = New Telerik.WinControls.UI.RadTextBox
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.dgvQuickSettleMent = New common.UserControls.MyRadGridView
-        Me.lblAmount = New common.Controls.MyLabel
-        Me.lblTranserDate = New common.Controls.MyLabel
-        Me.txtAmount = New Telerik.WinControls.UI.RadTextBox
-        Me.txtQSDate = New common.Controls.MyDateTimePicker
+        Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewTextBoxColumn2 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim GridViewDecimalColumn1 As Telerik.WinControls.UI.GridViewDecimalColumn = New Telerik.WinControls.UI.GridViewDecimalColumn()
+        Dim GridViewTextBoxColumn3 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.grp1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtQSDate = New common.Controls.MyDateTimePicker()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.btnPostfinnancial = New Telerik.WinControls.UI.RadButton()
+        Me.txtNetSaleAmount = New Telerik.WinControls.UI.RadTextBox()
+        Me.txtSchemeAmt = New Telerik.WinControls.UI.RadTextBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtProvisionalSaleAmt = New Telerik.WinControls.UI.RadTextBox()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.txtCashMemo = New Telerik.WinControls.UI.RadTextBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.fndSalesmanCode = New common.UserControls.txtFinder()
+        Me.lblTransferNumber = New common.Controls.MyLabel()
+        Me.btnLoadOutView = New Telerik.WinControls.UI.RadButton()
+        Me.fndTransferNumber = New common.UserControls.txtFinder()
+        Me.UsLock1 = New common.usLock()
+        Me.txtBalanceAmount = New Telerik.WinControls.UI.RadTextBox()
+        Me.txtempty = New Telerik.WinControls.UI.RadTextBox()
+        Me.RadLabel7 = New common.Controls.MyLabel()
+        Me.RadLabel6 = New common.Controls.MyLabel()
+        Me.txtLoadInAmount = New Telerik.WinControls.UI.RadTextBox()
+        Me.lblComments = New common.Controls.MyLabel()
+        Me.txtComments = New Telerik.WinControls.UI.RadTextBox()
+        Me.lblBalanceAmount = New common.Controls.MyLabel()
+        Me.RadLabel5 = New common.Controls.MyLabel()
+        Me.txtVehicleNo = New Telerik.WinControls.UI.RadTextBox()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.txtRouteNo = New Telerik.WinControls.UI.RadTextBox()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.lblRouteDescription = New common.Controls.MyLabel()
+        Me.lblSalesman = New common.Controls.MyLabel()
+        Me.txtRoutedescription = New Telerik.WinControls.UI.RadTextBox()
+        Me.txtSalesman = New Telerik.WinControls.UI.RadTextBox()
+        Me.txtTotalAmount = New Telerik.WinControls.UI.RadTextBox()
+        Me.lblTotalAmount = New common.Controls.MyLabel()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.fndQuickSettlement = New common.UserControls.txtNavigator()
+        Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.txtTransferDate = New Telerik.WinControls.UI.RadTextBox()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.dgvQuickSettleMent = New common.UserControls.MyRadGridView()
+        Me.lblAmount = New common.Controls.MyLabel()
+        Me.lblTranserDate = New common.Controls.MyLabel()
+        Me.txtAmount = New Telerik.WinControls.UI.RadTextBox()
         CType(Me.grp1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grp1.SuspendLayout()
+        CType(Me.txtQSDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPostfinnancial, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtNetSaleAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSchemeAmt, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -95,7 +98,6 @@ Partial Class FrmQuickSettlement
         CType(Me.txtempty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLoadInAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblComments, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtComments, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -124,7 +126,6 @@ Partial Class FrmQuickSettlement
         CType(Me.lblAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTranserDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtAmount, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtQSDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -181,21 +182,52 @@ Partial Class FrmQuickSettlement
         Me.grp1.Controls.Add(Me.txtAmount)
         Me.grp1.Controls.Add(Me.lblTransferNumber)
         Me.grp1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.grp1.FooterImageIndex = -1
-        Me.grp1.FooterImageKey = ""
-        Me.grp1.HeaderImageIndex = -1
-        Me.grp1.HeaderImageKey = ""
-        Me.grp1.HeaderMargin = New System.Windows.Forms.Padding(0)
         Me.grp1.HeaderText = ""
         Me.grp1.Location = New System.Drawing.Point(0, 0)
         Me.grp1.Name = "grp1"
         Me.grp1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        '
-        '
-        '
-        Me.grp1.RootElement.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.grp1.Size = New System.Drawing.Size(781, 549)
         Me.grp1.TabIndex = 0
+        '
+        'txtQSDate
+        '
+        Me.txtQSDate.CalculationExpression = Nothing
+        Me.txtQSDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtQSDate.FieldCode = Nothing
+        Me.txtQSDate.FieldDesc = Nothing
+        Me.txtQSDate.FieldMaxLength = 0
+        Me.txtQSDate.FieldName = Nothing
+        Me.txtQSDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtQSDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtQSDate.isCalculatedField = False
+        Me.txtQSDate.IsSourceFromTable = False
+        Me.txtQSDate.IsSourceFromValueList = False
+        Me.txtQSDate.IsUnique = False
+        Me.txtQSDate.Location = New System.Drawing.Point(155, 39)
+        Me.txtQSDate.MendatroryField = False
+        Me.txtQSDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtQSDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtQSDate.MyLinkLable2 = Nothing
+        Me.txtQSDate.Name = "txtQSDate"
+        Me.txtQSDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtQSDate.ReferenceFieldDesc = Nothing
+        Me.txtQSDate.ReferenceFieldName = Nothing
+        Me.txtQSDate.ReferenceTableName = Nothing
+        Me.txtQSDate.Size = New System.Drawing.Size(79, 18)
+        Me.txtQSDate.TabIndex = 44
+        Me.txtQSDate.TabStop = False
+        Me.txtQSDate.Text = "13/06/2011"
+        Me.txtQSDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'RadLabel4
+        '
+        Me.RadLabel4.FieldName = Nothing
+        Me.RadLabel4.Location = New System.Drawing.Point(508, 10)
+        Me.RadLabel4.Name = "RadLabel4"
+        Me.RadLabel4.Size = New System.Drawing.Size(12, 18)
+        Me.RadLabel4.TabIndex = 20
+        Me.RadLabel4.Text = "0"
+        Me.RadLabel4.Visible = False
         '
         'btnPostfinnancial
         '
@@ -230,23 +262,25 @@ Partial Class FrmQuickSettlement
         '
         'MyLabel5
         '
+        Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.Location = New System.Drawing.Point(365, 203)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(92, 16)
         Me.MyLabel5.TabIndex = 43
         Me.MyLabel5.Text = "Net Sale Amount"
-        Me.MyLabel5.TextAlignment = System.Drawing.ContentAlignment.BottomCenter
+        Me.MyLabel5.TextAlignment = System.Drawing.ContentAlignment.TopLeft
         '
         'MyLabel4
         '
+        Me.MyLabel4.FieldName = Nothing
         Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel4.Location = New System.Drawing.Point(365, 177)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(117, 16)
         Me.MyLabel4.TabIndex = 41
         Me.MyLabel4.Text = "FOC/Scheme Amount"
-        Me.MyLabel4.TextAlignment = System.Drawing.ContentAlignment.BottomCenter
+        Me.MyLabel4.TextAlignment = System.Drawing.ContentAlignment.TopLeft
         '
         'txtProvisionalSaleAmt
         '
@@ -260,13 +294,14 @@ Partial Class FrmQuickSettlement
         '
         'MyLabel3
         '
+        Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel3.Location = New System.Drawing.Point(365, 153)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(127, 16)
         Me.MyLabel3.TabIndex = 39
         Me.MyLabel3.Text = "Provisonal Sale Amount"
-        Me.MyLabel3.TextAlignment = System.Drawing.ContentAlignment.BottomCenter
+        Me.MyLabel3.TextAlignment = System.Drawing.ContentAlignment.TopLeft
         '
         'txtCashMemo
         '
@@ -279,6 +314,7 @@ Partial Class FrmQuickSettlement
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(16, 85)
         Me.MyLabel1.Name = "MyLabel1"
@@ -288,6 +324,7 @@ Partial Class FrmQuickSettlement
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.Location = New System.Drawing.Point(365, 131)
         Me.MyLabel2.Name = "MyLabel2"
@@ -297,19 +334,33 @@ Partial Class FrmQuickSettlement
         '
         'fndSalesmanCode
         '
+        Me.fndSalesmanCode.CalculationExpression = Nothing
+        Me.fndSalesmanCode.FieldCode = Nothing
+        Me.fndSalesmanCode.FieldDesc = Nothing
+        Me.fndSalesmanCode.FieldMaxLength = 0
+        Me.fndSalesmanCode.FieldName = Nothing
+        Me.fndSalesmanCode.isCalculatedField = False
+        Me.fndSalesmanCode.IsSourceFromTable = False
+        Me.fndSalesmanCode.IsSourceFromValueList = False
+        Me.fndSalesmanCode.IsUnique = False
         Me.fndSalesmanCode.Location = New System.Drawing.Point(155, 84)
         Me.fndSalesmanCode.MendatroryField = True
         Me.fndSalesmanCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndSalesmanCode.MyLinkLable1 = Me.lblTransferNumber
         Me.fndSalesmanCode.MyLinkLable2 = Nothing
         Me.fndSalesmanCode.MyReadOnly = False
+        Me.fndSalesmanCode.MyShowMasterFormButton = False
         Me.fndSalesmanCode.Name = "fndSalesmanCode"
+        Me.fndSalesmanCode.ReferenceFieldDesc = Nothing
+        Me.fndSalesmanCode.ReferenceFieldName = Nothing
+        Me.fndSalesmanCode.ReferenceTableName = Nothing
         Me.fndSalesmanCode.Size = New System.Drawing.Size(158, 19)
         Me.fndSalesmanCode.TabIndex = 6
         Me.fndSalesmanCode.Value = ""
         '
         'lblTransferNumber
         '
+        Me.lblTransferNumber.FieldName = Nothing
         Me.lblTransferNumber.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTransferNumber.Location = New System.Drawing.Point(16, 62)
         Me.lblTransferNumber.Name = "lblTransferNumber"
@@ -329,13 +380,26 @@ Partial Class FrmQuickSettlement
         '
         'fndTransferNumber
         '
+        Me.fndTransferNumber.CalculationExpression = Nothing
+        Me.fndTransferNumber.FieldCode = Nothing
+        Me.fndTransferNumber.FieldDesc = Nothing
+        Me.fndTransferNumber.FieldMaxLength = 0
+        Me.fndTransferNumber.FieldName = Nothing
+        Me.fndTransferNumber.isCalculatedField = False
+        Me.fndTransferNumber.IsSourceFromTable = False
+        Me.fndTransferNumber.IsSourceFromValueList = False
+        Me.fndTransferNumber.IsUnique = False
         Me.fndTransferNumber.Location = New System.Drawing.Point(155, 62)
         Me.fndTransferNumber.MendatroryField = True
         Me.fndTransferNumber.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndTransferNumber.MyLinkLable1 = Me.lblTransferNumber
         Me.fndTransferNumber.MyLinkLable2 = Nothing
         Me.fndTransferNumber.MyReadOnly = False
+        Me.fndTransferNumber.MyShowMasterFormButton = False
         Me.fndTransferNumber.Name = "fndTransferNumber"
+        Me.fndTransferNumber.ReferenceFieldDesc = Nothing
+        Me.fndTransferNumber.ReferenceFieldName = Nothing
+        Me.fndTransferNumber.ReferenceTableName = Nothing
         Me.fndTransferNumber.Size = New System.Drawing.Size(158, 19)
         Me.fndTransferNumber.TabIndex = 4
         Me.fndTransferNumber.Value = ""
@@ -372,6 +436,7 @@ Partial Class FrmQuickSettlement
         '
         'RadLabel7
         '
+        Me.RadLabel7.FieldName = Nothing
         Me.RadLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel7.Location = New System.Drawing.Point(16, 156)
         Me.RadLabel7.Name = "RadLabel7"
@@ -381,21 +446,13 @@ Partial Class FrmQuickSettlement
         '
         'RadLabel6
         '
+        Me.RadLabel6.FieldName = Nothing
         Me.RadLabel6.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel6.Location = New System.Drawing.Point(17, 181)
         Me.RadLabel6.Name = "RadLabel6"
         Me.RadLabel6.Size = New System.Drawing.Size(86, 16)
         Me.RadLabel6.TabIndex = 23
         Me.RadLabel6.Text = "Load In Amount"
-        '
-        'RadLabel4
-        '
-        Me.RadLabel4.Location = New System.Drawing.Point(508, 10)
-        Me.RadLabel4.Name = "RadLabel4"
-        Me.RadLabel4.Size = New System.Drawing.Size(12, 18)
-        Me.RadLabel4.TabIndex = 20
-        Me.RadLabel4.Text = "0"
-        Me.RadLabel4.Visible = False
         '
         'txtLoadInAmount
         '
@@ -409,6 +466,7 @@ Partial Class FrmQuickSettlement
         '
         'lblComments
         '
+        Me.lblComments.FieldName = Nothing
         Me.lblComments.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblComments.Location = New System.Drawing.Point(17, 229)
         Me.lblComments.Name = "lblComments"
@@ -433,6 +491,7 @@ Partial Class FrmQuickSettlement
         '
         'lblBalanceAmount
         '
+        Me.lblBalanceAmount.FieldName = Nothing
         Me.lblBalanceAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBalanceAmount.Location = New System.Drawing.Point(17, 204)
         Me.lblBalanceAmount.Name = "lblBalanceAmount"
@@ -442,6 +501,7 @@ Partial Class FrmQuickSettlement
         '
         'RadLabel5
         '
+        Me.RadLabel5.FieldName = Nothing
         Me.RadLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel5.Location = New System.Drawing.Point(365, 40)
         Me.RadLabel5.Name = "RadLabel5"
@@ -460,6 +520,7 @@ Partial Class FrmQuickSettlement
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel2.Location = New System.Drawing.Point(16, 107)
         Me.RadLabel2.Name = "RadLabel2"
@@ -478,6 +539,7 @@ Partial Class FrmQuickSettlement
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel1.Location = New System.Drawing.Point(17, 40)
         Me.RadLabel1.Name = "RadLabel1"
@@ -487,6 +549,7 @@ Partial Class FrmQuickSettlement
         '
         'lblRouteDescription
         '
+        Me.lblRouteDescription.FieldName = Nothing
         Me.lblRouteDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRouteDescription.Location = New System.Drawing.Point(365, 110)
         Me.lblRouteDescription.Name = "lblRouteDescription"
@@ -496,6 +559,7 @@ Partial Class FrmQuickSettlement
         '
         'lblSalesman
         '
+        Me.lblSalesman.FieldName = Nothing
         Me.lblSalesman.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblSalesman.Location = New System.Drawing.Point(365, 87)
         Me.lblSalesman.Name = "lblSalesman"
@@ -536,6 +600,7 @@ Partial Class FrmQuickSettlement
         'lblTotalAmount
         '
         Me.lblTotalAmount.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTotalAmount.FieldName = Nothing
         Me.lblTotalAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTotalAmount.Location = New System.Drawing.Point(569, 503)
         Me.lblTotalAmount.Name = "lblTotalAmount"
@@ -567,13 +632,14 @@ Partial Class FrmQuickSettlement
         '
         'fndQuickSettlement
         '
+        Me.fndQuickSettlement.FieldName = Nothing
         Me.fndQuickSettlement.Location = New System.Drawing.Point(155, 10)
         Me.fndQuickSettlement.MendatroryField = True
         Me.fndQuickSettlement.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.fndQuickSettlement.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndQuickSettlement.MyLinkLable1 = Me.RadLabel3
         Me.fndQuickSettlement.MyLinkLable2 = Nothing
-        Me.fndQuickSettlement.MyMaxLength = 32767
+        Me.fndQuickSettlement.MyMaxLength = 30
         Me.fndQuickSettlement.MyReadOnly = True
         Me.fndQuickSettlement.Name = "fndQuickSettlement"
         Me.fndQuickSettlement.Size = New System.Drawing.Size(212, 21)
@@ -582,6 +648,7 @@ Partial Class FrmQuickSettlement
         '
         'RadLabel3
         '
+        Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel3.Location = New System.Drawing.Point(17, 15)
         Me.RadLabel3.Name = "RadLabel3"
@@ -641,8 +708,8 @@ Partial Class FrmQuickSettlement
         'dgvQuickSettleMent
         '
         Me.dgvQuickSettleMent.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.dgvQuickSettleMent.BackColor = System.Drawing.Color.FromArgb(CType(CType(239, Byte), Integer), CType(CType(246, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.dgvQuickSettleMent.Cursor = System.Windows.Forms.Cursors.Default
         Me.dgvQuickSettleMent.Font = New System.Drawing.Font("Arial", 8.25!)
@@ -650,44 +717,44 @@ Partial Class FrmQuickSettlement
         Me.dgvQuickSettleMent.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.dgvQuickSettleMent.Location = New System.Drawing.Point(9, 273)
         '
-        'dgvQuickSettleMent
+        '
         '
         Me.dgvQuickSettleMent.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.dgvQuickSettleMent.MasterTemplate.AllowAddNewRow = False
-        GridViewTextBoxColumn4.FieldName = "SettleMentCode"
-        GridViewTextBoxColumn4.HeaderText = "Settlement Code"
-        GridViewTextBoxColumn4.Name = "SettleMentCode"
-        GridViewTextBoxColumn4.ReadOnly = True
-        GridViewTextBoxColumn4.Width = 167
-        GridViewTextBoxColumn5.HeaderText = "Description"
-        GridViewTextBoxColumn5.Name = "Description"
-        GridViewTextBoxColumn5.ReadOnly = True
-        GridViewTextBoxColumn5.Width = 206
-        GridViewDecimalColumn2.HeaderText = "Amount"
-        GridViewDecimalColumn2.Minimum = New Decimal(New Integer() {0, 0, 0, 0})
-        GridViewDecimalColumn2.Name = "Amount1"
-        GridViewDecimalColumn2.ShowUpDownButtons = False
-        GridViewDecimalColumn2.Step = New Decimal(New Integer() {0, 0, 0, 0})
-        GridViewDecimalColumn2.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        GridViewDecimalColumn2.Width = 106
-        GridViewTextBoxColumn6.HeaderText = "Remarks"
-        GridViewTextBoxColumn6.Name = "Remarks"
-        GridViewTextBoxColumn6.Width = 239
-        Me.dgvQuickSettleMent.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn4, GridViewTextBoxColumn5, GridViewDecimalColumn2, GridViewTextBoxColumn6})
+        GridViewTextBoxColumn1.FieldName = "SettleMentCode"
+        GridViewTextBoxColumn1.HeaderText = "Settlement Code"
+        GridViewTextBoxColumn1.Name = "SettleMentCode"
+        GridViewTextBoxColumn1.ReadOnly = True
+        GridViewTextBoxColumn1.Width = 167
+        GridViewTextBoxColumn2.HeaderText = "Description"
+        GridViewTextBoxColumn2.Name = "Description"
+        GridViewTextBoxColumn2.ReadOnly = True
+        GridViewTextBoxColumn2.Width = 206
+        GridViewDecimalColumn1.HeaderText = "Amount"
+        GridViewDecimalColumn1.Minimum = New Decimal(New Integer() {0, 0, 0, 0})
+        GridViewDecimalColumn1.Name = "Amount1"
+        GridViewDecimalColumn1.ShowUpDownButtons = False
+        GridViewDecimalColumn1.Step = New Decimal(New Integer() {0, 0, 0, 0})
+        GridViewDecimalColumn1.Width = 106
+        GridViewTextBoxColumn3.HeaderText = "Remarks"
+        GridViewTextBoxColumn3.Name = "Remarks"
+        GridViewTextBoxColumn3.Width = 239
+        Me.dgvQuickSettleMent.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewTextBoxColumn2, GridViewDecimalColumn1, GridViewTextBoxColumn3})
         Me.dgvQuickSettleMent.MasterTemplate.EnableGrouping = False
         Me.dgvQuickSettleMent.MasterTemplate.EnableSorting = False
+        Me.dgvQuickSettleMent.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.dgvQuickSettleMent.MasterTemplate.ShowHeaderCellButtons = True
+        Me.dgvQuickSettleMent.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvQuickSettleMent.MyStopExport = False
         Me.dgvQuickSettleMent.Name = "dgvQuickSettleMent"
         Me.dgvQuickSettleMent.RightToLeft = System.Windows.Forms.RightToLeft.No
-        '
-        '
-        '
-        Me.dgvQuickSettleMent.RootElement.ForeColor = System.Drawing.Color.Black
+        Me.dgvQuickSettleMent.ShowHeaderCellButtons = True
         Me.dgvQuickSettleMent.Size = New System.Drawing.Size(762, 216)
         Me.dgvQuickSettleMent.TabIndex = 19
-        Me.dgvQuickSettleMent.Text = " "
         '
         'lblAmount
         '
+        Me.lblAmount.FieldName = Nothing
         Me.lblAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAmount.Location = New System.Drawing.Point(16, 131)
         Me.lblAmount.Name = "lblAmount"
@@ -697,6 +764,7 @@ Partial Class FrmQuickSettlement
         '
         'lblTranserDate
         '
+        Me.lblTranserDate.FieldName = Nothing
         Me.lblTranserDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblTranserDate.Location = New System.Drawing.Point(364, 64)
         Me.lblTranserDate.Name = "lblTranserDate"
@@ -714,31 +782,12 @@ Partial Class FrmQuickSettlement
         Me.txtAmount.Text = " 0.0"
         Me.txtAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
-        'txtQSDate
-        '
-        Me.txtQSDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtQSDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtQSDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtQSDate.Location = New System.Drawing.Point(155, 39)
-        Me.txtQSDate.MaxDate = New Date(9998, 12, 31, 0, 0, 0, 0)
-        Me.txtQSDate.MendatroryField = False
-        Me.txtQSDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtQSDate.MyLinkLable1 = Me.RadLabel4
-        Me.txtQSDate.MyLinkLable2 = Nothing
-        Me.txtQSDate.Name = "txtQSDate"
-        Me.txtQSDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtQSDate.Size = New System.Drawing.Size(79, 18)
-        Me.txtQSDate.TabIndex = 44
-        Me.txtQSDate.Text = "RadDateTimePicker1"
-        Me.txtQSDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
         'FrmQuickSettlement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(781, 549)
         Me.Controls.Add(Me.grp1)
-        Me.KeyPreview = True
         Me.Name = "FrmQuickSettlement"
         '
         '
@@ -748,6 +797,8 @@ Partial Class FrmQuickSettlement
         CType(Me.grp1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.grp1.ResumeLayout(False)
         Me.grp1.PerformLayout()
+        CType(Me.txtQSDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPostfinnancial, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtNetSaleAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSchemeAmt, System.ComponentModel.ISupportInitialize).EndInit()
@@ -764,7 +815,6 @@ Partial Class FrmQuickSettlement
         CType(Me.txtempty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLoadInAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblComments, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtComments, System.ComponentModel.ISupportInitialize).EndInit()
@@ -793,7 +843,6 @@ Partial Class FrmQuickSettlement
         CType(Me.lblAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTranserDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtAmount, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtQSDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

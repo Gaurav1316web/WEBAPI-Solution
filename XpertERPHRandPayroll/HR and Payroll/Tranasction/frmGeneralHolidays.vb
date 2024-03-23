@@ -77,11 +77,11 @@ Public Class frmGeneralHolidays
         '    Return False
         'Else
         If clsCommon.myLen(txtAttendCode.Value) <= 0 Then
-            myMessages.blankValue("Attendence Code")
+            myMessages.blankValue(Me, "Attendence Code", Me.Text)
             txtAttendCode.Focus()
             Return False
         ElseIf clsCommon.myLen(clsCommon.myCstr(dtpHolidayDate.Value)) <= 0 Then
-            myMessages.blankValue("Holiday Date ")
+            myMessages.blankValue(Me, "Holiday Date ", Me.Text)
             dtpHolidayDate.Focus()
             Return False
         End If

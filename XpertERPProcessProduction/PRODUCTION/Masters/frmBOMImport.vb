@@ -247,7 +247,7 @@ Public Class frmBOMImport
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(cboBOMStatus.Text) <= 0 Then
-            myMessages.blankValue("BOM Transaction Type !")
+            myMessages.blankValue(Me, "BOM Transaction Type !", Me.Text)
             cboBOMStatus.Focus()
             Return False
 

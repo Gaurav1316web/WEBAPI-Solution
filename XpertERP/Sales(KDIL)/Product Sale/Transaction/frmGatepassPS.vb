@@ -926,7 +926,7 @@ Public Class FrmGatePassPS
     End Sub
     Private Sub btnprint_Click(sender As Object, e As EventArgs) Handles btnprint.Click
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("GP not found to Print")
+            myMessages.blankValue(Me, "GP not found to Print", Me.Text)
         Else
             print(txtCode.Value)
         End If

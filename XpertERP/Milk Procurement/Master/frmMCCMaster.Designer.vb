@@ -4794,7 +4794,7 @@ Partial Class FrmMCCMaster
         Me.fndMCCCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndMCCCode.MyLinkLable1 = Me.lblMCCCode
         Me.fndMCCCode.MyLinkLable2 = Nothing
-        Me.fndMCCCode.MyMaxLength = 32767
+        Me.fndMCCCode.MyMaxLength = 30
         Me.fndMCCCode.MyReadOnly = False
         Me.fndMCCCode.Name = "fndMCCCode"
         Me.fndMCCCode.Size = New System.Drawing.Size(199, 21)
@@ -4820,6 +4820,7 @@ Partial Class FrmMCCMaster
         Me.gvEmp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmp.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvEmp.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvEmp.MyStopExport = False
         Me.gvEmp.Name = "gvEmp"
         Me.gvEmp.ShowHeaderCellButtons = True
         Me.gvEmp.Size = New System.Drawing.Size(1198, 517)
@@ -7065,6 +7066,7 @@ Partial Class FrmMCCMaster
         Me.gvUOM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvUOM.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvUOM.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvUOM.MyStopExport = False
         Me.gvUOM.Name = "gvUOM"
         Me.gvUOM.ShowHeaderCellButtons = True
         Me.gvUOM.Size = New System.Drawing.Size(1198, 517)
@@ -7133,6 +7135,7 @@ Partial Class FrmMCCMaster
         Me.dgvGenSet.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvGenSet.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvGenSet.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.dgvGenSet.MyStopExport = False
         Me.dgvGenSet.Name = "dgvGenSet"
         Me.dgvGenSet.ShowHeaderCellButtons = True
         Me.dgvGenSet.Size = New System.Drawing.Size(524, 340)
@@ -7203,6 +7206,7 @@ Partial Class FrmMCCMaster
         Me.dgvCompressor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvCompressor.MasterTemplate.ShowHeaderCellButtons = True
         Me.dgvCompressor.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.dgvCompressor.MyStopExport = False
         Me.dgvCompressor.Name = "dgvCompressor"
         Me.dgvCompressor.ShowHeaderCellButtons = True
         Me.dgvCompressor.Size = New System.Drawing.Size(524, 340)
@@ -7290,6 +7294,7 @@ Partial Class FrmMCCMaster
         Me.gvSilo.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSilo.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSilo.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvSilo.MyStopExport = False
         Me.gvSilo.Name = "gvSilo"
         Me.gvSilo.ShowHeaderCellButtons = True
         Me.gvSilo.Size = New System.Drawing.Size(1159, 429)
@@ -7343,6 +7348,7 @@ Partial Class FrmMCCMaster
         Me.gvMilkPump.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMilkPump.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvMilkPump.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvMilkPump.MyStopExport = False
         Me.gvMilkPump.Name = "gvMilkPump"
         Me.gvMilkPump.ShowHeaderCellButtons = True
         Me.gvMilkPump.Size = New System.Drawing.Size(524, 340)
@@ -7430,6 +7436,7 @@ Partial Class FrmMCCMaster
         Me.gvChiller.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvChiller.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvChiller.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvChiller.MyStopExport = False
         Me.gvChiller.Name = "gvChiller"
         Me.gvChiller.ShowHeaderCellButtons = True
         Me.gvChiller.Size = New System.Drawing.Size(524, 340)
@@ -7496,6 +7503,7 @@ Partial Class FrmMCCMaster
         Me.gvCheque.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCheque.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCheque.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvCheque.MyStopExport = False
         Me.gvCheque.Name = "gvCheque"
         Me.gvCheque.ShowHeaderCellButtons = True
         Me.gvCheque.Size = New System.Drawing.Size(885, 62)
@@ -8431,6 +8439,7 @@ Partial Class FrmMCCMaster
         Me.GVPaymentEntry.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GVPaymentEntry.MasterTemplate.ShowHeaderCellButtons = True
         Me.GVPaymentEntry.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.GVPaymentEntry.MyStopExport = False
         Me.GVPaymentEntry.Name = "GVPaymentEntry"
         Me.GVPaymentEntry.ShowHeaderCellButtons = True
         Me.GVPaymentEntry.Size = New System.Drawing.Size(1198, 517)
@@ -8455,6 +8464,7 @@ Partial Class FrmMCCMaster
         Me.gvBankG.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBankG.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvBankG.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvBankG.MyStopExport = False
         Me.gvBankG.Name = "gvBankG"
         Me.gvBankG.ShowHeaderCellButtons = True
         Me.gvBankG.Size = New System.Drawing.Size(1198, 517)

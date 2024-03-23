@@ -548,6 +548,10 @@ where 2=2 "
             Gv1.Columns("Group_Desc").Width = 100
             Gv1.Columns("Group_Desc").HeaderText = "Vendor Group Name"
 
+            Gv1.Columns("Adjust_Bal").IsVisible = True
+            Gv1.Columns("Adjust_Bal").Width = 100
+            Gv1.Columns("Adjust_Bal").HeaderText = "Adjustment_Bal"
+
             'Gv1.Columns("SecurityDepositType").IsVisible = False
             'Gv1.Columns("SecurityDepositType").Width = 100
             'Gv1.Columns("SecurityDepositType").HeaderText = "Security Type"

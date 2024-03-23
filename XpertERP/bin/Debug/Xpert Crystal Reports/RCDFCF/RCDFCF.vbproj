@@ -1563,6 +1563,7 @@
     <None Include="Crystal Reports\Purchase\rptAPInvoice_old.rpt" />
     <None Include="Crystal Reports\Purchase\rptPerformanceReport.rpt" />
     <None Include="Crystal Reports\Purchase\rptRouteList.rpt" />
+    <None Include="Crystal Reports\Purchase\rptTransactionWiseStock.rpt" />
     <None Include="Crystal Reports\Purchase\rptVendorSecurity.rpt" />
     <None Include="Crystal Reports\Purchase\rptVendorSecurity_summary.rpt" />
     <None Include="Crystal Reports\Purchase\VehicleUnloadingReport.rpt" />

@@ -7969,7 +7969,7 @@ Public Class frmSaleOrderProductSale
     End Function
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Sale Order No not found to Print")
+            myMessages.blankValue(Me, "Sale Order No not found to Print", Me.Text)
         Else
             funPrint()
         End If
@@ -8331,7 +8331,7 @@ Public Class frmSaleOrderProductSale
 
     Private Sub PrintAmendment_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Sale Order No not found to Print")
+            myMessages.blankValue(Me, "Sale Order No not found to Print", Me.Text)
         Else
             FrmPurchaseOrderReport.PrintAbandoment(txtDocNo.Value)
             '' ''clsCommon.ProgressBarShow()

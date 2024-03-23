@@ -685,6 +685,7 @@ Partial Class FrmVLCMaster
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(587, 118)
@@ -849,7 +850,7 @@ Partial Class FrmVLCMaster
         Me.fndvlccode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndvlccode.MyLinkLable1 = Me.lblvandorno
         Me.fndvlccode.MyLinkLable2 = Nothing
-        Me.fndvlccode.MyMaxLength = 32767
+        Me.fndvlccode.MyMaxLength = 30
         Me.fndvlccode.MyReadOnly = False
         Me.fndvlccode.Name = "fndvlccode"
         Me.fndvlccode.Size = New System.Drawing.Size(300, 21)

@@ -33,6 +33,7 @@ Partial Class FrmParameterMaster
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -42,6 +43,7 @@ Partial Class FrmParameterMaster
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkIsCanType = New System.Windows.Forms.CheckBox()
         Me.chkMilkSample = New System.Windows.Forms.CheckBox()
         Me.ChkProduction = New System.Windows.Forms.CheckBox()
         Me.ChkMandatoryProdction = New System.Windows.Forms.CheckBox()
@@ -69,7 +71,6 @@ Partial Class FrmParameterMaster
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.chkIsCanType = New System.Windows.Forms.CheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -156,27 +157,20 @@ Partial Class FrmParameterMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(669, 20)
         Me.RadMenu1.TabIndex = 16
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexport, Me.btnimport})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
         '
@@ -191,7 +185,6 @@ Partial Class FrmParameterMaster
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(669, 307)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -233,6 +226,16 @@ Partial Class FrmParameterMaster
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(648, 259)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'chkIsCanType
+        '
+        Me.chkIsCanType.AutoSize = True
+        Me.chkIsCanType.Location = New System.Drawing.Point(357, 191)
+        Me.chkIsCanType.Name = "chkIsCanType"
+        Me.chkIsCanType.Size = New System.Drawing.Size(83, 17)
+        Me.chkIsCanType.TabIndex = 20
+        Me.chkIsCanType.Text = "Is Can Type"
+        Me.chkIsCanType.UseVisualStyleBackColor = True
         '
         'chkMilkSample
         '
@@ -279,6 +282,7 @@ Partial Class FrmParameterMaster
         Me.ddlParametereType.AutoCompleteDisplayMember = Nothing
         Me.ddlParametereType.AutoCompleteValueMember = Nothing
         Me.ddlParametereType.CalculationExpression = Nothing
+        Me.ddlParametereType.DropDownAnimationEnabled = True
         Me.ddlParametereType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlParametereType.FieldCode = Nothing
         Me.ddlParametereType.FieldDesc = Nothing
@@ -332,7 +336,7 @@ Partial Class FrmParameterMaster
         Me.chkBulkSale.AutoSize = True
         Me.chkBulkSale.Location = New System.Drawing.Point(108, 168)
         Me.chkBulkSale.Name = "chkBulkSale"
-        Me.chkBulkSale.Size = New System.Drawing.Size(73, 17)
+        Me.chkBulkSale.Size = New System.Drawing.Size(72, 17)
         Me.chkBulkSale.TabIndex = 12
         Me.chkBulkSale.Text = "Bulk Sale"
         Me.chkBulkSale.UseVisualStyleBackColor = True
@@ -342,6 +346,7 @@ Partial Class FrmParameterMaster
         Me.cmbParamFor.AutoCompleteDisplayMember = Nothing
         Me.cmbParamFor.AutoCompleteValueMember = Nothing
         Me.cmbParamFor.CalculationExpression = Nothing
+        Me.cmbParamFor.DropDownAnimationEnabled = True
         Me.cmbParamFor.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbParamFor.FieldCode = Nothing
         Me.cmbParamFor.FieldDesc = Nothing
@@ -403,6 +408,7 @@ Partial Class FrmParameterMaster
         Me.cbonature.AutoCompleteDisplayMember = Nothing
         Me.cbonature.AutoCompleteValueMember = Nothing
         Me.cbonature.CalculationExpression = Nothing
+        Me.cbonature.DropDownAnimationEnabled = True
         Me.cbonature.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cbonature.FieldCode = Nothing
         Me.cbonature.FieldDesc = Nothing
@@ -436,6 +442,7 @@ Partial Class FrmParameterMaster
         Me.cmbtype.AutoCompleteDisplayMember = Nothing
         Me.cmbtype.AutoCompleteValueMember = Nothing
         Me.cmbtype.CalculationExpression = Nothing
+        Me.cmbtype.DropDownAnimationEnabled = True
         Me.cmbtype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbtype.FieldCode = Nothing
         Me.cmbtype.FieldDesc = Nothing
@@ -530,7 +537,7 @@ Partial Class FrmParameterMaster
         Me.fndNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndNo.MyLinkLable1 = Me.lblvandorno
         Me.fndNo.MyLinkLable2 = Nothing
-        Me.fndNo.MyMaxLength = 32767
+        Me.fndNo.MyMaxLength = 30
         Me.fndNo.MyReadOnly = False
         Me.fndNo.Name = "fndNo"
         Me.fndNo.Size = New System.Drawing.Size(299, 21)
@@ -571,12 +578,14 @@ Partial Class FrmParameterMaster
         '
         '
         '
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(648, 259)
         Me.gv.TabIndex = 203
-        Me.gv.Text = "RadGridView1"
         '
         'btnclose
         '
@@ -604,16 +613,6 @@ Partial Class FrmParameterMaster
         Me.btnsave.Size = New System.Drawing.Size(78, 21)
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
-        '
-        'chkIsCanType
-        '
-        Me.chkIsCanType.AutoSize = True
-        Me.chkIsCanType.Location = New System.Drawing.Point(357, 191)
-        Me.chkIsCanType.Name = "chkIsCanType"
-        Me.chkIsCanType.Size = New System.Drawing.Size(83, 17)
-        Me.chkIsCanType.TabIndex = 20
-        Me.chkIsCanType.Text = "Is Can Type"
-        Me.chkIsCanType.UseVisualStyleBackColor = True
         '
         'FrmParameterMaster
         '

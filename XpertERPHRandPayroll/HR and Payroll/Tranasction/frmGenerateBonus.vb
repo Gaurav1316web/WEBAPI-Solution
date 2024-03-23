@@ -148,19 +148,19 @@ Public Class frmGenerateBonus
         '    Return False
         'Else
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            myMessages.blankValue("Location Code")
+            myMessages.blankValue(Me, "Location Code", Me.Text)
             fndLocation.Focus()
             Return False
         ElseIf clsCommon.myLen(txtToPayPeriodCode.Value) <= 0 Then
-            myMessages.blankValue("To Pay Period Code")
+            myMessages.blankValue(Me, "To Pay Period Code", Me.Text)
             txtToPayPeriodCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtFromPayPeriodCode.Value) <= 0 Then
-            myMessages.blankValue("From Pay Period Code")
+            myMessages.blankValue(Me, "From Pay Period Code", Me.Text)
             txtFromPayPeriodCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtPayablePayPeriodCode.Value) <= 0 Then
-            myMessages.blankValue("Payable Pay Period Code")
+            myMessages.blankValue(Me, "Payable Pay Period Code", Me.Text)
             txtPayablePayPeriodCode.Focus()
             Return False
         End If

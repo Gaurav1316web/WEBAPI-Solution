@@ -86,7 +86,7 @@ Public Class FrmNDDBMaster
     Private Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(clsCommon.myCstr(txtNDDBNo.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtNDDBNo.Value)) > 16 Then
-                myMessages.blankValue("NDDB No")
+                myMessages.blankValue(Me, "NDDB No", Me.Text)
                 txtNDDBNo.Focus()
                 txtNDDBNo.Select()
                 Errorcontrol.SetError(txtNDDBNo, "NDDB No")
@@ -95,7 +95,7 @@ Public Class FrmNDDBMaster
                 Errorcontrol.ResetError(txtNDDBNo)
             End If
             If clsCommon.myLen(clsCommon.myCstr(txtTagPrefix.Text)) <= 0 Then
-                myMessages.blankValue("Tag Prefix")
+                myMessages.blankValue(Me, "Tag Prefix", Me.Text)
                 txtTagPrefix.Focus()
                 txtTagPrefix.Select()
                 Errorcontrol.SetError(txtTagPrefix, "Tag Prefix")
@@ -105,7 +105,7 @@ Public Class FrmNDDBMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtTagSNo.Text)) <= 0 Then
-                myMessages.blankValue("Tag SNo")
+                myMessages.blankValue(Me, "Tag SNo", Me.Text)
                 txtTagSNo.Focus()
                 txtTagSNo.Select()
                 Errorcontrol.SetError(txtTagSNo, "Tag SNo")
@@ -115,7 +115,7 @@ Public Class FrmNDDBMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtUsedBy.Value)) <= 0 Then
-                myMessages.blankValue("Used By")
+                myMessages.blankValue(Me, "Used By", Me.Text)
                 txtUsedBy.Focus()
                 txtUsedBy.Select()
                 Errorcontrol.SetError(txtUsedBy, "Used By")

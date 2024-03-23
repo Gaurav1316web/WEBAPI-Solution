@@ -73,15 +73,15 @@ Public Class frmODSheet
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtEmpCode.Value) <= 0 Then
-            myMessages.blankValue("Employee Code")
+            myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtEmpCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtOTCode.Value) <= 0 Then
-            myMessages.blankValue("OD Code")
+            myMessages.blankValue(Me, "OD Code", Me.Text)
             txtOTCode.Focus()
             Return False
         ElseIf dtpFrom.Value >= dtpTo.Value Then
-            myMessages.blankValue("From Date Time must be less than To Date Time")
+            myMessages.blankValue(Me, "From Date Time must be less than To Date Time", Me.Text)
             dtpFrom.Focus()
             Return False
         End If

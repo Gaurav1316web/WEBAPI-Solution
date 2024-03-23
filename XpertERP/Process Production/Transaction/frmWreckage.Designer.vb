@@ -22,7 +22,10 @@ Partial Class frmWreckage
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmWreckage))
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gvWreckage = New Telerik.WinControls.UI.MasterGridViewTemplate()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.MyLabel13 = New common.Controls.MyLabel()
@@ -141,6 +144,7 @@ Partial Class frmWreckage
         Me.gvWreckage.AutoGenerateColumns = False
         Me.gvWreckage.EnableGrouping = False
         Me.gvWreckage.ShowHeaderCellButtons = True
+        Me.gvWreckage.ViewDefinition = TableViewDefinition1
         '
         'MyLabel16
         '
@@ -207,7 +211,6 @@ Partial Class frmWreckage
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(285, 20)
         Me.MyLabel9.TabIndex = 39
-        Me.MyLabel9.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'UsLock2
         '
@@ -323,7 +326,6 @@ Partial Class frmWreckage
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(285, 20)
         Me.MyLabel10.TabIndex = 38
-        Me.MyLabel10.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadButton1
         '
@@ -345,7 +347,6 @@ Partial Class frmWreckage
         Me.MyLabel6.Name = "MyLabel6"
         Me.MyLabel6.Size = New System.Drawing.Size(361, 20)
         Me.MyLabel6.TabIndex = 46
-        Me.MyLabel6.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel3
         '
@@ -363,6 +364,7 @@ Partial Class frmWreckage
         Me.MyRadGridView1.AutoGenerateColumns = False
         Me.MyRadGridView1.EnableGrouping = False
         Me.MyRadGridView1.ShowHeaderCellButtons = True
+        Me.MyRadGridView1.ViewDefinition = TableViewDefinition2
         '
         'TxtFinder2
         '
@@ -410,7 +412,6 @@ Partial Class frmWreckage
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(361, 20)
         Me.MyLabel4.TabIndex = 48
-        Me.MyLabel4.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel5
         '
@@ -597,7 +598,6 @@ Partial Class frmWreckage
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(364, 20)
         Me.lblLocation.TabIndex = 14
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'UsLock1
         '
@@ -628,7 +628,7 @@ Partial Class frmWreckage
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblReceiptCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(291, 19)
@@ -715,7 +715,6 @@ Partial Class frmWreckage
         Me.lblConsmSectionCode.Name = "lblConsmSectionCode"
         Me.lblConsmSectionCode.Size = New System.Drawing.Size(364, 20)
         Me.lblConsmSectionCode.TabIndex = 21
-        Me.lblConsmSectionCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblConsmSectionCode.Visible = False
         '
         'MyLabel1
@@ -770,6 +769,7 @@ Partial Class frmWreckage
         Me.ddltype.AutoCompleteDisplayMember = Nothing
         Me.ddltype.AutoCompleteValueMember = Nothing
         Me.ddltype.CalculationExpression = Nothing
+        Me.ddltype.DropDownAnimationEnabled = True
         Me.ddltype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddltype.FieldCode = Nothing
         Me.ddltype.FieldDesc = Nothing
@@ -899,20 +899,22 @@ Partial Class frmWreckage
         Me.grdWreckage.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.grdWreckage.Location = New System.Drawing.Point(0, 0)
         '
-        'grdWreckage
+        '
         '
         Me.grdWreckage.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.grdWreckage.MasterTemplate.AllowAddNewRow = False
         Me.grdWreckage.MasterTemplate.AutoGenerateColumns = False
         Me.grdWreckage.MasterTemplate.EnableGrouping = False
+        Me.grdWreckage.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.grdWreckage.MasterTemplate.ShowHeaderCellButtons = True
+        Me.grdWreckage.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.grdWreckage.MyStopExport = False
         Me.grdWreckage.Name = "grdWreckage"
         Me.grdWreckage.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.grdWreckage.ShowHeaderCellButtons = True
         Me.grdWreckage.Size = New System.Drawing.Size(1028, 335)
         Me.grdWreckage.TabIndex = 2
         Me.grdWreckage.TabStop = False
-        Me.grdWreckage.Text = "RadGridView1"
         '
         'btnHistory
         '

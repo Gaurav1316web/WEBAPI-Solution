@@ -705,19 +705,19 @@ Public Class frmMRP
         End If
 
         If clsCommon.myLen(fndItemToProduce.Value) <= 0 Then
-            myMessages.blankValue("Item To Produce Code")
+            myMessages.blankValue(Me, "Item To Produce Code", Me.Text)
             fndItemToProduce.Focus()
             Return False
         End If
 
         If clsCommon.myLen(fndBOM.Value) <= 0 Then
-            myMessages.blankValue("BOM Code")
+            myMessages.blankValue(Me, "BOM Code", Me.Text)
             fndBOM.Focus()
             Return False
         End If
 
         If clsCommon.myCdbl(txtBuildQty.Text) <= 0 Then
-            myMessages.blankValue("MRP Quantity")
+            myMessages.blankValue(Me, "MRP Quantity", Me.Text)
             txtBuildQty.Focus()
             Return False
         End If

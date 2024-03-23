@@ -238,13 +238,13 @@ Public Class frmAccountGroup
                 End If
             End If
             If fndaccgp.Value = "" Then
-                myMessages.blankValue("Account Group")
+                myMessages.blankValue(Me, "Account Group", Me.Text)
                 fndaccgp.Focus()
             ElseIf txtdes.Text = "" Then
-                myMessages.blankValue("Description")
+                myMessages.blankValue(Me, "Description", Me.Text)
                 txtdes.Focus()
             ElseIf clsCommon.myLen(txtAccMainGrp.Value) <= 0 Then
-                myMessages.blankValue("Account main group")
+                myMessages.blankValue(Me, "Account main group", Me.Text)
                 txtAccMainGrp.Focus()
             Else
                 If MyBase.isModifyonPasswordFlag Then
@@ -271,7 +271,7 @@ Public Class frmAccountGroup
 
     Sub Deletedata()
         If fndaccgp.Value = "" Then
-            myMessages.blankValue("Account Group Code")
+            myMessages.blankValue(Me, "Account Group Code", Me.Text)
         ElseIf myMessages.deleteConfirm() Then
             fundelete()
             myMessages.delete()

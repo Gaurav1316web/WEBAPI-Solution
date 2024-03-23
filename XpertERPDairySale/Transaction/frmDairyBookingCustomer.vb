@@ -3948,7 +3948,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                myMessages.blankValue("Booking not found to Print")
+                myMessages.blankValue(Me, "Booking not found to Print", Me.Text)
             Else
                 LoadData(txtDocNo.Value, NavigatorType.Current)
                 Export()

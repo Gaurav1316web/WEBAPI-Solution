@@ -63,11 +63,11 @@ Public Class frmCurrencyMaster
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("Code")
+            myMessages.blankValue(Me, "Code", Me.Text)
             txtCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtName.Text) <= 0 Then
-            myMessages.blankValue("Currency Name")
+            myMessages.blankValue(Me, "Currency Name", Me.Text)
             txtName.Focus()
             Return False
         End If

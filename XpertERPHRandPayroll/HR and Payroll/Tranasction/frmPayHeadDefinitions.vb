@@ -175,7 +175,7 @@ Public Class frmPayHeadDefinitions
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("Pay Head Code ")
+            myMessages.blankValue(Me, "Pay Head Code ", Me.Text)
             txtCode.Focus()
             Return False
 
@@ -187,36 +187,36 @@ Public Class frmPayHeadDefinitions
 
 
         ElseIf clsCommon.myLen(txtPayHeadName.Text) <= 0 Then
-            myMessages.blankValue("Pay Head Name")
+            myMessages.blankValue(Me, "Pay Head Name", Me.Text)
             txtPayHeadName.Focus()
             Return False
         ElseIf clsCommon.myLen(txtPrintName.Text) <= 0 Then
-            myMessages.blankValue("Print Name")
+            myMessages.blankValue(Me, "Print Name", Me.Text)
             txtPrintName.Focus()
             Return False
         ElseIf CboPayHeadType.SelectedIndex <= -1 Then
-            myMessages.blankValue("Pay Head Type")
+            myMessages.blankValue(Me, "Pay Head Type", Me.Text)
             CboPayHeadType.Focus()
             Return False
         ElseIf cboPayHeadCategory.SelectedIndex <= -1 Then
-            myMessages.blankValue(" Sub Pay Head Type")
+            myMessages.blankValue(Me, " Sub Pay Head Type", Me.Text)
             cboPayHeadCategory.Focus()
             Return False
         ElseIf cboPeriodicity.SelectedIndex <= -1 Then
-            myMessages.blankValue(" Periodicity")
+            myMessages.blankValue(Me, " Periodicity", Me.Text)
             cboPeriodicity.Focus()
             Return False
         ElseIf cboCalcBasis.SelectedIndex <= -1 Then
-            myMessages.blankValue(" Calculation Basis")
+            myMessages.blankValue(Me, " Calculation Basis", Me.Text)
             cboCalcBasis.Focus()
             Return False
         ElseIf cboRoundOffType.SelectedIndex <= -1 Then
-            myMessages.blankValue(" Round Off Type")
+            myMessages.blankValue(Me, " Round Off Type", Me.Text)
             cboRoundOffType.Focus()
             Return False
         End If
         If cboPayHeadCategory.ValueMember = "Arrear" And cboArrearType.SelectedIndex <= -1 Then
-            myMessages.blankValue("Arrear Type")
+            myMessages.blankValue(Me, "Arrear Type", Me.Text)
             cboArrearType.Focus()
             Return False
 

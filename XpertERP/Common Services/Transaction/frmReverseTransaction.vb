@@ -328,7 +328,7 @@ Public Class frmReverseTransaction
     Public Sub savedata(ByVal clicked As Boolean)
         Try
             If fndbankcode.Value = "" Then
-                myMessages.blankValue("Bank Code")
+                myMessages.blankValue(Me, "Bank Code", Me.Text)
                 fndbankcode.Focus()
                 'ElseIf dtp_PayRecDate.Text = "" Then
                 '    myMessages.blankValue("Pay/Rec Date")
@@ -530,10 +530,10 @@ Public Class frmReverseTransaction
                 Dim obj As New clsPaymentHeader()
                 obj = clsPaymentHeader.GetData(fndCheckPaymentNo.Value, NavigatorType.Current)
                 If fndCheckPaymentNo.Value = "" Then
-                    myMessages.blankValue("Payment No")
+                    myMessages.blankValue(Me, "Payment No", Me.Text)
                     fndCheckPaymentNo.Focus()
                 ElseIf txt_paymentAmount.Text = "" Then
-                    myMessages.blankValue("Payment Amount")
+                    myMessages.blankValue(Me, "Payment Amount", Me.Text)
                     txt_paymentAmount.Focus()
                 ElseIf clsCommon.GetDateWithStartTime(clsCommon.myCDate(obj.Payment_Date)) >= clsCommon.GetDateWithEndTime(dtp_reversaldate.Value) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Reversal Date should be greator than or equal to Payment Date", Me.Text)
@@ -616,10 +616,10 @@ Public Class frmReverseTransaction
                 isTDSReverse = True
                 Dim receiptdate As String = "select TSPL_RECEIPT_HEADER.Receipt_Date  from TSPL_RECEIPT_HEADER where Receipt_No = '" + fndcheckReceiptNo.Value + "'"
                 If fndcheckReceiptNo.Value = "" Then
-                    myMessages.blankValue("Receipt No")
+                    myMessages.blankValue(Me, "Receipt No", Me.Text)
                     fndcheckReceiptNo.Focus()
                 ElseIf txt_receiptAmount.Text = "" Then
-                    myMessages.blankValue("Receipt Amount")
+                    myMessages.blankValue(Me, "Receipt Amount", Me.Text)
                     txt_receiptAmount.Focus()
                 ElseIf clsCommon.myCDate(dtp_reversaldate.Value) < clsCommon.myCDate(dtp_PayRecDate.Value) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Reversal Date should be greator than or equal to Receipt Date")
@@ -710,10 +710,10 @@ Public Class frmReverseTransaction
                 Dim obj As New clsPaymentHeader()
                 obj = clsPaymentHeader.GetData(fndCheckPaymentNo.Value, NavigatorType.Current)
                 If fndCheckPaymentNo.Value = "" Then
-                    myMessages.blankValue("Payment No")
+                    myMessages.blankValue(Me, "Payment No", Me.Text)
                     fndCheckPaymentNo.Focus()
                 ElseIf txt_paymentAmount.Text = "" Then
-                    myMessages.blankValue("Payment Amount")
+                    myMessages.blankValue(Me, "Payment Amount", Me.Text)
                     txt_paymentAmount.Focus()
                 ElseIf clsCommon.GetDateWithStartTime(clsCommon.myCDate(obj.Payment_Date)) > clsCommon.GetDateWithEndTime(dtp_reversaldate.Value.ToString()) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Reversal Date should be greator than Payment Date")
@@ -789,10 +789,10 @@ Public Class frmReverseTransaction
                 isTDSReverse = True
                 Dim receiptdate As String = "select TSPL_RECEIPT_HEADER.Receipt_Date  from TSPL_RECEIPT_HEADER where Receipt_No = '" + fndcheckReceiptNo.Value + "'"
                 If fndcheckReceiptNo.Value = "" Then
-                    myMessages.blankValue("Payment No")
+                    myMessages.blankValue(Me, "Payment No", Me.Text)
                     fndcheckReceiptNo.Focus()
                 ElseIf txt_receiptAmount.Text = "" Then
-                    myMessages.blankValue("Receipt Amount")
+                    myMessages.blankValue(Me, "Receipt Amount", Me.Text)
                     txt_receiptAmount.Focus()
                     'ElseIf clsCommon.GetDateWithStartTime(clsCommon.myCDate(clsDBFuncationality.getSingleValue(receiptdate))) > clsCommon.GetDateWithEndTime(dtp_reversaldate.Value.ToString()) Then
                     '    common.clsCommon.MyMessageBoxShow("Reversal Date should be greator than Receipt Date")

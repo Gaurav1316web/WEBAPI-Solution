@@ -60,12 +60,12 @@ Public Class frmCanMaster
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("Code")
+            myMessages.blankValue(Me, "Code", Me.Text)
             txtCode.Focus()
             Return False
         End If
         If clsCommon.myLen(txtDescription.Text) <= 0 Then
-            myMessages.blankValue("Description")
+            myMessages.blankValue(Me, "Description", Me.Text)
             txtDescription.Focus()
             Return False
         End If

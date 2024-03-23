@@ -58,7 +58,7 @@ Public Class FrmSolutionKnowledgeBase
         Try
             btnsave.Focus()
             If clsCommon.myLen(clsCommon.myCstr(txtcode.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtcode.Value)) > 30 Then
-                myMessages.blankValue("Code")
+                myMessages.blankValue(Me, "Code", Me.Text)
                 txtcode.Focus()
                 txtcode.Select()
                 errorControl.SetError(txtcode, "Code")
@@ -67,7 +67,7 @@ Public Class FrmSolutionKnowledgeBase
                 errorControl.ResetError(txtcode)
             End If
             If clsCommon.myLen(clsCommon.myCstr(TxtItemCode.Value)) <= 0 Then
-                myMessages.blankValue("Item code")
+                myMessages.blankValue(Me, "Item code", Me.Text)
                 TxtItemCode.Focus()
                 TxtItemCode.Select()
                 errorControl.SetError(TxtItemCode, "Item code")
@@ -76,7 +76,7 @@ Public Class FrmSolutionKnowledgeBase
                 errorControl.ResetError(TxtItemCode)
             End If
             If clsCommon.myLen(clsCommon.myCstr(TxtSolution.Text)) <= 0 Then
-                myMessages.blankValue("Solution")
+                myMessages.blankValue(Me, "Solution", Me.Text)
                 TxtSolution.Focus()
                 TxtSolution.Select()
                 errorControl.SetError(TxtSolution, "Solution")

@@ -154,10 +154,10 @@ Public Class frmSectionParameterMapping
             Exit Sub
         End If
         If txtCode.Value = "" Then
-            myMessages.blankValue("Section code")
+            myMessages.blankValue(Me, "Section code", Me.Text)
             txtCode.Focus()
         ElseIf txtConsumType.Value = "" Then
-            myMessages.blankValue("Consumption code")
+            myMessages.blankValue(Me, "Consumption code", Me.Text)
             txtConsumType.Focus()
         ElseIf myMessages.deleteConfirm() Then
             If (clsSectionParameterMapping.DeleteData(txtCode.Value, txtConsumType.Value)) Then

@@ -36,10 +36,10 @@ Partial Class frmCanMaster
         Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblAdvanceCode = New common.Controls.MyLabel()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.rdmenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -50,10 +50,10 @@ Partial Class frmCanMaster
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAdvanceCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -64,27 +64,20 @@ Partial Class frmCanMaster
         Me.rdmenu1.Name = "rdmenu1"
         Me.rdmenu1.Size = New System.Drawing.Size(605, 20)
         Me.rdmenu1.TabIndex = 1
-        Me.rdmenu1.Text = "rdmenu"
         '
         'File
         '
-        Me.File.AccessibleDescription = "File"
-        Me.File.AccessibleName = "File"
         Me.File.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Import, Me.Export, Me.RadMenuItem1})
         Me.File.Name = "File"
         Me.File.Text = "File"
         '
         'Import
         '
-        Me.Import.AccessibleDescription = "Import"
-        Me.Import.AccessibleName = "Import"
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
         '
         'Export
         '
-        Me.Export.AccessibleDescription = "Export"
-        Me.Export.AccessibleName = "Export"
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '
@@ -99,8 +92,6 @@ Partial Class frmCanMaster
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "RadMenuItem2"
-        Me.RadMenuItem2.AccessibleName = "RadMenuItem2"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "RadMenuItem2"
         '
@@ -160,7 +151,7 @@ Partial Class frmCanMaster
         Me.txtTareWeight.TabIndex = 2
         Me.txtTareWeight.Text = "0"
         Me.txtTareWeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTareWeight.Value = 0.0R
+        Me.txtTareWeight.Value = 0R
         '
         'lblNoOfCans
         '
@@ -223,7 +214,7 @@ Partial Class frmCanMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(215, 21)
@@ -239,6 +230,15 @@ Partial Class frmCanMaster
         Me.lblAdvanceCode.Size = New System.Drawing.Size(32, 18)
         Me.lblAdvanceCode.TabIndex = 2
         Me.lblAdvanceCode.Text = "Code"
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnHistory.Location = New System.Drawing.Point(143, 10)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
+        Me.btnHistory.TabIndex = 108
+        Me.btnHistory.Text = "&History"
         '
         'btnsave
         '
@@ -267,15 +267,6 @@ Partial Class frmCanMaster
         Me.rdbtndelete.TabIndex = 1
         Me.rdbtndelete.Text = "Delete"
         '
-        'btnHistory
-        '
-        Me.btnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnHistory.Location = New System.Drawing.Point(143, 10)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(66, 18)
-        Me.btnHistory.TabIndex = 108
-        Me.btnHistory.Text = "&History"
-        '
         'frmCanMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -301,10 +292,10 @@ Partial Class frmCanMaster
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAdvanceCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

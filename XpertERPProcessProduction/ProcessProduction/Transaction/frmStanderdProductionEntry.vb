@@ -76,6 +76,7 @@ Public Class frmStanderdProductionEntry
     Dim Import As Boolean = False
 
     Dim SettConsumptionQtyTollerance As Decimal = 0.6
+    Dim SettCheckBalanceOnSave As Boolean = False
 #End Region
     Private Sub LOCATIONRIGTHS()
         Try
@@ -124,17 +125,18 @@ Public Class frmStanderdProductionEntry
         '' get mo setting
         'MOActive = ClsMFSeetings.Get_MO_BO_Setting()
         '' get decimal point for qty
-        DecimalPointQty = CInt(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, Nothing)))
+        DecimalPointQty = CInt(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, Nothing)))
         If DecimalPointQty <= 0 Then
             DecimalPointQty = 3
         End If
         '' get decimal point for fat snf percentage
-        DecimalPointFatSNFPer = CInt(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ProductionFATSNFPerDecimalPoint, clsFixedParameterCode.ProductionFATSNFPerDecimalPoint, Nothing)))
+        DecimalPointFatSNFPer = CInt(clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ProductionFATSNFPerDecimalPoint, clsFixedParameterCode.ProductionFATSNFPerDecimalPoint, Nothing)))
         If DecimalPointFatSNFPer <= 0 Then
             DecimalPointFatSNFPer = 3
         End If
 
         SettConsumptionQtyTollerance = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ConsumptionQtyTollerance, clsFixedParameterCode.ConsumptionQtyTollerance, Nothing))
+        SettCheckBalanceOnSave = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.CheckBalanceOnSave, clsFixedParameterCode.RCDFCFProductionEntry, Nothing))
 
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update Trasnaction")
         ButtonToolTip.SetToolTip(btnPost, "Press Alt+P Post Trasnaction")
@@ -167,7 +169,7 @@ Public Class frmStanderdProductionEntry
         'lblReceivedBy.Visible = False
         'lblEmpName.Visible = False
         '' disable enable import template control
-        If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_SPP_PRODUCTION_IMPORT where Import_Status='N'")) > 0 Then
+        If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select count(*) from TSPL_SPP_PRODUCTION_IMPORT where Import_Status='N'")) > 0 Then
             txtImportTemplate.Enabled = True
         Else
             txtImportTemplate.Enabled = False
@@ -1058,7 +1060,7 @@ Public Class frmStanderdProductionEntry
         dr("Name") = "Complete"
         dt.Rows.Add(dr)
 
-        If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowToSkipStageQLLogSheetInProd, clsFixedParameterCode.AllowToSkipStageQLLogSheetInProd, Nothing)) > 0) Then
+        If (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.AllowToSkipStageQLLogSheetInProd, clsFixedParameterCode.AllowToSkipStageQLLogSheetInProd, Nothing)) > 0) Then
             dr = dt.NewRow()
             dr("Code") = "2"
             dr("Name") = "Skip"
@@ -1108,7 +1110,7 @@ Public Class frmStanderdProductionEntry
             Dim frm As FrmSerializeItemIn = New FrmSerializeItemIn()
             frm.strItemCode = clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value)
             frm.strItemName = clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemDesc).Value)
-            frm.dblqty = clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colReceiptQty).Value)
+            frm.dblqty = clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colReceiptQty).Value)
             frm.arr = TryCast(gvBatch.CurrentRow.Tag, List(Of clsSerializeInvenotry))
             frm.ShowDialog()
             'gv1.CurrentRow.Cells(colReceiptQty).Value = frm.AcceptedQty
@@ -1167,17 +1169,17 @@ Public Class frmStanderdProductionEntry
         '    Return False
         'End If
         If clsCommon.myLen(CboShift.SelectedValue) <= 0 Then
-            myMessages.blankValue("Shift")
+            myMessages.blankValue(Me, "Shift", Me.Text)
             CboShift.Focus()
             Return False
         End If
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            myMessages.blankValue("Location Code")
+            myMessages.blankValue(Me, "Location Code", Me.Text)
             txtLocation.Focus()
             Return False
         End If
         If clsCommon.myLen(txtConsmLocOther.Value) <= 0 Then
-            myMessages.blankValue("Con. Location")
+            myMessages.blankValue(Me, "Con. Location", Me.Text)
             txtConsmLocOther.Focus()
             Return False
         End If
@@ -1194,7 +1196,7 @@ Public Class frmStanderdProductionEntry
         'End If
 
         If Me.gvBatch.Rows.Count = 0 Then
-            myMessages.blankValue("Batch List is Empty")
+            myMessages.blankValue(Me, "Batch List is Empty", Me.Text)
             Return False
         End If
         'Dim ii As Int16 = 0
@@ -1206,59 +1208,64 @@ Public Class frmStanderdProductionEntry
         Next
 
         If countItem = 0 Then
-            myMessages.blankValue("Please Select BOM First.")
+            myMessages.blankValue(Me, "Please Select BOM First.", Me.Text)
             Return False
         End If
 
         For Each grow As GridViewRowInfo In gvBatch.Rows
             If clsCommon.myLen(grow.Cells(colBOMCode).Value) > 0 Then
                 If clsCommon.myLen(grow.Cells(colSP_Loaction_Code).Value) <= 0 Then
-                    myMessages.blankValue("Enter Location in Batch Production tab at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Enter Location in Batch Production tab at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
             End If
-
         Next
 
         For Each grow As GridViewRowInfo In gvConsumption.Rows
             If clsCommon.myLen(grow.Cells(colItemCode).Value) > 0 Then
-                If clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value) > 0 Then
+                If clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value) > 0 Then
                     If clsCommon.myLen(grow.Cells(colSP_Loaction_Code).Value) <= 0 Then
-                        myMessages.blankValue("Enter Location in consumption tab at line no- " & (grow.Index + 1) & "")
+                        myMessages.blankValue(Me, "Enter Location in consumption tab at line no- " & (grow.Index + 1) & "", Me.Text)
                         Return False
                     End If
                 End If
-
                 If clsCommon.myLen(grow.Cells(colUOM).Value) <= 0 Then
-                    myMessages.blankValue("Enter UOM in consumption tab at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Enter UOM in consumption tab at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(grow.Cells(colMainUOM).Value) <= 0 Then
-                    myMessages.blankValue("Main UOM in consumption tab is blank at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Main UOM in consumption tab is blank at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(grow.Cells(colMainItemCode).Value) <= 0 Then
-                    myMessages.blankValue("Main Item Code in consumption tab is blank at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Main Item Code in consumption tab is blank at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(grow.Cells(colBOMCode).Value) <= 0 Then
-                    myMessages.blankValue("Bom Code in consumption tab is blank at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Bom Code in consumption tab is blank at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
 
-                If clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value) <= 0 Then
-                    myMessages.blankValue("Consumption Qty in consumption tab should be greter then zero(Item Conversion Factor not available for " + clsCommon.myCstr(grow.Cells(colUOM).Value) + " ). at line no- " & (grow.Index + 1) & "")
+                If clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value) <= 0 Then
+                    myMessages.blankValue(Me, "Consumption Qty in consumption tab should be greter then zero(Item Conversion Factor not available for " + clsCommon.myCstr(grow.Cells(colUOM).Value) + " ). at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
 
-                If clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value) < clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty_Min).Value) OrElse clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value) > clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty_Max).Value) Then
-                    myMessages.blankValue("Consumption Qty should be between  Minimum Qty (" + clsCommon.myCstr(clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty_Min).Value)) + ") and Maximum Qty (" + clsCommon.myCstr(clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty_Max).Value)) + ") for " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + " ). at line no- " & (grow.Index + 1) & "")
+                If clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value) < clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty_Min).Value) OrElse clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value) > clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty_Max).Value) Then
+                    clsCommon.MyMessageBoxShow(Me, "Consumption Qty should be between  Minimum Qty (" + clsCommon.myCstr(clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty_Min).Value)) + ") and Maximum Qty (" + clsCommon.myCstr(clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty_Max).Value)) + ") for " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + " ). at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
 
-                If clsCommon.myCdbl(grow.Cells(colAVG_Cost).Value) < 0 Then
-                    myMessages.blankValue("AVG Cost in consumption tab should be greter then or equals to zero( Stock not available). at line no- " & (grow.Index + 1) & "")
+                If clsCommon.myCDecimal(grow.Cells(colAVG_Cost).Value) < 0 Then
+                    myMessages.blankValue(Me, "AVG Cost in consumption tab should be greter then or equals to zero( Stock not available). at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
+                End If
+
+                If SettCheckBalanceOnSave Then
+                    If clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty_Stock).Value) < clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value) Then
+                        clsCommon.MyMessageBoxShow(Me, "Consumption Qty should be less than balance Qty (" + clsCommon.myCstr(clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty_Stock).Value)) + ")  for " + clsCommon.myCstr(grow.Cells(colItemCode).Value) + " ). at line no- " & (grow.Index + 1) & "", Me.Text)
+                        Return False
+                    End If
                 End If
             End If
 
@@ -1288,8 +1295,8 @@ Public Class frmStanderdProductionEntry
         For Each grow As GridViewRowInfo In gvBatch.Rows
             Dim ProductType As String = clsItemMaster.GetItemProductType(grow.Cells(colItemCode).Value, Nothing)
             If clsCommon.CompairString(ProductType, "MI") = CompairStringResult.Equal Or clsCommon.CompairString(ProductType, "MP") = CompairStringResult.Equal Then
-                TotProdFatKg = TotProdFatKg + clsCommon.myCdbl(grow.Cells(colFAT_KG).Value)
-                TotProdSnfKg = TotProdSnfKg + clsCommon.myCdbl(grow.Cells(colSNF_KG).Value)
+                TotProdFatKg = TotProdFatKg + clsCommon.myCDecimal(grow.Cells(colFAT_KG).Value)
+                TotProdSnfKg = TotProdSnfKg + clsCommon.myCDecimal(grow.Cells(colSNF_KG).Value)
                 TotProdQty = TotProdQty + clsProcessProductionStandardization.GetKG_AfterConversion(grow.Cells(colItemCode).Value, grow.Cells(colUOM).Value, grow.Cells(colFINAL_PROD_Qty).Value, Nothing)
             End If
         Next
@@ -1297,7 +1304,7 @@ Public Class frmStanderdProductionEntry
         Dim Message As String = ""
         Dim TolerancePer As Decimal = 0
         Dim ToleranceQty As Decimal = 0
-        TolerancePer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.QuantityControlToleranceOnProductionConsumption, clsFixedParameterCode.QuantityControlToleranceOnProductionConsumption, Nothing))
+        TolerancePer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.QuantityControlToleranceOnProductionConsumption, clsFixedParameterCode.QuantityControlToleranceOnProductionConsumption, Nothing))
         ToleranceQty = TotProdQty * TolerancePer / 100
 
         If Math.Abs(TotIssueFatKg - TotProdFatKg) > 0 Then
@@ -1376,29 +1383,29 @@ Public Class frmStanderdProductionEntry
 
                         obj1.ITEM_CODE = clsCommon.myCstr(grow.Cells(colItemCode).Value)
                         obj1.ITEM_DESCRIPTION = clsCommon.myCstr(grow.Cells(colItemDesc).Value)
-                        obj1.BATCH_QTY = clsCommon.myCdbl(grow.Cells(colBatchQty).Value)
-                        obj1.RECEIPT_QTY = clsCommon.myCdbl(grow.Cells(colReceiptQty).Value)
+                        obj1.BATCH_QTY = clsCommon.myCDecimal(grow.Cells(colBatchQty).Value)
+                        obj1.RECEIPT_QTY = clsCommon.myCDecimal(grow.Cells(colReceiptQty).Value)
                         obj1.REJ_HEAD = clsCommon.myCstr(grow.Cells(colRejHead).Value)
-                        obj1.REJ_QTY = clsCommon.myCdbl(grow.Cells(colRejQty).Value)
+                        obj1.REJ_QTY = clsCommon.myCDecimal(grow.Cells(colRejQty).Value)
                         obj1.BREAKAGE_HEAD = clsCommon.myCstr(grow.Cells(colBreakageHead).Value)
-                        obj1.BREAKAGE_QTY = clsCommon.myCdbl(grow.Cells(colBreakageQty).Value)
+                        obj1.BREAKAGE_QTY = clsCommon.myCDecimal(grow.Cells(colBreakageQty).Value)
                         obj1.UNIT_CODE = clsCommon.myCstr(grow.Cells(colUOM).Value)
                         obj1.LAB_TESTING = clsCommon.myCstr(grow.Cells(colLabTesting).Value)
 
-                        obj1.FAT_Per = clsCommon.myCdbl(grow.Cells(colFAT_Per).Value)
-                        obj1.SNF_Per = clsCommon.myCdbl(grow.Cells(colSNF_Per).Value)
+                        obj1.FAT_Per = clsCommon.myCDecimal(grow.Cells(colFAT_Per).Value)
+                        obj1.SNF_Per = clsCommon.myCDecimal(grow.Cells(colSNF_Per).Value)
 
-                        grow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(grow.Cells(colItemCode).Value), clsCommon.myCstr(grow.Cells(colUOM).Value), clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(grow.Cells(colFAT_Per).Value), Nothing)
-                        grow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(grow.Cells(colItemCode).Value), clsCommon.myCstr(grow.Cells(colUOM).Value), clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(grow.Cells(colSNF_Per).Value), Nothing)
+                        grow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(grow.Cells(colItemCode).Value), clsCommon.myCstr(grow.Cells(colUOM).Value), clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(grow.Cells(colFAT_Per).Value), Nothing)
+                        grow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(grow.Cells(colItemCode).Value), clsCommon.myCstr(grow.Cells(colUOM).Value), clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(grow.Cells(colSNF_Per).Value), Nothing)
 
 
-                        obj1.FAT_KG = clsCommon.myCdbl(grow.Cells(colFAT_KG).Value)
-                        obj1.SNF_KG = clsCommon.myCdbl(grow.Cells(colSNF_KG).Value)
+                        obj1.FAT_KG = clsCommon.myCDecimal(grow.Cells(colFAT_KG).Value)
+                        obj1.SNF_KG = clsCommon.myCDecimal(grow.Cells(colSNF_KG).Value)
 
-                        obj1.FINAL_PRODUCTION_QTY = clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value)
-                        'obj1.FINAL_PRODUCTION_QTY_BAG = clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty_Bag).Value)
-                        'obj1.FINAL_PRODUCTION_QTY_Min = clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty_Min).Value)
-                        'obj1.FINAL_PRODUCTION_QTY_Max = clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty_Max).Value)
+                        obj1.FINAL_PRODUCTION_QTY = clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value)
+                        'obj1.FINAL_PRODUCTION_QTY_BAG = clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty_Bag).Value)
+                        'obj1.FINAL_PRODUCTION_QTY_Min = clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty_Min).Value)
+                        'obj1.FINAL_PRODUCTION_QTY_Max = clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty_Max).Value)
 
                         obj1.LOCATION_CODE = clsCommon.myCstr(grow.Cells(colSP_Loaction_Code).Value)
 
@@ -1418,23 +1425,23 @@ Public Class frmStanderdProductionEntry
                         obj2 = New clsStanderdProductionEntryConsumption()
                         obj2.PROD_ENTRY_CODE = txtCode.Value
 
-                        obj2.AVG_COST = clsCommon.myCdbl(grow.Cells(colAVG_Cost).Value)
+                        obj2.AVG_COST = clsCommon.myCDecimal(grow.Cells(colAVG_Cost).Value)
                         obj2.BOM_CODE = clsCommon.myCstr(grow.Cells(colBOMCode).Value)
 
                         obj2.BOM_Desc = clsCommon.myCstr(grow.Cells(colBOMDesc).Value)
                         obj2.CONSM_ITEM_CODE = clsCommon.myCstr(grow.Cells(colItemCode).Value)
-                        obj2.CONSM_QTY_Original = clsCommon.myCdbl(grow.Cells(colConsumptionQtyOriginal).Value)
-                        obj2.CONSM_QTY = clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value)
+                        obj2.CONSM_QTY_Original = clsCommon.myCDecimal(grow.Cells(colConsumptionQtyOriginal).Value)
+                        obj2.CONSM_QTY = clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value)
 
-                        obj2.FINAL_PRODUCTION_QTY_Min = clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty_Min).Value)
-                        obj2.FINAL_PRODUCTION_QTY_Max = clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty_Max).Value)
+                        obj2.FINAL_PRODUCTION_QTY_Min = clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty_Min).Value)
+                        obj2.FINAL_PRODUCTION_QTY_Max = clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty_Max).Value)
 
-                        obj2.Fat_Amt = clsCommon.myCdbl(grow.Cells(colFat_Amt).Value)
-                        obj2.FAT_KG = clsCommon.myCdbl(grow.Cells(colFAT_KG).Value)
-                        obj2.FAT_Per = clsCommon.myCdbl(grow.Cells(colFAT_Per).Value)
-                        obj2.Fat_Rate = clsCommon.myCdbl(grow.Cells(colFat_Rate).Value)
-                        obj2.FIFO_COST = clsCommon.myCdbl(grow.Cells(colFIFO_Cost).Value)
-                        obj2.LIFO_COST = clsCommon.myCdbl(grow.Cells(colLIFO_Cost).Value)
+                        obj2.Fat_Amt = clsCommon.myCDecimal(grow.Cells(colFat_Amt).Value)
+                        obj2.FAT_KG = clsCommon.myCDecimal(grow.Cells(colFAT_KG).Value)
+                        obj2.FAT_Per = clsCommon.myCDecimal(grow.Cells(colFAT_Per).Value)
+                        obj2.Fat_Rate = clsCommon.myCDecimal(grow.Cells(colFat_Rate).Value)
+                        obj2.FIFO_COST = clsCommon.myCDecimal(grow.Cells(colFIFO_Cost).Value)
+                        obj2.LIFO_COST = clsCommon.myCDecimal(grow.Cells(colLIFO_Cost).Value)
                         obj2.LOCATION_CODE = clsCommon.myCstr(grow.Cells(colSP_Loaction_Code).Value)
 
                         obj2.Main_ITEM_CODE = clsCommon.myCstr(grow.Cells(colMainItemCode).Value)
@@ -1442,10 +1449,10 @@ Public Class frmStanderdProductionEntry
                         obj2.MAIN_UOM = clsCommon.myCstr(grow.Cells(colMainUOM).Value)
                         obj2.MAIN_UOM_Desc = clsCommon.myCstr(grow.Cells(colMainUOMDesc).Value)
 
-                        obj2.SNF_Amt = clsCommon.myCdbl(grow.Cells(colSNF_Amt).Value)
-                        obj2.SNF_KG = clsCommon.myCdbl(grow.Cells(colSNF_KG).Value)
-                        obj2.SNF_Per = clsCommon.myCdbl(grow.Cells(colSNF_Per).Value)
-                        obj2.SNF_Rate = clsCommon.myCdbl(grow.Cells(colSNF_Rate).Value)
+                        obj2.SNF_Amt = clsCommon.myCDecimal(grow.Cells(colSNF_Amt).Value)
+                        obj2.SNF_KG = clsCommon.myCDecimal(grow.Cells(colSNF_KG).Value)
+                        obj2.SNF_Per = clsCommon.myCDecimal(grow.Cells(colSNF_Per).Value)
+                        obj2.SNF_Rate = clsCommon.myCDecimal(grow.Cells(colSNF_Rate).Value)
                         obj2.UNIT_CODE = clsCommon.myCstr(grow.Cells(colUOM).Value)
                         obj.ArrConsm.Add(obj2)
                     End If
@@ -1466,7 +1473,7 @@ Public Class frmStanderdProductionEntry
                         obj3.Main_ITEM_Desc = clsCommon.myCstr(grow.Cells(colMainItemDesc).Value)
                         obj3.MAIN_UOM = clsCommon.myCstr(grow.Cells(colMainUOM).Value)
                         obj3.MAIN_UOM_Desc = clsCommon.myCstr(grow.Cells(colMainUOMDesc).Value)
-                        obj3.OverHead_Cost = clsCommon.myCdbl(grow.Cells(colAVG_Cost).Value)
+                        obj3.OverHead_Cost = clsCommon.myCDecimal(grow.Cells(colAVG_Cost).Value)
 
                         obj.ArrConsmCost.Add(obj3)
                     End If
@@ -1580,18 +1587,18 @@ Public Class frmStanderdProductionEntry
 
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colItemCode).Value = clsCommon.myCstr(objTr.ITEM_CODE)
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colItemDesc).Value = clsCommon.myCstr(objTr.ITEM_DESCRIPTION)
-                    gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colBatchQty).Value = clsCommon.myCdbl(objTr.BATCH_QTY)
+                    gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colBatchQty).Value = clsCommon.myCDecimal(objTr.BATCH_QTY)
 
 
                     '' new code 
                     Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPrevProdQty).Value = clsStanderdProductionEntry.GetPrevProductionQty(txtBatchNo.Text, txtCode.Value, objTr.ITEM_CODE, Nothing)
-                    Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPendingBatchQty).Value = objTr.BATCH_QTY - clsCommon.myCdbl(Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPrevProdQty).Value)
+                    Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPendingBatchQty).Value = objTr.BATCH_QTY - clsCommon.myCDecimal(Me.gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colPrevProdQty).Value)
 
-                    gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colReceiptQty).Value = clsCommon.myCdbl(objTr.RECEIPT_QTY)
+                    gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colReceiptQty).Value = clsCommon.myCDecimal(objTr.RECEIPT_QTY)
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colRejHead).Value = clsCommon.myCstr(objTr.REJ_HEAD)
-                    gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colRejQty).Value = clsCommon.myCdbl(objTr.REJ_QTY)
+                    gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colRejQty).Value = clsCommon.myCDecimal(objTr.REJ_QTY)
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colBreakageHead).Value = clsCommon.myCstr(objTr.BREAKAGE_HEAD)
-                    gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colBreakageQty).Value = clsCommon.myCdbl(objTr.BREAKAGE_QTY)
+                    gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colBreakageQty).Value = clsCommon.myCDecimal(objTr.BREAKAGE_QTY)
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colLabTesting).Value = objTr.LAB_TESTING
 
                     gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colUOM).Value = objTr.UNIT_CODE
@@ -1868,7 +1875,7 @@ Public Class frmStanderdProductionEntry
                     clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
                 End If
             End If
-            ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F11 Then
             If btnPost.Enabled = False AndAlso btnSave.Enabled = False Then
                 Dim frm As New FrmPWD(Nothing)
                 frm.strType = "SIRC"
@@ -1979,8 +1986,8 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
 
                     If e.Column Is gvBatch.Columns(colFINAL_PROD_Qty) Then
                         isCellValueChanged = True
-                        gvBatch.CurrentRow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFAT_Per).Value), Nothing)
-                        gvBatch.CurrentRow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colSNF_Per).Value), Nothing)
+                        gvBatch.CurrentRow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFAT_Per).Value), Nothing)
+                        gvBatch.CurrentRow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colSNF_Per).Value), Nothing)
                         'FillRawItemGridFromBOM()
                         isCellValueChanged = False
                         ClickGo = True
@@ -2066,10 +2073,10 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             gvBatch.CurrentRow.Cells(colItemCode).Value = icode
             gvBatch.CurrentRow.Cells(colItemDesc).Value = clsItemMaster.GetItemName(icode, Nothing) ' clsCommon.myCstr(clsDBFuncationality.getSingleValue("select item_desc from tspl_item_master where item_code='" + icode + "'"))
 
-            gvBatch.CurrentRow.Cells(colFAT_Per).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + icode + "' and TSPL_PARAMETER_MASTER.Type='FAT'")), 2)
-            gvBatch.CurrentRow.Cells(colSNF_Per).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + icode + "' and TSPL_PARAMETER_MASTER.Type='SNF'")), 2)
-            gvBatch.CurrentRow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFAT_Per).Value), Nothing)
-            gvBatch.CurrentRow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colSNF_Per).Value), Nothing)
+            gvBatch.CurrentRow.Cells(colFAT_Per).Value = Math.Round(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + icode + "' and TSPL_PARAMETER_MASTER.Type='FAT'")), 2)
+            gvBatch.CurrentRow.Cells(colSNF_Per).Value = Math.Round(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + icode + "' and TSPL_PARAMETER_MASTER.Type='SNF'")), 2)
+            gvBatch.CurrentRow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFAT_Per).Value), Nothing)
+            gvBatch.CurrentRow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colSNF_Per).Value), Nothing)
             'If clsCommon.myLen(gvBatch.CurrentRow.Cells(colSectionCode).Value) <= 0 Then
             '    gvBatch.CurrentRow.Cells(colSectionCode).Value = fndSection.Value
             '    'gvBatch.CurrentRow.Cells(colSectionName).Value = txtSectionName.Text
@@ -2149,7 +2156,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         If clsCommon.myLen(bomcode) > 0 Then
             gvBatch.CurrentRow.Cells(colBOMCode).Value = bomcode
             'gvBatch.CurrentRow.Cells(colBOMDesc).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select description from TSPL_MF_BOM_HEAD where bom_code='" + bomcode + "'"))
-            gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select prod_quantity from TSPL_MF_BOM_HEAD where bom_code='" + bomcode + "'")), DecimalPointQty)
+            gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value = Math.Round(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select prod_quantity from TSPL_MF_BOM_HEAD where bom_code='" + bomcode + "'")), DecimalPointQty)
             gvBatch.CurrentRow.Cells(colUOM).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PROD_ITEM_UNIT_CODE from TSPL_MF_BOM_HEAD where bom_code='" + bomcode + "'"))
             gvBatch.CurrentRow.Cells(colItemCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select prod_item_code from TSPL_MF_BOM_HEAD where bom_code='" + bomcode + "'"))
             gvBatch.CurrentRow.Cells(colItemDesc).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select item_desc from tspl_item_master where item_code='" + clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value) + "'"))
@@ -2161,18 +2168,18 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             '    gv.CurrentRow.Cells(colUnit).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select prod_item_unit_code from tspl_pp_bom_head where bom_code='" + bomcode + "'"))
             'End If
 
-            'If clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value) <= 0 Then
-            '    gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select prod_quantity from tspl_pp_bom_head where bom_code='" + bomcode + "'")), DecimalPointQty)
+            'If clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value) <= 0 Then
+            '    gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value = Math.Round(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select prod_quantity from tspl_pp_bom_head where bom_code='" + bomcode + "'")), DecimalPointQty)
             '    gvBatch.CurrentRow.Cells(colUOM).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PROD_ITEM_UNIT_CODE from tspl_pp_bom_head where bom_code='" + bomcode + "'"))
             'End If
             If clsCommon.myLen(icode) <= 0 Then '----------when no item fill in grid from planning then item detail fill from bom else item detail filled by planned remains same
                 'gvBatch.CurrentRow.Cells(colItemCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select prod_item_code from tspl_pp_bom_head where bom_code='" + bomcode + "'"))
                 'gvBatch.CurrentRow.Cells(colItemDesc).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select item_desc from tspl_item_master where item_code='" + clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value) + "'"))
                 'gvBatch.CurrentRow.Cells(colItype).Value = ItemType(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select item_type from tspl_item_master where item_code='" + clsCommon.myCstr(gv.CurrentRow.Cells(colItemCode).Value) + "'")))
-                'gvBatch.CurrentRow.Cells(colFAT_Per).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + gvBatch.CurrentRow.Cells(colItemCode).Value + "' and TSPL_PARAMETER_MASTER.Type='FAT'")), 2)
-                'gvBatch.CurrentRow.Cells(colSNF_Per).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + gvBatch.CurrentRow.Cells(colItemCode).Value + "' and TSPL_PARAMETER_MASTER.Type='SNF'")), 2)
-                'gvBatch.CurrentRow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFAT_Per).Value), Nothing)
-                'gvBatch.CurrentRow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colSNF_Per).Value), Nothing)
+                'gvBatch.CurrentRow.Cells(colFAT_Per).Value = Math.Round(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + gvBatch.CurrentRow.Cells(colItemCode).Value + "' and TSPL_PARAMETER_MASTER.Type='FAT'")), 2)
+                'gvBatch.CurrentRow.Cells(colSNF_Per).Value = Math.Round(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + gvBatch.CurrentRow.Cells(colItemCode).Value + "' and TSPL_PARAMETER_MASTER.Type='SNF'")), 2)
+                'gvBatch.CurrentRow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFAT_Per).Value), Nothing)
+                'gvBatch.CurrentRow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colSNF_Per).Value), Nothing)
                 'Else
                 '    gvBatch.CurrentRow.Cells(colFAT_Per).Value = clsBOM.GetFAT_PERS(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value))
                 '    gvBatch.CurrentRow.Cells(colSNF_Per).Value = clsBOM.GetSNF_PERS(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value))
@@ -2205,8 +2212,8 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         uom = clsCommon.myCstr(clsCommon.ShowSelectForm("PPBUOM", qry, "Code", " tspl_item_uom_detail.item_code='" + icode + "'", uom, "Code", isButtonClicked))
         gvBatch.CurrentRow.Cells(colUOM).Value = uom
 
-        'gvBatch.CurrentRow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFAT_Per).Value), Nothing)
-        'gvBatch.CurrentRow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colSNF_Per).Value), Nothing)
+        'gvBatch.CurrentRow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFAT_Per).Value), Nothing)
+        'gvBatch.CurrentRow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colSNF_Per).Value), Nothing)
     End Sub
     Private Sub OpenUOMRM(ByVal isButtonClicked As Boolean)
         Dim uom As String = clsCommon.myCstr(gvConsumption.CurrentRow.Cells(colUOM).Value)
@@ -2216,8 +2223,8 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         uom = clsCommon.myCstr(clsCommon.ShowSelectForm("PPBUOMConsm", qry, "Code", " tspl_item_uom_detail.item_code='" + icode + "'", uom, "Code", isButtonClicked))
         gvConsumption.CurrentRow.Cells(colUOM).Value = uom
 
-        gvConsumption.CurrentRow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFAT_Per).Value), Nothing)
-        gvConsumption.CurrentRow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colSNF_Per).Value), Nothing)
+        gvConsumption.CurrentRow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFAT_Per).Value), Nothing)
+        gvConsumption.CurrentRow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colSNF_Per).Value), Nothing)
     End Sub
     Sub OpenShiftCode(ByVal isButtonClicked As Boolean)
         Dim qry As String = "select shift_code as Code,shift_name as Description,from_time as [From Time],to_time as [To Time],interval_time as [Interval Time],fsthalf_adjust_min as [First Half Adjustment],sechalf_adjust_min as [Second Half Adjustment] from tspl_shift_master"
@@ -2322,10 +2329,10 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         '        If clsCommon.CompairString(grow.Cells(colWFItem_Code).Value, Item_Code) = CompairStringResult.Equal Then
         '            If clsCommon.CompairString(Type, "FAT") = CompairStringResult.Equal Then
         '                grow.Cells(colWFAvail_FAT_Per).Value = Value
-        '                grow.Cells(colWFAvail_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(Item_Code, grow.Cells(colWFUnit_Code).Value, IIf(clsCommon.myCdbl(grow.Cells(colWFBACK_QTY).Value) > 0, clsCommon.myCdbl(grow.Cells(colWFBACK_QTY).Value), clsCommon.myCdbl(grow.Cells(colWFWRECKAGE_QTY).Value)), grow.Cells(colWFAvail_FAT_Per).Value, Nothing)
+        '                grow.Cells(colWFAvail_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(Item_Code, grow.Cells(colWFUnit_Code).Value, IIf(clsCommon.myCDecimal(grow.Cells(colWFBACK_QTY).Value) > 0, clsCommon.myCDecimal(grow.Cells(colWFBACK_QTY).Value), clsCommon.myCDecimal(grow.Cells(colWFWRECKAGE_QTY).Value)), grow.Cells(colWFAvail_FAT_Per).Value, Nothing)
         '            ElseIf clsCommon.CompairString(Type, "SNF") = CompairStringResult.Equal Then
         '                grow.Cells(colWFAvail_SNF_Per).Value = Value
-        '                grow.Cells(colWFAvail_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(Item_Code, grow.Cells(colWFUnit_Code).Value, IIf(clsCommon.myCdbl(grow.Cells(colWFBACK_QTY).Value) > 0, clsCommon.myCdbl(grow.Cells(colWFBACK_QTY).Value), clsCommon.myCdbl(grow.Cells(colWFWRECKAGE_QTY).Value)), grow.Cells(colWFAvail_SNF_Per).Value, Nothing)
+        '                grow.Cells(colWFAvail_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(Item_Code, grow.Cells(colWFUnit_Code).Value, IIf(clsCommon.myCDecimal(grow.Cells(colWFBACK_QTY).Value) > 0, clsCommon.myCDecimal(grow.Cells(colWFBACK_QTY).Value), clsCommon.myCDecimal(grow.Cells(colWFWRECKAGE_QTY).Value)), grow.Cells(colWFAvail_SNF_Per).Value, Nothing)
         '            End If
         '            'Exit Sub
         '        End If
@@ -2338,10 +2345,10 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         '        If clsCommon.CompairString(grow.Cells(colScrapItem_Code).Value, Item_Code) = CompairStringResult.Equal Then
         '            If clsCommon.CompairString(Type, "FAT") = CompairStringResult.Equal Then
         '                grow.Cells(colScrapAvail_FAT_Per).Value = Value
-        '                grow.Cells(colScrapAvail_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(Item_Code, grow.Cells(colScrapUnit_Code).Value, IIf(clsCommon.myCdbl(grow.Cells(colScrapQty).Value) > 0, clsCommon.myCdbl(grow.Cells(colScrapQty).Value), clsCommon.myCdbl(grow.Cells(colScrapQty).Value)), grow.Cells(colScrapAvail_FAT_Per).Value, Nothing)
+        '                grow.Cells(colScrapAvail_FAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(Item_Code, grow.Cells(colScrapUnit_Code).Value, IIf(clsCommon.myCDecimal(grow.Cells(colScrapQty).Value) > 0, clsCommon.myCDecimal(grow.Cells(colScrapQty).Value), clsCommon.myCDecimal(grow.Cells(colScrapQty).Value)), grow.Cells(colScrapAvail_FAT_Per).Value, Nothing)
         '            ElseIf clsCommon.CompairString(Type, "SNF") = CompairStringResult.Equal Then
         '                grow.Cells(colScrapAvail_SNF_Per).Value = Value
-        '                grow.Cells(colScrapAvail_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(Item_Code, grow.Cells(colScrapUnit_Code).Value, IIf(clsCommon.myCdbl(grow.Cells(colScrapQty).Value) > 0, clsCommon.myCdbl(grow.Cells(colScrapQty).Value), clsCommon.myCdbl(grow.Cells(colScrapQty).Value)), grow.Cells(colScrapAvail_SNF_Per).Value, Nothing)
+        '                grow.Cells(colScrapAvail_SNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(Item_Code, grow.Cells(colScrapUnit_Code).Value, IIf(clsCommon.myCDecimal(grow.Cells(colScrapQty).Value) > 0, clsCommon.myCDecimal(grow.Cells(colScrapQty).Value), clsCommon.myCDecimal(grow.Cells(colScrapQty).Value)), grow.Cells(colScrapAvail_SNF_Per).Value, Nothing)
         '            End If
         '            'Exit Sub
         '        End If
@@ -2535,7 +2542,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                         gvProductionCost.Rows(gvProductionCost.Rows.Count - 1).Cells(colItemCode).Value = objtr.COST_CODE
                         gvProductionCost.Rows(gvProductionCost.Rows.Count - 1).Cells(colItemDesc).Value = objtr.COST_DESC
 
-                        gvProductionCost.Rows(gvProductionCost.Rows.Count - 1).Cells(colAVG_Cost).Value = Math.Round(clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value) * objtr.Overheadcost, 2)
+                        gvProductionCost.Rows(gvProductionCost.Rows.Count - 1).Cells(colAVG_Cost).Value = Math.Round(clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value) * objtr.Overheadcost, 2)
 
                     Next
                 End If
@@ -2557,7 +2564,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                 lblConsmLocMilkDesc.Text = clsLocation.GetName(txtConsmLocMilk.Value, Nothing)
                 txtConsmLocOther.Value = clsCommon.myCstr(dt.Rows(0).Item("Consm_Loc_Other"))
                 lblConsmLocOtherDesc.Text = clsLocation.GetName(txtConsmLocOther.Value, Nothing)
-                txtImportTemplate.Tag = clsCommon.myCdbl(dt.Rows(0).Item("Import_Id"))
+                txtImportTemplate.Tag = clsCommon.myCDecimal(dt.Rows(0).Item("Import_Id"))
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -2714,7 +2721,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                 gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colBOMCode).Value = clsCommon.myCstr(dr.Item("BOM_Code"))
                 'gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colBOMDesc).Value = clsBOM.GetBOMDesc(clsCommon.myCstr(dr.Item("BOM_Code")), Nothing)
                 gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colUOM).Value = clsCommon.myCstr(dr.Item("UOM"))
-                gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFINAL_PROD_Qty).Value = clsCommon.myCdbl(dr.Item("Prod_Qty"))
+                gvBatch.Rows(gvBatch.Rows.Count - 1).Cells(colFINAL_PROD_Qty).Value = clsCommon.myCDecimal(dr.Item("Prod_Qty"))
             Next
         End If
         For Each grow As GridViewRowInfo In gvBatch.Rows
@@ -2733,21 +2740,21 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                         If clsCommon.myLen(grow.Cells(colUOM).Value) <= 0 Then
                             grow.Cells(colUOM).Value = clsCommon.myCstr(dt.Rows(0).Item("PROD_ITEM_UNIT_CODE"))
                         End If
-                        If clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value) <= 0 Then
-                            grow.Cells(colFINAL_PROD_Qty).Value = clsCommon.myCdbl(dt.Rows(0).Item("PROD_QUANTITY"))
+                        If clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value) <= 0 Then
+                            grow.Cells(colFINAL_PROD_Qty).Value = clsCommon.myCDecimal(dt.Rows(0).Item("PROD_QUANTITY"))
                         End If
                         If clsCommon.myLen(grow.Cells(colSP_Loaction_Code).Value) <= 0 Then
                             grow.Cells(colSP_Loaction_Code).Value = txtLocation.Value
                             grow.Cells(colSP_Loaction_Desc).Value = clsLocation.GetName(txtLocation.Value, Nothing)
                         End If
-                        grow.Cells(colFAT_Per).Value = Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("STD_FatPer")), 2)
-                        grow.Cells(colSNF_Per).Value = Math.Round(clsCommon.myCdbl(dt.Rows(0).Item("STD_SNFPer")), 2)
-                        'grow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(grow.Cells(colItemCode).Value), clsCommon.myCstr(grow.Cells(colUOM).Value), clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(grow.Cells(colFAT_Per).Value), Nothing)
-                        'grow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(grow.Cells(colItemCode).Value), clsCommon.myCstr(grow.Cells(colUOM).Value), clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(grow.Cells(colSNF_Per).Value), Nothing)
+                        grow.Cells(colFAT_Per).Value = Math.Round(clsCommon.myCDecimal(dt.Rows(0).Item("STD_FatPer")), 2)
+                        grow.Cells(colSNF_Per).Value = Math.Round(clsCommon.myCDecimal(dt.Rows(0).Item("STD_SNFPer")), 2)
+                        'grow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(grow.Cells(colItemCode).Value), clsCommon.myCstr(grow.Cells(colUOM).Value), clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(grow.Cells(colFAT_Per).Value), Nothing)
+                        'grow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(grow.Cells(colItemCode).Value), clsCommon.myCstr(grow.Cells(colUOM).Value), clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(grow.Cells(colSNF_Per).Value), Nothing)
                     End If
                 End If
-                grow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(grow.Cells(colItemCode).Value), clsCommon.myCstr(grow.Cells(colUOM).Value), clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(grow.Cells(colFAT_Per).Value), Nothing)
-                grow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(grow.Cells(colItemCode).Value), clsCommon.myCstr(grow.Cells(colUOM).Value), clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(grow.Cells(colSNF_Per).Value), Nothing)
+                grow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(grow.Cells(colItemCode).Value), clsCommon.myCstr(grow.Cells(colUOM).Value), clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(grow.Cells(colFAT_Per).Value), Nothing)
+                grow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(grow.Cells(colItemCode).Value), clsCommon.myCstr(grow.Cells(colUOM).Value), clsCommon.myCDecimal(grow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(grow.Cells(colSNF_Per).Value), Nothing)
             End If
             grow.Cells(colLineNo).Value = grow.Index + 1
         Next
@@ -2776,18 +2783,18 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         '    '    gv.CurrentRow.Cells(colUnit).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select prod_item_unit_code from tspl_pp_bom_head where bom_code='" + bomcode + "'"))
         '    'End If
 
-        '    If clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value) <= 0 Then
-        '        gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select prod_quantity from tspl_pp_bom_head where bom_code='" + bomcode + "'")), DecimalPointQty)
+        '    If clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value) <= 0 Then
+        '        gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value = Math.Round(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select prod_quantity from tspl_pp_bom_head where bom_code='" + bomcode + "'")), DecimalPointQty)
         '        gvBatch.CurrentRow.Cells(colUOM).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PROD_ITEM_UNIT_CODE from tspl_pp_bom_head where bom_code='" + bomcode + "'"))
         '    End If
         '    If clsCommon.myLen(icode) <= 0 Then '----------when no item fill in grid from planning then item detail fill from bom else item detail filled by planned remains same
         '        gvBatch.CurrentRow.Cells(colItemCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select prod_item_code from tspl_pp_bom_head where bom_code='" + bomcode + "'"))
         '        gvBatch.CurrentRow.Cells(colItemDesc).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select item_desc from tspl_item_master where item_code='" + clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value) + "'"))
         '        'gvBatch.CurrentRow.Cells(colItype).Value = ItemType(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select item_type from tspl_item_master where item_code='" + clsCommon.myCstr(gv.CurrentRow.Cells(colItemCode).Value) + "'")))
-        '        gvBatch.CurrentRow.Cells(colFAT_Per).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + gvBatch.CurrentRow.Cells(colItemCode).Value + "' and TSPL_PARAMETER_MASTER.Type='FAT'")), 2)
-        '        gvBatch.CurrentRow.Cells(colSNF_Per).Value = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + gvBatch.CurrentRow.Cells(colItemCode).Value + "' and TSPL_PARAMETER_MASTER.Type='SNF'")), 2)
-        '        gvBatch.CurrentRow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFAT_Per).Value), Nothing)
-        '        gvBatch.CurrentRow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCdbl(gvBatch.CurrentRow.Cells(colSNF_Per).Value), Nothing)
+        '        gvBatch.CurrentRow.Cells(colFAT_Per).Value = Math.Round(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + gvBatch.CurrentRow.Cells(colItemCode).Value + "' and TSPL_PARAMETER_MASTER.Type='FAT'")), 2)
+        '        gvBatch.CurrentRow.Cells(colSNF_Per).Value = Math.Round(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Actual_Range  from TSPL_ITEM_QC_PARAMETER_MASTER left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code where TSPL_ITEM_QC_PARAMETER_MASTER.item_code='" + gvBatch.CurrentRow.Cells(colItemCode).Value + "' and TSPL_PARAMETER_MASTER.Type='SNF'")), 2)
+        '        gvBatch.CurrentRow.Cells(colFAT_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFAT_Per).Value), Nothing)
+        '        gvBatch.CurrentRow.Cells(colSNF_KG).Value = clsBOM.GetFatSNFKG_AfterConversion(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.CurrentRow.Cells(colUOM).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colFINAL_PROD_Qty).Value), clsCommon.myCDecimal(gvBatch.CurrentRow.Cells(colSNF_Per).Value), Nothing)
         '    Else
         '        gvBatch.CurrentRow.Cells(colFAT_Per).Value = clsBOM.GetFAT_PERS(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value))
         '        gvBatch.CurrentRow.Cells(colSNF_Per).Value = clsBOM.GetSNF_PERS(clsCommon.myCstr(gvBatch.CurrentRow.Cells(colItemCode).Value))
@@ -2831,12 +2838,12 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
             'Dim trans As System.Data.SqlClient.SqlTransaction = clsDBFuncationality.GetTransactin
             Try
                 Dim objList As New List(Of clsStanderdProductionEntryImportTemplate)
-                Dim LastImportId As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select max(Import_Id) from TSPL_SPP_PRODUCTION_IMPORT where Import_Status='N'"))
+                Dim LastImportId As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select max(Import_Id) from TSPL_SPP_PRODUCTION_IMPORT where Import_Status='N'"))
                 '' get list of adjustments
                 Dim objtr As New clsStanderdProductionEntryImportTemplate
                 For Each grow As GridViewRowInfo In gv.Rows
                     objtr = New clsStanderdProductionEntryImportTemplate
-                    objtr.Seq_No = clsCommon.myCdbl(grow.Cells("Seq No").Value)
+                    objtr.Seq_No = clsCommon.myCDecimal(grow.Cells("Seq No").Value)
                     If IsDBNull(grow.Cells("Prod Date")) = False AndAlso clsCommon.myLen(grow.Cells("Prod Date")) > 0 Then
                         objtr.Prod_Date = clsCommon.myCDate(grow.Cells("Prod Date").Value)
                     Else
@@ -2900,7 +2907,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                     Else
                         Throw New Exception("UOM is blank at line no- " & grow.Index + 1 & "")
                     End If
-                    If clsCommon.myCdbl(grow.Cells("Prod Qty").Value) > 0 Then
+                    If clsCommon.myCDecimal(grow.Cells("Prod Qty").Value) > 0 Then
                         objtr.Prod_Qty = clsCommon.myCstr(grow.Cells("Prod Qty").Value)
                     Else
                         Throw New Exception("Prod Qty is blank at line no- " & grow.Index + 1 & "")
@@ -2966,7 +2973,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
 
     End Sub
     Sub updateImportControl()
-        If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select count(*) from TSPL_SPP_PRODUCTION_IMPORT where Import_Status='N'")) > 0 Then
+        If clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select count(*) from TSPL_SPP_PRODUCTION_IMPORT where Import_Status='N'")) > 0 Then
             txtImportTemplate.Enabled = True
         Else
             txtImportTemplate.Enabled = False
@@ -2980,7 +2987,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         txtImportTemplate.arrValueMember = clsCommon.ShowMultipleSelectForm("ProdImport", qry, "Import_Id", "Prod_Date", txtImportTemplate.arrValueMember, txtImportTemplate.arrDispalyMember)
     End Sub
     Sub setCost(ByVal index As Integer)
-        Dim dblCostMethod As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Costing_Method as Costing_Method from TSPL_ITEM_MASTER left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where Item_Code='" & clsCommon.myCstr(gvConsumption.Rows(index).Cells(colItemCode).Value) & "' "))
+        Dim dblCostMethod As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Costing_Method as Costing_Method from TSPL_ITEM_MASTER left outer join TSPL_PURCHASE_ACCOUNTS on TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code=TSPL_ITEM_MASTER.Purchase_Class_Code where Item_Code='" & clsCommon.myCstr(gvConsumption.Rows(index).Cells(colItemCode).Value) & "' "))
         If dblCostMethod <> 0 Then
             gvConsumption.Rows(index).Cells(colAVG_Cost).Value = clsInventoryMovement.GetCost(dblCostMethod, clsCommon.myCstr(gvConsumption.Rows(index).Cells(colItemCode).Value), txtConsmLocOther.Value, clsCommon.myCDecimal(gvConsumption.Rows(index).Cells(colFINAL_PROD_Qty).Value), dtpDate.Value, dtpDate.Value, False, Nothing, "TSPL_INVENTORY_MOVEMENT", clsCommon.myCstr(gvConsumption.Rows(index).Cells(colUOM).Value))
         Else
@@ -3011,7 +3018,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                 Dim dblAmount As Decimal = 0.0
                 For Each growCons As GridViewRowInfo In gvConsumption.Rows
                     If clsCommon.CompairString(strMainItemCode, clsCommon.myCstr(growCons.Cells(colMainItemCode).Value)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strBomCode, clsCommon.myCstr(growCons.Cells(colBOMCode).Value)) = CompairStringResult.Equal Then
-                        dblAmount += clsCommon.myCdbl(growCons.Cells(colAVG_Cost).Value)
+                        dblAmount += clsCommon.myCDecimal(growCons.Cells(colAVG_Cost).Value)
                     End If
                 Next
                 gvProductionCost.Rows(gvProductionCost.Rows.Count - 1).Cells(colAVG_Cost).Value = Math.Round(dblAmount, 2)

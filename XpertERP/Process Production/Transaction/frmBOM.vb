@@ -1232,6 +1232,25 @@ Public Class frmBOM
             If AllowFutureDateTransaction(dtpBOMDate.Value, Nothing) = False Then
                 Return False
             End If
+            Dim foundMatch As Boolean = False
+
+            Dim producedItemCode As String = clsCommon.myCstr(txtProducedItem.Value)
+
+            For ii As Integer = 0 To gvBOM.Rows.Count - 1
+                Dim itemCodeInGrid As String = clsCommon.myCstr(gvBOM.Rows(ii).Cells(colItemCode).Value)
+                If clsCommon.CompairString(producedItemCode, itemCodeInGrid) = CompairStringResult.Equal Then
+                    'If itemCodeInGrid = producedItemCode Then
+                    foundMatch = True
+                    clsCommon.MyMessageBoxShow(Me, "Selected Produce Item should not added on details", Me.Text)
+                    Exit For
+                End If
+            Next
+            If foundMatch Then
+                ' Throw an exception or handle the error condition here
+                Throw New Exception("Selected Produce Item already exists in the details.")
+            Else
+                ' Save the data here if no match was found
+            End If
             If chkOSP_JW.Checked AndAlso clsCommon.myLen(txtVendorCode.Value) <= 0 Then
                 clsCommon.MyMessageBoxShow(Me, "Select Vendor for OSP Job-Work.", Me.Text)
                 RadPageView.SelectedPage = RadPageItemDetails
@@ -1915,12 +1934,12 @@ Public Class frmBOM
 
     Private Sub AutoFillStaged()
         Try
-            Dim qry As String = "select TSPL_SECTION_STAGE_MAPPING.Stage_Code as Code,TSPL_STAGE_MASTER.Description,TSPL_SECTION_STAGE_MAPPING.Sequence_No as [Sequence No],TSPL_PP_BOM_STAGE_DETAIL.AR_Item_Code,TSPL_PP_BOM_STAGE_DETAIL.Bi_Prod " & _
-                " from TSPL_SECTION_STAGE_MAPPING left outer join TSPL_STAGE_MASTER on TSPL_STAGE_MASTER.Stage_Code=TSPL_SECTION_STAGE_MAPPING.Stage_Code " & _
-                " left join (select * from TSPL_PP_BOM_STAGE_DETAIL where BOM_CODE='" & txtCode.Value & "') TSPL_PP_BOM_STAGE_DETAIL on TSPL_SECTION_STAGE_MAPPING.Section_Code=TSPL_PP_BOM_STAGE_DETAIL.Section_Code " & _
-                " and TSPL_SECTION_STAGE_MAPPING.Stage_Code=TSPL_PP_BOM_STAGE_DETAIL.Stage_Code where TSPL_SECTION_STAGE_MAPPING.Section_Code in " & _
-                " (select section_code from TSPL_SECTION_STAGE_MAPPING_HEAD where section_code='" + fndSection.Value + "' and Structure_Code='" + fndItemCategory.Value + "') " & _
-                " and TSPL_SECTION_STAGE_MAPPING.doc_code in (select doc_code from TSPL_SECTION_STAGE_MAPPING_HEAD where section_code='" + fndSection.Value + "' " & _
+            Dim qry As String = "select TSPL_SECTION_STAGE_MAPPING.Stage_Code as Code,TSPL_STAGE_MASTER.Description,TSPL_SECTION_STAGE_MAPPING.Sequence_No as [Sequence No],TSPL_PP_BOM_STAGE_DETAIL.AR_Item_Code,TSPL_PP_BOM_STAGE_DETAIL.Bi_Prod " &
+                " from TSPL_SECTION_STAGE_MAPPING left outer join TSPL_STAGE_MASTER on TSPL_STAGE_MASTER.Stage_Code=TSPL_SECTION_STAGE_MAPPING.Stage_Code " &
+                " left join (select * from TSPL_PP_BOM_STAGE_DETAIL where BOM_CODE='" & txtCode.Value & "') TSPL_PP_BOM_STAGE_DETAIL on TSPL_SECTION_STAGE_MAPPING.Section_Code=TSPL_PP_BOM_STAGE_DETAIL.Section_Code " &
+                " and TSPL_SECTION_STAGE_MAPPING.Stage_Code=TSPL_PP_BOM_STAGE_DETAIL.Stage_Code where TSPL_SECTION_STAGE_MAPPING.Section_Code in " &
+                " (select section_code from TSPL_SECTION_STAGE_MAPPING_HEAD where section_code='" + fndSection.Value + "' and Structure_Code='" + fndItemCategory.Value + "') " &
+                " and TSPL_SECTION_STAGE_MAPPING.doc_code in (select doc_code from TSPL_SECTION_STAGE_MAPPING_HEAD where section_code='" + fndSection.Value + "' " &
                 " and Structure_Code='" + fndItemCategory.Value + "')"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
@@ -2696,19 +2715,19 @@ Public Class frmBOM
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check > 0 Then
-            qry = "select TSPL_PP_BOM_HEAD.BOM_CODE,TSPL_PP_BOM_HEAD.BOM_DATE as [Bom Date],TSPL_PP_BOM_HEAD.Revision_No as [Revision No],TSPL_PP_BOM_HEAD.STATUS,TSPL_PP_BOM_HEAD.Description, " & _
-                "TSPL_PP_BOM_HEAD.ITEM_CATEGORY_CODE as [Production Category Code],TSPL_PP_BOM_HEAD.PROD_ITEM_CODE as [Main Item Code], " & _
-                "TSPL_PP_BOM_HEAD.PROD_ITEM_UNIT_CODE as [Main Item Unit],MainItem.Item_Desc as [Main Item Desc],TSPL_PP_BOM_HEAD.PROD_QUANTITY as [Build Qty], " & _
-                "TSPL_PP_BOM_HEAD.Valid_FROM_DATE as Valid_START_DATE,TSPL_PP_BOM_HEAD.Valid_UPTO_DATE,TSPL_PP_BOM_ITEM_DETAIL.LINE_NO, " & _
-                "TSPL_PP_BOM_ITEM_DETAIL.ITEM_CODE as [Item Code],TSPL_ITEM_MASTER.Item_Desc as [Item Desc],TSPL_PP_BOM_ITEM_DETAIL.UNIT_CODE as [Unit], " & _
-                "TSPL_PP_BOM_ITEM_DETAIL.QUANTITY,TSPL_PP_BOM_ITEM_DETAIL.FAT as [FAT%],TSPL_PP_BOM_ITEM_DETAIL.SNF as [SNF%], " & _
-                "TSPL_PP_BOM_ITEM_DETAIL.Rejection_Pers as [Rejection%],TSPL_PP_BOM_ITEM_DETAIL.Alt_Item_Code,AlterItem.Item_Desc as [Alternate Item Desc], " & _
-                "TSPL_PP_BOM_ITEM_DETAIL.Alt_Unit_code,TSPL_PP_BOM_ITEM_DETAIL.Deactive,TSPL_PP_BOM_ITEM_DETAIL.Effective_Date,TSPL_PP_BOM_ITEM_DETAIL.REMARKS, " & _
-                "TSPL_PP_BOM_HEAD.Section_Code,TSPL_PP_BOM_HEAD.Is_OSP,TSPL_PP_BOM_HEAD.Vendor_Code,TSPL_PP_BOM_HEAD.JobWork_Loc as [Job Work Location] " & _
-                ",TSPL_PP_BOM_ITEM_DETAIL.ProcessLossPer,TSPL_PP_BOM_ITEM_DETAIL.ProcessLossQty from TSPL_PP_BOM_HEAD left outer join  " & _
-                "TSPL_PP_BOM_ITEM_DETAIL on TSPL_PP_BOM_ITEM_DETAIL.BOM_CODE=TSPL_PP_BOM_HEAD.BOM_CODE " & _
-                "left outer join TSPL_ITEM_MASTER MainItem  on TSPL_PP_BOM_HEAD.PROD_ITEM_CODE=MainItem.Item_Code " & _
-                "left outer join TSPL_ITEM_MASTER   on TSPL_PP_BOM_ITEM_DETAIL.ITEM_CODE=TSPL_ITEM_MASTER.Item_Code   " & _
+            qry = "select TSPL_PP_BOM_HEAD.BOM_CODE,TSPL_PP_BOM_HEAD.BOM_DATE as [Bom Date],TSPL_PP_BOM_HEAD.Revision_No as [Revision No],TSPL_PP_BOM_HEAD.STATUS,TSPL_PP_BOM_HEAD.Description, " &
+                "TSPL_PP_BOM_HEAD.ITEM_CATEGORY_CODE as [Production Category Code],TSPL_PP_BOM_HEAD.PROD_ITEM_CODE as [Main Item Code], " &
+                "TSPL_PP_BOM_HEAD.PROD_ITEM_UNIT_CODE as [Main Item Unit],MainItem.Item_Desc as [Main Item Desc],TSPL_PP_BOM_HEAD.PROD_QUANTITY as [Build Qty], " &
+                "TSPL_PP_BOM_HEAD.Valid_FROM_DATE as Valid_START_DATE,TSPL_PP_BOM_HEAD.Valid_UPTO_DATE,TSPL_PP_BOM_ITEM_DETAIL.LINE_NO, " &
+                "TSPL_PP_BOM_ITEM_DETAIL.ITEM_CODE as [Item Code],TSPL_ITEM_MASTER.Item_Desc as [Item Desc],TSPL_PP_BOM_ITEM_DETAIL.UNIT_CODE as [Unit], " &
+                "TSPL_PP_BOM_ITEM_DETAIL.QUANTITY,TSPL_PP_BOM_ITEM_DETAIL.FAT as [FAT%],TSPL_PP_BOM_ITEM_DETAIL.SNF as [SNF%], " &
+                "TSPL_PP_BOM_ITEM_DETAIL.Rejection_Pers as [Rejection%],TSPL_PP_BOM_ITEM_DETAIL.Alt_Item_Code,AlterItem.Item_Desc as [Alternate Item Desc], " &
+                "TSPL_PP_BOM_ITEM_DETAIL.Alt_Unit_code,TSPL_PP_BOM_ITEM_DETAIL.Deactive,TSPL_PP_BOM_ITEM_DETAIL.Effective_Date,TSPL_PP_BOM_ITEM_DETAIL.REMARKS, " &
+                "TSPL_PP_BOM_HEAD.Section_Code,TSPL_PP_BOM_HEAD.Is_OSP,TSPL_PP_BOM_HEAD.Vendor_Code,TSPL_PP_BOM_HEAD.JobWork_Loc as [Job Work Location] " &
+                ",TSPL_PP_BOM_ITEM_DETAIL.ProcessLossPer,TSPL_PP_BOM_ITEM_DETAIL.ProcessLossQty from TSPL_PP_BOM_HEAD left outer join  " &
+                "TSPL_PP_BOM_ITEM_DETAIL on TSPL_PP_BOM_ITEM_DETAIL.BOM_CODE=TSPL_PP_BOM_HEAD.BOM_CODE " &
+                "left outer join TSPL_ITEM_MASTER MainItem  on TSPL_PP_BOM_HEAD.PROD_ITEM_CODE=MainItem.Item_Code " &
+                "left outer join TSPL_ITEM_MASTER   on TSPL_PP_BOM_ITEM_DETAIL.ITEM_CODE=TSPL_ITEM_MASTER.Item_Code   " &
                 "left outer join TSPL_ITEM_MASTER AlterItem  on TSPL_PP_BOM_ITEM_DETAIL.Alt_Item_Code=AlterItem.Item_Code"
         Else
             qry = "select '' as BOM_CODE,'' as [Bom Date],'' as [Revision No],'Open' as STATUS,'' as Description,'' as [Production Category Code],'' as [Main Item Code],'' as [Main Item Unit],0 as [Build Qty],'' as Valid_START_DATE,'' as Valid_UPTO_DATE,1 as LINE_NO,'' as [Item Code],'' as [Unit],0 as QUANTITY,0 as [FAT%],0 as [SNF%],0 as [Rejection%],'' as Alt_Item_Code,'' as Alt_Unit_code,'0-Active,1-Deactive' as Deactive,'' as Effective_Date,'' as REMARKS,'' as Section_Code,'0' as Is_OSP,'' as Vendor_Code,'' as [Job Work Location]"
@@ -3009,7 +3028,7 @@ Public Class frmBOM
 
     Private Sub txtCostGroup__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCostGroup._MYValidating
         If (clsCommon.myLen(txtProducedItem.Value) > 0 AndAlso clsCommon.myLen(txtUomCode.Value) > 0) Then
-            Dim qry As String = "    select DISTINCT TSPL_ITEM_COST_MAPPING_HEADS.HCODE as Code , TSPL_ITEM_COST_MAPPING_HEADS.DOC_DATE  , TSPL_ITEM_COST_MAPPING_HEADS.Item_Code , TSPL_ITEM_COST_MAPPING_HEADS.UOM , GROUP_CODE , Description , Start_Date , End_Date  , Case when  Status=0 then 'Pending' else 'Approved' end as Status " & _
+            Dim qry As String = "    select DISTINCT TSPL_ITEM_COST_MAPPING_HEADS.HCODE as Code , TSPL_ITEM_COST_MAPPING_HEADS.DOC_DATE  , TSPL_ITEM_COST_MAPPING_HEADS.Item_Code , TSPL_ITEM_COST_MAPPING_HEADS.UOM , GROUP_CODE , Description , Start_Date , End_Date  , Case when  Status=0 then 'Pending' else 'Approved' end as Status " &
                     " from TSPL_ITEM_COST_MAPPING_HEADS INNER JOIN TSPL_ITEM_COST_MAPPING_DETAILS_ALL ON TSPL_ITEM_COST_MAPPING_HEADS.HCODE=TSPL_ITEM_COST_MAPPING_DETAILS_ALL.HCODE "
             Dim whrcls As String = " TSPL_ITEM_COST_MAPPING_HEADS.STATUS=1 AND TSPL_ITEM_COST_MAPPING_DETAILS_ALL.Item_Code ='" + txtProducedItem.Value + "' AND TSPL_ITEM_COST_MAPPING_DETAILS_ALL.UOM='" + txtUomCode.Value + "' "
             txtCostGroup.Value = clsCommon.ShowSelectForm("FNDDoc", qry, "Code", whrcls, txtCostGroup.Value, "Code", isButtonClicked)
@@ -3102,8 +3121,8 @@ Public Class frmBOM
                         Throw New Exception("Fill Valid Cost_Code at line no. " + clsCommon.myCstr(grow.Index + 1) + ".")
                     End If
 
-                    Dim qry As String = " select DDCODE,HCODE,Item_Code,UOM,SNO,COST_CODE,COST,Cost as Overhead_Cost from TSPL_ITEM_COST_MAPPING_DETAILS_ALL " & _
-                        " where HCODE= '" + CostGroupCode + "' AND COST_CODE='" + CostCode + "' AND Item_Code =(select PROD_ITEM_CODE from TSPL_PP_BOM_HEAD where BOM_CODE='" + bomcode + "') AND " & _
+                    Dim qry As String = " select DDCODE,HCODE,Item_Code,UOM,SNO,COST_CODE,COST,Cost as Overhead_Cost from TSPL_ITEM_COST_MAPPING_DETAILS_ALL " &
+                        " where HCODE= '" + CostGroupCode + "' AND COST_CODE='" + CostCode + "' AND Item_Code =(select PROD_ITEM_CODE from TSPL_PP_BOM_HEAD where BOM_CODE='" + bomcode + "') AND " &
                         " UOM=(select PROD_ITEM_UNIT_CODE from TSPL_PP_BOM_HEAD where BOM_CODE='" + bomcode + "') order by SNO asc "
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                     If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then

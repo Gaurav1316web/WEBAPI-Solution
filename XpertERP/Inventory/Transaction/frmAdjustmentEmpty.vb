@@ -1112,7 +1112,7 @@ Public Class frmAdjustmentEmpty
 
     Private Sub rdbtnprint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If clsCommon.myLen(txtAdjustmentNo.Value) <= 0 Then
-            myMessages.blankValue("Purchase Order No not found to Print")
+            myMessages.blankValue(Me, "Purchase Order No not found to Print", Me.Text)
         Else
             funPrint()
         End If

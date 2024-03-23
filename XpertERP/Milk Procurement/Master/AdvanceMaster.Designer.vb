@@ -22,21 +22,21 @@ Partial Class AdvanceMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.rdmenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.File = New Telerik.WinControls.UI.RadMenuItem
-        Me.Import = New Telerik.WinControls.UI.RadMenuItem
-        Me.Export = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.lblDescription = New common.Controls.MyLabel
-        Me.txtDescription = New common.Controls.MyTextBox
-        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton
-        Me.fndAdvanceCode = New common.UserControls.txtNavigator
-        Me.lblAdvanceCode = New common.Controls.MyLabel
-        Me.rdbtnsave = New Telerik.WinControls.UI.RadButton
-        Me.rdbtnclose = New Telerik.WinControls.UI.RadButton
-        Me.rdbtndelete = New Telerik.WinControls.UI.RadButton
+        Me.rdmenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.File = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Import = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Export = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblDescription = New common.Controls.MyLabel()
+        Me.txtDescription = New common.Controls.MyTextBox()
+        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
+        Me.fndAdvanceCode = New common.UserControls.txtNavigator()
+        Me.lblAdvanceCode = New common.Controls.MyLabel()
+        Me.rdbtnsave = New Telerik.WinControls.UI.RadButton()
+        Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
+        Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
         CType(Me.rdmenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -58,32 +58,22 @@ Partial Class AdvanceMaster
         Me.rdmenu1.Name = "rdmenu1"
         Me.rdmenu1.Size = New System.Drawing.Size(605, 20)
         Me.rdmenu1.TabIndex = 1
-        Me.rdmenu1.Text = "rdmenu"
         '
         'File
         '
-        Me.File.AccessibleDescription = "File"
-        Me.File.AccessibleName = "File"
         Me.File.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Import, Me.Export, Me.RadMenuItem1})
         Me.File.Name = "File"
         Me.File.Text = "File"
-        Me.File.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'Import
         '
-        Me.Import.AccessibleDescription = "Import"
-        Me.Import.AccessibleName = "Import"
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
-        Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'Export
         '
-        Me.Export.AccessibleDescription = "Export"
-        Me.Export.AccessibleName = "Export"
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
-        Me.Export.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem1
         '
@@ -92,15 +82,11 @@ Partial Class AdvanceMaster
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Exit"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "RadMenuItem2"
-        Me.RadMenuItem2.AccessibleName = "RadMenuItem2"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "RadMenuItem2"
-        Me.RadMenuItem2.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer1
         '
@@ -130,6 +116,7 @@ Partial Class AdvanceMaster
         '
         'lblDescription
         '
+        Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.lblDescription.Location = New System.Drawing.Point(12, 43)
         Me.lblDescription.Name = "lblDescription"
@@ -139,12 +126,24 @@ Partial Class AdvanceMaster
         '
         'txtDescription
         '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(100, 43)
         Me.txtDescription.MaxLength = 100
         Me.txtDescription.MendatroryField = False
         Me.txtDescription.MyLinkLable1 = Nothing
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(215, 20)
         Me.txtDescription.TabIndex = 2
         '
@@ -158,6 +157,7 @@ Partial Class AdvanceMaster
         '
         'fndAdvanceCode
         '
+        Me.fndAdvanceCode.FieldName = Nothing
         Me.fndAdvanceCode.Location = New System.Drawing.Point(100, 16)
         Me.fndAdvanceCode.MendatroryField = False
         Me.fndAdvanceCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -173,6 +173,7 @@ Partial Class AdvanceMaster
         '
         'lblAdvanceCode
         '
+        Me.lblAdvanceCode.FieldName = Nothing
         Me.lblAdvanceCode.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblAdvanceCode.Location = New System.Drawing.Point(12, 17)
         Me.lblAdvanceCode.Name = "lblAdvanceCode"

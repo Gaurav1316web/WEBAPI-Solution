@@ -5825,7 +5825,7 @@ Public Class frmPerformaInvoiceDairy
     End Sub
     Private Sub btnPrint_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Proforma Invoice not found to Print")
+            myMessages.blankValue(Me, "Proforma Invoice not found to Print", Me.Text)
         Else
             ' Dim Qry As String = ""
             Dim dtDocdate As Date?

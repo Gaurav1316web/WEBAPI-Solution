@@ -254,7 +254,7 @@ Public Class frmCustomerTargetFixing
 
         End If
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("Code")
+            myMessages.blankValue(Me, "Code", Me.Text)
             txtCode.Focus()
             Return False
         End If
@@ -270,7 +270,7 @@ Public Class frmCustomerTargetFixing
             End If
         Next
         If ObjList Is Nothing Then
-            myMessages.blankValue("Item Code.")
+            myMessages.blankValue(Me, "Item Code.", Me.Text)
             Return False
         End If
         Return True

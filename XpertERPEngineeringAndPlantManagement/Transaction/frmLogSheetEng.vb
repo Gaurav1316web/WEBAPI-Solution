@@ -666,7 +666,7 @@ Public Class frmLogSheetEng
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                myMessages.blankValue("No data found to Print")
+                myMessages.blankValue(Me, "No data found to Print", Me.Text)
             Else
                 Dim Qry2 As String = ""
                 Qry2 = "select TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2, TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin ,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc,TSPL_ENG_SECTION_MASTER.Description as Section_Desc,TSPL_ENG_CONSUMPTION_TYPE_MASTER.Description as Consumption_Desc, TSPL_ENG_LOG_SHEET_HEAD.Doc_No as Doc_No, convert(varchar(15),TSPL_ENG_LOG_SHEET_HEAD.Doc_Date,103) as Doc_Date " & _

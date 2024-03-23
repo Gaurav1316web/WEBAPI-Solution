@@ -349,27 +349,27 @@ Public Class frmDCSAdditionDeduction
     End Sub
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtDescName.Text) <= 0 Then
-            myMessages.blankValue(txtDescName.MyLinkLable1.Text)
+            myMessages.blankValue(Me, txtDescName.MyLinkLable1.Text, Me.Text)
             txtDescName.Focus()
             Return False
         End If
         If clsCommon.myLen(cboApplyType.SelectedValue) <= 0 Then
-            myMessages.blankValue(cboApplyType.MyLinkLable1.Text)
+            myMessages.blankValue(Me, cboApplyType.MyLinkLable1.Text, Me.Text)
             cboApplyType.Focus()
             Return False
         End If
         If clsCommon.myLen(cboApplyOn.SelectedValue) <= 0 Then
-            myMessages.blankValue(cboApplyOn.MyLinkLable1.Text)
+            myMessages.blankValue(Me, cboApplyOn.MyLinkLable1.Text, Me.Text)
             cboApplyOn.Focus()
             Return False
         End If
         If txtApplyValue.Value <= 0 Then
-            myMessages.blankValue(txtApplyValue.MyLinkLable1.Text)
+            myMessages.blankValue(Me, txtApplyValue.MyLinkLable1.Text, Me.Text)
             txtApplyValue.Focus()
             Return False
         End If
         If clsCommon.myLen(txtGLAccount.Value) <= 0 Then
-            myMessages.blankValue(txtGLAccount.MyLinkLable1.Text)
+            myMessages.blankValue(Me, txtGLAccount.MyLinkLable1.Text, Me.Text)
             txtGLAccount.Focus()
             Return False
         End If

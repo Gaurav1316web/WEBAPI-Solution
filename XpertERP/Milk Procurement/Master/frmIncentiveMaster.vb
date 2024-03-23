@@ -684,17 +684,17 @@ Public Class frmIncentiveMaster
     End Function
     Function AllowToSave() As Boolean
         If clsCommon.myLen(ddlQtyType.Text) <= 0 Then
-            myMessages.blankValue("Quantity Type")
+            myMessages.blankValue(Me, "Quantity Type", Me.Text)
             ddlQtyType.Focus()
             Return False
         End If
         If clsCommon.myLen(cboIncentiveType.Text) <= 0 Then
-            myMessages.blankValue("Incentive Type")
+            myMessages.blankValue(Me, "Incentive Type", Me.Text)
             txtCode.Focus()
             Return False
         End If
         If clsCommon.myLen(cboSchemeFor.Text) <= 0 Then
-            myMessages.blankValue("Scheme For")
+            myMessages.blankValue(Me, "Scheme For", Me.Text)
             cboSchemeFor.Focus()
             Return False
         End If
@@ -722,24 +722,24 @@ Public Class frmIncentiveMaster
                 If clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colINCENTIVE_TYPE).Value), "SLQLTYTYPE") = CompairStringResult.Equal Then
                     If gvPP.Columns(colFATTo).IsVisible Then
                         If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colFATTo).Value)) <= 0 And gvPP.Columns(colFATTo).IsVisible Then
-                            myMessages.blankValue("TS From Value is blank at row no " & (grow.Index + 1) & "")
+                            myMessages.blankValue(Me, "TS From Value is blank at row no " & (grow.Index + 1) & "", Me.Text)
                             Return False
                         End If
                         If clsCommon.myCdbl(grow.Cells(colFATTo).Value) <= clsCommon.myCdbl(grow.Cells(colFATFrom).Value) Then
-                            myMessages.blankValue("FAT To Value should be Greater than FAT From Value at row no " & (grow.Index + 1) & "")
+                            myMessages.blankValue(Me, "FAT To Value should be Greater than FAT From Value at row no " & (grow.Index + 1) & "", Me.Text)
                         End If
                     End If
                     If gvPP.Columns(colSNFTo).IsVisible Then
                         If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colSNFTo).Value)) <= 0 And gvPP.Columns(colSNFTo).IsVisible Then
-                            myMessages.blankValue("TS From Value is blank at row no " & (grow.Index + 1) & "")
+                            myMessages.blankValue(Me, "TS From Value is blank at row no " & (grow.Index + 1) & "", Me.Text)
                             Return False
                         End If
                         If clsCommon.myCdbl(grow.Cells(colSNFTo).Value) <= clsCommon.myCdbl(grow.Cells(colSNFFrom).Value) Then
-                            myMessages.blankValue("SNF To Value should be Greater than SNF From Value at row no " & (grow.Index + 1) & "")
+                            myMessages.blankValue(Me, "SNF To Value should be Greater than SNF From Value at row no " & (grow.Index + 1) & "", Me.Text)
                         End If
                     End If
                     If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colType).Value)) <= 0 Then
-                        myMessages.blankValue("Type Value is blank at row no " & (grow.Index + 1) & "")
+                        myMessages.blankValue(Me, "Type Value is blank at row no " & (grow.Index + 1) & "", Me.Text)
                         Return False
                     End If
                 Else
@@ -788,31 +788,31 @@ Public Class frmIncentiveMaster
 
                 If gvPP.Columns(colTS_FROM).IsVisible Then
                     If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colTS_FROM).Value)) <= 0 And gvPP.Columns(colTS_FROM).IsVisible Then
-                        myMessages.blankValue("TS From Value is blank at row no " & (grow.Index + 1) & "")
+                        myMessages.blankValue(Me, "TS From Value is blank at row no " & (grow.Index + 1) & "", Me.Text)
                         Return False
                     End If
                 End If
 
                 If gvPP.Columns(colTS_TO).IsVisible Then
                     If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colTS_TO).Value)) <= 0 And gvPP.Columns(colTS_TO).IsVisible Then
-                        myMessages.blankValue("TS From Value is blank at row no " & (grow.Index + 1) & "")
+                        myMessages.blankValue(Me, "TS From Value is blank at row no " & (grow.Index + 1) & "", Me.Text)
                         Return False
                     End If
                 End If
 
 
                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colSLAB_TO).Value)) <= 0 And gvPP.Columns(colSLAB_TO).IsVisible Then
-                    myMessages.blankValue("TS From Value is blank at row no " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "TS From Value is blank at row no " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
 
                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colRATE).Value)) <= 0 Then
-                    myMessages.blankValue("Rate is blank at row no " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Rate is blank at row no " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
 
                 If clsCommon.myLen(clsCommon.myCstr(grow.Cells(colRATE_UOM).Value)) <= 0 Then
-                    myMessages.blankValue("Rate UOM is blank at row no " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Rate UOM is blank at row no " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
 
