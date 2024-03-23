@@ -7831,6 +7831,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDBTNEFTUnionReport
                         frm = New frmDBTNEFTUnionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDCSSavingLedger
+                        frm = New frmDCSSavingLedger
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDBTStatusAndLastDPTStatus
                         frm = New frmDBTStatusAndLastDPTStatus
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

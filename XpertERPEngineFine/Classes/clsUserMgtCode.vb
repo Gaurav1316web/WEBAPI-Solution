@@ -4,6 +4,7 @@ Public Class clsUserMgtCode
     'Public Const FrmReceiptInvoiceMapping As String = "REC-INV-MAP"
     Public Const frmPOBulkProc As String = "PO-BULK-P"
     Public Const frmDBTNEFTUnionReport As String = "UNION-RPT"
+    Public Const frmDCSSavingLedger As String = "DCS-LGR-RPT"
     Public Const frmDBTStatusAndLastDPTStatus As String = "DBT-STATUS"
     Public Const frmDBTApprovalStatus As String = "DBT-APPRO"
     Public Const frmGateEntryReturnCS As String = "GERETURN-CS"
