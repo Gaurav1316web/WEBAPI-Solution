@@ -87,7 +87,7 @@ Public Class frmSectionConsumptionMapping
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("Code")
+            myMessages.blankValue(Me, "Code", Me.Text)
             txtCode.Focus()
             Return False
         End If
@@ -116,7 +116,7 @@ Public Class frmSectionConsumptionMapping
             Exit Sub
         End If
         If txtCode.Value = "" Then
-            myMessages.blankValue("Section code")
+            myMessages.blankValue(Me, "Section code", Me.Text)
             txtCode.Focus()
         ElseIf myMessages.deleteConfirm() Then
             If (clsSectionConsumptionMapping.DeleteData(txtCode.Value)) Then

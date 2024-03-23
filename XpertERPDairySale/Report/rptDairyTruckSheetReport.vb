@@ -4777,7 +4777,7 @@ Public Class rptDairyTruckSheetReport
                 frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoice", "Bill of Supply", Nothing, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 frmCRV = Nothing
             Else
-                myMessages.blankValue("No data found")
+                myMessages.blankValue(Me, "No data found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -4844,7 +4844,7 @@ Public Class rptDairyTruckSheetReport
                 frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, TotalItems(whrcls), "crptInvoiceDetail", "Invoice Detail", "rptSubInvoiceDetails.rpt")
                 frmCRV = Nothing
             Else
-                myMessages.blankValue("No data found")
+                myMessages.blankValue(Me, "No data found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

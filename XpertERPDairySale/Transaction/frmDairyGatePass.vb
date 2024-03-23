@@ -1426,7 +1426,7 @@ select Route_No,Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as 
             Dim frmCRV As New frmCrystalReportViewer()
             Dim objMultPrintInvoice As New FrmPrintFreshInvoice
             If clsCommon.myLen(SaleInvoiceNo) <= 0 Then
-                myMessages.blankValue("Invoice not found to Print")
+                myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
             Else
                 Dim dtDocdate As Date?
                 dtDocdate = Nothing

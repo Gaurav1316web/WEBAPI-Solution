@@ -2125,6 +2125,31 @@ Public Class FrmItemWiseTax
 
         End Try
     End Sub
+
+    Private Sub btnCopy_Click(sender As Object, e As EventArgs) Handles btnCopy.Click
+        Try
+            'AddNew()
+            Reset()
+            Dim qry As String = "select HCODE as Code,CONVERT(varchar, DOC_DATE,103) as [Start Date], [Type],Case when  Status=0 then 'Pending' else 'Approved' end as Status from TSPL_ITEM_WISE_TAX"
+            Dim strCode As String = clsCommon.ShowSelectForm("DistributeNoFndd1", qry, "Code", "", "Code")
+            If clsCommon.myLen(strCode) > 0 Then
+                LoadData(strCode, NavigatorType.Current)
+                fndCode.Value = Nothing
+            End If
+            'btnsave.Enabled = True
+            btnAdd.Enabled = True
+            btnPost.Enabled = True
+            btnDelete.Enabled = True
+            isNewEntry = True
+            'UsLock1.Status = ERPTransactionStatus.Pending
+            lblPending.Status = ERPTransactionStatus.Pending
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+
     ' Ticket No : TEC/02/08/19-000978 By Prabhakar
     Private Sub RadMenuItem6_Click(sender As Object, e As EventArgs) Handles RadMenuItem6.Click
         Try

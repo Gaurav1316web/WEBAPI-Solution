@@ -22,6 +22,8 @@ Partial Class frmCappingMaster
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel15 = New common.Controls.MyLabel()
+        Me.txtVSP = New common.UserControls.txtMultiSelectFinder()
         Me.txtSNF = New common.MyNumBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.lblAdvanceCode = New common.Controls.MyLabel()
@@ -41,17 +43,16 @@ Partial Class frmCappingMaster
         Me.txtDescription = New common.Controls.MyTextBox()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.chkInactive = New Telerik.WinControls.UI.RadCheckBox()
+        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
         Me.btnEndDate = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel15 = New common.Controls.MyLabel()
-        Me.txtVSP = New common.UserControls.txtMultiSelectFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSNF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAdvanceCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -68,13 +69,12 @@ Partial Class frmCappingMaster
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,6 +122,29 @@ Partial Class frmCappingMaster
         Me.SplitContainer1.Size = New System.Drawing.Size(636, 200)
         Me.SplitContainer1.SplitterDistance = 166
         Me.SplitContainer1.TabIndex = 1
+        '
+        'MyLabel15
+        '
+        Me.MyLabel15.FieldName = Nothing
+        Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel15.Location = New System.Drawing.Point(9, 100)
+        Me.MyLabel15.Name = "MyLabel15"
+        Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
+        Me.MyLabel15.TabIndex = 1092
+        Me.MyLabel15.Text = "VSP"
+        '
+        'txtVSP
+        '
+        Me.txtVSP.arrDispalyMember = Nothing
+        Me.txtVSP.arrValueMember = Nothing
+        Me.txtVSP.Location = New System.Drawing.Point(77, 99)
+        Me.txtVSP.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtVSP.MyLinkLable1 = Nothing
+        Me.txtVSP.MyLinkLable2 = Nothing
+        Me.txtVSP.MyNullText = "Please Select"
+        Me.txtVSP.Name = "txtVSP"
+        Me.txtVSP.Size = New System.Drawing.Size(555, 20)
+        Me.txtVSP.TabIndex = 1091
         '
         'txtSNF
         '
@@ -238,6 +261,7 @@ Partial Class frmCappingMaster
         '
         Me.cboEndShift.AutoCompleteDisplayMember = Nothing
         Me.cboEndShift.AutoCompleteValueMember = Nothing
+        Me.cboEndShift.DropDownAnimationEnabled = True
         Me.cboEndShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboEndShift.Location = New System.Drawing.Point(391, 57)
         Me.cboEndShift.Name = "cboEndShift"
@@ -297,6 +321,7 @@ Partial Class frmCappingMaster
         '
         Me.cboStartShift.AutoCompleteDisplayMember = Nothing
         Me.cboStartShift.AutoCompleteValueMember = Nothing
+        Me.cboStartShift.DropDownAnimationEnabled = True
         Me.cboStartShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboStartShift.Location = New System.Drawing.Point(159, 57)
         Me.cboStartShift.Name = "cboStartShift"
@@ -396,7 +421,7 @@ Partial Class frmCappingMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(358, 21)
@@ -412,6 +437,15 @@ Partial Class frmCappingMaster
         Me.chkInactive.Size = New System.Drawing.Size(59, 16)
         Me.chkInactive.TabIndex = 1080
         Me.chkInactive.Text = "Inactive"
+        '
+        'rdbtnreset
+        '
+        Me.rdbtnreset.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
+        Me.rdbtnreset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.rdbtnreset.Location = New System.Drawing.Point(435, 11)
+        Me.rdbtnreset.Name = "rdbtnreset"
+        Me.rdbtnreset.Size = New System.Drawing.Size(22, 21)
+        Me.rdbtnreset.TabIndex = 1
         '
         'btnEndDate
         '
@@ -458,38 +492,6 @@ Partial Class frmCappingMaster
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
-        'rdbtnreset
-        '
-        Me.rdbtnreset.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
-        Me.rdbtnreset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.rdbtnreset.Location = New System.Drawing.Point(435, 11)
-        Me.rdbtnreset.Name = "rdbtnreset"
-        Me.rdbtnreset.Size = New System.Drawing.Size(22, 21)
-        Me.rdbtnreset.TabIndex = 1
-        '
-        'MyLabel15
-        '
-        Me.MyLabel15.FieldName = Nothing
-        Me.MyLabel15.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(9, 100)
-        Me.MyLabel15.Name = "MyLabel15"
-        Me.MyLabel15.Size = New System.Drawing.Size(26, 18)
-        Me.MyLabel15.TabIndex = 1092
-        Me.MyLabel15.Text = "VSP"
-        '
-        'txtVSP
-        '
-        Me.txtVSP.arrDispalyMember = Nothing
-        Me.txtVSP.arrValueMember = Nothing
-        Me.txtVSP.Location = New System.Drawing.Point(77, 99)
-        Me.txtVSP.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtVSP.MyLinkLable1 = Nothing
-        Me.txtVSP.MyLinkLable2 = Nothing
-        Me.txtVSP.MyNullText = "Please Select"
-        Me.txtVSP.Name = "txtVSP"
-        Me.txtVSP.Size = New System.Drawing.Size(555, 20)
-        Me.txtVSP.TabIndex = 1091
-        '
         'frmCappingMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -507,6 +509,7 @@ Partial Class frmCappingMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSNF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAdvanceCode, System.ComponentModel.ISupportInitialize).EndInit()
@@ -523,13 +526,12 @@ Partial Class frmCappingMaster
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescription, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkInactive, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnEndDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.rdbtnreset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

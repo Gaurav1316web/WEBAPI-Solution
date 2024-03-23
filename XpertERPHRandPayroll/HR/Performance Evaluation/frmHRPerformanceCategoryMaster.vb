@@ -84,8 +84,8 @@ Public Class frmHRPerformanceCategoryMaster
     Private Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(clsCommon.myCstr(txtcode.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtcode.Value)) > 30 Then
-                myMessages.blankValue("Code")
-                txtcode.Focus()
+                myMessages.blankValue(Me, "Code", Me.Text)
+                txtCode.Focus()
                 txtcode.Select()
                 Errorcontrol.SetError(txtCode, "Code")
                 Return False
@@ -93,7 +93,7 @@ Public Class frmHRPerformanceCategoryMaster
                 Errorcontrol.ResetError(txtCode)
             End If
             If clsCommon.myLen(clsCommon.myCstr(txtProject.Text)) <= 0 Then
-                myMessages.blankValue("Description")
+                myMessages.blankValue(Me, "Description", Me.Text)
                 txtProject.Focus()
                 txtProject.Select()
                 Errorcontrol.SetError(txtProject, "Description")

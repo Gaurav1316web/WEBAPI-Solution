@@ -527,7 +527,7 @@ Partial Class FrmVillageMaster
         Me.fndcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndcode.MyLinkLable1 = Me.lblAdvanceCode
         Me.fndcode.MyLinkLable2 = Nothing
-        Me.fndcode.MyMaxLength = 12
+        Me.fndcode.MyMaxLength = 30
         Me.fndcode.MyReadOnly = False
         Me.fndcode.Name = "fndcode"
         Me.fndcode.Size = New System.Drawing.Size(277, 22)

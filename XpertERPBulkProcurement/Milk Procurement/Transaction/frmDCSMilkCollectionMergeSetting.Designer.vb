@@ -601,7 +601,7 @@ Partial Class frmDCSMilkCollectionMergeSetting
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(250, 19)
@@ -713,10 +713,14 @@ Partial Class frmDCSMilkCollectionMergeSetting
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(326, 270)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
@@ -735,10 +739,14 @@ Partial Class frmDCSMilkCollectionMergeSetting
         '
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.EnableAlternatingRowColor = True
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowGroupPanel = False
+        Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(431, 270)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
@@ -901,12 +909,12 @@ Partial Class frmDCSMilkCollectionMergeSetting
     Friend WithEvents Panel1 As Panel
     Friend WithEvents Panel2 As Panel
     Friend WithEvents SplitContainer1 As SplitContainer
-    Friend WithEvents gv1 As RadGridView
-    Friend WithEvents gv2 As RadGridView
     Friend WithEvents Panel3 As Panel
     Friend WithEvents btnSave As RadButton
     Friend WithEvents btnClose As RadButton
     Friend WithEvents btnHistory As RadButton
     Friend WithEvents btnDelete As RadButton
     Friend WithEvents btnPost As RadButton
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
+    Friend WithEvents gv2 As common.UserControls.MyRadGridView
 End Class

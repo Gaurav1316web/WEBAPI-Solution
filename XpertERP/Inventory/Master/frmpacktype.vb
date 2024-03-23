@@ -217,14 +217,14 @@ Public Class Frmpacktype
         End If
         If father = "Y" And child = "Y" Then
             If fndclasstype.Value = "" Then
-                myMessages.blankValue(" Class Type")
+                myMessages.blankValue(Me, "Class Type", Me.Text)
                 fndclasstype.Focus()
             ElseIf ddlfinishedgood.Text = "Select" Then
-                myMessages.blankValue("finished good")
+                myMessages.blankValue(Me, "finished good", Me.Text)
             ElseIf ddlmothercode.Text = "Select" Then
-                myMessages.blankValue("Mother Code")
+                myMessages.blankValue(Me, "Mother Code", Me.Text)
             ElseIf ddlfathercode.Text = "Select" Then
-                myMessages.blankValue("Father Code")
+                myMessages.blankValue(Me, "Father Code", Me.Text)
             Else
                 If btnsave.Text = "Save" Then
                     funinsert()
@@ -237,12 +237,12 @@ Public Class Frmpacktype
 
         ElseIf father = "Y" And child = "N" Then
             If fndclasstype.Value = "" Then
-                myMessages.blankValue(" Class Type")
+                myMessages.blankValue(Me, " Class Type", Me.Text)
                 fndclasstype.Focus()
             ElseIf ddlfinishedgood.Text = "Select" Then
-                myMessages.blankValue("finished good")
+                myMessages.blankValue(Me, "finished good", Me.Text)
             ElseIf ddlfathercode.Text = "Select" Then
-                myMessages.blankValue("Father Code")
+                myMessages.blankValue(Me, "Father Code", Me.Text)
             Else
                 If btnsave.Text = "Save" Then
                     funinsert()
@@ -254,12 +254,12 @@ Public Class Frmpacktype
             End If
         ElseIf child = "Y" And father = "N" Then
             If fndclasstype.Value = "" Then
-                myMessages.blankValue(" Class Type")
+                myMessages.blankValue(Me, " Class Type", Me.Text)
                 fndclasstype.Focus()
             ElseIf ddlfinishedgood.Text = "Select" Then
-                myMessages.blankValue("finished good")
+                myMessages.blankValue(Me, "finished good", Me.Text)
             ElseIf ddlmothercode.Text = "Select" Then
-                myMessages.blankValue("Mother Code")
+                myMessages.blankValue(Me, "Mother Code", Me.Text)
             Else
                 If btnsave.Text = "Save" Then
                     funinsert()

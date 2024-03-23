@@ -36,6 +36,7 @@ Partial Class frmMachineIntegration
         Me.lblvandorno = New common.Controls.MyLabel()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkCheckForZero = New System.Windows.Forms.CheckBox()
         Me.txtInput = New common.Controls.MyTextBox()
         Me.MyLabel8 = New common.Controls.MyLabel()
         Me.GroupBox3 = New System.Windows.Forms.GroupBox()
@@ -58,7 +59,6 @@ Partial Class frmMachineIntegration
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.chkCheckForZero = New System.Windows.Forms.CheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -107,12 +107,9 @@ Partial Class frmMachineIntegration
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(659, 20)
         Me.RadMenu1.TabIndex = 17
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
         '
@@ -213,7 +210,7 @@ Partial Class frmMachineIntegration
         Me.fndCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndCode.MyLinkLable1 = Nothing
         Me.fndCode.MyLinkLable2 = Nothing
-        Me.fndCode.MyMaxLength = 32767
+        Me.fndCode.MyMaxLength = 30
         Me.fndCode.MyReadOnly = False
         Me.fndCode.Name = "fndCode"
         Me.fndCode.Size = New System.Drawing.Size(304, 21)
@@ -283,7 +280,6 @@ Partial Class frmMachineIntegration
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(659, 327)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "EWS"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -303,6 +299,16 @@ Partial Class frmMachineIntegration
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(638, 279)
         Me.RadPageViewPage1.Text = "EWS"
+        '
+        'chkCheckForZero
+        '
+        Me.chkCheckForZero.AutoSize = True
+        Me.chkCheckForZero.Location = New System.Drawing.Point(4, 144)
+        Me.chkCheckForZero.Name = "chkCheckForZero"
+        Me.chkCheckForZero.Size = New System.Drawing.Size(103, 17)
+        Me.chkCheckForZero.TabIndex = 27
+        Me.chkCheckForZero.Text = "Check For Zero"
+        Me.chkCheckForZero.UseVisualStyleBackColor = True
         '
         'txtInput
         '
@@ -632,16 +638,6 @@ Partial Class frmMachineIntegration
         Me.btnsave.Size = New System.Drawing.Size(78, 21)
         Me.btnsave.TabIndex = 3
         Me.btnsave.Text = "Save"
-        '
-        'chkCheckForZero
-        '
-        Me.chkCheckForZero.AutoSize = True
-        Me.chkCheckForZero.Location = New System.Drawing.Point(4, 144)
-        Me.chkCheckForZero.Name = "chkCheckForZero"
-        Me.chkCheckForZero.Size = New System.Drawing.Size(103, 17)
-        Me.chkCheckForZero.TabIndex = 27
-        Me.chkCheckForZero.Text = "Check For Zero"
-        Me.chkCheckForZero.UseVisualStyleBackColor = True
         '
         'frmMachineIntegration
         '

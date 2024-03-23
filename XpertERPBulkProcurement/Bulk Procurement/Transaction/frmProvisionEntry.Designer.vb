@@ -645,7 +645,7 @@ Partial Class FrmProvisionEntry
         Me.fndDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndDocNo.MyLinkLable1 = Me.lblDocNo
         Me.fndDocNo.MyLinkLable2 = Nothing
-        Me.fndDocNo.MyMaxLength = 32767
+        Me.fndDocNo.MyMaxLength = 30
         Me.fndDocNo.MyReadOnly = False
         Me.fndDocNo.Name = "fndDocNo"
         Me.fndDocNo.Size = New System.Drawing.Size(240, 21)
@@ -709,6 +709,7 @@ Partial Class FrmProvisionEntry
         Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(838, 378)

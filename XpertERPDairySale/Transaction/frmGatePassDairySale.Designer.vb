@@ -24,8 +24,8 @@ Partial Class frmGatePassDairySale
     Private Sub InitializeComponent()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -35,30 +35,14 @@ Partial Class frmGatePassDairySale
         Me.chkShortClose = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkOnHold = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.ddlFreight = New common.Controls.MyComboBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtFreightAmt = New common.MyNumBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtTransporterName = New common.Controls.MyTextBox()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
-        Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
-        Me.BtnPrintDetail = New Telerik.WinControls.UI.RadMenuItem()
-        Me.BtnPrintSummry = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnApproveCreditLimit = New Telerik.WinControls.UI.RadButton()
-        Me.btnsetting = New Telerik.WinControls.UI.RadSplitButton()
-        Me.BtnPreview = New Telerik.WinControls.UI.RadMenuItem()
-        Me.BtnSend = New Telerik.WinControls.UI.RadMenuItem()
-        Me.BtnSendForApproval = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnPost = New Telerik.WinControls.UI.RadButton()
-        Me.btnClose = New Telerik.WinControls.UI.RadButton()
-        Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.EmailSmsSetting = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.EmailSettingCreditApproval = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
-        Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.fndDemand = New common.UserControls.txtFinder()
         Me.RadLabel18 = New common.Controls.MyLabel()
         Me.lblDODate = New common.Controls.MyLabel()
@@ -90,13 +74,6 @@ Partial Class frmGatePassDairySale
         Me.lblLocationName = New common.Controls.MyLabel()
         Me.RadLabel14 = New common.Controls.MyLabel()
         Me.RadLabel15 = New common.Controls.MyLabel()
-        Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.ddlFreight = New common.Controls.MyComboBox()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.txtFreightAmt = New common.MyNumBox()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.txtTransporterName = New common.Controls.MyTextBox()
         Me.lblCustomerName = New common.Controls.MyLabel()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.RadLabel1 = New common.Controls.MyLabel()
@@ -105,7 +82,30 @@ Partial Class frmGatePassDairySale
         Me.fndDeliveryNo = New common.UserControls.txtFinder()
         Me.fndLocation = New common.UserControls.txtFinder()
         Me.txtDocNo = New common.UserControls.txtNavigator()
+        Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
+        Me.BtnPrintDetail = New Telerik.WinControls.UI.RadMenuItem()
+        Me.BtnPrintSummry = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnApproveCreditLimit = New Telerik.WinControls.UI.RadButton()
+        Me.btnsetting = New Telerik.WinControls.UI.RadSplitButton()
+        Me.BtnPreview = New Telerik.WinControls.UI.RadMenuItem()
+        Me.BtnSend = New Telerik.WinControls.UI.RadMenuItem()
+        Me.BtnSendForApproval = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.EmailSmsSetting = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.EmailSettingCreditApproval = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
+        Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -117,19 +117,16 @@ Partial Class frmGatePassDairySale
         CType(Me.chkOnHold, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gv1.SuspendLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddlFreight, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFreightAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTransporterName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Attachments.SuspendLayout()
-        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnApproveCreditLimit, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.Panel1.SuspendLayout()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDODate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -157,19 +154,22 @@ Partial Class frmGatePassDairySale
         CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gv1.SuspendLayout()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ddlFreight, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFreightAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTransporterName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Attachments.SuspendLayout()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnApproveCreditLimit, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel1.SuspendLayout()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -264,10 +264,10 @@ Partial Class frmGatePassDairySale
         Me.RadPageViewPage1.Controls.Add(Me.fndLocation)
         Me.RadPageViewPage1.Controls.Add(Me.txtDocNo)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(80.0!, 22.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(84.0!, 26.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1004, 427)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1004, 423)
         Me.RadPageViewPage1.Text = "Delivery Note"
         '
         'Label2
@@ -337,9 +337,151 @@ Partial Class frmGatePassDairySale
         Me.RadGroupBox2.Location = New System.Drawing.Point(2, 121)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(999, 303)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(999, 299)
         Me.RadGroupBox2.TabIndex = 27
         Me.RadGroupBox2.Text = "Item Details"
+        '
+        'gv1
+        '
+        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gv1.Controls.Add(Me.MyLabel1)
+        Me.gv1.Controls.Add(Me.ddlFreight)
+        Me.gv1.Controls.Add(Me.MyLabel4)
+        Me.gv1.Controls.Add(Me.txtFreightAmt)
+        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gv1.ForeColor = System.Drawing.Color.Black
+        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gv1.Location = New System.Drawing.Point(10, 20)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
+        Me.gv1.Name = "gv1"
+        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.Size = New System.Drawing.Size(979, 269)
+        Me.gv1.TabIndex = 0
+        Me.gv1.TabStop = False
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(819, 12)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(41, 16)
+        Me.MyLabel1.TabIndex = 58
+        Me.MyLabel1.Text = "Freight"
+        Me.MyLabel1.Visible = False
+        '
+        'ddlFreight
+        '
+        Me.ddlFreight.AutoCompleteDisplayMember = Nothing
+        Me.ddlFreight.AutoCompleteValueMember = Nothing
+        Me.ddlFreight.CalculationExpression = Nothing
+        Me.ddlFreight.DropDownAnimationEnabled = True
+        Me.ddlFreight.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlFreight.FieldCode = Nothing
+        Me.ddlFreight.FieldDesc = Nothing
+        Me.ddlFreight.FieldMaxLength = 0
+        Me.ddlFreight.FieldName = Nothing
+        Me.ddlFreight.isCalculatedField = False
+        Me.ddlFreight.IsSourceFromTable = False
+        Me.ddlFreight.IsSourceFromValueList = False
+        Me.ddlFreight.IsUnique = False
+        Me.ddlFreight.Location = New System.Drawing.Point(917, 10)
+        Me.ddlFreight.MendatroryField = False
+        Me.ddlFreight.MyLinkLable1 = Me.MyLabel1
+        Me.ddlFreight.MyLinkLable2 = Nothing
+        Me.ddlFreight.Name = "ddlFreight"
+        Me.ddlFreight.ReferenceFieldDesc = Nothing
+        Me.ddlFreight.ReferenceFieldName = Nothing
+        Me.ddlFreight.ReferenceTableName = Nothing
+        Me.ddlFreight.Size = New System.Drawing.Size(143, 20)
+        Me.ddlFreight.TabIndex = 10
+        Me.ddlFreight.Visible = False
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(1077, 12)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(84, 16)
+        Me.MyLabel4.TabIndex = 45
+        Me.MyLabel4.Text = "Freight Amount"
+        Me.MyLabel4.Visible = False
+        '
+        'txtFreightAmt
+        '
+        Me.txtFreightAmt.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtFreightAmt.CalculationExpression = Nothing
+        Me.txtFreightAmt.DecimalPlaces = 5
+        Me.txtFreightAmt.FieldCode = Nothing
+        Me.txtFreightAmt.FieldDesc = Nothing
+        Me.txtFreightAmt.FieldMaxLength = 0
+        Me.txtFreightAmt.FieldName = Nothing
+        Me.txtFreightAmt.isCalculatedField = False
+        Me.txtFreightAmt.IsSourceFromTable = False
+        Me.txtFreightAmt.IsSourceFromValueList = False
+        Me.txtFreightAmt.IsUnique = False
+        Me.txtFreightAmt.Location = New System.Drawing.Point(1169, 10)
+        Me.txtFreightAmt.MendatroryField = True
+        Me.txtFreightAmt.MyLinkLable1 = Nothing
+        Me.txtFreightAmt.MyLinkLable2 = Nothing
+        Me.txtFreightAmt.Name = "txtFreightAmt"
+        Me.txtFreightAmt.ReferenceFieldDesc = Nothing
+        Me.txtFreightAmt.ReferenceFieldName = Nothing
+        Me.txtFreightAmt.ReferenceTableName = Nothing
+        Me.txtFreightAmt.Size = New System.Drawing.Size(179, 20)
+        Me.txtFreightAmt.TabIndex = 129
+        Me.txtFreightAmt.Text = "0"
+        Me.txtFreightAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtFreightAmt.Value = 0R
+        Me.txtFreightAmt.Visible = False
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(560, 3)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(98, 16)
+        Me.MyLabel2.TabIndex = 54
+        Me.MyLabel2.Text = "Transporter Name"
+        Me.MyLabel2.Visible = False
+        '
+        'txtTransporterName
+        '
+        Me.txtTransporterName.CalculationExpression = Nothing
+        Me.txtTransporterName.FieldCode = Nothing
+        Me.txtTransporterName.FieldDesc = Nothing
+        Me.txtTransporterName.FieldMaxLength = 0
+        Me.txtTransporterName.FieldName = Nothing
+        Me.txtTransporterName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTransporterName.isCalculatedField = False
+        Me.txtTransporterName.IsSourceFromTable = False
+        Me.txtTransporterName.IsSourceFromValueList = False
+        Me.txtTransporterName.IsUnique = False
+        Me.txtTransporterName.Location = New System.Drawing.Point(706, 2)
+        Me.txtTransporterName.MaxLength = 50
+        Me.txtTransporterName.MendatroryField = False
+        Me.txtTransporterName.MyLinkLable1 = Me.MyLabel2
+        Me.txtTransporterName.MyLinkLable2 = Nothing
+        Me.txtTransporterName.Name = "txtTransporterName"
+        Me.txtTransporterName.ReferenceFieldDesc = Nothing
+        Me.txtTransporterName.ReferenceFieldName = Nothing
+        Me.txtTransporterName.ReferenceTableName = Nothing
+        Me.txtTransporterName.Size = New System.Drawing.Size(299, 18)
+        Me.txtTransporterName.TabIndex = 9
+        Me.txtTransporterName.Visible = False
         '
         'btnAddNew
         '
@@ -350,201 +492,6 @@ Partial Class frmGatePassDairySale
         Me.btnAddNew.Name = "btnAddNew"
         Me.btnAddNew.Size = New System.Drawing.Size(20, 21)
         Me.btnAddNew.TabIndex = 1
-        '
-        'Attachments
-        '
-        Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
-        Me.Attachments.Location = New System.Drawing.Point(10, 35)
-        Me.Attachments.Name = "Attachments"
-        Me.Attachments.Size = New System.Drawing.Size(949, 415)
-        Me.Attachments.Text = "Attachments"
-        '
-        'RadSplitButton1
-        '
-        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.BtnPrintDetail, Me.BtnPrintSummry})
-        Me.RadSplitButton1.Location = New System.Drawing.Point(159, 4)
-        Me.RadSplitButton1.Name = "RadSplitButton1"
-        Me.RadSplitButton1.Size = New System.Drawing.Size(69, 22)
-        Me.RadSplitButton1.TabIndex = 7
-        Me.RadSplitButton1.Text = "Print"
-        '
-        'BtnPrintDetail
-        '
-        Me.BtnPrintDetail.Name = "BtnPrintDetail"
-        Me.BtnPrintDetail.Text = "Detail"
-        '
-        'BtnPrintSummry
-        '
-        Me.BtnPrintSummry.AccessibleDescription = "Summry"
-        Me.BtnPrintSummry.AccessibleName = "Summry"
-        Me.BtnPrintSummry.Name = "BtnPrintSummry"
-        Me.BtnPrintSummry.Text = "Summary"
-        '
-        'btnApproveCreditLimit
-        '
-        Me.btnApproveCreditLimit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnApproveCreditLimit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnApproveCreditLimit.Location = New System.Drawing.Point(420, 3)
-        Me.btnApproveCreditLimit.Name = "btnApproveCreditLimit"
-        Me.btnApproveCreditLimit.Size = New System.Drawing.Size(126, 22)
-        Me.btnApproveCreditLimit.TabIndex = 6
-        Me.btnApproveCreditLimit.Text = "Approval Credit Limit"
-        Me.btnApproveCreditLimit.Visible = False
-        '
-        'btnsetting
-        '
-        Me.btnsetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.BtnPreview, Me.BtnSend, Me.BtnSendForApproval})
-        Me.btnsetting.Location = New System.Drawing.Point(327, 4)
-        Me.btnsetting.Name = "btnsetting"
-        Me.btnsetting.Size = New System.Drawing.Size(87, 22)
-        Me.btnsetting.TabIndex = 4
-        Me.btnsetting.Text = "E-Mail/SMS"
-        Me.btnsetting.Visible = False
-        '
-        'BtnPreview
-        '
-        Me.BtnPreview.Name = "BtnPreview"
-        Me.BtnPreview.Text = "Preview"
-        '
-        'BtnSend
-        '
-        Me.BtnSend.Name = "BtnSend"
-        Me.BtnSend.Text = "Send Mail/Sms"
-        '
-        'BtnSendForApproval
-        '
-        Me.BtnSendForApproval.Name = "BtnSendForApproval"
-        Me.BtnSendForApproval.Text = "Send Mail For Approval"
-        '
-        'btnPrint
-        '
-        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(252, 4)
-        Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(69, 22)
-        Me.btnPrint.TabIndex = 3
-        Me.btnPrint.Text = "Print"
-        Me.btnPrint.Visible = False
-        '
-        'btnDelete
-        '
-        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(81, 4)
-        Me.btnDelete.Name = "btnDelete"
-        Me.btnDelete.Size = New System.Drawing.Size(69, 22)
-        Me.btnDelete.TabIndex = 2
-        Me.btnDelete.Text = "Delete"
-        '
-        'btnPost
-        '
-        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(552, 3)
-        Me.btnPost.Name = "btnPost"
-        Me.btnPost.Size = New System.Drawing.Size(69, 22)
-        Me.btnPost.TabIndex = 1
-        Me.btnPost.Text = "Post"
-        Me.btnPost.Visible = False
-        '
-        'btnClose
-        '
-        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(941, 4)
-        Me.btnClose.Name = "btnClose"
-        Me.btnClose.Size = New System.Drawing.Size(69, 22)
-        Me.btnClose.TabIndex = 5
-        Me.btnClose.Text = "Close"
-        '
-        'btnSave
-        '
-        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(5, 4)
-        Me.btnSave.Name = "btnSave"
-        Me.btnSave.Size = New System.Drawing.Size(69, 22)
-        Me.btnSave.TabIndex = 0
-        Me.btnSave.Text = "Save"
-        '
-        'EmailSmsSetting
-        '
-        Me.EmailSmsSetting.Name = "EmailSmsSetting"
-        Me.EmailSmsSetting.Text = "Email/SMS Setting"
-        Me.EmailSmsSetting.Visibility = Telerik.WinControls.ElementVisibility.Hidden
-        '
-        'RadMenuItem4
-        '
-        Me.RadMenuItem4.Name = "RadMenuItem4"
-        Me.RadMenuItem4.Text = "Delete Layout"
-        '
-        'Panel1
-        '
-        Me.Panel1.Controls.Add(Me.SplitContainer1)
-        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.Panel1.Location = New System.Drawing.Point(0, 20)
-        Me.Panel1.Name = "Panel1"
-        Me.Panel1.Size = New System.Drawing.Size(1025, 501)
-        Me.Panel1.TabIndex = 7
-        '
-        'RadMenu1
-        '
-        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(1025, 20)
-        Me.RadMenu1.TabIndex = 6
-        '
-        'RadMenuItem3
-        '
-        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem4, Me.EmailSmsSetting, Me.EmailSettingCreditApproval})
-        Me.RadMenuItem3.Name = "RadMenuItem3"
-        Me.RadMenuItem3.Text = "Setting"
-        '
-        'RadMenuItem1
-        '
-        Me.RadMenuItem1.Name = "RadMenuItem1"
-        Me.RadMenuItem1.Text = "Save Layout"
-        '
-        'EmailSettingCreditApproval
-        '
-        Me.EmailSettingCreditApproval.Name = "EmailSettingCreditApproval"
-        Me.EmailSettingCreditApproval.Text = "Email setting for Credit Approval"
-        Me.EmailSettingCreditApproval.Visibility = Telerik.WinControls.ElementVisibility.Hidden
-        '
-        'RadMenuItem2
-        '
-        Me.RadMenuItem2.AnimationEnabled = False
-        Me.RadMenuItem2.AnimationFrames = 1
-        Me.RadMenuItem2.AnimationType = Telerik.WinControls.UI.PopupAnimationTypes.None
-        Me.RadMenuItem2.AutoSize = True
-        Me.RadMenuItem2.DropDownAnimationDirection = Telerik.WinControls.UI.RadDirection.Down
-        Me.RadMenuItem2.DropShadow = True
-        Me.RadMenuItem2.EasingType = Telerik.WinControls.RadEasingType.InQuad
-        Me.RadMenuItem2.EnableAeroEffects = False
-        Me.RadMenuItem2.FadeAnimationFrames = 10
-        Me.RadMenuItem2.FadeAnimationSpeed = 10
-        Me.RadMenuItem2.FadeAnimationType = Telerik.WinControls.UI.FadeAnimationType.FadeIn
-        Me.RadMenuItem2.FitToScreenMode = CType((Telerik.WinControls.UI.FitToScreenModes.FitWidth Or Telerik.WinControls.UI.FitToScreenModes.FitHeight), Telerik.WinControls.UI.FitToScreenModes)
-        Me.RadMenuItem2.HorizontalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
-        Me.RadMenuItem2.LastShowDpiScaleFactor = New System.Drawing.SizeF(1.0!, 1.0!)
-        Me.RadMenuItem2.Location = New System.Drawing.Point(177, 645)
-        Me.RadMenuItem2.Maximum = New System.Drawing.Size(0, 0)
-        Me.RadMenuItem2.Minimum = New System.Drawing.Size(0, 0)
-        Me.RadMenuItem2.Name = "RadMenuItem2"
-        Me.RadMenuItem2.Opacity = 1.0!
-        Me.RadMenuItem2.ProcessKeyboard = False
-        Me.RadMenuItem2.RollOverItemSelection = True
-        Me.RadMenuItem2.Size = New System.Drawing.Size(27, 2)
-        Me.RadMenuItem2.TabIndex = 5
-        Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
-        Me.RadMenuItem2.Visible = False
-        WindowsSettings1.EnableRoundedCorners = Nothing
-        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'fndDemand
         '
@@ -1037,147 +984,6 @@ Partial Class frmGatePassDairySale
         Me.RadLabel15.TabIndex = 37
         Me.RadLabel15.Text = "Location"
         '
-        'gv1
-        '
-        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gv1.Controls.Add(Me.MyLabel1)
-        Me.gv1.Controls.Add(Me.ddlFreight)
-        Me.gv1.Controls.Add(Me.MyLabel4)
-        Me.gv1.Controls.Add(Me.txtFreightAmt)
-        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gv1.ForeColor = System.Drawing.Color.Black
-        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv1.Location = New System.Drawing.Point(10, 20)
-        '
-        '
-        '
-        Me.gv1.MasterTemplate.AllowDeleteRow = False
-        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.gv1.Name = "gv1"
-        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gv1.ShowGroupPanel = False
-        Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(979, 273)
-        Me.gv1.TabIndex = 0
-        Me.gv1.TabStop = False
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(819, 12)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(41, 16)
-        Me.MyLabel1.TabIndex = 58
-        Me.MyLabel1.Text = "Freight"
-        Me.MyLabel1.Visible = False
-        '
-        'ddlFreight
-        '
-        Me.ddlFreight.AutoCompleteDisplayMember = Nothing
-        Me.ddlFreight.AutoCompleteValueMember = Nothing
-        Me.ddlFreight.CalculationExpression = Nothing
-        Me.ddlFreight.DropDownAnimationEnabled = True
-        Me.ddlFreight.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.ddlFreight.FieldCode = Nothing
-        Me.ddlFreight.FieldDesc = Nothing
-        Me.ddlFreight.FieldMaxLength = 0
-        Me.ddlFreight.FieldName = Nothing
-        Me.ddlFreight.isCalculatedField = False
-        Me.ddlFreight.IsSourceFromTable = False
-        Me.ddlFreight.IsSourceFromValueList = False
-        Me.ddlFreight.IsUnique = False
-        Me.ddlFreight.Location = New System.Drawing.Point(917, 10)
-        Me.ddlFreight.MendatroryField = False
-        Me.ddlFreight.MyLinkLable1 = Me.MyLabel1
-        Me.ddlFreight.MyLinkLable2 = Nothing
-        Me.ddlFreight.Name = "ddlFreight"
-        Me.ddlFreight.ReferenceFieldDesc = Nothing
-        Me.ddlFreight.ReferenceFieldName = Nothing
-        Me.ddlFreight.ReferenceTableName = Nothing
-        Me.ddlFreight.Size = New System.Drawing.Size(143, 20)
-        Me.ddlFreight.TabIndex = 10
-        Me.ddlFreight.Visible = False
-        '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(1077, 12)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(84, 16)
-        Me.MyLabel4.TabIndex = 45
-        Me.MyLabel4.Text = "Freight Amount"
-        Me.MyLabel4.Visible = False
-        '
-        'txtFreightAmt
-        '
-        Me.txtFreightAmt.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtFreightAmt.CalculationExpression = Nothing
-        Me.txtFreightAmt.DecimalPlaces = 5
-        Me.txtFreightAmt.FieldCode = Nothing
-        Me.txtFreightAmt.FieldDesc = Nothing
-        Me.txtFreightAmt.FieldMaxLength = 0
-        Me.txtFreightAmt.FieldName = Nothing
-        Me.txtFreightAmt.isCalculatedField = False
-        Me.txtFreightAmt.IsSourceFromTable = False
-        Me.txtFreightAmt.IsSourceFromValueList = False
-        Me.txtFreightAmt.IsUnique = False
-        Me.txtFreightAmt.Location = New System.Drawing.Point(1169, 10)
-        Me.txtFreightAmt.MendatroryField = True
-        Me.txtFreightAmt.MyLinkLable1 = Nothing
-        Me.txtFreightAmt.MyLinkLable2 = Nothing
-        Me.txtFreightAmt.Name = "txtFreightAmt"
-        Me.txtFreightAmt.ReferenceFieldDesc = Nothing
-        Me.txtFreightAmt.ReferenceFieldName = Nothing
-        Me.txtFreightAmt.ReferenceTableName = Nothing
-        Me.txtFreightAmt.Size = New System.Drawing.Size(179, 20)
-        Me.txtFreightAmt.TabIndex = 129
-        Me.txtFreightAmt.Text = "0"
-        Me.txtFreightAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFreightAmt.Value = 0R
-        Me.txtFreightAmt.Visible = False
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(560, 3)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(98, 16)
-        Me.MyLabel2.TabIndex = 54
-        Me.MyLabel2.Text = "Transporter Name"
-        Me.MyLabel2.Visible = False
-        '
-        'txtTransporterName
-        '
-        Me.txtTransporterName.CalculationExpression = Nothing
-        Me.txtTransporterName.FieldCode = Nothing
-        Me.txtTransporterName.FieldDesc = Nothing
-        Me.txtTransporterName.FieldMaxLength = 0
-        Me.txtTransporterName.FieldName = Nothing
-        Me.txtTransporterName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTransporterName.isCalculatedField = False
-        Me.txtTransporterName.IsSourceFromTable = False
-        Me.txtTransporterName.IsSourceFromValueList = False
-        Me.txtTransporterName.IsUnique = False
-        Me.txtTransporterName.Location = New System.Drawing.Point(706, 2)
-        Me.txtTransporterName.MaxLength = 50
-        Me.txtTransporterName.MendatroryField = False
-        Me.txtTransporterName.MyLinkLable1 = Me.MyLabel2
-        Me.txtTransporterName.MyLinkLable2 = Nothing
-        Me.txtTransporterName.Name = "txtTransporterName"
-        Me.txtTransporterName.ReferenceFieldDesc = Nothing
-        Me.txtTransporterName.ReferenceFieldName = Nothing
-        Me.txtTransporterName.ReferenceTableName = Nothing
-        Me.txtTransporterName.Size = New System.Drawing.Size(299, 18)
-        Me.txtTransporterName.TabIndex = 9
-        Me.txtTransporterName.Visible = False
-        '
         'lblCustomerName
         '
         Me.lblCustomerName.AutoSize = False
@@ -1321,12 +1127,21 @@ Partial Class frmGatePassDairySale
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
         Me.txtDocNo.TabIndex = 0
         Me.txtDocNo.Value = ""
+        '
+        'Attachments
+        '
+        Me.Attachments.Controls.Add(Me.UcAttachment1)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
+        Me.Attachments.Location = New System.Drawing.Point(10, 35)
+        Me.Attachments.Name = "Attachments"
+        Me.Attachments.Size = New System.Drawing.Size(949, 415)
+        Me.Attachments.Text = "Attachments"
         '
         'UcAttachment1
         '
@@ -1336,6 +1151,192 @@ Partial Class frmGatePassDairySale
         Me.UcAttachment1.Size = New System.Drawing.Size(949, 415)
         Me.UcAttachment1.TabIndex = 0
         Me.UcAttachment1.TabStop = False
+        '
+        'RadSplitButton1
+        '
+        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.BtnPrintDetail, Me.BtnPrintSummry})
+        Me.RadSplitButton1.Location = New System.Drawing.Point(159, 4)
+        Me.RadSplitButton1.Name = "RadSplitButton1"
+        Me.RadSplitButton1.Size = New System.Drawing.Size(69, 22)
+        Me.RadSplitButton1.TabIndex = 7
+        Me.RadSplitButton1.Text = "Print"
+        '
+        'BtnPrintDetail
+        '
+        Me.BtnPrintDetail.Name = "BtnPrintDetail"
+        Me.BtnPrintDetail.Text = "Detail"
+        '
+        'BtnPrintSummry
+        '
+        Me.BtnPrintSummry.AccessibleDescription = "Summry"
+        Me.BtnPrintSummry.AccessibleName = "Summry"
+        Me.BtnPrintSummry.Name = "BtnPrintSummry"
+        Me.BtnPrintSummry.Text = "Summary"
+        '
+        'btnApproveCreditLimit
+        '
+        Me.btnApproveCreditLimit.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnApproveCreditLimit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnApproveCreditLimit.Location = New System.Drawing.Point(420, 3)
+        Me.btnApproveCreditLimit.Name = "btnApproveCreditLimit"
+        Me.btnApproveCreditLimit.Size = New System.Drawing.Size(126, 22)
+        Me.btnApproveCreditLimit.TabIndex = 6
+        Me.btnApproveCreditLimit.Text = "Approval Credit Limit"
+        Me.btnApproveCreditLimit.Visible = False
+        '
+        'btnsetting
+        '
+        Me.btnsetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.BtnPreview, Me.BtnSend, Me.BtnSendForApproval})
+        Me.btnsetting.Location = New System.Drawing.Point(327, 4)
+        Me.btnsetting.Name = "btnsetting"
+        Me.btnsetting.Size = New System.Drawing.Size(87, 22)
+        Me.btnsetting.TabIndex = 4
+        Me.btnsetting.Text = "E-Mail/SMS"
+        Me.btnsetting.Visible = False
+        '
+        'BtnPreview
+        '
+        Me.BtnPreview.Name = "BtnPreview"
+        Me.BtnPreview.Text = "Preview"
+        '
+        'BtnSend
+        '
+        Me.BtnSend.Name = "BtnSend"
+        Me.BtnSend.Text = "Send Mail/Sms"
+        '
+        'BtnSendForApproval
+        '
+        Me.BtnSendForApproval.Name = "BtnSendForApproval"
+        Me.BtnSendForApproval.Text = "Send Mail For Approval"
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrint.Location = New System.Drawing.Point(252, 4)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(69, 22)
+        Me.btnPrint.TabIndex = 3
+        Me.btnPrint.Text = "Print"
+        Me.btnPrint.Visible = False
+        '
+        'btnDelete
+        '
+        Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDelete.Location = New System.Drawing.Point(81, 4)
+        Me.btnDelete.Name = "btnDelete"
+        Me.btnDelete.Size = New System.Drawing.Size(69, 22)
+        Me.btnDelete.TabIndex = 2
+        Me.btnDelete.Text = "Delete"
+        '
+        'btnPost
+        '
+        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPost.Location = New System.Drawing.Point(552, 3)
+        Me.btnPost.Name = "btnPost"
+        Me.btnPost.Size = New System.Drawing.Size(69, 22)
+        Me.btnPost.TabIndex = 1
+        Me.btnPost.Text = "Post"
+        Me.btnPost.Visible = False
+        '
+        'btnClose
+        '
+        Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClose.Location = New System.Drawing.Point(941, 4)
+        Me.btnClose.Name = "btnClose"
+        Me.btnClose.Size = New System.Drawing.Size(69, 22)
+        Me.btnClose.TabIndex = 5
+        Me.btnClose.Text = "Close"
+        '
+        'btnSave
+        '
+        Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnSave.Location = New System.Drawing.Point(5, 4)
+        Me.btnSave.Name = "btnSave"
+        Me.btnSave.Size = New System.Drawing.Size(69, 22)
+        Me.btnSave.TabIndex = 0
+        Me.btnSave.Text = "Save"
+        '
+        'EmailSmsSetting
+        '
+        Me.EmailSmsSetting.Name = "EmailSmsSetting"
+        Me.EmailSmsSetting.Text = "Email/SMS Setting"
+        Me.EmailSmsSetting.Visibility = Telerik.WinControls.ElementVisibility.Hidden
+        '
+        'RadMenuItem4
+        '
+        Me.RadMenuItem4.Name = "RadMenuItem4"
+        Me.RadMenuItem4.Text = "Delete Layout"
+        '
+        'Panel1
+        '
+        Me.Panel1.Controls.Add(Me.SplitContainer1)
+        Me.Panel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.Panel1.Location = New System.Drawing.Point(0, 20)
+        Me.Panel1.Name = "Panel1"
+        Me.Panel1.Size = New System.Drawing.Size(1025, 501)
+        Me.Panel1.TabIndex = 7
+        '
+        'RadMenu1
+        '
+        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
+        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu1.Name = "RadMenu1"
+        Me.RadMenu1.Size = New System.Drawing.Size(1025, 20)
+        Me.RadMenu1.TabIndex = 6
+        '
+        'RadMenuItem3
+        '
+        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem4, Me.EmailSmsSetting, Me.EmailSettingCreditApproval})
+        Me.RadMenuItem3.Name = "RadMenuItem3"
+        Me.RadMenuItem3.Text = "Setting"
+        '
+        'RadMenuItem1
+        '
+        Me.RadMenuItem1.Name = "RadMenuItem1"
+        Me.RadMenuItem1.Text = "Save Layout"
+        '
+        'EmailSettingCreditApproval
+        '
+        Me.EmailSettingCreditApproval.Name = "EmailSettingCreditApproval"
+        Me.EmailSettingCreditApproval.Text = "Email setting for Credit Approval"
+        Me.EmailSettingCreditApproval.Visibility = Telerik.WinControls.ElementVisibility.Hidden
+        '
+        'RadMenuItem2
+        '
+        Me.RadMenuItem2.AnimationEnabled = False
+        Me.RadMenuItem2.AnimationFrames = 1
+        Me.RadMenuItem2.AnimationType = Telerik.WinControls.UI.PopupAnimationTypes.None
+        Me.RadMenuItem2.AutoSize = True
+        Me.RadMenuItem2.DropDownAnimationDirection = Telerik.WinControls.UI.RadDirection.Down
+        Me.RadMenuItem2.DropShadow = True
+        Me.RadMenuItem2.EasingType = Telerik.WinControls.RadEasingType.InQuad
+        Me.RadMenuItem2.EnableAeroEffects = False
+        Me.RadMenuItem2.FadeAnimationFrames = 10
+        Me.RadMenuItem2.FadeAnimationSpeed = 10
+        Me.RadMenuItem2.FadeAnimationType = Telerik.WinControls.UI.FadeAnimationType.FadeIn
+        Me.RadMenuItem2.FitToScreenMode = CType((Telerik.WinControls.UI.FitToScreenModes.FitWidth Or Telerik.WinControls.UI.FitToScreenModes.FitHeight), Telerik.WinControls.UI.FitToScreenModes)
+        Me.RadMenuItem2.HorizontalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
+        Me.RadMenuItem2.LastShowDpiScaleFactor = New System.Drawing.SizeF(1.0!, 1.0!)
+        Me.RadMenuItem2.Location = New System.Drawing.Point(177, 645)
+        Me.RadMenuItem2.Maximum = New System.Drawing.Size(0, 0)
+        Me.RadMenuItem2.Minimum = New System.Drawing.Size(0, 0)
+        Me.RadMenuItem2.Name = "RadMenuItem2"
+        Me.RadMenuItem2.Opacity = 1.0!
+        Me.RadMenuItem2.ProcessKeyboard = False
+        Me.RadMenuItem2.RollOverItemSelection = True
+        Me.RadMenuItem2.Size = New System.Drawing.Size(27, 2)
+        Me.RadMenuItem2.TabIndex = 5
+        Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
+        Me.RadMenuItem2.Visible = False
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'frmGatePassDairySale
         '
@@ -1364,19 +1365,17 @@ Partial Class frmGatePassDairySale
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.gv1.ResumeLayout(False)
+        Me.gv1.PerformLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddlFreight, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFreightAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTransporterName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Attachments.ResumeLayout(False)
-        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnApproveCreditLimit, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.Panel1.ResumeLayout(False)
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDODate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVehicleNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1405,20 +1404,22 @@ Partial Class frmGatePassDairySale
         CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gv1.ResumeLayout(False)
-        Me.gv1.PerformLayout()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ddlFreight, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFreightAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTransporterName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Attachments.ResumeLayout(False)
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnApproveCreditLimit, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.Panel1.ResumeLayout(False)
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

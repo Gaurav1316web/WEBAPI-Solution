@@ -23,6 +23,9 @@ Partial Class frmIncomeTaxTDSCalculation
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer6 = New System.Windows.Forms.SplitContainer()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
@@ -290,7 +293,7 @@ Partial Class frmIncomeTaxTDSCalculation
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(241, 20)
@@ -361,7 +364,6 @@ Partial Class frmIncomeTaxTDSCalculation
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(658, 253)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -383,10 +385,13 @@ Partial Class frmIncomeTaxTDSCalculation
         Me.gvEmp.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvEmp.Location = New System.Drawing.Point(0, 0)
         '
-        'gvEmp
+        '
         '
         Me.gvEmp.MasterTemplate.AllowDeleteRow = False
+        Me.gvEmp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEmp.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvEmp.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvEmp.MyStopExport = False
         Me.gvEmp.Name = "gvEmp"
         Me.gvEmp.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvEmp.ShowGroupPanel = False
@@ -394,7 +399,6 @@ Partial Class frmIncomeTaxTDSCalculation
         Me.gvEmp.Size = New System.Drawing.Size(637, 205)
         Me.gvEmp.TabIndex = 1
         Me.gvEmp.TabStop = False
-        Me.gvEmp.Text = "RadGridView1"
         '
         'RadPageViewPage2
         '
@@ -415,10 +419,13 @@ Partial Class frmIncomeTaxTDSCalculation
         Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowDeleteRow = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -426,7 +433,6 @@ Partial Class frmIncomeTaxTDSCalculation
         Me.gv.Size = New System.Drawing.Size(637, 205)
         Me.gv.TabIndex = 1
         Me.gv.TabStop = False
-        Me.gv.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -447,10 +453,13 @@ Partial Class frmIncomeTaxTDSCalculation
         Me.gvTax.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvTax.Location = New System.Drawing.Point(0, 0)
         '
-        'gvTax
+        '
         '
         Me.gvTax.MasterTemplate.AllowDeleteRow = False
+        Me.gvTax.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTax.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTax.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvTax.MyStopExport = False
         Me.gvTax.Name = "gvTax"
         Me.gvTax.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTax.ShowGroupPanel = False
@@ -458,7 +467,6 @@ Partial Class frmIncomeTaxTDSCalculation
         Me.gvTax.Size = New System.Drawing.Size(637, 205)
         Me.gvTax.TabIndex = 1
         Me.gvTax.TabStop = False
-        Me.gvTax.Text = "RadGridView1"
         '
         'btnPost
         '

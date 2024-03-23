@@ -268,7 +268,7 @@ Public Class frmClaimMaster
     End Function
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCustCode.Value) <= 0 Then
-            myMessages.blankValue("Customer Code")
+            myMessages.blankValue(Me, "Customer Code", Me.Text)
             txtCustCode.Focus()
             Return False
         End If

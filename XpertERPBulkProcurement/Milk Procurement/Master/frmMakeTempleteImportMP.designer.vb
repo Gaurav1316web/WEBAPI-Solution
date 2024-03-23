@@ -119,6 +119,7 @@ Partial Class frmMakeTempleteImportMP
         Me.gvColumnsMain.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvColumnsMain.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvColumnsMain.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvColumnsMain.MyStopExport = False
         Me.gvColumnsMain.Name = "gvColumnsMain"
         Me.gvColumnsMain.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvColumnsMain.ShowHeaderCellButtons = True
@@ -275,7 +276,7 @@ Partial Class frmMakeTempleteImportMP
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblItemCategoryCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 50
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(331, 21)

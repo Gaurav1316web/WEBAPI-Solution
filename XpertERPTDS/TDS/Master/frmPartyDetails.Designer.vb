@@ -24,46 +24,46 @@ Partial Class frmPartyDetails
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.components = New System.ComponentModel.Container
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
+        Me.components = New System.ComponentModel.Container()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.ToolTipparty = New System.Windows.Forms.ToolTip(Me.components)
-        Me.gbdesignation = New Telerik.WinControls.UI.RadGroupBox
-        Me.fndbranchnew = New common.UserControls.txtFinder
-        Me.lblbranch = New common.Controls.MyLabel
-        Me.fndstatenew = New common.UserControls.txtFinder
-        Me.lblsate = New common.Controls.MyLabel
-        Me.fnddeducNew = New common.UserControls.txtFinder
-        Me.lbldeduction = New common.Controls.MyLabel
-        Me.fndvendorNew = New common.UserControls.txtNavigator
-        Me.lblvendor = New common.Controls.MyLabel
-        Me.chkinactive = New Telerik.WinControls.UI.RadCheckBox
-        Me.txtbranch = New common.Controls.MyTextBox
-        Me.ddlstatus = New common.Controls.MyComboBox
-        Me.Status = New common.Controls.MyLabel
-        Me.ddlventype = New common.Controls.MyComboBox
-        Me.lblventype = New common.Controls.MyLabel
-        Me.txtPan = New common.Controls.MyTextBox
-        Me.lblPan = New common.Controls.MyLabel
-        Me.txtstate = New common.Controls.MyTextBox
-        Me.txtdeduc = New common.Controls.MyTextBox
-        Me.txtvendes = New common.Controls.MyTextBox
-        Me.btnnew = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.menuExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.menuClose = New Telerik.WinControls.UI.RadMenuItem
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.gbdesignation = New Telerik.WinControls.UI.RadGroupBox()
+        Me.fndbranchnew = New common.UserControls.txtFinder()
+        Me.lblbranch = New common.Controls.MyLabel()
+        Me.fndstatenew = New common.UserControls.txtFinder()
+        Me.lblsate = New common.Controls.MyLabel()
+        Me.fnddeducNew = New common.UserControls.txtFinder()
+        Me.lbldeduction = New common.Controls.MyLabel()
+        Me.fndvendorNew = New common.UserControls.txtNavigator()
+        Me.lblvendor = New common.Controls.MyLabel()
+        Me.chkinactive = New Telerik.WinControls.UI.RadCheckBox()
+        Me.txtbranch = New common.Controls.MyTextBox()
+        Me.ddlstatus = New common.Controls.MyComboBox()
+        Me.Status = New common.Controls.MyLabel()
+        Me.ddlventype = New common.Controls.MyComboBox()
+        Me.lblventype = New common.Controls.MyLabel()
+        Me.txtPan = New common.Controls.MyTextBox()
+        Me.lblPan = New common.Controls.MyLabel()
+        Me.txtstate = New common.Controls.MyTextBox()
+        Me.txtdeduc = New common.Controls.MyTextBox()
+        Me.txtvendes = New common.Controls.MyTextBox()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.menuExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.menuClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         CType(Me.gbdesignation, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.gbdesignation.SuspendLayout()
         CType(Me.lblbranch, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -127,6 +127,15 @@ Partial Class frmPartyDetails
         'fndbranchnew
         '
         Me.fndbranchnew.AccessibleName = "fndbranchnew"
+        Me.fndbranchnew.CalculationExpression = Nothing
+        Me.fndbranchnew.FieldCode = Nothing
+        Me.fndbranchnew.FieldDesc = Nothing
+        Me.fndbranchnew.FieldMaxLength = 0
+        Me.fndbranchnew.FieldName = Nothing
+        Me.fndbranchnew.isCalculatedField = False
+        Me.fndbranchnew.IsSourceFromTable = False
+        Me.fndbranchnew.IsSourceFromValueList = False
+        Me.fndbranchnew.IsUnique = False
         Me.fndbranchnew.Location = New System.Drawing.Point(126, 83)
         Me.fndbranchnew.MendatroryField = False
         Me.fndbranchnew.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -135,12 +144,16 @@ Partial Class frmPartyDetails
         Me.fndbranchnew.MyReadOnly = False
         Me.fndbranchnew.MyShowMasterFormButton = False
         Me.fndbranchnew.Name = "fndbranchnew"
+        Me.fndbranchnew.ReferenceFieldDesc = Nothing
+        Me.fndbranchnew.ReferenceFieldName = Nothing
+        Me.fndbranchnew.ReferenceTableName = Nothing
         Me.fndbranchnew.Size = New System.Drawing.Size(202, 19)
         Me.fndbranchnew.TabIndex = 7
         Me.fndbranchnew.Value = ""
         '
         'lblbranch
         '
+        Me.lblbranch.FieldName = Nothing
         Me.lblbranch.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblbranch.Location = New System.Drawing.Point(14, 86)
         Me.lblbranch.Name = "lblbranch"
@@ -151,6 +164,15 @@ Partial Class frmPartyDetails
         'fndstatenew
         '
         Me.fndstatenew.AccessibleName = "fndstatenew"
+        Me.fndstatenew.CalculationExpression = Nothing
+        Me.fndstatenew.FieldCode = Nothing
+        Me.fndstatenew.FieldDesc = Nothing
+        Me.fndstatenew.FieldMaxLength = 0
+        Me.fndstatenew.FieldName = Nothing
+        Me.fndstatenew.isCalculatedField = False
+        Me.fndstatenew.IsSourceFromTable = False
+        Me.fndstatenew.IsSourceFromValueList = False
+        Me.fndstatenew.IsUnique = False
         Me.fndstatenew.Location = New System.Drawing.Point(126, 60)
         Me.fndstatenew.MendatroryField = False
         Me.fndstatenew.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -159,12 +181,16 @@ Partial Class frmPartyDetails
         Me.fndstatenew.MyReadOnly = False
         Me.fndstatenew.MyShowMasterFormButton = False
         Me.fndstatenew.Name = "fndstatenew"
+        Me.fndstatenew.ReferenceFieldDesc = Nothing
+        Me.fndstatenew.ReferenceFieldName = Nothing
+        Me.fndstatenew.ReferenceTableName = Nothing
         Me.fndstatenew.Size = New System.Drawing.Size(202, 19)
         Me.fndstatenew.TabIndex = 5
         Me.fndstatenew.Value = ""
         '
         'lblsate
         '
+        Me.lblsate.FieldName = Nothing
         Me.lblsate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblsate.Location = New System.Drawing.Point(13, 60)
         Me.lblsate.Name = "lblsate"
@@ -175,6 +201,15 @@ Partial Class frmPartyDetails
         'fnddeducNew
         '
         Me.fnddeducNew.AccessibleName = "fnddeducNew"
+        Me.fnddeducNew.CalculationExpression = Nothing
+        Me.fnddeducNew.FieldCode = Nothing
+        Me.fnddeducNew.FieldDesc = Nothing
+        Me.fnddeducNew.FieldMaxLength = 0
+        Me.fnddeducNew.FieldName = Nothing
+        Me.fnddeducNew.isCalculatedField = False
+        Me.fnddeducNew.IsSourceFromTable = False
+        Me.fnddeducNew.IsSourceFromValueList = False
+        Me.fnddeducNew.IsUnique = False
         Me.fnddeducNew.Location = New System.Drawing.Point(126, 35)
         Me.fnddeducNew.MendatroryField = False
         Me.fnddeducNew.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -183,12 +218,16 @@ Partial Class frmPartyDetails
         Me.fnddeducNew.MyReadOnly = False
         Me.fnddeducNew.MyShowMasterFormButton = False
         Me.fnddeducNew.Name = "fnddeducNew"
+        Me.fnddeducNew.ReferenceFieldDesc = Nothing
+        Me.fnddeducNew.ReferenceFieldName = Nothing
+        Me.fnddeducNew.ReferenceTableName = Nothing
         Me.fnddeducNew.Size = New System.Drawing.Size(202, 19)
         Me.fnddeducNew.TabIndex = 3
         Me.fnddeducNew.Value = ""
         '
         'lbldeduction
         '
+        Me.lbldeduction.FieldName = Nothing
         Me.lbldeduction.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lbldeduction.Location = New System.Drawing.Point(13, 36)
         Me.lbldeduction.Name = "lbldeduction"
@@ -199,13 +238,14 @@ Partial Class frmPartyDetails
         'fndvendorNew
         '
         Me.fndvendorNew.AccessibleName = "fndvendorNew"
+        Me.fndvendorNew.FieldName = Nothing
         Me.fndvendorNew.Location = New System.Drawing.Point(92, 8)
         Me.fndvendorNew.MendatroryField = False
         Me.fndvendorNew.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
         Me.fndvendorNew.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndvendorNew.MyLinkLable1 = Me.lblvendor
         Me.fndvendorNew.MyLinkLable2 = Nothing
-        Me.fndvendorNew.MyMaxLength = 32767
+        Me.fndvendorNew.MyMaxLength = 30
         Me.fndvendorNew.MyReadOnly = False
         Me.fndvendorNew.Name = "fndvendorNew"
         Me.fndvendorNew.Size = New System.Drawing.Size(236, 21)
@@ -215,6 +255,7 @@ Partial Class frmPartyDetails
         '
         'lblvendor
         '
+        Me.lblvendor.FieldName = Nothing
         Me.lblvendor.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblvendor.Location = New System.Drawing.Point(13, 9)
         Me.lblvendor.Name = "lblvendor"
@@ -233,7 +274,16 @@ Partial Class frmPartyDetails
         '
         'txtbranch
         '
+        Me.txtbranch.CalculationExpression = Nothing
+        Me.txtbranch.FieldCode = Nothing
+        Me.txtbranch.FieldDesc = Nothing
+        Me.txtbranch.FieldMaxLength = 0
+        Me.txtbranch.FieldName = Nothing
         Me.txtbranch.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtbranch.isCalculatedField = False
+        Me.txtbranch.IsSourceFromTable = False
+        Me.txtbranch.IsSourceFromValueList = False
+        Me.txtbranch.IsUnique = False
         Me.txtbranch.Location = New System.Drawing.Point(355, 84)
         Me.txtbranch.MaxLength = 49
         Me.txtbranch.MendatroryField = False
@@ -241,6 +291,9 @@ Partial Class frmPartyDetails
         Me.txtbranch.MyLinkLable2 = Nothing
         Me.txtbranch.Name = "txtbranch"
         Me.txtbranch.ReadOnly = True
+        Me.txtbranch.ReferenceFieldDesc = Nothing
+        Me.txtbranch.ReferenceFieldName = Nothing
+        Me.txtbranch.ReferenceTableName = Nothing
         '
         '
         '
@@ -251,15 +304,22 @@ Partial Class frmPartyDetails
         '
         'ddlstatus
         '
-        Me.ddlstatus.AllowShowFocusCues = False
         Me.ddlstatus.AutoCompleteDisplayMember = Nothing
         Me.ddlstatus.AutoCompleteValueMember = Nothing
+        Me.ddlstatus.CalculationExpression = Nothing
+        Me.ddlstatus.DropDownAnimationEnabled = True
         Me.ddlstatus.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlstatus.FieldCode = Nothing
+        Me.ddlstatus.FieldDesc = Nothing
+        Me.ddlstatus.FieldMaxLength = 0
+        Me.ddlstatus.FieldName = Nothing
         Me.ddlstatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ddlstatus.isCalculatedField = False
+        Me.ddlstatus.IsSourceFromTable = False
+        Me.ddlstatus.IsSourceFromValueList = False
+        Me.ddlstatus.IsUnique = False
         RadListDataItem1.Text = "Resident"
-        RadListDataItem1.TextWrap = True
         RadListDataItem2.Text = "Non Resident"
-        RadListDataItem2.TextWrap = True
         Me.ddlstatus.Items.Add(RadListDataItem1)
         Me.ddlstatus.Items.Add(RadListDataItem2)
         Me.ddlstatus.Location = New System.Drawing.Point(126, 158)
@@ -267,12 +327,16 @@ Partial Class frmPartyDetails
         Me.ddlstatus.MyLinkLable1 = Me.Status
         Me.ddlstatus.MyLinkLable2 = Nothing
         Me.ddlstatus.Name = "ddlstatus"
+        Me.ddlstatus.ReferenceFieldDesc = Nothing
+        Me.ddlstatus.ReferenceFieldName = Nothing
+        Me.ddlstatus.ReferenceTableName = Nothing
         Me.ddlstatus.Size = New System.Drawing.Size(161, 18)
         Me.ddlstatus.TabIndex = 12
         Me.ddlstatus.Text = "Resident"
         '
         'Status
         '
+        Me.Status.FieldName = Nothing
         Me.Status.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.Status.Location = New System.Drawing.Point(14, 158)
         Me.Status.Name = "Status"
@@ -282,23 +346,26 @@ Partial Class frmPartyDetails
         '
         'ddlventype
         '
-        Me.ddlventype.AllowShowFocusCues = False
         Me.ddlventype.AutoCompleteDisplayMember = Nothing
         Me.ddlventype.AutoCompleteValueMember = Nothing
+        Me.ddlventype.CalculationExpression = Nothing
+        Me.ddlventype.DropDownAnimationEnabled = True
         Me.ddlventype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlventype.FieldCode = Nothing
+        Me.ddlventype.FieldDesc = Nothing
+        Me.ddlventype.FieldMaxLength = 0
+        Me.ddlventype.FieldName = Nothing
         Me.ddlventype.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ddlventype.isCalculatedField = False
+        Me.ddlventype.IsSourceFromTable = False
+        Me.ddlventype.IsSourceFromValueList = False
+        Me.ddlventype.IsUnique = False
         RadListDataItem3.Text = "Individual"
-        RadListDataItem3.TextWrap = True
         RadListDataItem4.Text = "Undevided Family"
-        RadListDataItem4.TextWrap = True
         RadListDataItem5.Text = "Partnership Firm"
-        RadListDataItem5.TextWrap = True
         RadListDataItem6.Text = "Domestic Company"
-        RadListDataItem6.TextWrap = True
         RadListDataItem7.Text = "Co-Operative Society"
-        RadListDataItem7.TextWrap = True
         RadListDataItem8.Text = "Local Authority"
-        RadListDataItem8.TextWrap = True
         Me.ddlventype.Items.Add(RadListDataItem3)
         Me.ddlventype.Items.Add(RadListDataItem4)
         Me.ddlventype.Items.Add(RadListDataItem5)
@@ -310,12 +377,16 @@ Partial Class frmPartyDetails
         Me.ddlventype.MyLinkLable1 = Me.lblventype
         Me.ddlventype.MyLinkLable2 = Nothing
         Me.ddlventype.Name = "ddlventype"
+        Me.ddlventype.ReferenceFieldDesc = Nothing
+        Me.ddlventype.ReferenceFieldName = Nothing
+        Me.ddlventype.ReferenceTableName = Nothing
         Me.ddlventype.Size = New System.Drawing.Size(161, 18)
         Me.ddlventype.TabIndex = 11
         Me.ddlventype.Text = "Individual"
         '
         'lblventype
         '
+        Me.lblventype.FieldName = Nothing
         Me.lblventype.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblventype.Location = New System.Drawing.Point(13, 133)
         Me.lblventype.Name = "lblventype"
@@ -325,7 +396,16 @@ Partial Class frmPartyDetails
         '
         'txtPan
         '
+        Me.txtPan.CalculationExpression = Nothing
+        Me.txtPan.FieldCode = Nothing
+        Me.txtPan.FieldDesc = Nothing
+        Me.txtPan.FieldMaxLength = 0
+        Me.txtPan.FieldName = Nothing
         Me.txtPan.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPan.isCalculatedField = False
+        Me.txtPan.IsSourceFromTable = False
+        Me.txtPan.IsSourceFromValueList = False
+        Me.txtPan.IsUnique = False
         Me.txtPan.Location = New System.Drawing.Point(126, 109)
         Me.txtPan.MaxLength = 49
         Me.txtPan.MendatroryField = False
@@ -333,6 +413,9 @@ Partial Class frmPartyDetails
         Me.txtPan.MyLinkLable2 = Nothing
         Me.txtPan.Name = "txtPan"
         Me.txtPan.ReadOnly = True
+        Me.txtPan.ReferenceFieldDesc = Nothing
+        Me.txtPan.ReferenceFieldName = Nothing
+        Me.txtPan.ReferenceTableName = Nothing
         '
         '
         '
@@ -342,6 +425,7 @@ Partial Class frmPartyDetails
         '
         'lblPan
         '
+        Me.lblPan.FieldName = Nothing
         Me.lblPan.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPan.Location = New System.Drawing.Point(14, 109)
         Me.lblPan.Name = "lblPan"
@@ -351,7 +435,16 @@ Partial Class frmPartyDetails
         '
         'txtstate
         '
+        Me.txtstate.CalculationExpression = Nothing
+        Me.txtstate.FieldCode = Nothing
+        Me.txtstate.FieldDesc = Nothing
+        Me.txtstate.FieldMaxLength = 0
+        Me.txtstate.FieldName = Nothing
         Me.txtstate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtstate.isCalculatedField = False
+        Me.txtstate.IsSourceFromTable = False
+        Me.txtstate.IsSourceFromValueList = False
+        Me.txtstate.IsUnique = False
         Me.txtstate.Location = New System.Drawing.Point(355, 60)
         Me.txtstate.MaxLength = 49
         Me.txtstate.MendatroryField = False
@@ -359,6 +452,9 @@ Partial Class frmPartyDetails
         Me.txtstate.MyLinkLable2 = Nothing
         Me.txtstate.Name = "txtstate"
         Me.txtstate.ReadOnly = True
+        Me.txtstate.ReferenceFieldDesc = Nothing
+        Me.txtstate.ReferenceFieldName = Nothing
+        Me.txtstate.ReferenceTableName = Nothing
         '
         '
         '
@@ -369,7 +465,16 @@ Partial Class frmPartyDetails
         '
         'txtdeduc
         '
+        Me.txtdeduc.CalculationExpression = Nothing
+        Me.txtdeduc.FieldCode = Nothing
+        Me.txtdeduc.FieldDesc = Nothing
+        Me.txtdeduc.FieldMaxLength = 0
+        Me.txtdeduc.FieldName = Nothing
         Me.txtdeduc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtdeduc.isCalculatedField = False
+        Me.txtdeduc.IsSourceFromTable = False
+        Me.txtdeduc.IsSourceFromValueList = False
+        Me.txtdeduc.IsUnique = False
         Me.txtdeduc.Location = New System.Drawing.Point(355, 36)
         Me.txtdeduc.MaxLength = 49
         Me.txtdeduc.MendatroryField = False
@@ -377,6 +482,9 @@ Partial Class frmPartyDetails
         Me.txtdeduc.MyLinkLable2 = Nothing
         Me.txtdeduc.Name = "txtdeduc"
         Me.txtdeduc.ReadOnly = True
+        Me.txtdeduc.ReferenceFieldDesc = Nothing
+        Me.txtdeduc.ReferenceFieldName = Nothing
+        Me.txtdeduc.ReferenceTableName = Nothing
         '
         '
         '
@@ -387,7 +495,16 @@ Partial Class frmPartyDetails
         '
         'txtvendes
         '
+        Me.txtvendes.CalculationExpression = Nothing
+        Me.txtvendes.FieldCode = Nothing
+        Me.txtvendes.FieldDesc = Nothing
+        Me.txtvendes.FieldMaxLength = 0
+        Me.txtvendes.FieldName = Nothing
         Me.txtvendes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtvendes.isCalculatedField = False
+        Me.txtvendes.IsSourceFromTable = False
+        Me.txtvendes.IsSourceFromValueList = False
+        Me.txtvendes.IsUnique = False
         Me.txtvendes.Location = New System.Drawing.Point(355, 9)
         Me.txtvendes.MaxLength = 49
         Me.txtvendes.MendatroryField = False
@@ -395,6 +512,9 @@ Partial Class frmPartyDetails
         Me.txtvendes.MyLinkLable2 = Nothing
         Me.txtvendes.Name = "txtvendes"
         Me.txtvendes.ReadOnly = True
+        Me.txtvendes.ReferenceFieldDesc = Nothing
+        Me.txtvendes.ReferenceFieldName = Nothing
+        Me.txtvendes.ReferenceTableName = Nothing
         '
         '
         '
@@ -405,7 +525,7 @@ Partial Class frmPartyDetails
         '
         'btnnew
         '
-        Me.btnnew.Image = My.Resources.Resources._new
+        Me.btnnew.Image = Global.XpertERPTDS.My.Resources.Resources._new
         Me.btnnew.Location = New System.Drawing.Point(329, 8)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(15, 21)
@@ -448,40 +568,27 @@ Partial Class frmPartyDetails
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(664, 20)
         Me.RadMenu1.TabIndex = 40
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuImport, Me.menuExport, Me.menuClose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuImport
         '
-        Me.MenuImport.AccessibleDescription = "Import"
-        Me.MenuImport.AccessibleName = "Import"
         Me.MenuImport.Name = "MenuImport"
         Me.MenuImport.Text = "Import"
-        Me.MenuImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'menuExport
         '
-        Me.menuExport.AccessibleDescription = "Export"
-        Me.menuExport.AccessibleName = "Export"
         Me.menuExport.Name = "menuExport"
         Me.menuExport.Text = "Export"
-        Me.menuExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'menuClose
         '
-        Me.menuClose.AccessibleDescription = "Close"
-        Me.menuClose.AccessibleName = "Close"
         Me.menuClose.Name = "menuClose"
         Me.menuClose.Text = "Close"
-        Me.menuClose.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'SplitContainer1
         '

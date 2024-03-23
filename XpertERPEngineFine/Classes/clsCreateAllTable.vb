@@ -45824,8 +45824,14 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Asset_Lost_Amount", "DECIMAL(18,2)  NULL ")
             coll.Add("MCC_Code", "Varchar(30) null REFERENCES TSPL_MCC_MASTER (MCC_Code)")
             coll.Add("Area_Location_Code", "VARCHAR(12) NULL references TSPL_LOCATION_MASTER(Location_Code)")
-
             coll.Add("TDS_Amount", "decimal(18,2) NULL")
+            coll.Add("is_Hold_Payment_Process_Saving", "integer not null default 0")
+            coll.Add("is_Hold_Payment_Process_Saving_Auto", "integer not null default 0")
+            coll.Add("is_Hold_Payment_Process_Saving_Manual", "integer not null default 0")
+            coll.Add("Bank_Code_Saving", "varchar(30) ")
+            coll.Add("Bank_Desc_Saving", "varchar(50) ")
+            coll.Add("Payment_Mode_Saving", "varchar(30) ")
+            coll.Add("Saving_Amount", "Decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PAYMENT_PROCESS_DETAIL", coll, Nothing, True, False, "TSPL_PAYMENT_PROCESS_HEAD", "Doc_No", "")
 
 

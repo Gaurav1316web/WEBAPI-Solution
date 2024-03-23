@@ -21,9 +21,11 @@ Partial Class FrmAcknowledgeOfGRN
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnAddnew = New Telerik.WinControls.UI.RadButton()
         Me.fndCustomerNo = New common.UserControls.txtFinder()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.lblCustomerName = New common.Controls.MyLabel()
@@ -48,13 +50,13 @@ Partial Class FrmAcknowledgeOfGRN
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.btnAddnew = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.btnAddnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -73,7 +75,6 @@ Partial Class FrmAcknowledgeOfGRN
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -111,7 +112,6 @@ Partial Class FrmAcknowledgeOfGRN
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(706, 374)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -139,6 +139,16 @@ Partial Class FrmAcknowledgeOfGRN
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(685, 328)
         Me.RadPageViewPage1.Text = "Acknowledgement"
+        '
+        'btnAddnew
+        '
+        Me.btnAddnew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddnew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
+        Me.btnAddnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddnew.Location = New System.Drawing.Point(366, 0)
+        Me.btnAddnew.Name = "btnAddnew"
+        Me.btnAddnew.Size = New System.Drawing.Size(20, 21)
+        Me.btnAddnew.TabIndex = 341
         '
         'fndCustomerNo
         '
@@ -185,7 +195,6 @@ Partial Class FrmAcknowledgeOfGRN
         Me.lblCustomerName.Name = "lblCustomerName"
         Me.lblCustomerName.Size = New System.Drawing.Size(291, 20)
         Me.lblCustomerName.TabIndex = 335
-        Me.lblCustomerName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'UsLock1
         '
@@ -268,7 +277,6 @@ Partial Class FrmAcknowledgeOfGRN
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(291, 20)
         Me.lblLocationName.TabIndex = 310
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel2
         '
@@ -346,10 +354,13 @@ Partial Class FrmAcknowledgeOfGRN
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -357,7 +368,6 @@ Partial Class FrmAcknowledgeOfGRN
         Me.gv1.Size = New System.Drawing.Size(660, 168)
         Me.gv1.TabIndex = 13
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel1
         '
@@ -378,7 +388,7 @@ Partial Class FrmAcknowledgeOfGRN
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
@@ -392,34 +402,25 @@ Partial Class FrmAcknowledgeOfGRN
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(706, 20)
         Me.RadMenu1.TabIndex = 10
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RDSaveLayout, Me.RDDeleteLayout, Me.EmailSmsSetting})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RDSaveLayout
         '
-        Me.RDSaveLayout.AccessibleDescription = "Save Layout"
-        Me.RDSaveLayout.AccessibleName = "Save Layout"
         Me.RDSaveLayout.Name = "RDSaveLayout"
         Me.RDSaveLayout.Text = "Save Layout"
         '
         'RDDeleteLayout
         '
-        Me.RDDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.RDDeleteLayout.AccessibleName = "Delete Layout"
         Me.RDDeleteLayout.Name = "RDDeleteLayout"
         Me.RDDeleteLayout.Text = "Delete Layout"
         '
         'EmailSmsSetting
         '
-        Me.EmailSmsSetting.AccessibleDescription = "Email/SMS Setting"
-        Me.EmailSmsSetting.AccessibleName = "Email/SMS Setting"
         Me.EmailSmsSetting.Name = "EmailSmsSetting"
         Me.EmailSmsSetting.Text = "Email/SMS Setting"
         '
@@ -460,16 +461,6 @@ Partial Class FrmAcknowledgeOfGRN
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'btnAddnew
-        '
-        Me.btnAddnew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddnew.Image = Global.XpertERPDairySale.My.Resources.Resources._new
-        Me.btnAddnew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddnew.Location = New System.Drawing.Point(366, 0)
-        Me.btnAddnew.Name = "btnAddnew"
-        Me.btnAddnew.Size = New System.Drawing.Size(20, 21)
-        Me.btnAddnew.TabIndex = 341
-        '
         'FrmAcknowledgeOfGRN
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -490,6 +481,7 @@ Partial Class FrmAcknowledgeOfGRN
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.btnAddnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtRemarks, System.ComponentModel.ISupportInitialize).EndInit()
@@ -508,7 +500,6 @@ Partial Class FrmAcknowledgeOfGRN
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

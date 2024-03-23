@@ -72,7 +72,7 @@ Partial Class FrmEmployeeBandMaster
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Size = New System.Drawing.Size(633, 131)
-        Me.SplitContainer1.SplitterDistance = 102
+        Me.SplitContainer1.SplitterDistance = 101
         Me.SplitContainer1.TabIndex = 3
         '
         'btnNew
@@ -125,7 +125,7 @@ Partial Class FrmEmployeeBandMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(345, 21)
@@ -146,7 +146,7 @@ Partial Class FrmEmployeeBandMaster
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnSave.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnSave.Location = New System.Drawing.Point(4, 3)
+        Me.btnSave.Location = New System.Drawing.Point(4, 4)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(68, 18)
         Me.btnSave.TabIndex = 3
@@ -157,7 +157,7 @@ Partial Class FrmEmployeeBandMaster
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnDelete.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnDelete.Location = New System.Drawing.Point(75, 3)
+        Me.btnDelete.Location = New System.Drawing.Point(75, 4)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(68, 18)
         Me.btnDelete.TabIndex = 4
@@ -168,7 +168,7 @@ Partial Class FrmEmployeeBandMaster
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnClose.ImageScalingSize = New System.Drawing.Size(68, 14)
-        Me.btnClose.Location = New System.Drawing.Point(561, 3)
+        Me.btnClose.Location = New System.Drawing.Point(561, 4)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(68, 18)
         Me.btnClose.TabIndex = 5
@@ -181,34 +181,25 @@ Partial Class FrmEmployeeBandMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(633, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3, Me.RadMenuItem4})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Import"
-        Me.RadMenuItem2.AccessibleName = "Import"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Export"
-        Me.RadMenuItem3.AccessibleName = "Export"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Export"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Close"
-        Me.RadMenuItem4.AccessibleName = "Close"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Close"
         '

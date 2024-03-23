@@ -21,12 +21,17 @@ Partial Class frmMPDCSIncentiveReco
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.txtSnfPer = New common.MyNumBox()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtFatPer = New common.MyNumBox()
+        Me.MyLabel5 = New common.Controls.MyLabel()
         Me.lblZone = New common.Controls.MyLabel()
         Me.txtZone = New common.UserControls.txtFinder()
         Me.lblZonet = New common.Controls.MyLabel()
@@ -60,11 +65,6 @@ Partial Class frmMPDCSIncentiveReco
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.txtSnfPer = New common.MyNumBox()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.txtFatPer = New common.MyNumBox()
-        Me.MyLabel5 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -74,6 +74,12 @@ Partial Class frmMPDCSIncentiveReco
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.txtSnfPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFatPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblZone, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblZonet, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton5, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -104,12 +110,6 @@ Partial Class frmMPDCSIncentiveReco
         CType(Me.RadButton6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox1.SuspendLayout()
-        CType(Me.txtSnfPer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFatPer, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -197,6 +197,95 @@ Partial Class frmMPDCSIncentiveReco
         Me.SplitContainer2.Size = New System.Drawing.Size(1049, 368)
         Me.SplitContainer2.SplitterDistance = 75
         Me.SplitContainer2.TabIndex = 0
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtSnfPer)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel4)
+        Me.RadGroupBox1.Controls.Add(Me.txtFatPer)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel5)
+        Me.RadGroupBox1.HeaderText = "Consider FAT SNF Above"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(628, 10)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(148, 59)
+        Me.RadGroupBox1.TabIndex = 87
+        Me.RadGroupBox1.Text = "Consider FAT SNF Above"
+        Me.RadGroupBox1.Visible = False
+        '
+        'txtSnfPer
+        '
+        Me.txtSnfPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtSnfPer.CalculationExpression = Nothing
+        Me.txtSnfPer.DecimalPlaces = 1
+        Me.txtSnfPer.FieldCode = Nothing
+        Me.txtSnfPer.FieldDesc = Nothing
+        Me.txtSnfPer.FieldMaxLength = 0
+        Me.txtSnfPer.FieldName = Nothing
+        Me.txtSnfPer.isCalculatedField = False
+        Me.txtSnfPer.IsSourceFromTable = False
+        Me.txtSnfPer.IsSourceFromValueList = False
+        Me.txtSnfPer.IsUnique = False
+        Me.txtSnfPer.Location = New System.Drawing.Point(61, 37)
+        Me.txtSnfPer.MendatroryField = True
+        Me.txtSnfPer.MyLinkLable1 = Me.MyLabel4
+        Me.txtSnfPer.MyLinkLable2 = Nothing
+        Me.txtSnfPer.Name = "txtSnfPer"
+        Me.txtSnfPer.ReferenceFieldDesc = Nothing
+        Me.txtSnfPer.ReferenceFieldName = Nothing
+        Me.txtSnfPer.ReferenceTableName = Nothing
+        Me.txtSnfPer.Size = New System.Drawing.Size(81, 20)
+        Me.txtSnfPer.TabIndex = 1
+        Me.txtSnfPer.Text = "0"
+        Me.txtSnfPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtSnfPer.Value = 0R
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel4.Location = New System.Drawing.Point(5, 39)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(42, 16)
+        Me.MyLabel4.TabIndex = 2
+        Me.MyLabel4.Text = "SNF %"
+        '
+        'txtFatPer
+        '
+        Me.txtFatPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtFatPer.CalculationExpression = Nothing
+        Me.txtFatPer.DecimalPlaces = 1
+        Me.txtFatPer.FieldCode = Nothing
+        Me.txtFatPer.FieldDesc = Nothing
+        Me.txtFatPer.FieldMaxLength = 0
+        Me.txtFatPer.FieldName = Nothing
+        Me.txtFatPer.isCalculatedField = False
+        Me.txtFatPer.IsSourceFromTable = False
+        Me.txtFatPer.IsSourceFromValueList = False
+        Me.txtFatPer.IsUnique = False
+        Me.txtFatPer.Location = New System.Drawing.Point(61, 16)
+        Me.txtFatPer.MendatroryField = True
+        Me.txtFatPer.MyLinkLable1 = Me.MyLabel5
+        Me.txtFatPer.MyLinkLable2 = Nothing
+        Me.txtFatPer.Name = "txtFatPer"
+        Me.txtFatPer.ReferenceFieldDesc = Nothing
+        Me.txtFatPer.ReferenceFieldName = Nothing
+        Me.txtFatPer.ReferenceTableName = Nothing
+        Me.txtFatPer.Size = New System.Drawing.Size(81, 20)
+        Me.txtFatPer.TabIndex = 0
+        Me.txtFatPer.Text = "0"
+        Me.txtFatPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtFatPer.Value = 0R
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel5.Location = New System.Drawing.Point(5, 18)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(41, 16)
+        Me.MyLabel5.TabIndex = 3
+        Me.MyLabel5.Text = "FAT %"
         '
         'lblZone
         '
@@ -436,7 +525,7 @@ Partial Class frmMPDCSIncentiveReco
         Me.txtDocumentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocumentNo.MyLinkLable1 = Me.lblCode
         Me.txtDocumentNo.MyLinkLable2 = Nothing
-        Me.txtDocumentNo.MyMaxLength = 32767
+        Me.txtDocumentNo.MyMaxLength = 30
         Me.txtDocumentNo.MyReadOnly = False
         Me.txtDocumentNo.Name = "txtDocumentNo"
         Me.txtDocumentNo.Size = New System.Drawing.Size(304, 20)
@@ -453,7 +542,8 @@ Partial Class frmMPDCSIncentiveReco
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
         Me.gvItem.Size = New System.Drawing.Size(1049, 289)
@@ -493,7 +583,8 @@ Partial Class frmMPDCSIncentiveReco
         Me.gvTermsCdtion.MasterTemplate.AllowDeleteRow = False
         Me.gvTermsCdtion.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTermsCdtion.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTermsCdtion.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvTermsCdtion.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvTermsCdtion.MyStopExport = False
         Me.gvTermsCdtion.Name = "gvTermsCdtion"
         Me.gvTermsCdtion.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTermsCdtion.ShowGroupPanel = False
@@ -615,95 +706,6 @@ Partial Class frmMPDCSIncentiveReco
         Me.rmDeleteLayout.Text = "Delete Layout"
         Me.rmDeleteLayout.UseCompatibleTextRendering = False
         '
-        'RadGroupBox1
-        '
-        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox1.Controls.Add(Me.txtSnfPer)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel4)
-        Me.RadGroupBox1.Controls.Add(Me.txtFatPer)
-        Me.RadGroupBox1.Controls.Add(Me.MyLabel5)
-        Me.RadGroupBox1.HeaderText = "Consider FAT SNF Above"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(628, 10)
-        Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(148, 59)
-        Me.RadGroupBox1.TabIndex = 87
-        Me.RadGroupBox1.Text = "Consider FAT SNF Above"
-        Me.RadGroupBox1.Visible = False
-        '
-        'txtSnfPer
-        '
-        Me.txtSnfPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtSnfPer.CalculationExpression = Nothing
-        Me.txtSnfPer.DecimalPlaces = 1
-        Me.txtSnfPer.FieldCode = Nothing
-        Me.txtSnfPer.FieldDesc = Nothing
-        Me.txtSnfPer.FieldMaxLength = 0
-        Me.txtSnfPer.FieldName = Nothing
-        Me.txtSnfPer.isCalculatedField = False
-        Me.txtSnfPer.IsSourceFromTable = False
-        Me.txtSnfPer.IsSourceFromValueList = False
-        Me.txtSnfPer.IsUnique = False
-        Me.txtSnfPer.Location = New System.Drawing.Point(61, 37)
-        Me.txtSnfPer.MendatroryField = True
-        Me.txtSnfPer.MyLinkLable1 = Me.MyLabel4
-        Me.txtSnfPer.MyLinkLable2 = Nothing
-        Me.txtSnfPer.Name = "txtSnfPer"
-        Me.txtSnfPer.ReferenceFieldDesc = Nothing
-        Me.txtSnfPer.ReferenceFieldName = Nothing
-        Me.txtSnfPer.ReferenceTableName = Nothing
-        Me.txtSnfPer.Size = New System.Drawing.Size(81, 20)
-        Me.txtSnfPer.TabIndex = 1
-        Me.txtSnfPer.Text = "0"
-        Me.txtSnfPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtSnfPer.Value = 0R
-        '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel4.Location = New System.Drawing.Point(5, 39)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(42, 16)
-        Me.MyLabel4.TabIndex = 2
-        Me.MyLabel4.Text = "SNF %"
-        '
-        'txtFatPer
-        '
-        Me.txtFatPer.BackColor = System.Drawing.Color.LightGoldenrodYellow
-        Me.txtFatPer.CalculationExpression = Nothing
-        Me.txtFatPer.DecimalPlaces = 1
-        Me.txtFatPer.FieldCode = Nothing
-        Me.txtFatPer.FieldDesc = Nothing
-        Me.txtFatPer.FieldMaxLength = 0
-        Me.txtFatPer.FieldName = Nothing
-        Me.txtFatPer.isCalculatedField = False
-        Me.txtFatPer.IsSourceFromTable = False
-        Me.txtFatPer.IsSourceFromValueList = False
-        Me.txtFatPer.IsUnique = False
-        Me.txtFatPer.Location = New System.Drawing.Point(61, 16)
-        Me.txtFatPer.MendatroryField = True
-        Me.txtFatPer.MyLinkLable1 = Me.MyLabel5
-        Me.txtFatPer.MyLinkLable2 = Nothing
-        Me.txtFatPer.Name = "txtFatPer"
-        Me.txtFatPer.ReferenceFieldDesc = Nothing
-        Me.txtFatPer.ReferenceFieldName = Nothing
-        Me.txtFatPer.ReferenceTableName = Nothing
-        Me.txtFatPer.Size = New System.Drawing.Size(81, 20)
-        Me.txtFatPer.TabIndex = 0
-        Me.txtFatPer.Text = "0"
-        Me.txtFatPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtFatPer.Value = 0R
-        '
-        'MyLabel5
-        '
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel5.Location = New System.Drawing.Point(5, 18)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(41, 16)
-        Me.MyLabel5.TabIndex = 3
-        Me.MyLabel5.Text = "FAT %"
-        '
         'frmMPDCSIncentiveReco
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -727,6 +729,13 @@ Partial Class frmMPDCSIncentiveReco
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox1.ResumeLayout(False)
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.txtSnfPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFatPer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblZone, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblZonet, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton5, System.ComponentModel.ISupportInitialize).EndInit()
@@ -757,13 +766,6 @@ Partial Class frmMPDCSIncentiveReco
         CType(Me.RadButton6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout()
-        CType(Me.txtSnfPer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFatPer, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

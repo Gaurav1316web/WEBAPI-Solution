@@ -24,20 +24,20 @@ Partial Class FrmBreakagehead
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItemImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadMenuItemExportt = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel
-        Me.TxtBreakageType = New common.UserControls.txtNavigator
-        Me.RadLabel1 = New common.Controls.MyLabel
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton
-        Me.RadLabel2 = New common.Controls.MyLabel
-        Me.tbDescription = New common.Controls.MyTextBox
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnDelete = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItemExportt = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.TxtBreakageType = New common.UserControls.txtNavigator()
+        Me.RadLabel1 = New common.Controls.MyLabel()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.tbDescription = New common.Controls.MyTextBox()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
@@ -62,33 +62,22 @@ Partial Class FrmBreakagehead
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(397, 20)
         Me.RadMenu1.TabIndex = 12
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItemExport
         '
-        Me.RadMenuItemExport.AccessibleDescription = "File"
-        Me.RadMenuItemExport.AccessibleName = "File"
-        Me.RadMenuItemExport.Class = ""
         Me.RadMenuItemExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItemImport, Me.RadMenuItemExportt})
         Me.RadMenuItemExport.Name = "RadMenuItemExport"
         Me.RadMenuItemExport.Text = "File"
-        Me.RadMenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItemImport
         '
-        Me.RadMenuItemImport.AccessibleDescription = "Import"
-        Me.RadMenuItemImport.AccessibleName = "Import"
         Me.RadMenuItemImport.Name = "RadMenuItemImport"
         Me.RadMenuItemImport.Text = "Import"
-        Me.RadMenuItemImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadMenuItemExportt
         '
-        Me.RadMenuItemExportt.AccessibleDescription = "Export"
-        Me.RadMenuItemExportt.AccessibleName = "Export"
         Me.RadMenuItemExportt.Name = "RadMenuItemExportt"
         Me.RadMenuItemExportt.Text = "Export"
-        Me.RadMenuItemExportt.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadPanel1
         '
@@ -104,12 +93,14 @@ Partial Class FrmBreakagehead
         '
         'TxtBreakageType
         '
+        Me.TxtBreakageType.FieldName = Nothing
         Me.TxtBreakageType.Location = New System.Drawing.Point(109, 9)
         Me.TxtBreakageType.MendatroryField = False
         Me.TxtBreakageType.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.TxtBreakageType.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.TxtBreakageType.MyLinkLable1 = Me.RadLabel1
         Me.TxtBreakageType.MyLinkLable2 = Nothing
-        Me.TxtBreakageType.MyMaxLength = 32767
+        Me.TxtBreakageType.MyMaxLength = 30
         Me.TxtBreakageType.MyReadOnly = False
         Me.TxtBreakageType.Name = "TxtBreakageType"
         Me.TxtBreakageType.Size = New System.Drawing.Size(243, 21)
@@ -118,6 +109,7 @@ Partial Class FrmBreakagehead
         '
         'RadLabel1
         '
+        Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Location = New System.Drawing.Point(11, 12)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(79, 18)
@@ -136,6 +128,7 @@ Partial Class FrmBreakagehead
         '
         'RadLabel2
         '
+        Me.RadLabel2.FieldName = Nothing
         Me.RadLabel2.Location = New System.Drawing.Point(10, 43)
         Me.RadLabel2.Name = "RadLabel2"
         Me.RadLabel2.Size = New System.Drawing.Size(63, 18)
@@ -144,11 +137,23 @@ Partial Class FrmBreakagehead
         '
         'tbDescription
         '
+        Me.tbDescription.CalculationExpression = Nothing
+        Me.tbDescription.FieldCode = Nothing
+        Me.tbDescription.FieldDesc = Nothing
+        Me.tbDescription.FieldMaxLength = 0
+        Me.tbDescription.FieldName = Nothing
+        Me.tbDescription.isCalculatedField = False
+        Me.tbDescription.IsSourceFromTable = False
+        Me.tbDescription.IsSourceFromValueList = False
+        Me.tbDescription.IsUnique = False
         Me.tbDescription.Location = New System.Drawing.Point(109, 43)
         Me.tbDescription.MendatroryField = False
         Me.tbDescription.MyLinkLable1 = Me.RadLabel2
         Me.tbDescription.MyLinkLable2 = Nothing
         Me.tbDescription.Name = "tbDescription"
+        Me.tbDescription.ReferenceFieldDesc = Nothing
+        Me.tbDescription.ReferenceFieldName = Nothing
+        Me.tbDescription.ReferenceTableName = Nothing
         Me.tbDescription.Size = New System.Drawing.Size(268, 20)
         Me.tbDescription.TabIndex = 2
         '
@@ -209,7 +214,6 @@ Partial Class FrmBreakagehead
         Me.ClientSize = New System.Drawing.Size(397, 137)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
-        Me.KeyPreview = True
         Me.Name = "FrmBreakagehead"
         '
         '

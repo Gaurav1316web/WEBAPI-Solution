@@ -23,10 +23,14 @@ Partial Class ItemStockReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel8 = New common.Controls.MyLabel()
+        Me.txtItemType = New common.UserControls.txtMultiSelectFinder()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.cmbUnit = New common.Controls.MyComboBox()
         Me.TxtItem = New common.UserControls.txtMultiSelectFinder()
         Me.Label4 = New System.Windows.Forms.Label()
         Me.lblBillToLocation = New common.Controls.MyLabel()
@@ -46,16 +50,15 @@ Partial Class ItemStockReport
         Me.BtnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel8 = New common.Controls.MyLabel()
-        Me.txtItemType = New common.UserControls.txtMultiSelectFinder()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.cmbUnit = New common.Controls.MyComboBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbUnit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
@@ -69,9 +72,6 @@ Partial Class ItemStockReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cmbUnit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -126,6 +126,65 @@ Partial Class ItemStockReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(779, 366)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'MyLabel8
+        '
+        Me.MyLabel8.FieldName = Nothing
+        Me.MyLabel8.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel8.Location = New System.Drawing.Point(24, 139)
+        Me.MyLabel8.Name = "MyLabel8"
+        Me.MyLabel8.Size = New System.Drawing.Size(56, 18)
+        Me.MyLabel8.TabIndex = 347
+        Me.MyLabel8.Text = "Item Type"
+        '
+        'txtItemType
+        '
+        Me.txtItemType.arrDispalyMember = Nothing
+        Me.txtItemType.arrValueMember = Nothing
+        Me.txtItemType.Location = New System.Drawing.Point(87, 138)
+        Me.txtItemType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtItemType.MyLinkLable1 = Me.MyLabel8
+        Me.txtItemType.MyLinkLable2 = Nothing
+        Me.txtItemType.MyNullText = "All"
+        Me.txtItemType.Name = "txtItemType"
+        Me.txtItemType.Size = New System.Drawing.Size(281, 21)
+        Me.txtItemType.TabIndex = 344
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Location = New System.Drawing.Point(25, 162)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(33, 18)
+        Me.MyLabel3.TabIndex = 346
+        Me.MyLabel3.Text = "UOM"
+        '
+        'cmbUnit
+        '
+        Me.cmbUnit.AutoCompleteDisplayMember = Nothing
+        Me.cmbUnit.AutoCompleteValueMember = Nothing
+        Me.cmbUnit.CalculationExpression = Nothing
+        Me.cmbUnit.DropDownAnimationEnabled = True
+        Me.cmbUnit.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbUnit.FieldCode = Nothing
+        Me.cmbUnit.FieldDesc = Nothing
+        Me.cmbUnit.FieldMaxLength = 0
+        Me.cmbUnit.FieldName = Nothing
+        Me.cmbUnit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cmbUnit.isCalculatedField = False
+        Me.cmbUnit.IsSourceFromTable = False
+        Me.cmbUnit.IsSourceFromValueList = False
+        Me.cmbUnit.IsUnique = False
+        Me.cmbUnit.Location = New System.Drawing.Point(87, 162)
+        Me.cmbUnit.MendatroryField = False
+        Me.cmbUnit.MyLinkLable1 = Me.MyLabel3
+        Me.cmbUnit.MyLinkLable2 = Nothing
+        Me.cmbUnit.Name = "cmbUnit"
+        Me.cmbUnit.ReferenceFieldDesc = Nothing
+        Me.cmbUnit.ReferenceFieldName = Nothing
+        Me.cmbUnit.ReferenceTableName = Nothing
+        Me.cmbUnit.Size = New System.Drawing.Size(141, 18)
+        Me.cmbUnit.TabIndex = 345
         '
         'TxtItem
         '
@@ -301,8 +360,12 @@ Partial Class ItemStockReport
         '
         '
         '
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
+        Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(779, 366)
         Me.Gv1.TabIndex = 0
         '
@@ -368,65 +431,6 @@ Partial Class ItemStockReport
         Me.btnGo.TabIndex = 53
         Me.btnGo.Text = ">>"
         '
-        'MyLabel8
-        '
-        Me.MyLabel8.FieldName = Nothing
-        Me.MyLabel8.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel8.Location = New System.Drawing.Point(24, 139)
-        Me.MyLabel8.Name = "MyLabel8"
-        Me.MyLabel8.Size = New System.Drawing.Size(56, 18)
-        Me.MyLabel8.TabIndex = 347
-        Me.MyLabel8.Text = "Item Type"
-        '
-        'txtItemType
-        '
-        Me.txtItemType.arrDispalyMember = Nothing
-        Me.txtItemType.arrValueMember = Nothing
-        Me.txtItemType.Location = New System.Drawing.Point(87, 138)
-        Me.txtItemType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtItemType.MyLinkLable1 = Me.MyLabel8
-        Me.txtItemType.MyLinkLable2 = Nothing
-        Me.txtItemType.MyNullText = "All"
-        Me.txtItemType.Name = "txtItemType"
-        Me.txtItemType.Size = New System.Drawing.Size(281, 21)
-        Me.txtItemType.TabIndex = 344
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Location = New System.Drawing.Point(25, 162)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(33, 18)
-        Me.MyLabel3.TabIndex = 346
-        Me.MyLabel3.Text = "UOM"
-        '
-        'cmbUnit
-        '
-        Me.cmbUnit.AutoCompleteDisplayMember = Nothing
-        Me.cmbUnit.AutoCompleteValueMember = Nothing
-        Me.cmbUnit.CalculationExpression = Nothing
-        Me.cmbUnit.DropDownAnimationEnabled = True
-        Me.cmbUnit.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.cmbUnit.FieldCode = Nothing
-        Me.cmbUnit.FieldDesc = Nothing
-        Me.cmbUnit.FieldMaxLength = 0
-        Me.cmbUnit.FieldName = Nothing
-        Me.cmbUnit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cmbUnit.isCalculatedField = False
-        Me.cmbUnit.IsSourceFromTable = False
-        Me.cmbUnit.IsSourceFromValueList = False
-        Me.cmbUnit.IsUnique = False
-        Me.cmbUnit.Location = New System.Drawing.Point(87, 162)
-        Me.cmbUnit.MendatroryField = False
-        Me.cmbUnit.MyLinkLable1 = Me.MyLabel3
-        Me.cmbUnit.MyLinkLable2 = Nothing
-        Me.cmbUnit.Name = "cmbUnit"
-        Me.cmbUnit.ReferenceFieldDesc = Nothing
-        Me.cmbUnit.ReferenceFieldName = Nothing
-        Me.cmbUnit.ReferenceTableName = Nothing
-        Me.cmbUnit.Size = New System.Drawing.Size(141, 18)
-        Me.cmbUnit.TabIndex = 345
-        '
         'ItemStockReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -446,6 +450,9 @@ Partial Class ItemStockReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbUnit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
@@ -460,9 +467,6 @@ Partial Class ItemStockReport
         CType(Me.BtnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cmbUnit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

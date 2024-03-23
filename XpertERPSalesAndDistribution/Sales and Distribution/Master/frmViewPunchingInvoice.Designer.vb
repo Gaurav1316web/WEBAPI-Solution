@@ -24,19 +24,19 @@ Partial Class FrmViewPunchingInvoice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.grpbxAdditional = New Telerik.WinControls.UI.RadGroupBox
-        Me.lblBalance = New Telerik.WinControls.UI.RadLabel
-        Me.lblBalancename = New Telerik.WinControls.UI.RadLabel
-        Me.lblPunchedInvoice = New Telerik.WinControls.UI.RadLabel
-        Me.RadLabel1 = New Telerik.WinControls.UI.RadLabel
-        Me.lblNoOfCashMemo = New common.Controls.MyLabel
-        Me.txtNoOfCashMemo = New common.MyNumBox
-        Me.fndTransferNo = New common.UserControls.txtNavigator
-        Me.lblTransferNo = New common.Controls.MyLabel
-        Me.btnreset = New Telerik.WinControls.UI.RadButton
-        Me.btnClose = New Telerik.WinControls.UI.RadButton
-        Me.btnSave = New Telerik.WinControls.UI.RadButton
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
+        Me.grpbxAdditional = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblBalance = New Telerik.WinControls.UI.RadLabel()
+        Me.lblBalancename = New Telerik.WinControls.UI.RadLabel()
+        Me.lblPunchedInvoice = New Telerik.WinControls.UI.RadLabel()
+        Me.RadLabel1 = New Telerik.WinControls.UI.RadLabel()
+        Me.lblNoOfCashMemo = New common.Controls.MyLabel()
+        Me.txtNoOfCashMemo = New common.MyNumBox()
+        Me.fndTransferNo = New common.UserControls.txtNavigator()
+        Me.lblTransferNo = New common.Controls.MyLabel()
+        Me.btnreset = New Telerik.WinControls.UI.RadButton()
+        Me.btnClose = New Telerik.WinControls.UI.RadButton()
+        Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         CType(Me.grpbxAdditional, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.grpbxAdditional.SuspendLayout()
         CType(Me.lblBalance, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -67,19 +67,10 @@ Partial Class FrmViewPunchingInvoice
         Me.grpbxAdditional.Controls.Add(Me.fndTransferNo)
         Me.grpbxAdditional.Controls.Add(Me.btnreset)
         Me.grpbxAdditional.Controls.Add(Me.lblTransferNo)
-        Me.grpbxAdditional.FooterImageIndex = -1
-        Me.grpbxAdditional.FooterImageKey = ""
-        Me.grpbxAdditional.HeaderImageIndex = -1
-        Me.grpbxAdditional.HeaderImageKey = ""
-        Me.grpbxAdditional.HeaderMargin = New System.Windows.Forms.Padding(0)
         Me.grpbxAdditional.HeaderText = ""
         Me.grpbxAdditional.Location = New System.Drawing.Point(18, 3)
         Me.grpbxAdditional.Name = "grpbxAdditional"
         Me.grpbxAdditional.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        '
-        '
-        '
-        Me.grpbxAdditional.RootElement.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.grpbxAdditional.Size = New System.Drawing.Size(401, 133)
         Me.grpbxAdditional.TabIndex = 0
         '
@@ -117,6 +108,7 @@ Partial Class FrmViewPunchingInvoice
         '
         'lblNoOfCashMemo
         '
+        Me.lblNoOfCashMemo.FieldName = Nothing
         Me.lblNoOfCashMemo.Location = New System.Drawing.Point(13, 45)
         Me.lblNoOfCashMemo.Name = "lblNoOfCashMemo"
         Me.lblNoOfCashMemo.Size = New System.Drawing.Size(99, 18)
@@ -126,26 +118,40 @@ Partial Class FrmViewPunchingInvoice
         'txtNoOfCashMemo
         '
         Me.txtNoOfCashMemo.BackColor = System.Drawing.Color.White
+        Me.txtNoOfCashMemo.CalculationExpression = Nothing
         Me.txtNoOfCashMemo.DecimalPlaces = 0
+        Me.txtNoOfCashMemo.FieldCode = Nothing
+        Me.txtNoOfCashMemo.FieldDesc = Nothing
+        Me.txtNoOfCashMemo.FieldMaxLength = 0
+        Me.txtNoOfCashMemo.FieldName = Nothing
+        Me.txtNoOfCashMemo.isCalculatedField = False
+        Me.txtNoOfCashMemo.IsSourceFromTable = False
+        Me.txtNoOfCashMemo.IsSourceFromValueList = False
+        Me.txtNoOfCashMemo.IsUnique = False
         Me.txtNoOfCashMemo.Location = New System.Drawing.Point(130, 43)
         Me.txtNoOfCashMemo.MendatroryField = False
         Me.txtNoOfCashMemo.MyLinkLable1 = Me.lblNoOfCashMemo
         Me.txtNoOfCashMemo.MyLinkLable2 = Nothing
         Me.txtNoOfCashMemo.Name = "txtNoOfCashMemo"
+        Me.txtNoOfCashMemo.ReferenceFieldDesc = Nothing
+        Me.txtNoOfCashMemo.ReferenceFieldName = Nothing
+        Me.txtNoOfCashMemo.ReferenceTableName = Nothing
         Me.txtNoOfCashMemo.Size = New System.Drawing.Size(100, 20)
         Me.txtNoOfCashMemo.TabIndex = 2
         Me.txtNoOfCashMemo.Text = "0"
         Me.txtNoOfCashMemo.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtNoOfCashMemo.Value = 0
+        Me.txtNoOfCashMemo.Value = 0R
         '
         'fndTransferNo
         '
+        Me.fndTransferNo.FieldName = Nothing
         Me.fndTransferNo.Location = New System.Drawing.Point(91, 16)
         Me.fndTransferNo.MendatroryField = True
         Me.fndTransferNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.fndTransferNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndTransferNo.MyLinkLable1 = Me.lblTransferNo
         Me.fndTransferNo.MyLinkLable2 = Nothing
-        Me.fndTransferNo.MyMaxLength = 32767
+        Me.fndTransferNo.MyMaxLength = 30
         Me.fndTransferNo.MyReadOnly = False
         Me.fndTransferNo.Name = "fndTransferNo"
         Me.fndTransferNo.Size = New System.Drawing.Size(268, 21)
@@ -154,6 +160,7 @@ Partial Class FrmViewPunchingInvoice
         '
         'lblTransferNo
         '
+        Me.lblTransferNo.FieldName = Nothing
         Me.lblTransferNo.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblTransferNo.Location = New System.Drawing.Point(11, 16)
         Me.lblTransferNo.Name = "lblTransferNo"
@@ -214,7 +221,6 @@ Partial Class FrmViewPunchingInvoice
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(435, 179)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.KeyPreview = True
         Me.Name = "FrmViewPunchingInvoice"
         '
         '

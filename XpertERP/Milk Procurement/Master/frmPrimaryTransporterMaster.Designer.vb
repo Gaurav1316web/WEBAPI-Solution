@@ -23,10 +23,16 @@ Partial Class FrmPrimaryTransporterMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim GridViewTextBoxColumn1 As Telerik.WinControls.UI.GridViewTextBoxColumn = New Telerik.WinControls.UI.GridViewTextBoxColumn()
         Dim GridViewComboBoxColumn1 As Telerik.WinControls.UI.GridViewComboBoxColumn = New Telerik.WinControls.UI.GridViewComboBoxColumn()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.vendorgrpbox = New Telerik.WinControls.UI.RadGroupBox()
         Me.pageCus = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -773,7 +779,6 @@ Partial Class FrmPrimaryTransporterMaster
         Me.txtCountry.Name = "txtCountry"
         Me.txtCountry.Size = New System.Drawing.Size(458, 18)
         Me.txtCountry.TabIndex = 30
-        Me.txtCountry.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtCountry.TextWrap = False
         '
         'txtState
@@ -786,7 +791,6 @@ Partial Class FrmPrimaryTransporterMaster
         Me.txtState.Name = "txtState"
         Me.txtState.Size = New System.Drawing.Size(458, 18)
         Me.txtState.TabIndex = 29
-        Me.txtState.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtState.TextWrap = False
         '
         'txtstatecode
@@ -1926,9 +1930,12 @@ Partial Class FrmPrimaryTransporterMaster
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gvCheque.Location = New System.Drawing.Point(3, 41)
         '
-        'gvCheque
         '
+        '
+        Me.gvCheque.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCheque.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvCheque.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvCheque.MyStopExport = False
         Me.gvCheque.Name = "gvCheque"
         Me.gvCheque.ShowHeaderCellButtons = True
         Me.gvCheque.Size = New System.Drawing.Size(758, 125)
@@ -1939,6 +1946,7 @@ Partial Class FrmPrimaryTransporterMaster
         Me.cmbBlankCheque.AutoCompleteDisplayMember = Nothing
         Me.cmbBlankCheque.AutoCompleteValueMember = Nothing
         Me.cmbBlankCheque.CalculationExpression = Nothing
+        Me.cmbBlankCheque.DropDownAnimationEnabled = True
         Me.cmbBlankCheque.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbBlankCheque.FieldCode = Nothing
         Me.cmbBlankCheque.FieldDesc = Nothing
@@ -2083,6 +2091,7 @@ Partial Class FrmPrimaryTransporterMaster
         Me.cmbAccount_Type.AutoCompleteDisplayMember = Nothing
         Me.cmbAccount_Type.AutoCompleteValueMember = Nothing
         Me.cmbAccount_Type.CalculationExpression = Nothing
+        Me.cmbAccount_Type.DropDownAnimationEnabled = True
         Me.cmbAccount_Type.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbAccount_Type.FieldCode = Nothing
         Me.cmbAccount_Type.FieldDesc = Nothing
@@ -2204,7 +2213,6 @@ Partial Class FrmPrimaryTransporterMaster
         Me.txtbankcity.Name = "txtbankcity"
         Me.txtbankcity.Size = New System.Drawing.Size(402, 18)
         Me.txtbankcity.TabIndex = 43
-        Me.txtbankcity.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtbankcity.TextWrap = False
         '
         'txtbankcountry
@@ -2217,7 +2225,6 @@ Partial Class FrmPrimaryTransporterMaster
         Me.txtbankcountry.Name = "txtbankcountry"
         Me.txtbankcountry.Size = New System.Drawing.Size(402, 18)
         Me.txtbankcountry.TabIndex = 41
-        Me.txtbankcountry.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtbankcountry.TextWrap = False
         '
         'txtbankstate
@@ -2230,7 +2237,6 @@ Partial Class FrmPrimaryTransporterMaster
         Me.txtbankstate.Name = "txtbankstate"
         Me.txtbankstate.Size = New System.Drawing.Size(145, 18)
         Me.txtbankstate.TabIndex = 40
-        Me.txtbankstate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtbankstate.TextWrap = False
         '
         'MyLabel9
@@ -2440,7 +2446,10 @@ Partial Class FrmPrimaryTransporterMaster
         '
         '
         '
+        Me.GVPaymentEntry.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GVPaymentEntry.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GVPaymentEntry.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.GVPaymentEntry.MyStopExport = False
         Me.GVPaymentEntry.Name = "GVPaymentEntry"
         Me.GVPaymentEntry.ShowHeaderCellButtons = True
         Me.GVPaymentEntry.Size = New System.Drawing.Size(1003, 341)
@@ -2795,6 +2804,7 @@ Partial Class FrmPrimaryTransporterMaster
         Me.cmbagreemnt.AutoCompleteDisplayMember = Nothing
         Me.cmbagreemnt.AutoCompleteValueMember = Nothing
         Me.cmbagreemnt.CalculationExpression = Nothing
+        Me.cmbagreemnt.DropDownAnimationEnabled = True
         Me.cmbagreemnt.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbagreemnt.FieldCode = Nothing
         Me.cmbagreemnt.FieldDesc = Nothing
@@ -3220,14 +3230,16 @@ Partial Class FrmPrimaryTransporterMaster
         GridViewComboBoxColumn1.Width = 300
         Me.grdTax.MasterTemplate.Columns.AddRange(New Telerik.WinControls.UI.GridViewDataColumn() {GridViewTextBoxColumn1, GridViewComboBoxColumn1})
         Me.grdTax.MasterTemplate.EnableGrouping = False
+        Me.grdTax.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.grdTax.MasterTemplate.ShowHeaderCellButtons = True
+        Me.grdTax.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.grdTax.MyStopExport = False
         Me.grdTax.Name = "grdTax"
         Me.grdTax.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.grdTax.ShowHeaderCellButtons = True
         Me.grdTax.Size = New System.Drawing.Size(684, 97)
         Me.grdTax.TabIndex = 1
         Me.grdTax.TabStop = False
-        Me.grdTax.Text = "RadGridView1"
         '
         'RadLabel35
         '
@@ -3279,12 +3291,14 @@ Partial Class FrmPrimaryTransporterMaster
         '
         '
         '
+        Me.gvMCC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMCC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvMCC.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvMCC.MyStopExport = False
         Me.gvMCC.Name = "gvMCC"
         Me.gvMCC.ShowHeaderCellButtons = True
         Me.gvMCC.Size = New System.Drawing.Size(781, 506)
         Me.gvMCC.TabIndex = 0
-        Me.gvMCC.Text = "RadGridView1"
         '
         'RadPageViewPage5
         '
@@ -3530,7 +3544,10 @@ Partial Class FrmPrimaryTransporterMaster
         '
         '
         '
+        Me.gvDeductionRange.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDeductionRange.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDeductionRange.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvDeductionRange.MyStopExport = False
         Me.gvDeductionRange.Name = "gvDeductionRange"
         Me.gvDeductionRange.ShowHeaderCellButtons = True
         Me.gvDeductionRange.Size = New System.Drawing.Size(781, 506)
@@ -3572,7 +3589,6 @@ Partial Class FrmPrimaryTransporterMaster
         Me.LblIncentive.Name = "LblIncentive"
         Me.LblIncentive.Size = New System.Drawing.Size(456, 18)
         Me.LblIncentive.TabIndex = 337
-        Me.LblIncentive.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblIncentive.TextWrap = False
         '
         'MyLabel22
@@ -3873,7 +3889,10 @@ Partial Class FrmPrimaryTransporterMaster
         '
         Me.GvAsset.MasterTemplate.AllowColumnHeaderContextMenu = False
         Me.GvAsset.MasterTemplate.AllowDeleteRow = False
+        Me.GvAsset.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GvAsset.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GvAsset.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.GvAsset.MyStopExport = False
         Me.GvAsset.Name = "GvAsset"
         Me.GvAsset.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.GvAsset.ShowGroupPanel = False
@@ -3881,7 +3900,6 @@ Partial Class FrmPrimaryTransporterMaster
         Me.GvAsset.Size = New System.Drawing.Size(781, 506)
         Me.GvAsset.TabIndex = 3
         Me.GvAsset.TabStop = False
-        Me.GvAsset.Text = "RadGridView1"
         '
         'Panel1
         '
@@ -4057,7 +4075,7 @@ Partial Class FrmPrimaryTransporterMaster
         Me.fndvendorNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndvendorNo.MyLinkLable1 = Me.lblvandorno
         Me.fndvendorNo.MyLinkLable2 = Nothing
-        Me.fndvendorNo.MyMaxLength = 32767
+        Me.fndvendorNo.MyMaxLength = 30
         Me.fndvendorNo.MyReadOnly = False
         Me.fndvendorNo.Name = "fndvendorNo"
         Me.fndvendorNo.Size = New System.Drawing.Size(202, 21)
@@ -4252,12 +4270,9 @@ Partial Class FrmPrimaryTransporterMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1044, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'MenuClose
         '
-        Me.MenuClose.AccessibleDescription = "File"
-        Me.MenuClose.AccessibleName = "File"
         Me.MenuClose.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuImport, Me.MenuExport, Me.RadMenuItem4})
         Me.MenuClose.Name = "MenuClose"
         Me.MenuClose.Text = "File"
@@ -4272,58 +4287,44 @@ Partial Class FrmPrimaryTransporterMaster
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Transporter" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
-        Me.RadMenuItem3.AccessibleName = "Transporter" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Transporter" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10)
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "Deduction"
-        Me.RadMenuItem5.AccessibleName = "Deduction"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Deduction"
         '
         'radmnuIncentiveImport
         '
-        Me.radmnuIncentiveImport.AccessibleDescription = "Incentive"
-        Me.radmnuIncentiveImport.AccessibleName = "Incentive"
         Me.radmnuIncentiveImport.Name = "radmnuIncentiveImport"
         Me.radmnuIncentiveImport.Text = "Incentive"
         '
         'MenuExport
         '
         Me.MenuExport.AccessibleDescription = "MenuExport"
-        Me.MenuExport.AccessibleName = "Export"
         Me.MenuExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2, Me.radmnuIncentiveExport})
         Me.MenuExport.Name = "MenuExport"
         Me.MenuExport.Text = "Export"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Transporter"
-        Me.RadMenuItem1.AccessibleName = "Transporter"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Transporter"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Deduction"
-        Me.RadMenuItem2.AccessibleName = "Deduction"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Deduction"
         '
         'radmnuIncentiveExport
         '
-        Me.radmnuIncentiveExport.AccessibleDescription = "Incentive"
-        Me.radmnuIncentiveExport.AccessibleName = "Incentive"
         Me.radmnuIncentiveExport.Name = "radmnuIncentiveExport"
         Me.radmnuIncentiveExport.Text = "Incentive"
         '
         'RadMenuItem4
         '
         Me.RadMenuItem4.AccessibleDescription = "RadMenuItem4"
-        Me.RadMenuItem4.AccessibleName = "Close"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Close"
         '

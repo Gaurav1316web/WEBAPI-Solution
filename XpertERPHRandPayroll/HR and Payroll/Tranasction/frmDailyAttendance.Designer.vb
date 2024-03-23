@@ -23,11 +23,14 @@ Partial Class frmDailyAttendance
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDailyAttendance))
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.gvDailyAttendance = New common.UserControls.MyRadGridView()
         Me.UsLock1 = New common.usLock()
         Me.txtPayPeriodName = New common.Controls.MyTextBox()
         Me.txtPayPeriodDays = New common.Controls.MyTextBox()
@@ -42,7 +45,6 @@ Partial Class frmDailyAttendance
         Me.dtpAttendanceDate = New common.Controls.MyDateTimePicker()
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblDaylyAttnCode = New common.Controls.MyLabel()
-        Me.gvDailyAttendance = New common.UserControls.MyRadGridView()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
@@ -50,7 +52,7 @@ Partial Class frmDailyAttendance
         Me.radPageAttachment = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ucCustomFields()
+        Me.UcCustomFields1 = New XpertERPHRandPayroll.ucCustomFields()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.MenuImport = New Telerik.WinControls.UI.RadMenuItem()
@@ -63,7 +65,6 @@ Partial Class frmDailyAttendance
         Me.MIExportBlankSingle = New Telerik.WinControls.UI.RadMenuItem()
         Me.MIExportBlankDual = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -72,6 +73,9 @@ Partial Class frmDailyAttendance
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.gvDailyAttendance, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvDailyAttendance.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPayPeriodName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPayPeriodDays, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPayPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,8 +86,6 @@ Partial Class frmDailyAttendance
         CType(Me.lblAttendanceDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpAttendanceDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDaylyAttnCode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvDailyAttendance, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvDailyAttendance.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -91,7 +93,6 @@ Partial Class frmDailyAttendance
         Me.radPageAttachment.SuspendLayout()
         Me.pvpCustomFields.SuspendLayout()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -118,7 +119,6 @@ Partial Class frmDailyAttendance
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(884, 476)
         Me.RadPageView1.TabIndex = 212
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -164,6 +164,45 @@ Partial Class frmDailyAttendance
         Me.SplitContainer1.Size = New System.Drawing.Size(863, 428)
         Me.SplitContainer1.SplitterDistance = 393
         Me.SplitContainer1.TabIndex = 0
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.GroupBox1.Controls.Add(Me.gvDailyAttendance)
+        Me.GroupBox1.Location = New System.Drawing.Point(13, 92)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(841, 298)
+        Me.GroupBox1.TabIndex = 211
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Employee"
+        '
+        'gvDailyAttendance
+        '
+        Me.gvDailyAttendance.BackColor = System.Drawing.Color.FromArgb(CType(CType(191, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(255, Byte), Integer))
+        Me.gvDailyAttendance.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvDailyAttendance.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvDailyAttendance.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.gvDailyAttendance.ForeColor = System.Drawing.Color.Black
+        Me.gvDailyAttendance.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvDailyAttendance.Location = New System.Drawing.Point(3, 18)
+        '
+        '
+        '
+        Me.gvDailyAttendance.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
+        Me.gvDailyAttendance.MasterTemplate.AllowAddNewRow = False
+        Me.gvDailyAttendance.MasterTemplate.AutoGenerateColumns = False
+        Me.gvDailyAttendance.MasterTemplate.EnableGrouping = False
+        Me.gvDailyAttendance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvDailyAttendance.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDailyAttendance.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDailyAttendance.MyStopExport = False
+        Me.gvDailyAttendance.Name = "gvDailyAttendance"
+        Me.gvDailyAttendance.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvDailyAttendance.ShowHeaderCellButtons = True
+        Me.gvDailyAttendance.Size = New System.Drawing.Size(835, 277)
+        Me.gvDailyAttendance.TabIndex = 145
         '
         'UsLock1
         '
@@ -387,7 +426,7 @@ Partial Class frmDailyAttendance
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblDaylyAttnCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(221, 18)
@@ -403,30 +442,6 @@ Partial Class frmDailyAttendance
         Me.lblDaylyAttnCode.Size = New System.Drawing.Size(94, 16)
         Me.lblDaylyAttnCode.TabIndex = 161
         Me.lblDaylyAttnCode.Text = "Attendance Code"
-        '
-        'gvDailyAttendance
-        '
-        Me.gvDailyAttendance.BackColor = System.Drawing.Color.FromArgb(CType(CType(191, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(255, Byte), Integer))
-        Me.gvDailyAttendance.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gvDailyAttendance.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvDailyAttendance.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.gvDailyAttendance.ForeColor = System.Drawing.Color.Black
-        Me.gvDailyAttendance.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gvDailyAttendance.Location = New System.Drawing.Point(3, 18)
-        '
-        'gvDailyAttendance
-        '
-        Me.gvDailyAttendance.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
-        Me.gvDailyAttendance.MasterTemplate.AllowAddNewRow = False
-        Me.gvDailyAttendance.MasterTemplate.AutoGenerateColumns = False
-        Me.gvDailyAttendance.MasterTemplate.EnableGrouping = False
-        Me.gvDailyAttendance.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDailyAttendance.Name = "gvDailyAttendance"
-        Me.gvDailyAttendance.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gvDailyAttendance.ShowHeaderCellButtons = True
-        Me.gvDailyAttendance.Size = New System.Drawing.Size(835, 277)
-        Me.gvDailyAttendance.TabIndex = 145
-        Me.gvDailyAttendance.Text = "RadGridView4"
         '
         'btnPost
         '
@@ -504,15 +519,11 @@ Partial Class frmDailyAttendance
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuImport, Me.MenuImportDual, Me.RadMenuItem2})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
@@ -549,37 +560,27 @@ Partial Class frmDailyAttendance
         '
         'MIExportSingle
         '
-        Me.MIExportSingle.AccessibleDescription = "Single"
-        Me.MIExportSingle.AccessibleName = "Single"
         Me.MIExportSingle.Name = "MIExportSingle"
         Me.MIExportSingle.Text = "Single"
         '
         'MiExportDual
         '
-        Me.MiExportDual.AccessibleDescription = "Dual"
-        Me.MiExportDual.AccessibleName = "Dual"
         Me.MiExportDual.Name = "MiExportDual"
         Me.MiExportDual.Text = "Dual"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Export Blank Sheet"
-        Me.RadMenuItem2.AccessibleName = "Export Blank Sheet"
         Me.RadMenuItem2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MIExportBlankSingle, Me.MIExportBlankDual})
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Export Blank Sheet"
         '
         'MIExportBlankSingle
         '
-        Me.MIExportBlankSingle.AccessibleDescription = "Single"
-        Me.MIExportBlankSingle.AccessibleName = "Single"
         Me.MIExportBlankSingle.Name = "MIExportBlankSingle"
         Me.MIExportBlankSingle.Text = "Single"
         '
         'MIExportBlankDual
         '
-        Me.MIExportBlankDual.AccessibleDescription = "Dual"
-        Me.MIExportBlankDual.AccessibleName = "Dual"
         Me.MIExportBlankDual.Name = "MIExportBlankDual"
         Me.MIExportBlankDual.Text = "Dual"
         '
@@ -590,20 +591,6 @@ Partial Class frmDailyAttendance
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(904, 20)
         Me.RadMenu2.TabIndex = 11
-        Me.RadMenu2.Text = "RadMenu2"
-        '
-        'GroupBox1
-        '
-        Me.GroupBox1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.GroupBox1.Controls.Add(Me.gvDailyAttendance)
-        Me.GroupBox1.Location = New System.Drawing.Point(13, 92)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(841, 298)
-        Me.GroupBox1.TabIndex = 211
-        Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "Employee"
         '
         'frmDailyAttendance
         '
@@ -627,6 +614,9 @@ Partial Class frmDailyAttendance
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        Me.GroupBox1.ResumeLayout(False)
+        CType(Me.gvDailyAttendance.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvDailyAttendance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPayPeriodName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPayPeriodDays, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPayPeriod, System.ComponentModel.ISupportInitialize).EndInit()
@@ -637,8 +627,6 @@ Partial Class frmDailyAttendance
         CType(Me.lblAttendanceDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpAttendanceDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDaylyAttnCode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvDailyAttendance.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvDailyAttendance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -646,7 +634,6 @@ Partial Class frmDailyAttendance
         Me.radPageAttachment.ResumeLayout(False)
         Me.pvpCustomFields.ResumeLayout(False)
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

@@ -22,6 +22,15 @@ Partial Class frmProductionEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.chkJobWorkInward = New Telerik.WinControls.UI.RadCheckBox()
@@ -275,7 +284,6 @@ Partial Class frmProductionEntry
         Me.lblProfitCenterCode.Name = "lblProfitCenterCode"
         Me.lblProfitCenterCode.Size = New System.Drawing.Size(240, 19)
         Me.lblProfitCenterCode.TabIndex = 81
-        Me.lblProfitCenterCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'LblCostCenterCode
         '
@@ -286,7 +294,6 @@ Partial Class frmProductionEntry
         Me.LblCostCenterCode.Name = "LblCostCenterCode"
         Me.LblCostCenterCode.Size = New System.Drawing.Size(240, 19)
         Me.LblCostCenterCode.TabIndex = 82
-        Me.LblCostCenterCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblLineNo
         '
@@ -297,7 +304,6 @@ Partial Class frmProductionEntry
         Me.lblLineNo.Name = "lblLineNo"
         Me.lblLineNo.Size = New System.Drawing.Size(240, 19)
         Me.lblLineNo.TabIndex = 83
-        Me.lblLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCostCenterName
         '
@@ -308,7 +314,6 @@ Partial Class frmProductionEntry
         Me.lblCostCenterName.Name = "lblCostCenterName"
         Me.lblCostCenterName.Size = New System.Drawing.Size(389, 19)
         Me.lblCostCenterName.TabIndex = 88
-        Me.lblCostCenterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel8
         '
@@ -339,7 +344,6 @@ Partial Class frmProductionEntry
         Me.lblProfitCenterName.Name = "lblProfitCenterName"
         Me.lblProfitCenterName.Size = New System.Drawing.Size(389, 19)
         Me.lblProfitCenterName.TabIndex = 84
-        Me.lblProfitCenterName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel11
         '
@@ -360,7 +364,6 @@ Partial Class frmProductionEntry
         Me.TxtManualBatchNo.Name = "TxtManualBatchNo"
         Me.TxtManualBatchNo.Size = New System.Drawing.Size(318, 19)
         Me.TxtManualBatchNo.TabIndex = 67
-        Me.TxtManualBatchNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel13
         '
@@ -392,7 +395,6 @@ Partial Class frmProductionEntry
         Me.lblConsmSectionLocCode.Name = "lblConsmSectionLocCode"
         Me.lblConsmSectionLocCode.Size = New System.Drawing.Size(240, 20)
         Me.lblConsmSectionLocCode.TabIndex = 23
-        Me.lblConsmSectionLocCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel2
         '
@@ -414,7 +416,6 @@ Partial Class frmProductionEntry
         Me.lblConsmSectionCode.Name = "lblConsmSectionCode"
         Me.lblConsmSectionCode.Size = New System.Drawing.Size(240, 20)
         Me.lblConsmSectionCode.TabIndex = 21
-        Me.lblConsmSectionCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblBatchNo
         '
@@ -473,7 +474,6 @@ Partial Class frmProductionEntry
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(173, 20)
         Me.lblLocation.TabIndex = 14
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnAddNew
         '
@@ -495,7 +495,6 @@ Partial Class frmProductionEntry
         Me.lblEmpName.Name = "lblEmpName"
         Me.lblEmpName.Size = New System.Drawing.Size(173, 20)
         Me.lblEmpName.TabIndex = 13
-        Me.lblEmpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtDesc
         '
@@ -690,7 +689,7 @@ Partial Class frmProductionEntry
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblReceiptCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(218, 20)
@@ -762,7 +761,6 @@ Partial Class frmProductionEntry
         Me.RadPageView1.SelectedPage = Me.pageBatchProduction
         Me.RadPageView1.Size = New System.Drawing.Size(982, 280)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -788,20 +786,22 @@ Partial Class frmProductionEntry
         Me.gvIssue.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvIssue.Location = New System.Drawing.Point(0, 0)
         '
-        'gvIssue
+        '
         '
         Me.gvIssue.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvIssue.MasterTemplate.AllowAddNewRow = False
         Me.gvIssue.MasterTemplate.AutoGenerateColumns = False
         Me.gvIssue.MasterTemplate.EnableGrouping = False
+        Me.gvIssue.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvIssue.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvIssue.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvIssue.MyStopExport = False
         Me.gvIssue.Name = "gvIssue"
         Me.gvIssue.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvIssue.ShowHeaderCellButtons = True
         Me.gvIssue.Size = New System.Drawing.Size(961, 234)
         Me.gvIssue.TabIndex = 1
         Me.gvIssue.TabStop = False
-        Me.gvIssue.Text = "RadGridView1"
         '
         'pageStageDetail
         '
@@ -828,14 +828,16 @@ Partial Class frmProductionEntry
         Me.gvStage.MasterTemplate.AllowAddNewRow = False
         Me.gvStage.MasterTemplate.AutoGenerateColumns = False
         Me.gvStage.MasterTemplate.EnableGrouping = False
+        Me.gvStage.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvStage.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvStage.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvStage.MyStopExport = False
         Me.gvStage.Name = "gvStage"
         Me.gvStage.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvStage.ShowHeaderCellButtons = True
         Me.gvStage.Size = New System.Drawing.Size(961, 234)
         Me.gvStage.TabIndex = 1
         Me.gvStage.TabStop = False
-        Me.gvStage.Text = "RadGridView1"
         '
         'pageBatchProduction
         '
@@ -875,7 +877,10 @@ Partial Class frmProductionEntry
         '
         Me.gvBatch.MasterTemplate.AllowAddNewRow = False
         Me.gvBatch.MasterTemplate.AllowDeleteRow = False
+        Me.gvBatch.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBatch.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvBatch.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvBatch.MyStopExport = False
         Me.gvBatch.Name = "gvBatch"
         Me.gvBatch.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvBatch.ShowGroupPanel = False
@@ -883,7 +888,6 @@ Partial Class frmProductionEntry
         Me.gvBatch.Size = New System.Drawing.Size(941, 204)
         Me.gvBatch.TabIndex = 0
         Me.gvBatch.TabStop = False
-        Me.gvBatch.Text = "RadGridView1"
         '
         'pageParameterDetail
         '
@@ -910,14 +914,16 @@ Partial Class frmProductionEntry
         Me.gvParameter.MasterTemplate.AllowAddNewRow = False
         Me.gvParameter.MasterTemplate.AutoGenerateColumns = False
         Me.gvParameter.MasterTemplate.EnableGrouping = False
+        Me.gvParameter.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvParameter.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvParameter.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvParameter.MyStopExport = False
         Me.gvParameter.Name = "gvParameter"
         Me.gvParameter.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvParameter.ShowHeaderCellButtons = True
         Me.gvParameter.Size = New System.Drawing.Size(961, 234)
         Me.gvParameter.TabIndex = 1
         Me.gvParameter.TabStop = False
-        Me.gvParameter.Text = "RadGridView1"
         '
         'pageWreckageAndFlashing
         '
@@ -938,20 +944,22 @@ Partial Class frmProductionEntry
         Me.gvWreckage.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvWreckage.Location = New System.Drawing.Point(0, 0)
         '
-        'gvWreckage
+        '
         '
         Me.gvWreckage.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvWreckage.MasterTemplate.AllowAddNewRow = False
         Me.gvWreckage.MasterTemplate.AutoGenerateColumns = False
         Me.gvWreckage.MasterTemplate.EnableGrouping = False
+        Me.gvWreckage.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvWreckage.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvWreckage.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvWreckage.MyStopExport = False
         Me.gvWreckage.Name = "gvWreckage"
         Me.gvWreckage.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvWreckage.ShowHeaderCellButtons = True
         Me.gvWreckage.Size = New System.Drawing.Size(961, 234)
         Me.gvWreckage.TabIndex = 1
         Me.gvWreckage.TabStop = False
-        Me.gvWreckage.Text = "RadGridView1"
         '
         'pageScrapDetail
         '
@@ -978,14 +986,16 @@ Partial Class frmProductionEntry
         Me.GvScrap.MasterTemplate.AllowAddNewRow = False
         Me.GvScrap.MasterTemplate.AutoGenerateColumns = False
         Me.GvScrap.MasterTemplate.EnableGrouping = False
+        Me.GvScrap.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GvScrap.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GvScrap.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.GvScrap.MyStopExport = False
         Me.GvScrap.Name = "GvScrap"
         Me.GvScrap.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.GvScrap.ShowHeaderCellButtons = True
         Me.GvScrap.Size = New System.Drawing.Size(1015, 305)
         Me.GvScrap.TabIndex = 2
         Me.GvScrap.TabStop = False
-        Me.GvScrap.Text = "RadGridView1"
         '
         'pageoverheadcost
         '
@@ -1024,7 +1034,10 @@ Partial Class frmProductionEntry
         '
         Me.gvProductionCost.MasterTemplate.AllowAddNewRow = False
         Me.gvProductionCost.MasterTemplate.AllowDeleteRow = False
+        Me.gvProductionCost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProductionCost.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvProductionCost.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvProductionCost.MyStopExport = False
         Me.gvProductionCost.Name = "gvProductionCost"
         Me.gvProductionCost.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvProductionCost.ShowGroupPanel = False
@@ -1032,7 +1045,6 @@ Partial Class frmProductionEntry
         Me.gvProductionCost.Size = New System.Drawing.Size(995, 275)
         Me.gvProductionCost.TabIndex = 0
         Me.gvProductionCost.TabStop = False
-        Me.gvProductionCost.Text = "RadGridView1"
         '
         'pageSectionStock
         '
@@ -1059,14 +1071,16 @@ Partial Class frmProductionEntry
         Me.gvSectionStock.MasterTemplate.AllowAddNewRow = False
         Me.gvSectionStock.MasterTemplate.AutoGenerateColumns = False
         Me.gvSectionStock.MasterTemplate.EnableGrouping = False
+        Me.gvSectionStock.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSectionStock.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvSectionStock.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvSectionStock.MyStopExport = False
         Me.gvSectionStock.Name = "gvSectionStock"
         Me.gvSectionStock.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSectionStock.ShowHeaderCellButtons = True
         Me.gvSectionStock.Size = New System.Drawing.Size(1015, 305)
         Me.gvSectionStock.TabIndex = 2
         Me.gvSectionStock.TabStop = False
-        Me.gvSectionStock.Text = "RadGridView1"
         '
         'pageSectionStockHistory
         '
@@ -1093,14 +1107,16 @@ Partial Class frmProductionEntry
         Me.gvSectionStockHistory.MasterTemplate.AllowAddNewRow = False
         Me.gvSectionStockHistory.MasterTemplate.AutoGenerateColumns = False
         Me.gvSectionStockHistory.MasterTemplate.EnableGrouping = False
+        Me.gvSectionStockHistory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSectionStockHistory.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvSectionStockHistory.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvSectionStockHistory.MyStopExport = False
         Me.gvSectionStockHistory.Name = "gvSectionStockHistory"
         Me.gvSectionStockHistory.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSectionStockHistory.ShowHeaderCellButtons = True
         Me.gvSectionStockHistory.Size = New System.Drawing.Size(1015, 305)
         Me.gvSectionStockHistory.TabIndex = 3
         Me.gvSectionStockHistory.TabStop = False
-        Me.gvSectionStockHistory.Text = "RadGridView1"
         '
         'RadPageViewPage1
         '

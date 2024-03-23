@@ -22,6 +22,7 @@ Partial Class frmDeductionMapping
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.txtDesc = New common.Controls.MyTextBox()
@@ -43,6 +44,7 @@ Partial Class frmDeductionMapping
         Me.chkApplyOnVLC = New Telerik.WinControls.UI.RadCheckBox()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
@@ -53,7 +55,6 @@ Partial Class frmDeductionMapping
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -76,12 +77,12 @@ Partial Class frmDeductionMapping
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -355,7 +356,7 @@ Partial Class frmDeductionMapping
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblvandorno
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(295, 20)
@@ -416,13 +417,27 @@ Partial Class frmDeductionMapping
         Me.gv1.Enabled = False
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(807, 314)
         Me.gv1.TabIndex = 0
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(231, 4)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(112, 22)
+        Me.btnReverse.TabIndex = 15
+        Me.btnReverse.Text = "Revese and Unpost"
+        Me.btnReverse.Visible = False
         '
         'btnPost
         '
@@ -462,8 +477,6 @@ Partial Class frmDeductionMapping
         '
         'Filemenu
         '
-        Me.Filemenu.AccessibleDescription = "File"
-        Me.Filemenu.AccessibleName = "File"
         Me.Filemenu.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3, Me.RadMenuItem4, Me.RadMenuItem5})
         Me.Filemenu.Name = "Filemenu"
         Me.Filemenu.Text = "File"
@@ -477,22 +490,16 @@ Partial Class frmDeductionMapping
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Export Grid Data"
-        Me.RadMenuItem3.AccessibleName = "Export Grid Data"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Export Grid Data"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem4.AccessibleName = "Save Layout"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Save Layout"
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem5.AccessibleName = "Delete Layout"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Delete Layout"
         '
@@ -503,18 +510,6 @@ Partial Class frmDeductionMapping
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(813, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "menu"
-        '
-        'btnReverse
-        '
-        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReverse.Location = New System.Drawing.Point(231, 4)
-        Me.btnReverse.Name = "btnReverse"
-        Me.btnReverse.Size = New System.Drawing.Size(112, 22)
-        Me.btnReverse.TabIndex = 15
-        Me.btnReverse.Text = "Revese and Unpost"
-        Me.btnReverse.Visible = False
         '
         'frmDeductionMapping
         '
@@ -552,12 +547,12 @@ Partial Class frmDeductionMapping
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

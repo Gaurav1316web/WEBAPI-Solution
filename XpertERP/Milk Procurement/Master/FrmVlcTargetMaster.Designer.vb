@@ -22,6 +22,7 @@ Partial Class FrmVlcTargetMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -141,7 +142,6 @@ Partial Class FrmVlcTargetMaster
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(929, 531)
         Me.RadPageView1.TabIndex = 417
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -177,15 +177,17 @@ Partial Class FrmVlcTargetMaster
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(879, 278)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'Panel1
         '
@@ -236,6 +238,7 @@ Partial Class FrmVlcTargetMaster
         '
         'lblVSP
         '
+        Me.lblVSP.FieldName = Nothing
         Me.lblVSP.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblVSP.Location = New System.Drawing.Point(430, 120)
         Me.lblVSP.Name = "lblVSP"
@@ -247,14 +250,15 @@ Partial Class FrmVlcTargetMaster
         '
         Me.fndVSPCode.AutoSize = False
         Me.fndVSPCode.BorderVisible = True
+        Me.fndVSPCode.FieldName = Nothing
         Me.fndVSPCode.Location = New System.Drawing.Point(496, 117)
         Me.fndVSPCode.Name = "fndVSPCode"
         Me.fndVSPCode.Size = New System.Drawing.Size(184, 19)
         Me.fndVSPCode.TabIndex = 427
-        Me.fndVSPCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblVLC
         '
+        Me.lblVLC.FieldName = Nothing
         Me.lblVLC.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblVLC.Location = New System.Drawing.Point(13, 120)
         Me.lblVLC.Name = "lblVLC"
@@ -266,14 +270,23 @@ Partial Class FrmVlcTargetMaster
         '
         Me.fndVSPName.AutoSize = False
         Me.fndVSPName.BorderVisible = True
+        Me.fndVSPName.FieldName = Nothing
         Me.fndVSPName.Location = New System.Drawing.Point(686, 117)
         Me.fndVSPName.Name = "fndVSPName"
         Me.fndVSPName.Size = New System.Drawing.Size(184, 19)
         Me.fndVSPName.TabIndex = 425
-        Me.fndVSPName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'fndVLCCode
         '
+        Me.fndVLCCode.CalculationExpression = Nothing
+        Me.fndVLCCode.FieldCode = Nothing
+        Me.fndVLCCode.FieldDesc = Nothing
+        Me.fndVLCCode.FieldMaxLength = 0
+        Me.fndVLCCode.FieldName = Nothing
+        Me.fndVLCCode.isCalculatedField = False
+        Me.fndVLCCode.IsSourceFromTable = False
+        Me.fndVLCCode.IsSourceFromValueList = False
+        Me.fndVLCCode.IsUnique = False
         Me.fndVLCCode.Location = New System.Drawing.Point(114, 117)
         Me.fndVLCCode.MendatroryField = True
         Me.fndVLCCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -282,12 +295,16 @@ Partial Class FrmVlcTargetMaster
         Me.fndVLCCode.MyReadOnly = False
         Me.fndVLCCode.MyShowMasterFormButton = False
         Me.fndVLCCode.Name = "fndVLCCode"
+        Me.fndVLCCode.ReferenceFieldDesc = Nothing
+        Me.fndVLCCode.ReferenceFieldName = Nothing
+        Me.fndVLCCode.ReferenceTableName = Nothing
         Me.fndVLCCode.Size = New System.Drawing.Size(143, 19)
         Me.fndVLCCode.TabIndex = 422
         Me.fndVLCCode.Value = ""
         '
         'lblRouteCode
         '
+        Me.lblRouteCode.FieldName = Nothing
         Me.lblRouteCode.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblRouteCode.Location = New System.Drawing.Point(13, 70)
         Me.lblRouteCode.Name = "lblRouteCode"
@@ -299,11 +316,11 @@ Partial Class FrmVlcTargetMaster
         '
         Me.fndVLCName.AutoSize = False
         Me.fndVLCName.BorderVisible = True
+        Me.fndVLCName.FieldName = Nothing
         Me.fndVLCName.Location = New System.Drawing.Point(261, 117)
         Me.fndVLCName.Name = "fndVLCName"
         Me.fndVLCName.Size = New System.Drawing.Size(163, 19)
         Me.fndVLCName.TabIndex = 423
-        Me.fndVLCName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'chkMP
         '
@@ -318,6 +335,7 @@ Partial Class FrmVlcTargetMaster
         '
         'LblTodate
         '
+        Me.LblTodate.FieldName = Nothing
         Me.LblTodate.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.LblTodate.Location = New System.Drawing.Point(347, 94)
         Me.LblTodate.Name = "LblTodate"
@@ -327,6 +345,7 @@ Partial Class FrmVlcTargetMaster
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.MyLabel1.Location = New System.Drawing.Point(13, 94)
         Me.MyLabel1.Name = "MyLabel1"
@@ -336,9 +355,18 @@ Partial Class FrmVlcTargetMaster
         '
         'DtpTodate
         '
+        Me.DtpTodate.CalculationExpression = Nothing
         Me.DtpTodate.CustomFormat = "dd/MM/yyyy"
+        Me.DtpTodate.FieldCode = Nothing
+        Me.DtpTodate.FieldDesc = Nothing
+        Me.DtpTodate.FieldMaxLength = 0
+        Me.DtpTodate.FieldName = Nothing
         Me.DtpTodate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DtpTodate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DtpTodate.isCalculatedField = False
+        Me.DtpTodate.IsSourceFromTable = False
+        Me.DtpTodate.IsSourceFromValueList = False
+        Me.DtpTodate.IsUnique = False
         Me.DtpTodate.Location = New System.Drawing.Point(402, 93)
         Me.DtpTodate.MendatroryField = False
         Me.DtpTodate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -346,6 +374,9 @@ Partial Class FrmVlcTargetMaster
         Me.DtpTodate.MyLinkLable2 = Nothing
         Me.DtpTodate.Name = "DtpTodate"
         Me.DtpTodate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.DtpTodate.ReferenceFieldDesc = Nothing
+        Me.DtpTodate.ReferenceFieldName = Nothing
+        Me.DtpTodate.ReferenceTableName = Nothing
         Me.DtpTodate.Size = New System.Drawing.Size(130, 18)
         Me.DtpTodate.TabIndex = 419
         Me.DtpTodate.TabStop = False
@@ -354,9 +385,18 @@ Partial Class FrmVlcTargetMaster
         '
         'DtpFromDate
         '
+        Me.DtpFromDate.CalculationExpression = Nothing
         Me.DtpFromDate.CustomFormat = "dd/MM/yyyy"
+        Me.DtpFromDate.FieldCode = Nothing
+        Me.DtpFromDate.FieldDesc = Nothing
+        Me.DtpFromDate.FieldMaxLength = 0
+        Me.DtpFromDate.FieldName = Nothing
         Me.DtpFromDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DtpFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DtpFromDate.isCalculatedField = False
+        Me.DtpFromDate.IsSourceFromTable = False
+        Me.DtpFromDate.IsSourceFromValueList = False
+        Me.DtpFromDate.IsUnique = False
         Me.DtpFromDate.Location = New System.Drawing.Point(117, 93)
         Me.DtpFromDate.MendatroryField = False
         Me.DtpFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -364,6 +404,9 @@ Partial Class FrmVlcTargetMaster
         Me.DtpFromDate.MyLinkLable2 = Nothing
         Me.DtpFromDate.Name = "DtpFromDate"
         Me.DtpFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.DtpFromDate.ReferenceFieldDesc = Nothing
+        Me.DtpFromDate.ReferenceFieldName = Nothing
+        Me.DtpFromDate.ReferenceTableName = Nothing
         Me.DtpFromDate.Size = New System.Drawing.Size(140, 18)
         Me.DtpFromDate.TabIndex = 417
         Me.DtpFromDate.TabStop = False
@@ -382,6 +425,7 @@ Partial Class FrmVlcTargetMaster
         '
         'lblDocCode
         '
+        Me.lblDocCode.FieldName = Nothing
         Me.lblDocCode.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblDocCode.Location = New System.Drawing.Point(13, 23)
         Me.lblDocCode.Name = "lblDocCode"
@@ -393,11 +437,11 @@ Partial Class FrmVlcTargetMaster
         '
         Me.lblMccName.AutoSize = False
         Me.lblMccName.BorderVisible = True
+        Me.lblMccName.FieldName = Nothing
         Me.lblMccName.Location = New System.Drawing.Point(343, 46)
         Me.lblMccName.Name = "lblMccName"
         Me.lblMccName.Size = New System.Drawing.Size(527, 19)
         Me.lblMccName.TabIndex = 12
-        Me.lblMccName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnnew
         '
@@ -409,6 +453,15 @@ Partial Class FrmVlcTargetMaster
         '
         'fndMccCode
         '
+        Me.fndMccCode.CalculationExpression = Nothing
+        Me.fndMccCode.FieldCode = Nothing
+        Me.fndMccCode.FieldDesc = Nothing
+        Me.fndMccCode.FieldMaxLength = 0
+        Me.fndMccCode.FieldName = Nothing
+        Me.fndMccCode.isCalculatedField = False
+        Me.fndMccCode.IsSourceFromTable = False
+        Me.fndMccCode.IsSourceFromValueList = False
+        Me.fndMccCode.IsUnique = False
         Me.fndMccCode.Location = New System.Drawing.Point(117, 46)
         Me.fndMccCode.MendatroryField = True
         Me.fndMccCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -417,12 +470,16 @@ Partial Class FrmVlcTargetMaster
         Me.fndMccCode.MyReadOnly = False
         Me.fndMccCode.MyShowMasterFormButton = False
         Me.fndMccCode.Name = "fndMccCode"
+        Me.fndMccCode.ReferenceFieldDesc = Nothing
+        Me.fndMccCode.ReferenceFieldName = Nothing
+        Me.fndMccCode.ReferenceTableName = Nothing
         Me.fndMccCode.Size = New System.Drawing.Size(220, 19)
         Me.fndMccCode.TabIndex = 11
         Me.fndMccCode.Value = ""
         '
         'lblMCCCode
         '
+        Me.lblMCCCode.FieldName = Nothing
         Me.lblMCCCode.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblMCCCode.Location = New System.Drawing.Point(13, 47)
         Me.lblMCCCode.Name = "lblMCCCode"
@@ -432,6 +489,15 @@ Partial Class FrmVlcTargetMaster
         '
         'fndRouteCode
         '
+        Me.fndRouteCode.CalculationExpression = Nothing
+        Me.fndRouteCode.FieldCode = Nothing
+        Me.fndRouteCode.FieldDesc = Nothing
+        Me.fndRouteCode.FieldMaxLength = 0
+        Me.fndRouteCode.FieldName = Nothing
+        Me.fndRouteCode.isCalculatedField = False
+        Me.fndRouteCode.IsSourceFromTable = False
+        Me.fndRouteCode.IsSourceFromValueList = False
+        Me.fndRouteCode.IsUnique = False
         Me.fndRouteCode.Location = New System.Drawing.Point(117, 69)
         Me.fndRouteCode.MendatroryField = True
         Me.fndRouteCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
@@ -440,19 +506,23 @@ Partial Class FrmVlcTargetMaster
         Me.fndRouteCode.MyReadOnly = False
         Me.fndRouteCode.MyShowMasterFormButton = False
         Me.fndRouteCode.Name = "fndRouteCode"
+        Me.fndRouteCode.ReferenceFieldDesc = Nothing
+        Me.fndRouteCode.ReferenceFieldName = Nothing
+        Me.fndRouteCode.ReferenceTableName = Nothing
         Me.fndRouteCode.Size = New System.Drawing.Size(220, 19)
         Me.fndRouteCode.TabIndex = 1
         Me.fndRouteCode.Value = ""
         '
         'fndDocCode
         '
+        Me.fndDocCode.FieldName = Nothing
         Me.fndDocCode.Location = New System.Drawing.Point(117, 21)
         Me.fndDocCode.MendatroryField = True
         Me.fndDocCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndDocCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndDocCode.MyLinkLable1 = Me.lblDocCode
         Me.fndDocCode.MyLinkLable2 = Nothing
-        Me.fndDocCode.MyMaxLength = 32767
+        Me.fndDocCode.MyMaxLength = 30
         Me.fndDocCode.MyReadOnly = False
         Me.fndDocCode.Name = "fndDocCode"
         Me.fndDocCode.Size = New System.Drawing.Size(202, 21)
@@ -463,14 +533,15 @@ Partial Class FrmVlcTargetMaster
         '
         Me.lblRouteName.AutoSize = False
         Me.lblRouteName.BorderVisible = True
+        Me.lblRouteName.FieldName = Nothing
         Me.lblRouteName.Location = New System.Drawing.Point(343, 69)
         Me.lblRouteName.Name = "lblRouteName"
         Me.lblRouteName.Size = New System.Drawing.Size(527, 19)
         Me.lblRouteName.TabIndex = 15
-        Me.lblRouteName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblDocDate
         '
+        Me.lblDocDate.FieldName = Nothing
         Me.lblDocDate.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblDocDate.Location = New System.Drawing.Point(343, 23)
         Me.lblDocDate.Name = "lblDocDate"
@@ -480,9 +551,18 @@ Partial Class FrmVlcTargetMaster
         '
         'DtpDocDate
         '
+        Me.DtpDocDate.CalculationExpression = Nothing
         Me.DtpDocDate.CustomFormat = "dd/MM/yyyy"
+        Me.DtpDocDate.FieldCode = Nothing
+        Me.DtpDocDate.FieldDesc = Nothing
+        Me.DtpDocDate.FieldMaxLength = 0
+        Me.DtpDocDate.FieldName = Nothing
         Me.DtpDocDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.DtpDocDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.DtpDocDate.isCalculatedField = False
+        Me.DtpDocDate.IsSourceFromTable = False
+        Me.DtpDocDate.IsSourceFromValueList = False
+        Me.DtpDocDate.IsUnique = False
         Me.DtpDocDate.Location = New System.Drawing.Point(402, 22)
         Me.DtpDocDate.MendatroryField = False
         Me.DtpDocDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -490,6 +570,9 @@ Partial Class FrmVlcTargetMaster
         Me.DtpDocDate.MyLinkLable2 = Nothing
         Me.DtpDocDate.Name = "DtpDocDate"
         Me.DtpDocDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.DtpDocDate.ReferenceFieldDesc = Nothing
+        Me.DtpDocDate.ReferenceFieldName = Nothing
+        Me.DtpDocDate.ReferenceTableName = Nothing
         Me.DtpDocDate.Size = New System.Drawing.Size(130, 18)
         Me.DtpDocDate.TabIndex = 6
         Me.DtpDocDate.TabStop = False
@@ -538,7 +621,6 @@ Partial Class FrmVlcTargetMaster
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(929, 20)
         Me.rdmenufile.TabIndex = 418
-        Me.rdmenufile.Text = "File"
         '
         'rdmenufile1
         '
@@ -550,15 +632,11 @@ Partial Class FrmVlcTargetMaster
         '
         'BtnsaveLayout
         '
-        Me.BtnsaveLayout.AccessibleDescription = "Save Layout"
-        Me.BtnsaveLayout.AccessibleName = "Save Layout"
         Me.BtnsaveLayout.Name = "BtnsaveLayout"
         Me.BtnsaveLayout.Text = "Save Layout"
         '
         'BtnDeleteLayout
         '
-        Me.BtnDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.BtnDeleteLayout.AccessibleName = "Delete Layout"
         Me.BtnDeleteLayout.Name = "BtnDeleteLayout"
         Me.BtnDeleteLayout.Text = "Delete Layout"
         '

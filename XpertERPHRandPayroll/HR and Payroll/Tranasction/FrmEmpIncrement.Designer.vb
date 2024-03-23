@@ -23,9 +23,11 @@ Partial Class FrmEmpIncrement
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(FrmEmpIncrement))
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.LocationCode = New common.UserControls.txtFinder()
+        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.lblNewSalary = New common.Controls.MyLabel()
         Me.lblTotalInc1 = New common.Controls.MyLabel()
         Me.lblNewSalaryTotal = New common.Controls.MyLabel()
@@ -50,7 +52,6 @@ Partial Class FrmEmpIncrement
         Me.txtRevisionNo = New common.MyNumBox()
         Me.lblEmpSalaryCode = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.MyLabel2 = New common.Controls.MyLabel()
         Me.fndEmpCode = New common.UserControls.txtFinder()
         Me.dtpApplicableFrom = New common.Controls.MyDateTimePicker()
         Me.lblempcode = New common.Controls.MyLabel()
@@ -72,13 +73,13 @@ Partial Class FrmEmpIncrement
         Me.mnuExportWithIncrementAmt = New Telerik.WinControls.UI.RadMenuItem()
         Me.mnuExportWithNewSalary = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmClose = New Telerik.WinControls.UI.RadMenuItem()
-        Me.LocationCode = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblNewSalary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalInc1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblNewSalaryTotal, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -101,7 +102,6 @@ Partial Class FrmEmpIncrement
         CType(Me.txtRevisionNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblEmpSalaryCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpApplicableFrom, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblempcode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalStructName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -191,6 +191,42 @@ Partial Class FrmEmpIncrement
         Me.SplitContainer2.Size = New System.Drawing.Size(1150, 400)
         Me.SplitContainer2.SplitterDistance = 179
         Me.SplitContainer2.TabIndex = 218
+        '
+        'LocationCode
+        '
+        Me.LocationCode.CalculationExpression = Nothing
+        Me.LocationCode.FieldCode = Nothing
+        Me.LocationCode.FieldDesc = Nothing
+        Me.LocationCode.FieldMaxLength = 0
+        Me.LocationCode.FieldName = Nothing
+        Me.LocationCode.isCalculatedField = False
+        Me.LocationCode.IsSourceFromTable = False
+        Me.LocationCode.IsSourceFromValueList = False
+        Me.LocationCode.IsUnique = False
+        Me.LocationCode.Location = New System.Drawing.Point(103, 109)
+        Me.LocationCode.MendatroryField = True
+        Me.LocationCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LocationCode.MyLinkLable1 = Me.MyLabel2
+        Me.LocationCode.MyLinkLable2 = Nothing
+        Me.LocationCode.MyReadOnly = False
+        Me.LocationCode.MyShowMasterFormButton = False
+        Me.LocationCode.Name = "LocationCode"
+        Me.LocationCode.ReferenceFieldDesc = Nothing
+        Me.LocationCode.ReferenceFieldName = Nothing
+        Me.LocationCode.ReferenceTableName = Nothing
+        Me.LocationCode.Size = New System.Drawing.Size(260, 19)
+        Me.LocationCode.TabIndex = 252
+        Me.LocationCode.Value = ""
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(12, 156)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(88, 16)
+        Me.MyLabel2.TabIndex = 213
+        Me.MyLabel2.Text = "Applicable From"
         '
         'lblNewSalary
         '
@@ -391,7 +427,7 @@ Partial Class FrmEmpIncrement
         Me.fndIncrementCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndIncrementCode.MyLinkLable1 = Nothing
         Me.fndIncrementCode.MyLinkLable2 = Nothing
-        Me.fndIncrementCode.MyMaxLength = 32767
+        Me.fndIncrementCode.MyMaxLength = 30
         Me.fndIncrementCode.MyReadOnly = False
         Me.fndIncrementCode.Name = "fndIncrementCode"
         Me.fndIncrementCode.Size = New System.Drawing.Size(260, 21)
@@ -494,16 +530,6 @@ Partial Class FrmEmpIncrement
         Me.MyLabel1.Size = New System.Drawing.Size(67, 16)
         Me.MyLabel1.TabIndex = 205
         Me.MyLabel1.Text = "Revision No"
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(12, 156)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(88, 16)
-        Me.MyLabel2.TabIndex = 213
-        Me.MyLabel2.Text = "Applicable From"
         '
         'fndEmpCode
         '
@@ -620,7 +646,8 @@ Partial Class FrmEmpIncrement
         Me.gvSalary.MasterTemplate.EnableGrouping = False
         Me.gvSalary.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSalary.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSalary.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvSalary.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvSalary.MyStopExport = False
         Me.gvSalary.Name = "gvSalary"
         Me.gvSalary.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSalary.ShowHeaderCellButtons = True
@@ -733,32 +760,6 @@ Partial Class FrmEmpIncrement
         Me.rmClose.Name = "rmClose"
         Me.rmClose.Text = "Close"
         '
-        'LocationCode
-        '
-        Me.LocationCode.CalculationExpression = Nothing
-        Me.LocationCode.FieldCode = Nothing
-        Me.LocationCode.FieldDesc = Nothing
-        Me.LocationCode.FieldMaxLength = 0
-        Me.LocationCode.FieldName = Nothing
-        Me.LocationCode.isCalculatedField = False
-        Me.LocationCode.IsSourceFromTable = False
-        Me.LocationCode.IsSourceFromValueList = False
-        Me.LocationCode.IsUnique = False
-        Me.LocationCode.Location = New System.Drawing.Point(103, 109)
-        Me.LocationCode.MendatroryField = True
-        Me.LocationCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LocationCode.MyLinkLable1 = Me.MyLabel2
-        Me.LocationCode.MyLinkLable2 = Nothing
-        Me.LocationCode.MyReadOnly = False
-        Me.LocationCode.MyShowMasterFormButton = False
-        Me.LocationCode.Name = "LocationCode"
-        Me.LocationCode.ReferenceFieldDesc = Nothing
-        Me.LocationCode.ReferenceFieldName = Nothing
-        Me.LocationCode.ReferenceTableName = Nothing
-        Me.LocationCode.Size = New System.Drawing.Size(260, 19)
-        Me.LocationCode.TabIndex = 252
-        Me.LocationCode.Value = ""
-        '
         'FrmEmpIncrement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -779,6 +780,7 @@ Partial Class FrmEmpIncrement
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblNewSalary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalInc1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblNewSalaryTotal, System.ComponentModel.ISupportInitialize).EndInit()
@@ -801,7 +803,6 @@ Partial Class FrmEmpIncrement
         CType(Me.txtRevisionNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblEmpSalaryCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpApplicableFrom, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblempcode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSalStructName, System.ComponentModel.ISupportInitialize).EndInit()

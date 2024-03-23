@@ -144,7 +144,7 @@ Partial Class frmBankAdvise
         Me.fndDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndDocNo.MyLinkLable1 = Me.lblDocNo
         Me.fndDocNo.MyLinkLable2 = Nothing
-        Me.fndDocNo.MyMaxLength = 32767
+        Me.fndDocNo.MyMaxLength = 30
         Me.fndDocNo.MyReadOnly = False
         Me.fndDocNo.Name = "fndDocNo"
         Me.fndDocNo.Size = New System.Drawing.Size(265, 21)

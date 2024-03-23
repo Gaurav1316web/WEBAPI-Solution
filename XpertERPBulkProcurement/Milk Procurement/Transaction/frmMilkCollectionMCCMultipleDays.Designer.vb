@@ -22,13 +22,13 @@ Partial Class frmMilkCollectionMCCMultipleDays
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
@@ -295,10 +295,14 @@ Partial Class frmMilkCollectionMCCMultipleDays
         '
         Me.gvTotal.MasterTemplate.AllowDeleteRow = False
         Me.gvTotal.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gvTotal.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvTotal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvTotal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvTotal.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvTotal.MyStopExport = False
         Me.gvTotal.Name = "gvTotal"
         Me.gvTotal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTotal.ShowGroupPanel = False
+        Me.gvTotal.ShowHeaderCellButtons = True
         Me.gvTotal.Size = New System.Drawing.Size(220, 98)
         Me.gvTotal.TabIndex = 7
         Me.gvTotal.TabStop = False
@@ -519,10 +523,10 @@ Partial Class frmMilkCollectionMCCMultipleDays
         Me.cboFATSNFType.IsSourceFromTable = False
         Me.cboFATSNFType.IsSourceFromValueList = False
         Me.cboFATSNFType.IsUnique = False
-        RadListDataItem5.Text = "M"
-        RadListDataItem6.Text = "E"
-        Me.cboFATSNFType.Items.Add(RadListDataItem5)
-        Me.cboFATSNFType.Items.Add(RadListDataItem6)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboFATSNFType.Items.Add(RadListDataItem1)
+        Me.cboFATSNFType.Items.Add(RadListDataItem2)
         Me.cboFATSNFType.Location = New System.Drawing.Point(720, 29)
         Me.cboFATSNFType.MendatroryField = True
         Me.cboFATSNFType.MyLinkLable1 = Me.MyLabel1
@@ -607,10 +611,10 @@ Partial Class frmMilkCollectionMCCMultipleDays
         Me.cboLate.IsSourceFromTable = False
         Me.cboLate.IsSourceFromValueList = False
         Me.cboLate.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboLate.Items.Add(RadListDataItem1)
-        Me.cboLate.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboLate.Items.Add(RadListDataItem3)
+        Me.cboLate.Items.Add(RadListDataItem4)
         Me.cboLate.Location = New System.Drawing.Point(525, 27)
         Me.cboLate.MendatroryField = True
         Me.cboLate.MyLinkLable1 = Me.MyLabel2
@@ -902,7 +906,7 @@ Partial Class frmMilkCollectionMCCMultipleDays
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(250, 20)
@@ -987,10 +991,14 @@ Partial Class frmMilkCollectionMCCMultipleDays
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(1093, 141)
         Me.gv1.TabIndex = 2
         Me.gv1.TabStop = False
@@ -1047,10 +1055,14 @@ Partial Class frmMilkCollectionMCCMultipleDays
         '
         Me.gvParam.MasterTemplate.AllowDeleteRow = False
         Me.gvParam.MasterTemplate.EnableAlternatingRowColor = True
-        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvParam.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvParam.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvParam.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvParam.MyStopExport = False
         Me.gvParam.Name = "gvParam"
         Me.gvParam.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvParam.ShowGroupPanel = False
+        Me.gvParam.ShowHeaderCellButtons = True
         Me.gvParam.Size = New System.Drawing.Size(869, 98)
         Me.gvParam.TabIndex = 3
         Me.gvParam.TabStop = False
@@ -1169,7 +1181,6 @@ Partial Class frmMilkCollectionMCCMultipleDays
     Friend WithEvents MyLabel10 As common.Controls.MyLabel
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents cboFATSNFType As common.Controls.MyComboBox
-    Friend WithEvents gvTotal As RadGridView
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents txtTankerNo As common.UserControls.txtFinder
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
@@ -1178,7 +1189,6 @@ Partial Class frmMilkCollectionMCCMultipleDays
     Friend WithEvents btnBlankSheetUploder As RadButton
     Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents SplitContainer1 As SplitContainer
-    Friend WithEvents gvParam As RadGridView
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents RadButton1 As RadButton
     Friend WithEvents btnPrint As RadButton
@@ -1191,5 +1201,7 @@ Partial Class frmMilkCollectionMCCMultipleDays
     Friend WithEvents btnAddMissing As RadButton
     Friend WithEvents RadButton2 As RadButton
     Friend WithEvents btnReverse As RadButton
+    Friend WithEvents gvTotal As common.UserControls.MyRadGridView
+    Friend WithEvents gvParam As common.UserControls.MyRadGridView
 End Class
 

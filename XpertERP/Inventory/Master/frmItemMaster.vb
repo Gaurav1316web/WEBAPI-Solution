@@ -1328,10 +1328,10 @@ Or (Microsoft.VisualBasic.Asc(e.KeyChar) > 122) Then
             '    myMessages.blankValue("SKU Sequence")
             '    txtskuseq.Focus()
         ElseIf fndcategory.Value = "" Then
-            myMessages.blankValue("Item Category")
+            myMessages.blankValue(Me, "Item Category", Me.Text)
             fndcategory.Focus()
         ElseIf fndItemSubCategory.Value = "" Then
-            myMessages.blankValue("Sub Item Category")
+            myMessages.blankValue(Me, "Sub Item Category", Me.Text)
             fndItemSubCategory.Focus()
             'ElseIf txttolerence.Text = "" Then
             '    txttolerence.Text = 0

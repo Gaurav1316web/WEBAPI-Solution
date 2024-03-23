@@ -6038,7 +6038,7 @@ Public Class frmEXPorformaInvoice
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             funPrint(txtDocNo.Value)
         End If
@@ -7290,7 +7290,7 @@ Public Class frmEXPorformaInvoice
   
     Private Sub rmFormat1_Click(sender As Object, e As EventArgs) Handles rmFormat1.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             funPrint(txtDocNo.Value)
         End If
@@ -7298,7 +7298,7 @@ Public Class frmEXPorformaInvoice
 
     Private Sub rmFormat2_Click(sender As Object, e As EventArgs) Handles rmFormat2.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             funPrint(txtDocNo.Value, True)
         End If

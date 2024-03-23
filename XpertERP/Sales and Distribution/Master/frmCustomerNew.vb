@@ -152,7 +152,7 @@ Public Class frmCustomer
                     txtCustomerName.Focus()
                 End If
             ElseIf clsCommon.myLen(fndCustomer.Value) <= 0 Then
-                myMessages.blankValue("Customer No")
+                myMessages.blankValue(Me, "Customer No", Me.Text)
                 fndCustomer.Focus()
                 Return
             Else

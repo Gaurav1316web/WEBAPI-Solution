@@ -39,18 +39,7 @@ Partial Class FrmPaymentProcess
         Me.dtpDate = New common.Controls.MyDateTimePicker()
         Me.lblDocDate = New common.Controls.MyLabel()
         Me.chkAll = New common.Controls.MyCheckBox()
-        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
-        Me.chkSkipPreviousDocumentOfAssetLost = New common.Controls.MyCheckBox()
-        Me.chkSkipPreviousDocumentOfAdvancePayment = New common.Controls.MyCheckBox()
-        Me.chkSkipPrevItemIssueReturn = New common.Controls.MyCheckBox()
-        Me.ChkSkipMccSaleReturn = New common.Controls.MyCheckBox()
-        Me.chkSkipPrevCreditNote = New common.Controls.MyCheckBox()
-        Me.chkSkipPrevDeduction = New common.Controls.MyCheckBox()
-        Me.chkSkipPrevItemIssue = New common.Controls.MyCheckBox()
-        Me.chkSkipPrevMccSale = New common.Controls.MyCheckBox()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.fndArea = New common.UserControls.txtFinder()
-        Me.lblLocation = New common.Controls.MyLabel()
         Me.mfndMcc = New common.UserControls.txtMultiSelectFinder()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtFiscalYear = New common.Controls.MyTextBox()
@@ -66,6 +55,7 @@ Partial Class FrmPaymentProcess
         Me.btnUnselectAll = New Telerik.WinControls.UI.RadButton()
         Me.btnSelectAll = New Telerik.WinControls.UI.RadButton()
         Me.txtLocName = New common.Controls.MyTextBox()
+        Me.lblLocation = New common.Controls.MyLabel()
         Me.fndLoc = New common.UserControls.txtFinder()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
@@ -74,8 +64,20 @@ Partial Class FrmPaymentProcess
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.dtpFromDate = New common.Controls.MyDateTimePicker()
         Me.lblPending = New common.usLock()
+        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.lblDocNo = New common.Controls.MyLabel()
         Me.fndDocNo = New common.UserControls.txtNavigator()
+        Me.GroupBox2 = New System.Windows.Forms.GroupBox()
+        Me.chkHoldSavingPayment = New common.Controls.MyCheckBox()
+        Me.chkSkipPreviousDocumentOfAssetLost = New common.Controls.MyCheckBox()
+        Me.chkSkipPreviousDocumentOfAdvancePayment = New common.Controls.MyCheckBox()
+        Me.chkSkipPrevItemIssueReturn = New common.Controls.MyCheckBox()
+        Me.ChkSkipMccSaleReturn = New common.Controls.MyCheckBox()
+        Me.chkSkipPrevCreditNote = New common.Controls.MyCheckBox()
+        Me.chkSkipPrevDeduction = New common.Controls.MyCheckBox()
+        Me.chkSkipPrevItemIssue = New common.Controls.MyCheckBox()
+        Me.chkSkipPrevMccSale = New common.Controls.MyCheckBox()
+        Me.fndArea = New common.UserControls.txtFinder()
         Me.gv = New common.UserControls.MyRadGridView()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
@@ -117,7 +119,6 @@ Partial Class FrmPaymentProcess
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.RadPageViewPage1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
@@ -125,16 +126,6 @@ Partial Class FrmPaymentProcess
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkAll, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox2.SuspendLayout()
-        CType(Me.chkSkipPreviousDocumentOfAssetLost, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSkipPreviousDocumentOfAdvancePayment, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSkipPrevItemIssueReturn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChkSkipMccSaleReturn, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSkipPrevCreditNote, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSkipPrevDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSkipPrevItemIssue, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkSkipPrevMccSale, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -148,13 +139,25 @@ Partial Class FrmPaymentProcess
         CType(Me.btnUnselectAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSelectAll, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLocName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox2.SuspendLayout()
+        CType(Me.chkHoldSavingPayment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipPreviousDocumentOfAssetLost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipPreviousDocumentOfAdvancePayment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipPrevItemIssueReturn, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChkSkipMccSaleReturn, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipPrevCreditNote, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipPrevDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipPrevItemIssue, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSkipPrevMccSale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -208,17 +211,16 @@ Partial Class FrmPaymentProcess
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(96.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(100.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(924, 429)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(924, 425)
         Me.RadPageViewPage1.Text = "Payment Process"
         '
         'SplitContainer2
@@ -233,9 +235,7 @@ Partial Class FrmPaymentProcess
         '
         Me.SplitContainer2.Panel1.Controls.Add(Me.dtpDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.chkAll)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.GroupBox2)
         Me.SplitContainer2.Panel1.Controls.Add(Me.Label1)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.fndArea)
         Me.SplitContainer2.Panel1.Controls.Add(Me.mfndMcc)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtFiscalYear)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel6)
@@ -260,11 +260,13 @@ Partial Class FrmPaymentProcess
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblDocNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblDocDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.fndDocNo)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.GroupBox2)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.fndArea)
         '
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gv)
-        Me.SplitContainer2.Size = New System.Drawing.Size(924, 429)
+        Me.SplitContainer2.Size = New System.Drawing.Size(924, 425)
         Me.SplitContainer2.SplitterDistance = 160
         Me.SplitContainer2.TabIndex = 265
         '
@@ -318,110 +320,6 @@ Partial Class FrmPaymentProcess
         Me.chkAll.Tag1 = Nothing
         Me.chkAll.Text = "Apply Check/Uncheck on All"
         '
-        'GroupBox2
-        '
-        Me.GroupBox2.Controls.Add(Me.chkSkipPreviousDocumentOfAssetLost)
-        Me.GroupBox2.Controls.Add(Me.chkSkipPreviousDocumentOfAdvancePayment)
-        Me.GroupBox2.Controls.Add(Me.chkSkipPrevItemIssueReturn)
-        Me.GroupBox2.Controls.Add(Me.ChkSkipMccSaleReturn)
-        Me.GroupBox2.Controls.Add(Me.chkSkipPrevCreditNote)
-        Me.GroupBox2.Controls.Add(Me.chkSkipPrevDeduction)
-        Me.GroupBox2.Controls.Add(Me.chkSkipPrevItemIssue)
-        Me.GroupBox2.Controls.Add(Me.chkSkipPrevMccSale)
-        Me.GroupBox2.Location = New System.Drawing.Point(353, 25)
-        Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(458, 87)
-        Me.GroupBox2.TabIndex = 280
-        Me.GroupBox2.TabStop = False
-        '
-        'chkSkipPreviousDocumentOfAssetLost
-        '
-        Me.chkSkipPreviousDocumentOfAssetLost.Location = New System.Drawing.Point(6, 69)
-        Me.chkSkipPreviousDocumentOfAssetLost.MyLinkLable1 = Nothing
-        Me.chkSkipPreviousDocumentOfAssetLost.MyLinkLable2 = Nothing
-        Me.chkSkipPreviousDocumentOfAssetLost.Name = "chkSkipPreviousDocumentOfAssetLost"
-        Me.chkSkipPreviousDocumentOfAssetLost.Size = New System.Drawing.Size(193, 18)
-        Me.chkSkipPreviousDocumentOfAssetLost.TabIndex = 67
-        Me.chkSkipPreviousDocumentOfAssetLost.Tag1 = Nothing
-        Me.chkSkipPreviousDocumentOfAssetLost.Text = "Skip Prev Documents of Asset Lost"
-        '
-        'chkSkipPreviousDocumentOfAdvancePayment
-        '
-        Me.chkSkipPreviousDocumentOfAdvancePayment.Location = New System.Drawing.Point(239, 69)
-        Me.chkSkipPreviousDocumentOfAdvancePayment.MyLinkLable1 = Nothing
-        Me.chkSkipPreviousDocumentOfAdvancePayment.MyLinkLable2 = Nothing
-        Me.chkSkipPreviousDocumentOfAdvancePayment.Name = "chkSkipPreviousDocumentOfAdvancePayment"
-        Me.chkSkipPreviousDocumentOfAdvancePayment.Size = New System.Drawing.Size(227, 18)
-        Me.chkSkipPreviousDocumentOfAdvancePayment.TabIndex = 66
-        Me.chkSkipPreviousDocumentOfAdvancePayment.Tag1 = Nothing
-        Me.chkSkipPreviousDocumentOfAdvancePayment.Text = "Skip Prev Documents of Advane Payment"
-        '
-        'chkSkipPrevItemIssueReturn
-        '
-        Me.chkSkipPrevItemIssueReturn.Location = New System.Drawing.Point(6, 15)
-        Me.chkSkipPrevItemIssueReturn.MyLinkLable1 = Nothing
-        Me.chkSkipPrevItemIssueReturn.MyLinkLable2 = Nothing
-        Me.chkSkipPrevItemIssueReturn.Name = "chkSkipPrevItemIssueReturn"
-        Me.chkSkipPrevItemIssueReturn.Size = New System.Drawing.Size(229, 18)
-        Me.chkSkipPrevItemIssueReturn.TabIndex = 65
-        Me.chkSkipPrevItemIssueReturn.Tag1 = Nothing
-        Me.chkSkipPrevItemIssueReturn.Text = "Skip Prev Documents of Item Issue Return"
-        '
-        'ChkSkipMccSaleReturn
-        '
-        Me.ChkSkipMccSaleReturn.Location = New System.Drawing.Point(6, 33)
-        Me.ChkSkipMccSaleReturn.MyLinkLable1 = Nothing
-        Me.ChkSkipMccSaleReturn.MyLinkLable2 = Nothing
-        Me.ChkSkipMccSaleReturn.Name = "ChkSkipMccSaleReturn"
-        Me.ChkSkipMccSaleReturn.Size = New System.Drawing.Size(227, 18)
-        Me.ChkSkipMccSaleReturn.TabIndex = 62
-        Me.ChkSkipMccSaleReturn.Tag1 = Nothing
-        Me.ChkSkipMccSaleReturn.Text = "Skip Prev Documents of MCC Sale Return"
-        '
-        'chkSkipPrevCreditNote
-        '
-        Me.chkSkipPrevCreditNote.Location = New System.Drawing.Point(239, 51)
-        Me.chkSkipPrevCreditNote.MyLinkLable1 = Nothing
-        Me.chkSkipPrevCreditNote.MyLinkLable2 = Nothing
-        Me.chkSkipPrevCreditNote.Name = "chkSkipPrevCreditNote"
-        Me.chkSkipPrevCreditNote.Size = New System.Drawing.Size(201, 18)
-        Me.chkSkipPrevCreditNote.TabIndex = 64
-        Me.chkSkipPrevCreditNote.Tag1 = Nothing
-        Me.chkSkipPrevCreditNote.Text = "Skip Prev Documents of Credit Note"
-        '
-        'chkSkipPrevDeduction
-        '
-        Me.chkSkipPrevDeduction.Location = New System.Drawing.Point(239, 33)
-        Me.chkSkipPrevDeduction.MyLinkLable1 = Nothing
-        Me.chkSkipPrevDeduction.MyLinkLable2 = Nothing
-        Me.chkSkipPrevDeduction.Name = "chkSkipPrevDeduction"
-        Me.chkSkipPrevDeduction.Size = New System.Drawing.Size(199, 18)
-        Me.chkSkipPrevDeduction.TabIndex = 63
-        Me.chkSkipPrevDeduction.Tag1 = Nothing
-        Me.chkSkipPrevDeduction.Text = "Skip Prev Documents of Deductions"
-        '
-        'chkSkipPrevItemIssue
-        '
-        Me.chkSkipPrevItemIssue.Location = New System.Drawing.Point(6, 51)
-        Me.chkSkipPrevItemIssue.MyLinkLable1 = Nothing
-        Me.chkSkipPrevItemIssue.MyLinkLable2 = Nothing
-        Me.chkSkipPrevItemIssue.Name = "chkSkipPrevItemIssue"
-        Me.chkSkipPrevItemIssue.Size = New System.Drawing.Size(193, 18)
-        Me.chkSkipPrevItemIssue.TabIndex = 62
-        Me.chkSkipPrevItemIssue.Tag1 = Nothing
-        Me.chkSkipPrevItemIssue.Text = "Skip Prev Documents of Item Issue"
-        '
-        'chkSkipPrevMccSale
-        '
-        Me.chkSkipPrevMccSale.Location = New System.Drawing.Point(239, 15)
-        Me.chkSkipPrevMccSale.MyLinkLable1 = Nothing
-        Me.chkSkipPrevMccSale.MyLinkLable2 = Nothing
-        Me.chkSkipPrevMccSale.Name = "chkSkipPrevMccSale"
-        Me.chkSkipPrevMccSale.Size = New System.Drawing.Size(190, 18)
-        Me.chkSkipPrevMccSale.TabIndex = 61
-        Me.chkSkipPrevMccSale.Tag1 = Nothing
-        Me.chkSkipPrevMccSale.Text = "Skip Prev Documents of MCC Sale"
-        '
         'Label1
         '
         Me.Label1.AutoSize = True
@@ -430,42 +328,6 @@ Partial Class FrmPaymentProcess
         Me.Label1.Size = New System.Drawing.Size(30, 13)
         Me.Label1.TabIndex = 297
         Me.Label1.Text = "Area"
-        '
-        'fndArea
-        '
-        Me.fndArea.CalculationExpression = Nothing
-        Me.fndArea.FieldCode = Nothing
-        Me.fndArea.FieldDesc = Nothing
-        Me.fndArea.FieldMaxLength = 0
-        Me.fndArea.FieldName = Nothing
-        Me.fndArea.isCalculatedField = False
-        Me.fndArea.IsSourceFromTable = False
-        Me.fndArea.IsSourceFromValueList = False
-        Me.fndArea.IsUnique = False
-        Me.fndArea.Location = New System.Drawing.Point(677, 112)
-        Me.fndArea.MendatroryField = True
-        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndArea.MyLinkLable1 = Me.lblLocation
-        Me.fndArea.MyLinkLable2 = Nothing
-        Me.fndArea.MyReadOnly = False
-        Me.fndArea.MyShowMasterFormButton = False
-        Me.fndArea.Name = "fndArea"
-        Me.fndArea.ReferenceFieldDesc = Nothing
-        Me.fndArea.ReferenceFieldName = Nothing
-        Me.fndArea.ReferenceTableName = Nothing
-        Me.fndArea.Size = New System.Drawing.Size(136, 19)
-        Me.fndArea.TabIndex = 296
-        Me.fndArea.Value = ""
-        '
-        'lblLocation
-        '
-        Me.lblLocation.FieldName = Nothing
-        Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(5, 28)
-        Me.lblLocation.Name = "lblLocation"
-        Me.lblLocation.Size = New System.Drawing.Size(49, 16)
-        Me.lblLocation.TabIndex = 277
-        Me.lblLocation.Text = "Location"
         '
         'mfndMcc
         '
@@ -708,6 +570,16 @@ Partial Class FrmPaymentProcess
         Me.txtLocName.Size = New System.Drawing.Size(146, 20)
         Me.txtLocName.TabIndex = 276
         '
+        'lblLocation
+        '
+        Me.lblLocation.FieldName = Nothing
+        Me.lblLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblLocation.Location = New System.Drawing.Point(5, 28)
+        Me.lblLocation.Name = "lblLocation"
+        Me.lblLocation.Size = New System.Drawing.Size(49, 16)
+        Me.lblLocation.TabIndex = 277
+        Me.lblLocation.Text = "Location"
+        '
         'fndLoc
         '
         Me.fndLoc.CalculationExpression = Nothing
@@ -759,7 +631,7 @@ Partial Class FrmPaymentProcess
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(147, 11)
+        Me.MyLabel2.Location = New System.Drawing.Point(154, 11)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(19, 16)
         Me.MyLabel2.TabIndex = 266
@@ -844,6 +716,16 @@ Partial Class FrmPaymentProcess
         Me.lblPending.Status = common.ERPTransactionStatus.Pending
         Me.lblPending.TabIndex = 256
         '
+        'btnReset
+        '
+        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReset.Image = Global.ERP.My.Resources.Resources._new
+        Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnReset.Location = New System.Drawing.Point(331, 4)
+        Me.btnReset.Name = "btnReset"
+        Me.btnReset.Size = New System.Drawing.Size(19, 21)
+        Me.btnReset.TabIndex = 260
+        '
         'lblDocNo
         '
         Me.lblDocNo.FieldName = Nothing
@@ -869,6 +751,148 @@ Partial Class FrmPaymentProcess
         Me.fndDocNo.TabIndex = 258
         Me.fndDocNo.Value = ""
         '
+        'GroupBox2
+        '
+        Me.GroupBox2.Controls.Add(Me.chkHoldSavingPayment)
+        Me.GroupBox2.Controls.Add(Me.chkSkipPreviousDocumentOfAssetLost)
+        Me.GroupBox2.Controls.Add(Me.chkSkipPreviousDocumentOfAdvancePayment)
+        Me.GroupBox2.Controls.Add(Me.chkSkipPrevItemIssueReturn)
+        Me.GroupBox2.Controls.Add(Me.ChkSkipMccSaleReturn)
+        Me.GroupBox2.Controls.Add(Me.chkSkipPrevCreditNote)
+        Me.GroupBox2.Controls.Add(Me.chkSkipPrevDeduction)
+        Me.GroupBox2.Controls.Add(Me.chkSkipPrevItemIssue)
+        Me.GroupBox2.Controls.Add(Me.chkSkipPrevMccSale)
+        Me.GroupBox2.Location = New System.Drawing.Point(353, 24)
+        Me.GroupBox2.Name = "GroupBox2"
+        Me.GroupBox2.Size = New System.Drawing.Size(468, 87)
+        Me.GroupBox2.TabIndex = 280
+        Me.GroupBox2.TabStop = False
+        '
+        'chkHoldSavingPayment
+        '
+        Me.chkHoldSavingPayment.Location = New System.Drawing.Point(239, -1)
+        Me.chkHoldSavingPayment.MyLinkLable1 = Nothing
+        Me.chkHoldSavingPayment.MyLinkLable2 = Nothing
+        Me.chkHoldSavingPayment.Name = "chkHoldSavingPayment"
+        Me.chkHoldSavingPayment.Size = New System.Drawing.Size(168, 18)
+        Me.chkHoldSavingPayment.TabIndex = 298
+        Me.chkHoldSavingPayment.Tag1 = Nothing
+        Me.chkHoldSavingPayment.Text = "Hold/Unhold Saving Payment"
+        '
+        'chkSkipPreviousDocumentOfAssetLost
+        '
+        Me.chkSkipPreviousDocumentOfAssetLost.Location = New System.Drawing.Point(6, 69)
+        Me.chkSkipPreviousDocumentOfAssetLost.MyLinkLable1 = Nothing
+        Me.chkSkipPreviousDocumentOfAssetLost.MyLinkLable2 = Nothing
+        Me.chkSkipPreviousDocumentOfAssetLost.Name = "chkSkipPreviousDocumentOfAssetLost"
+        Me.chkSkipPreviousDocumentOfAssetLost.Size = New System.Drawing.Size(193, 18)
+        Me.chkSkipPreviousDocumentOfAssetLost.TabIndex = 67
+        Me.chkSkipPreviousDocumentOfAssetLost.Tag1 = Nothing
+        Me.chkSkipPreviousDocumentOfAssetLost.Text = "Skip Prev Documents of Asset Lost"
+        '
+        'chkSkipPreviousDocumentOfAdvancePayment
+        '
+        Me.chkSkipPreviousDocumentOfAdvancePayment.Location = New System.Drawing.Point(239, 69)
+        Me.chkSkipPreviousDocumentOfAdvancePayment.MyLinkLable1 = Nothing
+        Me.chkSkipPreviousDocumentOfAdvancePayment.MyLinkLable2 = Nothing
+        Me.chkSkipPreviousDocumentOfAdvancePayment.Name = "chkSkipPreviousDocumentOfAdvancePayment"
+        Me.chkSkipPreviousDocumentOfAdvancePayment.Size = New System.Drawing.Size(227, 18)
+        Me.chkSkipPreviousDocumentOfAdvancePayment.TabIndex = 66
+        Me.chkSkipPreviousDocumentOfAdvancePayment.Tag1 = Nothing
+        Me.chkSkipPreviousDocumentOfAdvancePayment.Text = "Skip Prev Documents of Advane Payment"
+        '
+        'chkSkipPrevItemIssueReturn
+        '
+        Me.chkSkipPrevItemIssueReturn.Location = New System.Drawing.Point(6, 15)
+        Me.chkSkipPrevItemIssueReturn.MyLinkLable1 = Nothing
+        Me.chkSkipPrevItemIssueReturn.MyLinkLable2 = Nothing
+        Me.chkSkipPrevItemIssueReturn.Name = "chkSkipPrevItemIssueReturn"
+        Me.chkSkipPrevItemIssueReturn.Size = New System.Drawing.Size(229, 18)
+        Me.chkSkipPrevItemIssueReturn.TabIndex = 65
+        Me.chkSkipPrevItemIssueReturn.Tag1 = Nothing
+        Me.chkSkipPrevItemIssueReturn.Text = "Skip Prev Documents of Item Issue Return"
+        '
+        'ChkSkipMccSaleReturn
+        '
+        Me.ChkSkipMccSaleReturn.Location = New System.Drawing.Point(6, 33)
+        Me.ChkSkipMccSaleReturn.MyLinkLable1 = Nothing
+        Me.ChkSkipMccSaleReturn.MyLinkLable2 = Nothing
+        Me.ChkSkipMccSaleReturn.Name = "ChkSkipMccSaleReturn"
+        Me.ChkSkipMccSaleReturn.Size = New System.Drawing.Size(227, 18)
+        Me.ChkSkipMccSaleReturn.TabIndex = 62
+        Me.ChkSkipMccSaleReturn.Tag1 = Nothing
+        Me.ChkSkipMccSaleReturn.Text = "Skip Prev Documents of MCC Sale Return"
+        '
+        'chkSkipPrevCreditNote
+        '
+        Me.chkSkipPrevCreditNote.Location = New System.Drawing.Point(239, 51)
+        Me.chkSkipPrevCreditNote.MyLinkLable1 = Nothing
+        Me.chkSkipPrevCreditNote.MyLinkLable2 = Nothing
+        Me.chkSkipPrevCreditNote.Name = "chkSkipPrevCreditNote"
+        Me.chkSkipPrevCreditNote.Size = New System.Drawing.Size(201, 18)
+        Me.chkSkipPrevCreditNote.TabIndex = 64
+        Me.chkSkipPrevCreditNote.Tag1 = Nothing
+        Me.chkSkipPrevCreditNote.Text = "Skip Prev Documents of Credit Note"
+        '
+        'chkSkipPrevDeduction
+        '
+        Me.chkSkipPrevDeduction.Location = New System.Drawing.Point(239, 33)
+        Me.chkSkipPrevDeduction.MyLinkLable1 = Nothing
+        Me.chkSkipPrevDeduction.MyLinkLable2 = Nothing
+        Me.chkSkipPrevDeduction.Name = "chkSkipPrevDeduction"
+        Me.chkSkipPrevDeduction.Size = New System.Drawing.Size(199, 18)
+        Me.chkSkipPrevDeduction.TabIndex = 63
+        Me.chkSkipPrevDeduction.Tag1 = Nothing
+        Me.chkSkipPrevDeduction.Text = "Skip Prev Documents of Deductions"
+        '
+        'chkSkipPrevItemIssue
+        '
+        Me.chkSkipPrevItemIssue.Location = New System.Drawing.Point(6, 51)
+        Me.chkSkipPrevItemIssue.MyLinkLable1 = Nothing
+        Me.chkSkipPrevItemIssue.MyLinkLable2 = Nothing
+        Me.chkSkipPrevItemIssue.Name = "chkSkipPrevItemIssue"
+        Me.chkSkipPrevItemIssue.Size = New System.Drawing.Size(193, 18)
+        Me.chkSkipPrevItemIssue.TabIndex = 62
+        Me.chkSkipPrevItemIssue.Tag1 = Nothing
+        Me.chkSkipPrevItemIssue.Text = "Skip Prev Documents of Item Issue"
+        '
+        'chkSkipPrevMccSale
+        '
+        Me.chkSkipPrevMccSale.Location = New System.Drawing.Point(239, 15)
+        Me.chkSkipPrevMccSale.MyLinkLable1 = Nothing
+        Me.chkSkipPrevMccSale.MyLinkLable2 = Nothing
+        Me.chkSkipPrevMccSale.Name = "chkSkipPrevMccSale"
+        Me.chkSkipPrevMccSale.Size = New System.Drawing.Size(190, 18)
+        Me.chkSkipPrevMccSale.TabIndex = 61
+        Me.chkSkipPrevMccSale.Tag1 = Nothing
+        Me.chkSkipPrevMccSale.Text = "Skip Prev Documents of MCC Sale"
+        '
+        'fndArea
+        '
+        Me.fndArea.CalculationExpression = Nothing
+        Me.fndArea.FieldCode = Nothing
+        Me.fndArea.FieldDesc = Nothing
+        Me.fndArea.FieldMaxLength = 0
+        Me.fndArea.FieldName = Nothing
+        Me.fndArea.isCalculatedField = False
+        Me.fndArea.IsSourceFromTable = False
+        Me.fndArea.IsSourceFromValueList = False
+        Me.fndArea.IsUnique = False
+        Me.fndArea.Location = New System.Drawing.Point(677, 112)
+        Me.fndArea.MendatroryField = True
+        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndArea.MyLinkLable1 = Me.lblLocation
+        Me.fndArea.MyLinkLable2 = Nothing
+        Me.fndArea.MyReadOnly = False
+        Me.fndArea.MyShowMasterFormButton = False
+        Me.fndArea.Name = "fndArea"
+        Me.fndArea.ReferenceFieldDesc = Nothing
+        Me.fndArea.ReferenceFieldName = Nothing
+        Me.fndArea.ReferenceTableName = Nothing
+        Me.fndArea.Size = New System.Drawing.Size(136, 19)
+        Me.fndArea.TabIndex = 296
+        Me.fndArea.Value = ""
+        '
         'gv
         '
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
@@ -883,7 +907,7 @@ Partial Class FrmPaymentProcess
         Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowHeaderCellButtons = True
-        Me.gv.Size = New System.Drawing.Size(924, 265)
+        Me.gv.Size = New System.Drawing.Size(924, 261)
         Me.gv.TabIndex = 0
         '
         'SplitContainer1
@@ -942,7 +966,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage2
         '
         Me.RadPageViewPage2.Controls.Add(Me.gvInvoice)
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(52.0!, 24.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(56.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(924, 425)
@@ -968,7 +992,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.gvMccSale)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(60.0!, 24.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(64.0!, 28.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(924, 425)
@@ -994,7 +1018,7 @@ Partial Class FrmPaymentProcess
         'RDPMccSaleReturn
         '
         Me.RDPMccSaleReturn.Controls.Add(Me.GvMccSaleReturn)
-        Me.RDPMccSaleReturn.ItemSize = New System.Drawing.SizeF(93.0!, 24.0!)
+        Me.RDPMccSaleReturn.ItemSize = New System.Drawing.SizeF(97.0!, 28.0!)
         Me.RDPMccSaleReturn.Location = New System.Drawing.Point(10, 37)
         Me.RDPMccSaleReturn.Name = "RDPMccSaleReturn"
         Me.RDPMccSaleReturn.Size = New System.Drawing.Size(924, 425)
@@ -1020,7 +1044,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage4
         '
         Me.RadPageViewPage4.Controls.Add(Me.gvItemIssue)
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(63.0!, 24.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(67.0!, 28.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(924, 425)
@@ -1046,7 +1070,7 @@ Partial Class FrmPaymentProcess
         'PageItemIssueReturn
         '
         Me.PageItemIssueReturn.Controls.Add(Me.gvItemIssueReturn)
-        Me.PageItemIssueReturn.ItemSize = New System.Drawing.SizeF(99.0!, 24.0!)
+        Me.PageItemIssueReturn.ItemSize = New System.Drawing.SizeF(103.0!, 28.0!)
         Me.PageItemIssueReturn.Location = New System.Drawing.Point(10, 37)
         Me.PageItemIssueReturn.Name = "PageItemIssueReturn"
         Me.PageItemIssueReturn.Size = New System.Drawing.Size(924, 425)
@@ -1072,7 +1096,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage5
         '
         Me.RadPageViewPage5.Controls.Add(Me.gvDeduction)
-        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(69.0!, 24.0!)
+        Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(73.0!, 28.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
         Me.RadPageViewPage5.Size = New System.Drawing.Size(924, 425)
@@ -1098,7 +1122,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage6
         '
         Me.RadPageViewPage6.Controls.Add(Me.gvCreditNote)
-        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(70.0!, 24.0!)
+        Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(74.0!, 28.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
         Me.RadPageViewPage6.Size = New System.Drawing.Size(924, 425)
@@ -1124,7 +1148,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage7
         '
         Me.RadPageViewPage7.Controls.Add(Me.gvAdvancePayment)
-        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(102.0!, 24.0!)
+        Me.RadPageViewPage7.ItemSize = New System.Drawing.SizeF(106.0!, 28.0!)
         Me.RadPageViewPage7.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage7.Name = "RadPageViewPage7"
         Me.RadPageViewPage7.Size = New System.Drawing.Size(818, 425)
@@ -1150,7 +1174,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage8
         '
         Me.RadPageViewPage8.Controls.Add(Me.gvAssetLost)
-        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(63.0!, 24.0!)
+        Me.RadPageViewPage8.ItemSize = New System.Drawing.SizeF(67.0!, 28.0!)
         Me.RadPageViewPage8.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage8.Name = "RadPageViewPage8"
         Me.RadPageViewPage8.Size = New System.Drawing.Size(924, 425)
@@ -1176,7 +1200,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewPage9
         '
         Me.RadPageViewPage9.Controls.Add(Me.gvSaving)
-        Me.RadPageViewPage9.ItemSize = New System.Drawing.SizeF(45.0!, 24.0!)
+        Me.RadPageViewPage9.ItemSize = New System.Drawing.SizeF(49.0!, 28.0!)
         Me.RadPageViewPage9.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage9.Name = "RadPageViewPage9"
         Me.RadPageViewPage9.Size = New System.Drawing.Size(924, 425)
@@ -1202,7 +1226,7 @@ Partial Class FrmPaymentProcess
         'RadPageViewCompulsory
         '
         Me.RadPageViewCompulsory.Controls.Add(Me.gvCompulsory)
-        Me.RadPageViewCompulsory.ItemSize = New System.Drawing.SizeF(72.0!, 24.0!)
+        Me.RadPageViewCompulsory.ItemSize = New System.Drawing.SizeF(76.0!, 28.0!)
         Me.RadPageViewCompulsory.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewCompulsory.Name = "RadPageViewCompulsory"
         Me.RadPageViewCompulsory.Size = New System.Drawing.Size(924, 425)
@@ -1227,6 +1251,7 @@ Partial Class FrmPaymentProcess
         '
         'btnPrintBillMobUser
         '
+        Me.btnPrintBillMobUser.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrintBillMobUser.Location = New System.Drawing.Point(478, 5)
         Me.btnPrintBillMobUser.Name = "btnPrintBillMobUser"
         Me.btnPrintBillMobUser.Size = New System.Drawing.Size(105, 18)
@@ -1236,7 +1261,7 @@ Partial Class FrmPaymentProcess
         '
         'btnDCPrint
         '
-        Me.btnDCPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnDCPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDCPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnDCPrint.Location = New System.Drawing.Point(795, 5)
         Me.btnDCPrint.Name = "btnDCPrint"
@@ -1256,6 +1281,7 @@ Partial Class FrmPaymentProcess
         '
         'btnDeleteVSPBill
         '
+        Me.btnDeleteVSPBill.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDeleteVSPBill.Location = New System.Drawing.Point(689, 5)
         Me.btnDeleteVSPBill.Name = "btnDeleteVSPBill"
         Me.btnDeleteVSPBill.Size = New System.Drawing.Size(105, 18)
@@ -1265,6 +1291,7 @@ Partial Class FrmPaymentProcess
         '
         'btnReverse
         '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReverse.Location = New System.Drawing.Point(584, 5)
         Me.btnReverse.Name = "btnReverse"
         Me.btnReverse.Size = New System.Drawing.Size(104, 18)
@@ -1274,6 +1301,7 @@ Partial Class FrmPaymentProcess
         '
         'btnDocPrint
         '
+        Me.btnDocPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDocPrint.Location = New System.Drawing.Point(405, 5)
         Me.btnDocPrint.Name = "btnDocPrint"
         Me.btnDocPrint.Size = New System.Drawing.Size(72, 18)
@@ -1364,16 +1392,6 @@ Partial Class FrmPaymentProcess
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Delete Layout"
         '
-        'btnReset
-        '
-        Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Image = Global.ERP.My.Resources.Resources._new
-        Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnReset.Location = New System.Drawing.Point(331, 4)
-        Me.btnReset.Name = "btnReset"
-        Me.btnReset.Size = New System.Drawing.Size(19, 21)
-        Me.btnReset.TabIndex = 260
-        '
         'FrmPaymentProcess
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1395,17 +1413,6 @@ Partial Class FrmPaymentProcess
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkAll, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout()
-        CType(Me.chkSkipPreviousDocumentOfAssetLost, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSkipPreviousDocumentOfAdvancePayment, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSkipPrevItemIssueReturn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChkSkipMccSaleReturn, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSkipPrevCreditNote, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSkipPrevDeduction, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSkipPrevItemIssue, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkSkipPrevMccSale, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1419,6 +1426,7 @@ Partial Class FrmPaymentProcess
         CType(Me.btnUnselectAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSelectAll, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLocName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
@@ -1426,7 +1434,19 @@ Partial Class FrmPaymentProcess
         CType(Me.dtpToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocNo, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox2.ResumeLayout(False)
+        Me.GroupBox2.PerformLayout()
+        CType(Me.chkHoldSavingPayment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSkipPreviousDocumentOfAssetLost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSkipPreviousDocumentOfAdvancePayment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSkipPrevItemIssueReturn, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChkSkipMccSaleReturn, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSkipPrevCreditNote, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSkipPrevDeduction, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSkipPrevItemIssue, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSkipPrevMccSale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
@@ -1480,7 +1500,6 @@ Partial Class FrmPaymentProcess
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1570,5 +1589,6 @@ Partial Class FrmPaymentProcess
     Friend WithEvents chkAll As common.Controls.MyCheckBox
     Friend WithEvents fndArea As common.UserControls.txtFinder
     Friend WithEvents Label1 As Label
+    Friend WithEvents chkHoldSavingPayment As common.Controls.MyCheckBox
 End Class
 

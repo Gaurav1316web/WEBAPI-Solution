@@ -90,7 +90,9 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
         btnPrint.Visible = (clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal)
         'btnPrint.Visible = True
         BtnBank.Visible = False
+
     End Sub
+
     Private Sub FrmVLCDataUploaderManual_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.N Then
             Reset()
@@ -849,7 +851,7 @@ left outer join TSPL_DCS_MP_INCENTIVE_RECO_HEAD on TSPL_DCS_MP_INCENTIVE_RECO_HE
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
-            myMessages.blankValue("Doument not found to Print")
+            myMessages.blankValue(Me, "Doument not found to Print", Me.Text)
         Else
             funPrint(txtDocumentNo.Value)
         End If

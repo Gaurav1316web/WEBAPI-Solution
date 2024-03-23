@@ -138,37 +138,37 @@ Public Class frmLeaveApplication
         '    Return False
         'End If
         If clsCommon.myLen(txtEmpCode.Value) <= 0 Then
-            myMessages.blankValue("Employee Code")
+            myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtEmpCode.Focus()
             Return False
         End If
         If clsCommon.myLen(txtEmpCode.Value) <= 0 Then
-            myMessages.blankValue("Employee Code")
+            myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtEmpCode.Focus()
             Return False
         End If
         If clsCommon.myLen(txtLeaveCode.Value) <= 0 Then
-            myMessages.blankValue("Leave Code")
+            myMessages.blankValue(Me, "Leave Code", Me.Text)
             txtLeaveCode.Focus()
             Return False
         End If
         If clsCommon.myLen(dtpApplicableFrom.Value) <= 0 Then
-            myMessages.blankValue("Applicable From Date")
+            myMessages.blankValue(Me, "Applicable From Date", Me.Text)
             dtpApplicableFrom.Focus()
             Return False
         End If
         If clsCommon.myLen(txtPayPeriod.Value) <= 0 Then
-            myMessages.blankValue("Pay Period Code")
+            myMessages.blankValue(Me, "Pay Period Code", Me.Text)
             txtPayPeriod.Focus()
             Return False
         End If
         If clsCommon.myLen(dtpFromDate.Value) <= 0 Then
-            myMessages.blankValue("From Date")
+            myMessages.blankValue(Me, "From Date", Me.Text)
             dtpFromDate.Focus()
             Return False
         End If
         If clsCommon.myLen(dtpToDate.Value) <= 0 Then
-            myMessages.blankValue("To Date")
+            myMessages.blankValue(Me, "To Date", Me.Text)
             dtpToDate.Focus()
             Return False
         End If
@@ -178,12 +178,12 @@ Public Class frmLeaveApplication
             Return False
         End If
         If clsCommon.myLen(txtLeaveDays.Text) <= 0 Then
-            myMessages.blankValue("Leave Days")
+            myMessages.blankValue(Me, "Leave Days", Me.Text)
             txtLeaveDays.Focus()
             Return False
         End If
         If clsCommon.myLen(txtReason.Text) <= 0 Then
-            myMessages.blankValue("Reason")
+            myMessages.blankValue(Me, "Reason", Me.Text)
             txtReason.Focus()
             Return False
         End If

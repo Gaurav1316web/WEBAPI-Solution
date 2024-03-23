@@ -26,7 +26,7 @@ Public Class FrmTraineeFeedback
 
 
         If clsCommon.myLen(clsCommon.myCstr(fndSchedule.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(fndSchedule.Value)) > 30 Then
-            myMessages.blankValue("Schedule Code ")
+            myMessages.blankValue(Me, "Schedule Code ", Me.Text)
 
             fndSchedule.Focus()
             fndSchedule.Select()
@@ -38,7 +38,7 @@ Public Class FrmTraineeFeedback
 
 
         If clsCommon.myLen(clsCommon.myCstr(txtFeedback.Text)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtFeedback.Text)) > 300 Then
-            myMessages.blankValue("Feedback ")
+            myMessages.blankValue(Me, "Feedback ", Me.Text)
 
             txtFeedback.Focus()
             txtFeedback.Select()

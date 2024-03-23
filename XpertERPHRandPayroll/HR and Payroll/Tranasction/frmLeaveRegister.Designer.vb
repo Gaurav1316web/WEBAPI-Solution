@@ -24,26 +24,27 @@ Partial Class frmLeaveRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem
-        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.UsLock1 = New common.usLock
-        Me.txtDescription = New common.Controls.MyTextBox
-        Me.lblRemarks = New common.Controls.MyLabel
-        Me.lblEnteredBy = New common.Controls.MyLabel
-        Me.findEnteredBy = New common.UserControls.txtFinder
-        Me.lblLeaveDate = New common.Controls.MyLabel
-        Me.dtpLeaveDate = New common.Controls.MyDateTimePicker
-        Me.findLeaveRegisterCode = New common.UserControls.txtNavigator
-        Me.lblLeaveRegisterCode = New common.Controls.MyLabel
-        Me.gvLeaveRegister = New common.UserControls.MyRadGridView
-        Me.ddlFromPayPeriod = New common.Controls.MyComboBox
-        Me.lblPayPeriod = New common.Controls.MyLabel
-        Me.btnPost = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.UsLock1 = New common.usLock()
+        Me.txtDescription = New common.Controls.MyTextBox()
+        Me.lblRemarks = New common.Controls.MyLabel()
+        Me.lblEnteredBy = New common.Controls.MyLabel()
+        Me.findEnteredBy = New common.UserControls.txtFinder()
+        Me.lblLeaveDate = New common.Controls.MyLabel()
+        Me.dtpLeaveDate = New common.Controls.MyDateTimePicker()
+        Me.findLeaveRegisterCode = New common.UserControls.txtNavigator()
+        Me.lblLeaveRegisterCode = New common.Controls.MyLabel()
+        Me.gvLeaveRegister = New common.UserControls.MyRadGridView()
+        Me.ddlFromPayPeriod = New common.Controls.MyComboBox()
+        Me.lblPayPeriod = New common.Controls.MyLabel()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -125,7 +126,16 @@ Partial Class frmLeaveRegister
         'txtDescription
         '
         Me.txtDescription.AutoSize = False
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
         Me.txtDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(468, 46)
         Me.txtDescription.MaxLength = 49
         Me.txtDescription.MendatroryField = True
@@ -133,11 +143,15 @@ Partial Class frmLeaveRegister
         Me.txtDescription.MyLinkLable1 = Me.lblRemarks
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(365, 45)
         Me.txtDescription.TabIndex = 4
         '
         'lblRemarks
         '
+        Me.lblRemarks.FieldName = Nothing
         Me.lblRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRemarks.Location = New System.Drawing.Point(372, 48)
         Me.lblRemarks.Name = "lblRemarks"
@@ -147,6 +161,7 @@ Partial Class frmLeaveRegister
         '
         'lblEnteredBy
         '
+        Me.lblEnteredBy.FieldName = Nothing
         Me.lblEnteredBy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblEnteredBy.Location = New System.Drawing.Point(12, 72)
         Me.lblEnteredBy.Name = "lblEnteredBy"
@@ -156,19 +171,33 @@ Partial Class frmLeaveRegister
         '
         'findEnteredBy
         '
+        Me.findEnteredBy.CalculationExpression = Nothing
+        Me.findEnteredBy.FieldCode = Nothing
+        Me.findEnteredBy.FieldDesc = Nothing
+        Me.findEnteredBy.FieldMaxLength = 0
+        Me.findEnteredBy.FieldName = Nothing
+        Me.findEnteredBy.isCalculatedField = False
+        Me.findEnteredBy.IsSourceFromTable = False
+        Me.findEnteredBy.IsSourceFromValueList = False
+        Me.findEnteredBy.IsUnique = False
         Me.findEnteredBy.Location = New System.Drawing.Point(133, 72)
         Me.findEnteredBy.MendatroryField = True
         Me.findEnteredBy.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.findEnteredBy.MyLinkLable1 = Me.lblEnteredBy
         Me.findEnteredBy.MyLinkLable2 = Nothing
         Me.findEnteredBy.MyReadOnly = False
+        Me.findEnteredBy.MyShowMasterFormButton = False
         Me.findEnteredBy.Name = "findEnteredBy"
+        Me.findEnteredBy.ReferenceFieldDesc = Nothing
+        Me.findEnteredBy.ReferenceFieldName = Nothing
+        Me.findEnteredBy.ReferenceTableName = Nothing
         Me.findEnteredBy.Size = New System.Drawing.Size(221, 19)
         Me.findEnteredBy.TabIndex = 2
         Me.findEnteredBy.Value = ""
         '
         'lblLeaveDate
         '
+        Me.lblLeaveDate.FieldName = Nothing
         Me.lblLeaveDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLeaveDate.Location = New System.Drawing.Point(12, 48)
         Me.lblLeaveDate.Name = "lblLeaveDate"
@@ -178,9 +207,18 @@ Partial Class frmLeaveRegister
         '
         'dtpLeaveDate
         '
+        Me.dtpLeaveDate.CalculationExpression = Nothing
         Me.dtpLeaveDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpLeaveDate.FieldCode = Nothing
+        Me.dtpLeaveDate.FieldDesc = Nothing
+        Me.dtpLeaveDate.FieldMaxLength = 0
+        Me.dtpLeaveDate.FieldName = Nothing
         Me.dtpLeaveDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpLeaveDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpLeaveDate.isCalculatedField = False
+        Me.dtpLeaveDate.IsSourceFromTable = False
+        Me.dtpLeaveDate.IsSourceFromValueList = False
+        Me.dtpLeaveDate.IsUnique = False
         Me.dtpLeaveDate.Location = New System.Drawing.Point(133, 46)
         Me.dtpLeaveDate.MendatroryField = True
         Me.dtpLeaveDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -188,6 +226,9 @@ Partial Class frmLeaveRegister
         Me.dtpLeaveDate.MyLinkLable2 = Nothing
         Me.dtpLeaveDate.Name = "dtpLeaveDate"
         Me.dtpLeaveDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpLeaveDate.ReferenceFieldDesc = Nothing
+        Me.dtpLeaveDate.ReferenceFieldName = Nothing
+        Me.dtpLeaveDate.ReferenceTableName = Nothing
         Me.dtpLeaveDate.Size = New System.Drawing.Size(130, 18)
         Me.dtpLeaveDate.TabIndex = 1
         Me.dtpLeaveDate.TabStop = False
@@ -196,6 +237,7 @@ Partial Class frmLeaveRegister
         '
         'findLeaveRegisterCode
         '
+        Me.findLeaveRegisterCode.FieldName = Nothing
         Me.findLeaveRegisterCode.Location = New System.Drawing.Point(133, 19)
         Me.findLeaveRegisterCode.MendatroryField = True
         Me.findLeaveRegisterCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -211,6 +253,7 @@ Partial Class frmLeaveRegister
         '
         'lblLeaveRegisterCode
         '
+        Me.lblLeaveRegisterCode.FieldName = Nothing
         Me.lblLeaveRegisterCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblLeaveRegisterCode.Location = New System.Drawing.Point(12, 24)
         Me.lblLeaveRegisterCode.Name = "lblLeaveRegisterCode"
@@ -221,8 +264,8 @@ Partial Class frmLeaveRegister
         'gvLeaveRegister
         '
         Me.gvLeaveRegister.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gvLeaveRegister.BackColor = System.Drawing.Color.FromArgb(CType(CType(191, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.gvLeaveRegister.Cursor = System.Windows.Forms.Cursors.Default
         Me.gvLeaveRegister.Font = New System.Drawing.Font("Arial", 8.25!)
@@ -230,39 +273,55 @@ Partial Class frmLeaveRegister
         Me.gvLeaveRegister.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvLeaveRegister.Location = New System.Drawing.Point(9, 97)
         '
-        'gvLeaveRegister
+        '
         '
         Me.gvLeaveRegister.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvLeaveRegister.MasterTemplate.AllowAddNewRow = False
         Me.gvLeaveRegister.MasterTemplate.AllowEditRow = False
         Me.gvLeaveRegister.MasterTemplate.AutoGenerateColumns = False
         Me.gvLeaveRegister.MasterTemplate.EnableGrouping = False
+        Me.gvLeaveRegister.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvLeaveRegister.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvLeaveRegister.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvLeaveRegister.MyStopExport = False
         Me.gvLeaveRegister.Name = "gvLeaveRegister"
         Me.gvLeaveRegister.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvLeaveRegister.ShowHeaderCellButtons = True
         Me.gvLeaveRegister.Size = New System.Drawing.Size(824, 341)
         Me.gvLeaveRegister.TabIndex = 5
-        Me.gvLeaveRegister.Text = "RadGridView4"
         '
         'ddlFromPayPeriod
         '
+        Me.ddlFromPayPeriod.CalculationExpression = Nothing
+        Me.ddlFromPayPeriod.DropDownAnimationEnabled = True
         Me.ddlFromPayPeriod.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlFromPayPeriod.FieldCode = Nothing
+        Me.ddlFromPayPeriod.FieldDesc = Nothing
+        Me.ddlFromPayPeriod.FieldMaxLength = 0
+        Me.ddlFromPayPeriod.FieldName = Nothing
         Me.ddlFromPayPeriod.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        RadListDataItem1.Text = "Yes"
-        RadListDataItem1.TextWrap = True
-        RadListDataItem2.Text = "No"
-        RadListDataItem2.TextWrap = True
-        Me.ddlFromPayPeriod.Items.Add(RadListDataItem1)
-        Me.ddlFromPayPeriod.Items.Add(RadListDataItem2)
+        Me.ddlFromPayPeriod.isCalculatedField = False
+        Me.ddlFromPayPeriod.IsSourceFromTable = False
+        Me.ddlFromPayPeriod.IsSourceFromValueList = False
+        Me.ddlFromPayPeriod.IsUnique = False
+        RadListDataItem3.Text = "Yes"
+        RadListDataItem4.Text = "No"
+        Me.ddlFromPayPeriod.Items.Add(RadListDataItem3)
+        Me.ddlFromPayPeriod.Items.Add(RadListDataItem4)
         Me.ddlFromPayPeriod.Location = New System.Drawing.Point(468, 19)
         Me.ddlFromPayPeriod.MendatroryField = True
         Me.ddlFromPayPeriod.MyLinkLable1 = Me.lblPayPeriod
         Me.ddlFromPayPeriod.MyLinkLable2 = Nothing
         Me.ddlFromPayPeriod.Name = "ddlFromPayPeriod"
+        Me.ddlFromPayPeriod.ReferenceFieldDesc = Nothing
+        Me.ddlFromPayPeriod.ReferenceFieldName = Nothing
+        Me.ddlFromPayPeriod.ReferenceTableName = Nothing
         Me.ddlFromPayPeriod.Size = New System.Drawing.Size(261, 18)
         Me.ddlFromPayPeriod.TabIndex = 3
         '
         'lblPayPeriod
         '
+        Me.lblPayPeriod.FieldName = Nothing
         Me.lblPayPeriod.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblPayPeriod.Location = New System.Drawing.Point(372, 21)
         Me.lblPayPeriod.Name = "lblPayPeriod"

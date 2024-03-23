@@ -86,7 +86,7 @@ Public Class FrmSourceTypeDetail
         Try
 
             If clsCommon.myLen(clsCommon.myCstr(txtcode.Value)) <= 0 Then
-                myMessages.blankValue("Code")
+                myMessages.blankValue(Me, "Code", Me.Text)
 
                 txtcode.Focus()
                 txtcode.Select()
@@ -96,7 +96,7 @@ Public Class FrmSourceTypeDetail
                 Errorcontrol.ResetError(txtcode)
             End If
             If clsCommon.myLen(clsCommon.myCstr(txtdesp.Text)) <= 0 Then
-                myMessages.blankValue("Description")
+                myMessages.blankValue(Me, "Description", Me.Text)
 
                 txtdesp.Focus()
                 txtdesp.Select()
@@ -106,7 +106,7 @@ Public Class FrmSourceTypeDetail
                 Errorcontrol.ResetError(txtdesp)
             End If
             If clsCommon.myLen(clsCommon.myCstr(TxtSourceType.Value)) <= 0 Then
-                myMessages.blankValue("Source Type")
+                myMessages.blankValue(Me, "Source Type", Me.Text)
 
                 TxtSourceType.Focus()
                 TxtSourceType.Select()

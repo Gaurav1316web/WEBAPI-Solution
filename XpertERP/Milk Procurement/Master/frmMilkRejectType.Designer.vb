@@ -29,6 +29,8 @@ Partial Class frmMilkRejectType
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblDescriptionhindi = New common.Controls.MyLabel()
+        Me.txtDescriptionhindi = New common.Controls.MyTextBox()
         Me.txtPrefix = New common.MyNumBox()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.chkExcludeHead = New Telerik.WinControls.UI.RadCheckBox()
@@ -51,18 +53,18 @@ Partial Class frmMilkRejectType
         Me.lblNoOfCans = New common.Controls.MyLabel()
         Me.lblDescription = New common.Controls.MyLabel()
         Me.rdbtnreset = New Telerik.WinControls.UI.RadButton()
+        Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblAdvanceCode = New common.Controls.MyLabel()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.rdbtndelete = New Telerik.WinControls.UI.RadButton()
-        Me.txtDescriptionhindi = New common.Controls.MyTextBox()
-        Me.lblDescriptionhindi = New common.Controls.MyLabel()
-        Me.txtCode = New common.UserControls.txtNavigator()
         CType(Me.rdmenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblDescriptionhindi, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDescriptionhindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPrefix, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkExcludeHead, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -89,8 +91,6 @@ Partial Class frmMilkRejectType
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDescriptionhindi, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDescriptionhindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -175,6 +175,39 @@ Partial Class frmMilkRejectType
         Me.SplitContainer1.Size = New System.Drawing.Size(605, 365)
         Me.SplitContainer1.SplitterDistance = 321
         Me.SplitContainer1.TabIndex = 1
+        '
+        'lblDescriptionhindi
+        '
+        Me.lblDescriptionhindi.FieldName = Nothing
+        Me.lblDescriptionhindi.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.lblDescriptionhindi.Location = New System.Drawing.Point(8, 61)
+        Me.lblDescriptionhindi.Name = "lblDescriptionhindi"
+        Me.lblDescriptionhindi.Size = New System.Drawing.Size(93, 18)
+        Me.lblDescriptionhindi.TabIndex = 1036
+        Me.lblDescriptionhindi.Text = "Description Hindi"
+        '
+        'txtDescriptionhindi
+        '
+        Me.txtDescriptionhindi.CalculationExpression = Nothing
+        Me.txtDescriptionhindi.FieldCode = Nothing
+        Me.txtDescriptionhindi.FieldDesc = Nothing
+        Me.txtDescriptionhindi.FieldMaxLength = 0
+        Me.txtDescriptionhindi.FieldName = Nothing
+        Me.txtDescriptionhindi.isCalculatedField = False
+        Me.txtDescriptionhindi.IsSourceFromTable = False
+        Me.txtDescriptionhindi.IsSourceFromValueList = False
+        Me.txtDescriptionhindi.IsUnique = False
+        Me.txtDescriptionhindi.Location = New System.Drawing.Point(102, 59)
+        Me.txtDescriptionhindi.MaxLength = 100
+        Me.txtDescriptionhindi.MendatroryField = False
+        Me.txtDescriptionhindi.MyLinkLable1 = Nothing
+        Me.txtDescriptionhindi.MyLinkLable2 = Nothing
+        Me.txtDescriptionhindi.Name = "txtDescriptionhindi"
+        Me.txtDescriptionhindi.ReferenceFieldDesc = Nothing
+        Me.txtDescriptionhindi.ReferenceFieldName = Nothing
+        Me.txtDescriptionhindi.ReferenceTableName = Nothing
+        Me.txtDescriptionhindi.Size = New System.Drawing.Size(280, 20)
+        Me.txtDescriptionhindi.TabIndex = 1035
         '
         'txtPrefix
         '
@@ -505,6 +538,22 @@ Partial Class frmMilkRejectType
         Me.rdbtnreset.Size = New System.Drawing.Size(18, 21)
         Me.rdbtnreset.TabIndex = 1
         '
+        'txtCode
+        '
+        Me.txtCode.FieldName = Nothing
+        Me.txtCode.Location = New System.Drawing.Point(102, 6)
+        Me.txtCode.MendatroryField = False
+        Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
+        Me.txtCode.MyLinkLable2 = Nothing
+        Me.txtCode.MyMaxLength = 30
+        Me.txtCode.MyReadOnly = False
+        Me.txtCode.Name = "txtCode"
+        Me.txtCode.Size = New System.Drawing.Size(262, 21)
+        Me.txtCode.TabIndex = 0
+        Me.txtCode.Value = ""
+        '
         'lblAdvanceCode
         '
         Me.lblAdvanceCode.FieldName = Nothing
@@ -551,55 +600,6 @@ Partial Class frmMilkRejectType
         Me.rdbtndelete.TabIndex = 1
         Me.rdbtndelete.Text = "Delete"
         '
-        'txtDescriptionhindi
-        '
-        Me.txtDescriptionhindi.CalculationExpression = Nothing
-        Me.txtDescriptionhindi.FieldCode = Nothing
-        Me.txtDescriptionhindi.FieldDesc = Nothing
-        Me.txtDescriptionhindi.FieldMaxLength = 0
-        Me.txtDescriptionhindi.FieldName = Nothing
-        Me.txtDescriptionhindi.isCalculatedField = False
-        Me.txtDescriptionhindi.IsSourceFromTable = False
-        Me.txtDescriptionhindi.IsSourceFromValueList = False
-        Me.txtDescriptionhindi.IsUnique = False
-        Me.txtDescriptionhindi.Location = New System.Drawing.Point(102, 59)
-        Me.txtDescriptionhindi.MaxLength = 100
-        Me.txtDescriptionhindi.MendatroryField = False
-        Me.txtDescriptionhindi.MyLinkLable1 = Nothing
-        Me.txtDescriptionhindi.MyLinkLable2 = Nothing
-        Me.txtDescriptionhindi.Name = "txtDescriptionhindi"
-        Me.txtDescriptionhindi.ReferenceFieldDesc = Nothing
-        Me.txtDescriptionhindi.ReferenceFieldName = Nothing
-        Me.txtDescriptionhindi.ReferenceTableName = Nothing
-        Me.txtDescriptionhindi.Size = New System.Drawing.Size(280, 20)
-        Me.txtDescriptionhindi.TabIndex = 1035
-        '
-        'lblDescriptionhindi
-        '
-        Me.lblDescriptionhindi.FieldName = Nothing
-        Me.lblDescriptionhindi.Font = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.lblDescriptionhindi.Location = New System.Drawing.Point(8, 61)
-        Me.lblDescriptionhindi.Name = "lblDescriptionhindi"
-        Me.lblDescriptionhindi.Size = New System.Drawing.Size(93, 18)
-        Me.lblDescriptionhindi.TabIndex = 1036
-        Me.lblDescriptionhindi.Text = "Description Hindi"
-        '
-        'txtCode
-        '
-        Me.txtCode.FieldName = Nothing
-        Me.txtCode.Location = New System.Drawing.Point(102, 6)
-        Me.txtCode.MendatroryField = False
-        Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtCode.MyLinkLable1 = Me.lblAdvanceCode
-        Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
-        Me.txtCode.MyReadOnly = False
-        Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(262, 21)
-        Me.txtCode.TabIndex = 0
-        Me.txtCode.Value = ""
-        '
         'frmMilkRejectType
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -619,6 +619,8 @@ Partial Class frmMilkRejectType
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblDescriptionhindi, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDescriptionhindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPrefix, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkExcludeHead, System.ComponentModel.ISupportInitialize).EndInit()
@@ -646,8 +648,6 @@ Partial Class frmMilkRejectType
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDescriptionhindi, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDescriptionhindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

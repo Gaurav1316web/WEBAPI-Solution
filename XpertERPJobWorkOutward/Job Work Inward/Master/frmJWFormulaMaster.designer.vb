@@ -24,6 +24,7 @@ Partial Class frmJWFormulaMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.lblStructurer = New common.Controls.MyLabel()
@@ -121,18 +122,20 @@ Partial Class frmJWFormulaMaster
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(3, 18)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDragToGroup = False
         Me.gv1.MasterTemplate.EnableFiltering = True
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(499, 242)
         Me.gv1.TabIndex = 325
-        Me.gv1.Text = "RadGridView1"
         '
         'txtFormula
         '
@@ -258,7 +261,7 @@ Partial Class frmJWFormulaMaster
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(241, 20)
@@ -302,7 +305,6 @@ Partial Class frmJWFormulaMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(885, 20)
         Me.RadMenu1.TabIndex = 322
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenu
         '
@@ -314,15 +316,11 @@ Partial Class frmJWFormulaMaster
         '
         'rmImport
         '
-        Me.rmImport.AccessibleDescription = "Import"
-        Me.rmImport.AccessibleName = "Import"
         Me.rmImport.Name = "rmImport"
         Me.rmImport.Text = "Import"
         '
         'rmExport
         '
-        Me.rmExport.AccessibleDescription = "Export"
-        Me.rmExport.AccessibleName = "Export"
         Me.rmExport.Name = "rmExport"
         Me.rmExport.Text = "Export"
         '

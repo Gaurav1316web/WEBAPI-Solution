@@ -204,12 +204,9 @@ Partial Class FrmCattleMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(982, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'rmi
         '
-        Me.rmi.AccessibleDescription = "File"
-        Me.rmi.AccessibleName = "File"
         Me.rmi.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2, Me.RadMenuItem3})
         Me.rmi.Name = "rmi"
         Me.rmi.Text = "File"
@@ -223,15 +220,11 @@ Partial Class FrmCattleMaster
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Export"
-        Me.RadMenuItem2.AccessibleName = "Export"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Export"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Exit"
-        Me.RadMenuItem3.AccessibleName = "Exit"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Exit"
         '
@@ -399,7 +392,6 @@ Partial Class FrmCattleMaster
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(982, 562)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -487,7 +479,7 @@ Partial Class FrmCattleMaster
         Me.CheckBox2.AutoSize = True
         Me.CheckBox2.Location = New System.Drawing.Point(170, 6)
         Me.CheckBox2.Name = "CheckBox2"
-        Me.CheckBox2.Size = New System.Drawing.Size(67, 17)
+        Me.CheckBox2.Size = New System.Drawing.Size(66, 17)
         Me.CheckBox2.TabIndex = 1
         Me.CheckBox2.Text = "Bill Paid"
         Me.CheckBox2.UseVisualStyleBackColor = True
@@ -497,7 +489,7 @@ Partial Class FrmCattleMaster
         Me.CheckBox1.AutoSize = True
         Me.CheckBox1.Location = New System.Drawing.Point(84, 6)
         Me.CheckBox1.Name = "CheckBox1"
-        Me.CheckBox1.Size = New System.Drawing.Size(78, 17)
+        Me.CheckBox1.Size = New System.Drawing.Size(77, 17)
         Me.CheckBox1.TabIndex = 0
         Me.CheckBox1.Text = "Bill Create"
         Me.CheckBox1.UseVisualStyleBackColor = True
@@ -527,7 +519,7 @@ Partial Class FrmCattleMaster
         Me.txtRegistrationCharge.TabIndex = 253
         Me.txtRegistrationCharge.Text = "0"
         Me.txtRegistrationCharge.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtRegistrationCharge.Value = 0.0R
+        Me.txtRegistrationCharge.Value = 0R
         '
         'MyLabel10
         '
@@ -681,7 +673,6 @@ Partial Class FrmCattleMaster
         Me.lblPMCCode.Name = "lblPMCCode"
         Me.lblPMCCode.Size = New System.Drawing.Size(368, 18)
         Me.lblPMCCode.TabIndex = 250
-        Me.lblPMCCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblPMCCode.TextWrap = False
         '
         'txtPMCCode
@@ -757,7 +748,6 @@ Partial Class FrmCattleMaster
         Me.lblCattleColor.Name = "lblCattleColor"
         Me.lblCattleColor.Size = New System.Drawing.Size(368, 18)
         Me.lblCattleColor.TabIndex = 239
-        Me.lblCattleColor.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCattleColor.TextWrap = False
         '
         'txtCattleColor
@@ -796,7 +786,6 @@ Partial Class FrmCattleMaster
         Me.lblNDDBCode.Name = "lblNDDBCode"
         Me.lblNDDBCode.Size = New System.Drawing.Size(368, 18)
         Me.lblNDDBCode.TabIndex = 245
-        Me.lblNDDBCode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblNDDBCode.TextWrap = False
         '
         'MyLabel8
@@ -870,7 +859,7 @@ Partial Class FrmCattleMaster
         Me.txtMilkFat.TabIndex = 209
         Me.txtMilkFat.Text = "0"
         Me.txtMilkFat.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMilkFat.Value = 0.0R
+        Me.txtMilkFat.Value = 0R
         '
         'MyLabel26
         '
@@ -907,7 +896,7 @@ Partial Class FrmCattleMaster
         Me.txtMilkQty.TabIndex = 207
         Me.txtMilkQty.Text = "0"
         Me.txtMilkQty.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtMilkQty.Value = 0.0R
+        Me.txtMilkQty.Value = 0R
         '
         'MyLabel25
         '
@@ -929,7 +918,6 @@ Partial Class FrmCattleMaster
         Me.lblFather.Name = "lblFather"
         Me.lblFather.Size = New System.Drawing.Size(368, 18)
         Me.lblFather.TabIndex = 203
-        Me.lblFather.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFather.TextWrap = False
         '
         'txtFather
@@ -978,7 +966,6 @@ Partial Class FrmCattleMaster
         Me.lblMother.Name = "lblMother"
         Me.lblMother.Size = New System.Drawing.Size(368, 18)
         Me.lblMother.TabIndex = 200
-        Me.lblMother.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblMother.TextWrap = False
         '
         'txtMother
@@ -1027,7 +1014,6 @@ Partial Class FrmCattleMaster
         Me.lblFarmar.Name = "lblFarmar"
         Me.lblFarmar.Size = New System.Drawing.Size(368, 18)
         Me.lblFarmar.TabIndex = 197
-        Me.lblFarmar.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFarmar.TextWrap = False
         '
         'txtFarmer
@@ -1076,7 +1062,6 @@ Partial Class FrmCattleMaster
         Me.lblMCC.Name = "lblMCC"
         Me.lblMCC.Size = New System.Drawing.Size(368, 18)
         Me.lblMCC.TabIndex = 194
-        Me.lblMCC.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblMCC.TextWrap = False
         '
         'txtMCC
@@ -1125,7 +1110,6 @@ Partial Class FrmCattleMaster
         Me.lblBranch.Name = "lblBranch"
         Me.lblBranch.Size = New System.Drawing.Size(367, 18)
         Me.lblBranch.TabIndex = 191
-        Me.lblBranch.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBranch.TextWrap = False
         '
         'txtBranch
@@ -1174,7 +1158,6 @@ Partial Class FrmCattleMaster
         Me.lblArea.Name = "lblArea"
         Me.lblArea.Size = New System.Drawing.Size(367, 18)
         Me.lblArea.TabIndex = 188
-        Me.lblArea.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblArea.TextWrap = False
         '
         'txtArea
@@ -1223,7 +1206,6 @@ Partial Class FrmCattleMaster
         Me.lblRegion.Name = "lblRegion"
         Me.lblRegion.Size = New System.Drawing.Size(367, 18)
         Me.lblRegion.TabIndex = 185
-        Me.lblRegion.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRegion.TextWrap = False
         '
         'txtRegion
@@ -1272,7 +1254,6 @@ Partial Class FrmCattleMaster
         Me.lblZone.Name = "lblZone"
         Me.lblZone.Size = New System.Drawing.Size(368, 18)
         Me.lblZone.TabIndex = 182
-        Me.lblZone.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblZone.TextWrap = False
         '
         'txtZone
@@ -1331,7 +1312,6 @@ Partial Class FrmCattleMaster
         Me.lblBreed.Name = "lblBreed"
         Me.lblBreed.Size = New System.Drawing.Size(368, 18)
         Me.lblBreed.TabIndex = 170
-        Me.lblBreed.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBreed.TextWrap = False
         '
         'txtBreed
@@ -1370,7 +1350,6 @@ Partial Class FrmCattleMaster
         Me.lblCattleType.Name = "lblCattleType"
         Me.lblCattleType.Size = New System.Drawing.Size(368, 18)
         Me.lblCattleType.TabIndex = 168
-        Me.lblCattleType.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCattleType.TextWrap = False
         '
         'txtCattleType
@@ -1487,7 +1466,7 @@ Partial Class FrmCattleMaster
         Me.txtRegistrationNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtRegistrationNo.MyLinkLable1 = Me.lblItemCategoryCode
         Me.txtRegistrationNo.MyLinkLable2 = Nothing
-        Me.txtRegistrationNo.MyMaxLength = 12
+        Me.txtRegistrationNo.MyMaxLength = 30
         Me.txtRegistrationNo.MyReadOnly = False
         Me.txtRegistrationNo.Name = "txtRegistrationNo"
         Me.txtRegistrationNo.Size = New System.Drawing.Size(321, 21)
@@ -1509,6 +1488,7 @@ Partial Class FrmCattleMaster
         Me.cboCattleStatus.AutoCompleteDisplayMember = Nothing
         Me.cboCattleStatus.AutoCompleteValueMember = Nothing
         Me.cboCattleStatus.CalculationExpression = Nothing
+        Me.cboCattleStatus.DropDownAnimationEnabled = True
         Me.cboCattleStatus.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboCattleStatus.FieldCode = Nothing
         Me.cboCattleStatus.FieldDesc = Nothing
@@ -1665,6 +1645,7 @@ Partial Class FrmCattleMaster
         Me.cboGender.AutoCompleteDisplayMember = Nothing
         Me.cboGender.AutoCompleteValueMember = Nothing
         Me.cboGender.CalculationExpression = Nothing
+        Me.cboGender.DropDownAnimationEnabled = True
         Me.cboGender.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboGender.FieldCode = Nothing
         Me.cboGender.FieldDesc = Nothing

@@ -126,7 +126,7 @@ Public Class FrmServiceMaster
        
         Try
             If clsCommon.myLen(clsCommon.myCstr(txtServiceCode.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtServiceCode.Value)) > 30 Then
-                myMessages.blankValue("Service Code")
+                myMessages.blankValue(Me, "Service Code", Me.Text)
 
                 txtServiceCode.Focus()
                 txtServiceCode.Select()
@@ -137,7 +137,7 @@ Public Class FrmServiceMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtDesc.Text)) <= 0 Then
-                myMessages.blankValue("Description")
+                myMessages.blankValue(Me, "Description", Me.Text)
 
                 txtDesc.Focus()
                 txtDesc.Select()
@@ -148,7 +148,7 @@ Public Class FrmServiceMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtGroup.Value)) <= 0 Then
-                myMessages.blankValue("Group Name")
+                myMessages.blankValue(Me, "Group Name", Me.Text)
                 txtGroup.Focus()
                 txtGroup.Select()
                 Errorcontrol.SetError(txtGroup, "Group Name")
@@ -158,7 +158,7 @@ Public Class FrmServiceMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtServiceName.Value)) <= 0 Then
-                myMessages.blankValue("Service Name")
+                myMessages.blankValue(Me, "Service Name", Me.Text)
                 txtServiceName.Focus()
                 txtServiceName.Select()
                 Errorcontrol.SetError(txtServiceName, "Service Name")
@@ -168,7 +168,7 @@ Public Class FrmServiceMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtCattleType.Value)) <= 0 Then
-                myMessages.blankValue("Cattle Type")
+                myMessages.blankValue(Me, "Cattle Type", Me.Text)
                 txtCattleType.Focus()
                 txtCattleType.Select()
                 Errorcontrol.SetError(txtCattleType, "Cattle Type")
@@ -178,7 +178,7 @@ Public Class FrmServiceMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtBreedType.Value)) <= 0 Then
-                myMessages.blankValue("Breed Type")
+                myMessages.blankValue(Me, "Breed Type", Me.Text)
                 txtBreedType.Focus()
                 txtBreedType.Select()
                 Errorcontrol.SetError(txtBreedType, "Breed Type")
@@ -188,7 +188,7 @@ Public Class FrmServiceMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtServiceCharge.Text)) <= 0 Then
-                myMessages.blankValue("Service Charge")
+                myMessages.blankValue(Me, "Service Charge", Me.Text)
                 txtServiceCharge.Focus()
                 txtServiceCharge.Select()
                 Errorcontrol.SetError(txtServiceCharge, "Service Charge")
@@ -198,7 +198,7 @@ Public Class FrmServiceMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtReminder.Text)) <= 0 Then
-                myMessages.blankValue("Reminder")
+                myMessages.blankValue(Me, "Reminder", Me.Text)
                 txtReminder.Focus()
                 txtReminder.Select()
                 Errorcontrol.SetError(txtReminder, "Reminder")

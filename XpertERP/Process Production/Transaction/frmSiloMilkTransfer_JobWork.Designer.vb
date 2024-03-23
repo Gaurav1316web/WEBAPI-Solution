@@ -22,6 +22,7 @@ Partial Class frmSiloMilkTransfer_JobWork
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -124,7 +125,6 @@ Partial Class frmSiloMilkTransfer_JobWork
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(978, 484)
         Me.RadPageView1.TabIndex = 23
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -214,7 +214,6 @@ Partial Class frmSiloMilkTransfer_JobWork
         Me.LblItemName.Name = "LblItemName"
         Me.LblItemName.Size = New System.Drawing.Size(313, 19)
         Me.LblItemName.TabIndex = 299
-        Me.LblItemName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'FndItemCode
         '
@@ -278,10 +277,13 @@ Partial Class frmSiloMilkTransfer_JobWork
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -289,7 +291,6 @@ Partial Class frmSiloMilkTransfer_JobWork
         Me.gv1.Size = New System.Drawing.Size(937, 255)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel1
         '
@@ -341,7 +342,6 @@ Partial Class frmSiloMilkTransfer_JobWork
         Me.LblMainLocation.Name = "LblMainLocation"
         Me.LblMainLocation.Size = New System.Drawing.Size(313, 19)
         Me.LblMainLocation.TabIndex = 21
-        Me.LblMainLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblMainLocation.TextWrap = False
         '
         'RadLabel3
@@ -399,7 +399,7 @@ Partial Class frmSiloMilkTransfer_JobWork
         Me.txtAdjustmentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtAdjustmentNo.MyLinkLable1 = Me.RadLabel1
         Me.txtAdjustmentNo.MyLinkLable2 = Nothing
-        Me.txtAdjustmentNo.MyMaxLength = 32767
+        Me.txtAdjustmentNo.MyMaxLength = 30
         Me.txtAdjustmentNo.MyReadOnly = False
         Me.txtAdjustmentNo.Name = "txtAdjustmentNo"
         Me.txtAdjustmentNo.Size = New System.Drawing.Size(252, 20)
@@ -480,7 +480,6 @@ Partial Class frmSiloMilkTransfer_JobWork
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(313, 19)
         Me.lblLocation.TabIndex = 10
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'txtSilo

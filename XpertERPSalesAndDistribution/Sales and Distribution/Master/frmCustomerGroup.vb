@@ -186,20 +186,20 @@ Public Class frmCustomerGroup
         Dim trans As SqlTransaction = Nothing
 
         If fndCustomerGroupCode.Value = "" Then
-            myMessages.blankValue("Customer Group Code")
+            myMessages.blankValue(Me, "Customer Group Code", Me.Text)
             fndCustomerGroupCode.Focus()
         ElseIf txtCustomerGroupDesc.Text = "" Then
-            myMessages.blankValue("Customer Group Desc")
+            myMessages.blankValue(Me, "Customer Group Desc", Me.Text)
             txtCustomerGroupDesc.Focus()
         ElseIf IsCustomerGrpDetailMandatory Then
             If fndAccountSet.Value = "" Then
-                myMessages.blankValue("Account Set")
+                myMessages.blankValue(Me, "Account Set", Me.Text)
                 fndAccountSet.Focus()
             ElseIf fndTermsCode.Value = "" Then
-                myMessages.blankValue("Term Code")
+                myMessages.blankValue(Me, "Term Code", Me.Text)
                 fndTermsCode.Focus()
             ElseIf fndTaxGroup.Value = "" Then
-                myMessages.blankValue("Tax Group")
+                myMessages.blankValue(Me, "Tax Group", Me.Text)
                 fndTaxGroup.Focus()
             End If
         Else
@@ -319,16 +319,16 @@ Public Class frmCustomerGroup
 
 
         If fndCustomerGroupCode.Value = "" Then
-            myMessages.blankValue("Customer Group Code")
+            myMessages.blankValue(Me, "Customer Group Code", Me.Text)
             fndCustomerGroupCode.Focus()
         ElseIf fndAccountSet.Value = "" Then
-            myMessages.blankValue("Account Set")
+            myMessages.blankValue(Me, "Account Set", Me.Text)
             fndAccountSet.Focus()
         ElseIf fndTermsCode.Value = "" Then
-            myMessages.blankValue("Terms Code")
+            myMessages.blankValue(Me, "Terms Code", Me.Text)
             fndTermsCode.Focus()
         ElseIf fndTaxGroup.Value = "" Then
-            myMessages.blankValue("Tax Group")
+            myMessages.blankValue(Me, "Tax Group", Me.Text)
             fndTaxGroup.Focus()
         Else
             Try

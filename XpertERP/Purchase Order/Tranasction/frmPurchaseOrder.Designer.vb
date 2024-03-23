@@ -771,7 +771,7 @@ Partial Class frmPurchaseOrder
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(2, 2)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1101, 437)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -5067,98 +5067,98 @@ Partial Class frmPurchaseOrder
         'txtCmt13
         '
         Me.txtCmt13.Location = New System.Drawing.Point(495, 382)
-        Me.txtCmt13.Multiline = True
         Me.txtCmt13.Name = "txtCmt13"
         Me.txtCmt13.Size = New System.Drawing.Size(475, 22)
         Me.txtCmt13.TabIndex = 104
+        Me.txtCmt13.Text = ""
         '
         'txtCmt12
         '
         Me.txtCmt12.Location = New System.Drawing.Point(495, 356)
-        Me.txtCmt12.Multiline = True
         Me.txtCmt12.Name = "txtCmt12"
         Me.txtCmt12.Size = New System.Drawing.Size(475, 22)
         Me.txtCmt12.TabIndex = 103
+        Me.txtCmt12.Text = ""
         '
         'txtCmt11
         '
         Me.txtCmt11.Location = New System.Drawing.Point(495, 331)
-        Me.txtCmt11.Multiline = True
         Me.txtCmt11.Name = "txtCmt11"
         Me.txtCmt11.Size = New System.Drawing.Size(475, 22)
         Me.txtCmt11.TabIndex = 101
+        Me.txtCmt11.Text = ""
         '
         'txtCmt10
         '
         Me.txtCmt10.Location = New System.Drawing.Point(495, 306)
-        Me.txtCmt10.Multiline = True
         Me.txtCmt10.Name = "txtCmt10"
         Me.txtCmt10.Size = New System.Drawing.Size(475, 22)
         Me.txtCmt10.TabIndex = 99
+        Me.txtCmt10.Text = ""
         '
         'txtCmt9
         '
         Me.txtCmt9.Location = New System.Drawing.Point(495, 281)
-        Me.txtCmt9.Multiline = True
         Me.txtCmt9.Name = "txtCmt9"
         Me.txtCmt9.Size = New System.Drawing.Size(475, 22)
         Me.txtCmt9.TabIndex = 97
+        Me.txtCmt9.Text = ""
         '
         'txtCmt8
         '
         Me.txtCmt8.Location = New System.Drawing.Point(495, 256)
-        Me.txtCmt8.Multiline = True
         Me.txtCmt8.Name = "txtCmt8"
         Me.txtCmt8.Size = New System.Drawing.Size(475, 22)
         Me.txtCmt8.TabIndex = 95
+        Me.txtCmt8.Text = ""
         '
         'txtCmt7
         '
         Me.txtCmt7.Location = New System.Drawing.Point(495, 231)
-        Me.txtCmt7.Multiline = True
         Me.txtCmt7.Name = "txtCmt7"
         Me.txtCmt7.Size = New System.Drawing.Size(475, 22)
         Me.txtCmt7.TabIndex = 93
+        Me.txtCmt7.Text = ""
         '
         'txtCmt6
         '
         Me.txtCmt6.Location = New System.Drawing.Point(495, 206)
-        Me.txtCmt6.Multiline = True
         Me.txtCmt6.Name = "txtCmt6"
         Me.txtCmt6.Size = New System.Drawing.Size(475, 22)
         Me.txtCmt6.TabIndex = 91
+        Me.txtCmt6.Text = ""
         '
         'txtCmt5
         '
         Me.txtCmt5.Location = New System.Drawing.Point(495, 182)
-        Me.txtCmt5.Multiline = True
         Me.txtCmt5.Name = "txtCmt5"
         Me.txtCmt5.Size = New System.Drawing.Size(475, 22)
         Me.txtCmt5.TabIndex = 89
+        Me.txtCmt5.Text = ""
         '
         'txtCmt4
         '
         Me.txtCmt4.Location = New System.Drawing.Point(495, 156)
-        Me.txtCmt4.Multiline = True
         Me.txtCmt4.Name = "txtCmt4"
         Me.txtCmt4.Size = New System.Drawing.Size(475, 22)
         Me.txtCmt4.TabIndex = 87
+        Me.txtCmt4.Text = ""
         '
         'txtCmt3
         '
         Me.txtCmt3.Location = New System.Drawing.Point(495, 131)
-        Me.txtCmt3.Multiline = True
         Me.txtCmt3.Name = "txtCmt3"
         Me.txtCmt3.Size = New System.Drawing.Size(475, 22)
         Me.txtCmt3.TabIndex = 85
+        Me.txtCmt3.Text = ""
         '
         'txtCmt2
         '
         Me.txtCmt2.Location = New System.Drawing.Point(495, 106)
-        Me.txtCmt2.Multiline = True
         Me.txtCmt2.Name = "txtCmt2"
         Me.txtCmt2.Size = New System.Drawing.Size(475, 22)
         Me.txtCmt2.TabIndex = 83
+        Me.txtCmt2.Text = ""
         '
         'txtCmt1
         '
@@ -5492,10 +5492,10 @@ Partial Class frmPurchaseOrder
         'txtComment
         '
         Me.txtComment.Location = New System.Drawing.Point(495, 57)
-        Me.txtComment.Multiline = True
         Me.txtComment.Name = "txtComment"
         Me.txtComment.Size = New System.Drawing.Size(475, 22)
         Me.txtComment.TabIndex = 1
+        Me.txtComment.Text = ""
         '
         'RadLabel14
         '

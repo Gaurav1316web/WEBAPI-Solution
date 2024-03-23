@@ -22,6 +22,7 @@ Partial Class frmSaleIncentiveMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiImport = New Telerik.WinControls.UI.RadMenuItem()
@@ -100,12 +101,9 @@ Partial Class frmSaleIncentiveMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(795, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiImport, Me.rmiExport, Me.rmiClose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -113,8 +111,6 @@ Partial Class frmSaleIncentiveMaster
         '
         'rmiImport
         '
-        Me.rmiImport.AccessibleDescription = "Import"
-        Me.rmiImport.AccessibleName = "Import"
         Me.rmiImport.Name = "rmiImport"
         Me.rmiImport.Text = "Import"
         '
@@ -127,8 +123,6 @@ Partial Class frmSaleIncentiveMaster
         '
         'rmiClose
         '
-        Me.rmiClose.AccessibleDescription = "Close"
-        Me.rmiClose.AccessibleName = "Close"
         Me.rmiClose.Name = "rmiClose"
         Me.rmiClose.Text = "Close"
         '
@@ -398,7 +392,7 @@ Partial Class frmSaleIncentiveMaster
         Me.txtIncentive.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtIncentive.MyLinkLable1 = Me.RadLabel1
         Me.txtIncentive.MyLinkLable2 = Nothing
-        Me.txtIncentive.MyMaxLength = 32767
+        Me.txtIncentive.MyMaxLength = 30
         Me.txtIncentive.MyReadOnly = False
         Me.txtIncentive.Name = "txtIncentive"
         Me.txtIncentive.Size = New System.Drawing.Size(241, 18)
@@ -514,7 +508,7 @@ Partial Class frmSaleIncentiveMaster
         Me.txtToDate.ReferenceFieldName = Nothing
         Me.txtToDate.ReferenceTableName = Nothing
         Me.txtToDate.ShowUpDown = True
-        Me.txtToDate.Size = New System.Drawing.Size(102, 20)
+        Me.txtToDate.Size = New System.Drawing.Size(102, 19)
         Me.txtToDate.TabIndex = 32
         Me.txtToDate.TabStop = False
         Me.txtToDate.Text = "May/2011"
@@ -578,7 +572,7 @@ Partial Class frmSaleIncentiveMaster
         Me.txtFromDate.ReferenceFieldName = Nothing
         Me.txtFromDate.ReferenceTableName = Nothing
         Me.txtFromDate.ShowUpDown = True
-        Me.txtFromDate.Size = New System.Drawing.Size(103, 20)
+        Me.txtFromDate.Size = New System.Drawing.Size(103, 19)
         Me.txtFromDate.TabIndex = 30
         Me.txtFromDate.TabStop = False
         Me.txtFromDate.Text = "May/2011"
@@ -594,11 +588,14 @@ Partial Class frmSaleIncentiveMaster
         Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowColumnHeaderContextMenu = False
         Me.gv.MasterTemplate.AllowDeleteRow = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv.ShowGroupPanel = False
@@ -606,7 +603,6 @@ Partial Class frmSaleIncentiveMaster
         Me.gv.Size = New System.Drawing.Size(795, 196)
         Me.gv.TabIndex = 2
         Me.gv.TabStop = False
-        Me.gv.Text = "RadGridView1"
         '
         'btnUpdates
         '

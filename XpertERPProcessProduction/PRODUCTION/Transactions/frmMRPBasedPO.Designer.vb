@@ -22,9 +22,15 @@ Partial Class FrmMRPBasedPO
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.chkGenAutoSchedule = New common.Controls.MyCheckBox()
+        Me.chkConsiderOpenPO = New common.Controls.MyCheckBox()
+        Me.chkAutoPO = New common.Controls.MyRadioButton()
+        Me.chkAutoIndent = New common.Controls.MyRadioButton()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
@@ -48,16 +54,16 @@ Partial Class FrmMRPBasedPO
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.chkGenAutoSchedule = New common.Controls.MyCheckBox()
-        Me.chkConsiderOpenPO = New common.Controls.MyCheckBox()
-        Me.chkAutoPO = New common.Controls.MyRadioButton()
-        Me.chkAutoIndent = New common.Controls.MyRadioButton()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.chkGenAutoSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkConsiderOpenPO, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAutoPO, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAutoIndent, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,10 +87,6 @@ Partial Class FrmMRPBasedPO
         Me.Panel1.SuspendLayout()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkGenAutoSchedule, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkConsiderOpenPO, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkAutoPO, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkAutoIndent, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -98,7 +100,6 @@ Partial Class FrmMRPBasedPO
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(809, 527)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -154,6 +155,52 @@ Partial Class FrmMRPBasedPO
         Me.SplitContainer1.Size = New System.Drawing.Size(788, 453)
         Me.SplitContainer1.SplitterDistance = 103
         Me.SplitContainer1.TabIndex = 63
+        '
+        'chkGenAutoSchedule
+        '
+        Me.chkGenAutoSchedule.Enabled = False
+        Me.chkGenAutoSchedule.Location = New System.Drawing.Point(448, 79)
+        Me.chkGenAutoSchedule.MyLinkLable1 = Nothing
+        Me.chkGenAutoSchedule.MyLinkLable2 = Nothing
+        Me.chkGenAutoSchedule.Name = "chkGenAutoSchedule"
+        Me.chkGenAutoSchedule.Size = New System.Drawing.Size(141, 18)
+        Me.chkGenAutoSchedule.TabIndex = 285
+        Me.chkGenAutoSchedule.Tag1 = Nothing
+        Me.chkGenAutoSchedule.Text = "Generate Auto Schedule"
+        '
+        'chkConsiderOpenPO
+        '
+        Me.chkConsiderOpenPO.Enabled = False
+        Me.chkConsiderOpenPO.Location = New System.Drawing.Point(329, 79)
+        Me.chkConsiderOpenPO.MyLinkLable1 = Nothing
+        Me.chkConsiderOpenPO.MyLinkLable2 = Nothing
+        Me.chkConsiderOpenPO.Name = "chkConsiderOpenPO"
+        Me.chkConsiderOpenPO.Size = New System.Drawing.Size(113, 18)
+        Me.chkConsiderOpenPO.TabIndex = 284
+        Me.chkConsiderOpenPO.Tag1 = Nothing
+        Me.chkConsiderOpenPO.Text = "Consider Open PO"
+        '
+        'chkAutoPO
+        '
+        Me.chkAutoPO.Enabled = False
+        Me.chkAutoPO.Location = New System.Drawing.Point(615, 79)
+        Me.chkAutoPO.MyLinkLable1 = Nothing
+        Me.chkAutoPO.MyLinkLable2 = Nothing
+        Me.chkAutoPO.Name = "chkAutoPO"
+        Me.chkAutoPO.Size = New System.Drawing.Size(111, 18)
+        Me.chkAutoPO.TabIndex = 283
+        Me.chkAutoPO.Text = "Generate Auto PO"
+        '
+        'chkAutoIndent
+        '
+        Me.chkAutoIndent.Enabled = False
+        Me.chkAutoIndent.Location = New System.Drawing.Point(615, 58)
+        Me.chkAutoIndent.MyLinkLable1 = Nothing
+        Me.chkAutoIndent.MyLinkLable2 = Nothing
+        Me.chkAutoIndent.Name = "chkAutoIndent"
+        Me.chkAutoIndent.Size = New System.Drawing.Size(128, 18)
+        Me.chkAutoIndent.TabIndex = 282
+        Me.chkAutoIndent.Text = "Generate Auto Indent"
         '
         'RadLabel1
         '
@@ -237,7 +284,7 @@ Partial Class FrmMRPBasedPO
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 19)
@@ -331,7 +378,6 @@ Partial Class FrmMRPBasedPO
         Me.txtLocationdesc.Name = "txtLocationdesc"
         Me.txtLocationdesc.Size = New System.Drawing.Size(287, 18)
         Me.txtLocationdesc.TabIndex = 55
-        Me.txtLocationdesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtLocationdesc.TextWrap = False
         '
         'txtMRPNo
@@ -380,7 +426,6 @@ Partial Class FrmMRPBasedPO
         Me.txtMrpDesc.Name = "txtMrpDesc"
         Me.txtMrpDesc.Size = New System.Drawing.Size(287, 18)
         Me.txtMrpDesc.TabIndex = 56
-        Me.txtMrpDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.txtMrpDesc.TextWrap = False
         '
         'txtDate
@@ -449,10 +494,13 @@ Partial Class FrmMRPBasedPO
         Me.gv_PO.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv_PO.Location = New System.Drawing.Point(10, 20)
         '
-        'gv_PO
+        '
         '
         Me.gv_PO.MasterTemplate.AllowDeleteRow = False
+        Me.gv_PO.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_PO.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv_PO.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv_PO.MyStopExport = False
         Me.gv_PO.Name = "gv_PO"
         Me.gv_PO.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv_PO.ShowGroupPanel = False
@@ -460,7 +508,6 @@ Partial Class FrmMRPBasedPO
         Me.gv_PO.Size = New System.Drawing.Size(766, 181)
         Me.gv_PO.TabIndex = 0
         Me.gv_PO.TabStop = False
-        Me.gv_PO.Text = "RadGridView1"
         '
         'RadGroupBox5
         '
@@ -486,10 +533,13 @@ Partial Class FrmMRPBasedPO
         Me.gvMRP.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvMRP.Location = New System.Drawing.Point(10, 20)
         '
-        'gvMRP
+        '
         '
         Me.gvMRP.MasterTemplate.AllowDeleteRow = False
+        Me.gvMRP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMRP.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvMRP.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvMRP.MyStopExport = False
         Me.gvMRP.Name = "gvMRP"
         Me.gvMRP.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvMRP.ShowGroupPanel = False
@@ -497,7 +547,6 @@ Partial Class FrmMRPBasedPO
         Me.gvMRP.Size = New System.Drawing.Size(766, 103)
         Me.gvMRP.TabIndex = 0
         Me.gvMRP.TabStop = False
-        Me.gvMRP.Text = "RadGridView1"
         '
         'Panel1
         '
@@ -527,52 +576,6 @@ Partial Class FrmMRPBasedPO
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
-        'chkGenAutoSchedule
-        '
-        Me.chkGenAutoSchedule.Enabled = False
-        Me.chkGenAutoSchedule.Location = New System.Drawing.Point(448, 79)
-        Me.chkGenAutoSchedule.MyLinkLable1 = Nothing
-        Me.chkGenAutoSchedule.MyLinkLable2 = Nothing
-        Me.chkGenAutoSchedule.Name = "chkGenAutoSchedule"
-        Me.chkGenAutoSchedule.Size = New System.Drawing.Size(141, 18)
-        Me.chkGenAutoSchedule.TabIndex = 285
-        Me.chkGenAutoSchedule.Tag1 = Nothing
-        Me.chkGenAutoSchedule.Text = "Generate Auto Schedule"
-        '
-        'chkConsiderOpenPO
-        '
-        Me.chkConsiderOpenPO.Enabled = False
-        Me.chkConsiderOpenPO.Location = New System.Drawing.Point(329, 79)
-        Me.chkConsiderOpenPO.MyLinkLable1 = Nothing
-        Me.chkConsiderOpenPO.MyLinkLable2 = Nothing
-        Me.chkConsiderOpenPO.Name = "chkConsiderOpenPO"
-        Me.chkConsiderOpenPO.Size = New System.Drawing.Size(113, 18)
-        Me.chkConsiderOpenPO.TabIndex = 284
-        Me.chkConsiderOpenPO.Tag1 = Nothing
-        Me.chkConsiderOpenPO.Text = "Consider Open PO"
-        '
-        'chkAutoPO
-        '
-        Me.chkAutoPO.Enabled = False
-        Me.chkAutoPO.Location = New System.Drawing.Point(615, 79)
-        Me.chkAutoPO.MyLinkLable1 = Nothing
-        Me.chkAutoPO.MyLinkLable2 = Nothing
-        Me.chkAutoPO.Name = "chkAutoPO"
-        Me.chkAutoPO.Size = New System.Drawing.Size(111, 18)
-        Me.chkAutoPO.TabIndex = 283
-        Me.chkAutoPO.Text = "Generate Auto PO"
-        '
-        'chkAutoIndent
-        '
-        Me.chkAutoIndent.Enabled = False
-        Me.chkAutoIndent.Location = New System.Drawing.Point(615, 58)
-        Me.chkAutoIndent.MyLinkLable1 = Nothing
-        Me.chkAutoIndent.MyLinkLable2 = Nothing
-        Me.chkAutoIndent.Name = "chkAutoIndent"
-        Me.chkAutoIndent.Size = New System.Drawing.Size(128, 18)
-        Me.chkAutoIndent.TabIndex = 282
-        Me.chkAutoIndent.Text = "Generate Auto Indent"
-        '
         'FrmMRPBasedPO
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -592,6 +595,10 @@ Partial Class FrmMRPBasedPO
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.chkGenAutoSchedule, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkConsiderOpenPO, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAutoPO, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAutoIndent, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
@@ -615,10 +622,6 @@ Partial Class FrmMRPBasedPO
         Me.Panel1.ResumeLayout(False)
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkGenAutoSchedule, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkConsiderOpenPO, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkAutoPO, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkAutoIndent, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

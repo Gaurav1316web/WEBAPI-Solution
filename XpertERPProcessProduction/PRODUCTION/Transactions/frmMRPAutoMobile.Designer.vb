@@ -22,6 +22,7 @@ Partial Class frmMRPAutoMobile
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.txtMRPDescription = New common.Controls.MyTextBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.UsLock1 = New common.usLock()
@@ -58,11 +59,11 @@ Partial Class frmMRPAutoMobile
         Me.fndProductionPlan = New common.UserControls.txtFinder()
         Me.pageAttachment = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnUnpost = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnUnpost = New Telerik.WinControls.UI.RadButton()
         CType(Me.txtMRPDescription, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblempcode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -98,11 +99,11 @@ Partial Class frmMRPAutoMobile
         CType(Me.txtProductionPlanDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageAttachment.SuspendLayout()
+        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -158,7 +159,7 @@ Partial Class frmMRPAutoMobile
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblempcode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(255, 21)
@@ -219,7 +220,6 @@ Partial Class frmMRPAutoMobile
         Me.RadPageView1.SelectedPage = Me.pageGeneral
         Me.RadPageView1.Size = New System.Drawing.Size(735, 510)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'pageGeneral
@@ -253,20 +253,22 @@ Partial Class frmMRPAutoMobile
         Me.gvMRPDetal.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvMRPDetal.Location = New System.Drawing.Point(3, 18)
         '
-        'gvMRPDetal
+        '
         '
         Me.gvMRPDetal.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvMRPDetal.MasterTemplate.AllowAddNewRow = False
         Me.gvMRPDetal.MasterTemplate.AutoGenerateColumns = False
         Me.gvMRPDetal.MasterTemplate.EnableGrouping = False
+        Me.gvMRPDetal.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvMRPDetal.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvMRPDetal.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvMRPDetal.MyStopExport = False
         Me.gvMRPDetal.Name = "gvMRPDetal"
         Me.gvMRPDetal.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvMRPDetal.ShowHeaderCellButtons = True
         Me.gvMRPDetal.Size = New System.Drawing.Size(708, 248)
         Me.gvMRPDetal.TabIndex = 0
         Me.gvMRPDetal.TabStop = False
-        Me.gvMRPDetal.Text = "RadGridView1"
         '
         'Panel1
         '
@@ -557,7 +559,6 @@ Partial Class frmMRPAutoMobile
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(291, 19)
         Me.lblLocationDesc.TabIndex = 268
-        Me.lblLocationDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'dtpMRPDate
         '
@@ -608,7 +609,6 @@ Partial Class frmMRPAutoMobile
         Me.txtProductionPlanDesc.Name = "txtProductionPlanDesc"
         Me.txtProductionPlanDesc.Size = New System.Drawing.Size(291, 19)
         Me.txtProductionPlanDesc.TabIndex = 274
-        Me.txtProductionPlanDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel5
         '
@@ -663,6 +663,16 @@ Partial Class frmMRPAutoMobile
         Me.UcAttachment1.Size = New System.Drawing.Size(714, 462)
         Me.UcAttachment1.TabIndex = 4
         '
+        'btnUnpost
+        '
+        Me.btnUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnUnpost.Location = New System.Drawing.Point(231, 5)
+        Me.btnUnpost.Name = "btnUnpost"
+        Me.btnUnpost.Size = New System.Drawing.Size(69, 22)
+        Me.btnUnpost.TabIndex = 7
+        Me.btnUnpost.Text = "Reverse"
+        '
         'btnPost
         '
         Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -702,16 +712,6 @@ Partial Class frmMRPAutoMobile
         Me.btndelete.Size = New System.Drawing.Size(68, 22)
         Me.btndelete.TabIndex = 1
         Me.btndelete.Text = "Delete"
-        '
-        'btnUnpost
-        '
-        Me.btnUnpost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnUnpost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnUnpost.Location = New System.Drawing.Point(231, 5)
-        Me.btnUnpost.Name = "btnUnpost"
-        Me.btnUnpost.Size = New System.Drawing.Size(69, 22)
-        Me.btnUnpost.TabIndex = 7
-        Me.btnUnpost.Text = "Reverse"
         '
         'frmMRPAutoMobile
         '
@@ -761,11 +761,11 @@ Partial Class frmMRPAutoMobile
         CType(Me.txtProductionPlanDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pageAttachment.ResumeLayout(False)
+        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

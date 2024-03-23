@@ -61,6 +61,7 @@ Public Class FrmProductionAndSaleReport
 
             Dim fDate As DateTime = Nothing
             Dim tDate As DateTime = Nothing
+            Dim tDate1 As DateTime = Nothing
             Dim dtcurrent As DateTime = Nothing
             Dim dtnext As DateTime = Nothing
             'DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
@@ -68,7 +69,7 @@ Public Class FrmProductionAndSaleReport
             ',TSPL_LOCATION_MASTER.location_code as [Location Code]
             If rdbDaily.Checked = True Then
                 fDate = New DateTime(Year, Month, 1)
-                tDate = fromDate.Value
+                tDate = clsCommon.GetDateWithEndTime(fromDate.Value)
                 DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
                 Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT LOCATION_CODE FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0'")
                 'Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from TSPL_ITEM_MASTER where Structure_Code='FG' and Item_Desc like '%SARAS%'")
@@ -80,7 +81,7 @@ Public Class FrmProductionAndSaleReport
                             queryStock += " UNION ALL "
                         End If
                         queryStock += " select '" + clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")) + "' AS Item_Code,'" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "' AS LOCATION_CODE, "
-                        queryStock += clsCommon.myCstr(clsItemLocationDetails.getBalance(clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")), clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")), "", tDate, Nothing, clsCommon.myCstr("MT"), 0))
+                        queryStock += clsCommon.myCstr(clsItemLocationDetails.getBalance1(clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")), clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")), "", tDate, Nothing, clsCommon.myCstr("MT"), 0))
                         queryStock += " as Qty"
                     Next
                 Next
@@ -163,12 +164,12 @@ Public Class FrmProductionAndSaleReport
                         GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) PSO
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =PSO.Bill_To_Location 
                          LEFT OUTER JOIN
-                        (select TSPL_BREAK_DOWN_ENTRY.Location_Code
-                        ,DATEDIFF(HOUR,Start_Time,End_Time) AS BreakdownHRS,TSPL_BREAK_DOWN_MASTER.Name as BreakdownREASON
+                       (select TSPL_BREAK_DOWN_ENTRY.Location_Code
+                        ,max(DATEDIFF(HOUR,Start_Time,End_Time)) AS BreakdownHRS,max(TSPL_BREAK_DOWN_MASTER.Name) as BreakdownREASON 
                          from TSPL_BREAK_DOWN_ENTRY
                         left join TSPL_BREAK_DOWN_MASTER ON TSPL_BREAK_DOWN_ENTRY.Break_Down_Code = TSPL_BREAK_DOWN_MASTER.CODE
                         left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_BREAK_DOWN_ENTRY.Location_Code
-                        WHERE convert(date,TSPL_BREAK_DOWN_ENTRY.Start_Time,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) group by Start_Time,End_Time,Name,TSPL_BREAK_DOWN_ENTRY.Location_Code) BreakDown
+                        WHERE convert(date,TSPL_BREAK_DOWN_ENTRY.Start_Time,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) group by TSPL_BREAK_DOWN_ENTRY.Location_Code) BreakDown
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =BreakDown.Location_Code "
 
 
@@ -718,7 +719,7 @@ Public Class FrmProductionAndSaleReport
                             queryStock += " UNION ALL "
                         End If
                         queryStock += " select '" + clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")) + "' AS Item_Code,'" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "' AS LOCATION_CODE, "
-                        queryStock += clsCommon.myCstr(clsItemLocationDetails.getBalance(clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")), clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")), "", tDate, Nothing, clsCommon.myCstr("MT"), 0))
+                        queryStock += clsCommon.myCstr(clsItemLocationDetails.getBalance1(clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")), clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")), "", tDate, Nothing, clsCommon.myCstr("MT"), 0))
                         queryStock += " as Qty"
                     Next
                 Next

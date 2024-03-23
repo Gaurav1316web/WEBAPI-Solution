@@ -3682,6 +3682,10 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 
+                    Case clsUserMgtCode.rptTransactionWiseStock
+                        frm = New rptTransactionWiseStock()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmHSNMaster
                         frm = New frmHSNMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -7831,6 +7835,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDBTNEFTUnionReport
                         frm = New frmDBTNEFTUnionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDCSSavingLedger
+                        frm = New frmDCSSavingLedger
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDBTStatusAndLastDPTStatus
                         frm = New frmDBTStatusAndLastDPTStatus
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8249,6 +8256,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmTransferToSaving
                         frm = New frmTransferToSaving()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmMakeSavingPayment
+                        frm = New frmMakeSavingPayment()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmPaymentProcess
                         frm = New FrmPaymentProcess
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8276,6 +8286,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptDayWiseCol
                         frm = New rptDayWiseCollection
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptMarginAmt
+                        frm = New rptMarginAmount
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptCattleFeedSaleReport
                         frm = New rptCattleFeedSaleReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
@@ -8287,6 +8300,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAvgSaleDetailReport
                         frm = New rptAvgSaleDetailReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptdairydispatch
+                        frm = New rptdailydispatch
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptPaymentCycleWiseReport
                         frm = New rptPaymentCycleWiseReport

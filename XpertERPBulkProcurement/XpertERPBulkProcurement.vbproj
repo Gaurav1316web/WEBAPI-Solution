@@ -222,6 +222,12 @@
     <Compile Include="Milk Procurement\Report\frmDBTStatusAndLastDPTStatus.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\frmDCSSavingLedger.Designer.vb">
+      <DependentUpon>frmDCSSavingLedger.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\frmDCSSavingLedger.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\FrmMCCMilkRegister.Designer.vb">
       <DependentUpon>FrmMCCMilkRegister.vb</DependentUpon>
     </Compile>
@@ -294,6 +300,12 @@
     <Compile Include="Milk Procurement\Report\rptDCSSecurity.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptMarginAmount.Designer.vb">
+      <DependentUpon>rptMarginAmount.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptMarginAmount.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptMilkPaymentSummary.Designer.vb">
       <DependentUpon>rptMilkPaymentSummary.vb</DependentUpon>
     </Compile>
@@ -352,6 +364,12 @@
       <DependentUpon>frmDCSMilkCollectionMergeSetting.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmDCSMilkCollectionMergeSetting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMakeSavingPayment.Designer.vb">
+      <DependentUpon>frmMakeSavingPayment.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Transaction\frmMakeSavingPayment.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Transaction\frmMilkCollectionDCSMultipleDays.Designer.vb">
@@ -820,6 +838,9 @@
     <EmbeddedResource Include="Milk Procurement\Report\frmDBTStatusAndLastDPTStatus.resx">
       <DependentUpon>frmDBTStatusAndLastDPTStatus.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\frmDCSSavingLedger.resx">
+      <DependentUpon>frmDCSSavingLedger.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\frmFATSNFDiffReport.resx">
       <DependentUpon>frmFATSNFDiffReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -839,6 +860,9 @@
     <EmbeddedResource Include="Milk Procurement\Report\rptCattleFeedSaleReport.resx">
       <DependentUpon>rptCattleFeedSaleReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptDayWiseCollection.resx">
+      <DependentUpon>rptDayWiseCollection.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptDBTMilkPayment.resx">
       <DependentUpon>rptDBTMilkPayment.vb</DependentUpon>
     </EmbeddedResource>
@@ -850,6 +874,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptDCSSecurity.resx">
       <DependentUpon>rptDCSSecurity.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptMarginAmount.resx">
+      <DependentUpon>rptMarginAmount.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMilkPaymentSummary.resx">
       <DependentUpon>rptMilkPaymentSummary.vb</DependentUpon>
@@ -880,6 +907,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmDCSMilkCollectionMergeSetting.resx">
       <DependentUpon>frmDCSMilkCollectionMergeSetting.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Transaction\frmMakeSavingPayment.resx">
+      <DependentUpon>frmMakeSavingPayment.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Transaction\frmMilkCollectionDCSMultipleDays.resx">
       <DependentUpon>frmMilkCollectionDCSMultipleDays.vb</DependentUpon>

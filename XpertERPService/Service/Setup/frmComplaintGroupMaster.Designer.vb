@@ -24,21 +24,21 @@ Partial Class frmComplaintGroupMaster
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox
-        Me.fndComplaintID = New common.UserControls.txtNavigator
-        Me.lblRouteTypeID = New common.Controls.MyLabel
-        Me.lblDescription = New common.Controls.MyLabel
-        Me.rbtnReset = New Telerik.WinControls.UI.RadButton
-        Me.txtDescription = New common.Controls.MyTextBox
-        Me.rbtnSave = New Telerik.WinControls.UI.RadButton
-        Me.rbtnDelete = New Telerik.WinControls.UI.RadButton
-        Me.rbtnClose = New Telerik.WinControls.UI.RadButton
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.rdmenufile = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenufile = New Telerik.WinControls.UI.RadMenuItem
-        Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem
-        Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem
-        Me.rdmenuexit = New Telerik.WinControls.UI.RadMenuItem
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.fndComplaintID = New common.UserControls.txtNavigator()
+        Me.lblRouteTypeID = New common.Controls.MyLabel()
+        Me.lblDescription = New common.Controls.MyLabel()
+        Me.rbtnReset = New Telerik.WinControls.UI.RadButton()
+        Me.txtDescription = New common.Controls.MyTextBox()
+        Me.rbtnSave = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnDelete = New Telerik.WinControls.UI.RadButton()
+        Me.rbtnClose = New Telerik.WinControls.UI.RadButton()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.rdmenufile = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenufile = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rdmenuexport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rdmenuexit = New Telerik.WinControls.UI.RadMenuItem()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.lblRouteTypeID, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -72,13 +72,14 @@ Partial Class frmComplaintGroupMaster
         '
         'fndComplaintID
         '
+        Me.fndComplaintID.FieldName = Nothing
         Me.fndComplaintID.Location = New System.Drawing.Point(86, 21)
         Me.fndComplaintID.MendatroryField = True
         Me.fndComplaintID.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndComplaintID.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndComplaintID.MyLinkLable1 = Me.lblRouteTypeID
         Me.fndComplaintID.MyLinkLable2 = Nothing
-        Me.fndComplaintID.MyMaxLength = 32767
+        Me.fndComplaintID.MyMaxLength = 30
         Me.fndComplaintID.MyReadOnly = False
         Me.fndComplaintID.Name = "fndComplaintID"
         Me.fndComplaintID.Size = New System.Drawing.Size(199, 21)
@@ -87,6 +88,7 @@ Partial Class frmComplaintGroupMaster
         '
         'lblRouteTypeID
         '
+        Me.lblRouteTypeID.FieldName = Nothing
         Me.lblRouteTypeID.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold)
         Me.lblRouteTypeID.Location = New System.Drawing.Point(13, 25)
         Me.lblRouteTypeID.Name = "lblRouteTypeID"
@@ -96,6 +98,7 @@ Partial Class frmComplaintGroupMaster
         '
         'lblDescription
         '
+        Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDescription.Location = New System.Drawing.Point(13, 50)
         Me.lblDescription.Name = "lblDescription"
@@ -106,7 +109,7 @@ Partial Class frmComplaintGroupMaster
         'rbtnReset
         '
         Me.rbtnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.rbtnReset.Image = My.Resources._new
+        Me.rbtnReset.Image = Global.XpertERPService.My.Resources.Resources._new
         Me.rbtnReset.Location = New System.Drawing.Point(288, 23)
         Me.rbtnReset.Name = "rbtnReset"
         Me.rbtnReset.Size = New System.Drawing.Size(14, 18)
@@ -114,13 +117,25 @@ Partial Class frmComplaintGroupMaster
         '
         'txtDescription
         '
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
         Me.txtDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(82, 48)
         Me.txtDescription.MaxLength = 50
         Me.txtDescription.MendatroryField = False
         Me.txtDescription.MyLinkLable1 = Me.lblDescription
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(220, 18)
         Me.txtDescription.TabIndex = 2
         '
@@ -184,16 +199,12 @@ Partial Class frmComplaintGroupMaster
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(404, 20)
         Me.rdmenufile.TabIndex = 1
-        Me.rdmenufile.Text = "File"
         '
         'RadMenufile
         '
-        Me.RadMenufile.AccessibleDescription = "File"
-        Me.RadMenufile.AccessibleName = "File"
         Me.RadMenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenuimport, Me.rdmenuexport, Me.rdmenuexit})
         Me.RadMenufile.Name = "RadMenufile"
         Me.RadMenufile.Text = "File"
-        Me.RadMenufile.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdmenuimport
         '
@@ -201,23 +212,16 @@ Partial Class frmComplaintGroupMaster
         Me.rdmenuimport.AccessibleName = "import"
         Me.rdmenuimport.Name = "rdmenuimport"
         Me.rdmenuimport.Text = "Import"
-        Me.rdmenuimport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdmenuexport
         '
-        Me.rdmenuexport.AccessibleDescription = "Export"
-        Me.rdmenuexport.AccessibleName = "Export"
         Me.rdmenuexport.Name = "rdmenuexport"
         Me.rdmenuexport.Text = "Export"
-        Me.rdmenuexport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'rdmenuexit
         '
-        Me.rdmenuexit.AccessibleDescription = "Exit"
-        Me.rdmenuexit.AccessibleName = "Exit"
         Me.rdmenuexit.Name = "rdmenuexit"
         Me.rdmenuexit.Text = "Exit"
-        Me.rdmenuexit.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'frmComplaintGroupMaster
         '

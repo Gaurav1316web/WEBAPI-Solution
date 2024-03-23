@@ -22,7 +22,9 @@ Partial Class frmMaterialQuotationComparison
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.chkTaxable = New common.Controls.MyCheckBox()
         Me.txtlocation = New common.Controls.MyTextBox()
         Me.RadLabel15 = New common.Controls.MyLabel()
         Me.fndLocation = New common.UserControls.txtFinder()
@@ -61,10 +63,10 @@ Partial Class frmMaterialQuotationComparison
         Me.btnexport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnexporthead = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnexportdetail = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkTaxable = New common.Controls.MyCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.chkTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtlocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,7 +94,6 @@ Partial Class frmMaterialQuotationComparison
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkTaxable, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -141,6 +142,18 @@ Partial Class frmMaterialQuotationComparison
         Me.SplitContainer1.Size = New System.Drawing.Size(884, 452)
         Me.SplitContainer1.SplitterDistance = 420
         Me.SplitContainer1.TabIndex = 1
+        '
+        'chkTaxable
+        '
+        Me.chkTaxable.Enabled = False
+        Me.chkTaxable.Location = New System.Drawing.Point(526, 35)
+        Me.chkTaxable.MyLinkLable1 = Nothing
+        Me.chkTaxable.MyLinkLable2 = Nothing
+        Me.chkTaxable.Name = "chkTaxable"
+        Me.chkTaxable.Size = New System.Drawing.Size(58, 18)
+        Me.chkTaxable.TabIndex = 1434
+        Me.chkTaxable.Tag1 = Nothing
+        Me.chkTaxable.Text = "Taxable"
         '
         'txtlocation
         '
@@ -334,10 +347,13 @@ Partial Class frmMaterialQuotationComparison
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -345,7 +361,6 @@ Partial Class frmMaterialQuotationComparison
         Me.gv1.Size = New System.Drawing.Size(840, 242)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'chkOnHold
         '
@@ -493,7 +508,7 @@ Partial Class frmMaterialQuotationComparison
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblQuotationComparison
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(241, 20)
@@ -577,7 +592,6 @@ Partial Class frmMaterialQuotationComparison
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(884, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'Setting
         '
@@ -589,22 +603,16 @@ Partial Class frmMaterialQuotationComparison
         '
         'saveLayoutbtn
         '
-        Me.saveLayoutbtn.AccessibleDescription = "Save Layout"
-        Me.saveLayoutbtn.AccessibleName = "Save Layout"
         Me.saveLayoutbtn.Name = "saveLayoutbtn"
         Me.saveLayoutbtn.Text = "Save Layout"
         '
         'DeleteLayout
         '
-        Me.DeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.DeleteLayout.AccessibleName = "Delete Layout"
         Me.DeleteLayout.Name = "DeleteLayout"
         Me.DeleteLayout.Text = "Delete Layout"
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnimporthead, Me.btnimportdetail})
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
@@ -612,22 +620,16 @@ Partial Class frmMaterialQuotationComparison
         '
         'btnimporthead
         '
-        Me.btnimporthead.AccessibleDescription = "Import Head"
-        Me.btnimporthead.AccessibleName = "Import Head"
         Me.btnimporthead.Name = "btnimporthead"
         Me.btnimporthead.Text = "Import Head"
         '
         'btnimportdetail
         '
-        Me.btnimportdetail.AccessibleDescription = "Import Detail"
-        Me.btnimportdetail.AccessibleName = "Import Detail"
         Me.btnimportdetail.Name = "btnimportdetail"
         Me.btnimportdetail.Text = "Import Detail"
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexporthead, Me.btnexportdetail})
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
@@ -635,29 +637,13 @@ Partial Class frmMaterialQuotationComparison
         '
         'btnexporthead
         '
-        Me.btnexporthead.AccessibleDescription = "Export Head"
-        Me.btnexporthead.AccessibleName = "Export Head"
         Me.btnexporthead.Name = "btnexporthead"
         Me.btnexporthead.Text = "Export Head"
         '
         'btnexportdetail
         '
-        Me.btnexportdetail.AccessibleDescription = "Export Detail"
-        Me.btnexportdetail.AccessibleName = "Export Detail"
         Me.btnexportdetail.Name = "btnexportdetail"
         Me.btnexportdetail.Text = "Export Detail"
-        '
-        'chkTaxable
-        '
-        Me.chkTaxable.Enabled = False
-        Me.chkTaxable.Location = New System.Drawing.Point(526, 35)
-        Me.chkTaxable.MyLinkLable1 = Nothing
-        Me.chkTaxable.MyLinkLable2 = Nothing
-        Me.chkTaxable.Name = "chkTaxable"
-        Me.chkTaxable.Size = New System.Drawing.Size(58, 18)
-        Me.chkTaxable.TabIndex = 1434
-        Me.chkTaxable.Tag1 = Nothing
-        Me.chkTaxable.Text = "Taxable"
         '
         'frmMaterialQuotationComparison
         '
@@ -677,6 +663,7 @@ Partial Class frmMaterialQuotationComparison
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.chkTaxable, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtlocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtComment, System.ComponentModel.ISupportInitialize).EndInit()
@@ -705,7 +692,6 @@ Partial Class frmMaterialQuotationComparison
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkTaxable, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
