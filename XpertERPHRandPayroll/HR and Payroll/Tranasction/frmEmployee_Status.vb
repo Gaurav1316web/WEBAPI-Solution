@@ -215,38 +215,38 @@ Public Class frmEmployee_Status
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(finddesignation.Value) <= 0 Then
-            myMessages.blankValue("Designation ")
+            myMessages.blankValue(Me, "Designation ", Me.Text)
             finddesignation.Focus()
             Return False
         ElseIf clsCommon.myLen(findDepartment.Value) <= -1 Then
-            myMessages.blankValue("Departmrnt ")
+            myMessages.blankValue(Me, "Departmrnt ", Me.Text)
             findDepartment.Focus()
             Return False
         ElseIf cboWorkingStatus.SelectedIndex = -1 Then
-            myMessages.blankValue("Working Status ")
+            myMessages.blankValue(Me, "Working Status ", Me.Text)
             cboWorkingStatus.Focus()
             Return False
         ElseIf clsCommon.myLen(txtRevisionNo.Text) <= -1 Then
-            myMessages.blankValue("Revision No ")
+            myMessages.blankValue(Me, "Revision No ", Me.Text)
             findDepartment.Focus()
             Return False
         ElseIf clsCommon.myLen(txtPfNo.Text) <= 0 And chkPFApplicable.Checked Then
-            myMessages.blankValue("PF No ")
+            myMessages.blankValue(Me, "PF No ", Me.Text)
             txtPfNo.Focus()
             Return False
 
         ElseIf clsCommon.myLen(txtEsiNo.Text) <= 0 And chkEsiApplicable.Checked Then
-            myMessages.blankValue("ESI No ")
+            myMessages.blankValue(Me, "ESI No ", Me.Text)
             txtEsiNo.Focus()
             Return False
 
         ElseIf clsCommon.myLen(findOT.Value) <= 0 And chkOtApplicable.Checked Then
-            myMessages.blankValue("OT Code ")
+            myMessages.blankValue(Me, "OT Code ", Me.Text)
             findOT.Focus()
             Return False
 
         ElseIf clsCommon.myLen(findBonus.Value) <= 0 And chkBonusApplicable.Checked = True Then
-            myMessages.blankValue("Bonus Code ")
+            myMessages.blankValue(Me, "Bonus Code ", Me.Text)
             findBonus.Focus()
             Return False
         End If

@@ -20,7 +20,7 @@ Public Class FrmRequesitionEntry
         ' Ticket No : TEC/19/03/19-000456 
 
         If clsCommon.myLen(clsCommon.myCstr(txtdescription.Text)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtdescription.Text)) > 100 Then
-            myMessages.blankValue("Description ")
+            myMessages.blankValue(Me, "Description ", Me.Text)
             txtdescription.Focus()
             txtdescription.Select()
             Errorcontrol.SetError(txtdescription, "Description ")
@@ -30,7 +30,7 @@ Public Class FrmRequesitionEntry
         End If
 
         If txtprofile.Value = "" Then
-            myMessages.blankValue("Profile ")
+            myMessages.blankValue(Me, "Profile ", Me.Text)
             txtprofile.Focus()
             txtprofile.Select()
             Errorcontrol.SetError(txtprofile, "Profile")
@@ -40,7 +40,7 @@ Public Class FrmRequesitionEntry
         End If
 
         If Txtemployeetype.Value = "" Then
-            myMessages.blankValue("Employee Type ")
+            myMessages.blankValue(Me, "Employee Type ", Me.Text)
             Txtemployeetype.Focus()
             Txtemployeetype.Select()
             Errorcontrol.SetError(Txtemployeetype, "Employee Type")
@@ -50,7 +50,7 @@ Public Class FrmRequesitionEntry
         End If
 
         If clsCommon.myLen(txtDepartmentCode.Value) <= 0 Then
-            myMessages.blankValue("Department ")
+            myMessages.blankValue(Me, "Department ", Me.Text)
             txtDepartmentCode.Focus()
             txtDepartmentCode.Select()
             Errorcontrol.SetError(Txtlocation, "Department")
@@ -61,7 +61,7 @@ Public Class FrmRequesitionEntry
 
 
         If Txtlocation.Value = "" Then
-            myMessages.blankValue("Location ")
+            myMessages.blankValue(Me, "Location ", Me.Text)
             Txtlocation.Focus()
             Txtlocation.Select()
             Errorcontrol.SetError(Txtlocation, "Location")
@@ -79,7 +79,7 @@ Public Class FrmRequesitionEntry
         '    Errorcontrol.ResetError(Txtemployeetype)
         'End If
         If clsCommon.myLen(Txtjobtitle.Value) <= 0 Then
-            myMessages.blankValue("Job title")
+            myMessages.blankValue(Me, "Job title", Me.Text)
             Txtjobtitle.Focus()
             Txtjobtitle.Select()
             Errorcontrol.SetError(Txtjobtitle, "Job title")
@@ -89,7 +89,7 @@ Public Class FrmRequesitionEntry
         End If
 
         If clsCommon.myLen(TxtIndustry.Value) <= 0 Then
-            myMessages.blankValue("Job title")
+            myMessages.blankValue(Me, "Job title", Me.Text)
             TxtIndustry.Focus()
             TxtIndustry.Select()
             Errorcontrol.SetError(TxtIndustry, "Industry")
@@ -99,7 +99,7 @@ Public Class FrmRequesitionEntry
         End If
 
         If clsCommon.myLen(TxtVertical.Value) <= 0 Then
-            myMessages.blankValue("Vertical")
+            myMessages.blankValue(Me, "Vertical", Me.Text)
             TxtVertical.Focus()
             TxtVertical.Select()
             Errorcontrol.SetError(TxtVertical, "Vertical")
@@ -110,7 +110,7 @@ Public Class FrmRequesitionEntry
 
 
         If (clsCommon.CompairString(ddhiringtype.Text, "") = CompairStringResult.Equal) Then
-            myMessages.blankValue("Hiring Type ")
+            myMessages.blankValue(Me, "Hiring Type ", Me.Text)
             ddhiringtype.Focus()
             ddhiringtype.Select()
             Errorcontrol.SetError(ddhiringtype, "Hiring Type")
@@ -120,7 +120,7 @@ Public Class FrmRequesitionEntry
         End If
 
         If ddctcrange.Text = "" Then
-            myMessages.blankValue("CTC Range ")
+            myMessages.blankValue(Me, "CTC Range ", Me.Text)
             ddctcrange.Focus()
             ddctcrange.Select()
             Errorcontrol.SetError(ddctcrange, "CTC Range")
@@ -130,7 +130,7 @@ Public Class FrmRequesitionEntry
         End If
 
         If ddgender.Text = "" Then
-            myMessages.blankValue("Gender ")
+            myMessages.blankValue(Me, "Gender ", Me.Text)
             ddgender.Focus()
             ddgender.Select()
             Errorcontrol.SetError(ddgender, "Gender")
@@ -140,7 +140,7 @@ Public Class FrmRequesitionEntry
         End If
 
         If txtNoPost.Text = "" Then
-            myMessages.blankValue("No. of post ")
+            myMessages.blankValue(Me, "No. of post ", Me.Text)
             txtNoPost.Focus()
             txtNoPost.Select()
             Errorcontrol.SetError(txtNoPost, "No. of post")

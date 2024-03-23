@@ -429,11 +429,11 @@ Public Class FrmCommissionMaster
     End Sub
     Sub DeleteData()
         If fndItemCode.Value = "" Then
-            myMessages.blankValue("Item Code")
+            myMessages.blankValue(Me, "Item Code", Me.Text)
 
         ElseIf fndunit.Value = "" Then
 
-            myMessages.blankValue("UOM")
+            myMessages.blankValue(Me, "UOM", Me.Text)
 
         ElseIf myMessages.deleteConfirm() Then
             fundelete()

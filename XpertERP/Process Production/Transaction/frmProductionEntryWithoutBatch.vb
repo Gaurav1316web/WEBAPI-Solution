@@ -937,19 +937,19 @@ Public Class frmProductionEntryWithoutBatch
             Return False
         End If
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            myMessages.blankValue("Location Code")
+            myMessages.blankValue(Me, "Location Code", Me.Text)
             txtLocation.Focus()
             Return False
         End If
         If Me.gvBatch.Rows.Count = 0 Then
-            myMessages.blankValue("Batch List is Empty")
+            myMessages.blankValue(Me, "Batch List is Empty", Me.Text)
             Return False
         End If
         'Dim ii As Int16 = 0
         For Each grow As GridViewRowInfo In gvBatch.Rows
             If clsCommon.myLen(grow.Cells(colBOMCode).Value) > 0 Then
                 If clsCommon.myLen(grow.Cells(colSP_Loaction_Code).Value) <= 0 Then
-                    myMessages.blankValue("Enter Location in Batch Production tab at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Enter Location in Batch Production tab at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
             End If
@@ -960,25 +960,25 @@ Public Class frmProductionEntryWithoutBatch
             If clsCommon.myLen(grow.Cells(colItemCode).Value) > 0 Then
                 If clsCommon.myCdbl(grow.Cells(colFINAL_PROD_Qty).Value) > 0 Then
                     If clsCommon.myLen(grow.Cells(colSP_Loaction_Code).Value) <= 0 Then
-                        myMessages.blankValue("Enter Location in consumption tab at line no- " & (grow.Index + 1) & "")
+                        myMessages.blankValue(Me, "Enter Location in consumption tab at line no- " & (grow.Index + 1) & "", Me.Text)
                         Return False
                     End If
                 End If
 
                 If clsCommon.myLen(grow.Cells(colUOM).Value) <= 0 Then
-                    myMessages.blankValue("Enter UOM in consumption tab at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Enter UOM in consumption tab at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(grow.Cells(colMainUOM).Value) <= 0 Then
-                    myMessages.blankValue("Main UOM in consumption tab is blank at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Main UOM in consumption tab is blank at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(grow.Cells(colMainItemCode).Value) <= 0 Then
-                    myMessages.blankValue("Main Item Code in consumption tab is blank at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Main Item Code in consumption tab is blank at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
                 If clsCommon.myLen(grow.Cells(colBOMCode).Value) <= 0 Then
-                    myMessages.blankValue("Bom Code in consumption tab is blank at line no- " & (grow.Index + 1) & "")
+                    myMessages.blankValue(Me, "Bom Code in consumption tab is blank at line no- " & (grow.Index + 1) & "", Me.Text)
                     Return False
                 End If
             End If

@@ -415,7 +415,7 @@ Public Class FrmServiceVisitDetails
 
     Private Sub BtnDeleteDoc_Click(sender As Object, e As EventArgs) Handles BtnDeleteDoc.Click
         If clsCommon.myLen(txtcode.Value) <= 0 Then
-            myMessages.blankValue("Applicant ID ")
+            myMessages.blankValue(Me, "Applicant ID ", Me.Text)
             txtcode.Focus()
         ElseIf ClsApplicantEntry.DeleteDocData(txtcode.Value, txtcode.Value) Then
             clsCommon.MyMessageBoxShow(Me, "Document Deleted Successfully.", Me.Text)

@@ -448,7 +448,7 @@ Public Class FrmCatalogMaster
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If txtCode.Value = "" Then
-            myMessages.blankValue("Catalog Code")
+            myMessages.blankValue(Me, "Catalog Code", Me.Text)
         Else
             funPrint()
         End If

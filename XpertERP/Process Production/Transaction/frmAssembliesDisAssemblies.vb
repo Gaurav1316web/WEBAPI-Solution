@@ -2319,7 +2319,7 @@ Public Class frmAssembDis
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If txtCode.Value = "" Then
-            myMessages.blankValue("Code")
+            myMessages.blankValue(Me, "Code", Me.Text)
         Else
             funPrint(txtCode.Value)
         End If

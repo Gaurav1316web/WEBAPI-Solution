@@ -63,19 +63,19 @@ Public Class FrmEmployeeGratuity
         Dim DOJ As Date
         ' Dim DOL As Date
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("Employee Code")
+            myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtLastDrawnSalary.Value) <= 0 Then
-            myMessages.blankValue("Last Drawn Salary")
+            myMessages.blankValue(Me, "Last Drawn Salary", Me.Text)
             txtLastDrawnSalary.Focus()
             Return False
         ElseIf clsCommon.myLen(txtNOF.Value) <= 0 Then
-            myMessages.blankValue("No Of Year")
+            myMessages.blankValue(Me, "No Of Year", Me.Text)
             txtLastDrawnSalary.Focus()
             Return False
         ElseIf clsCommon.myLen(txtGratuity.Value) <= 0 Then
-            myMessages.blankValue("Gratuity")
+            myMessages.blankValue(Me, "Gratuity", Me.Text)
             txtLastDrawnSalary.Focus()
             Return False
         ElseIf Date.TryParse(MyDateTimePicker1.Text, DOJ) = False Then

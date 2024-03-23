@@ -22,6 +22,7 @@ Partial Class frmStoreRequistion
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -99,6 +100,7 @@ Partial Class frmStoreRequistion
         Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btncancel = New Telerik.WinControls.UI.RadButton()
         Me.btnEmailsetting = New Telerik.WinControls.UI.RadSplitButton()
         Me.BtnMailPreview = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnMailSendemail = New Telerik.WinControls.UI.RadMenuItem()
@@ -109,7 +111,6 @@ Partial Class frmStoreRequistion
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btncancel = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -178,6 +179,7 @@ Partial Class frmStoreRequistion
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pvpCustomFields.SuspendLayout()
         Me.Attachments.SuspendLayout()
+        CType(Me.btncancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnEmailsetting, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -185,7 +187,6 @@ Partial Class frmStoreRequistion
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btncancel, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -243,7 +244,6 @@ Partial Class frmStoreRequistion
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1009, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
@@ -255,22 +255,16 @@ Partial Class frmStoreRequistion
         '
         'SaveLayoutbtn
         '
-        Me.SaveLayoutbtn.AccessibleDescription = "Save Layout"
-        Me.SaveLayoutbtn.AccessibleName = "Save Layout"
         Me.SaveLayoutbtn.Name = "SaveLayoutbtn"
         Me.SaveLayoutbtn.Text = "Save Layout"
         '
         'DeleteLayout
         '
-        Me.DeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.DeleteLayout.AccessibleName = "Delete Layout"
         Me.DeleteLayout.Name = "DeleteLayout"
         Me.DeleteLayout.Text = "Delete Layout"
         '
         'RdEmailAndSmsSetting
         '
-        Me.RdEmailAndSmsSetting.AccessibleDescription = "Email And SMS Setting"
-        Me.RdEmailAndSmsSetting.AccessibleName = "Email And SMS Setting"
         Me.RdEmailAndSmsSetting.Name = "RdEmailAndSmsSetting"
         Me.RdEmailAndSmsSetting.Text = "Email And SMS Setting"
         '
@@ -286,7 +280,6 @@ Partial Class frmStoreRequistion
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1009, 444)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "Custom Fields"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -358,7 +351,6 @@ Partial Class frmStoreRequistion
         Me.lblUnitDesc.Name = "lblUnitDesc"
         Me.lblUnitDesc.Size = New System.Drawing.Size(195, 18)
         Me.lblUnitDesc.TabIndex = 89
-        Me.lblUnitDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblUnitDesc.TextWrap = False
         '
         'lblCostcenterTypeDesc
@@ -371,7 +363,6 @@ Partial Class frmStoreRequistion
         Me.lblCostcenterTypeDesc.Name = "lblCostcenterTypeDesc"
         Me.lblCostcenterTypeDesc.Size = New System.Drawing.Size(195, 18)
         Me.lblCostcenterTypeDesc.TabIndex = 94
-        Me.lblCostcenterTypeDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCostcenterTypeDesc.TextWrap = False
         '
         'txtUnitCode
@@ -499,7 +490,6 @@ Partial Class frmStoreRequistion
         Me.lbl_capexcode.Name = "lbl_capexcode"
         Me.lbl_capexcode.Size = New System.Drawing.Size(226, 19)
         Me.lbl_capexcode.TabIndex = 92
-        Me.lbl_capexcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_capexcode.TextWrap = False
         '
         'fndcapexcode
@@ -569,7 +559,6 @@ Partial Class frmStoreRequistion
         Me.lbl_rebudgetamt.Name = "lbl_rebudgetamt"
         Me.lbl_rebudgetamt.Size = New System.Drawing.Size(108, 20)
         Me.lbl_rebudgetamt.TabIndex = 87
-        Me.lbl_rebudgetamt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_rebudgetamt.TextWrap = False
         '
         'MyLabel38
@@ -602,7 +591,6 @@ Partial Class frmStoreRequistion
         Me.lbl_rebudgetamtwithtolerence.Name = "lbl_rebudgetamtwithtolerence"
         Me.lbl_rebudgetamtwithtolerence.Size = New System.Drawing.Size(111, 19)
         Me.lbl_rebudgetamtwithtolerence.TabIndex = 89
-        Me.lbl_rebudgetamtwithtolerence.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_rebudgetamtwithtolerence.TextWrap = False
         '
         'lbl_budgetamt
@@ -615,7 +603,6 @@ Partial Class frmStoreRequistion
         Me.lbl_budgetamt.Name = "lbl_budgetamt"
         Me.lbl_budgetamt.Size = New System.Drawing.Size(108, 20)
         Me.lbl_budgetamt.TabIndex = 83
-        Me.lbl_budgetamt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_budgetamt.TextWrap = False
         '
         'lbl_budgetamtwithtolerence
@@ -628,7 +615,6 @@ Partial Class frmStoreRequistion
         Me.lbl_budgetamtwithtolerence.Name = "lbl_budgetamtwithtolerence"
         Me.lbl_budgetamtwithtolerence.Size = New System.Drawing.Size(111, 19)
         Me.lbl_budgetamtwithtolerence.TabIndex = 85
-        Me.lbl_budgetamtwithtolerence.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_budgetamtwithtolerence.TextWrap = False
         '
         'fndcapexsubcode
@@ -667,7 +653,6 @@ Partial Class frmStoreRequistion
         Me.lbl_capexsubcode.Name = "lbl_capexsubcode"
         Me.lbl_capexsubcode.Size = New System.Drawing.Size(232, 19)
         Me.lbl_capexsubcode.TabIndex = 81
-        Me.lbl_capexsubcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_capexsubcode.TextWrap = False
         '
         'MyLabel35
@@ -704,10 +689,13 @@ Partial Class frmStoreRequistion
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -715,7 +703,6 @@ Partial Class frmStoreRequistion
         Me.gv1.Size = New System.Drawing.Size(965, 94)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'lblRequestBy
         '
@@ -727,7 +714,6 @@ Partial Class frmStoreRequistion
         Me.lblRequestBy.Name = "lblRequestBy"
         Me.lblRequestBy.Size = New System.Drawing.Size(208, 20)
         Me.lblRequestBy.TabIndex = 38
-        Me.lblRequestBy.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel3
         '
@@ -845,7 +831,6 @@ Partial Class frmStoreRequistion
         Me.MyLabel8.Name = "MyLabel8"
         Me.MyLabel8.Size = New System.Drawing.Size(194, 20)
         Me.MyLabel8.TabIndex = 2
-        Me.MyLabel8.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.MyLabel8.TextWrap = False
         '
         'pnlPCJ
@@ -904,7 +889,6 @@ Partial Class frmStoreRequistion
         Me.lblProject.Name = "lblProject"
         Me.lblProject.Size = New System.Drawing.Size(192, 20)
         Me.lblProject.TabIndex = 2
-        Me.lblProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblProject.TextWrap = False
         '
         'lblDept
@@ -917,7 +901,6 @@ Partial Class frmStoreRequistion
         Me.lblDept.Name = "lblDept"
         Me.lblDept.Size = New System.Drawing.Size(193, 20)
         Me.lblDept.TabIndex = 19
-        Me.lblDept.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel14
         '
@@ -934,6 +917,7 @@ Partial Class frmStoreRequistion
         Me.cboItemType.AutoCompleteDisplayMember = Nothing
         Me.cboItemType.AutoCompleteValueMember = Nothing
         Me.cboItemType.CalculationExpression = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
         Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboItemType.FieldCode = Nothing
         Me.cboItemType.FieldDesc = Nothing
@@ -1075,7 +1059,6 @@ Partial Class frmStoreRequistion
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(193, 20)
         Me.lblLocation.TabIndex = 20
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'RadLabel5
         '
@@ -1192,7 +1175,7 @@ Partial Class frmStoreRequistion
         Me.txtReqNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtReqNo.MyLinkLable1 = Me.RadLabel1
         Me.txtReqNo.MyLinkLable2 = Nothing
-        Me.txtReqNo.MyMaxLength = 32767
+        Me.txtReqNo.MyMaxLength = 30
         Me.txtReqNo.MyReadOnly = False
         Me.txtReqNo.Name = "txtReqNo"
         Me.txtReqNo.Size = New System.Drawing.Size(230, 20)
@@ -1376,6 +1359,16 @@ Partial Class frmStoreRequistion
         Me.UcAttachment1.Size = New System.Drawing.Size(914, 439)
         Me.UcAttachment1.TabIndex = 0
         '
+        'btncancel
+        '
+        Me.btncancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btncancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btncancel.Location = New System.Drawing.Point(860, 9)
+        Me.btncancel.Name = "btncancel"
+        Me.btncancel.Size = New System.Drawing.Size(69, 22)
+        Me.btncancel.TabIndex = 10
+        Me.btncancel.Text = "Cancel"
+        '
         'btnEmailsetting
         '
         Me.btnEmailsetting.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -1388,15 +1381,11 @@ Partial Class frmStoreRequistion
         '
         'BtnMailPreview
         '
-        Me.BtnMailPreview.AccessibleDescription = "Preview"
-        Me.BtnMailPreview.AccessibleName = "Preview"
         Me.BtnMailPreview.Name = "BtnMailPreview"
         Me.BtnMailPreview.Text = "Preview"
         '
         'btnMailSendemail
         '
-        Me.btnMailSendemail.AccessibleDescription = "Send E-Mail/SMS"
-        Me.btnMailSendemail.AccessibleName = "Send E-Mail/SMS"
         Me.btnMailSendemail.Name = "btnMailSendemail"
         Me.btnMailSendemail.Text = "Send E-Mail/SMS"
         '
@@ -1471,16 +1460,6 @@ Partial Class frmStoreRequistion
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
-        '
-        'btncancel
-        '
-        Me.btncancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btncancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btncancel.Location = New System.Drawing.Point(860, 9)
-        Me.btncancel.Name = "btncancel"
-        Me.btncancel.Size = New System.Drawing.Size(69, 22)
-        Me.btncancel.TabIndex = 10
-        Me.btncancel.Text = "Cancel"
         '
         'frmStoreRequistion
         '
@@ -1570,6 +1549,7 @@ Partial Class frmStoreRequistion
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pvpCustomFields.ResumeLayout(False)
         Me.Attachments.ResumeLayout(False)
+        CType(Me.btncancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnEmailsetting, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1577,7 +1557,6 @@ Partial Class frmStoreRequistion
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btncancel, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

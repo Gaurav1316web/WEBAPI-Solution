@@ -538,19 +538,19 @@ Public Class frmProductionReceipt
         'End If
 
         If clsCommon.myLen(txtBatchNo.Value) <= 0 AndAlso chkTrading.Checked = False Then
-            myMessages.blankValue("Batch Order Code")
+            myMessages.blankValue(Me, "Batch Order Code", Me.Text)
             txtBatchNo.Focus()
             Return False
         End If
 
         If clsCommon.myLen(fndIssueCode.Value) <= 0 AndAlso chkTrading.Checked = True Then
-            myMessages.blankValue("Issue Code")
+            myMessages.blankValue(Me, "Issue Code", Me.Text)
             txtBatchNo.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            myMessages.blankValue("Location Code")
+            myMessages.blankValue(Me, "Location Code", Me.Text)
             txtLocation.Focus()
             Return False
         End If
@@ -567,13 +567,13 @@ Public Class frmProductionReceipt
         '    Return False
         'End If
         If clsCommon.myLen(txtReceivedBy.Value) <= 0 Then
-            myMessages.blankValue("Received By")
+            myMessages.blankValue(Me, "Received By", Me.Text)
             txtReceivedBy.Focus()
             Return False
         End If
 
         If Me.gv1.Rows.Count = 0 Then
-            myMessages.blankValue("List is Empty")
+            myMessages.blankValue(Me, "List is Empty", Me.Text)
             Return False
         End If
         Dim ii As Int16 = 0

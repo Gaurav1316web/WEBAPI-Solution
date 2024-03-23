@@ -71,12 +71,12 @@ Public Class frmVSPCommission
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("Commission_Code")
+            myMessages.blankValue(Me, "Commission_Code", Me.Text)
             txtCode.Focus()
             Return False
         End If
         If clsCommon.myLen(txtDescription.Text) <= 0 Then
-            myMessages.blankValue("Commission_Name")
+            myMessages.blankValue(Me, "Commission_Name", Me.Text)
             txtDescription.Focus()
             Return False
         End If

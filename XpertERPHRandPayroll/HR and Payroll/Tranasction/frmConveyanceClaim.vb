@@ -78,11 +78,11 @@ Public Class frmConveyanceClaim
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtEmpCode.Value) <= 0 Then
-            myMessages.blankValue("Employee Code")
+            myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtEmpCode.Focus()
             Return False
         ElseIf clsCommon.myCdbl(txtDist.Text) <= 0 Then
-            myMessages.blankValue("Distance")
+            myMessages.blankValue(Me, "Distance", Me.Text)
             txtDist.Focus()
             Return False
         End If

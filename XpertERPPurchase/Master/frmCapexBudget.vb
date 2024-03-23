@@ -339,13 +339,13 @@ Public Class FrmCapexBudget
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txt_budget.Text) <= 0 OrElse clsCommon.myCdbl(txt_budget.Text) <= 0 Then
-            myMessages.blankValue("Please enter budget.")
+            myMessages.blankValue(Me, "Please enter budget.", Me.Text)
             txt_budget.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtCapexCode.Value) <= 0 Then
-            myMessages.blankValue("Please enter capex code.")
+            myMessages.blankValue(Me, "Please enter capex code.", Me.Text)
             txtCapexCode.Focus()
             Return False
         End If

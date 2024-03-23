@@ -158,7 +158,7 @@ Public Class FrmRoundMaster
     Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(txtcode.Value) <= 0 Or clsCommon.myLen(txtcode.Value) > 30 Then
-                myMessages.blankValue("Code")
+                myMessages.blankValue(Me, "Code", Me.Text)
 
                 txtcode.Focus()
                 txtcode.Select()
@@ -169,7 +169,7 @@ Public Class FrmRoundMaster
             End If
 
             If clsCommon.myLen(txtdesp.Text) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtdesp.Text)) > 100 Then
-                myMessages.blankValue("Description")
+                myMessages.blankValue(Me, "Description", Me.Text)
 
                 txtdesp.Focus()
                 txtdesp.Select()

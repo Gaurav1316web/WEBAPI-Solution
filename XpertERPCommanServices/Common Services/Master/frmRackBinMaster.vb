@@ -106,17 +106,17 @@ Public Class frmRackBinMaster
 
     Function AllowToSave() As Boolean
        If clsCommon.myLen(txtName.Text) <= 0 Then
-            myMessages.blankValue("Description")
+            myMessages.blankValue(Me, "Description", Me.Text)
             txtName.Focus()
             Return False
         ElseIf clsCommon.myLen(txtLocation.Value) <= 0 Then
-            myMessages.blankValue("Select location")
+            myMessages.blankValue(Me, "Select location", Me.Text)
             txtLocation.Focus()
             Return False
         End If
         If clsCommon.CompairString(rbtnBin.IsChecked, True) = CompairStringResult.Equal Then
             If clsCommon.myLen(txtRockCode.Value) <= 0 Then
-                myMessages.blankValue("Select Rack")
+                myMessages.blankValue(Me, "Select Rack", Me.Text)
                 txtRockCode.Focus()
                 Return False
             End If

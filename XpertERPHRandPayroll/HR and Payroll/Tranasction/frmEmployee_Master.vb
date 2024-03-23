@@ -1090,20 +1090,20 @@ Public Class frmEmployee_Master
         End If
 
         If clsCommon.myLen(txtDOB.Text) <= 0 Then
-            myMessages.blankValue(" Date Of birth")
+            myMessages.blankValue(Me, " Date Of birth", Me.Text)
             txtDOB.Focus()
             Return False
         ElseIf clsCommon.myLen(txtJoiningDate.Text) <= 0 Then
-            myMessages.blankValue(" Date Of Join")
+            myMessages.blankValue(Me, " Date Of Join", Me.Text)
             txtJoiningDate.Focus()
             Return False
             '====================
         ElseIf clsCommon.myLen(txtname.Text) <= 0 Then
-            myMessages.blankValue(" Name")
+            myMessages.blankValue(Me, " Name", Me.Text)
             txtname.Focus()
             Return False
         ElseIf clsCommon.myLen(txtAttendance.Value) <= 0 Then
-            myMessages.blankValue(" Attendance")
+            myMessages.blankValue(Me, " Attendance", Me.Text)
             txtAttendance.Focus()
             Return False
         ElseIf clsCommon.myLen(txtAadharCard.Text) > 12 Then
@@ -1111,15 +1111,15 @@ Public Class frmEmployee_Master
             txtAadharCard.Focus()
             Return False
         ElseIf clsCommon.myLen(txtDepartment.Value) <= 0 Then
-            myMessages.blankValue(" Department ")
+            myMessages.blankValue(Me, " Department ", Me.Text)
             txtDepartment.Focus()
             Return False
         ElseIf CboGender.SelectedIndex <= -1 AndAlso clsCommon.myLen(CboGender.Text) <= 0 Then
-            myMessages.blankValue(" Gender ")
+            myMessages.blankValue(Me, " Gender ", Me.Text)
             CboGender.Focus()
             Return False
         ElseIf CboMaritalStatus.SelectedIndex <= -1 AndAlso clsCommon.myLen(CboMaritalStatus.Text) <= 0 Then
-            myMessages.blankValue(" MaritalStatus")
+            myMessages.blankValue(Me, " MaritalStatus", Me.Text)
             CboMaritalStatus.Focus()
             Return False
         ElseIf grpFranchise.Visible Then
@@ -1141,7 +1141,7 @@ Public Class frmEmployee_Master
         'sanjay Ticket No- BHA/24/09/18-000564 Emp code as per employee type
         If CreateEmpCodeAsPerEmployeeBasisType = True Then
             If clsCommon.CompairString(cboemployeebasistype.Text, "Select") = CompairStringResult.Equal Then
-                myMessages.blankValue(" Employee basis type ")
+                myMessages.blankValue(Me, " Employee basis type ", Me.Text)
                 cboemployeebasistype.Focus()
                 Return False
             End If

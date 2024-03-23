@@ -350,7 +350,7 @@ Public Class frmLocationMaster
         End If
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
             RadPageView1.SelectedPage = Details
-            myMessages.blankValue("Location Code")
+            myMessages.blankValue(Me, "Location Code", Me.Text)
             fndLocation.Focus()
             Return False
         ElseIf clsCommon.myLen(txtLocShortName.Text) <= 0 Then
@@ -358,7 +358,7 @@ Public Class frmLocationMaster
 
         ElseIf clsCommon.myLen(fndstateprovince.Value) <= 0 Then
             RadPageView1.SelectedPage = Details
-            myMessages.blankValue("State Code")
+            myMessages.blankValue(Me, "State Code", Me.Text)
             fndstateprovince.Focus()
             Return False
         ElseIf (clsCommon.CompairString(clsCommon.myCstr(ddlLocationType.Text), "Logical") = CompairStringResult.Equal And chkExcisable.Checked = True) Then
@@ -368,7 +368,7 @@ Public Class frmLocationMaster
         ElseIf chkExcisable.Checked = True Then
             If clsCommon.myLen(txtEccNumber.Text) <= 0 Then
                 RadPageView1.SelectedPage = Details
-                myMessages.blankValue("ECC number")
+                myMessages.blankValue(Me, "ECC number", Me.Text)
                 txtEccNumber.Focus()
                 Return False
             ElseIf clsCommon.myLen(txtEccNumber.Text) < 15 Then
@@ -378,7 +378,7 @@ Public Class frmLocationMaster
             End If
         ElseIf chkInsurance.Checked = True Then
             If clsCommon.myLen(txtInsurance.Text) = 0 Then
-                myMessages.blankValue("Insurance No")
+                myMessages.blankValue(Me, "Insurance No", Me.Text)
                 txtInsurance.Focus()
                 Return False
             End If
@@ -393,7 +393,7 @@ Public Class frmLocationMaster
         If clsCommon.CompairString(clsCommon.myCstr(ddlLocationType.Text), "Physical") = CompairStringResult.Equal Then
             If clsCommon.myLen(fndLocationSegmentCode.Value) <= 0 Then
                 RadPageView1.SelectedPage = RadPageViewPage2
-                myMessages.blankValue("Location Segment Code")
+                myMessages.blankValue(Me, "Location Segment Code", Me.Text)
                 fndLocationSegmentCode.Focus()
                 Return False
             End If
@@ -1803,14 +1803,14 @@ Public Class frmLocationMaster
             If fndLocation.Value <> "" Then
                 If allowToSave() Then SaveData()
             Else
-                myMessages.blankValue("Location Code")
+                myMessages.blankValue(Me, "Location Code", Me.Text)
                 fndLocation.Focus()
             End If
         ElseIf e.Control And e.KeyCode.ToString() = "U" Then
             If fndLocation.Value <> "" Then
                 If allowToSave() Then SaveData()
             Else
-                myMessages.blankValue("Location Code")
+                myMessages.blankValue(Me, "Location Code", Me.Text)
                 fndLocation.Focus()
             End If
         ElseIf e.Control And e.KeyCode.ToString() = "D" Then
@@ -1819,7 +1819,7 @@ Public Class frmLocationMaster
                     funDelete()
                 End If
             Else
-                myMessages.blankValue("Location Code")
+                myMessages.blankValue(Me, "Location Code", Me.Text)
                 fndLocation.Focus()
             End If
         End If

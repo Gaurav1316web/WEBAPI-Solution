@@ -110,7 +110,7 @@ Public Class frmVSPMapping
         '    Return False
         'End If
         If clsCommon.myLen(txtDescription.Text) <= 0 Then
-            myMessages.blankValue("Description")
+            myMessages.blankValue(Me, "Description", Me.Text)
             txtDescription.Focus()
             Return False
         End If

@@ -31,7 +31,7 @@ Public Class FrmDamageCaused
     End Sub
     Function allowtosave()
         If clsCommon.myLen(clsCommon.myCstr(txtDescription.Text)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtDescription.Text)) > 150 Then
-            myMessages.blankValue("Description ")
+            myMessages.blankValue(Me, "Description ", Me.Text)
             txtDescription.Focus()
             txtDescription.Select()
             Errorcontrol.SetError(txtDescription, "Description ")
@@ -41,7 +41,7 @@ Public Class FrmDamageCaused
         End If
 
         If clsCommon.myLen(clsCommon.myCstr(fndEmployeeCode.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(fndEmployeeCode.Value)) > 12 Then
-            myMessages.blankValue("Employee Code ")
+            myMessages.blankValue(Me, "Employee Code ", Me.Text)
             txtDescription.Focus()
             txtDescription.Select()
             Errorcontrol.SetError(fndEmployeeCode, "Employee Code ")
@@ -50,7 +50,7 @@ Public Class FrmDamageCaused
             Errorcontrol.ResetError(fndEmployeeCode)
         End If
         If clsCommon.myLen(clsCommon.myCstr(txtDamageCode.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtDamageCode.Value)) > 30 Then
-            myMessages.blankValue("Damage Caused ")
+            myMessages.blankValue(Me, "Damage Caused ", Me.Text)
             txtDescription.Focus()
             txtDescription.Select()
             Errorcontrol.SetError(txtDamageCode, "Damage Caused ")

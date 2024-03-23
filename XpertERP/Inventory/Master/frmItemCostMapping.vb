@@ -265,18 +265,18 @@ Public Class FrmItemCostMapping
             '    txtItemCode.Focus()
             '    Return False
             If clsCommon.myLen(txtItemCode.Value) <= 0 Then
-                myMessages.blankValue("Item Code")
+                myMessages.blankValue(Me, "Item Code", Me.Text)
                 txtItemCode.Focus()
                 Return False
             
            
             ElseIf clsCommon.myLen(txtUOM.Value) <= 0 Then
-                myMessages.blankValue("UOM")
+                myMessages.blankValue(Me, "UOM", Me.Text)
                 txtUOM.Focus()
                 Return False
             
             ElseIf clsCommon.myLen(txtCostGroup.Value) <= 0 Then
-                myMessages.blankValue("Cost Group")
+                myMessages.blankValue(Me, "Cost Group", Me.Text)
                 txtCostGroup.Focus()
                 Return False
             End If

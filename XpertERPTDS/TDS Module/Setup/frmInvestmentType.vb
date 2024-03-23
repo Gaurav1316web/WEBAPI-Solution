@@ -38,7 +38,7 @@ Public Class FrmInvestmentType
             txtcode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtITSec.Value) <= 0 Then
-            myMessages.blankValue("IT section code")
+            myMessages.blankValue(Me, "IT section code", Me.Text)
             txtITSec.Focus()
             Return False
         End If

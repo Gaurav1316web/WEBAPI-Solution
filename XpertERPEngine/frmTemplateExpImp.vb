@@ -107,7 +107,7 @@ Public Class frmTemplateExpImp
             Errorcontrol.ResetError(txtName)
         End If
         If Me.gvColumnTemp.Rows.Count = 0 Then
-            myMessages.blankValue("Second List is Empty")
+            myMessages.blankValue(Me, "Second List is Empty", Me.Text)
             gvColumnTemp.Focus()
             Errorcontrol.SetError(gvColumnTemp, "Second List is Empty")
             Return False

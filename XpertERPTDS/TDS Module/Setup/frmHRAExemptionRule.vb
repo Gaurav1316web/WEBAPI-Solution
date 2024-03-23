@@ -49,11 +49,11 @@ Public Class FrmHRAExemptionRule
             txtcode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtSalStructure.Value) <= 0 Then
-            myMessages.blankValue("Salary Structure Code")
+            myMessages.blankValue(Me, "Salary Structure Code", Me.Text)
             txtSalStructure.Focus()
             Return False
         ElseIf clsCommon.myLen(txtFormula.Text) <= 0 Then
-            myMessages.blankValue("Formula")
+            myMessages.blankValue(Me, "Formula", Me.Text)
             txtFormula.Focus()
             Return False
         End If

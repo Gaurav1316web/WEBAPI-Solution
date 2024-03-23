@@ -64,19 +64,19 @@ Public Class frmLeaveStartingDateSetting
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("Employee Code")
+            myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtLeaveCode.Value) <= 0 Then
-            myMessages.blankValue("Leave Code")
+            myMessages.blankValue(Me, "Leave Code", Me.Text)
             txtLeaveCode.Focus()
             Return False
         ElseIf clsCommon.myLen(dtpAllotStarting.Value) <= 0 Then
-            myMessages.blankValue("Allot Starting Date")
+            myMessages.blankValue(Me, "Allot Starting Date", Me.Text)
             dtpAllotStarting.Focus()
             Return False
         ElseIf clsCommon.myLen(dtpAvailStarting.Value) <= 0 Then
-            myMessages.blankValue("Avail Starting Date")
+            myMessages.blankValue(Me, "Avail Starting Date", Me.Text)
             dtpAvailStarting.Focus()
             Return False
         ElseIf dtpAllotStarting.Value > dtpAvailStarting.Value Then

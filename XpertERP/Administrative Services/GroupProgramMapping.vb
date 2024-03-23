@@ -765,7 +765,7 @@ Public Class GroupProgramMapping
     Sub SaveData()
         Try
             If fndgroup.Value = "" Then
-                myMessages.blankValue("Group Code")
+                myMessages.blankValue(Me, "Group Code", Me.Text)
                 fndgroup.Focus()
             Else
                 If btnsave.Text = "Save" Then
@@ -783,7 +783,7 @@ Public Class GroupProgramMapping
     End Sub
     Sub DeleteData()
         If fndgroup.Value = "" Then
-            myMessages.blankValue("Group Code")
+            myMessages.blankValue(Me, "Group Code", Me.Text)
         ElseIf myMessages.deleteConfirm() Then
             fundelete()
             myMessages.delete()

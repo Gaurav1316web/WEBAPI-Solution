@@ -38,7 +38,7 @@ Public Class FrmITSection
             txtcode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtITAct.Text) <= 0 Then
-            myMessages.blankValue("Income tax act")
+            myMessages.blankValue(Me, "Income tax act", Me.Text)
             txtITAct.Focus()
             Return False
 
