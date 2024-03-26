@@ -896,11 +896,20 @@ Public Class frmDemandBooking
                             End If
                         End If
                         Dim k As Integer = 1
+                        Dim isCustRouteNotChanged As Boolean = True
                         For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
                             Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                             k = k + 1
                             If obj1 IsNot Nothing Then
-                                If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0 Then
+                                If IsRepeatOrder = 1 Then
+                                    If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Route_No='" + txtRouteNo.Value + "' and Cust_Code='" + clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value) + "'")), clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)) = CompairStringResult.Equal Then
+                                        isCustRouteNotChanged = True
+                                    Else
+                                        isCustRouteNotChanged = False
+                                    End If
+
+                                End If
+                                If (clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0) AndAlso isCustRouteNotChanged Then
                                     Dim objTr As New clsDemandBookingSaleDetail()
                                     objTr.Line_No = LineNo
                                     objTr.Cust_Code = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)
@@ -1161,7 +1170,7 @@ Public Class frmDemandBooking
 
                 End If
 
-                setCustomerDetail(TxtCity.Value, txtRouteNo.Value)
+                setCustomerDetail(TxtCity.Value, txtRouteNo.Value, True)
                 chkMorningPosted.Checked = (obj.Posted_Morning = 1)
                 chkEveningPosted.Checked = (obj.Posted_Evening = 1)
                 Dim dblMorningCount As Integer = 0
@@ -1566,7 +1575,7 @@ Public Class frmDemandBooking
             Else
                 shiftType = "Evening"
             End If
-            qry = "Select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No = '" & txtRouteNo.Value & "' and  CONVERT(varchar, CAST(Document_Date AS datetime), 103) ='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "' and ShiftType = '" & shiftType & "'"
+            qry = "Select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No = '" & txtRouteNo.Value & "' and  CONVERT(varchar, CAST(Document_Date AS datetime), 103) ='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MM/yyyy") & "' and ShiftType = '" & shiftType & "' and IsIndividualCustomer=0"
             If SeparateDemandMilkandProduct Then
                 If rbtn_Fresh.IsChecked Then
                     qry += " and ItemType='Fresh' "
@@ -1642,24 +1651,37 @@ Public Class frmDemandBooking
             If clsCommon.myLen(clsCommon.myCstr(TxtCity.Value)) <= 0 Then
                 Throw New Exception("Please select City First")
             End If
-            setCustomerDetail(TxtCity.Value, txtRouteNo.Value)
+            setCustomerDetail(TxtCity.Value, txtRouteNo.Value, False)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Sub setCustomerDetail(ByVal strCityCode As String, ByVal strtRouteCode As String)
+    Sub setCustomerDetail(ByVal strCityCode As String, ByVal strtRouteCode As String, ByVal isLoadData As Boolean)
         Try
+            Dim MainQry As String = ""
             Dim qry As String = ""
-            qry = "select cust_code,Customer_name from TSPL_CUSTOMER_MASTER where route_no='" + strtRouteCode + "' and City_code='" + strCityCode + "' and  TSPL_CUSTOMER_MASTER.Status='N' "
+
+            qry = "select cust_code,Customer_name,display_seq from TSPL_CUSTOMER_MASTER where route_no='" + strtRouteCode + "' and City_code='" + strCityCode + "' and  TSPL_CUSTOMER_MASTER.Status='N' "
             If chkIndividualCustomer.Checked = True Then
                 qry += " and TSPL_CUSTOMER_MASTER.Cust_Code ='" & txtCustomerNo.Value & "'"
             End If
-            qry += " order by isnull(TSPL_CUSTOMER_MASTER.display_seq,0)  "
+            ' qry += " order by isnull(TSPL_CUSTOMER_MASTER.display_seq,0)  "
+            If isLoadData Then
+                qry += "union 
+select TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,max(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name,TSPL_CUSTOMER_MASTER.display_seq from TSPL_DEMAND_BOOKING_MASTER 
+left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No
+left join TSPL_CUSTOMER_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Cust_Code=TSPL_CUSTOMER_MASTER.Cust_Code
+where TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "'
+group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.display_seq"
+                MainQry += "select X.* from (" + qry + " )X order by isnull(X.display_seq,0)"
+            Else
+                MainQry = qry + " order by isnull(TSPL_CUSTOMER_MASTER.display_seq,0) "
+            End If
             If Not SeparateDemandMilkandProduct Then
                 LoadBlankGrid()
             End If
 
-            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(MainQry)
             If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
                 Dim i As Integer = 1
                 For Each dr As DataRow In dt1.Rows
@@ -2319,7 +2341,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                     lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
                 End If
                 If clsCommon.myLen(clsCommon.myCstr(txtRouteNo.Value)) > 0 AndAlso clsCommon.myLen(clsCommon.myCstr(TxtCity.Value)) > 0 Then
-                    setCustomerDetail(TxtCity.Value, txtRouteNo.Value)
+                    setCustomerDetail(TxtCity.Value, txtRouteNo.Value, False)
                 End If
             End If
             RefreshFormName()
@@ -3842,7 +3864,7 @@ from
                     End If
                 End If
                 qry += " )XXFinal
-  where XXFinal.Cust_Code in (select Cust_Code from TSPL_Customer_Master where Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + " ')
+  where XXFinal.Cust_Code in (select distinct TSPL_DEMAND_BOOKING_DETAIL.Cust_Code from TSPL_DEMAND_BOOKING_MASTER left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No where TSPL_DEMAND_BOOKING_MASTER.Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + " ' and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code is not null )
             Group by XXFinal.Cust_Code,XXFinal.Sku_Seq )xx 
    left join (
  select 
