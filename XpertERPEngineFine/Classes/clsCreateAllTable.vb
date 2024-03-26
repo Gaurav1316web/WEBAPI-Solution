@@ -6574,6 +6574,14 @@ Public Class clsCreateAllTable
             coll.Add("Supply_Date", "Date NULL")
             coll.Add("FILE_INFO", "bigint NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
+            Try
+
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_DAIRYSALE_GATEPASS_MASTER alter COLUMN DistributorName varchar(100)")
+
+            Catch ex As Exception
+
+            End Try
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("GPCode", "Varchar(30) NOT NULL REFERENCES TSPL_DAIRYSALE_GATEPASS_MASTER(GPCode)")
