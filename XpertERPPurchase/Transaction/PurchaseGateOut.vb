@@ -166,4 +166,16 @@ Public Class PurchaseGateOut
             AddNew()
         End If
     End Sub
+
+    Private Sub btnhistory_Click(sender As Object, e As EventArgs) Handles btnhistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Code", "tspl_purchase_gateout", "tspl_purchase_gateout")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

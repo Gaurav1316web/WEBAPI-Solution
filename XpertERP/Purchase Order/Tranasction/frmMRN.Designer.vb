@@ -154,6 +154,7 @@ Partial Class frmMRN
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnhistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -283,6 +284,7 @@ Partial Class frmMRN
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -302,6 +304,7 @@ Partial Class frmMRN
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnhistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btn_Amendment)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btncancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
@@ -2269,6 +2272,15 @@ Partial Class frmMRN
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
+        'btnhistory
+        '
+        Me.btnhistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnhistory.Location = New System.Drawing.Point(460, 3)
+        Me.btnhistory.Name = "btnhistory"
+        Me.btnhistory.Size = New System.Drawing.Size(69, 22)
+        Me.btnhistory.TabIndex = 9
+        Me.btnhistory.Text = "History"
+        '
         'frmMRN
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -2419,6 +2431,7 @@ Partial Class frmMRN
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -2551,5 +2564,6 @@ Partial Class frmMRN
     Friend WithEvents lblAddChargesForInsurance1 As common.Controls.MyLabel
     Friend WithEvents MyLabel62 As common.Controls.MyLabel
     Friend WithEvents TxtRetention As common.Controls.MyTextBox
+    Friend WithEvents btnhistory As RadButton
 End Class
 

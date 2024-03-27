@@ -55,6 +55,7 @@ Partial Class frmPOUnloading
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnhistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
@@ -89,6 +90,7 @@ Partial Class frmPOUnloading
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -514,6 +516,7 @@ Partial Class frmPOUnloading
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.btnhistory)
         Me.Panel1.Controls.Add(Me.MyLabel1)
         Me.Panel1.Controls.Add(Me.btnclose)
         Me.Panel1.Dock = System.Windows.Forms.DockStyle.Bottom
@@ -531,6 +534,16 @@ Partial Class frmPOUnloading
         Me.btnclose.Size = New System.Drawing.Size(66, 21)
         Me.btnclose.TabIndex = 4
         Me.btnclose.Text = "Close"
+        '
+        'btnhistory
+        '
+        Me.btnhistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnhistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnhistory.Location = New System.Drawing.Point(779, 4)
+        Me.btnhistory.Name = "btnhistory"
+        Me.btnhistory.Size = New System.Drawing.Size(66, 21)
+        Me.btnhistory.TabIndex = 1053
+        Me.btnhistory.Text = "History"
         '
         'frmPOUnloading
         '
@@ -582,6 +595,7 @@ Partial Class frmPOUnloading
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -618,4 +632,5 @@ Partial Class frmPOUnloading
     Friend WithEvents txtGrossWeight As common.MyNumBox
     Friend WithEvents Panel1 As System.Windows.Forms.Panel
     Friend WithEvents btnclose As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnhistory As RadButton
 End Class
