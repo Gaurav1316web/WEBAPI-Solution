@@ -92,19 +92,19 @@ Public Class frmLoanAdjustment
         '    Return False
         'Else
         If clsCommon.myLen(txtLoanCode.Value) <= 0 Then
-            myMessages.blankValue("Loan Code ")
+            myMessages.blankValue(Me, "Loan Code ", Me.Text)
             txtLoanCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtEmpCode.Value) <= -1 Then
-            myMessages.blankValue("Employee Code ")
+            myMessages.blankValue(Me, "Employee Code ", Me.Text)
             txtEmpCode.Focus()
             Return False
         ElseIf (clsCommon.myCdbl(txtAdjustPlus.Text) = 0 And clsCommon.myCdbl(txtAdjustMinus.Text) = 0) Or (clsCommon.myCdbl(txtAdjustPlus.Text) > 0 And clsCommon.myCdbl(txtAdjustMinus.Text) > 0) Then
-            myMessages.blankValue("Invaild Adjustment Amount")
+            myMessages.blankValue(Me, "Invaild Adjustment Amount", Me.Text)
             txtAdjustPlus.Focus()
             Return False
         ElseIf txtDescription.Text = "" Then
-            myMessages.blankValue("Loan Adjustment Reason")
+            myMessages.blankValue(Me, "Loan Adjustment Reason", Me.Text)
             txtDescription.Focus()
             Return False
 

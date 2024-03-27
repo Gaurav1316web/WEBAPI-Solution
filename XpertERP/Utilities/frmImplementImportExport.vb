@@ -9889,18 +9889,18 @@ ExitLOOP:
                     Dim strAdvancePer As String = grow.Cells(5).Value.ToString()
                     '-------------------------------------
                     If strtermscode = String.Empty Then
-                        myMessages.blankValue("Terms Code")
+                        myMessages.blankValue(Me, "Terms Code", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
 
                     If strtermsdesc = String.Empty Then
-                        myMessages.blankValue("Terms Description")
+                        myMessages.blankValue(Me, "Terms Description", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     If strno_of_days = String.Empty Then
-                        myMessages.blankValue("No_Of_Days")
+                        myMessages.blankValue(Me, "No_Of_Days", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If

@@ -93,27 +93,27 @@ Public Class frmOTSheet
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtEmpCode.Value) <= 0 Then
-            myMessages.blankValue("Employee Code")
+            myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtEmpCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtOTCode.Value) <= 0 Then
-            myMessages.blankValue("OT Code")
+            myMessages.blankValue(Me, "OT Code", Me.Text)
             txtOTCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtOtRate.Text) <= 0 Then
-            myMessages.blankValue("OT Rate ")
+            myMessages.blankValue(Me, "OT Rate ", Me.Text)
             txtOtRate.Focus()
             Return False
         ElseIf clsCommon.myLen(txtOTHours.Text) <= 0 Then
-            myMessages.blankValue("OT Hours ")
+            myMessages.blankValue(Me, "OT Hours ", Me.Text)
             txtOTHours.Focus()
             Return False
         ElseIf clsCommon.myLen(txtOTAmount.Text) <= 0 Then
-            myMessages.blankValue("OT Amount ")
+            myMessages.blankValue(Me, "OT Amount ", Me.Text)
             txtOTAmount.Focus()
             Return False
         ElseIf clsCommon.myLen(txtPayPeriod.Value) <= 0 Then
-            myMessages.blankValue("Pay Period Code ")
+            myMessages.blankValue(Me, "Pay Period Code ", Me.Text)
             txtPayPeriod.Focus()
             Return False
 

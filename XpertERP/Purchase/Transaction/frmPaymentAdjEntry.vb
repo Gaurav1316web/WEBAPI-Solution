@@ -150,7 +150,7 @@ Public Class frmPaymentAdjEntry
 
     Public Sub deleteData()
         If fndFnAdj.Value = "" Then
-            myMessages.blankValue("ADjustment No.")
+            myMessages.blankValue(Me, "ADjustment No.", Me.Text)
             Exit Sub
         End If
 

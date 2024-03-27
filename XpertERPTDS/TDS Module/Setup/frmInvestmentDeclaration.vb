@@ -45,15 +45,15 @@ Public Class FrmInvestmentDeclaration
             txtcode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtFinYear.Value) <= 0 Then
-            myMessages.blankValue("Financial year entry code")
+            myMessages.blankValue(Me, "Financial year entry code", Me.Text)
             txtFinYear.Focus()
             Return False
         ElseIf clsCommon.myLen(TxtInvType.Value) <= 0 Then
-            myMessages.blankValue("Investment type code")
+            myMessages.blankValue(Me, "Investment type code", Me.Text)
             TxtInvType.Focus()
             Return False
         ElseIf clsCommon.myLen(TxtEmpCode.Value) <= 0 Then
-            myMessages.blankValue("Employee master code")
+            myMessages.blankValue(Me, "Employee master code", Me.Text)
             TxtEmpCode.Focus()
             Return False
         ElseIf clsCommon.myCdbl(TxtProvAmt.Text) <= 0 Then

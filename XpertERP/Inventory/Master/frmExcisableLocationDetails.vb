@@ -37,9 +37,9 @@ Public Class FrmExcisableLocationDetails
     Private Sub btnSave_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
 
         If fndLocation.Value = "" Then
-            myMessages.blankValue("Location")
+            myMessages.blankValue(Me, "Location", Me.Text)
         ElseIf txtEccNumber.Text = "" Then
-            myMessages.blankValue("ECC Number")
+            myMessages.blankValue(Me, "ECC Number", Me.Text)
         ElseIf btnSave.Text = "&Save" Then
             funInsert()
         Else

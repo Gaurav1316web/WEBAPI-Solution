@@ -7420,7 +7420,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
     ''====================Preeti Gupta ticket no[BM00000004268,ERO/22/12/18-000450]
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             funPrint(txtDocNo.Value)
         End If
@@ -8574,7 +8574,7 @@ where Document_Code ='" & strDO & "')z where isnull(z.Tax_Code ,'')<>''"
 
     Private Sub btnPrintInvoice_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrintInvoice.Click
         If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             Dim objInvoice As New frmSaleInvoiceProductSale
             objInvoice.funPrint(txtInvoiceNo.Text, False, ddlInvoiceType.SelectedText)
@@ -9706,7 +9706,7 @@ a:          End If
 
     Private Sub BtnPrintChallan_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnPrintChallan.Click
         If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             Dim objInvoice As New frmSaleInvoiceProductSale
             objInvoice.funPrintchallan(txtInvoiceNo.Text)
@@ -9844,7 +9844,7 @@ a:          End If
     '===Sanjeet(Added split Print Butoon For Excisable Invoice Print(Excise + Vats)28/11/2016======
     Private Sub btn_exciseinvoice_Click(sender As Object, e As EventArgs) Handles btn_exciseinvoice.Click
         If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             Dim objInvoice As New frmSaleInvoiceProductSale
             Dim ExciseType As String = clsCommon.myCstr(btn_exciseinvoice.Text)
@@ -9854,7 +9854,7 @@ a:          End If
 
     Private Sub btn_vatinvoice_Click(sender As Object, e As EventArgs) Handles btn_vatinvoice.Click
         If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             Dim objInvoice As New frmSaleInvoiceProductSale
             Dim ExciseType As String = clsCommon.myCstr(btn_vatinvoice.Text)

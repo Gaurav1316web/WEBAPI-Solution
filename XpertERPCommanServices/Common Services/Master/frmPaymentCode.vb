@@ -183,7 +183,7 @@ Public Class FrmPaymentCode
                 fnd_paymentcode.Focus()
                 Return
             ElseIf ddl_paymenttype.Text = "" Then
-                myMessages.blankValue("Payment Type")
+                myMessages.blankValue(Me, "Payment Type", Me.Text)
             ElseIf btn_save.Text = "Save" Then
                 funInsert()
             Else
@@ -294,12 +294,12 @@ Public Class FrmPaymentCode
                     Dim strpaymentdesc As String = grow.Cells(1).Value.ToString().Trim()
                     Dim strpaymenttype As String = grow.Cells(2).Value.ToString().Trim()
                     If strpaymentcode = String.Empty Then
-                        myMessages.blankValue("Payment Code")
+                        myMessages.blankValue(Me, "Payment Code", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     If strpaymenttype = String.Empty Then
-                        myMessages.blankValue("Payment_Type")
+                        myMessages.blankValue(Me, "Payment_Type", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If

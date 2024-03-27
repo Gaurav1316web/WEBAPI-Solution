@@ -1581,6 +1581,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.52", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, "DCS Milk Collection", "1.17.02.53", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmMakeSavingPayment, "Make Saving Payment", "1.17.02.54", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+
         '=========================================================================================
         '--Reportsmdi
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementReport, "Report", "1.17.03", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 30)
@@ -1737,6 +1738,9 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptCattleFeedSaleReport, "Cattle Feed Sale Report", "1.17.03.117", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTransferToSavingReport, "Transfer To Saving Report", "1.17.03.118", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDcsPaymentReport, "Dcs Payment Report", "1.17.03.119", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDCSSavingLedger, "DCS Saving Ledger", "1.17.03.120", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 37)
+
+
         InsertDefaultValue(clsUserMgtCode.ModuleBulkMilkProcurement, "Milk Procurement Bulk", "1.18", clsUserMgtCode.ExpertERP, "M", 23)
         '' Bulk setup
         InsertDefaultValue(clsUserMgtCode.SubModuleBULKMilkProcurementSetup, "Setup", "1.18.01", clsUserMgtCode.ModuleBulkMilkProcurement, "SM", 24)
@@ -2305,7 +2309,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptBookingQtyAmtReport, "Demand Booking Report", "1.36.03.17", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSalesLedgerReport, "Sales Ledger Report", "1.36.03.18", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptAvgSaleDetailReport, "Average Sale Detail Report", "1.36.03.19", clsUserMgtCode.SubModuleSaleDairyReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptRouteSaleRegister, "Route Sale Register", "1.36.03.20", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptdairydispatch, "Dairy Dispatch Report", "1.36.03.20", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)

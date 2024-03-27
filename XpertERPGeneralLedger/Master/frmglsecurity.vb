@@ -188,7 +188,7 @@ Public Class Frmglsecurity
                 btnsave.Text = "Update"
                 btndelete.Enabled = True
             Else
-                myMessages.blankValue("User Code")
+                myMessages.blankValue(Me, "User Code", Me.Text)
                 'common.clsCommon.MyMessageBoxShow(" User Code can not left blank ")
                 fndUserCode.Focus()
             End If

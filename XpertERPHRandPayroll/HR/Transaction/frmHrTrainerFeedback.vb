@@ -146,7 +146,7 @@ Public Class FrmHrTrainerFeedback
 
 
             If clsCommon.myLen(fndSchedule.Value) <= 0 Or clsCommon.myLen(clsCommon.myCstr(fndSchedule.Value)) > 30 Then
-                myMessages.blankValue("Schedule Code")
+                myMessages.blankValue(Me, "Schedule Code", Me.Text)
 
                 fndSchedule.Focus()
                 fndSchedule.Select()

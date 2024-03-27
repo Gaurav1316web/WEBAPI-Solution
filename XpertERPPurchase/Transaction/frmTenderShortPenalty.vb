@@ -610,12 +610,12 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
 
             Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
             Try
-                clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, tran)
+                clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, True, True, True, tran)
                 arrSRN = New ArrayList
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 AndAlso clsCommon.myCDecimal(dt.Rows(ii)("NIRQCStatus")) = 1 Then
                         If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
-                            clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, tran)
+                            clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, True, True, True, tran)
                             arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
                         End If
                     Else
@@ -660,6 +660,7 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
                 txtItem.Focus()
                 Throw New Exception("Please select " + txtItem.MyLinkLable1.Text)
             End If
+            Dim ServerDate As DateTime = clsCommon.GETSERVERDATE()
             Dim qry As String = "select Document_No from TSPL_TENDER_PENALTY 
 where Location_Code='" + txtBillToLocation.Value + "' and  Tender_No='" + txtTenderNo.Value + "' and Vendor_Code='" + txtVendorNo.Value + "' 
 and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
@@ -677,13 +678,24 @@ and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
                             Dim dtPI As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
                             If dtPI IsNot Nothing AndAlso dtPI.Rows.Count > 0 Then
                                 For Each drPI As DataRow In dtPI.Rows
-                                    qry = "select Document_No From TSPL_VENDOR_INVOICE_HEAD where RefDocType in('QC-DED','SEC-DED','SCH-PNT') and RefDocNo='" + clsCommon.myCstr(drPI("PI_No")) + "'"
+                                    qry = "select Document_No From TSPL_VENDOR_INVOICE_HEAD where RefDocType in('SCH-PNT') and RefDocNo='" + clsCommon.myCstr(drPI("PI_No")) + "' and not exists(select 1 from TSPL_VENDOR_INVOICE_HEAD as innerTab where innerTab.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code and innerTab.RefDocNo=TSPL_VENDOR_INVOICE_HEAD.Document_No and innerTab.RefDocType='REV-SPT' and innerTab.Document_Type='C')"
                                     dt = clsDBFuncationality.GetDataTable(qry, tran)
                                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                         For Each dr As DataRow In dt.Rows
                                             qry = clsCommon.myCstr(dr("Document_No"))
-                                            clsVedorInvoiceHead.ReverseAndUnpost(qry, tran)
-                                            clsVedorInvoiceHead.DeleteData(qry, tran)
+                                            Dim objVendorInvHead As clsVedorInvoiceHead = clsVedorInvoiceHead.GetData(qry, "", tran)
+                                            objVendorInvHead.Invoice_Entry_Date = clsCommon.GetPrintDate(ServerDate, "dd/MMM/yyyy")
+                                            objVendorInvHead.Description = "Reverse of AP Debit Note Against Schedule Penalty [" + objVendorInvHead.Document_No + "]"
+                                            objVendorInvHead.isDeduction = 0
+                                            objVendorInvHead.Document_Type = "C"
+                                            objVendorInvHead.RefDocType = "REV-SPT"
+                                            objVendorInvHead.RefDocNo = objVendorInvHead.Document_No
+                                            objVendorInvHead.Document_No = ""
+                                            objVendorInvHead.SaveData(objVendorInvHead, True, tran)
+                                            clsVedorInvoiceHead.PostData("", objVendorInvHead.Document_No, "", tran)
+
+                                            'clsVedorInvoiceHead.ReverseAndUnpost(qry, tran)
+                                            'clsVedorInvoiceHead.DeleteData(qry, tran)
                                         Next
                                     End If
                                 Next
@@ -700,13 +712,12 @@ and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
                                 End If
                             Next
 
-
-                            clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, tran)
+                            clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, False, False, True, tran)
                             arrSRN = New ArrayList
                             For ii As Integer = 0 To dt.Rows.Count - 1
                                 If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 AndAlso clsCommon.myCDecimal(dt.Rows(ii)("NIRQCStatus")) = 1 Then
                                     If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
-                                        clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, tran)
+                                        clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, False, False, True, tran)
                                         arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
                                     End If
                                 Else
@@ -717,7 +728,8 @@ and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
                             If dtPI IsNot Nothing AndAlso dtPI.Rows.Count > 0 Then
                                 For Each drPI As DataRow In dtPI.Rows
                                     Dim objPI As clsPurchaseInvoiceHead = clsPurchaseInvoiceHead.GetData(clsCommon.myCstr(drPI("PI_No")), NavigatorType.Current, tran, "")
-                                    clsPurchaseInvoiceHead.RCDF1QCDed2SecDed3RALPenalty(objPI, tran)
+                                    objPI.PI_Date = ServerDate
+                                    clsPurchaseInvoiceHead.RCDF1QCDed2SecDed3RALPenalty(objPI, False, False, True, tran)
                                 Next
                             End If
                         Next

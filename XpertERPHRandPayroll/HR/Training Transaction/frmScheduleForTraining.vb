@@ -113,7 +113,7 @@ Public Class frmScheduleForTraining
                 End If
             End If
             If clsCommon.myLen(fndTraininer.Value) <= 0 Then
-                myMessages.blankValue("Trainer Code")
+                myMessages.blankValue(Me, "Trainer Code", Me.Text)
 
                 fndTraininer.Focus()
                 fndTraininer.Select()
@@ -124,7 +124,7 @@ Public Class frmScheduleForTraining
             End If
 
             If clsCommon.myLen(fndTrainingCourse.Value) <= 0 Then
-                myMessages.blankValue("Training Course")
+                myMessages.blankValue(Me, "Training Course", Me.Text)
 
                 fndTrainingCourse.Focus()
                 fndTrainingCourse.Select()

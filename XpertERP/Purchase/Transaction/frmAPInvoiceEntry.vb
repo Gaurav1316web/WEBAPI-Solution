@@ -7731,7 +7731,7 @@ Public Class FrmAPInvoiceEntry
                 Throw New Exception("Please first select Location")
             End If
             Dim whrclas As String = ""
-            whrclas += " TSPL_VENDOR_INVOICE_HEAD.Loc_Code in (" + txtlocation.Value + ")"
+            whrclas += " TSPL_VENDOR_INVOICE_HEAD.Loc_Code in ('" + txtlocation.Value + "')"
             Dim qry As String = clsVedorInvoiceHead.GetRefundBaseQuery(TxtVendorNo.Value, txtDocNo.Value, whrclas)
             txtSecurityAdjusment.arrValueMember = clsCommon.ShowMultipleSelectForm("SecRef@API", qry, "DocumentCode", Nothing, txtSecurityAdjusment.arrValueMember, Nothing)
         Catch ex As Exception

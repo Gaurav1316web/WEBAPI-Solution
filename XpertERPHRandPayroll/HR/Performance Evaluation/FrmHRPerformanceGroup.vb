@@ -265,7 +265,7 @@ Public Class FrmHRPerformanceGroup
             If clsCommon.myLen(clsCommon.myCstr(txtCode.Value)) <= 0 Then
                 txtCode.Focus()
                 txtCode.Select()
-                myMessages.blankValue("Group code")
+                myMessages.blankValue(Me, "Group code", Me.Text)
                 Errorcontrol.SetError(txtCode, "Group code")
                 Return False
             Else
@@ -275,7 +275,7 @@ Public Class FrmHRPerformanceGroup
             If clsCommon.myLen(clsCommon.myCstr(TxtDesp.Text)) <= 0 Then
                 TxtDesp.Focus()
                 TxtDesp.Select()
-                myMessages.blankValue("Description")
+                myMessages.blankValue(Me, "Description", Me.Text)
                 Errorcontrol.SetError(TxtDesp, "Description")
                 Return False
             Else
@@ -285,7 +285,7 @@ Public Class FrmHRPerformanceGroup
             If clsCommon.myLen(clsCommon.myCstr(txtCategory.Value)) <= 0 Then
                 txtCategory.Focus()
                 txtCategory.Select()
-                myMessages.blankValue("Group category")
+                myMessages.blankValue(Me, "Group category", Me.Text)
                 Errorcontrol.SetError(txtCategory, "Group category")
                 Return False
             Else

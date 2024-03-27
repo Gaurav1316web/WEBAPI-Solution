@@ -6574,6 +6574,14 @@ Public Class clsCreateAllTable
             coll.Add("Supply_Date", "Date NULL")
             coll.Add("FILE_INFO", "bigint NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
+            Try
+
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_DAIRYSALE_GATEPASS_MASTER alter COLUMN DistributorName varchar(100)")
+
+            Catch ex As Exception
+
+            End Try
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("GPCode", "Varchar(30) NOT NULL REFERENCES TSPL_DAIRYSALE_GATEPASS_MASTER(GPCode)")
@@ -8265,6 +8273,10 @@ Public Class clsCreateAllTable
             coll.Add("Total_Amt", "decimal(18,2) null")
             coll.Add("Is_Credit_Customer", "char(1) null")
             coll.Add("LastCollectionDate", "Date NULL")
+            coll.Add("Distributor_Commission_TotalAmt", "decimal(18,2) null")
+            coll.Add("Security_TotalAmt", "decimal(18,2) null")
+            coll.Add("RoundOffAmount", "decimal(18,2)  null ")
+            coll.Add("Sub_Location_code", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
@@ -8336,6 +8348,7 @@ Public Class clsCreateAllTable
             coll.Add("IsMNDTax", "varchar(30) null")
             coll.Add("Against_DemandBooking_No", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_MASTER(Document_No)")
             coll.Add("Against_DemandBooking_TR_Code", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
+            coll.Add("TAX_Group", "varchar(12) NULL")
             coll.Add("TAX1", "varchar(12) NULL")
             coll.Add("TAX1_Base_Amt", "decimal(18, 2) NULL")
             coll.Add("TAX1_Rate", "decimal(18, 4) NULL")
@@ -8376,6 +8389,15 @@ Public Class clsCreateAllTable
             coll.Add("TAX10_Base_Amt", "decimal(18, 2) NULL")
             coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
+            coll.Add("Disc_Amt", "decimal(18, 2) NULL")
+            coll.Add("Amt_Less_Discount", "decimal(18, 2) NULL")
+            coll.Add("Distributor_Commission_PKID", "int null References TSPL_DISTRIBUTOR_COMMISSION_DETAIL(PK_ID)")
+            coll.Add("Distributor_Commission_Rate", "decimal(18,4) NULL")
+            coll.Add("Distributor_Commission_RateWithTax", "decimal(18,4) NULL")
+            coll.Add("Distributor_Commission_Amt", "decimal(18,4) NULL")
+            coll.Add("Security_Rate", "decimal(18,2) NULL")
+            coll.Add("Security_Amt", "decimal(18,2) NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_DETAIL", coll, "", True, False, "TSPL_BOOKING_MATSER", "Document_No", "")
 
             ''richa for Booking detail payment

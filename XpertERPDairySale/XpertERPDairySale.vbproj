@@ -330,6 +330,12 @@
     <Compile Include="Report\rptCustomerWiseSalesReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptdailydispatch.Designer.vb">
+      <DependentUpon>rptdailydispatch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptdailydispatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptDailyLeakageReplacementReport.Designer.vb">
       <DependentUpon>rptDailyLeakageReplacementReport.vb</DependentUpon>
     </Compile>

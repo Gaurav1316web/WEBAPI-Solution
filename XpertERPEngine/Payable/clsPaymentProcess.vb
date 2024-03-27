@@ -2193,6 +2193,8 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
             BaseQry += " isnull(TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO,'') AS ROUTE_CODE,isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,'') as Route_Name "
         ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
             BaseQry += " isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NAME,'') as Route_Name ,isnull(TSPL_BULK_ROUTE_MASTER.ROUTE_NO,'') AS ROUTE_CODE "
+        ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+            BaseQry += " TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as Route_Name  "
         Else
             BaseQry += " TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE ,TSPL_MCC_ROUTE_MASTER.Route_Name  "
         End If
@@ -2244,7 +2246,7 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_Pa
         End If
         BaseQry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code " + Environment.NewLine
 
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
             BaseQry += "Left Outer Join TSPL_BULK_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_BULK_ROUTE_MASTER.ROUTE_NO" + Environment.NewLine
         Else
             BaseQry += "Left Outer Join TSPL_MCC_ROUTE_MASTER On TSPL_MILK_PURCHASE_INVOICE_HEAD.ROUTE_CODE =TSPL_MCC_ROUTE_MASTER.Route_Code " + Environment.NewLine
@@ -2258,8 +2260,8 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_Pa
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
             BaseQry += " Left Outer Join TSPL_HEAD_LOAD_DCS On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_HEAD_LOAD_DCS.VLC_CODE " + Environment.NewLine
         End If
-
-        BaseQry += " left outer join TSPL_TRANSFER_TO_SAVING_DETAIL  on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_TRANSFER_TO_SAVING_DETAIL.Vendor_Code " + Environment.NewLine
+        'Comment by balwinder on 26/03/2024 as TSPL_TRANSFER_TO_SAVING_DETAIL is not used in this query
+        'BaseQry += " left outer join TSPL_TRANSFER_TO_SAVING_DETAIL  on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_TRANSFER_TO_SAVING_DETAIL.Vendor_Code " + Environment.NewLine
         BaseQry += " left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_Code=TSPL_MILK_SRN_DETAIL.Price_Code " + Environment.NewLine
         BaseQry += " left join TSPL_CITY_MASTER  as MCC_City on MCC_City.city_code=TSPL_MCC_MASTER.City_code " + Environment.NewLine
         BaseQry += " left join TSPL_STATE_MASTER as MCC_State on MCC_State.STATE_CODE =TSPL_MCC_MASTER.State_Code " + Environment.NewLine
@@ -2284,7 +2286,7 @@ left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_MILK_RECEI
           TSPL_MILK_PURCHASE_INVOICE_Head.vsp_code
           LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=(case when TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No is not null then TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No else TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No end)"
 
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") <> CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") <> CompairStringResult.Equal Then
             BaseQry += " left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO " + Environment.NewLine
         End If
 

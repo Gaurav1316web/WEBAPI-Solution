@@ -95,12 +95,12 @@ Public Class frmVSPDayWiseIncentive
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("Day_Wise_Incentive_Code")
+            myMessages.blankValue(Me, "Day_Wise_Incentive_Code", Me.Text)
             txtCode.Focus()
             Return False
         End If
         If clsCommon.myLen(txtDescription.Text) <= 0 Then
-            myMessages.blankValue("Day_Wise_Incentive_Name")
+            myMessages.blankValue(Me, "Day_Wise_Incentive_Name", Me.Text)
             txtDescription.Focus()
             Return False
         End If

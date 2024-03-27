@@ -18,7 +18,7 @@ Public Class FrmAgencyMaster
     Function AllowTosave() As Boolean
        
         If clsCommon.myLen(clsCommon.myCstr(txt_Code.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txt_Code.Value)) > 30 Then
-            myMessages.blankValue("Code")
+            myMessages.blankValue(Me, "Code", Me.Text)
 
             txt_Code.Focus()
             txt_Code.Select()
@@ -28,7 +28,7 @@ Public Class FrmAgencyMaster
             Errorcontrol.ResetError(txt_Code)
         End If
         If clsCommon.myLen(clsCommon.myCstr(txt_Name.Text)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txt_Name.Text)) > 30 Then
-            myMessages.blankValue("Name")
+            myMessages.blankValue(Me, "Name", Me.Text)
 
             txt_Name.Focus()
             txt_Name.Select()

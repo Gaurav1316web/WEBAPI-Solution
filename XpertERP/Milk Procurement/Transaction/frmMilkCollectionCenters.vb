@@ -38,11 +38,11 @@ Public Class FrmMilkCollectionCenters
 #End Region
     Function AllowToSave() As Boolean
         If txtDescription.Text = "" Then
-            myMessages.blankValue("Description is blank")
+            myMessages.blankValue(Me, "Description is blank", Me.Text)
             txtDescription.Focus()
             Return False
         ElseIf txtCollectionLevel.Value = "" Then
-            myMessages.blankValue("collection blank")
+            myMessages.blankValue(Me, "collection blank", Me.Text)
             txtCollectionLevel.Focus()
             Return False
 

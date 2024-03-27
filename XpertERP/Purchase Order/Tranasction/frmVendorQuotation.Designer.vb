@@ -22,6 +22,7 @@ Partial Class frmVendorQuotation
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -59,6 +60,7 @@ Partial Class frmVendorQuotation
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.btnAmendment = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
@@ -74,7 +76,6 @@ Partial Class frmVendorQuotation
         Me.btnexport = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnexporthead = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnexportdetail = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnAmendment = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -111,13 +112,13 @@ Partial Class frmVendorQuotation
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Attachments.SuspendLayout()
         Me.pvpCustomFields.SuspendLayout()
+        CType(Me.btnAmendment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAmendment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -158,7 +159,6 @@ Partial Class frmVendorQuotation
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(884, 420)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -211,7 +211,6 @@ Partial Class frmVendorQuotation
         Me.lblRequistionNo.Name = "lblRequistionNo"
         Me.lblRequistionNo.Size = New System.Drawing.Size(372, 18)
         Me.lblRequistionNo.TabIndex = 15
-        Me.lblRequistionNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRequistionNo.TextWrap = False
         '
         'MyLabel4
@@ -243,7 +242,6 @@ Partial Class frmVendorQuotation
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(223, 18)
         Me.lblVendorName.TabIndex = 36
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
         '
         'MyLabel3
@@ -417,10 +415,13 @@ Partial Class frmVendorQuotation
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -428,7 +429,6 @@ Partial Class frmVendorQuotation
         Me.gv1.Size = New System.Drawing.Size(836, 221)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel3
         '
@@ -509,7 +509,7 @@ Partial Class frmVendorQuotation
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.RadLabel1
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(230, 20)
@@ -710,6 +710,16 @@ Partial Class frmVendorQuotation
         Me.UcCustomFields1.Size = New System.Drawing.Size(863, 371)
         Me.UcCustomFields1.TabIndex = 1
         '
+        'btnAmendment
+        '
+        Me.btnAmendment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnAmendment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAmendment.Location = New System.Drawing.Point(408, 5)
+        Me.btnAmendment.Name = "btnAmendment"
+        Me.btnAmendment.Size = New System.Drawing.Size(69, 22)
+        Me.btnAmendment.TabIndex = 8
+        Me.btnAmendment.Text = "Amendment"
+        '
         'btnDelete
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -767,7 +777,6 @@ Partial Class frmVendorQuotation
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(884, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'Setting
         '
@@ -779,71 +788,45 @@ Partial Class frmVendorQuotation
         '
         'saveLayoutbtn
         '
-        Me.saveLayoutbtn.AccessibleDescription = "Save Layout"
-        Me.saveLayoutbtn.AccessibleName = "Save Layout"
         Me.saveLayoutbtn.Name = "saveLayoutbtn"
         Me.saveLayoutbtn.Text = "Save Layout"
         '
         'DeleteLayout
         '
-        Me.DeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.DeleteLayout.AccessibleName = "Delete Layout"
         Me.DeleteLayout.Name = "DeleteLayout"
         Me.DeleteLayout.Text = "Delete Layout"
         '
         'btnimport
         '
-        Me.btnimport.AccessibleDescription = "Import"
-        Me.btnimport.AccessibleName = "Import"
         Me.btnimport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnimporthead, Me.btnimportdetail})
         Me.btnimport.Name = "btnimport"
         Me.btnimport.Text = "Import"
         '
         'btnimporthead
         '
-        Me.btnimporthead.AccessibleDescription = "Import Head"
-        Me.btnimporthead.AccessibleName = "Import Head"
         Me.btnimporthead.Name = "btnimporthead"
         Me.btnimporthead.Text = "Import Head"
         '
         'btnimportdetail
         '
-        Me.btnimportdetail.AccessibleDescription = "Import Detail"
-        Me.btnimportdetail.AccessibleName = "Import Detail"
         Me.btnimportdetail.Name = "btnimportdetail"
         Me.btnimportdetail.Text = "Import Detail"
         '
         'btnexport
         '
-        Me.btnexport.AccessibleDescription = "Export"
-        Me.btnexport.AccessibleName = "Export"
         Me.btnexport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnexporthead, Me.btnexportdetail})
         Me.btnexport.Name = "btnexport"
         Me.btnexport.Text = "Export"
         '
         'btnexporthead
         '
-        Me.btnexporthead.AccessibleDescription = "Export Head"
-        Me.btnexporthead.AccessibleName = "Export Head"
         Me.btnexporthead.Name = "btnexporthead"
         Me.btnexporthead.Text = "Export Head"
         '
         'btnexportdetail
         '
-        Me.btnexportdetail.AccessibleDescription = "Export Detail"
-        Me.btnexportdetail.AccessibleName = "Export Detail"
         Me.btnexportdetail.Name = "btnexportdetail"
         Me.btnexportdetail.Text = "Export Detail"
-        '
-        'btnAmendment
-        '
-        Me.btnAmendment.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnAmendment.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAmendment.Location = New System.Drawing.Point(408, 5)
-        Me.btnAmendment.Name = "btnAmendment"
-        Me.btnAmendment.Size = New System.Drawing.Size(69, 22)
-        Me.btnAmendment.TabIndex = 8
-        Me.btnAmendment.Text = "Amendment"
         '
         'frmVendorQuotation
         '
@@ -896,6 +879,7 @@ Partial Class frmVendorQuotation
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Attachments.ResumeLayout(False)
         Me.pvpCustomFields.ResumeLayout(False)
+        CType(Me.btnAmendment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
@@ -903,7 +887,6 @@ Partial Class frmVendorQuotation
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAmendment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

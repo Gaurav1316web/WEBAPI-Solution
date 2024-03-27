@@ -287,7 +287,7 @@ Public Class frmEmployeeShiftChange
             End If
         Next
         If intCount = 0 Then
-            myMessages.blankValue("Employee Code is blank in all rows.")
+            myMessages.blankValue(Me, "Employee Code is blank in all rows.", Me.Text)
             Return False
         End If
         'Math.Round(3.4999,1,MidpointRounding.AwayFromZero)

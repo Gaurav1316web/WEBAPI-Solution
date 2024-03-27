@@ -375,7 +375,7 @@ Public Class FrmJoiningChecklist
         Try
 
             If fndaccountsetcode.Value = "" Then
-                myMessages.blankValue("Applicant Code")
+                myMessages.blankValue(Me, "Applicant Code", Me.Text)
 
                 fndaccountsetcode.Focus()
                 fndaccountsetcode.Select()

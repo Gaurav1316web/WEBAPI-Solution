@@ -23,9 +23,16 @@ Partial Class frmProspectDetail
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmProspectDetail))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.ExistCustomerFinder = New common.UserControls.txtFinder()
+        Me.ItemCategory = New common.Controls.MyLabel()
+        Me.chkExistCustomer = New Telerik.WinControls.UI.RadCheckBox()
         Me.CboxCloseQuery = New common.Controls.MyComboBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
         Me.txtCloseQuery = New common.Controls.MyTextBox()
@@ -45,7 +52,6 @@ Partial Class frmProspectDetail
         Me.CboxProspectCategory = New common.Controls.MyComboBox()
         Me.lblItemCategory = New common.Controls.MyLabel()
         Me.txtItemCategory = New common.UserControls.txtFinder()
-        Me.ItemCategory = New common.Controls.MyLabel()
         Me.txtQueryRec = New common.Controls.MyTextBox()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.CboxQueryRec = New common.Controls.MyComboBox()
@@ -200,14 +206,14 @@ Partial Class frmProspectDetail
         Me.SaveLayoutbtn = New Telerik.WinControls.UI.RadMenuItem()
         Me.DeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkExistCustomer = New Telerik.WinControls.UI.RadCheckBox()
-        Me.ExistCustomerFinder = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.ItemCategory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkExistCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CboxCloseQuery, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtCloseQuery, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -227,7 +233,6 @@ Partial Class frmProspectDetail
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CboxProspectCategory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblItemCategory, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ItemCategory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtQueryRec, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CboxQueryRec, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -358,7 +363,6 @@ Partial Class frmProspectDetail
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkExistCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -410,7 +414,6 @@ Partial Class frmProspectDetail
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(958, 474)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -496,11 +499,57 @@ Partial Class frmProspectDetail
         Me.RadPageViewPage1.Size = New System.Drawing.Size(937, 428)
         Me.RadPageViewPage1.Text = "QMS"
         '
+        'ExistCustomerFinder
+        '
+        Me.ExistCustomerFinder.CalculationExpression = Nothing
+        Me.ExistCustomerFinder.FieldCode = Nothing
+        Me.ExistCustomerFinder.FieldDesc = Nothing
+        Me.ExistCustomerFinder.FieldMaxLength = 0
+        Me.ExistCustomerFinder.FieldName = Nothing
+        Me.ExistCustomerFinder.isCalculatedField = False
+        Me.ExistCustomerFinder.IsSourceFromTable = False
+        Me.ExistCustomerFinder.IsSourceFromValueList = False
+        Me.ExistCustomerFinder.IsUnique = False
+        Me.ExistCustomerFinder.Location = New System.Drawing.Point(244, 44)
+        Me.ExistCustomerFinder.MendatroryField = False
+        Me.ExistCustomerFinder.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.ExistCustomerFinder.MyLinkLable1 = Me.ItemCategory
+        Me.ExistCustomerFinder.MyLinkLable2 = Nothing
+        Me.ExistCustomerFinder.MyReadOnly = False
+        Me.ExistCustomerFinder.MyShowMasterFormButton = False
+        Me.ExistCustomerFinder.Name = "ExistCustomerFinder"
+        Me.ExistCustomerFinder.ReferenceFieldDesc = Nothing
+        Me.ExistCustomerFinder.ReferenceFieldName = Nothing
+        Me.ExistCustomerFinder.ReferenceTableName = Nothing
+        Me.ExistCustomerFinder.Size = New System.Drawing.Size(239, 22)
+        Me.ExistCustomerFinder.TabIndex = 150
+        Me.ExistCustomerFinder.Value = ""
+        Me.ExistCustomerFinder.Visible = False
+        '
+        'ItemCategory
+        '
+        Me.ItemCategory.FieldName = Nothing
+        Me.ItemCategory.Location = New System.Drawing.Point(-1, 151)
+        Me.ItemCategory.Name = "ItemCategory"
+        Me.ItemCategory.Size = New System.Drawing.Size(77, 18)
+        Me.ItemCategory.TabIndex = 135
+        Me.ItemCategory.Text = "Item Category"
+        '
+        'chkExistCustomer
+        '
+        Me.chkExistCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkExistCustomer.Location = New System.Drawing.Point(96, 43)
+        Me.chkExistCustomer.Name = "chkExistCustomer"
+        Me.chkExistCustomer.Size = New System.Drawing.Size(112, 16)
+        Me.chkExistCustomer.TabIndex = 149
+        Me.chkExistCustomer.Text = "Existing Customer"
+        '
         'CboxCloseQuery
         '
         Me.CboxCloseQuery.AutoCompleteDisplayMember = Nothing
         Me.CboxCloseQuery.AutoCompleteValueMember = Nothing
         Me.CboxCloseQuery.CalculationExpression = Nothing
+        Me.CboxCloseQuery.DropDownAnimationEnabled = True
         Me.CboxCloseQuery.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CboxCloseQuery.FieldCode = Nothing
         Me.CboxCloseQuery.FieldDesc = Nothing
@@ -582,6 +631,7 @@ Partial Class frmProspectDetail
         Me.MyComboBox1.AutoCompleteDisplayMember = Nothing
         Me.MyComboBox1.AutoCompleteValueMember = Nothing
         Me.MyComboBox1.CalculationExpression = Nothing
+        Me.MyComboBox1.DropDownAnimationEnabled = True
         Me.MyComboBox1.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.MyComboBox1.FieldCode = Nothing
         Me.MyComboBox1.FieldDesc = Nothing
@@ -641,6 +691,7 @@ Partial Class frmProspectDetail
         Me.CboxCustSource.AutoCompleteDisplayMember = Nothing
         Me.CboxCustSource.AutoCompleteValueMember = Nothing
         Me.CboxCustSource.CalculationExpression = Nothing
+        Me.CboxCustSource.DropDownAnimationEnabled = True
         Me.CboxCustSource.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CboxCustSource.FieldCode = Nothing
         Me.CboxCustSource.FieldDesc = Nothing
@@ -778,6 +829,7 @@ Partial Class frmProspectDetail
         Me.CboxProspectCategory.AutoCompleteDisplayMember = Nothing
         Me.CboxProspectCategory.AutoCompleteValueMember = Nothing
         Me.CboxProspectCategory.CalculationExpression = Nothing
+        Me.CboxProspectCategory.DropDownAnimationEnabled = True
         Me.CboxProspectCategory.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CboxProspectCategory.FieldCode = Nothing
         Me.CboxProspectCategory.FieldDesc = Nothing
@@ -808,7 +860,6 @@ Partial Class frmProspectDetail
         Me.lblItemCategory.Name = "lblItemCategory"
         Me.lblItemCategory.Size = New System.Drawing.Size(242, 18)
         Me.lblItemCategory.TabIndex = 136
-        Me.lblItemCategory.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblItemCategory.TextWrap = False
         '
         'txtItemCategory
@@ -836,15 +887,6 @@ Partial Class frmProspectDetail
         Me.txtItemCategory.Size = New System.Drawing.Size(142, 20)
         Me.txtItemCategory.TabIndex = 134
         Me.txtItemCategory.Value = ""
-        '
-        'ItemCategory
-        '
-        Me.ItemCategory.FieldName = Nothing
-        Me.ItemCategory.Location = New System.Drawing.Point(-1, 151)
-        Me.ItemCategory.Name = "ItemCategory"
-        Me.ItemCategory.Size = New System.Drawing.Size(77, 18)
-        Me.ItemCategory.TabIndex = 135
-        Me.ItemCategory.Text = "Item Category"
         '
         'txtQueryRec
         '
@@ -885,6 +927,7 @@ Partial Class frmProspectDetail
         Me.CboxQueryRec.AutoCompleteDisplayMember = Nothing
         Me.CboxQueryRec.AutoCompleteValueMember = Nothing
         Me.CboxQueryRec.CalculationExpression = Nothing
+        Me.CboxQueryRec.DropDownAnimationEnabled = True
         Me.CboxQueryRec.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CboxQueryRec.FieldCode = Nothing
         Me.CboxQueryRec.FieldDesc = Nothing
@@ -910,6 +953,7 @@ Partial Class frmProspectDetail
         Me.cboProspectType.AutoCompleteDisplayMember = Nothing
         Me.cboProspectType.AutoCompleteValueMember = Nothing
         Me.cboProspectType.CalculationExpression = Nothing
+        Me.cboProspectType.DropDownAnimationEnabled = True
         Me.cboProspectType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboProspectType.FieldCode = Nothing
         Me.cboProspectType.FieldDesc = Nothing
@@ -1172,7 +1216,6 @@ Partial Class frmProspectDetail
         Me.lblProject.Name = "lblProject"
         Me.lblProject.Size = New System.Drawing.Size(185, 20)
         Me.lblProject.TabIndex = 1
-        Me.lblProject.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblProject.TextWrap = False
         Me.lblProject.Visible = False
         '
@@ -1194,7 +1237,7 @@ Partial Class frmProspectDetail
         Me.UcItemBalance1.CommitedQty = False
         Me.UcItemBalance1.CommitedQtyLbl = False
         Me.UcItemBalance1.ItemCode = ""
-        Me.UcItemBalance1.ItemMRP = 0.0R
+        Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
         Me.UcItemBalance1.Location = New System.Drawing.Point(2, 365)
         Me.UcItemBalance1.LocationCode = ""
@@ -1221,7 +1264,6 @@ Partial Class frmProspectDetail
         Me.lblSalesman.Name = "lblSalesman"
         Me.lblSalesman.Size = New System.Drawing.Size(242, 18)
         Me.lblSalesman.TabIndex = 17
-        Me.lblSalesman.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblSalesman.TextWrap = False
         Me.lblSalesman.Visible = False
         '
@@ -1241,6 +1283,7 @@ Partial Class frmProspectDetail
         Me.cboItemType.AutoCompleteDisplayMember = Nothing
         Me.cboItemType.AutoCompleteValueMember = Nothing
         Me.cboItemType.CalculationExpression = Nothing
+        Me.cboItemType.DropDownAnimationEnabled = True
         Me.cboItemType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboItemType.FieldCode = Nothing
         Me.cboItemType.FieldDesc = Nothing
@@ -1325,6 +1368,7 @@ Partial Class frmProspectDetail
         Me.cboPOType.AutoCompleteDisplayMember = Nothing
         Me.cboPOType.AutoCompleteValueMember = Nothing
         Me.cboPOType.CalculationExpression = Nothing
+        Me.cboPOType.DropDownAnimationEnabled = True
         Me.cboPOType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboPOType.FieldCode = Nothing
         Me.cboPOType.FieldDesc = Nothing
@@ -1378,7 +1422,6 @@ Partial Class frmProspectDetail
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(242, 18)
         Me.lblBillToLocation.TabIndex = 7
-        Me.lblBillToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBillToLocation.TextWrap = False
         '
         'RadLabel6
@@ -1441,10 +1484,13 @@ Partial Class frmProspectDetail
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1452,7 +1498,6 @@ Partial Class frmProspectDetail
         Me.gv1.Size = New System.Drawing.Size(912, 173)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel20
         '
@@ -1502,7 +1547,6 @@ Partial Class frmProspectDetail
         Me.lblDept.Name = "lblDept"
         Me.lblDept.Size = New System.Drawing.Size(242, 18)
         Me.lblDept.TabIndex = 3
-        Me.lblDept.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDept.TextWrap = False
         Me.lblDept.Visible = False
         '
@@ -1571,6 +1615,7 @@ Partial Class frmProspectDetail
         Me.cboModeOfTransport.AutoCompleteDisplayMember = Nothing
         Me.cboModeOfTransport.AutoCompleteValueMember = Nothing
         Me.cboModeOfTransport.CalculationExpression = Nothing
+        Me.cboModeOfTransport.DropDownAnimationEnabled = True
         Me.cboModeOfTransport.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboModeOfTransport.FieldCode = Nothing
         Me.cboModeOfTransport.FieldDesc = Nothing
@@ -1689,7 +1734,7 @@ Partial Class frmProspectDetail
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
@@ -1911,7 +1956,6 @@ Partial Class frmProspectDetail
         Me.lblLocationfinder.Name = "lblLocationfinder"
         Me.lblLocationfinder.Size = New System.Drawing.Size(321, 19)
         Me.lblLocationfinder.TabIndex = 10
-        Me.lblLocationfinder.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocationfinder.TextWrap = False
         '
         'Label2
@@ -1933,7 +1977,6 @@ Partial Class frmProspectDetail
         Me.lblZonefinder.Name = "lblZonefinder"
         Me.lblZonefinder.Size = New System.Drawing.Size(472, 19)
         Me.lblZonefinder.TabIndex = 7
-        Me.lblZonefinder.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblZonefinder.TextWrap = False
         '
         'Label1
@@ -1955,7 +1998,6 @@ Partial Class frmProspectDetail
         Me.lblStatefinder.Name = "lblStatefinder"
         Me.lblStatefinder.Size = New System.Drawing.Size(321, 19)
         Me.lblStatefinder.TabIndex = 4
-        Me.lblStatefinder.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblStatefinder.TextWrap = False
         '
         'lblState
@@ -2029,7 +2071,6 @@ Partial Class frmProspectDetail
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 19)
         Me.lblTaxGrpName.TabIndex = 1
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'RadLabel10
@@ -2109,7 +2150,6 @@ Partial Class frmProspectDetail
         Me.lblTermName.Name = "lblTermName"
         Me.lblTermName.Size = New System.Drawing.Size(321, 20)
         Me.lblTermName.TabIndex = 1
-        Me.lblTermName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTermName.TextWrap = False
         '
         'txtDueDate
@@ -2169,14 +2209,16 @@ Partial Class frmProspectDetail
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(932, 286)
         Me.gv2.TabIndex = 2
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'RadPageViewPage3
         '
@@ -2201,7 +2243,10 @@ Partial Class frmProspectDetail
         '
         '
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
+        Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -2209,7 +2254,6 @@ Partial Class frmProspectDetail
         Me.gvAC.Size = New System.Drawing.Size(937, 379)
         Me.gvAC.TabIndex = 3
         Me.gvAC.TabStop = False
-        Me.gvAC.Text = "RadGridView1"
         '
         'RadPanel1
         '
@@ -2401,7 +2445,7 @@ Partial Class frmProspectDetail
         Me.txtDiscAmt.TabIndex = 7
         Me.txtDiscAmt.Text = "0"
         Me.txtDiscAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscAmt.Value = 0.0R
+        Me.txtDiscAmt.Value = 0R
         '
         'txtDiscPer
         '
@@ -2428,7 +2472,7 @@ Partial Class frmProspectDetail
         Me.txtDiscPer.TabIndex = 6
         Me.txtDiscPer.Text = "0"
         Me.txtDiscPer.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDiscPer.Value = 0.0R
+        Me.txtDiscPer.Value = 0R
         '
         'MyLabel1
         '
@@ -2722,7 +2766,10 @@ Partial Class frmProspectDetail
         '
         '
         Me.gvComm.MasterTemplate.AllowDeleteRow = False
+        Me.gvComm.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvComm.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvComm.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvComm.MyStopExport = False
         Me.gvComm.Name = "gvComm"
         Me.gvComm.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvComm.ShowGroupPanel = False
@@ -2730,7 +2777,6 @@ Partial Class frmProspectDetail
         Me.gvComm.Size = New System.Drawing.Size(937, 428)
         Me.gvComm.TabIndex = 1
         Me.gvComm.TabStop = False
-        Me.gvComm.Text = "RadGridView1"
         '
         'PageForwardTo
         '
@@ -2822,6 +2868,7 @@ Partial Class frmProspectDetail
         Me.MyComboBox2.AutoCompleteDisplayMember = Nothing
         Me.MyComboBox2.AutoCompleteValueMember = Nothing
         Me.MyComboBox2.CalculationExpression = Nothing
+        Me.MyComboBox2.DropDownAnimationEnabled = True
         Me.MyComboBox2.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.MyComboBox2.FieldCode = Nothing
         Me.MyComboBox2.FieldDesc = Nothing
@@ -2852,7 +2899,6 @@ Partial Class frmProspectDetail
         Me.lblVendor.Name = "lblVendor"
         Me.lblVendor.Size = New System.Drawing.Size(321, 19)
         Me.lblVendor.TabIndex = 16
-        Me.lblVendor.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendor.TextWrap = False
         '
         'Label5
@@ -2874,7 +2920,6 @@ Partial Class frmProspectDetail
         Me.lblForwardUser.Name = "lblForwardUser"
         Me.lblForwardUser.Size = New System.Drawing.Size(321, 19)
         Me.lblForwardUser.TabIndex = 13
-        Me.lblForwardUser.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblForwardUser.TextWrap = False
         '
         'Label4
@@ -2916,15 +2961,11 @@ Partial Class frmProspectDetail
         '
         'btnSend
         '
-        Me.btnSend.AccessibleDescription = "Send Email/Setting"
-        Me.btnSend.AccessibleName = "Send Email/Setting"
         Me.btnSend.Name = "btnSend"
         Me.btnSend.Text = "Send Email/Setting"
         '
         'btnSendForApproval
         '
-        Me.btnSendForApproval.AccessibleDescription = "Send For Approval"
-        Me.btnSendForApproval.AccessibleName = "Send For Approval"
         Me.btnSendForApproval.Name = "btnSendForApproval"
         Me.btnSendForApproval.Text = "Send For Approval"
         '
@@ -3031,7 +3072,6 @@ Partial Class frmProspectDetail
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(958, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'Setting
         '
@@ -3057,46 +3097,8 @@ Partial Class frmProspectDetail
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Email/SMS Settings"
-        Me.RadMenuItem1.AccessibleName = "Email/SMS Settings"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Email/SMS Settings"
-        '
-        'chkExistCustomer
-        '
-        Me.chkExistCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkExistCustomer.Location = New System.Drawing.Point(96, 43)
-        Me.chkExistCustomer.Name = "chkExistCustomer"
-        Me.chkExistCustomer.Size = New System.Drawing.Size(112, 16)
-        Me.chkExistCustomer.TabIndex = 149
-        Me.chkExistCustomer.Text = "Existing Customer"
-        '
-        'ExistCustomerFinder
-        '
-        Me.ExistCustomerFinder.CalculationExpression = Nothing
-        Me.ExistCustomerFinder.FieldCode = Nothing
-        Me.ExistCustomerFinder.FieldDesc = Nothing
-        Me.ExistCustomerFinder.FieldMaxLength = 0
-        Me.ExistCustomerFinder.FieldName = Nothing
-        Me.ExistCustomerFinder.isCalculatedField = False
-        Me.ExistCustomerFinder.IsSourceFromTable = False
-        Me.ExistCustomerFinder.IsSourceFromValueList = False
-        Me.ExistCustomerFinder.IsUnique = False
-        Me.ExistCustomerFinder.Location = New System.Drawing.Point(244, 44)
-        Me.ExistCustomerFinder.MendatroryField = False
-        Me.ExistCustomerFinder.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.ExistCustomerFinder.MyLinkLable1 = Me.ItemCategory
-        Me.ExistCustomerFinder.MyLinkLable2 = Nothing
-        Me.ExistCustomerFinder.MyReadOnly = False
-        Me.ExistCustomerFinder.MyShowMasterFormButton = False
-        Me.ExistCustomerFinder.Name = "ExistCustomerFinder"
-        Me.ExistCustomerFinder.ReferenceFieldDesc = Nothing
-        Me.ExistCustomerFinder.ReferenceFieldName = Nothing
-        Me.ExistCustomerFinder.ReferenceTableName = Nothing
-        Me.ExistCustomerFinder.Size = New System.Drawing.Size(239, 22)
-        Me.ExistCustomerFinder.TabIndex = 150
-        Me.ExistCustomerFinder.Value = ""
-        Me.ExistCustomerFinder.Visible = False
         '
         'frmProspectDetail
         '
@@ -3120,6 +3122,8 @@ Partial Class frmProspectDetail
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.ItemCategory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkExistCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CboxCloseQuery, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtCloseQuery, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3140,7 +3144,6 @@ Partial Class frmProspectDetail
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CboxProspectCategory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblItemCategory, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ItemCategory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtQueryRec, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CboxQueryRec, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3283,7 +3286,6 @@ Partial Class frmProspectDetail
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkExistCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

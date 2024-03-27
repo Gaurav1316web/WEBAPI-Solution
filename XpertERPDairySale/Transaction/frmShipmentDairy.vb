@@ -11,6 +11,7 @@ Public Class frmShipmentDairy
     Dim ConsiderPreviousandCurrentFYForTCSTaxCustOutstanding As Boolean = False
     Dim AllowCrateCanPhysicalStock As Integer = 0
     Public AllowtoChangeTCSBaseAmount As Boolean = False
+    Public AllowIncreaseDispatchQty As Boolean = False
     Dim StockCheckOnPostForDairyDispatchMultiple As Boolean = False
     Dim ApplyRoundOffZero As Boolean = False
     Dim SettDistributorWiseBilling As Boolean = False
@@ -410,6 +411,7 @@ Public Class frmShipmentDairy
         StockCheckOnPostForDairyDispatchMultiple = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StockCheckOnPostForDairyDispatchMultiple, clsFixedParameterCode.StockCheckOnPostForDairyDispatchMultiple, Nothing)) = 1, True, False)
         ApplyRoundOffZero = If(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyRoundOffZero, clsFixedParameterCode.ApplyRoundOffZero, Nothing)) = 1, True, False)
         EnableLocation = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableLocation, clsFixedParameterCode.EnableLocation, Nothing)) = 1, True, False)
+        AllowIncreaseDispatchQty = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, Nothing)) = 1, True, False)
         btnShowInventory.Visible = True
         IsFormLoad = True
         lblPriceCode.Visible = True
@@ -9635,7 +9637,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
     ''====================Preeti Gupta ticket no[BM00000004268,BHA/06/08/18-000392]
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             funPrint(txtDocNo.Value)
         End If
@@ -11166,7 +11168,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             Dim frmCRV As New frmCrystalReportViewer()
             Dim objMultPrintInvoice As New FrmPrintFreshInvoice
             If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-                myMessages.blankValue("Invoice not found to Print")
+                myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
             Else
                 Dim dtDocdate As Date?
                 dtDocdate = Nothing
@@ -11636,7 +11638,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
     Private Sub BtnPrintChallan_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles BtnPrintChallan.Click
         '==========update by preeti gupta Against ticket no[BHA/13/08/18-000421]
         If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             Dim objInvoice As New frmSaleInvoiceProductSale
             objInvoice.funPrintChallan(txtInvoiceNo.Text, AllowManualVehicleOnDairyDispatch)
@@ -13299,9 +13301,11 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
         Return True
     End Function
     Private Sub gvDistributor_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvDistributor.CellValueChanged
-        If gvDistributor.CurrentRow.Cells("DemandQty").Value < gvDistributor.CurrentRow.Cells("Qty").Value Then
-            clsCommon.MyMessageBoxShow(Me, "Qty is greater then Demand Qty")
-            gvDistributor.CurrentRow.Cells("Qty").Value = gvDistributor.CurrentRow.Cells("DemandQty").Value
+        If Not AllowIncreaseDispatchQty Then
+            If gvDistributor.CurrentRow.Cells("DemandQty").Value < gvDistributor.CurrentRow.Cells("Qty").Value Then
+                clsCommon.MyMessageBoxShow(Me, "Qty is greater then Demand Qty")
+                gvDistributor.CurrentRow.Cells("Qty").Value = gvDistributor.CurrentRow.Cells("DemandQty").Value
+            End If
         End If
     End Sub
     Private Sub GetTaxRate()
