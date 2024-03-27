@@ -72,6 +72,7 @@ Public Class rptDBTNEFTPaymentDetailReport
                 If txtUnion.arrValueMember IsNot Nothing Then
                     dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name  in (" & clsCommon.GetMulcallString(txtUnion.arrValueMember) & ") AND DataBase_Name  not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
                 End If
+                Baseqry = " select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.',* from ( "
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If ii > 0 Then
                         Baseqry += " UNION ALL "
@@ -89,12 +90,13 @@ Public Class rptDBTNEFTPaymentDetailReport
     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code
     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Document_Code= [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code 
     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Ref_PK_Id= [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.PK_Id 
-                     WHERE [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response IS NOT NULL and ISNULL( [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.RCDF_Status,0)=1 and  Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" & Slot1 & "',103) And 
+                 WHERE [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response IS NOT NULL and ISNULL( [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.RCDF_Status,0)=1 and  Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" & Slot1 & "',103) And 
     Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" & Slot2 & "',103)"
                 Next
+                Baseqry += ") xx"
                 If rbtnSummary.IsChecked Then
-                    qry = " select [Union Name] , Month , count(MP_Code)as [No of Farmer] ,sum(Success_Farmer)Success_Farmer,sum(Failure_Farmer)Failure_Farmer, sum(Amount)Amount , SUM(Success_Amount)Success_Amount , SUM(Failure_Amount)Failure_Amount
-                from (" & Baseqry & " ) xx group by [Union Name] , Month"
+                    qry = " select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.', [Union Name] , Month , count(MP_Code)as [No of Farmer] ,sum(Success_Farmer)Success_Farmer,sum(Failure_Farmer)Failure_Farmer, sum(Amount)Amount , SUM(Success_Amount)Success_Amount , SUM(Failure_Amount)Failure_Amount
+                from (" & Baseqry & " ) xxx group by [Union Name] , Month"
                 Else
                     qry = Baseqry
                 End If
@@ -150,6 +152,7 @@ Public Class rptDBTNEFTPaymentDetailReport
             gv1.Columns("Failure_Farmer").IsVisible = False
         ElseIf rbtnSummary.IsChecked Then
             gv1.Columns("Success_Amount").HeaderText = "Success Amount"
+
             gv1.Columns("Failure_Amount").HeaderText = "Failure Amount"
             gv1.Columns("Success_Farmer").HeaderText = "Success(No of Farmer)"
             gv1.Columns("Failure_Farmer").HeaderText = "Failure(No of Farmer)"
