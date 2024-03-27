@@ -7844,6 +7844,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDBTApprovalStatus
                         frm = New frmDBTApprovalStatus
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptDBTNEFTPaymentDetailReport
+                        frm = New rptDBTNEFTPaymentDetailReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBulkMilkSRNReturn
                         frm = New FrmBulkMilkSRNReturn
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8742,6 +8745,9 @@ Public Class MDI
 
                     Case clsUserMgtCode.MSIProductionSaleReport
                         frm = New MSIProductionSaleReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.SundryDebtorsReport
+                        frm = New frmSundryDebtorsReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     'Case clsUserMgtCode.rptDCSSaleRegister
                     '    frm = New rptDCSSaleRegister()

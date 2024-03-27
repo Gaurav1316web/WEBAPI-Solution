@@ -864,6 +864,9 @@
     <EmbeddedResource Include="Report\rptCustomerWiseSalesReport.resx">
       <DependentUpon>rptCustomerWiseSalesReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptdailydispatch.resx">
+      <DependentUpon>rptdailydispatch.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\rptDailyLeakageReplacementReport.resx">
       <DependentUpon>rptDailyLeakageReplacementReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -935,6 +938,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSaleRegisterDetail.resx">
       <DependentUpon>rptSaleRegisterDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptSalesLedgerReport.resx">
+      <DependentUpon>rptSalesLedgerReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSalesVehicleReport.resx">
       <DependentUpon>rptSalesVehicleReport.vb</DependentUpon>

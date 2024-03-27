@@ -235,6 +235,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.mbtnCustomerLedgerZoneAreaWise, "Customer Ledger with Zone/Area Wise", "1.02.03.19", clsUserMgtCode.SubModuleReceivableReport, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailReceivable, "Receivable Audit Trail Report", "1.02.03.20", clsUserMgtCode.SubModuleReceivableReport, 37)
         InsertDefaultValue(clsUserMgtCode.CustomerLedgerVsAgeing, "Customer Ledger Vs Ageing", "1.02.03.21", clsUserMgtCode.SubModuleReceivableReport, 37)
+        InsertDefaultValue(clsUserMgtCode.SundryDebtorsReport, "Sundry Debtors Report", "1.31.01.19", clsUserMgtCode.SubModuleReceivableReport, 37)
         '--------------Payables----------------------------------
         InsertDefaultValue(clsUserMgtCode.ModulePayable, "Payables", "1.03", clsUserMgtCode.ExpertERP, "M", 23)
 
@@ -2828,6 +2829,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDBTNEFTUnionReport, "DBT Union Report", "1.49.03.02", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.frmDBTStatusAndLastDPTStatus, "DBT Status And Last DPT Status", "1.49.03.03", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.frmDBTApprovalStatus, "DBT Approval Status", "1.49.03.04", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptDBTNEFTPaymentDetailReport, "DBT NEFT Payment Detail Report", "1.49.03.05", clsUserMgtCode.SubModuleMilkUnion, 8)
 
 
         Try
