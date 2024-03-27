@@ -612,7 +612,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj.Total_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Amt"))
             obj.RoundOffAmount = clsCommon.myCdbl(dt.Rows(0)("RoundOffAmount"))
             obj.Sub_Location_code = clsCommon.myCstr(dt.Rows(0)("Sub_Location_code"))
-            obj.Trip_No = clsCommon.myCstr(dt.Rows(0)("Trip_No"))
+            obj.Trip_No = clsCommon.myCdbl(dt.Rows(0)("Trip_No"))
             If dt.Rows(0)("BPL_Coupon_Date") IsNot DBNull.Value Then
                 obj.BPL_Coupon_Date = clsCommon.myCDate(dt.Rows(0)("BPL_Coupon_Date"))
             End If
