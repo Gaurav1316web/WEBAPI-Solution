@@ -79,14 +79,14 @@ Partial Class frmSalaryGeneration
         Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.lblBankCode = New common.Controls.MyLabel()
+        Me.fndBankCode = New common.UserControls.txtFinder()
+        Me.txtpaymentDate = New common.Controls.MyDateTimePicker()
+        Me.lblPaymentDate = New common.Controls.MyLabel()
         Me.dtpGenerateDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.lblCompany = New common.Controls.MyLabel()
         Me.txtEmp = New common.UserControls.txtMultiSelectFinder()
-        Me.txtpaymentDate = New common.Controls.MyDateTimePicker()
-        Me.lblPaymentDate = New common.Controls.MyLabel()
-        Me.fndBankCode = New common.UserControls.txtFinder()
-        Me.lblBankCode = New common.Controls.MyLabel()
         CType(Me.txtOthrPayableDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBankAccount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -135,12 +135,12 @@ Partial Class frmSalaryGeneration
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtpaymentDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPaymentDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpGenerateDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCompany, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtpaymentDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblPaymentDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -418,7 +418,6 @@ Partial Class frmSalaryGeneration
         Me.lblPayPeriodName.Name = "lblPayPeriodName"
         Me.lblPayPeriodName.Size = New System.Drawing.Size(259, 19)
         Me.lblPayPeriodName.TabIndex = 211
-        Me.lblPayPeriodName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtGeneratedBy
         '
@@ -672,7 +671,7 @@ Partial Class frmSalaryGeneration
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(281, 21)
@@ -746,7 +745,6 @@ Partial Class frmSalaryGeneration
         Me.lblDivisionDesc.Name = "lblDivisionDesc"
         Me.lblDivisionDesc.Size = New System.Drawing.Size(259, 19)
         Me.lblDivisionDesc.TabIndex = 253
-        Me.lblDivisionDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel8
         '
@@ -793,7 +791,6 @@ Partial Class frmSalaryGeneration
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(259, 19)
         Me.lblLocationDesc.TabIndex = 250
-        Me.lblLocationDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel9
         '
@@ -1059,6 +1056,83 @@ Partial Class frmSalaryGeneration
         Me.SplitContainer1.SplitterDistance = 381
         Me.SplitContainer1.TabIndex = 224
         '
+        'lblBankCode
+        '
+        Me.lblBankCode.FieldName = Nothing
+        Me.lblBankCode.Location = New System.Drawing.Point(445, 119)
+        Me.lblBankCode.Name = "lblBankCode"
+        Me.lblBankCode.Size = New System.Drawing.Size(60, 18)
+        Me.lblBankCode.TabIndex = 390
+        Me.lblBankCode.Text = "Bank Code"
+        Me.lblBankCode.Visible = False
+        '
+        'fndBankCode
+        '
+        Me.fndBankCode.CalculationExpression = Nothing
+        Me.fndBankCode.FieldCode = Nothing
+        Me.fndBankCode.FieldDesc = Nothing
+        Me.fndBankCode.FieldMaxLength = 0
+        Me.fndBankCode.FieldName = Nothing
+        Me.fndBankCode.isCalculatedField = False
+        Me.fndBankCode.IsSourceFromTable = False
+        Me.fndBankCode.IsSourceFromValueList = False
+        Me.fndBankCode.IsUnique = False
+        Me.fndBankCode.Location = New System.Drawing.Point(518, 118)
+        Me.fndBankCode.MendatroryField = True
+        Me.fndBankCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndBankCode.MyLinkLable1 = Nothing
+        Me.fndBankCode.MyLinkLable2 = Nothing
+        Me.fndBankCode.MyReadOnly = False
+        Me.fndBankCode.MyShowMasterFormButton = False
+        Me.fndBankCode.Name = "fndBankCode"
+        Me.fndBankCode.ReferenceFieldDesc = Nothing
+        Me.fndBankCode.ReferenceFieldName = Nothing
+        Me.fndBankCode.ReferenceTableName = Nothing
+        Me.fndBankCode.Size = New System.Drawing.Size(127, 19)
+        Me.fndBankCode.TabIndex = 392
+        Me.fndBankCode.Value = ""
+        '
+        'txtpaymentDate
+        '
+        Me.txtpaymentDate.CalculationExpression = Nothing
+        Me.txtpaymentDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtpaymentDate.FieldCode = Nothing
+        Me.txtpaymentDate.FieldDesc = Nothing
+        Me.txtpaymentDate.FieldMaxLength = 0
+        Me.txtpaymentDate.FieldName = Nothing
+        Me.txtpaymentDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtpaymentDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtpaymentDate.isCalculatedField = False
+        Me.txtpaymentDate.IsSourceFromTable = False
+        Me.txtpaymentDate.IsSourceFromValueList = False
+        Me.txtpaymentDate.IsUnique = False
+        Me.txtpaymentDate.Location = New System.Drawing.Point(525, 96)
+        Me.txtpaymentDate.MendatroryField = True
+        Me.txtpaymentDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtpaymentDate.MyLinkLable1 = Me.lblTo
+        Me.txtpaymentDate.MyLinkLable2 = Nothing
+        Me.txtpaymentDate.Name = "txtpaymentDate"
+        Me.txtpaymentDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtpaymentDate.ReferenceFieldDesc = Nothing
+        Me.txtpaymentDate.ReferenceFieldName = Nothing
+        Me.txtpaymentDate.ReferenceTableName = Nothing
+        Me.txtpaymentDate.Size = New System.Drawing.Size(89, 18)
+        Me.txtpaymentDate.TabIndex = 390
+        Me.txtpaymentDate.TabStop = False
+        Me.txtpaymentDate.Text = "06/07/2013"
+        Me.txtpaymentDate.Value = New Date(2013, 7, 6, 0, 0, 0, 0)
+        Me.txtpaymentDate.Visible = False
+        '
+        'lblPaymentDate
+        '
+        Me.lblPaymentDate.FieldName = Nothing
+        Me.lblPaymentDate.Location = New System.Drawing.Point(445, 96)
+        Me.lblPaymentDate.Name = "lblPaymentDate"
+        Me.lblPaymentDate.Size = New System.Drawing.Size(76, 18)
+        Me.lblPaymentDate.TabIndex = 389
+        Me.lblPaymentDate.Text = "Payment Date"
+        Me.lblPaymentDate.Visible = False
+        '
         'dtpGenerateDate
         '
         Me.dtpGenerateDate.CalculationExpression = Nothing
@@ -1121,82 +1195,6 @@ Partial Class frmSalaryGeneration
         Me.txtEmp.Size = New System.Drawing.Size(566, 19)
         Me.txtEmp.TabIndex = 385
         '
-        'txtpaymentDate
-        '
-        Me.txtpaymentDate.CalculationExpression = Nothing
-        Me.txtpaymentDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtpaymentDate.FieldCode = Nothing
-        Me.txtpaymentDate.FieldDesc = Nothing
-        Me.txtpaymentDate.FieldMaxLength = 0
-        Me.txtpaymentDate.FieldName = Nothing
-        Me.txtpaymentDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtpaymentDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtpaymentDate.isCalculatedField = False
-        Me.txtpaymentDate.IsSourceFromTable = False
-        Me.txtpaymentDate.IsSourceFromValueList = False
-        Me.txtpaymentDate.IsUnique = False
-        Me.txtpaymentDate.Location = New System.Drawing.Point(525, 96)
-        Me.txtpaymentDate.MendatroryField = True
-        Me.txtpaymentDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtpaymentDate.MyLinkLable1 = Me.lblTo
-        Me.txtpaymentDate.MyLinkLable2 = Nothing
-        Me.txtpaymentDate.Name = "txtpaymentDate"
-        Me.txtpaymentDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtpaymentDate.ReferenceFieldDesc = Nothing
-        Me.txtpaymentDate.ReferenceFieldName = Nothing
-        Me.txtpaymentDate.ReferenceTableName = Nothing
-        Me.txtpaymentDate.Size = New System.Drawing.Size(89, 18)
-        Me.txtpaymentDate.TabIndex = 390
-        Me.txtpaymentDate.TabStop = False
-        Me.txtpaymentDate.Text = "06/07/2013"
-        Me.txtpaymentDate.Value = New Date(2013, 7, 6, 0, 0, 0, 0)
-        Me.txtpaymentDate.Visible = False
-        '
-        'lblPaymentDate
-        '
-        Me.lblPaymentDate.FieldName = Nothing
-        Me.lblPaymentDate.Location = New System.Drawing.Point(445, 96)
-        Me.lblPaymentDate.Name = "lblPaymentDate"
-        Me.lblPaymentDate.Size = New System.Drawing.Size(76, 18)
-        Me.lblPaymentDate.TabIndex = 389
-        Me.lblPaymentDate.Text = "Payment Date"
-        Me.lblPaymentDate.Visible = False
-        '
-        'fndBankCode
-        '
-        Me.fndBankCode.CalculationExpression = Nothing
-        Me.fndBankCode.FieldCode = Nothing
-        Me.fndBankCode.FieldDesc = Nothing
-        Me.fndBankCode.FieldMaxLength = 0
-        Me.fndBankCode.FieldName = Nothing
-        Me.fndBankCode.isCalculatedField = False
-        Me.fndBankCode.IsSourceFromTable = False
-        Me.fndBankCode.IsSourceFromValueList = False
-        Me.fndBankCode.IsUnique = False
-        Me.fndBankCode.Location = New System.Drawing.Point(518, 118)
-        Me.fndBankCode.MendatroryField = True
-        Me.fndBankCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndBankCode.MyLinkLable2 = Nothing
-        Me.fndBankCode.MyReadOnly = False
-        Me.fndBankCode.MyShowMasterFormButton = False
-        Me.fndBankCode.Name = "fndBankCode"
-        Me.fndBankCode.ReferenceFieldDesc = Nothing
-        Me.fndBankCode.ReferenceFieldName = Nothing
-        Me.fndBankCode.ReferenceTableName = Nothing
-        Me.fndBankCode.Size = New System.Drawing.Size(127, 19)
-        Me.fndBankCode.TabIndex = 392
-        Me.fndBankCode.Value = ""
-        '
-        'lblBankCode
-        '
-        Me.lblBankCode.FieldName = Nothing
-        Me.lblBankCode.Location = New System.Drawing.Point(445, 119)
-        Me.lblBankCode.Name = "lblBankCode"
-        Me.lblBankCode.Size = New System.Drawing.Size(60, 18)
-        Me.lblBankCode.TabIndex = 390
-        Me.lblBankCode.Text = "Bank Code"
-        Me.lblBankCode.Visible = False
-        '
         'frmSalaryGeneration
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1258,12 +1256,12 @@ Partial Class frmSalaryGeneration
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtpaymentDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPaymentDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpGenerateDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCompany, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtpaymentDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblPaymentDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblBankCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

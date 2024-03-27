@@ -194,10 +194,10 @@ Public Class frmDesignationHierarchyMaster
     Sub SaveData()
         Try
             If fnddesig.Value = "" Then
-                myMessages.blankValue("Designation Code")
+                myMessages.blankValue(Me, "Designation Code", Me.Text)
                 fnddesig.Focus()
             ElseIf FndhigherDesg.Value = "" Then
-                myMessages.blankValue("Higher Designation Code")
+                myMessages.blankValue(Me, "Higher Designation Code", Me.Text)
                 fnddesig.Focus()
             Else
                 funinsert()
@@ -212,7 +212,7 @@ Public Class frmDesignationHierarchyMaster
     End Sub
     Sub DeleteData()
         If fnddesig.Value = "" Then
-            myMessages.blankValue("Designation Code")
+            myMessages.blankValue(Me, "Designation Code", Me.Text)
         ElseIf myMessages.deleteConfirm() Then
             fundelete()
             myMessages.delete()

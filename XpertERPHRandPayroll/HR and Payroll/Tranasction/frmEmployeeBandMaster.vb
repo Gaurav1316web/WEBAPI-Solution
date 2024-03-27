@@ -97,7 +97,7 @@ Public Class FrmEmployeeBandMaster
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtDesc.Text) <= 0 Then
-            myMessages.blankValue("Description")
+            myMessages.blankValue(Me, "Description", Me.Text)
             txtDesc.Focus()
             Return False
         End If

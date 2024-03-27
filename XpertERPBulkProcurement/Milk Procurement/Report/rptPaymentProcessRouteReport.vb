@@ -63,6 +63,9 @@ Public Class rptPaymentProcessRouteReport
             btnReset.Visible = True
             RadSplitExp.Visible = True
         End If
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
+            Payablechk.Visible = True
+        End If
         isLoad = False
     End Sub
     Sub Reset()
@@ -2028,7 +2031,12 @@ from TSPL_PAYMENT_PROCESS_DETAIL
 left join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No =TSPL_PAYMENT_PROCESS_DETAIL.Doc_No 
 left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader =TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader  
 left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No"
-            legerMainQuery += " where 2=2  and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1  "
+            legerMainQuery += " where 2=2  and convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 "
+
+            If Payablechk.Checked = True Then
+                legerMainQuery += " and TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount=0 "
+            End If
+
             If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
                 legerMainQuery += " and tspl_vlc_master_head.mcc in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ") "
             End If
@@ -2152,6 +2160,7 @@ SELECT 'TDS' as Ded_Code
             Dim HeadingDeduction2 As String = "<DEDUCTION>"
             Dim HeadingDeduction3 As String = "<DEDUCTION>"
             Dim HeadingDeduction4 As String = "<DEDUCTION>"
+            Dim HeadingDeduction5 As String = "<DEDUCTION>"
 
             For t As Integer = 0 To dtDeductionHeader.Rows.Count - 1
                 Math.DivRem((t + 1), 4, TempReminder)
@@ -2164,6 +2173,18 @@ SELECT 'TDS' as Ded_Code
                 ElseIf TempReminder = 0 Then
                     HeadingDeduction4 = HeadingDeduction4 + Environment.NewLine + dtDeductionHeader.Rows(t).Item("Ded_Code")
                 End If
+                'Math.DivRem((t + 1), 5, TempReminder)
+                'If TempReminder = 1 Then
+                '    HeadingDeduction1 = HeadingDeduction1 + Environment.NewLine + dtDeductionHeader.Rows(t).Item("Ded_Code")
+                'ElseIf TempReminder = 2 Then
+                '    HeadingDeduction2 = HeadingDeduction2 + Environment.NewLine + dtDeductionHeader.Rows(t).Item("Ded_Code")
+                'ElseIf TempReminder = 3 Then
+                '    HeadingDeduction3 = HeadingDeduction3 + Environment.NewLine + dtDeductionHeader.Rows(t).Item("Ded_Code")
+                'ElseIf TempReminder = 0 Then
+                '    HeadingDeduction4 = HeadingDeduction4 + Environment.NewLine + dtDeductionHeader.Rows(t).Item("Ded_Code")
+                'ElseIf TempReminder = 0 Then
+                '    HeadingDeduction5 = HeadingDeduction5 + Environment.NewLine + dtDeductionHeader.Rows(t).Item("Ded_Code")
+                'End If
             Next
 
             Dim HeadingDeduction1parts() As String = HeadingDeduction1.Split(Environment.NewLine)
@@ -2621,7 +2642,7 @@ inner join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DO
                 Gv1.EnableFiltering = True
                 RadPageView1.SelectedPage = RadPageViewPage2
                 Gv1.DataSource = dtMain
-                Gv1.TableElement.TableHeaderHeight = 60
+                Gv1.TableElement.TableHeaderHeight = 80
                 Gv1.MasterTemplate.ShowRowHeaderColumn = False
                 For ii As Integer = 0 To Gv1.Columns.Count - 1
                     Gv1.Columns(ii).ReadOnly = True
@@ -3107,6 +3128,30 @@ where FINAL.VSP_CODE1 is not null	group by FINAL.VSP_CODE1 "
             If dt IsNot Nothing And dt.Rows.Count > 0 Then
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryReport", "")
+                frmCRV = Nothing
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
+    Private Sub btnPrintDailySummaryRouteWise_Click(sender As Object, e As EventArgs) Handles btnPrintDailySummaryRouteWise.Click
+        Try
+            Dim qry As String = " select Comp_Name,Comp_City_Name,'" & objCommonVar.CurrentUser & "' as User_Name,XXXFinal.ROUTE_CODE,XXXFinal.route_name,FAT_KG,SNF_KG, XXXFinal.Doc_Date , XXXFinal.Quantity , cast ( ( XXXFinal.FAT_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as FATPer , cast ( (XXXFinal.SNF_KG * 100 /XXXFinal.Quantity) as decimal(18,2)) as SNFPer from (
+                                  SELECT TSPL_BULK_ROUTE_MASTER.ROUTE_NO as ROUTE_CODE,max(TSPL_BULK_ROUTE_MASTER.route_name) as Route_name, max(TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, max(TSPL_COMPANY_MASTER.City_Code) as Comp_City_Name , CONVERT(varchar,TSPL_MILK_SRN_HEAD.Doc_Date,103) as Doc_Date, sum( cast(TSPL_MILK_SRN_DETAIL.ACC_Qty as decimal(18,2))) AS Quantity ,sum(TSPL_MILK_SRN_DETAIL.FAT_KG) as FAT_KG, sum( TSPL_MILK_SRN_DETAIL.SNF_KG) as SNF_KG 								  
+								   from TSPL_MILK_SRN_DETAIL left outer join  TSPL_MILK_SRN_HEAD On  TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
+                                   left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_MILK_SRN_HEAD.Comp_Code 
+                                   left join  TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE  = TSPL_MILK_SRN_DETAIL.DOC_CODE
+								   left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO = TSPL_MILK_SRN_HEAD.ROUTE_CODE  
+                                  where CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103)>=convert(date,'" + dtpDailySummaryFromDate.Value + "',103)  and CONVERT(date,TSPL_MILK_SRN_HEAD.Doc_Date,103)<=convert(date,'" + dtpDailySummaryToDate.Value + "',103) group by CONVERT(varchar,TSPL_MILK_SRN_HEAD.Doc_Date,103),TSPL_BULK_ROUTE_MASTER.ROUTE_NO ) XXXFinal  order by convert (datetime, Doc_Date,103) asc  "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, Nothing, "rptDailySummaryRouteWiseReport", "")
                 frmCRV = Nothing
             Else
                 clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
@@ -4166,4 +4211,5 @@ TSPL_MILK_COLLECTION_MCC
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
 End Class

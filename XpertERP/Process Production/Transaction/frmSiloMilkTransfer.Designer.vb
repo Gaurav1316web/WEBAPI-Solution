@@ -22,6 +22,7 @@ Partial Class frmSiloMilkTransfer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -46,6 +47,7 @@ Partial Class frmSiloMilkTransfer
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.txtSilo = New common.UserControls.txtFinder()
+        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.btnShowInventory = New Telerik.WinControls.UI.RadButton()
         Me.btnunpost = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
@@ -53,7 +55,6 @@ Partial Class frmSiloMilkTransfer
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
-        Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -77,6 +78,7 @@ Partial Class frmSiloMilkTransfer
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnunpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -84,7 +86,6 @@ Partial Class frmSiloMilkTransfer
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -125,7 +126,6 @@ Partial Class frmSiloMilkTransfer
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(978, 484)
         Me.RadPageView1.TabIndex = 23
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -202,7 +202,6 @@ Partial Class frmSiloMilkTransfer
         Me.LblItemName.Name = "LblItemName"
         Me.LblItemName.Size = New System.Drawing.Size(313, 19)
         Me.LblItemName.TabIndex = 299
-        Me.LblItemName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'FndItemCode
         '
@@ -266,10 +265,13 @@ Partial Class frmSiloMilkTransfer
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -277,7 +279,6 @@ Partial Class frmSiloMilkTransfer
         Me.gv1.Size = New System.Drawing.Size(937, 255)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel1
         '
@@ -329,7 +330,6 @@ Partial Class frmSiloMilkTransfer
         Me.LblMainLocation.Name = "LblMainLocation"
         Me.LblMainLocation.Size = New System.Drawing.Size(313, 19)
         Me.LblMainLocation.TabIndex = 21
-        Me.LblMainLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.LblMainLocation.TextWrap = False
         '
         'RadLabel3
@@ -387,7 +387,7 @@ Partial Class frmSiloMilkTransfer
         Me.txtAdjustmentNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtAdjustmentNo.MyLinkLable1 = Me.RadLabel1
         Me.txtAdjustmentNo.MyLinkLable2 = Nothing
-        Me.txtAdjustmentNo.MyMaxLength = 32767
+        Me.txtAdjustmentNo.MyMaxLength = 30
         Me.txtAdjustmentNo.MyReadOnly = False
         Me.txtAdjustmentNo.Name = "txtAdjustmentNo"
         Me.txtAdjustmentNo.Size = New System.Drawing.Size(252, 20)
@@ -468,7 +468,6 @@ Partial Class frmSiloMilkTransfer
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(313, 19)
         Me.lblLocation.TabIndex = 10
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'txtSilo
@@ -496,6 +495,14 @@ Partial Class frmSiloMilkTransfer
         Me.txtSilo.Size = New System.Drawing.Size(166, 20)
         Me.txtSilo.TabIndex = 4
         Me.txtSilo.Value = ""
+        '
+        'btnHistory
+        '
+        Me.btnHistory.Location = New System.Drawing.Point(410, 2)
+        Me.btnHistory.Name = "btnHistory"
+        Me.btnHistory.Size = New System.Drawing.Size(71, 22)
+        Me.btnHistory.TabIndex = 37
+        Me.btnHistory.Text = "&History"
         '
         'btnShowInventory
         '
@@ -562,14 +569,6 @@ Partial Class frmSiloMilkTransfer
         Me.Panel1.Size = New System.Drawing.Size(982, 518)
         Me.Panel1.TabIndex = 2
         '
-        'btnHistory
-        '
-        Me.btnHistory.Location = New System.Drawing.Point(410, 2)
-        Me.btnHistory.Name = "btnHistory"
-        Me.btnHistory.Size = New System.Drawing.Size(71, 22)
-        Me.btnHistory.TabIndex = 37
-        Me.btnHistory.Text = "&History"
-        '
         'frmSiloMilkTransfer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -607,6 +606,7 @@ Partial Class frmSiloMilkTransfer
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnunpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
@@ -614,7 +614,6 @@ Partial Class frmSiloMilkTransfer
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

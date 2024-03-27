@@ -97,11 +97,11 @@ Public Class frmLeaveAllotment
     Function AllowToSave() As Boolean
 
         If clsCommon.myLen(txtPayPeriodCode.Value) <= 0 Then
-            myMessages.blankValue("Pay Period Code")
+            myMessages.blankValue(Me, "Pay Period Code", Me.Text)
             txtPayPeriodCode.Focus()
             Return False
         ElseIf clsCommon.myLen(txtEmpCode.Value) <= 0 Then
-            myMessages.blankValue("Employee Code")
+            myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtEmpCode.Focus()
             Return False
         End If

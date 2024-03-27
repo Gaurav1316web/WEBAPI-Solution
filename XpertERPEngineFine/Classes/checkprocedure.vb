@@ -849,6 +849,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptPerformanceReport, "Performance Report", "1.08.03.47", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.VehicleUnloadingReport, "Vehicle Unloading Report", "1.08.03.48", clsUserMgtCode.SubModulePurchaseReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptRMUnloading, "RM Unloading Report", "1.08.03.49", clsUserMgtCode.SubModulePurchaseReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTransactionWiseStock, "Transaction Wise Stock", "1.08.03.50", clsUserMgtCode.SubModulePurchaseReport, 37)
         '=================End=====================
 
 
@@ -1580,6 +1581,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DBTPayment, "DBT Payment", "1.17.02.51", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.DCSFinancialEntry, "DCS Financial Entry", "1.17.02.52", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCS, "DCS Milk Collection", "1.17.02.53", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmMakeSavingPayment, "Make Saving Payment", "1.17.02.54", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
 
         '=========================================================================================
         '--Reportsmdi
@@ -1718,21 +1720,27 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDCSFinancial, "DCS Financial Report", "1.17.03.98", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTruckSheetReport, "BMC Truck Sheet Report", "1.17.03.99", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDailyQtyReport, "Daily Qty Report", "1.17.03.100", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptPaymentCycleWiseReport, "Payment Cycle Wise Report", "1.17.03.101", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptTempTruckSheetCollectionReport, "Temp Truck Sheet Collection Report", "1.17.03.102", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptMobileAppMilkCollection, "Mobile App Milk Collection Report", "1.17.03.103", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmDBTRecoVsIncentiveReport, "DBT Reco Vs Incentive Report", "1.17.03.104", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmAutoAdditionDeductionReport, "Auto Addition/Deduction Report", "1.17.03.105", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, "Truck Sheet Daily Summary Report", "1.17.03.106", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, "Temporary Payment Deduction Summary", "1.17.03.107", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptAutoMultipleAdditionDeduction, "Auto Multiple Addition Deduction", "1.17.03.108", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptBmcCollection, "Bmc Collection Report", "1.17.03.109", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptDBTSummaryMonthlyWise, "DBT Year Wise Summary", "1.17.03.110", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptDBTMilkPayment, "DBT Milk Payment", "1.17.03.111", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptBMCTankerTestingReport, "BMC Tanker Testing Report", "1.17.03.112", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptMilkPaymentSummary, "Milk Payment Summary Report", "1.17.03.113", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptCattleFeedSaleReport, "Cattle Feed Sale Report", "1.17.03.115", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.rptTransferToSavingReport, "Transfer To Saving Report", "1.17.03.116", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDcsSecurity, "DCS Security Report", "1.17.03.101", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDayWiseCol, "Day Wise Collection Report", "1.17.03.102", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMarginAmt, "Margin Amount 2% ", "1.17.03.103", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptPaymentCycleWiseReport, "Payment Cycle Wise Report", "1.17.03.104", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTempTruckSheetCollectionReport, "Temp Truck Sheet Collection Report", "1.17.03.105", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMobileAppMilkCollection, "Mobile App Milk Collection Report", "1.17.03.106", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDBTRecoVsIncentiveReport, "DBT Reco Vs Incentive Report", "1.17.03.107", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmAutoAdditionDeductionReport, "Auto Addition/Deduction Report", "1.17.03.108", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, "Truck Sheet Daily Summary Report", "1.17.03.109", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, "Temporary Payment Deduction Summary", "1.17.03.110", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptAutoMultipleAdditionDeduction, "Auto Multiple Addition Deduction", "1.17.03.111", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBmcCollection, "Bmc Collection Report", "1.17.03.112", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDBTSummaryMonthlyWise, "DBT Year Wise Summary", "1.17.03.113", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDBTMilkPayment, "DBT Milk Payment", "1.17.03.114", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBMCTankerTestingReport, "BMC Tanker Testing Report", "1.17.03.115", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptMilkPaymentSummary, "Milk Payment Summary Report", "1.17.03.116", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptCattleFeedSaleReport, "Cattle Feed Sale Report", "1.17.03.117", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptTransferToSavingReport, "Transfer To Saving Report", "1.17.03.118", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptDcsPaymentReport, "Dcs Payment Report", "1.17.03.119", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDCSSavingLedger, "DCS Saving Ledger", "1.17.03.120", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 37)
+
 
         InsertDefaultValue(clsUserMgtCode.ModuleBulkMilkProcurement, "Milk Procurement Bulk", "1.18", clsUserMgtCode.ExpertERP, "M", 23)
         '' Bulk setup
@@ -2278,6 +2286,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDemandApproval, "Demand Approval", "1.36.02.27", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDemand_Sheet, "Demand Sheet", "1.36.02.28", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmDCSDEmandBooking, "DCS Demand", "1.36.02.29", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmBoothDispatch, "Booth Dispatch", "1.36.02.29", clsUserMgtCode.SubModuleSaleDairyTransaction, 8)
 
         '' end of transaction
 
@@ -2301,6 +2310,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptBookingQtyAmtReport, "Demand Booking Report", "1.36.03.17", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptSalesLedgerReport, "Sales Ledger Report", "1.36.03.18", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptAvgSaleDetailReport, "Average Sale Detail Report", "1.36.03.19", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptdairydispatch, "Dairy Dispatch Report", "1.36.03.20", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptRouteSaleRegister, "Route Sale Register", "1.36.03.21", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)
@@ -2816,6 +2827,11 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.SubModuleMilkUnion, "Report", "1.49.03", clsUserMgtCode.ModuleMilkUnion, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.rptMilkUnion, "Milk Union Report", "1.49.03.01", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.frmDBTNEFTUnionReport, "DBT Union Report", "1.49.03.02", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDBTStatusAndLastDPTStatus, "DBT Status And Last DPT Status", "1.49.03.03", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.frmDBTApprovalStatus, "DBT Approval Status", "1.49.03.04", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptDBTNEFTPaymentDetailReport, "DBT NEFT Payment Detail Report", "1.49.03.05", clsUserMgtCode.SubModuleMilkUnion, 8)
+
+
         Try
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.BankCashBook, "Bank Cash Book")
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.VehicleUtili, "Vehicle Utilization")

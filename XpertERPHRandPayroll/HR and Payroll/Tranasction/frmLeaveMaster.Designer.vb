@@ -25,29 +25,31 @@ Partial Class frmLeaveMaster
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmLeaveMaster))
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.CboAffectsSal = New common.Controls.MyComboBox
-        Me.MyLabel19 = New common.Controls.MyLabel
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem
-        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.txtPrintName = New common.Controls.MyTextBox
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.txtName = New common.Controls.MyTextBox
-        Me.MyLabel18 = New common.Controls.MyLabel
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lblempcode = New common.Controls.MyLabel
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.cboLeaveType = New common.Controls.MyComboBox
-        Me.MyLabel2 = New common.Controls.MyLabel
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.cboLeaveType = New common.Controls.MyComboBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.CboAffectsSal = New common.Controls.MyComboBox()
+        Me.MyLabel19 = New common.Controls.MyLabel()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemImport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemExport = New Telerik.WinControls.UI.RadMenuItem()
+        Me.MenuItemClose = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtPrintName = New common.Controls.MyTextBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtName = New common.Controls.MyTextBox()
+        Me.MyLabel18 = New common.Controls.MyLabel()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lblempcode = New common.Controls.MyLabel()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.cboLeaveType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CboAffectsSal, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -60,8 +62,6 @@ Partial Class frmLeaveMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboLeaveType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -98,23 +98,73 @@ Partial Class frmLeaveMaster
         Me.SplitContainer1.SplitterDistance = 160
         Me.SplitContainer1.TabIndex = 0
         '
+        'cboLeaveType
+        '
+        Me.cboLeaveType.AutoCompleteDisplayMember = Nothing
+        Me.cboLeaveType.AutoCompleteValueMember = Nothing
+        Me.cboLeaveType.BackColor = System.Drawing.Color.Transparent
+        Me.cboLeaveType.CalculationExpression = Nothing
+        Me.cboLeaveType.DropDownAnimationEnabled = True
+        Me.cboLeaveType.FieldCode = Nothing
+        Me.cboLeaveType.FieldDesc = Nothing
+        Me.cboLeaveType.FieldMaxLength = 0
+        Me.cboLeaveType.FieldName = Nothing
+        Me.cboLeaveType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboLeaveType.isCalculatedField = False
+        Me.cboLeaveType.IsSourceFromTable = False
+        Me.cboLeaveType.IsSourceFromValueList = False
+        Me.cboLeaveType.IsUnique = False
+        Me.cboLeaveType.Location = New System.Drawing.Point(130, 99)
+        Me.cboLeaveType.MendatroryField = True
+        Me.cboLeaveType.MyLinkLable1 = Me.MyLabel2
+        Me.cboLeaveType.MyLinkLable2 = Nothing
+        Me.cboLeaveType.Name = "cboLeaveType"
+        Me.cboLeaveType.ReferenceFieldDesc = Nothing
+        Me.cboLeaveType.ReferenceFieldName = Nothing
+        Me.cboLeaveType.ReferenceTableName = Nothing
+        Me.cboLeaveType.Size = New System.Drawing.Size(161, 18)
+        Me.cboLeaveType.TabIndex = 122
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(8, 101)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(65, 16)
+        Me.MyLabel2.TabIndex = 123
+        Me.MyLabel2.Text = "Leave Type"
+        '
         'CboAffectsSal
         '
-        Me.CboAffectsSal.AllowShowFocusCues = False
         Me.CboAffectsSal.AutoCompleteDisplayMember = Nothing
         Me.CboAffectsSal.AutoCompleteValueMember = Nothing
         Me.CboAffectsSal.BackColor = System.Drawing.Color.Transparent
+        Me.CboAffectsSal.CalculationExpression = Nothing
+        Me.CboAffectsSal.DropDownAnimationEnabled = True
+        Me.CboAffectsSal.FieldCode = Nothing
+        Me.CboAffectsSal.FieldDesc = Nothing
+        Me.CboAffectsSal.FieldMaxLength = 0
+        Me.CboAffectsSal.FieldName = Nothing
         Me.CboAffectsSal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.CboAffectsSal.isCalculatedField = False
+        Me.CboAffectsSal.IsSourceFromTable = False
+        Me.CboAffectsSal.IsSourceFromValueList = False
+        Me.CboAffectsSal.IsUnique = False
         Me.CboAffectsSal.Location = New System.Drawing.Point(130, 121)
         Me.CboAffectsSal.MendatroryField = True
         Me.CboAffectsSal.MyLinkLable1 = Me.MyLabel19
         Me.CboAffectsSal.MyLinkLable2 = Nothing
         Me.CboAffectsSal.Name = "CboAffectsSal"
+        Me.CboAffectsSal.ReferenceFieldDesc = Nothing
+        Me.CboAffectsSal.ReferenceFieldName = Nothing
+        Me.CboAffectsSal.ReferenceTableName = Nothing
         Me.CboAffectsSal.Size = New System.Drawing.Size(161, 18)
         Me.CboAffectsSal.TabIndex = 4
         '
         'MyLabel19
         '
+        Me.MyLabel19.FieldName = Nothing
         Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel19.Location = New System.Drawing.Point(8, 123)
         Me.MyLabel19.Name = "MyLabel19"
@@ -129,40 +179,27 @@ Partial Class frmLeaveMaster
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(510, 20)
         Me.RadMenu2.TabIndex = 121
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
-        Me.MenuItemImport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
-        Me.MenuItemExport.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
-        Me.MenuItemClose.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'btnNew
         '
@@ -175,18 +212,31 @@ Partial Class frmLeaveMaster
         '
         'txtPrintName
         '
+        Me.txtPrintName.CalculationExpression = Nothing
+        Me.txtPrintName.FieldCode = Nothing
+        Me.txtPrintName.FieldDesc = Nothing
+        Me.txtPrintName.FieldMaxLength = 0
+        Me.txtPrintName.FieldName = Nothing
         Me.txtPrintName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPrintName.isCalculatedField = False
+        Me.txtPrintName.IsSourceFromTable = False
+        Me.txtPrintName.IsSourceFromValueList = False
+        Me.txtPrintName.IsUnique = False
         Me.txtPrintName.Location = New System.Drawing.Point(130, 77)
         Me.txtPrintName.MaxLength = 49
         Me.txtPrintName.MendatroryField = True
         Me.txtPrintName.MyLinkLable1 = Me.MyLabel1
         Me.txtPrintName.MyLinkLable2 = Nothing
         Me.txtPrintName.Name = "txtPrintName"
+        Me.txtPrintName.ReferenceFieldDesc = Nothing
+        Me.txtPrintName.ReferenceFieldName = Nothing
+        Me.txtPrintName.ReferenceTableName = Nothing
         Me.txtPrintName.Size = New System.Drawing.Size(355, 18)
         Me.txtPrintName.TabIndex = 3
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel1.Location = New System.Drawing.Point(8, 78)
         Me.MyLabel1.Name = "MyLabel1"
@@ -196,18 +246,31 @@ Partial Class frmLeaveMaster
         '
         'txtName
         '
+        Me.txtName.CalculationExpression = Nothing
+        Me.txtName.FieldCode = Nothing
+        Me.txtName.FieldDesc = Nothing
+        Me.txtName.FieldMaxLength = 0
+        Me.txtName.FieldName = Nothing
         Me.txtName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtName.isCalculatedField = False
+        Me.txtName.IsSourceFromTable = False
+        Me.txtName.IsSourceFromValueList = False
+        Me.txtName.IsUnique = False
         Me.txtName.Location = New System.Drawing.Point(130, 55)
         Me.txtName.MaxLength = 49
         Me.txtName.MendatroryField = True
         Me.txtName.MyLinkLable1 = Me.MyLabel18
         Me.txtName.MyLinkLable2 = Nothing
         Me.txtName.Name = "txtName"
+        Me.txtName.ReferenceFieldDesc = Nothing
+        Me.txtName.ReferenceFieldName = Nothing
+        Me.txtName.ReferenceTableName = Nothing
         Me.txtName.Size = New System.Drawing.Size(355, 18)
         Me.txtName.TabIndex = 2
         '
         'MyLabel18
         '
+        Me.MyLabel18.FieldName = Nothing
         Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel18.Location = New System.Drawing.Point(8, 56)
         Me.MyLabel18.Name = "MyLabel18"
@@ -217,13 +280,14 @@ Partial Class frmLeaveMaster
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(130, 30)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Nothing
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(208, 21)
@@ -232,6 +296,7 @@ Partial Class frmLeaveMaster
         '
         'lblempcode
         '
+        Me.lblempcode.FieldName = Nothing
         Me.lblempcode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblempcode.Location = New System.Drawing.Point(8, 32)
         Me.lblempcode.Name = "lblempcode"
@@ -269,30 +334,6 @@ Partial Class frmLeaveMaster
         Me.btnclose.TabIndex = 2
         Me.btnclose.Text = "Close"
         '
-        'cboLeaveType
-        '
-        Me.cboLeaveType.AllowShowFocusCues = False
-        Me.cboLeaveType.AutoCompleteDisplayMember = Nothing
-        Me.cboLeaveType.AutoCompleteValueMember = Nothing
-        Me.cboLeaveType.BackColor = System.Drawing.Color.Transparent
-        Me.cboLeaveType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboLeaveType.Location = New System.Drawing.Point(130, 99)
-        Me.cboLeaveType.MendatroryField = True
-        Me.cboLeaveType.MyLinkLable1 = Me.MyLabel2
-        Me.cboLeaveType.MyLinkLable2 = Nothing
-        Me.cboLeaveType.Name = "cboLeaveType"
-        Me.cboLeaveType.Size = New System.Drawing.Size(161, 18)
-        Me.cboLeaveType.TabIndex = 122
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(8, 101)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(65, 16)
-        Me.MyLabel2.TabIndex = 123
-        Me.MyLabel2.Text = "Leave Type"
-        '
         'frmLeaveMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -309,6 +350,8 @@ Partial Class frmLeaveMaster
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.cboLeaveType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CboAffectsSal, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -321,8 +364,6 @@ Partial Class frmLeaveMaster
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboLeaveType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

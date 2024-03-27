@@ -22,6 +22,8 @@ Partial Class FrmCustomerPermission
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.rlblUserCode = New common.Controls.MyLabel()
         Me.fndUser_Name = New common.UserControls.txtNavigator()
@@ -115,7 +117,7 @@ Partial Class FrmCustomerPermission
         Me.fndUser_Name.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndUser_Name.MyLinkLable1 = Nothing
         Me.fndUser_Name.MyLinkLable2 = Nothing
-        Me.fndUser_Name.MyMaxLength = 32767
+        Me.fndUser_Name.MyMaxLength = 30
         Me.fndUser_Name.MyReadOnly = False
         Me.fndUser_Name.Name = "fndUser_Name"
         Me.fndUser_Name.Size = New System.Drawing.Size(210, 21)
@@ -200,19 +202,21 @@ Partial Class FrmCustomerPermission
         '
         Me.GvCustomer.Location = New System.Drawing.Point(8, 50)
         '
-        'GvCustomer
+        '
         '
         Me.GvCustomer.MasterTemplate.AllowAddNewRow = False
         Me.GvCustomer.MasterTemplate.AllowEditRow = False
         Me.GvCustomer.MasterTemplate.EnableFiltering = True
+        Me.GvCustomer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GvCustomer.MasterTemplate.ShowHeaderCellButtons = True
+        Me.GvCustomer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.GvCustomer.MyStopExport = False
         Me.GvCustomer.Name = "GvCustomer"
         Me.GvCustomer.ShowGroupPanel = False
         Me.GvCustomer.ShowHeaderCellButtons = True
         Me.GvCustomer.Size = New System.Drawing.Size(672, 311)
         Me.GvCustomer.TabIndex = 1
         Me.GvCustomer.TabStop = False
-        Me.GvCustomer.Text = "RadGridView1"
         '
         'GrpCustomerGroup
         '
@@ -258,19 +262,21 @@ Partial Class FrmCustomerPermission
         '
         Me.gv.Location = New System.Drawing.Point(8, 50)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AllowEditRow = False
         Me.gv.MasterTemplate.EnableFiltering = True
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowGroupPanel = False
         Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(320, 311)
         Me.gv.TabIndex = 1
         Me.gv.TabStop = False
-        Me.gv.Text = "RadGridView1"
         '
         'rbtnDelete
         '
@@ -307,27 +313,20 @@ Partial Class FrmCustomerPermission
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1054, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.Import, Me.Export})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
         '
         'Import
         '
-        Me.Import.AccessibleDescription = "Import"
-        Me.Import.AccessibleName = "Import"
         Me.Import.Name = "Import"
         Me.Import.Text = "Import"
         '
         'Export
         '
-        Me.Export.AccessibleDescription = "Export"
-        Me.Export.AccessibleName = "Export"
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '

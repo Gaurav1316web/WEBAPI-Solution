@@ -25,6 +25,7 @@ Partial Class frmAllowanceDetails
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmAllowanceDetails))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
@@ -50,12 +51,12 @@ Partial Class frmAllowanceDetails
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
         Me.gvAllowance = New common.UserControls.MyRadGridView()
+        Me.lblTotRAmt1 = New common.Controls.MyLabel()
+        Me.MyLabel5 = New common.Controls.MyLabel()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel5 = New common.Controls.MyLabel()
-        Me.lblTotRAmt1 = New common.Controls.MyLabel()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -76,12 +77,12 @@ Partial Class frmAllowanceDetails
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvAllowance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvAllowance.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -92,27 +93,20 @@ Partial Class frmAllowanceDetails
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(718, 20)
         Me.RadMenu2.TabIndex = 15
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem4, Me.RadMenuItem1})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Export Blank Sheet"
-        Me.RadMenuItem4.AccessibleName = "Export Blank Sheet"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Export Blank Sheet"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Import"
-        Me.RadMenuItem1.AccessibleName = "Import"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Import"
         '
@@ -184,7 +178,6 @@ Partial Class frmAllowanceDetails
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(298, 19)
         Me.lblLocationDesc.TabIndex = 259
-        Me.lblLocationDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel9
         '
@@ -241,7 +234,6 @@ Partial Class frmAllowanceDetails
         Me.lblAllowanceByName.Name = "lblAllowanceByName"
         Me.lblAllowanceByName.Size = New System.Drawing.Size(298, 19)
         Me.lblAllowanceByName.TabIndex = 203
-        Me.lblAllowanceByName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnNew
         '
@@ -261,7 +253,6 @@ Partial Class frmAllowanceDetails
         Me.lblPayPeriodName.Name = "lblPayPeriodName"
         Me.lblPayPeriodName.Size = New System.Drawing.Size(298, 19)
         Me.lblPayPeriodName.TabIndex = 200
-        Me.lblPayPeriodName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'findPayperiod
         '
@@ -420,7 +411,7 @@ Partial Class frmAllowanceDetails
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(221, 21)
@@ -449,19 +440,45 @@ Partial Class frmAllowanceDetails
         Me.gvAllowance.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvAllowance.Location = New System.Drawing.Point(9, 214)
         '
-        'gvAllowance
+        '
         '
         Me.gvAllowance.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvAllowance.MasterTemplate.AllowAddNewRow = False
         Me.gvAllowance.MasterTemplate.AutoGenerateColumns = False
         Me.gvAllowance.MasterTemplate.EnableGrouping = False
+        Me.gvAllowance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAllowance.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAllowance.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvAllowance.MyStopExport = False
         Me.gvAllowance.Name = "gvAllowance"
         Me.gvAllowance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAllowance.ShowHeaderCellButtons = True
         Me.gvAllowance.Size = New System.Drawing.Size(699, 249)
         Me.gvAllowance.TabIndex = 6
-        Me.gvAllowance.Text = "RadGridView4"
+        '
+        'lblTotRAmt1
+        '
+        Me.lblTotRAmt1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTotRAmt1.AutoSize = False
+        Me.lblTotRAmt1.BorderVisible = True
+        Me.lblTotRAmt1.FieldName = Nothing
+        Me.lblTotRAmt1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotRAmt1.Location = New System.Drawing.Point(521, 8)
+        Me.lblTotRAmt1.Name = "lblTotRAmt1"
+        Me.lblTotRAmt1.Size = New System.Drawing.Size(115, 20)
+        Me.lblTotRAmt1.TabIndex = 137
+        Me.lblTotRAmt1.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'MyLabel5
+        '
+        Me.MyLabel5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(399, 10)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(118, 16)
+        Me.MyLabel5.TabIndex = 127
+        Me.MyLabel5.Text = "Total Allowance Amt"
         '
         'btnPost
         '
@@ -503,30 +520,6 @@ Partial Class frmAllowanceDetails
         Me.btndelete.TabIndex = 2
         Me.btndelete.Text = "Delete"
         '
-        'MyLabel5
-        '
-        Me.MyLabel5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.MyLabel5.FieldName = Nothing
-        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel5.Location = New System.Drawing.Point(399, 10)
-        Me.MyLabel5.Name = "MyLabel5"
-        Me.MyLabel5.Size = New System.Drawing.Size(118, 16)
-        Me.MyLabel5.TabIndex = 127
-        Me.MyLabel5.Text = "Total Allowance Amt"
-        '
-        'lblTotRAmt1
-        '
-        Me.lblTotRAmt1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblTotRAmt1.AutoSize = False
-        Me.lblTotRAmt1.BorderVisible = True
-        Me.lblTotRAmt1.FieldName = Nothing
-        Me.lblTotRAmt1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt1.Location = New System.Drawing.Point(521, 8)
-        Me.lblTotRAmt1.Name = "lblTotRAmt1"
-        Me.lblTotRAmt1.Size = New System.Drawing.Size(115, 20)
-        Me.lblTotRAmt1.TabIndex = 137
-        Me.lblTotRAmt1.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
         'frmAllowanceDetails
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -562,12 +555,12 @@ Partial Class frmAllowanceDetails
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvAllowance.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvAllowance, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

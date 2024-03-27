@@ -339,27 +339,27 @@ Public Class FrmBankTransfer
             ''
 
             If Txt_frombankCode.Value = "" Then
-                myMessages.blankValue("Bank Code")
+                myMessages.blankValue(Me, "Bank Code", Me.Text)
                 Txt_frombankCode.Focus()
                 Exit Sub
             ElseIf txt_frombankname.Text = "" Then
-                myMessages.blankValue("Bank Name")
+                myMessages.blankValue(Me, "Bank Name", Me.Text)
                 txt_frombankname.Focus()
                 Exit Sub
             ElseIf txt_transferamount.Text = "" Then
-                myMessages.blankValue("Transfer Amount")
+                myMessages.blankValue(Me, "Transfer Amount", Me.Text)
                 txt_transferamount.Focus()
                 Exit Sub
             ElseIf Txt_toBankCode.Value = "" Then
-                myMessages.blankValue("Bank Code")
+                myMessages.blankValue(Me, "Bank Code", Me.Text)
                 Txt_toBankCode.Focus()
                 Exit Sub
             ElseIf txt_tobankname.Text = "" Then
-                myMessages.blankValue("Bank Name")
+                myMessages.blankValue(Me, "Bank Name", Me.Text)
                 txt_tobankname.Focus()
                 Exit Sub
             ElseIf txt_depositamount.Text = "" Then
-                myMessages.blankValue("Deposit Amount")
+                myMessages.blankValue(Me, "Deposit Amount", Me.Text)
                 txt_depositamount.Focus()
                 Exit Sub
             ElseIf txtchkno.Text = "" And chkCheckPrint.Checked = False Then

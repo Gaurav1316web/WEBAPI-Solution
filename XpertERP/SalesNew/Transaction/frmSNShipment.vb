@@ -233,6 +233,7 @@ Public Class frmSNShipment
     Dim DoNotConsiderCustomerCreditLimit As Integer = 0
     Dim DonotIncludeSecurityInCustomerOutstanding As Boolean = False
     Public DocumentNo As String = Nothing
+    Dim SettCheckBalanceOnSave As Boolean = False
 #End Region
 
     Public Sub SetUserMgmtNew()
@@ -266,6 +267,7 @@ Public Class frmSNShipment
     End Sub
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        SettCheckBalanceOnSave = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.CheckBalanceOnSave, clsFixedParameterCode.RCDFCFDispatch, Nothing))
         SettAutoCreateSaleInvoice = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoCreateSaleInvoice, clsFixedParameterCode.AutoCreateSaleInvoice, Nothing))
         AmountToCheckCustomerOutstandingForTCSTax = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AmountToCheckCustomerOutstandingForTCSTax, clsFixedParameterCode.AmountToCheckCustomerOutstandingForTCSTax, Nothing))
         AllowtoChangeTCSBaseAmount = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowtoChangeTCSBaseAmount, clsFixedParameterCode.AllowtoChangeTCSBaseAmount, Nothing)) = 0, False, True)
@@ -3687,27 +3689,28 @@ Public Class frmSNShipment
                         Next
                     End If
 
+                    If SettCheckBalanceOnSave Then
+                        Dim dblOuterConvFac As Double = clsItemMaster.GetConvertionFactor(strICode, strUOM, Nothing)
+                        Dim dblBalQty As Double = clsItemLocationDetails.getBalance(strICode, txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, strUOM, 0)
 
-                    Dim dblOuterConvFac As Double = clsItemMaster.GetConvertionFactor(strICode, strUOM, Nothing)
-                    Dim dblBalQty As Double = clsItemLocationDetails.getBalance(strICode, txtBillToLocation.Value, txtDocNo.Value, txtDate.Value, Nothing, strUOM, 0)
-
-                    Dim dblEnteredQty As Double = dblQty
-                    For jj As Integer = 0 To gv1.Rows.Count - 1
-                        If ii = jj Then
-                            Continue For
+                        Dim dblEnteredQty As Double = dblQty
+                        For jj As Integer = 0 To gv1.Rows.Count - 1
+                            If ii = jj Then
+                                Continue For
+                            End If
+                            Dim strICodeInner As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)
+                            Dim strUOMInner As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value)
+                            Dim dblQtyInner As Double = clsCommon.myCdbl(gv1.Rows(jj).Cells(colQty).Value)
+                            Dim dblInnerConvFac As Double = clsItemMaster.GetConvertionFactor(strICodeInner, strUOMInner, Nothing)
+                            If dblQtyInner > 0 AndAlso clsCommon.CompairString(strICodeInner, strICode) = CompairStringResult.Equal Then
+                                dblEnteredQty += dblQtyInner
+                            End If
+                        Next
+                        dblEnteredQty = Math.Round(dblEnteredQty, 2, MidpointRounding.ToEven)
+                        If dblEnteredQty > dblBalQty Then
+                            clsCommon.MyMessageBoxShow(Me, "Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblEnteredQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty), Me.Text)
+                            Return False
                         End If
-                        Dim strICodeInner As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colICode).Value)
-                        Dim strUOMInner As String = clsCommon.myCstr(gv1.Rows(jj).Cells(colUnit).Value)
-                        Dim dblQtyInner As Double = clsCommon.myCdbl(gv1.Rows(jj).Cells(colQty).Value)
-                        Dim dblInnerConvFac As Double = clsItemMaster.GetConvertionFactor(strICodeInner, strUOMInner, Nothing)
-                        If dblQtyInner > 0 AndAlso clsCommon.CompairString(strICodeInner, strICode) = CompairStringResult.Equal Then
-                            dblEnteredQty += dblQtyInner
-                        End If
-                    Next
-                    dblEnteredQty = Math.Round(dblEnteredQty, 2, MidpointRounding.ToEven)
-                    If dblEnteredQty > dblBalQty Then
-                        clsCommon.MyMessageBoxShow(Me, "Item - " + strICode + Environment.NewLine + "Entered Quantity - " + clsCommon.myCstr(dblEnteredQty) + " and Balance Quantity - " + clsCommon.myCstr(dblBalQty), Me.Text)
-                        Return False
                     End If
                 End If
                 If clsCommon.myCBool(gv1.Rows(ii).Cells(colIsSerialseItem).Value) Then
@@ -7546,7 +7549,7 @@ Public Class frmSNShipment
 
     Private Sub btnPrintInvoice_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrintInvoice.Click
         If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             'Dim objInvoice As New frmSNSaleInvoice
             'objInvoice.funPrint(txtInvoiceNo.Text, False)
@@ -9562,7 +9565,7 @@ a:          End If
 
     Private Sub btnPrintA4_Click(sender As Object, e As EventArgs) Handles btnPrintA4.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             funPrint(True)
         End If
@@ -9570,7 +9573,7 @@ a:          End If
 
     Private Sub btnPrintA5_Click(sender As Object, e As EventArgs) Handles btnPrintA5.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             funPrint(False)
         End If

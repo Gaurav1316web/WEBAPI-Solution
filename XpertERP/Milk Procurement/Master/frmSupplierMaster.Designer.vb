@@ -86,7 +86,6 @@ Partial Class frmSupplierMaster
         Me.lblVendor.Name = "lblVendor"
         Me.lblVendor.Size = New System.Drawing.Size(287, 18)
         Me.lblVendor.TabIndex = 7
-        Me.lblVendor.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendor.TextWrap = False
         '
         'txtVendorCode
@@ -134,7 +133,7 @@ Partial Class frmSupplierMaster
         Me.fndSupplierCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndSupplierCode.MyLinkLable1 = Me.lblCode
         Me.fndSupplierCode.MyLinkLable2 = Nothing
-        Me.fndSupplierCode.MyMaxLength = 32767
+        Me.fndSupplierCode.MyMaxLength = 30
         Me.fndSupplierCode.MyReadOnly = False
         Me.fndSupplierCode.Name = "fndSupplierCode"
         Me.fndSupplierCode.Size = New System.Drawing.Size(199, 21)
@@ -254,12 +253,9 @@ Partial Class frmSupplierMaster
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Size = New System.Drawing.Size(563, 20)
         Me.rdmenufile.TabIndex = 1
-        Me.rdmenufile.Text = "File"
         '
         'RadMenufile
         '
-        Me.RadMenufile.AccessibleDescription = "File"
-        Me.RadMenufile.AccessibleName = "File"
         Me.RadMenufile.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenuimport, Me.rdmenuexport, Me.rdmenuexit})
         Me.RadMenufile.Name = "RadMenufile"
         Me.RadMenufile.Text = "File"
@@ -273,15 +269,11 @@ Partial Class frmSupplierMaster
         '
         'rdmenuexport
         '
-        Me.rdmenuexport.AccessibleDescription = "Export"
-        Me.rdmenuexport.AccessibleName = "Export"
         Me.rdmenuexport.Name = "rdmenuexport"
         Me.rdmenuexport.Text = "Export"
         '
         'rdmenuexit
         '
-        Me.rdmenuexit.AccessibleDescription = "Exit"
-        Me.rdmenuexit.AccessibleName = "Exit"
         Me.rdmenuexit.Name = "rdmenuexit"
         Me.rdmenuexit.Text = "Exit"
         '

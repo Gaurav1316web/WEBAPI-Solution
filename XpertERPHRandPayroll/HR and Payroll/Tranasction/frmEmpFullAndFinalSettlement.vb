@@ -849,15 +849,15 @@ Public Class frmEmpFullAndFinalSettlement
         End If
 
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue("Employee Code")
+            myMessages.blankValue(Me, "Employee Code", Me.Text)
             txtCode.Focus()
             Return False
         ElseIf clsCommon.myLen(fndLastSalaryPayperiodCode.Value) <= 0 Then
-            myMessages.blankValue("Last Salary Pay Period Code")
+            myMessages.blankValue(Me, "Last Salary Pay Period Code", Me.Text)
             fndLastSalaryPayperiodCode.Focus()
             Return False
         ElseIf clsCommon.myLen(Me.lblDesignationId.Text) <= 0 Then
-            myMessages.blankValue("Please update Designation of employee.")
+            myMessages.blankValue(Me, "Please update Designation of employee.", Me.Text)
             Return False
         End If
         If CheckNoDuesAndAssets(txtCode.Value) = False Then

@@ -396,11 +396,11 @@ Partial Class frmDistributorCommission
         Me.txtDocNo.FieldName = Nothing
         Me.txtDocNo.Location = New System.Drawing.Point(114, 11)
         Me.txtDocNo.MendatroryField = False
-        Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
+        Me.txtDocNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Nothing
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(228, 19)

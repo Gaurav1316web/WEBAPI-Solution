@@ -52,7 +52,7 @@ Public Class FrmFaultCategory
     Private Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(clsCommon.myCstr(TxtCode.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(TxtCode.Value)) > 30 Then
-                myMessages.blankValue("Code")
+                myMessages.blankValue(Me, "Code", Me.Text)
                 TxtCode.Focus()
                 TxtCode.Select()
                 Errorcontrol.SetError(TxtCode, "Code")
@@ -61,7 +61,7 @@ Public Class FrmFaultCategory
                 Errorcontrol.ResetError(TxtCode)
             End If
             If clsCommon.myLen(clsCommon.myCstr(TxtDesp.Text)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(TxtDesp.Text)) > 150 Then
-                myMessages.blankValue("Description")
+                myMessages.blankValue(Me, "Description", Me.Text)
                 TxtDesp.Focus()
                 TxtDesp.Select()
                 Errorcontrol.SetError(TxtDesp, "Description")

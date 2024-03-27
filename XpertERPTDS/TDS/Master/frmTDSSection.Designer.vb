@@ -72,12 +72,9 @@ Partial Class frmTDSSection
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(577, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.menuImport, Me.Export, Me.menuclose})
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
@@ -91,15 +88,11 @@ Partial Class frmTDSSection
         '
         'Export
         '
-        Me.Export.AccessibleDescription = "Export"
-        Me.Export.AccessibleName = "Export"
         Me.Export.Name = "Export"
         Me.Export.Text = "Export"
         '
         'menuclose
         '
-        Me.menuclose.AccessibleDescription = "Close"
-        Me.menuclose.AccessibleName = "Close"
         Me.menuclose.Name = "menuclose"
         Me.menuclose.Text = "Close"
         '
@@ -135,7 +128,7 @@ Partial Class frmTDSSection
         Me.fndTdsSectionNew.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndTdsSectionNew.MyLinkLable1 = Me.lblcode
         Me.fndTdsSectionNew.MyLinkLable2 = Nothing
-        Me.fndTdsSectionNew.MyMaxLength = 32767
+        Me.fndTdsSectionNew.MyMaxLength = 30
         Me.fndTdsSectionNew.MyReadOnly = False
         Me.fndTdsSectionNew.Name = "fndTdsSectionNew"
         Me.fndTdsSectionNew.Size = New System.Drawing.Size(264, 21)

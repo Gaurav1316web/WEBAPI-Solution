@@ -22,6 +22,8 @@ Partial Class frmIssueReturn
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -117,6 +119,7 @@ Partial Class frmIssueReturn
         Me.RadLabel25 = New common.Controls.MyLabel()
         Me.lblTaxAmt = New common.Controls.MyLabel()
         Me.lblAmtAfterDiscount = New common.Controls.MyLabel()
+        Me.btnJE = New Telerik.WinControls.UI.RadButton()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         Me.butCostCenterAndHirerachy_Update_AfterPost = New Telerik.WinControls.UI.RadButton()
         Me.btncancel = New Telerik.WinControls.UI.RadButton()
@@ -127,7 +130,6 @@ Partial Class frmIssueReturn
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnJE = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -211,6 +213,7 @@ Partial Class frmIssueReturn
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTaxAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblAmtAfterDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btncancel, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -221,7 +224,6 @@ Partial Class frmIssueReturn
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -270,7 +272,6 @@ Partial Class frmIssueReturn
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(970, 479)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -358,7 +359,6 @@ Partial Class frmIssueReturn
         Me.lblUnitDesc.Name = "lblUnitDesc"
         Me.lblUnitDesc.Size = New System.Drawing.Size(182, 18)
         Me.lblUnitDesc.TabIndex = 89
-        Me.lblUnitDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblUnitDesc.TextWrap = False
         '
         'lblCostcenterTypeDesc
@@ -371,7 +371,6 @@ Partial Class frmIssueReturn
         Me.lblCostcenterTypeDesc.Name = "lblCostcenterTypeDesc"
         Me.lblCostcenterTypeDesc.Size = New System.Drawing.Size(182, 18)
         Me.lblCostcenterTypeDesc.TabIndex = 94
-        Me.lblCostcenterTypeDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblCostcenterTypeDesc.TextWrap = False
         '
         'txtUnitCode
@@ -499,7 +498,6 @@ Partial Class frmIssueReturn
         Me.lbl_capexcode.Name = "lbl_capexcode"
         Me.lbl_capexcode.Size = New System.Drawing.Size(226, 19)
         Me.lbl_capexcode.TabIndex = 92
-        Me.lbl_capexcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_capexcode.TextWrap = False
         '
         'fndcapexcode
@@ -569,7 +567,6 @@ Partial Class frmIssueReturn
         Me.lbl_rebudgetamt.Name = "lbl_rebudgetamt"
         Me.lbl_rebudgetamt.Size = New System.Drawing.Size(119, 20)
         Me.lbl_rebudgetamt.TabIndex = 87
-        Me.lbl_rebudgetamt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_rebudgetamt.TextWrap = False
         '
         'MyLabel24
@@ -602,7 +599,6 @@ Partial Class frmIssueReturn
         Me.lbl_rebudgetamtwithtolerence.Name = "lbl_rebudgetamtwithtolerence"
         Me.lbl_rebudgetamtwithtolerence.Size = New System.Drawing.Size(108, 19)
         Me.lbl_rebudgetamtwithtolerence.TabIndex = 89
-        Me.lbl_rebudgetamtwithtolerence.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_rebudgetamtwithtolerence.TextWrap = False
         '
         'lbl_budgetamt
@@ -615,7 +611,6 @@ Partial Class frmIssueReturn
         Me.lbl_budgetamt.Name = "lbl_budgetamt"
         Me.lbl_budgetamt.Size = New System.Drawing.Size(119, 20)
         Me.lbl_budgetamt.TabIndex = 83
-        Me.lbl_budgetamt.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_budgetamt.TextWrap = False
         '
         'lbl_budgetamtwithtolerence
@@ -628,7 +623,6 @@ Partial Class frmIssueReturn
         Me.lbl_budgetamtwithtolerence.Name = "lbl_budgetamtwithtolerence"
         Me.lbl_budgetamtwithtolerence.Size = New System.Drawing.Size(107, 19)
         Me.lbl_budgetamtwithtolerence.TabIndex = 85
-        Me.lbl_budgetamtwithtolerence.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_budgetamtwithtolerence.TextWrap = False
         '
         'fndcapexsubcode
@@ -667,7 +661,6 @@ Partial Class frmIssueReturn
         Me.lbl_capexsubcode.Name = "lbl_capexsubcode"
         Me.lbl_capexsubcode.Size = New System.Drawing.Size(243, 19)
         Me.lbl_capexsubcode.TabIndex = 81
-        Me.lbl_capexsubcode.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lbl_capexsubcode.TextWrap = False
         '
         'MyLabel30
@@ -689,13 +682,20 @@ Partial Class frmIssueReturn
         Me.gv1.ForeColor = System.Drawing.Color.Black
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
+        Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(944, 65)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'chkReProcess
         '
@@ -771,7 +771,6 @@ Partial Class frmIssueReturn
         Me.lblVendor.Name = "lblVendor"
         Me.lblVendor.Size = New System.Drawing.Size(99, 19)
         Me.lblVendor.TabIndex = 47
-        Me.lblVendor.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendor.TextWrap = False
         '
         'MyLabel6
@@ -838,7 +837,6 @@ Partial Class frmIssueReturn
         Me.lblDepartment.Name = "lblDepartment"
         Me.lblDepartment.Size = New System.Drawing.Size(196, 19)
         Me.lblDepartment.TabIndex = 42
-        Me.lblDepartment.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblDepartment.TextWrap = False
         '
         'MyLabel3
@@ -992,7 +990,6 @@ Partial Class frmIssueReturn
         Me.lblReq3.Name = "lblReq3"
         Me.lblReq3.Size = New System.Drawing.Size(163, 20)
         Me.lblReq3.TabIndex = 32
-        Me.lblReq3.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblReq3.TextWrap = False
         Me.lblReq3.Visible = False
         '
@@ -1017,7 +1014,6 @@ Partial Class frmIssueReturn
         Me.lblReqDate.Name = "lblReqDate"
         Me.lblReqDate.Size = New System.Drawing.Size(196, 20)
         Me.lblReqDate.TabIndex = 38
-        Me.lblReqDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblReqDate.TextWrap = False
         '
         'lblReq
@@ -1066,7 +1062,6 @@ Partial Class frmIssueReturn
         Me.lblIssueTo.Name = "lblIssueTo"
         Me.lblIssueTo.Size = New System.Drawing.Size(196, 19)
         Me.lblIssueTo.TabIndex = 37
-        Me.lblIssueTo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblIssueTo.TextWrap = False
         '
         'lblVehicleDesc
@@ -1079,7 +1074,6 @@ Partial Class frmIssueReturn
         Me.lblVehicleDesc.Name = "lblVehicleDesc"
         Me.lblVehicleDesc.Size = New System.Drawing.Size(277, 18)
         Me.lblVehicleDesc.TabIndex = 20
-        Me.lblVehicleDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVehicleDesc.TextWrap = False
         '
         'MyLabel4
@@ -1148,7 +1142,6 @@ Partial Class frmIssueReturn
         Me.lblToLocation.Name = "lblToLocation"
         Me.lblToLocation.Size = New System.Drawing.Size(181, 18)
         Me.lblToLocation.TabIndex = 35
-        Me.lblToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblToLocation.TextWrap = False
         '
         'RadLabel4
@@ -1171,7 +1164,6 @@ Partial Class frmIssueReturn
         Me.lblRequestBy.Name = "lblRequestBy"
         Me.lblRequestBy.Size = New System.Drawing.Size(181, 19)
         Me.lblRequestBy.TabIndex = 34
-        Me.lblRequestBy.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblRequestBy.TextWrap = False
         '
         'chkOnHold
@@ -1213,7 +1205,6 @@ Partial Class frmIssueReturn
         Me.lblFromLocation.Name = "lblFromLocation"
         Me.lblFromLocation.Size = New System.Drawing.Size(196, 18)
         Me.lblFromLocation.TabIndex = 36
-        Me.lblFromLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFromLocation.TextWrap = False
         '
         'RadLabel2
@@ -1355,6 +1346,7 @@ Partial Class frmIssueReturn
         Me.cboDocType.AutoCompleteDisplayMember = Nothing
         Me.cboDocType.AutoCompleteValueMember = Nothing
         Me.cboDocType.CalculationExpression = Nothing
+        Me.cboDocType.DropDownAnimationEnabled = True
         Me.cboDocType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDocType.FieldCode = Nothing
         Me.cboDocType.FieldDesc = Nothing
@@ -1420,7 +1412,7 @@ Partial Class frmIssueReturn
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 20)
@@ -1516,7 +1508,6 @@ Partial Class frmIssueReturn
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(321, 20)
         Me.lblTaxGrpName.TabIndex = 2
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'RadLabel10
@@ -1548,12 +1539,16 @@ Partial Class frmIssueReturn
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(1044, 384)
         Me.gv2.TabIndex = 1
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'RadLabel11
         '
@@ -1680,6 +1675,16 @@ Partial Class frmIssueReturn
         Me.lblAmtAfterDiscount.TabIndex = 0
         Me.lblAmtAfterDiscount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
+        'btnJE
+        '
+        Me.btnJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnJE.Location = New System.Drawing.Point(818, 5)
+        Me.btnJE.Name = "btnJE"
+        Me.btnJE.Size = New System.Drawing.Size(71, 22)
+        Me.btnJE.TabIndex = 47
+        Me.btnJE.Text = "Show JE"
+        '
         'btnHistory
         '
         Me.btnHistory.Location = New System.Drawing.Point(487, 4)
@@ -1778,16 +1783,6 @@ Partial Class frmIssueReturn
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
-        '
-        'btnJE
-        '
-        Me.btnJE.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnJE.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnJE.Location = New System.Drawing.Point(818, 5)
-        Me.btnJE.Name = "btnJE"
-        Me.btnJE.Size = New System.Drawing.Size(71, 22)
-        Me.btnJE.TabIndex = 47
-        Me.btnJE.Text = "Show JE"
         '
         'frmIssueReturn
         '
@@ -1889,6 +1884,7 @@ Partial Class frmIssueReturn
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTaxAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblAmtAfterDiscount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.butCostCenterAndHirerachy_Update_AfterPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btncancel, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1899,7 +1895,6 @@ Partial Class frmIssueReturn
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

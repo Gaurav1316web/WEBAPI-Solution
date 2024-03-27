@@ -4,6 +4,10 @@ Public Class clsUserMgtCode
     'Public Const FrmReceiptInvoiceMapping As String = "REC-INV-MAP"
     Public Const frmPOBulkProc As String = "PO-BULK-P"
     Public Const frmDBTNEFTUnionReport As String = "UNION-RPT"
+    Public Const rptDBTNEFTPaymentDetailReport As String = "DBT-PAY-DET"
+    Public Const frmDCSSavingLedger As String = "DCS-LGR-RPT"
+    Public Const frmDBTStatusAndLastDPTStatus As String = "DBT-STATUS"
+    Public Const frmDBTApprovalStatus As String = "DBT-APPRO"
     Public Const frmGateEntryReturnCS As String = "GERETURN-CS"
     Public Const frmGateEntryReturnTransfer As String = "GERET-TRANSF"
     Public Const frmGateEntryReturnPS As String = "GERETURN-PS"
@@ -249,6 +253,8 @@ Public Class clsUserMgtCode
     Public Const rptBookingQtyAmtReport As String = "DEMD_BK_RPT"
     Public Const rptSalesLedgerReport As String = "SAL_LED_RPT"
     Public Const rptAvgSaleDetailReport As String = "AVG_SAL_RPT"
+    Public Const rptdairydispatch As String = "DRY_DIS_RPT"
+    Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
@@ -2116,6 +2122,7 @@ Public Class clsUserMgtCode
     Public Const rptMilkUnion As String = "UNN_MLK_RPT"
     Public Const rptCattleFeedSaleReport As String = "Cattle-F-S"
     Public Const rptTransferToSavingReport As String = "Tran-Sv-Rt"
+    Public Const rptDcsPaymentReport As String = "Dcs-Pyt-Rpt"
     Public Const frmBulkMilkSRNReturn As String = "M-BMSRN-R"
     'Public Const frmTranReverse As String = "M-TRN-R"
     'Public Const rptMDConversion As String = "MD_CONVERSIN"
@@ -2123,6 +2130,9 @@ Public Class clsUserMgtCode
     Public Const rptTankerStatusReport As String = "TNK_ST_RPT"
     Public Const rptTruckSheetReport As String = "TRU_SH_RPT"
     Public Const rptDailyQtyReport As String = "DAILY_QTY_R"
+    Public Const rptDcsSecurity As String = "DCS_SEC_RPT"
+    Public Const rptDayWiseCol As String = "DAY_WSE_RPT"
+    Public Const rptMarginAmt As String = "MRG_AMT_RPT"
     Public Const rptPaymentCycleWiseReport As String = "PYMT_CYCL_R"
     Public Const rptTempTruckSheetCollectionReport As String = "TEMP_TRCK_R"
     Public Const rptMobileAppMilkCollection As String = "MOB-MLK-R"
@@ -2151,6 +2161,8 @@ Public Class clsUserMgtCode
     Public Const frmPaymentProcess As String = "Pay-Pro"
     Public Const frmBankAdvise As String = "BNK-ADVS"
     Public Const frmTransferToSaving As String = "TRA-SAV"
+
+    Public Const frmMakeSavingPayment As String = "MAK-SAV-PAY"
     Public Const frmTDSReport As String = "TDS-RPT"
     Public Const frmSendBillToDCS As String = "PMT-SND-DCS"
     'Public Const frmDispatchTransfer As String = "M-DIS-TRAN"
@@ -2398,6 +2410,7 @@ Public Class clsUserMgtCode
     Public Const rptrlPenaltyRegister As String = "RL-PEN-REG"
     Public Const rptPerformanceReport As String = "PERF-RPT"
     Public Const VehicleUnloadingReport As String = "VEH-UNL-RPT"
+    Public Const rptTransactionWiseStock As String = "TRAN-STCK"
     Public Const rptRMUnloading As String = "RM-UNL-RPT"
     Public Const RptPOAgainstDocument As String = "PO_AGT"
     Public Const frmBillChecklist As String = "PO_BCL"
@@ -2554,6 +2567,8 @@ Public Class clsUserMgtCode
     Public Const frmDemandApproval As String = "DEM-APR-TRN"
     Public Const frmDemand_Sheet As String = "DEM-DEM_SHE"
     Public Const frmDCSDEmandBooking As String = "DCS-DEM-TRN"
+    Public Const frmBoothDispatch As String = "BOO-TH-DIS"
+
     Public Const rptCostCenterReport As String = "RPT_COST_CN"
 
     Public Const ModuleXpertAPI As String = "API"

@@ -29,10 +29,10 @@ Public Class FrmItemExciseMapping
     Sub SaveData()
         Try
             If fnditem.Value = "" Then
-                myMessages.blankValue("Item Code")
+                myMessages.blankValue(Me, "Item Code", Me.Text)
                 fnditem.Focus()
             ElseIf txtuom.Text = "" Then
-                myMessages.blankValue("UOM Code")
+                myMessages.blankValue(Me, "UOM Code", Me.Text)
                 txtuom.Focus()
             Else
                 If btnsave.Text = "Save" Then
@@ -54,7 +54,7 @@ Public Class FrmItemExciseMapping
     End Sub
     Sub DeleteData()
         If fnditem.Value = "" Then
-            myMessages.blankValue("Item Code")
+            myMessages.blankValue(Me, "Item Code", Me.Text)
         ElseIf myMessages.deleteConfirm() Then
             fundelete()
             myMessages.delete()

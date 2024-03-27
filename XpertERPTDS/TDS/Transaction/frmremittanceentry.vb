@@ -323,19 +323,19 @@ Public Class Frmremittanceentry
 
 
         If fndremittance.Value = "" Then
-            myMessages.blankValue("Remittance Code")
+            myMessages.blankValue(Me, "Remittance Code", Me.Text)
             fndremittance.Focus()
             Return False
         ElseIf fndbankcode.Value = "" Then
-            myMessages.blankValue("Bank Code")
+            myMessages.blankValue(Me, "Bank Code", Me.Text)
             fndbankcode.Focus()
             Return False
         ElseIf fndpaymentcode.Value = "" Then
-            myMessages.blankValue("Payment Code")
+            myMessages.blankValue(Me, "Payment Code", Me.Text)
             fndpaymentcode.Focus()
             Return False
         ElseIf txtremitto.Text = "" Then
-            myMessages.blankValue("Remit TO")
+            myMessages.blankValue(Me, "Remit TO", Me.Text)
             txtremitto.Focus()
             Return False
         End If
@@ -426,7 +426,7 @@ Public Class Frmremittanceentry
 
     Public Sub deletedata()
         If fndremittance.Value = "" Then
-            myMessages.blankValue("Remittance Code")
+            myMessages.blankValue(Me, "Remittance Code", Me.Text)
             fndremittance.Focus()
         Else
             If myMessages.deleteConfirm() Then
@@ -595,7 +595,7 @@ Public Class Frmremittanceentry
             common.clsCommon.MyMessageBoxShow(Me, "Void Remittance Successfully", Me.Text)
             funpostdata()
         Else
-            myMessages.blankValue("Remittance Code")
+            myMessages.blankValue(Me, "Remittance Code", Me.Text)
             fndremittance.Focus()
 
         End If

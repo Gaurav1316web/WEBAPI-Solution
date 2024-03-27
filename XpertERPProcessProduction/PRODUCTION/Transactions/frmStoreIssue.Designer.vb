@@ -22,6 +22,7 @@ Partial Class frmStoreIssue
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmStoreIssue))
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
@@ -213,7 +214,6 @@ Partial Class frmStoreIssue
         Me.lblIssuedTo.Name = "lblIssuedTo"
         Me.lblIssuedTo.Size = New System.Drawing.Size(204, 20)
         Me.lblIssuedTo.TabIndex = 22
-        Me.lblIssuedTo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblIssuedTo.TextWrap = False
         '
         'txtIssuedTo
@@ -262,7 +262,6 @@ Partial Class frmStoreIssue
         Me.lblFromLocation.Name = "lblFromLocation"
         Me.lblFromLocation.Size = New System.Drawing.Size(218, 20)
         Me.lblFromLocation.TabIndex = 19
-        Me.lblFromLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblFromLocation.TextWrap = False
         '
         'MyLabel5
@@ -320,7 +319,6 @@ Partial Class frmStoreIssue
         Me.lblIssuedBy.Name = "lblIssuedBy"
         Me.lblIssuedBy.Size = New System.Drawing.Size(218, 20)
         Me.lblIssuedBy.TabIndex = 22
-        Me.lblIssuedBy.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblIssuedBy.TextWrap = False
         '
         'txtIssuedBy
@@ -369,7 +367,6 @@ Partial Class frmStoreIssue
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(204, 20)
         Me.lblLocation.TabIndex = 19
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'lblIssuedBy_T
@@ -467,7 +464,7 @@ Partial Class frmStoreIssue
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblIssueNo
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(230, 20)
@@ -644,19 +641,21 @@ Partial Class frmStoreIssue
         Me.gvIssue.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvIssue.Location = New System.Drawing.Point(10, 20)
         '
-        'gvIssue
+        '
         '
         Me.gvIssue.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvIssue.MasterTemplate.AllowAddNewRow = False
         Me.gvIssue.MasterTemplate.AutoGenerateColumns = False
         Me.gvIssue.MasterTemplate.EnableGrouping = False
+        Me.gvIssue.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvIssue.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvIssue.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvIssue.MyStopExport = False
         Me.gvIssue.Name = "gvIssue"
         Me.gvIssue.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvIssue.ShowHeaderCellButtons = True
         Me.gvIssue.Size = New System.Drawing.Size(961, 181)
         Me.gvIssue.TabIndex = 0
-        Me.gvIssue.Text = "RadGridView1"
         '
         'RadButton2
         '

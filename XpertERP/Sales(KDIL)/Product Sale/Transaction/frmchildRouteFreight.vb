@@ -349,11 +349,11 @@ Public Class frmchildRouteFreight
         End If
 
         If clsCommon.myCstr(ddltype.SelectedValue) = "Select" Then
-            myMessages.blankValue("Select Type")
+            myMessages.blankValue(Me, "Select Type", Me.Text)
             Return False
         End If
         If clsCommon.myCstr(ddl_transtype.SelectedValue) = "Select" Then
-            myMessages.blankValue("Select Transaction Type")
+            myMessages.blankValue(Me, "Select Transaction Type", Me.Text)
             ddl_transtype.Focus()
             Return False
         End If

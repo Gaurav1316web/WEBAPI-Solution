@@ -25,6 +25,7 @@ Partial Class frmDeductionDetails
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmDeductionDetails))
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnUnSelect = New Telerik.WinControls.UI.RadButton()
         Me.txtGo = New Telerik.WinControls.UI.RadButton()
@@ -150,7 +151,6 @@ Partial Class frmDeductionDetails
         Me.lblLocationDesc.Name = "lblLocationDesc"
         Me.lblLocationDesc.Size = New System.Drawing.Size(323, 19)
         Me.lblLocationDesc.TabIndex = 256
-        Me.lblLocationDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel9
         '
@@ -216,7 +216,6 @@ Partial Class frmDeductionDetails
         Me.lblDedByName.Name = "lblDedByName"
         Me.lblDedByName.Size = New System.Drawing.Size(323, 19)
         Me.lblDedByName.TabIndex = 204
-        Me.lblDedByName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblPayPeriodName
         '
@@ -227,7 +226,6 @@ Partial Class frmDeductionDetails
         Me.lblPayPeriodName.Name = "lblPayPeriodName"
         Me.lblPayPeriodName.Size = New System.Drawing.Size(323, 19)
         Me.lblPayPeriodName.TabIndex = 203
-        Me.lblPayPeriodName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'findPayperiod
         '
@@ -386,7 +384,7 @@ Partial Class frmDeductionDetails
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 50
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(244, 21)
@@ -415,19 +413,21 @@ Partial Class frmDeductionDetails
         Me.gvDeduction.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvDeduction.Location = New System.Drawing.Point(9, 193)
         '
-        'gvDeduction
+        '
         '
         Me.gvDeduction.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvDeduction.MasterTemplate.AllowAddNewRow = False
         Me.gvDeduction.MasterTemplate.AutoGenerateColumns = False
         Me.gvDeduction.MasterTemplate.EnableGrouping = False
+        Me.gvDeduction.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDeduction.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDeduction.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDeduction.MyStopExport = False
         Me.gvDeduction.Name = "gvDeduction"
         Me.gvDeduction.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvDeduction.ShowHeaderCellButtons = True
         Me.gvDeduction.Size = New System.Drawing.Size(771, 257)
         Me.gvDeduction.TabIndex = 6
-        Me.gvDeduction.Text = "RadGridView4"
         '
         'LblTotal
         '
@@ -439,7 +439,6 @@ Partial Class frmDeductionDetails
         Me.LblTotal.Name = "LblTotal"
         Me.LblTotal.Size = New System.Drawing.Size(98, 19)
         Me.LblTotal.TabIndex = 205
-        Me.LblTotal.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnPost
         '
@@ -488,12 +487,9 @@ Partial Class frmDeductionDetails
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(789, 20)
         Me.RadMenu2.TabIndex = 62
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemExport, Me.MenuItemImport})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
@@ -507,8 +503,6 @@ Partial Class frmDeductionDetails
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
         '

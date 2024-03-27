@@ -22,9 +22,13 @@ Partial Class frmTankerCleaningItem
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.pnl_capex = New System.Windows.Forms.Panel()
+        Me.lblSubLocation = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtSubLocation = New common.UserControls.txtFinder()
         Me.chkprclose = New System.Windows.Forms.CheckBox()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.lblLocation = New common.Controls.MyLabel()
@@ -43,9 +47,6 @@ Partial Class frmTankerCleaningItem
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.lblSubLocation = New common.Controls.MyLabel()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.txtSubLocation = New common.UserControls.txtFinder()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -53,6 +54,8 @@ Partial Class frmTankerCleaningItem
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
         Me.pnl_capex.SuspendLayout()
+        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -69,8 +72,6 @@ Partial Class frmTankerCleaningItem
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -140,6 +141,53 @@ Partial Class frmTankerCleaningItem
         Me.pnl_capex.Size = New System.Drawing.Size(882, 99)
         Me.pnl_capex.TabIndex = 71
         '
+        'lblSubLocation
+        '
+        Me.lblSubLocation.AutoSize = False
+        Me.lblSubLocation.BorderVisible = True
+        Me.lblSubLocation.FieldName = Nothing
+        Me.lblSubLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSubLocation.Location = New System.Drawing.Point(284, 69)
+        Me.lblSubLocation.Name = "lblSubLocation"
+        Me.lblSubLocation.Size = New System.Drawing.Size(304, 20)
+        Me.lblSubLocation.TabIndex = 38
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(10, 71)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(73, 16)
+        Me.MyLabel2.TabIndex = 39
+        Me.MyLabel2.Text = "Sub-Location"
+        '
+        'txtSubLocation
+        '
+        Me.txtSubLocation.CalculationExpression = Nothing
+        Me.txtSubLocation.FieldCode = Nothing
+        Me.txtSubLocation.FieldDesc = Nothing
+        Me.txtSubLocation.FieldMaxLength = 0
+        Me.txtSubLocation.FieldName = Nothing
+        Me.txtSubLocation.isCalculatedField = False
+        Me.txtSubLocation.IsSourceFromTable = False
+        Me.txtSubLocation.IsSourceFromValueList = False
+        Me.txtSubLocation.IsUnique = False
+        Me.txtSubLocation.Location = New System.Drawing.Point(95, 69)
+        Me.txtSubLocation.MendatroryField = True
+        Me.txtSubLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSubLocation.MyLinkLable1 = Me.MyLabel2
+        Me.txtSubLocation.MyLinkLable2 = Me.lblSubLocation
+        Me.txtSubLocation.MyReadOnly = False
+        Me.txtSubLocation.MyShowMasterFormButton = False
+        Me.txtSubLocation.Name = "txtSubLocation"
+        Me.txtSubLocation.ReferenceFieldDesc = Nothing
+        Me.txtSubLocation.ReferenceFieldName = Nothing
+        Me.txtSubLocation.ReferenceTableName = Nothing
+        Me.txtSubLocation.Size = New System.Drawing.Size(189, 20)
+        Me.txtSubLocation.TabIndex = 37
+        Me.txtSubLocation.Value = ""
+        '
         'chkprclose
         '
         Me.chkprclose.AutoSize = True
@@ -171,12 +219,11 @@ Partial Class frmTankerCleaningItem
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(304, 20)
         Me.lblLocation.TabIndex = 20
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = My.Resources._new
+        Me.btnAddNew.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(326, 4)
         Me.btnAddNew.Name = "btnAddNew"
@@ -276,7 +323,7 @@ Partial Class frmTankerCleaningItem
         Me.txtReqNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtReqNo.MyLinkLable1 = Me.RadLabel1
         Me.txtReqNo.MyLinkLable2 = Nothing
-        Me.txtReqNo.MyMaxLength = 32767
+        Me.txtReqNo.MyMaxLength = 30
         Me.txtReqNo.MyReadOnly = False
         Me.txtReqNo.Name = "txtReqNo"
         Me.txtReqNo.Size = New System.Drawing.Size(230, 20)
@@ -343,10 +390,13 @@ Partial Class frmTankerCleaningItem
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -354,7 +404,6 @@ Partial Class frmTankerCleaningItem
         Me.gv1.Size = New System.Drawing.Size(862, 260)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'btnDelete
         '
@@ -397,54 +446,6 @@ Partial Class frmTankerCleaningItem
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'lblSubLocation
-        '
-        Me.lblSubLocation.AutoSize = False
-        Me.lblSubLocation.BorderVisible = True
-        Me.lblSubLocation.FieldName = Nothing
-        Me.lblSubLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSubLocation.Location = New System.Drawing.Point(284, 69)
-        Me.lblSubLocation.Name = "lblSubLocation"
-        Me.lblSubLocation.Size = New System.Drawing.Size(304, 20)
-        Me.lblSubLocation.TabIndex = 38
-        Me.lblSubLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(10, 71)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(73, 16)
-        Me.MyLabel2.TabIndex = 39
-        Me.MyLabel2.Text = "Sub-Location"
-        '
-        'txtSubLocation
-        '
-        Me.txtSubLocation.CalculationExpression = Nothing
-        Me.txtSubLocation.FieldCode = Nothing
-        Me.txtSubLocation.FieldDesc = Nothing
-        Me.txtSubLocation.FieldMaxLength = 0
-        Me.txtSubLocation.FieldName = Nothing
-        Me.txtSubLocation.isCalculatedField = False
-        Me.txtSubLocation.IsSourceFromTable = False
-        Me.txtSubLocation.IsSourceFromValueList = False
-        Me.txtSubLocation.IsUnique = False
-        Me.txtSubLocation.Location = New System.Drawing.Point(95, 69)
-        Me.txtSubLocation.MendatroryField = True
-        Me.txtSubLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSubLocation.MyLinkLable1 = Me.MyLabel2
-        Me.txtSubLocation.MyLinkLable2 = Me.lblSubLocation
-        Me.txtSubLocation.MyReadOnly = False
-        Me.txtSubLocation.MyShowMasterFormButton = False
-        Me.txtSubLocation.Name = "txtSubLocation"
-        Me.txtSubLocation.ReferenceFieldDesc = Nothing
-        Me.txtSubLocation.ReferenceFieldName = Nothing
-        Me.txtSubLocation.ReferenceTableName = Nothing
-        Me.txtSubLocation.Size = New System.Drawing.Size(189, 20)
-        Me.txtSubLocation.TabIndex = 37
-        Me.txtSubLocation.Value = ""
-        '
         'frmTankerCleaningItem
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -466,6 +467,8 @@ Partial Class frmTankerCleaningItem
         Me.SplitContainer3.ResumeLayout(False)
         Me.pnl_capex.ResumeLayout(False)
         Me.pnl_capex.PerformLayout()
+        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
@@ -482,8 +485,6 @@ Partial Class frmTankerCleaningItem
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

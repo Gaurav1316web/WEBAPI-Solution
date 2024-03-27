@@ -25,20 +25,21 @@ Partial Class frmEmployeeShiftChange
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmEmployeeShiftChange))
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.UsLock1 = New common.usLock
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.txtDescription = New common.Controls.MyTextBox
-        Me.lblRemarks = New common.Controls.MyLabel
-        Me.lblAppDate = New common.Controls.MyLabel
-        Me.dtpAllowanceDate = New common.Controls.MyDateTimePicker
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.lblCode = New common.Controls.MyLabel
-        Me.gvAllowance = New common.UserControls.MyRadGridView
-        Me.btnPost = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btndelete = New Telerik.WinControls.UI.RadButton
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.UsLock1 = New common.usLock()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtDescription = New common.Controls.MyTextBox()
+        Me.lblRemarks = New common.Controls.MyLabel()
+        Me.lblAppDate = New common.Controls.MyLabel()
+        Me.dtpAllowanceDate = New common.Controls.MyDateTimePicker()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lblCode = New common.Controls.MyLabel()
+        Me.gvAllowance = New common.UserControls.MyRadGridView()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -110,7 +111,16 @@ Partial Class frmEmployeeShiftChange
         'txtDescription
         '
         Me.txtDescription.AutoSize = False
+        Me.txtDescription.CalculationExpression = Nothing
+        Me.txtDescription.FieldCode = Nothing
+        Me.txtDescription.FieldDesc = Nothing
+        Me.txtDescription.FieldMaxLength = 0
+        Me.txtDescription.FieldName = Nothing
         Me.txtDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDescription.isCalculatedField = False
+        Me.txtDescription.IsSourceFromTable = False
+        Me.txtDescription.IsSourceFromValueList = False
+        Me.txtDescription.IsUnique = False
         Me.txtDescription.Location = New System.Drawing.Point(133, 57)
         Me.txtDescription.MaxLength = 49
         Me.txtDescription.MendatroryField = True
@@ -118,11 +128,15 @@ Partial Class frmEmployeeShiftChange
         Me.txtDescription.MyLinkLable1 = Me.lblRemarks
         Me.txtDescription.MyLinkLable2 = Nothing
         Me.txtDescription.Name = "txtDescription"
+        Me.txtDescription.ReferenceFieldDesc = Nothing
+        Me.txtDescription.ReferenceFieldName = Nothing
+        Me.txtDescription.ReferenceTableName = Nothing
         Me.txtDescription.Size = New System.Drawing.Size(313, 63)
         Me.txtDescription.TabIndex = 9
         '
         'lblRemarks
         '
+        Me.lblRemarks.FieldName = Nothing
         Me.lblRemarks.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblRemarks.Location = New System.Drawing.Point(14, 60)
         Me.lblRemarks.Name = "lblRemarks"
@@ -132,6 +146,7 @@ Partial Class frmEmployeeShiftChange
         '
         'lblAppDate
         '
+        Me.lblAppDate.FieldName = Nothing
         Me.lblAppDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblAppDate.Location = New System.Drawing.Point(14, 35)
         Me.lblAppDate.Name = "lblAppDate"
@@ -141,9 +156,18 @@ Partial Class frmEmployeeShiftChange
         '
         'dtpAllowanceDate
         '
+        Me.dtpAllowanceDate.CalculationExpression = Nothing
         Me.dtpAllowanceDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpAllowanceDate.FieldCode = Nothing
+        Me.dtpAllowanceDate.FieldDesc = Nothing
+        Me.dtpAllowanceDate.FieldMaxLength = 0
+        Me.dtpAllowanceDate.FieldName = Nothing
         Me.dtpAllowanceDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpAllowanceDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpAllowanceDate.isCalculatedField = False
+        Me.dtpAllowanceDate.IsSourceFromTable = False
+        Me.dtpAllowanceDate.IsSourceFromValueList = False
+        Me.dtpAllowanceDate.IsUnique = False
         Me.dtpAllowanceDate.Location = New System.Drawing.Point(133, 33)
         Me.dtpAllowanceDate.MendatroryField = True
         Me.dtpAllowanceDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -151,6 +175,9 @@ Partial Class frmEmployeeShiftChange
         Me.dtpAllowanceDate.MyLinkLable2 = Nothing
         Me.dtpAllowanceDate.Name = "dtpAllowanceDate"
         Me.dtpAllowanceDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpAllowanceDate.ReferenceFieldDesc = Nothing
+        Me.dtpAllowanceDate.ReferenceFieldName = Nothing
+        Me.dtpAllowanceDate.ReferenceTableName = Nothing
         Me.dtpAllowanceDate.Size = New System.Drawing.Size(130, 18)
         Me.dtpAllowanceDate.TabIndex = 6
         Me.dtpAllowanceDate.TabStop = False
@@ -159,13 +186,14 @@ Partial Class frmEmployeeShiftChange
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(133, 9)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(221, 21)
@@ -174,6 +202,7 @@ Partial Class frmEmployeeShiftChange
         '
         'lblCode
         '
+        Me.lblCode.FieldName = Nothing
         Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCode.Location = New System.Drawing.Point(14, 12)
         Me.lblCode.Name = "lblCode"
@@ -184,8 +213,8 @@ Partial Class frmEmployeeShiftChange
         'gvAllowance
         '
         Me.gvAllowance.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-                    Or System.Windows.Forms.AnchorStyles.Left) _
-                    Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.gvAllowance.BackColor = System.Drawing.Color.FromArgb(CType(CType(191, Byte), Integer), CType(CType(219, Byte), Integer), CType(CType(255, Byte), Integer))
         Me.gvAllowance.Cursor = System.Windows.Forms.Cursors.Default
         Me.gvAllowance.Font = New System.Drawing.Font("Arial", 8.25!)
@@ -193,17 +222,21 @@ Partial Class frmEmployeeShiftChange
         Me.gvAllowance.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gvAllowance.Location = New System.Drawing.Point(9, 126)
         '
-        'gvAllowance
+        '
         '
         Me.gvAllowance.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gvAllowance.MasterTemplate.AutoGenerateColumns = False
         Me.gvAllowance.MasterTemplate.EnableGrouping = False
+        Me.gvAllowance.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvAllowance.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAllowance.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvAllowance.MyStopExport = False
         Me.gvAllowance.Name = "gvAllowance"
         Me.gvAllowance.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvAllowance.ShowHeaderCellButtons = True
         Me.gvAllowance.Size = New System.Drawing.Size(792, 331)
         Me.gvAllowance.TabIndex = 10
         Me.gvAllowance.TabStop = False
-        Me.gvAllowance.Text = "RadGridView4"
         '
         'btnPost
         '

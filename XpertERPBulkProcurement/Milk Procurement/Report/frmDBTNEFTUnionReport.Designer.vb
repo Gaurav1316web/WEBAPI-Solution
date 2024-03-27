@@ -22,7 +22,7 @@ Partial Class frmDBTNEFTUnionReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -32,6 +32,7 @@ Partial Class frmDBTNEFTUnionReport
         Me.RadLabel3 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv = New Telerik.WinControls.UI.RadGridView()
+        Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnReport = New Telerik.WinControls.UI.RadButton()
@@ -48,6 +49,7 @@ Partial Class frmDBTNEFTUnionReport
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -67,6 +69,7 @@ Partial Class frmDBTNEFTUnionReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReport)
@@ -82,7 +85,7 @@ Partial Class frmDBTNEFTUnionReport
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(800, 407)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -192,21 +195,28 @@ Partial Class frmDBTNEFTUnionReport
         '
         '
         '
-        Me.Gv.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.Gv.Name = "Gv"
         Me.Gv.Size = New System.Drawing.Size(779, 359)
         Me.Gv.TabIndex = 0
-        Me.Gv.Visible = False
+        '
+        'btnPrint
+        '
+        Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrint.Location = New System.Drawing.Point(162, 9)
+        Me.btnPrint.Name = "btnPrint"
+        Me.btnPrint.Size = New System.Drawing.Size(70, 22)
+        Me.btnPrint.TabIndex = 8
+        Me.btnPrint.Text = "Print"
         '
         'btnReset
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReset.Location = New System.Drawing.Point(90, 9)
+        Me.btnReset.Location = New System.Drawing.Point(89, 9)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(70, 22)
         Me.btnReset.TabIndex = 5
         Me.btnReset.Text = "Reset"
-        Me.btnReset.Visible = False
         '
         'btnclose
         '
@@ -220,11 +230,11 @@ Partial Class frmDBTNEFTUnionReport
         'btnReport
         '
         Me.btnReport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnReport.Location = New System.Drawing.Point(17, 9)
+        Me.btnReport.Location = New System.Drawing.Point(16, 9)
         Me.btnReport.Name = "btnReport"
         Me.btnReport.Size = New System.Drawing.Size(70, 22)
         Me.btnReport.TabIndex = 7
-        Me.btnReport.Text = "Print"
+        Me.btnReport.Text = ">>>"
         '
         'frmDBTNEFTUnionReport
         '
@@ -252,6 +262,7 @@ Partial Class frmDBTNEFTUnionReport
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).EndInit()
@@ -272,4 +283,5 @@ Partial Class frmDBTNEFTUnionReport
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents RadLabel3 As common.Controls.MyLabel
     Friend WithEvents Gv As RadGridView
+    Friend WithEvents btnPrint As RadButton
 End Class

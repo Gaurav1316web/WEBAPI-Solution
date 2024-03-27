@@ -1295,7 +1295,7 @@ Public Class frmProductionEntryFinalQC
         End If
 
         If clsCommon.myLen(txtBatchNo.Value) <= 0 Then
-            myMessages.blankValue("Batch Order Code")
+            myMessages.blankValue(Me, "Batch Order Code", Me.Text)
             txtBatchNo.Focus()
             Return False
         End If
@@ -1306,17 +1306,17 @@ Public Class frmProductionEntryFinalQC
         End If
 
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            myMessages.blankValue("Location Code")
+            myMessages.blankValue(Me, "Location Code", Me.Text)
             txtLocation.Focus()
             Return False
         End If
         If clsCommon.myLen(lblConsmSectionLocCode.Text) <= 0 Then
-            myMessages.blankValue("Consumption Location Code")
+            myMessages.blankValue(Me, "Consumption Location Code", Me.Text)
             txtBatchNo.Focus()
             Return False
         End If
         If clsCommon.myLen(lblConsmSectionCode.Text) <= 0 Then
-            myMessages.blankValue("Consumption Section Code")
+            myMessages.blankValue(Me, "Consumption Section Code", Me.Text)
             txtBatchNo.Focus()
             Return False
         End If
@@ -1339,13 +1339,13 @@ Public Class frmProductionEntryFinalQC
         'End If
 
         If Me.gvBatch.Rows.Count = 0 Then
-            myMessages.blankValue("Batch List is Empty")
+            myMessages.blankValue(Me, "Batch List is Empty", Me.Text)
             Return False
         End If
         'Dim ii As Int16 = 0
         For Each grow As GridViewRowInfo In gvBatch.Rows
             If clsCommon.myLen(grow.Cells(colSP_Loaction_Code).Value) <= 0 Then
-                myMessages.blankValue("Enter Location in Batch Production tab at line no- " & (grow.Index + 1) & "")
+                myMessages.blankValue(Me, "Enter Location in Batch Production tab at line no- " & (grow.Index + 1) & "", Me.Text)
                 Return False
             End If
         Next
@@ -1365,7 +1365,7 @@ Public Class frmProductionEntryFinalQC
                 Continue For
             End If
             If clsCommon.myLen(grow.Cells(colScrapLocation_Code).Value) <= 0 Then
-                myMessages.blankValue("Enter Location in Scrap Detail tab at line no- " & (grow.Index + 1) & "")
+                myMessages.blankValue(Me, "Enter Location in Scrap Detail tab at line no- " & (grow.Index + 1) & "", Me.Text)
                 Return False
             End If
             '' apply qty validation

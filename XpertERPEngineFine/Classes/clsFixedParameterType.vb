@@ -621,6 +621,8 @@ Public Class clsFixedParameterType
     Public Const TransferWithProductionSale_Retail_Series As String = "CreateTransferWithProductionSale_Retail_Series"
     Public Const TransferLocalInterState As String = "Stock/CSA_Transfer_With_Local/InterState_Series"
     Public Const ProductionQtyDecimalPoint As String = "ProductionQtyDecimalPoint"
+    Public Const ConsumptionQtyTollerance As String = "Consumption Qty Tollerance"
+    Public Const CheckBalanceOnSave As String = "Check Balance On Save"
     Public Const ProductionFATSNFPerDecimalPoint As String = "ProductionFATSNFPerDecimalPoint"
     Public Const ManualySelectBOMForChildBatch As String = "ManualySelectBOMForChildBatch"
     Public Const CSATransferWithProductionSale_Retail_Series As String = "CreateCSATransferWithProductionSale_Retail_Series"
@@ -1315,6 +1317,8 @@ Public Class clsFixedParameterType
     Public Const CrateCapacityCheck = "Crate Capacity Check"
     Public Const PickAllBMC = "VSP Milk Not Sold"
     Public Const SeparateDemandMilkandProduct = "Separate Demand Milk & Product"
+    Public Const ShowDemandDoc = "Show Demand Document In Customer Booking"
+    Public Const AllowIncreaseDispatchQty = "Allow Increase Dispatch Qty"
 
 
 End Class
@@ -2035,6 +2039,9 @@ Public Class clsFixedParameterCode
     Public Const TransferJEForLocationMapping As String = "TransferJEForLocationMapping"
     Public Const TransferWithProductionSale_Retail_Series As String = "CreateTransferWithProductionSale_Retail_Series"
     Public Const ProductionQtyDecimalPoint As String = "ProductionQtyDecimalPoint"
+    Public Const ConsumptionQtyTollerance As String = "Consumption Qty Tollerance"
+    Public Const RCDFCFProductionEntry As String = "RCDFCF Production Entry"
+    Public Const RCDFCFDispatch As String = "RCDFCF Dispatch"
     Public Const ProductionFATSNFPerDecimalPoint As String = "ProductionFATSNFPerDecimalPoint"
     Public Const ManualySelectBOMForChildBatch As String = "ManualySelectBOMForChildBatch"
     Public Const AllowToDispalyAlertForBDayAnniversary As String = "AllowToDispalyAlertForBDayAnniversary"
@@ -2766,6 +2773,8 @@ Public Class clsFixedParameterCode
     Public Const CrateCapacityCheck = "Crate Capacity Check"
     Public Const PickAllBMC = "Pick All BMC"
     Public Const SeparateDemandMilkandProduct = "Separate Demand Milk & Product"
+    Public Const ShowDemandDoc = "Show Demand Document In Customer Booking"
+    Public Const AllowIncreaseDispatchQty = "Allow Increase Dispatch Qty"
 
 End Class
 Public Class clsFixedParameter
@@ -3607,6 +3616,11 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CreateDebitNoteForUnitCost, clsFixedParameterCode.CreateDebitNoteForUnitCost, "0", "0-OFF;1-On")
 
         InsertDefaultValueFixedParameter(clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, "0", "Fill integer for showing no. of digits after decimal in production.")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ConsumptionQtyTollerance, clsFixedParameterCode.ConsumptionQtyTollerance, "0.6", "Tollerance % of ConsumptionQty.")
+
+        InsertDefaultValueFixedParameter(clsFixedParameterType.CheckBalanceOnSave, clsFixedParameterCode.RCDFCFProductionEntry, "1", "0-OFF;1-On;Check Balance on save")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.CheckBalanceOnSave, clsFixedParameterCode.RCDFCFDispatch, "1", "0-OFF;1-On;Check Balance on save")
+
         InsertDefaultValueFixedParameter(clsFixedParameterType.TransferJEForLocationMapping, clsFixedParameterCode.TransferJEForLocationMapping, "0", "0-OFF;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ProductionFATSNFPerDecimalPoint, clsFixedParameterCode.ProductionFATSNFPerDecimalPoint, "0", "Fill integer for showing no. of digits after decimal in production for Fat and SNF Percentage.")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ManualySelectBOMForChildBatch, clsFixedParameterCode.ManualySelectBOMForChildBatch, "0", "0:Off,1:On")
@@ -4489,6 +4503,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CrateCapacityCheck, clsFixedParameterCode.CrateCapacityCheck, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickAllBMC, clsFixedParameterCode.PickAllBMC, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ShowDemandDoc, clsFixedParameterCode.ShowDemandDoc, "0", "0:Don't Show, 1:Show;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, "0", "0:Off, 1:On;")
 
 
         '
@@ -4869,7 +4885,9 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmBatchOrderDairy, clsFixedParameterType.ManualySelectBOMForChildBatch, clsFixedParameterCode.ManualySelectBOMForChildBatch, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBatchOrderDairy, clsFixedParameterType.ActivateSFGProduction, clsFixedParameterCode.ActivateSFGProduction, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmBatchOrderDairy, clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, EnumControlType.NumericBox)
-        'InsertDefaultValue(clsUserMgtCode.frmBatchOrderDairy, clsFixedParameterType.ProductionQtyDecimalPoint, clsFixedParameterCode.ProductionQtyDecimalPoint, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmStanderdProductionEntry, clsFixedParameterType.ConsumptionQtyTollerance, clsFixedParameterCode.ConsumptionQtyTollerance, EnumControlType.NumericBox)
+        InsertDefaultValue(clsUserMgtCode.frmStanderdProductionEntry, clsFixedParameterType.CheckBalanceOnSave, clsFixedParameterCode.RCDFCFProductionEntry, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSNShipment, clsFixedParameterType.CheckBalanceOnSave, clsFixedParameterCode.RCDFCFDispatch, EnumControlType.CheckBox)
 
 
         ''stuti
@@ -6541,6 +6559,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.IsLoadingSlipMandatory, clsFixedParameterCode.IsLoadingSlipMandatory, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, clsFixedParameterType.PickAllBMC, clsFixedParameterCode.PickAllBMC, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorRouteTagging, clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ShowDemandDoc, clsFixedParameterCode.ShowDemandDoc, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, EnumControlType.CheckBox)
 
     End Sub

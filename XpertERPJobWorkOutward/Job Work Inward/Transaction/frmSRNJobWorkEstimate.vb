@@ -2078,7 +2078,7 @@ Public Class FrmSRNJobWorkEstimate
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocumentNo.Value) <= 0 Then
-            myMessages.blankValue("Document not found to Print")
+            myMessages.blankValue(Me, "Document not found to Print", Me.Text)
         Else
             funPrint(txtDocumentNo.Value)
         End If

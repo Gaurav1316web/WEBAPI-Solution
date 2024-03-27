@@ -27,7 +27,7 @@ Public Class FrmCrptFooter
     End Sub
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtBody.Text) <= 0 Then
-            myMessages.blankValue("Body")
+            myMessages.blankValue(Me, "Body", Me.Text)
             txtBody.Focus()
             Return False
         End If

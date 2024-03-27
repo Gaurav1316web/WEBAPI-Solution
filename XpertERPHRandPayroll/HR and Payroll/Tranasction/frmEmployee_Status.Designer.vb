@@ -42,6 +42,8 @@ Partial Class frmEmployee_Status
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel43 = New common.Controls.MyLabel()
+        Me.txtGPFNo = New common.Controls.MyTextBox()
         Me.txtTransferPF = New common.Controls.MyTextBox()
         Me.chkTransPF = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkProfessionalTaxApplicable = New Telerik.WinControls.UI.RadCheckBox()
@@ -126,12 +128,12 @@ Partial Class frmEmployee_Status
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel43 = New common.Controls.MyLabel()
-        Me.txtGPFNo = New common.Controls.MyTextBox()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtGPFNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTransferPF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkTransPF, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkProfessionalTaxApplicable, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -204,8 +206,6 @@ Partial Class frmEmployee_Status
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtGPFNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -335,6 +335,40 @@ Partial Class frmEmployee_Status
         Me.SplitContainer1.Size = New System.Drawing.Size(913, 486)
         Me.SplitContainer1.SplitterDistance = 448
         Me.SplitContainer1.TabIndex = 215
+        '
+        'MyLabel43
+        '
+        Me.MyLabel43.FieldName = Nothing
+        Me.MyLabel43.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel43.Location = New System.Drawing.Point(586, 192)
+        Me.MyLabel43.Name = "MyLabel43"
+        Me.MyLabel43.Size = New System.Drawing.Size(47, 16)
+        Me.MyLabel43.TabIndex = 237
+        Me.MyLabel43.Text = "GPF No"
+        '
+        'txtGPFNo
+        '
+        Me.txtGPFNo.CalculationExpression = Nothing
+        Me.txtGPFNo.FieldCode = Nothing
+        Me.txtGPFNo.FieldDesc = Nothing
+        Me.txtGPFNo.FieldMaxLength = 0
+        Me.txtGPFNo.FieldName = Nothing
+        Me.txtGPFNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtGPFNo.isCalculatedField = False
+        Me.txtGPFNo.IsSourceFromTable = False
+        Me.txtGPFNo.IsSourceFromValueList = False
+        Me.txtGPFNo.IsUnique = False
+        Me.txtGPFNo.Location = New System.Drawing.Point(669, 191)
+        Me.txtGPFNo.MaxLength = 49
+        Me.txtGPFNo.MendatroryField = False
+        Me.txtGPFNo.MyLinkLable1 = Nothing
+        Me.txtGPFNo.MyLinkLable2 = Nothing
+        Me.txtGPFNo.Name = "txtGPFNo"
+        Me.txtGPFNo.ReferenceFieldDesc = Nothing
+        Me.txtGPFNo.ReferenceFieldName = Nothing
+        Me.txtGPFNo.ReferenceTableName = Nothing
+        Me.txtGPFNo.Size = New System.Drawing.Size(228, 18)
+        Me.txtGPFNo.TabIndex = 236
         '
         'txtTransferPF
         '
@@ -1085,7 +1119,7 @@ Partial Class frmEmployee_Status
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(223, 21)
@@ -1729,40 +1763,6 @@ Partial Class frmEmployee_Status
         Me.btnclose.TabIndex = 133
         Me.btnclose.Text = "Close"
         '
-        'MyLabel43
-        '
-        Me.MyLabel43.FieldName = Nothing
-        Me.MyLabel43.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel43.Location = New System.Drawing.Point(586, 192)
-        Me.MyLabel43.Name = "MyLabel43"
-        Me.MyLabel43.Size = New System.Drawing.Size(47, 16)
-        Me.MyLabel43.TabIndex = 237
-        Me.MyLabel43.Text = "GPF No"
-        '
-        'txtGPFNo
-        '
-        Me.txtGPFNo.CalculationExpression = Nothing
-        Me.txtGPFNo.FieldCode = Nothing
-        Me.txtGPFNo.FieldDesc = Nothing
-        Me.txtGPFNo.FieldMaxLength = 0
-        Me.txtGPFNo.FieldName = Nothing
-        Me.txtGPFNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtGPFNo.isCalculatedField = False
-        Me.txtGPFNo.IsSourceFromTable = False
-        Me.txtGPFNo.IsSourceFromValueList = False
-        Me.txtGPFNo.IsUnique = False
-        Me.txtGPFNo.Location = New System.Drawing.Point(669, 191)
-        Me.txtGPFNo.MaxLength = 49
-        Me.txtGPFNo.MendatroryField = False
-        Me.txtGPFNo.MyLinkLable1 = Nothing
-        Me.txtGPFNo.MyLinkLable2 = Nothing
-        Me.txtGPFNo.Name = "txtGPFNo"
-        Me.txtGPFNo.ReferenceFieldDesc = Nothing
-        Me.txtGPFNo.ReferenceFieldName = Nothing
-        Me.txtGPFNo.ReferenceTableName = Nothing
-        Me.txtGPFNo.Size = New System.Drawing.Size(228, 18)
-        Me.txtGPFNo.TabIndex = 236
-        '
         'frmEmployee_Status
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1781,6 +1781,8 @@ Partial Class frmEmployee_Status
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtGPFNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTransferPF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkTransPF, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkProfessionalTaxApplicable, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1853,8 +1855,6 @@ Partial Class frmEmployee_Status
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtGPFNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

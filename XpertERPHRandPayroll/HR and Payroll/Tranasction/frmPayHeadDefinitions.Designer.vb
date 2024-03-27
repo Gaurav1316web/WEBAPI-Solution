@@ -160,34 +160,25 @@ Partial Class frmPayHeadDefinitions
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(866, 20)
         Me.RadMenu2.TabIndex = 1
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.MenuItemImport, Me.MenuItemExport, Me.MenuItemClose})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
         '
         'MenuItemImport
         '
-        Me.MenuItemImport.AccessibleDescription = "Import"
-        Me.MenuItemImport.AccessibleName = "Import"
         Me.MenuItemImport.Name = "MenuItemImport"
         Me.MenuItemImport.Text = "Import"
         '
         'MenuItemExport
         '
-        Me.MenuItemExport.AccessibleDescription = "Export"
-        Me.MenuItemExport.AccessibleName = "Export"
         Me.MenuItemExport.Name = "MenuItemExport"
         Me.MenuItemExport.Text = "Export"
         '
         'MenuItemClose
         '
-        Me.MenuItemClose.AccessibleDescription = "Close"
-        Me.MenuItemClose.AccessibleName = "Close"
         Me.MenuItemClose.Name = "MenuItemClose"
         Me.MenuItemClose.Text = "Close"
         '
@@ -441,6 +432,7 @@ Partial Class frmPayHeadDefinitions
         'cboArrearType
         '
         Me.cboArrearType.CalculationExpression = Nothing
+        Me.cboArrearType.DropDownAnimationEnabled = True
         Me.cboArrearType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboArrearType.FieldCode = Nothing
         Me.cboArrearType.FieldDesc = Nothing
@@ -652,6 +644,7 @@ Partial Class frmPayHeadDefinitions
         'cboRoundOffType
         '
         Me.cboRoundOffType.CalculationExpression = Nothing
+        Me.cboRoundOffType.DropDownAnimationEnabled = True
         Me.cboRoundOffType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboRoundOffType.FieldCode = Nothing
         Me.cboRoundOffType.FieldDesc = Nothing
@@ -696,6 +689,7 @@ Partial Class frmPayHeadDefinitions
         'cboPayHeadCategory
         '
         Me.cboPayHeadCategory.CalculationExpression = Nothing
+        Me.cboPayHeadCategory.DropDownAnimationEnabled = True
         Me.cboPayHeadCategory.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboPayHeadCategory.FieldCode = Nothing
         Me.cboPayHeadCategory.FieldDesc = Nothing
@@ -736,7 +730,7 @@ Partial Class frmPayHeadDefinitions
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblempcode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 12
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(192, 18)
@@ -746,6 +740,7 @@ Partial Class frmPayHeadDefinitions
         'cboCalcBasis
         '
         Me.cboCalcBasis.CalculationExpression = Nothing
+        Me.cboCalcBasis.DropDownAnimationEnabled = True
         Me.cboCalcBasis.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboCalcBasis.FieldCode = Nothing
         Me.cboCalcBasis.FieldDesc = Nothing
@@ -814,6 +809,7 @@ Partial Class frmPayHeadDefinitions
         'CboPayHeadType
         '
         Me.CboPayHeadType.CalculationExpression = Nothing
+        Me.CboPayHeadType.DropDownAnimationEnabled = True
         Me.CboPayHeadType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.CboPayHeadType.FieldCode = Nothing
         Me.CboPayHeadType.FieldDesc = Nothing
@@ -838,6 +834,7 @@ Partial Class frmPayHeadDefinitions
         'cboPeriodicity
         '
         Me.cboPeriodicity.CalculationExpression = Nothing
+        Me.cboPeriodicity.DropDownAnimationEnabled = True
         Me.cboPeriodicity.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboPeriodicity.FieldCode = Nothing
         Me.cboPeriodicity.FieldDesc = Nothing

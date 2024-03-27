@@ -58,11 +58,9 @@ Partial Class FrmServiceName
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(856, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
         Me.RadMenuItem1.AccessibleName = "rdmenufile"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "File"
@@ -111,7 +109,7 @@ Partial Class FrmServiceName
         Me.txtServiceNameCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtServiceNameCode.MyLinkLable1 = Nothing
         Me.txtServiceNameCode.MyLinkLable2 = Nothing
-        Me.txtServiceNameCode.MyMaxLength = 12
+        Me.txtServiceNameCode.MyMaxLength = 30
         Me.txtServiceNameCode.MyReadOnly = False
         Me.txtServiceNameCode.Name = "txtServiceNameCode"
         Me.txtServiceNameCode.Size = New System.Drawing.Size(282, 21)

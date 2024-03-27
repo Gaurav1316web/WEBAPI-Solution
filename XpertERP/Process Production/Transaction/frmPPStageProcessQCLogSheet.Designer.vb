@@ -23,30 +23,31 @@ Partial Class frmPPStageProcessQCLogSheet
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmPPStageProcessQCLogSheet))
-        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer
-        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer
-        Me.txtsequnce = New common.MyNumBox
-        Me.MyLabel2 = New common.Controls.MyLabel
-        Me.txtstagecode = New common.UserControls.txtFinder
-        Me.MyLabel1 = New common.Controls.MyLabel
-        Me.txtstagename = New common.Controls.MyLabel
-        Me.txtcategorycode = New common.UserControls.txtFinder
-        Me.lblMasterItem = New common.Controls.MyLabel
-        Me.txtcategoryname = New common.Controls.MyLabel
-        Me.lblCode = New common.Controls.MyLabel
-        Me.lblBomDate = New common.Controls.MyLabel
-        Me.dtpDate = New common.Controls.MyDateTimePicker
-        Me.btnNew = New Telerik.WinControls.UI.RadButton
-        Me.txtCode = New common.UserControls.txtNavigator
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu
-        Me.rdmenufile = New Telerik.WinControls.UI.RadMenuItem
-        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView
-        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage
-        Me.gv = New common.UserControls.MyRadGridView
-        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage
-        Me.UcAttachment1 = New XpertERPEngine.ucAttachment
-        Me.btnclose = New Telerik.WinControls.UI.RadButton
-        Me.btnsave = New Telerik.WinControls.UI.RadButton
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.txtsequnce = New common.MyNumBox()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtstagecode = New common.UserControls.txtFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtstagename = New common.Controls.MyLabel()
+        Me.txtcategorycode = New common.UserControls.txtFinder()
+        Me.lblMasterItem = New common.Controls.MyLabel()
+        Me.txtcategoryname = New common.Controls.MyLabel()
+        Me.lblCode = New common.Controls.MyLabel()
+        Me.lblBomDate = New common.Controls.MyLabel()
+        Me.dtpDate = New common.Controls.MyDateTimePicker()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.rdmenufile = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
+        Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.gv = New common.UserControls.MyRadGridView()
+        Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -135,21 +136,34 @@ Partial Class frmPPStageProcessQCLogSheet
         'txtsequnce
         '
         Me.txtsequnce.BackColor = System.Drawing.Color.LightGoldenrodYellow
+        Me.txtsequnce.CalculationExpression = Nothing
         Me.txtsequnce.DecimalPlaces = 0
+        Me.txtsequnce.FieldCode = Nothing
+        Me.txtsequnce.FieldDesc = Nothing
+        Me.txtsequnce.FieldMaxLength = 0
+        Me.txtsequnce.FieldName = Nothing
+        Me.txtsequnce.isCalculatedField = False
+        Me.txtsequnce.IsSourceFromTable = False
+        Me.txtsequnce.IsSourceFromValueList = False
+        Me.txtsequnce.IsUnique = False
         Me.txtsequnce.Location = New System.Drawing.Point(129, 100)
         Me.txtsequnce.MaxLength = 10
         Me.txtsequnce.MendatroryField = True
         Me.txtsequnce.MyLinkLable1 = Me.MyLabel2
         Me.txtsequnce.MyLinkLable2 = Nothing
         Me.txtsequnce.Name = "txtsequnce"
+        Me.txtsequnce.ReferenceFieldDesc = Nothing
+        Me.txtsequnce.ReferenceFieldName = Nothing
+        Me.txtsequnce.ReferenceTableName = Nothing
         Me.txtsequnce.Size = New System.Drawing.Size(153, 20)
         Me.txtsequnce.TabIndex = 4
         Me.txtsequnce.Text = "0"
         Me.txtsequnce.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtsequnce.Value = 0
+        Me.txtsequnce.Value = 0R
         '
         'MyLabel2
         '
+        Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.MyLabel2.Location = New System.Drawing.Point(9, 101)
         Me.MyLabel2.Name = "MyLabel2"
@@ -159,19 +173,33 @@ Partial Class frmPPStageProcessQCLogSheet
         '
         'txtstagecode
         '
+        Me.txtstagecode.CalculationExpression = Nothing
+        Me.txtstagecode.FieldCode = Nothing
+        Me.txtstagecode.FieldDesc = Nothing
+        Me.txtstagecode.FieldMaxLength = 0
+        Me.txtstagecode.FieldName = Nothing
+        Me.txtstagecode.isCalculatedField = False
+        Me.txtstagecode.IsSourceFromTable = False
+        Me.txtstagecode.IsSourceFromValueList = False
+        Me.txtstagecode.IsUnique = False
         Me.txtstagecode.Location = New System.Drawing.Point(129, 77)
         Me.txtstagecode.MendatroryField = True
         Me.txtstagecode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtstagecode.MyLinkLable1 = Me.MyLabel1
         Me.txtstagecode.MyLinkLable2 = Me.txtstagename
         Me.txtstagecode.MyReadOnly = False
+        Me.txtstagecode.MyShowMasterFormButton = False
         Me.txtstagecode.Name = "txtstagecode"
+        Me.txtstagecode.ReferenceFieldDesc = Nothing
+        Me.txtstagecode.ReferenceFieldName = Nothing
+        Me.txtstagecode.ReferenceTableName = Nothing
         Me.txtstagecode.Size = New System.Drawing.Size(153, 19)
         Me.txtstagecode.TabIndex = 3
         Me.txtstagecode.Value = ""
         '
         'MyLabel1
         '
+        Me.MyLabel1.FieldName = Nothing
         Me.MyLabel1.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.MyLabel1.Location = New System.Drawing.Point(9, 77)
         Me.MyLabel1.Name = "MyLabel1"
@@ -183,27 +211,41 @@ Partial Class frmPPStageProcessQCLogSheet
         '
         Me.txtstagename.AutoSize = False
         Me.txtstagename.BorderVisible = True
+        Me.txtstagename.FieldName = Nothing
         Me.txtstagename.Location = New System.Drawing.Point(286, 77)
         Me.txtstagename.Name = "txtstagename"
         Me.txtstagename.Size = New System.Drawing.Size(349, 19)
         Me.txtstagename.TabIndex = 40
-        Me.txtstagename.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtcategorycode
         '
+        Me.txtcategorycode.CalculationExpression = Nothing
+        Me.txtcategorycode.FieldCode = Nothing
+        Me.txtcategorycode.FieldDesc = Nothing
+        Me.txtcategorycode.FieldMaxLength = 0
+        Me.txtcategorycode.FieldName = Nothing
+        Me.txtcategorycode.isCalculatedField = False
+        Me.txtcategorycode.IsSourceFromTable = False
+        Me.txtcategorycode.IsSourceFromValueList = False
+        Me.txtcategorycode.IsUnique = False
         Me.txtcategorycode.Location = New System.Drawing.Point(129, 53)
         Me.txtcategorycode.MendatroryField = True
         Me.txtcategorycode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtcategorycode.MyLinkLable1 = Me.lblMasterItem
         Me.txtcategorycode.MyLinkLable2 = Me.txtcategoryname
         Me.txtcategorycode.MyReadOnly = False
+        Me.txtcategorycode.MyShowMasterFormButton = False
         Me.txtcategorycode.Name = "txtcategorycode"
+        Me.txtcategorycode.ReferenceFieldDesc = Nothing
+        Me.txtcategorycode.ReferenceFieldName = Nothing
+        Me.txtcategorycode.ReferenceTableName = Nothing
         Me.txtcategorycode.Size = New System.Drawing.Size(153, 19)
         Me.txtcategorycode.TabIndex = 2
         Me.txtcategorycode.Value = ""
         '
         'lblMasterItem
         '
+        Me.lblMasterItem.FieldName = Nothing
         Me.lblMasterItem.Font = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.lblMasterItem.Location = New System.Drawing.Point(9, 52)
         Me.lblMasterItem.Name = "lblMasterItem"
@@ -215,14 +257,15 @@ Partial Class frmPPStageProcessQCLogSheet
         '
         Me.txtcategoryname.AutoSize = False
         Me.txtcategoryname.BorderVisible = True
+        Me.txtcategoryname.FieldName = Nothing
         Me.txtcategoryname.Location = New System.Drawing.Point(286, 53)
         Me.txtcategoryname.Name = "txtcategoryname"
         Me.txtcategoryname.Size = New System.Drawing.Size(349, 19)
         Me.txtcategoryname.TabIndex = 37
-        Me.txtcategoryname.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'lblCode
         '
+        Me.lblCode.FieldName = Nothing
         Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblCode.Location = New System.Drawing.Point(9, 29)
         Me.lblCode.Name = "lblCode"
@@ -232,6 +275,7 @@ Partial Class frmPPStageProcessQCLogSheet
         '
         'lblBomDate
         '
+        Me.lblBomDate.FieldName = Nothing
         Me.lblBomDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblBomDate.Location = New System.Drawing.Point(516, 30)
         Me.lblBomDate.Name = "lblBomDate"
@@ -241,9 +285,18 @@ Partial Class frmPPStageProcessQCLogSheet
         '
         'dtpDate
         '
+        Me.dtpDate.CalculationExpression = Nothing
         Me.dtpDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpDate.FieldCode = Nothing
+        Me.dtpDate.FieldDesc = Nothing
+        Me.dtpDate.FieldMaxLength = 0
+        Me.dtpDate.FieldName = Nothing
         Me.dtpDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.dtpDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpDate.isCalculatedField = False
+        Me.dtpDate.IsSourceFromTable = False
+        Me.dtpDate.IsSourceFromValueList = False
+        Me.dtpDate.IsUnique = False
         Me.dtpDate.Location = New System.Drawing.Point(549, 29)
         Me.dtpDate.MendatroryField = True
         Me.dtpDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
@@ -251,6 +304,9 @@ Partial Class frmPPStageProcessQCLogSheet
         Me.dtpDate.MyLinkLable2 = Nothing
         Me.dtpDate.Name = "dtpDate"
         Me.dtpDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpDate.ReferenceFieldDesc = Nothing
+        Me.dtpDate.ReferenceFieldName = Nothing
+        Me.dtpDate.ReferenceTableName = Nothing
         Me.dtpDate.Size = New System.Drawing.Size(86, 18)
         Me.dtpDate.TabIndex = 1
         Me.dtpDate.TabStop = False
@@ -268,6 +324,7 @@ Partial Class frmPPStageProcessQCLogSheet
         '
         'txtCode
         '
+        Me.txtCode.FieldName = Nothing
         Me.txtCode.Location = New System.Drawing.Point(129, 27)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
@@ -288,7 +345,6 @@ Partial Class frmPPStageProcessQCLogSheet
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(902, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         Me.RadMenu1.Visible = False
         '
         'rdmenufile
@@ -298,7 +354,6 @@ Partial Class frmPPStageProcessQCLogSheet
         Me.rdmenufile.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rdmenufile.Name = "rdmenufile"
         Me.rdmenufile.Text = "File"
-        Me.rdmenufile.Visibility = Telerik.WinControls.ElementVisibility.Visible
         '
         'RadPageView1
         '
@@ -310,7 +365,6 @@ Partial Class frmPPStageProcessQCLogSheet
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(902, 334)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -327,16 +381,20 @@ Partial Class frmPPStageProcessQCLogSheet
         Me.gv.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AllowDragToGroup = False
         Me.gv.MasterTemplate.EnableFiltering = True
         Me.gv.MasterTemplate.EnableGrouping = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.ShowGroupPanel = False
+        Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(881, 286)
         Me.gv.TabIndex = 0
-        Me.gv.Text = "RadGridView1"
         '
         'RadPageViewPage2
         '

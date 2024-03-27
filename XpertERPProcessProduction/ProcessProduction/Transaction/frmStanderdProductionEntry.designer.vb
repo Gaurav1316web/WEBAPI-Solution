@@ -45,6 +45,7 @@ Partial Class frmStanderdProductionEntry
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.lblBatchNo = New common.Controls.MyLabel()
         Me.lblReceiptCode = New common.Controls.MyLabel()
+        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.RadLabel5 = New common.Controls.MyLabel()
         Me.dtpDate = New common.Controls.MyDateTimePicker()
@@ -82,7 +83,6 @@ Partial Class frmStanderdProductionEntry
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -103,6 +103,7 @@ Partial Class frmStanderdProductionEntry
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBatchNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblReceiptCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -140,7 +141,6 @@ Partial Class frmStanderdProductionEntry
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -488,6 +488,16 @@ Partial Class frmStanderdProductionEntry
         Me.lblReceiptCode.TabIndex = 18
         Me.lblReceiptCode.Text = "Receipt Code"
         '
+        'btnAddNew
+        '
+        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertERPProcessProduction.My.Resources.Resources._new
+        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnAddNew.Location = New System.Drawing.Point(329, 8)
+        Me.btnAddNew.Name = "btnAddNew"
+        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
+        Me.btnAddNew.TabIndex = 1
+        '
         'txtDesc
         '
         Me.txtDesc.CalculationExpression = Nothing
@@ -648,7 +658,7 @@ Partial Class frmStanderdProductionEntry
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblReceiptCode
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(228, 19)
@@ -711,23 +721,23 @@ Partial Class frmStanderdProductionEntry
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.pageBatchProduction
+        Me.RadPageView1.SelectedPage = Me.pageConsumption
         Me.RadPageView1.Size = New System.Drawing.Size(1036, 312)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Production"
-        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Production"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(2), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Consumption"
+        CType(Me.RadPageView1.GetChildAt(0).GetChildAt(3), Telerik.WinControls.UI.RadPageViewLabelElement).Text = "Consumption"
         '
         'pageBatchProduction
         '
         Me.pageBatchProduction.Controls.Add(Me.RadGroupBox2)
         Me.pageBatchProduction.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.pageBatchProduction.ItemSize = New System.Drawing.SizeF(66.0!, 22.0!)
-        Me.pageBatchProduction.Location = New System.Drawing.Point(10, 31)
+        Me.pageBatchProduction.ItemSize = New System.Drawing.SizeF(70.0!, 26.0!)
+        Me.pageBatchProduction.Location = New System.Drawing.Point(10, 35)
         Me.pageBatchProduction.Name = "pageBatchProduction"
-        Me.pageBatchProduction.Size = New System.Drawing.Size(1015, 270)
+        Me.pageBatchProduction.Size = New System.Drawing.Size(1015, 266)
         Me.pageBatchProduction.Text = "Production"
         '
         'RadGroupBox2
@@ -740,7 +750,7 @@ Partial Class frmStanderdProductionEntry
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1015, 270)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1015, 266)
         Me.RadGroupBox2.TabIndex = 9
         Me.RadGroupBox2.Text = "Received Item Details"
         '
@@ -760,18 +770,19 @@ Partial Class frmStanderdProductionEntry
         Me.gvBatch.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBatch.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvBatch.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvBatch.MyStopExport = False
         Me.gvBatch.Name = "gvBatch"
         Me.gvBatch.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvBatch.ShowGroupPanel = False
         Me.gvBatch.ShowHeaderCellButtons = True
-        Me.gvBatch.Size = New System.Drawing.Size(995, 240)
+        Me.gvBatch.Size = New System.Drawing.Size(995, 236)
         Me.gvBatch.TabIndex = 0
         Me.gvBatch.TabStop = False
         '
         'pageConsumption
         '
         Me.pageConsumption.Controls.Add(Me.RadGroupBox1)
-        Me.pageConsumption.ItemSize = New System.Drawing.SizeF(79.0!, 22.0!)
+        Me.pageConsumption.ItemSize = New System.Drawing.SizeF(83.0!, 26.0!)
         Me.pageConsumption.Location = New System.Drawing.Point(10, 35)
         Me.pageConsumption.Name = "pageConsumption"
         Me.pageConsumption.Size = New System.Drawing.Size(1015, 266)
@@ -808,6 +819,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvConsumption.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvConsumption.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvConsumption.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvConsumption.MyStopExport = False
         Me.gvConsumption.Name = "gvConsumption"
         Me.gvConsumption.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvConsumption.ShowGroupPanel = False
@@ -819,7 +831,7 @@ Partial Class frmStanderdProductionEntry
         'pageProductionCost
         '
         Me.pageProductionCost.Controls.Add(Me.RadGroupBox3)
-        Me.pageProductionCost.ItemSize = New System.Drawing.SizeF(93.0!, 22.0!)
+        Me.pageProductionCost.ItemSize = New System.Drawing.SizeF(97.0!, 26.0!)
         Me.pageProductionCost.Location = New System.Drawing.Point(10, 35)
         Me.pageProductionCost.Name = "pageProductionCost"
         Me.pageProductionCost.Size = New System.Drawing.Size(1015, 266)
@@ -856,6 +868,7 @@ Partial Class frmStanderdProductionEntry
         Me.gvProductionCost.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvProductionCost.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvProductionCost.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvProductionCost.MyStopExport = False
         Me.gvProductionCost.Name = "gvProductionCost"
         Me.gvProductionCost.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvProductionCost.ShowGroupPanel = False
@@ -867,7 +880,7 @@ Partial Class frmStanderdProductionEntry
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.UcAttachment1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1015, 266)
@@ -990,16 +1003,6 @@ Partial Class frmStanderdProductionEntry
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Import"
         '
-        'btnAddNew
-        '
-        Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = Global.XpertERPProcessProduction.My.Resources.Resources._new
-        Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(329, 8)
-        Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(20, 19)
-        Me.btnAddNew.TabIndex = 1
-        '
         'frmStanderdProductionEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1036,6 +1039,7 @@ Partial Class frmStanderdProductionEntry
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBatchNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblReceiptCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtpDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1073,7 +1077,6 @@ Partial Class frmStanderdProductionEntry
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

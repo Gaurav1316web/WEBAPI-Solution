@@ -24,6 +24,7 @@ Partial Class frmIncomeTaxSlab
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.cmbappliedfor = New common.Controls.MyComboBox()
         Me.MyLabel18 = New common.Controls.MyLabel()
@@ -96,17 +97,31 @@ Partial Class frmIncomeTaxSlab
         '
         Me.cmbappliedfor.AutoCompleteDisplayMember = Nothing
         Me.cmbappliedfor.AutoCompleteValueMember = Nothing
+        Me.cmbappliedfor.CalculationExpression = Nothing
+        Me.cmbappliedfor.DropDownAnimationEnabled = True
         Me.cmbappliedfor.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cmbappliedfor.FieldCode = Nothing
+        Me.cmbappliedfor.FieldDesc = Nothing
+        Me.cmbappliedfor.FieldMaxLength = 0
+        Me.cmbappliedfor.FieldName = Nothing
+        Me.cmbappliedfor.isCalculatedField = False
+        Me.cmbappliedfor.IsSourceFromTable = False
+        Me.cmbappliedfor.IsSourceFromValueList = False
+        Me.cmbappliedfor.IsUnique = False
         Me.cmbappliedfor.Location = New System.Drawing.Point(448, 46)
         Me.cmbappliedfor.MendatroryField = True
         Me.cmbappliedfor.MyLinkLable1 = Me.MyLabel18
         Me.cmbappliedfor.MyLinkLable2 = Nothing
         Me.cmbappliedfor.Name = "cmbappliedfor"
+        Me.cmbappliedfor.ReferenceFieldDesc = Nothing
+        Me.cmbappliedfor.ReferenceFieldName = Nothing
+        Me.cmbappliedfor.ReferenceTableName = Nothing
         Me.cmbappliedfor.Size = New System.Drawing.Size(135, 20)
         Me.cmbappliedfor.TabIndex = 198
         '
         'MyLabel18
         '
+        Me.MyLabel18.FieldName = Nothing
         Me.MyLabel18.Location = New System.Drawing.Point(375, 46)
         Me.MyLabel18.Name = "MyLabel18"
         Me.MyLabel18.Size = New System.Drawing.Size(67, 18)
@@ -116,7 +131,16 @@ Partial Class frmIncomeTaxSlab
         'TxtDesp
         '
         Me.TxtDesp.AutoSize = False
+        Me.TxtDesp.CalculationExpression = Nothing
+        Me.TxtDesp.FieldCode = Nothing
+        Me.TxtDesp.FieldDesc = Nothing
+        Me.TxtDesp.FieldMaxLength = 0
+        Me.TxtDesp.FieldName = Nothing
         Me.TxtDesp.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtDesp.isCalculatedField = False
+        Me.TxtDesp.IsSourceFromTable = False
+        Me.TxtDesp.IsSourceFromValueList = False
+        Me.TxtDesp.IsUnique = False
         Me.TxtDesp.Location = New System.Drawing.Point(95, 43)
         Me.TxtDesp.MaxLength = 100
         Me.TxtDesp.MendatroryField = False
@@ -124,12 +148,16 @@ Partial Class frmIncomeTaxSlab
         Me.TxtDesp.MyLinkLable1 = Me.lblDescription
         Me.TxtDesp.MyLinkLable2 = Nothing
         Me.TxtDesp.Name = "TxtDesp"
+        Me.TxtDesp.ReferenceFieldDesc = Nothing
+        Me.TxtDesp.ReferenceFieldName = Nothing
+        Me.TxtDesp.ReferenceTableName = Nothing
         Me.TxtDesp.Size = New System.Drawing.Size(274, 21)
         Me.TxtDesp.TabIndex = 196
         Me.TxtDesp.Text = " "
         '
         'lblDescription
         '
+        Me.lblDescription.FieldName = Nothing
         Me.lblDescription.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDescription.Location = New System.Drawing.Point(23, 43)
         Me.lblDescription.Name = "lblDescription"
@@ -139,7 +167,7 @@ Partial Class frmIncomeTaxSlab
         '
         'btnnew
         '
-        Me.btnnew.Image = My.Resources.Resources._new
+        Me.btnnew.Image = Global.XpertERPTDS.My.Resources.Resources._new
         Me.btnnew.Location = New System.Drawing.Point(355, 16)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(15, 21)
@@ -147,13 +175,14 @@ Partial Class frmIncomeTaxSlab
         '
         'txtcode
         '
+        Me.txtcode.FieldName = Nothing
         Me.txtcode.Location = New System.Drawing.Point(94, 16)
         Me.txtcode.MendatroryField = True
         Me.txtcode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtcode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtcode.MyLinkLable1 = Nothing
         Me.txtcode.MyLinkLable2 = Nothing
-        Me.txtcode.MyMaxLength = 32767
+        Me.txtcode.MyMaxLength = 30
         Me.txtcode.MyReadOnly = False
         Me.txtcode.Name = "txtcode"
         Me.txtcode.Size = New System.Drawing.Size(261, 21)
@@ -162,6 +191,7 @@ Partial Class frmIncomeTaxSlab
         '
         'lblItemCategoryCode
         '
+        Me.lblItemCategoryCode.FieldName = Nothing
         Me.lblItemCategoryCode.Font = New System.Drawing.Font("Arial", 8.25!)
         Me.lblItemCategoryCode.Location = New System.Drawing.Point(23, 21)
         Me.lblItemCategoryCode.Name = "lblItemCategoryCode"
@@ -202,15 +232,20 @@ Partial Class frmIncomeTaxSlab
         Me.gv.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv.Location = New System.Drawing.Point(0, 0)
         '
-        'gv
+        '
         '
         Me.gv.MasterTemplate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         Me.gv.MasterTemplate.AllowAddNewRow = False
         Me.gv.MasterTemplate.AutoGenerateColumns = False
         Me.gv.MasterTemplate.EnableCustomFiltering = True
         Me.gv.MasterTemplate.EnableGrouping = False
+        Me.gv.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv.MyStopExport = False
         Me.gv.Name = "gv"
         Me.gv.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gv.ShowHeaderCellButtons = True
         Me.gv.Size = New System.Drawing.Size(643, 288)
         Me.gv.TabIndex = 5
         '
@@ -251,12 +286,9 @@ Partial Class frmIncomeTaxSlab
         Me.RadMenu2.Name = "RadMenu2"
         Me.RadMenu2.Size = New System.Drawing.Size(643, 20)
         Me.RadMenu2.TabIndex = 63
-        Me.RadMenu2.Text = "RadMenu2"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "File"
-        Me.RadMenuItem3.AccessibleName = "File"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmExport, Me.rmImport})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "File"
@@ -271,15 +303,11 @@ Partial Class frmIncomeTaxSlab
         '
         'rmExportHead
         '
-        Me.rmExportHead.AccessibleDescription = "Export Head"
-        Me.rmExportHead.AccessibleName = "Export Head"
         Me.rmExportHead.Name = "rmExportHead"
         Me.rmExportHead.Text = "Export Head"
         '
         'rmExportDetail
         '
-        Me.rmExportDetail.AccessibleDescription = "Export Detail"
-        Me.rmExportDetail.AccessibleName = "Export Detail"
         Me.rmExportDetail.Name = "rmExportDetail"
         Me.rmExportDetail.Text = "Export Detail"
         '

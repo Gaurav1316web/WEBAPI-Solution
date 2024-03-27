@@ -46,7 +46,7 @@ Public Class FrmHREXTerminationLetter
 
 
         If clsCommon.myLen(clsCommon.myCstr(Txtemployeetype.Value)) <= 0 Then
-            myMessages.blankValue("Employee ")
+            myMessages.blankValue(Me, "Employee ", Me.Text)
             Txtemployeetype.Focus()
             Txtemployeetype.Select()
             Errorcontrol.SetError(Txtemployeetype, "Employee ")
@@ -57,7 +57,7 @@ Public Class FrmHREXTerminationLetter
 
 
         If clsCommon.myLen(clsCommon.myCstr(txtResonOfResignation.Rtf)) <= 0 Then
-            myMessages.blankValue("Reson Of Termination ")
+            myMessages.blankValue(Me, "Reson Of Termination ", Me.Text)
             txtResonOfResignation.Focus()
             txtResonOfResignation.Select()
             Errorcontrol.SetError(txtResonOfResignation, "Reson Of Termination ")

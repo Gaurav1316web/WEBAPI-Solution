@@ -745,7 +745,7 @@ Partial Class FrmMilkTransferIn
         Me.fndRcptChalanNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndRcptChalanNo.MyLinkLable1 = Me.lChalanNo
         Me.fndRcptChalanNo.MyLinkLable2 = Nothing
-        Me.fndRcptChalanNo.MyMaxLength = 32767
+        Me.fndRcptChalanNo.MyMaxLength = 30
         Me.fndRcptChalanNo.MyReadOnly = False
         Me.fndRcptChalanNo.Name = "fndRcptChalanNo"
         Me.fndRcptChalanNo.Size = New System.Drawing.Size(304, 21)
@@ -770,7 +770,7 @@ Partial Class FrmMilkTransferIn
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1122, 328)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None

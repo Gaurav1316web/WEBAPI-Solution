@@ -186,12 +186,9 @@ Partial Class frmConsumerMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(944, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem3, Me.RadMenuItem4})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -199,22 +196,16 @@ Partial Class frmConsumerMaster
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Import"
-        Me.RadMenuItem2.AccessibleName = "Import"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Export"
-        Me.RadMenuItem3.AccessibleName = "Export"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Export"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Exit"
-        Me.RadMenuItem4.AccessibleName = "Exit"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Exit"
         '
@@ -299,6 +290,7 @@ Partial Class frmConsumerMaster
         Me.ddlGender.AutoCompleteDisplayMember = Nothing
         Me.ddlGender.AutoCompleteValueMember = Nothing
         Me.ddlGender.CalculationExpression = Nothing
+        Me.ddlGender.DropDownAnimationEnabled = True
         Me.ddlGender.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlGender.FieldCode = Nothing
         Me.ddlGender.FieldDesc = Nothing
@@ -334,6 +326,7 @@ Partial Class frmConsumerMaster
         Me.ddlMaritalStatus.AutoCompleteDisplayMember = Nothing
         Me.ddlMaritalStatus.AutoCompleteValueMember = Nothing
         Me.ddlMaritalStatus.CalculationExpression = Nothing
+        Me.ddlMaritalStatus.DropDownAnimationEnabled = True
         Me.ddlMaritalStatus.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlMaritalStatus.FieldCode = Nothing
         Me.ddlMaritalStatus.FieldDesc = Nothing
@@ -369,6 +362,7 @@ Partial Class frmConsumerMaster
         Me.ddlTitle.AutoCompleteDisplayMember = Nothing
         Me.ddlTitle.AutoCompleteValueMember = Nothing
         Me.ddlTitle.CalculationExpression = Nothing
+        Me.ddlTitle.DropDownAnimationEnabled = True
         Me.ddlTitle.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlTitle.FieldCode = Nothing
         Me.ddlTitle.FieldDesc = Nothing
@@ -482,7 +476,7 @@ Partial Class frmConsumerMaster
         Me.fndConsumerCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndConsumerCode.MyLinkLable1 = Me.lblConsumer
         Me.fndConsumerCode.MyLinkLable2 = Nothing
-        Me.fndConsumerCode.MyMaxLength = 32767
+        Me.fndConsumerCode.MyMaxLength = 12
         Me.fndConsumerCode.MyReadOnly = False
         Me.fndConsumerCode.Name = "fndConsumerCode"
         Me.fndConsumerCode.Size = New System.Drawing.Size(260, 21)
@@ -696,7 +690,6 @@ Partial Class frmConsumerMaster
         Me.txtPCity.Name = "txtPCity"
         Me.txtPCity.Size = New System.Drawing.Size(139, 19)
         Me.txtPCity.TabIndex = 1422
-        Me.txtPCity.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtPState
         '
@@ -707,7 +700,6 @@ Partial Class frmConsumerMaster
         Me.txtPState.Name = "txtPState"
         Me.txtPState.Size = New System.Drawing.Size(139, 19)
         Me.txtPState.TabIndex = 1421
-        Me.txtPState.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtPCountry
         '
@@ -718,7 +710,6 @@ Partial Class frmConsumerMaster
         Me.txtPCountry.Name = "txtPCountry"
         Me.txtPCountry.Size = New System.Drawing.Size(139, 19)
         Me.txtPCountry.TabIndex = 1420
-        Me.txtPCountry.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtCity
         '
@@ -729,7 +720,6 @@ Partial Class frmConsumerMaster
         Me.txtCity.Name = "txtCity"
         Me.txtCity.Size = New System.Drawing.Size(139, 19)
         Me.txtCity.TabIndex = 1419
-        Me.txtCity.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtState
         '
@@ -740,7 +730,6 @@ Partial Class frmConsumerMaster
         Me.txtState.Name = "txtState"
         Me.txtState.Size = New System.Drawing.Size(139, 19)
         Me.txtState.TabIndex = 1418
-        Me.txtState.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'txtCountry
         '
@@ -751,13 +740,13 @@ Partial Class frmConsumerMaster
         Me.txtCountry.Name = "txtCountry"
         Me.txtCountry.Size = New System.Drawing.Size(139, 19)
         Me.txtCountry.TabIndex = 1393
-        Me.txtCountry.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'ddlHowKnow
         '
         Me.ddlHowKnow.AutoCompleteDisplayMember = Nothing
         Me.ddlHowKnow.AutoCompleteValueMember = Nothing
         Me.ddlHowKnow.CalculationExpression = Nothing
+        Me.ddlHowKnow.DropDownAnimationEnabled = True
         Me.ddlHowKnow.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlHowKnow.FieldCode = Nothing
         Me.ddlHowKnow.FieldDesc = Nothing
@@ -793,6 +782,7 @@ Partial Class frmConsumerMaster
         Me.ddlProductUsed.AutoCompleteDisplayMember = Nothing
         Me.ddlProductUsed.AutoCompleteValueMember = Nothing
         Me.ddlProductUsed.CalculationExpression = Nothing
+        Me.ddlProductUsed.DropDownAnimationEnabled = True
         Me.ddlProductUsed.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlProductUsed.FieldCode = Nothing
         Me.ddlProductUsed.FieldDesc = Nothing
@@ -1473,14 +1463,14 @@ Partial Class frmConsumerMaster
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
-        'FrmConsumerDetailsForm
+        'frmConsumerMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(944, 563)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
-        Me.Name = "FrmConsumerDetailsForm"
+        Me.Name = "frmConsumerMaster"
         '
         '
         '

@@ -496,7 +496,7 @@ Partial Class GroupProgramMapping
         Me.fndgroup.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndgroup.MyLinkLable1 = Me.lblcode
         Me.fndgroup.MyLinkLable2 = Nothing
-        Me.fndgroup.MyMaxLength = 32767
+        Me.fndgroup.MyMaxLength = 30
         Me.fndgroup.MyReadOnly = False
         Me.fndgroup.Name = "fndgroup"
         Me.fndgroup.Size = New System.Drawing.Size(235, 21)
@@ -509,9 +509,9 @@ Partial Class GroupProgramMapping
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(514, 10)
+        Me.RadLabel12.Location = New System.Drawing.Point(488, 10)
         Me.RadLabel12.Name = "RadLabel12"
-        Me.RadLabel12.Size = New System.Drawing.Size(258, 13)
+        Me.RadLabel12.Size = New System.Drawing.Size(284, 13)
         Me.RadLabel12.TabIndex = 337
         Me.RadLabel12.Text = "History will show only when current program code dubble click"
         '

@@ -43,10 +43,10 @@ Public Class FrmCustomerVendorMapping
     Sub SaveData()
         Try
             If fndcustomer.Value = "" Then
-                myMessages.blankValue("Customer Code")
+                myMessages.blankValue(Me, "Customer Code", Me.Text)
                 RadGroupBox1.Focus()
             ElseIf fndvendor.Value = "" Then
-                myMessages.blankValue("Vendor Code")
+                myMessages.blankValue(Me, "Vendor Code", Me.Text)
                 fndvendor.Focus()
             Else
                 If clsCommon.myLen(strCustVenPass) > 0 Then
@@ -118,7 +118,7 @@ Public Class FrmCustomerVendorMapping
     End Sub
     Sub DeleteData()
         If fndcustomer.Value = "" Then
-            myMessages.blankValue("Customer Code")
+            myMessages.blankValue(Me, "Customer Code", Me.Text)
         ElseIf myMessages.deleteConfirm() Then
             fundelete()
             myMessages.delete()

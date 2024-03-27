@@ -22,6 +22,10 @@ Partial Class frmjobWorkDebitNote
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.mnuSetting = New Telerik.WinControls.UI.RadMenuItem()
@@ -31,6 +35,7 @@ Partial Class frmjobWorkDebitNote
         Me.RadSplitContainer1 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.RadSplitContainer2 = New Telerik.WinControls.UI.RadSplitContainer()
         Me.SplitPanel1 = New Telerik.WinControls.UI.SplitPanel()
+        Me.UsLock1 = New common.usLock()
         Me.txtcustdesc = New common.Controls.MyTextBox()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
@@ -59,7 +64,6 @@ Partial Class frmjobWorkDebitNote
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.gvItemBulk = New Telerik.WinControls.UI.MasterGridViewTemplate()
-        Me.UsLock1 = New common.usLock()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -131,34 +135,25 @@ Partial Class frmjobWorkDebitNote
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(849, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'mnuSetting
         '
-        Me.mnuSetting.AccessibleDescription = "Setting"
-        Me.mnuSetting.AccessibleName = "Setting"
         Me.mnuSetting.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuSaveLayout, Me.mnuDeleteLayout, Me.mnuExit})
         Me.mnuSetting.Name = "mnuSetting"
         Me.mnuSetting.Text = "Setting"
         '
         'mnuSaveLayout
         '
-        Me.mnuSaveLayout.AccessibleDescription = "Save Layout"
-        Me.mnuSaveLayout.AccessibleName = "Save Layout"
         Me.mnuSaveLayout.Name = "mnuSaveLayout"
         Me.mnuSaveLayout.Text = "Save Layout"
         '
         'mnuDeleteLayout
         '
-        Me.mnuDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.mnuDeleteLayout.AccessibleName = "Delete Layout"
         Me.mnuDeleteLayout.Name = "mnuDeleteLayout"
         Me.mnuDeleteLayout.Text = "Delete Layout"
         '
         'mnuExit
         '
-        Me.mnuExit.AccessibleDescription = "Exit"
-        Me.mnuExit.AccessibleName = "Exit"
         Me.mnuExit.Name = "mnuExit"
         Me.mnuExit.Text = "Exit"
         '
@@ -176,7 +171,6 @@ Partial Class frmjobWorkDebitNote
         Me.RadSplitContainer1.Size = New System.Drawing.Size(849, 559)
         Me.RadSplitContainer1.TabIndex = 2
         Me.RadSplitContainer1.TabStop = False
-        Me.RadSplitContainer1.Text = "RadSplitContainer1"
         '
         'RadSplitContainer2
         '
@@ -193,7 +187,6 @@ Partial Class frmjobWorkDebitNote
         Me.RadSplitContainer2.Size = New System.Drawing.Size(849, 559)
         Me.RadSplitContainer2.TabIndex = 0
         Me.RadSplitContainer2.TabStop = False
-        Me.RadSplitContainer2.Text = "RadSplitContainer2"
         '
         'SplitPanel1
         '
@@ -216,11 +209,21 @@ Partial Class frmjobWorkDebitNote
         '
         Me.SplitPanel1.RootElement.MinSize = New System.Drawing.Size(0, 0)
         Me.SplitPanel1.Size = New System.Drawing.Size(849, 104)
-        Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, -0.1442495!)
+        Me.SplitPanel1.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, -0.1442495!)
         Me.SplitPanel1.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -74)
         Me.SplitPanel1.TabIndex = 0
         Me.SplitPanel1.TabStop = False
         Me.SplitPanel1.Text = "SplitPanel1"
+        '
+        'UsLock1
+        '
+        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock1.Location = New System.Drawing.Point(520, 54)
+        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock1.Name = "UsLock1"
+        Me.UsLock1.Size = New System.Drawing.Size(98, 20)
+        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock1.TabIndex = 255
         '
         'txtcustdesc
         '
@@ -315,14 +318,16 @@ Partial Class frmjobWorkDebitNote
         '
         Me.MyRadGridView2.Location = New System.Drawing.Point(249, 17)
         '
-        'MyRadGridView2
         '
+        '
+        Me.MyRadGridView2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.MyRadGridView2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.MyRadGridView2.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.MyRadGridView2.MyStopExport = False
         Me.MyRadGridView2.Name = "MyRadGridView2"
         Me.MyRadGridView2.ShowHeaderCellButtons = True
         Me.MyRadGridView2.Size = New System.Drawing.Size(10, 10)
         Me.MyRadGridView2.TabIndex = 1
-        Me.MyRadGridView2.Text = "RadGridView1"
         Me.MyRadGridView2.Visible = False
         '
         'txtFromDate
@@ -447,7 +452,7 @@ Partial Class frmjobWorkDebitNote
         'btnReset
         '
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Image = My.Resources._new
+        Me.btnReset.Image = Global.XpertERPBulkProcurement.My.Resources.Resources._new
         Me.btnReset.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnReset.Location = New System.Drawing.Point(403, 5)
         Me.btnReset.Name = "btnReset"
@@ -489,7 +494,7 @@ Partial Class frmjobWorkDebitNote
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Nothing
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(311, 21)
@@ -506,7 +511,7 @@ Partial Class frmjobWorkDebitNote
         '
         Me.SplitPanel2.RootElement.MinSize = New System.Drawing.Size(0, 0)
         Me.SplitPanel2.Size = New System.Drawing.Size(849, 410)
-        Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, 0.411306!)
+        Me.SplitPanel2.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, 0.411306!)
         Me.SplitPanel2.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, 211)
         Me.SplitPanel2.TabIndex = 1
         Me.SplitPanel2.TabStop = False
@@ -522,7 +527,6 @@ Partial Class frmjobWorkDebitNote
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(849, 410)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         '
         'RadPageViewPage1
         '
@@ -538,17 +542,19 @@ Partial Class frmjobWorkDebitNote
         Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(828, 362)
         Me.gv1.TabIndex = 3
-        Me.gv1.Text = "RadGridView1"
         '
         'RadPageViewPage2
         '
@@ -568,13 +574,15 @@ Partial Class frmjobWorkDebitNote
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowGroupedColumns = True
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(817, 334)
         Me.gv2.TabIndex = 4
-        Me.gv2.Text = "RadGridView1"
         '
         'SplitPanel3
         '
@@ -589,7 +597,7 @@ Partial Class frmjobWorkDebitNote
         '
         Me.SplitPanel3.RootElement.MinSize = New System.Drawing.Size(0, 0)
         Me.SplitPanel3.Size = New System.Drawing.Size(849, 37)
-        Me.SplitPanel3.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0.0!, -0.2670566!)
+        Me.SplitPanel3.SizeInfo.AutoSizeScale = New System.Drawing.SizeF(0!, -0.2670566!)
         Me.SplitPanel3.SizeInfo.SplitterCorrection = New System.Drawing.Size(0, -137)
         Me.SplitPanel3.TabIndex = 2
         Me.SplitPanel3.TabStop = False
@@ -634,16 +642,7 @@ Partial Class frmjobWorkDebitNote
         'gvItemBulk
         '
         Me.gvItemBulk.ShowHeaderCellButtons = True
-        '
-        'UsLock1
-        '
-        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(520, 54)
-        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.UsLock1.Name = "UsLock1"
-        Me.UsLock1.Size = New System.Drawing.Size(98, 20)
-        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
-        Me.UsLock1.TabIndex = 255
+        Me.gvItemBulk.ViewDefinition = TableViewDefinition4
         '
         'frmjobWorkDebitNote
         '

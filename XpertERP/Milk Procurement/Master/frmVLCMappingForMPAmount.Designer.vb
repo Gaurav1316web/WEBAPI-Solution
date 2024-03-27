@@ -136,7 +136,7 @@ Partial Class frmVLCMappingForMPAmount
         Me.txtMCC.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtMCC.MyLinkLable1 = Me.RadLabel1
         Me.txtMCC.MyLinkLable2 = Nothing
-        Me.txtMCC.MyMaxLength = 32767
+        Me.txtMCC.MyMaxLength = 30
         Me.txtMCC.MyReadOnly = False
         Me.txtMCC.Name = "txtMCC"
         Me.txtMCC.Size = New System.Drawing.Size(287, 20)

@@ -160,7 +160,7 @@ Public Class FrmProfileMaster
             Return False
 
         ElseIf clsCommon.myLen(txtdesp.Text) <= 0 Then
-            myMessages.blankValue("Description")
+            myMessages.blankValue(Me, "Description", Me.Text)
             txtdesp.Focus()
             Return False
 

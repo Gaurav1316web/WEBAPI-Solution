@@ -31,6 +31,7 @@ Public Class FrmPendingBookingReport
         PageSetupReport_ID = MyBase.Form_ID
         TemplateGridview = gvData
         gvData.DataSource = Nothing
+        EnableDisableControl(False)
         gvData.Rows.Clear()
         SelFromDate = clsCommon.myCstr(txtToDate.Value.AddDays(-1).ToShortDateString())
         SelToDate = clsCommon.myCstr(txtToDate.Value.ToShortDateString())
@@ -41,81 +42,31 @@ Public Class FrmPendingBookingReport
         'Sanjay Ticket No-TEC/19/06/19-000552 Short Close Qty=(DELIVERY_NOTE_Qty-SHIPMENT_Qty)
         ' Ticket No : VIJ/09/12/19-000104 By Prabhakar Add customer Group and Booking Amount And Separate Scheme Query because Qty came double 
         Dim qry As String = ""
-        qry = "  select max(XXXFinal.[Customer Category Code]) as [Customer Category Code],max(XXXFinal.[Customer Category Desc]) as [Customer Category Desc]"
-        qry += " , max(XXXFinal.[Route Code]) as [Route Code],max(XXXFinal.[Route Name]) as [Route Name],max(XXXFinal.[Customer Code]) as [Customer Code],max(XXXFinal.[Customer Name]) as [Customer Name] ,max(XXXFinal.[Cust Group Code]) as [Cust Group Code],max(XXXFinal.[Cust Group Desc]) as [Cust Group Desc],XXXFinal.[Booking No],max(XXXFinal.[Booking Type]) as [Booking Type],XXXFinal.[Item Code],max(XXXFinal.[Item Desc]) as [Item Desc],XXXFinal.UOM, sum (XXXFinal.[Booking Qty]) as [Booking Qty], Sum( XXXFinal.[Booking Amount]) as [Booking Amount] ,max (XXXFinal.[DO No]) as [DO No],sum(XXXFinal.[DO Qty]) as [DO Qty],max(XXXFinal.[Dispatch No]) as [Dispatch No] ,sum(XXXFinal.[Dispatch Qty]) as [Dispatch Qty],sum(XXXFinal.[Short Close Qty]) as [Short Close Qty],sum (XXXFinal.[Balance Qty]) as [Balance Qty]  from ( "
-        qry += " select final.*,isnull([DO Qty]-([Short Close Qty]+[Dispatch Qty]),0) as [Balance Qty] from ( "
-        qry += "select max(TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code) as [Customer Category Code],max(TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC) as [Customer Category Desc]"
-        qry += ", max(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No) as [Route Code],max(TSPL_ROUTE_MASTER.Route_Desc) as [Route Name] "
-        qry += " ,max(TSPL_BOOKING_DETAIL.Cust_Code) as [Customer Code],max(TSPL_CUSTOMER_MASTER.Customer_Name) as [Customer Name], max(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as [Cust Group Code],max(TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc) as [Cust Group Desc],TSPL_BOOKING_MATSER.Document_No as [Booking No],max(TSPL_BOOKING_MATSER.Booking_Type) as [Booking Type],TSPL_BOOKING_DETAIL.Item_Code as [Item Code],max(TSPL_ITEM_MASTER.Item_Desc) as [Item Desc],max(TSPL_BOOKING_DETAIL.Unit_code) as UOM,sum(TSPL_BOOKING_DETAIL.Booking_Qty) as [Booking Qty],Sum (isnull(TSPL_BOOKING_DETAIL.Amount_with_Tax,0)) as [Booking Amount],max(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No) as [DO No],sum(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty) as [DO Qty],max(isnull(TSPL_SD_SHIPMENT_DETAIL.Document_Code,0)) as [Dispatch No],isnull(sum(TSPL_SD_SHIPMENT_DETAIL.Qty),0) as [Dispatch Qty] "
-        qry += " ,case when max(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close)='Y' then sum( TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty)-isnull(sum(TSPL_SD_SHIPMENT_DETAIL.Qty),0) else 0 end as [Short Close Qty] "
-        qry += " from TSPL_BOOKING_MATSER"
-        qry += " left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No"
-        qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code"
-        qry += " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code "
-        qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code "
-        qry += " left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_DETAIL.Document_No"
-        qry += " left outer join TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE on TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No and TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Scheme_Item = 'N'"
-        qry += " and TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code=TSPL_BOOKING_DETAIL.Item_Code"
-        qry += "  left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No "
-        qry += " and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code "
-        qry += " left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code   where 2=2 "
-        qry += " and  CONVERT(date,TSPL_BOOKING_MATSER.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " + Environment.NewLine & _
-                    "CONVERT(date,TSPL_BOOKING_MATSER.document_Date,103) <= convert(date,'" + strToDate + "',103)  and TSPL_BOOKING_DETAIL.Scheme_Item='N' "
+        Dim whr As String = ""
         If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-            qry += " and TSPL_BOOKING_DETAIL.Cust_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
-            qry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
+            whr = " and TSPL_SD_SHIPMENT_HEAD.Customer_Code in (" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
         End If
         If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
-            qry += " and TSPL_BOOKING_DETAIL.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtBookingType.arrValueMember IsNot Nothing AndAlso txtBookingType.arrValueMember.Count > 0 Then
-            qry += " and TSPL_BOOKING_MATSER.Booking_Type in(" + clsCommon.GetMulcallString(txtBookingType.arrValueMember) + ")" + Environment.NewLine
+            whr = " and TSPL_DEMAND_BOOKING_DETAIL.Item_Code in (" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
         End If
         If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-            qry += " and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
+            whr = " and TSPL_SD_SHIPMENT_HEAD.Route_No in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
         End If
-        qry += " group by TSPL_BOOKING_MATSER.Document_No,TSPL_BOOKING_DETAIL.Item_Code"
-        qry += " )Final "
-        qry += " Union All "
-        qry += " select final.*,isnull([DO Qty]-([Short Close Qty]+[Dispatch Qty]),0) as [Balance Qty] from ( "
-        qry += "select max(TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code) as [Customer Category Code],max(TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_DESC) as [Customer Category Desc]"
-        qry += ", max(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No) as [Route Code],max(TSPL_ROUTE_MASTER.Route_Desc) as [Route Name] "
-        qry += " ,max(TSPL_BOOKING_DETAIL.Cust_Code) as [Customer Code],max(TSPL_CUSTOMER_MASTER.Customer_Name) as [Customer Name], max(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as [Cust Group Code],max(TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Desc) as [Cust Group Desc],TSPL_BOOKING_MATSER.Document_No as [Booking No],max(TSPL_BOOKING_MATSER.Booking_Type) as [Booking Type],TSPL_BOOKING_DETAIL.Item_Code as [Item Code],max(TSPL_ITEM_MASTER.Item_Desc) as [Item Desc],max(TSPL_BOOKING_DETAIL.Unit_code) as UOM,sum(TSPL_BOOKING_DETAIL.Booking_Qty) as [Booking Qty],Sum (isnull(TSPL_BOOKING_DETAIL.Amount_with_Tax,0)) as [Booking Amount],max(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No) as [DO No],sum(TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty) as [DO Qty],max(isnull(TSPL_SD_SHIPMENT_DETAIL.Document_Code,0)) as [Dispatch No],isnull(sum(TSPL_SD_SHIPMENT_DETAIL.Qty),0) as [Dispatch Qty] "
-        qry += " ,case when max(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close)='Y' then sum( TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Qty)-isnull(sum(TSPL_SD_SHIPMENT_DETAIL.Qty),0) else 0 end as [Short Close Qty] "
-        qry += " from TSPL_BOOKING_MATSER"
-        qry += " left outer join TSPL_BOOKING_DETAIL on TSPL_BOOKING_DETAIL.Document_No=TSPL_BOOKING_MATSER.Document_No"
-        qry += " left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code=TSPL_BOOKING_DETAIL.Cust_Code"
-        qry += " left outer join TSPL_CUSTOMER_CATEGORY_MASTER on TSPL_CUSTOMER_CATEGORY_MASTER.CUST_CATEGORY_CODE=TSPL_CUSTOMER_MASTER.cust_category_code "
-        qry += " left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_BOOKING_DETAIL.Item_Code "
-        qry += " left outer join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_DETAIL.Document_No"
-        qry += " left outer join TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE on TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Document_No=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No and TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Scheme_Item = 'Y'"
-        qry += " and TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code=TSPL_BOOKING_DETAIL.Item_Code"
-        qry += "  left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.Delivery_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No "
-        qry += " and TSPL_SD_SHIPMENT_DETAIL.Item_Code=TSPL_DELIVERY_NOTE_DETAIL_FRESHSALE.Item_Code "
-        qry += " left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No left outer join TSPL_CUSTOMER_GROUP_MASTER on TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code   where 2=2 "
-        qry += " and  CONVERT(date,TSPL_BOOKING_MATSER.document_Date,103) >= convert(date,'" + strFromDate + "',103) AND " + Environment.NewLine & _
-                    "CONVERT(date,TSPL_BOOKING_MATSER.document_Date,103) <= convert(date,'" + strToDate + "',103)  and TSPL_BOOKING_DETAIL.Scheme_Item='Y' "
-        If txtMultiCustomer.arrValueMember IsNot Nothing AndAlso txtMultiCustomer.arrValueMember.Count > 0 Then
-            qry += " and TSPL_BOOKING_DETAIL.Cust_Code in(" + clsCommon.GetMulcallString(txtMultiCustomer.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If TxtMultiCustomerCategory.arrValueMember IsNot Nothing AndAlso TxtMultiCustomerCategory.arrValueMember.Count > 0 Then
-            qry += " and TSPL_CUSTOMER_CATEGORY_MASTER.cust_category_code in(" + clsCommon.GetMulcallString(TxtMultiCustomerCategory.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtMultItem.arrValueMember IsNot Nothing AndAlso txtMultItem.arrValueMember.Count > 0 Then
-            qry += " and TSPL_BOOKING_DETAIL.Item_Code in(" + clsCommon.GetMulcallString(txtMultItem.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtBookingType.arrValueMember IsNot Nothing AndAlso txtBookingType.arrValueMember.Count > 0 Then
-            qry += " and TSPL_BOOKING_MATSER.Booking_Type in(" + clsCommon.GetMulcallString(txtBookingType.arrValueMember) + ")" + Environment.NewLine
-        End If
-        If txtRoute.arrValueMember IsNot Nothing AndAlso txtRoute.arrValueMember.Count > 0 Then
-            qry += " and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Route_No in(" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")" + Environment.NewLine
-        End If
-        qry += " group by TSPL_BOOKING_MATSER.Document_No,TSPL_BOOKING_DETAIL.Item_Code"
-        qry += " )Final "
-        qry += " ) XXXFinal Group by XXXFinal.[Booking No],XXXFinal.[Item Code],XXXFinal.UOM Order By XXXFinal.[Booking No] "
-
+        qry = "  Select max(x.Customer_Code)[Distributor Code],max(x.Customer_Name)[Distributor Name],max(x.Route_No)[Route No.],max(x.Route_Desc)[Route Description],
+                 x.Item_Code,max(x.Item_Desc)[Item Description],max(x.Unit_code)UOM,sum(x.DemandQty)[Demand Qty],sum(x.DispatchQty)[Dispatch Qty],
+                 sum(x.BalanceQty)[Balance Qty] from (
+                select TSPL_SD_SHIPMENT_HEAD.Customer_Code,TSPL_CUSTOMER_MASTER.Customer_Name,
+                TSPL_SD_SHIPMENT_HEAD.Route_No,TSPL_SD_SHIPMENT_HEAD.Route_Desc,TSPL_DEMAND_BOOKING_DETAIL.Item_Code,
+                TSPL_ITEM_MASTER.Item_Desc,TSPL_DEMAND_BOOKING_DETAIL.Unit_code,TSPL_DEMAND_BOOKING_DETAIL.Qty as DemandQty,
+                TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty as DispatchQty,TSPL_DEMAND_BOOKING_DETAIL.Qty-TSPL_SD_SHIPMENT_BOOKING_DETAIL.Qty  as BalanceQty,TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code 
+                from TSPL_SD_SHIPMENT_HEAD
+                left join TSPL_SD_SHIPMENT_BOOKING_DETAIL on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_BOOKING_DETAIL.DOCUMENT_CODE
+                left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_SD_SHIPMENT_BOOKING_DETAIL.Booking_TR_Code=TSPL_DEMAND_BOOKING_DETAIL.TR_Code
+                left join TSPL_ITEM_MASTER on TSPL_DEMAND_BOOKING_DETAIL.Item_Code = TSPL_ITEM_MASTER.Item_Code
+                left join TSPL_CUSTOMER_MASTER ON TSPL_SD_SHIPMENT_HEAD.Customer_Code = TSPL_CUSTOMER_MASTER.Cust_Code
+                where 2=2 and CONVERT(date,Supply_Date,103) >= '" + strFromDate + "' and CONVERT(date,Supply_Date,103) <= '" + strToDate + "' " + whr + " )X Group by Item_Code"
+        'where 2=2 and CONVERT(date,Supply_Date,103) >= convert(date,'" + strFromDate + "',103) AND 
+        'CONVERT(date,Supply_Date,103) <= convert(date,'" + strToDate + "',103) "
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
@@ -127,10 +78,8 @@ Public Class FrmPendingBookingReport
             gvData.MasterTemplate.SummaryRowsBottom.Clear()
             gvData.DataSource = dt
 
-            gvData.Columns("DO No").IsVisible = False
-            gvData.Columns("Dispatch No").IsVisible = False
+            SetGridFormat()
 
-            SetGridFormationOFGV1()
             gvData.AutoExpandGroups = True
             gvData.ShowGroupPanel = False
             gvData.ShowRowHeaderColumn = False
@@ -142,14 +91,36 @@ Public Class FrmPendingBookingReport
         End If
 
     End Sub
+
+    Sub SetGridFormat()
+        gvData.TableElement.TableHeaderHeight = 40
+        gvData.MasterTemplate.ShowRowHeaderColumn = False
+        For ii As Integer = 0 To gvData.Columns.Count - 1
+            gvData.Columns(ii).ReadOnly = True
+        Next
+
+        'gvData.Columns("Booking_TR_Code").IsVisible = False
+        Dim summaryRowItem As New GridViewSummaryRowItem()
+        Dim item1 As New GridViewSummaryItem("Demand Qty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+        Dim item3 As New GridViewSummaryItem("Dispatch Qty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item3)
+        Dim item4 As New GridViewSummaryItem("Balance Qty", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item4)
+
+        gvData.ShowGroupPanel = False
+        gvData.MasterTemplate.AutoExpandGroups = True
+        gvData.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+        ReStoreGridLayout()
+    End Sub
     Sub SetGridFormationOFGV1()
         gvData.TableElement.TableHeaderHeight = 40
         gvData.MasterTemplate.ShowRowHeaderColumn = False
         For ii As Integer = 0 To gvData.Columns.Count - 1
             gvData.Columns(ii).ReadOnly = True
         Next
-  
-      
+
+
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim item1 As New GridViewSummaryItem("Booking Qty", "{0:F2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(item1)
@@ -210,29 +181,34 @@ Public Class FrmPendingBookingReport
         End Try
     End Sub
     Private Sub gvData_DoubleClick(sender As Object, e As EventArgs) Handles gvData.DoubleClick
-        Try
-            If gvData.Rows.Count > 0 Then
-                Dim strDispatchNo As String = Nothing
-                Dim strDoNo As String = Nothing
-                strDoNo = gvData.CurrentRow.Cells("DO No").Value
-                strDispatchNo = gvData.CurrentRow.Cells("Dispatch No").Value
-                Dim columnName As String = gvData.CurrentCell.ColumnInfo.Name
+        'Try
+        '    If gvData.Rows.Count > 0 Then
+        '        If rbtnDistributor.IsChecked Then
+        '        Else
+        '            Dim strDispatchNo As String = Nothing
+        '            Dim strDoNo As String = Nothing
+        '            strDoNo = gvData.CurrentRow.Cells("DO No").Value
+        '            strDispatchNo = gvData.CurrentRow.Cells("Dispatch No").Value
+        '            Dim columnName As String = gvData.CurrentCell.ColumnInfo.Name
 
-                If clsCommon.myLen(strDoNo) > 0 AndAlso clsCommon.CompairString(columnName, "DO Qty") = CompairStringResult.Equal Then
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmDeliveryOrderDairy, strDoNo)
-                ElseIf clsCommon.myLen(strDispatchNo) > 0 AndAlso clsCommon.CompairString(columnName, "Dispatch Qty") = CompairStringResult.Equal Then
-                    clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSaleDispatchDairy, strDispatchNo)
-                End If
-            End If
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+        '            If clsCommon.myLen(strDoNo) > 0 AndAlso clsCommon.CompairString(columnName, "DO Qty") = CompairStringResult.Equal Then
+        '                clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmDeliveryOrderDairy, strDoNo)
+        '            ElseIf clsCommon.myLen(strDispatchNo) > 0 AndAlso clsCommon.CompairString(columnName, "Dispatch Qty") = CompairStringResult.Equal Then
+        '                clsOpenTransactionForm.OpenTransacionForm(clsUserMgtCode.frmSaleDispatchDairy, strDispatchNo)
+        '            End If
+        '        End If
+
+        '    End If
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
 
     End Sub
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
         Reset()
     End Sub
     Private Sub Reset()
+        EnableDisableControl(True)
         txtfDate.Value = New DateTime(DateTime.Today.Year, DateTime.Today.Month, 1)
         txtToDate.Value = clsCommon.GETSERVERDATE()
         txtMultiCustomer.arrValueMember = Nothing
@@ -242,6 +218,15 @@ Public Class FrmPendingBookingReport
         TxtMultiCustomerCategory.arrValueMember = Nothing
         gvData.DataSource = Nothing
         RadPageView1.SelectedPage = RadPageViewPage1
+        rbtnDistributor.IsChecked = False
+    End Sub
+
+    Private Sub EnableDisableControl(ByVal val As Boolean)
+        RadGroupBox4.Enabled = val
+        txtMultiCustomer.Enabled = val
+        txtMultItem.Enabled = val
+        txtRoute.Enabled = val
+
     End Sub
     Private Sub FrmPendingBookingReport_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt And e.KeyCode = Keys.R Then
@@ -257,7 +242,7 @@ Public Class FrmPendingBookingReport
         Reset()
     End Sub
     Private Sub txtMultiCustomer__My_Click(sender As Object, e As EventArgs) Handles txtMultiCustomer._My_Click
-        Dim qry As String = " select cust_code as [Code], Customer_Name as [Name] from tspl_customer_master "
+        Dim qry As String = " select cust_code as [Code], Customer_Name as [Name] from tspl_customer_master where IsDistributor='Y'"
         txtMultiCustomer.arrValueMember = clsCommon.ShowMultipleSelectForm("CustMulSel", qry, "Code", "Name", txtMultiCustomer.arrValueMember, txtMultiCustomer.arrDispalyMember)
     End Sub
     Private Sub txtMultItem__My_Click(sender As Object, e As EventArgs) Handles txtMultItem._My_Click
@@ -295,7 +280,7 @@ Public Class FrmPendingBookingReport
             obj.GridColumns = gvData.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully",  Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", Me.Text)
             End If
 
             obj.GridLayout.Close()

@@ -243,12 +243,12 @@ Public Class FrmBulkRoutMaster
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtRouteNo.Value) <= 0 Then
-            myMessages.blankValue("Route No")
+            myMessages.blankValue(Me, "Route No", Me.Text)
             txtRouteNo.Focus()
             Return False
         End If
         If clsCommon.myLen(txtRouteName.Text) <= 0 Then
-            myMessages.blankValue("Route Name")
+            myMessages.blankValue(Me, "Route Name", Me.Text)
             txtRouteName.Focus()
             Return False
         End If
@@ -258,7 +258,7 @@ Public Class FrmBulkRoutMaster
             Return False
         End If
         If String.IsNullOrEmpty(txtWeight.Text) = True Then
-            myMessages.blankValue("Weight")
+            myMessages.blankValue(Me, "Weight", Me.Text)
             txtWeight.Focus()
             Return False
         End If
@@ -269,7 +269,7 @@ Public Class FrmBulkRoutMaster
             Return False
         End If
         If clsCommon.myLen(txtWeight.Value) <= 0 Then
-            myMessages.blankValue("Weight")
+            myMessages.blankValue(Me, "Weight", Me.Text)
             txtWeight.Focus()
             Return False
         End If

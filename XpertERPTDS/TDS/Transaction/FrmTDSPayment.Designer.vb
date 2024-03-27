@@ -24,9 +24,18 @@ Partial Class FrmTDSPayment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.lblChallanNo = New common.Controls.MyLabel()
+        Me.btnupdate = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel7 = New common.Controls.MyLabel()
+        Me.txtChallanNo = New common.Controls.MyTextBox()
+        Me.txtBSRCode = New common.Controls.MyTextBox()
+        Me.dtpChallanDate = New common.Controls.MyDateTimePicker()
+        Me.lblChallanDate = New common.Controls.MyLabel()
         Me.lblPayment_No = New common.Controls.MyLabel()
         Me.MyLabel4 = New common.Controls.MyLabel()
         Me.pnlCheque = New System.Windows.Forms.Panel()
@@ -43,12 +52,6 @@ Partial Class FrmTDSPayment
         Me.fndLocation = New common.UserControls.txtFinder()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.lblLocationName = New common.Controls.MyLabel()
-        Me.MyLabel7 = New common.Controls.MyLabel()
-        Me.txtBSRCode = New common.Controls.MyTextBox()
-        Me.lblChallanDate = New common.Controls.MyLabel()
-        Me.lblChallanNo = New common.Controls.MyLabel()
-        Me.dtpChallanDate = New common.Controls.MyDateTimePicker()
-        Me.txtChallanNo = New common.Controls.MyTextBox()
         Me.txtNatureofDeduction = New common.UserControls.txtMultiSelectFinder()
         Me.lblBankName = New common.Controls.MyLabel()
         Me.FndBankCode = New common.UserControls.txtFinder()
@@ -80,14 +83,20 @@ Partial Class FrmTDSPayment
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RdbSavelayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RdDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
-        Me.btnupdate = New Telerik.WinControls.UI.RadButton()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.lblChallanNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnupdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtChallanNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBSRCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpChallanDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblChallanDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPayment_No, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlCheque.SuspendLayout()
@@ -102,12 +111,6 @@ Partial Class FrmTDSPayment
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtBSRCode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblChallanDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblChallanNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.dtpChallanDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtChallanNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBankName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSectionName, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -132,8 +135,6 @@ Partial Class FrmTDSPayment
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnupdate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -171,7 +172,6 @@ Partial Class FrmTDSPayment
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1141, 476)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -216,6 +216,136 @@ Partial Class FrmTDSPayment
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1120, 430)
         Me.RadPageViewPage1.Text = "TDS Payment"
         '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.lblChallanNo)
+        Me.GroupBox1.Controls.Add(Me.btnupdate)
+        Me.GroupBox1.Controls.Add(Me.MyLabel7)
+        Me.GroupBox1.Controls.Add(Me.txtChallanNo)
+        Me.GroupBox1.Controls.Add(Me.txtBSRCode)
+        Me.GroupBox1.Controls.Add(Me.dtpChallanDate)
+        Me.GroupBox1.Controls.Add(Me.lblChallanDate)
+        Me.GroupBox1.Location = New System.Drawing.Point(15, 161)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(604, 66)
+        Me.GroupBox1.TabIndex = 393
+        Me.GroupBox1.TabStop = False
+        '
+        'lblChallanNo
+        '
+        Me.lblChallanNo.FieldName = Nothing
+        Me.lblChallanNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblChallanNo.Location = New System.Drawing.Point(6, 19)
+        Me.lblChallanNo.Name = "lblChallanNo"
+        Me.lblChallanNo.Size = New System.Drawing.Size(62, 16)
+        Me.lblChallanNo.TabIndex = 376
+        Me.lblChallanNo.Text = "Challan No"
+        '
+        'btnupdate
+        '
+        Me.btnupdate.Enabled = False
+        Me.btnupdate.Location = New System.Drawing.Point(420, 41)
+        Me.btnupdate.Name = "btnupdate"
+        Me.btnupdate.Size = New System.Drawing.Size(133, 20)
+        Me.btnupdate.TabIndex = 391
+        Me.btnupdate.Text = "Update After Posting"
+        Me.btnupdate.Visible = False
+        '
+        'MyLabel7
+        '
+        Me.MyLabel7.FieldName = Nothing
+        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel7.Location = New System.Drawing.Point(6, 41)
+        Me.MyLabel7.Name = "MyLabel7"
+        Me.MyLabel7.Size = New System.Drawing.Size(60, 16)
+        Me.MyLabel7.TabIndex = 380
+        Me.MyLabel7.Text = "BSR Code"
+        '
+        'txtChallanNo
+        '
+        Me.txtChallanNo.CalculationExpression = Nothing
+        Me.txtChallanNo.FieldCode = Nothing
+        Me.txtChallanNo.FieldDesc = Nothing
+        Me.txtChallanNo.FieldMaxLength = 0
+        Me.txtChallanNo.FieldName = Nothing
+        Me.txtChallanNo.isCalculatedField = False
+        Me.txtChallanNo.IsSourceFromTable = False
+        Me.txtChallanNo.IsSourceFromValueList = False
+        Me.txtChallanNo.IsUnique = False
+        Me.txtChallanNo.Location = New System.Drawing.Point(114, 16)
+        Me.txtChallanNo.MaxLength = 50
+        Me.txtChallanNo.MendatroryField = False
+        Me.txtChallanNo.MyLinkLable1 = Nothing
+        Me.txtChallanNo.MyLinkLable2 = Nothing
+        Me.txtChallanNo.Name = "txtChallanNo"
+        Me.txtChallanNo.ReferenceFieldDesc = Nothing
+        Me.txtChallanNo.ReferenceFieldName = Nothing
+        Me.txtChallanNo.ReferenceTableName = Nothing
+        Me.txtChallanNo.Size = New System.Drawing.Size(271, 20)
+        Me.txtChallanNo.TabIndex = 378
+        '
+        'txtBSRCode
+        '
+        Me.txtBSRCode.CalculationExpression = Nothing
+        Me.txtBSRCode.FieldCode = Nothing
+        Me.txtBSRCode.FieldDesc = Nothing
+        Me.txtBSRCode.FieldMaxLength = 0
+        Me.txtBSRCode.FieldName = Nothing
+        Me.txtBSRCode.isCalculatedField = False
+        Me.txtBSRCode.IsSourceFromTable = False
+        Me.txtBSRCode.IsSourceFromValueList = False
+        Me.txtBSRCode.IsUnique = False
+        Me.txtBSRCode.Location = New System.Drawing.Point(114, 40)
+        Me.txtBSRCode.MaxLength = 50
+        Me.txtBSRCode.MendatroryField = False
+        Me.txtBSRCode.MyLinkLable1 = Nothing
+        Me.txtBSRCode.MyLinkLable2 = Nothing
+        Me.txtBSRCode.Name = "txtBSRCode"
+        Me.txtBSRCode.ReferenceFieldDesc = Nothing
+        Me.txtBSRCode.ReferenceFieldName = Nothing
+        Me.txtBSRCode.ReferenceTableName = Nothing
+        Me.txtBSRCode.Size = New System.Drawing.Size(271, 20)
+        Me.txtBSRCode.TabIndex = 381
+        '
+        'dtpChallanDate
+        '
+        Me.dtpChallanDate.CalculationExpression = Nothing
+        Me.dtpChallanDate.CustomFormat = "dd/MM/yyyy"
+        Me.dtpChallanDate.FieldCode = Nothing
+        Me.dtpChallanDate.FieldDesc = Nothing
+        Me.dtpChallanDate.FieldMaxLength = 0
+        Me.dtpChallanDate.FieldName = Nothing
+        Me.dtpChallanDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.dtpChallanDate.isCalculatedField = False
+        Me.dtpChallanDate.IsSourceFromTable = False
+        Me.dtpChallanDate.IsSourceFromValueList = False
+        Me.dtpChallanDate.IsUnique = False
+        Me.dtpChallanDate.Location = New System.Drawing.Point(474, 16)
+        Me.dtpChallanDate.MendatroryField = False
+        Me.dtpChallanDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpChallanDate.MyLinkLable1 = Nothing
+        Me.dtpChallanDate.MyLinkLable2 = Nothing
+        Me.dtpChallanDate.Name = "dtpChallanDate"
+        Me.dtpChallanDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.dtpChallanDate.ReferenceFieldDesc = Nothing
+        Me.dtpChallanDate.ReferenceFieldName = Nothing
+        Me.dtpChallanDate.ReferenceTableName = Nothing
+        Me.dtpChallanDate.Size = New System.Drawing.Size(117, 20)
+        Me.dtpChallanDate.TabIndex = 379
+        Me.dtpChallanDate.TabStop = False
+        Me.dtpChallanDate.Text = "10/06/2011"
+        Me.dtpChallanDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
+        '
+        'lblChallanDate
+        '
+        Me.lblChallanDate.FieldName = Nothing
+        Me.lblChallanDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblChallanDate.Location = New System.Drawing.Point(399, 19)
+        Me.lblChallanDate.Name = "lblChallanDate"
+        Me.lblChallanDate.Size = New System.Drawing.Size(72, 16)
+        Me.lblChallanDate.TabIndex = 377
+        Me.lblChallanDate.Text = "Challan Date"
+        '
         'lblPayment_No
         '
         Me.lblPayment_No.AutoSize = False
@@ -225,7 +355,6 @@ Partial Class FrmTDSPayment
         Me.lblPayment_No.Name = "lblPayment_No"
         Me.lblPayment_No.Size = New System.Drawing.Size(240, 19)
         Me.lblPayment_No.TabIndex = 384
-        Me.lblPayment_No.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         '
         'MyLabel4
         '
@@ -367,7 +496,7 @@ Partial Class FrmTDSPayment
         Me.TxtTotalAmount.TabIndex = 385
         Me.TxtTotalAmount.Text = "0"
         Me.TxtTotalAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtTotalAmount.Value = 0.0R
+        Me.TxtTotalAmount.Value = 0R
         '
         'lblpaymentcode
         '
@@ -460,112 +589,6 @@ Partial Class FrmTDSPayment
         Me.lblLocationName.Name = "lblLocationName"
         Me.lblLocationName.Size = New System.Drawing.Size(316, 19)
         Me.lblLocationName.TabIndex = 383
-        Me.lblLocationName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
-        '
-        'MyLabel7
-        '
-        Me.MyLabel7.FieldName = Nothing
-        Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel7.Location = New System.Drawing.Point(6, 41)
-        Me.MyLabel7.Name = "MyLabel7"
-        Me.MyLabel7.Size = New System.Drawing.Size(60, 16)
-        Me.MyLabel7.TabIndex = 380
-        Me.MyLabel7.Text = "BSR Code"
-        '
-        'txtBSRCode
-        '
-        Me.txtBSRCode.CalculationExpression = Nothing
-        Me.txtBSRCode.FieldCode = Nothing
-        Me.txtBSRCode.FieldDesc = Nothing
-        Me.txtBSRCode.FieldMaxLength = 0
-        Me.txtBSRCode.FieldName = Nothing
-        Me.txtBSRCode.isCalculatedField = False
-        Me.txtBSRCode.IsSourceFromTable = False
-        Me.txtBSRCode.IsSourceFromValueList = False
-        Me.txtBSRCode.IsUnique = False
-        Me.txtBSRCode.Location = New System.Drawing.Point(114, 40)
-        Me.txtBSRCode.MaxLength = 50
-        Me.txtBSRCode.MendatroryField = False
-        Me.txtBSRCode.MyLinkLable1 = Nothing
-        Me.txtBSRCode.MyLinkLable2 = Nothing
-        Me.txtBSRCode.Name = "txtBSRCode"
-        Me.txtBSRCode.ReferenceFieldDesc = Nothing
-        Me.txtBSRCode.ReferenceFieldName = Nothing
-        Me.txtBSRCode.ReferenceTableName = Nothing
-        Me.txtBSRCode.Size = New System.Drawing.Size(271, 20)
-        Me.txtBSRCode.TabIndex = 381
-        '
-        'lblChallanDate
-        '
-        Me.lblChallanDate.FieldName = Nothing
-        Me.lblChallanDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblChallanDate.Location = New System.Drawing.Point(399, 19)
-        Me.lblChallanDate.Name = "lblChallanDate"
-        Me.lblChallanDate.Size = New System.Drawing.Size(72, 16)
-        Me.lblChallanDate.TabIndex = 377
-        Me.lblChallanDate.Text = "Challan Date"
-        '
-        'lblChallanNo
-        '
-        Me.lblChallanNo.FieldName = Nothing
-        Me.lblChallanNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblChallanNo.Location = New System.Drawing.Point(6, 19)
-        Me.lblChallanNo.Name = "lblChallanNo"
-        Me.lblChallanNo.Size = New System.Drawing.Size(62, 16)
-        Me.lblChallanNo.TabIndex = 376
-        Me.lblChallanNo.Text = "Challan No"
-        '
-        'dtpChallanDate
-        '
-        Me.dtpChallanDate.CalculationExpression = Nothing
-        Me.dtpChallanDate.CustomFormat = "dd/MM/yyyy"
-        Me.dtpChallanDate.FieldCode = Nothing
-        Me.dtpChallanDate.FieldDesc = Nothing
-        Me.dtpChallanDate.FieldMaxLength = 0
-        Me.dtpChallanDate.FieldName = Nothing
-        Me.dtpChallanDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.dtpChallanDate.isCalculatedField = False
-        Me.dtpChallanDate.IsSourceFromTable = False
-        Me.dtpChallanDate.IsSourceFromValueList = False
-        Me.dtpChallanDate.IsUnique = False
-        Me.dtpChallanDate.Location = New System.Drawing.Point(474, 16)
-        Me.dtpChallanDate.MendatroryField = False
-        Me.dtpChallanDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpChallanDate.MyLinkLable1 = Nothing
-        Me.dtpChallanDate.MyLinkLable2 = Nothing
-        Me.dtpChallanDate.Name = "dtpChallanDate"
-        Me.dtpChallanDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.dtpChallanDate.ReferenceFieldDesc = Nothing
-        Me.dtpChallanDate.ReferenceFieldName = Nothing
-        Me.dtpChallanDate.ReferenceTableName = Nothing
-        Me.dtpChallanDate.Size = New System.Drawing.Size(117, 20)
-        Me.dtpChallanDate.TabIndex = 379
-        Me.dtpChallanDate.TabStop = False
-        Me.dtpChallanDate.Text = "10/06/2011"
-        Me.dtpChallanDate.Value = New Date(2011, 6, 10, 11, 51, 56, 953)
-        '
-        'txtChallanNo
-        '
-        Me.txtChallanNo.CalculationExpression = Nothing
-        Me.txtChallanNo.FieldCode = Nothing
-        Me.txtChallanNo.FieldDesc = Nothing
-        Me.txtChallanNo.FieldMaxLength = 0
-        Me.txtChallanNo.FieldName = Nothing
-        Me.txtChallanNo.isCalculatedField = False
-        Me.txtChallanNo.IsSourceFromTable = False
-        Me.txtChallanNo.IsSourceFromValueList = False
-        Me.txtChallanNo.IsUnique = False
-        Me.txtChallanNo.Location = New System.Drawing.Point(114, 16)
-        Me.txtChallanNo.MaxLength = 50
-        Me.txtChallanNo.MendatroryField = False
-        Me.txtChallanNo.MyLinkLable1 = Nothing
-        Me.txtChallanNo.MyLinkLable2 = Nothing
-        Me.txtChallanNo.Name = "txtChallanNo"
-        Me.txtChallanNo.ReferenceFieldDesc = Nothing
-        Me.txtChallanNo.ReferenceFieldName = Nothing
-        Me.txtChallanNo.ReferenceTableName = Nothing
-        Me.txtChallanNo.Size = New System.Drawing.Size(271, 20)
-        Me.txtChallanNo.TabIndex = 378
         '
         'txtNatureofDeduction
         '
@@ -748,7 +771,7 @@ Partial Class FrmTDSPayment
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.MyLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(252, 19)
@@ -758,7 +781,7 @@ Partial Class FrmTDSPayment
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnAddNew.Image = My.Resources.Resources._new
+        Me.btnAddNew.Image = Global.XpertERPTDS.My.Resources.Resources._new
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(386, 0)
         Me.btnAddNew.Name = "btnAddNew"
@@ -875,10 +898,13 @@ Partial Class FrmTDSPayment
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -886,7 +912,6 @@ Partial Class FrmTDSPayment
         Me.gv1.Size = New System.Drawing.Size(1095, 166)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'Attachments
         '
@@ -950,54 +975,22 @@ Partial Class FrmTDSPayment
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1141, 20)
         Me.RadMenu1.TabIndex = 12
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RdbSavelayout, Me.RdDeleteLayout})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RdbSavelayout
         '
-        Me.RdbSavelayout.AccessibleDescription = "Save Layout"
-        Me.RdbSavelayout.AccessibleName = "Save Layout"
         Me.RdbSavelayout.Name = "RdbSavelayout"
         Me.RdbSavelayout.Text = "Save Layout"
         '
         'RdDeleteLayout
         '
-        Me.RdDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.RdDeleteLayout.AccessibleName = "Delete Layout"
         Me.RdDeleteLayout.Name = "RdDeleteLayout"
         Me.RdDeleteLayout.Text = "Delete Layout"
-        '
-        'btnupdate
-        '
-        Me.btnupdate.Enabled = False
-        Me.btnupdate.Location = New System.Drawing.Point(420, 41)
-        Me.btnupdate.Name = "btnupdate"
-        Me.btnupdate.Size = New System.Drawing.Size(133, 20)
-        Me.btnupdate.TabIndex = 391
-        Me.btnupdate.Text = "Update After Posting"
-        Me.btnupdate.Visible = False
-        '
-        'GroupBox1
-        '
-        Me.GroupBox1.Controls.Add(Me.lblChallanNo)
-        Me.GroupBox1.Controls.Add(Me.btnupdate)
-        Me.GroupBox1.Controls.Add(Me.MyLabel7)
-        Me.GroupBox1.Controls.Add(Me.txtChallanNo)
-        Me.GroupBox1.Controls.Add(Me.txtBSRCode)
-        Me.GroupBox1.Controls.Add(Me.dtpChallanDate)
-        Me.GroupBox1.Controls.Add(Me.lblChallanDate)
-        Me.GroupBox1.Location = New System.Drawing.Point(15, 161)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(604, 66)
-        Me.GroupBox1.TabIndex = 393
-        Me.GroupBox1.TabStop = False
         '
         'FrmTDSPayment
         '
@@ -1019,6 +1012,15 @@ Partial Class FrmTDSPayment
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        CType(Me.lblChallanNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnupdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtChallanNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBSRCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpChallanDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblChallanDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPayment_No, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlCheque.ResumeLayout(False)
@@ -1034,12 +1036,6 @@ Partial Class FrmTDSPayment
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtBSRCode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblChallanDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblChallanNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.dtpChallanDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtChallanNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBankName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSectionName, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1064,9 +1060,6 @@ Partial Class FrmTDSPayment
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnupdate, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

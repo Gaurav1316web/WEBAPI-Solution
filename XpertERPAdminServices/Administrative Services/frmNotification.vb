@@ -14,6 +14,7 @@ Public Class frmNotification
         UcAttachment1.Form_ID = MyBase.Form_ID
         UcAttachment1.RunServiceForUploadFolder = True
         Addnew()
+        SetMaxLength()
     End Sub
 
     Function AllowToSave() As Boolean
@@ -272,5 +273,12 @@ Public Class frmNotification
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Me.Controls.Remove(gv)
+    End Sub
+
+    Private Sub SetMaxLength()
+        txtCode.MyMaxLength = 30
+        txtSubject.MaxLength = 200
+        txtDescription.MaxLength = 5000
+        'txtDescription.MaxLength = Integer.MaxValue
     End Sub
 End Class

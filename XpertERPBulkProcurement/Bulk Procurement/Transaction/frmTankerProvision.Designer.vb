@@ -22,6 +22,7 @@ Partial Class frmTankerProvision
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -32,6 +33,8 @@ Partial Class frmTankerProvision
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnNew = New Telerik.WinControls.UI.RadButton()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.lblTollAmount = New common.Controls.MyLabel()
+        Me.txtTollAmount = New common.MyNumBox()
         Me.MyLabel9 = New common.Controls.MyLabel()
         Me.FndTransferNo = New common.UserControls.txtFinder()
         Me.chkAgainstTransfer = New Telerik.WinControls.UI.RadCheckBox()
@@ -82,8 +85,6 @@ Partial Class frmTankerProvision
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnSelect = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.lblTollAmount = New common.Controls.MyLabel()
-        Me.txtTollAmount = New common.MyNumBox()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -92,6 +93,8 @@ Partial Class frmTankerProvision
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
+        CType(Me.lblTollAmount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTollAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkAgainstTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -135,8 +138,6 @@ Partial Class frmTankerProvision
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTollAmount, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTollAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -145,14 +146,16 @@ Partial Class frmTankerProvision
         Me.Gv1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.Gv1.Location = New System.Drawing.Point(0, 156)
         '
-        'Gv1
         '
+        '
+        Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(1031, 213)
         Me.Gv1.TabIndex = 1
-        Me.Gv1.Text = "RadGridView1"
         '
         'lblSalesman
         '
@@ -250,6 +253,43 @@ Partial Class frmTankerProvision
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(1031, 156)
         Me.Panel1.TabIndex = 0
+        '
+        'lblTollAmount
+        '
+        Me.lblTollAmount.FieldName = Nothing
+        Me.lblTollAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTollAmount.Location = New System.Drawing.Point(715, 88)
+        Me.lblTollAmount.Name = "lblTollAmount"
+        Me.lblTollAmount.Size = New System.Drawing.Size(67, 16)
+        Me.lblTollAmount.TabIndex = 89
+        Me.lblTollAmount.Text = "Toll Amount"
+        '
+        'txtTollAmount
+        '
+        Me.txtTollAmount.BackColor = System.Drawing.Color.White
+        Me.txtTollAmount.CalculationExpression = Nothing
+        Me.txtTollAmount.DecimalPlaces = 0
+        Me.txtTollAmount.FieldCode = Nothing
+        Me.txtTollAmount.FieldDesc = Nothing
+        Me.txtTollAmount.FieldMaxLength = 5
+        Me.txtTollAmount.FieldName = Nothing
+        Me.txtTollAmount.isCalculatedField = False
+        Me.txtTollAmount.IsSourceFromTable = False
+        Me.txtTollAmount.IsSourceFromValueList = False
+        Me.txtTollAmount.IsUnique = False
+        Me.txtTollAmount.Location = New System.Drawing.Point(790, 86)
+        Me.txtTollAmount.MendatroryField = False
+        Me.txtTollAmount.MyLinkLable1 = Me.lblTollAmount
+        Me.txtTollAmount.MyLinkLable2 = Nothing
+        Me.txtTollAmount.Name = "txtTollAmount"
+        Me.txtTollAmount.ReferenceFieldDesc = Nothing
+        Me.txtTollAmount.ReferenceFieldName = Nothing
+        Me.txtTollAmount.ReferenceTableName = Nothing
+        Me.txtTollAmount.Size = New System.Drawing.Size(88, 20)
+        Me.txtTollAmount.TabIndex = 88
+        Me.txtTollAmount.Text = "0"
+        Me.txtTollAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTollAmount.Value = 0R
         '
         'MyLabel9
         '
@@ -375,7 +415,6 @@ Partial Class frmTankerProvision
         Me.lblClosingDate.Name = "lblClosingDate"
         Me.lblClosingDate.Size = New System.Drawing.Size(107, 18)
         Me.lblClosingDate.TabIndex = 138
-        Me.lblClosingDate.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblClosingDate.TextWrap = False
         '
         'MyLabel8
@@ -855,6 +894,7 @@ Partial Class frmTankerProvision
         Me.cmbitemtype.AutoCompleteDisplayMember = Nothing
         Me.cmbitemtype.AutoCompleteValueMember = Nothing
         Me.cmbitemtype.CalculationExpression = Nothing
+        Me.cmbitemtype.DropDownAnimationEnabled = True
         Me.cmbitemtype.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cmbitemtype.FieldCode = Nothing
         Me.cmbitemtype.FieldDesc = Nothing
@@ -928,7 +968,7 @@ Partial Class frmTankerProvision
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtCode.MyLinkLable1 = Me.lblpaymentno
         Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 32767
+        Me.txtCode.MyMaxLength = 30
         Me.txtCode.MyReadOnly = False
         Me.txtCode.Name = "txtCode"
         Me.txtCode.Size = New System.Drawing.Size(234, 21)
@@ -1006,15 +1046,11 @@ Partial Class frmTankerProvision
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "PrePrinted"
-        Me.RadMenuItem1.AccessibleName = "PrePrinted"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "PrePrinted"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Print"
-        Me.RadMenuItem2.AccessibleName = "Print"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Print"
         '
@@ -1046,44 +1082,6 @@ Partial Class frmTankerProvision
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1031, 20)
         Me.RadMenu1.TabIndex = 0
-        Me.RadMenu1.Text = "RadMenu1"
-        '
-        'lblTollAmount
-        '
-        Me.lblTollAmount.FieldName = Nothing
-        Me.lblTollAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTollAmount.Location = New System.Drawing.Point(715, 88)
-        Me.lblTollAmount.Name = "lblTollAmount"
-        Me.lblTollAmount.Size = New System.Drawing.Size(67, 16)
-        Me.lblTollAmount.TabIndex = 89
-        Me.lblTollAmount.Text = "Toll Amount"
-        '
-        'txtTollAmount
-        '
-        Me.txtTollAmount.BackColor = System.Drawing.Color.White
-        Me.txtTollAmount.CalculationExpression = Nothing
-        Me.txtTollAmount.DecimalPlaces = 0
-        Me.txtTollAmount.FieldCode = Nothing
-        Me.txtTollAmount.FieldDesc = Nothing
-        Me.txtTollAmount.FieldMaxLength = 5
-        Me.txtTollAmount.FieldName = Nothing
-        Me.txtTollAmount.isCalculatedField = False
-        Me.txtTollAmount.IsSourceFromTable = False
-        Me.txtTollAmount.IsSourceFromValueList = False
-        Me.txtTollAmount.IsUnique = False
-        Me.txtTollAmount.Location = New System.Drawing.Point(790, 86)
-        Me.txtTollAmount.MendatroryField = False
-        Me.txtTollAmount.MyLinkLable1 = Me.lblTollAmount
-        Me.txtTollAmount.MyLinkLable2 = Nothing
-        Me.txtTollAmount.Name = "txtTollAmount"
-        Me.txtTollAmount.ReferenceFieldDesc = Nothing
-        Me.txtTollAmount.ReferenceFieldName = Nothing
-        Me.txtTollAmount.ReferenceTableName = Nothing
-        Me.txtTollAmount.Size = New System.Drawing.Size(88, 20)
-        Me.txtTollAmount.TabIndex = 88
-        Me.txtTollAmount.Text = "0"
-        Me.txtTollAmount.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTollAmount.Value = 0R
         '
         'frmTankerProvision
         '
@@ -1107,6 +1105,8 @@ Partial Class frmTankerProvision
         CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.lblTollAmount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTollAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkAgainstTransfer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSalesman, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1151,8 +1151,6 @@ Partial Class frmTankerProvision
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSelect, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTollAmount, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTollAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

@@ -39,6 +39,9 @@ Partial Class frmProductionStoreRequest
         Me.lblDept = New common.Controls.MyLabel()
         Me.lbl_rebudgetamt = New common.Controls.MyLabel()
         Me.RadLabel14 = New common.Controls.MyLabel()
+        Me.RadLabel27 = New common.Controls.MyLabel()
+        Me.UcItemBalance1 = New XpertERPEngine.ucItemBalance()
+        Me.lblTotRAmt = New common.Controls.MyLabel()
         Me.MyLabel38 = New common.Controls.MyLabel()
         Me.txtDept = New common.UserControls.txtFinder()
         Me.MyLabel40 = New common.Controls.MyLabel()
@@ -50,14 +53,11 @@ Partial Class frmProductionStoreRequest
         Me.MyLabel35 = New common.Controls.MyLabel()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.UcItemBalance1 = New XpertERPEngine.ucItemBalance()
         Me.cboItemType = New common.Controls.MyComboBox()
         Me.RadLabel10 = New common.Controls.MyLabel()
         Me.RadLabel9 = New common.Controls.MyLabel()
         Me.txtRequiredDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel13 = New common.Controls.MyLabel()
-        Me.RadLabel27 = New common.Controls.MyLabel()
-        Me.lblTotRAmt = New common.Controls.MyLabel()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.RadLabel5 = New common.Controls.MyLabel()
         Me.RadLabel2 = New common.Controls.MyLabel()
@@ -106,6 +106,9 @@ Partial Class frmProductionStoreRequest
         CType(Me.lblDept, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl_rebudgetamt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadLabel27.SuspendLayout()
+        CType(Me.lblTotRAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbl_rebudgetamtwithtolerence, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -122,9 +125,6 @@ Partial Class frmProductionStoreRequest
         CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRequiredDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadLabel27.SuspendLayout()
-        CType(Me.lblTotRAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -270,7 +270,7 @@ Partial Class frmProductionStoreRequest
         Me.RadPageViewPage1.Controls.Add(Me.txtDesc)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(102.0!, 26.0!)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(988, 398)
@@ -375,6 +375,58 @@ Partial Class frmProductionStoreRequest
         Me.RadLabel14.TabIndex = 24
         Me.RadLabel14.Text = "Department"
         Me.RadLabel14.Visible = False
+        '
+        'RadLabel27
+        '
+        Me.RadLabel27.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.RadLabel27.Controls.Add(Me.UcItemBalance1)
+        Me.RadLabel27.FieldName = Nothing
+        Me.RadLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel27.Location = New System.Drawing.Point(771, 33)
+        Me.RadLabel27.Name = "RadLabel27"
+        Me.RadLabel27.Size = New System.Drawing.Size(74, 16)
+        Me.RadLabel27.TabIndex = 20
+        Me.RadLabel27.Text = "Total Amount"
+        Me.RadLabel27.Visible = False
+        '
+        'UcItemBalance1
+        '
+        Me.UcItemBalance1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.UcItemBalance1.CommitedQty = False
+        Me.UcItemBalance1.CommitedQtyLbl = False
+        Me.UcItemBalance1.ItemCode = ""
+        Me.UcItemBalance1.ItemMRP = 0R
+        Me.UcItemBalance1.ItemName = ""
+        Me.UcItemBalance1.Location = New System.Drawing.Point(-636, -29)
+        Me.UcItemBalance1.LocationCode = ""
+        Me.UcItemBalance1.LocationName = ""
+        Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 65)
+        Me.UcItemBalance1.MinimumSize = New System.Drawing.Size(710, 65)
+        Me.UcItemBalance1.Name = "UcItemBalance1"
+        Me.UcItemBalance1.ShowCSADOQty = False
+        Me.UcItemBalance1.ShowPOQty = False
+        Me.UcItemBalance1.ShowSOQty = False
+        Me.UcItemBalance1.Size = New System.Drawing.Size(710, 65)
+        Me.UcItemBalance1.TabIndex = 20
+        Me.UcItemBalance1.TabStop = False
+        Me.UcItemBalance1.TransDate = New Date(CType(0, Long))
+        Me.UcItemBalance1.TransNo = ""
+        Me.UcItemBalance1.UOM = ""
+        Me.UcItemBalance1.Visible = False
+        '
+        'lblTotRAmt
+        '
+        Me.lblTotRAmt.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.lblTotRAmt.AutoSize = False
+        Me.lblTotRAmt.BorderVisible = True
+        Me.lblTotRAmt.FieldName = Nothing
+        Me.lblTotRAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotRAmt.Location = New System.Drawing.Point(850, 31)
+        Me.lblTotRAmt.Name = "lblTotRAmt"
+        Me.lblTotRAmt.Size = New System.Drawing.Size(110, 18)
+        Me.lblTotRAmt.TabIndex = 19
+        Me.lblTotRAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.lblTotRAmt.Visible = False
         '
         'MyLabel38
         '
@@ -534,8 +586,10 @@ Partial Class frmProductionStoreRequest
         '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
         Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -543,31 +597,6 @@ Partial Class frmProductionStoreRequest
         Me.gv1.Size = New System.Drawing.Size(965, 94)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
-        '
-        'UcItemBalance1
-        '
-        Me.UcItemBalance1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.UcItemBalance1.CommitedQty = False
-        Me.UcItemBalance1.CommitedQtyLbl = False
-        Me.UcItemBalance1.ItemCode = ""
-        Me.UcItemBalance1.ItemMRP = 0R
-        Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(-636, -29)
-        Me.UcItemBalance1.LocationCode = ""
-        Me.UcItemBalance1.LocationName = ""
-        Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 65)
-        Me.UcItemBalance1.MinimumSize = New System.Drawing.Size(710, 65)
-        Me.UcItemBalance1.Name = "UcItemBalance1"
-        Me.UcItemBalance1.ShowCSADOQty = False
-        Me.UcItemBalance1.ShowPOQty = False
-        Me.UcItemBalance1.ShowSOQty = False
-        Me.UcItemBalance1.Size = New System.Drawing.Size(710, 65)
-        Me.UcItemBalance1.TabIndex = 20
-        Me.UcItemBalance1.TabStop = False
-        Me.UcItemBalance1.TransDate = New Date(CType(0, Long))
-        Me.UcItemBalance1.TransNo = ""
-        Me.UcItemBalance1.UOM = ""
-        Me.UcItemBalance1.Visible = False
         '
         'cboItemType
         '
@@ -655,33 +684,6 @@ Partial Class frmProductionStoreRequest
         Me.RadLabel13.Size = New System.Drawing.Size(65, 16)
         Me.RadLabel13.TabIndex = 28
         Me.RadLabel13.Text = "Expiry Date"
-        '
-        'RadLabel27
-        '
-        Me.RadLabel27.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.RadLabel27.Controls.Add(Me.UcItemBalance1)
-        Me.RadLabel27.FieldName = Nothing
-        Me.RadLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel27.Location = New System.Drawing.Point(771, 33)
-        Me.RadLabel27.Name = "RadLabel27"
-        Me.RadLabel27.Size = New System.Drawing.Size(74, 16)
-        Me.RadLabel27.TabIndex = 20
-        Me.RadLabel27.Text = "Total Amount"
-        Me.RadLabel27.Visible = False
-        '
-        'lblTotRAmt
-        '
-        Me.lblTotRAmt.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblTotRAmt.AutoSize = False
-        Me.lblTotRAmt.BorderVisible = True
-        Me.lblTotRAmt.FieldName = Nothing
-        Me.lblTotRAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotRAmt.Location = New System.Drawing.Point(850, 31)
-        Me.lblTotRAmt.Name = "lblTotRAmt"
-        Me.lblTotRAmt.Size = New System.Drawing.Size(110, 18)
-        Me.lblTotRAmt.TabIndex = 19
-        Me.lblTotRAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        Me.lblTotRAmt.Visible = False
         '
         'lblLocation
         '
@@ -809,7 +811,7 @@ Partial Class frmProductionStoreRequest
         Me.txtReqNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtReqNo.MyLinkLable1 = Me.RadLabel1
         Me.txtReqNo.MyLinkLable2 = Nothing
-        Me.txtReqNo.MyMaxLength = 32767
+        Me.txtReqNo.MyMaxLength = 30
         Me.txtReqNo.MyReadOnly = False
         Me.txtReqNo.Name = "txtReqNo"
         Me.txtReqNo.Size = New System.Drawing.Size(230, 20)
@@ -1111,6 +1113,9 @@ Partial Class frmProductionStoreRequest
         CType(Me.lblDept, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbl_rebudgetamt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel27, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadLabel27.ResumeLayout(False)
+        CType(Me.lblTotRAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbl_rebudgetamtwithtolerence, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1127,9 +1132,6 @@ Partial Class frmProductionStoreRequest
         CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRequiredDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel27, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadLabel27.ResumeLayout(False)
-        CType(Me.lblTotRAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()

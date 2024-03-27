@@ -1455,7 +1455,7 @@ Partial Class frmVSPMaster
         Me.fndvendorNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.fndvendorNo.MyLinkLable1 = Me.lblvandorno
         Me.fndvendorNo.MyLinkLable2 = Nothing
-        Me.fndvendorNo.MyMaxLength = 32767
+        Me.fndvendorNo.MyMaxLength = 30
         Me.fndvendorNo.MyReadOnly = False
         Me.fndvendorNo.Name = "fndvendorNo"
         Me.fndvendorNo.Size = New System.Drawing.Size(303, 21)
@@ -1536,7 +1536,7 @@ Partial Class frmVSPMaster
         Me.pageCus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.pageCus.Location = New System.Drawing.Point(9, 76)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage4
+        Me.pageCus.SelectedPage = Me.RadPageViewPage1
         Me.pageCus.Size = New System.Drawing.Size(976, 523)
         Me.pageCus.TabIndex = 5
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -3079,6 +3079,7 @@ Partial Class frmVSPMaster
         Me.gvEMP.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvEMP.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvEMP.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvEMP.MyStopExport = False
         Me.gvEMP.Name = "gvEMP"
         Me.gvEMP.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvEMP.ShowGroupPanel = False
@@ -3876,6 +3877,7 @@ Partial Class frmVSPMaster
         Me.grdTax.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.grdTax.MasterTemplate.ShowHeaderCellButtons = True
         Me.grdTax.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.grdTax.MyStopExport = False
         Me.grdTax.Name = "grdTax"
         Me.grdTax.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.grdTax.ShowHeaderCellButtons = True
@@ -6303,6 +6305,7 @@ Partial Class frmVSPMaster
         Me.gvCharges.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCharges.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCharges.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvCharges.MyStopExport = False
         Me.gvCharges.Name = "gvCharges"
         Me.gvCharges.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCharges.ShowGroupPanel = False
@@ -6337,6 +6340,7 @@ Partial Class frmVSPMaster
         Me.GvAsset.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GvAsset.MasterTemplate.ShowHeaderCellButtons = True
         Me.GvAsset.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.GvAsset.MyStopExport = False
         Me.GvAsset.Name = "GvAsset"
         Me.GvAsset.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.GvAsset.ShowGroupPanel = False
@@ -6365,6 +6369,7 @@ Partial Class frmVSPMaster
         Me.GVPaymentEntry.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.GVPaymentEntry.MasterTemplate.ShowHeaderCellButtons = True
         Me.GVPaymentEntry.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.GVPaymentEntry.MyStopExport = False
         Me.GVPaymentEntry.Name = "GVPaymentEntry"
         Me.GVPaymentEntry.ShowHeaderCellButtons = True
         Me.GVPaymentEntry.Size = New System.Drawing.Size(955, 423)
@@ -6635,6 +6640,7 @@ Partial Class frmVSPMaster
         Me.gvBankG.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvBankG.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvBankG.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvBankG.MyStopExport = False
         Me.gvBankG.Name = "gvBankG"
         Me.gvBankG.ShowHeaderCellButtons = True
         Me.gvBankG.Size = New System.Drawing.Size(955, 477)

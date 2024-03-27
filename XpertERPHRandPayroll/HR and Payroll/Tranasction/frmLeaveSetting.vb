@@ -289,7 +289,7 @@ Public Class frmLeaveSetting
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            myMessages.blankValue(" Code ")
+            myMessages.blankValue(Me, " Code ", Me.Text)
             txtCode.Focus()
             Return False
         ElseIf Not (rdbJoiningDate.IsChecked Or rdbconfirmDate.IsChecked Or rdbppcompDate.IsChecked Or rdbAllotafter.IsChecked) Then

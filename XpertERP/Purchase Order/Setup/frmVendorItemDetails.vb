@@ -315,7 +315,7 @@ Public Class frmVendorItemDetails
                 clsCommon.MyMessageBoxShow("Data Not Found.", "Vender", MessageBoxButtons.OK, RadMessageIcon.Info)
             Else
                 If fndvendor.Value = "" Then
-                    myMessages.blankValue("Vendor No")
+                    myMessages.blankValue(Me, "Vendor No", Me.Text)
                 ElseIf myMessages.deleteConfirm() Then
                     fundelete()
                     funreset()

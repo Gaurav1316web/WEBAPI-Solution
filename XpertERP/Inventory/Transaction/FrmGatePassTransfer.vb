@@ -624,7 +624,7 @@ Public Class FrmGatePassTransfer
 
     Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles BtnPrint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("No data found to Print")
+            myMessages.blankValue(Me, "No data found to Print", Me.Text)
         Else
             funPrint(txtDocNo.Value)
         End If

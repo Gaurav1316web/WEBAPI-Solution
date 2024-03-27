@@ -24,6 +24,7 @@ Partial Class frmFAMergeAsset
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -161,7 +162,6 @@ Partial Class frmFAMergeAsset
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(980, 457)
         Me.RadPageView1.TabIndex = 0
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripAlignment = Telerik.WinControls.UI.StripViewAlignment.Top
@@ -241,6 +241,7 @@ Partial Class frmFAMergeAsset
         Me.MyComboBox2.AutoCompleteDisplayMember = Nothing
         Me.MyComboBox2.AutoCompleteValueMember = Nothing
         Me.MyComboBox2.CalculationExpression = Nothing
+        Me.MyComboBox2.DropDownAnimationEnabled = True
         Me.MyComboBox2.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.MyComboBox2.FieldCode = Nothing
         Me.MyComboBox2.FieldDesc = Nothing
@@ -433,6 +434,7 @@ Partial Class frmFAMergeAsset
         '
         Me.ddlAcqType.Anchor = System.Windows.Forms.AnchorStyles.None
         Me.ddlAcqType.CalculationExpression = Nothing
+        Me.ddlAcqType.DropDownAnimationEnabled = True
         Me.ddlAcqType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.ddlAcqType.FieldCode = Nothing
         Me.ddlAcqType.FieldDesc = Nothing
@@ -488,7 +490,6 @@ Partial Class frmFAMergeAsset
         Me.lblTemplateDesc.Name = "lblTemplateDesc"
         Me.lblTemplateDesc.Size = New System.Drawing.Size(253, 20)
         Me.lblTemplateDesc.TabIndex = 35
-        Me.lblTemplateDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTemplateDesc.TextWrap = False
         '
         'MyLabel4
@@ -537,7 +538,6 @@ Partial Class frmFAMergeAsset
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(253, 20)
         Me.lblLocation.TabIndex = 27
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'MyLabel2
@@ -622,18 +622,20 @@ Partial Class frmFAMergeAsset
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(10, 20)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowFilteringRow = False
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(934, 270)
         Me.gv1.TabIndex = 0
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel4
         '
@@ -708,7 +710,7 @@ Partial Class frmFAMergeAsset
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(263, 19)
@@ -776,12 +778,9 @@ Partial Class frmFAMergeAsset
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(980, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "File"
-        Me.RadMenuItem1.AccessibleName = "File"
         Me.RadMenuItem1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmSaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem1.Name = "RadMenuItem1"
@@ -789,15 +788,11 @@ Partial Class frmFAMergeAsset
         '
         'rmSaveLayout
         '
-        Me.rmSaveLayout.AccessibleDescription = "Save Layout"
-        Me.rmSaveLayout.AccessibleName = "Save Layout"
         Me.rmSaveLayout.Name = "rmSaveLayout"
         Me.rmSaveLayout.Text = "Save Layout"
         '
         'rmDeleteLayout
         '
-        Me.rmDeleteLayout.AccessibleDescription = "Delete Layout"
-        Me.rmDeleteLayout.AccessibleName = "Delete Layout"
         Me.rmDeleteLayout.Name = "rmDeleteLayout"
         Me.rmDeleteLayout.Text = "Delete Layout"
         '

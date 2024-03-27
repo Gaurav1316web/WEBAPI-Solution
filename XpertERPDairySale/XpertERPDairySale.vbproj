@@ -330,6 +330,12 @@
     <Compile Include="Report\rptCustomerWiseSalesReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptdailydispatch.Designer.vb">
+      <DependentUpon>rptdailydispatch.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptdailydispatch.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptDailyLeakageReplacementReport.Designer.vb">
       <DependentUpon>rptDailyLeakageReplacementReport.vb</DependentUpon>
     </Compile>
@@ -358,6 +364,12 @@
       <DependentUpon>rptProvisionChart.vb</DependentUpon>
     </Compile>
     <Compile Include="Report\rptProvisionChart.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Report\rptRouteSaleRegister.Designer.vb">
+      <DependentUpon>rptRouteSaleRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptRouteSaleRegister.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Report\RptRouteWiseSaleRegister.Designer.vb">
@@ -852,6 +864,9 @@
     <EmbeddedResource Include="Report\rptCustomerWiseSalesReport.resx">
       <DependentUpon>rptCustomerWiseSalesReport.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptdailydispatch.resx">
+      <DependentUpon>rptdailydispatch.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\rptDailyLeakageReplacementReport.resx">
       <DependentUpon>rptDailyLeakageReplacementReport.vb</DependentUpon>
     </EmbeddedResource>
@@ -866,6 +881,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptProvisionChart.resx">
       <DependentUpon>rptProvisionChart.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptRouteSaleRegister.resx">
+      <DependentUpon>rptRouteSaleRegister.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\RptRouteWiseSaleRegister.resx">
       <DependentUpon>RptRouteWiseSaleRegister.vb</DependentUpon>
@@ -920,6 +938,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSaleRegisterDetail.resx">
       <DependentUpon>rptSaleRegisterDetail.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptSalesLedgerReport.resx">
+      <DependentUpon>rptSalesLedgerReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSalesVehicleReport.resx">
       <DependentUpon>rptSalesVehicleReport.vb</DependentUpon>
