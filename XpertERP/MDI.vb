@@ -7844,6 +7844,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDBTApprovalStatus
                         frm = New frmDBTApprovalStatus
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptDBTNEFTPaymentDetailReport
+                        frm = New rptDBTNEFTPaymentDetailReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBulkMilkSRNReturn
                         frm = New FrmBulkMilkSRNReturn
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

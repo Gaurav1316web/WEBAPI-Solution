@@ -927,6 +927,9 @@
     <EmbeddedResource Include="Report\rptSaleRegisterDetail.resx">
       <DependentUpon>rptSaleRegisterDetail.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptSalesLedgerReport.resx">
+      <DependentUpon>rptSalesLedgerReport.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Report\rptSalesVehicleReport.resx">
       <DependentUpon>rptSalesVehicleReport.vb</DependentUpon>
     </EmbeddedResource>

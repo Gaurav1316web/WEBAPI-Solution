@@ -2827,6 +2827,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDBTNEFTUnionReport, "DBT Union Report", "1.49.03.02", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.frmDBTStatusAndLastDPTStatus, "DBT Status And Last DPT Status", "1.49.03.03", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.frmDBTApprovalStatus, "DBT Approval Status", "1.49.03.04", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptDBTNEFTPaymentDetailReport, "DBT NEFT Payment Detail Report", "1.49.03.05", clsUserMgtCode.SubModuleMilkUnion, 8)
 
 
         Try
