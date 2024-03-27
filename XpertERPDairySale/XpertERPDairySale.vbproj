@@ -366,6 +366,12 @@
     <Compile Include="Report\rptProvisionChart.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptRouteSaleRegister.Designer.vb">
+      <DependentUpon>rptRouteSaleRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptRouteSaleRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\RptRouteWiseSaleRegister.Designer.vb">
       <DependentUpon>RptRouteWiseSaleRegister.vb</DependentUpon>
     </Compile>
@@ -872,6 +878,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptProvisionChart.resx">
       <DependentUpon>rptProvisionChart.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptRouteSaleRegister.resx">
+      <DependentUpon>rptRouteSaleRegister.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\RptRouteWiseSaleRegister.resx">
       <DependentUpon>RptRouteWiseSaleRegister.vb</DependentUpon>

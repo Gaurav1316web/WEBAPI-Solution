@@ -1058,6 +1058,7 @@ Public Class frmDairyBookingCustomer
                             Dim strIUOM As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnit).Value)
                             ItemPrice(strICode, strIUOM, clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value), gv1.CurrentRow.Index)
                             SetTax(strICode, gv1.CurrentRow.Index)
+                            rgbItemType.Enabled = False
                         ElseIf e.Column Is gv1.Columns(colIShortName) Then
                             If clsCommon.myLen(txtVendorNo.Value) <= 0 Then
                                 common.clsCommon.MyMessageBoxShow(Me, "Please select Customer First", Me.Text)
@@ -1979,6 +1980,7 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         UcAttachment1.BlankAllControls()
         'VendorCodeForChangeIndent = ""
         rgbItemType.Visible = True
+        rgbItemType.Enabled = True
         lblShiftType.Text = ""
         btnGatePassPrint.Visible = False
         lblCancelStatus.Text = ""
@@ -2004,11 +2006,25 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         'chkIsTaxable.Enabled = True
         BlankAllControls()
         LoadBlankGrid()
-        ' LoadBlankGridTax()
+        LoadBlankGridTax()
         'LoadBlankGridAC()
+        lblAmtWithDiscount.Text = ""
+        lblAmtAfterDiscount.Text = ""
+        lblDiscountAmt.Text = ""
+        lblTaxAmt.Text = ""
+        lblTotRAmt.Text = ""
+        txtTCSTaxRate.Text = ""
+        lblActualTCSTaxBaseAmt.Text = ""
+        txtDCAmt.Text = ""
+        txtSecurity.Text = ""
+        TxtRoundoff.Text = ""
+        txtComment.Text = ""
+        txttcstaxbaseamount.Text = ""
         txtSubLocation.Enabled = False
         txtSubLocation.Value = ""
         lblSubLocation.Text = ""
+        txtTaxGroup.Value = ""
+        lblTaxGrpName.Text = ""
         If clsCommon.myLen(clsCommon.myCstr(txtLocation.Value)) > 0 Then
             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(IsSubLocationWise,'N') as  IsSubLocationWise from tspl_location_master where location_code='" & clsCommon.myCstr(txtLocation.Value) & "'")), "Y") = CompairStringResult.Equal Then
                 txtSubLocation.Enabled = True
@@ -2089,8 +2105,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         txtVehicleName.Text = ""
         txtRouteCode1.Enabled = False
         txtRouteName1.Enabled = False
-        txtVehicleCode.Enabled = False
-        txtVehicleName.Enabled = False
+        txtVehicleCode.Enabled = True
+        txtVehicleName.Enabled = True
         btnGatepass.Enabled = False
         ENABLEDISABLECONTROLS()
         If ShowBookingTypeDropDownonDairyBookingCustomer Then
@@ -2514,8 +2530,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 ''richa 4 Aug,2021 optimization related
                 Dim dblBooking_Status As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select  Booking_Status from TSPL_BOOKING_DETAIL where Document_No='" & txtDocNo.Value & "'  and Cust_Code='" & txtVendorNo.Value & "'"))
                 Dim intLine As Integer = 0
-                Dim DCTotalAmt As Integer = 0
-                Dim SCTotalAmt As Integer = 0
+                Dim DCTotalAmt As Double = 0
+                Dim SCTotalAmt As Double = 0
 
                 For Each grow As GridViewRowInfo In gv1.Rows
                     Dim objTr As New clsBookingDetailDairySale()
@@ -3095,6 +3111,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     ElseIf obj.Is_Taxable = 1 Then
                         rbtnNonTax.IsChecked = True
                     End If
+                    rgbItemType.Enabled = False
                 End If
                 btnSave.Enabled = True
                 btnPost.Enabled = True
@@ -3568,7 +3585,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax" + clsCommon.myCstr(3))).Value = clsCommon.myCstr(dt2.Rows(jj)("TAX3"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax_Rate" + clsCommon.myCstr(3))).Value = clsCommon.myCdbl(dt2.Rows(jj)("TAX3_Rate"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax_Base_Amt" + clsCommon.myCstr(3))).Value = clsCommon.myCdbl(dt2.Rows(jj)("TAX3_Base_Amt"))
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax_Amt" + clsCommon.myCstr(3))).Value = clsCommon.myCdbl(dt2.Rows(jj)("TAX3_Rate"))
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax_Amt" + clsCommon.myCstr(3))).Value = clsCommon.myCdbl(dt2.Rows(jj)("TAX3_Amt"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax" + clsCommon.myCstr(4))).Value = clsCommon.myCstr(dt2.Rows(jj)("TAX4"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax_Rate" + clsCommon.myCstr(4))).Value = clsCommon.myCdbl(dt2.Rows(jj)("TAX4_Rate"))
                     gv1.Rows(gv1.Rows.Count - 1).Cells(clsCommon.myCstr("colTax_Base_Amt" + clsCommon.myCstr(4))).Value = clsCommon.myCdbl(dt2.Rows(jj)("TAX4_Base_Amt"))
@@ -7593,7 +7610,7 @@ from
                 ' obj.Discount_Amt = DCTotalAmt
                 isNewEntry = True
                 obj.Document_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SHIPMENT_HEAD where Against_Delivery_Code='" & obj.Against_Delivery_Code & "'  and Customer_Code='" & txtVendorNo.Value & "'", trans))
-                'DocCode = obj.Document_Code
+                DocCode = obj.Document_Code
                 If clsCommon.myLen(obj.Document_Code) <= 0 Then
                     If (clsPSShipmentHead.SaveData(obj, isNewEntry, trans, True)) Then
                         'trans.Commit()
@@ -7822,9 +7839,9 @@ from
                 BlankTaxDetails(ii)
             Next
         End If
-        For ii As Integer = 0 To gv1.Rows.Count - 1
-            UpdateCurrentRow(ii)
-        Next
+        ' For ii As Integer = 0 To gv1.Rows.Count - 1
+        UpdateCurrentRow(intRow)
+        ' Next
         UpdateAllTotals()
     End Sub
     Private Sub SetTax(ByVal Item_Code As String, ByVal intRow As Integer)

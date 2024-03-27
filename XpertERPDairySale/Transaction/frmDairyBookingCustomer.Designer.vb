@@ -562,7 +562,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1292, 455)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1615,7 +1615,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage6.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
         Me.RadPageViewPage6.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage6.Name = "RadPageViewPage6"
-        Me.RadPageViewPage6.Size = New System.Drawing.Size(1357, 409)
+        Me.RadPageViewPage6.Size = New System.Drawing.Size(1271, 409)
         Me.RadPageViewPage6.Text = "Taxes"
         '
         'MyLabel19
@@ -1624,7 +1624,7 @@ Partial Class frmDairyBookingCustomer
         Me.MyLabel19.FieldName = Nothing
         Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel19.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel19.Location = New System.Drawing.Point(941, 321)
+        Me.MyLabel19.Location = New System.Drawing.Point(855, 321)
         Me.MyLabel19.Name = "MyLabel19"
         Me.MyLabel19.Size = New System.Drawing.Size(155, 16)
         Me.MyLabel19.TabIndex = 18
@@ -1645,7 +1645,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadGroupBox1.Location = New System.Drawing.Point(12, 335)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(1089, 73)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(1003, 73)
         Me.RadGroupBox1.TabIndex = 17
         Me.RadGroupBox1.Text = "Terms"
         '
@@ -1897,7 +1897,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(76.0!, 26.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(1357, 409)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1271, 409)
         Me.RadPageViewPage2.Text = "Item Details"
         '
         'RadPageViewPage4
@@ -2499,7 +2499,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(50.0!, 26.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(1077, 409)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(1271, 409)
         Me.RadPageViewPage3.Text = "Others"
         '
         'txtSalesman
@@ -3410,7 +3410,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage5.ItemSize = New System.Drawing.SizeF(73.0!, 26.0!)
         Me.RadPageViewPage5.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage5.Name = "RadPageViewPage5"
-        Me.RadPageViewPage5.Size = New System.Drawing.Size(1077, 409)
+        Me.RadPageViewPage5.Size = New System.Drawing.Size(1271, 409)
         Me.RadPageViewPage5.Text = "Attachment"
         '
         'UcAttachment1
@@ -3418,7 +3418,7 @@ Partial Class frmDairyBookingCustomer
         Me.UcAttachment1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.UcAttachment1.Location = New System.Drawing.Point(0, 0)
         Me.UcAttachment1.Name = "UcAttachment1"
-        Me.UcAttachment1.Size = New System.Drawing.Size(1077, 409)
+        Me.UcAttachment1.Size = New System.Drawing.Size(1271, 409)
         Me.UcAttachment1.TabIndex = 1
         Me.UcAttachment1.TabStop = False
         '

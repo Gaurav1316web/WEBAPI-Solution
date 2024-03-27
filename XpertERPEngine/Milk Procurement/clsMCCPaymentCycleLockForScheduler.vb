@@ -81,7 +81,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
 
         If clsCommon.CompairString(Formcode, clsUserMgtCode.MPBillGeneration) = CompairStringResult.Equal Then
             qry = "SELECT LOCK_CODE FROM TSPL_LOCK_MP_PC WHERE MCC_Code='" & strMCCCode & "' AND Posted='Y' AND FROM_DATE='" & clsCommon.GetPrintDate(txtFromDate, "dd-MMM-yyyy") & "' AND TO_DATE='" & clsCommon.GetPrintDate(txtToDate, "dd-MMM-yyyy") & "'"
-            Dim Lock_Code As String = clsDBFuncationality.getSingleValue(QRY)
+            Dim Lock_Code As String = clsDBFuncationality.getSingleValue(qry)
             If clsCommon.myLen(Lock_Code) <= 0 Then
                 Throw New Exception("Selected MCC is not locked for selected From and To date. Please lock it first.")
             End If
@@ -261,7 +261,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                                 clsCommon.ProgressBarPercentUpdate(((counter - 1) * 100 / dtVSP.Rows.Count), "MCC [" + strMCCCode + "] VSP [" & counter & "/" & dtVSP.Rows.Count & "] VSP [" + VSP + "]")
                             End If
                             Dim strr As String = clsDBFuncationality.getSingleValue("select coalesce(vsp_farmer_billing,0) FROM TSPL_Vendor_master where vendor_Code='" & VSP & "'", trans)
-                            If(Formcode = clsUserMgtCode.MilkVSPPayment Or Formcode = clsUserMgtCode.MPBillGeneration Or strr <> "1") Then
+                            If (Formcode = clsUserMgtCode.MilkVSPPayment Or Formcode = clsUserMgtCode.MPBillGeneration Or strr <> "1") Then
                                 SelectMilkSRNItemsForVspPayment(strMCCCode, Srn_No_List, VSP, txtFromDate.Date, txtToDate.Date, is_with_bill, trans, Formcode, IsRoundOffPaiseAmount, CompanyVSPDeduction, NonCompanyVSPDeduction, settDoNotIncludeIncentiveInMilkPurchaseInvoice)
                             Else
                                 SelectMilkSRNItemsForMPPayment(Srn_No_List, VSP, txtFromDate.Date, txtToDate.Date, is_with_bill, trans, Formcode)

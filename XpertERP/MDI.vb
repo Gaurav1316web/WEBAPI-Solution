@@ -8307,6 +8307,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptdairydispatch
                         frm = New rptdailydispatch
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptRouteSaleRegister
+                        frm = New RptRouteSaleRegister
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptPaymentCycleWiseReport
                         frm = New rptPaymentCycleWiseReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)

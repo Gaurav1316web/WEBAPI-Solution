@@ -271,6 +271,7 @@ Public Class frmDemandBooking
         repoCName.ReadOnly = True
         repoCName.IsVisible = True
         repoCName.IsPinned = True
+
         gv1.MasterTemplate.Columns.Add(repoCName)
         Dim repoShiftName As GridViewComboBoxColumn = New GridViewComboBoxColumn()
         repoShiftName.FormatString = ""
@@ -3479,6 +3480,9 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     End Sub
     Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
         Try
+            If e.Column.Name = colCustCode Then
+                e.CellElement.Font = New Font("Arial", 10, FontStyle.Bold)
+            End If
             If e.Column.Index >= 8 And e.Column.Name <> colCrate And e.Column.Name <> colAmt And e.Column.Name <> colLitre And e.Column.Name <> colMAmt And e.Column.Name <> colPCount And e.Column.Name <> colPCount Then
                 ' If isLoadData = False Then
                 If (chkEveningGatepassTruckSheetGenerated.Checked OrElse chkEveningPosted.Checked) And clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colShiftName).Value), "Evening ") = CompairStringResult.Equal Then
