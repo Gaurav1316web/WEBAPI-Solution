@@ -95,8 +95,8 @@ Public Class rptDBTNEFTPaymentDetailReport
                 Next
                 Baseqry += ") xx"
                 If rbtnSummary.IsChecked Then
-                    qry = " select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.', [Union Name] , Month , count(MP_Code)as [No of Farmer] ,sum(Success_Farmer)Success_Farmer,sum(Failure_Farmer)Failure_Farmer, sum(Amount)Amount , SUM(Success_Amount)Success_Amount , SUM(Failure_Amount)Failure_Amount
-                from (" & Baseqry & " ) xxx group by [Union Name] , Month"
+                    qry = " select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.', [Union Name] , max(Month) as Month , count(MP_Code)as [No of Farmer] ,sum(Success_Farmer)Success_Farmer,sum(Failure_Farmer)Failure_Farmer, sum(Amount)Amount , SUM(Success_Amount)Success_Amount , SUM(Failure_Amount)Failure_Amount
+                from (" & Baseqry & " ) xxx group by [Union Name]"
                 Else
                     qry = Baseqry
                 End If
