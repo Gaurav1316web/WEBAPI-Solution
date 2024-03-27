@@ -2309,6 +2309,7 @@ Public Class clsUserMgtCode
     Public Const rptSKUWiseSale As String = "SKU-SAL-RPT"
     Public Const rptPromptMsgPendindDoc As String = "PROMPTPENDOC"
     Public Const MISMassBalanceReport As String = "MAS-BAL-RPT"
+    Public Const SundryDebtorsReport As String = "SUN-DBTR-RPT"
     '==========================Milk Job Work===================
     Public Const MilkJobWork As String = "MJW"
     Public Const SubModuleMJWTransaction As String = "SMMJWTRANS"
