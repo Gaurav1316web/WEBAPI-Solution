@@ -5936,4 +5936,27 @@ Public Class frmMRN
         End If
     End Sub
 
+    'Private Sub btnhistory_Click(sender As Object, e As EventArgs) Handles btnhistory.Click
+    '    Try
+    '        If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+    '            clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+    '            Exit Sub
+    '        End If
+    '        clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "MRN_No", "TSPL_MRN_HEAD", "TSPL_MRN_DETAIL")
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
+
+    Private Sub btnhistory_Click_1(sender As Object, e As EventArgs) Handles btnhistory.Click
+        Try
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtDocNo.Value, "MRN_No", "TSPL_MRN_HEAD", "TSPL_MRN_DETAIL")
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

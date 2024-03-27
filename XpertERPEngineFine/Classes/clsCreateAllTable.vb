@@ -23397,7 +23397,7 @@ Public Class clsCreateAllTable
             coll.Add("MRN_No", "Varchar(30) not null References TSPL_MRN_HEAD(MRN_No)")
             coll.Add("AC_Code", "Varchar(30) not null References TSPL_Additional_Charges(Code)")
             coll.Add("Amount", "decimal(18,2) NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_ADDITION_CHARGE_INSURANCE", coll, Nothing, False, False, "TSPL_MRN_HEAD", "MRN_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MRN_ADDITION_CHARGE_INSURANCE", coll, Nothing, False, True, "TSPL_MRN_HEAD", "MRN_No", "")
 
             coll = New Dictionary(Of String, String)
             coll.Add("TR_Code", "varchar(30) NOT NULL Primary Key")
@@ -41695,7 +41695,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("RGP_No", "varchar(30) NULL REFERENCES TSPL_RGP_HEAD (RGP_No)")
             coll.Add("Against_Schedule_Code", "varchar(50) NULL REFERENCES TSPL_PO_SCH_HEAD (Document_Code)")
             coll.Add("PO_Id", "varchar(30) NULL REFERENCES TSPL_PURCHASE_ORDER_HEAD (PurchaseOrder_No)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GRN_RGP_CONVERSION_DETAIL", coll, Nothing, True, False, "TSPL_GRN_HEAD", "GRN_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_GRN_RGP_CONVERSION_DETAIL", coll, Nothing, True, True, "TSPL_GRN_HEAD", "GRN_No", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_Code", "varchar(30)  NOT NULL PRIMARY KEY")
@@ -46192,7 +46192,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Out_Gross_Date", "datetime null")
             coll.Add("Out_Net_Weight", "Decimal(18,2) NULL")
             coll.Add("Location_Code", "Varchar(12) null references TSPL_LOCATION_MASTER(Location_Code)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PO_WEIGHTMENT_HEAD", coll, Nothing, True, False, "", "Weighment_Code", "Weighment_Date")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PO_WEIGHTMENT_HEAD", coll, Nothing, True, True, "", "Weighment_Code", "Weighment_Date")
 
             qry = "alter table TSPL_PO_WEIGHTMENT_HEAD alter column Against_GRN_No varchar(30) null"
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -46215,7 +46215,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("GRN_Qty", "Decimal(18,2) null")
             coll.Add("UOM", "varchar(12) NULL")
             coll.Add("Is_Auto_Weighment", "Integer NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PO_WEIGHTMENT_DETAIL", coll, Nothing, True, False, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_PO_WEIGHTMENT_DETAIL", coll, Nothing, True, True, "TSPL_PO_WEIGHTMENT_HEAD", "Weighment_Code", "")
 
             coll = New Dictionary(Of String, String)
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
