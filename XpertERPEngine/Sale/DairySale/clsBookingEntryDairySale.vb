@@ -24,6 +24,7 @@ Public Class clsBookingEntryDairySale
 
     Public Cust_PO_No As String = ""
     Public TotalCAN As Integer = 0
+    Public Trip_No As Integer = 0
     Public TotalBox As Integer = 0
     Public RoundOffAmount As Double = 0
     Public TotalCrate As Integer = 0
@@ -267,6 +268,7 @@ Public Class clsBookingEntryDairySale
             clsCommon.AddColumnsForChange(coll, "BPL_Category", obj.BPL_Category, True)
             clsCommon.AddColumnsForChange(coll, "BPL_Remark", obj.BPL_Remark, True)
             clsCommon.AddColumnsForChange(coll, "Sub_Location_code", obj.Sub_Location_code, True)
+            clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No, True)
             If obj.BPL_Coupon_Date Is Nothing Then
                 clsCommon.AddColumnsForChange(coll, "BPL_Coupon_Date", Nothing, True)
             Else
@@ -521,7 +523,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
 
         Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Against_DemandBooking_No,TSPL_BOOKING_MATSER.Ship_To_Location,TSPL_BOOKING_MATSER.Created_Date,TSPL_BOOKING_MATSER.AdvanceAmount,TSPL_BOOKING_MATSER.Against_Receipt_No,TSPL_BOOKING_MATSER.Against_Booking_No,TSPL_BOOKING_MATSER.Payment_Mode,TSPL_BOOKING_MATSER.Reference_No,TSPL_BOOKING_MATSER.Counter_No,TSPL_BOOKING_MATSER.IsSampling,TSPL_BOOKING_MATSER.AgainstGatePass,Document_No,Document_Date,Posted,CreateDO_Automatic,location_code,Cust_Group_Code,Is_Taxable,TRANSACTION_TYPE,Ex_Factory_Date,isnull(CustPO_No,'') as CustPO_No,custpo_date,isnull(SalesmanCode,'') as SalesmanCode,Total_Can,total_Box,Total_Crate,isnull(Is_Cancelled,0) as Is_Cancelled, isnull(Booking_Type,'') as Booking_Type,isnull(Card_SALE_No,'') as Card_SALE_No,CardSale_FROM_DATE,CardSale_TO_DATE,Uploading_date " &
             " ,isnull(Credit_Limit,0) as Credit_Limit,isnull(Advance_Security,0) as Advance_Security,isnull(Revese_Adv_Security,0) as Revese_Adv_Security,isnull(AR_Credit_Security,0) as AR_Credit_Security,isnull(Pending_Posted_DO,0) as Pending_Posted_DO,isnull(UnPostedDispatch,0) as UnPostedDispatch,isnull(Ledger_Outstansing,0) as Ledger_Outstansing,isnull(Refund_Security,0) as Refund_Security,isnull(Reverse_Refund_Sec,0) as Reverse_Refund_Sec,isnull(Total_Outstanding,0) as Total_Outstanding, isnull(GatePass_Type,'') as GatePass_Type,Created_By,Is_DCS,Is_BPL,BPL_Coupon_Code,BPL_Name,BPL_Remark,BPL_Coupon_Date,Is_Distributor,BPL_Category,TCSAmount,TCSBaseAmt,Total_Amt,TSPL_BOOKING_MATSER.LastCollectionDate " &
-            ",Tax_Group,TaxGroupName,Tax1,Tax1_Rate,Tax1_Base_Amt,TAX1_Amt,Tax2,Tax2_Rate,Tax2_Base_Amt,TAX2_Amt,Tax3,Tax3_Rate,Tax3_Base_Amt,TAX3_Amt,Tax4,Tax4_Rate,Tax4_Base_Amt,TAX4_Amt,Tax5,Tax5_Rate,Tax5_Base_Amt,TAX5_Amt,Discount_Base,Discount_Amt,Amount_Less_Discount,Total_Tax_Amt,Total_Amt,Distributor_Commission_TotalAmt,Security_TotalAmt,RoundOffAmount,Sub_Location_code from TSPL_BOOKING_MATSER where 2=2 and "
+            ",Tax_Group,TaxGroupName,Tax1,Tax1_Rate,Tax1_Base_Amt,TAX1_Amt,Tax2,Tax2_Rate,Tax2_Base_Amt,TAX2_Amt,Tax3,Tax3_Rate,Tax3_Base_Amt,TAX3_Amt,Tax4,Tax4_Rate,Tax4_Base_Amt,TAX4_Amt,Tax5,Tax5_Rate,Tax5_Base_Amt,TAX5_Amt,Discount_Base,Discount_Amt,Amount_Less_Discount,Total_Tax_Amt,Total_Amt,Distributor_Commission_TotalAmt,Security_TotalAmt,RoundOffAmount,Sub_Location_code,Trip_No from TSPL_BOOKING_MATSER where 2=2 and "
 
         '-------richa 12/08/2014 Ticket No. BM00000003242---------
         Dim strwherecls As String = ""
@@ -610,6 +612,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj.Total_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Amt"))
             obj.RoundOffAmount = clsCommon.myCdbl(dt.Rows(0)("RoundOffAmount"))
             obj.Sub_Location_code = clsCommon.myCstr(dt.Rows(0)("Sub_Location_code"))
+            obj.Trip_No = clsCommon.myCstr(dt.Rows(0)("Trip_No"))
             If dt.Rows(0)("BPL_Coupon_Date") IsNot DBNull.Value Then
                 obj.BPL_Coupon_Date = clsCommon.myCDate(dt.Rows(0)("BPL_Coupon_Date"))
             End If

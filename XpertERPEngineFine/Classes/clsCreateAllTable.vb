@@ -8129,6 +8129,8 @@ Public Class clsCreateAllTable
             coll.Add("Production_Remarks", "varchar(200) NULL")
             coll.Add("GPCode", "varchar(30) NULL")
             coll.Add("Is_Posted", "char(1) not null default 'N'")
+            coll.Add("Trip_No", "integer null")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DEMAND_BOOKING_DETAIL", coll, "", False, False, "TSPL_DEMAND_BOOKING_MASTER", "Document_No", "")
 
             If dt Is Nothing AndAlso dt.Rows.Count <= 0 Then
@@ -8277,6 +8279,7 @@ Public Class clsCreateAllTable
             coll.Add("Security_TotalAmt", "decimal(18,2) null")
             coll.Add("RoundOffAmount", "decimal(18,2)  null ")
             coll.Add("Sub_Location_code", "varchar(12) NULL")
+            coll.Add("Trip_No", "integer null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
