@@ -24,7 +24,9 @@ Public Class clsBookingEntryDairySale
 
     Public Cust_PO_No As String = ""
     Public TotalCAN As Integer = 0
+    Public Trip_No As Integer = 0
     Public TotalBox As Integer = 0
+    Public RoundOffAmount As Double = 0
     Public TotalCrate As Integer = 0
     Public Is_Cancelled As Integer = 0
     Public Booking_Type As String = String.Empty
@@ -63,6 +65,7 @@ Public Class clsBookingEntryDairySale
     Public BPL_Category As String = String.Empty
     Public BPL_Coupon_Date As Date? = Nothing
     Public Is_Credit_Customer As String = String.Empty
+    Public Sub_Location_code As String = String.Empty
     Public LastCollectionDate As Date? = Nothing
     Public TCSBaseAmt As Double = 0
     Public TCSAmount As Double = 0
@@ -117,7 +120,8 @@ Public Class clsBookingEntryDairySale
     Public TermsName As String = Nothing
     Public Due_Date As DateTime? = Nothing
     Public Tax_Calculation_Type As EnumTaxCalucationType
-
+    Public Distributor_Commission_TotalAmt As Decimal = 0
+    Public Security_TotalAmt As Decimal = 0
 
 
 
@@ -263,6 +267,8 @@ Public Class clsBookingEntryDairySale
             clsCommon.AddColumnsForChange(coll, "BPL_Name", obj.BPL_Name, True)
             clsCommon.AddColumnsForChange(coll, "BPL_Category", obj.BPL_Category, True)
             clsCommon.AddColumnsForChange(coll, "BPL_Remark", obj.BPL_Remark, True)
+            clsCommon.AddColumnsForChange(coll, "Sub_Location_code", obj.Sub_Location_code, True)
+            clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No, True)
             If obj.BPL_Coupon_Date Is Nothing Then
                 clsCommon.AddColumnsForChange(coll, "BPL_Coupon_Date", Nothing, True)
             Else
@@ -322,6 +328,9 @@ Public Class clsBookingEntryDairySale
             clsCommon.AddColumnsForChange(coll, "Discount_Base", obj.Discount_Base)
             clsCommon.AddColumnsForChange(coll, "Discount_Amt", obj.Discount_Amt)
             clsCommon.AddColumnsForChange(coll, "Amount_Less_Discount", obj.Amount_Less_Discount)
+            clsCommon.AddColumnsForChange(coll, "Distributor_Commission_TotalAmt", obj.Distributor_Commission_TotalAmt)
+            clsCommon.AddColumnsForChange(coll, "Security_TotalAmt", obj.Security_TotalAmt)
+            clsCommon.AddColumnsForChange(coll, "RoundOffAmount", obj.RoundOffAmount)
 
             If clsCommon.myLen(obj.Due_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Due_Date", clsCommon.GetPrintDate(obj.Due_Date, "dd/MMM/yyyy"))
@@ -346,6 +355,7 @@ Public Class clsBookingEntryDairySale
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_No, "TSPL_BOOKING_MATSER", "Document_No", "TSPL_BOOKING_DETAIL", "Document_No", "TSPL_BOOKING_PAYMENT_MODE_DETAIL", "Document_No", trans)
 
             End If
+
             Return isSaved
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -509,9 +519,11 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
 
     Public Shared Function GetData(ByVal strDocumentNo As String, ByVal NavType As NavigatorType, ByVal Trans As SqlTransaction, Optional ByVal FormId As String = "") As clsBookingEntryDairySale
         Dim obj As clsBookingEntryDairySale = Nothing
+        Dim ShowDemandDoc As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowDemandDoc, clsFixedParameterCode.ShowDemandDoc, Trans)) = 1, True, False)
+
         Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Against_DemandBooking_No,TSPL_BOOKING_MATSER.Ship_To_Location,TSPL_BOOKING_MATSER.Created_Date,TSPL_BOOKING_MATSER.AdvanceAmount,TSPL_BOOKING_MATSER.Against_Receipt_No,TSPL_BOOKING_MATSER.Against_Booking_No,TSPL_BOOKING_MATSER.Payment_Mode,TSPL_BOOKING_MATSER.Reference_No,TSPL_BOOKING_MATSER.Counter_No,TSPL_BOOKING_MATSER.IsSampling,TSPL_BOOKING_MATSER.AgainstGatePass,Document_No,Document_Date,Posted,CreateDO_Automatic,location_code,Cust_Group_Code,Is_Taxable,TRANSACTION_TYPE,Ex_Factory_Date,isnull(CustPO_No,'') as CustPO_No,custpo_date,isnull(SalesmanCode,'') as SalesmanCode,Total_Can,total_Box,Total_Crate,isnull(Is_Cancelled,0) as Is_Cancelled, isnull(Booking_Type,'') as Booking_Type,isnull(Card_SALE_No,'') as Card_SALE_No,CardSale_FROM_DATE,CardSale_TO_DATE,Uploading_date " &
             " ,isnull(Credit_Limit,0) as Credit_Limit,isnull(Advance_Security,0) as Advance_Security,isnull(Revese_Adv_Security,0) as Revese_Adv_Security,isnull(AR_Credit_Security,0) as AR_Credit_Security,isnull(Pending_Posted_DO,0) as Pending_Posted_DO,isnull(UnPostedDispatch,0) as UnPostedDispatch,isnull(Ledger_Outstansing,0) as Ledger_Outstansing,isnull(Refund_Security,0) as Refund_Security,isnull(Reverse_Refund_Sec,0) as Reverse_Refund_Sec,isnull(Total_Outstanding,0) as Total_Outstanding, isnull(GatePass_Type,'') as GatePass_Type,Created_By,Is_DCS,Is_BPL,BPL_Coupon_Code,BPL_Name,BPL_Remark,BPL_Coupon_Date,Is_Distributor,BPL_Category,TCSAmount,TCSBaseAmt,Total_Amt,TSPL_BOOKING_MATSER.LastCollectionDate " &
-            ",Tax_Group,TaxGroupName,Tax1,Tax1_Rate,Tax1_Base_Amt,TAX1_Amt,Tax2,Tax2_Rate,Tax2_Base_Amt,TAX2_Amt,Tax3,Tax3_Rate,Tax3_Base_Amt,TAX3_Amt,Tax4,Tax4_Rate,Tax4_Base_Amt,TAX4_Amt,Tax5,Tax5_Rate,Tax5_Base_Amt,TAX5_Amt,Discount_Base,Discount_Amt,Amount_Less_Discount,Total_Tax_Amt,Total_Amt from TSPL_BOOKING_MATSER where 2=2 and "
+            ",Tax_Group,TaxGroupName,Tax1,Tax1_Rate,Tax1_Base_Amt,TAX1_Amt,Tax2,Tax2_Rate,Tax2_Base_Amt,TAX2_Amt,Tax3,Tax3_Rate,Tax3_Base_Amt,TAX3_Amt,Tax4,Tax4_Rate,Tax4_Base_Amt,TAX4_Amt,Tax5,Tax5_Rate,Tax5_Base_Amt,TAX5_Amt,Discount_Base,Discount_Amt,Amount_Less_Discount,Total_Tax_Amt,Total_Amt,Distributor_Commission_TotalAmt,Security_TotalAmt,RoundOffAmount,Sub_Location_code,Trip_No from TSPL_BOOKING_MATSER where 2=2 and "
 
         '-------richa 12/08/2014 Ticket No. BM00000003242---------
         Dim strwherecls As String = ""
@@ -521,6 +533,9 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             If clsCommon.myLen(strwherecls) > 0 Then
                 whrClas = " and TSPL_BOOKING_DETAIL.Cust_Code in (" + strwherecls + ") "
             End If
+        End If
+        If ShowDemandDoc Then
+            whrClas += " and TSPL_BOOKING_MATSER.Against_DemandBooking_No is null "
         End If
 
 
@@ -537,19 +552,36 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
         '        qry += " Document_No in (select isnull(max(t.Document_No),'') from TSPL_BOOKING_MATSER  as t where t.From_Screen_code='" + FormId + "' and  t.Document_No  <'" + strDocumentNo + "')"
         'End Select
 
+        If ShowDemandDoc Then
+            Select Case NavType
 
-        Select Case NavType
-            Case NavigatorType.Current
-                qry += "  Document_No='" + strDocumentNo + "'"
-            Case NavigatorType.Next
-                qry += " Document_No in (select isnull(min(t.Document_No),'') from TSPL_BOOKING_MATSER  as t inner join TSPL_BOOKING_DETAIL on t .Document_No =TSPL_BOOKING_DETAIL .Document_No  where t.From_Screen_code='" + FormId + "' and t.Document_No  >'" + strDocumentNo + "'  " + whrClas + ")"
-            Case NavigatorType.First
-                qry += " Document_No in (select isnull(min(t.Document_No),'') from TSPL_BOOKING_MATSER  as t inner join TSPL_BOOKING_DETAIL on t .Document_No =TSPL_BOOKING_DETAIL .Document_No  where t.From_Screen_code='" + FormId + "'  " + whrClas + ")"
-            Case NavigatorType.Last
-                qry += " Document_No in (select isnull(max(t.Document_No),'') from TSPL_BOOKING_MATSER  as t inner join TSPL_BOOKING_DETAIL on t .Document_No =TSPL_BOOKING_DETAIL .Document_No  where t.From_Screen_code='" + FormId + "'  " + whrClas + " )"
-            Case NavigatorType.Previous
-                qry += " Document_No in (select isnull(max(t.Document_No),'') from TSPL_BOOKING_MATSER  as t inner join TSPL_BOOKING_DETAIL on t .Document_No =TSPL_BOOKING_DETAIL .Document_No  where t.From_Screen_code='" + FormId + "' and  t.Document_No  <'" + strDocumentNo + "'  " + whrClas + ")"
-        End Select
+                Case NavigatorType.Current
+                    qry += "  Document_No='" + strDocumentNo + "'"
+                Case NavigatorType.Next
+                    qry += " Document_No in (select isnull(min(TSPL_BOOKING_MATSER.Document_No),'') from TSPL_BOOKING_MATSER   where TSPL_BOOKING_MATSER.From_Screen_code='" + FormId + "' and TSPL_BOOKING_MATSER.Document_No  >'" + strDocumentNo + "'  " + whrClas + ")"
+                Case NavigatorType.First
+                    qry += " Document_No in (select isnull(min(TSPL_BOOKING_MATSER.Document_No),'') from TSPL_BOOKING_MATSER    where TSPL_BOOKING_MATSER.From_Screen_code='" + FormId + "'  " + whrClas + ")"
+                Case NavigatorType.Last
+                    qry += " Document_No in (select isnull(max(TSPL_BOOKING_MATSER.Document_No),'') from TSPL_BOOKING_MATSER   where TSPL_BOOKING_MATSER.From_Screen_code='" + FormId + "'  " + whrClas + " )"
+                Case NavigatorType.Previous
+                    qry += " Document_No in (select isnull(max(TSPL_BOOKING_MATSER.Document_No),'') from TSPL_BOOKING_MATSER  where TSPL_BOOKING_MATSER.From_Screen_code='" + FormId + "' and  TSPL_BOOKING_MATSER.Document_No  <'" + strDocumentNo + "'  " + whrClas + ")"
+            End Select
+        Else
+            Select Case NavType
+
+                Case NavigatorType.Current
+                    qry += "  Document_No='" + strDocumentNo + "'"
+                Case NavigatorType.Next
+                    qry += " Document_No in (select isnull(min(t.Document_No),'') from TSPL_BOOKING_MATSER  as t inner join TSPL_BOOKING_DETAIL on t .Document_No =TSPL_BOOKING_DETAIL .Document_No  where t.From_Screen_code='" + FormId + "' and t.Document_No  >'" + strDocumentNo + "'  " + whrClas + ")"
+                Case NavigatorType.First
+                    qry += " Document_No in (select isnull(min(t.Document_No),'') from TSPL_BOOKING_MATSER  as t inner join TSPL_BOOKING_DETAIL on t .Document_No =TSPL_BOOKING_DETAIL .Document_No  where t.From_Screen_code='" + FormId + "'  " + whrClas + ")"
+                Case NavigatorType.Last
+                    qry += " Document_No in (select isnull(max(t.Document_No),'') from TSPL_BOOKING_MATSER  as t inner join TSPL_BOOKING_DETAIL on t .Document_No =TSPL_BOOKING_DETAIL .Document_No  where t.From_Screen_code='" + FormId + "'  " + whrClas + " )"
+                Case NavigatorType.Previous
+                    qry += " Document_No in (select isnull(max(t.Document_No),'') from TSPL_BOOKING_MATSER  as t inner join TSPL_BOOKING_DETAIL on t .Document_No =TSPL_BOOKING_DETAIL .Document_No  where t.From_Screen_code='" + FormId + "' and  t.Document_No  <'" + strDocumentNo + "'  " + whrClas + ")"
+            End Select
+        End If
+
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, Trans)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -578,6 +610,9 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj.TCSBaseAmt = clsCommon.myCdbl(dt.Rows(0)("TCSBaseAmt"))
             obj.TCSAmount = clsCommon.myCdbl(dt.Rows(0)("TCSAmount"))
             obj.Total_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Amt"))
+            obj.RoundOffAmount = clsCommon.myCdbl(dt.Rows(0)("RoundOffAmount"))
+            obj.Sub_Location_code = clsCommon.myCstr(dt.Rows(0)("Sub_Location_code"))
+            obj.Trip_No = clsCommon.myCstr(dt.Rows(0)("Trip_No"))
             If dt.Rows(0)("BPL_Coupon_Date") IsNot DBNull.Value Then
                 obj.BPL_Coupon_Date = clsCommon.myCDate(dt.Rows(0)("BPL_Coupon_Date"))
             End If
@@ -658,6 +693,8 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
             obj.Amount_Less_Discount = clsCommon.myCdbl(dt.Rows(0)("Amount_Less_Discount"))
             obj.Total_Tax_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Tax_Amt"))
             obj.Total_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Amt"))
+            obj.Distributor_Commission_TotalAmt = clsCommon.myCdbl(dt.Rows(0)("Distributor_Commission_TotalAmt"))
+            obj.Security_TotalAmt = clsCommon.myCdbl(dt.Rows(0)("Security_TotalAmt"))
             obj.Arr = clsBookingDetailDairySale.getData(obj.Document_No, Trans)
             obj.arrBookingDetailDairySalePaymentMode = clsBookingDetailDairySalePaymentMode.getData(obj.Document_No, Trans)
         End If
@@ -1375,11 +1412,15 @@ Public Class clsBookingDetailDairySale
     Public Tax_On_Amount As Double = 0
     Public Tax_Amount As Double = 0
     Public Tax_NonTax As Double = 0
+    Public Disc_Amt As Double = 0
+    Public Amt_Less_Discount As Double = 0
     Public FreshAmbient As String = ""
     Public Remarks As String = ""
     Public Route_No As String = Nothing
     Public Price_with_Tax As Double = 0
     Public Amount_with_Tax As Double = 0
+
+    Public TAX_Group As String = ""
     Public TAX1 As String = Nothing
     Public TAX1_Base_Amt As Double = 0
     Public TAX1_Rate As Double = 0
@@ -1420,6 +1461,12 @@ Public Class clsBookingDetailDairySale
     Public TAX10_Base_Amt As Double = 0
     Public TAX10_Rate As Double = 0
     Public TAX10_Amt As Double = 0
+    Public Distributor_Commission_PKID As String = ""
+    Public Distributor_Commission_Rate As Decimal = 0
+    Public Distributor_Commission_RateWithTax As Decimal = 0
+    Public Distributor_Commission_Amt As Decimal = 0
+    Public Security_Rate As Decimal = 0
+    Public Security_Amt As Decimal = 0
 #End Region
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsBookingDetailDairySale), ByVal trans As SqlTransaction, ByVal isNewEntry As Boolean, ByVal Docdate As String) As Boolean
@@ -1488,6 +1535,9 @@ Public Class clsBookingDetailDairySale
                 clsCommon.AddColumnsForChange(coll, "FreshAmbient", obj.FreshAmbient)
                 clsCommon.AddColumnsForChange(coll, "Price_with_Tax", obj.Price_with_Tax)
                 clsCommon.AddColumnsForChange(coll, "Amount_with_Tax", obj.Amount_with_Tax)
+                clsCommon.AddColumnsForChange(coll, "Disc_Amt", obj.Disc_Amt)
+                clsCommon.AddColumnsForChange(coll, "Amt_Less_Discount", obj.Amt_Less_Discount)
+                clsCommon.AddColumnsForChange(coll, "TAX_Group", obj.TAX_Group)
                 clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
                 clsCommon.AddColumnsForChange(coll, "TAX1_Base_Amt", obj.TAX1_Base_Amt)
                 clsCommon.AddColumnsForChange(coll, "TAX1_Rate", obj.TAX1_Rate)
@@ -1528,6 +1578,12 @@ Public Class clsBookingDetailDairySale
                 clsCommon.AddColumnsForChange(coll, "TAX10_Base_Amt", obj.TAX10_Base_Amt)
                 clsCommon.AddColumnsForChange(coll, "TAX10_Rate", obj.TAX10_Rate)
                 clsCommon.AddColumnsForChange(coll, "TAX10_Amt", obj.TAX10_Amt)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_PKID", obj.Distributor_Commission_PKID, True)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_Rate", obj.Distributor_Commission_Rate, True)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_RateWithTax", obj.Distributor_Commission_RateWithTax, True)
+                clsCommon.AddColumnsForChange(coll, "Distributor_Commission_Amt", obj.Distributor_Commission_Amt, True)
+                clsCommon.AddColumnsForChange(coll, "Security_Rate", obj.Security_Rate, True)
+                clsCommon.AddColumnsForChange(coll, "Security_Amt", obj.Security_Amt, True)
                 'Ticket No- ERO/12/07/18-000371
                 clsCommon.AddColumnsForChange(coll, "Remarks", obj.Remarks)
                 'Ticket No- ERO/12/07/18-000371
@@ -1841,6 +1897,12 @@ Public Class clsBookingDetailDairySale
                     obj.Amount_with_Tax = clsCommon.myCdbl(dt.Rows(i)("Amount_with_Tax"))
                     obj.Vehicle_Code = clsCommon.myCstr(dt.Rows(i)("Vehicle_Code"))
                     obj.Route_No = clsCommon.myCstr(dt.Rows(i)("Route_No"))
+                    obj.Distributor_Commission_PKID = clsCommon.myCstr(dt.Rows(i)("Distributor_Commission_PKID"))
+                    obj.Distributor_Commission_Rate = clsCommon.myCdbl(dt.Rows(i)("Distributor_Commission_Rate"))
+                    obj.Distributor_Commission_RateWithTax = clsCommon.myCdbl(dt.Rows(i)("Distributor_Commission_RateWithTax"))
+                    obj.Distributor_Commission_Amt = clsCommon.myCdbl(dt.Rows(i)("Distributor_Commission_Amt"))
+                    obj.Security_Rate = clsCommon.myCdbl(dt.Rows(i)("Security_Rate"))
+                    obj.Security_Amt = clsCommon.myCdbl(dt.Rows(i)("Security_Amt"))
                     arrObj.Add(obj)
                 Next
             End If

@@ -94,7 +94,6 @@ Public Class clsDemandBookingSale
             clsCommon.AddColumnsForChange(coll, "City_Code", obj.City_Code)
             clsCommon.AddColumnsForChange(coll, "ShiftType", obj.ShiftType)
             clsCommon.AddColumnsForChange(coll, "ItemType", obj.ItemType)
-            clsCommon.AddColumnsForChange(coll, "TripNo", obj.TripNo)
             clsCommon.AddColumnsForChange(coll, "IsIndividualCustomer", obj.IsIndividualCustomer)
             clsCommon.AddColumnsForChange(coll, "TotalQtyInCrates", obj.TotalQtyInCrates)
             clsCommon.AddColumnsForChange(coll, "TotalQtyInLtr", obj.TotalQtyInLtr)
@@ -135,6 +134,7 @@ Public Class clsDemandBookingSale
                 Dim intCounter As Integer = 0
                 Dim LocationCode As String = String.Empty
                 Dim CustomerCode As String = String.Empty
+                Dim TripNo As Integer = 1
                 Dim strShiftType As String = String.Empty
                 Dim IsTCSApplicable As Boolean = False
                 Dim DocuAmount As Double = 0
@@ -172,7 +172,7 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                 'where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' " & strwhrcls & " 
                 'order by tspl_demand_booking_detail.Cust_Code,tspl_demand_booking_detail.ShiftType asc", trans)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(QryStr, trans)
-                Dim dtmain As DataTable = clsDBFuncationality.GetDataTable("select '' as DemandBookingSrNo,'' as Document_No,'' as 	Line_No,'' as	Cust_Code,'' as 	Item_Code,'' as 	Qty,'' as 	Unit_code,'' as 	Vehicle_Code,'' as 	Item_Rate,'' as DocumentAmount	,'' as Price_code	,'' as ShiftType	,'' as Route_No	,'' as Location_Code,'' as Document_Date,'' as TR_Code,'' as Created_By ", trans)
+                Dim dtmain As DataTable = clsDBFuncationality.GetDataTable("select '' as DemandBookingSrNo,'' as Document_No,'' as 	Line_No,'' as	Cust_Code,'' as Trip_No, '' as 	Item_Code,'' as 	Qty,'' as 	Unit_code,'' as 	Vehicle_Code,'' as 	Item_Rate,'' as DocumentAmount	,'' as Price_code	,'' as ShiftType	,'' as Route_No	,'' as Location_Code,'' as Document_Date,'' as TR_Code,'' as Created_By ", trans)
                 dtmain.Rows.RemoveAt(0)
                 For Each dr As DataRow In dt.Rows
                     If clsCommon.CompairString(clsCommon.myCDate(strdocdate), clsCommon.myCDate(dr("Document_Date"))) = CompairStringResult.Equal AndAlso clsCommon.CompairString(CustomerCode, clsCommon.myCstr(dr("Cust_Code"))) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strShiftType, clsCommon.myCstr(dr("ShiftType"))) = CompairStringResult.Equal Then
@@ -180,11 +180,12 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                         CustomerCount = CustomerCount + 1
                     End If
                     CustomerCode = clsCommon.myCstr(dr("Cust_Code"))
+                    TripNo = clsCommon.myCdbl(dr("Trip_No"))
 
                     strShiftType = clsCommon.myCstr(dr("ShiftType"))
                     strdocdate = clsCommon.myCDate(dr("Document_Date"))
 
-                    dtmain.Rows.Add("" + clsCommon.myCstr(CustomerCount) + "", "" + clsCommon.myCstr(dr("Document_No")) + "", "" + clsCommon.myCstr(dr("Line_No")) + "", "" + clsCommon.myCstr(dr("Cust_Code")) + "", "" + clsCommon.myCstr(dr("Item_Code")) + "", "" + clsCommon.myCstr(dr("Qty")) + "", "" + clsCommon.myCstr(dr("Unit_Code")) + "", "" + clsCommon.myCstr(dr("Vehicle_Code")) + "", "" + clsCommon.myCstr(dr("Item_Rate")) + "", "" + clsCommon.myCstr(dr("ItemNetAmount")) + "", "" + clsCommon.myCstr(dr("Price_code")) + "", "" + clsCommon.myCstr(dr("ShiftType")) + "", " " + clsCommon.myCstr(dr("Route_No")) + "", "" + clsCommon.myCstr(dr("Location_Code")) + "", "" + clsCommon.myCstr(dr("Document_Date")) + "", "" + clsCommon.myCstr(dr("TR_Code")) + "", "" + clsCommon.myCstr(dr("Created_By")) + "")
+                    dtmain.Rows.Add("" + clsCommon.myCstr(CustomerCount) + "", "" + clsCommon.myCstr(dr("Document_No")) + "", "" + clsCommon.myCstr(dr("Line_No")) + "", "" + clsCommon.myCstr(dr("Cust_Code")) + "", "" + clsCommon.myCstr(dr("Trip_No")) + "", "" + clsCommon.myCstr(dr("Item_Code")) + "", "" + clsCommon.myCstr(dr("Qty")) + "", "" + clsCommon.myCstr(dr("Unit_Code")) + "", "" + clsCommon.myCstr(dr("Vehicle_Code")) + "", "" + clsCommon.myCstr(dr("Item_Rate")) + "", "" + clsCommon.myCstr(dr("ItemNetAmount")) + "", "" + clsCommon.myCstr(dr("Price_code")) + "", "" + clsCommon.myCstr(dr("ShiftType")) + "", " " + clsCommon.myCstr(dr("Route_No")) + "", "" + clsCommon.myCstr(dr("Location_Code")) + "", "" + clsCommon.myCstr(dr("Document_Date")) + "", "" + clsCommon.myCstr(dr("TR_Code")) + "", "" + clsCommon.myCstr(dr("Created_By")) + "")
                 Next
                 For Each dr1 As DataRow In dtmain.Rows
                     Dim intCurrInvNo As Integer = clsCommon.myCdbl(dr1("DemandBookingSrNo"))
@@ -239,7 +240,7 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                         End If
 
                         obj.location_code = clsCommon.myCstr(dr1("Location_Code"))
-
+                        obj.Trip_No = clsCommon.myCdbl(dr1("Trip_No"))
                         obj.Is_Taxable = 2
                         obj.TRANSACTION_TYPE = ""
                         obj.From_Screen_code = clsUserMgtCode.frmDairyBookingCustomer
@@ -674,6 +675,7 @@ where tspl_demand_booking_detail.Document_No='" & strDemandBookingNo & "' "
                     objTr.Vehicle_Code = clsCommon.myCstr(dr("Vehicle_Code"))
                     objTr.Document_No = clsCommon.myCstr(dr("Document_No"))
                     objTr.Line_No = clsCommon.myCstr(dr("Line_No"))
+                    objTr.Trip_No = clsCommon.myCdbl(dr("Trip_No"))
                     objTr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
                     objTr.Item_Desc = clsCommon.myCstr(dr("Item_Desc"))
                     objTr.Unit_code = clsCommon.myCstr(dr("Unit_code"))
@@ -923,6 +925,7 @@ Public Class clsDemandBookingSaleDetail
 #Region "Variable"
     Public Document_No As String = Nothing
     Public Line_No As Integer
+    Public Trip_No As Integer
     Public Item_Code As String = Nothing
     Public Cust_Code As String = Nothing
     Public Item_Desc As String = Nothing
@@ -956,6 +959,7 @@ Public Class clsDemandBookingSaleDetail
                     clsCommon.AddColumnsForChange(coll, "TR_CODE", obj.TR_CODE)
                     clsCommon.AddColumnsForChange(coll, "Document_No", strDocNo)
                     clsCommon.AddColumnsForChange(coll, "Line_No", obj.Line_No)
+                    clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
                     clsCommon.AddColumnsForChange(coll, "Cust_Code", obj.Cust_Code)
                     clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                     clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
