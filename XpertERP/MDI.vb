@@ -7835,6 +7835,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmDBTNEFTUnionReport
                         frm = New frmDBTNEFTUnionReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmDCSSavingLedger
+                        frm = New frmDCSSavingLedger
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmDBTStatusAndLastDPTStatus
                         frm = New frmDBTStatusAndLastDPTStatus
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8297,6 +8300,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptAvgSaleDetailReport
                         frm = New rptAvgSaleDetailReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptdairydispatch
+                        frm = New rptdailydispatch
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptPaymentCycleWiseReport
                         frm = New rptPaymentCycleWiseReport

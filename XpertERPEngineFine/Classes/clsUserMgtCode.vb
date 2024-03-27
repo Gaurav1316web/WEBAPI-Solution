@@ -4,6 +4,7 @@ Public Class clsUserMgtCode
     'Public Const FrmReceiptInvoiceMapping As String = "REC-INV-MAP"
     Public Const frmPOBulkProc As String = "PO-BULK-P"
     Public Const frmDBTNEFTUnionReport As String = "UNION-RPT"
+    Public Const frmDCSSavingLedger As String = "DCS-LGR-RPT"
     Public Const frmDBTStatusAndLastDPTStatus As String = "DBT-STATUS"
     Public Const frmDBTApprovalStatus As String = "DBT-APPRO"
     Public Const frmGateEntryReturnCS As String = "GERETURN-CS"
@@ -251,6 +252,7 @@ Public Class clsUserMgtCode
     Public Const rptBookingQtyAmtReport As String = "DEMD_BK_RPT"
     Public Const rptSalesLedgerReport As String = "SAL_LED_RPT"
     Public Const rptAvgSaleDetailReport As String = "AVG_SAL_RPT"
+    Public Const rptdairydispatch As String = "DRY_DIS_RPT"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"

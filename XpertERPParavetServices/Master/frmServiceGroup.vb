@@ -61,7 +61,7 @@ Public Class FrmServiceGroup
     Private Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(clsCommon.myCstr(txtServiceGroupCode.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtServiceGroupCode.Value)) > 30 Then
-                myMessages.blankValue("Code")
+                myMessages.blankValue(Me, "Code", Me.Text)
 
                 txtServiceGroupCode.Focus()
                 txtServiceGroupCode.Select()
@@ -71,7 +71,7 @@ Public Class FrmServiceGroup
                 Errorcontrol.ResetError(txtServiceGroupCode)
             End If
             If clsCommon.myLen(clsCommon.myCstr(txtGroupName.Text)) <= 0 Then
-                myMessages.blankValue("Group Name")
+                myMessages.blankValue(Me, "Group Name", Me.Text)
 
                 txtGroupName.Focus()
                 txtGroupName.Select()
@@ -82,7 +82,7 @@ Public Class FrmServiceGroup
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtDesc.Text)) <= 0 Then
-                myMessages.blankValue("Description")
+                myMessages.blankValue(Me, "Description", Me.Text)
 
                 txtDesc.Focus()
                 txtDesc.Select()

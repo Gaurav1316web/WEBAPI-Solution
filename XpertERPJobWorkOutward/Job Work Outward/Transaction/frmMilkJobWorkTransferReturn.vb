@@ -217,7 +217,7 @@ Public Class frmMilkJobWorkTransferReturn
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
         If txtCode.Value = "" Then
-            myMessages.blankValue("Requisition Number")
+            myMessages.blankValue(Me, "Requisition Number", Me.Text)
 
         Else
             funPrint()

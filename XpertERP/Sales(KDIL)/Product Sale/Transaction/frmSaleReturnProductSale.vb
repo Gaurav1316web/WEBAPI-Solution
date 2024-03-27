@@ -6034,7 +6034,7 @@ Public Class frmSaleReturnProductSale
     End Function
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Document not found to Print")
+            myMessages.blankValue(Me, "Document not found to Print", Me.Text)
         Else
             funPrint(txtDocNo.Value)
         End If

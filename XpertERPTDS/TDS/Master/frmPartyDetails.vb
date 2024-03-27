@@ -944,7 +944,7 @@ Public Class frmPartyDetails
     End Sub
     Sub DeleteData()
         If fndvendorNew.Value = "" Then
-            myMessages.blankValue("Nature of Deduction")
+            myMessages.blankValue(Me, "Nature of Deduction", Me.Text)
             Exit Sub
         End If
         Dim qry As String = "select Vendor_Code from TSPL_REMITTANCE where Vendor_Code = '" + fndvendorNew.Value + "'"

@@ -87,23 +87,23 @@ Public Class frmDCSforSale
     Function AllowToSave() As Boolean
 
         If clsCommon.myLen(txtName.Text) <= 0 Then
-            myMessages.blankValue("DCS Name")
+            myMessages.blankValue(Me, "DCS Name", Me.Text)
             txtName.Focus()
             Return False
         ElseIf clsCommon.myLen(txtUpload.Text) <= 0 Then
-            myMessages.blankValue("Upload")
+            myMessages.blankValue(Me, "Upload", Me.Text)
             txtUpload.Focus()
             Return False
         ElseIf clsCommon.myLen(txtZone.Value) <= 0 Then
-            myMessages.blankValue("Zone")
+            myMessages.blankValue(Me, "Zone", Me.Text)
             txtZone.Focus()
             Return False
         ElseIf clsCommon.myLen(txtLocation.Value) <= 0 Then
-            myMessages.blankValue("Location")
+            myMessages.blankValue(Me, "Location", Me.Text)
             txtLocation.Focus()
             Return False
         ElseIf clsCommon.myLen(txtCustomer.Value) <= 0 Then
-            myMessages.blankValue("Customer")
+            myMessages.blankValue(Me, "Customer", Me.Text)
             txtCustomer.Focus()
             Return False
         End If
@@ -120,7 +120,7 @@ Public Class frmDCSforSale
             Exit Sub
         End If
         If txtCode.Value = "" Then
-            myMessages.blankValue(txtCode.MyLinkLable1.Text)
+            myMessages.blankValue(Me, txtCode.MyLinkLable1.Text, Me.Text)
             txtCode.Focus()
         ElseIf myMessages.deleteConfirm() Then
             If (ClsDCSforSale.DeleteData(txtCode.Value)) Then

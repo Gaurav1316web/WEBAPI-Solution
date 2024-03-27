@@ -152,7 +152,7 @@ Public Class frmCustomer
                     txtCustomerName.Focus()
                 End If
             ElseIf clsCommon.myLen(fndCustomer.Value) <= 0 Then
-                myMessages.blankValue("Customer No")
+                myMessages.blankValue(Me, "Customer No", Me.Text)
                 fndCustomer.Focus()
                 Return
             Else
@@ -6404,6 +6404,49 @@ Public Class frmCustomer
 
         TxtLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, TxtLocation.Value, "Code", isButtonClicked)
         lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + TxtLocation.Value + "'"))
+    End Sub
+
+    Private Sub rmiCustomerDisplaySeq_Click(sender As Object, e As EventArgs) Handles rmiCustomerDisplaySeq.Click
+        Try
+            Dim gv As New RadGridView()
+            Me.Controls.Add(gv)
+            If transportSql.importExcel(gv, "Customer Code", "Display_Seq") Then
+
+                Try
+                    For Each grow As GridViewRowInfo In gv.Rows
+                        Dim strCustCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"))
+                        If clsCommon.CompairString(strCustCode, clsCommon.myCstr(grow.Cells("Display_Seq").Value)) = CompairStringResult.Equal Then
+                            Dim StrQry As String = " update TSPL_CUSTOMER_MASTER set Display_Seq='" + clsCommon.myCstr(grow.Cells("Display_Seq").Value) + "' where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "''"
+                            clsDBFuncationality.ExecuteNonQuery(StrQry)
+                        End If
+
+                    Next
+                Catch ex As Exception
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
+                End Try
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
+
+                End If
+
+            Me.Controls.Remove(gv)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rmiexCustDispSeq_Click(sender As Object, e As EventArgs) Handles rmiexCustDispSeq.Click
+        Try
+            Dim str As String = "select Cust_Code as [Customer Code],Display_Seq as Display_Seq,Customer_Name_Hindi,Customer_Class  from TSPL_CUSTOMER_MASTER"
+            ListImpExpColumnsMandatory = New List(Of String)({"[Customer Code", "Display_Seq", "Customer_Name_Hindi", "Customer_Class"})
+            ' transportSql.ExporttoExcel(strCmd, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
+            transportSql.ExporttoExcel(str, "", Me)
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
+        End Try
     End Sub
 
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean

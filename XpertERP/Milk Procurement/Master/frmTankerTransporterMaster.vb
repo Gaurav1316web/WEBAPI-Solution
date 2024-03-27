@@ -3036,7 +3036,7 @@ Public Class frmTankerTransporterMaster
 
         Try
             If txtvendorname.Text = "" Then
-                myMessages.blankValue("Please Fill Tanker Transporter Name")
+                myMessages.blankValue(Me, "Please Fill Tanker Transporter Name", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtvendorname.Focus()
                 txtvendorname.Select()
@@ -3048,7 +3048,7 @@ Public Class frmTankerTransporterMaster
 
             If fndgroupcode.Value = "" Then
                 pageCus.SelectedPage = RadPageViewPage1
-                myMessages.blankValue("Please Fill Group Code")
+                myMessages.blankValue(Me, "Please Fill Group Code", Me.Text)
                 fndgroupcode.Focus()
                 fndgroupcode.Select()
                 Errorcontrol.SetError(fndgroupcode, "Please Fill Group Code")
@@ -3058,7 +3058,7 @@ Public Class frmTankerTransporterMaster
             End If
 
             If fndTrmsCode.Value = "" Then
-                myMessages.blankValue("Please Fill Terms Code")
+                myMessages.blankValue(Me, "Please Fill Terms Code", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage4
                 fndTrmsCode.Focus()
                 fndTrmsCode.Select()
@@ -3069,7 +3069,7 @@ Public Class frmTankerTransporterMaster
             End If
 
             If fndAccntSet.Value = "" Then
-                myMessages.blankValue("Please Fill Account Set")
+                myMessages.blankValue(Me, "Please Fill Account Set", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage4
                 fndAccntSet.Focus()
                 fndAccntSet.Select()
@@ -3080,7 +3080,7 @@ Public Class frmTankerTransporterMaster
             End If
 
             If fndbankcode.Value = "" Then
-                myMessages.blankValue("Please Fill Bank Code")
+                myMessages.blankValue(Me, "Please Fill Bank Code", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage4
                 'fndbankcode.Focus()
                 'fndbankcode.Select()
@@ -3091,7 +3091,7 @@ Public Class frmTankerTransporterMaster
             End If
             ''richa agarwal 27/03/2015
             If txtbranchcode.Value = "" Then
-                myMessages.blankValue("Please Select IFSC Code")
+                myMessages.blankValue(Me, "Please Select IFSC Code", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage1
                 txtbranchcode.Focus()
                 txtbranchcode.Select()
@@ -3103,7 +3103,7 @@ Public Class frmTankerTransporterMaster
             ''------------------------
 
             If fndTxGrp.Value = "" Then
-                myMessages.blankValue("Please Fill Tax Group")
+                myMessages.blankValue(Me, "Please Fill Tax Group", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage4
                 fndTxGrp.Focus()
                 fndTxGrp.Select()
@@ -3393,7 +3393,7 @@ Public Class frmTankerTransporterMaster
     End Sub
     Sub DeleteData()
         If fndvendorNo.Value = "" Then
-            myMessages.blankValue("Tanker Transporter No.")
+            myMessages.blankValue(Me, "Tanker Transporter No.", Me.Text)
         ElseIf myMessages.deleteConfirm() Then
             fundelete()
         End If

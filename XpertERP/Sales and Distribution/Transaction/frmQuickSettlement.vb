@@ -400,10 +400,10 @@ Public Class FrmQuickSettlement
                 End If
             End If
             If fndTransferNumber.Value = "" Then
-                myMessages.blankValue("Load Out Number")
+                myMessages.blankValue(Me, "Load Out Number", Me.Text)
                 fndTransferNumber.Focus()
             ElseIf clsCommon.myLen(fndSalesmanCode.Value) <= 0 Then
-                myMessages.blankValue("Salesman Code")
+                myMessages.blankValue(Me, "Salesman Code", Me.Text)
                 fndSalesmanCode.Focus()
             ElseIf funSave() Then
                 If clicked = False Then
@@ -721,7 +721,7 @@ Public Class FrmQuickSettlement
         If clsCommon.myLen(fndQuickSettlement.Value) > 0 Then
             funPrint(routeno, veichleno, balanceamount, comments)
         Else
-            myMessages.blankValue("Quick Settlement Code!")
+            myMessages.blankValue(Me, "Quick Settlement Code!", Me.Text)
         End If
     End Sub
 

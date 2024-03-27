@@ -27,8 +27,10 @@ Public Module myMessages
         message = "Please provide atleast one value."
         common.clsCommon.MyMessageBoxShow(message)
     End Sub
-    Public Sub blankValue(ByVal control As String)
-        message = control + " can not be left blank."
+    Public Sub blankValue(parent As RadForm, ByVal control As String, ByVal caption As String)
+        Dim message As String = control & " can not be left blank." + caption
+
+        'message =  control + " can not be left blank." 
         common.clsCommon.MyMessageBoxShow(message)
     End Sub
 

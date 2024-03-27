@@ -6192,7 +6192,7 @@ Public Class frmMCCMaterialSale
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             funPrint()
         End If
@@ -7497,7 +7497,7 @@ Public Class frmMCCMaterialSale
 
     Private Sub btnPrintInvoice_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnPrintInvoice.Click
         If clsCommon.myLen(txtInvoiceNo.Text) <= 0 Then
-            myMessages.blankValue("Invoice not found to Print")
+            myMessages.blankValue(Me, "Invoice not found to Print", Me.Text)
         Else
             'Dim objInvoice As New frmSNSaleInvoice
             'objInvoice.funPrintForMCC(txtInvoiceNo.Text)

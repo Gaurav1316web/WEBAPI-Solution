@@ -141,28 +141,28 @@ Public Class frmCappingMaster
     End Sub
     Function AllowToSave() As Boolean
         If txtFat.Value <= 0 Then
-            myMessages.blankValue("FAT")
+            myMessages.blankValue(Me, "FAT", Me.Text)
             txtFat.Focus()
             Return False
         End If
         If txtSNF.Value <= 0 Then
-            myMessages.blankValue("SNF")
+            myMessages.blankValue(Me, "SNF", Me.Text)
             txtSNF.Focus()
             Return False
         End If
         If clsCommon.myLen(txtDescription.Text) <= 0 Then
-            myMessages.blankValue("Description")
+            myMessages.blankValue(Me, "Description", Me.Text)
             txtDescription.Focus()
             Return False
         End If
         If clsCommon.myLen(cboStartShift.SelectedValue) <= 0 Then
-            myMessages.blankValue("Start Shift")
+            myMessages.blankValue(Me, "Start Shift", Me.Text)
             cboStartShift.Focus()
             Return False
         End If
         If dtpEndDate.Checked Then
             If clsCommon.myLen(cboEndShift.SelectedValue) <= 0 Then
-                myMessages.blankValue("End Shift")
+                myMessages.blankValue(Me, "End Shift", Me.Text)
                 cboEndShift.Focus()
                 Return False
             End If

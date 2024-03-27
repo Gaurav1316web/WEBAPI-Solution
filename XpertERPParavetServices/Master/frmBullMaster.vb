@@ -84,7 +84,7 @@ Public Class FrmBullMaster
     Private Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(clsCommon.myCstr(txtBullMaster.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtBullMaster.Value)) > 16 Then
-                myMessages.blankValue("Bull No")
+                myMessages.blankValue(Me, "Bull No", Me.Text)
                 txtBullMaster.Focus()
                 txtBullMaster.Select()
                 Errorcontrol.SetError(txtBullMaster, "Bull No")
@@ -93,7 +93,7 @@ Public Class FrmBullMaster
                 Errorcontrol.ResetError(txtBullMaster)
             End If
             If clsCommon.myLen(clsCommon.myCstr(txtBullProfileId.Text)) <= 0 Then
-                myMessages.blankValue("Bull Profile Id")
+                myMessages.blankValue(Me, "Bull Profile Id", Me.Text)
                 txtBullProfileId.Focus()
                 txtBullProfileId.Select()
                 Errorcontrol.SetError(txtBullProfileId, "Bull Profile Id")
@@ -103,7 +103,7 @@ Public Class FrmBullMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtCattleType.Value)) <= 0 Then
-                myMessages.blankValue("Cattle Type")
+                myMessages.blankValue(Me, "Cattle Type", Me.Text)
                 txtCattleType.Focus()
                 txtCattleType.Select()
                 Errorcontrol.SetError(txtCattleType, "Cattle Type")
@@ -113,7 +113,7 @@ Public Class FrmBullMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtNoOfStraws.Text)) <= 0 Then
-                myMessages.blankValue("No of Straws")
+                myMessages.blankValue(Me, "No of Straws", Me.Text)
                 txtNoOfStraws.Focus()
                 txtNoOfStraws.Select()
                 Errorcontrol.SetError(txtNoOfStraws, "No of Straws")
@@ -123,7 +123,7 @@ Public Class FrmBullMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(cboBullStatus.Text)) <= 0 Then
-                myMessages.blankValue("Status")
+                myMessages.blankValue(Me, "Status", Me.Text)
                 cboBullStatus.Focus()
                 cboBullStatus.Select()
                 Errorcontrol.SetError(cboBullStatus, "Status")

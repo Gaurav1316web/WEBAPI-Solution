@@ -1809,7 +1809,7 @@ Public Class FrmItemMasterRMOther
 
             If chkInsurance.Checked = True Then
                 If clsCommon.myLen(txtInsurance.Text) = 0 Then
-                    myMessages.blankValue("Insurance No")
+                    myMessages.blankValue(Me, "Insurance No", Me.Text)
                     txtInsurance.Focus()
                     Return False
                 End If

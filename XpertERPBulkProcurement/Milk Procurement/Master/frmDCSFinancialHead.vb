@@ -93,24 +93,24 @@ Public Class frmDCSFinancialHead
     End Sub
     Function AllowToSave() As Boolean
         If txtSNO.Value <= 0 Then
-            myMessages.blankValue("SNo")
+            myMessages.blankValue(Me, "SNo", Me.Text)
             txtSNO.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtDescription.Text) <= 0 Then
-            myMessages.blankValue("Description")
+            myMessages.blankValue(Me, "Description", Me.Text)
             txtDescription.Focus()
             Return False
         End If
         If clsCommon.myLen(cboType.SelectedValue) <= 0 Then
-            myMessages.blankValue("Type")
+            myMessages.blankValue(Me, "Type", Me.Text)
             cboType.Focus()
             Return False
         End If
 
         If clsCommon.myLen(cboSubType.SelectedValue) <= 0 Then
-            myMessages.blankValue("Sub Type")
+            myMessages.blankValue(Me, "Sub Type", Me.Text)
             cboSubType.Focus()
             Return False
         End If

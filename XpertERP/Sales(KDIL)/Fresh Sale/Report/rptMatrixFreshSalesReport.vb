@@ -2941,9 +2941,9 @@ inner join (select Against_DemandBooking_No,sum(isnull(TCSAmount,0)) as tcs_amt 
             End If
             ' where TSPL_ROUTE_MASTER.Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + "'
             Qry += " )XXFinal
-  where XXFinal.Cust_Code in (select Cust_Code from TSPL_Customer_Master  where 2=2 "
+  where XXFinal.Cust_Code in (select distinct TSPL_DEMAND_BOOKING_DETAIL.Cust_Code from TSPL_DEMAND_BOOKING_MASTER left join TSPL_DEMAND_BOOKING_DETAIL on TSPL_DEMAND_BOOKING_MASTER.Document_No=TSPL_DEMAND_BOOKING_DETAIL.Document_No   where 2=2  and TSPL_DEMAND_BOOKING_DETAIL.Cust_Code is not null "
             If clsCommon.myLen(txtMultPTSRoute.arrValueMember) > 0 Then
-                Qry += " and Route_No IN (" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
+                Qry += " and TSPL_DEMAND_BOOKING_MASTER.Route_No IN (" + clsCommon.GetMulcallString(txtMultPTSRoute.arrValueMember) + ")"
             End If
             ' Route_No='" + clsCommon.myCstr(txtRouteNo.Value) + " ')
             Qry += " )Group by XXFinal.Cust_Code,XXFinal.Sku_Seq )xx

@@ -398,7 +398,7 @@ Public Class FrmCattleMaster
     Private Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(clsCommon.myCstr(txtRegistrationNo.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtRegistrationNo.Value)) > 30 Then
-                myMessages.blankValue("Registration No")
+                myMessages.blankValue(Me, "Registration No", Me.Text)
 
                 txtRegistrationNo.Focus()
                 txtRegistrationNo.Select()
@@ -409,7 +409,7 @@ Public Class FrmCattleMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtCattleCode.Text)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtCattleCode.Text)) > 30 Then
-                myMessages.blankValue("Cattle Code")
+                myMessages.blankValue(Me, "Cattle Code", Me.Text)
                 txtCattleCode.Focus()
                 txtCattleCode.Select()
                 Errorcontrol.SetError(txtCattleCode, "Cattle Code")
@@ -434,7 +434,7 @@ Public Class FrmCattleMaster
             End If
 
             If clsCommon.myLen(clsCommon.myCstr(txtDescription.Text)) <= 0 Then
-                myMessages.blankValue("Description")
+                myMessages.blankValue(Me, "Description", Me.Text)
                 txtDescription.Focus()
                 txtDescription.Select()
                 Errorcontrol.SetError(txtDescription, "Description")

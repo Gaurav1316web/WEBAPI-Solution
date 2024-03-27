@@ -66,9 +66,9 @@ Public Class FrmBredTypeMaster
     Private Function AllowToSave() As Boolean
         Try
             If clsCommon.myLen(clsCommon.myCstr(txtcode.Value)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtcode.Value)) > 30 Then
-                myMessages.blankValue("Code")
+                myMessages.blankValue(Me, "Code", Me.Text)
 
-                txtcode.Focus()
+                txtCode.Focus()
                 txtcode.Select()
                 Errorcontrol.SetError(txtcode, "Code")
                 Return False
@@ -76,7 +76,7 @@ Public Class FrmBredTypeMaster
                 Errorcontrol.ResetError(txtcode)
             End If
             If clsCommon.myLen(clsCommon.myCstr(txtDesc.Text)) <= 0 Then
-                myMessages.blankValue("Description")
+                myMessages.blankValue(Me, "Description", Me.Text)
 
                 txtDesc.Focus()
                 txtDesc.Select()

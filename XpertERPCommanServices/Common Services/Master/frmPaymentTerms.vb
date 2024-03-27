@@ -244,13 +244,13 @@ Public Class frmPaymentTerms
                 fnd_termscode.Focus()
                 Return
             ElseIf txt_desc.Text = "" Then
-                myMessages.blankValue("Terms Description")
+                myMessages.blankValue(Me, "Terms Description", Me.Text)
                 txt_desc.Focus()
             ElseIf txt_no_of_days.Text = "" Then
-                myMessages.blankValue("No_of_days")
+                myMessages.blankValue(Me, "No_of_days", Me.Text)
                 txt_no_of_days.Focus()
             ElseIf chkAdvance.Checked = True AndAlso txtAdvancePer.Text = String.Empty Then
-                myMessages.blankValue("Advance Percentage")
+                myMessages.blankValue(Me, "Advance Percentage", Me.Text)
                 txtAdvancePer.Focus()
 
                 'ElseIf clsCommon.CompairString(cboDueDate.Text, "Select") = CompairStringResult.Equal Then
@@ -502,18 +502,18 @@ Public Class frmPaymentTerms
                     Dim strAdvancePer As String = grow.Cells(5).Value.ToString()
                     '-------------------------------------
                     If strtermscode = String.Empty Then
-                        myMessages.blankValue("Terms Code")
+                        myMessages.blankValue(Me, "Terms Code", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
 
                     If strtermsdesc = String.Empty Then
-                        myMessages.blankValue("Terms Description")
+                        myMessages.blankValue(Me, "Terms Description", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If
                     If strno_of_days = String.Empty Then
-                        myMessages.blankValue("No_Of_Days")
+                        myMessages.blankValue(Me, "No_Of_Days", Me.Text)
                         trans.Rollback()
                         Exit Sub
                     End If

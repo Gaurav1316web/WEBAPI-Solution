@@ -2959,7 +2959,7 @@ Public Class frmCashIndentBookingMobApp
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
-                myMessages.blankValue("Booking not found to Print")
+                myMessages.blankValue(Me, "Booking not found to Print", Me.Text)
             Else
                 LoadData(txtDocNo.Value, NavigatorType.Current)
                 Export()

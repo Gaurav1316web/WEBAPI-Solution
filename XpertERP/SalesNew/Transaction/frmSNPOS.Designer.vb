@@ -22,7 +22,12 @@ Partial Class frmSNPOS
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtMessage = New common.Controls.MyTextBox()
+        Me.RadLabel14 = New common.Controls.MyLabel()
         Me.txtBarCode = New common.Controls.MyTextBox()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.txtBillToLocation = New common.UserControls.txtFinder()
@@ -98,8 +103,6 @@ Partial Class frmSNPOS
         Me.txtVendorNo = New common.UserControls.txtFinder()
         Me.RadLabel2 = New common.Controls.MyLabel()
         Me.lblVendorName = New common.Controls.MyLabel()
-        Me.txtMessage = New common.Controls.MyTextBox()
-        Me.RadLabel14 = New common.Controls.MyLabel()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
@@ -124,6 +127,8 @@ Partial Class frmSNPOS
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtMessage, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBarCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -197,8 +202,6 @@ Partial Class frmSNPOS
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtMessage, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -270,6 +273,42 @@ Partial Class frmSNPOS
         Me.SplitContainer1.Size = New System.Drawing.Size(1061, 488)
         Me.SplitContainer1.SplitterDistance = 456
         Me.SplitContainer1.TabIndex = 0
+        '
+        'txtMessage
+        '
+        Me.txtMessage.AutoSize = False
+        Me.txtMessage.CalculationExpression = Nothing
+        Me.txtMessage.FieldCode = Nothing
+        Me.txtMessage.FieldDesc = Nothing
+        Me.txtMessage.FieldMaxLength = 0
+        Me.txtMessage.FieldName = Nothing
+        Me.txtMessage.Font = New System.Drawing.Font("Arial", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMessage.isCalculatedField = False
+        Me.txtMessage.IsSourceFromTable = False
+        Me.txtMessage.IsSourceFromValueList = False
+        Me.txtMessage.IsUnique = False
+        Me.txtMessage.Location = New System.Drawing.Point(652, 52)
+        Me.txtMessage.MaxLength = 200
+        Me.txtMessage.MendatroryField = False
+        Me.txtMessage.Multiline = True
+        Me.txtMessage.MyLinkLable1 = Me.RadLabel14
+        Me.txtMessage.MyLinkLable2 = Nothing
+        Me.txtMessage.Name = "txtMessage"
+        Me.txtMessage.ReferenceFieldDesc = Nothing
+        Me.txtMessage.ReferenceFieldName = Nothing
+        Me.txtMessage.ReferenceTableName = Nothing
+        Me.txtMessage.Size = New System.Drawing.Size(403, 45)
+        Me.txtMessage.TabIndex = 14
+        '
+        'RadLabel14
+        '
+        Me.RadLabel14.FieldName = Nothing
+        Me.RadLabel14.Font = New System.Drawing.Font("Arial", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel14.Location = New System.Drawing.Point(571, 52)
+        Me.RadLabel14.Name = "RadLabel14"
+        Me.RadLabel14.Size = New System.Drawing.Size(63, 19)
+        Me.RadLabel14.TabIndex = 32
+        Me.RadLabel14.Text = "Message"
         '
         'txtBarCode
         '
@@ -352,7 +391,6 @@ Partial Class frmSNPOS
         Me.lblBillToLocation.Name = "lblBillToLocation"
         Me.lblBillToLocation.Size = New System.Drawing.Size(310, 22)
         Me.lblBillToLocation.TabIndex = 12
-        Me.lblBillToLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblBillToLocation.TextWrap = False
         '
         'lblShiping
@@ -365,7 +403,6 @@ Partial Class frmSNPOS
         Me.lblShiping.Name = "lblShiping"
         Me.lblShiping.Size = New System.Drawing.Size(129, 22)
         Me.lblShiping.TabIndex = 10
-        Me.lblShiping.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblShiping.TextWrap = False
         Me.lblShiping.Visible = False
         '
@@ -733,6 +770,7 @@ Partial Class frmSNPOS
         'cboCardType
         '
         Me.cboCardType.CalculationExpression = Nothing
+        Me.cboCardType.DropDownAnimationEnabled = True
         Me.cboCardType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboCardType.FieldCode = Nothing
         Me.cboCardType.FieldDesc = Nothing
@@ -988,6 +1026,7 @@ Partial Class frmSNPOS
         'cboPaymentMode
         '
         Me.cboPaymentMode.CalculationExpression = Nothing
+        Me.cboPaymentMode.DropDownAnimationEnabled = True
         Me.cboPaymentMode.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboPaymentMode.FieldCode = Nothing
         Me.cboPaymentMode.FieldDesc = Nothing
@@ -1169,10 +1208,13 @@ Partial Class frmSNPOS
         Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv1.Location = New System.Drawing.Point(4, 100)
         '
-        'gv1
+        '
         '
         Me.gv1.MasterTemplate.AllowDeleteRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
@@ -1180,7 +1222,6 @@ Partial Class frmSNPOS
         Me.gv1.Size = New System.Drawing.Size(1053, 130)
         Me.gv1.TabIndex = 15
         Me.gv1.TabStop = False
-        Me.gv1.Text = "RadGridView1"
         '
         'RadLabel1
         '
@@ -1233,18 +1274,20 @@ Partial Class frmSNPOS
         Me.gv2.ImeMode = System.Windows.Forms.ImeMode.NoControl
         Me.gv2.Location = New System.Drawing.Point(5, 63)
         '
-        'gv2
+        '
         '
         Me.gv2.MasterTemplate.AllowAddNewRow = False
         Me.gv2.MasterTemplate.AllowDeleteRow = False
+        Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
         Me.gv2.Size = New System.Drawing.Size(462, 146)
         Me.gv2.TabIndex = 3
         Me.gv2.TabStop = False
-        Me.gv2.Text = "RadGridView1"
         '
         'txtTaxGroup
         '
@@ -1283,7 +1326,6 @@ Partial Class frmSNPOS
         Me.lblTaxGrpName.Name = "lblTaxGrpName"
         Me.lblTaxGrpName.Size = New System.Drawing.Size(460, 23)
         Me.lblTaxGrpName.TabIndex = 2
-        Me.lblTaxGrpName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblTaxGrpName.TextWrap = False
         '
         'GroupBox1
@@ -1362,7 +1404,7 @@ Partial Class frmSNPOS
         Me.txtDocNo.MyFont = New System.Drawing.Font("Segoe UI", 10.0!)
         Me.txtDocNo.MyLinkLable1 = Me.RadLabel1
         Me.txtDocNo.MyLinkLable2 = Nothing
-        Me.txtDocNo.MyMaxLength = 32767
+        Me.txtDocNo.MyMaxLength = 30
         Me.txtDocNo.MyReadOnly = False
         Me.txtDocNo.Name = "txtDocNo"
         Me.txtDocNo.Size = New System.Drawing.Size(278, 23)
@@ -1457,44 +1499,7 @@ Partial Class frmSNPOS
         Me.lblVendorName.Name = "lblVendorName"
         Me.lblVendorName.Size = New System.Drawing.Size(288, 22)
         Me.lblVendorName.TabIndex = 7
-        Me.lblVendorName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblVendorName.TextWrap = False
-        '
-        'txtMessage
-        '
-        Me.txtMessage.AutoSize = False
-        Me.txtMessage.CalculationExpression = Nothing
-        Me.txtMessage.FieldCode = Nothing
-        Me.txtMessage.FieldDesc = Nothing
-        Me.txtMessage.FieldMaxLength = 0
-        Me.txtMessage.FieldName = Nothing
-        Me.txtMessage.Font = New System.Drawing.Font("Arial", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtMessage.isCalculatedField = False
-        Me.txtMessage.IsSourceFromTable = False
-        Me.txtMessage.IsSourceFromValueList = False
-        Me.txtMessage.IsUnique = False
-        Me.txtMessage.Location = New System.Drawing.Point(652, 52)
-        Me.txtMessage.MaxLength = 200
-        Me.txtMessage.MendatroryField = False
-        Me.txtMessage.Multiline = True
-        Me.txtMessage.MyLinkLable1 = Me.RadLabel14
-        Me.txtMessage.MyLinkLable2 = Nothing
-        Me.txtMessage.Name = "txtMessage"
-        Me.txtMessage.ReferenceFieldDesc = Nothing
-        Me.txtMessage.ReferenceFieldName = Nothing
-        Me.txtMessage.ReferenceTableName = Nothing
-        Me.txtMessage.Size = New System.Drawing.Size(403, 45)
-        Me.txtMessage.TabIndex = 14
-        '
-        'RadLabel14
-        '
-        Me.RadLabel14.FieldName = Nothing
-        Me.RadLabel14.Font = New System.Drawing.Font("Arial", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel14.Location = New System.Drawing.Point(571, 52)
-        Me.RadLabel14.Name = "RadLabel14"
-        Me.RadLabel14.Size = New System.Drawing.Size(63, 19)
-        Me.RadLabel14.TabIndex = 32
-        Me.RadLabel14.Text = "Message"
         '
         'txtDate
         '
@@ -1559,6 +1564,7 @@ Partial Class frmSNPOS
         'cboDeliveryType
         '
         Me.cboDeliveryType.CalculationExpression = Nothing
+        Me.cboDeliveryType.DropDownAnimationEnabled = True
         Me.cboDeliveryType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
         Me.cboDeliveryType.FieldCode = Nothing
         Me.cboDeliveryType.FieldDesc = Nothing
@@ -1672,41 +1678,30 @@ Partial Class frmSNPOS
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(1061, 20)
         Me.RadMenu1.TabIndex = 3
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Setting"
-        Me.RadMenuItem3.AccessibleName = "Setting"
         Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem4, Me.RadMenuItem5, Me.RadMenuItem6})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem1.AccessibleName = "Save Layout"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Save Layout"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem4.AccessibleName = "Delete Layout"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Delete Layout"
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "E-Mail/SMS Setting"
-        Me.RadMenuItem5.AccessibleName = "E-Mail/SMS Setting"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "E-Mail/SMS Setting"
         '
         'RadMenuItem6
         '
-        Me.RadMenuItem6.AccessibleDescription = "Email And SMS Reipients"
-        Me.RadMenuItem6.AccessibleName = "Email And SMS Reipients"
         Me.RadMenuItem6.Name = "RadMenuItem6"
         Me.RadMenuItem6.Text = "Email And SMS Reipients"
         '
@@ -1734,6 +1729,7 @@ Partial Class frmSNPOS
         Me.RadMenuItem2.FadeAnimationType = Telerik.WinControls.UI.FadeAnimationType.FadeIn
         Me.RadMenuItem2.FitToScreenMode = CType((Telerik.WinControls.UI.FitToScreenModes.FitWidth Or Telerik.WinControls.UI.FitToScreenModes.FitHeight), Telerik.WinControls.UI.FitToScreenModes)
         Me.RadMenuItem2.HorizontalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
+        Me.RadMenuItem2.LastShowDpiScaleFactor = New System.Drawing.SizeF(1.0!, 1.0!)
         Me.RadMenuItem2.Location = New System.Drawing.Point(0, 0)
         Me.RadMenuItem2.Maximum = New System.Drawing.Size(0, 0)
         Me.RadMenuItem2.Minimum = New System.Drawing.Size(0, 0)
@@ -1745,6 +1741,9 @@ Partial Class frmSNPOS
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'frmSNPOS
         '
@@ -1765,6 +1764,8 @@ Partial Class frmSNPOS
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtMessage, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBarCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1844,8 +1845,6 @@ Partial Class frmSNPOS
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtMessage, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()

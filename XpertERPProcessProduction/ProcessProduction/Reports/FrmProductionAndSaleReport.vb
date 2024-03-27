@@ -81,7 +81,7 @@ Public Class FrmProductionAndSaleReport
                             queryStock += " UNION ALL "
                         End If
                         queryStock += " select '" + clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")) + "' AS Item_Code,'" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "' AS LOCATION_CODE, "
-                        queryStock += clsCommon.myCstr(clsItemLocationDetails.getBalance(clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")), clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")), "", tDate, Nothing, clsCommon.myCstr("MT"), 0))
+                        queryStock += clsCommon.myCstr(clsItemLocationDetails.getBalance1(clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")), clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")), "", tDate, Nothing, clsCommon.myCstr("MT"), 0))
                         queryStock += " as Qty"
                     Next
                 Next
@@ -719,7 +719,7 @@ Public Class FrmProductionAndSaleReport
                             queryStock += " UNION ALL "
                         End If
                         queryStock += " select '" + clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")) + "' AS Item_Code,'" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "' AS LOCATION_CODE, "
-                        queryStock += clsCommon.myCstr(clsItemLocationDetails.getBalance(clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")), clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")), "", tDate, Nothing, clsCommon.myCstr("MT"), 0))
+                        queryStock += clsCommon.myCstr(clsItemLocationDetails.getBalance1(clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")), clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")), "", tDate, Nothing, clsCommon.myCstr("MT"), 0))
                         queryStock += " as Qty"
                     Next
                 Next

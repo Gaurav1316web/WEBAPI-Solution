@@ -146,7 +146,7 @@ Public Class FrmUserGroupMapping
         End If
 
         If fndUser_Name.Value = "" Then
-            myMessages.blankValue("User Code")
+            myMessages.blankValue(Me, "User Code", Me.Text)
             fndUser_Name.Focus()
         ElseIf rbtnSave.Text = "Save" Then
             fun_insert()
@@ -251,7 +251,7 @@ Public Class FrmUserGroupMapping
     End Sub
     Sub DeleteData()
         If fndUser_Name.Value = "" Then
-            myMessages.blankValue("User Code")
+            myMessages.blankValue(Me, "User Code", Me.Text)
             fndUser_Name.Focus()
         ElseIf myMessages.deleteConfirm() Then
             Dim str As String = "delete from TSPL_USER_GROUP_MAPPING where User_Code='" + fndUser_Name.Value + "'"

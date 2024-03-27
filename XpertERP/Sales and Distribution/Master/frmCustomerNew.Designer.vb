@@ -392,6 +392,8 @@ Partial Class frmCustomer
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.btnGetHistory = New Telerik.WinControls.UI.RadButton()
+        Me.rmiCustomerDisplaySeq = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmiexCustDispSeq = New Telerik.WinControls.UI.RadMenuItem()
         CType(Me.pageCus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pageCus.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
@@ -685,7 +687,7 @@ Partial Class frmCustomer
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnucustbesic_Import_profile, Me.mnuItem_discountDetails, Me.importVisiDetail, Me.btnimport_cat, Me.BtnImportCrateOpening, Me.rmMultiRouteImport})
+        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnucustbesic_Import_profile, Me.mnuItem_discountDetails, Me.importVisiDetail, Me.btnimport_cat, Me.BtnImportCrateOpening, Me.rmMultiRouteImport, Me.rmiCustomerDisplaySeq})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Import"
         '
@@ -727,7 +729,7 @@ Partial Class frmCustomer
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuCust_Besic_Profile, Me.mnuItem_disc_details, Me.ExportVisiDetail, Me.btnexport_cat, Me.BtnExportCrateOpening, Me.rmMultiRoute})
+        Me.RadMenuItem4.Items.AddRange(New Telerik.WinControls.RadItem() {Me.mnuCust_Besic_Profile, Me.mnuItem_disc_details, Me.ExportVisiDetail, Me.btnexport_cat, Me.BtnExportCrateOpening, Me.rmMultiRoute, Me.rmiexCustDispSeq})
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Export"
         '
@@ -802,7 +804,7 @@ Partial Class frmCustomer
         Me.pageCus.Dock = System.Windows.Forms.DockStyle.Fill
         Me.pageCus.Location = New System.Drawing.Point(0, 0)
         Me.pageCus.Name = "pageCus"
-        Me.pageCus.SelectedPage = Me.RadPageViewPage5
+        Me.pageCus.SelectedPage = Me.RadPageViewPage1
         Me.pageCus.Size = New System.Drawing.Size(1047, 472)
         Me.pageCus.TabIndex = 12
         CType(Me.pageCus.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -874,9 +876,9 @@ Partial Class frmCustomer
         Me.RadPageViewPage1.Controls.Add(Me.lblCusGrp)
         Me.RadPageViewPage1.Controls.Add(Me.txtCusgrp)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(56.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1026, 430)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1026, 424)
         Me.RadPageViewPage1.Text = "Address"
         '
         'chkIsRepeatOrder
@@ -3646,6 +3648,7 @@ Partial Class frmCustomer
         Me.grdTax.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.grdTax.MasterTemplate.ShowHeaderCellButtons = True
         Me.grdTax.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.grdTax.MyStopExport = False
         Me.grdTax.Name = "grdTax"
         Me.grdTax.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.grdTax.ShowHeaderCellButtons = True
@@ -5029,6 +5032,7 @@ Partial Class frmCustomer
         Me.gvDB.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDB.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvDB.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDB.MyStopExport = False
         Me.gvDB.Name = "gvDB"
         Me.gvDB.ShowGroupPanel = False
         Me.gvDB.ShowHeaderCellButtons = True
@@ -5243,6 +5247,7 @@ Partial Class frmCustomer
         SortDescriptor1.PropertyName = "column2"
         Me.gvItems.MasterTemplate.SortDescriptors.AddRange(New Telerik.WinControls.Data.SortDescriptor() {SortDescriptor1})
         Me.gvItems.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvItems.MyStopExport = False
         Me.gvItems.Name = "gvItems"
         Me.gvItems.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItems.ShowGroupPanel = False
@@ -5282,6 +5287,7 @@ Partial Class frmCustomer
         SortDescriptor2.PropertyName = "column2"
         Me.dgvVisi.MasterTemplate.SortDescriptors.AddRange(New Telerik.WinControls.Data.SortDescriptor() {SortDescriptor2})
         Me.dgvVisi.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.dgvVisi.MyStopExport = False
         Me.dgvVisi.Name = "dgvVisi"
         Me.dgvVisi.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvVisi.ShowGroupPanel = False
@@ -5310,6 +5316,7 @@ Partial Class frmCustomer
         Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(1026, 392)
@@ -5433,6 +5440,7 @@ Partial Class frmCustomer
         Me.gvCrate.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCrate.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCrate.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvCrate.MyStopExport = False
         Me.gvCrate.Name = "gvCrate"
         Me.gvCrate.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCrate.ShowHeaderCellButtons = True
@@ -5467,6 +5475,7 @@ Partial Class frmCustomer
         Me.gvCan.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCan.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvCan.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvCan.MyStopExport = False
         Me.gvCan.Name = "gvCan"
         Me.gvCan.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvCan.ShowHeaderCellButtons = True
@@ -5509,6 +5518,7 @@ Partial Class frmCustomer
         Me.gvSecurity.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSecurity.MasterTemplate.ShowHeaderCellButtons = True
         Me.gvSecurity.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvSecurity.MyStopExport = False
         Me.gvSecurity.Name = "gvSecurity"
         Me.gvSecurity.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvSecurity.ShowHeaderCellButtons = True
@@ -6040,6 +6050,16 @@ Partial Class frmCustomer
         Me.btnGetHistory.Size = New System.Drawing.Size(80, 18)
         Me.btnGetHistory.TabIndex = 16
         Me.btnGetHistory.Text = "Show History"
+        '
+        'rmiCustomerDisplaySeq
+        '
+        Me.rmiCustomerDisplaySeq.Name = "rmiCustomerDisplaySeq"
+        Me.rmiCustomerDisplaySeq.Text = "Customer Display Sequence"
+        '
+        'rmiexCustDispSeq
+        '
+        Me.rmiexCustDispSeq.Name = "rmiexCustDispSeq"
+        Me.rmiexCustDispSeq.Text = "Customer Display Sequence"
         '
         'frmCustomer
         '
@@ -6681,5 +6701,7 @@ Partial Class frmCustomer
     Friend WithEvents TxtLocation As common.UserControls.txtFinder
     Friend WithEvents MyLabel43 As common.Controls.MyLabel
     Friend WithEvents lblLocation As common.Controls.MyTextBox
+    Friend WithEvents rmiCustomerDisplaySeq As RadMenuItem
+    Friend WithEvents rmiexCustDispSeq As RadMenuItem
 End Class
 

@@ -1529,6 +1529,7 @@
     <None Include="Crystal Reports\Purchase Order\rptMRDA.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptMRDAReport.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptMRNCustom.rpt" />
+    <None Include="Crystal Reports\Purchase Order\rptMRNReportNew.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptNRGP.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptNRGP3rdParty.rpt" />
     <None Include="Crystal Reports\Purchase Order\rptPJV-V.rpt" />

@@ -34,7 +34,7 @@ Public Class FrmResignationLetter
 
 
         If clsCommon.myLen(clsCommon.myCstr(Txtemployeetype.Value)) <= 0 Then
-            myMessages.blankValue("Employee ")
+            myMessages.blankValue(Me, "Employee ", Me.Text)
             Txtemployeetype.Focus()
             Txtemployeetype.Select()
             Errorcontrol.SetError(Txtemployeetype, "Employee ")
@@ -44,7 +44,7 @@ Public Class FrmResignationLetter
         End If
 
         If clsCommon.myLen(clsCommon.myCstr(txtResponsibilityCode.Value)) <= 0 Then
-            myMessages.blankValue("Handover Responsibility To ")
+            myMessages.blankValue(Me, "Handover Responsibility To ", Me.Text)
             txtResponsibilityCode.Focus()
             txtResponsibilityCode.Select()
             Errorcontrol.SetError(txtResponsibilityCode, "Handover Responsibility To ")
@@ -54,7 +54,7 @@ Public Class FrmResignationLetter
         End If
 
         If clsCommon.myLen(clsCommon.myCstr(txtResonOfResignation.Text)) <= 0 Or clsCommon.myLen(clsCommon.myCstr(txtResonOfResignation.Text)) > 500 Then
-            myMessages.blankValue("Reson Of Resignation ")
+            myMessages.blankValue(Me, "Reson Of Resignation ", Me.Text)
             txtResonOfResignation.Focus()
             txtResonOfResignation.Select()
             Errorcontrol.SetError(txtResonOfResignation, "Reson Of Resignation ")

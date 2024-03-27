@@ -14,7 +14,7 @@ Public Class frmTrainingMaster
 
     Function AllowTosave() As Boolean
         If clsCommon.myLen(txt_Code.Value) <= 0 Then
-            myMessages.blankValue("Code")
+            myMessages.blankValue(Me, "Code", Me.Text)
 
             txt_Code.Focus()
             txt_Code.Select()
@@ -25,7 +25,7 @@ Public Class frmTrainingMaster
         End If
 
         If clsCommon.myLen(txt_Name.Text) <= 0 Then
-            myMessages.blankValue("Name")
+            myMessages.blankValue(Me, "Name", Me.Text)
 
             txt_Name.Focus()
             txt_Name.Select()

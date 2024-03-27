@@ -52,7 +52,7 @@ Public Class FrmRouteFreightDetails
         Dim trans As SqlTransaction = Nothing
         btnSave.Focus()
         If clsCommon.myCstr(ddltype.SelectedValue) = "Select" Then
-            myMessages.blankValue("Select Type")
+            myMessages.blankValue(Me, "Select Type", Me.Text)
             Return False
         End If
         For Each grow As GridViewRowInfo In gv.Rows

@@ -169,24 +169,24 @@ Public Class frmRequestMaster
     End Sub
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtReason.Text) <= 0 Then
-            myMessages.blankValue("Reason")
+            myMessages.blankValue(Me, "Reason", Me.Text)
             txtReason.Focus()
             Return False
         End If
         If clsCommon.myLen(txtRequestTo.Text) <= 0 Then
-            myMessages.blankValue("Request To")
+            myMessages.blankValue(Me, "Request To", Me.Text)
             'clsCommon.MyMessageBoxShow("Reporting User not taged with user.")
             txtRequestTo.Focus()
             Return False
         End If
         If clsCommon.myLen(txtScreen.Value) <= 0 Then
-            myMessages.blankValue("Screen")
+            myMessages.blankValue(Me, "Screen", Me.Text)
             'clsCommon.MyMessageBoxShow("Please Select Screen Code first.")
             txtScreen.Focus()
             Return False
         End If
         If UcAttachment1.gv1.Rows.Count <= 0 Then
-            myMessages.blankValue("Attachment")
+            myMessages.blankValue(Me, "Attachment", Me.Text)
             Return False
         End If
         Return True
