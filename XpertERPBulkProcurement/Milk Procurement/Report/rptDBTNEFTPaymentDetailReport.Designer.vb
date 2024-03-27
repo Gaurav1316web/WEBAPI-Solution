@@ -202,7 +202,7 @@ Partial Class rptDBTNEFTPaymentDetailReport
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(69, 18)
         Me.RadLabel3.TabIndex = 442
-        Me.RadLabel3.Text = "From Month"
+        Me.RadLabel3.Text = "Month"
         '
         'RadGroupBox2
         '
