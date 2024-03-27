@@ -151,7 +151,7 @@ Public Class rptDBTNEFTPaymentDetailReport
         ElseIf rbtnSummary.IsChecked Then
             gv1.Columns("Success_Amount").HeaderText = "Success Amount"
             gv1.Columns("Failure_Amount").HeaderText = "Failure Amount"
-            gv1.Columns("Success_Farmer").IsVisible = "Success (No of Farmer)"
+            gv1.Columns("Success_Farmer").HeaderText = "Success(No of Farmer)"
             gv1.Columns("Failure_Farmer").HeaderText = "Failure(No of Farmer)"
             gv1.Columns("Amount").HeaderText = "Total Amount"
             Dim item2 As New GridViewSummaryItem("Success_Amount", "{0:F2}", GridAggregateFunction.Sum)
