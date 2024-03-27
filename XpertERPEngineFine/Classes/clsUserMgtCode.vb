@@ -253,6 +253,7 @@ Public Class clsUserMgtCode
     Public Const rptSalesLedgerReport As String = "SAL_LED_RPT"
     Public Const rptAvgSaleDetailReport As String = "AVG_SAL_RPT"
     Public Const rptdairydispatch As String = "DRY_DIS_RPT"
+    Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
