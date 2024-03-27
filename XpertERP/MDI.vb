@@ -8298,6 +8298,11 @@ Public Class MDI
                     Case clsUserMgtCode.rptAvgSaleDetailReport
                         frm = New rptAvgSaleDetailReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
+                    Case clsUserMgtCode.rptRouteSaleRegister
+                        frm = New rptRouteSaleRegister
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+
                     Case clsUserMgtCode.rptPaymentCycleWiseReport
                         frm = New rptPaymentCycleWiseReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
