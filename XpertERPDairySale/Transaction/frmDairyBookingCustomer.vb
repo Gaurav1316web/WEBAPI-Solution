@@ -7645,9 +7645,10 @@ from
                     frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     frmCRV = Nothing
                     ''   end of print Invoice '''''''
-                Else
-                    Throw New Exception("Invoice Not Found!")
+
                 End If
+            Else
+                Throw New Exception("Invoice Not Found!")
             End If
 
         Catch ex As Exception

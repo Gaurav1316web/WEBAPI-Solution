@@ -2160,6 +2160,7 @@ SELECT 'TDS' as Ded_Code
             Dim HeadingDeduction2 As String = "<DEDUCTION>"
             Dim HeadingDeduction3 As String = "<DEDUCTION>"
             Dim HeadingDeduction4 As String = "<DEDUCTION>"
+            Dim HeadingDeduction5 As String = "<DEDUCTION>"
 
             For t As Integer = 0 To dtDeductionHeader.Rows.Count - 1
                 Math.DivRem((t + 1), 4, TempReminder)
@@ -2172,6 +2173,18 @@ SELECT 'TDS' as Ded_Code
                 ElseIf TempReminder = 0 Then
                     HeadingDeduction4 = HeadingDeduction4 + Environment.NewLine + dtDeductionHeader.Rows(t).Item("Ded_Code")
                 End If
+                'Math.DivRem((t + 1), 5, TempReminder)
+                'If TempReminder = 1 Then
+                '    HeadingDeduction1 = HeadingDeduction1 + Environment.NewLine + dtDeductionHeader.Rows(t).Item("Ded_Code")
+                'ElseIf TempReminder = 2 Then
+                '    HeadingDeduction2 = HeadingDeduction2 + Environment.NewLine + dtDeductionHeader.Rows(t).Item("Ded_Code")
+                'ElseIf TempReminder = 3 Then
+                '    HeadingDeduction3 = HeadingDeduction3 + Environment.NewLine + dtDeductionHeader.Rows(t).Item("Ded_Code")
+                'ElseIf TempReminder = 0 Then
+                '    HeadingDeduction4 = HeadingDeduction4 + Environment.NewLine + dtDeductionHeader.Rows(t).Item("Ded_Code")
+                'ElseIf TempReminder = 0 Then
+                '    HeadingDeduction5 = HeadingDeduction5 + Environment.NewLine + dtDeductionHeader.Rows(t).Item("Ded_Code")
+                'End If
             Next
 
             Dim HeadingDeduction1parts() As String = HeadingDeduction1.Split(Environment.NewLine)
@@ -2629,7 +2642,7 @@ inner join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DO
                 Gv1.EnableFiltering = True
                 RadPageView1.SelectedPage = RadPageViewPage2
                 Gv1.DataSource = dtMain
-                Gv1.TableElement.TableHeaderHeight = 60
+                Gv1.TableElement.TableHeaderHeight = 80
                 Gv1.MasterTemplate.ShowRowHeaderColumn = False
                 For ii As Integer = 0 To Gv1.Columns.Count - 1
                     Gv1.Columns(ii).ReadOnly = True
