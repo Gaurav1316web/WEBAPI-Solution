@@ -534,7 +534,7 @@ Public Class frmDailySMPProduction
     Private Sub btnAddParty_Click(sender As Object, e As EventArgs) Handles btnAddParty.Click
 
         If gv1.Columns.Count >= MaxColumns Then
-            MessageBox.Show("Maximum number of columns reached.")
+            clsCommon.MyMessageBoxShow("Maximum number of columns reached.")
             Exit Sub
         End If
         Dim newColumnName As String = InputBox("Enter new column name:", "New Column")

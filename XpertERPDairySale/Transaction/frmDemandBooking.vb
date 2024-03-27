@@ -43,6 +43,7 @@ Public Class frmDemandBooking
     Const colIsItemUpdate As String = "colIsItemUpdate"
     Const colBookingCreatedFor3Days As String = "colBookingCreatedFor3Days"
     Const colLineNo As String = "COLLNO"
+    Const colTripNo As String = "colTripNo"
     Const colbtncol As String = "colbtncol"
     Const colCustCode As String = "colCustCode"
     Const colCustName As String = "colCustName"
@@ -252,6 +253,16 @@ Public Class frmDemandBooking
         repoLineNo.IsPinned = True
         repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoLineNo)
+        Dim repoTripNo As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoTripNo = New GridViewDecimalColumn()
+        repoTripNo.FormatString = ""
+        repoTripNo.HeaderText = "Trip No"
+        repoTripNo.Name = colTripNo
+        repoTripNo.Width = 50
+        repoTripNo.ReadOnly = False
+        repoTripNo.IsPinned = True
+        repoTripNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoTripNo)
         Dim repoCustCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCustCode.FormatString = ""
         repoCustCode.HeaderText = "Code"
@@ -271,6 +282,7 @@ Public Class frmDemandBooking
         repoCName.ReadOnly = True
         repoCName.IsVisible = True
         repoCName.IsPinned = True
+
         gv1.MasterTemplate.Columns.Add(repoCName)
         Dim repoShiftName As GridViewComboBoxColumn = New GridViewComboBoxColumn()
         repoShiftName.FormatString = ""
@@ -493,6 +505,7 @@ Public Class frmDemandBooking
                 view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colbtncol).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colLineNo).Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colTripNo).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colCustCode).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colCustName).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colShiftName).Name)
@@ -503,7 +516,7 @@ Public Class frmDemandBooking
                 Dim TempColGroupCount As Integer = 1
                 Dim obj As ItemValueClass = New ItemValueClass()
                 Dim i As Integer = 1
-                For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
+                For dblcolumns As Integer = 9 To gv1.Columns.Count - 7
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                     If obj1 IsNot Nothing Then
                         If clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
@@ -645,7 +658,7 @@ Public Class frmDemandBooking
             If Not isInsideLoadData Then
                 If Not isCellValueChangedOpen Then
                     isCellValueChangedOpen = True
-                    If e.Column.Index >= 8 And e.Column.Name <> colCrate And e.Column.Name <> colAmt And e.Column.Name <> colLitre And e.Column.Name <> colMAmt And e.Column.Name <> colPCount And e.Column.Name <> colPCount Then
+                    If e.Column.Index >= 9 And e.Column.Name <> colCrate And e.Column.Name <> colAmt And e.Column.Name <> colLitre And e.Column.Name <> colMAmt And e.Column.Name <> colPCount And e.Column.Name <> colPCount Then
                         'If isLoadData = False AndAlso (clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) > 0) Then
                         If isLoadData = False Then
                             ''UpdateItemQtyAfterSave(gv1.CurrentRow.Index, gv1.CurrentColumn.Index)
@@ -897,7 +910,7 @@ Public Class frmDemandBooking
                         End If
                         Dim k As Integer = 1
                         Dim isCustRouteNotChanged As Boolean = True
-                        For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
+                        For dblcolumns As Integer = 9 To gv1.Columns.Count - 7
                             Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                             k = k + 1
                             If obj1 IsNot Nothing Then
@@ -912,6 +925,7 @@ Public Class frmDemandBooking
                                 If (clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 AndAlso clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0) AndAlso isCustRouteNotChanged Then
                                     Dim objTr As New clsDemandBookingSaleDetail()
                                     objTr.Line_No = LineNo
+                                    objTr.Trip_No = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colTripNo).Value)
                                     objTr.Cust_Code = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value)
                                     objTr.ShiftType = clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value)
                                     If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colIsItemUpdate).Value), "Yes") = CompairStringResult.Equal Then
@@ -1179,16 +1193,21 @@ Public Class frmDemandBooking
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
                     For Each objTr As clsDemandBookingSaleDetail In obj.Arr
                         For dblrows As Integer = 0 To gv1.Rows.Count - 1
+
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustCode).Value), objTr.Cust_Code) = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colShiftName).Value), objTr.ShiftType) = CompairStringResult.Equal Then
                                 Dim k As Integer = 1
-                                For columns = 8 To gv1.Columns.Count - 7
+                                For columns = 9 To gv1.Columns.Count - 7
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                     k = k + 1
                                     If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.ShiftType, "Morning") = CompairStringResult.Equal Then
                                         gv1.Rows(dblrows).Cells(columns).Value = objTr.Qty
+                                        gv1.Rows(dblrows).Cells(colTripNo).Value = objTr.Trip_No
+
                                         dblMorningCount = 1
                                     ElseIf clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.ShiftType, "Evening") = CompairStringResult.Equal Then
                                         gv1.Rows(dblrows).Cells(columns).Value = objTr.Qty
+                                        gv1.Rows(dblrows).Cells(colTripNo).Value = objTr.Trip_No
+
                                         dblEveningCount = 1
                                     End If
                                 Next
@@ -1603,7 +1622,7 @@ Public Class frmDemandBooking
             If rbtn_Fresh.IsChecked OrElse rdbnFreshAmbientBoth.IsChecked Then
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable("select isnull(Entry_UOM,0) as Entry_UOM from TSPL_ROUTE_MASTER where Route_No='" + txtRouteNo.Value + "' ")
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
+                    For dblcolumns As Integer = 9 To gv1.Columns.Count - 7
                         Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                         If obj1 IsNot Nothing Then
                             If clsCommon.CompairString(obj1.IsFreshAmbient, "Fresh") = CompairStringResult.Equal Then
@@ -1695,6 +1714,7 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.display_seq"
                     If flagE Then
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colbtncol).Value = "Reset "
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = 1
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Evening"
@@ -1705,6 +1725,7 @@ group by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_CUSTOMER_MASTER.display_seq"
                     If flagM Then
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colbtncol).Value = "Reset "
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = i
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTripNo).Value = 1
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCustCode).Value = clsCommon.myCstr(dr("cust_code"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colCustName).Value = clsCommon.myCstr(dr("Customer_name"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colShiftName).Value = "Morning"
@@ -1759,7 +1780,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                 Throw New Exception(ex.Message)
                             End Try
                             Try
-                                For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
+                                For dblcolumns As Integer = 9 To gv1.Columns.Count - 7
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                                     If clsCommon.CompairString(clsCommon.myCstr(obj1.IsFreshAmbient), "Fresh") = CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(obj1.Unit_code).ToUpper, "POUCH") = CompairStringResult.Equal Then
                                         gv1.Rows(n).Cells(dblcolumns).Style.DrawFill = True
@@ -1898,7 +1919,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 End If
             Next
             Dim k As Integer = 1
-            For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
+            For dblcolumns As Integer = 9 To gv1.Columns.Count - 7
                 Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                 If obj1 IsNot Nothing Then
                     If clsCommon.myLen(clsCommon.myCstr(obj1.itemCode)) > 0 Then
@@ -2105,7 +2126,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                 dblTotalMAmt = 0
                 strItemValueExist = "No"
                 strItemUpdateAfterSave = "No"
-                For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
+                For dblcolumns As Integer = 9 To gv1.Columns.Count - 7
                     Dim obj1 As ItemValueClass = Nothing
                     Try
                         obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
@@ -2232,7 +2253,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
         Try
             Dim TotalQty As Double = 0
             'For dbrows1 As Integer = 0 To gv1.Rows.Count - 1
-            For dblcolumns As Integer = 8 To gv1.Columns.Count - 1
+            For dblcolumns As Integer = 9 To gv1.Columns.Count - 1
                 TotalQty = 0
                 For dbrows As Integer = 0 To gv1.Rows.Count - 2
                     TotalQty += clsCommon.myCdbl(gv1.Rows(dbrows).Cells(dblcolumns).Value)
@@ -3387,7 +3408,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
         Dim Qry As String = "select TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1 as Comp_Add1,TSPL_COMPANY_MASTER.Add2 as Comp_Add2,TSPL_COMPANY_MASTER.Add3 as Comp_Add3,TSPL_COMPANY_MASTER.Pincode as Comp_Pin,TSPL_COMPANY_MASTER.Access_Officer as FSSAI_LIC_NO
                   ,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc,'" + objCommonVar.CurrentUser + "' as Currentuser
                   ,Main_Final.Distributor,'" & StrShift & "' shiftType,Main_Final.City_Name,Main_Final.Demand_No,Main_Final.Demand_Date,Main_Final.Route_No,Main_Final.Route_Desc ,Main_Final.Vehicle_Desc
-                  ,Main_Final.Item_alies_name,Main_Final.UOM,Main_Final.Crate_Qty,Main_Final.Pouch_Qty,Main_Final.Loose_Qty,TotalLtr_ItemWise,ItemNetAmount
+                  ,Main_Final.Item_alies_name,Main_Final.UOM,Main_Final.unit_code_result,Main_Final.Crate_Qty,Main_Final.Pouch_Qty,Main_Final.Loose_Qty,TotalLtr_ItemWise,ItemNetAmount
                   ,Main_Final.Production_Remarks
                   from (select max(TSPL_VENDOR_MASTER.vendor_name) as Distributor,
                   max(TSPL_DEMAND_BOOKING_MASTER.shiftType) as shiftType,
@@ -3395,8 +3416,9 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                   max(TSPL_DEMAND_BOOKING_MASTER.Comp_Code) as Comp_Code,
                   max(TSPL_DEMAND_BOOKING_MASTER.location_code) as location_code
                   ,TSPL_DEMAND_BOOKING_MASTER.Document_No as Demand_No,max(convert(varchar(15),TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)) as Demand_Date ,isnull(TSPL_DEMAND_BOOKING_MASTER.Route_No,'') as Route_No ,max(isnull(TSPL_ROUTE_MASTER.Route_Desc,'')) as Route_Desc,
-                  max(isnull(TSPL_VEHICLE_MASTER.Description,'')) as Vehicle_Desc ,max(TSPL_ITEM_MASTER.alies_name) as Item_alies_name,max(TSPL_ITEM_MASTER.Unit_Code) as UOM
-                  ,sum(case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Crate' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Crate_Qty
+                  max(isnull(TSPL_VEHICLE_MASTER.Description,'')) as Vehicle_Desc ,max(TSPL_ITEM_MASTER.alies_name) as Item_alies_name,
+                  max(TSPL_ITEM_MASTER.Unit_Code) as UOM,CASE WHEN max(TSPL_ITEM_MASTER.Unit_Code) = 'crate' OR max(TSPL_ITEM_MASTER.Unit_Code) = 'pouch' THEN 'Crate/Pouch' ELSE max(TSPL_ITEM_MASTER.Unit_Code) END AS unit_code_result,
+                  sum(case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Crate' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Crate_Qty
             ,sum(case when TSPL_DEMAND_BOOKING_DETAIL.unit_code='Pouch' then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Pouch_Qty
             ,sum(case when (TSPL_DEMAND_BOOKING_DETAIL.unit_code<>'Crate' and TSPL_DEMAND_BOOKING_DETAIL.unit_code<>'Pouch') then TSPL_DEMAND_BOOKING_DETAIL.Qty else 0 end) AS Loose_Qty
             ,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise) AS TotalLtr_ItemWise
@@ -3479,7 +3501,10 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
     End Sub
     Private Sub gv1_CellFormatting(sender As Object, e As CellFormattingEventArgs) Handles gv1.CellFormatting
         Try
-            If e.Column.Index >= 8 And e.Column.Name <> colCrate And e.Column.Name <> colAmt And e.Column.Name <> colLitre And e.Column.Name <> colMAmt And e.Column.Name <> colPCount And e.Column.Name <> colPCount Then
+            If e.Column.Name = colCustCode Then
+                e.CellElement.Font = New Font("Arial", 10, FontStyle.Bold)
+            End If
+            If e.Column.Index >= 9 And e.Column.Name <> colCrate And e.Column.Name <> colAmt And e.Column.Name <> colLitre And e.Column.Name <> colMAmt And e.Column.Name <> colPCount And e.Column.Name <> colPCount Then
                 ' If isLoadData = False Then
                 If (chkEveningGatepassTruckSheetGenerated.Checked OrElse chkEveningPosted.Checked) And clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colShiftName).Value), "Evening ") = CompairStringResult.Equal Then
                     gv1.CurrentRow.Cells(e.ColumnIndex).ReadOnly = True
@@ -3489,7 +3514,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                 End If
                 e.CellElement.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
             End If
-            If e.Column.Index >= 8 AndAlso gv1.Rows.Count > 0 Then
+            If e.Column.Index >= 9 AndAlso gv1.Rows.Count > 0 Then
                 If e.Column.IsCurrent Then
                     e.CellElement.DrawFill = True
                     e.CellElement.BackColor = Color.LightGreen
@@ -4016,8 +4041,8 @@ where 2=2 "
                                 For jj As Integer = 0 To gv1.Rows.Count - 1
                                     Dim code As String = clsCommon.myCstr(gvImport.Rows(ii).Cells(1).Value)
                                     If arrCustCodeExist.Contains(code) Then
-                                        If clsCommon.CompairString(clsCommon.myCstr(gvImport.Rows(ii).Cells(1).Value), clsCommon.myCstr(gv1.Rows(jj).Cells(colCustCode).Value)) = CompairStringResult.Equal Then
-                                            For kk As Integer = 4 To arrVisbleColumns.Count - 7
+                                        If clsCommon.CompairString(clsCommon.myCstr(gvImport.Rows(ii).Cells(2).Value), clsCommon.myCstr(gv1.Rows(jj).Cells(colCustCode).Value)) = CompairStringResult.Equal Then
+                                            For kk As Integer = 5 To arrVisbleColumns.Count - 7
                                                 If clsCommon.myCDecimal(gv1.Rows(jj).Cells(arrVisbleColumns(kk)).Value) <> clsCommon.myCDecimal(gvImport.Rows(ii).Cells(kk).Value) Then
                                                     gv1.Rows(jj).Cells(arrVisbleColumns(kk)).Value = gvImport.Rows(ii).Cells(kk).Value
                                                 End If
@@ -4151,7 +4176,7 @@ where 2=2 "
                     For dblrow As Integer = 0 To gv1.Rows.Count - 2
                         If clsCommon.CompairString(gv1.Rows(dblrow).Cells(colCustCode).Value, clsCommon.myCstr(dr.Item("Cust_Code"))) = CompairStringResult.Equal Then
                             Dim k As Integer = 1
-                            For dblcolumns As Integer = 8 To gv1.Columns.Count - 7
+                            For dblcolumns As Integer = 9 To gv1.Columns.Count - 7
                                 Dim obj1 As ItemValueClass = Nothing
                                 Try
                                     obj1 = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)

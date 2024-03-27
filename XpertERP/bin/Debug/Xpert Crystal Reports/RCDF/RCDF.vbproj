@@ -324,6 +324,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForSummary.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairyDeliveryOrder.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesGNG.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesUDP.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntry.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntries.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntryNew.rpt" />
@@ -514,6 +515,7 @@
     <None Include="Crystal Reports GST\New Sales Reports\rptCompanyAddress.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePass.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWise.rpt" />
+    <None Include="Crystal Reports GST\New Sales Reports\rptDairySaleGatePassItemWiseUDP.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptExportSaleInvoice _NonTaxable.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptExportSaleInvoice.rpt" />
     <None Include="Crystal Reports GST\New Sales Reports\rptFreshSaleInvoice.rpt" />

@@ -282,6 +282,12 @@
     <Compile Include="Milk Procurement\Report\rptDBTMilkPayment.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptDBTNEFTPaymentDetailReport.Designer.vb">
+      <DependentUpon>rptDBTNEFTPaymentDetailReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptDBTNEFTPaymentDetailReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\rptDBTSummaryMonthlyWise.Designer.vb">
       <DependentUpon>rptDBTSummaryMonthlyWise.vb</DependentUpon>
     </Compile>
@@ -865,6 +871,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptDBTMilkPayment.resx">
       <DependentUpon>rptDBTMilkPayment.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptDBTNEFTPaymentDetailReport.resx">
+      <DependentUpon>rptDBTNEFTPaymentDetailReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptDBTSummaryMonthlyWise.resx">
       <DependentUpon>rptDBTSummaryMonthlyWise.vb</DependentUpon>

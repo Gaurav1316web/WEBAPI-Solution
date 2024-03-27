@@ -4,6 +4,7 @@ Public Class clsUserMgtCode
     'Public Const FrmReceiptInvoiceMapping As String = "REC-INV-MAP"
     Public Const frmPOBulkProc As String = "PO-BULK-P"
     Public Const frmDBTNEFTUnionReport As String = "UNION-RPT"
+    Public Const rptDBTNEFTPaymentDetailReport As String = "DBT-PAY-DET"
     Public Const frmDCSSavingLedger As String = "DCS-LGR-RPT"
     Public Const frmDBTStatusAndLastDPTStatus As String = "DBT-STATUS"
     Public Const frmDBTApprovalStatus As String = "DBT-APPRO"
@@ -253,6 +254,7 @@ Public Class clsUserMgtCode
     Public Const rptSalesLedgerReport As String = "SAL_LED_RPT"
     Public Const rptAvgSaleDetailReport As String = "AVG_SAL_RPT"
     Public Const rptdairydispatch As String = "DRY_DIS_RPT"
+    Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
@@ -2319,6 +2321,7 @@ Public Class clsUserMgtCode
     Public Const rptSKUWiseSale As String = "SKU-SAL-RPT"
     Public Const rptPromptMsgPendindDoc As String = "PROMPTPENDOC"
     Public Const MISMassBalanceReport As String = "MAS-BAL-RPT"
+    Public Const SundryDebtorsReport As String = "SUN-DBTR-RPT"
     '==========================Milk Job Work===================
     Public Const MilkJobWork As String = "MJW"
     Public Const SubModuleMJWTransaction As String = "SMMJWTRANS"
