@@ -53413,10 +53413,10 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_TENDER", coll, Nothing, False, False, "TSPL_SRN_HEAD", "SRN_No", "")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_TENDER_CALC", coll, Nothing, False, False, "TSPL_SRN_HEAD", "SRN_No", "")
 
-            Dim qry As String = "select 1 from TSPL_SRN_TENDER_CALC"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            qry = "select 1 from TSPL_SRN_TENDER_CALC"
+            dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin
+                Dim trans As SqlClient.SqlTransaction = clsDBFuncationality.GetTransactin
                 Try
                     qry = "insert into TSPL_SRN_TENDER_CALC(Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Against_Tender_Schedule_Penalty_PK_Id,Penalty,Against_PO,Against_Tender_Schedule_PK_Id_PO,Against_Tender_Schedule_Penalty_PK_Id_PO) 
 select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Against_Tender_Schedule_Penalty_PK_Id,Penalty,Against_PO,Against_Tender_Schedule_PK_Id_PO,Against_Tender_Schedule_Penalty_PK_Id_PO
@@ -53429,7 +53429,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
                     trans.Commit()
                 Catch ex As Exception
                     trans.Rollback()
-                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+                    clsCommon.MyMessageBoxShow(ex.Message)
                 End Try
             End If
 
