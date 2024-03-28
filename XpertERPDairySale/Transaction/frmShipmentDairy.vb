@@ -570,19 +570,19 @@ Public Class frmShipmentDairy
         RadGroupBox5.Visible = False
         Panel2.Visible = False
         btnPrintsvl.Enabled = False
-        CreateTable()
+        'CreateTable()
     End Sub
 
-    Sub CreateTable()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("FAT_Per", "decimal(18,2) null")
-        coll.Add("SNF_Per", "decimal(18,2) null")
-        coll.Add("Acidity", "decimal(18,2) null")
-        coll.Add("Temperature", "decimal(18,2) null")
-        coll.Add("MBRT_Hours", "decimal(18,2) null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
-    End Sub
+    'Sub CreateTable()
+    '    Dim coll As Dictionary(Of String, String)
+    '    coll = New Dictionary(Of String, String)()
+    '    coll.Add("FAT_Per", "decimal(18,2) null")
+    '    coll.Add("SNF_Per", "decimal(18,2) null")
+    '    coll.Add("Acidity", "decimal(18,2) null")
+    '    coll.Add("Temperature", "decimal(18,2) null")
+    '    coll.Add("MBRT_Hours", "decimal(18,2) null")
+    '    clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
+    'End Sub
     Sub SetMultiCurrencyVisibility()
         Dim strq As String = ""
         Dim Currency As Integer = clsModuleCurrencyMapping.GetmulticurrencyDecimalPlaces()
