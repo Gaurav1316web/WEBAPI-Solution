@@ -204,9 +204,17 @@ Public Class frmTransactionHistory
             End If
             '' End
             '' =========Final Binding Main Qry=======
+            Dim isSNoExist As Integer = clsDBFuncationality.getSingleValue("SELECT count(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TSPL_SRN_DETAIL_Hist_Data' AND COLUMN_NAME = 'SNo'")
+            Dim isLineNoExist As Integer = clsDBFuncationality.getSingleValue("SELECT count(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TSPL_SRN_DETAIL_Hist_Data' AND COLUMN_NAME = 'Line_No'")
 
             Mainqry = "select (" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as [Head version],(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as " & clsCommon.HistTableColHistVersion & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistBy & ") as " & clsCommon.HistTableColHistBy & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistOn & ") as " & clsCommon.HistTableColHistOn & "," & strDetailTransCodeHistColumn & " from " & DetailTable + clsCommon.HistTablePostFix & ""
-            Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "' and " & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & " in (" & strVersionNoSelect & ")  order by " & DetailTable + clsCommon.HistTablePostFix & "." & "SNo , " & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ""
+            Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "' and " & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & " in (" & strVersionNoSelect & ")  order by "
+            If isSNoExist > 0 Then
+                Mainqry += DetailTable + clsCommon.HistTablePostFix & "." & "SNo ,"
+            ElseIf isLineNoExist > 0 Then
+                Mainqry += DetailTable + clsCommon.HistTablePostFix & "." & "Line_No ,"
+            End If
+            Mainqry += DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ""
             If clsCommon.CompairString(HeadTable, "TSPL_ITEM_MASTER") = CompairStringResult.Equal Then
                 Mainqry += "  ,Conversion_Factor "
             End If
@@ -379,7 +387,7 @@ Public Class frmTransactionHistory
         If Not isInsideLoadData Then
             If gv1.CurrentColumn Is gv1.Columns(colSelect) Then
                 Dim strVersion As String = clsCommon.myCstr(gv1.CurrentRow.Cells("Hist_Version").Value)
-                If clsCommon.myLen(strVersion) > 0 AndAlso clsCommon.CompairString(strVersion, "99999") <> CompairStringResult.Equal Then
+                If clsCommon.myLen(strVersion) > 0 Then
                     LoadDetailData(e.NewValue, strVersion)
                 End If
             Else
@@ -421,9 +429,19 @@ Public Class frmTransactionHistory
                     strDetailTransCodeHistColumn += "(" & DetailTable + clsCommon.HistTablePostFix & "." + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ") as " + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ""
                 Next
             End If
+            Dim isSNoExist As Integer = clsDBFuncationality.getSingleValue("SELECT count(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TSPL_SRN_DETAIL_Hist_Data' AND COLUMN_NAME = 'SNo'")
+            Dim isLineNoExist As Integer = clsDBFuncationality.getSingleValue("SELECT count(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TSPL_SRN_DETAIL_Hist_Data' AND COLUMN_NAME = 'Line_No'")
 
             Mainqry = " select CAST(0 as bit) as Sel, (" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as [Head version],(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as " & clsCommon.HistTableColHistVersion & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistBy & ") as " & clsCommon.HistTableColHistBy & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistOn & ") as " & clsCommon.HistTableColHistOn & "," & strDetailTransCodeHistColumn & " from " & DetailTable + clsCommon.HistTablePostFix & ""
-            Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "'  order by " & DetailTable + clsCommon.HistTablePostFix & "." & "SNo , " & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ""
+            Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "'  order by "
+
+            If isSNoExist > 0 Then
+                Mainqry += DetailTable + clsCommon.HistTablePostFix & "." & "SNo ,"
+            ElseIf isLineNoExist > 0 Then
+                Mainqry += DetailTable + clsCommon.HistTablePostFix & "." & "Line_No ,"
+            End If
+            Mainqry += DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ""
+
             If clsCommon.CompairString(HeadTable, "TSPL_ITEM_MASTER") = CompairStringResult.Equal Then
                 Mainqry += "  ,Conversion_Factor "
             End If
@@ -437,7 +455,7 @@ Public Class frmTransactionHistory
         IsInsideLoadDataOfItem = True
         If NewVal Then
             For Each dr As DataRow In dtAllData.Rows
-                If clsCommon.CompairString(strVersion, clsCommon.myCstr(dr("Hist_Version"))) = CompairStringResult.Equal AndAlso clsCommon.CompairString(strVersion, "99999") <> CompairStringResult.Equal Then
+                If clsCommon.CompairString(strVersion, clsCommon.myCstr(dr("Hist_Version"))) = CompairStringResult.Equal Then
                     If clsCommon.myLen(strVersionNoSelect) <= 0 Then
                         strVersionNoSelect = "'" + strVersion + "'"
                     Else
