@@ -634,6 +634,7 @@
     <None Include="Crystal Reports GST\Purchase Order\rptRGPForAll.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptRGPNew.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptRGPWiseJobWork.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\rptSJV-V.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptSRNCustom%28090312%29.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptSRNCustom.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptSRNCustomReport.rpt" />
