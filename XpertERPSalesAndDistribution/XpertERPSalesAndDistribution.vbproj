@@ -1673,6 +1673,12 @@
     <Compile Include="Sales and Distribution\Report\frmSettlement_CashMemoStatus.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSundryDebtorsReport.Designer.vb">
+      <DependentUpon>frmSundryDebtorsReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Sales and Distribution\Report\frmSundryDebtorsReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Sales and Distribution\Report\FrmTargetReport1.Designer.vb">
       <DependentUpon>FrmTargetReport1.vb</DependentUpon>
     </Compile>
@@ -2605,6 +2611,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Report\frmSettlement_CashMemoStatus.resx">
       <DependentUpon>frmSettlement_CashMemoStatus.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sales and Distribution\Report\frmSundryDebtorsReport.resx">
+      <DependentUpon>frmSundryDebtorsReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Sales and Distribution\Report\FrmTargetReport1.resx">
       <DependentUpon>FrmTargetReport1.vb</DependentUpon>

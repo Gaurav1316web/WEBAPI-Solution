@@ -1142,6 +1142,8 @@ Public Class frmPriceMasterPlan
 
     Private Sub UpdateCurrentRow()
         Try
+
+            Dim factor As Double = Math.Pow(10, 2)
             gv1.CurrentRow.Cells(colSNo).Value = (gv1.CurrentRow.Index + 1)
             Dim arrTaxableAuth As New List(Of String)
             Dim dblTotTaxAmt As Decimal = 0
@@ -1155,10 +1157,14 @@ Public Class frmPriceMasterPlan
                     If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colPriceComponentCalculationMethod + clsCommon.myCstr(ii)).Value), "Amount") = CompairStringResult.Equal Then
                         dblcurrComponetnAmt = dblCurrComponetnRate
                     Else
-                        dblcurrComponetnAmt = Math.Round(dblMRP * dblCurrComponetnRate / 100, 2, MidpointRounding.ToEven)
+                        'dblcurrComponetnAmt = Math.Round(dblMRP * dblCurrComponetnRate / 100, 2, MidpointRounding.ToEven)
+
+                        dblcurrComponetnAmt = Math.Truncate((dblMRP * dblCurrComponetnRate / 100) * factor) / factor
                     End If
                 End If
-                dblcurrComponetnAmt = Math.Round(dblcurrComponetnAmt, 2, MidpointRounding.ToEven)
+                ' dblcurrComponetnAmt = Math.Round(dblcurrComponetnAmt, 2, MidpointRounding.ToEven)
+                dblcurrComponetnAmt = Math.Truncate((dblcurrComponetnAmt) * factor) / factor
+
                 gv1.CurrentRow.Cells(colPriceComponentAmount + clsCommon.myCstr(ii)).Value = dblcurrComponetnAmt
                 dblTotalPC += dblcurrComponetnAmt
             Next
@@ -1211,8 +1217,10 @@ Public Class frmPriceMasterPlan
                             dblBaseAmt = (dblTaxBaseAmt + dblOtherTaxAmt)
                         End If
                     End If
-                    dblBaseAmt = Math.Round(dblBaseAmt, 2, MidpointRounding.ToEven)
-                    gv1.CurrentRow.Cells(colTaxBaseAmt + clsCommon.myCstr(ii)).Value = Math.Round(dblBaseAmt, 2)
+                    'dblBaseAmt = Math.Round(dblBaseAmt, 2, MidpointRounding.ToEven)
+                    dblBaseAmt = Math.Truncate((dblBaseAmt) * factor) / factor
+                    'gv1.CurrentRow.Cells(colTaxBaseAmt + clsCommon.myCstr(ii)).Value = Math.Round(dblBaseAmt, 2)
+                    gv1.CurrentRow.Cells(colTaxBaseAmt + clsCommon.myCstr(ii)).Value = Math.Truncate((dblBaseAmt) * factor) / factor
                     dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
                     dblTaxAmt = Math.Round(dblTaxAmt, IIf(objCommonVar.IsRoundOffTaxToZeroDecimal, 0, 5))
                     dblTotTaxAmt += dblTaxAmt
@@ -1242,7 +1250,8 @@ Public Class frmPriceMasterPlan
             Else
                 dblSalePrice = dblTaxBaseAmt + dblTotTaxAmt
             End If
-            dblSalePrice = Math.Round(dblSalePrice, 2, MidpointRounding.ToEven)
+            'dblSalePrice = Math.Round(dblSalePrice, 2, MidpointRounding.ToEven)
+            dblSalePrice = Math.Truncate((dblSalePrice) * factor) / factor
             gv1.CurrentRow.Cells(colSaleAmt).Value = dblSalePrice
         Catch ex As Exception
             Throw New Exception(ex.Message)

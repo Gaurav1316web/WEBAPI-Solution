@@ -429,4 +429,16 @@ Public Class frmPOUnloading
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnhistory_Click(sender As Object, e As EventArgs) Handles btnhistory.Click
+        Try
+            If clsCommon.myLen(txtCode.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Select Document Code", Me.Text)
+                Exit Sub
+            End If
+            clsERPFuncationalityOLD.ShowTransHistoryData(txtCode.Value, "Document_No", "TSPL_PO_WEIGHTMENT_HEAD", "TSPL_PO_WEIGHTMENT_DETAIL")
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
 End Class
