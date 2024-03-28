@@ -41,6 +41,7 @@ Partial Class PurchaseGateOut
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnhistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -60,6 +61,7 @@ Partial Class PurchaseGateOut
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -78,6 +80,7 @@ Partial Class PurchaseGateOut
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnhistory)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
@@ -346,6 +349,15 @@ Partial Class PurchaseGateOut
         Me.btnsave.TabIndex = 3
         Me.btnsave.Text = "Save"
         '
+        'btnhistory
+        '
+        Me.btnhistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnhistory.Location = New System.Drawing.Point(553, 2)
+        Me.btnhistory.Name = "btnhistory"
+        Me.btnhistory.Size = New System.Drawing.Size(69, 20)
+        Me.btnhistory.TabIndex = 395
+        Me.btnhistory.Text = "History"
+        '
         'PurchaseGateOut
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -378,6 +390,7 @@ Partial Class PurchaseGateOut
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnhistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -402,4 +415,5 @@ Partial Class PurchaseGateOut
     Friend WithEvents txtDescription As common.Controls.MyTextBox
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents btnhistory As RadButton
 End Class

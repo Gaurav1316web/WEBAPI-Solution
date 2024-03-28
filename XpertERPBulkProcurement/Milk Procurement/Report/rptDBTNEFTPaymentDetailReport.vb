@@ -8,8 +8,8 @@ Public Class rptDBTNEFTPaymentDetailReport
 
 #Region "Variables"
     Const ReportID As String = "DBTNEFTPaymentDetailReport"
-    Dim Slot1 As DateTime = Nothing
-    Dim Slot2 As DateTime = Nothing
+    Dim Slot1 As String = ""
+    Dim Slot2 As String = ""
     Dim MonthNo As String = Nothing
 
 #End Region
@@ -72,6 +72,7 @@ Public Class rptDBTNEFTPaymentDetailReport
                 If txtUnion.arrValueMember IsNot Nothing Then
                     dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name  in (" & clsCommon.GetMulcallString(txtUnion.arrValueMember) & ") AND DataBase_Name  not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
                 End If
+                Baseqry = " select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.',* from ( "
                 For ii As Integer = 0 To dt.Rows.Count - 1
                     If ii > 0 Then
                         Baseqry += " UNION ALL "
@@ -79,18 +80,23 @@ Public Class rptDBTNEFTPaymentDetailReport
 
                     Baseqry += " select '" + clsCommon.myCstr(dt.Rows(ii).Item("Location_Name")) + "' AS [Union Name],'" + clsCommon.GetPrintDate(MonthNo, "MMM-yyyy") + "' As Month,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code AS MP_Code,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code_VLC_Uploader AS MP_Code_VLC_Uploader , [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Name AS MP_Name
   ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.MP_Account_No
-               AS MP_Account_No,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.MP_Bank AS MP_Bank,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.MP_IFSC_No AS MP_IFSC_No,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response AS Status, isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount,0) AS Amount
+               AS MP_Account_No,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.MP_IFSC_No AS MP_IFSC_No,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response AS Status, isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount,0) AS Amount,
+               case when [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response = 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA' then 1 else 0  end as Success_Farmer, case when 
+  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response  <> 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA' then 1  else 0 end as Failure_Farmer,
+                case when [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response = 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA' then [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount else 0  end as Success_Amount, case when 
+  ([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response  <> 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA' and  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response IS NOT NULL)  then [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount else 0 end as Failure_Amount
     from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL
     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code
     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Document_Code= [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.Document_Code 
-    left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Ref_PK_Id= [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.PK_Id  
-    WHERE [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response IS NOT NULL and ISNULL( [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.RCDF_Status,0)=1 and  Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" & Slot1 & "',103) And 
+    left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Ref_PK_Id= [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.PK_Id 
+                 WHERE ISNULL( [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.RCDF_Status,0)=1 and  Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.From_Date,103)>=Convert(Date,'" & Slot1 & "',103) And 
     Convert(Date,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT.To_Date,103)<=Convert(Date,'" & Slot2 & "',103)"
                 Next
+                Baseqry += ") xx"
                 If rbtnSummary.IsChecked Then
-                    qry = " select [Union Name] , Month , count(MP_Code)as [No of Farmer] , sum(Amount)Amount , case when max(status) = 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA' then sum(Amount) else 0  end as Success, case when max(Status) <> 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA' then sum(Amount) else 0 end as Failure
-                from (" & Baseqry & " ) xx group by [Union Name] , Month"
+                    qry = " select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.', [Union Name] , max(Month) as Month , count(MP_Code)as [No of Farmer] ,sum(Success_Farmer)Success_Farmer,sum(Failure_Farmer)Failure_Farmer, sum(Amount)Amount , SUM(Success_Amount)Success_Amount , SUM(Failure_Amount)Failure_Amount
+                from (" & Baseqry & " ) xxx group by [Union Name]"
                 Else
                     qry = Baseqry
                 End If
@@ -132,9 +138,35 @@ Public Class rptDBTNEFTPaymentDetailReport
             gv1.Columns(ii).ReadOnly = True
             gv1.Columns(ii).IsVisible = True
         Next
+        Dim summaryRowItem As New GridViewSummaryRowItem()
         gv1.ShowGroupPanel = False
+        If rbtnDetail.IsChecked Then
+            gv1.Columns("MP_Code").HeaderText = "Farmer Code"
+            gv1.Columns("MP_Name").HeaderText = "Farmer Name"
+            gv1.Columns("MP_Code_VLC_Uploader").HeaderText = "Farmer Uploader Code"
+            gv1.Columns("MP_IFSC_No").HeaderText = "Farmer IFSC No"
+            gv1.Columns("MP_Account_No").HeaderText = "Farmer Account No"
+            gv1.Columns("Success_Amount").IsVisible = False
+            gv1.Columns("Failure_Amount").IsVisible = False
+            gv1.Columns("Success_Farmer").IsVisible = False
+            gv1.Columns("Failure_Farmer").IsVisible = False
+        ElseIf rbtnSummary.IsChecked Then
+            gv1.Columns("Success_Amount").HeaderText = "Success Amount"
 
-        gv1.Columns("Amount").HeaderText = "Total Amount"
+            gv1.Columns("Failure_Amount").HeaderText = "Failure Amount"
+            gv1.Columns("Success_Farmer").HeaderText = "Success(No of Farmer)"
+            gv1.Columns("Failure_Farmer").HeaderText = "Failure(No of Farmer)"
+            gv1.Columns("Amount").HeaderText = "Total Amount"
+            Dim item2 As New GridViewSummaryItem("Success_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item2)
+            Dim item3 As New GridViewSummaryItem("Failure_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item3)
+        End If
+
+        Dim item1 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(item1)
+
+        gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
     End Sub
 
