@@ -749,6 +749,7 @@ Public Class frmPurchaseInvoice
         btncancel.Enabled = False
 
         gvDeduction.DataSource = Nothing
+        gvAPInvoice.DataSource = Nothing
     End Sub
     Sub LoadBlankGrid()
         gv1.Rows.Clear()
@@ -4868,24 +4869,7 @@ Public Class frmPurchaseInvoice
                     repoComplete.IsVisible = True
                     repoBalQty.IsVisible = True
                     btncancel.Enabled = True
-                    If objCommonVar.RCDFCFP Then
-                        qry = "select x.SRN_No as [SRNNo],x.Type,x.Item_Code as ItemCode,TSPL_ITEM_MASTER.Item_Desc as Item,x.Amount from (
-select SRN_No,'Security Deduction' as Type,Item_Code,Ded_Amt as Amount from TSPL_SRN_DEDUCTION_SECURITY where SRN_No in (select SRN_ID from tspl_PI_Detail where PI_No='" + obj.PI_No + "')
-union all
-select SRN_No,'Quality Deduction' as Type,Item_Code,Ded_Amt as Amount from TSPL_SRN_DEDUCTION where SRN_No in (select SRN_ID from tspl_PI_Detail where PI_No='" + obj.PI_No + "')
-union all
-select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SRN_TENDER where isnull(Penalty,0)>0 and  SRN_No in (select SRN_ID from tspl_PI_Detail where PI_No='" + obj.PI_No + "')
-)x left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=x.Item_Code"
-                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            gvDeduction.DataSource = dt
-                            For ii As Integer = 0 To gvDeduction.Columns.Count - 1
-                                gvDeduction.Columns(ii).ReadOnly = True
-                                gvDeduction.Columns(ii).BestFit()
-                            Next
-                            gvDeduction.AllowAddNewRow = False
-                        End If
-                    End If
+
                 Else
                     btnprintjvl.Enabled = False
                     btncancel.Enabled = False
@@ -5518,8 +5502,30 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                         gvACInsurance.Rows.AddNew()
                     Next
                 End If
-                If objCommonVar.RCDFCFP AndAlso obj.Status = ERPTransactionStatus.Pending Then
-                    LoadDeduction(ListSRN_No)
+                If objCommonVar.RCDFCFP Then
+                    LoadAPInvoice()
+                    If obj.Status = ERPTransactionStatus.Pending Then
+                        LoadDeduction(ListSRN_No)
+                    Else
+                        qry = "select x.SRN_No as [SRNNo],x.Type,x.Item_Code as ItemCode,TSPL_ITEM_MASTER.Item_Desc as Item,x.Amount from (
+select SRN_No,'Security Deduction' as Type,Item_Code,Ded_Amt as Amount from TSPL_SRN_DEDUCTION_SECURITY where SRN_No in (select SRN_ID from tspl_PI_Detail where PI_No='" + obj.PI_No + "')
+union all
+select SRN_No,'Quality Deduction' as Type,Item_Code,Ded_Amt as Amount from TSPL_SRN_DEDUCTION where SRN_No in (select SRN_ID from tspl_PI_Detail where PI_No='" + obj.PI_No + "')
+union all
+select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SRN_TENDER where isnull(Penalty,0)>0 and  SRN_No in (select SRN_ID from tspl_PI_Detail where PI_No='" + obj.PI_No + "')
+union all
+select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amount from TSPL_SRN_TENDER_CALC where isnull(Penalty,0)>0 and  SRN_No in (select SRN_ID from tspl_PI_Detail where PI_No='" + obj.PI_No + "')
+)x left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=x.Item_Code"
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            gvDeduction.DataSource = dt
+                            For ii As Integer = 0 To gvDeduction.Columns.Count - 1
+                                gvDeduction.Columns(ii).ReadOnly = True
+                                gvDeduction.Columns(ii).BestFit()
+                            Next
+                            gvDeduction.AllowAddNewRow = False
+                        End If
+                    End If
                 End If
                 ''For Custom Fields
                 If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
@@ -6579,7 +6585,7 @@ select SRN_No,'Security Deduction' as Type,Item_Code,Ded_Amt as Amount from TSPL
 union all
 select SRN_No,'Quality Deduction' as Type,Item_Code,Ded_Amt as Amount from TSPL_SRN_DEDUCTION where SRN_No in (" + clsCommon.GetMulcallString(ListSRN_No) + ")
 union all
-select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SRN_TENDER where isnull(Penalty,0)>0 and  SRN_No in (" + clsCommon.GetMulcallString(ListSRN_No) + ")
+select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SRN_TENDER_CALC where isnull(Penalty,0)>0 and  SRN_No in (" + clsCommon.GetMulcallString(ListSRN_No) + ")
 )x left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=x.Item_Code"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -6589,6 +6595,30 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                     gvDeduction.Columns(ii).BestFit()
                 Next
                 gvDeduction.AllowAddNewRow = False
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub LoadAPInvoice()
+        Try
+            qry = "select Document_No as APInvoiceNo,convert(varchar,Posting_Date,103) as APInvoiceDate,Document_Type as Type,Description,Document_Total as Amount from (
+select Document_No,Posting_Date,Document_Type,Description,Document_Total
+from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('QC-DED','SEC-DED','SCH-PNT','RE-TEN') and RefDocNo='" + txtDocNo.Value + "' 
+union all
+select Document_No,Posting_Date,Document_Type,Description,Document_Total
+from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('SCH-PNT') and RefDocNo='" + txtDocNo.Value + "' ) 
+)x order by Posting_Date"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                gvAPInvoice.DataSource = dt
+                For ii As Integer = 0 To gvAPInvoice.Columns.Count - 1
+                    gvAPInvoice.Columns(ii).ReadOnly = True
+                    gvAPInvoice.Columns(ii).BestFit()
+                Next
+                gvAPInvoice.AllowAddNewRow = False
+                gvAPInvoice.BestFitColumns()
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -7012,19 +7042,6 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
 
 
         Try
-            '           Dim qry As String = "SELECT TSPL_PJV_HEAD.Vendor_Code, TSPL_COMPANY_MASTER.Comp_Name, TSPL_COMPANY_MASTER.Add1, TSPL_COMPANY_MASTER.Add2, " & _
-            '                     "TSPL_COMPANY_MASTER.Add3, TSPL_COMPANY_MASTER.State, TSPL_COMPANY_MASTER.Tin_No, TSPL_COMPANY_MASTER.CST_LST, " & _
-            '                     "TSPL_VENDOR_MASTER.Vendor_Name, TSPL_VENDOR_MASTER.Add1 AS Expr1, TSPL_VENDOR_MASTER.Add2 AS Expr2, " & _
-            '                     "TSPL_VENDOR_MASTER.Add3 AS Expr3, TSPL_VENDOR_MASTER.City_Code_Desc, TSPL_PJV_HEAD.PJV_No, TSPL_PJV_HEAD.PJV_Date, " & _
-            '                     "TSPL_PJV_HEAD.Vendor_Name AS Expr4, TSPL_PJV_HEAD.PO_No, TSPL_PJV_HEAD.PO_Date, TSPL_PJV_HEAD.SRN_No, " & _
-            '           "TSPL_PJV_HEAD.SRN_Date, TSPL_PJV_HEAD.Invoice_No, TSPL_PJV_HEAD.Invoice_Date, TSPL_PJV_HEAD.Status, TSPL_PJV_HEAD.Posting_Date, " & _
-            '           "TSPL_PJV_HEAD.PJV_Amount, TSPL_PJV_HEAD.PJV_TDS_Amount, TSPL_PJV_HEAD.PJV_Net_Amount, TSPL_PJV_HEAD.Narration, " & _
-            '                    " TSPL_PJV_HEAD.Due_Date, TSPL_PJV_Detail.PJV_No AS Expr5, TSPL_PJV_Detail.Line_No, TSPL_PJV_Detail.GL_Account_Code, " & _
-            '                     "TSPL_PJV_Detail.GL_Account_Desc, TSPL_PJV_Detail.PJV_Amount AS Expr6,TSPL_COMPANY_MASTER.Logo_Img, TSPL_COMPANY_MASTER.Logo_Img2, TSPL_PJV_HEAD.Created_By " & _
-            '" FROM         TSPL_PJV_HEAD INNER JOIN " & _
-            '                     "TSPL_PJV_Detail ON TSPL_PJV_HEAD.PJV_No = TSPL_PJV_Detail.pjv_No INNER JOIN " & _
-            '                     "TSPL_VENDOR_MASTER ON TSPL_PJV_HEAD.Vendor_Code = TSPL_VENDOR_MASTER.Vendor_Code LEFT OUTER JOIN " & _
-            '                     "TSPL_COMPANY_MASTER ON TSPL_PJV_HEAD.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code   where TSPL_PJV_HEAD.Invoice_No='" + StrDocNo + "'"
             Dim ChkPost As Integer = 0
             Dim qry As String = Nothing
             Dim qry1 As String = Nothing
@@ -8498,59 +8515,18 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
             Dim ItemCode As String = Nothing
 
             If gv1.Rows.Count > 0 Then
-                ' For Each rows As GridViewRowInfo In gv1.Rows
-                'If clsCommon.CompairString(ItemCode, (clsCommon.myCstr(rows.Cells(colICode).Value))) <> CompairStringResult.Equal Then
-                '        ItemCode += ",'" + clsCommon.myCstr(rows.Cells(colICode).Value) + "'"
-                '    Else
-                'ItemCode = "'" + clsCommon.myCstr(rows.Cells(colICode).Value) + "'"
-                '    End If
                 Dim arr As New ArrayList
                 For Each rows As GridViewRowInfo In gv1.Rows
                     arr.Add(clsCommon.myCstr(rows.Cells(colICode).Value))
                 Next
                 ItemCode = clsCommon.GetMulcallString(arr)
-                ' Next
             End If
-
+            Dim strTabSRNTender As String = "TSPL_SRN_TENDER"
+            If UsLock1.Status = ERPTransactionStatus.Pending Then
+                strTabSRNTender = "TSPL_SRN_TENDER_CALC"
+            End If
             Dim qry As String = ""
-            '            Dim qry As String = " select isnull (TSPL_SRN_TENDER.Penalty,0) as Penalty ,isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as Ded_Amt,  convert (varchar, min (TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date ) over (Partition by TSPL_PI_HEAD.PI_No  ) ,103) as MinDate,convert (varchar, max (TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date ) over (Partition by TSPL_PI_HEAD.PI_No  ) ,103) as MaxDate,
-
-
-            'tspl_item_master.Item_Desc, UPPER( TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, TSPL_PI_HEAD.PI_No ,convert (varchar,TSPL_PI_HEAD.PI_Date,103) as PI_Date , TSPL_GRN_HEAD.GRN_No , TSPL_MRN_HEAD.MRN_No ,TSPL_SRN_HEAD.SRN_No,TSPL_PI_HEAD.PI_Date as PI_DATE  ,TSPL_PI_HEAD.Vendor_Code, TSPL_VENDOR_MASTER.Vendor_Name,TSPL_PI_HEAD.Vendor_Invoice_No as BillNo , TSPL_QC_CHECK_HEAD.Document_Code as QualityReportNo,
-
-            'TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as WeighingSlipNo, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date as WeighmentDate,TSPL_GRN_HEAD.VehicleNo  as TruckNo  , cast  (( TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) as QtyInKg  , TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as QtyInQtl,
-
-            'cast ((TSPL_PI_DETAIL.Amount / cast  (( TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) ) as decimal(18,2)) as RateInKg,
-
-            'cast ((TSPL_PI_DETAIL.Amount /TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) as decimal(18,2)) as RateInQtl,
-
-
-            'TSPL_PI_DETAIL.Total_Tax_Amt  as GST_RATE , TSPL_PI_DETAIL.Item_Net_Amt as Amount , isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) as  Per_QLT, case when   isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) > 0 then cast(  ( TSPL_PI_DETAIL.Item_Net_Amt * isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) / 100 )  as decimal(18,2)) else 0 end QualityDeduction , case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end as Securitys , TSPL_GRN_HEAD.Ref_No ,
-
-            '  case when   isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) > 0 then cast(  ( TSPL_PI_DETAIL.Item_Net_Amt * isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) / 100 )  as decimal(18,2)) else 0 end +  case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end   as TotalDeduction ,  TSPL_PI_DETAIL.Item_Net_Amt  -  (case when   isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) > 0 then cast(  ( TSPL_PI_DETAIL.Item_Net_Amt * isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) / 100 )  as decimal(18,2)) else 0 end +  case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end ) as PayableAmount
-            'from TSPL_PI_DETAIL 
-            'left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No
-
-            'left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No = TSPL_PI_DETAIL.SRN_Id
-            'left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No = TSPL_SRN_DETAIL.SRN_No
-            'left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No = TSPL_SRN_DETAIL.GRN_ID
-            'left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_GRN = TSPL_GRN_HEAD.GRN_No
-            'left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No = TSPL_GRN_HEAD.GRN_No
-            'left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code = TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
-            'left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No = TSPL_GRN_HEAD.GRN_No
-            'left outer join (select MRN_No , sum(InputDataDeductionPer) as InputDataDeductionPer from TSPL_QC_CHECK_SRN_DETAIL group by MRN_No ) as  TSPL_QC_CHECK_SRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.MRN_No = TSPL_MRN_HEAD.MRN_No
-            'left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_PI_DETAIL.Item_Code
-            'left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_PI_HEAD.Vendor_Code
-            'left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_PI_HEAD.Comp_Code
-            'left outer join TSPL_ITEM_UOM_DETAIL as Source_UOM on Source_UOM.Item_Code = TSPL_PO_WEIGHTMENT_DETAIL.Item_Code and Source_UOM.UOM_Code = TSPL_PO_WEIGHTMENT_DETAIL.UOM
-            'left outer join TSPL_ITEM_UOM_DETAIL as Target_UOM on Target_UOM.Item_Code = TSPL_PO_WEIGHTMENT_DETAIL.Item_Code and Target_UOM.UOM_Code = 'KG'
-            'left outer join TSPL_SRN_TENDER on TSPL_SRN_TENDER.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_TENDER.Item_Code = TSPL_PI_DETAIL.Item_Code
-            'left outer join TSPL_SRN_DEDUCTION on TSPL_SRN_DEDUCTION.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DEDUCTION.Item_Code = TSPL_PI_DETAIL.Item_Code
-            'where TSPL_PI_HEAD.PI_No = '" + txtDocNo.Value + "' "
-            ', TSPL_SRN_DETAIL.SRN_Qty as SRNQtyInQtl
-            ',TSPL_PI_HEAD.PI_Date as PI_DATE
-            If objCommonVar.RCDFCFP = True Then
-                'isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) as TDS
+            If objCommonVar.RCDFCFP Then
                 qry = " SELECT ss.*,(select  CAST(sum(TSPL_SRN_DETAIL.SRN_Qty) AS DECIMAL(18,2)) as SRNQtyInQtl from TSPL_PI_DETAIL 
                         left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DETAIL.Item_Code = TSPL_PI_DETAIL.Item_Code
                         left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No = TSPL_SRN_DETAIL.SRN_No
@@ -8563,7 +8539,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                          ( isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) 
                           / (select sum(isnull(TSPL_PI_DETAIL.Taxable_Amount,0)) from TSPL_PI_DETAIL where PI_NO='" + txtDocNo.Value + "'  ))
                           * isnull(TSPL_PI_DETAIL.Taxable_Amount,0) else 0 end as decimal(18,2)) as TDS,
-                           isnull (TSPL_SRN_TENDER.Penalty,0) as Penalty ,
+                           isnull (" + strTabSRNTender + ".Penalty,0) as Penalty ,
                            isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as Ded_Amt,
                            convert (varchar, min (TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date ) over (Partition by TSPL_PI_HEAD.PI_No  ) ,103) as MinDate,
                            convert (varchar, max (TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date ) over (Partition by TSPL_PI_HEAD.PI_No  ) ,103) as MaxDate,
@@ -8571,7 +8547,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                     , cast  (( TSPL_PI_DETAIL.PI_Qty * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) as QtyInKg 
                     , TSPL_PI_DETAIL.PI_Qty as QtyInQtl
                     ,cast ((TSPL_PI_DETAIL.Item_Net_Amt / cast  (( TSPL_PI_DETAIL.PI_Qty * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) ) as decimal(18,2)) as RateInKg, cast ((TSPL_PI_DETAIL.Item_Net_Amt /TSPL_PI_DETAIL.PI_Qty) as decimal(18,2)) as RateInQtl
-                    , TSPL_PI_DETAIL.Total_Tax_Amt  as GST_RATE , TSPL_PI_DETAIL.Item_Net_Amt as Amount , isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) as  Per_QLT,  isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as QualityDeduction, isnull(TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt,0) as Securitys , TSPL_GRN_HEAD.Ref_No ,   isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (TSPL_SRN_TENDER.Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end   as TotalDeduction    ,TSPL_PI_DETAIL.Item_Net_Amt  -  ( isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (TSPL_SRN_TENDER.Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end ) as PayableAmount
+                    , TSPL_PI_DETAIL.Total_Tax_Amt  as GST_RATE , TSPL_PI_DETAIL.Item_Net_Amt as Amount , isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) as  Per_QLT,  isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as QualityDeduction, isnull(TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt,0) as Securitys , TSPL_GRN_HEAD.Ref_No ,   isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (" + strTabSRNTender + ".Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end   as TotalDeduction    ,TSPL_PI_DETAIL.Item_Net_Amt  -  ( isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (" + strTabSRNTender + ".Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end ) as PayableAmount
                     ,TSPL_LOCATION_MASTER.Location_Desc	
                     ,tspl_grn_head.grn_date
                     ,TSPL_GRN_HEAD.[Invoice/Challan_No] as GRNChallan_No,
@@ -8612,7 +8588,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                     left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_PI_HEAD.Comp_Code
                     left outer join TSPL_ITEM_UOM_DETAIL as Source_UOM on Source_UOM.Item_Code = TSPL_PI_DETAIL.Item_Code and Source_UOM.UOM_Code = TSPL_PI_DETAIL.UNIT_CODE
                     left outer join TSPL_ITEM_UOM_DETAIL as Target_UOM on Target_UOM.Item_Code = TSPL_PI_DETAIL.Item_Code and Target_UOM.UOM_Code = 'KG'
-                    left outer join (SELECT SRN_NO,Item_Code,ISNULL(SUM(Penalty),0) AS Penalty FROM TSPL_SRN_TENDER GROUP BY SRN_NO,Item_Code)TSPL_SRN_TENDER on TSPL_SRN_TENDER.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_TENDER.Item_Code = TSPL_PI_DETAIL.Item_Code
+                    left outer join (SELECT SRN_NO,Item_Code,ISNULL(SUM(Penalty),0) AS Penalty FROM " + strTabSRNTender + " GROUP BY SRN_NO,Item_Code)" + strTabSRNTender + " on " + strTabSRNTender + ".SRN_No = TSPL_PI_DETAIL.SRN_Id and " + strTabSRNTender + ".Item_Code = TSPL_PI_DETAIL.Item_Code
                     left outer join TSPL_SRN_DEDUCTION on TSPL_SRN_DEDUCTION.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DEDUCTION.Item_Code = TSPL_PI_DETAIL.Item_Code
                     left outer join TSPL_PI_REMITTANCE on TSPL_PI_REMITTANCE.Document_No=TSPL_PI_HEAD.pi_no
                     left outer join TSPL_LOCATION_MASTER on TSPL_PI_HEAD.Bill_To_Location =TSPL_LOCATION_MASTER.Location_Code
@@ -8632,11 +8608,11 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
 					 TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_HEADER.DocumentCode
                     where TSPL_PI_HEAD.PI_No = '" + txtDocNo.Value + "' )ss WHERE 1=1 order by convert(date,ss.GRN_Date,103) "
             Else
-                qry = " select isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) as TDS,isnull (TSPL_SRN_TENDER.Penalty,0) as Penalty ,
+                qry = " select isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) as TDS,isnull (" + strTabSRNTender + ".Penalty,0) as Penalty ,
                            isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as Ded_Amt,
                            convert (varchar, min (TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date ) over (Partition by TSPL_PI_HEAD.PI_No  ) ,103) as MinDate,
                            convert (varchar, max (TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date ) over (Partition by TSPL_PI_HEAD.PI_No  ) ,103) as MaxDate,
-                    tspl_item_master.Item_Desc, UPPER( TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, TSPL_PI_HEAD.PI_No ,convert (varchar,TSPL_PI_HEAD.PI_Date,103) as PI_Date , TSPL_GRN_HEAD.GRN_No , TSPL_MRN_HEAD.MRN_No ,TSPL_SRN_HEAD.SRN_No,TSPL_PI_HEAD.PI_Date as PI_DATE  ,TSPL_PI_HEAD.Vendor_Code, TSPL_VENDOR_MASTER.Vendor_Name,TSPL_PI_HEAD.Vendor_Invoice_No as BillNo , TSPL_SRN_HEAD.Against_QC_Code as QualityReportNo,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as WeighingSlipNo, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date as WeighmentDate,TSPL_GRN_HEAD.VehicleNo  as TruckNo  , cast  (( TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) as QtyInKg  , TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as QtyInQtl,cast ((TSPL_PI_DETAIL.Amount / cast  (( TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) ) as decimal(18,2)) as RateInKg, cast ((TSPL_PI_DETAIL.Amount /TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) as decimal(18,2)) as RateInQtl, TSPL_PI_DETAIL.Total_Tax_Amt  as GST_RATE , TSPL_PI_DETAIL.Item_Net_Amt as Amount , isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) as  Per_QLT,  isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as QualityDeduction,  case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end as Securitys , TSPL_GRN_HEAD.Ref_No ,   isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (TSPL_SRN_TENDER.Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end   as TotalDeduction    ,TSPL_PI_DETAIL.Item_Net_Amt  -  ( isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (TSPL_SRN_TENDER.Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end ) as PayableAmount from TSPL_PI_DETAIL 
+                    tspl_item_master.Item_Desc, UPPER( TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, TSPL_PI_HEAD.PI_No ,convert (varchar,TSPL_PI_HEAD.PI_Date,103) as PI_Date , TSPL_GRN_HEAD.GRN_No , TSPL_MRN_HEAD.MRN_No ,TSPL_SRN_HEAD.SRN_No,TSPL_PI_HEAD.PI_Date as PI_DATE  ,TSPL_PI_HEAD.Vendor_Code, TSPL_VENDOR_MASTER.Vendor_Name,TSPL_PI_HEAD.Vendor_Invoice_No as BillNo , TSPL_SRN_HEAD.Against_QC_Code as QualityReportNo,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as WeighingSlipNo, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date as WeighmentDate,TSPL_GRN_HEAD.VehicleNo  as TruckNo  , cast  (( TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) as QtyInKg  , TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as QtyInQtl,cast ((TSPL_PI_DETAIL.Amount / cast  (( TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) ) as decimal(18,2)) as RateInKg, cast ((TSPL_PI_DETAIL.Amount /TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) as decimal(18,2)) as RateInQtl, TSPL_PI_DETAIL.Total_Tax_Amt  as GST_RATE , TSPL_PI_DETAIL.Item_Net_Amt as Amount , isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) as  Per_QLT,  isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as QualityDeduction,  case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end as Securitys , TSPL_GRN_HEAD.Ref_No ,   isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (" + strTabSRNTender + ".Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end   as TotalDeduction    ,TSPL_PI_DETAIL.Item_Net_Amt  -  ( isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (" + strTabSRNTender + ".Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end ) as PayableAmount from TSPL_PI_DETAIL 
                     left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No
                     left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DETAIL.Item_Code = TSPL_PI_DETAIL.Item_Code
                     left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No = TSPL_SRN_DETAIL.SRN_No
@@ -8651,7 +8627,7 @@ select SRN_No,'RM Late Penalty' as Type,Item_Code,Penalty as Amount from TSPL_SR
                     left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_PI_HEAD.Comp_Code
                     left outer join TSPL_ITEM_UOM_DETAIL as Source_UOM on Source_UOM.Item_Code = TSPL_PO_WEIGHTMENT_DETAIL.Item_Code and Source_UOM.UOM_Code = TSPL_PO_WEIGHTMENT_DETAIL.UOM
                     left outer join TSPL_ITEM_UOM_DETAIL as Target_UOM on Target_UOM.Item_Code = TSPL_PO_WEIGHTMENT_DETAIL.Item_Code and Target_UOM.UOM_Code = 'KG'
-                    left outer join (SELECT SRN_NO,Item_Code,ISNULL(SUM(Penalty),0) AS Penalty FROM TSPL_SRN_TENDER GROUP BY SRN_NO,Item_Code)TSPL_SRN_TENDER on TSPL_SRN_TENDER.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_TENDER.Item_Code = TSPL_PI_DETAIL.Item_Code
+                    left outer join (SELECT SRN_NO,Item_Code,ISNULL(SUM(Penalty),0) AS Penalty FROM " + strTabSRNTender + " GROUP BY SRN_NO,Item_Code)" + strTabSRNTender + " on " + strTabSRNTender + ".SRN_No = TSPL_PI_DETAIL.SRN_Id and " + strTabSRNTender + ".Item_Code = TSPL_PI_DETAIL.Item_Code
                     left outer join TSPL_SRN_DEDUCTION on TSPL_SRN_DEDUCTION.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DEDUCTION.Item_Code = TSPL_PI_DETAIL.Item_Code
                     left outer join TSPL_PI_REMITTANCE on TSPL_PI_REMITTANCE.Document_No=TSPL_PI_HEAD.pi_no
                     where TSPL_PI_HEAD.PI_No = '" + txtDocNo.Value + "'  "
