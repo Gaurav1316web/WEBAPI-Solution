@@ -15103,6 +15103,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("University_Address", "VARCHAR(100) NULL")
             coll.Add("University_Website", "VARCHAR(100) NULL")
+            coll.Add("DOCUMENT_FILE", "Image null ")
+            coll.Add("DocName", "VARCHAR(100) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_QUALIFICATION", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)()
