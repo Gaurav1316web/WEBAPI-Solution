@@ -157,17 +157,17 @@ Public Class frmEmployee_Master
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
         AddNew()
-        CreateTable()
+        'CreateTable()
     End Sub
 
 
-    Sub CreateTable()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("DOCUMENT_FILE", "Image null ")
-        coll.Add("DocName", "VARCHAR(100) NULL")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_QUALIFICATION", coll, Nothing, False, False)
-    End Sub
+    'Sub CreateTable()
+    '    Dim coll As Dictionary(Of String, String)
+    '    coll = New Dictionary(Of String, String)()
+    '    coll.Add("DOCUMENT_FILE", "Image null ")
+    '    coll.Add("DocName", "VARCHAR(100) NULL")
+    '    clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_QUALIFICATION", coll, Nothing, False, False)
+    'End Sub
 
     Public Function GetGender() As DataTable
         Dim dt As New DataTable()
