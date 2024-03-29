@@ -153,10 +153,23 @@ Public Class clsEmployeeSalary
             End If
             obj.Location_Code = clsCommon.myCstr(dt.Rows(0)("Location_Code"))
         End If
-        qry = "select TAVD.*,TPH.PAY_HEAD_NAME" _
-             & "  FROM TSPL_EMPLOYEE_SALARY_PAYHEADS TAVD " _
-             & " INNER JOIN  TSPL_EMPLOYEE_SALARY TAV ON TAVD.EMP_SAL_CODE=TAV.EMP_SAL_CODE " _
-             & " LEFT JOIN TSPL_PAYHEAD_MASTER TPH ON TAVD.PAY_HEAD_CODE=TPH.PAY_HEAD_CODE where 2=2" + whrQry
+        'qry = "select TAVD.*,TPH.PAY_HEAD_NAME" _
+        '     & "  FROM TSPL_EMPLOYEE_SALARY_PAYHEADS TAVD " _
+        '     & " INNER JOIN  TSPL_EMPLOYEE_SALARY TAV ON TAVD.EMP_SAL_CODE=TAV.EMP_SAL_CODE " _
+        '     & " LEFT JOIN TSPL_PAYHEAD_MASTER TPH ON TAVD.PAY_HEAD_CODE=TPH.PAY_HEAD_CODE where 2=2" + whrQry
+        'qry += " and TAV.EMP_SAL_CODE = '" + strCode + "' ORDER BY TAVD.LINE_NO"
+
+        qry = "select TAVD.EMP_SAL_CODE,TAVD.LINE_NO,TAVD.PAY_HEAD_CODE,TAVD.PAYHEAD_FORMULA,Case When TAVD.RATE_AMOUNT IS NULL Then PayHeadsToSalaryStructure.RATE_AMOUNT Else TAVD.RATE_AMOUNT End As [RATE_AMOUNT],	TAVD.SALARY_STRUCTURE_CODE,	TAVD.Created_By,	TAVD.Created_Date,	TAVD.Modified_By,TAVD.Modified_Date,TAVD.IsHiddenComponent,TAVD.MAX_AMOUNT,TAVD.PAYPERIOD_AMOUNT,TAVD.FORMULA_AMT
+                ,TPH.PAY_HEAD_NAME  
+                FROM TSPL_EMPLOYEE_SALARY_PAYHEADS TAVD  
+                INNER JOIN  TSPL_EMPLOYEE_SALARY TAV ON TAVD.EMP_SAL_CODE=TAV.EMP_SAL_CODE  LEFT JOIN TSPL_PAYHEAD_MASTER TPH ON TAVD.PAY_HEAD_CODE=TPH.PAY_HEAD_CODE 
+                Inner Join (
+                select TSPL_SALSTRUCT_PAYHEADS.*,TSPL_PAYHEAD_MASTER.PAY_HEAD_NAME 
+                from TSPL_SALSTRUCT_PAYHEADS 
+                left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE =TSPL_SALSTRUCT_PAYHEADS.PAY_HEAD_CODE 
+                --where 2=2 --and TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE = 'JSL-SAL' 
+                ) PayHeadsToSalaryStructure On PayHeadsToSalaryStructure.PAY_HEAD_CODE=TAVD.PAY_HEAD_CODE "
+        qry += " where 2=2" + whrQry
         qry += " and TAV.EMP_SAL_CODE = '" + strCode + "' ORDER BY TAVD.LINE_NO"
         dt = New DataTable()
         dt = clsDBFuncationality.GetDataTable(qry, trans)
