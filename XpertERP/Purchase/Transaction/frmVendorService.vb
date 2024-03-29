@@ -3580,6 +3580,7 @@ Public Class FrmVendorService
 
     Sub LoadData(ByVal strDocumentNo As String)
         Try
+            AddNew()
             txtlocation.Enabled = False
             btnSave.Enabled = True
             btnPost.Enabled = True

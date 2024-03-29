@@ -22,7 +22,17 @@ Partial Class frmSendBillToDCS
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblMCCCode = New common.Controls.MyLabel()
+        Me.fndMCCCode = New common.UserControls.txtFinder()
+        Me.lblBOMStatus = New common.Controls.MyLabel()
+        Me.cboShift = New common.Controls.MyComboBox()
+        Me.RadLabel4 = New common.Controls.MyLabel()
+        Me.txtDate = New common.Controls.MyDateTimePicker()
+        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.btnSendBill = New Telerik.WinControls.UI.RadButton()
@@ -33,6 +43,14 @@ Partial Class frmSendBillToDCS
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.lblMCCCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBOMStatus, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -52,6 +70,7 @@ Partial Class frmSendBillToDCS
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox2)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox1)
         '
         'SplitContainer1.Panel2
@@ -60,6 +79,149 @@ Partial Class frmSendBillToDCS
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
         Me.SplitContainer1.SplitterDistance = 405
         Me.SplitContainer1.TabIndex = 0
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.lblMCCCode)
+        Me.RadGroupBox2.Controls.Add(Me.fndMCCCode)
+        Me.RadGroupBox2.Controls.Add(Me.lblBOMStatus)
+        Me.RadGroupBox2.Controls.Add(Me.cboShift)
+        Me.RadGroupBox2.Controls.Add(Me.RadLabel4)
+        Me.RadGroupBox2.Controls.Add(Me.txtDate)
+        Me.RadGroupBox2.Controls.Add(Me.RadButton3)
+        Me.RadGroupBox2.HeaderText = "Generate DCS SMS"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(13, 128)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(335, 71)
+        Me.RadGroupBox2.TabIndex = 278
+        Me.RadGroupBox2.Text = "Generate DCS SMS"
+        '
+        'lblMCCCode
+        '
+        Me.lblMCCCode.FieldName = Nothing
+        Me.lblMCCCode.Font = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.lblMCCCode.Location = New System.Drawing.Point(5, 38)
+        Me.lblMCCCode.Name = "lblMCCCode"
+        Me.lblMCCCode.Size = New System.Drawing.Size(30, 18)
+        Me.lblMCCCode.TabIndex = 295
+        Me.lblMCCCode.Text = "MCC"
+        '
+        'fndMCCCode
+        '
+        Me.fndMCCCode.CalculationExpression = Nothing
+        Me.fndMCCCode.FieldCode = Nothing
+        Me.fndMCCCode.FieldDesc = Nothing
+        Me.fndMCCCode.FieldMaxLength = 0
+        Me.fndMCCCode.FieldName = Nothing
+        Me.fndMCCCode.isCalculatedField = False
+        Me.fndMCCCode.IsSourceFromTable = False
+        Me.fndMCCCode.IsSourceFromValueList = False
+        Me.fndMCCCode.IsUnique = False
+        Me.fndMCCCode.Location = New System.Drawing.Point(41, 38)
+        Me.fndMCCCode.MendatroryField = True
+        Me.fndMCCCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndMCCCode.MyLinkLable1 = Me.lblMCCCode
+        Me.fndMCCCode.MyLinkLable2 = Nothing
+        Me.fndMCCCode.MyReadOnly = False
+        Me.fndMCCCode.MyShowMasterFormButton = False
+        Me.fndMCCCode.Name = "fndMCCCode"
+        Me.fndMCCCode.ReferenceFieldDesc = Nothing
+        Me.fndMCCCode.ReferenceFieldName = Nothing
+        Me.fndMCCCode.ReferenceTableName = Nothing
+        Me.fndMCCCode.Size = New System.Drawing.Size(228, 19)
+        Me.fndMCCCode.TabIndex = 294
+        Me.fndMCCCode.Value = ""
+        '
+        'lblBOMStatus
+        '
+        Me.lblBOMStatus.FieldName = Nothing
+        Me.lblBOMStatus.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblBOMStatus.Location = New System.Drawing.Point(130, 17)
+        Me.lblBOMStatus.Name = "lblBOMStatus"
+        Me.lblBOMStatus.Size = New System.Drawing.Size(29, 16)
+        Me.lblBOMStatus.TabIndex = 292
+        Me.lblBOMStatus.Text = "Shift"
+        '
+        'cboShift
+        '
+        Me.cboShift.AutoCompleteDisplayMember = Nothing
+        Me.cboShift.AutoCompleteValueMember = Nothing
+        Me.cboShift.CalculationExpression = Nothing
+        Me.cboShift.DropDownAnimationEnabled = True
+        Me.cboShift.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.cboShift.FieldCode = Nothing
+        Me.cboShift.FieldDesc = Nothing
+        Me.cboShift.FieldMaxLength = 0
+        Me.cboShift.FieldName = Nothing
+        Me.cboShift.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.cboShift.isCalculatedField = False
+        Me.cboShift.IsSourceFromTable = False
+        Me.cboShift.IsSourceFromValueList = False
+        Me.cboShift.IsUnique = False
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem1)
+        Me.cboShift.Items.Add(RadListDataItem2)
+        Me.cboShift.Location = New System.Drawing.Point(164, 16)
+        Me.cboShift.MendatroryField = True
+        Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
+        Me.cboShift.MyLinkLable2 = Nothing
+        Me.cboShift.Name = "cboShift"
+        Me.cboShift.ReferenceFieldDesc = Nothing
+        Me.cboShift.ReferenceFieldName = Nothing
+        Me.cboShift.ReferenceTableName = Nothing
+        Me.cboShift.Size = New System.Drawing.Size(105, 18)
+        Me.cboShift.TabIndex = 291
+        '
+        'RadLabel4
+        '
+        Me.RadLabel4.FieldName = Nothing
+        Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel4.Location = New System.Drawing.Point(5, 17)
+        Me.RadLabel4.Name = "RadLabel4"
+        Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
+        Me.RadLabel4.TabIndex = 293
+        Me.RadLabel4.Text = "Date"
+        '
+        'txtDate
+        '
+        Me.txtDate.CalculationExpression = Nothing
+        Me.txtDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtDate.FieldCode = Nothing
+        Me.txtDate.FieldDesc = Nothing
+        Me.txtDate.FieldMaxLength = 0
+        Me.txtDate.FieldName = Nothing
+        Me.txtDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDate.isCalculatedField = False
+        Me.txtDate.IsSourceFromTable = False
+        Me.txtDate.IsSourceFromValueList = False
+        Me.txtDate.IsUnique = False
+        Me.txtDate.Location = New System.Drawing.Point(41, 16)
+        Me.txtDate.MendatroryField = True
+        Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.MyLinkLable1 = Me.RadLabel4
+        Me.txtDate.MyLinkLable2 = Nothing
+        Me.txtDate.Name = "txtDate"
+        Me.txtDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDate.ReferenceFieldDesc = Nothing
+        Me.txtDate.ReferenceFieldName = Nothing
+        Me.txtDate.ReferenceTableName = Nothing
+        Me.txtDate.Size = New System.Drawing.Size(83, 18)
+        Me.txtDate.TabIndex = 290
+        Me.txtDate.TabStop = False
+        Me.txtDate.Text = "13/06/2011"
+        Me.txtDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'RadButton3
+        '
+        Me.RadButton3.Location = New System.Drawing.Point(275, 15)
+        Me.RadButton3.Name = "RadButton3"
+        Me.RadButton3.Size = New System.Drawing.Size(55, 45)
+        Me.RadButton3.TabIndex = 289
+        Me.RadButton3.Text = "Generate SMS"
+        Me.RadButton3.TextWrap = True
         '
         'RadGroupBox1
         '
@@ -161,6 +323,15 @@ Partial Class frmSendBillToDCS
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.lblMCCCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBOMStatus, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -182,4 +353,12 @@ Partial Class frmSendBillToDCS
     Friend WithEvents btnSendBill As RadButton
     Friend WithEvents RadButton2 As RadButton
     Friend WithEvents btnClose As RadButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents RadButton3 As RadButton
+    Friend WithEvents lblBOMStatus As common.Controls.MyLabel
+    Friend WithEvents cboShift As common.Controls.MyComboBox
+    Friend WithEvents RadLabel4 As common.Controls.MyLabel
+    Friend WithEvents txtDate As common.Controls.MyDateTimePicker
+    Friend WithEvents lblMCCCode As common.Controls.MyLabel
+    Friend WithEvents fndMCCCode As common.UserControls.txtFinder
 End Class

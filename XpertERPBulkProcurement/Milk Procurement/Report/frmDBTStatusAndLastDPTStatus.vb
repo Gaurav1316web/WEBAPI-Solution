@@ -34,6 +34,8 @@ Public Class frmDBTStatusAndLastDPTStatus
                 Next
                 RadPageView1.SelectedPage = RadPageViewPage2
                 gvData.EnableFiltering = True
+                gvData.AllowAddNewRow = False
+                gvData.ShowGroupPanel = False
                 'SetGridFormat()
                 gvData.BestFitColumns()
             Else
@@ -62,59 +64,8 @@ Public Class frmDBTStatusAndLastDPTStatus
 
             Dim query As String
             gvData.DataSource = Nothing
-            If objCommonVar.RCDFCFP = True Then
-                query = "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo
-                ,TSPL_LOCATION_MASTER.location_code as [Location Code] ,TSPL_LOCATION_MASTER.Location_Desc AS [Location Name]
-                ,TSPL_LOCATION_MASTER.Loc_Short_Name as [Location]
-                ,convert(varchar, GRN.GRN_Date,103) AS [Last Gate In Date]
-                ,convert(varchar, WEIGHTMENT.Weighment_Date,103) as [Last Weighment Date]
-                ,convert(varchar,QC.Document_Date,103) as [Last QC Date]
-                ,convert(varchar,SRN.SRN_Date,103) as [Last SRN Date]
-                ,convert(varchar, PInvoice.PI_Date,103) as [Last Purchase Invoice Date]
-                ,convert(varchar, RECEIPT.Receipt_Date,103) as [Last Advance Receipt Date]
-                ,convert(varchar, SHIPMENT.Document_Date,103) as [Last Dispatch Date]
-                ,convert(varchar, SInvoice.Document_Date,103) as [Last Sale Bill Date]
-                ,convert(varchar, Production.PROD_DATE,103) as [Last Production Entry Date]
-                FROM TSPL_LOCATION_MASTER LEFT OUTER JOIN
-                (SELECT  max(TSPL_GRN_HEAD.GRN_Date) AS GRN_Date,TSPL_GRN_HEAD.Bill_To_Location FROM TSPL_GRN_HEAD
-                GROUP BY TSPL_GRN_HEAD.Bill_To_Location) GRN
-                ON TSPL_LOCATION_MASTER.LOCATION_CODE =GRN.Bill_To_Location
-                LEFT OUTER JOIN
-                (SELECT  max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date) AS Weighment_Date,TSPL_PO_WEIGHTMENT_HEAD.Location_code FROM TSPL_PO_WEIGHTMENT_HEAD where TSPL_PO_WEIGHTMENT_HEAD.Type='IN'
-                GROUP BY TSPL_PO_WEIGHTMENT_HEAD.Location_code) WEIGHTMENT
-                ON TSPL_LOCATION_MASTER.LOCATION_CODE =WEIGHTMENT.Location_code
-                LEFT OUTER JOIN
-                (SELECT  max(TSPL_QC_CHECK_HEAD.Document_Date) AS Document_Date,TSPL_QC_CHECK_HEAD.Bill_To_Location FROM TSPL_QC_CHECK_HEAD
-                GROUP BY TSPL_QC_CHECK_HEAD.Bill_To_Location) QC
-                ON TSPL_LOCATION_MASTER.LOCATION_CODE =QC.Bill_To_Location
-                LEFT OUTER JOIN
-                (SELECT  max(TSPL_SRN_HEAD.SRN_Date) AS SRN_Date,TSPL_SRN_HEAD.Bill_To_Location FROM TSPL_SRN_HEAD
-                GROUP BY TSPL_SRN_HEAD.Bill_To_Location) SRN
-                ON TSPL_LOCATION_MASTER.LOCATION_CODE =SRN.Bill_To_Location
-                LEFT OUTER JOIN
-                (SELECT  max(TSPL_PI_HEAD.PI_Date) AS PI_Date,TSPL_PI_HEAD.Bill_To_Location FROM TSPL_PI_HEAD
-                GROUP BY TSPL_PI_HEAD.Bill_To_Location) PInvoice
-                ON TSPL_LOCATION_MASTER.LOCATION_CODE =PInvoice.Bill_To_Location
-                 LEFT OUTER JOIN
-                (SELECT  max(TSPL_RECEIPT_HEADER.Receipt_Date) AS Receipt_Date,TSPL_RECEIPT_HEADER.Location_GL_Code FROM TSPL_RECEIPT_HEADER
-                GROUP BY TSPL_RECEIPT_HEADER.Location_GL_Code) RECEIPT
-                ON TSPL_LOCATION_MASTER.Loc_Segment_Code =RECEIPT.Location_GL_Code
-                LEFT OUTER JOIN
-                (SELECT  max(TSPL_SD_SHIPMENT_HEAD.Document_Date) AS Document_Date,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM TSPL_SD_SHIPMENT_HEAD
-                GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) SHIPMENT
-                ON TSPL_LOCATION_MASTER.LOCATION_CODE =SHIPMENT.Bill_To_Location
-                LEFT OUTER JOIN
-                (SELECT  max(tspl_sd_sale_invoice_head.Document_Date) AS Document_Date,tspl_sd_sale_invoice_head.Bill_To_Location FROM tspl_sd_sale_invoice_head
-                GROUP BY tspl_sd_sale_invoice_head.Bill_To_Location) SInvoice
-                ON TSPL_LOCATION_MASTER.LOCATION_CODE =SInvoice.Bill_To_Location
-                LEFT OUTER JOIN
-                (select max(TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE) as PROD_DATE,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY
-                group by TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE)Production
-                ON TSPL_LOCATION_MASTER.LOCATION_CODE =Production.LOCATION_CODE
-                where TSPL_LOCATION_MASTER.IsMainPlant='0'"
 
-
-            ElseIf rdbDBTStatus.Checked Then
+            If rdbDBTStatus.Checked Then
                 Dim dt1 As DataTable = clsDBFuncationality.GetDataTable("SELECT name FROM master.dbo.sysdatabases  WHERE name = 'TSPL_MASTER'")
                 If (dt1 Is Nothing OrElse dt1.Rows.Count <= 0) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Database[TSPL_MASTER] not found")
@@ -124,7 +75,7 @@ Public Class frmDBTStatusAndLastDPTStatus
                 Dim frmDate As String = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select convert(date,Start_Date, 103) from TSPL_Fiscal_Year_Master where Fiscal_Code='" + txtFinYr.Value + "'"))
                 Dim toDate As String = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select convert(date,End_Date, 103) from TSPL_Fiscal_Year_Master where Fiscal_Code='" + txtFinYr.Value + "'"))
 
-                Dim dtr As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','RAJSAMAND','BANSWARA') ORDER BY [TSPL_APP_LOCATION].Location_Name")
+                Dim dtr As DataTable = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
                 query = ""
                 Dim status As String = ""
                 If rbtnTransactionPosted.Checked Then

@@ -155,7 +155,9 @@ Public Class frmMilkSampleMCC
                 dtpDocDate.ReadOnly = True
                 cboShift.Enabled = False
             Else
-                Throw New Exception("No Milk Collected. No Sample can be Done.")
+                If Not viewMilkReceiptSample Then
+                    Throw New Exception("No Milk Collected. No Sample can be Done.")
+                End If
             End If
             SetDocKCollectionMilkType(fndMCCCode.Tag)
             txtCode.Value = clsMilkSampleMCC.GetDocCode(clsCommon.GetPrintDate(dtpDocDate.Value, "dd-MMM-yyyy"), fndMCCCode.Tag, cboShift.SelectedValue, Nothing, clsCommon.myCstr(cboDockCollectionMilkType.SelectedValue), "")

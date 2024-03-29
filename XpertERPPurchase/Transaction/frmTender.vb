@@ -531,9 +531,10 @@ Public Class frmTender
                             Dim whrCls As String = Nothing
                             Dim qry As String = "select Vendor_Code as Code,Vendor_Name as Name from TSPL_VENDOR_MASTER "
                             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RCDFCF") = CompairStringResult.Equal Then
-                                whrCls = " TSPL_VENDOR_MASTER.in_active_cf IS NULL OR TSPL_VENDOR_MASTER.in_active_cf = 'N'"
+                                whrCls = " TSPL_VENDOR_MASTER.in_active_cf IS NULL OR TSPL_VENDOR_MASTER.in_active_cf = 'N' and  TSPL_VENDOR_MASTER.Status='N'"
+                            Else
+                                whrCls = " TSPL_VENDOR_MASTER.Status='N' "
                             End If
-                            whrCls += " and  TSPL_VENDOR_MASTER.Status='N'"
 
                             gv1.CurrentRow.Cells(colVCode).Value = clsCommon.ShowSelectForm("TenVendorFndr", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colVCode).Value), "Code", False)
                             If clsCommon.myLen(gv1.CurrentRow.Cells(colVCode).Value) > 0 Then

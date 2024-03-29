@@ -32,6 +32,7 @@ Partial Class frmPurchaseInvoice
         Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -242,6 +243,8 @@ Partial Class frmPurchaseInvoice
         Me.SaveLayoutrb = New Telerik.WinControls.UI.RadMenuItem()
         Me.DeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.gvAPInvoice = New common.UserControls.MyRadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -445,6 +448,11 @@ Partial Class frmPurchaseInvoice
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer3.Panel1.SuspendLayout()
+        Me.SplitContainer3.Panel2.SuspendLayout()
+        Me.SplitContainer3.SuspendLayout()
+        CType(Me.gvAPInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvAPInvoice.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -2299,9 +2307,9 @@ Partial Class frmPurchaseInvoice
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(953, 438)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(953, 442)
         Me.RadPageViewPage2.Text = "Taxes"
         '
         'chkExciseOnQty
@@ -2398,7 +2406,7 @@ Partial Class frmPurchaseInvoice
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(795, 334)
+        Me.RadLabel10.Location = New System.Drawing.Point(795, 338)
         Me.RadLabel10.Name = "RadLabel10"
         Me.RadLabel10.Size = New System.Drawing.Size(155, 16)
         Me.RadLabel10.TabIndex = 6
@@ -2418,7 +2426,7 @@ Partial Class frmPurchaseInvoice
         Me.RadGroupBox1.Controls.Add(Me.lblTermName)
         Me.RadGroupBox1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox1.HeaderText = "Terms"
-        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 347)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(1, 351)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(953, 87)
@@ -2573,7 +2581,7 @@ Partial Class frmPurchaseInvoice
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
-        Me.gv2.Size = New System.Drawing.Size(948, 296)
+        Me.gv2.Size = New System.Drawing.Size(948, 300)
         Me.gv2.TabIndex = 4
         Me.gv2.TabStop = False
         '
@@ -2581,9 +2589,9 @@ Partial Class frmPurchaseInvoice
         '
         Me.RadPageViewPage3.Controls.Add(Me.SplitContainer2)
         Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(112.0!, 26.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(953, 438)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(953, 442)
         Me.RadPageViewPage3.Text = "Additional Charges"
         '
         'SplitContainer2
@@ -2599,7 +2607,7 @@ Partial Class frmPurchaseInvoice
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.GroupBox4)
-        Me.SplitContainer2.Size = New System.Drawing.Size(953, 438)
+        Me.SplitContainer2.Size = New System.Drawing.Size(953, 442)
         Me.SplitContainer2.SplitterDistance = 608
         Me.SplitContainer2.TabIndex = 1
         '
@@ -2610,7 +2618,7 @@ Partial Class frmPurchaseInvoice
         Me.GroupBox2.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox2.Name = "GroupBox2"
-        Me.GroupBox2.Size = New System.Drawing.Size(608, 438)
+        Me.GroupBox2.Size = New System.Drawing.Size(608, 442)
         Me.GroupBox2.TabIndex = 0
         Me.GroupBox2.TabStop = False
         Me.GroupBox2.Text = "Additional Charges"
@@ -2636,7 +2644,7 @@ Partial Class frmPurchaseInvoice
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
         Me.gvAC.ShowHeaderCellButtons = True
-        Me.gvAC.Size = New System.Drawing.Size(602, 393)
+        Me.gvAC.Size = New System.Drawing.Size(602, 397)
         Me.gvAC.TabIndex = 0
         Me.gvAC.TabStop = False
         '
@@ -2645,7 +2653,7 @@ Partial Class frmPurchaseInvoice
         Me.Panel2.Controls.Add(Me.RadLabel31)
         Me.Panel2.Controls.Add(Me.lblAddCharges)
         Me.Panel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Panel2.Location = New System.Drawing.Point(3, 409)
+        Me.Panel2.Location = New System.Drawing.Point(3, 413)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(602, 26)
         Me.Panel2.TabIndex = 0
@@ -2681,7 +2689,7 @@ Partial Class frmPurchaseInvoice
         Me.GroupBox4.Dock = System.Windows.Forms.DockStyle.Fill
         Me.GroupBox4.Location = New System.Drawing.Point(0, 0)
         Me.GroupBox4.Name = "GroupBox4"
-        Me.GroupBox4.Size = New System.Drawing.Size(341, 438)
+        Me.GroupBox4.Size = New System.Drawing.Size(341, 442)
         Me.GroupBox4.TabIndex = 5
         Me.GroupBox4.TabStop = False
         Me.GroupBox4.Text = "Additional Charges For Insurance"
@@ -2707,7 +2715,7 @@ Partial Class frmPurchaseInvoice
         Me.gvACInsurance.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvACInsurance.ShowGroupPanel = False
         Me.gvACInsurance.ShowHeaderCellButtons = True
-        Me.gvACInsurance.Size = New System.Drawing.Size(335, 392)
+        Me.gvACInsurance.Size = New System.Drawing.Size(335, 396)
         Me.gvACInsurance.TabIndex = 3
         Me.gvACInsurance.TabStop = False
         '
@@ -2716,7 +2724,7 @@ Partial Class frmPurchaseInvoice
         Me.RadPanel2.Controls.Add(Me.MyLabel56)
         Me.RadPanel2.Controls.Add(Me.lblAddChargesForInsurance)
         Me.RadPanel2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.RadPanel2.Location = New System.Drawing.Point(3, 408)
+        Me.RadPanel2.Location = New System.Drawing.Point(3, 412)
         Me.RadPanel2.Name = "RadPanel2"
         Me.RadPanel2.Size = New System.Drawing.Size(335, 27)
         Me.RadPanel2.TabIndex = 2
@@ -3385,7 +3393,7 @@ Partial Class frmPurchaseInvoice
         '
         'TabDedDetail
         '
-        Me.TabDedDetail.Controls.Add(Me.gvDeduction)
+        Me.TabDedDetail.Controls.Add(Me.SplitContainer3)
         Me.TabDedDetail.ItemSize = New System.Drawing.SizeF(99.0!, 26.0!)
         Me.TabDedDetail.Location = New System.Drawing.Point(10, 35)
         Me.TabDedDetail.Name = "TabDedDetail"
@@ -3413,7 +3421,7 @@ Partial Class frmPurchaseInvoice
         Me.gvDeduction.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvDeduction.ShowGroupPanel = False
         Me.gvDeduction.ShowHeaderCellButtons = True
-        Me.gvDeduction.Size = New System.Drawing.Size(953, 438)
+        Me.gvDeduction.Size = New System.Drawing.Size(953, 219)
         Me.gvDeduction.TabIndex = 1
         Me.gvDeduction.TabStop = False
         '
@@ -3589,6 +3597,49 @@ Partial Class frmPurchaseInvoice
         '
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Email/SMS Setting"
+        '
+        'SplitContainer3
+        '
+        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer3.Name = "SplitContainer3"
+        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer3.Panel1
+        '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.gvDeduction)
+        '
+        'SplitContainer3.Panel2
+        '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.gvAPInvoice)
+        Me.SplitContainer3.Size = New System.Drawing.Size(953, 438)
+        Me.SplitContainer3.SplitterDistance = 219
+        Me.SplitContainer3.TabIndex = 2
+        '
+        'gvAPInvoice
+        '
+        Me.gvAPInvoice.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvAPInvoice.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvAPInvoice.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvAPInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvAPInvoice.ForeColor = System.Drawing.Color.Black
+        Me.gvAPInvoice.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvAPInvoice.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvAPInvoice.MasterTemplate.AllowDeleteRow = False
+        Me.gvAPInvoice.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvAPInvoice.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAPInvoice.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvAPInvoice.MyStopExport = False
+        Me.gvAPInvoice.Name = "gvAPInvoice"
+        Me.gvAPInvoice.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvAPInvoice.ShowGroupPanel = False
+        Me.gvAPInvoice.ShowHeaderCellButtons = True
+        Me.gvAPInvoice.Size = New System.Drawing.Size(953, 215)
+        Me.gvAPInvoice.TabIndex = 2
+        Me.gvAPInvoice.TabStop = False
         '
         'frmPurchaseInvoice
         '
@@ -3820,6 +3871,11 @@ Partial Class frmPurchaseInvoice
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer3.Panel1.ResumeLayout(False)
+        Me.SplitContainer3.Panel2.ResumeLayout(False)
+        Me.SplitContainer3.ResumeLayout(False)
+        CType(Me.gvAPInvoice.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvAPInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -4035,5 +4091,7 @@ Partial Class frmPurchaseInvoice
     Friend WithEvents chkTDSProvision As common.Controls.MyCheckBox
     Friend WithEvents MyLabel62 As common.Controls.MyLabel
     Friend WithEvents TxtRetention As common.Controls.MyTextBox
+    Friend WithEvents SplitContainer3 As SplitContainer
+    Friend WithEvents gvAPInvoice As common.UserControls.MyRadGridView
 End Class
 
