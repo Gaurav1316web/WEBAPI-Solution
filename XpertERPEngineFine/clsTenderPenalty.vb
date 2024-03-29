@@ -222,7 +222,7 @@ where exists(select 1 from TSPL_TENDER_PENALTY as TabCurr where TabCurr.Document
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 End If
                 If ApplyRALPenalty Then
-                    qry = "delete From TSPL_SRN_TENDER  Where SRN_No in  (" + clsCommon.GetMulcallString(ArrSRNNo) + ") and Item_Code='" + strICode + "'"
+                    qry = "delete From TSPL_SRN_TENDER_CALC  Where SRN_No in  (" + clsCommon.GetMulcallString(ArrSRNNo) + ") and Item_Code='" + strICode + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 End If
             End If

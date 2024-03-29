@@ -245,13 +245,13 @@ from (" + BaseQry2 + ") Final LEFT OUTER JOIN tspl_BankReco_Detail on final.DocN
  LEFT OUTER JOIN TSPL_GL_ACCOUNTS GL2 ON ISNULL(GL2.Account_Code,'') = ISNULL(TSPL_CUSTOMER_ACCOUNT_SET.Receivable_Control_acct  ,'')
  where  CONVERT(DATE,final.DocDate,103) >=  convert(date,'" & txtDate.Value & "',103) and   CONVERT(DATE,final.DocDate,103) <=  convert(date,'" & txtDate.Value & "',103) AND LEN(ACode)>0 and Location in ('AJM','BIK','JOD','LAM','NAD','PAL')     AND TSPL_CUSTOMER_MASTER.Status='N'  GROUP By ACode, DocNo,Location,DocType  
  ) XXX    
- ) " & Environment.NewLine & "SELECT *,  ISNULL([AJMR], 0) + ISNULL([BIKR], 0) + ISNULL([JODH], 0) + ISNULL([NADB], 0) + ISNULL([LAMB], 0) + ISNULL([PALI], 0) AS Total FROM ( SELECT '" + txtDate.Value + "' as Date,'" + compname + "' as CompanyName,'" + CompanyAdd + "' as CompanyAddress,TSPL_LOCATION_MASTER.Location_Code, TSPL_CUSTOMER_MASTER.Remarks1 As [Name Of Milk Unions], Round((SUM(isnull( convert(decimal(18,2),DrAmt),0)-  isnull(convert(decimal(18,2),CrAmt),0)))/100000,2) AS AMT
+ ) " & Environment.NewLine & "SELECT *,  ISNULL([AJMR], 0) + ISNULL([BIKR], 0) + ISNULL([JODH], 0) + ISNULL([NADB], 0) + ISNULL([LAMB], 0) + ISNULL([PALI], 0) AS Total FROM ( SELECT '" + txtDate.Value + "' as Date,'" + compname + "' as CompanyName,'" + CompanyAdd + "' as CompanyAddress,TSPL_LOCATION_MASTER.Location_Code, TSPL_CUSTOMER_MASTER.Cust_Type_Code As [Name Of Milk Unions], Round((SUM(isnull( convert(decimal(18,2),DrAmt),0)-  isnull(convert(decimal(18,2),CrAmt),0)))/100000,2) AS AMT
 FROM   TSPL_CUSTOMER_MASTER
 LEFT OUTER JOIN CTETemp tc ON TSPL_CUSTOMER_MASTER.Cust_Code = tc.ACode
 LEFT OUTER JOIN TSPL_CUSTOMER_LOCATION_MAPPING LM ON TSPL_CUSTOMER_MASTER.Cust_Code = LM.Customer_Code
 LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = LM.Location_Code
-WHERE  TSPL_CUSTOMER_MASTER.Remarks1 <> ''
-GROUP BY  TSPL_LOCATION_MASTER.Location_Code,TSPL_CUSTOMER_MASTER.Remarks1
+WHERE  TSPL_CUSTOMER_MASTER.Cust_Type_Code <> ''
+GROUP BY  TSPL_LOCATION_MASTER.Location_Code,TSPL_CUSTOMER_MASTER.Cust_Type_Code
 ) AS aa
 PIVOT ( SUM(AMT)  FOR Location_Code IN ([AJMR], [BIKR], [JODH], [NADB], [LAMB], [PALI])) AS pivoted_table"
 

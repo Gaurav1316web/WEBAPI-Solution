@@ -29424,6 +29424,11 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Security_TotalAmt", "decimal(18,2) null")
             coll.Add("Supply_Date", "Date NULL")
             coll.Add("FILE_INFO", "bigint NULL")
+            coll.Add("FAT_Per", "decimal(18,2) null")
+            coll.Add("SNF_Per", "decimal(18,2) null")
+            coll.Add("Acidity", "decimal(18,2) null")
+            coll.Add("Temperature", "decimal(18,2) null")
+            coll.Add("MBRT_Hours", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_HEAD alter column Insurance varchar(30)")
@@ -53395,8 +53400,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-            coll.Add("Against_TenderNo", "varchar(50) not null References TSPL_TENDER_HEADER(DocumentCode)")
-            coll.Add("Against_Tender_Schedule_PK_Id", "integer NOT NULL References TSPL_TENDER_SCHEDULE(PK_Id)")
+            coll.Add("Against_TenderNo", "varchar(50) null References TSPL_TENDER_HEADER(DocumentCode)")
+            coll.Add("Against_Tender_Schedule_PK_Id", "integer NULL References TSPL_TENDER_SCHEDULE(PK_Id)")
             coll.Add("SRN_No", "Varchar(30) not null references TSPL_SRN_HEAD(SRN_No)")
             coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Qty", "DECIMAL(18,2) NULL")
@@ -53406,11 +53411,27 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Against_Tender_Schedule_PK_Id_PO", "integer NULL References TSPL_TENDER_SCHEDULE_PO(PK_Id)")
             coll.Add("Against_Tender_Schedule_Penalty_PK_Id_PO", "integer NULL References TSPL_TENDER_SCHEDULE_PENALTY_PO(PK_Id)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_TENDER", coll, Nothing, False, False, "TSPL_SRN_HEAD", "SRN_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_TENDER_CALC", coll, Nothing, False, False, "TSPL_SRN_HEAD", "SRN_No", "")
 
-            qry = "alter table TSPL_SRN_TENDER alter column Against_Tender_Schedule_PK_Id integer NULL "
-            clsDBFuncationality.ExecuteNonQuery(qry)
-            qry = "alter table TSPL_SRN_TENDER alter column Against_TenderNo varchar(50) null "
-            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "select 1 from TSPL_SRN_TENDER_CALC"
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Dim trans As SqlClient.SqlTransaction = clsDBFuncationality.GetTransactin
+                Try
+                    qry = "insert into TSPL_SRN_TENDER_CALC(Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Against_Tender_Schedule_Penalty_PK_Id,Penalty,Against_PO,Against_Tender_Schedule_PK_Id_PO,Against_Tender_Schedule_Penalty_PK_Id_PO) 
+select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Against_Tender_Schedule_Penalty_PK_Id,Penalty,Against_PO,Against_Tender_Schedule_PK_Id_PO,Against_Tender_Schedule_Penalty_PK_Id_PO
+ from TSPL_SRN_TENDER where not exists (select 1 from TSPL_PI_DETAIL where TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_TENDER.SRN_No)"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "delete from TSPL_SRN_TENDER where not exists (select 1 from TSPL_PI_DETAIL where TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_TENDER.SRN_No)"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    trans.Commit()
+                Catch ex As Exception
+                    trans.Rollback()
+                    clsCommon.MyMessageBoxShow(ex.Message)
+                End Try
+            End If
 
 
             coll = New Dictionary(Of String, String)()

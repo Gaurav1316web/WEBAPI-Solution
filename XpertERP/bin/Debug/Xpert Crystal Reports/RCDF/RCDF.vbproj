@@ -338,7 +338,9 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptGatePassEntry.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptNonTaxableInvoiceBKN.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptProductDeliveryOrderReport.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptProductSaleNonTaxableChallan.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptProductSaleOrderReport.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptProductSaleTaxableChallan.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleReturn.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
@@ -632,6 +634,7 @@
     <None Include="Crystal Reports GST\Purchase Order\rptRGPForAll.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptRGPNew.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptRGPWiseJobWork.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\rptSJV-V.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptSRNCustom%28090312%29.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptSRNCustom.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\rptSRNCustomReport.rpt" />
@@ -1247,6 +1250,8 @@
     <None Include="Crystal Reports\Inventory Report\transferpreprintedLOoldfrt.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferPreprintedLORoute.rpt" />
     <None Include="Crystal Reports\Inventory Report\TransferPreprintedLORouteTAX.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptBookingNonTaxableChallan.rpt" />
+    <None Include="Crystal Reports\Kwality Sales Report\crptBookingTaxableChallan.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptBulkSaleInvAndDispatchJV.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptInvoiceDetail.rpt" />
     <None Include="Crystal Reports\Kwality Sales Report\crptDairySaleGatePassEntriesTNK.rpt" />
