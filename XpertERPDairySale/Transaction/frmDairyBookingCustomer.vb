@@ -383,19 +383,19 @@ Public Class frmDairyBookingCustomer
         custname = txtVendorNo.Value
         txtLocation.Value = txtloc
         btnGatepass.Enabled = False
-        CreateTable()
+        'CreateTable()
     End Sub
 
-    Sub CreateTable()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("FAT_Per", "decimal(18,2) null")
-        coll.Add("SNF_Per", "decimal(18,2) null")
-        coll.Add("Acidity", "decimal(18,2) null")
-        coll.Add("Temperature", "decimal(18,2) null")
-        coll.Add("MBRT_Hours", "decimal(18,2) null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, Nothing, True, True, "", "Document_No", "Document_Date")
-    End Sub
+    'Sub CreateTable()
+    '    Dim coll As Dictionary(Of String, String)
+    '    coll = New Dictionary(Of String, String)()
+    '    coll.Add("FAT_Per", "decimal(18,2) null")
+    '    coll.Add("SNF_Per", "decimal(18,2) null")
+    '    coll.Add("Acidity", "decimal(18,2) null")
+    '    coll.Add("Temperature", "decimal(18,2) null")
+    '    coll.Add("MBRT_Hours", "decimal(18,2) null")
+    '    clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, Nothing, True, True, "", "Document_No", "Document_Date")
+    'End Sub
     Sub BlankAllControls()
         'VendorCodeForChangeIndent = ""
         txtBOstatus.Text = ""

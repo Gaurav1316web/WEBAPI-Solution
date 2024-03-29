@@ -22,10 +22,13 @@ Partial Class RptRouteSaleRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.btnBoth = New Telerik.WinControls.UI.RadRadioButton()
+        Me.btnproduct = New Telerik.WinControls.UI.RadRadioButton()
+        Me.rbtnmilk = New Telerik.WinControls.UI.RadRadioButton()
         Me.lblLocation = New common.Controls.MyLabel()
         Me.txtRoute = New common.UserControls.txtMultiSelectFinder()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
@@ -48,6 +51,9 @@ Partial Class RptRouteSaleRegister
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.btnBoth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnproduct, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnmilk, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox3.SuspendLayout()
@@ -102,6 +108,9 @@ Partial Class RptRouteSaleRegister
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.btnBoth)
+        Me.RadPageViewPage1.Controls.Add(Me.btnproduct)
+        Me.RadPageViewPage1.Controls.Add(Me.rbtnmilk)
         Me.RadPageViewPage1.Controls.Add(Me.lblLocation)
         Me.RadPageViewPage1.Controls.Add(Me.txtRoute)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox3)
@@ -110,6 +119,40 @@ Partial Class RptRouteSaleRegister
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(817, 368)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'btnBoth
+        '
+        Me.btnBoth.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.btnBoth.Location = New System.Drawing.Point(605, 22)
+        Me.btnBoth.Name = "btnBoth"
+        Me.btnBoth.Size = New System.Drawing.Size(44, 18)
+        Me.btnBoth.TabIndex = 412
+        Me.btnBoth.TabStop = False
+        Me.btnBoth.Text = "Both"
+        Me.btnBoth.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        Me.btnBoth.Visible = False
+        '
+        'btnproduct
+        '
+        Me.btnproduct.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.btnproduct.Location = New System.Drawing.Point(515, 22)
+        Me.btnproduct.Name = "btnproduct"
+        Me.btnproduct.Size = New System.Drawing.Size(59, 18)
+        Me.btnproduct.TabIndex = 411
+        Me.btnproduct.TabStop = False
+        Me.btnproduct.Text = "Product"
+        Me.btnproduct.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnmilk
+        '
+        Me.rbtnmilk.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnmilk.Location = New System.Drawing.Point(431, 22)
+        Me.rbtnmilk.Name = "rbtnmilk"
+        Me.rbtnmilk.Size = New System.Drawing.Size(41, 18)
+        Me.rbtnmilk.TabIndex = 410
+        Me.rbtnmilk.TabStop = False
+        Me.rbtnmilk.Text = "Milk"
+        Me.rbtnmilk.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'lblLocation
         '
@@ -218,7 +261,7 @@ Partial Class RptRouteSaleRegister
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -307,6 +350,9 @@ Partial Class RptRouteSaleRegister
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.btnBoth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnproduct, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnmilk, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
@@ -347,5 +393,8 @@ Partial Class RptRouteSaleRegister
     Friend WithEvents rmiPDF As RadMenuItem
     Friend WithEvents txtRoute As common.UserControls.txtMultiSelectFinder
     Friend WithEvents lblLocation As common.Controls.MyLabel
+    Friend WithEvents btnBoth As RadRadioButton
+    Friend WithEvents btnproduct As RadRadioButton
+    Friend WithEvents rbtnmilk As RadRadioButton
 End Class
 

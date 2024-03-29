@@ -8280,6 +8280,11 @@ Public Class clsCreateAllTable
             coll.Add("RoundOffAmount", "decimal(18,2)  null ")
             coll.Add("Sub_Location_code", "varchar(12) NULL")
             coll.Add("Trip_No", "integer null")
+            coll.Add("FAT_Per", "decimal(18,2) null")
+            coll.Add("SNF_Per", "decimal(18,2) null")
+            coll.Add("Acidity", "decimal(18,2) null")
+            coll.Add("Temperature", "decimal(18,2) null")
+            coll.Add("MBRT_Hours", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
@@ -15098,6 +15103,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("University_Address", "VARCHAR(100) NULL")
             coll.Add("University_Website", "VARCHAR(100) NULL")
+            coll.Add("DOCUMENT_FILE", "Image null ")
+            coll.Add("DocName", "VARCHAR(100) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_QUALIFICATION", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)()
@@ -26320,6 +26327,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("pieces", "integer not null default 0")
             coll.Add("Item_Cost", "Decimal(18,2) null")
             coll.Add("Custom_Conversion", "integer not null default 0")
+            coll.Add("Print_UOM", "integer  null default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
 
 

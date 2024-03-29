@@ -81,7 +81,10 @@ Public Class frmEmployee_Master
     Const colQualVerification_Done As String = "colQualVerification_Done"
     Const colUniversity_Address As String = "colUniversity_Address"
     Const colUniversity_Website As String = "colUniversity_Website"
-
+    Const colQuliFileName As String = "colQuliFileName"
+    Const colQuliBrowse As String = "colQuliBrowse"
+    Const colQuliOpen As String = "colQuliOpen"
+    Const colQuliPath As String = "colQuliPath"
 #End Region
 
 #Region "Emp Doc"
@@ -154,7 +157,17 @@ Public Class frmEmployee_Master
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
         AddNew()
+        'CreateTable()
     End Sub
+
+
+    'Sub CreateTable()
+    '    Dim coll As Dictionary(Of String, String)
+    '    coll = New Dictionary(Of String, String)()
+    '    coll.Add("DOCUMENT_FILE", "Image null ")
+    '    coll.Add("DocName", "VARCHAR(100) NULL")
+    '    clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_QUALIFICATION", coll, Nothing, False, False)
+    'End Sub
 
     Public Function GetGender() As DataTable
         Dim dt As New DataTable()
@@ -562,6 +575,17 @@ Public Class frmEmployee_Master
                                 objExTr.VERIFICATION_DONE = IIf(clsCommon.myCBool(grow.Cells(colQualVerification_Done).Value), "Y", "N")
                                 objExTr.University_Address = clsCommon.myCstr(grow.Cells(colUniversity_Address).Value)
                                 objExTr.University_Website = clsCommon.myCstr(grow.Cells(colUniversity_Website).Value)
+
+                                objExTr.DocName = System.IO.Path.GetFileName(grow.Cells(colQuliBrowse).Value)
+                                If clsCommon.myLen(grow.Cells(colQuliBrowse).Value) > 0 Then
+                                    Dim bData As Byte()
+                                    Dim br As BinaryReader = New BinaryReader(System.IO.File.OpenRead(grow.Cells(colQuliBrowse).Value))
+                                    bData = br.ReadBytes(br.BaseStream.Length)
+                                    objExTr.DOCUMENT_FILE = bData
+                                    br.Close() ' done by stuti reagrding memory leakage
+                                Else
+                                    objExTr.DOCUMENT_FILE = grow.Cells(colQuliOpen).Tag
+                                End If
                                 obj.ObjListEmpQualiDetails.Add(objExTr)
                             End If
                         Next
@@ -924,6 +948,8 @@ Public Class frmEmployee_Master
 
                     gvEmpQuli.Rows(gvEmpQuli.Rows.Count - 1).Cells(colUniversity_Address).Value = objQualiTr.University_Address
                     gvEmpQuli.Rows(gvEmpQuli.Rows.Count - 1).Cells(colUniversity_Website).Value = objQualiTr.University_Website
+                    gvEmpQuli.Rows(gvEmpQuli.Rows.Count - 1).Cells(colQuliFileName).Value = objQualiTr.DocName
+                    gvEmpQuli.Rows(gvEmpQuli.Rows.Count - 1).Cells(colQuliOpen).Tag = objQualiTr.DOCUMENT_FILE
                 Next
             End If
 
@@ -1804,6 +1830,50 @@ Public Class frmEmployee_Master
 
         End Try
     End Sub
+
+
+    Private Sub btnShowQuli_Click(ByVal Doc_Code As String, ByVal LineNo As Integer)
+        If clsCommon.CompairString(Doc_Code, "") = CompairStringResult.Equal And clsCommon.CompairString(LineNo, "") = CompairStringResult.Equal Then
+            clsCommon.MyMessageBoxShow(Me, "No document attached.", Me.Text)
+            Exit Sub
+        End If
+        Dim ds_attachment As DataTable
+        Dim filename As String = ""
+        Dim file_path As String = ""
+        Dim file_extn As String = ""
+
+        Try
+            If LineNo > 0 Then
+                ds_attachment = New DataTable
+                ds_attachment = clsEmpDocuments.GetQuliDoc(txtCode.Value, LineNo)
+                filename = clsCommon.myCstr(ds_attachment.Rows(0)("DocName"))
+                Dim blob As Byte() = ds_attachment.Rows(0)("DOCUMENT_FILE")
+                file_path = Application.StartupPath '"C:\ERPTempFolder"
+                Dim dir As DirectoryInfo = New DirectoryInfo(file_path)
+
+                If dir.Exists = False Then
+                    dir.Create()
+                End If
+                Dim index As Int16 = filename.LastIndexOf(".")
+                file_extn = filename.Substring(index)
+                filename = filename.Remove(index)
+                filename += (clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MM/yy hh:mm:ss")).ToString()
+                filename = filename.Replace(" ", "")
+                filename = filename.Replace("/", "_")
+                filename = filename.Replace(":", "_")
+                Dim fs As FileStream = File.Create(file_path + "\\" + filename + file_extn)
+                fs.Write(blob, 0, blob.Length)
+                fs.Close()
+                System.Diagnostics.Process.Start(file_path + "\\" + filename + file_extn)
+            Else
+                System.Diagnostics.Process.Start(LineNo)
+            End If
+
+        Catch ex As Exception
+
+        End Try
+    End Sub
+
 
     'Private Sub gvEmpDoc_DoubleClick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles gvEmpDoc.DoubleClick
     '    btnShowDoc_Click(gvEmpDoc.CurrentRow.Cells(colDocCode).Value, gvEmpDoc.CurrentRow.Cells(colDocBrowse).Value)
@@ -4034,6 +4104,39 @@ Public Class frmEmployee_Master
         University_Website.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         gvEmpQuli.Columns.Add(University_Website)
 
+        Dim QuliFileName As New GridViewTextBoxColumn()
+        QuliFileName.FormatString = ""
+        QuliFileName.HeaderText = "File Name"
+        QuliFileName.Name = colQuliFileName
+        QuliFileName.Width = 80
+        QuliFileName.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvEmpQuli.Columns.Add(QuliFileName)
+
+        Dim QuliBrowse As New GridViewBrowseColumn
+        QuliBrowse.FormatString = ""
+        QuliBrowse.HeaderText = "Browse"
+        QuliBrowse.Name = colQuliBrowse
+        QuliBrowse.Width = 80
+        QuliBrowse.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvEmpQuli.Columns.Add(QuliBrowse)
+
+        Dim QuliOpen As New GridViewCommandColumn
+        QuliOpen.FormatString = ""
+        QuliOpen.HeaderText = "Open"
+        QuliOpen.Name = colQuliOpen
+        QuliOpen.Width = 100
+        QuliOpen.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        gvEmpQuli.Columns.Add(QuliOpen)
+
+        Dim QuliPath As New GridViewTextBoxColumn()
+        QuliPath.FormatString = ""
+        QuliPath.HeaderText = "Path"
+        QuliPath.Name = colQuliPath
+        QuliPath.Width = 10
+        QuliPath.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+        QuliPath.IsVisible = False
+        gvEmpQuli.Columns.Add(QuliPath)
+
     End Sub
 
     Private Sub gvEmpQuli_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvEmpQuli.CellValueChanged
@@ -4319,7 +4422,11 @@ Public Class frmEmployee_Master
         fndcity.Value = clsCityMaster.getFinder("", fndcity.Value, isButtonClicked)
     End Sub
 
-    Private Sub MyLabel42_Click(sender As Object, e As EventArgs) Handles MyLabel42.Click
-
+    Private Sub gvEmpQuli_CommandCellClick(sender As Object, e As GridViewCellEventArgs) Handles gvEmpQuli.CommandCellClick
+        Try
+            btnShowQuli_Click(gvEmpQuli.CurrentRow.Cells(colQuliCourseCode).Value, gvEmpQuli.CurrentRow.Cells(colQuliLineNo).Value)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
