@@ -26325,6 +26325,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("pieces", "integer not null default 0")
             coll.Add("Item_Cost", "Decimal(18,2) null")
             coll.Add("Custom_Conversion", "integer not null default 0")
+            coll.Add("Print_UOM", "integer  null default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
 
 
