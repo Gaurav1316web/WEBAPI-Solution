@@ -6416,7 +6416,7 @@ Public Class frmCustomer
                     For Each grow As GridViewRowInfo In gv.Rows
                         Dim strCustCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"))
                         If clsCommon.CompairString(strCustCode, clsCommon.myCstr(grow.Cells("Display_Seq").Value)) = CompairStringResult.Equal Then
-                            Dim StrQry As String = " update TSPL_CUSTOMER_MASTER set Display_Seq='" + clsCommon.myCstr(grow.Cells("Display_Seq").Value) + "' where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "''"
+                            Dim StrQry As String = " update TSPL_CUSTOMER_MASTER set Display_Seq='" + clsCommon.myCstr(grow.Cells("Display_Seq").Value) + "' where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"
                             clsDBFuncationality.ExecuteNonQuery(StrQry)
                         End If
 
