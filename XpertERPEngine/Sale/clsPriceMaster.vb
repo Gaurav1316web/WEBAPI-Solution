@@ -137,6 +137,7 @@ Public Class clsPriceMaster
     Public CurrentDate As String = clsCommon.GetPrintDate(DateTime.Now, "dd/MMM/yyyy")
     Public Form_ID As String = ""
     Public Is_Active As Integer = 0
+    Public Is_For_Price As Integer = 0
     Public IsNewEntry As Boolean = False
     Public Stock_Price_Id As String = ""
     '=================added by preeti gupta===========
@@ -308,6 +309,7 @@ Public Class clsPriceMaster
                 clsCommon.AddColumnsForChange(coll, "Item_Basic_Price", obj.Item_Basic_Price)
                 'clsCommon.AddColumnsForChange(coll, "Item_Selling_Price", obj.Item_Basic_Net + obj.TAX1_Amt + obj.TAX2_Amt + obj.TAX3_Amt + obj.TAX4_Amt + obj.TAX5_Amt + obj.TAX6_Amt + obj.TAX7_Amt + obj.TAX8_Amt + obj.TAX9_Amt + obj.TAX10_Amt
                 clsCommon.AddColumnsForChange(coll, "Is_Active", obj.Is_Active)
+                clsCommon.AddColumnsForChange(coll, "Is_For_Price", obj.Is_For_Price)
                 clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Modify_Date", obj.CurrentDate)
                 clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)

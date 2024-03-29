@@ -22,8 +22,10 @@ Partial Class frmPriceMasterPlan
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.chkForPrice = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblPricePlanCopyNo = New common.Controls.MyLabel()
         Me.MyLabel3 = New common.Controls.MyLabel()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -49,6 +51,7 @@ Partial Class frmPriceMasterPlan
         Me.rbtnBackCalculationWithoutTax = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnBackCalculationWithTax = New Telerik.WinControls.UI.RadRadioButton()
         Me.gv1 = New common.UserControls.MyRadGridView()
+        Me.BtnHistory = New Telerik.WinControls.UI.RadButton()
         Me.RadLabel12 = New common.Controls.MyLabel()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
@@ -61,13 +64,13 @@ Partial Class frmPriceMasterPlan
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.BtnHistory = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.chkForPrice, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPricePlanCopyNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -91,13 +94,13 @@ Partial Class frmPriceMasterPlan
         CType(Me.rbtnBackCalculationWithTax, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -139,6 +142,7 @@ Partial Class frmPriceMasterPlan
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.chkForPrice)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblPricePlanCopyNo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel3)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel2)
@@ -169,6 +173,16 @@ Partial Class frmPriceMasterPlan
         Me.SplitContainer2.SplitterDistance = 118
         Me.SplitContainer2.TabIndex = 0
         '
+        'chkForPrice
+        '
+        Me.chkForPrice.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.chkForPrice.Location = New System.Drawing.Point(598, 24)
+        Me.chkForPrice.Name = "chkForPrice"
+        Me.chkForPrice.Size = New System.Drawing.Size(68, 18)
+        Me.chkForPrice.TabIndex = 3
+        Me.chkForPrice.Text = "FOR Price"
+        Me.chkForPrice.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
         'lblPricePlanCopyNo
         '
         Me.lblPricePlanCopyNo.AutoSize = False
@@ -179,7 +193,6 @@ Partial Class frmPriceMasterPlan
         Me.lblPricePlanCopyNo.Name = "lblPricePlanCopyNo"
         Me.lblPricePlanCopyNo.Size = New System.Drawing.Size(185, 18)
         Me.lblPricePlanCopyNo.TabIndex = 18
-        Me.lblPricePlanCopyNo.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblPricePlanCopyNo.TextWrap = False
         '
         'MyLabel3
@@ -238,7 +251,7 @@ Partial Class frmPriceMasterPlan
         Me.fndPricePlanCopy.IsSourceFromTable = False
         Me.fndPricePlanCopy.IsSourceFromValueList = False
         Me.fndPricePlanCopy.IsUnique = False
-        Me.fndPricePlanCopy.Location = New System.Drawing.Point(695, 25)
+        Me.fndPricePlanCopy.Location = New System.Drawing.Point(764, 25)
         Me.fndPricePlanCopy.MendatroryField = True
         Me.fndPricePlanCopy.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndPricePlanCopy.MyLinkLable1 = Me.lblPricePlanCopy
@@ -257,7 +270,7 @@ Partial Class frmPriceMasterPlan
         '
         Me.lblPricePlanCopy.FieldName = Nothing
         Me.lblPricePlanCopy.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPricePlanCopy.Location = New System.Drawing.Point(601, 26)
+        Me.lblPricePlanCopy.Location = New System.Drawing.Point(670, 26)
         Me.lblPricePlanCopy.Name = "lblPricePlanCopy"
         Me.lblPricePlanCopy.Size = New System.Drawing.Size(87, 16)
         Me.lblPricePlanCopy.TabIndex = 12
@@ -273,7 +286,6 @@ Partial Class frmPriceMasterPlan
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(301, 18)
         Me.lblLocation.TabIndex = 8
-        Me.lblLocation.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
         Me.lblLocation.TextWrap = False
         '
         'txtEndDate
@@ -538,13 +550,26 @@ Partial Class frmPriceMasterPlan
         Me.gv1.Enabled = False
         Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
-        'gv1
         '
+        '
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(932, 307)
         Me.gv1.TabIndex = 0
+        '
+        'BtnHistory
+        '
+        Me.BtnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.BtnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.BtnHistory.Location = New System.Drawing.Point(791, 5)
+        Me.BtnHistory.Name = "BtnHistory"
+        Me.BtnHistory.Size = New System.Drawing.Size(64, 20)
+        Me.BtnHistory.TabIndex = 53
+        Me.BtnHistory.Text = "History"
         '
         'RadLabel12
         '
@@ -602,60 +627,37 @@ Partial Class frmPriceMasterPlan
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(938, 20)
         Me.RadMenu1.TabIndex = 2
-        Me.RadMenu1.Text = "menu"
         '
         'Filemenu
         '
-        Me.Filemenu.AccessibleDescription = "File"
-        Me.Filemenu.AccessibleName = "File"
         Me.Filemenu.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2, Me.RadMenuItem3, Me.RadMenuItem4, Me.RadMenuItem5})
         Me.Filemenu.Name = "Filemenu"
         Me.Filemenu.Text = "File"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Export"
-        Me.RadMenuItem1.AccessibleName = "Export"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Export"
         '
         'RadMenuItem2
         '
-        Me.RadMenuItem2.AccessibleDescription = "Import"
-        Me.RadMenuItem2.AccessibleName = "Import"
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.AccessibleDescription = "Export Grid Data"
-        Me.RadMenuItem3.AccessibleName = "Export Grid Data"
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Export Grid Data"
         '
         'RadMenuItem4
         '
-        Me.RadMenuItem4.AccessibleDescription = "Save Layout"
-        Me.RadMenuItem4.AccessibleName = "Save Layout"
         Me.RadMenuItem4.Name = "RadMenuItem4"
         Me.RadMenuItem4.Text = "Save Layout"
         '
         'RadMenuItem5
         '
-        Me.RadMenuItem5.AccessibleDescription = "Delete Layout"
-        Me.RadMenuItem5.AccessibleName = "Delete Layout"
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Delete Layout"
-        '
-        'BtnHistory
-        '
-        Me.BtnHistory.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.BtnHistory.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BtnHistory.Location = New System.Drawing.Point(791, 5)
-        Me.BtnHistory.Name = "BtnHistory"
-        Me.BtnHistory.Size = New System.Drawing.Size(64, 20)
-        Me.BtnHistory.TabIndex = 53
-        Me.BtnHistory.Text = "History"
         '
         'frmPriceMasterPlan
         '
@@ -678,6 +680,7 @@ Partial Class frmPriceMasterPlan
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.chkForPrice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPricePlanCopyNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -702,13 +705,13 @@ Partial Class frmPriceMasterPlan
         CType(Me.rbtnBackCalculationWithTax, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.BtnHistory, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -754,4 +757,5 @@ Partial Class frmPriceMasterPlan
     Friend WithEvents lblPricePlanCopyNo As common.Controls.MyLabel
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents BtnHistory As RadButton
+    Friend WithEvents chkForPrice As RadCheckBox
 End Class

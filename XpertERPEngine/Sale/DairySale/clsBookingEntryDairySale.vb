@@ -1413,6 +1413,7 @@ Public Class clsBookingDetailDairySale
     Public Tax_Amount As Double = 0
     Public Tax_NonTax As Double = 0
     Public Disc_Amt As Double = 0
+    Public QtyinKg As Double = 0
     Public Amt_Less_Discount As Double = 0
     Public FreshAmbient As String = ""
     Public Remarks As String = ""
@@ -1536,6 +1537,7 @@ Public Class clsBookingDetailDairySale
                 clsCommon.AddColumnsForChange(coll, "Price_with_Tax", obj.Price_with_Tax)
                 clsCommon.AddColumnsForChange(coll, "Amount_with_Tax", obj.Amount_with_Tax)
                 clsCommon.AddColumnsForChange(coll, "Disc_Amt", obj.Disc_Amt)
+                clsCommon.AddColumnsForChange(coll, "QtyinKg", obj.QtyinKg)
                 clsCommon.AddColumnsForChange(coll, "Amt_Less_Discount", obj.Amt_Less_Discount)
                 clsCommon.AddColumnsForChange(coll, "TAX_Group", obj.TAX_Group)
                 clsCommon.AddColumnsForChange(coll, "TAX1", obj.TAX1)
