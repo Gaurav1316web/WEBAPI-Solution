@@ -324,8 +324,8 @@ Public Class clsERPFuncationalityOLD
             Mainqry = "  select " & clsCommon.HistTableColHistVersion & " AS Version,final.* from "
             Mainqry += " ( "
             Mainqry += " select " & clsCommon.HistTableColHistVersion & "," & clsCommon.HistTableColHistBy & "," & clsCommon.HistTableColHistOn & "," & strMasterCodeColumn & " from " & HeadTable + clsCommon.HistTablePostFix & ""
-            Mainqry += " union all "
-            Mainqry += " select '99999' as Version,'Current' as [User By],'' as " & clsCommon.HistTableColHistOn & "," & strMasterCodeColumn & " from " & HeadTable & ""
+            'Mainqry += " union all "
+            'Mainqry += " select '99999' as Version,'Current' as [User By],'' as " & clsCommon.HistTableColHistOn & "," & strMasterCodeColumn & " from " & HeadTable & ""
             Mainqry += " )final "
             Mainqry += " where 2=2 and final." & PrimaryKeyValueWithoutUnderScore & "='" & Code & "'   order by " & clsCommon.HistTableColHistVersion & "  asc "
             ''==========End=========

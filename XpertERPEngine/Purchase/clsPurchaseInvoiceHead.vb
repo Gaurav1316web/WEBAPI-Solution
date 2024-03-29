@@ -2922,7 +2922,8 @@ Public Class clsPurchaseInvoiceHead
 #End Region
 
             If objCommonVar.RCDFCFP Then
-                RCDF1QCDed2SecDed3RALPenalty(obj, True, True, True, trans)
+
+                RCDF1QCDed2SecDed3RALPenalty(obj, True, True, True, False, trans)
 
                 Dim DebitNote As Decimal = (obj.PI_Total_Amt * obj.Retention) / 100
                 If DebitNote > 0 Then
@@ -3024,7 +3025,7 @@ Public Class clsPurchaseInvoiceHead
         Return True
     End Function
 
-    Public Shared Sub RCDF1QCDed2SecDed3RALPenalty(ByVal obj As clsPurchaseInvoiceHead, ByVal ApplyQCDed As Boolean, ByVal ApplySecDed As Boolean, ByVal ApplyRALPenalty As Boolean, ByVal trans As SqlTransaction)
+    Public Shared Sub RCDF1QCDed2SecDed3RALPenalty(ByVal obj As clsPurchaseInvoiceHead, ByVal ApplyQCDed As Boolean, ByVal ApplySecDed As Boolean, ByVal ApplyRALPenalty As Boolean, ByVal ReCalculateRALPenalty As Boolean, ByVal trans As SqlTransaction)
         If objCommonVar.RCDFCFP Then
             Dim qry As String
             Dim dtAmt As DataTable
@@ -3223,7 +3224,13 @@ Public Class clsPurchaseInvoiceHead
 
 #Region "CreateDebitNotForSchedulePenalty"
             If ApplyRALPenalty Then
-                qry = "select sum(Penalty) as Amt  from TSPL_SRN_TENDER where isnull(Penalty,0)>0 and  SRN_No in (select SRN_ID from tspl_PI_Detail where PI_No='" + obj.PI_No + "')"
+                If Not ReCalculateRALPenalty Then
+                    qry = " insert into TSPL_SRN_TENDER (Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Against_Tender_Schedule_Penalty_PK_Id,Penalty,Against_PO,Against_Tender_Schedule_PK_Id_PO,Against_Tender_Schedule_Penalty_PK_Id_PO) 
+select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Against_Tender_Schedule_Penalty_PK_Id,Penalty,Against_PO,Against_Tender_Schedule_PK_Id_PO,Against_Tender_Schedule_Penalty_PK_Id_PO
+ from TSPL_SRN_TENDER_CALC where exists (select 1 from TSPL_PI_DETAIL where PI_No='" + obj.PI_No + "' and TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_TENDER_CALC.SRN_No)"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+                End If
+                qry = "select sum(Penalty) as Amt  from TSPL_SRN_TENDER_CALC where isnull(Penalty,0)>0 and  SRN_No in (select SRN_ID from tspl_PI_Detail where PI_No='" + obj.PI_No + "')"
                 dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
                 If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
                     Dim dblAmount As Decimal = Math.Abs(clsCommon.myCDecimal(dtAmt.Rows(0)("Amt")))
@@ -3875,7 +3882,9 @@ Public Class clsPurchaseInvoiceHead
                 Next
             End If
 
-            qry = "select Document_No From TSPL_VENDOR_INVOICE_HEAD where RefDocType in('QC-DED','SEC-DED','SCH-PNT','RE-TEN') and RefDocNo='" + strDocNo + "'"
+            qry = "select Document_No From TSPL_VENDOR_INVOICE_HEAD where RefDocType in('QC-DED','SEC-DED','SCH-PNT','RE-TEN') and RefDocNo='" + strDocNo + "'
+union all
+select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('SCH-PNT') and RefDocNo='" + strDocNo + "')"
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
@@ -3884,6 +3893,9 @@ Public Class clsPurchaseInvoiceHead
                     clsVedorInvoiceHead.DeleteData(qry, trans)
                 Next
             End If
+
+            qry = "delete from TSPL_SRN_TENDER where exists (select 1 from TSPL_PI_DETAIL where TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_TENDER.SRN_No and TSPL_PI_DETAIL.PI_No='" + strDocNo + "' )"
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

@@ -501,7 +501,7 @@ Public Class rptVSPMilkNotSold
         Try
             If chkDeduction.Checked Then
                 If clsCommon.myLen(txtPaymentCycleCode.Value) > 0 Then
-                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
                         ''Dim qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
                         Dim Qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where Code In (Select  TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode from TSPL_MULTIPLE_DEDUCTION_DETAIL
                                         Inner Join TSPL_MULTIPLE_DEDUCTION_HEAD On TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
