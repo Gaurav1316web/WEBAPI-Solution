@@ -28,6 +28,7 @@ Public Class FrmItemMasterRMOther
     Const UOMColStockUnitChangable As String = "STOCKUNITCHG"
     Const UOMColStockUnitChangable2 As String = "STOCKUNITCHG2"
     Const UOMDefault As String = "UOMDefault"
+    Const PrintUOM As String = "PrintUOM"
     Const UOMPieces As String = "UOMPieces"
     Const UOMGrossWeight As String = "GrossWeight"
     Const UOMNetWeight As String = "UOMNetWeight"
@@ -221,7 +222,6 @@ Public Class FrmItemMasterRMOther
         End If
         lblBBValue.Visible = False
         txtBBValue.Visible = False
-
     End Sub
 
     Sub LoadBlankGridCat()
@@ -824,6 +824,7 @@ Public Class FrmItemMasterRMOther
         '======now user able to change stocking unit status,but not conversion factor
         gvUOM.Rows(IntRowNo).Cells(UOMColStockUnit).ReadOnly = IIf(clsCommon.myCdbl(gvUOM.Rows(IntRowNo).Cells(UOMColStockUnitChangable2).Value) = "1", True, False)   'False 
         gvUOM.Rows(IntRowNo).Cells(UOMDefault).ReadOnly = False
+        gvUOM.Rows(IntRowNo).Cells(PrintUOM).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(UOMPieces).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(UOMGrossWeight).ReadOnly = False
         gvUOM.Rows(IntRowNo).Cells(UOMNetWeight).ReadOnly = False
@@ -1009,6 +1010,16 @@ Public Class FrmItemMasterRMOther
         repoConvFactor.DecimalPlaces = 2
         repoConvFactor.FormatString = "{0:n2}"
         gvUOM.MasterTemplate.Columns.Add(repoConvFactor)
+
+        Dim repoPrintUOM As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+        repoPrintUOM.FormatString = ""
+        repoPrintUOM.HeaderText = "Print UOM"
+        repoPrintUOM.Name = PrintUOM
+        repoPrintUOM.Width = 80
+        repoPrintUOM.ThreeState = False
+        repoPrintUOM.IsVisible = True
+        repoPrintUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gvUOM.MasterTemplate.Columns.Add(repoPrintUOM)
 
 
 
@@ -1506,6 +1517,13 @@ Public Class FrmItemMasterRMOther
                         CountDefaultUnit = CountDefaultUnit + 1
                     End If
                 Next
+
+                Dim CountUOMprint As Integer = 0
+                For ii As Integer = 0 To gvUOM.RowCount - 1
+                    If gvUOM.Rows(ii).Cells(PrintUOM).Value = True Then
+                        CountUOMprint = CountUOMprint + 1
+                    End If
+                Next
                 ''===========================================
                 Dim CountPieces As Integer = 0
                 For ii As Integer = 0 To gvUOM.RowCount - 1
@@ -1544,6 +1562,8 @@ Public Class FrmItemMasterRMOther
                         objtr.Default_UOM = 1
                     ElseIf clsCommon.CompairString(objtr.Stocking_Unit, "Y") = CompairStringResult.Equal And CountDefaultUnit <> 1 Then
                         objtr.Default_UOM = 1
+                    ElseIf clsCommon.CompairString(gvUOM.Rows(ii).Cells(PrintUOM).Value, True) = CompairStringResult.Equal Then
+                        objtr.Print_UOM = 1
                     Else
                         objtr.Default_UOM = 0
                     End If
@@ -2655,6 +2675,11 @@ Public Class FrmItemMasterRMOther
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(UOMDefault).Value = True
                         Else
                             gvUOM.Rows(gvUOM.RowCount - 1).Cells(UOMDefault).Value = False
+                        End If
+                        If objtr.Print_UOM = 1 Then
+                            gvUOM.Rows(gvUOM.RowCount - 1).Cells(PrintUOM).Value = True
+                        Else
+                            gvUOM.Rows(gvUOM.RowCount - 1).Cells(PrintUOM).Value = False
                         End If
 
                         ''==============================

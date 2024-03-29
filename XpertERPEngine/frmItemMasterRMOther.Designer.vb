@@ -22,9 +22,6 @@ Partial Class FrmItemMasterRMOther
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim RadListDataItem19 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem20 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem21 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
@@ -34,17 +31,20 @@ Partial Class FrmItemMasterRMOther
         Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem9 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem10 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem11 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem12 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim RadListDataItem13 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem14 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem15 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem17 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem18 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -566,7 +566,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(1108, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -2077,12 +2077,12 @@ Partial Class FrmItemMasterRMOther
         Me.cmbUsedAs.IsSourceFromTable = False
         Me.cmbUsedAs.IsSourceFromValueList = False
         Me.cmbUsedAs.IsUnique = False
-        RadListDataItem19.Text = "Finished Goods"
-        RadListDataItem20.Text = "Promotional Item"
-        RadListDataItem21.Text = "Trading Item"
-        Me.cmbUsedAs.Items.Add(RadListDataItem19)
-        Me.cmbUsedAs.Items.Add(RadListDataItem20)
-        Me.cmbUsedAs.Items.Add(RadListDataItem21)
+        RadListDataItem1.Text = "Finished Goods"
+        RadListDataItem2.Text = "Promotional Item"
+        RadListDataItem3.Text = "Trading Item"
+        Me.cmbUsedAs.Items.Add(RadListDataItem1)
+        Me.cmbUsedAs.Items.Add(RadListDataItem2)
+        Me.cmbUsedAs.Items.Add(RadListDataItem3)
         Me.cmbUsedAs.Location = New System.Drawing.Point(425, 275)
         Me.cmbUsedAs.MendatroryField = True
         Me.cmbUsedAs.MyLinkLable1 = Me.MyLabel23
@@ -2139,12 +2139,12 @@ Partial Class FrmItemMasterRMOther
         Me.cboCSAType.IsSourceFromTable = False
         Me.cboCSAType.IsSourceFromValueList = False
         Me.cboCSAType.IsUnique = False
-        RadListDataItem1.Text = "Finished Goods"
-        RadListDataItem2.Text = "Promotional Item"
-        RadListDataItem3.Text = "Trading Item"
-        Me.cboCSAType.Items.Add(RadListDataItem1)
-        Me.cboCSAType.Items.Add(RadListDataItem2)
-        Me.cboCSAType.Items.Add(RadListDataItem3)
+        RadListDataItem4.Text = "Finished Goods"
+        RadListDataItem5.Text = "Promotional Item"
+        RadListDataItem6.Text = "Trading Item"
+        Me.cboCSAType.Items.Add(RadListDataItem4)
+        Me.cboCSAType.Items.Add(RadListDataItem5)
+        Me.cboCSAType.Items.Add(RadListDataItem6)
         Me.cboCSAType.Location = New System.Drawing.Point(132, 389)
         Me.cboCSAType.MaxLength = 30
         Me.cboCSAType.MendatroryField = True
@@ -2443,12 +2443,12 @@ Partial Class FrmItemMasterRMOther
         Me.cboItemSubType.IsSourceFromTable = False
         Me.cboItemSubType.IsSourceFromValueList = False
         Me.cboItemSubType.IsUnique = False
-        RadListDataItem4.Text = "Finished Goods"
-        RadListDataItem5.Text = "Promotional Item"
-        RadListDataItem6.Text = "Trading Item"
-        Me.cboItemSubType.Items.Add(RadListDataItem4)
-        Me.cboItemSubType.Items.Add(RadListDataItem5)
-        Me.cboItemSubType.Items.Add(RadListDataItem6)
+        RadListDataItem7.Text = "Finished Goods"
+        RadListDataItem8.Text = "Promotional Item"
+        RadListDataItem9.Text = "Trading Item"
+        Me.cboItemSubType.Items.Add(RadListDataItem7)
+        Me.cboItemSubType.Items.Add(RadListDataItem8)
+        Me.cboItemSubType.Items.Add(RadListDataItem9)
         Me.cboItemSubType.Location = New System.Drawing.Point(132, 230)
         Me.cboItemSubType.MendatroryField = True
         Me.cboItemSubType.MyLinkLable1 = Me.MyLabel10
@@ -2808,12 +2808,12 @@ Partial Class FrmItemMasterRMOther
         Me.cboItemType.IsSourceFromTable = False
         Me.cboItemType.IsSourceFromValueList = False
         Me.cboItemType.IsUnique = False
-        RadListDataItem7.Text = "Finished Goods"
-        RadListDataItem8.Text = "Promotional Item"
-        RadListDataItem9.Text = "Trading Item"
-        Me.cboItemType.Items.Add(RadListDataItem7)
-        Me.cboItemType.Items.Add(RadListDataItem8)
-        Me.cboItemType.Items.Add(RadListDataItem9)
+        RadListDataItem10.Text = "Finished Goods"
+        RadListDataItem11.Text = "Promotional Item"
+        RadListDataItem12.Text = "Trading Item"
+        Me.cboItemType.Items.Add(RadListDataItem10)
+        Me.cboItemType.Items.Add(RadListDataItem11)
+        Me.cboItemType.Items.Add(RadListDataItem12)
         Me.cboItemType.Location = New System.Drawing.Point(132, 209)
         Me.cboItemType.MendatroryField = True
         Me.cboItemType.MyLinkLable1 = Me.MyLabel10
@@ -3057,7 +3057,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(106.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(886, 522)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1087, 553)
         Me.RadPageViewPage2.Text = "Conversion Factor"
         '
         'gvUOM
@@ -3069,10 +3069,11 @@ Partial Class FrmItemMasterRMOther
         '
         Me.gvUOM.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvUOM.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvUOM.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvUOM.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvUOM.MyStopExport = False
         Me.gvUOM.Name = "gvUOM"
         Me.gvUOM.ShowHeaderCellButtons = True
-        Me.gvUOM.Size = New System.Drawing.Size(886, 522)
+        Me.gvUOM.Size = New System.Drawing.Size(1087, 553)
         Me.gvUOM.TabIndex = 0
         Me.gvUOM.TabStop = False
         '
@@ -3095,7 +3096,8 @@ Partial Class FrmItemMasterRMOther
         '
         Me.gvCategory.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvCategory.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvCategory.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvCategory.MyStopExport = False
         Me.gvCategory.Name = "gvCategory"
         Me.gvCategory.ShowHeaderCellButtons = True
         Me.gvCategory.Size = New System.Drawing.Size(886, 490)
@@ -3436,12 +3438,12 @@ Partial Class FrmItemMasterRMOther
         Me.CmbWarrApp.IsSourceFromTable = False
         Me.CmbWarrApp.IsSourceFromValueList = False
         Me.CmbWarrApp.IsUnique = False
-        RadListDataItem10.Text = "Finished Goods"
-        RadListDataItem11.Text = "Promotional Item"
-        RadListDataItem12.Text = "Trading Item"
-        Me.CmbWarrApp.Items.Add(RadListDataItem10)
-        Me.CmbWarrApp.Items.Add(RadListDataItem11)
-        Me.CmbWarrApp.Items.Add(RadListDataItem12)
+        RadListDataItem13.Text = "Finished Goods"
+        RadListDataItem14.Text = "Promotional Item"
+        RadListDataItem15.Text = "Trading Item"
+        Me.CmbWarrApp.Items.Add(RadListDataItem13)
+        Me.CmbWarrApp.Items.Add(RadListDataItem14)
+        Me.CmbWarrApp.Items.Add(RadListDataItem15)
         Me.CmbWarrApp.Location = New System.Drawing.Point(507, 91)
         Me.CmbWarrApp.MendatroryField = True
         Me.CmbWarrApp.MyLinkLable1 = Me.MyLabel10
@@ -3489,12 +3491,12 @@ Partial Class FrmItemMasterRMOther
         Me.fndProductType.IsSourceFromTable = False
         Me.fndProductType.IsSourceFromValueList = False
         Me.fndProductType.IsUnique = False
-        RadListDataItem13.Text = "Finished Goods"
-        RadListDataItem14.Text = "Promotional Item"
-        RadListDataItem15.Text = "Trading Item"
-        Me.fndProductType.Items.Add(RadListDataItem13)
-        Me.fndProductType.Items.Add(RadListDataItem14)
-        Me.fndProductType.Items.Add(RadListDataItem15)
+        RadListDataItem16.Text = "Finished Goods"
+        RadListDataItem17.Text = "Promotional Item"
+        RadListDataItem18.Text = "Trading Item"
+        Me.fndProductType.Items.Add(RadListDataItem16)
+        Me.fndProductType.Items.Add(RadListDataItem17)
+        Me.fndProductType.Items.Add(RadListDataItem18)
         Me.fndProductType.Location = New System.Drawing.Point(155, 168)
         Me.fndProductType.MendatroryField = True
         Me.fndProductType.MyLinkLable1 = Me.MyLabel10
@@ -3731,7 +3733,8 @@ Partial Class FrmItemMasterRMOther
         Me.gv_param.MasterTemplate.EnableGrouping = False
         Me.gv_param.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_param.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_param.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv_param.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv_param.MyStopExport = False
         Me.gv_param.Name = "gv_param"
         Me.gv_param.ShowGroupPanel = False
         Me.gv_param.ShowHeaderCellButtons = True
@@ -3773,7 +3776,8 @@ Partial Class FrmItemMasterRMOther
         Me.gvPurQCPar.MasterTemplate.EnableGrouping = False
         Me.gvPurQCPar.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvPurQCPar.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvPurQCPar.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gvPurQCPar.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvPurQCPar.MyStopExport = False
         Me.gvPurQCPar.Name = "gvPurQCPar"
         Me.gvPurQCPar.ShowGroupPanel = False
         Me.gvPurQCPar.ShowHeaderCellButtons = True
@@ -4136,7 +4140,8 @@ Partial Class FrmItemMasterRMOther
         '
         Me.gvSchedule.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvSchedule.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvSchedule.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gvSchedule.MyStopExport = False
         Me.gvSchedule.Name = "gvSchedule"
         Me.gvSchedule.ShowHeaderCellButtons = True
         Me.gvSchedule.Size = New System.Drawing.Size(886, 509)
