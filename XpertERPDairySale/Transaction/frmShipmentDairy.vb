@@ -6806,6 +6806,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             End If
             ''======================================================================
             ''richa 18 June,2019 ERO/12/06/19-000642
+            obj.FAT_Per = clsCommon.myCdbl(txtFATPER.Text)
+            obj.SNF_Per = clsCommon.myCdbl(txtSNFPER.Text)
+            obj.Acidity = clsCommon.myCdbl(txtAcidity.Text)
+            obj.Temperature = clsCommon.myCdbl(txtTemp.Text)
+            obj.MBRT_Hours = clsCommon.myCdbl(txtMBRTHours.Text)
             obj.Manual_Driver_Name = txtDriverName.Text
             obj.Manual_Salesman_Name = txtSalesmanName.Text
             obj.ActualTCSBaseAmount = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
@@ -7465,6 +7470,11 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 If obj.Supply_Date IsNot Nothing Then
                     txtSupplyDate.Value = obj.Supply_Date
                 End If
+                txtFATPER.Text = obj.FAT_Per
+                txtSNFPER.Text = obj.SNF_Per
+                txtAcidity.Text = obj.Acidity
+                txtTemp.Text = obj.Temperature
+                txtMBRTHours.Text = obj.MBRT_Hours
                 txtVendorNo.Value = obj.Customer_Code
                 txtPONo.Text = obj.Cust_PO_No
                 txtForm38.Text = obj.Form_38_No
@@ -11863,6 +11873,11 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             Else
                 txtCrate.ReadOnly = True
             End If
+        End If
+        If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
+            rgbTaxNonTax.Visible = False
+        Else
+            rgbTaxNonTax.Visible = True
         End If
     End Sub
     Private Sub txtDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtDate.Validating

@@ -387,6 +387,7 @@ Public Class frmDairyBookingCustomer
         txtLocation.Value = txtloc
         btnGatepass.Enabled = False
         'CreateTable()
+        ChkTaxNonTax()
     End Sub
 
     'Sub CreateTable()
@@ -1261,10 +1262,10 @@ Public Class frmDairyBookingCustomer
         Dim whrcls As String = ""
         Dim qry As String = ""
         If isFORPrice Then
-            Price_code = clsDBFuncationality.getSingleValue("select price_CodeFOR from tspl_customer_master where cust_code='" & txtVendorNo.Value & "'")
+            Price_code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select price_CodeFOR from tspl_customer_master where cust_code='" & txtVendorNo.Value & "'"))
             whrcls = " and TSPL_ITEM_PRICE_MASTER.Price_Code='" & Price_code & "' and TSPL_ITEM_PRICE_MASTER.Is_For_Price=1"
         Else
-            Price_code = clsDBFuncationality.getSingleValue("select price_CodeNon from tspl_customer_master where cust_code='" & txtVendorNo.Value & "'")
+            Price_code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select price_CodeNon from tspl_customer_master where cust_code='" & txtVendorNo.Value & "'"))
             whrcls = " and TSPL_ITEM_PRICE_MASTER.Price_Code='" & Price_code & "' and TSPL_ITEM_PRICE_MASTER.Is_For_Price=0"
         End If
         txtPriceCode.Text = Price_code
@@ -2589,6 +2590,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 If clsCommon.myLen(lblLoginUserZone.Text) > 0 Then
                     obj.Login_User_Zone_Code = lblLoginUserZone.Text
                 End If
+                obj.FAT_Per = clsCommon.myCdbl(txtFATPER.Text)
+                obj.SNF_Per = clsCommon.myCdbl(txtSNFPER.Text)
+                obj.Acidity = clsCommon.myCdbl(txtAcidity.Text)
+                obj.Temperature = clsCommon.myCdbl(txtTemp.Text)
+                obj.MBRT_Hours = clsCommon.myCdbl(txtMBRTHours.Text)
                 obj.TCSAmount = clsCommon.myCdbl(lblTCSAmount.Text)
                 obj.Sub_Location_code = txtSubLocation.Value
                 obj.Total_Amt = clsCommon.myCdbl(lblTotalDocAmt.Text)
@@ -3216,6 +3222,12 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                     End If
                     txtPONo.Text = obj.Cust_PO_No
                 End If
+                txtFATPER.Text = obj.FAT_Per
+                txtSNFPER.Text = obj.SNF_Per
+                txtAcidity.Text = obj.Acidity
+                txtTemp.Text = obj.Temperature
+                txtMBRTHours.Text = obj.MBRT_Hours
+
                 TxtRoundoff.Text = clsCommon.myCstr(obj.RoundOffAmount)
                 txtSubLocation.Value = clsCommon.myCstr(obj.Sub_Location_code)
                 If clsCommon.myLen(txtSubLocation.Value) > 0 Then
@@ -3774,6 +3786,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 gv1.CurrentColumn = gv1.Columns(colQty)
             End If
             'End If
+            ChkTaxNonTax()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
@@ -7418,6 +7431,11 @@ from
                 obj.Amount_Less_Discount = clsCommon.myCdbl(lblAmtAfterDiscount.Text)
                 obj.RoundOffAmount = clsCommon.myCdbl(TxtRoundoff.Text)
                 obj.Sub_Location_code = txtSubLocation.Value
+                obj.FAT_Per = clsCommon.myCdbl(txtFATPER.Text)
+                obj.SNF_Per = clsCommon.myCdbl(txtSNFPER.Text)
+                obj.Acidity = clsCommon.myCdbl(txtAcidity.Text)
+                obj.Temperature = clsCommon.myCdbl(txtTemp.Text)
+                obj.MBRT_Hours = clsCommon.myCdbl(txtMBRTHours.Text)
                 'obj.can
                 obj.Screen_Type = "DS"
                 ' obj.Scheme_Tax_Group = txtSchemeTaxGroup.Value
@@ -8104,6 +8122,30 @@ from
             Else
                 clsCommon.MyMessageBoxShow(Me, "Data Not Found to Print", Me.Text)
             End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Sub ChkTaxNonTax()
+        If rbtnTaxable.IsChecked Then
+            rgbTaxNonTax.Visible = False
+        Else
+            rgbTaxNonTax.Visible = True
+        End If
+    End Sub
+
+    Private Sub rbtnNonTax_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnNonTax.ToggleStateChanged
+        Try
+            ChkTaxNonTax()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rbtnTaxable_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnTaxable.ToggleStateChanged
+        Try
+            ChkTaxNonTax()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

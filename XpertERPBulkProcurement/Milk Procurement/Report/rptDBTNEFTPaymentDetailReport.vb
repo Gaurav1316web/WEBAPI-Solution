@@ -82,9 +82,10 @@ Public Class rptDBTNEFTPaymentDetailReport
   ,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.MP_Account_No
                AS MP_Account_No,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.MP_IFSC_No AS MP_IFSC_No,[" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response AS Status, isnull([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount,0) AS Amount,
                case when [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response = 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA' then 1 else 0  end as Success_Farmer, case when 
-  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response  <> 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA' then 1  else 0 end as Failure_Farmer,
+  ([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response  <> 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA' and  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response IS NOT NULL) then 1  else 0 end as Failure_Farmer,
                 case when [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response = 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA' then [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount else 0  end as Success_Amount, case when 
-  ([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response  <> 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA' and  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response IS NOT NULL)  then [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount else 0 end as Failure_Amount
+  ([" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response  <> 'STATUS : SUCCESS , STATUS DESCRIPTION : VALID DATA' and  [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response IS NOT NULL)  then [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount else 0 end as Failure_Amount,
+  case when [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response is null then 1 else 0 end as Null_Farmer_Count, case when [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_BANK_RESPONSE.Bank_Response is null then [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Amount   else 0 end as Null_Farmer_Amount
     from [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL
     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.PK_Id = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_DBT_NEFT_DETAIL.Against_MP_Incentive_TR
     left join [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER ON [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_INCENTIVE_ENTRY_DETAIL.MP_Code = [" + clsCommon.myCstr(dt.Rows(ii).Item("DataBase_Name")) + "].[dbo].TSPL_MP_MASTER.MP_Code
@@ -95,7 +96,7 @@ Public Class rptDBTNEFTPaymentDetailReport
                 Next
                 Baseqry += ") xx"
                 If rbtnSummary.IsChecked Then
-                    qry = " select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.', [Union Name] , max(Month) as Month , count(MP_Code)as [No of Farmer] ,sum(Success_Farmer)Success_Farmer,sum(Failure_Farmer)Failure_Farmer, sum(Amount)Amount , SUM(Success_Amount)Success_Amount , SUM(Failure_Amount)Failure_Amount
+                    qry = " select ROW_NUMBER() over(order by ([Union Name])) as 'SNO.', [Union Name] , max(Month) as Month , count(MP_Code)as [No of Farmer] ,sum(Success_Farmer)Success_Farmer,sum(Failure_Farmer)Failure_Farmer, sum(Amount)Amount , SUM(Success_Amount)Success_Amount , SUM(Failure_Amount)Failure_Amount,sum(Null_Farmer_Count)Null_Farmer_Count,  sum(Null_Farmer_Amount)Null_Farmer_Amount
                 from (" & Baseqry & " ) xxx group by [Union Name]"
                 Else
                     qry = Baseqry
@@ -150,6 +151,9 @@ Public Class rptDBTNEFTPaymentDetailReport
             gv1.Columns("Failure_Amount").IsVisible = False
             gv1.Columns("Success_Farmer").IsVisible = False
             gv1.Columns("Failure_Farmer").IsVisible = False
+            gv1.Columns("Null_Farmer_Count").IsVisible = False
+            gv1.Columns("Null_Farmer_Amount").IsVisible = False
+
         ElseIf rbtnSummary.IsChecked Then
             gv1.Columns("Success_Amount").HeaderText = "Success Amount"
 
@@ -157,10 +161,14 @@ Public Class rptDBTNEFTPaymentDetailReport
             gv1.Columns("Success_Farmer").HeaderText = "Success(No of Farmer)"
             gv1.Columns("Failure_Farmer").HeaderText = "Failure(No of Farmer)"
             gv1.Columns("Amount").HeaderText = "Total Amount"
+            gv1.Columns("Null_Farmer_Count").HeaderText = "Null Response(No of Farmer)"
+            gv1.Columns("Null_Farmer_Amount").HeaderText = "Null Response(Farmer Amount)"
             Dim item2 As New GridViewSummaryItem("Success_Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item2)
             Dim item3 As New GridViewSummaryItem("Failure_Amount", "{0:F2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(item3)
+            Dim item4 As New GridViewSummaryItem("Null_Farmer_Amount", "{0:F2}", GridAggregateFunction.Sum)
+            summaryRowItem.Add(item4)
         End If
 
         Dim item1 As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
@@ -252,7 +260,7 @@ Public Class rptDBTNEFTPaymentDetailReport
             If gv1.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
                 arrHeader.Add("Month :" & MonthNo)
-                clsCommon.MyExportToPDF("Route Payment Process Report", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
 
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
