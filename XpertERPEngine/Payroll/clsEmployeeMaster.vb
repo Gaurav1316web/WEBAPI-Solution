@@ -638,12 +638,12 @@ Public Class clsEmployeeMaster
                 'End If
                 isSaved = objEmployeeStatus.SaveData_FromEmpMaster(obj, trans)
                 Try
-                    isSaved = objEmpFamilieDetails.SaveData(obj.EMP_CODE, obj.ObjListEmpFamilieDetails)
-                    isSaved = objEmpLanguageDetails.SaveData(obj.EMP_CODE, obj.ObjListEmpLangDetails)
-                    isSaved = objEmpQualiDetails.SaveData(obj.EMP_CODE, obj.ObjListEmpQualiDetails)
-                    isSaved = objEmpExpDetails.SaveData(obj.EMP_CODE, obj.ObjListEmpExpDetails)
-                    isSaved = objEmpDocuments.SaveData(obj.EMP_CODE, obj.ObjListEmpDocuments)
-                    isSaved = objEmpAssets.SaveData(obj.EMP_CODE, obj.ObjListEmpAssets)
+                    isSaved = objEmpFamilieDetails.SaveData(obj.EMP_CODE, obj.ObjListEmpFamilieDetails, trans)
+                    isSaved = objEmpLanguageDetails.SaveData(obj.EMP_CODE, obj.ObjListEmpLangDetails, trans)
+                    isSaved = objEmpQualiDetails.SaveData(obj.EMP_CODE, obj.ObjListEmpQualiDetails, trans)
+                    isSaved = objEmpExpDetails.SaveData(obj.EMP_CODE, obj.ObjListEmpExpDetails, trans)
+                    isSaved = objEmpDocuments.SaveData(obj.EMP_CODE, obj.ObjListEmpDocuments, trans)
+                    isSaved = objEmpAssets.SaveData(obj.EMP_CODE, obj.ObjListEmpAssets, trans)
                 Catch ex As Exception
                     Throw New Exception(ex.Message)
                 End Try
@@ -1250,7 +1250,7 @@ Public Class clsEmpFamilieDetails
 
     End Function
 
-    Public Function SaveData(ByVal strCode As String, ByVal ObjList As List(Of clsEmpFamilieDetails)) As Boolean
+    Public Function SaveData(ByVal strCode As String, ByVal ObjList As List(Of clsEmpFamilieDetails), ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
             If ObjList IsNot Nothing AndAlso ObjList.Count > 0 Then
@@ -1272,16 +1272,16 @@ Public Class clsEmpFamilieDetails
                     clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
 
                     Dim qry As String = "SELECT Count(*) FROM TSPL_EMPLOYEE_FAMILIES where EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "' "
-                    Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
+                    Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
 
                     If check = 0 Then
                         clsCommon.AddColumnsForChange(coll, "EMP_CODE", obj.EMP_CODE)
                         clsCommon.AddColumnsForChange(coll, "LINE_NO", obj.LINE_NO)
                         clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                         clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_FAMILIES", OMInsertOrUpdate.Insert, "")
+                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_FAMILIES", OMInsertOrUpdate.Insert, "", trans)
                     Else
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_FAMILIES", OMInsertOrUpdate.Update, " EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "'  ")
+                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_FAMILIES", OMInsertOrUpdate.Update, " EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "'  ", trans)
                     End If
 
 
@@ -1352,8 +1352,8 @@ Public Class clsEmpLanguageDetails
 
     End Function
 
-    Public Function SaveData(ByVal strCode As String, ByVal ObjList As List(Of clsEmpLanguageDetails)) As Boolean
-        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+    Public Function SaveData(ByVal strCode As String, ByVal ObjList As List(Of clsEmpLanguageDetails), ByVal trans As SqlTransaction) As Boolean
+        'Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Dim isSaved As Boolean = True
         Try
             If ObjList IsNot Nothing AndAlso ObjList.Count > 0 Then
@@ -1369,7 +1369,7 @@ Public Class clsEmpLanguageDetails
                     clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
 
                     Dim qry As String = "SELECT Count(*) FROM TSPL_EMPLOYEE_LANGUAGES where EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "' "
-                    Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
+                    Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
 
                     If check = 0 Then
 
@@ -1377,9 +1377,9 @@ Public Class clsEmpLanguageDetails
                         clsCommon.AddColumnsForChange(coll, "LINE_NO", obj.LINE_NO)
                         clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                         clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_LANGUAGES", OMInsertOrUpdate.Insert, "")
+                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_LANGUAGES", OMInsertOrUpdate.Insert, "", trans)
                     Else
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_LANGUAGES", OMInsertOrUpdate.Update, " EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "'  ")
+                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_LANGUAGES", OMInsertOrUpdate.Update, " EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "'  ", trans)
                     End If
                     clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.LINE_NO), "TSPL_EMPLOYEE_LANGUAGES", "LINE_NO", "TSPL_TENDER_DETAIL", "LINE_NO", trans)
 
@@ -1410,6 +1410,8 @@ Public Class clsEmpQualiDetails
 
     Public University_Address As String
     Public University_Website As String
+    Public DocName As String
+    Public DOCUMENT_FILE As Byte()
 
 
 
@@ -1454,6 +1456,7 @@ Public Class clsEmpQualiDetails
                 obj.VERIFICATION_DONE = clsCommon.myCstr(dr("VERIFICATION_DONE"))
                 obj.University_Address = clsCommon.myCstr(dr("University_Address"))
                 obj.University_Website = clsCommon.myCstr(dr("University_Website"))
+                obj.DocName = clsCommon.myCstr(dr("DocName"))
                 ObjList.Add(obj)
             Next
         End If
@@ -1461,7 +1464,7 @@ Public Class clsEmpQualiDetails
 
     End Function
 
-    Public Function SaveData(ByVal strCode As String, ByVal ObjList As List(Of clsEmpQualiDetails)) As Boolean
+    Public Function SaveData(ByVal strCode As String, ByVal ObjList As List(Of clsEmpQualiDetails), ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
             If ObjList IsNot Nothing AndAlso ObjList.Count > 0 Then
@@ -1482,7 +1485,7 @@ Public Class clsEmpQualiDetails
                     clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
 
                     Dim qry As String = "SELECT Count(*) FROM TSPL_EMPLOYEE_QUALIFICATION where EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "' "
-                    Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
+                    Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
 
                     If check = 0 Then
 
@@ -1490,9 +1493,18 @@ Public Class clsEmpQualiDetails
                         clsCommon.AddColumnsForChange(coll, "LINE_NO", obj.LINE_NO)
                         clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                         clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_QUALIFICATION", OMInsertOrUpdate.Insert, "")
+                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_QUALIFICATION", OMInsertOrUpdate.Insert, "", trans)
                     Else
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_QUALIFICATION", OMInsertOrUpdate.Update, " EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "'  ")
+                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_QUALIFICATION", OMInsertOrUpdate.Update, " EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "'  ", trans)
+                    End If
+
+                    If Not obj.DOCUMENT_FILE Is Nothing AndAlso obj.DOCUMENT_FILE.Count > 0 Then
+                        Dim str As String
+                        str = "UPDATE TSPL_EMPLOYEE_QUALIFICATION set DOCUMENT_FILE = @BLOBData,DocName='" & obj.DocName & "' where EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "' "
+                        Dim cmd As SqlCommand = New SqlCommand(str, clsDBFuncationality.GetConnnection, trans)
+                        Dim prm As New SqlParameter("@BLOBData", obj.DOCUMENT_FILE)
+                        cmd.Parameters.Add(prm)
+                        cmd.ExecuteNonQuery()
                     End If
                 Next
             End If
@@ -1593,7 +1605,7 @@ Public Class clsEmpExpDetails
 
     End Function
 
-    Public Function SaveData(ByVal strCode As String, ByVal ObjList As List(Of clsEmpExpDetails)) As Boolean
+    Public Function SaveData(ByVal strCode As String, ByVal ObjList As List(Of clsEmpExpDetails), ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
             If ObjList IsNot Nothing AndAlso ObjList.Count > 0 Then
@@ -1626,7 +1638,7 @@ Public Class clsEmpExpDetails
                     clsCommon.AddColumnsForChange(coll, "VERIFICATION_REMARKS", obj.VERIFICATION_REMARKS, True)
 
                     Dim qry As String = "SELECT Count(*) FROM TSPL_EMPLOYEE_EXPERIENCE where EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "' "
-                    Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
+                    Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
 
                     If check = 0 Then
 
@@ -1634,9 +1646,9 @@ Public Class clsEmpExpDetails
                         clsCommon.AddColumnsForChange(coll, "LINE_NO", obj.LINE_NO)
                         clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                         clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_EXPERIENCE", OMInsertOrUpdate.Insert, "")
+                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_EXPERIENCE", OMInsertOrUpdate.Insert, "", trans)
                     Else
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_EXPERIENCE", OMInsertOrUpdate.Update, " EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "'  ")
+                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_EXPERIENCE", OMInsertOrUpdate.Update, " EMP_CODE = '" & strCode & "' and LINE_NO = '" & obj.LINE_NO & "'  ", trans)
                     End If
                 Next
             End If
@@ -1655,7 +1667,7 @@ Public Class clsEmpDocuments
     Public LINE_NO As Int16
     Public DOCUMENT_CODE As String
     Public DocName As String
-    Public SUBMIT_DATE As DateTime
+    Public SUBMIT_DATE As DateTime?
     Public DOCUMENT_FILE As Byte()
     Public DESCRIPTION As String
 
@@ -1712,9 +1724,12 @@ Public Class clsEmpDocuments
                 obj.LINE_NO = counter
                 obj.DOCUMENT_CODE = clsCommon.myCstr(dr("DOCUMENT_CODE"))
                 obj.DocName = clsCommon.myCstr(dr("DocName"))
-                obj.SUBMIT_DATE = clsCommon.myCDate(dr("SUBMIT_DATE"))
+                If clsCommon.myLen(clsCommon.myCstr(dr("SUBMIT_DATE"))) > 0 Then
+                    obj.SUBMIT_DATE = clsCommon.myCDate(dr("SUBMIT_DATE"))
+                Else
+                    obj.SUBMIT_DATE = Nothing
+                End If
                 obj.DESCRIPTION = clsCommon.myCstr(dr("DESCRIPTION"))
-
                 ObjList.Add(obj)
             Next
         End If
@@ -1728,8 +1743,15 @@ Public Class clsEmpDocuments
         Return dt
     End Function
 
+    Public Shared Function GetQuliDoc(ByVal strEmpCode As String, ByVal Line_No As Integer) As DataTable
+        Dim qry As String = " select * from  TSPL_EMPLOYEE_QUALIFICATION where EMP_CODE ='" + strEmpCode + "' and Line_No='" + clsCommon.myCstr(Line_No) + "' "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        Dim data As Byte() = dt.Rows(0)("DOCUMENT_FILE")
+        Return dt
+    End Function
 
-    Public Function SaveData(ByVal strCode As String, ByVal objList As List(Of clsEmpDocuments)) As Boolean
+
+    Public Function SaveData(ByVal strCode As String, ByVal objList As List(Of clsEmpDocuments), ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
             If objList IsNot Nothing AndAlso objList.Count > 0 Then
@@ -1739,25 +1761,29 @@ Public Class clsEmpDocuments
                     clsCommon.AddColumnsForChange(coll, "LINE_NO", obj.LINE_NO)
                     clsCommon.AddColumnsForChange(coll, "DOCUMENT_CODE", obj.DOCUMENT_CODE)
                     'clsCommon.AddColumnsForChange(coll, "DocName", obj.DocName)
-                    clsCommon.AddColumnsForChange(coll, "SUBMIT_DATE", clsCommon.GetPrintDate(obj.SUBMIT_DATE, "dd/MMM/yyyy"))
+                    If clsCommon.myLen(obj.SUBMIT_DATE) > 0 Then
+                        clsCommon.AddColumnsForChange(coll, "SUBMIT_DATE", clsCommon.GetPrintDate(obj.SUBMIT_DATE, "dd/MMM/yyyy"))
+                    Else
+                        clsCommon.AddColumnsForChange(coll, "SUBMIT_DATE", "", True)
+                    End If
                     'clsCommon.AddColumnsForChange(coll, "DOCUMENT_FILE", obj.DOCUMENT_FILE, True)
                     clsCommon.AddColumnsForChange(coll, "DESCRIPTION", obj.DESCRIPTION)
                     clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
                     clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
                     Dim qry As String = "SELECT Count(*) FROM TSPL_EMPLOYEE_DOCUMENTS where EMP_CODE = '" + strCode + "' and DOCUMENT_CODE = '" + obj.DOCUMENT_CODE + "' "
-                    Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
+                    Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
                     If check = 0 Then
                         clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                         clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy"))
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_DOCUMENTS", OMInsertOrUpdate.Insert, "")
+                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_DOCUMENTS", OMInsertOrUpdate.Insert, "", trans)
 
                     Else
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_DOCUMENTS", OMInsertOrUpdate.Update, " EMP_CODE = '" + strCode + "' and DOCUMENT_CODE = '" + obj.DOCUMENT_CODE + "'  ")
+                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_DOCUMENTS", OMInsertOrUpdate.Update, " EMP_CODE = '" + strCode + "' and DOCUMENT_CODE = '" + obj.DOCUMENT_CODE + "'  ", trans)
                     End If
                     If Not obj.DOCUMENT_FILE Is Nothing AndAlso obj.DOCUMENT_FILE.Count > 0 Then
                         Dim str As String
                         str = "UPDATE TSPL_EMPLOYEE_DOCUMENTS set DOCUMENT_FILE = @BLOBData,DocName='" & obj.DocName & "' where EMP_CODE = '" + obj.EMP_CODE + "' and DOCUMENT_CODE='" + obj.DOCUMENT_CODE + "'"
-                        Dim cmd As SqlCommand = New SqlCommand(str, clsDBFuncationality.GetConnnection)
+                        Dim cmd As SqlCommand = New SqlCommand(str, clsDBFuncationality.GetConnnection, trans)
                         Dim prm As New SqlParameter("@BLOBData", obj.DOCUMENT_FILE)
                         cmd.Parameters.Add(prm)
                         cmd.ExecuteNonQuery()
@@ -2010,7 +2036,7 @@ Public Class clsEmpAssets
     End Function
 
 
-    Public Function SaveData(ByVal strCode As String, ByVal objList As List(Of clsEmpAssets)) As Boolean
+    Public Function SaveData(ByVal strCode As String, ByVal objList As List(Of clsEmpAssets), ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         Try
             If objList IsNot Nothing AndAlso objList.Count > 0 Then
@@ -2028,12 +2054,12 @@ Public Class clsEmpAssets
                     clsCommon.AddColumnsForChange(coll, "DESCRIPTION", obj.DESCRIPTION)
 
                     Dim qry As String = "SELECT Count(*) FROM TSPL_EMPLOYEE_ASSETS where EMP_CODE = '" + strCode + "' and ASSET_CODE = '" + obj.ASSET_CODE + "' "
-                    Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
+                    Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
                     If check = 0 Then
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_ASSETS", OMInsertOrUpdate.Insert, "")
+                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_ASSETS", OMInsertOrUpdate.Insert, "", trans)
 
                     Else
-                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_ASSETS", OMInsertOrUpdate.Update, " EMP_CODE = '" + strCode + "' and ASSET_CODE = '" + obj.ASSET_CODE + "'  ")
+                        isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_ASSETS", OMInsertOrUpdate.Update, " EMP_CODE = '" + strCode + "' and ASSET_CODE = '" + obj.ASSET_CODE + "'  ", trans)
                     End If
 
                 Next

@@ -888,7 +888,6 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).IsVisible = True
-
             'PK_Id,Document_No,MCC_Code,MCC_NAME,
             'UploaderNo,Route_Code,ROUTE_NAME,Tanker_No,Vehicle_No,MCC_Qty,MCC_FAT,MCC_FATKG,MCC_SNF,MCC_SNFKG,
             'DCS_Qty,DCS_FAT,DCS_SNF,DCS_FATKG,DCS_SNF_KG

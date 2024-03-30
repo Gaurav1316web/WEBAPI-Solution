@@ -458,9 +458,9 @@ Public Class frmDemandBooking
         Dim intCurrRow As Integer = gv1.CurrentRow.Index
         If gv1.Rows.Count > 0 Then
             'gv1.CurrentColumn = gv1.Columns(7)
-            gv1.Rows(intCurrRow).Cells(8).IsSelected = True
+            gv1.Rows(intCurrRow).Cells(9).IsSelected = True
             gv1.Rows(intCurrRow).IsCurrent = True
-            gv1.Columns(8).IsCurrent = True
+            gv1.Columns(9).IsCurrent = True
         End If
     End Sub
     Private Sub setGridFocusEnd()
@@ -3409,8 +3409,8 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                   ,TSPL_LOCATION_MASTER.Add1,TSPL_LOCATION_MASTER.Add2,TSPL_LOCATION_MASTER.ADD3,TSPL_LOCATION_MASTER.Pin_Code,TSPL_LOCATION_MASTER.Location_Desc,'" + objCommonVar.CurrentUser + "' as Currentuser
                   ,Main_Final.Distributor,'" & StrShift & "' shiftType,Main_Final.City_Name,Main_Final.Demand_No,Main_Final.Demand_Date,Main_Final.Route_No,Main_Final.Route_Desc ,Main_Final.Vehicle_Desc
                   ,Main_Final.Item_alies_name,Main_Final.UOM,Main_Final.unit_code_result,Main_Final.Crate_Qty,Main_Final.Pouch_Qty,Main_Final.Loose_Qty,TotalLtr_ItemWise,ItemNetAmount
-                  ,Main_Final.Production_Remarks
-                  from (select max(TSPL_VENDOR_MASTER.vendor_name) as Distributor,
+                  ,Main_Final.Production_Remarks,Main_Final.Trip
+                  from (select max(isnull(LEFT((el.files) ,LEN((el.files ))-1),'NoFile')) as Trip, max(TSPL_VENDOR_MASTER.vendor_name) as Distributor,
                   max(TSPL_DEMAND_BOOKING_MASTER.shiftType) as shiftType,
                   max(TSPL_city_MASTER.City_Name) as City_Name,
                   max(TSPL_DEMAND_BOOKING_MASTER.Comp_Code) as Comp_Code,
@@ -3432,6 +3432,9 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
                   left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No = TSPL_DEMAND_BOOKING_MASTER.Route_No
                   left outer join TSPL_city_MASTER on TSPL_city_MASTER.city_code = TSPL_DEMAND_BOOKING_MASTER.city_code
                   left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.vendor_code=TSPL_VEHICLE_MASTER.Transport_Id
+                  cross apply(select distinct  convert(varchar,TSPL_DEMAND_BOOKING_DETAIL.Trip_No) + ',' as [text()] from TSPL_DEMAND_BOOKING_DETAIL where Document_No= '" + StrDocCode + "' 
+                  FOR XML PATH(''))el(files)
+
                   WHERE " + IIf(StrFormType = "DB", "TSPL_DEMAND_BOOKING_DETAIL.Document_No", "TSPL_DEMAND_BOOKING_DETAIL.GPCode") + " = '" + StrDocCode + "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & StrShift & "'
                    group by TSPL_DEMAND_BOOKING_DETAIL.Item_Code,TSPL_DEMAND_BOOKING_MASTER.Document_No,TSPL_DEMAND_BOOKING_MASTER.Route_No
                   ) as Main_Final

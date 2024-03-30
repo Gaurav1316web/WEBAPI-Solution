@@ -22,13 +22,16 @@ Partial Class frmMCCMaterialSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblSubLocation = New common.Controls.MyLabel()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.txtSubLocation = New common.UserControls.txtFinder()
         Me.txtFiscalYear = New common.Controls.MyTextBox()
         Me.MyLabel12 = New common.Controls.MyLabel()
         Me.txtPaymentCycleNo = New common.Controls.MyTextBox()
@@ -129,7 +132,6 @@ Partial Class frmMCCMaterialSale
         Me.RadLabel31 = New common.Controls.MyLabel()
         Me.lblAddCharges = New common.Controls.MyLabel()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -205,15 +207,15 @@ Partial Class frmMCCMaterialSale
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.lblSubLocation = New common.Controls.MyLabel()
-        Me.MyLabel13 = New common.Controls.MyLabel()
-        Me.txtSubLocation = New common.UserControls.txtFinder()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPaymentCycleNo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -376,8 +378,6 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.SuspendLayout()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -505,11 +505,57 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage1.Controls.Add(Me.cboItemType)
         Me.RadPageViewPage1.Controls.Add(Me.btnAddNew)
         Me.RadPageViewPage1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(111.0!, 26.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(107.0!, 22.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 31)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1261, 387)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1261, 391)
         Me.RadPageViewPage1.Text = "MCC Material Sale"
+        '
+        'lblSubLocation
+        '
+        Me.lblSubLocation.AutoSize = False
+        Me.lblSubLocation.BorderVisible = True
+        Me.lblSubLocation.FieldName = Nothing
+        Me.lblSubLocation.Location = New System.Drawing.Point(243, 45)
+        Me.lblSubLocation.Name = "lblSubLocation"
+        Me.lblSubLocation.Size = New System.Drawing.Size(282, 19)
+        Me.lblSubLocation.TabIndex = 297
+        '
+        'MyLabel13
+        '
+        Me.MyLabel13.FieldName = Nothing
+        Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel13.Location = New System.Drawing.Point(1, 46)
+        Me.MyLabel13.Name = "MyLabel13"
+        Me.MyLabel13.Size = New System.Drawing.Size(72, 16)
+        Me.MyLabel13.TabIndex = 295
+        Me.MyLabel13.Text = "Sub Location"
+        '
+        'txtSubLocation
+        '
+        Me.txtSubLocation.CalculationExpression = Nothing
+        Me.txtSubLocation.FieldCode = Nothing
+        Me.txtSubLocation.FieldDesc = Nothing
+        Me.txtSubLocation.FieldMaxLength = 0
+        Me.txtSubLocation.FieldName = Nothing
+        Me.txtSubLocation.isCalculatedField = False
+        Me.txtSubLocation.IsSourceFromTable = False
+        Me.txtSubLocation.IsSourceFromValueList = False
+        Me.txtSubLocation.IsUnique = False
+        Me.txtSubLocation.Location = New System.Drawing.Point(96, 44)
+        Me.txtSubLocation.MendatroryField = True
+        Me.txtSubLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSubLocation.MyLinkLable1 = Nothing
+        Me.txtSubLocation.MyLinkLable2 = Nothing
+        Me.txtSubLocation.MyReadOnly = False
+        Me.txtSubLocation.MyShowMasterFormButton = False
+        Me.txtSubLocation.Name = "txtSubLocation"
+        Me.txtSubLocation.ReferenceFieldDesc = Nothing
+        Me.txtSubLocation.ReferenceFieldName = Nothing
+        Me.txtSubLocation.ReferenceTableName = Nothing
+        Me.txtSubLocation.Size = New System.Drawing.Size(143, 19)
+        Me.txtSubLocation.TabIndex = 296
+        Me.txtSubLocation.Value = ""
         '
         'txtFiscalYear
         '
@@ -597,7 +643,7 @@ Partial Class frmMCCMaterialSale
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(938, 307)
+        Me.RadLabel12.Location = New System.Drawing.Point(938, 311)
         Me.RadLabel12.Name = "RadLabel12"
         Me.RadLabel12.Size = New System.Drawing.Size(318, 16)
         Me.RadLabel12.TabIndex = 24
@@ -938,7 +984,7 @@ Partial Class frmMCCMaterialSale
         '
         Me.RadLabel7.FieldName = Nothing
         Me.RadLabel7.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel7.Location = New System.Drawing.Point(969, 24)
+        Me.RadLabel7.Location = New System.Drawing.Point(532, 44)
         Me.RadLabel7.Name = "RadLabel7"
         Me.RadLabel7.Size = New System.Drawing.Size(62, 16)
         Me.RadLabel7.TabIndex = 37
@@ -968,7 +1014,7 @@ Partial Class frmMCCMaterialSale
         Me.txtRefNo.IsSourceFromTable = False
         Me.txtRefNo.IsSourceFromValueList = False
         Me.txtRefNo.IsUnique = False
-        Me.txtRefNo.Location = New System.Drawing.Point(1035, 23)
+        Me.txtRefNo.Location = New System.Drawing.Point(610, 43)
         Me.txtRefNo.MaxLength = 50
         Me.txtRefNo.MendatroryField = False
         Me.txtRefNo.MyLinkLable1 = Me.RadLabel7
@@ -1254,7 +1300,7 @@ Partial Class frmMCCMaterialSale
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel5.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.MyLabel5.Location = New System.Drawing.Point(1024, 371)
+        Me.MyLabel5.Location = New System.Drawing.Point(1024, 375)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(235, 16)
         Me.MyLabel5.TabIndex = 56
@@ -1268,7 +1314,7 @@ Partial Class frmMCCMaterialSale
         Me.UcItemBalance1.ItemCode = ""
         Me.UcItemBalance1.ItemMRP = 0R
         Me.UcItemBalance1.ItemName = ""
-        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 317)
+        Me.UcItemBalance1.Location = New System.Drawing.Point(2, 321)
         Me.UcItemBalance1.LocationCode = ""
         Me.UcItemBalance1.LocationName = ""
         Me.UcItemBalance1.MaximumSize = New System.Drawing.Size(710, 70)
@@ -1366,7 +1412,7 @@ Partial Class frmMCCMaterialSale
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.MyLabel2.ForeColor = System.Drawing.Color.Blue
-        Me.MyLabel2.Location = New System.Drawing.Point(-1, 374)
+        Me.MyLabel2.Location = New System.Drawing.Point(-1, 378)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(438, 16)
         Me.MyLabel2.TabIndex = 25
@@ -1547,7 +1593,7 @@ Partial Class frmMCCMaterialSale
         Me.RadGroupBox2.Location = New System.Drawing.Point(2, 168)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1346, 134)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1346, 138)
         Me.RadGroupBox2.TabIndex = 40
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1566,12 +1612,13 @@ Partial Class frmMCCMaterialSale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1326, 104)
+        Me.gv1.Size = New System.Drawing.Size(1326, 108)
         Me.gv1.TabIndex = 0
         Me.gv1.TabStop = False
         '
@@ -1764,7 +1811,7 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage2.Controls.Add(Me.gv2)
         Me.RadPageViewPage2.Controls.Add(Me.RadLabel11)
         Me.RadPageViewPage2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(47.0!, 26.0!)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(43.0!, 22.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
         Me.RadPageViewPage2.Size = New System.Drawing.Size(1006, 339)
@@ -1987,7 +2034,8 @@ Partial Class frmMCCMaterialSale
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -1998,7 +2046,7 @@ Partial Class frmMCCMaterialSale
         'RadPageViewPage3
         '
         Me.RadPageViewPage3.Controls.Add(Me.SplitContainer2)
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(112.0!, 26.0!)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 22.0!)
         Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
         Me.RadPageViewPage3.Size = New System.Drawing.Size(1006, 339)
@@ -2038,7 +2086,8 @@ Partial Class frmMCCMaterialSale
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvAC.ShowGroupPanel = False
@@ -2074,24 +2123,16 @@ Partial Class frmMCCMaterialSale
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(85.0!, 22.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 35)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1006, 339)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1006, 339)
-        Me.UcCustomFields1.TabIndex = 1
-        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 26.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 22.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 35)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(1006, 339)
@@ -2135,7 +2176,7 @@ Partial Class frmMCCMaterialSale
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel22)
         Me.RadPageViewPage4.Controls.Add(Me.RadLabel19)
         Me.RadPageViewPage4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(41.0!, 26.0!)
+        Me.RadPageViewPage4.ItemSize = New System.Drawing.SizeF(37.0!, 22.0!)
         Me.RadPageViewPage4.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage4.Name = "RadPageViewPage4"
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1006, 339)
@@ -2979,9 +3020,9 @@ Partial Class frmMCCMaterialSale
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'RadMenu1
         '
@@ -2991,51 +3032,13 @@ Partial Class frmMCCMaterialSale
         Me.RadMenu1.Size = New System.Drawing.Size(1282, 20)
         Me.RadMenu1.TabIndex = 3
         '
-        'lblSubLocation
+        'UcCustomFields1
         '
-        Me.lblSubLocation.AutoSize = False
-        Me.lblSubLocation.BorderVisible = True
-        Me.lblSubLocation.FieldName = Nothing
-        Me.lblSubLocation.Location = New System.Drawing.Point(243, 45)
-        Me.lblSubLocation.Name = "lblSubLocation"
-        Me.lblSubLocation.Size = New System.Drawing.Size(282, 19)
-        Me.lblSubLocation.TabIndex = 297
-        '
-        'MyLabel13
-        '
-        Me.MyLabel13.FieldName = Nothing
-        Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(1, 46)
-        Me.MyLabel13.Name = "MyLabel13"
-        Me.MyLabel13.Size = New System.Drawing.Size(72, 16)
-        Me.MyLabel13.TabIndex = 295
-        Me.MyLabel13.Text = "Sub Location"
-        '
-        'txtSubLocation
-        '
-        Me.txtSubLocation.CalculationExpression = Nothing
-        Me.txtSubLocation.FieldCode = Nothing
-        Me.txtSubLocation.FieldDesc = Nothing
-        Me.txtSubLocation.FieldMaxLength = 0
-        Me.txtSubLocation.FieldName = Nothing
-        Me.txtSubLocation.isCalculatedField = False
-        Me.txtSubLocation.IsSourceFromTable = False
-        Me.txtSubLocation.IsSourceFromValueList = False
-        Me.txtSubLocation.IsUnique = False
-        Me.txtSubLocation.Location = New System.Drawing.Point(96, 44)
-        Me.txtSubLocation.MendatroryField = True
-        Me.txtSubLocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSubLocation.MyLinkLable1 = Nothing
-        Me.txtSubLocation.MyLinkLable2 = Nothing
-        Me.txtSubLocation.MyReadOnly = False
-        Me.txtSubLocation.MyShowMasterFormButton = False
-        Me.txtSubLocation.Name = "txtSubLocation"
-        Me.txtSubLocation.ReferenceFieldDesc = Nothing
-        Me.txtSubLocation.ReferenceFieldName = Nothing
-        Me.txtSubLocation.ReferenceTableName = Nothing
-        Me.txtSubLocation.Size = New System.Drawing.Size(143, 19)
-        Me.txtSubLocation.TabIndex = 296
-        Me.txtSubLocation.Value = ""
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1006, 339)
+        Me.UcCustomFields1.TabIndex = 1
         '
         'frmMCCMaterialSale
         '
@@ -3059,6 +3062,8 @@ Partial Class frmMCCMaterialSale
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFiscalYear, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPaymentCycleNo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3234,8 +3239,6 @@ Partial Class frmMCCMaterialSale
         Me.Panel1.ResumeLayout(False)
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
