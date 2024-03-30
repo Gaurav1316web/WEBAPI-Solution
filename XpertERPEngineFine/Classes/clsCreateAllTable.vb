@@ -8280,6 +8280,11 @@ Public Class clsCreateAllTable
             coll.Add("RoundOffAmount", "decimal(18,2)  null ")
             coll.Add("Sub_Location_code", "varchar(12) NULL")
             coll.Add("Trip_No", "integer null")
+            coll.Add("FAT_Per", "decimal(18,2) null")
+            coll.Add("SNF_Per", "decimal(18,2) null")
+            coll.Add("Acidity", "decimal(18,2) null")
+            coll.Add("Temperature", "decimal(18,2) null")
+            coll.Add("MBRT_Hours", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BOOKING_MATSER", coll, "", True, False, "", "Document_No", "Document_Date")
             Try
                 clsDBFuncationality.ExecuteNonQuery("Alter Table TSPL_BOOKING_MATSER Alter Column Created_Date datetime NOT NULL")
@@ -8393,6 +8398,7 @@ Public Class clsCreateAllTable
             coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
             coll.Add("Disc_Amt", "decimal(18, 2) NULL")
+            coll.Add("QtyinKg", "decimal(18, 2) NULL")
             coll.Add("Amt_Less_Discount", "decimal(18, 2) NULL")
             coll.Add("Distributor_Commission_PKID", "int null References TSPL_DISTRIBUTOR_COMMISSION_DETAIL(PK_ID)")
             coll.Add("Distributor_Commission_Rate", "decimal(18,4) NULL")
@@ -14388,6 +14394,7 @@ Public Class clsCreateAllTable
             coll.Add("Modify_Date", "Datetime NULL")
             coll.Add("Comp_Code", "varchar(8)  NOT NULL")
             coll.Add("price_CodeNon", "varchar(12) NULL")
+            coll.Add("price_CodeFOR", "varchar(12) NULL")
             coll.Add("Credit_Limit_Alert_Type", "char(1) NULL")
             coll.Add("PIN_Code", "varchar(10) NULL")
             coll.Add("Cust_DOB", "datetime NULL")
@@ -15098,6 +15105,8 @@ Public Class clsCreateAllTable
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("University_Address", "VARCHAR(100) NULL")
             coll.Add("University_Website", "VARCHAR(100) NULL")
+            coll.Add("DOCUMENT_FILE", "Image null ")
+            coll.Add("DocName", "VARCHAR(100) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_EMPLOYEE_QUALIFICATION", coll, Nothing, False, False)
 
             coll = New Dictionary(Of String, String)()
@@ -18025,6 +18034,7 @@ Public Class clsCreateAllTable
             coll.Add("Location_Code", "varchar(12) NOT NULL default ''")
             coll.Add("Is_With_Tax", "CHAR(1) NOT NULL Default ''")
             coll.Add("Is_Active", "integer not null default 0")
+            coll.Add("Is_For_Price", "integer not null default 0")
             coll.Add("Stock_Price_Id", "varchar(15) NOT NULL Default ''")
             coll.Add("Item_Price_ID", "int identity NOT NULL")
             coll.Add("Item_Code", "varchar(50)  NOT NULL REFERENCES TSPL_ITEM_MASTER (Item_Code)")
@@ -26320,6 +26330,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("pieces", "integer not null default 0")
             coll.Add("Item_Cost", "Decimal(18,2) null")
             coll.Add("Custom_Conversion", "integer not null default 0")
+            coll.Add("Print_UOM", "integer  null default 0")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_ITEM_UOM_DETAIL", coll, "", True)
 
 
@@ -49338,6 +49349,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Start_Date", "Date Not null")
             coll.Add("End_Date", "Date  null")
             coll.Add("Is_ALL_UOM", "integer null")
+            coll.Add("Is_FOR_Price", "integer null")
             coll.Add("Is_Back_Calculation", "integer null")
             coll.Add("Back_Calculation_Type", "integer null") ''1-With Tax,2-Without T
             coll.Add("Created_By", "varchar(12) NOT NULL")
@@ -53400,8 +53412,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
-            coll.Add("Against_TenderNo", "varchar(50) not null References TSPL_TENDER_HEADER(DocumentCode)")
-            coll.Add("Against_Tender_Schedule_PK_Id", "integer NOT NULL References TSPL_TENDER_SCHEDULE(PK_Id)")
+            coll.Add("Against_TenderNo", "varchar(50) null References TSPL_TENDER_HEADER(DocumentCode)")
+            coll.Add("Against_Tender_Schedule_PK_Id", "integer NULL References TSPL_TENDER_SCHEDULE(PK_Id)")
             coll.Add("SRN_No", "Varchar(30) not null references TSPL_SRN_HEAD(SRN_No)")
             coll.Add("Item_Code", "Varchar(50) not null references TSPL_ITEM_MASTER(Item_Code)")
             coll.Add("Qty", "DECIMAL(18,2) NULL")
@@ -53411,11 +53423,27 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Against_Tender_Schedule_PK_Id_PO", "integer NULL References TSPL_TENDER_SCHEDULE_PO(PK_Id)")
             coll.Add("Against_Tender_Schedule_Penalty_PK_Id_PO", "integer NULL References TSPL_TENDER_SCHEDULE_PENALTY_PO(PK_Id)")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_TENDER", coll, Nothing, False, False, "TSPL_SRN_HEAD", "SRN_No", "")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SRN_TENDER_CALC", coll, Nothing, False, False, "TSPL_SRN_HEAD", "SRN_No", "")
 
-            qry = "alter table TSPL_SRN_TENDER alter column Against_Tender_Schedule_PK_Id integer NULL "
-            clsDBFuncationality.ExecuteNonQuery(qry)
-            qry = "alter table TSPL_SRN_TENDER alter column Against_TenderNo varchar(50) null "
-            clsDBFuncationality.ExecuteNonQuery(qry)
+            qry = "select 1 from TSPL_SRN_TENDER_CALC"
+            dt = clsDBFuncationality.GetDataTable(qry)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Dim trans As SqlClient.SqlTransaction = clsDBFuncationality.GetTransactin
+                Try
+                    qry = "insert into TSPL_SRN_TENDER_CALC(Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Against_Tender_Schedule_Penalty_PK_Id,Penalty,Against_PO,Against_Tender_Schedule_PK_Id_PO,Against_Tender_Schedule_Penalty_PK_Id_PO) 
+select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Against_Tender_Schedule_Penalty_PK_Id,Penalty,Against_PO,Against_Tender_Schedule_PK_Id_PO,Against_Tender_Schedule_Penalty_PK_Id_PO
+ from TSPL_SRN_TENDER where not exists (select 1 from TSPL_PI_DETAIL where TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_TENDER.SRN_No)"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    qry = "delete from TSPL_SRN_TENDER where not exists (select 1 from TSPL_PI_DETAIL where TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_TENDER.SRN_No)"
+                    clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                    trans.Commit()
+                Catch ex As Exception
+                    trans.Rollback()
+                    clsCommon.MyMessageBoxShow(ex.Message)
+                End Try
+            End If
 
 
             coll = New Dictionary(Of String, String)()

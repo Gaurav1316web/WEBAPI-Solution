@@ -2,11 +2,8 @@
 Imports System.Globalization
 Imports System.Text.RegularExpressions
 Imports common
-
-
 Public Class frmCustomer
     Inherits FrmMainTranScreen
-
 #Region "Variable"
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
     Dim ButtonToolTip As ToolTip = New ToolTip()
@@ -27,23 +24,19 @@ Public Class frmCustomer
     Const colitemno As String = "itemCode"
     Const coldesc As String = "itemName"
     Const coluom As String = "UOM"
-
     Const ColItemValidUpto As String = "VAIDUPTO"
     Const ColItemStartDate As String = "Start Date"
-
     Private isCellValueChangedOpen As Boolean = False
     Private isNewEntry As Boolean = True
     Public Shared valueEntry As Boolean = False
     Dim userCode, companyCode As String
     Dim CustId As String
     Dim Custname As String
-
     Const colCanLineNo As String = "colCanLineNo"
     Const ColCanLocation As String = "ColCanLocation"
     Const ColCanOpeningDate As String = "ColCanOpeningDate"
     Const ColCanOpeningQty As String = "ColCanOpeningQty"
     Const colCanLocationName As String = "colCanLocationName"
-
     Public DrillDown_transType As String = Nothing
     Public DrillDown_FormName As String = Nothing
     Public isDisplayFranchiseDetails As Boolean = False
@@ -56,10 +49,7 @@ Public Class frmCustomer
     Public SuperUserCustomer As Boolean = False
     Dim OneTimeCheck As Boolean = False
     Public CustomerFormOpens As Boolean = False
-
-
 #End Region
-
     Public Sub New(ByVal user As String, ByVal company As String)
         InitializeComponent()
         userCode = user
@@ -78,13 +68,10 @@ Public Class frmCustomer
             txtCustomerName.AutoCompleteSource = AutoCompleteSource.CustomSource
             txtCustomerName.AutoCompleteCustomSource = col
             txtCustomerName.AutoCompleteMode = AutoCompleteMode.Suggest
-
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
     End Sub
-
-
 #Region "Variable"
     Dim strCmd As String
     Dim myDt As DataTable
@@ -93,9 +80,7 @@ Public Class frmCustomer
     Dim myDataTable As DataTable
     Dim i As Integer
 #End Region
-
 #Region "Button Click"
-
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
@@ -124,7 +109,6 @@ Public Class frmCustomer
         If clsCommon.CompairString(AllowAutoCCode, "0") = CompairStringResult.Equal Then
             If fndCustomer.Value <> "" Then
                 If clsCommon.myLen(txtCustomerName.Text) > 0 Then
-
                     If fndCusgrp.Value <> "" Then
                         If fndAccntSet.Value <> "" Then
                             If AllowToSave() Then
@@ -161,7 +145,6 @@ Public Class frmCustomer
         Else
             If clsCommon.myLen(txtCustomerName.Text) > 0 Then
                 If fndCusgrp.Value <> "" Then
-
                     If fndAccntSet.Value <> "" Then
                         If AllowToSave() Then
                             If MyBase.isModifyonPasswordFlag Then
@@ -177,7 +160,6 @@ Public Class frmCustomer
                         pageCus.SelectedPage = RadPageViewPage4
                         fndAccntSet.Focus()
                     End If
-
                 Else
                     common.clsCommon.MyMessageBoxShow(Me, "Select Customer Group", "Customer", MessageBoxButtons.OK, Me.Text)
                     pageCus.SelectedPage = RadPageViewPage1
@@ -203,7 +185,6 @@ Public Class frmCustomer
                     common.clsCommon.MyMessageBoxShow(Me, "Same Location exist at Row No " & clsCommon.myCstr(ii))
                 End If
             End If
-
         Next
     End Function
     Function AllowToSave() As Boolean
@@ -213,7 +194,6 @@ Public Class frmCustomer
                 pageCus.SelectedPage = RadPageViewPage4
                 txtTinNo.Focus()
                 Return False
-
             End If
             If TxtLocation.Value = "RCDF" OrElse TxtLocation.Value = "" Then
                 common.clsCommon.MyMessageBoxShow(Me, "Customer cannot be mapped without Location", Me.Text)
@@ -249,7 +229,6 @@ Public Class frmCustomer
                     End If
                 End If
             End If
-
             'richa agarwal 13 july,2017 to check customer exist with same name
             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.CustomerNameUniqueOnCM & "' and Type ='" & clsFixedParameterType.CustomerNameUniqueOnCM & "'")), "1") = CompairStringResult.Equal Then
                 If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select count(*) from TSPL_CUSTOMER_MASTER where Customer_Name='" & clsCommon.myCstr(txtCustomerName.Text) & "' and Cust_Code<>'" & clsCommon.myCstr(fndCustomer.Value) & "'")) > 0 Then
@@ -257,20 +236,17 @@ Public Class frmCustomer
                     Return False
                 End If
             End If
-
             'Dim arrChecked As List(Of String) = New List(Of String)
             'For jj As Integer = 0 To gvDB.Rows.Count - 1
             '    If (clsCommon.myCBool(gvDB.Rows(jj).Cells(colSelect).Value)) Then
             '        arrChecked.Add(clsCommon.myCstr(gvDB.Rows(jj).Cells(colDataBaseName).Value))
             '    End If
             'Next
-
             'If arrChecked Is Nothing OrElse arrChecked.Count = 0 Then
             '    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Company Under Additional Info Tab")
             '    pageCus.SelectedPage = RadPageViewPage5
             '    Return False
             'End If
-
             'If isCustomerOfRouteType() Then
             '    If arrChecked.Count <> 1 Then
             '        common.clsCommon.MyMessageBoxShow(Me, "Please select only one Company (Under Additional Info. Tab).Because the Customer information type is Route")
@@ -278,7 +254,6 @@ Public Class frmCustomer
             '        Return False
             '    End If
             'End If
-
             If Chkparntcutmr.Checked = False AndAlso clsCommon.myLen(txtParentCstNo.Value) > 0 And clsCommon.myCdbl(txtCredit.Text) > 0 Then
                 Dim dblParentCreditLimit As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Credit_Limit from TSPL_CUSTOMER_MASTER where Cust_Code='" & txtParentCstNo.Value & "'"))
                 Dim dblTotalChildLimit As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum(Credit_Limit) from TSPL_CUSTOMER_MASTER where Parent_Customer_No='" & txtParentCstNo.Value & "' and Cust_Code not in ('" & fndCustomer.Value & "') "))
@@ -298,34 +273,21 @@ Public Class frmCustomer
                     Return False
                 End If
             End If
-
             Dim ii As Integer
             For ii = 1 To gvItems.Rows.Count
-
                 Dim Icode As String = gvItems.Rows(ii - 1).Cells(0).Value
                 Dim uom As String = gvItems.Rows(ii - 1).Cells(2).Value
                 Dim sdate As String = (gvItems.Rows(ii - 1).Cells(ColItemStartDate).Value)
                 Dim damt As String = (gvItems.Rows(ii - 1).Cells(3).Value)
                 Dim ValidUpto As String = (gvItems.Rows(ii - 1).Cells(ColItemValidUpto).Value)
-
-
-
                 Dim sdate1 As Date = clsCommon.myCDate((gvItems.Rows(ii - 1).Cells(ColItemStartDate).Value), "dd/MM/yyyy")
-
                 Dim ValidUpto1 As Date = clsCommon.myCDate((gvItems.Rows(ii - 1).Cells(ColItemValidUpto).Value), "dd/MM/yyyy")
-
-
-
-
                 If clsCommon.myLen(ValidUpto) > 0 Then
                     If sdate1 > ValidUpto1 Then
                         common.clsCommon.MyMessageBoxShow(Me, "Start Date Can Not Be Greater Than ValidUpTo Date At LIne no " + clsCommon.myCstr(ii) + " Under Items Tab")
-
                         Return False
                     End If
                 End If
-
-
                 ''For jj As Integer = ii + 1 To gvItems.Rows.Count
                 ''    Dim Startdate As String = gvItems.Rows(jj - 1).Cells(ColItemStartDate).Value
                 ''    If clsCommon.CompairString(Icode, gvItems.Rows(jj - 1).Cells(0).Value) = CompairStringResult.Equal AndAlso clsCommon.CompairString(uom, gvItems.Rows(jj - 1).Cells(2).Value) = CompairStringResult.Equal AndAlso ValidUpto Is Nothing Then
@@ -341,10 +303,6 @@ Public Class frmCustomer
                 ''        Return False
                 ''    End If
                 ''Next
-
-
-
-
                 For jj As Integer = ii + 1 To gvItems.Rows.Count
                     Dim Startdate As String = gvItems.Rows(jj - 1).Cells(ColItemStartDate).Value
                     Dim Startdate1 As Date = clsCommon.myCDate(gvItems.Rows(jj - 1).Cells(ColItemStartDate).Value)
@@ -371,17 +329,14 @@ Public Class frmCustomer
                         common.clsCommon.MyMessageBoxShow(Me, "Item's Start Date can't be blank for '" + Icode + "' Item Under Items Tab")
                         Return False
                     End If
-
                     If clsCommon.myLen(damt) <= 0 Then
                         common.clsCommon.MyMessageBoxShow(Me, "Item's Discount amount can't be blank for '" + Icode + "' Item Under Items Tab")
                         Return False
                     End If
-
                     'If qq = 0 Then
                     '    common.clsCommon.MyMessageBoxShow("Qty can not be zero for '" + Icode + "' Item ")
                     '    Return False
                     'End If
-
                 End If
             Next
             'Anand 22/09/2014
@@ -399,15 +354,12 @@ Public Class frmCustomer
                     Me.fndAccntSet.Focus()
                     Return False
                 End If
-
                 'If clsCommon.myLen(Me.fndTxGrp.Value) <= 0 Then
                 '    clsCommon.MyMessageBoxShow("Select Tax Group Under Process Tab")
                 '    Me.fndTxGrp.Focus()
                 '    Return False
                 'End If
-
                 'If clsCommon.CompairString(clsCommon.myCstr(fndVendorCurrency.Value), objCommonVar.BaseCurrencyCode) <> CompairStringResult.Equal Then
-
                 '' when vendor currency is other than base currency of the company
                 '' match account set currency with vendor currency
                 Dim qry As String
@@ -458,12 +410,10 @@ Public Class frmCustomer
                                 Return False
                             End If
                         End If
-
                         If String.IsNullOrEmpty(rowvisi.Cells("Agreement No").Value.ToString) Then
                             clsCommon.MyMessageBoxShow(Me, "Fill Agreement No of Serial No - [" & rowvisi.Cells("Visi Id").Value.ToString & "]")
                             Return False
                         End If
-
                         If String.IsNullOrEmpty(rowvisi.Cells("Agreement Date").Value.ToString) Then
                             clsCommon.MyMessageBoxShow(Me, "Fill Agreement Date of Serial No - [" & rowvisi.Cells("Visi Id").Value.ToString & "]")
                             Return False
@@ -471,7 +421,6 @@ Public Class frmCustomer
                     End If
                 Next
             End If
-
             If clsCommon.myLen(txtCategoryStructureCode.Value) > 0 Then
                 If clsCommon.myLen(gvCategory.Rows(0).Cells(0).Value) <= 0 Then
                     pageCus.SelectedPage = RadPageViewPage7
@@ -480,7 +429,6 @@ Public Class frmCustomer
                     gvCategory.Select()
                     Return False
                 End If
-
                 For Each grow As GridViewRowInfo In gvCategory.Rows
                     If clsCommon.myLen(grow.Cells(CatcolCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(CatcolValue).Value) <= 0 Then
                         pageCus.SelectedPage = RadPageViewPage7
@@ -491,7 +439,6 @@ Public Class frmCustomer
                     End If
                 Next
             End If
-
             ''richa ticket No. BM00000003109 on 19/08/2014
             If clsCommon.myCdbl(txtTempCreditLimit.Text) > 0 Then
                 If txttempCreditLimitTo.Value.Date < txttempCreditLimitFrom.Value.Date Then
@@ -502,9 +449,7 @@ Public Class frmCustomer
                 End If
             End If
             ''------------------------------------------
-
             '=============BM00000003721==============By Monika
-
             If clsCommon.myLen(txtpan.Text) > 0 Then
                 If clsCommon.myLen(txtpan.Text) < 10 Then
                     clsCommon.MyMessageBoxShow(Me, "PAN number should have max. 10 characters.", Me.Text)
@@ -532,7 +477,6 @@ Public Class frmCustomer
                     Return False
                 End If
             End If
-
             ''Remove these two fields 09-June-2015 
             'If clsCommon.myCdbl(TxtCrateOpeningQty.Value) <> 0 Then
             '    If TxtCrateOpeningDate.Checked = False Then
@@ -565,7 +509,6 @@ Public Class frmCustomer
                 End If
             Next
             '===================================================
-
             For intCount As Integer = 0 To gvCan.Rows.Count - 1
                 Dim strLocation As String = clsCommon.myCstr(gvCan.Rows(intCount).Cells(ColCanLocation).Value)
                 If clsCommon.myLen(strLocation) > 0 Then
@@ -584,7 +527,6 @@ Public Class frmCustomer
                     Throw New Exception("Please Fill Opening Qty in Can Accounting at Line no " & intCount + 1 & "")
                 End If
             Next
-
             '==============Sanjeet(30/05/2017)==================
             If GstApplicable Then
                 If chkGstRegistered.Checked Then
@@ -594,7 +536,6 @@ Public Class frmCustomer
                         txtpan.Select()
                         Return False
                     End If
-
                     txtGstInNo.Text = clsCommon.myCstr(txtGSTstateCode.Text) + clsCommon.myCstr(txtGstPanNo.Text) + clsCommon.myCstr(txtGstEntityNo.Text) + clsCommon.myCstr(txtGstDefaultValue.Text) + clsCommon.myCstr(txtGstLastNo.Text)
                     Dim StrMsg As String = clsERPFuncationality.ValidationGSTNO(txtGSTstateCode.Text, txtGstPanNo.Text, clsCommon.myCstr(txtGstInNo.Text), Nothing)
                     If clsCommon.myCstr(StrMsg) = "False" Then
@@ -603,17 +544,13 @@ Public Class frmCustomer
                 End If
             End If
             '===================================================
-
             UcCustomFields1.AllowToSave()
             Return True
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
-
     End Function
-
     Private Function isCustomerOfRouteType() As Boolean
         Dim isCustomerInfoOfRouteType As Boolean = False
         Dim qry As String = "select Cust_Type from TSPL_CUSTOMER_INFO where Cust_Code='" + fndCustomer.Value + "'"
@@ -622,7 +559,6 @@ Public Class frmCustomer
         End If
         Return isCustomerInfoOfRouteType
     End Function
-
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         funDelete()
     End Sub
@@ -630,9 +566,7 @@ Public Class frmCustomer
         funNew()
         isLoadCopy = False
     End Sub
-
 #End Region
-
 #Region "Page Load"
     Private Sub frmCustomer_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         popupcustomernamewhileupdating = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.popupcustomernamewhileupdating, clsFixedParameterCode.popupcustomernamewhileupdating, Nothing)) = 1, True, False)
@@ -655,7 +589,6 @@ Public Class frmCustomer
         btnDelete.Enabled = False
         drpformtype.SelectedIndex = 0
         chkInActive.Enabled = False
-
         dtClosing.Value = connectSql.serverDate()
         LoadCustomerType()
         'SetDataBaseGrid()
@@ -673,7 +606,6 @@ Public Class frmCustomer
         startdate.ReadOnly = False
         startdate.Width = 80
         gvItems.MasterTemplate.Columns.Add(startdate)
-
         Dim repoExpiry As GridViewDateTimeColumn = New GridViewDateTimeColumn()
         repoExpiry.Format = DateTimePickerFormat.Custom
         repoExpiry.CustomFormat = "dd-MM-yyyy"
@@ -692,7 +624,6 @@ Public Class frmCustomer
         LoadTransactionType()
         ValidateLength()
         ApplyReadOPR()
-
         ''For Custom Fields
         pageCus.Pages("pvpCustomFields").Item.Visibility = MyBase.customFieldTabProperty
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
@@ -713,7 +644,6 @@ Public Class frmCustomer
         '-------------------------------------------------------------------
         Dim qry As String = "select IsPriceGrpCodeOnCstMst from TSPL_INV_PARAMETERS"
         Dim value As Integer = clsDBFuncationality.getSingleValue(qry)
-
         If value > 0 Then
             chkpricegrpslctr.Visible = True
             txtpgfnd.Visible = True
@@ -725,14 +655,10 @@ Public Class frmCustomer
             txtpgfnd.Visible = False
             MyLabel3.Visible = False
         End If
-
         '---------------------------------------------------------------------
-
-
         UcAttachment1.Form_ID = MyBase.Form_ID
         UcAttachment1.BlankAllControls()
         pageCus.Pages("Attachments").Item.Visibility = ElementVisibility.Visible
-
         '---------------------------------------------
         RadPageViewPage7.Item.Visibility = ElementVisibility.Collapsed
         btnexport_cat.Visibility = ElementVisibility.Collapsed
@@ -744,9 +670,7 @@ Public Class frmCustomer
         End If
         dgvVisi.AllowAddNewRow = True
         FillCustName()
-
         '====================if customer already exist then call loaddata()=====BM00000003440=========
-
         '==============if enquiry trans type is export then mlticurrecy has to filled========
         If DrillDown_transType IsNot Nothing AndAlso clsCommon.CompairString(clsCommon.myCstr(DrillDown_transType), "Export") = CompairStringResult.Equal Then
             Me.fndCustCurrency.Visible = True
@@ -832,7 +756,6 @@ Public Class frmCustomer
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
         Catch ex As Exception
-
         End Try
     End Sub
     ''richa  ERO/01/07/21-001425
@@ -847,7 +770,6 @@ Public Class frmCustomer
             chkTurnoverMorethan10CR.Visible = False
         End If
     End Sub
-
     Sub VisibleMultRoute()
         If TagMultipleRouteWithCustomer Then
             MultiRouteCode.Visible = True
@@ -910,7 +832,6 @@ Public Class frmCustomer
         txtResidentialAdd1.MaxLength = 100
         txtResidentialAdd2.MaxLength = 100
     End Sub
-
     Private Sub ApplyReadOPR()
         txtCusgrp.ReadOnly = True
         txtCity.ReadOnly = True
@@ -920,27 +841,22 @@ Public Class frmCustomer
         Dim dt As DataTable = New DataTable
         dt.Columns.Add("Code", GetType(String))
         dt.Columns.Add("Name", GetType(String))
-
         Dim dr As DataRow = dt.NewRow()
         dr("Code") = ""
         dr("Name") = "Select"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "R"
         dr("Name") = "Retail"
         dt.Rows.Add(dr)
-
         dr = dt.NewRow()
         dr("Code") = "T"
         dr("Name") = "Tax"
         dt.Rows.Add(dr)
-
         CmbTransaction.DataSource = dt
         CmbTransaction.ValueMember = "Code"
         CmbTransaction.DisplayMember = "Name"
     End Sub
-
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -961,57 +877,44 @@ Public Class frmCustomer
         btnDelete.Visible = MyBase.isDeleteFlag ''ERO/18/11/19-001118 by balwinder on 21/11/2019
     End Sub
 #End Region
-
-
     Sub LoadCustomerType()
-
         Dim dt As DataTable = New DataTable()
         'dt.Columns.Add("Code", GetType(String))
         'dt.Columns.Add("Name", GetType(String))
-
         'Dim dr As DataRow = dt.NewRow()
         'dr("Code") = ""
         'dr("Name") = "Select"
         'dt.Rows.Add(dr)
-
         'dr = dt.NewRow()
         'dr("Code") = "A"
         'dr("Name") = "AGENCY"
         'dt.Rows.Add(dr)
-
         'dr = dt.NewRow()
         'dr("Code") = "D"
         'dr("Name") = "DIRECT ROUTE"
         'dt.Rows.Add(dr)
-
         'dr = dt.NewRow()
         'dr("Code") = "F"
         'dr("Name") = "FRANCHISEE"
         'dt.Rows.Add(dr)
-
         'dr = dt.NewRow()
         'dr("Code") = "M"
         'dr("Name") = "MODERN TRADE"
         'dt.Rows.Add(dr)
-
         'dr = dt.NewRow()
         'dr("Code") = "P"
         'dr("Name") = "PRE-SALE"
         'dt.Rows.Add(dr)
-
         'dr = dt.NewRow()
         'dr("Code") = "S"
         'dr("Name") = "SUPER DISTRIBUTOR"
         'dt.Rows.Add(dr)
-
-
         Dim strcusttype As String = "select Cust_Type_Desc from TSPL_CUSTOMER_TYPE_MASTER"
         dt = clsDBFuncationality.GetDataTable(strcusttype)
         cboCustomerClass.DataSource = dt
         cboCustomerClass.ValueMember = "Cust_Type_Desc"
         cboCustomerClass.DisplayMember = "Cust_Type_Desc"
     End Sub
-
 #Region "Finder"
     Private Sub fndCustomer_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndCustomer.Query = "select Cust_Code as [Customer Code],Customer_Name as [Name],Cust_Group_Code as [Customer Group],(select case when Status='N' then 'Active' else 'In.Active' end ) as [Status] from TSPL_CUSTOMER_MASTER  "
@@ -1030,7 +933,6 @@ Public Class frmCustomer
         'fndCusgrp.ValueToSelect1 = "Description"
     End Sub
     Private Sub fnCusGrp()
-
         Try
             Dim strCmd1 As String = " SELECT Cust_Group_Code as [Customer Gruop Code],Cust_Group_Desc as [Description]," &
                            " Tax_Group as [Tax Group],Cust_Account as [Account Set],Terms_Code as [Terms Code] FROM [TSPL_CUSTOMER_GROUP_MASTER] where Cust_Group_Code='" + fndCusgrp.Value + "' "
@@ -1042,13 +944,10 @@ Public Class frmCustomer
                 Me.fndAccntSet.Value = clsCommon.myCstr(row(3).ToString().Trim())
                 Me.fndTrmsCode.Value = clsCommon.myCstr(row(4).ToString().Trim())
             End If
-
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Customer")
         End Try
-
     End Sub
-
     Private Sub fndCity_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndCity.Query = "SELECT [City_Code] as [City Code],[City_Name] as [City Name]FROM [TSPL_CITY_MASTER]"
         'fndCity.ConnectionString = connectSql.SqlCon()
@@ -1064,7 +963,6 @@ Public Class frmCustomer
             strCmd = "SELECT City_Code as [City Code],[City_Name] as [City Name]FROM [TSPL_CITY_MASTER] where City_Code =  '" + strCityId + "'  "
             dt = clsDBFuncationality.GetDataTable(strCmd)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-
                 For Each row As DataRow In dt.Rows
                     strCityName = clsCommon.myCstr(row(1).ToString().Trim())
                 Next
@@ -1084,7 +982,6 @@ Public Class frmCustomer
         'fndTrmsCode.ValueToSelect = "Terms Code"
         'fndTrmsCode.ValueToSelect1 = "Description"
     End Sub
-
     Private Sub fndAccntSet_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndAccntSet.Query = "SELECT  [Cust_Account] as [Account Set Code],[Cust_Acct_Desc] as [Description] FROM [TSPL_CUSTOMER_ACCOUNT_SET]"
         '' fndAccntSet.Query = clsERPFuncationality.UserAvailableCustomers
@@ -1093,7 +990,6 @@ Public Class frmCustomer
         'fndAccntSet.ValueToSelect = "Account Set Code"
         'fndAccntSet.ValueToSelect1 = "Description"
     End Sub
-
     Private Sub fndPayCode_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndPayCode.Query = "  SELECT [Payment_Code] as [Payment Code],[payment_Desc] as [Description] FROM [TSPL_PAYMENT_CODE]"
         'fndPayCode.ConnectionString = connectSql.SqlCon()
@@ -1101,7 +997,6 @@ Public Class frmCustomer
         'fndPayCode.ValueToSelect = "Payment Code"
         'fndPayCode.ValueToSelect1 = "Description"
     End Sub
-
     Private Sub fndCusCategory_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndCusCategory.Query = "SELECT [CUST_CATEGORY_CODE] as [Customer Category Code],[CUST_CATEGORY_DESC] as [Description] FROM [TSPL_CUSTOMER_CATEGORY_MASTER]"
         'fndCusCategory.ConnectionString = connectSql.SqlCon()
@@ -1118,7 +1013,6 @@ Public Class frmCustomer
             strCmd = "SELECT [CUST_CATEGORY_CODE] as [Customer Category Code],[CUST_CATEGORY_DESC] as [Description],[Price_Code] FROM [TSPL_CUSTOMER_CATEGORY_MASTER] where CUST_CATEGORY_CODE='" + strCatgId + "' "
             dt = clsDBFuncationality.GetDataTable(strCmd)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-
                 For Each row As DataRow In dt.Rows
                     strName = clsCommon.myCstr(row(2).ToString().Trim())
                 Next
@@ -1134,7 +1028,6 @@ Public Class frmCustomer
         Dim dt As DataTable
         dt = clsDBFuncationality.GetDataTable("select Price_Code,Price_CodeNon , Route_No  from TSPL_CUSTOMER_CATEGORY_MASTER where CUST_CATEGORY_CODE = '" + fndCusCategory.Value + "'")
         If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-
             For Each row As DataRow In dt.Rows
                 'txtPriceCode.Text = myDr(0).ToString()
                 ' txtPriceCodeNon.Text = myDr(1).ToString()
@@ -1142,7 +1035,6 @@ Public Class frmCustomer
             Next
         End If
     End Sub
-
     Private Sub fndCusType_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndCusType.Query = "SELECT  [Cust_Type_Code] as [Customer Type Code],[Cust_Type_Desc] as [Description]FROM [TSPL_CUSTOMER_TYPE_MASTER]"
         'fndCusType.ConnectionString = connectSql.SqlCon()
@@ -1150,7 +1042,6 @@ Public Class frmCustomer
         'fndCusType.ValueToSelect = "Customer Type Code"
         'fndCusType.ValueToSelect1 = "Description"
     End Sub
-
     'Private Sub fndSalePerson_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
     '    fndSalePerson.Query = "SELECT  [EMP_CODE] as [Sales Person Code],[Emp_Name] as [Name],Designation,[Emp_Status] as [Status] FROM [TSPL_EMPLOYEE_MASTER]"
     '    fndSalePerson.ConnectionString = connectSql.SqlCon()
@@ -1175,7 +1066,6 @@ Public Class frmCustomer
     'Private Sub salePers_Event(ByVal sender As System.Object, ByVal e As System.EventArgs)
     '    Me.txtSalesPerson.Text = fnSalePers(Me.fndSalePerson.Value)
     'End Sub
-
     Private Sub fndRoute_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndRoute.Query = "SELECT [Route_No] as [Route No.],[Route_Desc] as [Description],Type FROM [TSPL_ROUTE_MASTER]"
         'fndRoute.ConnectionString = connectSql.SqlCon()
@@ -1194,7 +1084,6 @@ Public Class frmCustomer
             dt = clsDBFuncationality.GetDataTable(strCmd)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 For Each row As DataRow In dt.Rows
-
                     Me.txtRoute.Text = clsCommon.myCstr(row(1).ToString().Trim())
                     'Me.fndSalePerson.Value = clsCommon.myCstr(row(3).ToString().Trim())
                     'Me.txtSalesPerson.Text = clsCommon.myCstr(row(4).ToString().Trim())
@@ -1211,18 +1100,13 @@ Public Class frmCustomer
             'fndroutegroup.ValueToSelect = "Group Id"
             'fndroutegroup.Caption = "Group Master"
             'fndroutegroup.ValueToSelect1 = "Description"
-
-
-
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Customer")
         End Try
-
     End Sub
     'Private Sub Route_Event(ByVal sender As System.Object, ByVal e As System.EventArgs)
     '    Me.txtRoute.Text = fnRoute(Me.fndRoute.Value)
     'End Sub
-
     Private Sub fndChannel_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndChannel.Query = "SELECT  [Channel_Id] as [Channel Id],[Channel_Category] as [Category],[Channel_Name] as [Name] FROM [TSPL_CHANNEL_MASTER]"
         'fndChannel.ConnectionString = connectSql.SqlCon()
@@ -1238,7 +1122,6 @@ Public Class frmCustomer
             strCmd = "SELECT  [Channel_Id] as [Channel Id],[Channel_Category] as [Category],[Channel_Name] as [Name] FROM [TSPL_CHANNEL_MASTER] where Channel_Id='" + fndChannel.Value + "' "
             dt = clsDBFuncationality.GetDataTable(strCmd)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-
                 For Each row As DataRow In dt.Rows
                     strName = clsCommon.myCstr(row(2).ToString().Trim())
                 Next
@@ -1251,7 +1134,6 @@ Public Class frmCustomer
     Private Sub Channel_Event(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Me.txtChannel.Text = fnChannel(Me.fndChannel.Value)
     End Sub
-
     Private Sub fndVisi_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndVisi.Query = "SELECT  [Visi_Id] as [Visi Id],[VisiMake] as [VisiMake],[Visi_Chasis_No] as [Chasis No],[Visi_Installation_date] as [Installation Date] FROM [TSPL_VISI_MASTER]"
         'fndVisi.ConnectionString = connectSql.SqlCon()
@@ -1267,7 +1149,6 @@ Public Class frmCustomer
             strCmd = "SELECT  [Visi_Id] as [Visi Id],[VisiMake] as [VisiMake],[Visi_Chasis_No] as [Chasis No],[Visi_Installation_date] as [Installation Date] FROM [TSPL_VISI_MASTER] where Visi_Id ='" + fndVisi.Value + "'"
             dt = clsDBFuncationality.GetDataTable(strCmd)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-
                 For Each row As DataRow In dt.Rows
                     strVisiMake = clsCommon.myCstr(row(1).ToString().Trim())
                 Next
@@ -1300,7 +1181,6 @@ Public Class frmCustomer
             Dim dt As DataTable
             dt = clsDBFuncationality.GetDataTable(strCmd)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-
                 For Each row As DataRow In dt.Rows
                     strTaxGrpDesc = clsCommon.myCstr(row(1).ToString().Trim())
                 Next
@@ -1314,9 +1194,7 @@ Public Class frmCustomer
         Me.txtTxGrp.Text = fnTaxGrp(Me.fndTxGrp.Value)
     End Sub
 #End Region
-
 #Region "Function"
-
     Public Sub SaveDataFull()
         Try
             Dim AllowCustCode As String = ""
@@ -1332,17 +1210,15 @@ Public Class frmCustomer
                         AllowCustCode = clsERPFuncationality.GetNextCode(Nothing, clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy"), clsDocType.CustomerMaster, "", "")
                         fndCustomer.Value = AllowCustCode
                     Else
-
                         If clsCommon.myLen(txtCustomerName.Text) > 0 Then
-                                CustName = txtCustomerName.Text.Substring(0, 1)
-                                AutoCustCode = clsERPFuncationality.GetVendorNextCode("TSPL_CUSTOMER_MASTER", "Customer_Name", CustName, Nothing)
-                                fndCustomer.Value = AutoCustCode
-                            Else
-                                CustName = ""
-                                AutoCustCode = clsERPFuncationality.GetVendorNextCode("TSPL_CUSTOMER_MASTER", "Customer_Name", CustName, Nothing)
-                                fndCustomer.Value = AutoCustCode
-                            End If
-
+                            CustName = txtCustomerName.Text.Substring(0, 1)
+                            AutoCustCode = clsERPFuncationality.GetVendorNextCode("TSPL_CUSTOMER_MASTER", "Customer_Name", CustName, Nothing)
+                            fndCustomer.Value = AutoCustCode
+                        Else
+                            CustName = ""
+                            AutoCustCode = clsERPFuncationality.GetVendorNextCode("TSPL_CUSTOMER_MASTER", "Customer_Name", CustName, Nothing)
+                            fndCustomer.Value = AutoCustCode
+                        End If
                     End If
                     fndCustomer.Value = fndCustomer.Value
                 End If
@@ -1357,13 +1233,11 @@ Public Class frmCustomer
                 obj.Modify_By = objCommonVar.CurrentUserCode
             End If
             obj.CUSTOMER_FORM_TYPE = "ALL"
-
             'Add Bank detail
             obj.Bank_Name = clsCommon.myCstr(TxtBankName.Text)
             obj.IFSC_Code = clsCommon.myCstr(TxtIFSCCode.Text)
             obj.Branch_Name = clsCommon.myCstr(txtbranchname.Text)
             obj.Account_No = clsCommon.myCstr(TxtAccNo.Text)
-
             'Created By Ticket No- UDL/16/05/18-000164
             obj.FSSAI_NO = clsCommon.myCstr(txtAccessOfficer.Text)
             obj.Cust_Code = clsCommon.myCstr(fndCustomer.Value)
@@ -1402,13 +1276,11 @@ Public Class frmCustomer
             Else
                 obj.IsReorder = 0
             End If
-
             If chkTCSnotApplicable.Checked = True Then
                 obj.IsTCSnotApplicable = 1
             Else
                 obj.IsTCSnotApplicable = 0
             End If
-
             If chkITRfilledinLast2Years.Checked = True Then
                 obj.IsITRfilledinLast2Years = 1
             Else
@@ -1424,11 +1296,9 @@ Public Class frmCustomer
             Else
                 obj.IsTurnoverMorethan10CR = 0
             End If
-
             ''richa VIJ/01/10/19-000004
             obj.Booking_Type = IIf(cmbBookingType.Text = "Select", "", cmbBookingType.Text)
             obj.Customer_Category = IIf(cmbCustomerCategory.Text = "Select", "", cmbCustomerCategory.Text)
-
             ''============================
             'Dim Other_For_Pan As Integer = 0
             If ChkOther.Checked = True Then
@@ -1499,7 +1369,6 @@ Public Class frmCustomer
             obj.Lst_No = clsCommon.myCstr(txtLstNo.Text)
             obj.Form_Type = clsCommon.myCstr(drpformtype.Text)
             obj.Channel_Code = clsCommon.myCstr(fndChannel.Value)
-
             If chkInActive.Checked = True Then
                 obj.Status = "Y"    '******* for:In-Active ********
                 obj.Closing_Date = clsCommon.GetPrintDate(dtClosing.Value, "dd/MM/yyyy")
@@ -1521,14 +1390,12 @@ Public Class frmCustomer
             obj.Additional2 = clsCommon.myCstr(txtAddInfo2.Text)
             obj.Additional3 = clsCommon.myCstr(txtAddInfo3.Text)
             obj.location = clsCommon.myCstr(TxtLocation.Value)
-
             If clsCommon.myLen(obj.location) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Select Location For Mapping", Me.Text)
                 pageCus.SelectedPage = RadPageViewPage5
                 TxtLocation.Focus()
                 Exit Sub
             End If
-
             obj.Arr = New List(Of clsLocationCustomerMapping)
             Dim maxSequenceNo As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select max(SequenceNo) from TSPL_CUSTOMER_LOCATION_MAPPING where Location_Code='" + obj.location + "' and Location_Code='" + obj.location + "'  "))
             'obj.Sequence = maxSequenceNo
@@ -1539,8 +1406,6 @@ Public Class frmCustomer
             obj1.Customer_Name = txtCustomerName.Text
             obj1.SequenceNo = (maxSequenceNo + 1)
             obj.Arr.Add(obj1)
-
-
             obj.Salesman_Code = clsCommon.myCstr(fndSalePerson.Value)
             obj.OutLet_Commossion = clsCommon.myCdbl(0) '--default 0
             obj.Balance_ToDate = 0                      '--Default 0
@@ -1563,14 +1428,13 @@ Public Class frmCustomer
             obj.LastInvoice_Date = Nothing
             obj.Price_Code = clsCommon.myCstr(txtPriceCode.Value)
             obj.Price_CodeNon = clsCommon.myCstr(txtPriceCodeNon.Value)
+            obj.Price_CodeFOR = clsCommon.myCstr(txtPriceCodeFOR.Value)
             obj.Price_Group_Code = clsCommon.myCstr(txtpgfnd.Value)
             If chkInterBranch.Checked = True Then
                 obj.Inter_Branch = "Y"
             Else
                 obj.Inter_Branch = "N"
             End If
-
-
             If chkIsDistributor.Checked = True Then
                 obj.IsDistributor = "Y"
             Else
@@ -1582,8 +1446,6 @@ Public Class frmCustomer
             If isDisplayFranchiseDetails Then
                 obj.Franchise_CODE = clsCommon.myCstr(FndFranchaise.Value)
             End If
-
-
             If Chkparntcutmr.Checked = True Then
                 obj.prntcustyn = "Y"
             Else
@@ -1591,16 +1453,12 @@ Public Class frmCustomer
             End If
             obj.CSA_Type = IIf(chkCSA.Checked, "Y", "N")
             obj.ManualCustomer = IIf(rbtnManualCust.Checked, "Y", "N")
-
             obj.SubsidyAmount = clsCommon.myCdbl(txtSubsidy.Text)
-
             '' agaist ticket no. ERO/11/07/18-000368
-
             obj.ASO = clsCommon.myCstr(txtASO.Value)
             obj.ASM = clsCommon.myCstr(txtASM.Value)
             obj.ZSM = clsCommon.myCstr(txtZSM.Value)
             obj.RSM = clsCommon.myCstr(txtRSM.Value)
-
             '' End
             obj.Cast_Category_Code = clsCommon.myCstr(txtCastCategory.Value)
             obj.Distict_Code = clsCommon.myCstr(TxtDistictCode.Value)
@@ -1609,11 +1467,8 @@ Public Class frmCustomer
             obj.Grampanchayat_Code = clsCommon.myCstr(TxtGrampanchayat.Value)
             obj.Panchayat_Samiti_Code = clsCommon.myCstr(TxtPanchayatSamiti.Value)
             obj.Vidhan_Sabha_Code = clsCommon.myCstr(TxtVidhanSabha.Value)
-
             obj.Priority_Level = cboxPriorityLevel.Text
-
             obj.Transaction_Type = CmbTransaction.SelectedValue
-
             obj.F_H_Name = clsCommon.myCstr(txtF_H_Name.Text)
             obj.Education = clsCommon.myCstr(txtEducation.Text)
             obj.ResidentialAdd1 = clsCommon.myCstr(txtResidentialAdd1.Text)
@@ -1621,8 +1476,6 @@ Public Class frmCustomer
             obj.DOB = txtDOB.Value
             obj.MaritalStatus = IIf(CboMaritalStatus.Text = "Select", "", CboMaritalStatus.Text)
             obj.CustStatus = IIf(CboCustomerStatus.Text = "Select", "", CboCustomerStatus.Text)
-
-
             obj.Comp_Code = objCommonVar.CurrentCompanyCode
             '==============Added by preeti Gupta[03/04/2019]against ticket no[ERO/05/04/19-000548]=
             obj.ArrRoute = New List(Of clsMultRouteCustomer)
@@ -1635,8 +1488,6 @@ Public Class frmCustomer
                         obj.ArrRoute.Add(objTrTr)
                     End If
                 Next
-
-
             End If
             '==================================================
             '--------------------------------------------------------------------------Pass dataBase Name in Array
@@ -1648,7 +1499,6 @@ Public Class frmCustomer
             '    End If
             'Next
             '---------------------------------------------------------------------------------------
-
             '-----------------------------Visi Detail-------
             obj.Arr_visi = New List(Of clsvisidetail)
             obj.Arr_Asset = New List(Of clsAssetInstallPullOut)
@@ -1659,7 +1509,6 @@ Public Class frmCustomer
                     objTr.lev2code = clsCommon.myCstr(grow.Cells("Size").Value)
                     objTr.lev3code = clsCommon.myCstr(grow.Cells("Visi Type").Value)
                     objTr.lev4code = clsCommon.myCstr(grow.Cells("Model_No").Value)
-
                     objTr.serialno = clsCommon.myCstr(grow.Cells("Visi Id").Value)
                     objTr.tagno = clsCommon.myCstr(grow.Cells("Tag No").Value)
                     objTr.asstcode = clsCommon.myCstr(grow.Cells("Asset No").Value)
@@ -1677,13 +1526,11 @@ Public Class frmCustomer
                     obj.Arr_visi.Add(objTr)
                     clsDBFuncationality.ExecuteNonQuery("Update TSPL_VISI_MASTER set tag_No='" & grow.Cells("Tag No").Value.ToString & "' Where visi_Id='" & grow.Cells("Visi Id").Value & "'")
                     obj.ArrVisi.Add(clsCommon.myCstr(grow.Cells("Visi Id").Value))
-
                     Dim objAsset As New clsAssetInstallPullOut
                     objAsset.InstallCustomer_Id = fndCustomer.Value
                     objAsset.Agreement_date = clsCommon.myCstr(grow.Cells("Agreement Date").Value)
                     objAsset.Agreement_No = clsCommon.myCstr(grow.Cells("Agreement No").Value)
                     objAsset.Asset_Id = clsCommon.myCstr(grow.Cells("Visi Id").Value)
-
                     objAsset.installDate = clsCommon.myCstr(grow.Cells("Installation Date").Value)
                     objAsset.Trans_Type = "Installed"
                     objAsset.FOC = clsCommon.myCstr(grow.Cells("FOC").Value)
@@ -1691,7 +1538,6 @@ Public Class frmCustomer
                     objAsset.Cheque_No = clsCommon.myCstr(grow.Cells("Cheque No").Value)
                     objAsset.Cheque_date = clsCommon.myCstr(grow.Cells("Cheque Date").Value)
                     If clsCommon.myCstr(grow.Cells("Cheque Date").Value) <> "" Then objAsset.Cheque_date = clsCommon.myCstr(grow.Cells("Cheque Date").Value)
-
                     obj.Arr_Asset.Add(objAsset)
                     'clsDBFuncationality.ExecuteNonQuery("Update TSPL_VISI_MASTER set tag_No='" & grow.Cells("Tag No").Value.ToString & "' Where visi_Id='" & grow.Cells("Visi Id").Value & "'")
                 End If
@@ -1710,7 +1556,6 @@ Public Class frmCustomer
                     obj.Arr_CrateAccount.Add(objTr)
                 End If
             Next
-
             '---- can Accountinh
             obj.Arr_CanAccount = New List(Of clsCustomerCanAccounting)
             For Each gr As GridViewRowInfo In gvCan.Rows
@@ -1725,7 +1570,6 @@ Public Class frmCustomer
                     obj.Arr_CanAccount.Add(objTr)
                 End If
             Next
-
             '-------------------Item detail------------------------------------------
             obj.ArrItem = New List(Of clsCustomerItemdetail)
             For Each gr As GridViewRowInfo In gvItems.Rows
@@ -1739,29 +1583,23 @@ Public Class frmCustomer
                 If clsCommon.myLen(gr.Cells(ColItemStartDate).Value) > 0 Then
                     objTr.Start_date = clsCommon.GetPrintDate(clsCommon.myCDate(gr.Cells(ColItemStartDate).Value), "dd/MMM/yyyy")
                 End If
-
                 If (clsCommon.myLen(gr.Cells(colitemno).Value) > 0) Then
                     obj.ArrItem.Add(objTr)
                 End If
             Next
             '---------------------------------------------------------------------
-
             obj.cat_struct_code = clsCommon.myCstr(txtCategoryStructureCode.Value)
-
             If clsCommon.myLen(obj.cat_struct_code) > 0 Then
                 obj.arrCat = New List(Of clsCustomerMaster)
                 For Each grow As GridViewRowInfo In gvCategory.Rows
                     Dim objtr As New clsCustomerMaster()
-
                     objtr.cat_code = clsCommon.myCstr(grow.Cells(CatcolCode).Value)
                     objtr.cat_value = clsCommon.myCstr(grow.Cells(CatcolValue).Value)
-
                     If clsCommon.myLen(objtr.cat_code) > 0 Then
                         obj.arrCat.Add(objtr)
                     End If
                 Next
             End If
-
             ''For Custom Fields
             obj.Form_ID = MyBase.Form_ID
             obj.arrCustomFields = New List(Of clsCustomFieldValues)
@@ -1775,7 +1613,6 @@ Public Class frmCustomer
             Else
                 obj.CURRENCY_CODE = Nothing
             End If
-
             If objCommonVar.IsMultiCurrencyCompany = False Then
                 obj.CURRENCY_CODE = objCommonVar.BaseCurrencyCode
             End If
@@ -1797,18 +1634,15 @@ Public Class frmCustomer
                     If chkGstRegistered.Checked Then
                         obj.GST_Registered = 1
                     End If
-
                 End If
                 If chkComposition.Checked Then
                     obj.GST_COMPOSITION = 1
                 End If
             End If
             '=====================================================================
-
             '' Anubhooti 01-Sep-2014 BM00000003425  ******************* Check Outstanding Amount Of customer *************
             Dim QryToGetOutAmt As String = ""
             Dim OutStandAmt As Double = 0
-
             QryToGetOutAmt = " Select [Customer Id], MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name, SUM([Due Amount]) AS [Due Amount] from (  " &
  " SELECT  TSPL_CUSTOMER_MASTER.Cust_Code AS [Customer Id], TSPL_SD_SALE_INVOICE_HEAD.Document_Code as [Document Id], case when TSPL_Customer_Invoice_Head.Document_Type ='I' then TSPL_Customer_Invoice_Head.Document_Total  when TSPL_Customer_Invoice_Head.Document_Type ='D' then TSPL_Customer_Invoice_Head.Document_Total  when TSPL_Customer_Invoice_Head.Document_Type ='C' then TSPL_Customer_Invoice_Head.Document_Total*-1  end as [Due Amount], CONVERT(DATE,TSPL_Customer_Invoice_Head.Document_Date,103) as [Document Date], case when TSPL_Customer_Invoice_Head.Document_Type ='I' then 'IN'  when TSPL_Customer_Invoice_Head.Document_Type ='D' then 'DB'  when TSPL_Customer_Invoice_Head.Document_Type ='C' then 'CR' end  as [Document_Type] FROM  TSPL_Customer_Invoice_Head INNER JOIN   TSPL_CUSTOMER_MASTER ON TSPL_Customer_Invoice_Head.Customer_Code  = TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_Customer_Invoice_Head.Against_Sale_No where TSPL_Customer_Invoice_Head.Status='1'  AND TSPL_CUSTOMER_MASTER.Status='N'  " &
   "          UNION ALL " &
@@ -1826,8 +1660,6 @@ Public Class frmCustomer
             " UNION ALL " &
  " SELECT  TSPL_ADJUSTMENT_HEADER.Customer_CODE, TSPL_ADJUSTMENT_HEADER.Adjustment_No, case when TSPL_ADJUSTMENT_HEADER.Trans_Type<>'In' then  (SELECT SUM(ISNULL(Item_Cost,0)+ISNULL(Breakage_Cost,0))*-1 FROM dbo.TSPL_ADJUSTMENT_DETAIL WHERE TSPL_ADJUSTMENT_DETAIL.Adjustment_No=TSPL_ADJUSTMENT_HEADER.Adjustment_No)*-1 else (SELECT SUM(ISNULL(Item_Cost,0)+ISNULL(Breakage_Cost,0))*-1 FROM dbo.TSPL_ADJUSTMENT_DETAIL WHERE TSPL_ADJUSTMENT_DETAIL.Adjustment_No=TSPL_ADJUSTMENT_HEADER.Adjustment_No) end, convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103), 'AD' FROM dbo.TSPL_ADJUSTMENT_HEADER LEFT OUTER JOIN TSPL_CUSTOMER_MASTER on TSPL_ADJUSTMENT_HEADER.Customer_CODE=TSPL_CUSTOMER_MASTER.Cust_Code WHERE TSPL_ADJUSTMENT_HEADER.Customer_CODE <> '' AND ISNULL(Reference_Document,'')=''  and TSPL_ADJUSTMENT_HEADER.Posted='Y'  AND TSPL_CUSTOMER_MASTER.Status='N'  " &
  " ) XXX LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON XXX.[Customer Id]=TSPL_CUSTOMER_MASTER.Cust_Code where  XXX.Document_Type in ('IN','DB','CR','RC','AV','OA','UC','SR','VGCL','AD','RF','RC'  )  and convert(date,XXX.[Document Date] ,103) <= convert(date,'03/09/2014',103) AND [Due Amount] <> 0 And [Customer Id]='" & fndCustomer.Value & "' Group By XXX.[Customer Id]  ORDER BY [Customer Id] "
-
-
             Dim dt As DataTable
             dt = clsDBFuncationality.GetDataTable(QryToGetOutAmt)
             If dt.Rows IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -1837,17 +1669,14 @@ Public Class frmCustomer
                 Throw New Exception("You can not make this customer Inactive because it has outstanding amount")
             End If
             '' ******************* Check Outstanding Amount Of customer *************
-
             Dim issaved As Boolean = obj.SaveData(obj, obj.ArrVisi, isNewEntry)
             UcAttachment1.SaveData(obj.Cust_Code)
-
             'Remove Inactive customer mapped in user master 
             If SuperUserCustomer = True Then
                 If isNewEntry = False AndAlso clsCommon.CompairString(obj.Status, "Y") = CompairStringResult.Equal Then
                     clsDBFuncationality.ExecuteNonQuery("delete from TSPL_USER_CUSTOMER_MAPPING where Cust_Code='" & obj.Cust_Code & "'")
                 End If
             End If
-
             If btnSave.Text = "Save" Then
                 common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 btnSave.Text = "Update"
@@ -1857,23 +1686,18 @@ Public Class frmCustomer
             End If
             isLoadCopy = False
             LoadData() '-Fills data
-
             '===================if customer master open from another form then delete button and new button should be disable====================
             If DrillDown_FormName IsNot Nothing AndAlso clsCommon.CompairString(DrillDown_FormName, "ENQ-MST") = CompairStringResult.Equal Then
                 Dim qry As String = "insert into cust_info (cust_code,cust_name) values ('" + fndCustomer.Value + "','" + txtCustomerName.Text + "')"
                 clsDBFuncationality.ExecuteNonQuery(qry)
-
                 Me.Close()
             End If
             '==============================================================================
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
-
         '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
-
     End Sub
-
     Public Sub funDelete()
         Dim qst As String
         Dim dpt As String
@@ -1907,7 +1731,6 @@ Public Class frmCustomer
             Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
             ' Dim arrDBName As New List(Of String)
             Dim isSaved As Boolean = False
-
             'For ii As Integer = 0 To gvDB.Rows.Count - 1
             '    If (clsCommon.myCBool(gvDB.Rows(ii).Cells(colSelect).Value)) Then
             '        arrDBName.Add(clsCommon.myCstr(gvDB.Rows(ii).Cells(colDataBaseName).Value))
@@ -1922,22 +1745,18 @@ Public Class frmCustomer
                 isSaved = clsDBFuncationality.ExecuteNonQuery(QryVisi, trans)
                 '---------------------------------Code Ends Here---------------------------------------
                 isSaved = isSaved AndAlso clsCustomFieldValues.DeleteData(MyBase.Form_ID, fndCustomer.Value, trans)
-
                 '---------------delete category details
                 Dim qry As String = "delete from TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER where cust_code='" + fndCustomer.Value + "' and Category_Struct_Code='" + txtCategoryStructureCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 '============Added by Rohit,06 Jue,2015 delete Crate Opening============
                 qry = "delete from tSPL_CUSTOMER_CRATE_ACCOUNTING where cust_code='" + fndCustomer.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                 If isSaved Then
                     trans.Commit()
                     myMessages.delete()
                     'funNew()
                     btnSave.Text = "Save"
                     btnDelete.Enabled = False
-
                     funNew()
                 Else
                     trans.Rollback()
@@ -1949,7 +1768,6 @@ Public Class frmCustomer
         Else
             Exit Sub
         End If
-
     End Sub
     Public Sub LoadCrateOpening()
         Try
@@ -1969,34 +1787,26 @@ Public Class frmCustomer
             Else
                 gvCrate.Rows.AddNew()
             End If
-
             ''------------------Code Ends Here----------------------------------
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub LoadMultiRoute()
         Try
-
             Dim RouteNo As String
             Dim DocCode As New ArrayList
             Dim qry As String = "select * from TSPL_Customer_Route_Master "
             qry += " where TSPL_Customer_Route_Master.cust_code='" + fndCustomer.Value + "' "
             Dim dt As DataTable = New DataTable()
             dt = clsDBFuncationality.GetDataTable(qry)
-
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 For Each dr As DataRow In dt.Rows
                     RouteNo = clsCommon.myCstr(dr("Route_No"))
                     DocCode.Add(RouteNo)
                 Next
-
             End If
             MultiRouteCode.arrValueMember = DocCode
-
-
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -2027,7 +1837,6 @@ Public Class frmCustomer
                 ElseIf clsCommon.myCstr(rrr.Cells("FOC1").Value) = "No" Then
                     rrr.Cells("FOC").Value = "No"
                 End If
-
                 If clsCommon.myCstr(rrr.Cells("TYPE1").Value) = "R" Then
                     rrr.Cells("Type").Value = "Refurnished"
                 ElseIf clsCommon.myCstr(rrr.Cells("TYPE1").Value) = "N" Then
@@ -2061,16 +1870,12 @@ Public Class frmCustomer
             Next
             dgvVisi.Columns("FOC1").Width = 0
             dgvVisi.Columns("FOC1").IsVisible = False
-
             dgvVisi.Columns("TYPE").Width = 0
             dgvVisi.Columns("TYPE1").IsVisible = False
             ''------------------Code Ends Here----------------------------------
-
         Catch ex As Exception
-
         End Try
     End Sub
-
     Public Sub funFill()
         Try
             If clsCommon.CompairString(clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Description from tspl_fixed_parameter where type='" & clsFixedParameterType.ShowVisiDetail & "' and code ='" & clsFixedParameterCode.ShowVisiDetail & "' ")), "1") = CompairStringResult.Equal Then
@@ -2104,41 +1909,32 @@ Public Class frmCustomer
                     lblLocation.Enabled = True
                 End If
             End If
-
-
             If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
                 UcCustomFields1.BlankAllControls()
             End If
-
             myDs = connectSql.RunSQLReturnDS(strCmd)
             Dim myDr As DataRow
             For Each myDr In myDs.Tables(0).Rows
-
                 TxtBankName.Text = clsCommon.myCstr(myDr("Bank_Name"))
                 TxtIFSCCode.Text = clsCommon.myCstr(myDr("IFSC_Code"))
                 txtbranchname.Text = clsCommon.myCstr(myDr("Branch_Name"))
                 TxtAccNo.Text = clsCommon.myCstr(myDr("Account_No"))
-
                 Me.txtCustomerName.Text = myDr(0)
                 Me.txtCustomerNameHindi.Text = clsCommon.myCstr(myDr("Customer_Name_Hindi"))
                 Me.txtAdd1.Text = clsCommon.myCstr(myDr(1))
                 Me.txtAdd2.Text = clsCommon.myCstr(myDr(2))
                 Me.txtAdd3.Text = clsCommon.myCstr(myDr(3))
-
                 Dim date1 As String = clsCommon.myCstr(myDr(4))
                 If date1 <> "" Then
-
                     Me.dtClosing.Value = myDr(4).ToString()
                 Else
                     dtClosing.Value = dtClosing.MinDate
-
                 End If
                 Me.fndCusCategory.Value = clsCommon.myCstr(myDr(5))
                 Me.fndCusgrp.Value = clsCommon.myCstr(myDr(6))
                 Me.txtCusgrp.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Cust_Group_Desc  from TSPL_CUSTOMER_GROUP_MASTER where Cust_Group_Code='" + fndCusgrp.Value + "'"))
                 Me.fndCusType.Value = clsCommon.myCstr(myDr(7))
                 Me.fndRoute.Value = clsCommon.myCstr(myDr(8))
-
                 '' MULTICURRENCY
                 'If Me.fndBaseCurrency.Enabled = True Then
                 '    Me.fndBaseCurrency.Value = clsCommon.myCstr(myDr("CURRENCY_CODE"))
@@ -2154,20 +1950,17 @@ Public Class frmCustomer
                 txtCity.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select City_Name from TSPL_CITY_MASTER where City_Code='" + fndCity.Value + "'"))
                 fndstate.Value = clsCommon.myCstr(myDr(12))
                 txtStateName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  STATE_NAME  from TSPL_State_MASTER where STATE_CODE ='" + fndstate.Value + "'"))
-
                 'Dim qry As String = "select state_name from tspl_tds_state_master where state_code='" & fndstate.Value & "'"
                 'txtStateName.Text = clsCommon.myCstr(connectSql.RunScalar(qry))
                 '' Anubhooti 26-Aug-2014 BM00000003619
                 Me.fndCountry.Value = clsCommon.myCstr(myDr(13))
                 Dim Countryqry As String = "select COUNTRY_NAME from TSPL_COUNTRY_MASTER where COUNTRY_CODE='" & fndCountry.Value & "'"
                 TxtCountryName.Text = clsCommon.myCstr(connectSql.RunScalar(Countryqry))
-
                 If isDisplayFranchiseDetails Then
                     FndFranchaise.Value = clsCommon.myCstr(myDr("Franchise_Code"))
                     TxtFranchisee.Text = clsDBFuncationality.getSingleValue("Select Vendor_name from tspl_vendor_Master where Vendor_Code='" + FndFranchaise.Value + "'")
                 End If
                 ' Me.txtCountry.Text = clsCommon.myCstr(myDr(13))
-
                 ''richa
                 '' Remove these two fields 09-June-2015 (Amit Sir)
                 'TxtCrateOpeningQty.Value = clsCommon.myCdbl(myDr("Crate_Opening"))
@@ -2179,7 +1972,6 @@ Public Class frmCustomer
                 '    TxtCrateOpeningDate.Enabled = False
                 '    TxtCrateOpeningDate.Checked = False
                 'End If
-
                 Me.txtPhone1.Text = clsCommon.myCstr(myDr(14))
                 Me.txtPhone2.Text = clsCommon.myCstr(myDr(15))
                 Me.txtfax.Text = clsCommon.myCstr(myDr(16))
@@ -2193,7 +1985,6 @@ Public Class frmCustomer
                 Me.txtVehicleNo.Text = clsCommon.myCstr(myDr("VehicleNo"))
                 Me.txtDriverFinder.Value = clsCommon.myCstr(myDr("Driver_Name"))
                 Me.txtDriverMobileNo.Text = clsCommon.myCstr(myDr("Driver_Mobile_No"))
-
                 Me.fndTrmsCode.Value = clsCommon.myCstr(myDr(24))
                 Me.fndAccntSet.Value = clsCommon.myCstr(myDr(25))
                 Me.fndTxGrp.Value = clsCommon.myCstr(myDr(26))
@@ -2204,7 +1995,6 @@ Public Class frmCustomer
                 Me.drpformtype.Text = myDr(51).ToString
                 Me.fndChannel.Value = myDr(52).ToString
                 txtTxGrp.Text = clsDBFuncationality.getSingleValue("SELECT [Tax_Group_Desc] FROM [TSPL_TAX_GROUP_MASTER] where Tax_Group_Code='" + fndTxGrp.Value + "'")
-
                 Dim strStatus As String = clsCommon.myCstr(myDr("Status"))
                 If clsCommon.CompairString(strStatus, "N") = CompairStringResult.Equal OrElse Not clsCommon.CompairString(strStatus, "Y") = CompairStringResult.Equal Then
                     chkInActive.Checked = False
@@ -2217,14 +2007,12 @@ Public Class frmCustomer
                 Else
                     chkIsRepeatOrder.Checked = False
                 End If
-
                 Dim strHold As String = myDr(54).ToString
                 If strHold = "N" Then
                     chkHold.Checked = False
                 ElseIf strHold = "Y" Then
                     chkHold.Checked = True
                 End If
-
                 Me.txtRemarks1.Text = myDr(55).ToString
                 Me.txtRemarks2.Text = myDr(56).ToString
                 Me.txtAddInfo1.Text = myDr(57).ToString
@@ -2249,7 +2037,6 @@ Public Class frmCustomer
                 Me.txtPinNo.Text = myDr("PIN_NO").ToString
                 Me.txtAccessOfficer.Text = myDr("FSSAI_NO").ToString
                 Me.txtSubsidy.Text = myDr("SubsidyAmount").ToString
-
                 Me.txtASM.Value = myDr("ASM").ToString
                 Me.lblASM.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Emp_Name  from TSPL_EMPLOYEE_MASTER where EMP_CODE ='" & txtASM.Value & "'"))
                 Me.txtASO.Value = myDr("ASO").ToString
@@ -2272,7 +2059,6 @@ Public Class frmCustomer
                 Me.lblPanchayatSamiti.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select PANCHAYAT_SAMITI_NAME  from TSPL_PANCHAYAT_SAMITI_MASTER where PANCHAYAT_SAMITI_CODE ='" & TxtPanchayatSamiti.Value & "'"))
                 Me.TxtVidhanSabha.Value = myDr("Vidhan_Sabha_Code").ToString
                 Me.lblVidhanSabha.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VIDHAN_SABHA_NAME  from TSPL_VIDHAN_SABHA_MASTER where VIDHAN_SABHA_CODE ='" & TxtVidhanSabha.Value & "'"))
-
                 ''richa agarwal
                 'If clsCommon.myLen(txtParentCstNo.Value) > 0 Then
                 '    txtCredit.Enabled = False
@@ -2288,20 +2074,18 @@ Public Class frmCustomer
                 Else
                     txtParentCstmrNo.Text = ParentCstdesc
                 End If
-
                 If clsCommon.myLen(myDr("Agg_Made_Date").ToString) > 0 Then
                     dtpAggMade.Value = clsCommon.GetPrintDate(myDr("Agg_Made_Date"), "dd/MMM/yyyy")
                 End If
                 If clsCommon.myLen(myDr("Agg_Close_Date").ToString) > 0 Then
                     dtpAggClose.Value = clsCommon.GetPrintDate(myDr("Agg_Close_Date"), "dd/MMM/yyyy")
                 End If
-
                 Me.txtPriceCodeNon.Value = myDr("Price_CodeNon").ToString()
+                Me.txtPriceCodeFOR.Value = myDr("Price_CodeFor").ToString()
                 chkCSA.Checked = IIf(myDr("CSA_Type").ToString = "Y", True, False)
                 rbtnManualCust.Checked = IIf(myDr("Manual_Customer").ToString = "Y", True, False)
                 '-----------------------------------------------------------
                 Me.txtpgfnd.Value = myDr("Price_Group_Code").ToString()
-
                 If clsCommon.myLen(txtpgfnd.Value) > 0 Then
                     chkpricegrpslctr.Checked = True
                 ElseIf clsCommon.myLen(txtpgfnd.Value) = 0 Then
@@ -2309,24 +2093,18 @@ Public Class frmCustomer
                 End If
                 PriceCodeEnable()
                 '---------------------------------------------------------------
-
                 Dim strInterBranch As String = myDr("Inter_Branch").ToString()
                 If strInterBranch = "Y" Then
                     chkInterBranch.Checked = True
                 ElseIf strInterBranch = "N" Then
                     chkInterBranch.Checked = False
-
                 End If
-
                 Dim strprntcutmchk As String = myDr("parent_customer_yn").ToString()
                 If strprntcutmchk = "Y" Then
                     Chkparntcutmr.Checked = True
                 ElseIf strprntcutmchk = "N" Then
                     Chkparntcutmr.Checked = False
-
                 End If
-
-
                 Dim strIsDistributor As String = myDr("IsDistributor").ToString()
                 If strIsDistributor = "Y" Then
                     Me.chkIsDistributor.Checked = True
@@ -2356,13 +2134,11 @@ Public Class frmCustomer
                 Else
                     cmbBookingType.Text = myDr("Booking_Type").ToString()
                 End If
-
                 If clsCommon.myLen(myDr("Customer_Category").ToString()) <= 0 Then
                     cmbCustomerCategory.Text = "Select"
                 Else
                     cmbCustomerCategory.Text = myDr("Customer_Category").ToString()
                 End If
-
                 ''richa ticket No. BM00000003109 on 19/08/2014
                 Me.txtTempCreditLimit.Text = myDr("TempCreditLimit").ToString()
                 Me.txttempCreditLimitFrom.Text = myDr("TempCreditLimitFrom").ToString()
@@ -2374,7 +2150,6 @@ Public Class frmCustomer
                 Else
                     ChkCheckCreditLimit.Checked = True
                 End If
-
                 If clsCommon.myCdbl(myDr("IsTCSnotApplicable")) = 0 Then
                     chkTCSnotApplicable.Checked = False
                 Else
@@ -2395,7 +2170,6 @@ Public Class frmCustomer
                 Else
                     chkITRfilledinLast2Years.Checked = True
                 End If
-
                 '===========================
                 ' cboCustomerClass.SelectedValue = clsCommon.myCstr(myDr("Customer_Class"))
                 ''Anand 22/09/2014
@@ -2413,10 +2187,8 @@ Public Class frmCustomer
                 ElseIf strcredit = "Y" Then
                     chkcredit.Checked = True
                 End If
-
                 txtCategoryStructureCode.Value = clsCommon.myCstr(myDr("Category_Struct_Code"))
                 lblCategoryStructureCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select description from TSPL_ITEM_CATEGORY_STRUCTURE where item_category_struct_code='" + txtCategoryStructureCode.Value + "' and isnull(form_type,'item')='customer'"))
-
                 If isLoadCopy = True Then
                     btnSave.Text = "Save"
                     btnSave.Enabled = True
@@ -2426,65 +2198,54 @@ Public Class frmCustomer
                     btnSave.Enabled = True
                     btnDelete.Enabled = True
                 End If
-
-
                 grdTax.Rows.Clear()
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(27)), "") <> CompairStringResult.Equal Then
                     grdTax.Rows.AddNew()
                     Me.grdTax.Rows(0).Cells(0).Value = myDr(27).ToString
                     Me.grdTax.Rows(0).Cells(1).Value = myDr(28).ToString
                 End If
-
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(29)), "") <> CompairStringResult.Equal Then
                     grdTax.Rows.AddNew()
                     Me.grdTax.Rows(1).Cells(0).Value = myDr(29).ToString
                     Me.grdTax.Rows(1).Cells(1).Value = myDr(30).ToString
                 End If
-
                 Dim s As String = myDr(31).ToString
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(31)), "") <> CompairStringResult.Equal Then
                     grdTax.Rows.AddNew()
                     Me.grdTax.Rows(2).Cells(0).Value = myDr(31).ToString
                     Me.grdTax.Rows(2).Cells(1).Value = myDr(32).ToString
                 End If
-
                 s = myDr(33).ToString
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(33)), "") <> CompairStringResult.Equal Then
                     grdTax.Rows.AddNew()
                     Me.grdTax.Rows(3).Cells(0).Value = myDr(33).ToString
                     Me.grdTax.Rows(3).Cells(1).Value = myDr(34).ToString
                 End If
-
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(35)), "") <> CompairStringResult.Equal Then
                     grdTax.Rows.AddNew()
                     Me.grdTax.Rows(4).Cells(0).Value = myDr(35).ToString
                     Me.grdTax.Rows(4).Cells(1).Value = myDr(36).ToString
                 End If
-
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(37)), "") <> CompairStringResult.Equal Then
                     grdTax.Rows.AddNew()
                     Me.grdTax.Rows(5).Cells(0).Value = myDr(37).ToString
                     Me.grdTax.Rows(5).Cells(1).Value = myDr(38).ToString
                 End If
-
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(39)), "") <> CompairStringResult.Equal Then
                     grdTax.Rows.AddNew()
                     Me.grdTax.Rows(6).Cells(0).Value = myDr(39).ToString
                     Me.grdTax.Rows(6).Cells(1).Value = myDr(40).ToString
                 End If
-
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(41)), "") <> CompairStringResult.Equal Then
                     grdTax.Rows.AddNew()
                     Me.grdTax.Rows(7).Cells(0).Value = myDr(41).ToString
                     Me.grdTax.Rows(7).Cells(1).Value = myDr(42).ToString
                 End If
-
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(43)), "") <> CompairStringResult.Equal Then
                     grdTax.Rows.AddNew()
                     Me.grdTax.Rows(8).Cells(0).Value = myDr(43).ToString
                     Me.grdTax.Rows(8).Cells(1).Value = myDr(44).ToString
                 End If
-
                 If clsCommon.CompairString(clsCommon.myCstr(myDr(45)), "") <> CompairStringResult.Equal Then
                     grdTax.Rows.AddNew()
                     Me.grdTax.Rows(9).Cells(0).Value = myDr(45).ToString
@@ -2517,13 +2278,11 @@ Public Class frmCustomer
                 End If
                 cboxPriorityLevel.Text = myDr("Priority_Level").ToString
                 '==========================================================================
-
                 If clsCommon.myLen(myDr("CustStatus").ToString()) <= 0 Then
                     CboCustomerStatus.Text = "Select"
                 Else
                     CboCustomerStatus.Text = myDr("CustStatus").ToString()
                 End If
-
                 If clsCommon.myLen(myDr("MaritalStatus").ToString()) <= 0 Then
                     CboMaritalStatus.Text = "Select"
                 Else
@@ -2536,10 +2295,7 @@ Public Class frmCustomer
                 If clsCommon.myLen(myDr("DOB").ToString) > 0 Then
                     txtDOB.Value = clsCommon.GetPrintDate(myDr("DOB"), "dd/MMM/yyyy")
                 End If
-
             Next
-
-
             '------------------category detail--------------------
             LoadBlankGridCat()
             If clsCommon.myLen(txtCategoryStructureCode.Value) > 0 Then
@@ -2555,7 +2311,6 @@ Public Class frmCustomer
                 UcCustomFields1.LoadData(fndCustomer.Value)
             End If
             ''End of For Custom Fields
-
             'If userCode <> "ADMIN" Then
             '    If funSetUserAccess() = False Then Exit Sub
             'End If
@@ -2563,14 +2318,11 @@ Public Class frmCustomer
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Sub LoadCategoryData()
         Try
             Dim qry As String = "select TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.*,TSPL_ITEM_CATEGORY_LEVEL.description as cat_desc,TSPL_ITEM_CATEGORY_LEVEL_VALUES.description from TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.item_category_code=TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.Category_Code and isnull(TSPL_ITEM_CATEGORY_LEVEL.form_type,'Item')='customer' left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on isnull(TSPL_ITEM_CATEGORY_LEVEL_VALUES.form_type,'Item')='customer' and TSPL_ITEM_CATEGORY_LEVEL_VALUES.form_type=TSPL_ITEM_CATEGORY_LEVEL.form_type and TSPL_ITEM_CATEGORY_LEVEL.item_category_code=TSPL_ITEM_CATEGORY_LEVEL_VALUES.item_category_code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.code=TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.Category_Code_Values and TSPL_ITEM_CATEGORY_LEVEL_VALUES.item_category_code=TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.Category_Code where TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.cust_code='" + fndCustomer.Value + "' and TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.Category_Struct_Code='" + txtCategoryStructureCode.Value + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-
             gvCategory.Rows.Clear()
-
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
                     gvCategory.Rows.AddNew()
@@ -2584,8 +2336,6 @@ Public Class frmCustomer
             Throw New Exception(ex.Message)
         End Try
     End Sub
-
-
     Private Sub GetItemDetails(ByVal customer As String)
         gvItems.DataSource = Nothing
         gvItems.Rows.Clear()
@@ -2599,19 +2349,13 @@ Public Class frmCustomer
                     If drow("Valid_Upto") IsNot DBNull.Value Then
                         dt = clsCommon.myCDate(drow("Valid_Upto"))
                     End If
-
                     Dim dt1 As Date? = Nothing
-
                     If drow("Start_Date") IsNot DBNull.Value Then
                         dt1 = clsCommon.myCDate(drow("Start_Date"))
-
                     End If
-
                     'If clsCommon.myLen(drow("Valid_Upto")) > 0 Then
                     '    dt = clsCommon.myCDate(drow("Valid_Upto"))
-
                     'End If
-
                     gvItems.Rows.Add(drow(0).ToString(), drow(3).ToString(), drow(1).ToString(), drow(2).ToString(), dt1, dt)
                 End If
             Next
@@ -2689,7 +2433,6 @@ Public Class frmCustomer
         chkIsRepeatOrder.Checked = False
         Me.txtPriceCode.Value = ""
         Me.fndstate.Value = ""
-
         '' Anubhooti 26-Aug-2014
         'Me.txtCountry.Text = ""
         Me.fndCountry.Value = ""
@@ -2734,10 +2477,10 @@ Public Class frmCustomer
         Me.txtParentCstNo.Value = ""
         Me.txtParentCstmrNo.Text = ""
         Me.txtPriceCodeNon.Value = ""
+        Me.txtPriceCodeFOR.Value = ""
         Me.fndroutegroup.Value = ""
         Me.chkInterBranch.Checked = False
         Me.Chkparntcutmr.Checked = False
-
         chkIsDistributor.Checked = False
         txtServiceDealerCode.Value = ""
         txtServiceDealerName.Text = ""
@@ -2745,7 +2488,6 @@ Public Class frmCustomer
         txtTDMName.Text = ""
         txtDistributorCode.Value = ""
         txtDistributorName.Text = ""
-
         ''richa ticket No. BM00000003109 on 19/08/2014
         Me.txtTempCreditLimit.Text = "0.00"
         txttempCreditLimitFrom.Text = clsCommon.GETSERVERDATE()
@@ -2763,7 +2505,6 @@ Public Class frmCustomer
         ChkOther.Checked = False
         CmbTransaction.SelectedValue = ""
         cboxPriorityLevel.Text = ""
-
         ' SetDataBaseGrid() '--23/07/2012--Added by Pankaj-Because while adding a new record after filling a record database grid does not refreshed
         LoadVisi()
         ''ShowCustomerInfo() ''Hide @BM00000001218
@@ -2777,7 +2518,6 @@ Public Class frmCustomer
         'TxtCrateOpeningDate.Value = clsCommon.GETSERVERDATE()
         ''For Custom Fields
         ''====Sanjeet(30/05/2017)=============
-
         txtGSTstateCode.Text = ""
         txtGstPanNo.Text = ""
         txtGstEntityNo.Text = ""
@@ -2836,16 +2576,13 @@ Public Class frmCustomer
         txtStateName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  state_name  from TSPL_STATE_MASTER where state_code ='" + fndstate.Value + "'"))
         fndCountry.Value = clsDBFuncationality.getSingleValue("select COUNTRY_CODE from TSPL_COUNTRY_MASTER")
         TxtCountryName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select COUNTRY_NAME from TSPL_COUNTRY_MASTER where COUNTRY_CODE ='" + fndCountry.Value + "'"))
-
     End Sub
-
     Private Sub ShowCustomerInfo()
         ''Dim ArrDB As List(Of String) = GetAllDataBase()
         ''Dim qry As String = "select " + clsCommon.ReplicateDBString + "TSPL_CUSTOMER_MASTER.Cust_Code from " + clsCommon.ReplicateDBString + "TSPL_CUSTOMER_MASTER  "
         ''qry = clsCommon.GetQueryWithAllSelectedDataBase(qry, ArrDB, False)
         ''Dim whrclas As String = " TSPL_CUSTOMER_INFO.Cust_Code not in (" + qry + ")"
         Dim qry As String = "select Cust_Code as Code,Customer_Name as Description from TSPL_CUSTOMER_INFO  "
-
         Dim strCustInforCode As String = clsCommon.ShowSelectForm("CustCustomerInfo", qry, "Code", " Distributor <>'Y'", "", "", True)
         If clsCommon.myLen(strCustInforCode) > 0 Then
             Dim obj As New clsCustomerInfo()
@@ -2864,7 +2601,6 @@ Public Class frmCustomer
                 '' Anubhooti 26-Aug-2014 (Commented txtStateName.Text = obj.Country)
                 'txtStateName.Text = obj.Country
                 fndCountry.Value = obj.Country
-
                 txtPhone1.Text = obj.Phone1
                 txtPhone2.Text = obj.Phone2
                 txtfax.Text = obj.Fax
@@ -2881,7 +2617,6 @@ Public Class frmCustomer
                 fndCusgrp.Value = obj.Cust_Group_Code
                 fndTxGrp.Value = obj.Tax_Group
                 txtTxGrp.Text = clsDBFuncationality.getSingleValue("SELECT [Tax_Group_Desc] FROM [TSPL_TAX_GROUP_MASTER] where Tax_Group_Code='" + fndTxGrp.Value + "'")
-
                 If (clsCommon.myLen(obj.TAX1) > 0) Then
                     grdTax.Rows.AddNew()
                     grdTax.Rows(grdTax.Rows.Count - 1).Cells(0).Value = obj.TAX1
@@ -2942,7 +2677,6 @@ Public Class frmCustomer
                 Else
                     chkHold.Checked = False
                 End If
-
                 txtRemarks1.Text = obj.Remarks1
                 txtRemarks2.Text = obj.Remarks2
                 txtAddInfo1.Text = obj.Additional1
@@ -2961,31 +2695,24 @@ Public Class frmCustomer
                 Else
                     chkcredit.Checked = False
                 End If
-
-
                 If obj.Inter_Branch = "Y" Then
                     chkInterBranch.Checked = True
                 Else
                     chkInterBranch.Checked = False
                 End If
-
                 If obj.prntcustyn = "Y" Then
                     Chkparntcutmr.Checked = True
                 ElseIf obj.prntcustyn = "N" Then
                     Chkparntcutmr.Checked = False
-
                 End If
-
             Else
             End If
         End If
     End Sub
-
     Private Function GetAllDataBase()
         Dim ArrDB As List(Of String) = Nothing
         Dim qry As String = "select DataBase_Name from TSPL_COMPANY_MASTER where LEN(DataBase_Name)>0"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             ArrDB = New List(Of String)
             For Each dr As DataRow In dt.Rows
@@ -2994,7 +2721,6 @@ Public Class frmCustomer
         End If
         Return ArrDB
     End Function
-
     Public Sub NewReset()
         chkpricegrpslctr.Checked = False
         txtpgfnd.Value = ""
@@ -3030,6 +2756,7 @@ Public Class frmCustomer
         dtpAggMade.Value = clsCommon.GETSERVERDATE()
         dtpAggClose.Value = clsCommon.GETSERVERDATE()
         Me.txtPriceCodeNon.Value = ""
+        Me.txtPriceCodeFOR.Value = ""
         Me.txtCusgrp.Text = ""
         Me.txtAdd1.Text = ""
         Me.txtAdd2.Text = ""
@@ -3041,7 +2768,6 @@ Public Class frmCustomer
         chkInActive.Enabled = False
         Me.txtPriceCode.Value = ""
         fndstate.Value = ""
-
         '' Anubhooti 26-Aug-2014
         'Me.txtCountry.Text = ""
         Me.fndCountry.Value = ""
@@ -3085,7 +2811,6 @@ Public Class frmCustomer
         Me.chkInterBranch.Checked = False
         Me.Chkparntcutmr.Checked = False
         Me.fndCustCurrency.Value = Nothing
-
         Me.chkIsDistributor.Checked = False
         Me.txtServiceDealerCode.Value = ""
         Me.txtServiceDealerName.Text = ""
@@ -3093,18 +2818,14 @@ Public Class frmCustomer
         Me.txtTDMName.Text = ""
         Me.txtDistributorCode.Value = ""
         Me.txtDistributorName.Text = ""
-
-
         btnSave.Text = "Save"
         btnDelete.Enabled = False
-
         ''For Custom Fields
         If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
             UcCustomFields1.BlankAllControls()
         End If
         ''End of For Custom Fields
         ''====Sanjeet(30/05/2017)=============
-
         txtGSTstateCode.Text = ""
         txtGstPanNo.Text = ""
         txtGstEntityNo.Text = ""
@@ -3137,7 +2858,6 @@ Public Class frmCustomer
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Customer")
         End Try
     End Sub
-
     Public Sub funitem_Import()
         Dim gv As New RadGridView()
         Dim intCounter As Integer = 1
@@ -3150,7 +2870,6 @@ Public Class frmCustomer
                 Dim LineNo As String
                 Try
                     clsCommon.ProgressBarPercentShow()
-
                     Dim arrCust As New List(Of String)
                     For Each grow As GridViewRowInfo In gv.Rows
                         LineNo = clsCommon.myCstr(grow.Index + 2)
@@ -3164,15 +2883,11 @@ Public Class frmCustomer
                     Dim qry As String
                     'Dim qry As String = "Delete from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS where Cust_Code in (" + clsCommon.GetMulcallString(arrCust) + ")"
                     'clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                     'Update by vipin 0n 6/6/2012 for error on import
-
                     For Each grow As GridViewRowInfo In gv.Rows
                         If clsCommon.myLen(clsCommon.myCstr(grow.Cells(0).Value)) <> 0 And clsCommon.myLen(clsCommon.myCstr(grow.Cells(1).Value)) <> 0 And clsCommon.myLen(clsCommon.myCstr(grow.Cells(2).Value)) <> 0 Then
-
                             qry = "Delete from TSPL_CUSTOMER_ITEM_DISCOUNT_DETAILS where Cust_Code = ('" + clsCommon.myCstr(grow.Cells(0).Value) + "') and Item_Code ='" + clsCommon.myCstr(grow.Cells(1).Value) + "'"
                             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                             Dim strCusCode As String = clsCommon.myCstr(grow.Cells(0).Value)
                             If strCusCode = "" Then
                                 Throw New Exception("Please Fill The Customer Code")
@@ -3192,13 +2907,11 @@ Public Class frmCustomer
                             If clsCommon.myLen(stritemCode) > 50 Then
                                 Throw New Exception("Check the length of Item Code")
                             End If
-
                             qry = "select Item_Code  from TSPL_ITEM_MASTER where Item_Code ='" + stritemCode + "'"
                             Dim stritmCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
                             If clsCommon.myLen(stritmCode) <= 0 Then
                                 Throw New Exception("This Item Code Does not exist")
                             End If
-
                             Dim strunitCode As String = clsCommon.myCstr(grow.Cells(2).Value)
                             If clsCommon.myLen(strunitCode) <= 0 Then
                                 Throw New Exception("Please Fill The Unit Code")
@@ -3206,27 +2919,17 @@ Public Class frmCustomer
                             If clsCommon.myLen(strunitCode) > 12 Then
                                 Throw New Exception("Check the length of Unit Code")
                             End If
-
                             Dim strdiscAmount As Double = clsCommon.myCdbl(grow.Cells(3).Value)
-
-
-
                             Dim validupto As String = Nothing
                             If clsCommon.myLen(grow.Cells(5).Value) > 0 Then
                                 validupto = clsCommon.GetPrintDate(clsCommon.myCDate(grow.Cells(5).Value), "dd/MMM/yyyy")
                             End If
-
                             Dim StrstartDate As String = Nothing
                             If clsCommon.myLen(grow.Cells(4).Value) > 0 Then
                                 StrstartDate = clsCommon.GetPrintDate(clsCommon.myCDate(grow.Cells(4).Value), "dd/MMM/yyyy")
-
                             ElseIf clsCommon.myLen(grow.Cells(4).Value) <= 0 Then
                                 Throw New Exception("Item's Start Date can't blank")
-
                             End If
-
-
-
                             clsDBFuncationality.SaveAStorePorcedure(trans, "SP_CUSTOMER_ITEM_DISCOUNT_DETAILS_INSERT", New SqlParameter("@Cust_Code", CustCode), New SqlParameter("@Item_Code", stritmCode), New SqlParameter("@Unit_Code", strunitCode), New SqlParameter("@Disc_Amt", Convert.ToDecimal(strdiscAmount)), New SqlParameter("@Start_Date", (StrstartDate)), New SqlParameter("@Valid_Upto", (validupto)))
                             intCounter += 1
                         End If
@@ -3247,7 +2950,6 @@ Public Class frmCustomer
             Me.Controls.Remove(gv)
         End Try
     End Sub
-
     Public Sub funExport()
         Try
             'strCmd = " SELECT a.[Cust_Code] as [Customer Code],a.[Customer_Name] as [Name] ,[Cust_Group_Code] as [Group Code],[Terms_Code] as [Terms Code],[Cust_Category_Code] as [Category Code]" & _
@@ -3287,19 +2989,15 @@ Public Class frmCustomer
             ListImpExpColumnsMandatory = New List(Of String)({"Customer Code", "Name", "GSTIN NO", "Group Code", "CURRENCY CODE"})
             ListImpExpColumnsSuperMandatory = New List(Of String)({"Customer Code"})
             transportSql.ExporttoExcel(strCmd, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
-
         Catch ex As Exception
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Customer")
         End Try
-
     End Sub
-
     Public Sub funImport()
         Dim AllowAutoCCode As String = ""
         Dim AllowAutoCCodeForallCompnay As String = ""
         Dim strCusCode As String = ""
         Dim gv As New RadGridView()
-
         Me.Controls.Add(gv)
         Dim currentdate As Date = Date.Today
         Dim Input() As String = {}
@@ -3309,7 +3007,6 @@ Public Class frmCustomer
             Input = {"Customer Code", "Name", "ADDRESS1", "ADDRESS2", "ADDRESS3", "Customer Category Code", "Group Code", "Customer Type Code", "Route No", "Route Description", "Excisable Price Code", "City Code", "State", "Country", "Phone Num1", "Phone Num2", "Fax Num", "Pin No", "Email Id", "Website", "Contact Person Name", "Contect Person Phone", "Contect Person Fax", "Contact Person website", "Contact Person Email", "Vehicle No", "Driver Name", "Driver Mobile No", "Terms Code", "Account Set", "Tax Group", "Tax1", "Tax1 Rate", "Tax2", "Tax2 Rate", "Tax3", "Tax3 Rate", "Tax4", "Tax4 Rate", "Tax5", "Tax5 Rate", "Tax6", "Tax6 Rate", "Tax7", "Tax7 Rate", "Tax8", "Tax8 Rate", "Tax9", "Tax9 Rate", "Tax10", "Tax10 Rate", "Paymemt Code", "Service Tax No", "Tin No", "List No", "Form Type", "Channel Code", "Channel Desc", "Status", "On Hold", "Remarks1", "Remarks2", "Additional1", "Additional2", "Additional3", "Salesman Code", "Salesman desc", "VIsi ID", "Visi Desc", "Credit Limit", "Created By", "Created Date", "Modify by", "Modify date", "Route Group", "Cst", "Ecc", "Range", "Collectorate", "Pan", "Division", "Parent Customer No", "Customer Class", "Credit Customer", "Price Code Non-Excise", "Inter Branch", "Transaction Type", "Parent Customer", "Service Dealer Code", "TDM Code", "Distributor Code", "Is Distributor", "Price Group Code", "Alias Name", "Zone Code", "CURRENCY CODE", "Old Name", "Other For Pan", "FSSAI LIC NO"}
         End If
         Dim strInputlist As List(Of String) = New List(Of String)(Input)
-
         If transportSql.importExcel(gv, strInputlist.ToArray()) Then
             Dim trans As SqlTransaction = Nothing
             Dim ii As Integer = 0
@@ -3331,7 +3028,6 @@ Public Class frmCustomer
                             Throw New Exception("Customer code can not be left blank at line '" + LineNo + "'.")
                         End If
                     Else
-
                     End If
                     Dim CustName As String = clsCommon.myCstr(grow.Cells("Name").Value)
                     If clsCommon.myLen(CustName) > 0 Then
@@ -3344,14 +3040,11 @@ Public Class frmCustomer
                                 Throw New Exception("Same Customer Name is exist with another customer so please change customer name because Customer Name is unique at line '" + LineNo + "'.")
                             End If
                         End If
-
                     Else
                         Throw New Exception("Please enter customer name against code '" + strCusCode + "' at Line No '" + LineNo + "'.")
                     End If
                     clsCommon.AddColumnsForChange(coll, "Customer_Name", CustName)
                     clsCommon.AddColumnsForChange(coll, "FSSAI_NO", clsCommon.myCstr(grow.Cells("FSSAI LIC NO").Value))
-
-
                     Dim strParentCstmrNo As String = clsCommon.myCstr(grow.Cells("Parent Customer No").Value)
                     If clsCommon.myLen(strParentCstmrNo) > 12 Then
                         Throw New Exception("Check the length  of Parent Customer No at Line No '" + LineNo + "'")
@@ -3378,7 +3071,6 @@ Public Class frmCustomer
                             Throw New Exception("Please Enter Composition as 0 or 1.")
                         End If
                         If strRegistered <> 1 AndAlso strRegistered <> 0 Then
-
                             Throw New Exception("Please Enter Register as 0 or 1 at line no:." & (grow.Index + 1))
                         Else
                             If strRegistered = 1 Then
@@ -3416,9 +3108,7 @@ Public Class frmCustomer
                     clsCommon.AddColumnsForChange(coll, "GST_Registered", strRegistered)
                     clsCommon.AddColumnsForChange(coll, "GST_COMPOSITION", strComposition)
                     '================end gst detail==============================
-
                     ''richa agarwal 1 Oct,2019 add column Booking Type VIJ/01/10/19-000004
-
                     Dim booking_Type = clsCommon.myCstr(grow.Cells("Booking Type").Value)
                     If clsCommon.myLen(booking_Type) > 0 Then
                         If booking_Type.ToString.ToUpper <> "CD" AndAlso booking_Type.ToString.ToUpper <> "CR" AndAlso booking_Type.ToString.ToUpper <> "SO" AndAlso booking_Type.ToString.ToUpper <> "CASH" AndAlso booking_Type.ToString.ToUpper <> "FESTIVE OFFER" Then
@@ -3426,7 +3116,6 @@ Public Class frmCustomer
                         End If
                     End If
                     clsCommon.AddColumnsForChange(coll, "Booking_Type", booking_Type, True)
-
                     Dim Customer_Category = clsCommon.myCstr(grow.Cells("Customer Category").Value)
                     If clsCommon.myLen(Customer_Category) > 0 Then
                         ''richa VIJ/09/12/19-000098 add institution CR/institution SO
@@ -3435,7 +3124,6 @@ Public Class frmCustomer
                         End If
                     End If
                     clsCommon.AddColumnsForChange(coll, "Customer_Category", Customer_Category, True)
-
                     'Bank Detail
                     Dim BankName = clsCommon.myCstr(grow.Cells("Bank Name").Value)
                     Dim IFSCCode = clsCommon.myCstr(grow.Cells("IFSC Code").Value)
@@ -3445,8 +3133,6 @@ Public Class frmCustomer
                     clsCommon.AddColumnsForChange(coll, "IFSC_Code", IFSCCode, True)
                     clsCommon.AddColumnsForChange(coll, "Branch_Name", BranchName, True)
                     clsCommon.AddColumnsForChange(coll, "Account_No", AccountNo, True)
-
-
                     '==shivani against[BM00000007853]
                     Dim strCusGrp As String = clsCommon.myCstr(grow.Cells("Group Code").Value)
                     If clsCommon.myLen(strCusGrp) > 0 Then
@@ -3459,26 +3145,21 @@ Public Class frmCustomer
                     Else
                         Throw New Exception("Please Fill the Group Code,it is mandatory Against Customer '" + strCusCode + "'")
                     End If
-
                     Dim VehicleNo As String = clsCommon.myCstr(grow.Cells("Vehicle No").Value)
                     If clsCommon.myLen(VehicleNo) > 0 Then
                         If clsCommon.myLen(VehicleNo) > 12 Then
                             Throw New Exception("Please enter vehicle no '" + VehicleNo + "' having max length 12.")
                         End If
                     End If
-
-
                     Dim DriverName As String = clsCommon.myCstr(grow.Cells("Driver Name").Value)
                     If clsCommon.myLen(DriverName) > 0 Then
                         If clsCommon.myLen(DriverName) > 50 Then
                             Throw New Exception("Please enter driver name '" + DriverName + "' having max length 50.")
                         End If
-
                         If clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select count(*) from TSPL_User_MASTER where User_Code='" & clsCommon.myCstr(DriverName) & "'", trans)) <= 0 Then
                             Throw New Exception("Driver name  '" + DriverName + "' does not exist at line '" + LineNo + "'.")
                         End If
                     End If
-
                     Dim DriverMobileNo As String = clsCommon.myCstr(grow.Cells("Driver Mobile No").Value)
                     Dim strCusTrms As String = clsCommon.myCstr(grow.Cells("Terms Code").Value)
                     Dim trmscode As String = clsDBFuncationality.getSingleValue("select Terms_Code  from TSPL_TERMS_MASTER where Terms_Code ='" + strCusTrms + "'", trans)
@@ -3487,7 +3168,6 @@ Public Class frmCustomer
                     Else
                         Throw New Exception("This Customer Terms Code Does not Exist Against Customer '" + strCusCode + "' at Line No '" + LineNo + "'")
                     End If
-
                     Dim Cust_Category_Code As String = String.Empty
                     If clsCommon.myLen(grow.Cells("Customer Category Code").Value) > 0 Then
                         Dim custcategroycode As String = clsCommon.myCstr(clsCommon.myCstr(grow.Cells("Customer Category Code").Value))
@@ -3512,7 +3192,6 @@ Public Class frmCustomer
                         clsCommon.AddColumnsForChange(coll, "Price_Code", priceCode, True)
                     End If
                     clsCommon.AddColumnsForChange(coll, "Price_CodeNon", clsCommon.myCstr(grow.Cells("Price Code Non-Excise").Value))
-
                     '===========Added By Rohit June 06,2015 04:33 PM============
                     If isDisplayFranchiseDetails Then
                         Dim FranchiseCode As String = clsCommon.myCstr(grow.Cells("Franchise Code").Value)
@@ -3533,7 +3212,6 @@ Public Class frmCustomer
                     Else
                         Throw New Exception(" This Customer Account does not exist In Master at Line No '" + LineNo + "'")
                     End If
-
                     Dim TaxGroup As String = clsCommon.myCstr(grow.Cells("Tax Group").Value)
                     Dim Tax_Group As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select tax_group_code from TSPL_TAX_GROUP_MASTER  where Tax_Group_Code  ='" + TaxGroup + "'", trans))
                     If clsCommon.CompairString(Tax_Group, TaxGroup) = CompairStringResult.Equal Then
@@ -3541,7 +3219,6 @@ Public Class frmCustomer
                     Else
                         Throw New Exception("This Customer Tax Group does not exist at '" + LineNo + "'")
                     End If
-
                     Dim Route_No As String = ""
                     Dim RouteNo As String = clsCommon.myCstr(grow.Cells("Route No").Value)
                     If clsCommon.myLen(grow.Cells("Route No").Value) > 0 Then
@@ -3554,7 +3231,6 @@ Public Class frmCustomer
                     Else
                         clsCommon.AddColumnsForChange(coll, "Route_No", Route_No, True)
                     End If
-
                     Dim Salesman_Code As String = ""
                     Dim Salesman_Code_detail As String = ""
                     Dim SalesmanCode As String = clsCommon.myCstr(grow.Cells("Salesman Code").Value)
@@ -3569,7 +3245,6 @@ Public Class frmCustomer
                             clsCommon.AddColumnsForChange(coll, "Salesman_Code", SalesmanCode)
                         Else
                             Throw New Exception("This Salesman Code does not exist with the route '" + Route_No + "' at Line No '" + LineNo + "'")
-
                         End If
                     End If
                     Dim Salesman_Desc As String = clsDBFuncationality.getSingleValue("Select Emp_Name  from TSPL_EMPLOYEE_MASTER Where EMP_CODE='" + Salesman_Code + "'", trans)
@@ -3586,7 +3261,6 @@ Public Class frmCustomer
                     End If
                     Dim CreditLimit As String = clsCommon.myCdbl(grow.Cells("Credit Limit").Value)
                     clsCommon.AddColumnsForChange(coll, "Credit_Limit", CreditLimit)
-
                     Dim Route_Group As String
                     Dim RouteGroup As String = clsCommon.myCstr(grow.Cells("Route Group").Value)
                     If clsCommon.myLen(RouteGroup) > 0 Then
@@ -3597,7 +3271,6 @@ Public Class frmCustomer
                             Throw New Exception("This Route Group Does not Exist in GroupMaster at Line No '" + LineNo + "'")
                         End If
                     End If
-
                     Dim Cuurency_Code As String
                     Dim CuurencyCode As String = clsCommon.myCstr(grow.Cells("CURRENCY CODE").Value)
                     If clsCommon.myLen(CuurencyCode) <= 0 Then
@@ -3606,7 +3279,6 @@ Public Class frmCustomer
                         End If
                         CuurencyCode = objCommonVar.BaseCurrencyCode
                     End If
-
                     If clsCommon.myLen(CuurencyCode) > 0 Then
                         Cuurency_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select CURRENCY_CODE  from TSPL_CURRENCY_MASTER Where CURRENCY_CODE='" + CuurencyCode + "'", trans))
                         If clsCommon.CompairString(Cuurency_Code, CuurencyCode) = CompairStringResult.Equal Then
@@ -3647,7 +3319,6 @@ Public Class frmCustomer
                         Throw New Exception("Old Name should be max 50 character")
                     End If
                     ''---------------
-
                     clsCommon.AddColumnsForChange(coll, "CST", clsCommon.myCstr(grow.Cells("Cst").Value))
                     clsCommon.AddColumnsForChange(coll, "ECC", clsCommon.myCstr(grow.Cells("Ecc").Value))
                     clsCommon.AddColumnsForChange(coll, "Range", clsCommon.myCstr(grow.Cells("Range").Value))
@@ -3662,7 +3333,6 @@ Public Class frmCustomer
                     clsCommon.AddColumnsForChange(coll, "Alies_Name", clsCommon.myCstr(grow.Cells("Alias Name").Value))
                     clsCommon.AddColumnsForChange(coll, "Zone_Code", clsCommon.myCstr(grow.Cells("Zone Code").Value))
                     '--------------
-
                     Dim strCustType As String = String.Empty
                     ''add ToUpper in custType 02/12/2014
                     Dim CustType As String = clsCommon.myCstr(grow.Cells("Customer Type Code").Value).ToUpper()
@@ -3681,11 +3351,8 @@ Public Class frmCustomer
                             clsCommon.AddColumnsForChange(coll, "Cust_Type_Code", strCustType)
                         End If
                     End If
-
-
                     Dim Route_Desc As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Route_Desc from TSPL_ROUTE_MASTER Where Route_No='" + Route_No + "'", trans))
                     clsCommon.AddColumnsForChange(coll, "Route_Desc", Route_Desc)
-
                     Dim ctycode As String = clsCommon.myCstr(grow.Cells(11).Value)
                     Dim city_Code As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select City_Code  from TSPL_CITY_MASTER Where City_Code='" + ctycode + "'", trans))
                     If clsCommon.CompairString(city_Code, ctycode) = CompairStringResult.Equal Then
@@ -3693,7 +3360,6 @@ Public Class frmCustomer
                     Else
                         Throw New Exception("This City Code does not exist at Line No '" + LineNo + "'")
                     End If
-
                     clsCommon.AddColumnsForChange(coll, "State", clsCommon.myCstr(grow.Cells("State").Value))
                     clsCommon.AddColumnsForChange(coll, "Country", clsCommon.myCstr(grow.Cells("Country").Value))
                     clsCommon.AddColumnsForChange(coll, "Phone1", clsCommon.myCstr(grow.Cells("Phone Num1").Value))
@@ -3711,7 +3377,6 @@ Public Class frmCustomer
                     clsCommon.AddColumnsForChange(coll, "VehicleNo", clsCommon.myCstr(grow.Cells("Vehicle No").Value))
                     clsCommon.AddColumnsForChange(coll, "Driver_Name", clsCommon.myCstr(grow.Cells("Driver Name").Value))
                     clsCommon.AddColumnsForChange(coll, "Driver_Mobile_No", clsCommon.myCstr(grow.Cells("Driver Mobile No").Value))
-
                     clsCommon.AddColumnsForChange(coll, "TAX1", clsCommon.myCstr(grow.Cells("Tax1").Value))
                     clsCommon.AddColumnsForChange(coll, "TAX1_Rate", clsCommon.myCdbl(grow.Cells("Tax1 Rate").Value))
                     clsCommon.AddColumnsForChange(coll, "TAX2", clsCommon.myCstr(grow.Cells("Tax2").Value))
@@ -3745,11 +3410,9 @@ Public Class frmCustomer
                     clsCommon.AddColumnsForChange(coll, "Status", clsCommon.myCstr(grow.Cells("Status").Value))
                     clsCommon.AddColumnsForChange(coll, "Remarks1", clsCommon.myCstr(grow.Cells("Remarks1").Value))
                     clsCommon.AddColumnsForChange(coll, "Remarks2", clsCommon.myCstr(grow.Cells("Remarks2").Value))
-
                     clsCommon.AddColumnsForChange(coll, "Customer_Class", strCustType)
                     clsCommon.AddColumnsForChange(coll, "Credit_Customer", clsCommon.myCstr(grow.Cells("Credit Customer").Value))
                     Dim interbranch As String
-
                     interbranch = clsCommon.myCstr(grow.Cells("Inter Branch").Value)
                     If String.IsNullOrEmpty(interbranch) Or clsCommon.CompairString(interbranch, "N") = CompairStringResult.Equal Then
                         interbranch = "N"
@@ -3759,7 +3422,6 @@ Public Class frmCustomer
                         Throw New Exception("Please Enter Only Y Or N as Inter Branch at Line No '" + LineNo + "'")
                     End If
                     clsCommon.AddColumnsForChange(coll, "Inter_Branch", interbranch)
-
                     Dim parentcustomer As String
                     parentcustomer = clsCommon.myCstr(grow.Cells("Parent customer").Value)
                     If String.IsNullOrEmpty(parentcustomer) Or clsCommon.CompairString(parentcustomer, "N") = CompairStringResult.Equal Then
@@ -3785,10 +3447,8 @@ Public Class frmCustomer
                     clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
                     clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
                     clsCommon.AddColumnsForChange(coll, "price_group_code", clsCommon.myCstr(grow.Cells("Price Group Code").Value))
-
                     Dim strServiceDealerCode As String = clsCommon.myCstr(grow.Cells("Service Dealer Code").Value)
                     If String.IsNullOrEmpty(strServiceDealerCode) Then
-
                     Else
                         Dim i1 As Integer = CInt(clsDBFuncationality.getSingleValue("select count(*) from TSPL_Employee_Master where Emp_Code='" + strServiceDealerCode + "'", trans))
                         If i1 <> 0 Then
@@ -3797,10 +3457,8 @@ Public Class frmCustomer
                             Throw New Exception("This Service Dealer  Code does not Exist in Master ")
                         End If
                     End If
-
                     Dim strTDMCode As String = clsCommon.myCstr(grow.Cells("TDM Code").Value)
                     If String.IsNullOrEmpty(strTDMCode) Then
-
                     Else
                         Dim i2 As Integer = CInt(clsDBFuncationality.getSingleValue("select count(*) from TSPL_Employee_Master where Emp_Code='" + strTDMCode + "'", trans))
                         If i2 <> 0 Then
@@ -3809,11 +3467,9 @@ Public Class frmCustomer
                             Throw New Exception("This TDM  Code does not Exist in Master ")
                         End If
                     End If
-
                     ''''''''''''''''''''''
                     Dim strRSMCode As String = clsCommon.myCstr(grow.Cells("RSM Code").Value)
                     If String.IsNullOrEmpty(strRSMCode) Then
-
                     Else
                         Dim iRSM As Integer = CInt(clsDBFuncationality.getSingleValue("select count(*) from TSPL_Employee_Master where Emp_Code='" + strRSMCode + "'", trans))
                         If iRSM = 0 Then
@@ -3821,10 +3477,8 @@ Public Class frmCustomer
                         End If
                     End If
                     clsCommon.AddColumnsForChange(coll, "RSM", strRSMCode, True)
-
                     Dim strZSMCode As String = clsCommon.myCstr(grow.Cells("ZSM Code").Value)
                     If String.IsNullOrEmpty(strZSMCode) Then
-
                     Else
                         Dim iZSM As Integer = CInt(clsDBFuncationality.getSingleValue("select count(*) from TSPL_Employee_Master where Emp_Code='" + strZSMCode + "'", trans))
                         If iZSM = 0 Then
@@ -3832,10 +3486,8 @@ Public Class frmCustomer
                         End If
                     End If
                     clsCommon.AddColumnsForChange(coll, "ZSM", strZSMCode, True)
-
                     Dim strASMCode As String = clsCommon.myCstr(grow.Cells("ASM Code").Value)
                     If String.IsNullOrEmpty(strASMCode) Then
-
                     Else
                         Dim iASM As Integer = CInt(clsDBFuncationality.getSingleValue("select count(*) from TSPL_Employee_Master where Emp_Code='" + strASMCode + "'", trans))
                         If iASM = 0 Then
@@ -3843,10 +3495,8 @@ Public Class frmCustomer
                         End If
                     End If
                     clsCommon.AddColumnsForChange(coll, "ASM", strASMCode, True)
-
                     Dim strASOCode As String = clsCommon.myCstr(grow.Cells("ASO Code").Value)
                     If String.IsNullOrEmpty(strASOCode) Then
-
                     Else
                         Dim iASO As Integer = CInt(clsDBFuncationality.getSingleValue("select count(*) from TSPL_Employee_Master where Emp_Code='" + strASOCode + "'", trans))
                         If iASO = 0 Then
@@ -3857,11 +3507,8 @@ Public Class frmCustomer
                     ''''''''''''''''''''''''
                     Dim CheckCreditLimit As Integer = clsCommon.myCdbl(grow.Cells("Check Credit Limit").Value)
                     clsCommon.AddColumnsForChange(coll, "CheckCreditLimit", CheckCreditLimit)
-
-
                     Dim strDistributorCode As String = clsCommon.myCstr(grow.Cells("Distributor Code").Value)
                     If String.IsNullOrEmpty(strDistributorCode) Then
-
                     Else
                         Dim i3 As Integer = CInt(clsDBFuncationality.getSingleValue("select count(*) from TSPL_CUSTOMER_Master where Cust_Code='" + strDistributorCode + "' and IsDistributor='Y'", trans))
                         If i3 <> 0 Then
@@ -3871,7 +3518,6 @@ Public Class frmCustomer
                         End If
                     End If
                     Dim i As Integer = CInt(clsDBFuncationality.getSingleValue("select count(*) from TSPL_Customer_Master where isnull(Cust_Code,'')<>'' and Cust_Code='" + strCusCode + "'", trans))
-
                     Dim strIsDistributor = clsCommon.myCstr(grow.Cells("Is Distributor").Value)
                     If String.IsNullOrEmpty(strIsDistributor) Or clsCommon.CompairString(strIsDistributor, "N") = CompairStringResult.Equal Then
                         strIsDistributor = "N"
@@ -3881,7 +3527,6 @@ Public Class frmCustomer
                         Throw New Exception("Please Enter Only Y or N as Is Distributor Field")
                     End If
                     clsCommon.AddColumnsForChange(coll, "IsDistributor", strIsDistributor)
-
                     '========================================="TCS Greater than 50K", "Turnover More than 10CR", "ITR filled in Last 2 Years"==================
                     Dim TCSGreaterthan50K As String = clsCommon.myCstr(grow.Cells("TCS Greater than 50K").Value)
                     If clsCommon.CompairString(TCSGreaterthan50K, "Y") = CompairStringResult.Equal OrElse clsCommon.CompairString(TCSGreaterthan50K, "Yes") = CompairStringResult.Equal OrElse clsCommon.CompairString(TCSGreaterthan50K, "1") = CompairStringResult.Equal Then
@@ -3891,7 +3536,6 @@ Public Class frmCustomer
                     Else
                         Throw New Exception("Please Enter Only Y/Yes/1 or N/No/0 as [TCS Greater than 50K] Field")
                     End If
-
                     Dim TurnoverMorethan10CR As String = clsCommon.myCstr(grow.Cells("Turnover More than 10CR").Value)
                     If clsCommon.CompairString(TurnoverMorethan10CR, "Y") = CompairStringResult.Equal OrElse clsCommon.CompairString(TurnoverMorethan10CR, "Yes") = CompairStringResult.Equal OrElse clsCommon.CompairString(TurnoverMorethan10CR, "1") = CompairStringResult.Equal Then
                         clsCommon.AddColumnsForChange(coll, "IsTurnoverMorethan10CR", 1)
@@ -3900,7 +3544,6 @@ Public Class frmCustomer
                     Else
                         Throw New Exception("Please Enter Only Y/Yes/1 or N/No/0 as [Turnover More than 10CR] Field")
                     End If
-
                     Dim ITRfilledinLast2Years As String = clsCommon.myCstr(grow.Cells("ITR filled in Last 2 Years").Value)
                     If clsCommon.CompairString(ITRfilledinLast2Years, "Y") = CompairStringResult.Equal OrElse clsCommon.CompairString(ITRfilledinLast2Years, "Yes") = CompairStringResult.Equal OrElse clsCommon.CompairString(ITRfilledinLast2Years, "1") = CompairStringResult.Equal Then
                         clsCommon.AddColumnsForChange(coll, "IsITRfilledinLast2Years", 1)
@@ -3909,9 +3552,7 @@ Public Class frmCustomer
                     Else
                         Throw New Exception("Please Enter Only Y/Yes/1 or N/No/0 as [ITR filled in Last 2 Years] Field")
                     End If
-
                     '=========================================
-
                     ''''''''''''''''''''''''''''''''''''''''''''''''''
                     Dim Marital_Status As String = clsCommon.myCstr(grow.Cells("Marital Status(Married-Unmarried)").Value)
                     If clsCommon.myLen(Marital_Status) > 0 Then
@@ -3920,7 +3561,6 @@ Public Class frmCustomer
                         End If
                     End If
                     clsCommon.AddColumnsForChange(coll, "MaritalStatus", Marital_Status, True)
-
                     If (grow.Cells("DOB").Value) IsNot Nothing AndAlso clsCommon.myLen(grow.Cells("DOB").Value) > 0 Then
                         Dim DOB As Date = clsCommon.myCDate(grow.Cells("DOB").Value)
                         clsCommon.AddColumnsForChange(coll, "DOB", DOB, True)
@@ -3931,7 +3571,6 @@ Public Class frmCustomer
                     clsCommon.AddColumnsForChange(coll, "Education", clsCommon.myCstr(grow.Cells("Education").Value), True)
                     clsCommon.AddColumnsForChange(coll, "ResidentialAdd1", clsCommon.myCstr(grow.Cells("ResidentialAdd1").Value), True)
                     clsCommon.AddColumnsForChange(coll, "ResidentialAdd2", clsCommon.myCstr(grow.Cells("ResidentialAdd2").Value), True)
-
                     Dim Cust_Status As String = clsCommon.myCstr(grow.Cells("Cust Status").Value)
                     If clsCommon.myLen(Cust_Status) > 0 Then
                         If clsCommon.CompairString(Cust_Status.Trim(), "Temporary") <> CompairStringResult.Equal And clsCommon.CompairString(Cust_Status.Trim(), "Legal") <> CompairStringResult.Equal And clsCommon.CompairString(Cust_Status.Trim(), "Balance Followup") <> CompairStringResult.Equal And clsCommon.CompairString(Cust_Status.Trim(), "Asset Followup") <> CompairStringResult.Equal And clsCommon.CompairString(Cust_Status.Trim(), "Closed") <> CompairStringResult.Equal Then
@@ -3940,11 +3579,9 @@ Public Class frmCustomer
                     End If
                     clsCommon.AddColumnsForChange(coll, "CustStatus", Cust_Status, True)
                     ''''''''''''''''''''''''''''''''''''''''''''''''''
-
                     '' Anubhooti 01-Sep-2014 BM00000003425  ******************* Check Outstanding Amount Of customer *************
                     Dim QryToGetOutAmt As String = ""
                     Dim OutStandAmt As Double = 0
-
                     QryToGetOutAmt = " Select [Customer Id], MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as Customer_Name, SUM([Due Amount]) AS [Due Amount] from (  " &
             " SELECT  TSPL_CUSTOMER_MASTER.Cust_Code AS [Customer Id], TSPL_SD_SALE_INVOICE_HEAD.Document_Code as [Document Id], case when TSPL_Customer_Invoice_Head.Document_Type ='I' then TSPL_Customer_Invoice_Head.Document_Total  when TSPL_Customer_Invoice_Head.Document_Type ='D' then TSPL_Customer_Invoice_Head.Document_Total  when TSPL_Customer_Invoice_Head.Document_Type ='C' then TSPL_Customer_Invoice_Head.Document_Total*-1  end as [Due Amount], CONVERT(DATE,TSPL_Customer_Invoice_Head.Document_Date,103) as [Document Date], case when TSPL_Customer_Invoice_Head.Document_Type ='I' then 'IN'  when TSPL_Customer_Invoice_Head.Document_Type ='D' then 'DB'  when TSPL_Customer_Invoice_Head.Document_Type ='C' then 'CR' end  as [Document_Type] FROM  TSPL_Customer_Invoice_Head INNER JOIN   TSPL_CUSTOMER_MASTER ON TSPL_Customer_Invoice_Head.Customer_Code  = TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_Customer_Invoice_Head.Against_Sale_No where TSPL_Customer_Invoice_Head.Status='1'  AND TSPL_CUSTOMER_MASTER.Status='N'  " &
             "          UNION ALL " &
@@ -3962,8 +3599,6 @@ Public Class frmCustomer
                     " UNION ALL " &
             " SELECT  TSPL_ADJUSTMENT_HEADER.Customer_CODE, TSPL_ADJUSTMENT_HEADER.Adjustment_No, case when TSPL_ADJUSTMENT_HEADER.Trans_Type<>'In' then  (SELECT SUM(ISNULL(Item_Cost,0)+ISNULL(Breakage_Cost,0))*-1 FROM dbo.TSPL_ADJUSTMENT_DETAIL WHERE TSPL_ADJUSTMENT_DETAIL.Adjustment_No=TSPL_ADJUSTMENT_HEADER.Adjustment_No)*-1 else (SELECT SUM(ISNULL(Item_Cost,0)+ISNULL(Breakage_Cost,0))*-1 FROM dbo.TSPL_ADJUSTMENT_DETAIL WHERE TSPL_ADJUSTMENT_DETAIL.Adjustment_No=TSPL_ADJUSTMENT_HEADER.Adjustment_No) end, convert(date,TSPL_ADJUSTMENT_HEADER.Adjustment_Date,103), 'AD' FROM dbo.TSPL_ADJUSTMENT_HEADER LEFT OUTER JOIN TSPL_CUSTOMER_MASTER on TSPL_ADJUSTMENT_HEADER.Customer_CODE=TSPL_CUSTOMER_MASTER.Cust_Code WHERE TSPL_ADJUSTMENT_HEADER.Customer_CODE <> '' AND ISNULL(Reference_Document,'')=''  and TSPL_ADJUSTMENT_HEADER.Posted='Y'  AND TSPL_CUSTOMER_MASTER.Status='N'  " &
             " ) XXX LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON XXX.[Customer Id]=TSPL_CUSTOMER_MASTER.Cust_Code where  XXX.Document_Type in ('IN','DB','CR','RC','AV','OA','UC','SR','VGCL','AD','RF','RC'  )  and convert(date,XXX.[Document Date] ,103) <= convert(date,'03/09/2014',103) AND [Due Amount] <> 0 And [Customer Id]='" & strCusCode & "' Group By XXX.[Customer Id]  ORDER BY [Customer Id] "
-
-
                     Dim dt2 As DataTable
                     dt2 = clsDBFuncationality.GetDataTable(QryToGetOutAmt, trans)
                     If dt2.Rows IsNot Nothing AndAlso dt2.Rows.Count > 0 Then
@@ -3972,14 +3607,9 @@ Public Class frmCustomer
                     If OutStandAmt > 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Status").Value).ToUpper().Trim(), "Y") = CompairStringResult.Equal Then
                         Throw New Exception("You can not make this customer Inactive because it has outstanding amount")
                     End If
-
                     Try
-
                     Catch ex As Exception
-
                     End Try
-
-
                     If (i = 0) Then
                         trans = clsDBFuncationality.GetTransactin()
                         Try
@@ -3995,7 +3625,6 @@ Public Class frmCustomer
                                         strCusCode = strCusCode
                                     End If
                                 End If
-
                             Else
                                 strCusCode = strCusCode
                             End If
@@ -4073,7 +3702,6 @@ Public Class frmCustomer
         End If
         Me.Controls.Remove(gv)
     End Sub
-
     Sub updateExtra(ByVal parentcustomer As String, ByVal CreditLimit As String, ByVal strCusCode As String, ByVal strParentCstmrNo As String, ByVal trans As SqlTransaction)
         If clsCommon.CompairString(parentcustomer, "Y") = CompairStringResult.Equal Then
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_CUSTOMER_MASTER set Credit_Limit=" & CreditLimit & " where Parent_Customer_No ='" & strCusCode & "'", trans)
@@ -4082,10 +3710,7 @@ Public Class frmCustomer
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_CUSTOMER_MASTER set Credit_Limit=(Select Credit_Limit from TSPL_CUSTOMER_MASTER where Cust_Code='" & strParentCstmrNo & "') where Cust_Code ='" & strCusCode & "'", trans)
         End If
     End Sub
-
-
 #End Region
-
 #Region "Event"
     Private Sub btnNew_MouseHover(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnNew.MouseHover
         ToolTip1.Show("New", btnNew)
@@ -4094,7 +3719,6 @@ Public Class frmCustomer
         Try
             strCmd = " SELECT TSPL_TAX_GROUP_DETAILS.Tax_Code as [Tax] FROM TSPL_TAX_GROUP_MASTER INNER JOIN TSPL_TAX_GROUP_DETAILS ON TSPL_TAX_GROUP_MASTER.Tax_Group_Code = TSPL_TAX_GROUP_DETAILS.Tax_Group_Code" &
                       " where TSPL_TAX_GROUP_MASTER.Tax_Group_Code='" + fndTxGrp.Value + "' and TSPL_TAX_GROUP_MASTER.Tax_Group_Type='S' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Type='S' order by TSPL_TAX_GROUP_DETAILS.Trans_Code"
-
             myDs = connectSql.RunSQLReturnDS(strCmd)
             If myDs.Tables(0).Rows.Count > 0 Then
                 Dim Dr As DataRow
@@ -4111,15 +3735,12 @@ Public Class frmCustomer
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "Customer")
         End Try
     End Sub
-
     Private Sub txtchange_Event(ByVal sender As System.Object, ByVal e As System.EventArgs)
-
     End Sub
     Sub LoadData()
         Dim strId As String
         strCmd = "select Cust_Code from tspl_customer_master where CUSTOMER_FORM_TYPE='ALL' and Cust_Code='" + fndCustomer.Value + "'"
         strId = clsDBFuncationality.getSingleValue(strCmd)
-
         'While myDr.Read()
         'strId = myDr(0).ToString()
         'End While
@@ -4133,22 +3754,17 @@ Public Class frmCustomer
         End If
     End Sub
     Private Sub grdTax_EditorRequired(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.EditorRequiredEventArgs) Handles grdTax.EditorRequired
-
         Dim str As String = "select Tax_Rate as [Tax Rate] from TSPL_TAX_RATES where Tax_Code = '" + grdTax.CurrentRow.Cells(0).Value + "'"
         Dim gvMultiComboColum As GridViewComboBoxColumn = TryCast(grdTax.Columns(1), GridViewComboBoxColumn)
-
         myDs = connectSql.RunSQLReturnDS(str)
         gvMultiComboColum.DataSource = myDs.Tables(0)
         gvMultiComboColum.ValueMember = "Tax Rate"
-
     End Sub
     Private Sub keypress1(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
-
         If Microsoft.VisualBasic.Asc(e.KeyChar) = 39 Then
             e.Handled = True
         End If
     End Sub
-
     Private Sub txtPhone1_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs)
         If ((e.KeyChar >= Chr(48) And e.KeyChar <= Chr(57)) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(48) Or e.KeyChar = Chr(45)) Then
         Else
@@ -4167,7 +3783,6 @@ Public Class frmCustomer
             e.Handled = True
         End If
     End Sub
-
     Private Sub txtCredit_KeyPress(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtCredit.KeyPress
         If ((e.KeyChar >= Chr(48) And e.KeyChar <= Chr(57)) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(48)) Then
         Else
@@ -4209,9 +3824,7 @@ Public Class frmCustomer
                 txtEmail.Focus()
             End If
         End If
-
     End Sub
-
     Private Sub txtContactEmail_Leave(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtContactEmail.Leave
         If txtContactEmail.Text = "" Then
             Exit Sub
@@ -4248,7 +3861,6 @@ Public Class frmCustomer
         End If
     End Sub
 #End Region
-
     Private Sub fndroutegroup_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'fndroutegroup.ConnectionString = connectSql.SqlCon()
         'If fndRoute.Value <> "" Then
@@ -4262,11 +3874,7 @@ Public Class frmCustomer
         '    fndroutegroup.Caption = "Group Master"
         '    fndroutegroup.ValueToSelect1 = "Description"
         'End If
-
-
-
     End Sub
-
     Private Function fndroutegroup1(ByVal strChannelId As String) As String
         Dim strdes As String
         strdes = ""
@@ -4282,15 +3890,11 @@ Public Class frmCustomer
         End Try
         Return strdes
     End Function
-
     Private Sub fndroutegroup_Event(ByVal sender As System.Object, ByVal e As System.EventArgs)
         Me.txtroutegroup.Text = fndroutegroup1(Me.fndroutegroup.Value)
     End Sub
-
-
     Private Sub fndCusType_textchange(ByVal sender As System.Object, ByVal e As System.EventArgs)
         LoadCus()
-
     End Sub
     Sub LoadCus()
         Try
@@ -4308,20 +3912,13 @@ Public Class frmCustomer
             Else
                 cboCustomerClass.Text = "Select"
             End If
-
-
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message(), Me.Text)
         End Try
     End Sub
-
-
-
     'Sub SetDataBaseGrid()
     '    gvDB.Rows.Clear()
     '    gvDB.Columns.Clear()
-
     '    Dim repoSelect As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
     '    repoSelect.FormatString = ""
     '    repoSelect.HeaderText = "Select"
@@ -4330,7 +3927,6 @@ Public Class frmCustomer
     '    repoSelect.ReadOnly = False
     '    repoSelect.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
     '    gvDB.MasterTemplate.Columns.Add(repoSelect)
-
     '    Dim repoCompCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
     '    repoCompCode.FormatString = ""
     '    repoCompCode.HeaderText = "Company Code"
@@ -4338,7 +3934,6 @@ Public Class frmCustomer
     '    repoCompCode.Width = 150
     '    repoCompCode.ReadOnly = True
     '    gvDB.MasterTemplate.Columns.Add(repoCompCode)
-
     '    Dim repoCompName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
     '    repoCompName.FormatString = ""
     '    repoCompName.HeaderText = "Company Name"
@@ -4346,7 +3941,6 @@ Public Class frmCustomer
     '    repoCompName.Width = 150
     '    repoCompName.ReadOnly = True
     '    gvDB.MasterTemplate.Columns.Add(repoCompName)
-
     '    Dim repoDB As GridViewTextBoxColumn = New GridViewTextBoxColumn()
     '    repoDB.FormatString = ""
     '    repoDB.HeaderText = "Database Name"
@@ -4355,7 +3949,6 @@ Public Class frmCustomer
     '    repoDB.IsVisible = True
     '    repoDB.ReadOnly = True
     '    gvDB.MasterTemplate.Columns.Add(repoDB)
-
     '    Dim qry As String = "SELECT Comp_Code,Comp_Name,DataBase_Name from TSPL_COMPANY_MASTER where len(isnull(DataBase_Name,''))>0"
     '    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
     '    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -4368,7 +3961,6 @@ Public Class frmCustomer
     '        Next
     '    End If
     'End Sub
-
     Private Sub fndstate_Load(ByVal sender As System.Object, ByVal e As System.EventArgs)
         'Dim qry As String = "select state_code as [State Code],state_name as [State Name] from TSPL_TDS_STATE_MASTER"
         'fndstate.ConnectionString = connectSql.SqlCon()
@@ -4376,7 +3968,6 @@ Public Class frmCustomer
         'fndstate.ValueToSelect = "State Name"
         'fndstate.ValueToSelect1 = "State Name"
     End Sub
-
     Private Sub gvItems_EditorRequired(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.EditorRequiredEventArgs) Handles gvItems.EditorRequired
         Dim sql As String
         Dim ds As DataSet
@@ -4397,14 +3988,11 @@ Public Class frmCustomer
             '    col1.DataSource = ds.Tables(0)
         End If
     End Sub
-
     Private Sub gvitems_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvItems.CellValueChanged
         'If e.Column.Name = "itemCode" Then
         '    gvItems.CurrentRow.Cells("itemName").Value = connectSql.RunScalar("select Item_Desc  from TSPL_ITEM_MASTER  where Item_Code = '" + gvItems.CurrentRow.Cells("itemCode").Value + "'")
         'End If
-
         Try
-
             If Not isCellValueChangedOpen Then
                 isCellValueChangedOpen = True
                 If e.Column Is gvItems.Columns(colitemno) Then
@@ -4414,19 +4002,12 @@ Public Class frmCustomer
                 End If
                 isCellValueChangedOpen = False
             End If
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
-
         End Try
-
     End Sub
-
-
-
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
-
         Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(gvItems.CurrentRow.Cells(colitemno).Value), "F", isButtonClick)
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
             gvItems.CurrentRow.Cells(colitemno).Value = obj.Item_Code
@@ -4437,37 +4018,21 @@ Public Class frmCustomer
             gvItems.CurrentRow.Cells(coldesc).Value = ""
             'gvItems.CurrentRow.Cells(coldesc).Value = ""
         End If
-
     End Sub
-
-
     Private Sub gvItems_CellEditorInitialized(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvItems.CellEditorInitialized
         If TypeOf Me.gvItems.CurrentColumn Is GridViewMultiComboBoxColumn Then
-
             Dim editor As RadMultiColumnComboBoxElement = DirectCast(Me.gvItems.ActiveEditor, RadMultiColumnComboBoxElement)
-
             editor.AutoSizeDropDownToBestFit = True
-
             editor.EditorControl.MasterTemplate.BestFitColumns()
-
             editor.DropDownStyle = RadDropDownStyle.DropDown
-
             editor.AutoFilter = True
-
             If editor.EditorControl.MasterTemplate.FilterDescriptors.Count = 0 Then
-
                 Dim autoFilter As FilterDescriptor = New FilterDescriptor(editor.ValueMember, FilterOperator.StartsWith, "")
-
                 autoFilter.IsFilterEditor = True
-
                 editor.EditorControl.FilterDescriptors.Add(autoFilter)
             End If
-
-
         End If
-
     End Sub
-
     'priti added on 01-06-2011 --- To implement the access control
     'Private Function funSetUserAccess() As Boolean
     '    Try
@@ -4493,37 +4058,28 @@ Public Class frmCustomer
     '        If strTemp(2) = "0" Then 'Grant modify access
     '            btnDelete.Enabled = False
     '        End If
-
     '        funSetUserAccess = True
     '    Catch er As Exception
-
     '    End Try
     'End Function
-
     Private Sub mnuCust_Besic_Profile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuCust_Besic_Profile.Click
         funExport()
     End Sub
-
     Private Sub mnucustbesic_profile_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnucustbesic_Import_profile.Click
         funImport()
     End Sub
-
     Private Sub mnuItem_disc_details_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuItem_disc_details.Click
         funitem_Export()
     End Sub
-
     Private Sub mnuItem_discountDetails_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles mnuItem_discountDetails.Click
         funitem_Import()
     End Sub
-
     Private Sub importVisiDetail_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles importVisiDetail.Click
         funVisiDetailImport()
     End Sub
-
     Private Sub WithCustomer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WithCustomer.Click 'ExportVisiDetail.Click
         funVisiDetail_Export()
     End Sub
-
     Private Sub WithoutCustomer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles WithoutCustomerDetail.Click 'ExportVisiDetail.Click
         Try
             strCmd = "select TSPL_VISI_MASTER.Visi_Id  as [Serial No],cm.cust_code as [Customer Id], cm.Customer_Name as [Customer Name], VisiMake as [Visi Make],Visi_size as [Visi Size],Model_No as [Model No]," _
@@ -4535,13 +4091,8 @@ Public Class frmCustomer
             clsCommon.MyMessageBoxShow(ex.ToString)
         End Try
     End Sub
-
     Private Sub RadMenu1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenu1.Click
-
     End Sub
-
-
-
     Private Sub gvItems_CellFormatting(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CellFormattingEventArgs) Handles gvItems.CellFormatting
         Try
             If e.Column.Index >= 0 Then
@@ -4553,7 +4104,6 @@ Public Class frmCustomer
             'common.clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
-
     '--------------Added By ----Pankaj Kumar------on---23/03/2012-----------------------
     Public Sub LoadVisi()
         Try
@@ -4568,10 +4118,7 @@ Public Class frmCustomer
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
     End Sub
-
-
     Sub FormatGrid()
         'For Each grow As GridViewRowInfo In dgvVisi.Rows
         '    If grow.Cells("Select").Value = True Then
@@ -4591,35 +4138,25 @@ Public Class frmCustomer
         Me.dgvVisi.MasterTemplate.Columns("Chasis No").ReadOnly = True
         Me.dgvVisi.MasterTemplate.Columns("Installation Date").Width = 101
         Me.dgvVisi.MasterTemplate.Columns("Installation Date").ReadOnly = False
-
         Me.dgvVisi.MasterTemplate.Columns("Size").Width = 151
         Me.dgvVisi.MasterTemplate.Columns("Size").ReadOnly = True
-
         Me.dgvVisi.MasterTemplate.Columns("Model_No").Width = 151
         Me.dgvVisi.MasterTemplate.Columns("Model_No").ReadOnly = True
-
         Me.dgvVisi.MasterTemplate.Columns("Visi Type").Width = 151
         Me.dgvVisi.MasterTemplate.Columns("VIsi Type").ReadOnly = True
-
         Me.dgvVisi.MasterTemplate.Columns("Serial No").Width = 151
         Me.dgvVisi.MasterTemplate.Columns("Serial No").ReadOnly = True
-
         Me.dgvVisi.MasterTemplate.Columns("Tag No").Width = 151
         Me.dgvVisi.MasterTemplate.Columns("Tag No").ReadOnly = False
-
         'Me.dgvVisi.MasterTemplate.Columns("Item_Code").Width = 151
         'Me.dgvVisi.MasterTemplate.Columns("Item_Code").ReadOnly = True
         'Me.dgvVisi.MasterTemplate.Columns("Item_Code").IsVisible = True
-
         Me.dgvVisi.MasterTemplate.Columns("Security Amount").Width = 151
         Me.dgvVisi.MasterTemplate.Columns("Security Amount").ReadOnly = False
-
         Me.dgvVisi.MasterTemplate.Columns("Cheque No").Width = 151
         Me.dgvVisi.MasterTemplate.Columns("Cheque No").ReadOnly = False
-
         Me.dgvVisi.MasterTemplate.Columns("Cheque Date").Width = 151
         Me.dgvVisi.MasterTemplate.Columns("Cheque Date").ReadOnly = False
-
         If Not dgvVisi.MasterTemplate.Columns.Contains("FOC") Then
             Dim Type As GridViewComboBoxColumn = New GridViewComboBoxColumn()
             Type.FormatString = ""
@@ -4634,7 +4171,6 @@ Public Class frmCustomer
             dgvVisi.ShowFilteringRow = True
             dgvVisi.MasterTemplate.Columns.Add(Type)
         End If
-
         If Not dgvVisi.MasterTemplate.Columns.Contains("Type") Then
             Dim Type As GridViewComboBoxColumn = New GridViewComboBoxColumn()
             Type.FormatString = ""
@@ -4647,51 +4183,37 @@ Public Class frmCustomer
             Type.ValueMember = "Code"
             Type.DisplayMember = "Code"
             dgvVisi.MasterTemplate.Columns.Add(Type)
-
         End If
-
         Me.dgvVisi.MasterTemplate.Columns("FOC").Width = 151
         Me.dgvVisi.MasterTemplate.Columns("FOC").ReadOnly = False
-
         Me.dgvVisi.MasterTemplate.Columns("Type").Width = 151
         Me.dgvVisi.MasterTemplate.Columns("Type").ReadOnly = False
-
-
         Me.dgvVisi.MasterTemplate.Columns("Agreement No").Width = 151
         Me.dgvVisi.MasterTemplate.Columns("Agreement No").ReadOnly = False
-
         Me.dgvVisi.MasterTemplate.Columns("Agreement Date").Width = 151
         Me.dgvVisi.MasterTemplate.Columns("Agreement Date").ReadOnly = False
-
     End Sub
-
     Private Function GetItemType(Optional ByVal istype As Boolean = False) As DataTable
         Dim dt As New DataTable()
         If istype = True Then
             dt.Columns.Add("Code", GetType(String))
-
             Dim dr As DataRow = dt.NewRow()
             dr("Code") = "New"
             dt.Rows.Add(dr)
-
             dr = dt.NewRow()
             dr("Code") = "Refurnished"
             dt.Rows.Add(dr)
         Else
             dt.Columns.Add("Code", GetType(String))
-
             Dim dr As DataRow = dt.NewRow()
             dr("Code") = "Yes"
             dt.Rows.Add(dr)
-
             dr = dt.NewRow()
             dr("Code") = "No"
             dt.Rows.Add(dr)
         End If
-
         Return dt
     End Function
-
     Public Sub funVisiDetail_Export()
         Try
             strCmd = "select TSPL_VISI_MASTER.Visi_Id  as [Serial No],cm.cust_code as [Customer Id], cm.Customer_Name as [Customer Name], coalesce(Add1,'') +  coalesce(',' + add2,'') +  coalesce(',' + Add3,'') +  coalesce('-' + pin_code,'') as [Address], Phone1 as [Phone No],cm.City_Code as [City],state_code as [State],region_code as [Region], VisiMake as [Visi Make],Visi_size as [Visi Size],Model_No as [Model No]," _
@@ -4704,7 +4226,6 @@ Public Class frmCustomer
         Catch ex As Exception
         End Try
     End Sub
-
     Public Sub funVisiDetailImport()
         Dim gv As New RadGridView()
         Dim intCounter As Integer = 1
@@ -4716,7 +4237,6 @@ Public Class frmCustomer
                 Dim ii As Integer = 0
                 Try
                     clsCommon.ProgressBarPercentShow()
-
                     Dim arrVisi As New List(Of String)
                     For Each grow As GridViewRowInfo In gv.Rows
                         LineNo = clsCommon.myCstr(grow.Index + 2)
@@ -4732,7 +4252,6 @@ Public Class frmCustomer
                         If i <= 0 Then
                             Throw New Exception("This Visi '" + strVisiId + "' does not exist")
                         End If
-
                         'Dim strVisiMake As String = clsCommon.myCstr(grow.Cells(1).Value)
                         'If strVisiMake = "" Then
                         '    Throw New Exception("Please Fill The 'Make Visi' For '" + strVisiId + "' ")
@@ -4740,7 +4259,6 @@ Public Class frmCustomer
                         'If clsCommon.myLen(strVisiMake) > 50 Then
                         '    Throw New Exception("Check the length of 'Visi Make' for '" + strVisiId + "'")
                         'End If
-
                         'Dim strVisiSize As String = clsCommon.myCstr(grow.Cells(2).Value)
                         'If strVisiSize = "" Then
                         '    Throw New Exception("Please Fill The 'Size Visi' For '" + strVisiId + "' ")
@@ -4748,7 +4266,6 @@ Public Class frmCustomer
                         'If clsCommon.myLen(strVisiSize) > 50 Then
                         '    Throw New Exception("Check the length of 'Visi Size' for '" + strVisiId + "'")
                         'End If
-
                         'Dim strModel_No As String = clsCommon.myCstr(grow.Cells(3).Value)
                         'If strModel_No = "" Then
                         '    Throw New Exception("Please Fill The 'Model Visi' For '" + strVisiId + "' ")
@@ -4756,7 +4273,6 @@ Public Class frmCustomer
                         'If clsCommon.myLen(strModel_No) > 50 Then
                         '    Throw New Exception("Check the length of 'Visi Model' for '" + strVisiId + "'")
                         'End If
-
                         'Dim strVisiType As String = clsCommon.myCstr(grow.Cells(4).Value)
                         'If strVisiType = "" Then
                         '    Throw New Exception("Please Fill The 'Type Visi' For '" + strVisiId + "' ")
@@ -4764,20 +4280,16 @@ Public Class frmCustomer
                         'If clsCommon.myLen(strVisiType) > 50 Then
                         '    Throw New Exception("Check the length of 'Visi Type' for '" + strVisiId + "'")
                         'End If
-
-
                         Dim strchasisNo As String = clsCommon.myCstr(grow.Cells("Chasis No").Value)
                         If clsCommon.myLen(strchasisNo) > 12 Then
                             Throw New Exception("Please Check The Length Of Chasis No for '" + strVisiId + "' ")
                         End If
-
                         Dim strDate As String = Nothing
                         If clsCommon.myLen(grow.Cells("Installation Date").Value) > 0 And clsCommon.myLen(grow.Cells("Installation Date").Value) <= 11 Then
                             strDate = clsCommon.GetPrintDate(clsCommon.myCDate(grow.Cells("Installation Date").Value), "dd/MMM/yyyy")
                         Else
                             Throw New Exception("Pleas Check The Installation Date(Either It is Empty or Not in Correct format)  for '" + strVisiId + "'")
                         End If
-
                         Dim StrCustCode As String = grow.Cells("Customer Id").Value
                         If clsCommon.myLen(StrCustCode) <= 0 Then
                             StrCustCode = ""
@@ -4788,14 +4300,12 @@ Public Class frmCustomer
                                 Throw New Exception("The Customer Code Does Not Exist for '" + strVisiId + "'")
                             End If
                         End If
-
                         Dim strAGGDate As String = Nothing
                         If clsCommon.myLen(grow.Cells("Agreement Date").Value) > 0 Then
                             strAGGDate = clsCommon.GetPrintDate(clsCommon.myCDate(grow.Cells("Agreement Date").Value), "dd/MMM/yyyy")
                         Else
                             Throw New Exception("Pleas Check The Agreement Date(Either It is Empty or Not in Correct format)  for '" + strVisiId + "'")
                         End If
-
                         Dim StrTag As String = clsCommon.myCstr(grow.Cells("Tag No").Value)
                         If StrTag = "" Then
                             Throw New Exception("Please Fill The 'Tag' For '" + strVisiId + "' ")
@@ -4803,7 +4313,6 @@ Public Class frmCustomer
                         If clsCommon.myLen(StrTag) > 50 Then
                             Throw New Exception("Check the length of 'Tag' for '" + strVisiId + "'")
                         End If
-
                         Dim StrFOC As String = clsCommon.myCstr(grow.Cells("FOC").Value)
                         If StrFOC = "" Then
                             Throw New Exception("Please Fill The 'FOC' For '" + strVisiId + "' ")
@@ -4811,7 +4320,6 @@ Public Class frmCustomer
                         If LCase(clsCommon.myCstr(StrFOC)) <> "yes" And LCase(clsCommon.myCstr(StrFOC)) <> "no" Then
                             Throw New Exception("Check the FOC it Should be Yes or No for '" + strVisiId + "'")
                         End If
-
                         Dim StrType As String = clsCommon.myCstr(grow.Cells("Type").Value)
                         If StrType = "" Then
                             Throw New Exception("Please Fill The 'Type' For '" + strVisiId + "' ")
@@ -4819,8 +4327,6 @@ Public Class frmCustomer
                         If clsCommon.myCstr(StrType) <> "New" And clsCommon.myCstr(StrType) <> "Refurnished" Then
                             Throw New Exception("Check the Type it Should be New or Refurnished for '" + strVisiId + "'")
                         End If
-
-
                         Dim StrSec_Amount As String = clsCommon.myCstr(grow.Cells("Security Amount").Value)
                         If (StrSec_Amount = "" Or StrSec_Amount = "0") And StrFOC = "No" Then
                             Throw New Exception("Please Fill The 'Security Amount' For '" + strVisiId + "' ")
@@ -4828,7 +4334,6 @@ Public Class frmCustomer
                         If clsCommon.myLen(StrSec_Amount) > 50 Then
                             Throw New Exception("Check the length of 'Security Amount' for '" + strVisiId + "'")
                         End If
-
                         Dim StrAgreement_No As String = clsCommon.myCstr(grow.Cells("Agreement No").Value)
                         If StrAgreement_No = "" Then
                             Throw New Exception("Please Fill The 'Agreement No' For '" + strVisiId + "' ")
@@ -4836,9 +4341,7 @@ Public Class frmCustomer
                         If clsCommon.myLen(StrAgreement_No) > 50 Then
                             Throw New Exception("Check the length of 'Agreement No' for '" + strVisiId + "'")
                         End If
-
                         Dim StrCheque_No As String = clsCommon.myCstr(grow.Cells("Cheque No").Value)
-
                         Dim StrCheque_Date As String = clsCommon.myCstr(grow.Cells("Cheque Date").Value)
                         If ((StrCheque_No = "" And StrCheque_Date <> "") Or (StrCheque_No <> "" And StrCheque_Date = "")) And StrFOC = "No" Then
                             Throw New Exception("Please Fill The 'Cheque No and Cheque Date Both' For '" + strVisiId + "' ")
@@ -4846,7 +4349,6 @@ Public Class frmCustomer
                         If clsCommon.myLen(StrCheque_No) > 50 Then
                             Throw New Exception("Check the length of 'Cheque No and Cheque Date Both' for '" + strVisiId + "'")
                         End If
-
                         Dim CustName As String = clsDBFuncationality.getSingleValue("Select Customer_name from TSPL_CUSTOMER_MASTER Where Cust_Code='" + StrCustCode + "'")
                         'Dim isAssetExits As String = clsDBFuncationality.getSingleValue("Select count(*) from TSPL_VISI_MASTER  Where Visi_Id='" + strVisiId + "'", trans)
                         'If isAssetExits > 0 Then
@@ -4857,23 +4359,18 @@ Public Class frmCustomer
                         '        & " select Item_code,case when cat.SNO=1 then Item_Cagetory_Values end AS  'Make',case when cat.SNO=2 then Item_Cagetory_Values end AS 'MODEL',case when cat.SNO=3 then Item_Cagetory_Values end AS 'Size' ,case when cat.SNO=4 then Item_Cagetory_Values end AS 'Type' from TSPL_ITEM_MASTER_CATEGORY cat inner join TSPL_ITEM_CATEGORY_LEVEL lev on cat.Item_Category_Code=lev.ITEM_CATEGORY_CODE" _
                         '        & " ) tt where Item_code='" & strVisiId & "' group by item_Code", trans)
                         'If dt.Rows.Count > 0 Then
-
                         ''richa Agarwal  20/08/2015
                         Dim strItemCode As String = clsCommon.myCstr(grow.Cells("Item Code").Value)
                         Dim K As Integer = clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_ITEM_MASTER where Item_Code='" + strItemCode + "'")
                         If K <= 0 Then
                             Throw New Exception("This Item Code '" + strItemCode + "' does not exist")
                         End If
-
-
                         ''-----------------------
                         Dim Arr As New List(Of clsAssetInstallPullOut)
                         Dim obj As New clsAssetInstallPullOut()
-
                         Dim objTr As New clsvisidetail
                         obj.InstallCustomer_Id = StrCustCode
                         obj.installDate = strDate
-
                         obj.Agreement_date = strAGGDate
                         obj.Agreement_No = StrAgreement_No
                         obj.Cheque_No = StrCheque_No
@@ -4888,15 +4385,11 @@ Public Class frmCustomer
                         obj.Item_Id = strItemCode
                         obj.Trans_Date = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy")
                         ''richa agarwal 
-
                         Arr.Add(obj)
-
-
                         'obj.lev1code = strVisiMake
                         'objTr.lev2code = strVisiSize
                         'objTr.lev3code = strVisiType
                         'objTr.lev4code = strModel_No
-
                         'objTr.serialno = strVisiId
                         'objTr.tagno = StrTag
                         'objTr.asstcode = stritmCode
@@ -4915,7 +4408,6 @@ Public Class frmCustomer
                         arrDBName.Add(objCommonVar.CurrDatabase)
                         clsAssetInstallPullOut.SaveData(Arr, arrDBName)
                         'obj.Arr_visi.Add(objTr)
-
                         'clsDBFuncationality.ExecuteNonQuery("Update TSPL_VISI_MASTER set tag_No='" & StrTag.ToString & "' Where visi_Id='" & strVisiId.ToString & "'")
                         'obj.ArrVisi.Add(clsCommon.myCstr(strVisiId))
                         'obj.SaveData(obj, obj.ArrVisi, False, arrDBName)
@@ -4925,7 +4417,6 @@ Public Class frmCustomer
                         clsDBFuncationality.ExecuteNonQuery(strQry)
                         '' End If
                         ''End If
-
                         'trans.Commit()
                         intCounter += 1
                     Next
@@ -4945,25 +4436,16 @@ Public Class frmCustomer
         End Try
     End Sub
     '----------------------------------------Code Ends Here---------------------------------------
-
-
-
-
     Private Sub txtPriceCodeNon__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPriceCodeNon._MYValidating
-
         Dim qry As String = "SELECT DISTINCT TSPL_ITEM_PRICE_MASTER.Price_Code as [Code], TSPL_PRICE_COMPONENT_MAPPING.Price_Code_Desc as [Price Code Description], TSPL_ITEM_PRICE_MASTER.Tax_group as [Tax Group] FROM TSPL_ITEM_PRICE_MASTER INNER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_PRICE_COMPONENT_MAPPING.Price_Code INNER JOIN TSPL_TAX_GROUP_MASTER ON TSPL_ITEM_PRICE_MASTER.Tax_group = TSPL_TAX_GROUP_MASTER.Tax_Group_Code "
         Dim WhrCls As String = " TSPL_TAX_GROUP_MASTER.Excisable ='N'"
         txtPriceCodeNon.Value = clsCommon.ShowSelectForm("PriceCodeNFND", qry, "Code", WhrCls, txtPriceCodeNon.Value, "Code", isButtonClicked)
-
     End Sub
-
     Private Sub txtPriceCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPriceCode._MYValidating
         Dim qry As String = "SELECT DISTINCT TSPL_ITEM_PRICE_MASTER.Price_Code as [Code], TSPL_PRICE_COMPONENT_MAPPING.Price_Code_Desc as [Price Code Description], TSPL_ITEM_PRICE_MASTER.Tax_group as [Tax Group] FROM TSPL_ITEM_PRICE_MASTER INNER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_PRICE_COMPONENT_MAPPING.Price_Code INNER JOIN TSPL_TAX_GROUP_MASTER ON TSPL_ITEM_PRICE_MASTER.Tax_group = TSPL_TAX_GROUP_MASTER.Tax_Group_Code "
         Dim WhrCls As String = " TSPL_TAX_GROUP_MASTER.Excisable ='Y'"
         txtPriceCode.Value = clsCommon.ShowSelectForm("PriceCodeNonEx", qry, "Code", WhrCls, txtPriceCode.Value, "Code", isButtonClicked)
-
     End Sub
-
     Private Sub txtParentCstNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtParentCstNo._MYValidating
         If String.IsNullOrEmpty(fndCustomer.Value) Then
             common.clsCommon.MyMessageBoxShow("Firstly select Customer No")
@@ -4988,11 +4470,8 @@ Public Class frmCustomer
                 txtCredit.Enabled = True
                 ''=================
             End If
-
-
         End If
     End Sub
-
     Private Sub frmCustomer_KeyDown(ByVal sender As System.Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.S AndAlso MyBase.isModifyFlag AndAlso btnSave.Enabled Then
             SaveData()
@@ -5006,21 +4485,14 @@ Public Class frmCustomer
             funNew()
         End If
     End Sub
-
-
-
     Private Sub fndCusgrp__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCusgrp._MYValidating
-
         Dim qry As String = " SELECT Cust_Group_Code as [CustomerGruopCode],Cust_Group_Desc as [Description]," &
                             " Tax_Group as [Tax Group],Cust_Account as [Account Set],Terms_Code as [Terms Code] FROM [TSPL_CUSTOMER_GROUP_MASTER] "
         fndCusgrp.Value = clsCommon.ShowSelectForm("CUSGRP_CODE", qry, "CustomerGruopCode", "", fndCusgrp.Value, "", isButtonClicked)
         txtCusgrp.Text = clsDBFuncationality.getSingleValue(" SELECT Cust_Group_Desc as [Description] FROM [TSPL_CUSTOMER_GROUP_MASTER] where Cust_Group_Code='" + fndCusgrp.Value + "'")
         fnCusGrp()
-
     End Sub
-
     Private Sub fndCity__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCity._MYValidating
-
         'Dim qry As String = "SELECT [City_Code] as [CityCode],[City_Name] as [City Name]FROM [TSPL_CITY_MASTER]"
         'fndCity.Value = clsCommon.ShowSelectForm("FNDCITY_CODE", qry, "CityCode", "", fndCity.Value, "", isButtonClicked)
         fndCity.Value = clsCityMaster.getFinder("", fndCity.Value, isButtonClicked)
@@ -5039,7 +4511,6 @@ Public Class frmCustomer
             fndCity.Value = ""
         End If
     End Sub
-
     Private Sub fndstate__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndstate._MYValidating
         'Dim qry As String = "select state_code as [StateCode],state_name as [State Name] from TSPL_TDS_STATE_MASTER"
         'fndstate.Value = clsCommon.ShowSelectForm("FNDSTATE_CODE", qry, "StateCode", "", fndstate.Value, "", isButtonClicked)
@@ -5049,34 +4520,24 @@ Public Class frmCustomer
             txtGSTstateCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  GST_STATE_Code  from TSPL_State_MASTER where STATE_CODE ='" + fndstate.Value + "'"))
         End If
     End Sub
-
     Private Sub fndTrmsCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndTrmsCode._MYValidating
-
         'Dim qry As String = "SELECT [Terms_Code] as [TermsCode],[Terms_Desc] as [Description],[No_Days] as [No. of Days] FROM [TSPL_TERMS_MASTER]"
         'fndTrmsCode.Value = clsCommon.ShowSelectForm("FNDTMCODE", qry, "TermsCode", "", fndTrmsCode.Value, "", isButtonClicked)
         fndTrmsCode.Value = clsPaymentTerms.getFinder("", fndTrmsCode.Value, isButtonClicked)
-
     End Sub
-
     Private Sub fndAccntSet__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndAccntSet._MYValidating
-
         Dim qry As String = "SELECT  [Cust_Account] as [AccountSetCode],[Cust_Acct_Desc] as [Description] FROM [TSPL_CUSTOMER_ACCOUNT_SET]"
         fndAccntSet.Value = clsCommon.ShowSelectForm("CUSTACODE", qry, "AccountSetCode", "", fndAccntSet.Value, "", isButtonClicked)
         fndCustCurrency.Value = clsDBFuncationality.getSingleValue("Select COALESCE(CURRENCY_CODE,'') AS CURRENCY_CODE from TSPL_CUSTOMER_ACCOUNT_SET where CUST_ACCOUNT='" + fndAccntSet.Value + "'")
     End Sub
-
     Private Sub fndPayCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndPayCode._MYValidating
-
         'Dim qry As String = "  SELECT [Payment_Code] as [PaymentCode],[payment_Desc] as [Description] FROM [TSPL_PAYMENT_CODE]"
         'fndPayCode.Value = clsCommon.ShowSelectForm("FMPAYCODE", qry, "PaymentCode", "", fndPayCode.Value, "", isButtonClicked)
         fndPayCode.Value = clsPaymentCode.getFinder("", fndPayCode.Value, isButtonClicked)
     End Sub
-
     Private Sub fndTxGrp__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndTxGrp._MYValidating
-
         Dim qry As String = "SELECT [Tax_Group_Code] AS [TaxGroupCode],[Tax_Group_Desc] as [Description]," &
                        " (select case when [Tax_Group_Type]='S' then 'Sale' else 'Purchase' end) as [Type] FROM [TSPL_TAX_GROUP_MASTER] "
-
         If GstApplicable And ShowOnlyActiveTaxRateGroup Then
             'fndTxGrp.Value = clsTaxGroupMaster.getFinder("Tax_Group_Type='S' AND Active=1 ", fndTxGrp.Value, isButtonClicked)
             fndTxGrp.Value = clsCommon.ShowSelectForm("TAXGROUPCODFND", qry, "TaxGroupCode", "Tax_Group_Type='S' AND Active=1", fndTxGrp.Value, "", isButtonClicked)
@@ -5084,20 +4545,13 @@ Public Class frmCustomer
             'fndTxGrp.Value = clsTaxGroupMaster.getFinder("Tax_Group_Type='S'", fndTxGrp.Value, isButtonClicked)
             fndTxGrp.Value = clsCommon.ShowSelectForm("TAXGROUPCODFND", qry, "TaxGroupCode", "Tax_Group_Type='S'", fndTxGrp.Value, "", isButtonClicked)
         End If
-
         txtTxGrp.Text = clsDBFuncationality.getSingleValue("SELECT [Tax_Group_Desc] FROM [TSPL_TAX_GROUP_MASTER] where Tax_Group_Code='" + fndTxGrp.Value + "'")
         fnTaxGrp()
-
     End Sub
-
     Private Sub fndCusCategory__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCusCategory._MYValidating
-
         Dim qry As String = "SELECT [CUST_CATEGORY_CODE] as [CustomerCategoryCode],[CUST_CATEGORY_DESC] as [Description] FROM [TSPL_CUSTOMER_CATEGORY_MASTER]"
         fndCusCategory.Value = clsCommon.ShowSelectForm("CUSTCATCODEFND", qry, "CustomerCategoryCode", "", fndCusCategory.Value, "", isButtonClicked)
-
     End Sub
-
-
     Private Sub fndRoute__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndRoute._MYValidating
         Dim qry As String = "SELECT [Route_No] as [RouteNo.],[Route_Desc] as [Description],Type FROM [TSPL_ROUTE_MASTER]"
         Dim WhrCls As String = " Status='A' "
@@ -5108,18 +4562,12 @@ Public Class frmCustomer
         'fnRoute()
         fndroutegroup.Value = ""
         txtroutegroup.Text = ""
-
     End Sub
-
-
     Private Sub fndCusType__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCusType._MYValidating
-
         Dim qry As String = "SELECT  [Cust_Type_Code] as [CustomerTypeCode],[Cust_Type_Desc] as [Description]FROM [TSPL_CUSTOMER_TYPE_MASTER]"
         fndCusType.Value = clsCommon.ShowSelectForm("CUSTCODEFND", qry, "CustomerTypeCode", "", fndCusType.Value, "", isButtonClicked)
         LoadCus()
-
     End Sub
-
     'bahul
     Private Sub fndSalePerson__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndSalePerson._MYValidating
         Dim strQuerySalesman As String = "SELECT [Route_No] as [Route No.], [Route_Desc] as [Description],Type, TSPL_EMPLOYEE_MASTER.EMP_CODE as [SalesPersonCode],TSPL_EMPLOYEE_MASTER.Emp_Name as [Sales Person Name],Price_Code ,isnull(NonPrice_Code,'') as NonPrice FROM TSPL_ROUTE_MASTER left join tspl_salesman_detail ON tspl_salesman_detail.Route_Code=TSPL_ROUTE_MASTER.Route_No left join TSPL_EMPLOYEE_MASTER ON TSPL_EMPLOYEE_MASTER.EMP_CODE=tspl_salesman_detail.Salesman_Code"
@@ -5128,27 +4576,19 @@ Public Class frmCustomer
         txtSalesPerson.Text = clsDBFuncationality.getSingleValue("SELECT [Emp_Name] FROM [TSPL_EMPLOYEE_MASTER] where EMP_CODE='" + fndSalePerson.Value + "' ")
         fnRoute()
     End Sub
-
     Private Sub fndChannel__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndChannel._MYValidating
-
         Dim qry As String = "SELECT  [Channel_Id] as [ChannelId],[Channel_Category] as [Category],[Channel_Name] as [Name] FROM [TSPL_CHANNEL_MASTER]"
         fndChannel.Value = clsCommon.ShowSelectForm("FNDCHANNELID", qry, "ChannelId", "", fndChannel.Value, "", isButtonClicked)
         txtChannel.Text = clsDBFuncationality.getSingleValue("SELECT [Channel_Name] FROM [TSPL_CHANNEL_MASTER] where Channel_Id='" + fndChannel.Value + "'")
-
     End Sub
-
     Private Sub fndVisi__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndVisi._MYValidating
-
         Dim qry As String = "SELECT  [Visi_Id] as [VisiId],[VisiMake] as [VisiMake],[Visi_Chasis_No] as [Chasis No],[Visi_Installation_date] as [Installation Date] FROM [TSPL_VISI_MASTER]"
         fndVisi.Value = clsCommon.ShowSelectForm("FmVISI", qry, "VisiId", "", fndVisi.Value, "", isButtonClicked)
         txtVisi.Text = clsDBFuncationality.getSingleValue("SELECT  [VisiMake] as [VisiMake] FROM [TSPL_VISI_MASTER] where  Visi_Id='" + fndVisi.Value + "'")
-
     End Sub
-
     Private Sub fndroutegroup__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndroutegroup._MYValidating
         Dim routeGrpCode As String
         Dim qry As String = "select Group_Id as [GroupId] ,Status,Route_Code as [Route Code],Description from  TSPL_ROUTE_GROUP_MASTER  "
-
         routeGrpCode = clsCommon.ShowSelectForm("GRUPIDFND", qry, "GroupId", "Route_Code ='" + fndRoute.Value + "' ", fndroutegroup.Value, "", isButtonClicked)
         If clsCommon.myLen(routeGrpCode) > 0 Then
             fndroutegroup.Value = routeGrpCode
@@ -5157,16 +4597,10 @@ Public Class frmCustomer
             fndroutegroup.Value = ""
             txtroutegroup.Text = ""
         End If
-
-
-
     End Sub
-
     Private Sub fndCustomer__MYValidating_1(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCustomer._MYValidating
         Dim str As String = "select count(*) from TSPL_CUSTOMER_MASTER   where CUSTOMER_FORM_TYPE='ALL' and Cust_Code ='" + fndCustomer.Value + "' "
-
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
-
         If no = 0 AndAlso isButtonClicked = False Then
             fndCustomer.MyReadOnly = False
             'fndCustomer.Value = ""
@@ -5174,8 +4608,6 @@ Public Class frmCustomer
             fndCustomer.MyReadOnly = True
         End If
         If fndCustomer.MyReadOnly OrElse isButtonClicked Then
-
-
             'Dim qry As String = "select Cust_Code as [CustomerCode],Customer_Name as [Name],Cust_Group_Code as [Customer Group],(select case when Status='N' then 'Active' else 'In.Active' end ) as [Status] from TSPL_CUSTOMER_MASTER  "
             'fndCustomer.Value = clsCommon.ShowSelectForm("CUSTOMEFND", qry, "CustomerCode", "", fndCustomer.Value, "", isButtonClicked)
             fndCustomer.Value = clsCustomerMaster.getFinder("CUSTOMER_FORM_TYPE='ALL'", fndCustomer.Value, isButtonClicked)
@@ -5183,7 +4615,6 @@ Public Class frmCustomer
             LoadData()
         End If
     End Sub
-
     Private Sub fndCustomer__MYNavigator(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal NavType As common.NavigatorType) Handles fndCustomer._MYNavigator
         Dim qst As String = "select Cust_Code as [Customer Code],Customer_Name as [Name],Cust_Group_Code as [Customer Group],(select case when Status='N' then 'Active' else 'In.Active' end ) as [Status],isReorder from TSPL_CUSTOMER_MASTER  where CUSTOMER_FORM_TYPE='ALL' "
         Select Case NavType
@@ -5193,7 +4624,6 @@ Public Class frmCustomer
                 qst += " and TSPL_CUSTOMER_MASTER.Cust_Code in (select min(Cust_Code ) from TSPL_CUSTOMER_MASTER where Cust_Code  >'" + fndCustomer.Value + "')"
             Case NavigatorType.First
                 qst += " and TSPL_CUSTOMER_MASTER .Cust_Code in (select MIN(Cust_Code ) from TSPL_CUSTOMER_MASTER)"
-
             Case NavigatorType.Last
                 qst += " and TSPL_CUSTOMER_MASTER .Cust_Code in (select Max(Cust_Code ) from TSPL_CUSTOMER_MASTER)"
             Case NavigatorType.Previous
@@ -5206,14 +4636,11 @@ Public Class frmCustomer
         End If
         LoadData()
     End Sub
-
     Private Sub fndBaseCurrency__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndCustCurrency._MYValidating
         'Dim qry As String = "select CURRENCY_CODE AS Code, CURRENCY_NAME as Name from TSPL_CURRENCY_MASTER"
         'fndCustCurrency.Value = clsCommon.ShowSelectForm("CURRENCY_MASTER", qry, "Code", "", fndCustCurrency.Value, "CURRENCY_CODE", isButtonClicked)
         fndCustCurrency.Value = clsCurrencyMaster.getFinder("", fndCustCurrency.Value, isButtonClicked)
-
     End Sub
-
     Private Sub txtServiceDealerCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtServiceDealerCode._MYValidating
         'Dim qry As String = "SELECT DISTINCT EMP_CODE as [Code], EMP_NAME as [Name], Designation  FROM TSPL_EMPLOYEE_MASTER "
         Dim WhrCls As String = " EMP_TYPE ='Service Dealer' "
@@ -5221,7 +4648,6 @@ Public Class frmCustomer
         txtServiceDealerCode.Value = clsEmployeeMaster.getFinder(WhrCls, txtServiceDealerCode.Value, isButtonClicked)
         txtServiceDealerName.Text = clsDBFuncationality.getSingleValue("select emp_name from TSPL_EMPLOYEE_MASTER where emp_code='" & txtServiceDealerCode.Value & "'")
     End Sub
-
     Private Sub txtTDMCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtTDMCode._MYValidating
         'Dim qry As String = "SELECT DISTINCT EMP_CODE as [Code], EMP_NAME as [Name], Designation  FROM TSPL_EMPLOYEE_MASTER "
         Dim WhrCls As String = " EMP_TYPE ='TDM' "
@@ -5229,7 +4655,6 @@ Public Class frmCustomer
         txtTDMCode.Value = clsEmployeeMaster.getFinder(WhrCls, txtTDMCode.Value, isButtonClicked)
         txtTDMName.Text = clsDBFuncationality.getSingleValue("select emp_name from TSPL_EMPLOYEE_MASTER where emp_code='" & txtTDMCode.Value & "'")
     End Sub
-
     Private Sub txtDistributorCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtDistributorCode._MYValidating
         'Dim qry As String = "SELECT DISTINCT CUST_CODE as [Code], Customer_Name as [Name] FROM TSPL_CUSTOMER_MASTER "
         Dim WhrCls As String = " IsDistributor ='Y' "
@@ -5237,24 +4662,25 @@ Public Class frmCustomer
         txtDistributorCode.Value = clsCustomerMaster.getFinder(WhrCls, txtDistributorCode.Value, isButtonClicked)
         txtDistributorName.Text = clsDBFuncationality.getSingleValue("select customer_name from TSPL_CUSTOMER_MASTER where Cust_code='" & txtDistributorCode.Value & "'")
     End Sub
-
     Private Sub txtpgfnd__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtpgfnd._MYValidating
         'Dim qry As String = "select distinct TSPL_PRICE_GROUP_MAPPING.price_group_code as GroupCode,TSPL_PRICE_GROUP_MAPPING.price_group_desc as Description,TSPL_PRICE_GROUP_MAPPING.price_code as [Price Code],TSPL_PRICE_COMPONENT_MAPPING.price_code_desc as [Price Description],(case when TSPL_TAX_GROUP_MASTER.excisable='Y' then 'Excisable' else 'Non-Excisable' end) as TaxType from TSPL_PRICE_GROUP_MAPPING left outer join TSPL_PRICE_COMPONENT_MAPPING on TSPL_PRICE_COMPONENT_MAPPING.price_code=TSPL_PRICE_GROUP_MAPPING.price_code left outer join TSPL_ITEM_PRICE_MASTER on TSPL_ITEM_PRICE_MASTER.price_code=TSPL_PRICE_COMPONENT_MAPPING.price_code inner join TSPL_TAX_GROUP_MASTER on TSPL_TAX_GROUP_MASTER.tax_group_code=TSPL_ITEM_PRICE_MASTER.tax_group"
         Dim qry As String = "select distinct TSPL_PRICE_GROUP_MAPPING.price_group_code as GroupCode,TSPL_PRICE_GROUP_MAPPING.price_group_desc as Description from TSPL_PRICE_GROUP_MAPPING"
         Dim whrCls As String = " "
         txtpgfnd.Value = clsCommon.ShowSelectForm("PriceGRPCode", qry, "GroupCode", whrCls, txtpgfnd.Value, "GroupCode", isButtonClicked)
     End Sub
-
     Public Sub PriceCodeEnable()
         If chkpricegrpslctr.Checked = True Then
             txtPriceCode.Enabled = False
             txtPriceCodeNon.Enabled = False
+            txtPriceCodeFOR.Enabled = False
             txtpgfnd.Enabled = True
             txtPriceCode.Value = ""
             txtPriceCodeNon.Value = ""
+            txtPriceCodeFOR.Value = ""
         ElseIf chkpricegrpslctr.Checked = False Then
             txtPriceCode.Enabled = True
             txtPriceCodeNon.Enabled = True
+            txtPriceCodeFOR.Enabled = True
             txtpgfnd.Enabled = False
             txtpgfnd.Value = ""
         End If
@@ -5262,14 +4688,12 @@ Public Class frmCustomer
     Private Sub chkpricegrpslctr_ToggleStateChanged(ByVal sender As System.Object, ByVal args As Telerik.WinControls.UI.StateChangedEventArgs) Handles chkpricegrpslctr.ToggleStateChanged
         PriceCodeEnable()
     End Sub
-
     Private Sub txtCategoryStructureCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCategoryStructureCode._MYValidating
         Dim qry As String = "select ITEM_CATEGORY_STRUCT_CODE as Code,DESCRIPTION from TSPL_ITEM_CATEGORY_STRUCTURE"
         txtCategoryStructureCode.Value = clsCommon.ShowSelectForm("ITEMMASTERCATSTRU", qry, "Code", " isnull(form_type,'item')='customer'", txtCategoryStructureCode.Value, "Code", isButtonClicked)
         LoadBlankGridCat()
         If clsCommon.myLen(txtCategoryStructureCode.Value) > 0 Then
             lblCategoryStructureCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DESCRIPTION from TSPL_ITEM_CATEGORY_STRUCTURE where ITEM_CATEGORY_STRUCT_CODE='" + txtCategoryStructureCode.Value + "' and isnull(form_type,'Item')='customer'"))
-
             qry = "select TSPL_ITEM_CATEGORY_STRUCT_DETAIL.ITEM_CATEGORY_CODE ,TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION  "
             qry += " from TSPL_ITEM_CATEGORY_STRUCT_DETAIL"
             qry += " left outer join TSPL_ITEM_CATEGORY_LEVEL on  TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=TSPL_ITEM_CATEGORY_STRUCT_DETAIL.ITEM_CATEGORY_CODE and TSPL_ITEM_CATEGORY_LEVEL.form_type=TSPL_ITEM_CATEGORY_STRUCT_DETAIL.form_type"
@@ -5297,7 +4721,6 @@ Public Class frmCustomer
     Sub LoadBlankGrid()
         gvCrate.Rows.Clear()
         gvCrate.Columns.Clear()
-
         Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoLineNo = New GridViewDecimalColumn()
         repoLineNo.FormatString = ""
@@ -5307,8 +4730,6 @@ Public Class frmCustomer
         repoLineNo.ReadOnly = True
         repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvCrate.MasterTemplate.Columns.Add(repoLineNo)
-
-
         Dim repoLocCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoLocCode.FormatString = ""
         repoLocCode.HeaderText = "Location Code"
@@ -5316,7 +4737,6 @@ Public Class frmCustomer
         repoLocCode.TextImageRelation = TextImageRelation.TextBeforeImage
         repoLocCode.Width = 200
         gvCrate.MasterTemplate.Columns.Add(repoLocCode)
-
         Dim repoLocationName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoLocationName.FormatString = ""
         repoLocationName.HeaderText = "Location"
@@ -5324,7 +4744,6 @@ Public Class frmCustomer
         repoLocationName.ReadOnly = True
         repoLocationName.Width = 150
         gvCrate.MasterTemplate.Columns.Add(repoLocationName)
-
         Dim repoOpeningDate As GridViewDateTimeColumn = New GridViewDateTimeColumn()
         repoOpeningDate.Format = DateTimePickerFormat.Custom
         repoOpeningDate.CustomFormat = "dd-MM-yyyy"
@@ -5334,7 +4753,6 @@ Public Class frmCustomer
         repoOpeningDate.Name = ColOpeningDate
         repoOpeningDate.Width = 100
         gvCrate.MasterTemplate.Columns.Add(repoOpeningDate)
-
         Dim repoQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoQty = New GridViewDecimalColumn()
         repoQty.FormatString = ""
@@ -5344,8 +4762,6 @@ Public Class frmCustomer
         'repoQty.Minimum = 0
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvCrate.MasterTemplate.Columns.Add(repoQty)
-
-
         gvCrate.AllowAddNewRow = False
         gvCrate.ShowGroupPanel = False
         gvCrate.AllowColumnReorder = False
@@ -5353,12 +4769,10 @@ Public Class frmCustomer
         gvCrate.EnableSorting = False
         gvCrate.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gvCrate.MasterTemplate.ShowRowHeaderColumn = False
-
     End Sub
     Sub LoadBlankGridCat()
         gvCategory.Rows.Clear()
         gvCategory.Columns.Clear()
-
         Dim repoCatCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCatCode.FormatString = ""
         repoCatCode.HeaderText = "Category Code"
@@ -5366,15 +4780,12 @@ Public Class frmCustomer
         repoCatCode.TextImageRelation = TextImageRelation.TextBeforeImage
         repoCatCode.Width = 100L
         gvCategory.MasterTemplate.Columns.Add(repoCatCode)
-
         Dim repoCatCodeDesc As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCatCodeDesc.FormatString = ""
         repoCatCodeDesc.HeaderText = "Category Description"
         repoCatCodeDesc.Name = CatcolCodeDesc
-
         repoCatCodeDesc.Width = 200
         gvCategory.MasterTemplate.Columns.Add(repoCatCodeDesc)
-
         Dim repoCatValue As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCatValue.FormatString = ""
         repoCatValue.HeaderText = "Category Value"
@@ -5384,7 +4795,6 @@ Public Class frmCustomer
         repoCatValue.TextImageRelation = TextImageRelation.TextBeforeImage
         repoCatValue.ReadOnly = False
         gvCategory.MasterTemplate.Columns.Add(repoCatValue)
-
         Dim repoCatValueDesc As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCatValueDesc.FormatString = ""
         repoCatValueDesc.HeaderText = "Category Value Description"
@@ -5392,7 +4802,6 @@ Public Class frmCustomer
         repoCatValueDesc.Width = 200
         repoCatValueDesc.ReadOnly = True
         gvCategory.MasterTemplate.Columns.Add(repoCatValueDesc)
-
         gvCategory.AllowAddNewRow = False
         gvCategory.ShowGroupPanel = False
         gvCategory.AllowColumnReorder = False
@@ -5401,16 +4810,13 @@ Public Class frmCustomer
         gvCategory.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gvCategory.MasterTemplate.ShowRowHeaderColumn = False
     End Sub
-
     Sub OpenCatValueList(ByVal isButtonClick As Boolean)
-
         gvCategory.CurrentRow.Cells(CatcolValueDesc).Value = ""
         Dim qry As String = " select CODE,DESCRIPTION from TSPL_ITEM_CATEGORY_LEVEL_VALUES"
         gvCategory.CurrentRow.Cells(CatcolValue).Value = clsCommon.ShowSelectForm("itemMAsCatFind", qry, "Code", " ITEM_CATEGORY_CODE='" + clsCommon.myCstr(gvCategory.CurrentRow.Cells(CatcolCode).Value) + "' and isnull(form_type,'Item')='customer'", clsCommon.myCstr(gvCategory.CurrentRow.Cells(CatcolValue).Value), "Code", isButtonClick)
         qry = "select DESCRIPTION from TSPL_ITEM_CATEGORY_LEVEL_VALUES where ITEM_CATEGORY_CODE='" + clsCommon.myCstr(gvCategory.CurrentRow.Cells(CatcolCode).Value) + "' and CODE='" + clsCommon.myCstr(gvCategory.CurrentRow.Cells(CatcolValue).Value) + "' and isnull(form_type,'Item')='customer'"
         gvCategory.CurrentRow.Cells(CatcolValueDesc).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
     End Sub
-
     Private Sub gvCategory_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gvCategory.CellValueChanged
         Try
             If (Not isInsideLoadData) Then
@@ -5422,16 +4828,13 @@ Public Class frmCustomer
                     isCellValueChangedOpen = False
                 End If
             End If
-
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnexport_cat_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnexport_cat.Click
         Dim qry As String = "select count(*) from TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER"
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
-
         If check > 0 Then
             qry = "select TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.Cust_code as [Customer Code],TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.category_struct_code as [Category Structure Code],tspl_item_category_structure.description as [Category Structure],TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.Category_Code,TSPL_ITEM_CATEGORY_LEVEL.description as [Category_Desc],TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.Category_Code_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.description as [Category_Values_Desc] from TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER left outer join tspl_item_category_structure on tspl_item_category_structure.item_category_struct_code=TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.category_struct_code and isnull(tspl_item_category_structure.form_type,'item')='customer' left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.item_category_code=TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.category_code and isnull(TSPL_ITEM_CATEGORY_LEVEL.form_type,'item')='customer' left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.code=TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.category_code_values and TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER.category_code=TSPL_ITEM_CATEGORY_LEVEL_VALUES.item_category_code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.item_category_code=TSPL_ITEM_CATEGORY_LEVEL.item_category_code and TSPL_ITEM_CATEGORY_LEVEL.form_type=TSPL_ITEM_CATEGORY_LEVEL_VALUES.form_type and isnull(TSPL_ITEM_CATEGORY_LEVEL_VALUES.form_type,'item')='customer'"
         Else
@@ -5441,7 +4844,6 @@ Public Class frmCustomer
         ListImpExpColumnsSuperMandatory = New List(Of String)({"Customer Code"})
         transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "CATEGORY")
     End Sub
-
     Private Sub btnimport_cat_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnimport_cat.Click
         Dim gv1 As New RadGridView()
         Me.Controls.Add(gv1)
@@ -5460,27 +4862,22 @@ Public Class frmCustomer
                 Dim lineno As Integer = 1
                 Dim qry As String = ""
                 Dim check As Integer = 0
-
                 clsCommon.ProgressBarPercentShow()
-
                 For Each grow As GridViewRowInfo In gv1.Rows
                     lineno = clsCommon.myCstr(grow.Index + 2)
                     ii += 1
                     clsCommon.ProgressBarPercentUpdate((ii * 100) / gv1.RowCount - 1, "Importing " + clsCommon.myCstr(ii) + "/" + clsCommon.myCstr(gv1.RowCount - 1))
                     Dim obj As New clsCustomerMaster()
-
                     custcode = clsCommon.myCstr(grow.Cells("Customer Code").Value)
                     If clsCommon.myLen(custcode) <= 0 Then
                         Throw New Exception("Please fill customer code at line no. " + clsCommon.myCstr(lineno) + "")
                     ElseIf clsCommon.myLen(custcode) > 0 Then
                         qry = "select count(*) from tspl_customer_master where cust_code='" + custcode + "'"
                         check = clsDBFuncationality.getSingleValue(qry, trans)
-
                         If check <= 0 Then
                             Throw New Exception("Filled customer code does not exist at line no. " + clsCommon.myCstr(lineno) + "")
                         End If
                     End If
-
                     cat_stru = clsCommon.myCstr(grow.Cells("Category Structure Code").Value)
                     cat_str_desc = clsCommon.myCstr(grow.Cells("Category Structure").Value)
                     If clsCommon.myLen(cat_str_desc) <= 0 AndAlso clsCommon.myLen(cat_stru) <= 0 Then
@@ -5489,19 +4886,16 @@ Public Class frmCustomer
                     If clsCommon.myLen(cat_stru) > 0 Then
                         qry = "select count(*) from TSPL_ITEM_CATEGORY_STRUCTURE where item_category_struct_code='" + cat_stru + "' and isnull(form_type,'item')='customer'"
                         check = clsDBFuncationality.getSingleValue(qry, trans)
-
                         If check <= 0 Then
                             Throw New Exception("Filled Category structure code does not exist at line no. " + clsCommon.myCstr(lineno) + "")
                         End If
                     ElseIf clsCommon.myLen(cat_str_desc) > 0 Then
                         qry = "select item_category_struct_code from TSPL_ITEM_CATEGORY_STRUCTURE where description='" + cat_str_desc + "' and isnull(form_type,'item')='customer'"
                         cat_stru = clsDBFuncationality.getSingleValue(qry, trans)
-
                         If clsCommon.myLen(cat_stru) <= 0 Then
                             Throw New Exception("Category structure does not exist at line no. " + clsCommon.myCstr(lineno) + "")
                         End If
                     End If
-
                     cat_code = clsCommon.myCstr(grow.Cells("Category_Code").Value)
                     cat_desc = clsCommon.myCstr(grow.Cells("Category_Desc").Value)
                     If clsCommon.myLen(cat_code) <= 0 AndAlso clsCommon.myLen(cat_desc) <= 0 Then
@@ -5510,19 +4904,16 @@ Public Class frmCustomer
                     If clsCommon.myLen(cat_code) > 0 Then
                         qry = "select count(*) from TSPL_ITEM_CATEGORY_STRUCT_DETAIL where item_category_struct_code='" + cat_stru + "' and item_category_code='" + cat_code + "' and isnull(form_type,'item')='customer'"
                         check = clsDBFuncationality.getSingleValue(qry, trans)
-
                         If check <= 0 Then
                             Throw New Exception("Filled Category code does not exist or not mapped with structure at line no. " + clsCommon.myCstr(lineno) + "")
                         End If
                     ElseIf clsCommon.myLen(cat_desc) > 0 Then
                         qry = "select item_category_code from TSPL_ITEM_CATEGORY_LEVEL where item_category_struct_code='" + cat_stru + "' and description='" + cat_desc + "' and isnull(form_type,'item')='customer'"
                         cat_code = clsDBFuncationality.getSingleValue(qry, trans)
-
                         If clsCommon.myLen(cat_code) <= 0 Then
                             Throw New Exception("Category does not exist at line no. " + clsCommon.myCstr(lineno) + "")
                         End If
                     End If
-
                     cat_value = clsCommon.myCstr(grow.Cells("Category_Code_Values").Value)
                     cat_value_desc = clsCommon.myCstr(grow.Cells("Category_Values_Desc").Value)
                     If clsCommon.myLen(cat_value) <= 0 AndAlso clsCommon.myLen(cat_value_desc) <= 0 Then
@@ -5531,22 +4922,18 @@ Public Class frmCustomer
                     If clsCommon.myLen(cat_value) > 0 Then
                         qry = "select count(*) from TSPL_ITEM_CATEGORY_LEVEL_VALUES where item_category_code='" + cat_code + "' and code='" + cat_value + "' and isnull(form_type,'item')='customer'"
                         check = clsDBFuncationality.getSingleValue(qry, trans)
-
                         If check <= 0 Then
                             Throw New Exception("Filled Category value code does not exist or not mapped with structure at line no. " + clsCommon.myCstr(lineno) + "")
                         End If
                     ElseIf clsCommon.myLen(cat_value_desc) > 0 Then
                         qry = "select code from TSPL_ITEM_CATEGORY_LEVEL_VALUES where item_category_code='" + cat_code + "' and description='" + cat_value_desc + "' and isnull(form_type,'item')='customer'"
                         cat_value = clsDBFuncationality.getSingleValue(qry, trans)
-
                         If clsCommon.myLen(cat_value) <= 0 Then
                             Throw New Exception("Category value does not exist at line no. " + clsCommon.myCstr(lineno) + "")
                         End If
                     End If
-
                     qry = "delete from TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER where cust_code='" + custcode + "' and Category_Struct_Code='" + cat_stru + "' and Category_Code='" + cat_code + "' and Category_Code_Values='" + cat_value + "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                     Dim issaved As Boolean = True
                     Dim coll As New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "Cust_code", custcode)
@@ -5556,7 +4943,6 @@ Public Class frmCustomer
                     issaved = issaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_CATEGORY_STRUCTURE_MASTER", OMInsertOrUpdate.Insert, "", trans)
                     lineno += 1
                 Next
-
                 trans.Commit()
                 clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
@@ -5568,15 +4954,12 @@ Public Class frmCustomer
         End If
         Me.Controls.Remove(gv1)
     End Sub
-
     Private Sub txtTempCreditLimit_KeyPress(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyPressEventArgs) Handles txtTempCreditLimit.KeyPress
         If ((e.KeyChar >= Chr(48) And e.KeyChar <= Chr(57)) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(48)) Then
         Else
             e.Handled = True
         End If
     End Sub
-
-
     'Private Sub dgvVisi_CellValueChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles dgvVisi.CellValueChanged
     '    Try
     '        If e.Column Is dgvVisi.Columns("Asset No") Then
@@ -5584,16 +4967,10 @@ Public Class frmCustomer
     '            LoadVisiDetail(itmcode)
     '        End If
     '    Catch ex As Exception
-
     '    End Try
     'End Sub
-
-
-
-
     Private Sub txtTempCreditLimit_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtTempCreditLimit.TextChanged
         If clsCommon.myCdbl(txtTempCreditLimit.Text) > 0 Then
-
             txttempCreditLimitFrom.Enabled = True
             txttempCreditLimitTo.Enabled = True
         Else
@@ -5601,13 +4978,11 @@ Public Class frmCustomer
             txttempCreditLimitTo.Enabled = False
         End If
     End Sub
-
     '' Anubhooti 26-Aug-2014 BM00000003619
     Private Sub fndCountry__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndCountry._MYValidating
         Try
             Dim qry As String = "select country_code as Code,country_name as Country from tspl_country_master"
             fndCountry.Value = clsCommon.ShowSelectForm("CNTFND", qry, "Code", "", fndCountry.Value, "Code", isButtonClicked)
-
             If clsCommon.myLen(fndCountry.Value) > 0 Then
                 TxtCountryName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select country_name from tspl_country_master where country_code='" + fndCountry.Value + "'"))
             Else
@@ -5621,12 +4996,9 @@ Public Class frmCustomer
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
-
     Private Sub fndZone__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndZone._MYValidating
         fndZone.Value = ClsZoneMaster.getFinder("", fndZone.Value, isButtonClicked)
     End Sub
-
     Private Sub txtpan_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtpan.TextChanged
         Try
             If clsCommon.myLen(txtpan.Text) <= 0 Then
@@ -5658,8 +5030,6 @@ Public Class frmCustomer
         End Try
     End Sub
     ''=====================
-
-
     Private Sub TxtCrateOpeningQty_TextChanged(sender As Object, e As EventArgs) Handles TxtCrateOpeningQty.TextChanged
         'If clsCommon.myCdbl(TxtCrateOpeningQty.Value) <> 0 Then
         '    TxtCrateOpeningDate.Enabled = True
@@ -5670,7 +5040,6 @@ Public Class frmCustomer
         '    TxtCrateOpeningDate.Checked = False
         'End If
     End Sub
-
     Private Sub gvCrate_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvCrate.CellValueChanged
         If (Not isInsideLoadData) Then
             If Not isCellValueChangedOpen Then
@@ -5682,7 +5051,6 @@ Public Class frmCustomer
             End If
         End If
     End Sub
-
     Private Sub gvCrate_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvCrate.CurrentColumnChanged
         If gvCrate.RowCount > 0 Then
             Dim intCurrRow As Integer = gvCrate.CurrentRow.Index
@@ -5696,7 +5064,6 @@ Public Class frmCustomer
     Private Sub BtnExportCrateOpening_Click(sender As Object, e As EventArgs) Handles BtnExportCrateOpening.Click
         Dim qry As String = "select count(*) from tSPL_CUSTOMER_CRATE_ACCOUNTING"
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
-
         If check > 0 Then
             qry = "select tSPL_CUSTOMER_CRATE_ACCOUNTING.cust_code as [Customer Code],tSPL_CUSTOMER_CRATE_ACCOUNTING.line_No as [Line No],Customer_Name as [Customer Name],tSPL_CUSTOMER_CRATE_ACCOUNTING.location_Code " _
                 & " as [Location Code],Location_Desc as [Location Name],COnvert(varchar,tSPL_CUSTOMER_CRATE_ACCOUNTING.crate_opening_Date,103) as [Crate Opening Date]," _
@@ -5710,8 +5077,6 @@ Public Class frmCustomer
         ListImpExpColumnsSuperMandatory = New List(Of String)({"Customer Code"})
         transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "CrateOpening")
     End Sub
-
-
     Private Sub BtnImportCrateOpening_Click(sender As Object, e As EventArgs) Handles BtnImportCrateOpening.Click
         Dim gv1 As New RadGridView()
         Me.Controls.Add(gv1)
@@ -5727,27 +5092,22 @@ Public Class frmCustomer
                 Dim lineno As Integer = 1
                 Dim qry As String = ""
                 Dim check As Integer = 0
-
                 clsCommon.ProgressBarPercentShow()
-
                 For Each grow As GridViewRowInfo In gv1.Rows
                     lineno = clsCommon.myCstr(grow.Index + 2)
                     ii += 1
                     clsCommon.ProgressBarPercentUpdate((ii * 100) / gv1.RowCount - 1, "Importing " + clsCommon.myCstr(ii) + "/" + clsCommon.myCstr(gv1.RowCount - 1))
                     Dim obj As New clsCustomerMaster()
-
                     custcode = clsCommon.myCstr(grow.Cells("Customer Code").Value)
                     If clsCommon.myLen(custcode) <= 0 Then
                         Throw New Exception("Please fill customer code at line no. " + clsCommon.myCstr(lineno) + "")
                     ElseIf clsCommon.myLen(custcode) > 0 Then
                         qry = "select count(*) from tspl_customer_master where cust_code='" + custcode + "'"
                         check = clsDBFuncationality.getSingleValue(qry, trans)
-
                         If check <= 0 Then
                             Throw New Exception("Filled customer code does not exist at line no. " + clsCommon.myCstr(lineno) + "")
                         End If
                     End If
-
                     ' lineno = clsCommon.myCdbl(grow.Cells("Line No").Value)
                     Crate_Opening_Date = clsCommon.myCstr(grow.Cells("Crate Opening Date").Value)
                     Loc_Code = clsCommon.myCstr(grow.Cells("Location Code").Value)
@@ -5758,12 +5118,10 @@ Public Class frmCustomer
                     If clsCommon.myLen(Loc_Code) > 0 Then
                         qry = "select count(*) from tspl_location_master where Location_Code='" + Loc_Code + "' "
                         check = clsDBFuncationality.getSingleValue(qry, trans)
-
                         If check <= 0 Then
                             Throw New Exception("Filled Location code does not exist at line no. " + clsCommon.myCstr(lineno) + "")
                         End If
                     End If
-
                     Dim strFinancialDat As Date = clsCommon.myCDate(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Type='ERPStartDate'", trans))
                     If clsCommon.myLen(Loc_Code) > 0 Then
                         If clsCommon.myLen(Crate_Opening_Date) > 0 Then
@@ -5781,12 +5139,8 @@ Public Class frmCustomer
                     If (clsCommon.myLen(Crate_Opening_Qty) <= 0 OrElse clsCommon.myCdbl(Crate_Opening_Qty) = 0) And (clsCommon.myLen(clsCommon.myCstr(Loc_Code)) > 0 Or clsCommon.myLen(clsCommon.myCstr(Crate_Opening_Date)) > 0) Then
                         Throw New Exception("Please Fill Opening Qty in Crate Accounting at Line no " & lineno + 1 & "")
                     End If
-
-
-
                     qry = "delete from tSPL_CUSTOMER_CRATE_ACCOUNTING where cust_code='" + custcode + "' AND LOCation_Code='" & Loc_Code & "'"
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                     Dim issaved As Boolean = True
                     Dim coll As New Hashtable()
                     clsCommon.AddColumnsForChange(coll, "Line_No", lineno)
@@ -5797,7 +5151,6 @@ Public Class frmCustomer
                     issaved = issaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_CRATE_ACCOUNTING", OMInsertOrUpdate.Insert, "", trans)
                     lineno += 1
                 Next
-
                 trans.Commit()
                 clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
@@ -5809,8 +5162,6 @@ Public Class frmCustomer
         End If
         Me.Controls.Remove(gv1)
     End Sub
-
-
     Private Sub FndFranchaise__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles FndFranchaise._MYValidating
         Try
             FndFranchaise.Value = clsVendorMaster.getFinder(" form_type='ALL' and  franchise_yn<>'N'", FndFranchaise.Value, isButtonClicked)
@@ -5819,7 +5170,6 @@ Public Class frmCustomer
             clsCommon.MyMessageBoxShow(ex.ToString)
         End Try
     End Sub
-
     Private Sub txtDriverFinder__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDriverFinder._MYValidating
         Dim Whrcls As String = Nothing
         Try
@@ -5831,7 +5181,6 @@ Public Class frmCustomer
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtDriverMobileNo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtDriverMobileNo.KeyPress
         If ((e.KeyChar >= Chr(48) And e.KeyChar <= Chr(57)) Or e.KeyChar = Chr(8) Or e.KeyChar = Chr(48) Or e.KeyChar = Chr(45)) Then
         Else
@@ -5842,7 +5191,6 @@ Public Class frmCustomer
     Private Sub txtPinNo_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtPinNo.KeyPress
         If Not Char.IsNumber(e.KeyChar) AndAlso Not e.KeyChar = Chr(Keys.Back) Then e.Handled = True
     End Sub
-
     Private Sub rbtnDomestic_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnDomestic.ToggleStateChanged
         If rbtnDomestic.IsChecked Then
             rbtnForeign.IsChecked = False
@@ -5851,9 +5199,7 @@ Public Class frmCustomer
             rbtnDomestic.IsChecked = False
             rbtnForeign.IsChecked = True
         End If
-
     End Sub
-
     Private Sub rbtnForeign_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnForeign.ToggleStateChanged
         If rbtnForeign.IsChecked Then
             rbtnForeign.IsChecked = True
@@ -5863,7 +5209,6 @@ Public Class frmCustomer
             rbtnForeign.IsChecked = False
         End If
     End Sub
-
     ' Private Sub txtGstEntityNo_TextChanged(sender As Object, e As EventArgs) Handles txtGstEntityNo.TextChanged
     '    If (Regex.IsMatch(clsCommon.myCstr(txtGstEntityNo.Text), "^[a-zA-Z0-9]+$")) Then
     '       Exit Sub
@@ -5872,11 +5217,8 @@ Public Class frmCustomer
     '    txtGstEntityNo.Text = String.Empty
     '   txtGstEntityNo.Focus()
     '  txtGstEntityNo.Select()
-
     '    End If
-
     'End Sub
-
     Private Sub btnGetHistory_Click(sender As Object, e As EventArgs) Handles btnGetHistory.Click
         Try
             If clsCommon.myLen(fndCustomer.Value) <= 0 Then
@@ -5884,51 +5226,33 @@ Public Class frmCustomer
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndCustomer.Value, "Cust_Code", "TSPL_CUSTOMER_MASTER")
-
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtASO__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtASO._MYValidating
-
         Dim qry As String = "select TSPL_EMPLOYEE_MASTER.EMP_CODE as Code,TSPL_EMPLOYEE_MASTER.Emp_Name as [Employee Name],TSPL_DESIGNATION_MASTER.Designation_Desc as Designation from TSPL_EMPLOYEE_MASTER"
         qry += " left outer join TSPL_DESIGNATION_MASTER on TSPL_DESIGNATION_MASTER.Designation_id=TSPL_EMPLOYEE_MASTER.Designation"
         txtASO.Value = clsCommon.ShowSelectForm("fndASO", qry, "Code", "", txtASO.Value, "", isButtonClicked)
-
         lblASO.Text = clsDBFuncationality.getSingleValue("SELECT Emp_Name FROM TSPL_EMPLOYEE_MASTER where EMP_CODE='" + txtASO.Value + "' ")
-
     End Sub
-
     Private Sub txtASM__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtASM._MYValidating
-
         Dim qry As String = "select TSPL_EMPLOYEE_MASTER.EMP_CODE as Code,TSPL_EMPLOYEE_MASTER.Emp_Name as [Employee Name],TSPL_DESIGNATION_MASTER.Designation_Desc as Designation from TSPL_EMPLOYEE_MASTER"
         qry += " left outer join TSPL_DESIGNATION_MASTER on TSPL_DESIGNATION_MASTER.Designation_id=TSPL_EMPLOYEE_MASTER.Designation"
         txtASM.Value = clsCommon.ShowSelectForm("fndASO", qry, "Code", "", txtASM.Value, "", isButtonClicked)
-
         lblASM.Text = clsDBFuncationality.getSingleValue("SELECT Emp_Name FROM TSPL_EMPLOYEE_MASTER where EMP_CODE='" + txtASM.Value + "' ")
-
     End Sub
-
     Private Sub txtZSM__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtZSM._MYValidating
-
         Dim qry As String = "select TSPL_EMPLOYEE_MASTER.EMP_CODE as Code,TSPL_EMPLOYEE_MASTER.Emp_Name as [Employee Name],TSPL_DESIGNATION_MASTER.Designation_Desc as Designation from TSPL_EMPLOYEE_MASTER"
         qry += " left outer join TSPL_DESIGNATION_MASTER on TSPL_DESIGNATION_MASTER.Designation_id=TSPL_EMPLOYEE_MASTER.Designation"
         txtZSM.Value = clsCommon.ShowSelectForm("fndASO", qry, "Code", "", txtZSM.Value, "", isButtonClicked)
-
         lblZSM.Text = clsDBFuncationality.getSingleValue("SELECT Emp_Name FROM TSPL_EMPLOYEE_MASTER where EMP_CODE='" + txtZSM.Value + "' ")
-
     End Sub
-
     Private Sub txtRSM__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtRSM._MYValidating
-
         Dim qry As String = "select TSPL_EMPLOYEE_MASTER.EMP_CODE as Code,TSPL_EMPLOYEE_MASTER.Emp_Name as [Employee Name],TSPL_DESIGNATION_MASTER.Designation_Desc as Designation from TSPL_EMPLOYEE_MASTER"
         qry += " left outer join TSPL_DESIGNATION_MASTER on TSPL_DESIGNATION_MASTER.Designation_id=TSPL_EMPLOYEE_MASTER.Designation"
         txtRSM.Value = clsCommon.ShowSelectForm("fndASO", qry, "Code", "", txtRSM.Value, "", isButtonClicked)
-
         lblRSM.Text = clsDBFuncationality.getSingleValue("SELECT Emp_Name FROM TSPL_EMPLOYEE_MASTER where EMP_CODE='" + txtRSM.Value + "' ")
-
     End Sub
     '' can Accounting work done by richa agarwal against ticket no on 01 Aug,2018 BHA/01/08/18-000208
     Function CheckDupicateLocationForCan() As Boolean
@@ -5944,7 +5268,6 @@ Public Class frmCustomer
                     common.clsCommon.MyMessageBoxShow(Me, "Same Location exist at Row No " & clsCommon.myCstr(ii), Me.Text)
                 End If
             End If
-
         Next
     End Function
     Public Sub LoadCanOpening()
@@ -5980,7 +5303,6 @@ Public Class frmCustomer
     Sub LoadCanBlankGrid()
         gvCan.Rows.Clear()
         gvCan.Columns.Clear()
-
         Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoLineNo = New GridViewDecimalColumn()
         repoLineNo.FormatString = ""
@@ -5990,8 +5312,6 @@ Public Class frmCustomer
         repoLineNo.ReadOnly = True
         repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvCan.MasterTemplate.Columns.Add(repoLineNo)
-
-
         Dim repoLocCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoLocCode.FormatString = ""
         repoLocCode.HeaderText = "Location Code"
@@ -5999,7 +5319,6 @@ Public Class frmCustomer
         repoLocCode.TextImageRelation = TextImageRelation.TextBeforeImage
         repoLocCode.Width = 200
         gvCan.MasterTemplate.Columns.Add(repoLocCode)
-
         Dim repoLocationName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoLocationName.FormatString = ""
         repoLocationName.HeaderText = "Location"
@@ -6007,7 +5326,6 @@ Public Class frmCustomer
         repoLocationName.ReadOnly = True
         repoLocationName.Width = 150
         gvCan.MasterTemplate.Columns.Add(repoLocationName)
-
         Dim repoOpeningDate As GridViewDateTimeColumn = New GridViewDateTimeColumn()
         repoOpeningDate.Format = DateTimePickerFormat.Custom
         repoOpeningDate.CustomFormat = "dd-MM-yyyy"
@@ -6017,7 +5335,6 @@ Public Class frmCustomer
         repoOpeningDate.Name = ColCanOpeningDate
         repoOpeningDate.Width = 100
         gvCan.MasterTemplate.Columns.Add(repoOpeningDate)
-
         Dim repoQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoQty = New GridViewDecimalColumn()
         repoQty.FormatString = ""
@@ -6027,8 +5344,6 @@ Public Class frmCustomer
         'repoQty.Minimum = 0
         repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gvCan.MasterTemplate.Columns.Add(repoQty)
-
-
         gvCan.AllowAddNewRow = False
         gvCan.ShowGroupPanel = False
         gvCan.AllowColumnReorder = False
@@ -6036,7 +5351,6 @@ Public Class frmCustomer
         gvCan.EnableSorting = False
         gvCan.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
         gvCan.MasterTemplate.ShowRowHeaderColumn = False
-
     End Sub
     Private Sub gvCan_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles gvCan.CellValueChanged
         If (Not isInsideLoadData) Then
@@ -6059,15 +5373,11 @@ Public Class frmCustomer
             End If
         End If
     End Sub
-
-
     Private Sub MultiRouteCode__My_Click(sender As Object, e As EventArgs) Handles MultiRouteCode._My_Click
         Dim strQry As String = "select tspl_route_master .route_no as code,tspl_route_master.Route_Desc as Name from tspl_route_master "
         MultiRouteCode.arrValueMember = clsCommon.ShowMultipleSelectForm("MultRouteWithCust", strQry, "Code", "Name", MultiRouteCode.arrValueMember, MultiRouteCode.arrDispalyMember)
     End Sub
-
     Private Sub rmMultiRoute_Click(sender As Object, e As EventArgs) Handles rmMultiRoute.Click
-
         Dim qry As String = "select cust_Code as [Customer Code]"
         For j As Integer = 1 To 50
             qry += " ,(select Route_no from (Select ROW_NUMBER () over (order by cust_code,Route_no ) As SNo,cust_code,Route_no  From TSPL_Customer_Route_Master where cust_code=TSPL_CUSTOMER_MASTER.cust_Code)xxx where xxx.SNo=" & j & ") as RouteNo" & j & ""
@@ -6077,7 +5387,6 @@ Public Class frmCustomer
         ListImpExpColumnsSuperMandatory = New List(Of String)({"Customer Code"})
         transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "MultiRoute")
     End Sub
-
     Private Sub rmMultiRouteImport_Click(sender As Object, e As EventArgs) Handles rmMultiRouteImport.Click
         Dim gv1 As New RadGridView()
         Me.Controls.Add(gv1)
@@ -6085,37 +5394,29 @@ Public Class frmCustomer
         If transportSql.importExcel(gv1, "Customer Code", "RouteNo1", "RouteNo2", "RouteNo3", "RouteNo4", "RouteNo5", "RouteNo6", "RouteNo7", "RouteNo8", "RouteNo9", "RouteNo10", "RouteNo11", "RouteNo12", "RouteNo13", "RouteNo14", "RouteNo15", "RouteNo16", "RouteNo17", "RouteNo18", "RouteNo19", "RouteNo20", "RouteNo21", "RouteNo22", "RouteNo23", "RouteNo24", "RouteNo25", "RouteNo26", "RouteNo27", "RouteNo28", "RouteNo29", "RouteNo30", "RouteNo31", "RouteNo32", "RouteNo33", "RouteNo34", "RouteNo35", "RouteNo36", "RouteNo37", "RouteNo38", "RouteNo39", "RouteNo40", "RouteNo41", "RouteNo42", "RouteNo43", "RouteNo44", "RouteNo45", "RouteNo46", "RouteNo47", "RouteNo48", "RouteNo49", "RouteNo50") Then
             'Dim count As String
             Dim ii As Integer = 0
-
             Try
                 Dim custcode As String = ""
                 Dim RouteNo As String = ""
-
                 Dim lineno As Integer = 1
                 Dim qry As String = ""
                 Dim check As Integer = 0
-
                 clsCommon.ProgressBarPercentShow()
-
-
                 For Each grow As GridViewRowInfo In gv1.Rows
                     lineno = clsCommon.myCstr(grow.Index + 2)
                     ii += 1
                     clsCommon.ProgressBarPercentUpdate((ii * 100) / gv1.RowCount - 1, "Importing " + clsCommon.myCstr(ii) + "/" + clsCommon.myCstr(gv1.RowCount - 1))
-
                     custcode = clsCommon.myCstr(grow.Cells("Customer Code").Value)
                     If clsCommon.myLen(custcode) <= 0 Then
                         Throw New Exception("Please fill customer code at line no. " + clsCommon.myCstr(lineno) + "")
                     ElseIf clsCommon.myLen(custcode) > 0 Then
                         qry = "select count(*) from tspl_customer_master where cust_code='" + custcode + "'"
                         check = clsDBFuncationality.getSingleValue(qry, trans)
-
                         If check <= 0 Then
                             Throw New Exception("Filled customer code does not exist at line no. " + clsCommon.myCstr(lineno) + "")
                         End If
                     End If
                     Dim templist As New ArrayList
                     'For j As Integer = 1 To 50
-
                     '    Dim CC_CODE As String
                     '    CC_CODE = clsCommon.myCstr(grow.Cells("RouteNo" & clsCommon.myCstr(j) & "").Value)
                     '    If clsCommon.myLen(CC_CODE) > 0 Then
@@ -6130,9 +5431,7 @@ Public Class frmCustomer
                     Dim issaved As Boolean = True
                     qry = "delete from TSPL_Customer_Route_Master where cust_code='" + custcode + "' "
                     clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
                     For j As Integer = 1 To 50
-
                         Dim CC_CODE As String
                         Dim coll As New Hashtable()
                         clsCommon.AddColumnsForChange(coll, "Cust_Code", custcode)
@@ -6144,16 +5443,10 @@ Public Class frmCustomer
                                 Throw New Exception("Not a valid RouteNo" & clsCommon.myCstr(j) & " : " + clsCommon.myCstr(grow.Cells("RouteNo" & clsCommon.myCstr(j) & "").Value) + " at line " + clsCommon.myCstr(lineno) + ".")
                             End If
                             clsCommon.AddColumnsForChange(coll, "Route_No", CC_CODE)
-
                             issaved = issaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Customer_Route_Master", OMInsertOrUpdate.Insert, "", trans)
                         End If
                     Next
-
-
-
-
                 Next
-
                 trans.Commit()
                 clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow(Me, "Data Transfer Successfully", Me.Text)
@@ -6165,7 +5458,6 @@ Public Class frmCustomer
         End If
         Me.Controls.Remove(gv1)
     End Sub
-
     Private Sub btnCC_Click(sender As Object, e As EventArgs) Handles btnCC.Click
         Try
             isLoadCopy = True
@@ -6183,14 +5475,12 @@ Public Class frmCustomer
             myMessages.myExceptions(ex)
         End Try
     End Sub
-
     Private Sub txtArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtArea._MYValidating
         If clsCommon.myLen(fndZone.Value) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "Please First select " + fndZone.MyLinkLable1.Text)
         End If
         txtArea.Value = clsAreaMaster.getFinder("TSPL_AREA_MASTER.Zone_Code='" + fndZone.Value + "'", txtArea.Value, isButtonClicked)
     End Sub
-
     Private Sub chkTurnoverMorethan10CR_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkTurnoverMorethan10CR.ToggleStateChanged
         If chkTurnoverMorethan10CR.Checked = True Then
             chkTCSnotApplicable.Checked = True
@@ -6200,7 +5490,6 @@ Public Class frmCustomer
             chkTCSnotApplicable.Enabled = True
         End If
     End Sub
-
     Private Sub ShowRemarks()
         Try
             Dim Reason As String = ""
@@ -6218,49 +5507,41 @@ Public Class frmCustomer
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtCastCategory__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCastCategory._MYValidating
         Dim qry As String = "select TSPL_CAST_CATEGORY_MASTER.CAST_CATEGORY_CODE as Code,TSPL_CAST_CATEGORY_MASTER.CAST_CATEGORY_NAME as [Name] from TSPL_CAST_CATEGORY_MASTER"
         txtCastCategory.Value = clsCommon.ShowSelectForm("fndCastC", qry, "Code", "", txtCastCategory.Value, "", isButtonClicked)
         lblCastCategoryName.Text = clsDBFuncationality.getSingleValue("SELECT CAST_CATEGORY_NAME FROM TSPL_CAST_CATEGORY_MASTER where CAST_CATEGORY_CODE='" + txtCastCategory.Value + "' ")
     End Sub
-
     Private Sub TxtDistictCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtDistictCode._MYValidating
         Dim qry As String = "select TSPL_DISTRICT_MASTER.Code as Code,TSPL_DISTRICT_MASTER.Name as [Name] from TSPL_DISTRICT_MASTER"
         TxtDistictCode.Value = clsCommon.ShowSelectForm("fndDistC", qry, "Code", "", TxtDistictCode.Value, "", isButtonClicked)
         lblDistictCode.Text = clsDBFuncationality.getSingleValue("SELECT Name FROM TSPL_DISTRICT_MASTER where  Code='" + TxtDistictCode.Value + "' ")
     End Sub
-
     Private Sub TxtBlockCode_Load(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtBlockCode._MYValidating
         Dim qry As String = "select TSPL_BLOCK_MASTER.BLOCK_CODE as Code,TSPL_BLOCK_MASTER.BLOCK_NAME as [Name] from TSPL_BLOCK_MASTER"
         TxtBlockCode.Value = clsCommon.ShowSelectForm("fndBlockC", qry, "Code", "", TxtBlockCode.Value, "", isButtonClicked)
         lblBlockCode.Text = clsDBFuncationality.getSingleValue("SELECT BLOCK_NAME FROM TSPL_BLOCK_MASTER where  BLOCK_CODE='" + TxtBlockCode.Value + "' ")
     End Sub
-
     Private Sub TxtRevenueVillage_Load(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtRevenueVillage._MYValidating
         Dim qry As String = "select TSPL_REVENUE_VILLAGE_MASTER.REVENUE_VILLAGE_CODE as Code,TSPL_REVENUE_VILLAGE_MASTER.REVENUE_VILLAGE_NAME as [Name] from TSPL_REVENUE_VILLAGE_MASTER"
         TxtRevenueVillage.Value = clsCommon.ShowSelectForm("fndRevenueC", qry, "Code", "", TxtRevenueVillage.Value, "", isButtonClicked)
         lblRevenueVillage.Text = clsDBFuncationality.getSingleValue("SELECT REVENUE_VILLAGE_NAME FROM TSPL_REVENUE_VILLAGE_MASTER where  REVENUE_VILLAGE_CODE='" + TxtRevenueVillage.Value + "' ")
     End Sub
-
     Private Sub TxtGrampanchayat_Load(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtGrampanchayat._MYValidating
         Dim qry As String = "select TSPL_GRAMPANCHAYAT_MASTER.GRAMPANCHAYAT_CODE as Code,TSPL_GRAMPANCHAYAT_MASTER.GRAMPANCHAYAT_NAME as [Name] from TSPL_GRAMPANCHAYAT_MASTER"
         TxtGrampanchayat.Value = clsCommon.ShowSelectForm("fndGramC", qry, "Code", "", TxtGrampanchayat.Value, "", isButtonClicked)
         lblGrampanchayat.Text = clsDBFuncationality.getSingleValue("SELECT GRAMPANCHAYAT_NAME FROM TSPL_GRAMPANCHAYAT_MASTER where  GRAMPANCHAYAT_CODE='" + TxtGrampanchayat.Value + "' ")
     End Sub
-
     Private Sub TxtPanchayatSamiti_Load(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtPanchayatSamiti._MYValidating
         Dim qry As String = "select TSPL_PANCHAYAT_SAMITI_MASTER.PANCHAYAT_SAMITI_CODE as Code,TSPL_PANCHAYAT_SAMITI_MASTER.PANCHAYAT_SAMITI_NAME as [Name] from TSPL_PANCHAYAT_SAMITI_MASTER"
         TxtPanchayatSamiti.Value = clsCommon.ShowSelectForm("fndPanchC", qry, "Code", "", TxtPanchayatSamiti.Value, "", isButtonClicked)
         lblPanchayatSamiti.Text = clsDBFuncationality.getSingleValue("SELECT PANCHAYAT_SAMITI_NAME FROM TSPL_PANCHAYAT_SAMITI_MASTER where  PANCHAYAT_SAMITI_CODE='" + TxtPanchayatSamiti.Value + "' ")
     End Sub
-
     Private Sub TxtVidhanSabha_Load(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtVidhanSabha._MYValidating
         Dim qry As String = "select TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_CODE as Code,TSPL_VIDHAN_SABHA_MASTER.VIDHAN_SABHA_NAME as [Name] from TSPL_VIDHAN_SABHA_MASTER"
         TxtVidhanSabha.Value = clsCommon.ShowSelectForm("fndDistC", qry, "Code", "", TxtVidhanSabha.Value, "", isButtonClicked)
         lblVidhanSabha.Text = clsDBFuncationality.getSingleValue("SELECT VIDHAN_SABHA_NAME FROM TSPL_VIDHAN_SABHA_MASTER where  VIDHAN_SABHA_CODE='" + TxtVidhanSabha.Value + "' ")
     End Sub
-
     Private Sub gvSecurity_CellClick(sender As Object, e As GridViewCellEventArgs) Handles gvSecurity.CellClick
         Dim strRecieptCode As String = Nothing
         Try
@@ -6268,8 +5549,6 @@ Public Class frmCustomer
             If (clsCommon.myLen(gvSecurity.Rows(e.RowIndex).Cells(e.ColumnIndex).Value) > 0) Then
                 strRecieptCode = clsCommon.myCstr(gvSecurity.Rows(e.RowIndex).Cells(e.ColumnIndex).Value)
                 Dim frm As New FrmReceipttNew()
-
-
                 Dim strProgramName As String = ""
                 Dim strProgramCode As String = clsUserMgtCode.ReceiptEntry
                 If MDI.setCountertoblockforOpenForm(strProgramCode) = True Then
@@ -6278,7 +5557,6 @@ Public Class frmCustomer
                     Else
                         strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select case when LEN(ISNULL(Re_Name,''))>0 then Re_Name else Program_Name end as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
                     End If
-
                     MDI.formShow(frm, strProgramCode, strProgramName, True, strDocNo, True)
                 End If
             End If
@@ -6286,7 +5564,6 @@ Public Class frmCustomer
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnAddSecurity_Click(sender As Object, e As EventArgs) Handles btnAddSecurity.Click
         Dim ReceiptFormOpens As Boolean = True
         'Dim valueEntry As Boolean = True
@@ -6304,11 +5581,9 @@ Public Class frmCustomer
                 Else
                     strProgramName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select case when LEN(ISNULL(Re_Name,''))>0 then Re_Name else Program_Name end as Program_Name from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "'"))
                 End If
-
                 MDI.formShow(frm, strProgramCode, strProgramName, True, ReceiptFormOpens, True)
                 valueEntry = False
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -6318,12 +5593,10 @@ Public Class frmCustomer
         'gvSecurity.Rows.Clear()
         ' Dim whrCls As String = " and  "
         'Dim sql1 As String = "select Receipt_No as [Receipt No], CONVERT(varchar, Receipt_Date, 103) as [Receipt Date],Receipt_Type as [Receipt Type], Receipt_Amount as [Receipt Amount] from TSPL_RECEIPT_HEADER where Receipt_Type ='F' and SecurityDeposit='Y' And Cust_Code='" + fndCustomer.Value + "'"
-
         Dim sql1 As String = "Select Receipt_No As [Receipt No], CONVERT(varchar, Receipt_Date, 103) As [Receipt Date], Receipt_Type As [Receipt Type],
             (Receipt_Amount * (case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then -1 ELSE 1 END)) AS Amount 						
         From TSPL_RECEIPT_HEADER Where SecurityDeposit ='Y' And Cust_Code='" + fndCustomer.Value + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(sql1)
-
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             gvSecurity.DataSource = Nothing
             gvSecurity.Rows.Clear()
@@ -6350,14 +5623,10 @@ Public Class frmCustomer
             Dim Receipt_Amount As New GridViewSummaryItem("Amount", "{0:n2}", GridAggregateFunction.Sum)
             summaryRowItem.Add(Receipt_Amount)
             gvSecurity.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-
         End If
     End Sub
-
     Private Sub UcAttachment1_Load(sender As Object, e As EventArgs) Handles UcAttachment1.Load
-
     End Sub
-
     'Private Sub txtCustomerName_KeyPress(sender As Object, e As KeyPressEventArgs) Handles txtCustomerName.KeyPress
     '    If Not Char.IsLetter(e.KeyChar) AndAlso e.KeyChar <> " " Then
     '        e.Handled = True ' Prevent the character from being entered.
@@ -6366,26 +5635,21 @@ Public Class frmCustomer
     '    '    ' Check if the previous character in the TextBox is also a space.
     '    '    Dim text As String = txtCustomerName.Text
     '    '    Dim selectionStart As Integer = txtCustomerName.SelectionStart
-
     '    '    If selectionStart > 0 AndAlso text(selectionStart - 1) = "  " Then
     '    '        ' Prevent adding the double space by setting Handled to true.
     '    '        e.Handled = True
-
     '    '    Else
     '    '        MessageBox.Show("Spaces are not allowed in the customer name.")
     '    '        e.Handled = True
     '    '    End If
     '    'End If
     'End Sub
-
-
     Private Sub txtCustomerName_KeyDown(sender As Object, e As KeyEventArgs) Handles txtCustomerName.KeyDown
         If (e.KeyCode = Keys.Space) Then
             txtCustomerName.Text = txtCustomerName.Text.Replace("  ", " ")
         End If
         'txtCustomerName.Text = txtCustomerName.Text
     End Sub
-
     Private Sub txtCustomerName_TextChanged(sender As Object, e As EventArgs) Handles txtCustomerName.TextChanged
         'Dim regex As New System.Text.RegularExpressions.Regex("[^a-zA-Z ]")
         If clsCommon.myLen(txtCustomerName.Text) > 0 Then
@@ -6394,61 +5658,63 @@ Public Class frmCustomer
         ' Trim spaces from the beginning and end of the text.
         'txtCustomerName.Text = txtCustomerName.Text
     End Sub
-
     Private Sub TxtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtLocation._MYValidating
         Dim qry As String = "select Location_Code as Code,Location_Desc as Name from TSPL_LOCATION_MASTER "
         Dim WhrCls As String = " Location_Type='Physical'  "
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ")"
         End If
-
         TxtLocation.Value = clsCommon.ShowSelectForm("VendorMafnd", qry, "Code", WhrCls, TxtLocation.Value, "Code", isButtonClicked)
         lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + TxtLocation.Value + "'"))
     End Sub
-
     Private Sub rmiCustomerDisplaySeq_Click(sender As Object, e As EventArgs) Handles rmiCustomerDisplaySeq.Click
         Try
             Dim gv As New RadGridView()
             Me.Controls.Add(gv)
             If transportSql.importExcel(gv, "Customer Code", "Display_Seq") Then
-
+                clsCommon.ProgressBarPercentShow()
                 Try
+                    Dim i As Integer = 1
                     For Each grow As GridViewRowInfo In gv.Rows
+                        clsCommon.ProgressBarPercentUpdate(((i) * 100 / gv.Rows.Count), "Getting Record List " & (i) & " Of Total " & gv.Rows.Count & " From Excel Sheet")
+
                         Dim strCustCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Cust_Code from TSPL_CUSTOMER_MASTER where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"))
-                        If clsCommon.CompairString(strCustCode, clsCommon.myCstr(grow.Cells("Display_Seq").Value)) = CompairStringResult.Equal Then
-                            Dim StrQry As String = " update TSPL_CUSTOMER_MASTER set Display_Seq='" + clsCommon.myCstr(grow.Cells("Display_Seq").Value) + "' where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "''"
+                        If clsCommon.CompairString(strCustCode, clsCommon.myCstr(grow.Cells("Customer Code").Value)) = CompairStringResult.Equal Then
+                            Dim StrQry As String = " update TSPL_CUSTOMER_MASTER set Display_Seq='" + clsCommon.myCstr(grow.Cells("Display_Seq").Value) + "' where Cust_Code='" + clsCommon.myCstr(grow.Cells("Customer Code").Value) + "'"
                             clsDBFuncationality.ExecuteNonQuery(StrQry)
                         End If
-
+                        i += 1
                     Next
+                    clsCommon.MyMessageBoxShow(Me, "Import Successfully", Me.Text)
                 Catch ex As Exception
+                    clsCommon.ProgressBarPercentHide()
                     clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
                 End Try
             Else
                 clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
-
-                End If
-
+            End If
+            clsCommon.ProgressBarPercentHide()
             Me.Controls.Remove(gv)
         Catch ex As Exception
+            clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub rmiexCustDispSeq_Click(sender As Object, e As EventArgs) Handles rmiexCustDispSeq.Click
         Try
             Dim str As String = "select Cust_Code as [Customer Code],Display_Seq as Display_Seq,Customer_Name_Hindi,Customer_Class  from TSPL_CUSTOMER_MASTER"
             ListImpExpColumnsMandatory = New List(Of String)({"[Customer Code", "Display_Seq", "Customer_Name_Hindi", "Customer_Class"})
             ' transportSql.ExporttoExcel(strCmd, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
             transportSql.ExporttoExcel(str, "", Me)
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
     End Sub
-
+    Private Sub txtPriceCodeFOR__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtPriceCodeFOR._MYValidating
+        Dim qry As String = "SELECT DISTINCT TSPL_ITEM_PRICE_MASTER.Price_Code as [Code], TSPL_PRICE_COMPONENT_MAPPING.Price_Code_Desc as [Price Code Description], TSPL_ITEM_PRICE_MASTER.Tax_group as [Tax Group] FROM TSPL_ITEM_PRICE_MASTER INNER JOIN TSPL_PRICE_COMPONENT_MAPPING ON TSPL_ITEM_PRICE_MASTER.Price_Code = TSPL_PRICE_COMPONENT_MAPPING.Price_Code INNER JOIN TSPL_TAX_GROUP_MASTER ON TSPL_ITEM_PRICE_MASTER.Tax_group = TSPL_TAX_GROUP_MASTER.Tax_Group_Code "
+        Dim WhrCls As String = " TSPL_TAX_GROUP_MASTER.Excisable ='N'"
+        txtPriceCodeFOR.Value = clsCommon.ShowSelectForm("PriceCodeNFND", qry, "Code", WhrCls, txtPriceCodeFOR.Value, "Code", isButtonClicked)
+    End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
         obj.Program_Code = Form_ID
@@ -6458,4 +5724,3 @@ Public Class frmCustomer
         Return clsCancelLog.SaveData(obj, True, trans)
     End Function
 End Class
-

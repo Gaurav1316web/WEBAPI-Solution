@@ -1318,7 +1318,10 @@ Public Class clsFixedParameterType
     Public Const PickAllBMC = "VSP Milk Not Sold"
     Public Const SeparateDemandMilkandProduct = "Separate Demand Milk & Product"
     Public Const ShowDemandDoc = "Show Demand Document In Customer Booking"
+    Public Const ApplyCommission = "Apply Distributor/Transpoter Commission"
+    Public Const PricePlanRoundOffTruncate = "Price Plan RoundOff/Truncate"
     Public Const AllowIncreaseDispatchQty = "Allow Increase Dispatch Qty"
+    Public Const FORPRICE = "FOR Price"
 
 
 End Class
@@ -2774,7 +2777,10 @@ Public Class clsFixedParameterCode
     Public Const PickAllBMC = "Pick All BMC"
     Public Const SeparateDemandMilkandProduct = "Separate Demand Milk & Product"
     Public Const ShowDemandDoc = "Show Demand Document In Customer Booking"
+    Public Const ApplyCommission = "Apply Distributor/Transpoter Commission"
+    Public Const PricePlanRoundOffTruncate = "Price Plan RoundOff/Truncate"
     Public Const AllowIncreaseDispatchQty = "Allow Increase Dispatch Qty"
+    Public Const FORPRICE = "FOR Price"
 
 End Class
 Public Class clsFixedParameter
@@ -4504,7 +4510,10 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.PickAllBMC, clsFixedParameterCode.PickAllBMC, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowDemandDoc, clsFixedParameterCode.ShowDemandDoc, "0", "0:Don't Show, 1:Show;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, "0", "0:RoundOff, 1:Truncate;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, "0", "Enter Weight in KG ")
 
 
         '
@@ -6560,7 +6569,10 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, clsFixedParameterType.PickAllBMC, clsFixedParameterCode.PickAllBMC, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDistributorRouteTagging, clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.ShowDemandDoc, clsFixedParameterCode.ShowDemandDoc, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.PricePlan, clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, EnumControlType.CheckBox)
 
     End Sub

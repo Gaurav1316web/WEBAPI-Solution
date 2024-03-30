@@ -7,6 +7,7 @@ Public Class frmShipmentDairy
 #Region "Variables"
     Dim EnableManualCrateonTaxableDairyDispatch As Integer = 0
     Dim EnableTCSRateValidityFrom01July2021 As Boolean = False
+    Dim ApplyCommission As Boolean = False
     Dim EnableLocation As Boolean = False
     Dim ConsiderPreviousandCurrentFYForTCSTaxCustOutstanding As Boolean = False
     Dim AllowCrateCanPhysicalStock As Integer = 0
@@ -319,6 +320,9 @@ Public Class frmShipmentDairy
     Const ColSCRate As String = "ColSCRate"
     Const ColSCAmt As String = "ColSCAmt"
     Const ColDCPKID As String = "ColDCPKID"
+    Const colCF As String = "colCF"
+    Const colCFKG As String = "colCFKG"
+    Const colQtyinKG As String = "colQtyinKG"
     Public IsFormLoad As Boolean = False
     Dim atchqry As String = ""
     Public IsDataImported As Boolean = False
@@ -436,6 +440,7 @@ Public Class frmShipmentDairy
         AllowChangeInvoiceType = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Allow_Change_InvoiceType from TSPL_inv_parameters")) = 0, False, True)
         isPO_GRN_MRN_Editable = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select isMRNQtyEdiatableOnSRN from TSPL_inv_parameters")) = 0, False, True)
         AllowManualVehicleOnDairyDispatch = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowManualvehicleOnDairyBooking, clsFixedParameterCode.AllowManualvehicleOnDairyBooking, Nothing)) = 1, True, False)
+        ApplyCommission = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ApplyCommission, clsFixedParameterCode.ApplyCommission, Nothing)) = 1, True, False)
         OPkmMandatoryonDS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OPkmMandatoryonDS, clsFixedParameterCode.OPkmMandatoryonDS, Nothing)) = 1, True, False)
         RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
         dtpChallan.Value = clsCommon.GETSERVERDATE
@@ -570,19 +575,19 @@ Public Class frmShipmentDairy
         RadGroupBox5.Visible = False
         Panel2.Visible = False
         btnPrintsvl.Enabled = False
-        CreateTable()
+        'CreateTable()
     End Sub
 
-    Sub CreateTable()
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("FAT_Per", "decimal(18,2) null")
-        coll.Add("SNF_Per", "decimal(18,2) null")
-        coll.Add("Acidity", "decimal(18,2) null")
-        coll.Add("Temperature", "decimal(18,2) null")
-        coll.Add("MBRT_Hours", "decimal(18,2) null")
-        clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
-    End Sub
+    'Sub CreateTable()
+    '    Dim coll As Dictionary(Of String, String)
+    '    coll = New Dictionary(Of String, String)()
+    '    coll.Add("FAT_Per", "decimal(18,2) null")
+    '    coll.Add("SNF_Per", "decimal(18,2) null")
+    '    coll.Add("Acidity", "decimal(18,2) null")
+    '    coll.Add("Temperature", "decimal(18,2) null")
+    '    coll.Add("MBRT_Hours", "decimal(18,2) null")
+    '    clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
+    'End Sub
     Sub SetMultiCurrencyVisibility()
         Dim strq As String = ""
         Dim Currency As Integer = clsModuleCurrencyMapping.GetmulticurrencyDecimalPlaces()
@@ -4332,6 +4337,33 @@ Public Class frmShipmentDairy
         SC_Amt.IsVisible = True
         SC_Amt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(SC_Amt)
+        Dim repoCF As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoCF.FormatString = ""
+        repoCF.HeaderText = "Convertion Factor"
+        repoCF.Name = colCF
+        repoCF.Width = 100
+        repoCF.ReadOnly = True
+        repoCF.IsVisible = True
+        repoCF.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoCF)
+        Dim repoCFinKg As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoCFinKg.FormatString = ""
+        repoCFinKg.HeaderText = "Convertion Factor in KG"
+        repoCFinKg.Name = colCFKG
+        repoCFinKg.Width = 100
+        repoCFinKg.ReadOnly = True
+        repoCFinKg.IsVisible = True
+        repoCFinKg.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoCFinKg)
+        Dim repoQtyinKg As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoQtyinKg.FormatString = ""
+        repoQtyinKg.HeaderText = "Total Qty in KG"
+        repoQtyinKg.Name = colQtyinKG
+        repoQtyinKg.Width = 100
+        repoQtyinKg.ReadOnly = True
+        repoQtyinKg.IsVisible = True
+        repoQtyinKg.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoQtyinKg)
         clsCustomFieldGrid.LoadBlankGrid(gv1, MyBase.ArrDetailFields)
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
@@ -5192,11 +5224,18 @@ Public Class frmShipmentDairy
         End If
     End Sub
     Public Sub GetDCDetails()
+        Dim Whrcls As String = ""
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+            Whrcls += " and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IS_Transpotation=1 "
+        Else
+            Whrcls += " and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IS_Transpotation=0 "
+
+        End If
         Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Security_Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
 left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
 left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
-where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" + clsCommon.myCstr(txtRouteNo.Value) + "'
-order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No desc"
+where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code='" + clsCommon.myCstr(txtVendorNo.Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value) + "' and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IsPosted=1 and TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Route_Code='" + clsCommon.myCstr(txtRouteNo.Value) + "' 
+" + Whrcls + " order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No desc"
         Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(DCQry)
         If (dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0) Then
             gv1.CurrentRow.Cells(ColDCPKID).Value = clsCommon.myCstr(dt1.Rows(0)("PK_ID"))
@@ -6718,6 +6757,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             End If
             ''======================================================================
             ''richa 18 June,2019 ERO/12/06/19-000642
+            obj.FAT_Per = clsCommon.myCdbl(txtFATPER.Text)
+            obj.SNF_Per = clsCommon.myCdbl(txtSNFPER.Text)
+            obj.Acidity = clsCommon.myCdbl(txtAcidity.Text)
+            obj.Temperature = clsCommon.myCdbl(txtTemp.Text)
+            obj.MBRT_Hours = clsCommon.myCdbl(txtMBRTHours.Text)
             obj.Manual_Driver_Name = txtDriverName.Text
             obj.Manual_Salesman_Name = txtSalesmanName.Text
             obj.ActualTCSBaseAmount = clsCommon.myCdbl(lblActualTCSTaxBaseAmt.Text)
@@ -7377,6 +7421,11 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                 If obj.Supply_Date IsNot Nothing Then
                     txtSupplyDate.Value = obj.Supply_Date
                 End If
+                txtFATPER.Text = obj.FAT_Per
+                txtSNFPER.Text = obj.SNF_Per
+                txtAcidity.Text = obj.Acidity
+                txtTemp.Text = obj.Temperature
+                txtMBRTHours.Text = obj.MBRT_Hours
                 txtVendorNo.Value = obj.Customer_Code
                 txtPONo.Text = obj.Cust_PO_No
                 txtForm38.Text = obj.Form_38_No
@@ -10161,7 +10210,9 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
                     gv1.Rows(IntRowNo).Cells(ColSCAmt).Value = clsCommon.myCstr(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value) * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColSCRate).Value))
                     dblTotalDCAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCAmt).Value)
                     If dblTotalDCAmt > 0 Then
-                        dblDisAmt = dblDisAmt + dblTotalDCAmt
+                        If ApplyCommission Then
+                            dblDisAmt = dblDisAmt + dblTotalDCAmt
+                        End If
                     End If
                 End If
                 Dim dblHeadDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colHeaDDisPer).Value)
@@ -11774,6 +11825,11 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 txtCrate.ReadOnly = True
             End If
         End If
+        If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
+            rgbTaxNonTax.Visible = False
+        Else
+            rgbTaxNonTax.Visible = True
+        End If
     End Sub
     Private Sub txtDate_Validating(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles txtDate.Validating
         If IsFormLoad = False Then
@@ -13342,20 +13398,20 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
             Dim qry As String = Nothing
             Dim qry1 As String = Nothing
 
-            qry = " select ROW_NUMBER() OVER (ORDER BY x.GL_Account_Code) AS rowno,
+            qry = "  Select ROW_NUMBER() OVER (ORDER BY xxxfinal.GL_Account_Code) AS rowno,xxxfinal.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2, TSPL_Customer_Master.Add1 As Cust_Add1,TSPL_Customer_Master.Add2 As Cust_Add2,TSPL_Customer_Master.Pin_No,TSPL_STATE_MASTER.GST_STATE_Code,TSPL_STATE_MASTER.STATE_NAME from ( select ROW_NUMBER() OVER (ORDER BY x.GL_Account_Code) AS rowno,
                     MAX(Invoice_Created_By_Name)Invoice_Created_By_Name , MAX(Invoice_Modifiy_By_Name)Invoice_Modifiy_By_Name,MAX(LOC_GST_State_Code)LOC_GST_State_Code , MAX(Loc_GstInNo)Loc_GstInNo,
                     max(Modify_By)Modify_By,max(PJV_No)PJV_No,max(PJV_Date)PJV_Date,max(Narration)Narration, max(Created_By)Created_By,max(status)status,max(Line_No)Line_No,GL_Account_Code , max(GL_Account_Desc)GL_Account_Desc,sum(Expr1)Expr1 , sum(Amount)Amount ,sum(DrAmt)Debit,sum(CrAmt)Credit, max(Bill_To_Location)Bill_To_Location,max(Comp_Name)Comp_Name , max(Add1)Add1 , max(Add2)Add2 , max(Add3)Add3,
-                    max(State)State , max(CST_LST)CST_LST , max(Comp_Code)Comp_Code, max(Due_Date)Due_Date, max(Dept_Desc)Dept_Desc,max(TapalNo)TapalNo , max(DateAndTime)DateAndTime, max(Comments)Comments,max(Remarks)Remarks ,max(Voucher_Desc)Voucher_Desc,max(CustVend_Code)CustVend_Code,max(CustVend_Name)CustVend_Name,max(Reverse_Date)Reverse_Date,max(Segment_code)Segment_code,max(Vehicle_Code)Vehicle_Code,max(Document_Code)Document_Code,max(Inv_Date)Inv_Date,max(Inv_No)Inv_No
+                    max(State)State , max(CST_LST)CST_LST , max(Comp_Code)Comp_Code, max(Due_Date)Due_Date, max(Dept_Desc)Dept_Desc,max(TapalNo)TapalNo , max(DateAndTime)DateAndTime, max(Comments)Comments,max(Remarks)Remarks ,max(Voucher_Desc)Voucher_Desc,max(CustVend_Code)CustVend_Code,max(CustVend_Name)CustVend_Name,max(Reverse_Date)Reverse_Date,max(Segment_code)Segment_code,max(Vehicle_Code)Vehicle_Code,max(Document_Code)Document_Code,max(Inv_Date)Inv_Date,max(Inv_No)Inv_No,Max(Inv_Code)Inv_Code,Max(Sub_Location_code)Sub_Location_code
                     from 
                     (SELECT (TSPL_USER_MASTER_Created_By.User_Name) as Invoice_Created_By_Name,(TSPL_USER_MASTER_Modified_By.User_Name) as Invoice_Modifiy_By_Name,(tspl_state_master.GST_STATE_Code) as LOC_GST_State_Code,TSPL_SD_SALE_INVOICE_HEAD.Vehicle_Code,
                     (TSPL_LOCATION_MASTER.GSTNO) as Loc_GstInNo ,(TSPL_JOURNAL_MASTER.Modify_By) AS Modify_By,(TSPL_JOURNAL_MASTER.Voucher_No) AS  PJV_No, convert(varchar,(TSPL_JOURNAL_MASTER.Voucher_Date),103) as PJV_Date ,(TSPL_JOURNAL_MASTER.Source_Narration) as  Narration, (TSPL_JOURNAL_MASTER.Created_By) AS Created_By, (TSPL_JOURNAL_DETAILS.Detail_Line_No) AS Line_No,  (TSPL_JOURNAL_DETAILS.Account_code) AS  GL_Account_Code, (TSPL_JOURNAL_DETAILS.Account_Desc) AS GL_Account_Desc,  (TSPL_JOURNAL_DETAILS.Amount) AS Expr1,(TSPL_JOURNAL_DETAILS.Amount) as Amount,(TSPL_SD_SALE_INVOICE_HEAD.Bill_To_Location) AS Bill_To_Location,( TSPL_COMPANY_MASTER.Comp_Name) AS Comp_Name, (TSPL_COMPANY_MASTER.Add1) AS Add1, (TSPL_COMPANY_MASTER.Add2) as Add2, (TSPL_COMPANY_MASTER.Add3) as Add3,   (TSPL_COMPANY_MASTER.State) as State, (TSPL_COMPANY_MASTER.CST_LST) as CST_LST,(TSPL_COMPANY_MASTER.Comp_Code) AS Comp_Code,
-                    Source_Code,Source_Desc,Source_Doc_No,Source_Doc_Date,convert(varchar,(TSPL_SD_SALE_INVOICE_HEAD.Due_Date),103) as Due_Date,case when (TSPL_SD_SALE_INVOICE_HEAD.Status)=0 then 'Pending' else 'Approved'end as status,TSPL_SD_SALE_INVOICE_HEAD.Dept_Desc as Dept_Desc,TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,TSPL_SD_SALE_INVOICE_HEAD.Inv_No,
+                    Source_Code,Source_Desc,Source_Doc_No,Source_Doc_Date,convert(varchar,(TSPL_SD_SALE_INVOICE_HEAD.Due_Date),103) as Due_Date,case when (TSPL_SD_SALE_INVOICE_HEAD.Status)=0 then 'Pending' else 'Approved'end as status,TSPL_SD_SALE_INVOICE_HEAD.Dept_Desc as Dept_Desc,TSPL_SD_SALE_INVOICE_HEAD.Inv_Date,TSPL_SD_SALE_INVOICE_HEAD.Inv_No,TSPL_SD_SALE_INVOICE_HEAD.Document_Code As  Inv_Code,
                     TSPL_JOURNAL_MASTER.Posting_Date,Voucher_Desc,Source_Narration,TSPL_JOURNAL_MASTER.Remarks,TSPL_JOURNAL_MASTER.Comments,Auto_Reverse,Reverse_Date,Source_Type,TSPL_JOURNAL_MASTER.CustVend_Code,
                     TSPL_JOURNAL_MASTER.CustVend_Name,Transaction_Type,Provisional_Post,Authorized,Total_Debit_Amt,Total_Credit_Amt,TSPL_JOURNAL_DETAILS.Detail_Line_No as Line,
                     TSPL_JOURNAL_DETAILS.Account_code,TSPL_JOURNAL_DETAILS.Account_Desc,CASE WHEN TSPL_JOURNAL_DETAILS.Amount >= 0 THEN TSPL_JOURNAL_DETAILS.Amount ELSE 0 
                     END AS DrAmt , CASE WHEN TSPL_JOURNAL_DETAILS.Amount < 0 THEN TSPL_JOURNAL_DETAILS.Amount * -1 ELSE 0 END AS CrAmt,TSPL_JOURNAL_DETAILS.Description,
                     TSPL_JOURNAL_DETAILS.Reference,SendToTally,TSPL_JOURNAL_MASTER.Segment_code,MonthlyReverse,TSPL_JOURNAL_DETAILS.Hirerachy_Code,Ind_As,AgainstVoucherNoReverseEntry,
-                    TSPL_JOURNAL_MASTER.TapalNo,TSPL_JOURNAL_MASTER.DateAndTime,'' as Document_Code
+                    TSPL_JOURNAL_MASTER.TapalNo,TSPL_JOURNAL_MASTER.DateAndTime,'' as Document_Code,'' As Sub_Location_code
                     FROM TSPL_SD_SALE_INVOICE_HEAD 
                     LEFT OUTER JOIN TSPL_Customer_Invoice_Head ON TSPL_Customer_Invoice_Head.Against_Sale_No = TSPL_SD_SALE_INVOICE_HEAD.Document_Code  
                     LEFT OUTER JOIN TSPL_JOURNAL_MASTER ON TSPL_JOURNAL_MASTER.Source_Doc_No = TSPL_Customer_Invoice_Head.Document_No
@@ -13372,12 +13428,12 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                     SELECT (TSPL_USER_MASTER_Created_By.User_Name) as Invoice_Created_By_Name,(TSPL_USER_MASTER_Modified_By.User_Name) as Invoice_Modifiy_By_Name,
                     (tspl_state_master.GST_STATE_Code) as LOC_GST_State_Code,TSPL_SD_SHIPMENT_HEAD.Vehicle_Code,
                     (TSPL_LOCATION_MASTER.GSTNO) as Loc_GstInNo ,(TSPL_JOURNAL_MASTER.Modify_By) AS Modify_By,(TSPL_JOURNAL_MASTER.Voucher_No) AS  PJV_No, convert(varchar,(TSPL_JOURNAL_MASTER.Voucher_Date),103) as PJV_Date ,(TSPL_JOURNAL_MASTER.Source_Narration) as  Narration, (TSPL_JOURNAL_MASTER.Created_By) AS Created_By, (TSPL_JOURNAL_DETAILS.Detail_Line_No) AS Line_No,  (TSPL_JOURNAL_DETAILS.Account_code) AS  GL_Account_Code, (TSPL_JOURNAL_DETAILS.Account_Desc) AS GL_Account_Desc,  (TSPL_JOURNAL_DETAILS.Amount) AS Expr1,(TSPL_JOURNAL_DETAILS.Amount) as Amount,(TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) AS Bill_To_Location,( TSPL_COMPANY_MASTER.Comp_Name) AS Comp_Name, (TSPL_COMPANY_MASTER.Add1) AS Add1, (TSPL_COMPANY_MASTER.Add2) as Add2, (TSPL_COMPANY_MASTER.Add3) as Add3,   (TSPL_COMPANY_MASTER.State) as State, (TSPL_COMPANY_MASTER.CST_LST) as CST_LST,(TSPL_COMPANY_MASTER.Comp_Code) AS Comp_Code, 
-                    Source_Code,Source_Desc,Source_Doc_No,Source_Doc_Date,convert(varchar,(TSPL_SD_SHIPMENT_HEAD.Due_Date),103) as Due_Date,case when (TSPL_SD_SHIPMENT_HEAD.Status)=0 then 'Pending' else 'Approved'end as status,TSPL_SD_SHIPMENT_HEAD.Dept_Desc,TSPL_SD_SHIPMENT_HEAD.Inv_Date,TSPL_SD_SHIPMENT_HEAD.Inv_No,
+                    Source_Code,Source_Desc,Source_Doc_No,Source_Doc_Date,convert(varchar,(TSPL_SD_SHIPMENT_HEAD.Due_Date),103) as Due_Date,case when (TSPL_SD_SHIPMENT_HEAD.Status)=0 then 'Pending' else 'Approved'end as status,TSPL_SD_SHIPMENT_HEAD.Dept_Desc,TSPL_SD_SHIPMENT_HEAD.Inv_Date,TSPL_SD_SHIPMENT_HEAD.Inv_No,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No As Inv_Code,
                     TSPL_JOURNAL_MASTER.Posting_Date,Voucher_Desc,Source_Narration,TSPL_JOURNAL_MASTER.Remarks,TSPL_JOURNAL_MASTER.Comments,Auto_Reverse,Reverse_Date,Source_Type,TSPL_JOURNAL_MASTER.CustVend_Code,
                     TSPL_JOURNAL_MASTER.CustVend_Name,Transaction_Type,Provisional_Post,Authorized,Total_Debit_Amt,Total_Credit_Amt,TSPL_JOURNAL_DETAILS.Detail_Line_No as Line,
                     TSPL_JOURNAL_DETAILS.Account_code,TSPL_JOURNAL_DETAILS.Account_Desc,CASE WHEN TSPL_JOURNAL_DETAILS.Amount >=0 THEN TSPL_JOURNAL_DETAILS.Amount ELSE 0 END AS DrAmt , 
                     CASE WHEN TSPL_JOURNAL_DETAILS.Amount <0 THEN TSPL_JOURNAL_DETAILS.Amount*-1 ELSE 0 END AS CrAmt,TSPL_JOURNAL_DETAILS.Description,TSPL_JOURNAL_DETAILS.Reference,
-                    SendToTally,TSPL_JOURNAL_MASTER.Segment_code,MonthlyReverse,TSPL_JOURNAL_DETAILS.Hirerachy_Code,Ind_As,AgainstVoucherNoReverseEntry,TapalNo,DateAndTime,TSPL_SD_SHIPMENT_HEAD.Document_Code 
+                    SendToTally,TSPL_JOURNAL_MASTER.Segment_code,MonthlyReverse,TSPL_JOURNAL_DETAILS.Hirerachy_Code,Ind_As,AgainstVoucherNoReverseEntry,TapalNo,DateAndTime,TSPL_SD_SHIPMENT_HEAD.Document_Code,TSPL_SD_SHIPMENT_HEAD.Sub_Location_code 
                     FROM TSPL_SD_SHIPMENT_HEAD
                     LEFT OUTER JOIN TSPL_JOURNAL_MASTER ON TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_JOURNAL_MASTER.Source_Doc_No 
                     LEFT OUTER JOIN TSPL_JOURNAL_DETAILS ON TSPL_JOURNAL_MASTER.Voucher_No = TSPL_JOURNAL_DETAILS.Voucher_No 
@@ -13386,7 +13442,11 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                     left outer join TSPL_USER_MASTER as TSPL_USER_MASTER_Created_By on TSPL_USER_MASTER_Created_By.User_Code = TSPL_SD_SHIPMENT_HEAD.Created_By 
                     left outer join TSPL_USER_MASTER as TSPL_USER_MASTER_Modified_By on TSPL_USER_MASTER_Modified_By.User_Code = TSPL_SD_SHIPMENT_HEAD.Modify_By 
                     LEFT OUTER JOIN  TSPL_COMPANY_MASTER ON TSPL_SD_SHIPMENT_HEAD.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code
-                    WHERE TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE = '" & StrDocNo & "'   )x group by x.GL_Account_Code "
+                    WHERE TSPL_SD_SHIPMENT_HEAD.DOCUMENT_CODE = '" & StrDocNo & "'   )x group by x.GL_Account_Code) xxxfinal
+                    Left Outer Join TSPL_Customer_Master On TSPL_Customer_Master.Cust_Code=xxxfinal.CustVend_Code
+                    Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_Customer_Master.State
+					Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
+					where xxxfinal.Debit<>xxxfinal.Credit"
 
             qry1 = " select TSPL_SD_SHIPMENT_DETAIL.line_no,TSPL_ITEM_MASTER.HSN_Code, 
                     TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_SD_SHIPMENT_HEAD.Created_By,TSPL_SD_SHIPMENT_HEAD.Modify_By,
@@ -13404,7 +13464,7 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
             Dim frmCRV As New frmCrystalReportViewer()
             'frmCRV.funsubreport(CrystalReportFolder.PurchaseOrder, qry, qry1, "rptPJV-V", "PJV Report", "PurchaseDetails1.rpt", clsCommon.myCDate(txtDate.Value), "rptCompanyAddress.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE())
 
-            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dt1, "rptSJV", "SJV Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "PurchaseDetails1.rpt")
+            frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dt1, "rptSJV-V", "SJV Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "PurchaseDetails1.rpt")
             frmCRV = Nothing
 
         Catch ex As Exception

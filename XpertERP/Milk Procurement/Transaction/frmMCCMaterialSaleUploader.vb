@@ -51,6 +51,7 @@ Public Class frmMCCMaterialSaleUploader
         coll.Add("Tax2", "varchar(30)  NUll")
         coll.Add("TAx2rate", "float NULL")
         coll.Add("Tax2Amt", "float NULL")
+        coll.Add("Challan_No", "Varchar(50) NULL")
         clsCommonFunctionality.CreateOrAlterTable("Temp_table_MCC_Material_Sale_uploader", coll)
 
 
@@ -68,7 +69,7 @@ Public Class frmMCCMaterialSaleUploader
         If rdbAgainstBulkSale.IsChecked Then
             Dim colImport As String = Nothing
             If AllowPlandDeptMCCLocation Then
-                If transportSql.importExcel(Gv1, "BILL TO LOCATION", "SUB LOCATION", "DATE", "CUSTOMER NO", "CUSTOMER NAME", "VLC CODE", "VLC NAME", "ITEM CODE", "ITEM NAME", "QTY", "RATE", "AMOUNT", "Taxable", "UOM", "Cash Sale") Then
+                If transportSql.importExcel(Gv1, "BILL TO LOCATION", "SUB LOCATION", "DATE", "CUSTOMER NO", "CUSTOMER NAME", "VLC CODE", "VLC NAME", "ITEM CODE", "ITEM NAME", "QTY", "UOM", "RATE", "AMOUNT", "Taxable", "Challan No", "Cash Sale") Then
                     If Gv1.Columns.Count > 0 Then
                         TextCol = New GridViewTextBoxColumn()
                         TextCol.Name = colSlno
@@ -160,7 +161,7 @@ Public Class frmMCCMaterialSaleUploader
                     End If
                 End If
             Else
-                If transportSql.importExcel(Gv1, "BILL TO LOCATION ", "DATE", "CUSTOMER NO", "CUSTOMER NAME", "VLC CODE", "VLC NAME", "ITEM CODE", "ITEM NAME", "QTY", "RATE", "AMOUNT", "Taxable", "UOM") Then
+                If transportSql.importExcel(Gv1, "BILL TO LOCATION ", "DATE", "CUSTOMER NO", "CUSTOMER NAME", "VLC CODE", "VLC NAME", "ITEM CODE", "ITEM NAME", "QTY", "UOM", "RATE", "AMOUNT", "Taxable", "Cash Sale", "Challan No") Then
                     If Gv1.Columns.Count > 0 Then
                         TextCol = New GridViewTextBoxColumn()
                         TextCol.Name = colSlno
@@ -266,9 +267,9 @@ Public Class frmMCCMaterialSaleUploader
         Dim qry As String = ""
         If rdbAgainstBulkSale.IsChecked Then
             If AllowPlandDeptMCCLocation Then
-                qry = "select Location  as [BILL TO LOCATION],Sub_Location_code as [SUB LOCATION], MCCSaleDate as [DATE], Customer as [CUSTOMER NO], '' as [CUSTOMER NAME], VLCCode as [VLC CODE], '' as [VLC NAME], Item_code as [ITEM CODE], '' as [ITEM NAME], Qty as [QTY],UOM AS UOM, rate as [RATE], Amount as [AMOUNT],'' as [Taxable],'' as [Cash Sale] from Temp_table_MCC_Material_Sale_uploader"
+                qry = "select Location  as [BILL TO LOCATION],Sub_Location_code as [SUB LOCATION], MCCSaleDate as [DATE], Customer as [CUSTOMER NO], '' as [CUSTOMER NAME], VLCCode as [VLC CODE], '' as [VLC NAME], Item_code as [ITEM CODE], '' as [ITEM NAME], Qty as [QTY],UOM AS UOM, rate as [RATE], Amount as [AMOUNT],'' as [Taxable],'' as [Challan No] ,'' as [Cash Sale] from Temp_table_MCC_Material_Sale_uploader"
             Else
-                qry = "  Select  Location  As [BILL To LOCATION], MCCSaleDate As [DATE], Customer As [CUSTOMER NO], '' as [CUSTOMER NAME], VLCCode as [VLC CODE], '' as [VLC NAME], Item_code as [ITEM CODE], '' as [ITEM NAME], Qty as [QTY],UOM AS UOM, rate as [RATE], Amount as [AMOUNT],'' as [Taxable],'' as [Cash Sale] from Temp_table_MCC_Material_Sale_uploader"
+                qry = "  Select  Location  As [BILL To LOCATION], MCCSaleDate As [DATE], Customer As [CUSTOMER NO], '' as [CUSTOMER NAME], VLCCode as [VLC CODE], '' as [VLC NAME], Item_code as [ITEM CODE], '' as [ITEM NAME], Qty as [QTY],UOM AS UOM, rate as [RATE], Amount as [AMOUNT],'' as [Taxable],'' as [Challan No] ,'' as [Cash Sale] from Temp_table_MCC_Material_Sale_uploader"
             End If
         End If
         ListImpExpColumnsMandatory = New List(Of String)({"BILL TO LOCATION"})
@@ -421,6 +422,13 @@ Public Class frmMCCMaterialSaleUploader
                     ValidateStatus = ValidateStatus & "Cash Sale Must not be Blank" & Environment.NewLine
                 End If
 
+                Dim Vlc_name As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Name  from TSPL_VLC_MASTER_HEAD where 2=2 and VLC_Code_VLC_Uploader ='" & clsCommon.myCstr(Gv1.Rows(i).Cells("VLC CODE").Value) & "'"))
+                Dim Customer_name As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Name  from TSPL_CUSTOMER_MASTER where 2=2 and Cust_Code ='" & clsCommon.myCstr(Gv1.Rows(i).Cells("CUSTOMER NO").Value) & "'"))
+                Dim Item_name As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc from TSPL_ITEM_MASTER where 2=2 and Item_Code ='" & clsCommon.myCstr(Gv1.Rows(i).Cells("ITEM CODE").Value) & "'"))
+
+                Gv1.Rows(i).Cells("CUSTOMER NAME").Value = clsCommon.myCstr(Customer_name)
+                Gv1.Rows(i).Cells("VLC NAME").Value = clsCommon.myCstr(Vlc_name)
+                Gv1.Rows(i).Cells("ITEM NAME").Value = clsCommon.myCstr(Item_name)
 
                 strCellValue = clsCommon.myCdbl(Gv1.Rows(i).Cells("QTY").Value)
                 If strCellValue <= 0 Then
@@ -624,6 +632,7 @@ Public Class frmMCCMaterialSaleUploader
     Private Sub CreateAutoInvoiceAgainstMultipleDispatch(ByVal trans As SqlTransaction)
         Dim LocationCode As String = String.Empty
         Dim SubLocationCode As String = String.Empty
+        Dim ChallanNo As String = String.Empty
         Dim CashSale As String = String.Empty
         Dim CustomerCode As String = String.Empty
         Dim SalePriceCode As String = String.Empty
@@ -644,7 +653,7 @@ Public Class frmMCCMaterialSaleUploader
                     For Each grow As GridViewRowInfo In Gv1.Rows
                         If clsCommon.myCBool(grow.Cells(colIsValidated).Value) Then
                             ''dt1.Rows.Add("" + clsCommon.myCstr(grow.Cells("Date").Value) + "", "" + clsCommon.myCstr(grow.Cells("BILL TO LOCATION").Value) + "", "" + clsCommon.myCstr(grow.Cells("CUSTOMER NO").Value) + "", "" + clsCommon.myCstr(grow.Cells("VLC CODE").Value) + "", "" + clsCommon.myCstr(grow.Cells("Item Code").Value) + "", "" + clsCommon.myCstr(grow.Cells("QTY").Value) + "", "" + clsCommon.myCstr(grow.Cells("UOM").Value) + "", " " + clsCommon.myCstr(grow.Cells("RATE").Value) + "", "" + clsCommon.myCstr(grow.Cells("AMOUNT").Value) + "", "" + clsCommon.myCstr(grow.Cells("TAXABLE").Value) + "", "" + clsCommon.myCstr(grow.Cells(colTaxGroup).Value) + "", "" + clsCommon.myCstr(grow.Cells(coltax1).Value) + "", "" + clsCommon.myCstr(grow.Cells(coltax1rate).Value) + "", "" + clsCommon.myCstr(grow.Cells(coltax1Amt).Value) + "", "" + clsCommon.myCstr(grow.Cells(coltax2).Value) + "", "" + clsCommon.myCstr(grow.Cells(coltax2rate).Value) + "", "" + clsCommon.myCstr(grow.Cells(coltax2Amt).Value) + "")
-                            clsDBFuncationality.ExecuteNonQuery("Insert into Temp_table_MCC_Material_Sale_uploader values ('" + clsCommon.GetPrintDate(grow.Cells("Date").Value, "dd/MMM/yyyy") + "', '" + clsCommon.myCstr(grow.Cells("BILL TO LOCATION").Value) + "', '" + clsCommon.myCstr(grow.Cells("CUSTOMER NO").Value) + "', '" + clsCommon.myCstr(grow.Cells("VLC CODE").Value) + "', '" + clsCommon.myCstr(grow.Cells("Item Code").Value) + "', " + clsCommon.myCstr(grow.Cells("QTY").Value) + ", '" + clsCommon.myCstr(grow.Cells("UOM").Value) + "',  " + clsCommon.myCstr(grow.Cells("RATE").Value) + ", " + clsCommon.myCstr(grow.Cells("AMOUNT").Value) + ", '" + clsCommon.myCstr(grow.Cells("TAXABLE").Value) + "', '" + clsCommon.myCstr(grow.Cells(colTaxGroup).Value) + "', '" + clsCommon.myCstr(grow.Cells(coltax1).Value) + "', " + clsCommon.myCstr(grow.Cells(coltax1rate).Value) + ", " + clsCommon.myCstr(grow.Cells(coltax1Amt).Value) + ", '" + clsCommon.myCstr(grow.Cells(coltax2).Value) + "', " + clsCommon.myCstr(grow.Cells(coltax2rate).Value) + ", " + clsCommon.myCstr(grow.Cells(coltax2Amt).Value) + ",'" + clsCommon.myCstr(grow.Cells("SUB LOCATION").Value) + "'" + ",'" + clsCommon.myCstr(grow.Cells("Cash Sale").Value) + "'" + ")", trans)
+                            clsDBFuncationality.ExecuteNonQuery("Insert into Temp_table_MCC_Material_Sale_uploader values ('" + clsCommon.GetPrintDate(grow.Cells("Date").Value, "dd/MMM/yyyy") + "', '" + clsCommon.myCstr(grow.Cells("BILL TO LOCATION").Value) + "', '" + clsCommon.myCstr(grow.Cells("CUSTOMER NO").Value) + "', '" + clsCommon.myCstr(grow.Cells("VLC CODE").Value) + "', '" + clsCommon.myCstr(grow.Cells("Item Code").Value) + "', " + clsCommon.myCstr(grow.Cells("QTY").Value) + ", '" + clsCommon.myCstr(grow.Cells("UOM").Value) + "',  " + clsCommon.myCstr(grow.Cells("RATE").Value) + ", " + clsCommon.myCstr(grow.Cells("AMOUNT").Value) + ", '" + clsCommon.myCstr(grow.Cells("TAXABLE").Value) + "', '" + clsCommon.myCstr(grow.Cells(colTaxGroup).Value) + "', '" + clsCommon.myCstr(grow.Cells(coltax1).Value) + "', " + clsCommon.myCstr(grow.Cells(coltax1rate).Value) + ", " + clsCommon.myCstr(grow.Cells(coltax1Amt).Value) + ", '" + clsCommon.myCstr(grow.Cells(coltax2).Value) + "', " + clsCommon.myCstr(grow.Cells(coltax2rate).Value) + ", " + clsCommon.myCstr(grow.Cells(coltax2Amt).Value) + ",'" + clsCommon.myCstr(grow.Cells("SUB LOCATION").Value) + "'" + ",'" + clsCommon.myCstr(grow.Cells("Cash Sale").Value) + "'" + ",'" + clsCommon.myCstr(grow.Cells("Challan No").Value) + "'" + ")", trans)
                         End If
                     Next
                 End If
@@ -654,9 +663,9 @@ Public Class frmMCCMaterialSaleUploader
             'dt1.DefaultView.Sort = "Location,Customer,InvoiceType,MCCSaleDate,Item_code,UOM"
             'dtout = dt1.DefaultView.ToTable()
 
-            dtout = clsDBFuncationality.GetDataTable("Select MCCSaleDate,Location,Customer,MAX(VLCCode) As VLCCode,Item_code,SUM(Qty) As Qty, UOM,max(rate) As rate,sum(Amount) As Amount,InvoiceType,max(taxGroup) As taxGroup,max(Tax1) As Tax1,max(TAx1rate) As TAx1rate,sum(Tax1Amt) As Tax1Amt,max(Tax2) As Tax2,max(TAx2rate) As TAx2rate,sum(Tax2Amt) As Tax2Amt,Sub_Location_code,Is_CashSale from Temp_table_MCC_Material_Sale_uploader GROUP BY Location,Sub_Location_code,Customer,InvoiceType,MCCSaleDate,Item_code,UOM,Is_CashSale order by VLCCode , Is_CashSale", trans)
+            dtout = clsDBFuncationality.GetDataTable("Select MCCSaleDate,Location,Customer,MAX(VLCCode) As VLCCode,Item_code,SUM(Qty) As Qty, UOM,max(rate) As rate,sum(Amount) As Amount,InvoiceType,max(taxGroup) As taxGroup,max(Tax1) As Tax1,max(TAx1rate) As TAx1rate,sum(Tax1Amt) As Tax1Amt,max(Tax2) As Tax2,max(TAx2rate) As TAx2rate,sum(Tax2Amt) As Tax2Amt,Sub_Location_code,Is_CashSale,Challan_No from Temp_table_MCC_Material_Sale_uploader GROUP BY Location,Sub_Location_code,Customer,InvoiceType,MCCSaleDate,Item_code,UOM,Is_CashSale ,Challan_No order by VLCCode , Is_CashSale", trans)
 
-            dtmain = clsDBFuncationality.GetDataTable("Select '' as SrNo,'' as MCCSaleDate,'' as Location,'' as Customer,'' as VLCCode,'' as Item_code,'' as Qty,'' as UOM,'' as rate,'' as Amount,'' as InvoiceType,'' as taxGroup,'' as Tax1,''as TAx1rate,'' as Tax1Amt,'' as Tax2,'' as TAx2rate,'' as Tax2Amt, '' as Sub_Location_code , '' as Is_CashSale", trans)
+            dtmain = clsDBFuncationality.GetDataTable("Select '' as SrNo,'' as MCCSaleDate,'' as Location,'' as Customer,'' as VLCCode,'' as Item_code,'' as Qty,'' as UOM,'' as rate,'' as Amount,'' as InvoiceType,'' as taxGroup,'' as Tax1,''as TAx1rate,'' as Tax1Amt,'' as Tax2,'' as TAx2rate,'' as Tax2Amt, '' as Sub_Location_code , '' as Is_CashSale , '' as Challan_No", trans)
             dtmain.Rows.RemoveAt(0)
 
 
@@ -674,11 +683,12 @@ Public Class frmMCCMaterialSaleUploader
                     CustomerCode = clsCommon.myCstr(dr("Customer"))
                     LocationCode = clsCommon.myCstr(dr("Location"))
                     SubLocationCode = clsCommon.myCstr(dr("Sub_Location_code"))
+                    ChallanNo = clsCommon.myCstr(dr("Challan_No"))
                     CashSale = clsCommon.myCstr(dr("Is_CashSale"))
                     SalePriceCode = clsCommon.myCstr(dr("InvoiceType"))
                     strdocdate = clsCommon.myCDate(dr("MCCSaleDate"))
 
-                    dtmain.Rows.Add("" + clsCommon.myCstr(CustomerCount) + "", "" + clsCommon.myCstr(dr("MCCSaleDate")) + "", "" + clsCommon.myCstr(dr("Location")) + "", "" + clsCommon.myCstr(dr("Customer")) + "", "" + clsCommon.myCstr(dr("VLCCode")) + "", "" + clsCommon.myCstr(dr("Item_code")) + "", "" + clsCommon.myCstr(dr("Qty")) + "", "" + clsCommon.myCstr(dr("UOM")) + "", "" + clsCommon.myCstr(dr("rate")) + "", "" + clsCommon.myCstr(dr("Amount")) + "", " " + clsCommon.myCstr(dr("InvoiceType")) + "", "" + clsCommon.myCstr(dr("taxGroup")) + "", "" + clsCommon.myCstr(dr("Tax1")) + "", "" + clsCommon.myCstr(dr("TAx1rate")) + "", "" + clsCommon.myCstr(dr("Tax1Amt")) + "", " " + clsCommon.myCstr(dr("Tax2")) + "", "" + clsCommon.myCstr(dr("TAx2rate")) + "", "" + clsCommon.myCstr(dr("Tax2Amt")) + "", "" + clsCommon.myCstr(dr("Sub_Location_code")) + "", "" + clsCommon.myCstr(dr("Is_CashSale")) + "")
+                    dtmain.Rows.Add("" + clsCommon.myCstr(CustomerCount) + "", "" + clsCommon.myCstr(dr("MCCSaleDate")) + "", "" + clsCommon.myCstr(dr("Location")) + "", "" + clsCommon.myCstr(dr("Customer")) + "", "" + clsCommon.myCstr(dr("VLCCode")) + "", "" + clsCommon.myCstr(dr("Item_code")) + "", "" + clsCommon.myCstr(dr("Qty")) + "", "" + clsCommon.myCstr(dr("UOM")) + "", "" + clsCommon.myCstr(dr("rate")) + "", "" + clsCommon.myCstr(dr("Amount")) + "", " " + clsCommon.myCstr(dr("InvoiceType")) + "", "" + clsCommon.myCstr(dr("taxGroup")) + "", "" + clsCommon.myCstr(dr("Tax1")) + "", "" + clsCommon.myCstr(dr("TAx1rate")) + "", "" + clsCommon.myCstr(dr("Tax1Amt")) + "", " " + clsCommon.myCstr(dr("Tax2")) + "", "" + clsCommon.myCstr(dr("TAx2rate")) + "", "" + clsCommon.myCstr(dr("Tax2Amt")) + "", "" + clsCommon.myCstr(dr("Sub_Location_code")) + "", "" + clsCommon.myCstr(dr("Is_CashSale")) + "", "" + clsCommon.myCstr(dr("Challan_No")) + "")
                 Next
                 'If AllowToSave(False, trans) Then
 
@@ -820,7 +830,7 @@ Public Class frmMCCMaterialSaleUploader
                     obj.Comments = "Entry created through MCC Material Sale uploader"
                     obj.Tax_Group = clsCommon.myCstr(dr("TaxGroup"))
                     obj.Is_Create_Auto_Invoice = 1
-
+                    obj.Ref_No = clsCommon.myCstr(dr("Challan_No"))
                     obj.Inv_Date = clsCommon.myCstr(dr("MCCSaleDate"))
                     obj.Challan_Date = clsCommon.myCstr(dr("MCCSaleDate"))
                     If clsCommon.CompairString(clsCommon.myCstr(dr("InvoiceType")), "Y") = CompairStringResult.Equal Then
