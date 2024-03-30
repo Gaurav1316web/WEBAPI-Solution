@@ -22,10 +22,14 @@ Partial Class RptRouteSaleRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.ddlReportType = New Telerik.WinControls.UI.RadDropDownList()
         Me.btnBoth = New Telerik.WinControls.UI.RadRadioButton()
         Me.btnproduct = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnmilk = New Telerik.WinControls.UI.RadRadioButton()
@@ -51,6 +55,8 @@ Partial Class RptRouteSaleRegister
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnBoth, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnproduct, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnmilk, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -108,6 +114,8 @@ Partial Class RptRouteSaleRegister
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
+        Me.RadPageViewPage1.Controls.Add(Me.ddlReportType)
         Me.RadPageViewPage1.Controls.Add(Me.btnBoth)
         Me.RadPageViewPage1.Controls.Add(Me.btnproduct)
         Me.RadPageViewPage1.Controls.Add(Me.rbtnmilk)
@@ -119,6 +127,29 @@ Partial Class RptRouteSaleRegister
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(817, 368)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Location = New System.Drawing.Point(21, 20)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(67, 18)
+        Me.MyLabel1.TabIndex = 440
+        Me.MyLabel1.Text = "Report Type"
+        '
+        'ddlReportType
+        '
+        Me.ddlReportType.AutoCompleteDisplayMember = Nothing
+        Me.ddlReportType.AutoCompleteValueMember = Nothing
+        Me.ddlReportType.DropDownAnimationEnabled = True
+        RadListDataItem1.Text = "Demand"
+        RadListDataItem2.Text = "Dispatch"
+        Me.ddlReportType.Items.Add(RadListDataItem1)
+        Me.ddlReportType.Items.Add(RadListDataItem2)
+        Me.ddlReportType.Location = New System.Drawing.Point(106, 20)
+        Me.ddlReportType.Name = "ddlReportType"
+        Me.ddlReportType.Size = New System.Drawing.Size(260, 20)
+        Me.ddlReportType.TabIndex = 439
         '
         'btnBoth
         '
@@ -158,7 +189,7 @@ Partial Class RptRouteSaleRegister
         '
         Me.lblLocation.FieldName = Nothing
         Me.lblLocation.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblLocation.Location = New System.Drawing.Point(15, 66)
+        Me.lblLocation.Location = New System.Drawing.Point(16, 126)
         Me.lblLocation.Name = "lblLocation"
         Me.lblLocation.Size = New System.Drawing.Size(65, 18)
         Me.lblLocation.TabIndex = 409
@@ -168,7 +199,7 @@ Partial Class RptRouteSaleRegister
         '
         Me.txtRoute.arrDispalyMember = Nothing
         Me.txtRoute.arrValueMember = Nothing
-        Me.txtRoute.Location = New System.Drawing.Point(86, 66)
+        Me.txtRoute.Location = New System.Drawing.Point(86, 126)
         Me.txtRoute.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtRoute.MyLinkLable1 = Nothing
         Me.txtRoute.MyLinkLable2 = Nothing
@@ -185,7 +216,7 @@ Partial Class RptRouteSaleRegister
         Me.RadGroupBox3.Controls.Add(Me.RadLabel1)
         Me.RadGroupBox3.Controls.Add(Me.fromDate)
         Me.RadGroupBox3.HeaderText = ""
-        Me.RadGroupBox3.Location = New System.Drawing.Point(16, 9)
+        Me.RadGroupBox3.Location = New System.Drawing.Point(16, 64)
         Me.RadGroupBox3.Name = "RadGroupBox3"
         Me.RadGroupBox3.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox3.Size = New System.Drawing.Size(350, 42)
@@ -261,7 +292,7 @@ Partial Class RptRouteSaleRegister
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -350,6 +381,8 @@ Partial Class RptRouteSaleRegister
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddlReportType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnBoth, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnproduct, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnmilk, System.ComponentModel.ISupportInitialize).EndInit()
@@ -396,5 +429,7 @@ Partial Class RptRouteSaleRegister
     Friend WithEvents btnBoth As RadRadioButton
     Friend WithEvents btnproduct As RadRadioButton
     Friend WithEvents rbtnmilk As RadRadioButton
+    Friend WithEvents ddlReportType As RadDropDownList
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
 End Class
 

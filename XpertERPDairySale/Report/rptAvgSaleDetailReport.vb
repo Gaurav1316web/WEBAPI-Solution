@@ -4,6 +4,7 @@ Imports System.Data.SqlClient
 Imports System.IO
 Imports System.Net
 Imports XpertERPEngine
+Imports System.Text.RegularExpressions
 
 Public Class rptAvgSaleDetailReport
     Inherits FrmMainTranScreen
@@ -120,19 +121,26 @@ Public Class rptAvgSaleDetailReport
 
     Private Sub LoadData()
         Try
-             Dim strCurrentYear As String = ""
+            Dim strCurrentYear As String = ""
+            Dim pattern As String = "\d+-\d+"
+            Dim regex As New Regex(pattern)
+            Dim match As Match
             If clsCommon.myLen(txtYear.Value) > 0 Then
-                strCurrentYear = txtYear.Value.Substring(0, 2)
+
+                match = regex.Match(txtYear.Value)
+                strCurrentYear = match.Value.Substring(0, 2)
             Else
                 clsCommon.MyMessageBoxShow(Me, "Please select financial year ")
                 Exit Sub
             End If
+
+
             FromDate = "01/Apr/20" & strCurrentYear
             Dim strEndYear As Integer = Nothing
             If ddMonth.SelectedIndex > 3 Then
-                strEndYear = txtYear.Value.Substring(0, 2)
+                strEndYear = strCurrentYear
             Else
-                strEndYear = txtYear.Value.Substring(0, 2) + 1
+                strEndYear = strCurrentYear + 1
             End If
 
             Dim monthName As String = ""
@@ -146,30 +154,29 @@ Public Class rptAvgSaleDetailReport
 
             Dim whrCls1 As String = "  WHERE TSPL_ITEM_MASTER.Is_FreshItem = 1 and TSPL_ITEM_MASTER.IsTaxable = 0 and convert(date , TSPL_DEMAND_BOOKING_MASTER.Document_Date , 103) >= '" & FromDate & "' and convert(date , TSPL_DEMAND_BOOKING_MASTER.Document_Date , 103) <= '" & ToDate & "' AND TSPL_DEMAND_BOOKING_MASTER.Posted = 1"
             Dim whrCls2 As String = "Where  Posted = 'Y' AND TSPL_RECEIPT_HEADER.SecurityDeposit='Y' and TSPL_RECEIPT_HEADER.SecurityDepositType = 'S' AND Receipt_Type in('F' , 'P')  and convert(date , TSPL_RECEIPT_HEADER.Receipt_Date , 103) <= '" & ToDate & "'"
-            ' Dim Days As Integer = clsDBFuncationality.getSingleValue("SELECT DATEDIFF(day,'" & FromDate & "','" & ToDate & "' ) AS Days")
             If clsCommon.myLen(txtRoute.Value) > 0 Then
                 whrCls1 += "And TSPL_DEMAND_BOOKING_MASTER.Route_No = '" & txtRoute.Value & "'"
                 whrCls2 += "and TSPL_CUSTOMeR_MASTer.Route_No  = '" & txtRoute.Value & " '"
             End If
 
             Dim qry As String = ""
-            qry = "select  SNO,  Route_No,Cust_Code , Customer_Name , Contact_Person_Name , Total_Ltr_Qty,Avg_Sale ,Cons_Avg_Sale, convert(decimal(18,2),Amt)Amt, convert(decimal(18,2),Two_Days_Amt)Two_Days_Amt , convert(decimal(18,2),One_Day_Emp_Crate)One_Day_Emp_Crate,convert(decimal(18,2),Total_Rs)Total_Rs  from (select 1 as SNO,  Route_No,Cust_Code,MAX(Customer_Name)Customer_Name,MAX(Contact_Person_Name)Contact_Person_Name,SUM(Qty)_Qty,sum(Total_Ltr_Qty)Total_Ltr_Qty, sum(Avg_Sale) as Avg_Sale,sum(Cons_Avg_Sale)Cons_Avg_Sale, sum(credit)Amt , sum(Two_Days_Amt)Two_Days_Amt , sum(One_Day_Emp_Crate) as One_Day_Emp_Crate,sum(Two_Days_Amt + One_Day_Emp_Crate) as Total_Rs from ( " & Environment.NewLine & "
-            SELECT Route_No,Cust_Code,Customer_Name,Contact_Person_Name,Qty,Total_Ltr_Qty, Avg_Sale as Avg_Sale,Cons_Avg_Sale, credit , (credit*2*42) as Two_Days_Amt , (Credit/12)*256 as One_Day_Emp_Crate FROM   ( " & Environment.NewLine & " select Route_No,Cust_Code , Customer_Name , Contact_Person_Name,Qty,Total_Ltr_Qty , Avg as Avg_Sale , (case when Avg > 36 then convert(decimal(18,1),avg) else 36.0 end ) as Cons_Avg_Sale,Credit   from ( " & Environment.NewLine & " select Route_No,Cust_Code,Customer_Name,Contact_Person_Name,Qty,Total_Ltr_Qty, convert(decimal(18,2),Total_Ltr_Qty/Days)Avg , Credit  from (select  TSPL_DEMAND_BOOKING_MASTER.Route_No , TSPL_DEMAND_BOOKING_DETAIL.Cust_Code ,
+            qry = "select SNO ,Route_No,Cust_Code,Customer_Name,Contact_Person_Name,Total_Ltr_Qty,AVG as Avg_Sale, (case when Avg > 36 then convert(decimal(18,2),avg) else 36.0 end ) as Cons_Avg_Sale,Amt,Two_Days_Amt,One_Day_Emp_Crate,Total_Rs from (
+         select  SNO,  Route_No,Cust_Code , Customer_Name , Contact_Person_Name , Total_Ltr_Qty,convert(decimal(18,2),Total_Ltr_Qty/Days)Avg ,  convert(decimal(18,2),Amt)Amt, convert(decimal(18,2),Two_Days_Amt)Two_Days_Amt , convert(decimal(18,2),One_Day_Emp_Crate)One_Day_Emp_Crate,convert(decimal(18,2),Total_Rs)Total_Rs  from (select max(Days)Days, 1 as SNO,  Route_No,Cust_Code,MAX(Customer_Name)Customer_Name,MAX(Contact_Person_Name)Contact_Person_Name,SUM(Qty)_Qty,sum(Total_Ltr_Qty)Total_Ltr_Qty, sum(credit)Amt , sum(Two_Days_Amt)Two_Days_Amt , sum(One_Day_Emp_Crate) as One_Day_Emp_Crate,sum(Two_Days_Amt + One_Day_Emp_Crate) as Total_Rs from ( " & Environment.NewLine & "
+            SELECT Days,Route_No,Cust_Code,Customer_Name,Contact_Person_Name,Qty,Total_Ltr_Qty, credit , (credit*2*42) as Two_Days_Amt , (Credit/12)*256 as One_Day_Emp_Crate FROM   ( " & Environment.NewLine & " select Days,Route_No,Cust_Code , Customer_Name , Contact_Person_Name,Qty,Total_Ltr_Qty ,Credit   from ( " & Environment.NewLine & " select Days, Route_No,Cust_Code,Customer_Name,Contact_Person_Name,Qty,Total_Ltr_Qty,  Credit  from (select  TSPL_DEMAND_BOOKING_MASTER.Route_No , TSPL_DEMAND_BOOKING_DETAIL.Cust_Code ,
             max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,max(TSPL_CUSTOMER_MASTER.Contact_Person_Name)Contact_Person_Name, sum(TSPL_DEMAND_BOOKING_DETAIL.Qty)Qty , sum(TotalLtr_ItemWise)Total_Ltr_Qty, DATEDIFF(day,'" & FromDate & "','" & ToDate & "' ) AS Days,0 as Credit  from TSPL_DEMAND_BOOKING_DETAIL 
             left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No
             left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code
             left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code 
             " & whrCls1 & "  group by TSPL_DEMAND_BOOKING_MASTER.Route_No,  TSPL_DEMAND_BOOKING_DETAIL.Document_No,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code ) xx )xxx
-            " & Environment.NewLine & " union all " & Environment.NewLine & " select TSPL_CUSTOMER_MASTER.Route_No, TSPL_RECEIPT_HEADER.Cust_Code,MAX(TSPL_CUSTOMeR_MASTer.Customer_Name) Customer_Name, max(TSPL_CUSTOMER_MASTER.Contact_Person_Name)Contact_Person_Name, 0 as Qty, 0 as Total_Ltr_Qty , 0 as Avg_Sale , 0 as Cons_Avg_Sale, sum(case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then (-1*Receipt_Amount) when  TSPL_RECEIPT_HEADER.Receipt_Type='P' then (1* Receipt_Amount) Else 0 end) as Credit from  TSPL_RECEIPT_HEADER  left join TSPL_CUSTOMeR_MASTer on TSPL_CUSTOMeR_MASTer.Cust_Code =TSPL_RECEIPT_HEADER.Cust_Code 
+            " & Environment.NewLine & " union all " & Environment.NewLine & " select  DATEDIFF(day,'01/Apr/2023','31/Jan/2024' ) AS Days, TSPL_CUSTOMER_MASTER.Route_No, TSPL_RECEIPT_HEADER.Cust_Code,MAX(TSPL_CUSTOMeR_MASTer.Customer_Name) Customer_Name, max(TSPL_CUSTOMER_MASTER.Contact_Person_Name)Contact_Person_Name, 0 as Qty, 0 as Total_Ltr_Qty , sum(case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then (-1*Receipt_Amount) when  TSPL_RECEIPT_HEADER.Receipt_Type='P' then (1* Receipt_Amount) Else 0 end) as Credit from  TSPL_RECEIPT_HEADER  left join TSPL_CUSTOMeR_MASTer on TSPL_CUSTOMeR_MASTer.Cust_Code =TSPL_RECEIPT_HEADER.Cust_Code 
            " & whrCls2 & "  group by TSPL_CUSTOMER_MASTER.Route_No, TSPL_RECEIPT_HEADER.Cust_Code )XXXX )xxxxx GROUP BY xxxxx.Route_No ,xxxxx.Cust_Code 
-           " & Environment.NewLine & " ---------subtotal " & Environment.NewLine & " union all " & Environment.NewLine & "  select 2 as SNO, Route_No,'' as Cust_Code,MAX(Customer_Name)Customer_Name,MAX(Contact_Person_Name)Contact_Person_Name,SUM(Qty)_Qty,sum(Total_Ltr_Qty)Total_Ltr_Qty, sum(Avg_Sale) as Avg_Sale,sum(Cons_Avg_Sale)Cons_Avg_Sale, sum(credit)Amt , sum(Two_Days_Amt)Two_Days_Amt , sum(One_Day_Emp_Crate) as One_Day_Emp_Crate,sum(Two_Days_Amt + One_Day_Emp_Crate) as Total_Rs from  ( " & Environment.NewLine & " 
-           SELECT Route_No,Cust_Code,Customer_Name,Contact_Person_Name,Qty,Total_Ltr_Qty, Avg_Sale as Avg_Sale,Cons_Avg_Sale, credit , (credit*2*42) as Two_Days_Amt , (Credit/12)*256 as One_Day_Emp_Crate FROM  ( " & Environment.NewLine & " select Route_No,Cust_Code ,'Sub Total:'  as  Customer_Name , '' as Contact_Person_Name,Qty,Total_Ltr_Qty , Avg as Avg_Sale , (case when Avg > 36 then convert(decimal(18,1),avg) else 36.0 end ) as Cons_Avg_Sale,Credit   from ( " & Environment.NewLine & " 
-           Select Route_No,Cust_Code,Customer_Name,Contact_Person_Name,Qty,Total_Ltr_Qty, convert(decimal(18,2),Total_Ltr_Qty/Days)Avg , Credit  from (select  TSPL_DEMAND_BOOKING_MASTER.Route_No , TSPL_DEMAND_BOOKING_DETAIL.Cust_Code ,max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,max(TSPL_CUSTOMER_MASTER.Contact_Person_Name)Contact_Person_Name, sum(TSPL_DEMAND_BOOKING_DETAIL.Qty)Qty , sum(TotalLtr_ItemWise)Total_Ltr_Qty ,DATEDIFF(day,'01/Apr/2023','30/Apr/2023' ) AS Days,0 as Credit
+           " & Environment.NewLine & " ---------subtotal " & Environment.NewLine & " union all " & Environment.NewLine & "  select max(Days)Days, 2 as SNO, Route_No,'' as Cust_Code,MAX(Customer_Name)Customer_Name,MAX(Contact_Person_Name)Contact_Person_Name,SUM(Qty)_Qty,sum(Total_Ltr_Qty)Total_Ltr_Qty, sum(credit)Amt , sum(Two_Days_Amt)Two_Days_Amt , sum(One_Day_Emp_Crate) as One_Day_Emp_Crate,sum(Two_Days_Amt + One_Day_Emp_Crate) as Total_Rs from  ( " & Environment.NewLine & " 
+           SELECT Days, Route_No,Cust_Code,Customer_Name,Contact_Person_Name,Qty,Total_Ltr_Qty,  credit , (credit*2*42) as Two_Days_Amt , (Credit/12)*256 as One_Day_Emp_Crate FROM  ( " & Environment.NewLine & " select Days, Route_No,Cust_Code ,'Sub Total:'  as  Customer_Name , '' as Contact_Person_Name,Qty,Total_Ltr_Qty ,Credit   from ( " & Environment.NewLine & " 
+           Select Days, Route_No,Cust_Code,Customer_Name,Contact_Person_Name,Qty,Total_Ltr_Qty, Credit  from (select   TSPL_DEMAND_BOOKING_MASTER.Route_No , TSPL_DEMAND_BOOKING_DETAIL.Cust_Code ,max(TSPL_CUSTOMER_MASTER.Customer_Name)Customer_Name,max(TSPL_CUSTOMER_MASTER.Contact_Person_Name)Contact_Person_Name, sum(TSPL_DEMAND_BOOKING_DETAIL.Qty)Qty , sum(TotalLtr_ItemWise)Total_Ltr_Qty ,DATEDIFF(day,'01/Apr/2023','30/Apr/2023' ) AS Days,0 as Credit
            from TSPL_DEMAND_BOOKING_DETAIL  left outer join TSPL_DEMAND_BOOKING_MASTER on TSPL_DEMAND_BOOKING_MASTER.Document_No = TSPL_DEMAND_BOOKING_DETAIL.Document_No left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_DEMAND_BOOKING_DETAIL.Item_Code left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_DEMAND_BOOKING_DETAIL.Cust_Code 
            " & whrCls1 & " group by TSPL_DEMAND_BOOKING_MASTER.Route_No,  TSPL_DEMAND_BOOKING_DETAIL.Document_No,TSPL_DEMAND_BOOKING_DETAIL.Cust_Code )xx )xxx " & Environment.NewLine & "  union all " & Environment.NewLine & "   
-          select  TSPL_CUSTOMER_MASTER.Route_No, TSPL_RECEIPT_HEADER.Cust_Code,'Sub Total:'  as  Customer_Name, '' AS Contact_Person_Name, 0 as Qty, 0 as Total_Ltr_Qty , 0 as Avg_Sale , 0 as Cons_Avg_Sale, sum(case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then (-1*Receipt_Amount) when  TSPL_RECEIPT_HEADER.Receipt_Type='P' then (1* Receipt_Amount) Else 0 end) as Credit from  TSPL_RECEIPT_HEADER   left join TSPL_CUSTOMeR_MASTer on TSPL_CUSTOMeR_MASTer.Cust_Code =TSPL_RECEIPT_HEADER.Cust_Code 
-           " & whrCls2 & " group by TSPL_CUSTOMER_MASTER.Route_No, TSPL_RECEIPT_HEADER.Cust_Code  )XXXX ) xxxxx GROUP BY xxxxx.Route_No )Final
-         " & Environment.NewLine & "   ORDER BY cast (Route_No as int),SNO , cast (Cust_Code as int) "
+          select DATEDIFF(day,'01/Apr/2023','31/Jan/2024' ) AS Days, TSPL_CUSTOMER_MASTER.Route_No, TSPL_RECEIPT_HEADER.Cust_Code,'Sub Total:'  as  Customer_Name, '' AS Contact_Person_Name, 0 as Qty, 0 as Total_Ltr_Qty , sum(case when TSPL_RECEIPT_HEADER.Receipt_Type='F' then (-1*Receipt_Amount) when  TSPL_RECEIPT_HEADER.Receipt_Type='P' then (1* Receipt_Amount) Else 0 end) as Credit from  TSPL_RECEIPT_HEADER   left join TSPL_CUSTOMeR_MASTer on TSPL_CUSTOMeR_MASTer.Cust_Code =TSPL_RECEIPT_HEADER.Cust_Code 
+           " & whrCls2 & " group by TSPL_CUSTOMER_MASTER.Route_No, TSPL_RECEIPT_HEADER.Cust_Code  )XXXX ) xxxxx GROUP BY xxxxx.Route_No )Final )xxfinal"
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
