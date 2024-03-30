@@ -5685,6 +5685,7 @@ Public Class frmCustomer
                         End If
                         i += 1
                     Next
+                    clsCommon.ProgressBarPercentHide()
                     clsCommon.MyMessageBoxShow(Me, "Import Successfully", Me.Text)
                 Catch ex As Exception
                     clsCommon.ProgressBarPercentHide()
@@ -5693,7 +5694,6 @@ Public Class frmCustomer
             Else
                 clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
             End If
-            clsCommon.ProgressBarPercentHide()
             Me.Controls.Remove(gv)
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
