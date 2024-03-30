@@ -22,16 +22,27 @@ Partial Class frmDairyBookingCustomer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.rgbTaxNonTax = New Telerik.WinControls.UI.RadGroupBox()
+        Me.lblFATPER = New common.Controls.MyLabel()
+        Me.txtMBRTHours = New common.Controls.MyTextBox()
+        Me.txtFATPER = New common.Controls.MyTextBox()
+        Me.lblMBRT = New common.Controls.MyLabel()
+        Me.lblSNFPER = New common.Controls.MyLabel()
+        Me.txtTemp = New common.Controls.MyTextBox()
+        Me.txtSNFPER = New common.Controls.MyTextBox()
+        Me.lblTEMP = New common.Controls.MyLabel()
+        Me.lblAcidity = New common.Controls.MyLabel()
+        Me.txtAcidity = New common.Controls.MyTextBox()
         Me.lblSubLocation = New common.Controls.MyLabel()
         Me.lblLastCollectionDate = New common.Controls.MyLabel()
         Me.txtLastCollectionDate = New common.Controls.MyLabel()
@@ -233,6 +244,7 @@ Partial Class frmDairyBookingCustomer
         Me.lblCancelStatus = New common.Controls.MyLabel()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
+        Me.btnPrintChallan = New Telerik.WinControls.UI.RadButton()
         Me.btnGatepass = New Telerik.WinControls.UI.RadButton()
         Me.BtnRecieptEntry = New Telerik.WinControls.UI.RadButton()
         Me.btnGatePassPrint = New Telerik.WinControls.UI.RadButton()
@@ -280,6 +292,18 @@ Partial Class frmDairyBookingCustomer
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbTaxNonTax.SuspendLayout()
+        CType(Me.lblFATPER, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtMBRTHours, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFATPER, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblMBRT, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSNFPER, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTemp, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSNFPER, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTEMP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblAcidity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAcidity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLastCollectionDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtLastCollectionDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -469,6 +493,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCancelStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage5.SuspendLayout()
+        CType(Me.btnPrintChallan, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGatepass, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.BtnRecieptEntry, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGatePassPrint, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -527,6 +552,7 @@ Partial Class frmDairyBookingCustomer
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintChallan)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGatepass)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnRecieptEntry)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGatePassPrint)
@@ -571,6 +597,7 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.rgbTaxNonTax)
         Me.RadPageViewPage1.Controls.Add(Me.lblSubLocation)
         Me.RadPageViewPage1.Controls.Add(Me.lblLastCollectionDate)
         Me.RadPageViewPage1.Controls.Add(Me.txtLastCollectionDate)
@@ -638,6 +665,185 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1271, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'rgbTaxNonTax
+        '
+        Me.rgbTaxNonTax.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbTaxNonTax.Controls.Add(Me.lblFATPER)
+        Me.rgbTaxNonTax.Controls.Add(Me.txtMBRTHours)
+        Me.rgbTaxNonTax.Controls.Add(Me.txtFATPER)
+        Me.rgbTaxNonTax.Controls.Add(Me.lblMBRT)
+        Me.rgbTaxNonTax.Controls.Add(Me.lblSNFPER)
+        Me.rgbTaxNonTax.Controls.Add(Me.txtTemp)
+        Me.rgbTaxNonTax.Controls.Add(Me.txtSNFPER)
+        Me.rgbTaxNonTax.Controls.Add(Me.lblTEMP)
+        Me.rgbTaxNonTax.Controls.Add(Me.lblAcidity)
+        Me.rgbTaxNonTax.Controls.Add(Me.txtAcidity)
+        Me.rgbTaxNonTax.HeaderText = ""
+        Me.rgbTaxNonTax.Location = New System.Drawing.Point(434, 130)
+        Me.rgbTaxNonTax.Name = "rgbTaxNonTax"
+        Me.rgbTaxNonTax.Size = New System.Drawing.Size(698, 33)
+        Me.rgbTaxNonTax.TabIndex = 1556
+        '
+        'lblFATPER
+        '
+        Me.lblFATPER.FieldName = Nothing
+        Me.lblFATPER.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFATPER.Location = New System.Drawing.Point(20, 8)
+        Me.lblFATPER.Name = "lblFATPER"
+        Me.lblFATPER.Size = New System.Drawing.Size(41, 16)
+        Me.lblFATPER.TabIndex = 1546
+        Me.lblFATPER.Text = "FAT %"
+        '
+        'txtMBRTHours
+        '
+        Me.txtMBRTHours.CalculationExpression = Nothing
+        Me.txtMBRTHours.FieldCode = Nothing
+        Me.txtMBRTHours.FieldDesc = Nothing
+        Me.txtMBRTHours.FieldMaxLength = 0
+        Me.txtMBRTHours.FieldName = Nothing
+        Me.txtMBRTHours.isCalculatedField = False
+        Me.txtMBRTHours.IsSourceFromTable = False
+        Me.txtMBRTHours.IsSourceFromValueList = False
+        Me.txtMBRTHours.IsUnique = False
+        Me.txtMBRTHours.Location = New System.Drawing.Point(585, 5)
+        Me.txtMBRTHours.MendatroryField = False
+        Me.txtMBRTHours.MyLinkLable1 = Nothing
+        Me.txtMBRTHours.MyLinkLable2 = Nothing
+        Me.txtMBRTHours.Name = "txtMBRTHours"
+        Me.txtMBRTHours.ReferenceFieldDesc = Nothing
+        Me.txtMBRTHours.ReferenceFieldName = Nothing
+        Me.txtMBRTHours.ReferenceTableName = Nothing
+        Me.txtMBRTHours.Size = New System.Drawing.Size(70, 20)
+        Me.txtMBRTHours.TabIndex = 1555
+        '
+        'txtFATPER
+        '
+        Me.txtFATPER.CalculationExpression = Nothing
+        Me.txtFATPER.FieldCode = Nothing
+        Me.txtFATPER.FieldDesc = Nothing
+        Me.txtFATPER.FieldMaxLength = 0
+        Me.txtFATPER.FieldName = Nothing
+        Me.txtFATPER.isCalculatedField = False
+        Me.txtFATPER.IsSourceFromTable = False
+        Me.txtFATPER.IsSourceFromValueList = False
+        Me.txtFATPER.IsUnique = False
+        Me.txtFATPER.Location = New System.Drawing.Point(67, 6)
+        Me.txtFATPER.MendatroryField = False
+        Me.txtFATPER.MyLinkLable1 = Nothing
+        Me.txtFATPER.MyLinkLable2 = Nothing
+        Me.txtFATPER.Name = "txtFATPER"
+        Me.txtFATPER.ReferenceFieldDesc = Nothing
+        Me.txtFATPER.ReferenceFieldName = Nothing
+        Me.txtFATPER.ReferenceTableName = Nothing
+        Me.txtFATPER.Size = New System.Drawing.Size(70, 20)
+        Me.txtFATPER.TabIndex = 1547
+        '
+        'lblMBRT
+        '
+        Me.lblMBRT.FieldName = Nothing
+        Me.lblMBRT.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblMBRT.Location = New System.Drawing.Point(509, 8)
+        Me.lblMBRT.Name = "lblMBRT"
+        Me.lblMBRT.Size = New System.Drawing.Size(73, 16)
+        Me.lblMBRT.TabIndex = 1554
+        Me.lblMBRT.Text = "MBRT (HRS)"
+        '
+        'lblSNFPER
+        '
+        Me.lblSNFPER.FieldName = Nothing
+        Me.lblSNFPER.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSNFPER.Location = New System.Drawing.Point(143, 8)
+        Me.lblSNFPER.Name = "lblSNFPER"
+        Me.lblSNFPER.Size = New System.Drawing.Size(42, 16)
+        Me.lblSNFPER.TabIndex = 1548
+        Me.lblSNFPER.Text = "SNF %"
+        '
+        'txtTemp
+        '
+        Me.txtTemp.CalculationExpression = Nothing
+        Me.txtTemp.FieldCode = Nothing
+        Me.txtTemp.FieldDesc = Nothing
+        Me.txtTemp.FieldMaxLength = 0
+        Me.txtTemp.FieldName = Nothing
+        Me.txtTemp.isCalculatedField = False
+        Me.txtTemp.IsSourceFromTable = False
+        Me.txtTemp.IsSourceFromValueList = False
+        Me.txtTemp.IsUnique = False
+        Me.txtTemp.Location = New System.Drawing.Point(431, 5)
+        Me.txtTemp.MendatroryField = False
+        Me.txtTemp.MyLinkLable1 = Nothing
+        Me.txtTemp.MyLinkLable2 = Nothing
+        Me.txtTemp.Name = "txtTemp"
+        Me.txtTemp.ReferenceFieldDesc = Nothing
+        Me.txtTemp.ReferenceFieldName = Nothing
+        Me.txtTemp.ReferenceTableName = Nothing
+        Me.txtTemp.Size = New System.Drawing.Size(70, 20)
+        Me.txtTemp.TabIndex = 1553
+        '
+        'txtSNFPER
+        '
+        Me.txtSNFPER.CalculationExpression = Nothing
+        Me.txtSNFPER.FieldCode = Nothing
+        Me.txtSNFPER.FieldDesc = Nothing
+        Me.txtSNFPER.FieldMaxLength = 0
+        Me.txtSNFPER.FieldName = Nothing
+        Me.txtSNFPER.isCalculatedField = False
+        Me.txtSNFPER.IsSourceFromTable = False
+        Me.txtSNFPER.IsSourceFromValueList = False
+        Me.txtSNFPER.IsUnique = False
+        Me.txtSNFPER.Location = New System.Drawing.Point(187, 5)
+        Me.txtSNFPER.MendatroryField = False
+        Me.txtSNFPER.MyLinkLable1 = Nothing
+        Me.txtSNFPER.MyLinkLable2 = Nothing
+        Me.txtSNFPER.Name = "txtSNFPER"
+        Me.txtSNFPER.ReferenceFieldDesc = Nothing
+        Me.txtSNFPER.ReferenceFieldName = Nothing
+        Me.txtSNFPER.ReferenceTableName = Nothing
+        Me.txtSNFPER.Size = New System.Drawing.Size(65, 20)
+        Me.txtSNFPER.TabIndex = 1549
+        '
+        'lblTEMP
+        '
+        Me.lblTEMP.FieldName = Nothing
+        Me.lblTEMP.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTEMP.Location = New System.Drawing.Point(392, 8)
+        Me.lblTEMP.Name = "lblTEMP"
+        Me.lblTEMP.Size = New System.Drawing.Size(41, 16)
+        Me.lblTEMP.TabIndex = 1552
+        Me.lblTEMP.Text = "Temp. "
+        '
+        'lblAcidity
+        '
+        Me.lblAcidity.FieldName = Nothing
+        Me.lblAcidity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAcidity.Location = New System.Drawing.Point(258, 8)
+        Me.lblAcidity.Name = "lblAcidity"
+        Me.lblAcidity.Size = New System.Drawing.Size(53, 16)
+        Me.lblAcidity.TabIndex = 1550
+        Me.lblAcidity.Text = "Acidity %"
+        '
+        'txtAcidity
+        '
+        Me.txtAcidity.CalculationExpression = Nothing
+        Me.txtAcidity.FieldCode = Nothing
+        Me.txtAcidity.FieldDesc = Nothing
+        Me.txtAcidity.FieldMaxLength = 0
+        Me.txtAcidity.FieldName = Nothing
+        Me.txtAcidity.isCalculatedField = False
+        Me.txtAcidity.IsSourceFromTable = False
+        Me.txtAcidity.IsSourceFromValueList = False
+        Me.txtAcidity.IsUnique = False
+        Me.txtAcidity.Location = New System.Drawing.Point(317, 6)
+        Me.txtAcidity.MendatroryField = False
+        Me.txtAcidity.MyLinkLable1 = Nothing
+        Me.txtAcidity.MyLinkLable2 = Nothing
+        Me.txtAcidity.Name = "txtAcidity"
+        Me.txtAcidity.ReferenceFieldDesc = Nothing
+        Me.txtAcidity.ReferenceFieldName = Nothing
+        Me.txtAcidity.ReferenceTableName = Nothing
+        Me.txtAcidity.Size = New System.Drawing.Size(70, 20)
+        Me.txtAcidity.TabIndex = 1551
         '
         'lblSubLocation
         '
@@ -776,12 +982,12 @@ Partial Class frmDairyBookingCustomer
         Me.cmbGatePassType.IsSourceFromTable = False
         Me.cmbGatePassType.IsSourceFromValueList = False
         Me.cmbGatePassType.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "AM"
-        RadListDataItem3.Text = "PM"
-        Me.cmbGatePassType.Items.Add(RadListDataItem1)
-        Me.cmbGatePassType.Items.Add(RadListDataItem2)
-        Me.cmbGatePassType.Items.Add(RadListDataItem3)
+        RadListDataItem6.Text = "Select"
+        RadListDataItem7.Text = "AM"
+        RadListDataItem8.Text = "PM"
+        Me.cmbGatePassType.Items.Add(RadListDataItem6)
+        Me.cmbGatePassType.Items.Add(RadListDataItem7)
+        Me.cmbGatePassType.Items.Add(RadListDataItem8)
         Me.cmbGatePassType.Location = New System.Drawing.Point(171, 134)
         Me.cmbGatePassType.MendatroryField = False
         Me.cmbGatePassType.MyLinkLable1 = Nothing
@@ -1227,10 +1433,10 @@ Partial Class frmDairyBookingCustomer
         Me.cmbcashcredit.IsSourceFromTable = False
         Me.cmbcashcredit.IsSourceFromValueList = False
         Me.cmbcashcredit.IsUnique = False
-        RadListDataItem4.Text = "CASH"
-        RadListDataItem5.Text = "CREDIT"
-        Me.cmbcashcredit.Items.Add(RadListDataItem4)
-        Me.cmbcashcredit.Items.Add(RadListDataItem5)
+        RadListDataItem1.Text = "CASH"
+        RadListDataItem2.Text = "CREDIT"
+        Me.cmbcashcredit.Items.Add(RadListDataItem1)
+        Me.cmbcashcredit.Items.Add(RadListDataItem2)
         Me.cmbcashcredit.Location = New System.Drawing.Point(506, 23)
         Me.cmbcashcredit.MendatroryField = False
         Me.cmbcashcredit.MyLinkLable1 = Nothing
@@ -1479,7 +1685,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1753,7 +1959,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3422,6 +3628,16 @@ Partial Class frmDairyBookingCustomer
         Me.UcAttachment1.TabIndex = 1
         Me.UcAttachment1.TabStop = False
         '
+        'btnPrintChallan
+        '
+        Me.btnPrintChallan.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintChallan.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintChallan.Location = New System.Drawing.Point(356, 39)
+        Me.btnPrintChallan.Name = "btnPrintChallan"
+        Me.btnPrintChallan.Size = New System.Drawing.Size(78, 22)
+        Me.btnPrintChallan.TabIndex = 1504
+        Me.btnPrintChallan.Text = "Print Challan"
+        '
         'btnGatepass
         '
         Me.btnGatepass.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -3446,7 +3662,7 @@ Partial Class frmDairyBookingCustomer
         '
         Me.btnGatePassPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnGatePassPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGatePassPrint.Location = New System.Drawing.Point(880, 36)
+        Me.btnGatePassPrint.Location = New System.Drawing.Point(961, 38)
         Me.btnGatePassPrint.Name = "btnGatePassPrint"
         Me.btnGatePassPrint.Size = New System.Drawing.Size(93, 22)
         Me.btnGatePassPrint.TabIndex = 1502
@@ -3466,7 +3682,7 @@ Partial Class frmDairyBookingCustomer
         '
         Me.btn_QtyReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btn_QtyReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btn_QtyReset.Location = New System.Drawing.Point(353, 39)
+        Me.btn_QtyReset.Location = New System.Drawing.Point(442, 39)
         Me.btn_QtyReset.Name = "btn_QtyReset"
         Me.btn_QtyReset.Size = New System.Drawing.Size(61, 22)
         Me.btn_QtyReset.TabIndex = 1487
@@ -3544,7 +3760,7 @@ Partial Class frmDairyBookingCustomer
         '
         Me.btnCreateAndPrintInvoice.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnCreateAndPrintInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCreateAndPrintInvoice.Location = New System.Drawing.Point(530, 39)
+        Me.btnCreateAndPrintInvoice.Location = New System.Drawing.Point(619, 39)
         Me.btnCreateAndPrintInvoice.Name = "btnCreateAndPrintInvoice"
         Me.btnCreateAndPrintInvoice.Size = New System.Drawing.Size(145, 22)
         Me.btnCreateAndPrintInvoice.TabIndex = 22
@@ -3554,7 +3770,7 @@ Partial Class frmDairyBookingCustomer
         '
         Me.btnreverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnreverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnreverse.Location = New System.Drawing.Point(741, 39)
+        Me.btnreverse.Location = New System.Drawing.Point(820, 39)
         Me.btnreverse.Name = "btnreverse"
         Me.btnreverse.Size = New System.Drawing.Size(136, 22)
         Me.btnreverse.TabIndex = 21
@@ -3610,7 +3826,7 @@ Partial Class frmDairyBookingCustomer
         '
         Me.btnCancel.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnCancel.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCancel.Location = New System.Drawing.Point(695, 39)
+        Me.btnCancel.Location = New System.Drawing.Point(770, 39)
         Me.btnCancel.Name = "btnCancel"
         Me.btnCancel.Size = New System.Drawing.Size(44, 22)
         Me.btnCancel.TabIndex = 20
@@ -3620,7 +3836,7 @@ Partial Class frmDairyBookingCustomer
         '
         Me.btnCreateDO.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnCreateDO.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnCreateDO.Location = New System.Drawing.Point(417, 39)
+        Me.btnCreateDO.Location = New System.Drawing.Point(506, 39)
         Me.btnCreateDO.Name = "btnCreateDO"
         Me.btnCreateDO.Size = New System.Drawing.Size(110, 22)
         Me.btnCreateDO.TabIndex = 18
@@ -3630,7 +3846,7 @@ Partial Class frmDairyBookingCustomer
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(975, 36)
+        Me.btnPrint.Location = New System.Drawing.Point(1060, 38)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(47, 22)
         Me.btnPrint.TabIndex = 3
@@ -3858,6 +4074,19 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.rgbTaxNonTax.ResumeLayout(False)
+        Me.rgbTaxNonTax.PerformLayout()
+        CType(Me.lblFATPER, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtMBRTHours, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFATPER, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblMBRT, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSNFPER, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTemp, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSNFPER, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTEMP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblAcidity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAcidity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLastCollectionDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtLastCollectionDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4060,6 +4289,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCancelStatus, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage5.ResumeLayout(False)
+        CType(Me.btnPrintChallan, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGatepass, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.BtnRecieptEntry, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGatePassPrint, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4354,5 +4584,17 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents lblSubLocation As common.Controls.MyLabel
     Friend WithEvents MyLabel60 As common.Controls.MyLabel
     Friend WithEvents txtSubLocation As common.UserControls.txtFinder
+    Friend WithEvents btnPrintChallan As RadButton
+    Friend WithEvents txtMBRTHours As common.Controls.MyTextBox
+    Friend WithEvents lblMBRT As common.Controls.MyLabel
+    Friend WithEvents txtTemp As common.Controls.MyTextBox
+    Friend WithEvents lblTEMP As common.Controls.MyLabel
+    Friend WithEvents txtAcidity As common.Controls.MyTextBox
+    Friend WithEvents lblAcidity As common.Controls.MyLabel
+    Friend WithEvents txtSNFPER As common.Controls.MyTextBox
+    Friend WithEvents lblSNFPER As common.Controls.MyLabel
+    Friend WithEvents txtFATPER As common.Controls.MyTextBox
+    Friend WithEvents lblFATPER As common.Controls.MyLabel
+    Friend WithEvents rgbTaxNonTax As RadGroupBox
 End Class
 

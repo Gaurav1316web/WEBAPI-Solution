@@ -1036,7 +1036,7 @@ Public Class frmEmployee_Salary
             'Dim arrFormula = strFormula.Split("+")
             For Each row As GridViewRowInfo In gvSalary.Rows
                 If row.Index < Rowno Then
-                    strFormula = strFormula.Replace(row.Cells(colpayHeadCode).Value, row.Cells(colPAYPERIOD_Amount).Value)
+                    strFormula = strFormula.Replace(row.Cells(colpayHeadCode).Value, clsCommon.myCstr(clsCommon.myCDecimal(row.Cells(colRateAmount).Value)))
                 Else
                     strFormula = strFormula.Replace("[", "")
                     strFormula = strFormula.Replace("]", "")

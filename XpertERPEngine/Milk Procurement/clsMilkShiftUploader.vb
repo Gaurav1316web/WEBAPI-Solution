@@ -1138,9 +1138,8 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
             Dim settSeprateDistanceMorningEveningShift As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeprateDistanceMorningEveningShift, clsFixedParameterCode.SeprateDistanceMorningEveningShift, trans)) > 0, True, False)
             If arrShiftEndCode IsNot Nothing AndAlso arrShiftEndCode.Count > 0 Then
                 For ii As Integer = 0 To arrShiftEndCode.Count - 1
-                    clsMilkShiftEndMCC.CreateMilkShiftEntrRouteDetailsWithProvision(arrShiftEndCode(ii), settSeprateDistanceMorningEveningShift, True, trans)
+                    clsMilkShiftEndMCC.CreateMilkShiftEntrRouteDetailsWithProvision(arrShiftEndCode(ii), settSeprateDistanceMorningEveningShift, False, trans)
                 Next
-
                 clsMilkShiftEndMCC.RecreateConsumptionEntry(arrShiftEndCode, trans)
             End If
         Catch ex As Exception

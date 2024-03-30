@@ -1785,7 +1785,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                 obj.Security_Deduction = clsCommon.myCDecimal(dt.Rows(0)("Security_Deduction"))
                 obj.ApplyRoundingInStdProd = (clsCommon.myCDecimal(dt.Rows(0)("ApplyRoundingInStdProd")) = 1)
                 ''richa agarwal TEC/19/12/18-000383 27 Dec,2018
-                qry = " select Item_Code,UOM_Code,UOM_Description,Conversion_Factor,Stocking_Unit,Default_UOM,Gross_Weight,Net_Weight,Job_Work_Rate,pieces,Item_Cost,Custom_Conversion from TSPL_ITEM_UOM_DETAIL where Item_Code='" + obj.Item_Code + "' order by Stocking_Unit desc"
+                qry = " select Item_Code,UOM_Code,UOM_Description,Conversion_Factor,Stocking_Unit,Default_UOM,Print_UOM,Gross_Weight,Net_Weight,Job_Work_Rate,pieces,Item_Cost,Custom_Conversion from TSPL_ITEM_UOM_DETAIL where Item_Code='" + obj.Item_Code + "' order by Stocking_Unit desc"
                 dt = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     obj.ArrUomDetails = New List(Of clsItemUOMDetails)()
@@ -1798,6 +1798,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
                         objtr.Stocking_Unit = clsCommon.myCstr(dr("Stocking_Unit"))
                         ''added by richa agarwal against ticket no BM00000004327
                         objtr.Default_UOM = clsCommon.myCdbl(dr("Default_UOM"))
+                        objtr.Print_UOM = clsCommon.myCdbl(dr("Print_UOM"))
                         ''===========================
                         objtr.Pieces = clsCommon.myCdbl(dr("pieces"))
                         objtr.Gross_Weight = clsCommon.myCdbl(dr("Gross_Weight"))
@@ -2041,6 +2042,8 @@ Public Class clsItemUOMDetails
     Public Job_Work_Rate As Double = 0
     Public Item_Cost As Decimal
     Public Custom_Conversion As Boolean
+    Public Print_UOM As Integer = 0
+
 
     Public Shared Function GetEntryUOM() As DataTable
         Dim dt As DataTable = New DataTable()
@@ -2089,6 +2092,7 @@ Public Class clsItemUOMDetails
             clsCommon.AddColumnsForChange(coll, "Net_Weight", obj.Net_Weight)
             clsCommon.AddColumnsForChange(coll, "Job_Work_Rate", obj.Job_Work_Rate)
             clsCommon.AddColumnsForChange(coll, "Custom_Conversion", IIf(obj.Custom_Conversion, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Print_UOM", obj.Print_UOM)
             clsCommon.AddColumnsForChange(coll, "Item_Cost", Math.Round(StockUnitItemCost * obj.Conversion_Factor, 2, MidpointRounding.AwayFromZero))
 
             isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTableInSelectedDatabase(coll, ArrDatabase, "TSPL_ITEM_UOM_DETAIL", OMInsertOrUpdate.Insert, "", trans)

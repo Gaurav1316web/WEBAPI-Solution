@@ -201,6 +201,17 @@ Public Class frmEMailAndSMSSetting
     Public Const PaymentCycleFromDate As String = "$#PaymentCycleFromDate#$"
     Public Const PaymentCycleToDate As String = "$#PaymentCycleToDate#$"
     Public Const OTP As String = "$#OTP#$"
+
+    Public Const CURDQty As String = "$#CURDQTY#$"
+    Public Const CURDFat As String = "$#CURDFAT#$"
+    Public Const CURDSNF As String = "$#CURDSNF#$"
+    Public Const CURDRate As String = "$#CURDRATE#$"
+    Public Const CURDAmt As String = "$#CURDAMOUNT#$"
+    Public Const SOURQty As String = "$#SOURQTY#$"
+    Public Const SOURFat As String = "$#SOURFAT#$"
+    Public Const SOURSNF As String = "$#SOURSNF#$"
+    Public Const SOURRate As String = "$#SOURRATE#$"
+    Public Const SOURAmt As String = "$#SOURAmount#$"
 #End Region
 
     Private Sub frmEMailAndSMSSetting_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
@@ -290,6 +301,19 @@ Public Class frmEMailAndSMSSetting
             ContextMenuStrip1.Items.Add(VLCDataUploaderSNF)
             ContextMenuStrip1.Items.Add(VLCDataUploaderRate)
             ContextMenuStrip1.Items.Add(VLCDataUploaderAmt)
+
+            ContextMenuStrip1.Items.Add(CURDQty)
+            ContextMenuStrip1.Items.Add(CURDFat)
+            ContextMenuStrip1.Items.Add(CURDSNF)
+            ContextMenuStrip1.Items.Add(CURDRate)
+            ContextMenuStrip1.Items.Add(CURDAmt)
+
+
+            ContextMenuStrip1.Items.Add(SOURQty)
+            ContextMenuStrip1.Items.Add(SOURFat)
+            ContextMenuStrip1.Items.Add(SOURSNF)
+            ContextMenuStrip1.Items.Add(SOURRate)
+            ContextMenuStrip1.Items.Add(SOURAmt)
 
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.RFQ) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(Vendor_Code)

@@ -119,7 +119,7 @@ Public Class rptCattleFeedSaleReport
                 Dim qry As String = ""
 
                 Dim BaseQry As String = "select  TSPL_ITEM_MASTER.Item_Code, (VLC_Code_VLC_Uploader) as [DCS Code] , (VLC_Name) as [DCS Name],convert(varchar ,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) as Date,TSPL_SD_SHIPMENT_HEAD.Document_Date as Doc_Date ,
-(TSPL_ITEM_MASTER.Short_Description) as [Short Description] , TSPL_SD_SHIPMENT_DETAIL. OrgUnit_code AS UOM , (TSPL_SD_SHIPMENT_DETAIL.Item_Cost) AS Rate , (TSPL_SD_SHIPMENT_DETAIL.Amount) as Amount, TSPL_SD_SHIPMENT_DETAIL.Qty   from TSPL_SD_SHIPMENT_HEAD
+(TSPL_ITEM_MASTER.Short_Description) as [Short Description] , TSPL_SD_SHIPMENT_DETAIL. OrgUnit_code AS UOM , (TSPL_SD_SHIPMENT_DETAIL.Item_Cost) AS Rate , (TSPL_SD_SHIPMENT_DETAIL.Amount) as Amount, TSPL_SD_SHIPMENT_DETAIL.Qty,TSPL_SD_SHIPMENT_HEAD.Ref_No   from TSPL_SD_SHIPMENT_HEAD
 left outer join TSPL_SD_SHIPMENT_DETAIL on TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE = TSPL_SD_SHIPMENT_HEAD.Document_Code
 left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code
 left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_SD_SHIPMENT_HEAD.customer_code
@@ -146,14 +146,14 @@ left outer join tspl_customer_master on tspl_customer_master.Cust_Code = TSPL_SD
 
                 End If
                 If clsCommon.CompairString(ddCreditCash.SelectedItem.Text, "Credit") = CompairStringResult.Equal Then
-                    qry = "select ROW_NUMBER() Over (Order By (Doc_Date)) As [SNo.], [DCS Name],[DCS Code] ,Doc_Date, Date , [Short Description],UOM ,Qty , Rate , Amount   from (
-              SELECT  [DCS Code] , [DCS Name] ,Doc_Date, Date , [Short Description] ,  UOM , Rate , Amount , Qty FROM ("
+                    qry = "select ROW_NUMBER() Over (Order By (Doc_Date)) As [SNo.], [DCS Name],[DCS Code] ,Doc_Date, Date , [Short Description],UOM ,Qty , Rate , Amount,[Challan No]   from (
+              SELECT  [DCS Code] , [DCS Name] ,Doc_Date, Date , [Short Description] ,  UOM , Rate , Amount , Qty,Ref_No as[Challan No] FROM ("
                     BaseQry += " AND TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'N'"
                     BaseQry += " )XX ) xxx"
                     finalQuery = "" & qry & "   " & BaseQry & ""
                 ElseIf clsCommon.CompairString(ddCreditCash.SelectedItem.Text, "Cash") = CompairStringResult.Equal Then
-                    qry = "select ROW_NUMBER() Over (Order By (Doc_Date)) As [SNo.], [DCS Name],[DCS Code] ,Doc_Date, Date , [Short Description], UOM ,Qty , Rate , Amount   from (
-              SELECT  [DCS Code] , [DCS Name] ,Doc_Date, Date , [Short Description] ,  UOM , Rate , Amount , Qty,Item_Code FROM ("
+                    qry = "select ROW_NUMBER() Over (Order By (Doc_Date)) As [SNo.], [DCS Name],[DCS Code] ,Doc_Date, Date , [Short Description], UOM ,Qty , Rate , Amount,[Challan No]   from (
+              SELECT  [DCS Code] , [DCS Name] ,Doc_Date, Date , [Short Description] ,  UOM , Rate , Amount , Qty,Item_Code,Ref_No as[Challan No] FROM ("
                     BaseQry += " AND TSPL_SD_SHIPMENT_HEAD.Is_CashSale = 'Y'"
                     BaseQry += " )XX ) xxx"
                     finalQuery = "" & qry & "   " & BaseQry & ""

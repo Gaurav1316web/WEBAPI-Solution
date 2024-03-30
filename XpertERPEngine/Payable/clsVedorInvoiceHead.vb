@@ -2057,6 +2057,9 @@ Public Class clsVedorInvoiceHead
         Dim ECustomerType As String = ""
         If obj.IsEInvoice Then
             ECustomerType = clsERPFuncationality.GetVendorEInvoiceType(obj.Vendor_Code, trans)
+            If clsCommon.CompairString(ECustomerType, "BC") = CompairStringResult.Equal Then
+                Throw New Exception("e-Invoice will be not generated for unregistered vendor")
+            End If
             ''richa agarwal 31 Dec,2020 check eInvoice Implementation
             If clsCommon.myLen(clsCommon.myCstr(obj.Tax_Group)) > 0 Then
                 Dim isTaxTaxable As String = "N"

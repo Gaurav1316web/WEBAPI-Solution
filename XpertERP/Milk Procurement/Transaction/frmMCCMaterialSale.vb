@@ -5513,8 +5513,8 @@ Public Class frmMCCMaterialSale
             Dim WhrCls As String = " 2=2 and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0
             and TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP'"
 
-            txtVendorNo.Value = clsCommon.ShowSelectForm("AllCustomerInsteadMcc", qry, "Code", WhrCls, txtVendorNo.Value, "Code", isButtonClicked)
-            qry += "where 2=2 and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP' and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
+            txtVendorNo.Value = clsCommon.ShowSelectForm("AllCustomerInsteadMcc", qry, "Vlc_Code", WhrCls, txtVendorNo.Value, "Code", isButtonClicked)
+            qry += "where 2=2 and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and TSPL_CUSTOMER_MASTER.CUSTOMER_FORM_TYPE='VSP' and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader  ='" + txtVendorNo.Value + "'"
         Else
 
             If ShowAllCustomer = True AndAlso chkcashsale.Checked = True AndAlso chkOther.Checked = True Then
@@ -5532,8 +5532,8 @@ Public Class frmMCCMaterialSale
                 " left join TSPL_VLC_MASTER_HEAD on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code "
                 '' " and  TSPL_VLC_MASTER_HEAD.mcc='" & txtBillToLocation.Value & "'"
 
-                txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer Lists", qry, "Code", " TSPL_CUSTOMER_MASTER.Status = 'N' ", txtVendorNo.Value, "Code", isButtonClicked)
-                qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
+                txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer Lists", qry, "Vlc_Code", " TSPL_CUSTOMER_MASTER.Status = 'N' ", txtVendorNo.Value, "Code", isButtonClicked)
+                qry += " where 2=2 and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader  ='" + txtVendorNo.Value + "'"
             Else
                 ''-------richa 30/07/2014 Ticket No. BM00000003242---------
                 Dim strwherecls As String = ""
@@ -5563,9 +5563,9 @@ Public Class frmMCCMaterialSale
                     '                " ,Contact_Person_Phone As [Contact Person Phone],Contact_Person_Fax As [Contact Person Fax],Contact_Person_Website AS [Contact Person Website] " & _
                     '                " ,Terms_Code AS [Terms Code],Terms_Code_Desc As [Terms Code Desc],Vendor_Account As [Vendor Account],Vendor_Account_Desc As [Vendor Account Desc],Payment_Code As [Payment Code],Bank_Code As [Bank Code],Tax_Group As [Tax Group],Ven_Type_Code As [Ven Type Code],Status ,OnHold ,CURRENCY_CODE As [Currency Code],Form_Type As [Form Type],State_Code As [State Code],Country_Code AS [Country Code],IFSC_Code As [IFSC Code],Account_Type As [Account Type] from TSPL_VENDOR_MASTER "
 
-                    txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer Lists", qry, "Code", " TSPL_CUSTOMER_MASTER.Status <> 'Y' ", txtVendorNo.Value, "Code", isButtonClicked)
+                    txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer Lists", qry, "Vlc_Code", " TSPL_CUSTOMER_MASTER.Status <> 'Y' ", txtVendorNo.Value, "Code", isButtonClicked)
                     ''txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer Lists", qry, "Code", "  TSPL_CUSTOMER_VENDOR_MAPPING.Cust_Code is null and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0", txtVendorNo.Value, "Code", isButtonClicked)
-                    qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
+                    qry += " where 2=2 and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader  ='" + txtVendorNo.Value + "'"
                 Else
                     qry = "select TSPL_CUSTOMER_MASTER.Cust_Code as Code,Customer_Name as Name,TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_TERMS_MASTER.Terms_Desc as [Term Description] ,TSPL_CUSTOMER_MASTER.Tax_Group as [Tax Group],TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
                          ",TSPL_CUSTOMER_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ROUTE_MASTER.vehicle_code,TSPL_VEHICLE_MASTER.Number ,TSPL_VENDOR_MASTER.Vendor_Code as [VSP Code],Vendor_Name as [VSP Name],VLC_Code_VLC_Uploader as Vlc_Code,VLC_Name as [VLc Name] "
@@ -5589,8 +5589,8 @@ Public Class frmMCCMaterialSale
                         If clsCommon.myLen(txtVendorNo.Value) > 0 Then
                             txtVendorNo.Value = clsDBFuncationality.getSingleValue(" select  VSP_Code from TSPL_VLC_MASTER_HEAD  where (VSP_Code = '" + txtVendorNo.Value + "' or VLC_Code_VLC_Uploader = '" + txtVendorNo.Value + "' )")
                         End If
-                        txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer List", qry, "Code", " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and mcc='" & txtBillToLocation.Value & "'", txtVendorNo.Value, "Code", isButtonClicked)
-                        qry += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
+                        txtVendorNo.Value = clsCommon.ShowSelectForm("MCC Customer List", qry, "Vlc_Code", " TSPL_CUSTOMER_MASTER.Cust_Code in (" + strwherecls + ") and TSPL_VENDOR_MASTER.Is_Inactive_In_Milk_Procurement=0 and mcc='" & txtBillToLocation.Value & "'", txtVendorNo.Value, "Code", isButtonClicked)
+                        qry += " where 2=2 and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader  ='" + txtVendorNo.Value + "'"
                     End If
 
 
@@ -5604,6 +5604,7 @@ Public Class frmMCCMaterialSale
             If UseDescInsteadOFCodeOnMCCMAterialSale = True Then
                 txtVendorNo.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
             End If
+            txtVendorNo.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
             lblVendorName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
             txtTermCode.Value = clsCommon.myCstr(dt.Rows(0)("Term Code"))
             lblTermName.Text = clsCommon.myCstr(dt.Rows(0)("Term Description"))
