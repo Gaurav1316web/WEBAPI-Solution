@@ -9,6 +9,7 @@ Public Class clsPricePlanHead
     Public Start_Date As DateTime
     Public End_Date As Date?
     Public Is_ALL_UOM As Boolean
+    Public Is_FOR_Price As Boolean
     Public Is_Back_Calculation As Boolean
     Public Back_Calculation_Type As Integer
     Public Post_Status As ERPTransactionStatus
@@ -36,6 +37,7 @@ Public Class clsPricePlanHead
                 clsCommon.AddColumnsForChange(coll, "End_Date", clsCommon.GetPrintDate(obj.End_Date, "dd/MMM/yyyy"))
             End If
             clsCommon.AddColumnsForChange(coll, "Is_ALL_UOM", IIf(obj.Is_ALL_UOM, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Is_FOR_Price", IIf(obj.Is_FOR_Price, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Is_Back_Calculation", IIf(obj.Is_Back_Calculation, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Back_Calculation_Type", obj.Back_Calculation_Type)
             clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
@@ -94,6 +96,7 @@ Public Class clsPricePlanHead
                 obj.End_Date = clsCommon.myCDate(dt.Rows(0)("End_Date"))
             End If
             obj.Is_ALL_UOM = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_ALL_UOM")) = 1, True, False)
+            obj.Is_FOR_Price = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_FOR_Price")) = 1, True, False)
             obj.Is_Back_Calculation = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Back_Calculation")) = 1, True, False)
             obj.Back_Calculation_Type = clsCommon.myCdbl(dt.Rows(0)("Back_Calculation_Type"))
             obj.Post_Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Post_Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
@@ -268,6 +271,7 @@ Public Class clsPricePlanHead
                 obj.Start_Date = objPP.Start_Date
                 obj.End_Date = objPP.End_Date
                 obj.Is_Active = 1
+                obj.Is_For_Price = IIf(objPP.Is_FOR_Price, 1, 0)
 
                 If objPP.Is_Back_Calculation Then
                     obj.Price_Category = "Auto"

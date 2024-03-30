@@ -23,7 +23,7 @@ Partial Class frmDBTApprovalStatus
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
@@ -32,10 +32,10 @@ Partial Class frmDBTApprovalStatus
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.rbtnTranasctionAll = New System.Windows.Forms.RadioButton()
+        Me.rbtnTransactionPending = New System.Windows.Forms.RadioButton()
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.fndUnion = New common.UserControls.txtFinder()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.txtTODate = New common.Controls.MyDateTimePicker()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel3 = New common.Controls.MyLabel()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -45,8 +45,9 @@ Partial Class frmDBTApprovalStatus
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnReport = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnTransactionPending = New System.Windows.Forms.RadioButton()
-        Me.rbtnTranasctionAll = New System.Windows.Forms.RadioButton()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDetail = New common.Controls.MyRadioButton()
+        Me.rbtnSummary = New common.Controls.MyRadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -55,8 +56,6 @@ Partial Class frmDBTApprovalStatus
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTODate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage2.SuspendLayout()
@@ -65,6 +64,10 @@ Partial Class frmDBTApprovalStatus
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -135,12 +138,11 @@ Partial Class frmDBTApprovalStatus
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox2)
         Me.RadPageViewPage1.Controls.Add(Me.rbtnTranasctionAll)
         Me.RadPageViewPage1.Controls.Add(Me.rbtnTransactionPending)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
         Me.RadPageViewPage1.Controls.Add(Me.fndUnion)
-        Me.RadPageViewPage1.Controls.Add(Me.txtTODate)
-        Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.txtFromDate)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel3)
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(46.0!, 28.0!)
@@ -148,6 +150,28 @@ Partial Class frmDBTApprovalStatus
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(830, 341)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'rbtnTranasctionAll
+        '
+        Me.rbtnTranasctionAll.AutoSize = True
+        Me.rbtnTranasctionAll.Location = New System.Drawing.Point(154, 103)
+        Me.rbtnTranasctionAll.Name = "rbtnTranasctionAll"
+        Me.rbtnTranasctionAll.Size = New System.Drawing.Size(100, 17)
+        Me.rbtnTranasctionAll.TabIndex = 1080
+        Me.rbtnTranasctionAll.Text = "All Transaction"
+        Me.rbtnTranasctionAll.UseVisualStyleBackColor = True
+        '
+        'rbtnTransactionPending
+        '
+        Me.rbtnTransactionPending.AutoSize = True
+        Me.rbtnTransactionPending.Checked = True
+        Me.rbtnTransactionPending.Location = New System.Drawing.Point(10, 104)
+        Me.rbtnTransactionPending.Name = "rbtnTransactionPending"
+        Me.rbtnTransactionPending.Size = New System.Drawing.Size(130, 17)
+        Me.rbtnTransactionPending.TabIndex = 1079
+        Me.rbtnTransactionPending.TabStop = True
+        Me.rbtnTransactionPending.Text = "Pending Transaction"
+        Me.rbtnTransactionPending.UseVisualStyleBackColor = True
         '
         'MyLabel2
         '
@@ -172,7 +196,6 @@ Partial Class frmDBTApprovalStatus
         Me.fndUnion.Location = New System.Drawing.Point(78, 10)
         Me.fndUnion.MendatroryField = True
         Me.fndUnion.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndUnion.MyLinkLable1 = Me.MyLabel1
         Me.fndUnion.MyLinkLable2 = Nothing
         Me.fndUnion.MyReadOnly = False
         Me.fndUnion.MyShowMasterFormButton = False
@@ -183,45 +206,6 @@ Partial Class frmDBTApprovalStatus
         Me.fndUnion.Size = New System.Drawing.Size(208, 18)
         Me.fndUnion.TabIndex = 1077
         Me.fndUnion.Value = ""
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Location = New System.Drawing.Point(166, 37)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(55, 18)
-        Me.MyLabel1.TabIndex = 57
-        Me.MyLabel1.Text = "To Month"
-        '
-        'txtTODate
-        '
-        Me.txtTODate.CalculationExpression = Nothing
-        Me.txtTODate.CustomFormat = "MMM-yyyy"
-        Me.txtTODate.Enabled = False
-        Me.txtTODate.FieldCode = Nothing
-        Me.txtTODate.FieldDesc = Nothing
-        Me.txtTODate.FieldMaxLength = 0
-        Me.txtTODate.FieldName = Nothing
-        Me.txtTODate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtTODate.isCalculatedField = False
-        Me.txtTODate.IsSourceFromTable = False
-        Me.txtTODate.IsSourceFromValueList = False
-        Me.txtTODate.IsUnique = False
-        Me.txtTODate.Location = New System.Drawing.Point(226, 36)
-        Me.txtTODate.MendatroryField = False
-        Me.txtTODate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtTODate.MyLinkLable1 = Me.MyLabel1
-        Me.txtTODate.MyLinkLable2 = Nothing
-        Me.txtTODate.Name = "txtTODate"
-        Me.txtTODate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtTODate.ReferenceFieldDesc = Nothing
-        Me.txtTODate.ReferenceFieldName = Nothing
-        Me.txtTODate.ReferenceTableName = Nothing
-        Me.txtTODate.Size = New System.Drawing.Size(82, 20)
-        Me.txtTODate.TabIndex = 56
-        Me.txtTODate.TabStop = False
-        Me.txtTODate.Text = "Dec-2011"
-        Me.txtTODate.Value = New Date(2011, 12, 17, 0, 0, 0, 0)
         '
         'txtFromDate
         '
@@ -279,7 +263,7 @@ Partial Class frmDBTApprovalStatus
         '
         Me.gvData.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvData.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvData.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gvData.MyStopExport = False
         Me.gvData.Name = "gvData"
         Me.gvData.ShowHeaderCellButtons = True
@@ -326,27 +310,40 @@ Partial Class frmDBTApprovalStatus
         Me.btnReport.TabIndex = 5
         Me.btnReport.Text = ">>>"
         '
-        'rbtnTransactionPending
+        'RadGroupBox2
         '
-        Me.rbtnTransactionPending.AutoSize = True
-        Me.rbtnTransactionPending.Checked = True
-        Me.rbtnTransactionPending.Location = New System.Drawing.Point(10, 62)
-        Me.rbtnTransactionPending.Name = "rbtnTransactionPending"
-        Me.rbtnTransactionPending.Size = New System.Drawing.Size(130, 17)
-        Me.rbtnTransactionPending.TabIndex = 1079
-        Me.rbtnTransactionPending.TabStop = True
-        Me.rbtnTransactionPending.Text = "Pending Transaction"
-        Me.rbtnTransactionPending.UseVisualStyleBackColor = True
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnDetail)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(10, 62)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(276, 32)
+        Me.RadGroupBox2.TabIndex = 1081
         '
-        'rbtnTranasctionAll
+        'rbtnDetail
         '
-        Me.rbtnTranasctionAll.AutoSize = True
-        Me.rbtnTranasctionAll.Location = New System.Drawing.Point(154, 61)
-        Me.rbtnTranasctionAll.Name = "rbtnTranasctionAll"
-        Me.rbtnTranasctionAll.Size = New System.Drawing.Size(100, 17)
-        Me.rbtnTranasctionAll.TabIndex = 1080
-        Me.rbtnTranasctionAll.Text = "All Transaction"
-        Me.rbtnTranasctionAll.UseVisualStyleBackColor = True
+        Me.rbtnDetail.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnDetail.Location = New System.Drawing.Point(6, 9)
+        Me.rbtnDetail.MyLinkLable1 = Nothing
+        Me.rbtnDetail.MyLinkLable2 = Nothing
+        Me.rbtnDetail.Name = "rbtnDetail"
+        Me.rbtnDetail.Size = New System.Drawing.Size(49, 18)
+        Me.rbtnDetail.TabIndex = 396
+        Me.rbtnDetail.Text = "Detail"
+        Me.rbtnDetail.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
+        '
+        'rbtnSummary
+        '
+        Me.rbtnSummary.Location = New System.Drawing.Point(102, 9)
+        Me.rbtnSummary.MyLinkLable1 = Nothing
+        Me.rbtnSummary.MyLinkLable2 = Nothing
+        Me.rbtnSummary.Name = "rbtnSummary"
+        Me.rbtnSummary.Size = New System.Drawing.Size(67, 18)
+        Me.rbtnSummary.TabIndex = 391
+        Me.rbtnSummary.TabStop = False
+        Me.rbtnSummary.Text = "Summary"
         '
         'frmDBTApprovalStatus
         '
@@ -370,8 +367,6 @@ Partial Class frmDBTApprovalStatus
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTODate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
@@ -380,6 +375,11 @@ Partial Class frmDBTApprovalStatus
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.rbtnDetail, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnSummary, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -396,8 +396,6 @@ Partial Class frmDBTApprovalStatus
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents fndUnion As common.UserControls.txtFinder
-    Friend WithEvents txtTODate As common.Controls.MyDateTimePicker
-    Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents RadLabel3 As common.Controls.MyLabel
     Friend WithEvents RadPageView1 As RadPageView
@@ -408,4 +406,7 @@ Partial Class frmDBTApprovalStatus
     Friend WithEvents btnReset As RadButton
     Friend WithEvents rbtnTransactionPending As RadioButton
     Friend WithEvents rbtnTranasctionAll As RadioButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnDetail As common.Controls.MyRadioButton
+    Friend WithEvents rbtnSummary As common.Controls.MyRadioButton
 End Class
