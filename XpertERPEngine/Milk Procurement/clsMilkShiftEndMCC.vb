@@ -477,27 +477,50 @@ Public Class clsMilkShiftEndMCC
             End If
         End If
     End Sub
-
     Shared Sub CreateSMSContentVSP(ByVal obj As clsMilkShiftEndMCC, ByVal trans As SqlTransaction)
+        CreateSMSContentVSP(obj.MCC_CODE, obj.DOC_DATE, obj.SHIFT, trans)
+    End Sub
+
+    Public Shared Sub CreateSMSContentVSP(MCCCode As String, DOCDate As Date, Shift As String, trans As SqlTransaction)
         Dim strSMSContent As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT SMS_Text from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.frmMilkSample + "'", trans))
         If clsCommon.myLen(strSMSContent) > 0 Then
-            Dim qry As String = "select TSPL_MILK_SRN_HEAD.SAMPLE_NO,TSPL_MILK_SRN_HEAD.MCC_CODE,TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,convert(Date, TSPL_MILK_SRN_HEAD.DOC_DATE,103) as DOC_DATE,TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader" + Environment.NewLine +
-            " ,case when TSPL_MILK_SRN_DETAIL.FAT_PER<=5 then 'C' else 'B' end as MilkType,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_DETAIL.RATE,TSPL_MILK_SRN_DETAIL.AMOUNT" + Environment.NewLine +
-            " ,substring (Phone1 ,6,10) as Phone1" + Environment.NewLine +
-            " from TSPL_MILK_SRN_DETAIL" + Environment.NewLine +
-            " left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE" + Environment.NewLine +
-            " Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE " + Environment.NewLine +
-            " Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_SRN_HEAD.VSP_CODE " + Environment.NewLine +
-            " Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_SRN_HEAD.MCC_CODE  " + Environment.NewLine +
-            " where TSPL_MILK_SRN_HEAD.MCC_CODE='" + obj.MCC_CODE + "' and convert(Date, TSPL_MILK_SRN_HEAD.DOC_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MMM/yyyy") + "',103) and  TSPL_MILK_SRN_HEAD.SHIFT='" + obj.SHIFT + "' and len(replace( isnull(substring(TSPL_VENDOR_MASTER.Phone1,6,10),''),'_',''))>0 order by TSPL_MILK_SRN_HEAD.SAMPLE_NO  "
+            Dim qry As String = "select max(SAMPLE_NO) as SAMPLE_NO,max(MCC_CODE) as MCC_CODE,max(MCC_NAME) as MCC_NAME,max(Mcc_Code_VLC_Uploader) as Mcc_Code_VLC_Uploader,max(DOC_DATE) as DOC_DATE, VSP_CODE,max(VLC_Name) as VLC_Name,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader,max(MilkType) as MilkType,max(UOM_Code) as UOM_Code,max(Phone1) as Phone1
+,sum(Qty * case when RejectType='GOOD' then 1 else 0 end) as Qty
+,cast((case when isnull(sum(Qty * case when RejectType='GOOD' then 1 else 0 end),0)>0 then ((100*isnull(sum(FAT_KG * case when RejectType='GOOD' then 1 else 0 end),0))/(isnull(sum(Qty * case when RejectType='GOOD' then 1 else 0 end),0))) else 0 end ) as decimal(18,1)) as FAT_PER
+,cast((case when isnull(sum(Qty * case when RejectType='GOOD' then 1 else 0 end),0)>0 then ((100*isnull(sum(SNF_KG * case when RejectType='GOOD' then 1 else 0 end),0))/(isnull(sum(Qty * case when RejectType='GOOD' then 1 else 0 end),0))) else 0 end )as decimal(18,1)) as SNF_PER
+,cast((case when isnull(sum(Qty * case when RejectType='GOOD' then 1 else 0 end),0)>0 then ((isnull(sum(AMOUNT * case when RejectType='GOOD' then 1 else 0 end),0))/(isnull(sum(Qty * case when RejectType='GOOD' then 1 else 0 end),0))) else 0 end )as decimal(18,2)) as RATE
+,cast(sum(AMOUNT * case when RejectType='GOOD' then 1 else 0 end)as decimal(18,2)) as AMOUNT
+,sum(Qty * case when RejectType='SOUR' then 1 else 0 end) as SOUR_Qty
+,cast((case when isnull(sum(Qty * case when RejectType='SOUR' then 1 else 0 end),0)>0 then ((100*isnull(sum(FAT_KG * case when RejectType='SOUR' then 1 else 0 end),0))/(isnull(sum(Qty * case when RejectType='SOUR' then 1 else 0 end),0))) else 0 end ) as decimal(18,1)) as SOUR_FAT_PER
+,cast((case when isnull(sum(Qty * case when RejectType='SOUR' then 1 else 0 end),0)>0 then ((100*isnull(sum(SNF_KG * case when RejectType='SOUR' then 1 else 0 end),0))/(isnull(sum(Qty * case when RejectType='SOUR' then 1 else 0 end),0))) else 0 end )as decimal(18,1)) as SOUR_SNF_PER
+,cast((case when isnull(sum(Qty * case when RejectType='SOUR' then 1 else 0 end),0)>0 then ((isnull(sum(AMOUNT * case when RejectType='SOUR' then 1 else 0 end),0))/(isnull(sum(Qty * case when RejectType='SOUR' then 1 else 0 end),0))) else 0 end )as decimal(18,2)) as SOUR_RATE
+,cast(sum(AMOUNT * case when RejectType='SOUR' then 1 else 0 end)as decimal(18,2)) as SOUR_AMOUNT
+ ,sum(Qty * case when RejectType='CURD' then 1 else 0 end) as CURD_Qty
+,cast((case when isnull(sum(Qty * case when RejectType='CURD' then 1 else 0 end),0)>0 then ((100*isnull(sum(FAT_KG * case when RejectType='CURD' then 1 else 0 end),0))/(isnull(sum(Qty * case when RejectType='CURD' then 1 else 0 end),0))) else 0 end ) as decimal(18,1)) as CURD_FAT_PER
+,cast((case when isnull(sum(Qty * case when RejectType='CURD' then 1 else 0 end),0)>0 then ((100*isnull(sum(SNF_KG * case when RejectType='CURD' then 1 else 0 end),0))/(isnull(sum(Qty * case when RejectType='CURD' then 1 else 0 end),0))) else 0 end )as decimal(18,1)) as CURD_SNF_PER
+,cast((case when isnull(sum(Qty * case when RejectType='CURD' then 1 else 0 end),0)>0 then ((isnull(sum(AMOUNT * case when RejectType='CURD' then 1 else 0 end),0))/(isnull(sum(Qty * case when RejectType='CURD' then 1 else 0 end),0))) else 0 end )as decimal(18,2)) as CURD_RATE
+,cast(sum(AMOUNT * case when RejectType='CURD' then 1 else 0 end)as decimal(18,2)) as CURD_AMOUNT
+   from (
+select TSPL_MILK_SRN_HEAD.SAMPLE_NO,TSPL_MILK_SRN_HEAD.MCC_CODE,TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,convert(Date, TSPL_MILK_SRN_HEAD.DOC_DATE,103) as DOC_DATE,TSPL_MILK_SRN_HEAD.VSP_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
+,case when TSPL_MILK_SRN_DETAIL.FAT_PER<=5 then 'C' else 'B' end as MilkType,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_DETAIL.RATE,TSPL_MILK_SRN_DETAIL.AMOUNT
+,substring (Phone1 ,6,10) as Phone1
+,case when TSPL_MILK_REJECT_DETAIL.Reject_Type is not null then TSPL_MILK_REJECT_DETAIL.Reject_Type else 'GOOD' end as RejectType ,TSPL_MILK_SRN_DETAIL.FAT_KG,TSPL_MILK_SRN_DETAIL.SNF_KG
+from TSPL_MILK_SRN_DETAIL
+left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE 
+Left Outer Join TSPL_VENDOR_MASTER On TSPL_VENDOR_MASTER.Vendor_Code = TSPL_MILK_SRN_HEAD.VSP_CODE 
+Left Outer Join TSPL_MCC_MASTER On TSPL_MCC_MASTER.MCC_Code = TSPL_MILK_SRN_HEAD.MCC_CODE  
+left outer join TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO 
+where TSPL_MILK_SRN_HEAD.MCC_CODE='" + MCCCode + "' and convert(Date, TSPL_MILK_SRN_HEAD.DOC_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(DOCDate, "dd/MMM/yyyy") + "',103) and  TSPL_MILK_SRN_HEAD.SHIFT='" + Shift + "' and len(replace( isnull(substring(TSPL_VENDOR_MASTER.Phone1,6,10),''),'_',''))>0 
+) xx Group by VSP_CODE"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
                     Dim objSMSH As New clsSMSHead()
                     objSMSH.SMS_Text = strSMSContent
-                    objSMSH.Created_Date = obj.DOC_DATE
+                    objSMSH.Created_Date = DOCDate
                     objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.VLCDataUploaderDate, clsCommon.GetPrintDate(clsCommon.myCDate(dr("DOC_DATE")), "dd/MM/yyyy"))
-                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.VLCDataUploaderShift, obj.SHIFT)
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.VLCDataUploaderShift, Shift)
                     objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.MCCCode, clsCommon.myCstr(dr("MCC_CODE")))
                     objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.MCCName, clsCommon.myCstr(dr("MCC_NAME")))
                     objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.MCCUploaderCode, clsCommon.myCstr(dr("Mcc_Code_VLC_Uploader")))
@@ -511,6 +534,20 @@ Public Class clsMilkShiftEndMCC
                     objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.VLCDataUploaderSNF, clsCommon.myCstr(dr("SNF_PER")))
                     objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.VLCDataUploaderRate, clsCommon.myCstr(dr("RATE")))
                     objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.VLCDataUploaderAmt, clsCommon.myCstr(dr("AMOUNT")))
+
+
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.CURDQty, clsCommon.myCstr(dr("CURD_Qty")))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.CURDFat, clsCommon.myCstr(dr("CURD_FAT_PER")))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.CURDSNF, clsCommon.myCstr(dr("CURD_SNF_PER")))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.CURDRate, clsCommon.myCstr(dr("CURD_RATE")))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.CURDAmt, clsCommon.myCstr(dr("CURD_AMOUNT")))
+
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.SOURQty, clsCommon.myCstr(dr("SOUR_Qty")))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.SOURFat, clsCommon.myCstr(dr("SOUR_FAT_PER")))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.SOURSNF, clsCommon.myCstr(dr("SOUR_SNF_PER")))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.SOURRate, clsCommon.myCstr(dr("SOUR_RATE")))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(XpertERPEngine.frmEMailAndSMSSetting.SOURAmt, clsCommon.myCstr(dr("SOUR_AMOUNT")))
+
 
                     objSMSH.arrMobilNo = New List(Of String)()
                     objSMSH.arrMobilNo.Add(clsCommon.myCstr(dr("Phone1")))

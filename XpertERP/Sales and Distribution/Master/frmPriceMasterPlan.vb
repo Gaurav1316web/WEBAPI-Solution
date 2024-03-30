@@ -15,6 +15,7 @@ Public Class frmPriceMasterPlan
     Dim ButtonToolTip As ToolTip = New ToolTip()
     Dim ErrorControl As clsErrorControl = New clsErrorControl()
     Dim isNewEntry As Boolean = True
+    Dim PricePlanRoundOffTruncate As Boolean = True
     Const colTRCode As String = "colTRCode"
     Const colSNo As String = "colSNo"
     Const colICode As String = "colICode"
@@ -64,6 +65,7 @@ Public Class frmPriceMasterPlan
         ButtonToolTip.SetToolTip(btndelete, "Press Alt+D Delete Trasnaction")
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         SettingCalculateTaxRatefromItemwsieTaxOnSale = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CalculateTaxRatefromItemwsieTaxOnSale, clsFixedParameterCode.CalculateTaxRatefromItemwsieTaxOnSale, Nothing)) = 1)
+        PricePlanRoundOffTruncate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, Nothing)) = 1, True, False)
         gv1.Enabled = True
     End Sub
 
@@ -100,6 +102,8 @@ Public Class frmPriceMasterPlan
         'chkBackCalculation.Checked = False
         RadGroupBox2.Visible = chkBackCalculation.Checked
         chkAllUOM.Checked = True
+        chkForPrice.Checked = False
+        chkForPrice.Enabled = True
         txtCode.MyReadOnly = False
         btndelete.Enabled = False
         btnPost.Enabled = False
@@ -501,6 +505,7 @@ Public Class frmPriceMasterPlan
 
 
                 obj.Is_ALL_UOM = chkAllUOM.Checked
+                obj.Is_FOR_Price = chkForPrice.Checked
                 obj.Is_Back_Calculation = chkBackCalculation.Checked
                 If chkBackCalculation.Checked Then
                     If rbtnBackCalculationWithTax.IsChecked Then
@@ -690,11 +695,13 @@ Public Class frmPriceMasterPlan
                     btndelete.Enabled = False
                     btnPost.Enabled = False
                     btnsave.Enabled = False
+                    chkForPrice.Enabled = False
                     UsLock1.Status = obj.Post_Status
                 Else
                     btndelete.Enabled = True
                     btnPost.Enabled = True
                     btnsave.Enabled = True
+                    chkForPrice.Enabled = True
                 End If
 
                 If isLoadCopy = False Then
@@ -716,6 +723,8 @@ Public Class frmPriceMasterPlan
                 txtRemarks.Text = clsCommon.myCstr(obj.remarks)
                 lblPricePlanCopyNo.Text = clsCommon.myCstr(obj.PricePlanCopyNo)
                 chkAllUOM.Checked = obj.Is_ALL_UOM
+                chkForPrice.Checked = obj.Is_FOR_Price
+
                 chkBackCalculation.Checked = obj.Is_Back_Calculation
                 If chkBackCalculation.Checked Then
                     If obj.Back_Calculation_Type = 1 Then
@@ -1157,13 +1166,22 @@ Public Class frmPriceMasterPlan
                     If clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colPriceComponentCalculationMethod + clsCommon.myCstr(ii)).Value), "Amount") = CompairStringResult.Equal Then
                         dblcurrComponetnAmt = dblCurrComponetnRate
                     Else
-                        'dblcurrComponetnAmt = Math.Round(dblMRP * dblCurrComponetnRate / 100, 2, MidpointRounding.ToEven)
+                        If PricePlanRoundOffTruncate Then
+                            dblcurrComponetnAmt = Math.Truncate((dblMRP * dblCurrComponetnRate / 100) * factor) / factor
+                        Else
+                            dblcurrComponetnAmt = Math.Round(dblMRP * dblCurrComponetnRate / 100, 2, MidpointRounding.ToEven)
 
-                        dblcurrComponetnAmt = Math.Truncate((dblMRP * dblCurrComponetnRate / 100) * factor) / factor
+                        End If
+
                     End If
                 End If
-                ' dblcurrComponetnAmt = Math.Round(dblcurrComponetnAmt, 2, MidpointRounding.ToEven)
-                dblcurrComponetnAmt = Math.Truncate((dblcurrComponetnAmt) * factor) / factor
+                If PricePlanRoundOffTruncate Then
+                    dblcurrComponetnAmt = Math.Truncate((dblcurrComponetnAmt) * factor) / factor
+
+                Else
+                    dblcurrComponetnAmt = Math.Round(dblcurrComponetnAmt, 2, MidpointRounding.ToEven)
+
+                End If
 
                 gv1.CurrentRow.Cells(colPriceComponentAmount + clsCommon.myCstr(ii)).Value = dblcurrComponetnAmt
                 dblTotalPC += dblcurrComponetnAmt
@@ -1217,10 +1235,16 @@ Public Class frmPriceMasterPlan
                             dblBaseAmt = (dblTaxBaseAmt + dblOtherTaxAmt)
                         End If
                     End If
-                    'dblBaseAmt = Math.Round(dblBaseAmt, 2, MidpointRounding.ToEven)
-                    dblBaseAmt = Math.Truncate((dblBaseAmt) * factor) / factor
-                    'gv1.CurrentRow.Cells(colTaxBaseAmt + clsCommon.myCstr(ii)).Value = Math.Round(dblBaseAmt, 2)
-                    gv1.CurrentRow.Cells(colTaxBaseAmt + clsCommon.myCstr(ii)).Value = Math.Truncate((dblBaseAmt) * factor) / factor
+                    If PricePlanRoundOffTruncate Then
+                        dblBaseAmt = Math.Truncate((dblBaseAmt) * factor) / factor
+                        gv1.CurrentRow.Cells(colTaxBaseAmt + clsCommon.myCstr(ii)).Value = Math.Truncate((dblBaseAmt) * factor) / factor
+
+                    Else
+                        dblBaseAmt = Math.Round(dblBaseAmt, 2, MidpointRounding.ToEven)
+                        gv1.CurrentRow.Cells(colTaxBaseAmt + clsCommon.myCstr(ii)).Value = Math.Round(dblBaseAmt, 2)
+
+                    End If
+
                     dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
                     dblTaxAmt = Math.Round(dblTaxAmt, IIf(objCommonVar.IsRoundOffTaxToZeroDecimal, 0, 5))
                     dblTotTaxAmt += dblTaxAmt
@@ -1250,8 +1274,13 @@ Public Class frmPriceMasterPlan
             Else
                 dblSalePrice = dblTaxBaseAmt + dblTotTaxAmt
             End If
-            'dblSalePrice = Math.Round(dblSalePrice, 2, MidpointRounding.ToEven)
-            dblSalePrice = Math.Truncate((dblSalePrice) * factor) / factor
+            If PricePlanRoundOffTruncate Then
+                dblSalePrice = Math.Truncate((dblSalePrice) * factor) / factor
+
+            Else
+                dblSalePrice = Math.Round(dblSalePrice, 2, MidpointRounding.ToEven)
+
+            End If
             gv1.CurrentRow.Cells(colSaleAmt).Value = dblSalePrice
         Catch ex As Exception
             Throw New Exception(ex.Message)

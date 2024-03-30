@@ -43,6 +43,11 @@ Public Class clsPSShipmentHead
     Public Against_Delivery_Code As String = Nothing
     Public isCardSale As Integer = 0
     Public Transporter_Name_Manual As String = Nothing
+    Public FAT_Per As Double = 0
+    Public SNF_Per As Double = 0
+    Public Acidity As Double = 0
+    Public Temperature As Double = 0
+    Public MBRT_Hours As Double = 0
     Public OrgCustCOde As String = Nothing
     Public Is_OwnVehicle As Integer = 0
     Public Is_CustomerChanged As Integer = 0
@@ -641,7 +646,11 @@ Public Class clsPSShipmentHead
             clsCommon.AddColumnsForChange(coll, "PROJECT_ID", obj.PROJECT_ID, True)
             clsCommon.AddColumnsForChange(coll, "ActualTCSBaseAmount", obj.ActualTCSBaseAmount)
             clsCommon.AddColumnsForChange(coll, "ChangedTCSBaseAmount", obj.ChangedTCSBaseAmount)
-
+            clsCommon.AddColumnsForChange(coll, "FAT_Per", obj.FAT_Per)
+            clsCommon.AddColumnsForChange(coll, "SNF_Per", obj.SNF_Per)
+            clsCommon.AddColumnsForChange(coll, "Acidity", obj.Acidity)
+            clsCommon.AddColumnsForChange(coll, "Temperature", obj.Temperature)
+            clsCommon.AddColumnsForChange(coll, "MBRT_Hours", obj.MBRT_Hours)
             If clsCommon.myLen(obj.Due_Date) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Due_Date", clsCommon.GetPrintDate(obj.Due_Date, "dd/MMM/yyyy"))
             Else
@@ -1103,7 +1112,7 @@ Public Class clsPSShipmentHead
         qry += " TSPL_SD_SHIPMENT_HEAD.CURRENCY_CODE,TSPL_SD_SHIPMENT_HEAD.CONVRATE,TSPL_SD_SHIPMENT_HEAD.APPLICABLEFROM,TSPL_SD_SHIPMENT_HEAD.PRoject_ID ,TSPL_SD_SHIPMENT_HEAD.Mannual_Invoice_No,TSPL_SD_SHIPMENT_HEAD. Mannual_Invoice_No_StringType,TSPL_SD_SHIPMENT_HEAD.Form_38_No " &
         " ,TSPL_SD_SHIPMENT_HEAD.SO_Validity,TSPL_SD_SHIPMENT_HEAD.Commission_Apply,TSPL_SD_SHIPMENT_HEAD.Total_Comm_Amt,TSPL_SD_SHIPMENT_HEAD.Dispatch_date,TSPL_SD_SHIPMENT_HEAD.WayBillNo,TSPL_SD_SHIPMENT_HEAD.WayBillDate " &
         " ,TSPL_SD_SHIPMENT_HEAD.Dispatch_Terms,TSPL_SD_SHIPMENT_HEAD.Payment_Terms,TSPL_SD_SHIPMENT_HEAD.Dispatch_Period,TSPL_SD_SHIPMENT_HEAD.Vehicle_Capacity " &
-        ",TSPL_SD_SHIPMENT_HEAD.Itemwise,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,TSPL_SD_SHIPMENT_HEAD.Advance_Percentage,TSPL_SD_SHIPMENT_HEAD.GR_Date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date,TSPL_SD_SHIPMENT_HEAD.Cash_Customer,TSPL_SD_SHIPMENT_HEAD.Insurance,TSPL_SD_SHIPMENT_HEAD.ManualVehicle,TSPL_SD_SHIPMENT_HEAD.Freight_Distance,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt "
+        ",TSPL_SD_SHIPMENT_HEAD.Itemwise,TSPL_SD_SHIPMENT_HEAD.Supply_Date,TSPL_SD_SHIPMENT_HEAD.Delivery_Code_PS,TSPL_SD_SHIPMENT_HEAD.Advance_Percentage,TSPL_SD_SHIPMENT_HEAD.GR_Date,TSPL_SD_SHIPMENT_HEAD.RoadPermit_Date,TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_Date,TSPL_SD_SHIPMENT_HEAD.Removal_Date,TSPL_SD_SHIPMENT_HEAD.Cash_Customer,TSPL_SD_SHIPMENT_HEAD.Insurance,TSPL_SD_SHIPMENT_HEAD.ManualVehicle,TSPL_SD_SHIPMENT_HEAD.Freight_Distance,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,TSPL_SD_SHIPMENT_HEAD.FAT_Per,TSPL_SD_SHIPMENT_HEAD.SNF_Per,TSPL_SD_SHIPMENT_HEAD.Acidity,TSPL_SD_SHIPMENT_HEAD.Temperature,TSPL_SD_SHIPMENT_HEAD.MBRT_Hours "
 
         qry += "  FROM TSPL_SD_SHIPMENT_HEAD "
         qry += " left outer join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_SD_SHIPMENT_HEAD.Bill_To_Location "
@@ -1208,6 +1217,11 @@ Public Class clsPSShipmentHead
             obj.Nine_NR_No = clsCommon.myCstr(dt.Rows(0)("Nine_NR_No"))
             obj.Itemwise = clsCommon.myCdbl(dt.Rows(0)("Itemwise"))
             obj.Advance_Percentage = clsCommon.myCdbl(dt.Rows(0)("Advance_Percentage"))
+            obj.FAT_Per = clsCommon.myCdbl(dt.Rows(0)("FAT_Per"))
+            obj.SNF_Per = clsCommon.myCdbl(dt.Rows(0)("SNF_Per"))
+            obj.Temperature = clsCommon.myCdbl(dt.Rows(0)("Temperature"))
+            obj.Acidity = clsCommon.myCdbl(dt.Rows(0)("Acidity"))
+            obj.MBRT_Hours = clsCommon.myCdbl(dt.Rows(0)("MBRT_Hours"))
             If dt.Rows(0)("GR_Date") IsNot DBNull.Value Then
                 obj.GR_Date = clsCommon.myCstr(dt.Rows(0)("GR_Date"))
             End If

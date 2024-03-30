@@ -41,8 +41,8 @@ Public Class frmDBTApprovalStatus
             Dim SY As Integer = txtFromDate.Value.Year
 
             Dim CD As New DateTime(SY, SM, 1)
-            Slot2 = clsCommon.GetPrintDate(CD.AddMonths(3).AddDays(-1), "dd/MMM/yyyy")
-            txtTODate.Value = txtFromDate.Value.AddMonths(2)
+            Slot2 = clsCommon.GetPrintDate(CD.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
+            ''txtTODate.Value = txtFromDate.Value.AddMonths(2)
             Month1 = clsCommon.GetPrintDate(txtFromDate.Value, "MM-yyyy")
             Month2 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(1), "MM-yyyy")
             Month3 = clsCommon.GetPrintDate(txtFromDate.Value.AddMonths(2), "MM-yyyy")
@@ -67,21 +67,38 @@ Public Class frmDBTApprovalStatus
         End If
         BaseQry = ""
         dt = clsDBFuncationality.GetDataTable("SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM [TSPL_MASTER].[dbo].[TSPL_APP_LOCATION] WHERE DataBase_Name not in ('TECXPERT','UDAIPURTEST','CHT','JMBILL') ORDER BY [TSPL_APP_LOCATION].Location_Name")
-        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            For ii As Integer = 0 To dt.Rows.Count - 1
-                BaseQry &= "DB_Name as [Union Name], Document_Code As [Document Code], Convert(varchar,TSPL_DBT_NEFT_RCDF.From_Date,103) AS [From Date], Convert(varchar,TSPL_DBT_NEFT_RCDF.To_Date,103) AS [TO Date],Created_By
+        If rbtnSummary.IsChecked Then
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    BaseQry &= "DB_Name as [Union Name], Document_Code As [Document Code], Convert(varchar,TSPL_DBT_NEFT_RCDF.From_Date,103) AS [From Date], Convert(varchar,TSPL_DBT_NEFT_RCDF.To_Date,103) AS [TO Date],Created_By
                             AS [Created By], Convert(varchar,TSPL_DBT_NEFT_RCDF.Created_Date,103) AS [Created Date], Post_By as [Approved By], Convert(varchar,TSPL_DBT_NEFT_RCDF.Post_Date,103) as [Approved Date & Time], "
-                BaseQry &= "CASE WHEN ISNULL(Status,0) = 0 THEN 'Pending' ELSE 'Approved' END AS Status "
-                BaseQry &= "FROM TSPL_DBT_NEFT_RCDF WHERE DB_Name ='" & clsCommon.myCstr(fndUnion.Value) & "' "
-                BaseQry &= "AND CONVERT(date, From_Date, 103) >= '" & clsCommon.GetPrintDate(txtFromDate.Value) & "' "
-                BaseQry &= "AND CONVERT(date, To_Date, 103) <= '" & clsCommon.GetPrintDate(txtTODate.Value) & "' "
-                ' Check if rbtnTransactionPosted is checked
-                If rbtnTransactionPending.Checked Then
-                    ' Show only data with status=0
-                    BaseQry &= "and IsNull(Status,0)=0 "
-                End If
-            Next
+                    BaseQry &= "CASE WHEN ISNULL(Status,0) = 0 THEN 'Pending' ELSE 'Approved' END AS Status "
+                    BaseQry &= "FROM TSPL_DBT_NEFT_RCDF WHERE DB_Name ='" & clsCommon.myCstr(fndUnion.Value) & "' "
+                    BaseQry &= "AND CONVERT(date, From_Date, 103) >= '" & Slot1 & "' "
+                    BaseQry &= "AND CONVERT(date, To_Date, 103) <= '" & Slot2 & "' "
+                    ' Check if rbtnTransactionPosted is checked
+                    If rbtnTransactionPending.Checked Then
+                        ' Show only data with status=0
+                        BaseQry &= "and IsNull(Status,0)=0 "
+                    End If
+                Next
+            End If
+        ElseIf rbtnDetail.IsChecked Then
+            BaseQry = " select  TSPL_DBT_NEFT_RCDF.DB_Name as [Union Name],TSPL_DBT_NEFT_RCDF.Document_Code As [Document No],CASE WHEN ISNULL(TSPL_DBT_NEFT_RCDF.Status,0) = 0 THEN 'Pending' ELSE 'Approved' END AS Status,TSPL_DBT_NEFT_RCDF.Post_By as [Posted By],TSPL_DBT_NEFT_RCDF.Post_Date as [Posted Date], [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_DBT_NEFT.Created_By as [Created By],convert(date,[" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_DBT_NEFT.Created_Date,103) as [Created Date]"
+            BaseQry += " ,(select [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_USER_MASTER.User_Name  from [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_USER_MASTER ON [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_USER_MASTER.User_Code = [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 1 ) as [Level-1 Approved By]"
+            BaseQry += " ,(SELECT  [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_APPROVAL_LEVEL_SCREEN.Modified_Date  FROM [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_APPROVAL_LEVEL_SCREEN  WHERE Module_Code = 'MMMProc' AND TRANS_Code = 'DBT-NEFT-UPL' AND No_Of_Level = 1 ) AS [Level-1 Approved Date]"
+            BaseQry += " ,(select [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_USER_MASTER.User_Name  from [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_USER_MASTER ON [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_USER_MASTER.User_Code = [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 2 ) as [Level-2 Approved By]"
+            BaseQry += " ,(SELECT  [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_APPROVAL_LEVEL_SCREEN.Modified_Date  FROM [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_APPROVAL_LEVEL_SCREEN  WHERE Module_Code = 'MMMProc' AND TRANS_Code = 'DBT-NEFT-UPL' AND No_Of_Level = 2 ) AS [Level-2 Approved Date]"
+            BaseQry += " ,(select [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_USER_MASTER.User_Name  from [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_APPROVAL_LEVEL_SCREEN LEFT OUTER JOIN [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_USER_MASTER ON [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_USER_MASTER.User_Code = [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_APPROVAL_LEVEL_SCREEN.User_Code where Module_Code = 'MMMProc' and TRANS_Code = 'DBT-NEFT-UPL' and No_Of_Level = 3 ) as [Level-3 Approved By]"
+            BaseQry += " ,(SELECT  [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_APPROVAL_LEVEL_SCREEN.Modified_Date  FROM [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_APPROVAL_LEVEL_SCREEN  WHERE Module_Code = 'MMMProc' AND TRANS_Code = 'DBT-NEFT-UPL' AND No_Of_Level = 3 ) AS [Level-3 Approved Date]"
+            BaseQry += " from [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_DBT_NEFT left outer join RCDF.[dbo].TSPL_DBT_NEFT_RCDF on [" & clsCommon.myCstr(fndUnion.Value) & "].[dbo].TSPL_DBT_NEFT.Document_Code = RCDF.[dbo].TSPL_DBT_NEFT_RCDF.Document_Code and RCDF.[dbo].TSPL_DBT_NEFT_RCDF.DB_Name = '" & clsCommon.myCstr(fndUnion.Value) & "' where convert(date,TSPL_DBT_NEFT_RCDF.From_Date,103)>=convert(date,'" & Slot1 & "',103) and convert(date,TSPL_DBT_NEFT_RCDF.To_Date,103)<=convert(date,'" & Slot2 & "',103)"
+            If rbtnTransactionPending.Checked Then
+                BaseQry += " And TSPL_DBT_NEFT_RCDF.Status =0"
+            End If
+
+            BaseQry = " select [Union Name], [Document No] ,[Created By],[Created Date],[Level-1 Approved By],[Level-1 Approved Date],[Level-2 Approved By],[Level-2 Approved Date],[Level-3 Approved By],[Level-3 Approved Date],[Posted By],[Posted Date],Status from (" & BaseQry & "  )xx "
         End If
+
         Return BaseQry
     End Function
 
@@ -102,13 +119,65 @@ Public Class frmDBTApprovalStatus
                 Next
                 RadPageView1.SelectedPage = RadPageViewPage2
                 gvData.EnableFiltering = True
+                gvData.AllowAddNewRow = False
+                gvData.ShowGroupPanel = False
                 'SetGridFormat()
+                Dim viewBlank As New TableViewDefinition()
+                gvData.ViewDefinition = viewBlank
+                If rbtnDetail.IsChecked Then
+                    View()
+                End If
+
                 gvData.BestFitColumns()
             Else
                 clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If
         Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub View()
+        Try
+            If gvData.Rows.Count > 0 Then
+                Dim view As New ColumnGroupsViewDefinition()
+                view.ColumnGroups.Add(New GridViewColumnGroup(""))
+                view.ColumnGroups(0).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gvData.Columns("Union Name").Name)
 
+                view.ColumnGroups.Add(New GridViewColumnGroup("DBT"))
+                view.ColumnGroups.Add(New GridViewColumnGroup("Approval Level-1"))
+                view.ColumnGroups.Add(New GridViewColumnGroup("Approval Level-2"))
+                view.ColumnGroups.Add(New GridViewColumnGroup("Approval Level-3"))
+                view.ColumnGroups.Add(New GridViewColumnGroup("RCDF Approval"))
+
+                view.ColumnGroups(1).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gvData.Columns("Document No").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gvData.Columns("Created By").Name)
+                view.ColumnGroups(1).Rows(0).ColumnNames.Add(gvData.Columns("Created Date").Name)
+
+                view.ColumnGroups(2).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gvData.Columns("Level-1 Approved By").Name)
+                view.ColumnGroups(2).Rows(0).ColumnNames.Add(gvData.Columns("Level-1 Approved Date").Name)
+
+                view.ColumnGroups(3).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(gvData.Columns("Level-2 Approved By").Name)
+                view.ColumnGroups(3).Rows(0).ColumnNames.Add(gvData.Columns("Level-2 Approved Date").Name)
+
+                view.ColumnGroups(4).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gvData.Columns("Level-3 Approved By").Name)
+                view.ColumnGroups(4).Rows(0).ColumnNames.Add(gvData.Columns("Level-3 Approved Date").Name)
+
+                view.ColumnGroups(5).Rows.Add(New GridViewColumnGroupRow())
+                view.ColumnGroups(5).Rows(0).ColumnNames.Add(gvData.Columns("Posted By").Name)
+                view.ColumnGroups(5).Rows(0).ColumnNames.Add(gvData.Columns("Posted Date").Name)
+                view.ColumnGroups(5).Rows(0).ColumnNames.Add(gvData.Columns("Status").Name)
+
+
+                gvData.ViewDefinition = view
+
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
         End Try
     End Sub
 
@@ -135,32 +204,20 @@ Public Class frmDBTApprovalStatus
     End Sub
     Private Sub print(ByVal exporter As EnumExportTo)
         Try
-            Dim arrHeader As List(Of String) = New List(Of String)()
-            arrHeader.Add("Run Date : " + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")) ' clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy HH:MM"))
-            arrHeader.Add("User : " + objCommonVar.CurrentUser)
-            If exporter = EnumExportTo.Excel Then
-                transportSql.applyExportTemplate(gvData, PageSetupReport_ID)
-                transportSql.QuickExportToExcel(gvData, "", MyLabel1.Text, , arrHeader)
+            If gvData.Rows.Count > 0 Then
+
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Run Date : " + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")) ' clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy HH:MM"))
+                arrHeader.Add("User : " + objCommonVar.CurrentUser)
+                If exporter = EnumExportTo.Excel Then
+                    transportSql.applyExportTemplate(gvData, PageSetupReport_ID)
+                    transportSql.QuickExportToExcel(gvData, "", "", , arrHeader)
+                Else
+                    clsCommon.MyExportToPDF(Me.Text, gvData, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+
+                End If
             Else
-                Dim doc As New RadPrintDocument()
-                doc.Margins.Top = 50
-                doc.Margins.Bottom = 50
-                doc.Margins.Left = 50
-                doc.Margins.Right = 50
-                doc.HeaderHeight = 100
-                doc.Landscape = True
-                doc.LeftFooter = "Run Date : " + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")
-                doc.RightFooter = "User : " + objCommonVar.CurrentUser
-                doc.AssociatedObject = gvData
-                Dim strHeader As String = MyLabel1.Text 'Me.Text.Replace("/", "")
-                doc.MiddleHeader = strHeader
-                doc.HeaderFont = New Font("Verdana", 12, FontStyle.Bold)
-                'doc.Print()
-                Dim dialog As New RadPrintPreviewDialog
-                dialog.Document = doc
-                dialog.ToolMenu.Visible = True
-                dialog.ShowDialog()
-                doc = Nothing
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(ex.Message)

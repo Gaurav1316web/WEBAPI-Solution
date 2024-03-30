@@ -458,9 +458,9 @@ Public Class frmDemandBooking
         Dim intCurrRow As Integer = gv1.CurrentRow.Index
         If gv1.Rows.Count > 0 Then
             'gv1.CurrentColumn = gv1.Columns(7)
-            gv1.Rows(intCurrRow).Cells(8).IsSelected = True
+            gv1.Rows(intCurrRow).Cells(9).IsSelected = True
             gv1.Rows(intCurrRow).IsCurrent = True
-            gv1.Columns(8).IsCurrent = True
+            gv1.Columns(9).IsCurrent = True
         End If
     End Sub
     Private Sub setGridFocusEnd()

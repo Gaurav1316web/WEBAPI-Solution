@@ -333,11 +333,7 @@ Public Class clsSMSHead
             clsCommon.AddColumnsForChange(coll, "Code", obj.Code)
             clsCommon.AddColumnsForChange(coll, "SMS_Text", obj.SMS_Text, False, True)
             clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-            If obj.Created_Date Is Nothing Then
-                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
-            Else
-                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(obj.Created_Date, "dd/MMM/yyyy hh:mm tt"))
-            End If
+            clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SMS_HEAD", OMInsertOrUpdate.Insert, "", trans)
 
             qry = "select TSPL_EMPLOYEE_MASTER.Phone from TSPL_ES_Content_Emp_Detail inner join TSPL_EMPLOYEE_MASTER  on TSPL_EMPLOYEE_MASTER.EMP_CODE = TSPL_ES_Content_Emp_Detail.Emp_code "
