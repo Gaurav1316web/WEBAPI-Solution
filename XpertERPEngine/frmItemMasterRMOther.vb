@@ -1562,10 +1562,13 @@ Public Class FrmItemMasterRMOther
                         objtr.Default_UOM = 1
                     ElseIf clsCommon.CompairString(objtr.Stocking_Unit, "Y") = CompairStringResult.Equal And CountDefaultUnit <> 1 Then
                         objtr.Default_UOM = 1
-                    ElseIf clsCommon.CompairString(gvUOM.Rows(ii).Cells(PrintUOM).Value, True) = CompairStringResult.Equal Then
-                        objtr.Print_UOM = 1
                     Else
                         objtr.Default_UOM = 0
+                    End If
+                    If clsCommon.CompairString(gvUOM.Rows(ii).Cells(PrintUOM).Value, True) = CompairStringResult.Equal Then
+                        objtr.Print_UOM = 1
+                    Else
+                        objtr.Print_UOM = 0
                     End If
                     If clsCommon.CompairString(gvUOM.Rows(ii).Cells(UOMPieces).Value, True) = CompairStringResult.Equal And CountPieces = 1 Then
                         objtr.Pieces = 1
