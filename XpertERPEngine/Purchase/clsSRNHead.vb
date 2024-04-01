@@ -486,8 +486,9 @@ Public Class clsSRNHead
             End If
             ''-----------------------------------
             '' End currencyconversion
+
             clsCommon.AddColumnsForChange(coll, "IsAbatementPO", obj.IsAbatementPO)
-            clsCommon.AddColumnsForChange(coll, "Issue_Road_Permit", obj.against_roadpermit)
+            'clsCommon.AddColumnsForChange(coll, "Issue_Road_Permit", obj.against_roadpermit)
             clsCommon.AddColumnsForChange(coll, "Issue_C_Form", obj.agnst_cform)
             clsCommon.AddColumnsForChange(coll, "Retention", obj.Retention)
 

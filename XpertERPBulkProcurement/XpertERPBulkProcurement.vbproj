@@ -342,6 +342,12 @@
     <Compile Include="Milk Procurement\Report\rptTruckSheetDailySummaryReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Report\rptYearlyMonthlyDcsCollectionReport.Designer.vb">
+      <DependentUpon>rptYearlyMonthlyDcsCollectionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptYearlyMonthlyDcsCollectionReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Report\TransferToSavingReport.Designer.vb">
       <DependentUpon>TransferToSavingReport.vb</DependentUpon>
     </Compile>
@@ -901,6 +907,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptTruckSheetDailySummaryReport.resx">
       <DependentUpon>rptTruckSheetDailySummaryReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptYearlyMonthlyDcsCollectionReport.resx">
+      <DependentUpon>rptYearlyMonthlyDcsCollectionReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\TransferToSavingReport.resx">
       <DependentUpon>TransferToSavingReport.vb</DependentUpon>
