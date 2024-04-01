@@ -2123,6 +2123,7 @@ Public Class clsUserMgtCode
     Public Const rptCattleFeedSaleReport As String = "Cattle-F-S"
     Public Const rptTransferToSavingReport As String = "Tran-Sv-Rt"
     Public Const rptDcsPaymentReport As String = "Dcs-Pyt-Rpt"
+    Public Const rptYearlyMonthlyDcsCollectionReport As String = "Yr-Mont-Dc"
     Public Const frmBulkMilkSRNReturn As String = "M-BMSRN-R"
     'Public Const frmTranReverse As String = "M-TRN-R"
     'Public Const rptMDConversion As String = "MD_CONVERSIN"

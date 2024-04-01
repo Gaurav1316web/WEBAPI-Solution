@@ -387,6 +387,7 @@ Public Class frmDairyBookingCustomer
         txtLocation.Value = txtloc
         btnGatepass.Enabled = False
         'CreateTable()
+        ChkTaxNonTax()
     End Sub
 
     'Sub CreateTable()
@@ -1261,10 +1262,10 @@ Public Class frmDairyBookingCustomer
         Dim whrcls As String = ""
         Dim qry As String = ""
         If isFORPrice Then
-            Price_code = clsDBFuncationality.getSingleValue("select price_CodeFOR from tspl_customer_master where cust_code='" & txtVendorNo.Value & "'")
+            Price_code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select price_CodeFOR from tspl_customer_master where cust_code='" & txtVendorNo.Value & "'"))
             whrcls = " and TSPL_ITEM_PRICE_MASTER.Price_Code='" & Price_code & "' and TSPL_ITEM_PRICE_MASTER.Is_For_Price=1"
         Else
-            Price_code = clsDBFuncationality.getSingleValue("select price_CodeNon from tspl_customer_master where cust_code='" & txtVendorNo.Value & "'")
+            Price_code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select price_CodeNon from tspl_customer_master where cust_code='" & txtVendorNo.Value & "'"))
             whrcls = " and TSPL_ITEM_PRICE_MASTER.Price_Code='" & Price_code & "' and TSPL_ITEM_PRICE_MASTER.Is_For_Price=0"
         End If
         txtPriceCode.Text = Price_code
@@ -8126,27 +8127,27 @@ from
         End Try
     End Sub
 
-    Private Sub rbtnTaxable_Click(sender As Object, e As EventArgs) Handles rbtnTaxable.Click
-        Try
-            ChkTaxNonTax()
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
-    Private Sub rbtnNonTax_Click(sender As Object, e As EventArgs) Handles rbtnNonTax.Click
-        Try
-            ChkTaxNonTax()
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
-    End Sub
-
     Sub ChkTaxNonTax()
         If rbtnTaxable.IsChecked Then
             rgbTaxNonTax.Visible = False
         Else
             rgbTaxNonTax.Visible = True
         End If
+    End Sub
+
+    Private Sub rbtnNonTax_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnNonTax.ToggleStateChanged
+        Try
+            ChkTaxNonTax()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rbtnTaxable_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnTaxable.ToggleStateChanged
+        Try
+            ChkTaxNonTax()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
