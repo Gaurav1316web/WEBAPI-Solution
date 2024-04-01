@@ -1789,30 +1789,44 @@ group by TSPL_PAYMENT_PROCESS_SAVING.Doc_No,TSPL_DEDUCTION_MASTER.Description ,T
 )TT
 left join (select MAPPING.Code mmCode,MAPPING.Description mmDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
 left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION on  DEDUCTION.Code=MAPPING.MappingCode
-WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code
-Union
+WHERE  len(isnull(MAPPING.MappingCode,''))>0)mapping on mapping.ddCode=TT.Code"
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
+                sQuery += " ) Final group by  Doc_No, Description ,Code,Sequence_No
+UNION ALL
+ 
+select 
+TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,'" + strHeadLoadColumnName + "' as Description,0 as Sequence_No,'' AS Code,TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount as Amount from 
+TSPL_PAYMENT_PROCESS_DETAIL INNER JOIN
+TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
+where Document_Type='C' and RefDocType='Milk_HE'  and TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount<>0 AND TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + "))DD
+group by code,Sequence_No,Description order by  Sequence_No,code asc "
+
+            Else
+
+                sQuery += " Union
 SELECT TT.Doc_No,coalesce (mapping.mmDescription, TT.Description) ,0 as Sequence_No, coalesce (mapping.mmCode, TT.Code) AS Code,TT.Amount
 FROM (
 select TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code
 ,sum(TSPL_VENDOR_INVOICE_DETAIL.Amount) as Amount from TSPL_PAYMENT_PROCESS_COMPULSORY
 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_PAYMENT_PROCESS_COMPULSORY.AP_Invoice_No"
 
-            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
-                sQuery += " left outer join ( select Code, 0 as Sequence_No,Description,0 as Is_Transfer_To_Saving    from TSPL_DCS_ADDITION_DEDUCTION 
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") = CompairStringResult.Equal Then
+                    sQuery += " left outer join ( select Code, 0 as Sequence_No,Description,0 as Is_Transfer_To_Saving    from TSPL_DCS_ADDITION_DEDUCTION 
                     union 
                     select  Code ,Sequence_No, Description,Is_Transfer_To_Saving    from TSPL_DEDUCTION_MASTER
                     )  TSPL_DEDUCTION_MASTER on (TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
                     where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ") and isnull(TSPL_DEDUCTION_MASTER.Is_Transfer_To_Saving,0)=0 "
-            Else
-                sQuery += " left outer join ( select Code, 0 as Sequence_No,Description  from TSPL_DCS_ADDITION_DEDUCTION 
+                Else
+                    sQuery += " left outer join ( select Code, 0 as Sequence_No,Description  from TSPL_DCS_ADDITION_DEDUCTION 
                     union 
                     select  Code ,Sequence_No, Description  from TSPL_DEDUCTION_MASTER
                     )  TSPL_DEDUCTION_MASTER on (TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DeductionCode or TSPL_DEDUCTION_MASTER.code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction)
                     where TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ") "
-            End If
+                End If
 
 
-            sQuery += "    group by TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code ,TSPL_DEDUCTION_MASTER.Sequence_No
+                sQuery += "    group by TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No,TSPL_DEDUCTION_MASTER.Description ,TSPL_DEDUCTION_MASTER.Code ,TSPL_DEDUCTION_MASTER.Sequence_No
 )TT left join (select MAPPING.Code mmCode,MAPPING.Description mmDescription,DEDUCTION.CODE AS ddCode from TSPL_DCS_ADDITION_DEDUCTION as MAPPING
                      left join TSPL_DCS_ADDITION_DEDUCTION as DEDUCTION
                      on  DEDUCTION.Code=MAPPING.MappingCode
@@ -1826,15 +1840,10 @@ TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,'" + strHeadLoadColumnName + "' as Descriptio
 TSPL_PAYMENT_PROCESS_DETAIL INNER JOIN
 TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
 where Document_Type='C' and RefDocType='Milk_HE'  and TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount<>0 AND TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + "))DD
-group by code,Sequence_No,Description order by  Sequence_No,code asc 
-
-"
+group by code,Sequence_No,Description order by  Sequence_No,code asc"
+            End If
 
             dtCredit = clsDBFuncationality.GetDataTable(sQuery)
-
-
-
-
 
             sQuery = "select *
                         from (select TSPL_PAYMENT_PROCESS_HEAD.doc_no
@@ -2136,6 +2145,7 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         Dim companyADD As String
         Dim User_Name As String = objCommonVar.CurrentUser
         Dim SetCowFatPer As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, Nothing))
+        Dim IncentiveRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MPIncentiveEntryIncentiveRate, clsFixedParameterCode.MPIncentiveEntryIncentiveRate, Nothing))
         Dim ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, clsFixedParameterCode.ShowVehicleNoSeparatelyInPrimaryTransVehicleMaster, Nothing)) > 0, True, False)
         Dim sQuery As String = ""
         sQuery += " select   TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_COMPANY_MASTER.City_Code)>0 then ', '+TSPL_COMPANY_MASTER.City_Code else ' ' end + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end  as comp_address from TSPL_COMPANY_MASTER where  Comp_Code = '" + objCommonVar.CurrentCompanyCode + "' "
@@ -2235,7 +2245,7 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_Pa
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
             BaseQry += ",Tab_TSPL_PRICE_CHART_PLANNING_TSDDCF.Rate_Per as Planing_Rate_Per,Tab_TSPL_PRICE_CHART_PLANNING_TSDDCF.Fixed_Rate as Planing_Fixed_Rate,tspl_vendor_master.Email"
         End If
-        BaseQry += ",convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.Created_Date,103) as MPI_CREATED_Date,TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR as 'Milk Weight LTR',TSPL_MILK_PURCHASE_INVOICE_DETAIL.Cans,FORMAT(CONVERT(date,'" + clsCommon.myCstr(clsCommon.GetPrintDate(Todate, "dd/MM/yyyy")) + "' ,103),'ddd') as DaysName,PaymentProcess.Compulsory_Amount from TSPL_MILK_PURCHASE_INVOICE_DETAIL  " + Environment.NewLine + " Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  " + Environment.NewLine + " left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE " + Environment.NewLine
+        BaseQry += ",convert(varchar,TSPL_MILK_PURCHASE_INVOICE_HEAD.Created_Date,103) as MPI_CREATED_Date,TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR as 'Milk Weight LTR'," + clsCommon.myCstr(IncentiveRate) + " as IncentiveRate,TSPL_MILK_PURCHASE_INVOICE_DETAIL.Cans,FORMAT(CONVERT(date,'" + clsCommon.myCstr(clsCommon.GetPrintDate(Todate, "dd/MM/yyyy")) + "' ,103),'ddd') as DaysName,PaymentProcess.Compulsory_Amount from TSPL_MILK_PURCHASE_INVOICE_DETAIL  " + Environment.NewLine + " Inner Join TSPL_MILK_PURCHASE_INVOICE_HEAD On TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE =TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  " + Environment.NewLine + " left outer join TSPL_MILK_SRN_HEAD  on TSPL_MILK_SRN_HEAD .DOC_CODE  =TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE " + Environment.NewLine
         BaseQry += " Left Outer Join TSPL_MILK_SAMPLE_HEAD On TSPL_MILK_SAMPLE_HEAD.DOC_CODE =      TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE  " + Environment.NewLine + "  Left Outer Join TSPL_MILK_SAMPLE_DETAIL On TSPL_MILK_SAMPLE_DETAIL.DOC_CODE      = TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE      = TSPL_MILK_SRN_HEAD.VLC_DOC_CODE  " + Environment.NewLine
         BaseQry += " left outer join TSPL_MILK_SRN_DETAIL   on TSPL_MILK_SRN_DETAIL .DOC_CODE  =TSPL_MILK_SRN_HEAD.DOC_CODE " + Environment.NewLine
         BaseQry += " left outer join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE =TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE " + Environment.NewLine + "  left outer join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE =TSPL_MILK_RECEIPT_HEAD.DOC_CODE and   TSPL_MILK_SRN_HEAD.vlc_doc_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_DOC_CODE " + Environment.NewLine + " Left Outer Join TSPL_VENDOR_MASTER On"

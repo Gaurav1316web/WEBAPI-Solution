@@ -3141,13 +3141,29 @@ select  NoteAmt,Local_Sale_Amt
                 qry = "select 1 from TSPL_OWN_BMC_EXPANSE"
                 Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                 If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
-                    qry = "select top 1 case when TSPL_OWN_BMC_EXPANSE.Inactive=0 then TSPL_OWN_BMC_EXPANSE.Code else '' end as  FindCode,TSPL_OWN_BMC_EXPANSE.FAT,TSPL_OWN_BMC_EXPANSE.SNF,TSPL_OWN_BMC_EXPANSE.Rate 
+                    qry = "select top 1 case when TSPL_OWN_BMC_EXPANSE.Inactive=0 then TSPL_OWN_BMC_EXPANSE.Code else '' end as  FindCode
 from TSPL_OWN_BMC_EXPANSE 
 where '" + clsCommon.GetPrintDate(objHead.DOC_DATE, "dd/MMM/yyyy") + "'>=TSPL_OWN_BMC_EXPANSE.Start_Date  and (2= case when TSPL_OWN_BMC_EXPANSE.End_Date is null then 2 else case when '" + clsCommon.GetPrintDate(objHead.DOC_DATE, "dd/MMM/yyyy") + "'<= TSPL_OWN_BMC_EXPANSE.End_Date then 2 else 3 end end)  and TSPL_OWN_BMC_EXPANSE.Posted=1 order by TSPL_OWN_BMC_EXPANSE.Start_Date desc,TSPL_OWN_BMC_EXPANSE.Code desc"
                     dtTemp = clsDBFuncationality.GetDataTable(qry, trans)
                     If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
                         If clsCommon.myLen(clsCommon.myCstr(dtTemp.Rows(0)("FindCode"))) > 0 Then
-                            qry = "select sum(Qty) as Qty,sum(FAT_KG) as FAT_KG,sum(SNF_KG) as SNF_KG from TSPL_MILK_SRN_DETAIL where DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) + ")"
+                            qry = "select TSPL_OWN_BMC_EXPANSE.Code as FindCode,TSPL_OWN_BMC_EXPANSE.FAT,TSPL_OWN_BMC_EXPANSE.SNF,TSPL_OWN_BMC_EXPANSE.Rate,TSPL_OWN_BMC_EXPANSE.Start_Date, TSPL_OWN_BMC_EXPANSE.End_Date
+from TSPL_OWN_BMC_EXPANSE  where TSPL_OWN_BMC_EXPANSE.Code='" + clsCommon.myCstr(dtTemp.Rows(0)("FindCode")) + "' "
+                            dtTemp = clsDBFuncationality.GetDataTable(qry, trans)
+
+                            Dim dtFromDate As Date = clsCommon.myCDate(dtTemp.Rows(0)("Start_Date"))
+                            If objHead.FROM_DATE > dtFromDate Then
+                                dtFromDate = objHead.FROM_DATE
+                            End If
+                            Dim dtToDate As Date = objHead.TO_DATE
+                            If dtTemp.Rows(0)("End_Date") IsNot DBNull.Value Then
+                                If clsCommon.myCDate(dtTemp.Rows(0)("End_Date")) < objHead.TO_DATE Then
+                                    dtToDate = clsCommon.myCDate(dtTemp.Rows(0)("End_Date"))
+                                End If
+                            End If
+                            qry = "select sum(TSPL_MILK_SRN_DETAIL.Qty) as Qty,sum(TSPL_MILK_SRN_DETAIL.FAT_KG) as FAT_KG,sum(TSPL_MILK_SRN_DETAIL.SNF_KG) as SNF_KG from TSPL_MILK_SRN_DETAIL 
+left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+where  TSPL_MILK_SRN_HEAD.MCC_CODE='" + objHead.MCC_CODE + "' and TSPL_MILK_SRN_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtFromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtToDate), "dd/MMM/yyyy hh:mm:ss tt") + "'"
                             dt = clsDBFuncationality.GetDataTable(qry, trans)
                             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                 If clsCommon.myCDecimal(dt.Rows(0)("Qty")) > 0 Then

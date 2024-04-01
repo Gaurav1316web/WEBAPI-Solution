@@ -1739,7 +1739,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptCattleFeedSaleReport, "Cattle Feed Sale Report", "1.17.03.117", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptTransferToSavingReport, "Transfer To Saving Report", "1.17.03.118", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptDcsPaymentReport, "Dcs Payment Report", "1.17.03.119", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
-        InsertDefaultValue(clsUserMgtCode.frmDCSSavingLedger, "DCS Saving Ledger", "1.17.03.120", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 37)
+        InsertDefaultValue(clsUserMgtCode.rptYearlyMonthlyDcsCollectionReport, "Yearly/Monthly Dcs Collection", "1.17.03.120", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmDCSSavingLedger, "DCS Saving Ledger", "1.17.03.121", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 37)
 
 
         InsertDefaultValue(clsUserMgtCode.ModuleBulkMilkProcurement, "Milk Procurement Bulk", "1.18", clsUserMgtCode.ExpertERP, "M", 23)

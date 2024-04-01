@@ -7,6 +7,8 @@ Public Class RptRouteSaleRegister
     Inherits FrmMainTranScreen
 
     Sub Reset()
+        fromDate.Value = clsCommon.GETSERVERDATE()
+        dtpToDate.Value = clsCommon.GETSERVERDATE()
         Gv1.DataSource = Nothing
         txtRoute.arrValueMember = Nothing
         Gv1.Rows.Clear()
@@ -30,49 +32,68 @@ Public Class RptRouteSaleRegister
 
         Try
             Dim dt As New DataTable
-            Dim strQry As String
-            strQry = "SELECT TSPL_ROUTE_MASTER.Route_No as Route_No,max(TSPL_ROUTE_MASTER.Route_Desc) as Route_Name,(TSPL_DEMAND_BOOKING_DETAIL.Item_Code) as Item_Code,max(tspl_item_master.Item_Desc) as Iteam_Name,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise) as CRATE,(sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) - sum(TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise)) as POUCH,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise) as LTR
+            Dim strQry As String = Nothing
+
+            If clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedItem), "Demand") = CompairStringResult.Equal Then
+                'strQry = "SELECT TSPL_ROUTE_MASTER.Route_No as Route_No,max(TSPL_ROUTE_MASTER.Route_Desc) as Route_Name,(TSPL_DEMAND_BOOKING_DETAIL.Item_Code) as Item_Code,max(tspl_item_master.Item_Desc) as Iteam_Name,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise) as CRATE,(sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) - sum(TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise)) as POUCH,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise) as LTR
+                '                    FROM TSPL_DEMAND_BOOKING_DETAIL 
+                '                    left outer join tspl_item_master on  TSPL_DEMAND_BOOKING_DETAIL.item_code=tspl_item_master.item_code
+                '                    left outer join TSPL_DEMAND_BOOKING_MASTER on  TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No
+                '                    left outer join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
+                '                    where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
+                '                    group by TSPL_ROUTE_MASTER.Route_No,TSPL_DEMAND_BOOKING_DETAIL.Item_Code"
+
+                If btnproduct.IsChecked = True Then
+                    strQry = "SELECT TSPL_ROUTE_MASTER.Route_No as Route_No,max(TSPL_ROUTE_MASTER.Route_Desc) as Route_Name,(TSPL_DEMAND_BOOKING_DETAIL.Item_Code) as Item_Code,max(tspl_item_master.Item_Desc) as Iteam_Name,max(TSPL_DEMAND_BOOKING_DETAIL.Unit_code) UOM,sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) as Qty
                                     FROM TSPL_DEMAND_BOOKING_DETAIL 
                                     left outer join tspl_item_master on  TSPL_DEMAND_BOOKING_DETAIL.item_code=tspl_item_master.item_code
                                     left outer join TSPL_DEMAND_BOOKING_MASTER on  TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No
                                     left outer join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
-                                    where TSPL_DEMAND_BOOKING_MASTER.Document_Date >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.Document_Date<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
+                                    where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "' and  tspl_item_master.Is_Ambient= '1'
                                     group by TSPL_ROUTE_MASTER.Route_No,TSPL_DEMAND_BOOKING_DETAIL.Item_Code"
 
-            If btnproduct.IsChecked =true Then
-                strQry = "SELECT TSPL_ROUTE_MASTER.Route_No as Route_No,max(TSPL_ROUTE_MASTER.Route_Desc) as Route_Name,(TSPL_DEMAND_BOOKING_DETAIL.Item_Code) as Item_Code,max(tspl_item_master.Item_Desc) as Iteam_Name,max(TSPL_DEMAND_BOOKING_DETAIL.Unit_code) UOM,sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) as Qty
+                ElseIf rbtnmilk.IsChecked = True Then
+                    strQry = "SELECT TSPL_ROUTE_MASTER.Route_No as Route_No,max(TSPL_ROUTE_MASTER.Route_Desc) as Route_Name,(TSPL_DEMAND_BOOKING_DETAIL.Item_Code) as Item_Code,max(tspl_item_master.Item_Desc) as Iteam_Name,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise) as CRATE,(sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) - sum(TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise)) as POUCH,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise) as LTR
                                     FROM TSPL_DEMAND_BOOKING_DETAIL 
                                     left outer join tspl_item_master on  TSPL_DEMAND_BOOKING_DETAIL.item_code=tspl_item_master.item_code
                                     left outer join TSPL_DEMAND_BOOKING_MASTER on  TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No
                                     left outer join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
-                                    where TSPL_DEMAND_BOOKING_MASTER.Document_Date >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.Document_Date<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.ItemType='Ambient'
+                                    where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.ItemType='Fresh'
+                                    group by TSPL_ROUTE_MASTER.Route_No,TSPL_DEMAND_BOOKING_DETAIL.Item_Code"
+                ElseIf btnBoth.IsChecked = True Then
+                    strQry = "SELECT TSPL_ROUTE_MASTER.Route_No as Route_No,max(TSPL_ROUTE_MASTER.Route_Desc) as Route_Name,(TSPL_DEMAND_BOOKING_DETAIL.Item_Code) as Item_Code,max(tspl_item_master.Item_Desc) as Iteam_Name,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise) as CRATE,(sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) - sum(TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise)) as POUCH,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise) as LTR
+                                    FROM TSPL_DEMAND_BOOKING_DETAIL 
+                                    left outer join tspl_item_master on  TSPL_DEMAND_BOOKING_DETAIL.item_code=tspl_item_master.item_code
+                                    left outer join TSPL_DEMAND_BOOKING_MASTER on  TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No
+                                    left outer join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
+                                    where convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103) >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and convert(date,TSPL_DEMAND_BOOKING_MASTER.Document_Date,103)<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
                                     group by TSPL_ROUTE_MASTER.Route_No,TSPL_DEMAND_BOOKING_DETAIL.Item_Code"
 
-            ElseIf rbtnmilk.IsChecked =true Then 
-                strQry="SELECT TSPL_ROUTE_MASTER.Route_No as Route_No,max(TSPL_ROUTE_MASTER.Route_Desc) as Route_Name,(TSPL_DEMAND_BOOKING_DETAIL.Item_Code) as Item_Code,max(tspl_item_master.Item_Desc) as Iteam_Name,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise) as CRATE,(sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) - sum(TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise)) as POUCH,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise) as LTR
-                                    FROM TSPL_DEMAND_BOOKING_DETAIL 
-                                    left outer join tspl_item_master on  TSPL_DEMAND_BOOKING_DETAIL.item_code=tspl_item_master.item_code
-                                    left outer join TSPL_DEMAND_BOOKING_MASTER on  TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No
-                                    left outer join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
-                                    where TSPL_DEMAND_BOOKING_MASTER.Document_Date >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.Document_Date<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.ItemType='Fresh'
-                                    group by TSPL_ROUTE_MASTER.Route_No,TSPL_DEMAND_BOOKING_DETAIL.Item_Code"
-                ElseIf btnBoth.IsChecked =true Then
-                strQry = "SELECT TSPL_ROUTE_MASTER.Route_No as Route_No,max(TSPL_ROUTE_MASTER.Route_Desc) as Route_Name,(TSPL_DEMAND_BOOKING_DETAIL.Item_Code) as Item_Code,max(tspl_item_master.Item_Desc) as Iteam_Name,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise) as CRATE,(sum(TSPL_DEMAND_BOOKING_DETAIL.Qty) - sum(TSPL_DEMAND_BOOKING_DETAIL.TotalCrates_ItemWise)) as POUCH,sum(TSPL_DEMAND_BOOKING_DETAIL.TotalLtr_ItemWise) as LTR
-                                    FROM TSPL_DEMAND_BOOKING_DETAIL 
-                                    left outer join tspl_item_master on  TSPL_DEMAND_BOOKING_DETAIL.item_code=tspl_item_master.item_code
-                                    left outer join TSPL_DEMAND_BOOKING_MASTER on  TSPL_DEMAND_BOOKING_DETAIL.Document_No=TSPL_DEMAND_BOOKING_MASTER.Document_No
-                                    left outer join TSPL_ROUTE_MASTER on TSPL_DEMAND_BOOKING_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No
-                                    where TSPL_DEMAND_BOOKING_MASTER.Document_Date >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and TSPL_DEMAND_BOOKING_MASTER.Document_Date<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
-                                    group by TSPL_ROUTE_MASTER.Route_No,TSPL_DEMAND_BOOKING_DETAIL.Item_Code"
-
+                End If
             End If
 
-            'Dim strQry As String = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description from TSPL_ROUTE_MASTER"
-            
-            'group by TSPL_DEMAND_BOOKING_DETAIL.Item_Code
-            'order by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType asc"
+            If clsCommon.CompairString(clsCommon.myCstr(ddlReportType.SelectedItem), "Dispatch") = CompairStringResult.Equal Then
+                strQry = "SELECT  TSPL_SD_SHIPMENT_HEAD.route_no as Route_No,TSPL_SD_SHIPMENT_DETAIL.Item_Code as Iteam_Code, TSPL_ITEM_MASTER.Item_Desc as Iteam_Name,TSPL_SD_SHIPMENT_DETAIL.OrgUnit_code as Uom,TSPL_SD_SHIPMENT_DETAIL.Qty
+                          FROM TSPL_SD_SHIPMENT_DETAIL 
+						  left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+						  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code
+                          where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "' and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='NT' ORDER BY TSPL_SD_SHIPMENT_DETAIL.Line_No  asc"
+                If btnproduct.IsChecked = True Then
+                    strQry = "SELECT  TSPL_SD_SHIPMENT_HEAD.route_no as Route_No,TSPL_SD_SHIPMENT_DETAIL.Item_Code as Iteam_Code, TSPL_ITEM_MASTER.Item_Desc as Iteam_Name,TSPL_SD_SHIPMENT_DETAIL.OrgUnit_code as Uom,TSPL_SD_SHIPMENT_DETAIL.Qty
+                          FROM TSPL_SD_SHIPMENT_DETAIL 
+						  left join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE
+						  left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+                          where convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) >='" + clsCommon.GetPrintDate(fromDate.Value) + "' and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<='" + clsCommon.GetPrintDate(dtpToDate.Value) + "'
+                          and TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T'
+						  ORDER BY TSPL_SD_SHIPMENT_DETAIL.Line_No  asc"
+                End If
+            End If
+                'Dim strQry As String = "Select TSPL_ROUTE_MASTER.Route_No as Code,Route_Desc as Description from TSPL_ROUTE_MASTER"
 
-            dt = clsDBFuncationality.GetDataTable(strQry)
+                'group by TSPL_DEMAND_BOOKING_DETAIL.Item_Code
+                'order by TSPL_DEMAND_BOOKING_DETAIL.Cust_Code,TSPL_DEMAND_BOOKING_DETAIL.ShiftType asc"
+
+                dt = clsDBFuncationality.GetDataTable(strQry)
             Gv1.DataSource = Nothing
             Gv1.Rows.Clear()
             Gv1.Columns.Clear()
@@ -156,4 +177,11 @@ Public Class RptRouteSaleRegister
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    'Private Sub ddlReportType_SelectedIndexChanged(sender As Object, e As Data.PositionChangedEventArgs) Handles ddlReportType.SelectedIndexChanged
+    '    Dim qry As String = " SELECT '' AS Code,'Select...' as Name union SELECT 'Demand' AS Code, 'Demand' as Name union SELECT 'Dispatch' AS Code, 'Dispatch' as Name "
+    '    ddlReportType.DataSource = clsDBFuncationality.GetDataTable(qry)
+    '    ddlReportType.ValueMember = "Demand"
+    '    ddlReportType.DisplayMember = "Dispatch"
+    'End Sub
 End Class
