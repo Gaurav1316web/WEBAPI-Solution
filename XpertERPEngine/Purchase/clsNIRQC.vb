@@ -340,7 +340,7 @@ Public Class clsNIRQC
                 obj.ApplicableFrom = Nothing
             End If
             '' end CurrencyConversion
-            obj.against_roadpermit = objMRN.RoadPermit_No
+            obj.RoadPermit_No = objMRN.RoadPermit_No
             obj.Arr_Road = New List(Of clsSRNRoadPermitDetail)
             obj.agnst_cform = ""
             obj.Arr_CFORM = New List(Of clsSRNCFORMDetail)
