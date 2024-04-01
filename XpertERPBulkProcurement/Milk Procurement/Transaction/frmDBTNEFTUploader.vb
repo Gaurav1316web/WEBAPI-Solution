@@ -109,6 +109,7 @@ where TSPL_BANK_MASTER.NEFT_DBT_Default=1 order by TRCode"
             frm.ShowDialog()
             If frm.isPasswordCorrect Then
                 btnReverse.Visible = True
+                btnClrApproval.Visible = True
                 SplitContainer3.Panel2Collapsed = False
             End If
         End If
@@ -935,5 +936,18 @@ where TSPL_DBT_NEFT_DETAIL.Document_Code='" + txtDocumentNo.Value + "' order by 
 
     End Sub
 
+    Private Sub btnClrApproval_Click(sender As Object, e As EventArgs) Handles btnClrApproval.Click
+        Try
+            If clsCommon.myLen(txtDocumentNo.Value) > 0 Then
+                If clsCommon.MyMessageBoxShow(Me, "Remove Approval Level" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
+                    clsDBTNEFT.ClearApprovalLevel(txtDocumentNo.Value)
+                    clsCommon.MyMessageBoxShow(Me, "Approval Level Remove succesffuly", Me.Text)
+                    LoadData(txtDocumentNo.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
 
