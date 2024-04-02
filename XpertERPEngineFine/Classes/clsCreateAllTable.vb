@@ -24593,6 +24593,11 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "Varchar(30) not null References TSPL_DCS_ADDITION_DEDUCTION(Code)")
+            coll.Add("DCS_Exclude", "Varchar(30) not null References TSPL_VLC_MASTER_HEAD(VLC_Code)")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE", coll, Nothing, True)
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("DOC_CODE", "Varchar(30) not null Primary key")
             coll.Add("MCC_CODE", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_CODE)")
             coll.Add("Irregular_MCC_CODE", "Varchar(30) null references TSPL_MCC_MASTER(MCC_CODE)")
