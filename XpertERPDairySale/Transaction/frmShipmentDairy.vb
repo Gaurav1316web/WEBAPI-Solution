@@ -4348,7 +4348,7 @@ Public Class frmShipmentDairy
         repoCF.Name = colCF
         repoCF.Width = 100
         repoCF.ReadOnly = True
-        repoCF.IsVisible = True
+        repoCF.IsVisible = False
         repoCF.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoCF)
         Dim repoCFinKg As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -4357,7 +4357,7 @@ Public Class frmShipmentDairy
         repoCFinKg.Name = colCFKG
         repoCFinKg.Width = 100
         repoCFinKg.ReadOnly = True
-        repoCFinKg.IsVisible = True
+        repoCFinKg.IsVisible = False
         repoCFinKg.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoCFinKg)
         Dim repoQtyinKg As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -4366,7 +4366,7 @@ Public Class frmShipmentDairy
         repoQtyinKg.Name = colQtyinKG
         repoQtyinKg.Width = 100
         repoQtyinKg.ReadOnly = True
-        repoQtyinKg.IsVisible = True
+        repoQtyinKg.IsVisible = False
         repoQtyinKg.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoQtyinKg)
         clsCustomFieldGrid.LoadBlankGrid(gv1, MyBase.ArrDetailFields)
@@ -5230,7 +5230,7 @@ Public Class frmShipmentDairy
     End Sub
     Public Sub GetDCDetails()
         Dim Whrcls As String = ""
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             Whrcls += " and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IS_Transpotation=1 "
         Else
             Whrcls += " and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IS_Transpotation=0 "
@@ -13275,7 +13275,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_BOOKING_DE
  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_BOOKING_DETAIL.Cust_Code 
 where TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(cmbShift.SelectedValue) + "'  and TSPL_BOOKING_MATSER.Document_Date>='" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "' and TSPL_BOOKING_MATSER.Document_Date<'" + clsCommon.GetPrintDate(txtSupplyDate.Value.AddDays(1)) + "' 
    and TSPL_BOOKING_MATSER.Posted=1
-and TSPL_BOOKING_DETAIL.Route_No='" + txtRouteNo.Value + "' and TSPL_BOOKING_MATSER.Location_Code='" + txtBillToLocation.Value + "' and TSPL_CUSTOMER_MASTER.Distributor_Code='" + txtVendorNo.Value + "'
+and TSPL_BOOKING_DETAIL.Route_No='" + txtRouteNo.Value + "' and TSPL_BOOKING_MATSER.Location_Code='" + txtBillToLocation.Value + "' 
  "
                     If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
                         qry += " and TSPL_ITEM_MASTER.IsTaxable=1 "
@@ -13296,7 +13296,7 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
     End Sub
     Private Sub RadPageView1_SelectedPageChanging(sender As Object, e As RadPageViewCancelEventArgs) Handles RadPageView1.SelectedPageChanging
         If clsCommon.CompairString(e.Page.Name, "RadPageViewPage8") = CompairStringResult.Equal Then
-            MergeDistributorItems(False)
+            'MergeDistributorItems(False)
         End If
     End Sub
     Private Sub LoadDistributorGrid(ByVal qry As String)
@@ -13544,6 +13544,10 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub RadPageViewPage4_Paint(sender As Object, e As PaintEventArgs) Handles RadPageViewPage4.Paint
+
     End Sub
 End Class
 Class tempSchemStructrue

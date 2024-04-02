@@ -210,6 +210,8 @@ where 2=2  AND TSPL_MILK_SRN_HEAD.MCC_CODE IN   (" + clsCommon.GetMulcallString(
         Try
             If Gv1.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Date Range : " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy"))
+
                 'arrHeader.Add("Month :" & MonthNo)
                 clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
 

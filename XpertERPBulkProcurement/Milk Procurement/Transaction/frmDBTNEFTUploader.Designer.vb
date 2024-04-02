@@ -21,9 +21,9 @@ Partial Class frmDBTNEFTUploader
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition13 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition14 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition15 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.BtnBank = New Telerik.WinControls.UI.RadButton()
@@ -71,6 +71,7 @@ Partial Class frmDBTNEFTUploader
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btnClrApproval = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -119,6 +120,7 @@ Partial Class frmDBTNEFTUploader
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClrApproval, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -137,6 +139,7 @@ Partial Class frmDBTNEFTUploader
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnClrApproval)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintBankLetter)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
@@ -563,7 +566,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvFarmer.MasterTemplate.AllowAddNewRow = False
         Me.gvFarmer.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvFarmer.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvFarmer.MasterTemplate.ViewDefinition = TableViewDefinition13
         Me.gvFarmer.MyStopExport = False
         Me.gvFarmer.Name = "gvFarmer"
         Me.gvFarmer.ShowHeaderCellButtons = True
@@ -590,7 +593,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvItem.MasterTemplate.AllowAddNewRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition14
         Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.ShowHeaderCellButtons = True
@@ -618,7 +621,7 @@ Partial Class frmDBTNEFTUploader
         Me.gvInvalid.MasterTemplate.AllowAddNewRow = False
         Me.gvInvalid.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvInvalid.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvInvalid.MasterTemplate.ViewDefinition = TableViewDefinition15
         Me.gvInvalid.MyStopExport = False
         Me.gvInvalid.Name = "gvInvalid"
         Me.gvInvalid.ShowHeaderCellButtons = True
@@ -776,6 +779,16 @@ Partial Class frmDBTNEFTUploader
         Me.btnsave.TabIndex = 0
         Me.btnsave.Text = "Save"
         '
+        'btnClrApproval
+        '
+        Me.btnClrApproval.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnClrApproval.Location = New System.Drawing.Point(563, 5)
+        Me.btnClrApproval.Name = "btnClrApproval"
+        Me.btnClrApproval.Size = New System.Drawing.Size(93, 22)
+        Me.btnClrApproval.TabIndex = 162
+        Me.btnClrApproval.Text = "Clear Approval"
+        Me.btnClrApproval.Visible = False
+        '
         'frmDBTNEFTUploader
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -837,6 +850,7 @@ Partial Class frmDBTNEFTUploader
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClrApproval, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -888,5 +902,6 @@ Partial Class frmDBTNEFTUploader
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtBankLetterDate As common.Controls.MyDateTimePicker
     Friend WithEvents BtnBank As RadButton
+    Friend WithEvents btnClrApproval As RadButton
 End Class
 

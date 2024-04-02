@@ -14311,6 +14311,7 @@ Public Class clsCreateAllTable
             coll.Add("Leakage_Deduction", "varchar(50)  NULL")
             coll.Add("Customer_Opening_Clearing_AC", "varchar(50)  NULL")
             coll.Add("Customer_Security_Opening_Clearing_AC", "varchar(50)  NULL")
+            coll.Add("Rate_Difference", "varchar(50)  NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_ACCOUNT_SET", coll, "", True)
 
             'Try
@@ -24593,6 +24594,11 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", coll, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "Varchar(30) not null References TSPL_DCS_ADDITION_DEDUCTION(Code)")
+            coll.Add("DCS_Exclude", "Varchar(30) not null References TSPL_VLC_MASTER_HEAD(VLC_Code)")
+            clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE", coll, Nothing, True)
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("DOC_CODE", "Varchar(30) not null Primary key")
             coll.Add("MCC_CODE", "Varchar(30) not null references TSPL_MCC_MASTER(MCC_CODE)")
             coll.Add("Irregular_MCC_CODE", "Varchar(30) null references TSPL_MCC_MASTER(MCC_CODE)")
@@ -25680,11 +25686,11 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Ack_Date", "Datetime NULL")
             coll.Add("BarCode_Img", "image null")
             coll.Add("Against_TransferToSavingPKID", "integer null References TSPL_TRANSFER_TO_SAVING_DETAIL(PK_ID)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_HEAD", coll, Nothing, True, False, "", "Document_No", "Posting_Date", True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_HEAD", coll, Nothing, True, True, "", "Document_No", "Posting_Date", True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Main_VSP_Milk_AP_Invoice_No", "Varchar(30) null References TSPL_VENDOR_INVOICE_HEAD(Document_No)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_HEAD", coll, Nothing, True, False, Nothing, Nothing, Nothing, True)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_HEAD", coll, Nothing, True, True, Nothing, Nothing, Nothing, True)
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
@@ -25784,7 +25790,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Hirerachy_Code3", "Varchar(30) null References TSPL_COST_CENTRE_FINANCIAL(Cost_Center_Fin_Code)")
             coll.Add("Hirerachy_Code4", "Varchar(30) null References TSPL_COST_CENTRE_FINANCIAL(Cost_Center_Fin_Code)")
             coll.Add("DCS_Addition_Deduction", "Varchar(30) null references TSPL_DCS_ADDITION_DEDUCTION(Code)")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_DETAIL", coll, "Primary Key (Document_No,PK_Id)", False, False)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_VENDOR_INVOICE_DETAIL", coll, "Primary Key (Document_No,PK_Id)", True, True)
 
 
             coll = New Dictionary(Of String, String)
@@ -29288,6 +29294,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("HeadDisc_Per", "decimal(18, 2) NULL")
             coll.Add("HeadDisc_PerAmt", "decimal(18, 2) NULL")
             coll.Add("HeadDisc_Amt", "decimal(18, 2) NULL")
+            coll.Add("RateDiff_Amt", "decimal(18, 2) NULL")
+            coll.Add("RateDiff_Per", "decimal(18, 2) NULL")
             coll.Add("TotCashDiscAmt", "decimal(18, 2) NULL")
             coll.Add("Invoice_Type", "Char(1) NULL")
             coll.Add("Price_Group_Code", "varchar(20)")
@@ -29440,6 +29448,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Acidity", "decimal(18,2) null")
             coll.Add("Temperature", "decimal(18,2) null")
             coll.Add("MBRT_Hours", "decimal(18,2) null")
+            coll.Add("Gross_Amount", "decimal(18, 2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_HEAD alter column Insurance varchar(30)")

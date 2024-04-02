@@ -361,3 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/XpertERPBulkProcurement/Milk Procurement/Report/rptYearlyMonthlyDcsCollectionReport.vb
+/XpertERPBulkProcurement/Milk Procurement/Report/rptYearlyMonthlyDcsCollectionReport.resx
+/XpertERPBulkProcurement/Milk Procurement/Report/rptYearlyMonthlyDcsCollectionReport.Designer.vb
