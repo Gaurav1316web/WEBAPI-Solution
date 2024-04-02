@@ -184,4 +184,40 @@ where 2=2  AND TSPL_MILK_SRN_HEAD.MCC_CODE IN   (" + clsCommon.GetMulcallString(
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
+        Try
+            If Gv1.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptYearlyMonthlyDcsCollectionReport & "'"))
+                'If rbtnSummary.IsChecked = True Then
+                '    arrHeader.Add("Report Type : " & "Summary")
+                'End If
+                'If rbtnDetail.IsChecked = True Then
+                '    arrHeader.Add("Report Type : " & "Details")
+                'End If
+                transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Private Sub btnPDF_Click(sender As Object, e As EventArgs) Handles btnPDF.Click
+        Try
+            If Gv1.Rows.Count > 0 Then
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                'arrHeader.Add("Month :" & MonthNo)
+                clsCommon.MyExportToPDF(Me.Text, Gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

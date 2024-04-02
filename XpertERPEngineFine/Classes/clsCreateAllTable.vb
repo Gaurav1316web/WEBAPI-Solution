@@ -29288,6 +29288,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("HeadDisc_Per", "decimal(18, 2) NULL")
             coll.Add("HeadDisc_PerAmt", "decimal(18, 2) NULL")
             coll.Add("HeadDisc_Amt", "decimal(18, 2) NULL")
+            coll.Add("RateDiff_Amt", "decimal(18, 2) NULL")
+            coll.Add("RateDiff_Per", "decimal(18, 2) NULL")
             coll.Add("TotCashDiscAmt", "decimal(18, 2) NULL")
             coll.Add("Invoice_Type", "Char(1) NULL")
             coll.Add("Price_Group_Code", "varchar(20)")

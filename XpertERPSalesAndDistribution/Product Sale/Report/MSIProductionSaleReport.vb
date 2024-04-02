@@ -26,6 +26,8 @@ Public Class MSIProductionSaleReport
 
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
+            Dim dt As DataTable = Nothing
+
             Dim whr As String = ""
             If txtLocation.Value IsNot Nothing AndAlso txtLocation.Value.Count > 0 Then
                 whr += " and LOCATION_CODE IN ('" + clsCommon.myCstr(txtLocation.Value) + "') "
@@ -129,21 +131,26 @@ Public Class MSIProductionSaleReport
                                       left outer join TSPL_ITEM_UOM_DETAIL KG_UOM_DETAIL on KG_UOM_DETAIL.Item_Code=xx.ITEM_CODE and UPPER(KG_UOM_DETAIL.UOM_Code)='KG'
                                       WHERE XX.ITEM_CODE NOT IN ('PM0001','PM0002') and xx.STOCK_QTY>0 ) FINAL WHERE FINAL.QTY_FOR_DAYS<=3 "
 
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Shortitemqry)
+            dt = clsDBFuncationality.GetDataTable(Shortitemqry)
 
             Dim Breakdown As String = "select DATEDIFF(HOUR,Start_Time,End_Time)  as Hrs,Break_Down_Code ,Name as Reason  from TSPL_BREAK_DOWN_ENTRY 
                                       left outer join TSPL_BREAK_DOWN_MASTER on TSPL_BREAK_DOWN_MASTER.Code	=TSPL_BREAK_DOWN_ENTRY.Break_Down_Code
                                       where Doc_Date= '" + clsCommon.GetPrintDate(FromDate.Value) + "'and Location_Code IN ('" + clsCommon.myCstr(txtLocation.Value) + "')"
 
             Dim dtbreakdown As DataTable = clsDBFuncationality.GetDataTable(Breakdown)
-
-            If dt IsNot Nothing And dt.Rows.Count > 0 Then
+            If dt IsNot Nothing And dt.Rows.Count <= 0 Then
+                Dim qry As String = "  select 0 columns1"
+                dt = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.SalesReport, dt, dtshift, "rptMSIProductionSaleReport", "", Nothing, "SubShift.rpt", "SubPrdDaily.rpt", dtproductiondaily, "SubPrdPeriodically.rpt", dtproductionperiodically, "SubSaleDaily.rpt", dtsalesdaily, "SubSalePeriodically.rpt", dtsalesperiodically, "SubInventory.rpt", dtinventory, "Subbreakdown.rpt", dtbreakdown)
+
                 'PDFPath = frmCRV.funsubreportWithdt(isPDFPath, CrystalReportFolder.MilkProcurement, dt, dtAdditionFinance, "crptMilkPurchaseBillPaymentProcessNewJPR", "", Nothing, "subAddition.rpt", "subDeduction.rpt", dtDeductionFinance, "subReduceDeduction.rpt", dtReduceDeduction, "subSaving.rpt", dtSaving, "SubAdditionOther.rpt", dtAdditionOther, "SubDeductionOther.rpt", dtDeductionOther)
+                'frmCRV.funreport(CrystalReportFolder.SalesReport, dtsalesdaily, "rptMSIProductionSaleReport", "", Nothing)
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                Dim frmCRV As New frmCrystalReportViewer()
+                frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.SalesReport, dt, dtshift, "rptMSIProductionSaleReport", "", Nothing, "SubShift.rpt", "SubPrdDaily.rpt", dtproductiondaily, "SubPrdPeriodically.rpt", dtproductionperiodically, "SubSaleDaily.rpt", dtsalesdaily, "SubSalePeriodically.rpt", dtsalesperiodically, "SubInventory.rpt", dtinventory, "Subbreakdown.rpt", dtbreakdown)
+
             End If
 
         Catch ex As Exception
@@ -176,5 +183,9 @@ Public Class MSIProductionSaleReport
         Slot2TD = clsCommon.GetPrintDate(currentDate.AddDays(19), "dd/MMM/yyyy")
         Slot3FD = clsCommon.GetPrintDate(currentDate.AddDays(20), "dd/MMM/yyyy")
         Slot3TD = clsCommon.GetPrintDate(currentDate.AddMonths(1).AddDays(-1), "dd/MMM/yyyy")
+    End Sub
+
+    Private Sub MSIProductionSaleReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        FromDate.Value = clsCommon.GETSERVERDATE()
     End Sub
 End Class

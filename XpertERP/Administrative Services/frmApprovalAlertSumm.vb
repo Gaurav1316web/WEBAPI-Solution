@@ -647,12 +647,17 @@ Public Class FrmApprovalAlertSumm
                 RadPageViewPage2.Item.Visibility = ElementVisibility.Collapsed
                 RadPageView1.SelectedPage = RadPageViewPage1
 
-                Dim scrnCode As String = clsCommon.myCstr(gv_Alert.CurrentRow.Cells(colScreenCode).Value)
+                If clsCommon.myLen(gv_Alert.CurrentRow) > 0 Then
+                    If clsCommon.myLen(gv_Alert.CurrentRow.Cells(colScreenCode).Value) > 0 Then
+                        Dim scrnCode As String = clsCommon.myCstr(gv_Alert.CurrentRow.Cells(colScreenCode).Value)
 
-                If clsCommon.myLen(scrnCode) > 0 Then
-                    LoadDocData(scrnCode)
-                End If ''end scrn cond
+                        If clsCommon.myLen(scrnCode) > 0 Then
+                            LoadDocData(scrnCode)
+                        End If ''end scrn cond
+                    End If
+                End If
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

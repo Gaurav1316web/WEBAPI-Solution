@@ -1877,6 +1877,7 @@ select Route_No,Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as 
         Try
             If clsCommon.myLen(txtCode.Value) > 0 Then
 
+
                 Dim qry As String = " select 
 
 XXFinal.Cust_Code as Cust_Code, max(XXFinal.ShiftType) as ShiftType, XXFinal.Sku_Seq as Sku_Seq, max(XXFinal.Short_Description) +' '+max(XXFinal.Unit_code) as Short_Description,
@@ -1893,9 +1894,8 @@ TSPL_DEMAND_BOOKING_DETAIL.ItemNetAmount
 ,TSPL_DEMAND_BOOKING_DETAIL.ShiftType,
    TSPL_DEMAND_BOOKING_MASTER.Route_No,
    TSPL_ROUTE_MASTER.Route_Desc,
-   Isnull(
-    TSPL_COMPANY_MASTER.Comp_Name, 'Jaipur Zila Dugdh Utpadak Sahakari Sangh Ltd.'
-  ) as CompanyName,
+    TSPL_COMPANY_MASTER.Comp_Name
+  as CompanyName,
   TSPL_TRANSPORT_MASTER.Transporter_Name as TranspoterName, 
   TSPL_VEHICLE_MASTER.DriverName,TSPL_VEHICLE_MASTER.Number as Vehicle_No
 from  TSPL_SD_SHIPMENT_BOOKING_DETAIL

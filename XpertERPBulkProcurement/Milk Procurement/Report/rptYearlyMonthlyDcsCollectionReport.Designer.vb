@@ -23,7 +23,7 @@ Partial Class rptYearlyMonthlyDcsCollectionReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -43,9 +43,9 @@ Partial Class rptYearlyMonthlyDcsCollectionReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.btnSplitExport = New Telerik.WinControls.UI.RadSplitButton()
-        Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
+        Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
+        Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -67,7 +67,7 @@ Partial Class rptYearlyMonthlyDcsCollectionReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -84,10 +84,10 @@ Partial Class rptYearlyMonthlyDcsCollectionReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReset)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSplitExport)
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
         Me.SplitContainer1.SplitterDistance = 402
         Me.SplitContainer1.TabIndex = 0
@@ -302,7 +302,7 @@ Partial Class rptYearlyMonthlyDcsCollectionReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -340,27 +340,27 @@ Partial Class rptYearlyMonthlyDcsCollectionReport
         Me.btnReset.TabIndex = 167
         Me.btnReset.Text = "Reset"
         '
-        'btnSplitExport
+        'RadSplitButton1
         '
-        Me.btnSplitExport.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnSplitExport.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.btnSplitExport.Location = New System.Drawing.Point(164, 12)
-        Me.btnSplitExport.Name = "btnSplitExport"
-        Me.btnSplitExport.Size = New System.Drawing.Size(95, 22)
-        Me.btnSplitExport.TabIndex = 166
-        Me.btnSplitExport.Text = "Export"
+        Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadSplitButton1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.btnExcel, Me.btnPDF})
+        Me.RadSplitButton1.Location = New System.Drawing.Point(164, 12)
+        Me.RadSplitButton1.Name = "RadSplitButton1"
+        Me.RadSplitButton1.Size = New System.Drawing.Size(95, 22)
+        Me.RadSplitButton1.TabIndex = 170
+        Me.RadSplitButton1.Text = "Export"
         '
-        'rmiExcel
+        'btnExcel
         '
-        Me.rmiExcel.Name = "rmiExcel"
-        Me.rmiExcel.Text = "Excel"
-        Me.rmiExcel.UseCompatibleTextRendering = False
+        Me.btnExcel.Name = "btnExcel"
+        Me.btnExcel.Text = "Excel"
+        Me.btnExcel.UseCompatibleTextRendering = False
         '
-        'rmiPDF
+        'btnPDF
         '
-        Me.rmiPDF.Name = "rmiPDF"
-        Me.rmiPDF.Text = "PDF"
-        Me.rmiPDF.UseCompatibleTextRendering = False
+        Me.btnPDF.Name = "btnPDF"
+        Me.btnPDF.Text = "PDF"
+        Me.btnPDF.UseCompatibleTextRendering = False
         '
         'rptYearlyMonthlyDcsCollectionReport
         '
@@ -397,7 +397,7 @@ Partial Class rptYearlyMonthlyDcsCollectionReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnSplitExport, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -410,9 +410,6 @@ Partial Class rptYearlyMonthlyDcsCollectionReport
     Friend WithEvents btnClose As RadButton
     Friend WithEvents btnGo As RadButton
     Friend WithEvents btnReset As RadButton
-    Friend WithEvents btnSplitExport As RadSplitButton
-    Friend WithEvents rmiExcel As RadMenuItem
-    Friend WithEvents rmiPDF As RadMenuItem
     Friend WithEvents RadPageViewPage1 As RadPageViewPage
     Friend WithEvents txtMultBmc As common.UserControls.txtMultiSelectFinder
     Friend WithEvents Txt2 As common.Controls.MyLabel
@@ -425,4 +422,7 @@ Partial Class rptYearlyMonthlyDcsCollectionReport
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents txtFromDate As common.Controls.MyDateTimePicker
     Friend WithEvents RadLabel3 As common.Controls.MyLabel
+    Friend WithEvents RadSplitButton1 As RadSplitButton
+    Friend WithEvents btnExcel As RadMenuItem
+    Friend WithEvents btnPDF As RadMenuItem
 End Class
