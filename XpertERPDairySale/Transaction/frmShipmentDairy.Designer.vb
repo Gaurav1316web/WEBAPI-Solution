@@ -22,13 +22,13 @@ Partial Class frmShipmentDairy
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim WindowsSettings2 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition9 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition10 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition11 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition12 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim WindowsSettings1 As Telerik.WinControls.WindowsSettings = New Telerik.WinControls.WindowsSettings()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -36,16 +36,17 @@ Partial Class frmShipmentDairy
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.rgbTaxNonTax = New Telerik.WinControls.UI.RadGroupBox()
         Me.txtMBRTHours = New common.Controls.MyTextBox()
         Me.lblMBRT = New common.Controls.MyLabel()
-        Me.txtTemp = New common.Controls.MyTextBox()
-        Me.lblTEMP = New common.Controls.MyLabel()
-        Me.txtAcidity = New common.Controls.MyTextBox()
-        Me.lblAcidity = New common.Controls.MyLabel()
-        Me.txtSNFPER = New common.Controls.MyTextBox()
-        Me.lblSNFPER = New common.Controls.MyLabel()
-        Me.txtFATPER = New common.Controls.MyTextBox()
         Me.lblFATPER = New common.Controls.MyLabel()
+        Me.txtTemp = New common.Controls.MyTextBox()
+        Me.txtFATPER = New common.Controls.MyTextBox()
+        Me.lblTEMP = New common.Controls.MyLabel()
+        Me.lblSNFPER = New common.Controls.MyLabel()
+        Me.txtAcidity = New common.Controls.MyTextBox()
+        Me.txtSNFPER = New common.Controls.MyTextBox()
+        Me.lblAcidity = New common.Controls.MyLabel()
         Me.cmbShift = New common.Controls.MyComboBox()
         Me.MyLabel7 = New common.Controls.MyLabel()
         Me.rbtn_Fresh = New Telerik.WinControls.UI.RadRadioButton()
@@ -400,7 +401,6 @@ Partial Class frmShipmentDairy
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.rgbTaxNonTax = New Telerik.WinControls.UI.RadGroupBox()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit
         Me.Panel1.SuspendLayout
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
@@ -412,16 +412,18 @@ Partial Class frmShipmentDairy
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadPageView1.SuspendLayout
         Me.RadPageViewPage1.SuspendLayout
+        CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).BeginInit
+        Me.rgbTaxNonTax.SuspendLayout
         CType(Me.txtMBRTHours, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblMBRT, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtTemp, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblTEMP, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtAcidity, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblAcidity, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtSNFPER, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblSNFPER, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtFATPER, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.lblFATPER, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtTemp, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtFATPER, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblTEMP, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblSNFPER, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtAcidity, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.txtSNFPER, System.ComponentModel.ISupportInitialize).BeginInit
+        CType(Me.lblAcidity, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit
         CType(Me.rbtn_Fresh, System.ComponentModel.ISupportInitialize).BeginInit
@@ -762,8 +764,6 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit
         Me.RadMenu1.SuspendLayout
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.rgbTaxNonTax.SuspendLayout
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
         Me.SuspendLayout
         '
@@ -794,9 +794,9 @@ Partial Class frmShipmentDairy
         Me.RadMenuItem2.TabIndex = 0
         Me.RadMenuItem2.VerticalAlignmentCorrectionMode = Telerik.WinControls.UI.AlignmentCorrectionMode.SnapToOuterEdges
         Me.RadMenuItem2.Visible = False
-        WindowsSettings2.EnableRoundedCorners = Nothing
-        WindowsSettings2.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
-        Me.RadMenuItem2.WindowsSettings = WindowsSettings2
+        WindowsSettings1.EnableRoundedCorners = Nothing
+        WindowsSettings1.RoundedCornersStyle = Telerik.WinControls.RoundedCornersStyle.Round
+        Me.RadMenuItem2.WindowsSettings = WindowsSettings1
         '
         'Panel1
         '
@@ -1007,6 +1007,25 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage1.Text = "Shipment"
         '
+        'rgbTaxNonTax
+        '
+        Me.rgbTaxNonTax.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rgbTaxNonTax.Controls.Add(Me.txtMBRTHours)
+        Me.rgbTaxNonTax.Controls.Add(Me.lblMBRT)
+        Me.rgbTaxNonTax.Controls.Add(Me.lblFATPER)
+        Me.rgbTaxNonTax.Controls.Add(Me.txtTemp)
+        Me.rgbTaxNonTax.Controls.Add(Me.txtFATPER)
+        Me.rgbTaxNonTax.Controls.Add(Me.lblTEMP)
+        Me.rgbTaxNonTax.Controls.Add(Me.lblSNFPER)
+        Me.rgbTaxNonTax.Controls.Add(Me.txtAcidity)
+        Me.rgbTaxNonTax.Controls.Add(Me.txtSNFPER)
+        Me.rgbTaxNonTax.Controls.Add(Me.lblAcidity)
+        Me.rgbTaxNonTax.HeaderText = ""
+        Me.rgbTaxNonTax.Location = New System.Drawing.Point(3, 228)
+        Me.rgbTaxNonTax.Name = "rgbTaxNonTax"
+        Me.rgbTaxNonTax.Size = New System.Drawing.Size(654, 29)
+        Me.rgbTaxNonTax.TabIndex = 1565
+        '
         'txtMBRTHours
         '
         Me.txtMBRTHours.CalculationExpression = Nothing
@@ -1039,6 +1058,16 @@ Partial Class frmShipmentDairy
         Me.lblMBRT.TabIndex = 1564
         Me.lblMBRT.Text = "MBRT (HRS)"
         '
+        'lblFATPER
+        '
+        Me.lblFATPER.FieldName = Nothing
+        Me.lblFATPER.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblFATPER.Location = New System.Drawing.Point(12, 8)
+        Me.lblFATPER.Name = "lblFATPER"
+        Me.lblFATPER.Size = New System.Drawing.Size(41, 16)
+        Me.lblFATPER.TabIndex = 1556
+        Me.lblFATPER.Text = "FAT %"
+        '
         'txtTemp
         '
         Me.txtTemp.CalculationExpression = Nothing
@@ -1060,80 +1089,6 @@ Partial Class frmShipmentDairy
         Me.txtTemp.ReferenceTableName = Nothing
         Me.txtTemp.Size = New System.Drawing.Size(70, 20)
         Me.txtTemp.TabIndex = 1563
-        '
-        'lblTEMP
-        '
-        Me.lblTEMP.FieldName = Nothing
-        Me.lblTEMP.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTEMP.Location = New System.Drawing.Point(376, 8)
-        Me.lblTEMP.Name = "lblTEMP"
-        Me.lblTEMP.Size = New System.Drawing.Size(41, 16)
-        Me.lblTEMP.TabIndex = 1562
-        Me.lblTEMP.Text = "Temp. "
-        '
-        'txtAcidity
-        '
-        Me.txtAcidity.CalculationExpression = Nothing
-        Me.txtAcidity.FieldCode = Nothing
-        Me.txtAcidity.FieldDesc = Nothing
-        Me.txtAcidity.FieldMaxLength = 0
-        Me.txtAcidity.FieldName = Nothing
-        Me.txtAcidity.isCalculatedField = False
-        Me.txtAcidity.IsSourceFromTable = False
-        Me.txtAcidity.IsSourceFromValueList = False
-        Me.txtAcidity.IsUnique = False
-        Me.txtAcidity.Location = New System.Drawing.Point(305, 5)
-        Me.txtAcidity.MendatroryField = False
-        Me.txtAcidity.MyLinkLable1 = Nothing
-        Me.txtAcidity.MyLinkLable2 = Nothing
-        Me.txtAcidity.Name = "txtAcidity"
-        Me.txtAcidity.ReferenceFieldDesc = Nothing
-        Me.txtAcidity.ReferenceFieldName = Nothing
-        Me.txtAcidity.ReferenceTableName = Nothing
-        Me.txtAcidity.Size = New System.Drawing.Size(70, 20)
-        Me.txtAcidity.TabIndex = 1561
-        '
-        'lblAcidity
-        '
-        Me.lblAcidity.FieldName = Nothing
-        Me.lblAcidity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblAcidity.Location = New System.Drawing.Point(248, 8)
-        Me.lblAcidity.Name = "lblAcidity"
-        Me.lblAcidity.Size = New System.Drawing.Size(53, 16)
-        Me.lblAcidity.TabIndex = 1560
-        Me.lblAcidity.Text = "Acidity %"
-        '
-        'txtSNFPER
-        '
-        Me.txtSNFPER.CalculationExpression = Nothing
-        Me.txtSNFPER.FieldCode = Nothing
-        Me.txtSNFPER.FieldDesc = Nothing
-        Me.txtSNFPER.FieldMaxLength = 0
-        Me.txtSNFPER.FieldName = Nothing
-        Me.txtSNFPER.isCalculatedField = False
-        Me.txtSNFPER.IsSourceFromTable = False
-        Me.txtSNFPER.IsSourceFromValueList = False
-        Me.txtSNFPER.IsUnique = False
-        Me.txtSNFPER.Location = New System.Drawing.Point(179, 5)
-        Me.txtSNFPER.MendatroryField = False
-        Me.txtSNFPER.MyLinkLable1 = Nothing
-        Me.txtSNFPER.MyLinkLable2 = Nothing
-        Me.txtSNFPER.Name = "txtSNFPER"
-        Me.txtSNFPER.ReferenceFieldDesc = Nothing
-        Me.txtSNFPER.ReferenceFieldName = Nothing
-        Me.txtSNFPER.ReferenceTableName = Nothing
-        Me.txtSNFPER.Size = New System.Drawing.Size(65, 20)
-        Me.txtSNFPER.TabIndex = 1559
-        '
-        'lblSNFPER
-        '
-        Me.lblSNFPER.FieldName = Nothing
-        Me.lblSNFPER.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSNFPER.Location = New System.Drawing.Point(135, 8)
-        Me.lblSNFPER.Name = "lblSNFPER"
-        Me.lblSNFPER.Size = New System.Drawing.Size(42, 16)
-        Me.lblSNFPER.TabIndex = 1558
-        Me.lblSNFPER.Text = "SNF %"
         '
         'txtFATPER
         '
@@ -1157,15 +1112,79 @@ Partial Class frmShipmentDairy
         Me.txtFATPER.Size = New System.Drawing.Size(70, 20)
         Me.txtFATPER.TabIndex = 1557
         '
-        'lblFATPER
+        'lblTEMP
         '
-        Me.lblFATPER.FieldName = Nothing
-        Me.lblFATPER.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblFATPER.Location = New System.Drawing.Point(12, 8)
-        Me.lblFATPER.Name = "lblFATPER"
-        Me.lblFATPER.Size = New System.Drawing.Size(41, 16)
-        Me.lblFATPER.TabIndex = 1556
-        Me.lblFATPER.Text = "FAT %"
+        Me.lblTEMP.FieldName = Nothing
+        Me.lblTEMP.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTEMP.Location = New System.Drawing.Point(376, 8)
+        Me.lblTEMP.Name = "lblTEMP"
+        Me.lblTEMP.Size = New System.Drawing.Size(41, 16)
+        Me.lblTEMP.TabIndex = 1562
+        Me.lblTEMP.Text = "Temp. "
+        '
+        'lblSNFPER
+        '
+        Me.lblSNFPER.FieldName = Nothing
+        Me.lblSNFPER.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblSNFPER.Location = New System.Drawing.Point(135, 8)
+        Me.lblSNFPER.Name = "lblSNFPER"
+        Me.lblSNFPER.Size = New System.Drawing.Size(42, 16)
+        Me.lblSNFPER.TabIndex = 1558
+        Me.lblSNFPER.Text = "SNF %"
+        '
+        'txtAcidity
+        '
+        Me.txtAcidity.CalculationExpression = Nothing
+        Me.txtAcidity.FieldCode = Nothing
+        Me.txtAcidity.FieldDesc = Nothing
+        Me.txtAcidity.FieldMaxLength = 0
+        Me.txtAcidity.FieldName = Nothing
+        Me.txtAcidity.isCalculatedField = False
+        Me.txtAcidity.IsSourceFromTable = False
+        Me.txtAcidity.IsSourceFromValueList = False
+        Me.txtAcidity.IsUnique = False
+        Me.txtAcidity.Location = New System.Drawing.Point(305, 5)
+        Me.txtAcidity.MendatroryField = False
+        Me.txtAcidity.MyLinkLable1 = Nothing
+        Me.txtAcidity.MyLinkLable2 = Nothing
+        Me.txtAcidity.Name = "txtAcidity"
+        Me.txtAcidity.ReferenceFieldDesc = Nothing
+        Me.txtAcidity.ReferenceFieldName = Nothing
+        Me.txtAcidity.ReferenceTableName = Nothing
+        Me.txtAcidity.Size = New System.Drawing.Size(70, 20)
+        Me.txtAcidity.TabIndex = 1561
+        '
+        'txtSNFPER
+        '
+        Me.txtSNFPER.CalculationExpression = Nothing
+        Me.txtSNFPER.FieldCode = Nothing
+        Me.txtSNFPER.FieldDesc = Nothing
+        Me.txtSNFPER.FieldMaxLength = 0
+        Me.txtSNFPER.FieldName = Nothing
+        Me.txtSNFPER.isCalculatedField = False
+        Me.txtSNFPER.IsSourceFromTable = False
+        Me.txtSNFPER.IsSourceFromValueList = False
+        Me.txtSNFPER.IsUnique = False
+        Me.txtSNFPER.Location = New System.Drawing.Point(179, 5)
+        Me.txtSNFPER.MendatroryField = False
+        Me.txtSNFPER.MyLinkLable1 = Nothing
+        Me.txtSNFPER.MyLinkLable2 = Nothing
+        Me.txtSNFPER.Name = "txtSNFPER"
+        Me.txtSNFPER.ReferenceFieldDesc = Nothing
+        Me.txtSNFPER.ReferenceFieldName = Nothing
+        Me.txtSNFPER.ReferenceTableName = Nothing
+        Me.txtSNFPER.Size = New System.Drawing.Size(65, 20)
+        Me.txtSNFPER.TabIndex = 1559
+        '
+        'lblAcidity
+        '
+        Me.lblAcidity.FieldName = Nothing
+        Me.lblAcidity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblAcidity.Location = New System.Drawing.Point(248, 8)
+        Me.lblAcidity.Name = "lblAcidity"
+        Me.lblAcidity.Size = New System.Drawing.Size(53, 16)
+        Me.lblAcidity.TabIndex = 1560
+        Me.lblAcidity.Text = "Acidity %"
         '
         'cmbShift
         '
@@ -3439,7 +3458,7 @@ Partial Class frmShipmentDairy
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4587,7 +4606,7 @@ Partial Class frmShipmentDairy
         Me.gvDistributor.MasterTemplate.AllowDeleteRow = False
         Me.gvDistributor.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDistributor.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvDistributor.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gvDistributor.MyStopExport = False
         Me.gvDistributor.Name = "gvDistributor"
         Me.gvDistributor.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4881,7 +4900,7 @@ Partial Class frmShipmentDairy
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition9
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -4933,7 +4952,7 @@ Partial Class frmShipmentDairy
         Me.gvAC.MasterTemplate.AllowDeleteRow = False
         Me.gvAC.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvAC.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition10
+        Me.gvAC.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gvAC.MyStopExport = False
         Me.gvAC.Name = "gvAC"
         Me.gvAC.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -5055,7 +5074,7 @@ Partial Class frmShipmentDairy
         Me.txtSecurity.BorderVisible = True
         Me.txtSecurity.FieldName = Nothing
         Me.txtSecurity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSecurity.Location = New System.Drawing.Point(554, 117)
+        Me.txtSecurity.Location = New System.Drawing.Point(522, 118)
         Me.txtSecurity.Name = "txtSecurity"
         Me.txtSecurity.Size = New System.Drawing.Size(82, 18)
         Me.txtSecurity.TabIndex = 1401
@@ -5077,7 +5096,7 @@ Partial Class frmShipmentDairy
         Me.txtDCAmt.BorderVisible = True
         Me.txtDCAmt.FieldName = Nothing
         Me.txtDCAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDCAmt.Location = New System.Drawing.Point(553, 75)
+        Me.txtDCAmt.Location = New System.Drawing.Point(521, 76)
         Me.txtDCAmt.Name = "txtDCAmt"
         Me.txtDCAmt.Size = New System.Drawing.Size(82, 18)
         Me.txtDCAmt.TabIndex = 120
@@ -5089,9 +5108,9 @@ Partial Class frmShipmentDairy
         Me.lblDCAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblDCAmt.Location = New System.Drawing.Point(403, 76)
         Me.lblDCAmt.Name = "lblDCAmt"
-        Me.lblDCAmt.Size = New System.Drawing.Size(144, 16)
+        Me.lblDCAmt.Size = New System.Drawing.Size(92, 16)
         Me.lblDCAmt.TabIndex = 121
-        Me.lblDCAmt.Text = "Distributor Commssion Amt"
+        Me.lblDCAmt.Text = "Commission Amt"
         '
         'txtTCSTaxRate
         '
@@ -5248,7 +5267,7 @@ Partial Class frmShipmentDairy
         Me.txtPrintDiscountAmt.IsSourceFromTable = False
         Me.txtPrintDiscountAmt.IsSourceFromValueList = False
         Me.txtPrintDiscountAmt.IsUnique = False
-        Me.txtPrintDiscountAmt.Location = New System.Drawing.Point(479, 94)
+        Me.txtPrintDiscountAmt.Location = New System.Drawing.Point(521, 95)
         Me.txtPrintDiscountAmt.MendatroryField = False
         Me.txtPrintDiscountAmt.MyLinkLable1 = Nothing
         Me.txtPrintDiscountAmt.MyLinkLable2 = Nothing
@@ -5847,7 +5866,7 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader_Temp.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader_Temp.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader_Temp.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition11
+        Me.gv_Uploader_Temp.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv_Uploader_Temp.MyStopExport = False
         Me.gv_Uploader_Temp.Name = "gv_Uploader_Temp"
         Me.gv_Uploader_Temp.ShowHeaderCellButtons = True
@@ -5867,7 +5886,7 @@ Partial Class frmShipmentDairy
         Me.gv_Uploader.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv_Uploader.MasterTemplate.ShowGroupedColumns = True
         Me.gv_Uploader.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition12
+        Me.gv_Uploader.MasterTemplate.ViewDefinition = TableViewDefinition6
         Me.gv_Uploader.MyStopExport = False
         Me.gv_Uploader.Name = "gv_Uploader"
         Me.gv_Uploader.ShowHeaderCellButtons = True
@@ -6666,25 +6685,6 @@ Partial Class frmShipmentDairy
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
-        'rgbTaxNonTax
-        '
-        Me.rgbTaxNonTax.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.rgbTaxNonTax.Controls.Add(Me.txtMBRTHours)
-        Me.rgbTaxNonTax.Controls.Add(Me.lblMBRT)
-        Me.rgbTaxNonTax.Controls.Add(Me.lblFATPER)
-        Me.rgbTaxNonTax.Controls.Add(Me.txtTemp)
-        Me.rgbTaxNonTax.Controls.Add(Me.txtFATPER)
-        Me.rgbTaxNonTax.Controls.Add(Me.lblTEMP)
-        Me.rgbTaxNonTax.Controls.Add(Me.lblSNFPER)
-        Me.rgbTaxNonTax.Controls.Add(Me.txtAcidity)
-        Me.rgbTaxNonTax.Controls.Add(Me.txtSNFPER)
-        Me.rgbTaxNonTax.Controls.Add(Me.lblAcidity)
-        Me.rgbTaxNonTax.HeaderText = ""
-        Me.rgbTaxNonTax.Location = New System.Drawing.Point(3, 228)
-        Me.rgbTaxNonTax.Name = "rgbTaxNonTax"
-        Me.rgbTaxNonTax.Size = New System.Drawing.Size(654, 29)
-        Me.rgbTaxNonTax.TabIndex = 1565
-        '
         'frmShipmentDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6711,16 +6711,19 @@ Partial Class frmShipmentDairy
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout
+        CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).EndInit
+        Me.rgbTaxNonTax.ResumeLayout(False)
+        Me.rgbTaxNonTax.PerformLayout
         CType(Me.txtMBRTHours, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblMBRT, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtTemp, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblTEMP, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtAcidity, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblAcidity, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtSNFPER, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblSNFPER, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtFATPER, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.lblFATPER, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtTemp, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtFATPER, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblTEMP, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblSNFPER, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtAcidity, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.txtSNFPER, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.lblAcidity, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit
         CType(Me.rbtn_Fresh, System.ComponentModel.ISupportInitialize).EndInit
@@ -7082,9 +7085,6 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit
         Me.RadMenu1.ResumeLayout(False)
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).EndInit
-        Me.rgbTaxNonTax.ResumeLayout(False)
-        Me.rgbTaxNonTax.PerformLayout
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit
         Me.ResumeLayout(False)
         Me.PerformLayout
