@@ -440,6 +440,38 @@ WHERE  TSPL_DBT_NEFT.document_code ='" + strDocNo + "'"
         End Try
         Return True
     End Function
+    Public Shared Function ClearApprovalLevel(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ClearApprovalLevel(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function ClearApprovalLevel(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim qry As String
+
+            Dim obj As clsDBTNEFT = clsDBTNEFT.GetData(strCode, NavigatorType.Current, trans)
+            If obj.RCDF_Status = ERPTransactionStatus.Approved Then
+                Throw New Exception("Transaction Approved by RCDF can't reverse it.")
+            End If
+            If Not obj.Status = ERPTransactionStatus.Approved Then
+                qry = "delete from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where Document_Code in ('" + obj.Document_Code + "')"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_ATTACHMENTS where TransactionId in ('" + obj.Document_Code + "') and FormId='" + clsUserMgtCode.DBTNEFTUploader + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
 End Class
 
 Public Class clsDBTNEFTDetail

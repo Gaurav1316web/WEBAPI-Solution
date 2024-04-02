@@ -196,6 +196,8 @@ Public Class FrmVendorService
     Dim SettingCostCenterlevel As Boolean = False
     Private SettingAutoRoundOffSeprateAccountOnVendorTransaction As Boolean = False
     Private ApplyNoGSTCreditIndependentlyOnVendorServiceCharge As Boolean = False
+    Dim FlagDocumentIsTaxable As Integer = 0
+    Dim EInvoiceType As String = ""
 #End Region
 
     Private Sub SetUserMgmtNew()
@@ -216,6 +218,7 @@ Public Class FrmVendorService
 
 
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+
         SettingCostCenter = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowHierarchyAndCostCenterInAPInvoiceEntry, clsFixedParameterCode.ShowHierarchyAndCostCenterInAPInvoiceEntry, Nothing)) = 1)
         SettingCostCenterlevel = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EnableHirerachyCostCentre, clsFixedParameterCode.EnableHirerachyCostCentre, Nothing)) = 1)
         SettingAutoRoundOffSeprateAccountOnVendorTransaction = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AutoRoundOffSeprateAccountOnVendorTransaction, clsFixedParameterCode.AutoRoundOffSeprateAccountOnVendorTransaction, Nothing)) = 1)
@@ -2908,6 +2911,7 @@ Public Class FrmVendorService
         btnSave.Enabled = True
         btnPost.Enabled = True
         btnDelete.Enabled = True
+        btnCancel.Enabled = False
         gv1.Rows.AddNew()
         gvAC.Rows.AddNew()
         cmbRefType.SelectedIndex = 1
@@ -3624,6 +3628,7 @@ Public Class FrmVendorService
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
+                    btnCancel.Enabled = True
                     UsLock1.Status = ERPTransactionStatus.Approved
                     txtDate.Enabled = False
                 Else
@@ -3688,6 +3693,11 @@ Public Class FrmVendorService
                 txtlocation.Value = obj.loc_code
                 ' lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtlocation.Value + "'"))
                 lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT ISNULL(Description,'') As Description FROM TSPL_GL_SEGMENT_CODE WHERE Segment_code ='" & clsCommon.myCstr(txtlocation.Value) & "'"))
+
+                '' For used in  Einvoice CancelData
+                FlagDocumentIsTaxable = IIf(obj.IsEInvoice, 1, 0)
+                EInvoiceType = clsERPFuncationality.GetCustomerEInvoiceTypeFromTransationTable("TSPL_VENDOR_INVOICE_HEAD", "Document_No", obj.Document_No, Nothing)
+                '' End of Einvoice CancelData
 
                 'done by priti KDI/05/07/18-000390 for updating vendor name from master
                 lblVendorName.Text = clsVendorMaster.GetName(obj.Vendor_Code, Nothing)
@@ -6354,4 +6364,46 @@ Public Class FrmVendorService
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub btnCancel_Click(sender As Object, e As EventArgs) Handles btnCancel.Click
+        CancelData()
+    End Sub
+
+    Function CancelData() As Boolean
+        Try
+
+            If clsCommon.myLen(txtDocNo.Value) <= 0 Then
+                Throw New Exception("Code is empty")
+            End If
+            If clsCommon.MyMessageBoxShow(Me, "Are you sure to Cancel the Record?", "", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+                Return False
+            End If
+            'Dim strSaleReturnNo As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Document_Code from TSPL_SD_SALE_RETURN_HEAD where Against_Invoice_No='" & txtDocNo.Value & "' "))
+            'If clsCommon.myLen(strSaleReturnNo) > 0 Then
+            '    Throw New Exception("You cannot cancelled this document because its Sale Return (" + clsCommon.myCstr(strSaleReturnNo) + ") has been created.")
+            'End If
+            Dim strReceiptCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select Payment_No from TSPL_PAYMENT_DETAIL where Document_No='" & txtDocNo.Value & "'"))
+            If clsCommon.myLen(strReceiptCount) > 0 Then
+                Throw New Exception("You cannot cancelled this document because receiving (" + clsCommon.myCstr(strReceiptCount) + ") has been done against its AP Invoice.")
+            End If
+            ' richa ERO/10/11/21-001547
+            'Dim strDairyGAtePassCount As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select gpcode from TSPL_SD_SHIPMENT_HEAD where document_code='" & txtDocNo.Value & "' "))
+            'If clsCommon.myLen(strDairyGAtePassCount) > 0 Then
+            '    Throw New Exception("You cannot cancelled this document because Dairy GAte Pass (" + clsCommon.myCstr(strDairyGAtePassCount) + ") has been created.")
+            'End If
+            If FlagDocumentIsTaxable = 1 AndAlso clsERPFuncationality.GetEInvoiceStatus(txtDate.Value) = True AndAlso clsCommon.CompairString(EInvoiceType, "BB") = CompairStringResult.Equal Then
+                Dim EInvoiceCancelTimeValid As Int64 = 0
+                EInvoiceCancelTimeValid = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" Select  isnull (DATEDIFF(hour,EInvoice_Posting_Date,GETDATE()),0) as PostedHours from tspl_sd_sale_invoice_head where  document_code = '" + txtDocNo.Value + "'"))
+                If EInvoiceCancelTimeValid >= 24 Then
+                    Throw New Exception("Invoice can not be cancelled.It has been more than 24 hours.")
+                End If
+            End If
+            clsVedorInvoiceHead.CancelData(Me.Form_ID, txtDocNo.Value, txtDocNo.Value, NavigatorType.Current)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
+            AddNew()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message)
+        End Try
+        Return True
+    End Function
 End Class
