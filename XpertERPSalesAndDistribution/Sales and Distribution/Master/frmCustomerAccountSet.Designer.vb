@@ -23,6 +23,7 @@ Partial Class frmCustomerAccountSet
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.rdmenufile = New Telerik.WinControls.UI.RadMenuItem()
         Me.rdmenuimport = New Telerik.WinControls.UI.RadMenuItem()
@@ -37,6 +38,9 @@ Partial Class frmCustomerAccountSet
         Me.rdtxtdescription = New common.Controls.MyTextBox()
         Me.rdbtnnew = New Telerik.WinControls.UI.RadButton()
         Me.rdgrpbxgeneralledgeraccounts = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.FndRateDifference = New common.UserControls.txtFinder()
+        Me.lblRateDifference = New common.Controls.MyTextBox()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.fndCustomerSecurityOpeningClearingAC = New common.UserControls.txtFinder()
         Me.lblCustomerSecurityOpeningClearingAC = New common.Controls.MyTextBox()
@@ -114,6 +118,7 @@ Partial Class frmCustomerAccountSet
         Me.rdbtnsave = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
+        Me.RadScrollablePanel1 = New Telerik.WinControls.UI.RadScrollablePanel()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdgpbxcustomeraccountset, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rdgpbxcustomeraccountset.SuspendLayout()
@@ -127,6 +132,8 @@ Partial Class frmCustomerAccountSet
         CType(Me.rdbtnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdgrpbxgeneralledgeraccounts, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rdgrpbxgeneralledgeraccounts.SuspendLayout()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRateDifference, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomerSecurityOpeningClearingAC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -182,17 +189,20 @@ Partial Class frmCustomerAccountSet
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadScrollablePanel1.PanelContainer.SuspendLayout()
+        Me.RadScrollablePanel1.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'RadMenu1
         '
+        Me.RadMenu1.AutoScroll = True
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rdmenufile})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(802, 20)
         Me.RadMenu1.TabIndex = 1
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'rdmenufile
         '
@@ -205,24 +215,18 @@ Partial Class frmCustomerAccountSet
         '
         'rdmenuimport
         '
-        Me.rdmenuimport.AccessibleDescription = "Import"
-        Me.rdmenuimport.AccessibleName = "Import"
         Me.rdmenuimport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rdmenuimport.Name = "rdmenuimport"
         Me.rdmenuimport.Text = "Import"
         '
         'rdmenuexport
         '
-        Me.rdmenuexport.AccessibleDescription = "Export"
-        Me.rdmenuexport.AccessibleName = "Export"
         Me.rdmenuexport.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rdmenuexport.Name = "rdmenuexport"
         Me.rdmenuexport.Text = "Export"
         '
         'rdmenuexit
         '
-        Me.rdmenuexit.AccessibleDescription = "Exit"
-        Me.rdmenuexit.AccessibleName = "Exit"
         Me.rdmenuexit.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rdmenuexit.Name = "rdmenuexit"
         Me.rdmenuexit.Text = "Exit"
@@ -239,10 +243,10 @@ Partial Class frmCustomerAccountSet
         Me.rdgpbxcustomeraccountset.Controls.Add(Me.rdgrpbxgeneralledgeraccounts)
         Me.rdgpbxcustomeraccountset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.rdgpbxcustomeraccountset.HeaderText = ""
-        Me.rdgpbxcustomeraccountset.Location = New System.Drawing.Point(19, 5)
+        Me.rdgpbxcustomeraccountset.Location = New System.Drawing.Point(3, 3)
         Me.rdgpbxcustomeraccountset.Name = "rdgpbxcustomeraccountset"
         Me.rdgpbxcustomeraccountset.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.rdgpbxcustomeraccountset.Size = New System.Drawing.Size(639, 634)
+        Me.rdgpbxcustomeraccountset.Size = New System.Drawing.Size(639, 659)
         Me.rdgpbxcustomeraccountset.TabIndex = 0
         '
         'fndaccountsetcode
@@ -276,7 +280,7 @@ Partial Class frmCustomerAccountSet
         Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
         Me.RadGroupBox4.Controls.Add(Me.gvDB)
         Me.RadGroupBox4.HeaderText = "Replicate In Other Companies"
-        Me.RadGroupBox4.Location = New System.Drawing.Point(13, 549)
+        Me.RadGroupBox4.Location = New System.Drawing.Point(13, 570)
         Me.RadGroupBox4.Name = "RadGroupBox4"
         Me.RadGroupBox4.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox4.Size = New System.Drawing.Size(613, 80)
@@ -288,17 +292,19 @@ Partial Class frmCustomerAccountSet
         Me.gvDB.Dock = System.Windows.Forms.DockStyle.Fill
         Me.gvDB.Location = New System.Drawing.Point(10, 20)
         '
-        'gvDB
+        '
         '
         Me.gvDB.MasterTemplate.AllowAddNewRow = False
+        Me.gvDB.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDB.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvDB.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvDB.MyStopExport = False
         Me.gvDB.Name = "gvDB"
         Me.gvDB.ShowGroupPanel = False
         Me.gvDB.ShowHeaderCellButtons = True
         Me.gvDB.Size = New System.Drawing.Size(593, 50)
         Me.gvDB.TabIndex = 0
         Me.gvDB.TabStop = False
-        Me.gvDB.Text = "RadGridView1"
         '
         'rdlbldescription
         '
@@ -344,6 +350,9 @@ Partial Class frmCustomerAccountSet
         'rdgrpbxgeneralledgeraccounts
         '
         Me.rdgrpbxgeneralledgeraccounts.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.rdgrpbxgeneralledgeraccounts.Controls.Add(Me.MyLabel16)
+        Me.rdgrpbxgeneralledgeraccounts.Controls.Add(Me.FndRateDifference)
+        Me.rdgrpbxgeneralledgeraccounts.Controls.Add(Me.lblRateDifference)
         Me.rdgrpbxgeneralledgeraccounts.Controls.Add(Me.MyLabel15)
         Me.rdgrpbxgeneralledgeraccounts.Controls.Add(Me.fndCustomerSecurityOpeningClearingAC)
         Me.rdgrpbxgeneralledgeraccounts.Controls.Add(Me.lblCustomerSecurityOpeningClearingAC)
@@ -421,8 +430,68 @@ Partial Class frmCustomerAccountSet
         Me.rdgrpbxgeneralledgeraccounts.Location = New System.Drawing.Point(13, 52)
         Me.rdgrpbxgeneralledgeraccounts.Name = "rdgrpbxgeneralledgeraccounts"
         Me.rdgrpbxgeneralledgeraccounts.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.rdgrpbxgeneralledgeraccounts.Size = New System.Drawing.Size(613, 491)
+        Me.rdgrpbxgeneralledgeraccounts.Size = New System.Drawing.Size(613, 512)
         Me.rdgrpbxgeneralledgeraccounts.TabIndex = 4
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(6, 489)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(85, 16)
+        Me.MyLabel16.TabIndex = 160
+        Me.MyLabel16.Text = "Rate Difference"
+        '
+        'FndRateDifference
+        '
+        Me.FndRateDifference.CalculationExpression = Nothing
+        Me.FndRateDifference.FieldCode = Nothing
+        Me.FndRateDifference.FieldDesc = Nothing
+        Me.FndRateDifference.FieldMaxLength = 0
+        Me.FndRateDifference.FieldName = Nothing
+        Me.FndRateDifference.isCalculatedField = False
+        Me.FndRateDifference.IsSourceFromTable = False
+        Me.FndRateDifference.IsSourceFromValueList = False
+        Me.FndRateDifference.IsUnique = False
+        Me.FndRateDifference.Location = New System.Drawing.Point(127, 487)
+        Me.FndRateDifference.MendatroryField = False
+        Me.FndRateDifference.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.FndRateDifference.MyLinkLable1 = Nothing
+        Me.FndRateDifference.MyLinkLable2 = Nothing
+        Me.FndRateDifference.MyReadOnly = False
+        Me.FndRateDifference.MyShowMasterFormButton = False
+        Me.FndRateDifference.Name = "FndRateDifference"
+        Me.FndRateDifference.ReferenceFieldDesc = Nothing
+        Me.FndRateDifference.ReferenceFieldName = Nothing
+        Me.FndRateDifference.ReferenceTableName = Nothing
+        Me.FndRateDifference.Size = New System.Drawing.Size(143, 19)
+        Me.FndRateDifference.TabIndex = 158
+        Me.FndRateDifference.Value = ""
+        '
+        'lblRateDifference
+        '
+        Me.lblRateDifference.CalculationExpression = Nothing
+        Me.lblRateDifference.FieldCode = Nothing
+        Me.lblRateDifference.FieldDesc = Nothing
+        Me.lblRateDifference.FieldMaxLength = 0
+        Me.lblRateDifference.FieldName = Nothing
+        Me.lblRateDifference.isCalculatedField = False
+        Me.lblRateDifference.IsSourceFromTable = False
+        Me.lblRateDifference.IsSourceFromValueList = False
+        Me.lblRateDifference.IsUnique = False
+        Me.lblRateDifference.Location = New System.Drawing.Point(274, 487)
+        Me.lblRateDifference.MendatroryField = False
+        Me.lblRateDifference.MyLinkLable1 = Nothing
+        Me.lblRateDifference.MyLinkLable2 = Nothing
+        Me.lblRateDifference.Name = "lblRateDifference"
+        Me.lblRateDifference.ReadOnly = True
+        Me.lblRateDifference.ReferenceFieldDesc = Nothing
+        Me.lblRateDifference.ReferenceFieldName = Nothing
+        Me.lblRateDifference.ReferenceTableName = Nothing
+        Me.lblRateDifference.Size = New System.Drawing.Size(326, 20)
+        Me.lblRateDifference.TabIndex = 159
+        Me.lblRateDifference.TabStop = False
         '
         'MyLabel15
         '
@@ -1921,7 +1990,7 @@ Partial Class frmCustomerAccountSet
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.rdgpbxcustomeraccountset)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadScrollablePanel1)
         '
         'SplitContainer1.Panel2
         '
@@ -1929,8 +1998,8 @@ Partial Class frmCustomerAccountSet
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.rdbtnclose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(802, 678)
-        Me.SplitContainer1.SplitterDistance = 649
+        Me.SplitContainer1.Size = New System.Drawing.Size(802, 707)
+        Me.SplitContainer1.SplitterDistance = 678
         Me.SplitContainer1.TabIndex = 0
         '
         'btnHistory
@@ -1943,11 +2012,24 @@ Partial Class frmCustomerAccountSet
         Me.btnHistory.TabIndex = 3
         Me.btnHistory.Text = "&History"
         '
+        'RadScrollablePanel1
+        '
+        Me.RadScrollablePanel1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadScrollablePanel1.Location = New System.Drawing.Point(0, 0)
+        Me.RadScrollablePanel1.Name = "RadScrollablePanel1"
+        '
+        'RadScrollablePanel1.PanelContainer
+        '
+        Me.RadScrollablePanel1.PanelContainer.Controls.Add(Me.rdgpbxcustomeraccountset)
+        Me.RadScrollablePanel1.PanelContainer.Size = New System.Drawing.Size(800, 676)
+        Me.RadScrollablePanel1.Size = New System.Drawing.Size(802, 678)
+        Me.RadScrollablePanel1.TabIndex = 1
+        '
         'frmCustomerAccountSet
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(802, 698)
+        Me.ClientSize = New System.Drawing.Size(802, 727)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Controls.Add(Me.RadMenu1)
         Me.Name = "frmCustomerAccountSet"
@@ -1971,6 +2053,8 @@ Partial Class frmCustomerAccountSet
         CType(Me.rdgrpbxgeneralledgeraccounts, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rdgrpbxgeneralledgeraccounts.ResumeLayout(False)
         Me.rdgrpbxgeneralledgeraccounts.PerformLayout()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRateDifference, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomerSecurityOpeningClearingAC, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2026,11 +2110,14 @@ Partial Class frmCustomerAccountSet
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadScrollablePanel1.PanelContainer.ResumeLayout(False)
+        CType(Me.RadScrollablePanel1, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadScrollablePanel1.ResumeLayout(False)
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.ResumeLayout(False)
-        Me.PerformLayout()
+        Me.ResumeLayout(false)
+        Me.PerformLayout
 
-    End Sub
+End Sub
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents rdmenufile As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents rdmenuimport As Telerik.WinControls.UI.RadMenuItem
@@ -2122,5 +2209,9 @@ Partial Class frmCustomerAccountSet
     Friend WithEvents MyLabel14 As common.Controls.MyLabel
     Friend WithEvents fndCustomerOpeningClearingAC As common.UserControls.txtFinder
     Friend WithEvents lblCustomerOpeningClearingAC As common.Controls.MyTextBox
+    Friend WithEvents MyLabel16 As common.Controls.MyLabel
+    Friend WithEvents FndRateDifference As common.UserControls.txtFinder
+    Friend WithEvents lblRateDifference As common.Controls.MyTextBox
+    Friend WithEvents RadScrollablePanel1 As RadScrollablePanel
 End Class
 
