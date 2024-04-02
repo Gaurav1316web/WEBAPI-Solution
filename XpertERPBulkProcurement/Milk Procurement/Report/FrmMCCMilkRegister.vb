@@ -1712,15 +1712,15 @@ Public Class FrmMCCMilkRegister
                     Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(SummaryVSPDayWiseInc)
 
-                    'If chkRejection.Checked = True AndAlso chkShiftWise.Checked = False AndAlso chkOnlyRejection.Checked = False Then
-                    '    gv.GroupDescriptors.Add(New GridGroupByExpression("[Route Code] as [Route Code] format ""{0}: {1}"" Group By [Route Code]"))
-                    'End If
+                    If chkRejection.Checked = True AndAlso chkShiftWise.Checked = False AndAlso chkOnlyRejection.Checked = False Then
+                        gv.GroupDescriptors.Add(New GridGroupByExpression("[Route Code] as [Route Code] format ""{0}: {1}"" Group By [Route Code]"))
+                    End If
 
                     gv.ShowGroupPanel = False
                     gv.MasterTemplate.AutoExpandGroups = True
 
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                    'gv.MasterTemplate.ShowTotals = True
+                    gv.MasterTemplate.ShowTotals = True
                 ElseIf chkVLCWisePayable.Checked Then
                     gv.Columns("MCC Code").IsVisible = True
                     gv.Columns("MCC Code").Width = 100
