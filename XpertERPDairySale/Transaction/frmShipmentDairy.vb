@@ -4348,7 +4348,7 @@ Public Class frmShipmentDairy
         repoCF.Name = colCF
         repoCF.Width = 100
         repoCF.ReadOnly = True
-        repoCF.IsVisible = True
+        repoCF.IsVisible = False
         repoCF.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoCF)
         Dim repoCFinKg As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -4357,7 +4357,7 @@ Public Class frmShipmentDairy
         repoCFinKg.Name = colCFKG
         repoCFinKg.Width = 100
         repoCFinKg.ReadOnly = True
-        repoCFinKg.IsVisible = True
+        repoCFinKg.IsVisible = False
         repoCFinKg.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoCFinKg)
         Dim repoQtyinKg As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -4366,7 +4366,7 @@ Public Class frmShipmentDairy
         repoQtyinKg.Name = colQtyinKG
         repoQtyinKg.Width = 100
         repoQtyinKg.ReadOnly = True
-        repoQtyinKg.IsVisible = True
+        repoQtyinKg.IsVisible = False
         repoQtyinKg.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoQtyinKg)
         clsCustomFieldGrid.LoadBlankGrid(gv1, MyBase.ArrDetailFields)
@@ -13296,7 +13296,7 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
     End Sub
     Private Sub RadPageView1_SelectedPageChanging(sender As Object, e As RadPageViewCancelEventArgs) Handles RadPageView1.SelectedPageChanging
         If clsCommon.CompairString(e.Page.Name, "RadPageViewPage8") = CompairStringResult.Equal Then
-            MergeDistributorItems(False)
+            'MergeDistributorItems(False)
         End If
     End Sub
     Private Sub LoadDistributorGrid(ByVal qry As String)
