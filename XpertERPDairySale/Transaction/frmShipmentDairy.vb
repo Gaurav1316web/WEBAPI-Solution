@@ -13296,7 +13296,7 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
     End Sub
     Private Sub RadPageView1_SelectedPageChanging(sender As Object, e As RadPageViewCancelEventArgs) Handles RadPageView1.SelectedPageChanging
         If clsCommon.CompairString(e.Page.Name, "RadPageViewPage8") = CompairStringResult.Equal Then
-            MergeDistributorItems(False)
+            'MergeDistributorItems(False)
         End If
     End Sub
     Private Sub LoadDistributorGrid(ByVal qry As String)
