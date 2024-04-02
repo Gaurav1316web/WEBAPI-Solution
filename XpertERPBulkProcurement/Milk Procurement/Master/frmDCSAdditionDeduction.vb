@@ -10,11 +10,6 @@ Public Class frmDCSAdditionDeduction
 #End Region
 
     Private Sub frmJWPriceCodeMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As New Dictionary(Of String, String)()
-        coll.Add("Include_Shortage_Own_BMC", "integer NULL")
-        coll.Add("Subtract", "integer NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
-
         SetUserMgmtNew()
         LoadApplyType()
         LoadApplyOn()
@@ -203,6 +198,7 @@ Public Class frmDCSAdditionDeduction
                     obj.Milk_Type = ""
                 End If
                 obj.Arr = txtAddAmount.arrValueMember
+                obj.ArrDCSExclude = txtExcludeDCS.arrValueMember
                 If obj.SaveData(obj, isNewEntry) Then
                     clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
@@ -319,6 +315,7 @@ Public Class frmDCSAdditionDeduction
                 End Try
 
                 txtMilkType.arrValueMember = arr
+                txtExcludeDCS.arrValueMember = obj.ArrDCSExclude
                 If obj.Posted = ERPTransactionStatus.Approved Then
                     btnsave.Enabled = False
                     btnPost.Enabled = False
@@ -473,6 +470,7 @@ Public Class frmDCSAdditionDeduction
         txtAddAmount.arrValueMember = Nothing
         rbtnQtyUOMRec.IsChecked = True
         txtMilkType.arrValueMember = Nothing
+        txtExcludeDCS.arrValueMember = Nothing
         chkApplyTDS.Checked = False
         chkIncludeShortageOwnBMC.Checked = False
         chkSubtract.Checked = False
@@ -641,4 +639,19 @@ Public Class frmDCSAdditionDeduction
 
     End Sub
 
+    Private Sub txtExcludeDCS__My_Click(sender As Object, e As EventArgs) Handles txtExcludeDCS._My_Click
+        Try
+            Dim qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code as DCSCode,VLC_Name as DCSName,VLC_Code_VLC_Uploader as UploaderCode,VSP_Code as VSPCode,TSPL_VENDOR_MASTER.Vendor_Name as VSPName
+from TSPL_VLC_MASTER_HEAD
+inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code"
+            txtExcludeDCS.arrValueMember = clsCommon.ShowMultipleSelectForm("DCS@addded", qry, "DCSCode", "DCSName", txtExcludeDCS.arrValueMember, Nothing)
+            If UsLock1.Status = ERPTransactionStatus.Approved Then
+                Dim obj As New clsDCSAdditionDeduction
+                obj.SaveDCSExcludeData(txtCode.Value, txtExcludeDCS.arrValueMember)
+                clsCommon.MyMessageBoxShow(Me, "DCS Exclude successfully", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class
