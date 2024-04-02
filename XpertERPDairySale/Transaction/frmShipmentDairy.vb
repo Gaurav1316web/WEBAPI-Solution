@@ -5230,7 +5230,7 @@ Public Class frmShipmentDairy
     End Sub
     Public Sub GetDCDetails()
         Dim Whrcls As String = ""
-        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
             Whrcls += " and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IS_Transpotation=1 "
         Else
             Whrcls += " and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IS_Transpotation=0 "
@@ -13275,7 +13275,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_BOOKING_DE
  left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code = TSPL_BOOKING_DETAIL.Cust_Code 
 where TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(cmbShift.SelectedValue) + "'  and TSPL_BOOKING_MATSER.Document_Date>='" + clsCommon.GetPrintDate(txtSupplyDate.Value) + "' and TSPL_BOOKING_MATSER.Document_Date<'" + clsCommon.GetPrintDate(txtSupplyDate.Value.AddDays(1)) + "' 
    and TSPL_BOOKING_MATSER.Posted=1
-and TSPL_BOOKING_DETAIL.Route_No='" + txtRouteNo.Value + "' and TSPL_BOOKING_MATSER.Location_Code='" + txtBillToLocation.Value + "' and TSPL_CUSTOMER_MASTER.Distributor_Code='" + txtVendorNo.Value + "'
+and TSPL_BOOKING_DETAIL.Route_No='" + txtRouteNo.Value + "' and TSPL_BOOKING_MATSER.Location_Code='" + txtBillToLocation.Value + "' 
  "
                     If clsCommon.CompairString(clsCommon.myCstr(cmbDisItemType.SelectedValue), "T") = CompairStringResult.Equal Then
                         qry += " and TSPL_ITEM_MASTER.IsTaxable=1 "
@@ -13544,6 +13544,10 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub RadPageViewPage4_Paint(sender As Object, e As PaintEventArgs) Handles RadPageViewPage4.Paint
+
     End Sub
 End Class
 Class tempSchemStructrue

@@ -5373,7 +5373,14 @@ Public Class frmVendorMaster
             Else
                 obj.Modify_By = objCommonVar.CurrentUserCode
             End If
-            obj.Form_Type = "TPT"
+            If chktrarns.Checked Then
+                obj.Form_Type = "TPT"
+                obj.CUSTOMER_FORM_TYPE = "ALL"
+            Else
+                obj.Form_Type = ""
+                obj.CUSTOMER_FORM_TYPE = ""
+            End If
+
             obj.Add1 = clsCommon.myCstr(txtAdd1.Text)
             obj.Add2 = clsCommon.myCstr(txtAdd2.Text)
             obj.Add3 = clsCommon.myCstr(txtAdd3.Text)
@@ -5397,7 +5404,6 @@ Public Class frmVendorMaster
             obj.Contact_Person_Fax = clsCommon.myCstr(txtContactFax.Text)
             obj.Contact_Person_Email = clsCommon.myCstr(txtContactEmail.Text)
             obj.Contact_Person_Website = clsCommon.myCstr(txtContactWeb.Text)
-
             obj.Terms_Code = clsCommon.myCstr(fndTrmsCode.Value)
             obj.Cust_Account = clsCommon.myCstr(fndAccntSet.Value)
             obj.Tax_Group = clsCommon.myCstr(fndTxGrp.Value)
