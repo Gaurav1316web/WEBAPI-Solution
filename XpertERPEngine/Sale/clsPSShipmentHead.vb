@@ -4245,7 +4245,12 @@ End Class
 Public Class clsPSShipmentDemand
     Public DOCUMENT_CODE As String
     Public Booking_TR_Code As String
+    Public Item_Code As String
+    Public Unit_Code As String
     Public Qty As Decimal
+    Public Trip_No As Decimal
+    Public Commission_Amt As Decimal
+    Public Security_Amt As Decimal
 
     Friend Shared Sub SaveData(strDocNo As String, arrDemand As List(Of clsPSShipmentDemand), trans As SqlTransaction)
         If (arrDemand IsNot Nothing AndAlso arrDemand.Count > 0) Then
@@ -4253,7 +4258,12 @@ Public Class clsPSShipmentDemand
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_Code", strDocNo)
                 clsCommon.AddColumnsForChange(coll, "Booking_TR_Code", obj.Booking_TR_Code)
+                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
+                clsCommon.AddColumnsForChange(coll, "Unit_Code", obj.Unit_Code)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
+                clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No)
+                clsCommon.AddColumnsForChange(coll, "Commission_Amt", obj.Commission_Amt)
+                clsCommon.AddColumnsForChange(coll, "Security_Amt", obj.Security_Amt)
                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_SD_SHIPMENT_BOOKING_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
