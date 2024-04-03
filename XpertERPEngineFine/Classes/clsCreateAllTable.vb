@@ -6573,6 +6573,7 @@ Public Class clsCreateAllTable
             coll.Add("DistributorName", "varchar(50) NULL")
             coll.Add("Supply_Date", "Date NULL")
             coll.Add("FILE_INFO", "bigint NULL")
+            coll.Add("Trip_No", "int NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", coll, Nothing, True, False, "", "GPCode", "GPDate")
             Try
 
@@ -29634,12 +29635,18 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Item_Code", "Varchar(50) NULL")
             coll.Add("Unit_Code", "Varchar(12) NULL")
             coll.Add("GP_Qty", "Decimal(18,2) NULL")
+            coll.Add("Trip_No", "int NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", coll, Nothing, True, False, "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
             coll.Add("Booking_TR_Code", "varchar(30) NOT NULL Unique REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
             coll.Add("Qty", "decimal(18,2) null")
+            coll.Add("Item_Code", "varchar(50) NULL")
+            coll.Add("Unit_code", "varchar(12) NULL")
+            coll.Add("Trip_No", "integer null")
+            coll.Add("Commission_Amt", "decimal(18,4) NULL")
+            coll.Add("Security_Amt", "decimal(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_BOOKING_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
             coll = New Dictionary(Of String, String)
