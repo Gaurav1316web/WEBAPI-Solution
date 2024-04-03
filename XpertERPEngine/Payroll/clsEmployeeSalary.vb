@@ -168,7 +168,7 @@ Public Class clsEmployeeSalary
                 from TSPL_SALSTRUCT_PAYHEADS 
                 left outer join TSPL_PAYHEAD_MASTER on TSPL_PAYHEAD_MASTER.PAY_HEAD_CODE =TSPL_SALSTRUCT_PAYHEADS.PAY_HEAD_CODE 
                 --where 2=2 --and TSPL_SALSTRUCT_PAYHEADS.SALARY_STRUCTURE_CODE = 'JSL-SAL' 
-                ) PayHeadsToSalaryStructure On PayHeadsToSalaryStructure.PAY_HEAD_CODE=TAVD.PAY_HEAD_CODE "
+                ) PayHeadsToSalaryStructure On PayHeadsToSalaryStructure.SALARY_STRUCTURE_CODE=TAV.SALARY_STRUCTURE_CODE And PayHeadsToSalaryStructure.PAY_HEAD_CODE=TAVD.PAY_HEAD_CODE "
         qry += " where 2=2" + whrQry
         qry += " and TAV.EMP_SAL_CODE = '" + strCode + "' ORDER BY TAVD.LINE_NO"
         dt = New DataTable()
