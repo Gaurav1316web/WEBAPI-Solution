@@ -78,6 +78,7 @@ Public Class rptDailyQtyReport
                 TemplateGridview = Gv1
                 Dim BaseQry As String = ""
                 Dim qry As String = ""
+                Dim DockDateQry As String = ""
                 Dim dt As New DataTable
                 Dim whre As String = ""
 
@@ -99,7 +100,7 @@ Public Class rptDailyQtyReport
                 '       where convert (date,TSPL_MILK_COLLECTION_MCC.Document_Date,103) = convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and TSPL_MILK_COLLECTION_MCC.Status = 1"
                 Dim strMilkCollectionMCCStatus As String = ""
                 Dim strMilkcollectionDCSStatus As String = ""
-                If rbtnDock.Checked = False Then
+                If rbtnDock.Checked = False AndAlso rbtnDockDateWise.Checked = False AndAlso rbtnDockShiftWise.Checked = False Then
                     If clsCommon.CompairString(cboItemType.SelectedValue, "Posted") = CompairStringResult.Equal Then
                         strMilkCollectionMCCStatus = " and TSPL_MILK_COLLECTION_MCC.Status = 1 "
                         strMilkcollectionDCSStatus = " and TSPL_MILK_COLLECTION_DCS.Status = 1 "
@@ -186,7 +187,7 @@ Public Class rptDailyQtyReport
                             left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=XXXFinal.Document_No"
 
                     'qry = qry + " order by TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No asc "
-                ElseIf rbtnDock.Checked = True Then
+                ElseIf rbtnDock.Checked = True OrElse rbtnDockDateWise.Checked OrElse rbtnDockShiftWise.Checked Then
                     qry = ""
                     Dim strFilterQry As String = ""
                     Dim strQryStatus1 As String = ""
@@ -226,6 +227,7 @@ Public Class rptDailyQtyReport
                         Left Outer Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VLC_Code=tmp.VLC_Code
                         Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
                         where convert (date,Shift_Date,103) >= convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) and convert (date,Shift_Date,103) <= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)" + strFilterQry + Area
+
                 ElseIf (rbtnTranpoterGainLoss.Checked = True) Then
 
                     If txtToleranceFat.Value < 0 Or txtToleranceFat.Value >= 100 Then
@@ -363,13 +365,17 @@ Public Class rptDailyQtyReport
                     '        Left Outer Join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=tspl_gate_entry_details.ROUTE_NO
                     '        Group By TSPL_BULK_ROUTE_MASTER.ROUTE_NO,tspl_gate_entry_details.Date_And_Time )TankerData On TankerData.Document_Date=BMCData.Document_Date And TankerData.ROUTE_NO=BMCData.ROUTE_NO)xxx
                     'Where Convert(Date,xxx.Document_Date,103)>= convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) And Convert(Date,xxx.Document_Date,103)<= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)"
+
                 End If
 
+                If rbtnDockDateWise.Checked Then
+                    qry = "Select ROW_NUMBER() OVER(ORDER BY (Select 1)) As SNo, SDate , sum(Qty)Qty , sum(Milk_Wtd)Milk_Wtd ,convert(Decimal(18,2),(sum(Fat_KG * 100)/SUM(Milk_Wtd))) As FAT,convert(Decimal(18,2),(sum(SNF_KG * 100)/SUM(Milk_Wtd))) As SNF, sum(Fat_KG)Fat_KG , sum(SNF_KG)SNF_KG , max(Rate)Rate , max(Amt)Amt , max(VLC_Code)VLC_Code , max(DCS_Uploader_Code)DCS_Uploader_Code , max(DCS_Code)DCS_Code , max(DCS_Name)DCS_Name , max(BMC_Uploader_Code)BMC_Uploader_Code , max(BMC_Code)BMC_Code , max(BMC_Name)BMC_Name , max(Area)Area , max(Route_Code)Route_Code from (
+                       " & qry & " )xx group by SDate order by SDate"
 
-
-
-
-
+                ElseIf rbtnDockShiftWise.Checked Then
+                    qry = "select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS SNo, SDate,Shift , sum(Qty)Qty , sum(Milk_Wtd)Milk_Wtd ,convert(decimal(18,2),(sum(Fat_KG * 100)/SUM(Milk_Wtd))) as FAT,convert(decimal(18,2),(sum(SNF_KG * 100)/SUM(Milk_Wtd))) AS SNF, sum(Fat_KG)Fat_KG , sum(SNF_KG)SNF_KG , max(Rate)Rate , max(Amt)Amt , max(VLC_Code)VLC_Code , max(DCS_Uploader_Code)DCS_Uploader_Code , max(DCS_Code)DCS_Code , max(DCS_Name)DCS_Name , max(BMC_Uploader_Code)BMC_Uploader_Code , max(BMC_Code)BMC_Code , max(BMC_Name)BMC_Name , max(Area)Area , max(Route_Code)Route_Code from (
+                       " & qry & " )xx group by SDate , Shift order by SDate, shift desc"
+                End If
 
                 dt = clsDBFuncationality.GetDataTable(qry)
                 Gv1.DataSource = Nothing
@@ -381,7 +387,7 @@ Public Class rptDailyQtyReport
 
                 If dt Is Nothing OrElse dt.Rows.Count > 0 Then
                     Gv1.DataSource = dt
-                    If rbtnDock.Checked = True Then
+                    If rbtnDock.Checked = True OrElse rbtnDockDateWise.Checked OrElse rbtnDockShiftWise.Checked Then
                         SetGridFormationOFGV1Dock()
                     ElseIf rdbMultiple.Checked = True Then
                         SetGridFormationOFGV1Multiple()
@@ -431,7 +437,7 @@ Public Class rptDailyQtyReport
                         Dim DiffSnfKg As New GridViewSummaryItem("Diff_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(DiffSnfKg)
                     End If
-                    If rbtnDock.Checked = False Then
+                    If rbtnDock.Checked = False AndAlso rbtnDockShiftWise.Checked = False AndAlso rbtnDockDateWise.Checked = False Then
                         If rdbSummary.Checked = True Then
                             '  Entered_Qty , Entered_FAT,Entered_SNF,Entered_FATKg,Entered_SNFKg
                             ' DiffEnteredVsMCC_Qty, DiffEnteredVsMCC_FAT,DiffEnteredVsMCC_SNF,DiffEnteredVsMCC_FATKG,DiffEnteredVsMCC_SNFKG
@@ -593,7 +599,7 @@ Public Class rptDailyQtyReport
                     Exit Sub
                 End If
                 ReStoreGridLayout()
-                If rbtnDock.Checked = False Then
+                If rbtnDock.Checked = False AndAlso rbtnDockDateWise.Checked = False AndAlso rbtnDockShiftWise.Checked = False Then
                     View()
                 End If
 
@@ -626,7 +632,7 @@ Public Class rptDailyQtyReport
                 Dim whre As String = ""
                 Dim strMilkCollectionMCCStatus As String = ""
                 Dim strMilkcollectionDCSStatus As String = ""
-                If rbtnDock.Checked = False Then
+                If rbtnDock.Checked = False AndAlso rbtnDockDateWise.Checked = False AndAlso rbtnDockShiftWise.Checked = False Then
                     If clsCommon.CompairString(cboItemType.SelectedValue, "Posted") = CompairStringResult.Equal Then
                         strMilkCollectionMCCStatus = " and TSPL_MILK_COLLECTION_MCC.Status = 1 "
                         strMilkcollectionDCSStatus = " and TSPL_MILK_COLLECTION_DCS.Status = 1 "
@@ -659,13 +665,21 @@ Public Class rptDailyQtyReport
 left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=XXXFinal.Document_No"
 
                     'qry = qry + " order by TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No asc "
-                ElseIf rbtnDock.Checked = True Then
+                ElseIf rbtnDock.Checked = True OrElse rbtnDockDateWise.Checked OrElse rbtnDockShiftWise.Checked Then
                     qry = ""
                     Dim strFilterQry As String = ""
                     Dim strQryStatus1 As String = ""
                     Dim strQryStatus2 As String = ""
+                    Dim Area As String = ""
                     If txtMCC_Code.Value.Length > 0 Then
                         strFilterQry = " and TSPL_MCC_MASTER.MCC_Code in ('" + txtMCC_Code.Value + "') "
+                    End If
+                    Dim AreaName As String = Nothing
+                    AreaName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_NAME from TSPL_MCC_MASTER WHERE Area_Location_Code = '" + fndArea.Value + "' "))
+
+
+                    If clsCommon.myLen(fndArea.Value) > 0 Then
+                        Area += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
                     End If
 
                     If clsCommon.CompairString(cboItemType.SelectedValue, "Posted") = CompairStringResult.Equal Then
@@ -678,7 +692,7 @@ left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No
 
 
                     qry = "Select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS SNo,CONVERT(varchar(10), tmp.Shift_Date, 103) As SDate ,tmp.Shift As Shift,No_Of_Cans As Qty,Milk_Weight As Milk_Wtd,FAT as FAT,SNF as SNF,convert(decimal(18,2),((Milk_Weight*FAT)/100)) As Fat_KG,convert(decimal(18,2),((Milk_Weight*SNF)/100)) As SNF_KG,'' As Rate,'' As Amt,tmp.VLC_Code, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader As DCS_Uploader_Code,TSPL_VLC_MASTER_HEAD.VLC_Code As DCS_Code,TSPL_VLC_MASTER_HEAD.VLC_Name  As DCS_Name
-                        ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader  As BMC_Uploader_Code,TSPL_MCC_MASTER.MCC_Code As BMC_Code,TSPL_MCC_MASTER.MCC_NAME As BMC_Name
+                        ,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader  As BMC_Uploader_Code,TSPL_MCC_MASTER.MCC_Code As BMC_Code,TSPL_MCC_MASTER.MCC_NAME As BMC_Name,'" + AreaName + "' as Area,TSPL_VLC_MASTER_HEAD.Route_Code
                         from(
                         Select Shift_Date,Shift,No_Of_Cans,Milk_Weight,FAT,SNF,VLC_Code  from TSPL_MILK_SHIFT_UPLOADER_DETAIL
                         Left Outer Join TSPL_MILK_SHIFT_UPLOADER_HEAD ON TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
@@ -743,6 +757,14 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
              ORDER  BY Tanker_No asc "
                 End If
 
+                If rbtnDockDateWise.Checked Then
+                    qry = "Select ROW_NUMBER() OVER(ORDER BY (Select 1)) As SNo, SDate , sum(Qty)Qty , sum(Milk_Wtd)Milk_Wtd ,convert(Decimal(18,2),(sum(Fat_KG * 100)/SUM(Milk_Wtd))) As FAT,convert(Decimal(18,2),(sum(SNF_KG * 100)/SUM(Milk_Wtd))) As SNF, sum(Fat_KG)Fat_KG , sum(SNF_KG)SNF_KG , max(Rate)Rate , max(Amt)Amt , max(VLC_Code)VLC_Code , max(DCS_Uploader_Code)DCS_Uploader_Code , max(DCS_Code)DCS_Code , max(DCS_Name)DCS_Name , max(BMC_Uploader_Code)BMC_Uploader_Code , max(BMC_Code)BMC_Code , max(BMC_Name)BMC_Name , max(Area)Area , max(Route_Code)Route_Code from (
+                       " & qry & " )xx group by SDate order by SDate"
+
+                ElseIf rbtnDockShiftWise.Checked Then
+                    qry = "select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) AS SNo, SDate,Shift , sum(Qty)Qty , sum(Milk_Wtd)Milk_Wtd ,convert(decimal(18,2),(sum(Fat_KG * 100)/SUM(Milk_Wtd))) as FAT,convert(decimal(18,2),(sum(SNF_KG * 100)/SUM(Milk_Wtd))) AS SNF, sum(Fat_KG)Fat_KG , sum(SNF_KG)SNF_KG , max(Rate)Rate , max(Amt)Amt , max(VLC_Code)VLC_Code , max(DCS_Uploader_Code)DCS_Uploader_Code , max(DCS_Code)DCS_Code , max(DCS_Name)DCS_Name , max(BMC_Uploader_Code)BMC_Uploader_Code , max(BMC_Code)BMC_Code , max(BMC_Name)BMC_Name , max(Area)Area , max(Route_Code)Route_Code from (
+                       " & qry & " )xx group by SDate , Shift order by SDate, shift desc"
+                End If
                 dt = clsDBFuncationality.GetDataTable(qry)
                 Gv1.DataSource = Nothing
                 Gv1.Rows.Clear()
@@ -753,7 +775,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
 
                 If dt Is Nothing OrElse dt.Rows.Count > 0 Then
                     Gv1.DataSource = dt
-                    If rbtnDock.Checked = True Then
+                    If rbtnDock.Checked = True OrElse rbtnDockDateWise.Checked OrElse rbtnDockShiftWise.Checked Then
                         SetGridFormationOFGV1Dock()
                     Else
                         SetGridFormationOFGV1()
@@ -795,7 +817,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                     summaryRowItem.Add(DiffFatKg)
                     Dim DiffSnfKg As New GridViewSummaryItem("Diff_SNFKG", "{0:F2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(DiffSnfKg)
-                    If rbtnDock.Checked = False Then
+                    If rbtnDock.Checked = False AndAlso rbtnDockDateWise.Checked = False AndAlso rbtnDockShiftWise.Checked = False Then
                         If rdbSummary.Checked = True Then
                             '  Entered_Qty , Entered_FAT,Entered_SNF,Entered_FATKg,Entered_SNFKg
                             ' DiffEnteredVsMCC_Qty, DiffEnteredVsMCC_FAT,DiffEnteredVsMCC_SNF,DiffEnteredVsMCC_FATKG,DiffEnteredVsMCC_SNFKG
@@ -872,7 +894,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                     Exit Sub
                 End If
                 ReStoreGridLayout()
-                If rbtnDock.Checked = False Then
+                If rbtnDock.Checked = False AndAlso rbtnDockDateWise.Checked = False AndAlso rbtnDockShiftWise.Checked = False Then
                     View()
                 End If
 
@@ -1296,7 +1318,9 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             Gv1.Columns("SNo").HeaderText = "S.No."
             Gv1.Columns("SDate").HeaderText = "Date"
 
-            Gv1.Columns("Shift").HeaderText = "Shift"
+            If rbtnDockDateWise.Checked = False Then
+                Gv1.Columns("Shift").HeaderText = "Shift"
+            End If
             Gv1.Columns("Milk_Wtd").HeaderText = "QTY"
 
             Gv1.Columns("BMC_Uploader_Code").HeaderText = "BMC Uploader Code"
