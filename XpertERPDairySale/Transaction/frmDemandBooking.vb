@@ -3657,7 +3657,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
         'dr("Name") = "ALL"
         dt.Rows.Add(dr)
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            TripNO = clsCommon.myCstr(dt.Rows(dt.Rows.Count - 1)("Code"))
+            TripNO = clsCommon.myCstr(dt.Rows(0)("Code"))
             If dt.Rows.Count > 1 Then
                 Dim frmFC As New FrmFreeComboBox
                 frmFC.ComboSource = dt
