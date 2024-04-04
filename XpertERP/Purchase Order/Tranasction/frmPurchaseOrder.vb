@@ -72,6 +72,8 @@ Public Class frmPurchaseOrder
 
     Const colHeaderDiscountPer As String = "colHeaderDiscountPer"
     Const colHeaderDiscountAmt As String = "colHeaderDiscountAmt"
+    Const colDisPerUnit As String = "COLDISPERUNIT"
+    Const colDisAmtPerUnit As String = "COLDISAMTPERUNIT"
     Const colDisPer As String = "COLDISPER"
     Const colDetailDisAmt As String = "colDetailDisAmt"
 
@@ -1417,6 +1419,8 @@ Public Class frmPurchaseOrder
 
         Dim repoDisPer As GridViewDecimalColumn = New GridViewDecimalColumn()
         Dim repoDisAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
+        Dim repoDisPerUnit As GridViewDecimalColumn = New GridViewDecimalColumn()
+        Dim repoDisAmtPerUnit As GridViewDecimalColumn = New GridViewDecimalColumn()
 
         repoDisPer = New GridViewDecimalColumn()
         repoDisPer.FormatString = "{0:N2}"
@@ -1440,6 +1444,30 @@ Public Class frmPurchaseOrder
         repoDisAmt.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoDisAmt)
 
+
+        repoDisPerUnit = New GridViewDecimalColumn()
+        repoDisPerUnit.FormatString = "{0:n2}"
+        repoDisPerUnit.HeaderText = "Discount Per Unit"
+        repoDisPerUnit.Minimum = 0
+        repoDisPerUnit.Maximum = 100
+        repoDisPerUnit.Name = colDisPerUnit
+        repoDisPerUnit.Width = 80
+        repoDisPerUnit.DecimalPlaces = 2
+        repoDisPerUnit.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoDisPerUnit)
+
+
+        repoDisAmtPerUnit = New GridViewDecimalColumn()
+        repoDisAmtPerUnit.FormatString = "{0:n2}"
+        repoDisAmtPerUnit.HeaderText = "Discount Amt UnitWise"
+        repoDisAmtPerUnit.Minimum = 0
+        repoDisAmtPerUnit.Maximum = 100
+        repoDisAmtPerUnit.Name = colDisAmtPerUnit
+        repoDisAmtPerUnit.Width = 80
+        repoDisAmtPerUnit.DecimalPlaces = 2
+        repoDisAmtPerUnit.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoDisAmtPerUnit)
+
         repoDisPer = New GridViewDecimalColumn()
         repoDisPer.FormatString = "{0:N2}"
         repoDisPer.HeaderText = "Discount %"
@@ -1459,7 +1487,7 @@ Public Class frmPurchaseOrder
         repoDisAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoDisAmt.VisibleInColumnChooser = False
         repoDisAmt.ReadOnly = True
-        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal Then
+        If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
             repoDisAmt.ReadOnly = False
         Else
             repoDisAmt.ReadOnly = True
