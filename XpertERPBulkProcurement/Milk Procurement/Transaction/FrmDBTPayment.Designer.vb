@@ -22,7 +22,7 @@ Partial Class FrmDBTPayment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadLabel12 = New common.Controls.MyLabel()
@@ -101,11 +101,12 @@ Partial Class FrmDBTPayment
         Me.RadLabel12.FieldName = Nothing
         Me.RadLabel12.Font = New System.Drawing.Font("Arial", 6.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel12.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel12.Location = New System.Drawing.Point(434, 51)
+        Me.RadLabel12.Location = New System.Drawing.Point(197, 51)
         Me.RadLabel12.Name = "RadLabel12"
-        Me.RadLabel12.Size = New System.Drawing.Size(156, 13)
+        Me.RadLabel12.Size = New System.Drawing.Size(390, 13)
         Me.RadLabel12.TabIndex = 26
-        Me.RadLabel12.Text = "Double click To View Attachments"
+        Me.RadLabel12.Text = "Double click on [ DBT NEFT No ] To View Attachments || Reference No for Pay Manag" &
+    "er"
         '
         'MyLabel34
         '
@@ -189,7 +190,8 @@ Partial Class FrmDBTPayment
         '
         Me.gvDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDetail.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gvDetail.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDetail.MyStopExport = False
         Me.gvDetail.Name = "gvDetail"
         Me.gvDetail.ShowHeaderCellButtons = True
         Me.gvDetail.Size = New System.Drawing.Size(592, 178)

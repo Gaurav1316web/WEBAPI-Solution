@@ -107,6 +107,8 @@ Partial Class frmDairyGatePass
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
+        Me.txtTripNo = New common.Controls.MyTextBox()
+        Me.lblTripNo = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -182,6 +184,8 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTripNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -233,6 +237,8 @@ Partial Class frmDairyGatePass
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.txtTripNo)
+        Me.Panel1.Controls.Add(Me.lblTripNo)
         Me.Panel1.Controls.Add(Me.txtSupplyDate)
         Me.Panel1.Controls.Add(Me.lblSupplyDate)
         Me.Panel1.Controls.Add(Me.txtDistributorName)
@@ -1470,6 +1476,40 @@ Partial Class frmDairyGatePass
         Me.RadMenu1.Size = New System.Drawing.Size(1069, 20)
         Me.RadMenu1.TabIndex = 0
         '
+        'txtTripNo
+        '
+        Me.txtTripNo.CalculationExpression = Nothing
+        Me.txtTripNo.FieldCode = Nothing
+        Me.txtTripNo.FieldDesc = Nothing
+        Me.txtTripNo.FieldMaxLength = 0
+        Me.txtTripNo.FieldName = Nothing
+        Me.txtTripNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTripNo.isCalculatedField = False
+        Me.txtTripNo.IsSourceFromTable = False
+        Me.txtTripNo.IsSourceFromValueList = False
+        Me.txtTripNo.IsUnique = False
+        Me.txtTripNo.Location = New System.Drawing.Point(790, 8)
+        Me.txtTripNo.MaxLength = 200
+        Me.txtTripNo.MendatroryField = False
+        Me.txtTripNo.MyLinkLable1 = Me.MyLabel2
+        Me.txtTripNo.MyLinkLable2 = Nothing
+        Me.txtTripNo.Name = "txtTripNo"
+        Me.txtTripNo.ReferenceFieldDesc = Nothing
+        Me.txtTripNo.ReferenceFieldName = Nothing
+        Me.txtTripNo.ReferenceTableName = Nothing
+        Me.txtTripNo.Size = New System.Drawing.Size(64, 18)
+        Me.txtTripNo.TabIndex = 1044
+        '
+        'lblTripNo
+        '
+        Me.lblTripNo.FieldName = Nothing
+        Me.lblTripNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTripNo.Location = New System.Drawing.Point(716, 9)
+        Me.lblTripNo.Name = "lblTripNo"
+        Me.lblTripNo.Size = New System.Drawing.Size(43, 16)
+        Me.lblTripNo.TabIndex = 1045
+        Me.lblTripNo.Text = "Trip No"
+        '
         'frmDairyGatePass
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -1562,6 +1602,8 @@ Partial Class frmDairyGatePass
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTripNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTripNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -1648,5 +1690,7 @@ Partial Class frmDairyGatePass
     Friend WithEvents txtSupplyDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblSupplyDate As common.Controls.MyLabel
     Friend WithEvents btnBoothSlip As RadButton
+    Friend WithEvents txtTripNo As common.Controls.MyTextBox
+    Friend WithEvents lblTripNo As common.Controls.MyLabel
 End Class
 

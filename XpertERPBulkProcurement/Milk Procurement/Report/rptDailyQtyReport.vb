@@ -279,19 +279,18 @@ Public Class rptDailyQtyReport
 
                 ElseIf rbtnRouteWise.Checked = True Then
                     qry = "SELECT ROW_NUMBER() OVER(ORDER BY ROUTE_NO) AS 'S.No.',  CONVERT (VARCHAR, Document_Date,103) AS Date , ROUTE_NO, max(ROUTE_NAME)ROUTE_NAME,  Sum (MCC_Qty) AS MCC_Qty, convert(decimal(18,2),(sum(MCC_FATKG)*100)/sum(MCC_Qty)) MCC_FAT_Per, convert(decimal(18,2),(sum(MCC_SNFKG)*100)/sum(MCC_Qty)) MCC_SNF_Per,
-                          Sum (MCC_FATKG) AS MCC_FATKG, Sum (MCC_SNFKG) AS MCC_SNFKG, sum(entered_qty) AS Entered_Qty, convert(decimal(18,2),(sum(Entered_FATKg)*100)/sum(Entered_Qty)) Entered_FAT_Per,convert(decimal(18,2),(sum(Entered_SNFKg)*100)/sum(Entered_Qty)) Entered_SNF_Per, Sum (entered_fatkg)  AS Entered_FATKg,
-                          Sum (entered_snfkg) AS Entered_SNFKg, Sum(entered_qty) - Sum(MCC_Qty) AS DiffEnteredVsMCC_Qty, Sum (entered_fatkg) - Sum (MCC_FATKG)  AS DiffEnteredVsMCC_FAT, Sum (entered_snfkg)- Sum (MCC_SNFKG) AS DiffEnteredVsMCC_SNF FROM   (
-						  SELECT ROUTE_NO,max(ROUTE_NAME)ROUTE_NAME,  sum(entered_qty) AS Entered_Qty, Isnull(sum(entered_fatkg),0) AS Entered_FATKg, Isnull(sum(entered_snfkg),0) AS Entered_SNFKg, (document_date) AS Document_Date,	 
-                          sum(MCC_Qty) AS MCC_Qty, Isnull(Sum(MCC_FATKG), 0) AS MCC_FATKG, Isnull(Sum(MCC_SNFKG), 0) AS MCC_SNFKG FROM   (
-						  SELECT tspl_bulk_route_master.ROUTE_NO,tspl_bulk_route_master.ROUTE_NAME, tspl_milk_collection_mcc.entered_qty, tspl_milk_collection_mcc.entered_fatkg, tspl_milk_collection_mcc.entered_snfkg,
+                          sum (MCC_FATKG) AS MCC_FATKG, sum (MCC_SNFKG) AS MCC_SNFKG, sum(entered_qty) AS Entered_Qty, convert(decimal(18,2),(sum(Entered_FATKg)*100)/sum(Entered_Qty)) Entered_FAT_Per,convert(decimal(18,2),(sum(Entered_SNFKg)*100)/sum(Entered_Qty)) Entered_SNF_Per, Sum (entered_fatkg)  AS Entered_FATKg,
+                          Sum (entered_snfkg) AS Entered_SNFKg, Sum(MCC_Qty) - Sum(Entered_Qty) AS DiffEnteredVsMCC_Qty, Sum (MCC_FATKG) - Sum (Entered_FATKg)  AS DiffEnteredVsMCC_FAT, Sum (MCC_SNFKG)- Sum (Entered_SNFKg) AS DiffEnteredVsMCC_SNF FROM ( SELECT ROUTE_NO,max(ROUTE_NAME)ROUTE_NAME,  sum(entered_qty) AS Entered_Qty, Isnull(sum(entered_fatkg),0) AS Entered_FATKg, Isnull(sum(entered_snfkg),0) AS Entered_SNFKg, (document_date) AS Document_Date,	 
+                          max(MCC_Qty) AS MCC_Qty, Isnull(max(MCC_FATKG), 0) AS MCC_FATKG, Isnull(max(MCC_SNFKG), 0) AS MCC_SNFKG FROM   (
+						  SELECT Trip_No, tspl_bulk_route_master.ROUTE_NO,tspl_bulk_route_master.ROUTE_NAME, ISNULL(qty,0) as entered_qty , FATKG as entered_fatkg, SNFKG as entered_snfkg,
                           tspl_milk_collection_mcc_detail.document_no, tspl_milk_collection_mcc.document_date
-                          AS Document_Date, Isnull(qty, 0) AS MCC_Qty, Isnull(fat, 0) AS MCC_FAT, ISNULL(SNF, 0) AS MCC_SNF, ISNULL(FATKG, 0) AS MCC_FATKG, 
-                          ISNULL(SNFKG, 0) AS MCC_SNFKG  FROM   tspl_milk_collection_mcc_detail
+                          AS Document_Date, Isnull(tspl_milk_collection_mcc.Entered_Qty, 0) AS MCC_Qty, Isnull(fat, 0) AS MCC_FAT, ISNULL(SNF, 0) AS MCC_SNF, ISNULL(tspl_milk_collection_mcc.Entered_FATKg, 0) AS MCC_FATKG, 
+                          ISNULL(tspl_milk_collection_mcc.Entered_SNFKg, 0) AS MCC_SNFKG  FROM   tspl_milk_collection_mcc_detail
                           LEFT OUTER JOIN tspl_milk_collection_mcc ON tspl_milk_collection_mcc.document_no = tspl_milk_collection_mcc_detail.document_no 
                           LEFT OUTER JOIN tspl_mcc_master ON tspl_mcc_master.mcc_code = tspl_milk_collection_mcc_detail.mcc_code 
                           LEFT OUTER JOIN tspl_bulk_route_master ON tspl_bulk_route_master.route_no = tspl_milk_collection_mcc.route_code
                            WHERE  CONVERT(DATE, tspl_milk_collection_mcc.document_date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) AND CONVERT (DATE, tspl_milk_collection_mcc.document_date, 103)
-                         <= CONVERT (DATE, '" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) ) xyz GROUP  BY ROUTE_NO, Document_Date) XXXFinal GROUP  BY  ROUTE_NO , Document_Date
+                         <= CONVERT (DATE, '" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) ) xyz GROUP  BY ROUTE_NO, Document_Date,Trip_No) XXXFinal GROUP  BY  ROUTE_NO , Document_Date
                          ORDER  BY ROUTE_NO , Document_Date asc "
                 ElseIf rdbCollectionWise.Checked = True Then
                     qry = " select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No,FORMAT(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date, 'dd/MM/yyyy') AS Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code,
@@ -2111,8 +2110,18 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 End If
                 qry += " ) xxx Group By xxx.Shift_Date,xxx.Shift ORDER BY xxx.Shift_Date"
             ElseIf rbtnBMCDock.Checked Then
-                qry = "Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [From Date],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [To Date],'" & objCommonVar.CurrentUser & "' as User_Name,Max(Convert(Date,xxx.Shift_Date,103))Shift_Date,Case When xxx.Shift='M' Then 'Morning' Else 'Evening' End As Shift,Max(xxx.MCC_NAME)MCC_NAME,'" + Area + "' as Area,Max(xxx.VLC)VLC,Max(xxx.[VLC Name])[VLC Name],Max(xxx.Route)Route,(Convert(int,xxx.[Route Code]))[Route Code],Sum(xxx.[No of Cans])[No of Cans],Sum(xxx.[Good Qty])[Good Qty],Sum(xxx.[Good FAT %])[Good FAT %],Sum(xxx.[Good FATKg])[Good FATKg],Sum(xxx.[Good SNF %])[Good SNF %],Sum(xxx.[Good SNFKG])[Good SNFKG],Sum(xxx.[SOUR Qty])[SOUR Qty],Sum(xxx.[SOUR FAT %])[SOUR FAT %],Sum(xxx.[SOUR FATKg])[SOUR FATKg],Sum(xxx.[SOUR SNF %])[SOUR SNF %],Sum(xxx.[SOUR SNFKG])[SOUR SNFKG],Sum(xxx.[CURD Qty])[CURD Qty],Sum([CURD FAT %])[CURD FAT %],Sum(xxx.[CURD FATKg])[CURD FATKg],Sum(xxx.[CURD SNF %])[CURD SNF %],Sum(xxx.[CURD SNFKG])[CURD SNFKG],Max(xxx.Comp_Name)Comp_Name
-                        from (select TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No,TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC, TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name],TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans as [No of Cans],TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO as [Route Code],TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as [Route],TSPL_COMPANY_MASTER.Comp_Name,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date
+                qry = "Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [From Date],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [To Date],'" & objCommonVar.CurrentUser & "' as User_Name,Max(Convert(Date,xxx.Shift_Date,103))Shift_Date,Case When xxx.Shift='M' Then 'Morning' Else 'Evening' End As Shift,"
+                If AreaWiseBilling = True Then
+                    qry += " Max(xxx.Location_Desc)MCC_NAME,"
+                Else
+                    qry += " Max(xxx.MCC_NAME)MCC_NAME,"
+                End If
+                qry += "Max(xxx.VLC)VLC,'" + Area + "' as Area,Max(xxx.[VLC Name])[VLC Name],Max(xxx.Route)Route,(Convert(int,xxx.[Route Code]))[Route Code],Sum(xxx.[No of Cans])[No of Cans],Sum(xxx.[Good Qty])[Good Qty],Sum(xxx.[Good FAT %])[Good FAT %],Sum(xxx.[Good FATKg])[Good FATKg],Sum(xxx.[Good SNF %])[Good SNF %],Sum(xxx.[Good SNFKG])[Good SNFKG],Sum(xxx.[SOUR Qty])[SOUR Qty],Sum(xxx.[SOUR FAT %])[SOUR FAT %],Sum(xxx.[SOUR FATKg])[SOUR FATKg],Sum(xxx.[SOUR SNF %])[SOUR SNF %],Sum(xxx.[SOUR SNFKG])[SOUR SNFKG],Sum(xxx.[CURD Qty])[CURD Qty],Sum([CURD FAT %])[CURD FAT %],Sum(xxx.[CURD FATKg])[CURD FATKg],Sum(xxx.[CURD SNF %])[CURD SNF %],Sum(xxx.[CURD SNFKG])[CURD SNFKG],Max(xxx.Comp_Name)Comp_Name
+                        from (select TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No,"
+                If AreaWiseBilling =True
+                    qry += " xxxSetLocation.Location_Desc,"
+                End If
+                qry += "TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC, TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name],TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans as [No of Cans],TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO as [Route Code],TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as [Route],TSPL_COMPANY_MASTER.Comp_Name,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date
                         ,case When isnull(Reject_Type,'')='' then Milk_Weight else 0 end as [Good Qty]
                         ,case When isnull(Reject_Type,'')='' then FAT else 0 end as [Good FAT %]
                         ,case When isnull(Reject_Type,'')='' then cast(Milk_Weight*FAT/100 as decimal(18,3)) else 0 end as [Good FATKg]
@@ -2130,8 +2139,12 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                         left outer Join TSPL_MILK_SHIFT_UPLOADER_HEAD On TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
                         left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
                         left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
-                        Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
-                        Left outer join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "'                        
+                        Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC"
+                If AreaWiseBilling =True Then
+                    qry += " Left Outer Join( select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,tspl_location_master.Location_Desc,tspl_location_master.Location_Code   From TSPL_PAYMENT_PROCESS_HEAD left  join tspl_location_master on tspl_location_master.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code)  xxxSetLocation On xxxSetLocation.Location_Code=TSPL_MCC_MASTER.area_Location_code "
+                End If
+
+                qry += "Left outer join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "'                        
                         where Convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103)>=convert(date,'" + fromDate.Value + "',103)  And Convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date,103)<=convert (date,'" + dtpToDate.Value + "',103) "
 
                 If AreaWiseBilling Then
