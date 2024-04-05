@@ -343,6 +343,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptProductSaleTaxableChallan.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleReturn.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceGNG.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceBKN.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
@@ -1318,6 +1319,9 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNew.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewJPR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceneww.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviseBankWiseSubReportALW.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviseReportALW.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviseSubReportALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankWiseSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankSummary.rpt" />
@@ -1621,6 +1625,7 @@
     <None Include="Crystal Reports\Purchase\rptAPInvoice.rpt" />
     <None Include="Crystal Reports\Purchase\rptAPInvoice_old.rpt" />
     <None Include="Crystal Reports\Purchase\rptRouteList.rpt" />
+    <None Include="Crystal Reports\Purchase\rptTransactionWiseStock.rpt" />
     <None Include="Crystal Reports\Purchase\rptVendorSecurity.rpt" />
     <None Include="Crystal Reports\Purchase\rptVendorSecurity_summary.rpt" />
     <None Include="Crystal Reports\Purchase\VendorLedger.rpt" />

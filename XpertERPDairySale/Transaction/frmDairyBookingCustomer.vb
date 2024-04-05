@@ -865,7 +865,7 @@ Public Class frmDairyBookingCustomer
         repoCF.Name = colCF
         repoCF.Width = 100
         repoCF.ReadOnly = True
-        repoCF.IsVisible = True
+        repoCF.IsVisible = False
         repoCF.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoCF)
         Dim repoCFinKg As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -874,7 +874,7 @@ Public Class frmDairyBookingCustomer
         repoCFinKg.Name = colCFKG
         repoCFinKg.Width = 100
         repoCFinKg.ReadOnly = True
-        repoCFinKg.IsVisible = True
+        repoCFinKg.IsVisible = False
         repoCFinKg.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoCFinKg)
         Dim repoQtyinKg As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -883,7 +883,7 @@ Public Class frmDairyBookingCustomer
         repoQtyinKg.Name = colQtyinKG
         repoQtyinKg.Width = 100
         repoQtyinKg.ReadOnly = True
-        repoQtyinKg.IsVisible = True
+        repoQtyinKg.IsVisible = False
         repoQtyinKg.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoQtyinKg)
         Dim DC_PKID As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -892,7 +892,7 @@ Public Class frmDairyBookingCustomer
         DC_PKID.Name = ColDCPKID
         DC_PKID.Width = 100
         DC_PKID.ReadOnly = True
-        DC_PKID.IsVisible = True
+        DC_PKID.IsVisible = False
         DC_PKID.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(DC_PKID)
         Dim DC_ApplicableDate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -901,7 +901,7 @@ Public Class frmDairyBookingCustomer
         DC_ApplicableDate.Name = ColDCApplicableDate
         DC_ApplicableDate.Width = 100
         DC_ApplicableDate.ReadOnly = True
-        DC_ApplicableDate.IsVisible = True
+        DC_ApplicableDate.IsVisible = False
         DC_ApplicableDate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(DC_ApplicableDate)
         Dim DC_UOM As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -919,7 +919,7 @@ Public Class frmDairyBookingCustomer
         DC_Rate.Name = ColDCRate
         DC_Rate.Width = 100
         DC_Rate.ReadOnly = True
-        DC_Rate.IsVisible = True
+        DC_Rate.IsVisible = False
         DC_Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(DC_Rate)
         Dim DC_RateWithTax As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -928,7 +928,7 @@ Public Class frmDairyBookingCustomer
         DC_RateWithTax.Name = ColDCRateWithTax
         DC_RateWithTax.Width = 100
         DC_RateWithTax.ReadOnly = True
-        DC_RateWithTax.IsVisible = True
+        DC_RateWithTax.IsVisible = False
         DC_RateWithTax.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(DC_RateWithTax)
         Dim DC_UnitCF As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -937,7 +937,7 @@ Public Class frmDairyBookingCustomer
         DC_UnitCF.Name = ColDCUnitCF
         DC_UnitCF.Width = 100
         DC_UnitCF.ReadOnly = True
-        DC_UnitCF.IsVisible = True
+        DC_UnitCF.IsVisible = False
         DC_UnitCF.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(DC_UnitCF)
         Dim DC_QtyInSU As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -946,7 +946,7 @@ Public Class frmDairyBookingCustomer
         DC_QtyInSU.Name = ColDCQtyinSU
         DC_QtyInSU.Width = 100
         DC_QtyInSU.ReadOnly = True
-        DC_QtyInSU.IsVisible = True
+        DC_QtyInSU.IsVisible = False
         DC_QtyInSU.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(DC_QtyInSU)
         Dim DC_CFUOM As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -955,7 +955,7 @@ Public Class frmDairyBookingCustomer
         DC_CFUOM.Name = ColDCCFUOM
         DC_CFUOM.Width = 100
         DC_CFUOM.ReadOnly = True
-        DC_CFUOM.IsVisible = True
+        DC_CFUOM.IsVisible = False
         DC_CFUOM.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(DC_CFUOM)
         Dim DC_Amt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -964,7 +964,7 @@ Public Class frmDairyBookingCustomer
         DC_Amt.Name = ColDCAmt
         DC_Amt.Width = 100
         DC_Amt.ReadOnly = True
-        DC_Amt.IsVisible = True
+        DC_Amt.IsVisible = False
         DC_Amt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(DC_Amt)
         Dim SC_Rate As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -973,7 +973,7 @@ Public Class frmDairyBookingCustomer
         SC_Rate.Name = ColSCRate
         SC_Rate.Width = 100
         SC_Rate.ReadOnly = True
-        SC_Rate.IsVisible = True
+        SC_Rate.IsVisible = False
         SC_Rate.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(SC_Rate)
         Dim SC_Amt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -982,7 +982,7 @@ Public Class frmDairyBookingCustomer
         SC_Amt.Name = ColSCAmt
         SC_Amt.Width = 100
         SC_Amt.ReadOnly = True
-        SC_Amt.IsVisible = True
+        SC_Amt.IsVisible = False
         SC_Amt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(SC_Amt)
         ' colItemBasicPrice
@@ -1218,9 +1218,14 @@ Public Class frmDairyBookingCustomer
         End If
         If rbtnNonTax.IsChecked Then
             whrCls += " and IsTaxable=0"
+
         ElseIf rbtnTaxable.IsChecked Then
             whrCls += " and IsTaxable=1"
+            If chkGhee.Checked Then
+                whrCls += " and TypeOfItm='G' "
+            End If
         End If
+
         'Sanjay BHA/09/07/18-000142
         whrCls += " and isnull(TSPL_ITEM_MASTER.item_type,'')='F' "
         'Sanjay BHA/09/07/18-000142
@@ -1618,7 +1623,14 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
             If Not gv1.Rows(IntRowNo).Cells(ColDCRate).Value = Nothing AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCRate).Value) >= 0 Then
                 gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value = Math.Round(gv1.Rows(IntRowNo).Cells(ColDCRate).Value * 100 / (100 + dblTotTaxRate), 4)
                 gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value = (gv1.Rows(IntRowNo).Cells(colQty).Value * gv1.Rows(IntRowNo).Cells(ColDCUnitCF).Value) / gv1.Rows(IntRowNo).Cells(ColDCCFUOM).Value
-                gv1.Rows(IntRowNo).Cells(ColDCAmt).Value = gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value * gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value
+                If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                    gv1.Rows(IntRowNo).Cells(ColDCAmt).Value = gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value * gv1.Rows(IntRowNo).Cells(ColDCRate).Value
+
+                Else
+                    gv1.Rows(IntRowNo).Cells(ColDCAmt).Value = gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value * gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value
+
+                End If
+                ' gv1.Rows(IntRowNo).Cells(ColDCAmt).Value = gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value * gv1.Rows(IntRowNo).Cells(ColDCRateWithTax).Value
                 gv1.Rows(IntRowNo).Cells(ColSCAmt).Value = clsCommon.myCstr(clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCQtyinSU).Value) * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColSCRate).Value))
                 dblTotalDCAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCAmt).Value)
                 If dblTotalDCAmt > 0 Then
@@ -2059,6 +2071,8 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
         chkDistributor.Checked = True
         chkDCS.Checked = False
         chkBPL.Checked = False
+        chkGhee.Checked = False
+        chkGhee.Enabled = True
         txtCouponCode.Text = ""
         txtCouponDate.Text = clsCommon.GETSERVERDATE()
         txtBPLName.Text = ""
@@ -2807,6 +2821,12 @@ order by TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date desc,TSPL_DISTRIBUTOR_
                     obj.Is_BPL = 0
                     obj.BPL_Coupon_Date = Nothing
                 End If
+                If chkGhee.Checked Then
+                    obj.Is_GHEE = 1
+                Else
+                    obj.Is_GHEE = 0
+                End If
+
                 If chkDistributor.Checked Then
                     obj.Is_Distributor = 1
                 Else
@@ -3191,6 +3211,8 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                 chkGatePass.Checked = IIf(obj.AgainstGatePass = 1, True, False)
                 chkDCS.Checked = IIf(obj.Is_DCS = 1, True, False)
                 chkBPL.Checked = IIf(obj.Is_BPL = 1, True, False)
+                chkGhee.Checked = IIf(obj.Is_GHEE = 1, True, False)
+                chkGhee.Enabled = False
                 chkDistributor.Checked = IIf(obj.Is_Distributor = 1, True, False)
                 If chkBPL.Checked Then
                     txtCouponCode.Text = obj.BPL_Coupon_Code
@@ -6355,7 +6377,7 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
         Dim obj As clsBookingEntryDairySale = Nothing
         Try
             If ShowDemandDoc Then
-                Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Against_DemandBooking_No,TSPL_BOOKING_MATSER.Ship_To_Location,TSPL_BOOKING_MATSER.Created_Date,TSPL_BOOKING_MATSER.AdvanceAmount,TSPL_BOOKING_MATSER.Against_Receipt_No,TSPL_BOOKING_MATSER.Against_Booking_No,TSPL_BOOKING_MATSER.Payment_Mode,TSPL_BOOKING_MATSER.Reference_No,TSPL_BOOKING_MATSER.Counter_No,TSPL_BOOKING_MATSER.IsSampling,TSPL_BOOKING_MATSER.AgainstGatePass,TSPL_BOOKING_MATSER.Document_No,TSPL_BOOKING_MATSER.Document_Date,TSPL_BOOKING_MATSER.Posted,CreateDO_Automatic,TSPL_BOOKING_MATSER.location_code,Cust_Group_Code,Is_Taxable,TRANSACTION_TYPE,Ex_Factory_Date,isnull(CustPO_No,'') as CustPO_No,custpo_date,isnull(SalesmanCode,'') as SalesmanCode,Total_Can,total_Box,Total_Crate,isnull(Is_Cancelled,0) as Is_Cancelled, isnull(Booking_Type,'') as Booking_Type,isnull(Card_SALE_No,'') as Card_SALE_No,CardSale_FROM_DATE,CardSale_TO_DATE,Uploading_date ,isnull(Credit_Limit,0) as Credit_Limit,isnull(Advance_Security,0) as Advance_Security,isnull(Revese_Adv_Security,0) as Revese_Adv_Security,isnull(AR_Credit_Security,0) as AR_Credit_Security,isnull(Pending_Posted_DO,0) as Pending_Posted_DO,isnull(UnPostedDispatch,0) as UnPostedDispatch,isnull(Ledger_Outstansing,0) as Ledger_Outstansing,isnull(Refund_Security,0) as Refund_Security,isnull(Reverse_Refund_Sec,0) as Reverse_Refund_Sec,isnull(Total_Outstanding,0) as Total_Outstanding, isnull(GatePass_Type,'') as GatePass_Type,Created_By,comp_code,Is_DCS,Is_BPL,BPL_Coupon_Code,BPL_Name,BPL_Remark,Is_Distributor,BPL_Category,BPL_Coupon_Date,TSPL_BOOKING_DETAIL.Vehicle_Code from TSPL_BOOKING_MATSER left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No where comp_code='" + objCommonVar.CurrentCompanyCode + "' and convert(date,TSPL_BOOKING_MATSER.Document_Date ,103)=convert(date,'" + clsCommon.GetPrintDate(DocDate) + "',103) and TSPL_BOOKING_DETAIL.Cust_Code='" + VendorCode + "' "
+                Dim qry As String = "select distinct TSPL_BOOKING_MATSER.Against_DemandBooking_No,TSPL_BOOKING_MATSER.Ship_To_Location,TSPL_BOOKING_MATSER.Created_Date,TSPL_BOOKING_MATSER.AdvanceAmount,TSPL_BOOKING_MATSER.Against_Receipt_No,TSPL_BOOKING_MATSER.Against_Booking_No,TSPL_BOOKING_MATSER.Payment_Mode,TSPL_BOOKING_MATSER.Reference_No,TSPL_BOOKING_MATSER.Counter_No,TSPL_BOOKING_MATSER.IsSampling,TSPL_BOOKING_MATSER.AgainstGatePass,TSPL_BOOKING_MATSER.Document_No,TSPL_BOOKING_MATSER.Document_Date,TSPL_BOOKING_MATSER.Posted,CreateDO_Automatic,TSPL_BOOKING_MATSER.location_code,Cust_Group_Code,Is_Taxable,TRANSACTION_TYPE,Ex_Factory_Date,isnull(CustPO_No,'') as CustPO_No,custpo_date,isnull(SalesmanCode,'') as SalesmanCode,Total_Can,total_Box,Total_Crate,isnull(Is_Cancelled,0) as Is_Cancelled, isnull(Booking_Type,'') as Booking_Type,isnull(Card_SALE_No,'') as Card_SALE_No,CardSale_FROM_DATE,CardSale_TO_DATE,Uploading_date ,isnull(Credit_Limit,0) as Credit_Limit,isnull(Advance_Security,0) as Advance_Security,isnull(Revese_Adv_Security,0) as Revese_Adv_Security,isnull(AR_Credit_Security,0) as AR_Credit_Security,isnull(Pending_Posted_DO,0) as Pending_Posted_DO,isnull(UnPostedDispatch,0) as UnPostedDispatch,isnull(Ledger_Outstansing,0) as Ledger_Outstansing,isnull(Refund_Security,0) as Refund_Security,isnull(Reverse_Refund_Sec,0) as Reverse_Refund_Sec,isnull(Total_Outstanding,0) as Total_Outstanding, isnull(GatePass_Type,'') as GatePass_Type,Created_By,comp_code,Is_DCS,Is_BPL,Is_GHEE,BPL_Coupon_Code,BPL_Name,BPL_Remark,Is_Distributor,BPL_Category,BPL_Coupon_Date,TSPL_BOOKING_DETAIL.Vehicle_Code from TSPL_BOOKING_MATSER left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No where comp_code='" + objCommonVar.CurrentCompanyCode + "' and convert(date,TSPL_BOOKING_MATSER.Document_Date ,103)=convert(date,'" + clsCommon.GetPrintDate(DocDate) + "',103) and TSPL_BOOKING_DETAIL.Cust_Code='" + VendorCode + "' "
                 Dim isDemandDoc = clsDBFuncationality.getSingleValue("select top 1 TSPL_BOOKING_DETAIL.Against_DemandBooking_No from TSPL_BOOKING_MATSER left join TSPL_BOOKING_DETAIL on TSPL_BOOKING_MATSER.Document_No=TSPL_BOOKING_DETAIL.Document_No where convert(date,TSPL_BOOKING_MATSER.Document_Date ,103)=convert(date,'" + clsCommon.GetPrintDate(DocDate) + "',103) and TSPL_BOOKING_DETAIL.Cust_Code='" + VendorCode + "'")
                 If clsCommon.myLen(isDemandDoc) > 0 Then
                     qry += "  and TSPL_BOOKING_MATSER.GatePass_Type='" + clsCommon.myCstr(cmbGatePassType.Text) + "'"
@@ -6423,6 +6445,8 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                         obj.GatePass_Type = clsCommon.myCstr(dt.Rows(0)("GatePass_Type"))
                         obj.Created_By = clsCommon.myCstr(dt.Rows(0)("Created_By"))
                         obj.Is_BPL = clsCommon.myCdbl(dt.Rows(0)("Is_BPL"))
+                        obj.Is_GHEE = clsCommon.myCdbl(dt.Rows(0)("Is_GHEE"))
+
                         obj.Is_Distributor = clsCommon.myCdbl(dt.Rows(0)("Is_Distributor"))
                         obj.BPL_Coupon_Code = clsCommon.myCstr(dt.Rows(0)("BPL_Coupon_Code"))
                         If dt.Rows(0)("BPL_Coupon_Date") IsNot DBNull.Value Then
@@ -6462,6 +6486,8 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
                         chkGatePass.Checked = IIf(obj.AgainstGatePass = 1, True, False)
                         chkDCS.Checked = IIf(obj.Is_DCS = 1, True, False)
                         chkBPL.Checked = IIf(obj.Is_BPL = 1, True, False)
+                        chkGhee.Checked = IIf(obj.Is_GHEE = 1, True, False)
+                        chkGhee.Enabled = False
                         chkDistributor.Checked = IIf(obj.Is_Distributor = 1, True, False)
                         'txtLocation.Enabled = False
                         txtVendorNo.Enabled = False
@@ -7668,12 +7694,14 @@ from
                     Dim objMultPrintInvoice As New FrmPrintFreshInvoice
                     Dim SaleInvoiceNo As New List(Of String)
                     SaleInvoiceNo.Add(clsDBFuncationality.getSingleValue("select Document_Code from TSPL_SD_SALE_INVOICE_head where Against_Shipment_No ='" + DocCode + "'"))
-                    Dim Qry As String = objMultPrintInvoice.PrintInvoiceForAll(clsCommon.GetMulcallString(SaleInvoiceNo))
+                    Dim Qry As String = objMultPrintInvoice.PrintInvoiceForAll(clsCommon.GetMulcallString(SaleInvoiceNo), txtDate.Value, txtVendorNo.Value)
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal AndAlso dt.Rows(0)("TaxableNonTaxable").ToString() = "T" Then
                         frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceBKN", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
                         frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptNonTaxableInvoiceBKN", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                        frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoiceGNG", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     Else
                         frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", clsCommon.GetPrintDate(txtDate.Value), "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                     End If

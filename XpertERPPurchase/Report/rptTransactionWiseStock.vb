@@ -31,8 +31,17 @@ Public Class rptTransactionWiseStock
     Private Sub Load_Transaction_Wise_Stock()
         Dim qry As String = " "
         Dim dt As New DataTable()
-
         Try
+            If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Location.", Me.Text)
+                txtBillToLocation.Focus()
+                Exit Sub
+            End If
+            If clsCommon.myLen(TxtItem.Value) <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "Plz Select Item.", Me.Text)
+                TxtItem.Focus()
+                Exit Sub
+            End If
             qry = " select * from 
                     (select xxxxxxx.Location_Code,[Loc Desp],Add1,Add4,convert(varchar, Punching_Date,103) as Punching_Date ,Trans_Id,
                     Trans_Type,Trans_Type_Name,Source_Doc_No,SourceCode,SourceName,SourceType ,Item_Code ,Item_Desc,Stock_UOM, case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else  Convert(decimal(18,3),(ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))) end as OPQty,

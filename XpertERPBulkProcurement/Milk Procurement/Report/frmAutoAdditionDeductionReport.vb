@@ -350,6 +350,7 @@ Public Class frmAutoAdditionDeductionReport
             Dim Qry1 As String = Nothing
             Dim Qry2 As String = Nothing
             Dim Qry3 As String = Nothing
+            Dim AreaWiseBilling As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
 
             ''Dim Qry3 As String = Nothing
             If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
@@ -409,15 +410,36 @@ Public Class frmAutoAdditionDeductionReport
             'group by TSPL_MILK_RECEIPT_DETAIL.VSP_CODE) MILK_RECEIPT_DETAIL ON MILK_RECEIPT_DETAIL.VSP_CODE=TSPL_VLC_MASTER_HEAD.VSP_Code
             '                           WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' " + Qry1 + Qry2 + " group by TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader
             'order by [DCS Code] asc"
-            Qry = "  select xxx.ACC_Qty,xxx.[Addition/Deduction Amount],xxx.[Addition/Deduction Description],xxx.Amount,xxx.Area,xxx.comp_code,xxx.[DCS Code],xxx.DCS_Addition_Deduction,xxx.Document_No
+            Qry = "  select xxx.ACC_Qty,xxx.[Addition/Deduction Amount],xxx.[Addition/Deduction Description],xxx.Amount,"
+            If AreaWiseBilling = True Then
+                Qry += " xxx.Area, "
+            Else
+                Qry += " xxx.Area,"
+            End If
+
+            Qry += "xxx.comp_code,xxx.[DCS Code],xxx.DCS_Addition_Deduction,xxx.Document_No
                      ,xxx.[Vendor Name],xxx.Vendor_Code,Logo_Img,Logo_Img2,Regn_No,Phone1,Comp_Name,'" + txtFromDate.Value + "' As FromDate ,'" + txtToDate.Value + "' As ToDate,'" & objCommonVar.CurrentUser & "' as User_Name 
-                     from (select max(final.[DCS Code])[DCS Code],(final.Vendor_Code)Vendor_Code,max(final.[Vendor Name])[Vendor Name],max(final.Area)Area,
+                     from (select max(final.[DCS Code])[DCS Code],(final.Vendor_Code)Vendor_Code,max(final.[Vendor Name])[Vendor Name],"
+            If AreaWiseBilling = True Then
+                Qry += " max(final.Area)Area,"
+            Else
+                Qry += " max(final.Area)Area,"
+            End If
+
+            Qry += " 
                      sum(final.[Addition/Deduction Amount])[Addition/Deduction Amount],
                      Final.DCS_Addition_Deduction,max(final.[Addition/Deduction Description])[Addition/Deduction Description],max(final.Document_No)Document_No,
                      sum(final.ACC_Qty)ACC_Qty,sum(final.Amount)Amount,max(comp_code)comp_code 
                      from 
                     (select cast(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as integer) as [DCS Code],TSPL_VENDOR_INVOICE_HEAD.Vendor_Code ,(TSPL_VENDOR_INVOICE_HEAD.Vendor_Name) as [Vendor Name]
-                    ,(TSPL_MCC_MASTER.MCC_Name) as Area,TSPL_VLC_MASTER_HEAD.comp_code,        
+                    ,"
+            If AreaWiseBilling = True Then
+                Qry += " xxxSetLocation.Location_Desc as Area,"
+            Else
+                Qry += "(TSPL_MCC_MASTER.MCC_Name) as Area,"
+            End If
+
+            Qry += "TSPL_VLC_MASTER_HEAD.comp_code,        
                     (TSPL_VENDOR_INVOICE_DETAIL.Total_Amount) As [Addition/Deduction Amount],TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,(TSPL_DCS_ADDITION_DEDUCTION.Description) As [Addition/Deduction Description],TSPL_VENDOR_INVOICE_HEAD.Document_No,
                     ( select sum(TSPL_MILK_SRN_DETAIL.ACC_Qty)ACC_Qty from  TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED 
                     left outer join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.SRN_CODE
@@ -431,8 +453,12 @@ Public Class frmAutoAdditionDeductionReport
                                        LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
                                        LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
                                        left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-									   left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
-									   WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  " + Qry1 + Qry2 + Qry3 + ")Final 
+									   left outer  join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC"
+            If AreaWiseBilling =True Then
+                Qry += " Left Outer Join( select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,tspl_location_master.Location_Desc,tspl_location_master.Location_Code   From TSPL_PAYMENT_PROCESS_HEAD left  join tspl_location_master on tspl_location_master.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code)  xxxSetLocation On xxxSetLocation.Location_Code=TSPL_MCC_MASTER.area_Location_code "
+            End If
+
+            Qry += "WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "'  " + Qry1 + Qry2 + Qry3 + ")Final 
 									   group by DCS_Addition_Deduction,Vendor_Code)xxx
                                        left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code=xxx.comp_code
 									   order by [DCS Code] asc "

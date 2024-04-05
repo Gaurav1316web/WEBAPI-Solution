@@ -505,10 +505,19 @@ Public Class rptVSPMilkNotSold
                         ''Dim qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where TSPL_DEDUCTION_MASTER.Code In('22','31','33','36')"
                         Dim Qry As String = "Select Code from TSPL_DEDUCTION_MASTER Where Code In (Select  TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode from TSPL_MULTIPLE_DEDUCTION_DETAIL
                                         Inner Join TSPL_MULTIPLE_DEDUCTION_HEAD On TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
-                                        Inner Join TSPL_VLC_MASTER_HEAD ON  TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code
-                                        where TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount>0 And 
-				                    	TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Text + "' 
-		                                And TSPL_VLC_MASTER_HEAD.VSP_Code Not In(Select VSP_Code from TSPL_MILK_SRN_HEAD where Doc_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And Doc_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "')) "
+                                        Inner Join TSPL_VLC_MASTER_HEAD ON  TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MULTIPLE_DEDUCTION_DETAIL.Vendor_Code"
+                        If AreaWiseBilling = True Then
+                            Qry += " inner join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_VLC_MASTER_HEAD.mcc				"
+                        End If
+                        Qry += "where TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount>0 "
+                        If AreaWiseBilling = True Then
+                            Qry += "  and tspl_mcc_master.Area_Location_Code='" + fndArea.Value + "'"
+                        Else
+                            Qry += "  and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Text + "' "
+                        End If
+                        Qry += "  And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' and 
+                                          TSPL_VLC_MASTER_HEAD.VSP_Code Not In(Select VSP_Code from TSPL_MILK_SRN_HEAD where Doc_Date >=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtpFromDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "' And Doc_Date  <=  '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtpToDate.Value), "dd/MMM/yyyy HH:mm:ss tt") + "')) "
+
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             Dim arr As New ArrayList
@@ -551,8 +560,14 @@ Public Class rptVSPMilkNotSold
 
             fndLoc.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Loc_Segment_Code from TSPL_LOCATION_MASTER where Location_Code ='" + fndArea.Value + "' "))
             txtLocName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select Description  from TSPL_GL_SEGMENT_CODE WHERE  Segment_code='" & fndLoc.Value & "' "))
-            txtMCC.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_Code from tspl_mcc_master where mcc_Code='" + fndArea.Value + "'"))
-            lblMCC.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_Name from tspl_mcc_master where mcc_Code='" + fndArea.Value + "'"))
+            If AreaWiseBilling = True Then
+                txtMCC.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_Code from tspl_mcc_master where Area_location_code='" + fndArea.Value + "'"))
+                lblMCC.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_Name from tspl_mcc_master where Area_location_code='" + fndArea.Value + "'"))
+            Else
+                txtMCC.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_Code from tspl_mcc_master where mcc_Code='" + fndArea.Value + "'"))
+                lblMCC.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select MCC_Name from tspl_mcc_master where mcc_Code='" + fndArea.Value + "'"))
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
