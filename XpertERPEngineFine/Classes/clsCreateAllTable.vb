@@ -20075,6 +20075,8 @@ Public Class clsCreateAllTable
             coll.Add("TAX10_Rate", "decimal(18, 2) NULL")
             coll.Add("TAX10_Amt", "decimal(18, 2) NULL")
             coll.Add("Amount", "decimal(18, 2) NULL")
+            coll.Add("Disc_Per_Unit", "decimal(18, 2) NULL")
+            coll.Add("Disc_Amt_Per_Unit", "decimal(18, 2) NULL")
             coll.Add("Disc_Per", "decimal(18, 2) NULL")
             coll.Add("Disc_Amt", "decimal(18, 2) NULL")
             coll.Add("Amt_Less_Discount", "decimal(18, 2) NULL")
