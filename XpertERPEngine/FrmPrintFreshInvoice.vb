@@ -847,13 +847,30 @@ Public Class FrmPrintFreshInvoice
         End If
         Return Qry
     End Function
-    Public Function PrintInvoiceForAll(ByVal strinvoiceNo) As String
+
+    Public Function PrintInvoiceForAll(ByVal strinvoiceNo As String, ByVal docDate As DateTime, ByVal CustCode As String) As String
         Dim Qry As String = Nothing
         If clsCommon.myLen(strinvoiceNo) > 0 Then
+            Dim dt As DataTable = Nothing
+            Dim OpeningBal As Decimal = 0
+            Dim ClosingBal As Decimal = 0
             Dim ShowShipToPartyInDairyDispatch As Integer = IIf(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.ShowShipToPartyInDairyDispatch & "'")) = 0, 0, 1)
             LeakageDeduction_Freshsale = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Description from TSPL_FIXED_PARAMETER where Code='" & clsFixedParameterCode.leakagededuction_freshsale & "'"))
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                dt = clsDBFuncationality.GetDataTable(clsDairyInvoice.GetBalCustWise(clsCommon.GetPrintDate(docDate), CustCode))
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    OpeningBal = dt.Rows(0)("OpngBal")
+                    ClosingBal = dt.Rows(0)("BalAmt")
+                End If
 
-            Qry = "  select Main_Final.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTReg_No As SellerGST,TSPL_COMPANY_MASTER.Pan_No,Convert(decimal(18,2),(valueInRs/((Qty_Default*ConversionFactor)/CF))) As RateLtr from ( select final.*,tbl_Brand.Brand,tbl_Brand.BRANDDESC from ( " &
+            End If
+            Qry = "  select Main_Final.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTReg_No As SellerGST,TSPL_COMPANY_MASTER.Pan_No,Convert(decimal(18,2),(valueInRs/((Qty_Default*ConversionFactor)/CF))) As RateLtr "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                Qry += " , isnull(TSPL_COMPANY_MASTER.Comp_Name,'') as Company_Name,  isnull(TSPL_COMPANY_MASTER.Add2,'') as Address2,TSPL_COMPANY_MASTER.Regn_No,
+  isnull(TSPL_COMPANY_MASTER.Access_Officer,'') as FSSAI_NO,TSPL_RECEIPT_HEADER.Receipt_No,TSPL_RECEIPT_HEADER.Receipt_Date,TSPL_RECEIPT_HEADER.Receipt_Amount,TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.cheque_No,TSPL_RECEIPT_HEADER.Cheque_Date, '" + clsCommon.myCstr(OpeningBal) + "' as OpeningBal,'" + clsCommon.myCstr(ClosingBal) + "' as ClosingBal "
+
+            End If
+            Qry += "from ( select final.*,tbl_Brand.Brand,tbl_Brand.BRANDDESC from ( " &
                     "select  (Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as Shift_Type,  TSPL_SD_SALE_INVOICE_DETAIL.TAX1 as ITAX1,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_RATE AS   ITAX1_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX2 as ITAX2,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_RATE AS ITAX2_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX3 AS ITAX3,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate AS ITAX3_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX4 AS ITAX4 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_RATE AS ITAX4_RATE,
                     TSPL_SD_SALE_INVOICE_DETAIL.TAX5 as ITAX5,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_RATE AS   ITAX5_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX6 as ITAX6,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_RATE AS ITAX6_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX7 AS ITAX7,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Rate AS ITAX7_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX8 AS ITAX8 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX8_RATE AS ITAX8_RATE,
                     TSPL_SD_SALE_INVOICE_DETAIL.TAX9 AS ITAX9,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Rate AS ITAX9_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX10 AS ITAX10 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_RATE AS ITAX10_RATE, 
@@ -913,7 +930,7 @@ Public Class FrmPrintFreshInvoice
                   (select type from TSPL_TAX_MASTER where Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.TAX3) as TaxType3,TSPL_SD_SALE_INVOICE_HEAD.TAX3, IsNull(TSPL_SD_SALE_INVOICE_HEAD.TAX3_Amt,0.00) As TAX3_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX3_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Amt as TAX3Amt,
                   (select type from TSPL_TAX_MASTER where Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.TAX4) as TaxType4,TSPL_SD_SALE_INVOICE_HEAD.TAX4, IsNull(TSPL_SD_SALE_INVOICE_HEAD.TAX4_Amt,0.00) As TAX4_Amt,TSPL_SD_SALE_INVOICE_HEAD.TAX4_Rate,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_Amt as TAX4Amt,
                   (select type from TSPL_TAX_MASTER where Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.TAX5) as TaxType5,TSPL_SD_SALE_INVOICE_HEAD.TAX5, IsNull(TSPL_SD_SALE_INVOICE_HEAD.TAX5_Amt,0.00) As TAX5_Amt,
-                  (select type from TSPL_TAX_MASTER where Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.TAX6) as TaxType6,TSPL_SD_SALE_INVOICE_HEAD.TAX6, IsNull(TSPL_SD_SALE_INVOICE_HEAD.TAX6_Amt,0.00) As TAX6_Amt,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Route_Desc,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt " &
+                  (select type from TSPL_TAX_MASTER where Tax_Code=TSPL_SD_SALE_INVOICE_HEAD.TAX6) as TaxType6,TSPL_SD_SALE_INVOICE_HEAD.TAX6, IsNull(TSPL_SD_SALE_INVOICE_HEAD.TAX6_Amt,0.00) As TAX6_Amt,TSPL_SD_SALE_INVOICE_HEAD.Route_No,TSPL_SD_SALE_INVOICE_HEAD.Route_Desc,TSPL_SD_SHIPMENT_HEAD.Distributor_Commission_TotalAmt, isnull(TSPL_SD_SHIPMENT_HEAD.Against_Delivery_Code,'') as Against_Delivery_Code " &
                 "from TSPL_SD_sale_invoice_DETAIL  " &
                 "LEFT OUTER JOIN TSPL_SD_SALE_INVOICE_HEAD ON TSPL_SD_SALE_INVOICE_HEAD .Document_Code =TSPL_SD_sale_invoice_DETAIL.DOCUMENT_CODE " &
                 "left outer join TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.Document_Code=TSPL_SD_SALE_INVOICE_HEAD.Against_Shipment_No " &
@@ -972,8 +989,13 @@ and not exists (select 1 from  (select  TSPL_SD_sale_invoice_DETAIL.Item_Code, "
                             " TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  ,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as Category_Value_Desc  from  TSPL_ITEM_MASTER    left outer join TSPL_ITEM_MASTER_CATEGORY on  TSPL_ITEM_MASTER_CATEGORY.Item_code = TSPL_ITEM_MASTER.Item_code " &
                             " left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values   where 2=2 )xx " &
                             " Pivot   ( max(Item_Cagetory_Values) for Item_Category_Code   in ( [CATEGORY RM],[BRAND],[SUB BRAND],[DESCRP],[PACK],[PACK SIZE],[CATEGORY OT],[CATEGORY FA],[P TYPE],[L TYPE],[JW],[SCRAP])  ) Pivt   Pivot  ( max(Category_Value_Desc) for Item_Category_CodeDesc in ([CATEGORY RMDESC]," &
-                            " [BRANDDESC],[SUB BRANDDESC],[DESCRPDESC],[PACKDESC],[PACK SIZEDESC],[CATEGORY OTDESC],[CATEGORY FADESC],[P TYPEDESC],[L TYPEDESC],[JWDESC],[SCRAPDESC])  ) Pivt1 ) xxx  group by Item_Code )  as tbl_Brand on tbl_Brand.Item_Code=final.item_Code  ) AS Main_Final left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code=Main_Final.comp_code " &
-                                " order  by Main_Final.Line_No asc,Main_Final.Sku_Seq "
+                            " [BRANDDESC],[SUB BRANDDESC],[DESCRPDESC],[PACKDESC],[PACK SIZEDESC],[CATEGORY OTDESC],[CATEGORY FADESC],[P TYPEDESC],[L TYPEDESC],[JWDESC],[SCRAPDESC])  ) Pivt1 ) xxx  group by Item_Code )  as tbl_Brand on tbl_Brand.Item_Code=final.item_Code  ) AS Main_Final left outer join TSPL_COMPANY_MASTER ON TSPL_COMPANY_MASTER.comp_code=Main_Final.comp_code "
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
+                Qry += " left join TSPL_DELIVERY_NOTE_MASTER_FRESHSALE on Main_Final.Against_Delivery_Code=TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_No
+  left join TSPL_BOOKING_MATSER on TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Booking_No=TSPL_BOOKING_MATSER.Document_No
+  left join TSPL_RECEIPT_HEADER on TSPL_BOOKING_MATSER.Against_Receipt_No=TSPL_RECEIPT_HEADER.Receipt_No "
+            End If
+            Qry += " order  by Main_Final.Line_No asc,Main_Final.Sku_Seq "
         End If
         Return Qry
     End Function

@@ -317,7 +317,7 @@ Public Class clsHeadLoadDCS
         Try
 
             Dim qry As String = "select top 1 TSPL_HEAD_LOAD.Start_Date ,TSPL_HEAD_LOAD_DCS .PK_Id, TSPL_HEAD_LOAD_DCS.Head_Load_Basis ,TSPL_HEAD_LOAD_DCS .Head_Load_Rate from TSPL_HEAD_LOAD 
-            left outer join TSPL_HEAD_LOAD_DCS on TSPL_HEAD_LOAD_DCS.Document_No = TSPL_HEAD_LOAD.Document_No where TSPL_HEAD_LOAD_DCS.VLC_CODE  = '" & VLC_CODE & "'  
+            left outer join TSPL_HEAD_LOAD_DCS on TSPL_HEAD_LOAD_DCS.Document_No = TSPL_HEAD_LOAD.Document_No where  TSPL_HEAD_LOAD.status = 1 and TSPL_HEAD_LOAD_DCS.VLC_CODE  = '" & VLC_CODE & "'  
             and TSPL_HEAD_LOAD.Start_Date <= '" & clsCommon.GetPrintDate(DcsDate, "dd/MMM/yyyy") & "' order by TSPL_HEAD_LOAD.Start_Date desc,PK_Id desc"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing And dt.Rows.Count > 0 Then

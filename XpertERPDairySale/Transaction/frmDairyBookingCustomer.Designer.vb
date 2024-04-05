@@ -32,6 +32,7 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkGhee = New Telerik.WinControls.UI.RadCheckBox()
         Me.rgbTaxNonTax = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblFATPER = New common.Controls.MyLabel()
         Me.txtMBRTHours = New common.Controls.MyTextBox()
@@ -292,6 +293,7 @@ Partial Class frmDairyBookingCustomer
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkGhee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbTaxNonTax.SuspendLayout()
         CType(Me.lblFATPER, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -585,11 +587,12 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage4)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
         Me.RadPageView1.Controls.Add(Me.RadPageViewPage5)
+        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1292, 455)
+        Me.RadPageView1.Size = New System.Drawing.Size(1281, 455)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -597,6 +600,7 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkGhee)
         Me.RadPageViewPage1.Controls.Add(Me.rgbTaxNonTax)
         Me.RadPageViewPage1.Controls.Add(Me.lblSubLocation)
         Me.RadPageViewPage1.Controls.Add(Me.lblLastCollectionDate)
@@ -663,8 +667,17 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(89.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1271, 409)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'chkGhee
+        '
+        Me.chkGhee.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkGhee.Location = New System.Drawing.Point(1029, 11)
+        Me.chkGhee.Name = "chkGhee"
+        Me.chkGhee.Size = New System.Drawing.Size(74, 16)
+        Me.chkGhee.TabIndex = 1557
+        Me.chkGhee.Text = "Only Ghee"
         '
         'rgbTaxNonTax
         '
@@ -1666,7 +1679,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadGroupBox2.Location = New System.Drawing.Point(2, 158)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(1266, 243)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(1255, 243)
         Me.RadGroupBox2.TabIndex = 28
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1691,7 +1704,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(1246, 213)
+        Me.gv1.Size = New System.Drawing.Size(1235, 213)
         Me.gv1.TabIndex = 17
         Me.gv1.TabStop = False
         '
@@ -4074,6 +4087,7 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkGhee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbTaxNonTax.ResumeLayout(False)
         Me.rgbTaxNonTax.PerformLayout()
@@ -4596,5 +4610,6 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents txtFATPER As common.Controls.MyTextBox
     Friend WithEvents lblFATPER As common.Controls.MyLabel
     Friend WithEvents rgbTaxNonTax As RadGroupBox
+    Friend WithEvents chkGhee As RadCheckBox
 End Class
 
