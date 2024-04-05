@@ -700,19 +700,36 @@ and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
                                     End If
                                 Next
                             End If
+                            Dim arrSRN As New ArrayList
+                            If idxDoc = 0 Then
+                                arrSRN = New ArrayList
+                                For Each dr As DataRow In dtDoc.Rows
+                                    arrSRN.Add(dr("Document_No")) ''Add all purchase invoice
+                                Next
+
+                                qry = "select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No in (" + clsCommon.GetMulcallString(arrSRN) + ")"
+                                dt = clsDBFuncationality.GetDataTable(qry, tran)
+                                arrSRN = New ArrayList
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    For Each dr As DataRow In dt.Rows
+                                        arrSRN.Add(dr("SRN_No"))
+                                    Next
+                                End If
+                                clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, False, False, True, tran)
+                            End If
 
 
                             qry = " and TSPL_SRN_HEAD.SRN_No in ( select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + clsCommon.myCstr(dtDoc.Rows(idxDoc)("Document_No")) + "')"
                             qry = GetBaseQery("0", qry)
                             dt = clsDBFuncationality.GetDataTable(qry, tran)
-                            Dim arrSRN As New ArrayList
+                            arrSRN = New ArrayList
                             For ii As Integer = 0 To dt.Rows.Count - 1
                                 If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
                                     arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
                                 End If
                             Next
 
-                            clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, False, False, True, tran)
+
                             arrSRN = New ArrayList
                             For ii As Integer = 0 To dt.Rows.Count - 1
                                 If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 AndAlso clsCommon.myCDecimal(dt.Rows(ii)("NIRQCStatus")) = 1 Then
