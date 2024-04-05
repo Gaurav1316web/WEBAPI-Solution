@@ -1,5 +1,4 @@
 ﻿Imports common
-
 Public Class frmDistributorCommission
     Inherits FrmMainTranScreen
 #Region "Variables"
@@ -26,7 +25,6 @@ Public Class frmDistributorCommission
         btnPrint.Visible = MyBase.isPrintFlag
         ' btnImport.Visible = MyBase.isExport
         btnReverse.Visible = False
-
         If MyBase.isExport = True Then
             rmiImport.Enabled = True
             rmiExport.Enabled = True
@@ -44,11 +42,9 @@ Public Class frmDistributorCommission
         'Else
         '    btnImport.Enabled = False
         'End If
-
     End Sub
     Private Sub frmDistributorCommission_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SeparateDemandMilkandProduct = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, Nothing)) = 1, True, False)
-
         txtDate.Value = clsCommon.GETSERVERDATE()
         txtApplicableDate.Value = clsCommon.GETSERVERDATE()
         txtInActiveDate.Value = clsCommon.GETSERVERDATE()
@@ -62,7 +58,6 @@ Public Class frmDistributorCommission
     Private Sub frmDistributorCommission_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
         If e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
-
                 Dim frm As New FrmPWD(Nothing)
                 frm.strType = "sirc"
                 frm.strCode = "sireversandcreate"
@@ -129,7 +124,6 @@ Public Class frmDistributorCommission
         repoCustName.IsVisible = True
         repoCustName.ReadOnly = True
         GV1.MasterTemplate.Columns.Add(repoCustName)
-
         Dim repoTextBox = New GridViewDecimalColumn()
         repoTextBox.FormatString = "{0:n4}"
         repoTextBox.HeaderText = "Rate Per UOM"
@@ -140,7 +134,6 @@ Public Class frmDistributorCommission
         repoNumBox.Step = 0
         repoTextBox.DecimalPlaces = 4
         repoTextBox.IsVisible = True
-
         'repoTextBox.ReadOnly = True
         GV1.MasterTemplate.Columns.Add(repoTextBox)
         If chkSecurity.Checked Then
@@ -156,7 +149,6 @@ Public Class frmDistributorCommission
             SecRateTextBox.IsVisible = True
             GV1.MasterTemplate.Columns.Add(SecRateTextBox)
         End If
-
         GV1.Enabled = True
         GV1.AllowAddNewRow = False
         GV1.ShowGroupPanel = False
@@ -171,7 +163,6 @@ Public Class frmDistributorCommission
     End Sub
     Private Sub btnAddNew_Click(sender As Object, e As EventArgs) Handles btnAddNew.Click
         AddNew()
-
     End Sub
     Public Sub AddNew()
         isNewEntry = True
@@ -193,11 +184,8 @@ Public Class frmDistributorCommission
         btnDelete.Enabled = False
         chkInActive.Checked = False
         cmbItemType.Enabled = False
-
         LoadBlankGrid()
-
     End Sub
-
     Private Sub txtUOM__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtUOM._MYValidating
         Try
             Dim qry As String = "select Unit_Code as Code,Unit_Desc as Description from TSPL_UNIT_MASTER"
@@ -206,26 +194,41 @@ Public Class frmDistributorCommission
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtItems__My_Click(sender As Object, e As EventArgs) Handles txtItems._My_Click
         Try
             Dim qry As String = " select Item_code as Code,Item_Desc,Short_Description  from TSPL_ITEM_MASTER where Item_Type='F' "
-
             txtItems.arrValueMember = clsCommon.ShowMultipleSelectForm("CustomerCode@CustWiseSaleRpt", qry, "Code", "Code", txtItems.arrValueMember, txtItems.arrDispalyMember)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
     End Sub
-
-
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Try
             LoadBlankGrid()
-            If clsCommon.myLen(txtDistributorTagging.Value) > 0 Then
-
-
+            If clsCommon.myLen(txtUOM.Value) > 0 Then
                 If clsCommon.myLen(txtDistributorTagging.Value) > 0 Then
+                    Dim obj As New clsDistributorCommission
+                    If txtItems.arrValueMember Is Nothing Then
+                        Dim strItems As String = "select Item_code  from TSPL_ITEM_MASTER where Item_Type='F'"
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(strItems)
+                        If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                            obj.Items = New ArrayList()
+                            For Each dr As DataRow In dt.Rows
+                                obj.Items.Add(clsCommon.myCstr(dr("Item_Code")))
+                            Next
+                        End If
+                    Else
+                        obj.Items = txtItems.arrValueMember
+                    End If
+                    For Each items In obj.Items
+                        Dim qry As String = "select * from TSPL_Distributor_commission_Head 
+left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_Distributor_commission_Head.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No 
+and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + items + "' where TSPL_Distributor_commission_Head.Distributor_Tagging_Code='" + txtDistributorTagging.Value + "'"
+                        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                        If dt IsNot Nothing And dt.Rows.Count > 0 Then
+                            Throw New Exception("Item : " + items + " is already exists with " + txtDistributorTagging.Value + " ! Please select different item/items")
+                        End If
+                    Next
                     Dim StrQry As String = "select TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No,TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code,TSPL_CUSTOMER_MASTER.Customer_Name,TSPL_DISTRIBUTOR_ROUTE.ItemType 
 from TSPL_DISTRIBUTOR_ROUTE
 left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
@@ -249,22 +252,17 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                     End If
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Please Select Distributor Tagging", Me.Text)
-
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Please Select Commission UOM", Me.Text)
             End If
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
     End Sub
-
     Private Sub rmiImport_Click(sender As Object, e As EventArgs) Handles rmiImport.Click
         Import()
     End Sub
-
     Private Sub rmiExport_Click(sender As Object, e As EventArgs) Handles rmiExport.Click
         Export()
     End Sub
@@ -275,9 +273,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
             Dim obj As New List(Of clsDistributorCommissionDetails)
             Dim currentdate As Date = Date.Today
             If clsCommon.myLen(txtUOM.Value) > 0 Then
-
                 If transportSql.importExcel(gv, "Route Code", "Distributor Code", "Is Transpotation", "Rate", "Security Rate") Then
-
                     'Dim trans As SqlTransaction = Nothing
                     Dim linno As Integer = 0
                     Dim TempNewRecord As Boolean = False
@@ -303,10 +299,8 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                                 Dim str As String = String.Empty
                                 If clsCommon.CompairString(clsCommon.myCstr(grow.Cells("Is Transpotation").Value), "Y") = CompairStringResult.Equal Then
                                     str = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and Form_Type='TPT'"))
-
                                 Else
                                     str = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select cust_Code from TSPL_Customer_Master where cust_Code='" + clsCommon.myCstr(grow.Cells("Distributor Code").Value) + "' and IsDistributor='Y'"))
-
                                 End If
                                 If clsCommon.CompairString(str, clsCommon.myCstr(grow.Cells("Distributor Code").Value)) = CompairStringResult.Equal Then
                                     Arr.Distributor_Code = clsCommon.myCstr(grow.Cells("Distributor Code").Value)
@@ -314,7 +308,6 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                                     Continue For
                                 End If
                             End If
-
                             If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Rate").Value))) Then
                                 Continue For
                             Else
@@ -343,23 +336,19 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                                     sl += 1
                                     GV1.Rows.AddNew()
                                 Next
-
                                 isInsideLoadData = False
                             End If
                             common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                         Else
                             common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Failed", Me.Text, MessageBoxButtons.OK)
                         End If
-
                         clsCommon.ProgressBarHide()
-
                     Catch ex As Exception
                         clsCommon.ProgressBarHide()
                         clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
-
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "Please Select Commission UOM", Me.Text)
@@ -369,17 +358,14 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
         Catch ex As Exception
             'clsCommon.ProgressBarHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
     End Sub
     Public Sub Export()
         Try
             Dim str As String = "select Route_Code as [Route Code],Distributor_Code as [Distributor Code],'' as [Is Transpotation],Rate as [Rate],Security_Rate as [Security Rate] from TSPL_Distributor_Commission_Detail"
             Dim whrCls As String = ""
-
             ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "Is Transpotation", "Rate", "Security Rate"})
             transportSql.ExporttoExcel(str, whrCls, Me)
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -411,8 +397,6 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
             If (Not isInsideLoadData) Then
                 If Not isCellValueChangedOpen Then
                     isCellValueChangedOpen = True
-
-
                 End If
                 isCellValueChangedOpen = False
             End If
@@ -423,7 +407,6 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
     Public Sub LoadData(ByVal strDocNo As String, ByVal NavTyep As NavigatorType)
         Try
             isInsideLoadData = True
-
             Dim obj As New clsDistributorCommission()
             obj = clsDistributorCommission.GetData(strDocNo, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Doc_No) > 0) Then
@@ -452,37 +435,32 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                     rbtnTranspotation.IsChecked = True
                 Else
                     rbtnCommission.IsChecked = True
-                    End If
-                    If obj.IS_Security Then
-                        chkSecurity.Checked = True
-                    End If
-                    If obj.IN_Active Then
-                        chkInActive.Checked = True
-                    End If
-                    txtItems.arrValueMember = obj.Items
-                    Dim sl As Integer = 1
-                    If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                        For Each objTr As clsDistributorCommissionDetails In obj.Arr
-
-                            GV1.Rows(GV1.Rows.Count - 1).Cells(ColSNo).Value = sl
-                            GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteCode).Value = objTr.Route_Code
-                            GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteName).Value = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(objTr.Route_Code) + "' ")
-                            GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Distributor_Code
-                            GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_Customer_Master where cust_code='" + objTr.Distributor_Code + "'")
-                            GV1.Rows(GV1.Rows.Count - 1).Cells(colCRate).Value = objTr.Rate
-                            If chkSecurity.Checked Then
-                                GV1.Rows(GV1.Rows.Count - 1).Cells(colSecRate).Value = objTr.Security_Rate
-                            End If
-                            sl += 1
-                            GV1.Rows.AddNew()
-                        Next
-                        'GV1.Rows.AddNew()
-
-                    End If
-
-
-
                 End If
+                If obj.IS_Security Then
+                    chkSecurity.Checked = True
+                End If
+                If obj.IN_Active Then
+                    chkInActive.Checked = True
+                End If
+                txtItems.arrValueMember = obj.Items
+                Dim sl As Integer = 1
+                If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                    For Each objTr As clsDistributorCommissionDetails In obj.Arr
+                        GV1.Rows(GV1.Rows.Count - 1).Cells(ColSNo).Value = sl
+                        GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteCode).Value = objTr.Route_Code
+                        GV1.Rows(GV1.Rows.Count - 1).Cells(ColRouteName).Value = clsDBFuncationality.getSingleValue("select Route_Desc from TSPL_ROUTE_MASTER where Route_No='" + clsCommon.myCstr(objTr.Route_Code) + "' ")
+                        GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Distributor_Code
+                        GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_Customer_Master where cust_code='" + objTr.Distributor_Code + "'")
+                        GV1.Rows(GV1.Rows.Count - 1).Cells(colCRate).Value = objTr.Rate
+                        If chkSecurity.Checked Then
+                            GV1.Rows(GV1.Rows.Count - 1).Cells(colSecRate).Value = objTr.Security_Rate
+                        End If
+                        sl += 1
+                        GV1.Rows.AddNew()
+                    Next
+                    'GV1.Rows.AddNew()
+                End If
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
@@ -490,7 +468,6 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
-
         If clsCommon.myLen(txtUOM.Value) <= 0 Then
             txtUOM.Focus()
             clsCommon.MyMessageBoxShow(Me, "Please select UOM", Me.Text)
@@ -523,7 +500,6 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                     End If
                 Else
                     obj.Items = txtItems.arrValueMember
-
                 End If
                 If chkInActive.Checked Then
                     obj.IN_Active = True
@@ -547,17 +523,13 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-
         End Try
-
     End Sub
     Function GetTRData() As List(Of clsDistributorCommissionDetails)
         Dim Arr As New List(Of clsDistributorCommissionDetails)
         For ii As Integer = 0 To GV1.RowCount - 1
             If clsCommon.myLen(GV1.Rows(ii).Cells(colCustCode).Value) > 0 Then
                 'If clsCommon.myCDecimal(GV1.Rows(ii).Cells(colCRate).Value) > 0 Then
-
-
                 Dim objTr As New clsDistributorCommissionDetails()
                 'objTr.SNo = ii + 1
                 objTr.Distributor_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(colCustCode).Value)
@@ -569,7 +541,6 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                     objTr.Security_Rate = 0
                 End If
                 Arr.Add(objTr)
-
                 'End If
             End If
         Next
@@ -583,7 +554,6 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 Throw New Exception("No document found to post")
             End If
-
             If clsCommon.MyMessageBoxShow(Me, "Post the Current Document [" + txtDocNo.Value + "]" + Environment.NewLine + "Are You Sure.", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
                 clsDistributorCommission.PostData(clsCommon.myCstr(txtDocNo.Value))
                 clsCommon.MyMessageBoxShow(Me, "Data posted successfully", Me.Text)
@@ -593,7 +563,6 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
         Try
             If txtDocNo.MyReadOnly OrElse isButtonClicked Then
@@ -605,11 +574,9 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocNo._MYNavigator
         Try
             Dim qry As String = "select count(*) from TSPL_Distributor_Commission_Head where Doc_No='" + txtDocNo.Value + "'"
-
             Dim count As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry))
             If count = 0 Then
                 txtDocNo.MyReadOnly = False
@@ -621,11 +588,9 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         Me.Close()
     End Sub
-
     Private Sub txtDistributorTagging__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDistributorTagging._MYValidating
         Try
             Dim qry As String = "select  x.Code as Code,x.Start_Date,x.Remarks,x.NoOfRoute as [No of Route],x.NoOfDistributor as [No. of Distributor] 
@@ -633,13 +598,14 @@ from(
 select TSPL_DISTRIBUTOR_ROUTE.Code as Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks,count(distinct TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No) as NoOfRoute,count(distinct TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Cust_Code) as NoOfDistributor
 from TSPL_DISTRIBUTOR_ROUTE
 left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
-where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Distributor_Tagging_Code =TSPL_DISTRIBUTOR_ROUTE.Code) and TSPL_DISTRIBUTOR_ROUTE.Status=1"
+where 
+-- not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Distributor_Tagging_Code =TSPL_DISTRIBUTOR_ROUTE.Code) and 
+TSPL_DISTRIBUTOR_ROUTE.Status=1"
             If rbtnCommission.IsChecked Then
                 qry += " and IS_Transpoter=0 "
             ElseIf rbtnTranspotation.IsChecked Then
                 qry += " and IS_Transpoter=1 "
             End If
-
             qry += " Group by TSPL_DISTRIBUTOR_ROUTE.Code,TSPL_DISTRIBUTOR_ROUTE.Start_Date,TSPL_DISTRIBUTOR_ROUTE.Remarks
 ) X"
             txtDistributorTagging.Value = clsCommon.ShowSelectForm("DistributorTaggingFinder", qry, "Code", "", txtDistributorTagging.Value, "Code", isButtonClicked)
@@ -647,7 +613,6 @@ where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DIST
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub btnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
@@ -674,19 +639,16 @@ where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DIST
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub rbtnCommission_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnCommission.CheckStateChanged
         If rbtnCommission.IsChecked Then
             rbtnTranspotation.IsChecked = False
         End If
     End Sub
-
     Private Sub rbtnTranspotation_CheckStateChanged(sender As Object, e As EventArgs) Handles rbtnTranspotation.CheckStateChanged
         If rbtnTranspotation.IsChecked Then
             rbtnCommission.IsChecked = False
         End If
     End Sub
-
     Private Sub chkSecurity_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkSecurity.ToggleStateChanged
         If chkSecurity.Checked Then
             rbtnCommission.Enabled = False
@@ -698,7 +660,6 @@ where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DIST
             LoadBlankGrid()
         End If
     End Sub
-
     Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
@@ -731,9 +692,7 @@ where not exists (select 1 from TSPL_DISTRIBUTOR_COMMISSION_HEAD where TSPL_DIST
         Catch ex As Exception
             myMessages.myExceptions(ex)
         End Try
-
     End Sub
-
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         DeleteData()
     End Sub

@@ -1170,7 +1170,10 @@ Public Class frmDairyGatePass
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         For Each dr As DataRow In dt.Rows
-                            UploadInvoice(clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + clsCommon.myCstr(dr("Document_Code")) + "'")))
+                            Dim invoiceno As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Sale_Invoice_No from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + clsCommon.myCstr(dr("Document_Code")) + "'"))
+                            Dim docDate As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Document_Date from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + clsCommon.myCstr(dr("Document_Code")) + "'"))
+                            Dim CustCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Customer_Code from TSPL_SD_SHIPMENT_HEAD where Document_Code='" + clsCommon.myCstr(dr("Document_Code")) + "'"))
+                            UploadInvoice(invoiceno, docDate, CustCode)
                         Next
                     End If
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
@@ -1468,7 +1471,7 @@ select Route_No,Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as 
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    Public Sub UploadInvoice(ByVal SaleInvoiceNo As String)
+    Public Sub UploadInvoice(ByVal SaleInvoiceNo As String, ByVal docDate As DateTime, ByVal CustCode As String)
         Dim pdfpath As String = ""
         Try
             Dim Qry As String = Nothing
@@ -1485,7 +1488,7 @@ select Route_No,Document_Date,Vehicle_Code,Customer_Code,0 as OpencrateQty,0 as 
                     dtDocdate = clsCommon.myCDate(dt1.Rows(0)("Document_Date"))
                 End If
                 Dim InvoiceNo As String = "'" + SaleInvoiceNo + "'"
-                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo)
+                Qry = objMultPrintInvoice.PrintInvoiceForAll(InvoiceNo, docDate, CustCode)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry)
                 If dt.Rows.Count > 0 Then
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "TNK") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "SWM") = CompairStringResult.Equal Then
