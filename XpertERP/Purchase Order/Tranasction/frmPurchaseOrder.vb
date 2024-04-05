@@ -1456,17 +1456,17 @@ Public Class frmPurchaseOrder
         repoDisPerUnit.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoDisPerUnit)
 
-
-        repoDisAmtPerUnit = New GridViewDecimalColumn()
-        repoDisAmtPerUnit.FormatString = "{0:n2}"
-        repoDisAmtPerUnit.HeaderText = "Discount Amt UnitWise"
-        repoDisAmtPerUnit.Minimum = 0
-        repoDisAmtPerUnit.Maximum = 100
-        repoDisAmtPerUnit.Name = colDisAmtPerUnit
-        repoDisAmtPerUnit.Width = 80
-        repoDisAmtPerUnit.DecimalPlaces = 2
-        repoDisAmtPerUnit.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv1.MasterTemplate.Columns.Add(repoDisAmtPerUnit)
+        repoDisAmt = New GridViewDecimalColumn()
+        repoDisAmt.FormatString = "{0:n2}"
+        repoDisAmt.HeaderText = "Discount Amt UnitWise"
+        repoDisAmt.WrapText = True
+        repoDisAmt.Name = colDisAmtPerUnit
+        repoDisAmt.Width = 80
+        repoDisAmt.DecimalPlaces = 2
+        repoDisAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoDisAmt.VisibleInColumnChooser = False
+        repoDisAmt.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoDisAmt)
 
         repoDisPer = New GridViewDecimalColumn()
         repoDisPer.FormatString = "{0:N2}"
@@ -3140,7 +3140,7 @@ Public Class frmPurchaseOrder
                         clsCustomFieldGrid.getFinderForCustomFieldGrid(gv1, e.Column.Name.ToString, MyBase.Form_ID)
                     End If
 
-                    If e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse e.Column Is gv1.Columns(colDetailDisAmt) OrElse e.Column Is gv1.Columns(colUnit) OrElse e.Column Is gv1.Columns(colTotTaxAmt) OrElse e.Column Is gv1.Columns(colICode) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colSpecification) OrElse e.Column Is gv1.Columns(colRemarks) OrElse (e.Column Is gv1.Columns(colDisPer) OrElse (e.Column Is gv1.Columns(colAmt)) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal) OrElse (e.Column Is gv1.Columns(colAmt)) AndAlso (clsCommon.CompairString(Me.cboPOType.SelectedValue, "J") = CompairStringResult.Equal And clsCommon.CompairString(Me.cboItemType.SelectedValue, "N") = CompairStringResult.Equal And chkAutoCalculate.Checked = False) Then
+                    If e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse e.Column Is gv1.Columns(colDetailDisAmt) OrElse e.Column Is gv1.Columns(colUnit) OrElse e.Column Is gv1.Columns(colTotTaxAmt) OrElse e.Column Is gv1.Columns(colICode) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colSpecification) OrElse e.Column Is gv1.Columns(colRemarks) OrElse e.Column Is gv1.Columns(colDisPerUnit) OrElse (e.Column Is gv1.Columns(colDisPer) OrElse (e.Column Is gv1.Columns(colAmt)) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal) OrElse (e.Column Is gv1.Columns(colAmt)) AndAlso (clsCommon.CompairString(Me.cboPOType.SelectedValue, "J") = CompairStringResult.Equal And clsCommon.CompairString(Me.cboItemType.SelectedValue, "N") = CompairStringResult.Equal And chkAutoCalculate.Checked = False) Then
                         If (e.Column Is gv1.Columns(colQty) AndAlso clsCommon.myLen(gv1.CurrentRow.Cells(colReqistionNo).Value) > 0) Then
                             Dim dblPendingQty As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colPendingQty).Value)
                             Dim dblEnteredQty As Double = clsCommon.myCdbl(gv1.CurrentRow.Cells(colQty).Value)
@@ -3558,8 +3558,10 @@ Public Class frmPurchaseOrder
             dblHeaderDisAmt = Math.Round(clsCommon.myCDivide(txtHeaderDiscountAmount.Value * dblAmt, dblTotAmt), 2, MidpointRounding.AwayFromZero)
         End If
         Dim dblDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
+        Dim dbldisperunit As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPerUnit).Value)
+        Dim dbldisamtperunit As Decimal = (dblQty * dbldisperunit)
         Dim dblDetailDisAmt As Decimal = (dblAmt * dblDisPer) / 100
-        Dim dblDisAmt As Decimal = dblDetailDisAmt + dblHeaderDisAmt
+        Dim dblDisAmt As Decimal = dblDetailDisAmt + dblHeaderDisAmt + dbldisamtperunit
         Dim dblAmtAfterDis As Double = dblAmt - dblDisAmt
 
         Dim dclItemInsuranceAdditionalChargePart As Decimal = 0
@@ -3693,6 +3695,7 @@ Public Class frmPurchaseOrder
 
         gv1.Rows(IntRowNo).Cells(colHeaderDiscountAmt).Value = Math.Round(dblHeaderDisAmt, 2)
         gv1.Rows(IntRowNo).Cells(colHeaderDiscountPer).Value = Math.Round(clsCommon.myCDivide(dblHeaderDisAmt * 100, dblAmt), 10)
+        gv1.Rows(IntRowNo).Cells(colDisAmtPerUnit).Value = Math.Round(dbldisamtperunit, 2)
         gv1.Rows(IntRowNo).Cells(colDetailDisAmt).Value = Math.Round(dblDetailDisAmt, 2)
         gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
         gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 2)
@@ -4758,6 +4761,8 @@ Public Class frmPurchaseOrder
                 End If
             End If
             ''
+
+
             Dim arrProjNo As New List(Of String)
             Dim arrReqNo As New List(Of String)
             Dim arrICode As New List(Of String)()
@@ -4773,6 +4778,7 @@ Public Class frmPurchaseOrder
                 Dim dblMRP As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colMRP).Value)
                 Dim dblRate As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value)
                 Dim strRowType As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value)
+                Dim dblAmtAfterDis As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmtAfterDis).Value)
                 If clsCommon.CompairString(strRowType, "Item") = CompairStringResult.Equal Then
                     For jj As Integer = 0 To gvSchedule.Rows.Count - 1
                         If clsCommon.myCDecimal(gv1.Rows(ii).Cells(colLineNo).Value) = clsCommon.myCDecimal(gvSchedule.Rows(jj).Cells(colScheduleParentSNo).Value) Then
@@ -4790,6 +4796,11 @@ Public Class frmPurchaseOrder
                     If clsCommon.myLen(strICode) > 0 Then
                         itemCount = itemCount + 1
                     End If
+                End If
+
+                If dblAmtAfterDis < 0 Then
+                    clsCommon.MyMessageBoxShow(Me, " Amount After discount Cannot be in Negative. ")
+                    Return False
                 End If
 
 
@@ -5718,6 +5729,9 @@ Public Class frmPurchaseOrder
                     objTr.Header_Discount_Amount = clsCommon.myCdbl(grow.Cells(colHeaderDiscountAmt).Value)
                     objTr.Disc_Per = clsCommon.myCdbl(grow.Cells(colDisPer).Value)
                     objTr.Detail_Discount_Amount = clsCommon.myCdbl(grow.Cells(colDetailDisAmt).Value)
+
+                    objTr.Disc_Per_Unit = clsCommon.myCdbl(grow.Cells(colDisPerUnit).Value)
+                    objTr.Disc_Amt_Per_Unit = clsCommon.myCdbl(grow.Cells(colDisAmtPerUnit).Value)
 
                     objTr.Disc_Amt = clsCommon.myCdbl(grow.Cells(colDisAmt).Value)
                     objTr.Amt_Less_Discount = clsCommon.myCdbl(grow.Cells(colAmtAfterDis).Value)
@@ -6745,6 +6759,8 @@ Public Class frmPurchaseOrder
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDetailDisAmt).Value = objTr.Detail_Discount_Amount
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDisAmt).Value = objTr.Disc_Amt
 
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = objTr.Disc_Per_Unit
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisAmtPerUnit).Value = objTr.Disc_Amt_Per_Unit
 
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colAmtAfterDis).Value = objTr.Amt_Less_Discount
 
@@ -10832,14 +10848,68 @@ Public Class frmPurchaseOrder
         End If
     End Sub
 
+    Private Sub ApplyUnderlineFormatting(textBox As RichTextBox, isUnderline As Boolean)
+        If textBox.SelectionLength > 0 Then
+            Dim start As Integer = textBox.SelectionStart
+            Dim length As Integer = textBox.SelectionLength
+
+            If isUnderline Then
+                textBox.SelectionFont = New Font(textBox.Font, FontStyle.Underline)
+            Else
+                ' Remove underline style
+                textBox.SelectionFont = New Font(textBox.Font, textBox.Font.Style And Not FontStyle.Underline)
+            End If
+
+            textBox.Select(start, length)
+        End If
+    End Sub
+
+    Private Sub ApplyBoldUnderlineFormatting(textBox As RichTextBox, isBoldUnderline As Boolean)
+        If textBox.SelectionLength > 0 Then
+            Dim start As Integer = textBox.SelectionStart
+            Dim length As Integer = textBox.SelectionLength
+
+            If isBoldUnderline Then
+                'textBox.SelectionFont = New Font(textBox.Font, FontStyle.Bold AndAlso FontStyle.Underline)
+                textBox.SelectionFont = New Font(textBox.Font, FontStyle.Bold Or FontStyle.Underline)
+                'textBox.SelectionFont = New Font(textBox.Font, FontStyle.Bold And FontStyle.Underline)
+                textBox.Font = New Font(txtCmt1.Font, FontStyle.Regular)
+
+            Else
+                textBox.SelectionFont = New Font(textBox.Font, FontStyle.Regular)
+                textBox.Font = New Font(textBox.Font, FontStyle.Regular)
+
+            End If
+            textBox.Select(start, length)
+        End If
+    End Sub
+
     Private Sub txtCmt1_KeyDown(sender As Object, e As KeyEventArgs) Handles txtComment.KeyDown, txtCmt1.KeyDown, txtCmt2.KeyDown, txtCmt3.KeyDown, txtCmt4.KeyDown, txtCmt5.KeyDown, txtCmt6.KeyDown, txtCmt7.KeyDown, txtCmt8.KeyDown, txtCmt9.KeyDown, txtCmt10.KeyDown, txtCmt11.KeyDown, txtCmt12.KeyDown, txtCmt13.KeyDown
         Dim txtBox As RichTextBox = DirectCast(sender, System.Windows.Forms.Control)
         If txtBox.SelectionLength > 0 Then
             If e.Control AndAlso e.Alt AndAlso e.KeyCode = Keys.B Then
+                'If e.KeyCode = Keys.B Then
                 ApplyBoldFormatting(txtBox, True)
-
                 e.SuppressKeyPress = True
             End If
+
+            If e.Control AndAlso e.Alt AndAlso e.KeyCode = Keys.A Then
+                'ElseIf e.KeyCode = Keys.F Then
+                ApplyUnderlineFormatting(txtBox, True)
+                e.SuppressKeyPress = True
+            End If
+
+            If e.Control AndAlso e.Alt AndAlso e.KeyCode = Keys.V Then
+                'ElseIf e.KeyCode = Keys.F Then
+                ApplyBoldUnderlineFormatting(txtBox, True)
+                e.SuppressKeyPress = True
+            End If
+            'End If
+            'If e.Control AndAlso e.Alt AndAlso e.KeyCode = Keys.B Then
+            '    ApplyBoldFormatting(txtBox, True)
+
+            '    e.SuppressKeyPress = True
+            'End If
         Else
             txtBox.Font = New Font(txtBox.Font, FontStyle.Regular)
             txtBox.SelectionFont = New Font(txtBox.Font, FontStyle.Regular)
