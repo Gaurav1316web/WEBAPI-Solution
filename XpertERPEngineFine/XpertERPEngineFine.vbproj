@@ -122,6 +122,11 @@
     <Compile Include="Share\clsShareAllotment.vb" />
     <Compile Include="Share\ClsShareMaster.vb" />
     <Compile Include="Share\ClsShareMovement.vb" />
+    <Compile Include="Silage Production\clsSilageCriteriaMaster.vb" />
+    <Compile Include="Silage Production\clsSilageEnterPre.vb" />
+    <Compile Include="Silage Production\clsSilageFormerProduction.vb" />
+    <Compile Include="Silage Production\clsSilageProductionApplication.vb" />
+    <Compile Include="Silage Production\clsSilageProductionAreaMaster.vb" />
     <Compile Include="UserControl1.vb">
       <SubType>UserControl</SubType>
     </Compile>
