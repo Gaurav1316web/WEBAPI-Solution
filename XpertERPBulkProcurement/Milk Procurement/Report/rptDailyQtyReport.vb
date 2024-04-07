@@ -45,6 +45,10 @@ Public Class rptDailyQtyReport
         txtToleranceSNF.Enabled = isEnable
         rbtnBMCDock.Enabled = isEnable
         rbtnBMCDock.Checked = False
+        rbtnBMCDCSPrint.Enabled = isEnable
+        rbtnBMCDCSPrint.Checked = False
+        rbtnBMCRoutePrint.Enabled = isEnable
+        rbtnBMCRoutePrint.Checked = False
         rbtnDockSummary.Checked = False
         rbtnDockSummary.Enabled = isEnable
         rbtnSummary.Checked = False
@@ -1888,6 +1892,14 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
         AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         'fndArea.Visible = AreaWiseBilling
         'lblArea.Visible = AreaWiseBilling
+        If AreaWiseBilling = True Then
+            rbtnBMCDCSPrint.Visible = True
+            rbtnBMCRoutePrint.Visible = True
+        Else
+            rbtnBMCDCSPrint.Visible = False
+            rbtnBMCRoutePrint.Visible = False
+
+        End If
         LoadShiftName()
         TranspoterBoxhandler(False)
         Reset()
@@ -2059,6 +2071,109 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                     qry += " and TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift='E'"
                 End If
                 qry += " ) xxx Group By xxx.Uploader_Code,xxx.Shift_Date,xxx.Shift,xxx.SNO ORDER BY  Convert(int,xxx.Uploader_Code)"
+
+            ElseIf rbtnBMCDCSPrint.Checked Then
+                qry = "Select    XXX.SNo AS [SNO], (xxx.Comp_Name) as [Comp Name],xxx.Comp_Code as[comp code],xxx.Add1 as [Add1],xxx.Location_Desc as [MCC NAME]
+,case When (isnull(Milk_Type,''))='Good' then (isnull(qty,0)) else 0 end as [Good Qty]
+,case When (isnull(Milk_Type,''))='Good' then (FAT) else 0 end as [Good FAT %]
+,case When (isnull(Milk_Type,''))='Good' then (cast(qty*FAT/100 as decimal(18,3))) else 0 end as [Good FATKg]
+,case When (isnull(Milk_Type,''))='Good' then (SNF) else 0 end as [Good SNF %]
+,case When (isnull(Milk_Type,''))='Good' then (cast (qty*SNF/100 as decimal(18,3))) else 0 end as [Good SNFKG],
+case When (isnull(Milk_Type,''))='SOUR' then (qty) else 0 end as [SOUR Qty]
+,case When (isnull(Milk_Type,''))='SOUR' then (FAT) else 0 end as [SOUR FAT %]
+,case When (isnull(Milk_Type,''))='SOUR' then (cast (qty*FAT/100 as decimal(18,3))) else 0 end as [SOUR FATKg]
+,case When (isnull(Milk_Type,''))='SOUR' then (SNF) else 0 end as [SOUR SNF %]
+,case When (isnull(Milk_Type,''))='SOUR' then (cast (qty*SNF/100 as decimal(18,3))) else 0 end as [SOUR SNFKG],
+case When (isnull(Milk_Type,''))='CURD' then (qty) else 0 end as [CURD Qty]
+,case When (isnull(Milk_Type,''))='CURD' then (FAT) else 0 end as [CURD FAT %]
+,case When (isnull(Milk_Type,''))='CURD' then (cast (qty*FAT/100 as decimal(18,3))) else 0 end as [CURD FATKg]
+,case When (isnull(Milk_Type,''))='CURD' then (SNF) else 0 end as [CURD SNF %]
+,case When (isnull(Milk_Type,''))='CURD' then (cast (qty*SNF/100 as decimal(18,3))) else 0 end as [CURD SNFKG] ,
+Case when Shift='M' Then Qty Else 0 End As MorningQty,
+       Case when Shift='E' Then Qty Else 0 End As EveningQty,
+	   Case when Shift='M' Then (Snf) Else 0 End As MorningSNF,
+	   Case when Shift='E' Then Snf Else 0 End As EveningSNF,
+	   Case when Shift='M' Then FAT Else 0 End As MorningFat,
+	   Case when Shift='E' Then FAT Else 0 End As EveningFat,
+	   Case when Shift='M' Then FATKG Else 0 End As MorningFatKG,
+	   Case when Shift='E' Then FATKG Else 0 End As EveningFatKG,
+	     Case when Shift='M' Then SNFKG Else 0 End As MorningSNFKG,
+	   Case when Shift='E' Then SNFKG Else 0 End As EveningSNFKG,
+
+	   XXX.Milk_Type AS [Milk Type],
+	   XXX.VLC_Name AS [DCS NAME],
+	   xxx.Route_no as [Route Code],
+	   XXX.VLC_NAME AS [VLC NAME],
+	   XXX.VLC_Code_VLC_Uploader AS [VLC],
+  XXX.SHIFT AS [Shift] 
+	,[Shift Date],xxx.Logo_Img,XXX.Logo_Img2,XXX.User_Name,xxx.ROUTE_NAME
+		,XXX.Tanker_No As [Tanker No],xxx.Schedule_Time_Morning as [sch Time]
+from 
+ 
+(Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [FromDate],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [ToDate],TSPL_MILK_COLLECTION_DCS_DETAIL.Milk_Type,TSPL_MILK_COLLECTION_DCS_DETAIL.Shift, TSPL_MILK_COLLECTION_DCS_DETAIL.Qty,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Add1,tspl_location_master.Location_Desc,
+TSPL_MILK_COLLECTION_DCS_DETAIL.fat,TSPL_MILK_COLLECTION_DCS_DETAIL.snf,TSPL_MILK_COLLECTION_DCS_DETAIL.SNo, '" + objCommonVar.CurrentUser + "' as User_Name,Convert(date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) As [Shift Date],TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,
+TSPL_MILK_COLLECTION_DCS_DETAIL.FATKG,TSPL_MILK_COLLECTION_DCS_DETAIL.SNFKG,
+TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code,
+TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_BULK_ROUTE_MASTER.Route_no,TSPL_BULK_ROUTE_MASTER.ROUTE_NAME
+,TSPL_BULK_ROUTE_MASTER.Tanker_No,TSPL_BULK_ROUTE_MASTER.Schedule_Time_Morning
+FROM TSPL_MILK_COLLECTION_DCS_DETAIL 
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code 
+left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code =TSPL_VLC_MASTER_HEAD.mcc
+left outer join tspl_location_master on tspl_location_master.Location_Code =tspl_mcc_master.Area_Location_Code
+left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_VLC_MASTER_HEAD.Route_Code
+left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.Route_Code
+LEFT OUTER JOIN TSPL_MILK_COLLECTION_DCS ON TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+                         left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_VLC_MASTER_HEAD.comp_code
+				 where Convert(date,TSPL_MILK_COLLECTION_DCS.Document_Date,103)>=convert(date,'" + fromDate.Value + "',103)  And Convert(date,TSPL_MILK_COLLECTION_DCS.Document_Date,103)<=convert (date,'" + dtpToDate.Value + "',103)  "
+                If AreaWiseBilling = True Then
+                    qry += "and tspl_mcc_master.Area_Location_Code= '" & fndArea.Value & "' "
+                End If
+                If ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Morning") = CompairStringResult.Equal Then
+                    qry += " and TSPL_MILK_COLLECTION_DCS_DETAIL.Shift='M' "
+                ElseIf ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Evening") = CompairStringResult.Equal Then
+                    qry += " and TSPL_MILK_COLLECTION_DCS_DETAIL.Shift='E' "
+                End If
+                qry += " )xxx order by sno"
+            ElseIf rbtnBMCRoutePrint.Checked Then
+                qry = "Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [FromDate],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [ToDate],TSPL_COMPANY_MASTER.Comp_Code,TSPL_COMPANY_MASTER.Comp_Name,TSPL_COMPANY_MASTER.Add1,TSPL_COMPANY_MASTER.Add2,TSPL_COMPANY_MASTER.Add3,
+tspl_location_master.Location_Desc ,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader,TSPL_BULK_ROUTE_MASTER.ROUTE_NO as [Route Code],TSPL_BULK_ROUTE_MASTER.Route_Name as [Route Name],
+TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_COLLECTION_DCS_DETAIL.Shift As [Shift],Convert(date,TSPL_MILK_COLLECTION_DCS.Document_Date,103) As [Shift Date],TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2,'" + objCommonVar.CurrentUser + "' as User_Name,
+case When (isnull(Milk_Type,''))='Good' then (isnull(qty,0)) else 0 end as [Good Qty]
+,case When (isnull(Milk_Type,''))='Good' then (FAT) else 0 end as [Good FAT %]
+,case When (isnull(Milk_Type,''))='Good' then (cast(qty*FAT/100 as decimal(18,3))) else 0 end as [Good FATKg]
+,case When (isnull(Milk_Type,''))='Good' then (SNF) else 0 end as [Good SNF %]
+,case When (isnull(Milk_Type,''))='Good' then (cast (qty*SNF/100 as decimal(18,3))) else 0 end as [Good SNFKG],
+case When (isnull(Milk_Type,''))='SOUR' then (qty) else 0 end as [SOUR Qty]
+,case When (isnull(Milk_Type,''))='SOUR' then (FAT) else 0 end as [SOUR FAT %]
+,case When (isnull(Milk_Type,''))='SOUR' then (cast (qty*FAT/100 as decimal(18,3))) else 0 end as [SOUR FATKg]
+,case When (isnull(Milk_Type,''))='SOUR' then (SNF) else 0 end as [SOUR SNF %]
+,case When (isnull(Milk_Type,''))='SOUR' then (cast (qty*SNF/100 as decimal(18,3))) else 0 end as [SOUR SNFKG],
+case When (isnull(Milk_Type,''))='CURD' then (qty) else 0 end as [CURD Qty]
+,case When (isnull(Milk_Type,''))='CURD' then (FAT) else 0 end as [CURD FAT %]
+,case When (isnull(Milk_Type,''))='CURD' then (cast (qty*FAT/100 as decimal(18,3))) else 0 end as [CURD FATKg]
+,case When (isnull(Milk_Type,''))='CURD' then (SNF) else 0 end as [CURD SNF %]
+,case When (isnull(Milk_Type,''))='CURD' then (cast (qty*SNF/100 as decimal(18,3))) else 0 end as [CURD 
+SNFKG] 
+FROM TSPL_MILK_COLLECTION_DCS_DETAIL 
+ left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_COLLECTION_DCS_DETAIL.VLC_Code 
+ left outer join TSPL_MILK_COLLECTION_DCS on TSPL_MILK_COLLECTION_DCS.Document_No=TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No
+ left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+ left outer join tspl_location_master on tspl_location_master.Location_Code=tspl_mcc_master.Area_Location_Code
+left outer join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.Route_No=TSPL_VLC_MASTER_HEAD.Route_Code
+left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_VLC_MASTER_HEAD.Route_Code
+
+                          left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_VLC_MASTER_HEAD.comp_code
+
+				 where Convert(date,TSPL_MILK_COLLECTION_DCS.Document_Date,103)>=convert(date,'" + fromDate.Value + "',103)  And Convert(date,TSPL_MILK_COLLECTION_DCS.Document_Date,103)<=convert (date,'" + dtpToDate.Value + "',103) "
+                If AreaWiseBilling = True Then
+                    qry += " and tspl_mcc_master.Area_Location_Code= '" & fndArea.Value & "' "
+                End If
+                If ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Morning") = CompairStringResult.Equal Then
+                    qry += " and TSPL_MILK_COLLECTION_DCS_DETAIL.Shift='M' "
+                ElseIf ddlShift.SelectedValue IsNot Nothing AndAlso clsCommon.CompairString(ddlShift.SelectedValue, "Evening") = CompairStringResult.Equal Then
+                    qry += " and TSPL_MILK_COLLECTION_DCS_DETAIL.Shift='E' "
+                End If
+
             ElseIf rbtnSummary.Checked Then
                 qry = "Select '" + clsCommon.GetPrintDate(fromDate.Value, "dd/MM/yyyy") + "' As [FromDate],'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd/MM/yyyy") + "' As [ToDate],'" & objCommonVar.CurrentUser & "' as User_Name,Convert(Date,(xxx.Shift_Date),103)Shift_Date,Max(xxx.VLC_Name)VLC_Name,Max(xxx.MCC)MCC,'" + Area + "' as Area,
                         xxx.Shift,Max(xxx.Bulk_Route_Code)Bulk_Route_Code,Case When Max(xxx.Dock_Collection_Milk_Type)='M' Then 'Mix' Else '' End As Dock_Collection_Milk_Type,Max(xxx.Reject_Type)Reject_Type,
@@ -2200,6 +2315,11 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                     frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptDSummary", "Dock Summary", clsCommon.myCDate(fromDate.Value))
                 ElseIf rbtnBMCDock.Checked Then
                     frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptBMCDockReport", "BMC Dock Report", clsCommon.myCDate(fromDate.Value))
+                ElseIf rbtnBMCDCSPrint.Checked Then
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptBMCDCSPrint", "BMC DCS Report", clsCommon.myCDate(fromDate.Value))
+                ElseIf rbtnBMCRoutePrint.Checked Then
+                    frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "crptBMCRoutePrint", "BMC Route Report", clsCommon.myCDate(fromDate.Value))
+
                 Else
                     frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptdailyqtyreport", "Daily Quantity Report", clsCommon.myCDate(fromDate.Value))
                 End If
@@ -2322,5 +2442,60 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             clsCommon.MyMessageBoxShow(Me, ex.ToString)
         End Try
     End Sub
+
+    Private Sub rbtnBMCDCSPrint_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnBMCDCSPrint.CheckedChanged
+        Try
+            If rbtnBMCDCSPrint.Checked Then
+                MyLabel4.Visible = False
+                cboItemType.Visible = False
+                MyLabel39.Visible = False
+                'txtMCC_Code.Visible = True
+                MyLabel6.Visible = True
+                ddlShift.Visible = True
+                If AreaWiseBilling Then
+                    fndArea.Visible = True
+                    lblArea.Visible = True
+                End If
+            Else
+                MyLabel4.Visible = False
+                txtMCC_Code.Visible = False
+                ddlShift.Visible = False
+                MyLabel6.Visible = False
+                fndArea.Visible = False
+                lblArea.Visible = False
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub rbtnBMCRoutePrint_CheckedChanged(sender As Object, e As EventArgs) Handles rbtnBMCRoutePrint.CheckedChanged
+        Try
+            If rbtnBMCRoutePrint.Checked Then
+                MyLabel4.Visible = False
+                'txtMCC_Code.Visible = True
+                MyLabel6.Visible = True
+                ddlShift.Visible = True
+                If AreaWiseBilling Then
+                    fndArea.Visible = True
+                    lblArea.Visible = True
+                End If
+            Else
+                MyLabel4.Visible = False
+                txtMCC_Code.Visible = False
+                ddlShift.Visible = False
+                MyLabel6.Visible = False
+                fndArea.Visible = False
+                lblArea.Visible = False
+
+            End If
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+
 End Class
 
