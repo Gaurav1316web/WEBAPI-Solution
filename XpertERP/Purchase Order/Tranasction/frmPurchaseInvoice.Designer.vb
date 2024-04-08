@@ -220,7 +220,9 @@ Partial Class frmPurchaseInvoice
         Me.RadLabel22 = New common.Controls.MyLabel()
         Me.RadLabel19 = New common.Controls.MyLabel()
         Me.TabDedDetail = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.gvDeduction = New common.UserControls.MyRadGridView()
+        Me.gvAPInvoice = New common.UserControls.MyRadGridView()
         Me.btnPrintInv = New Telerik.WinControls.UI.RadButton()
         Me.btnJE = New Telerik.WinControls.UI.RadButton()
         Me.btnNewHistory = New Telerik.WinControls.UI.RadButton()
@@ -243,8 +245,6 @@ Partial Class frmPurchaseInvoice
         Me.SaveLayoutrb = New Telerik.WinControls.UI.RadMenuItem()
         Me.DeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
-        Me.gvAPInvoice = New common.UserControls.MyRadGridView()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -431,8 +431,13 @@ Partial Class frmPurchaseInvoice
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.TabDedDetail.SuspendLayout()
+        Me.SplitContainer3.Panel1.SuspendLayout()
+        Me.SplitContainer3.Panel2.SuspendLayout()
+        Me.SplitContainer3.SuspendLayout()
         CType(Me.gvDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gvDeduction.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvAPInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvAPInvoice.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintInv, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnJE, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -448,11 +453,6 @@ Partial Class frmPurchaseInvoice
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer3.Panel1.SuspendLayout()
-        Me.SplitContainer3.Panel2.SuspendLayout()
-        Me.SplitContainer3.SuspendLayout()
-        CType(Me.gvAPInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gvAPInvoice.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -503,7 +503,7 @@ Partial Class frmPurchaseInvoice
         Me.RadPageView1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.TabDedDetail
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(974, 484)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -3400,6 +3400,24 @@ Partial Class frmPurchaseInvoice
         Me.TabDedDetail.Size = New System.Drawing.Size(953, 438)
         Me.TabDedDetail.Text = "Deduction Detail"
         '
+        'SplitContainer3
+        '
+        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer3.Name = "SplitContainer3"
+        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer3.Panel1
+        '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.gvDeduction)
+        '
+        'SplitContainer3.Panel2
+        '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.gvAPInvoice)
+        Me.SplitContainer3.Size = New System.Drawing.Size(953, 438)
+        Me.SplitContainer3.SplitterDistance = 219
+        Me.SplitContainer3.TabIndex = 2
+        '
         'gvDeduction
         '
         Me.gvDeduction.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
@@ -3424,6 +3442,31 @@ Partial Class frmPurchaseInvoice
         Me.gvDeduction.Size = New System.Drawing.Size(953, 219)
         Me.gvDeduction.TabIndex = 1
         Me.gvDeduction.TabStop = False
+        '
+        'gvAPInvoice
+        '
+        Me.gvAPInvoice.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
+        Me.gvAPInvoice.Cursor = System.Windows.Forms.Cursors.Default
+        Me.gvAPInvoice.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvAPInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.gvAPInvoice.ForeColor = System.Drawing.Color.Black
+        Me.gvAPInvoice.ImeMode = System.Windows.Forms.ImeMode.NoControl
+        Me.gvAPInvoice.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvAPInvoice.MasterTemplate.AllowDeleteRow = False
+        Me.gvAPInvoice.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gvAPInvoice.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gvAPInvoice.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gvAPInvoice.MyStopExport = False
+        Me.gvAPInvoice.Name = "gvAPInvoice"
+        Me.gvAPInvoice.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.gvAPInvoice.ShowGroupPanel = False
+        Me.gvAPInvoice.ShowHeaderCellButtons = True
+        Me.gvAPInvoice.Size = New System.Drawing.Size(953, 215)
+        Me.gvAPInvoice.TabIndex = 2
+        Me.gvAPInvoice.TabStop = False
         '
         'btnPrintInv
         '
@@ -3597,49 +3640,6 @@ Partial Class frmPurchaseInvoice
         '
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Email/SMS Setting"
-        '
-        'SplitContainer3
-        '
-        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer3.Name = "SplitContainer3"
-        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer3.Panel1
-        '
-        Me.SplitContainer3.Panel1.Controls.Add(Me.gvDeduction)
-        '
-        'SplitContainer3.Panel2
-        '
-        Me.SplitContainer3.Panel2.Controls.Add(Me.gvAPInvoice)
-        Me.SplitContainer3.Size = New System.Drawing.Size(953, 438)
-        Me.SplitContainer3.SplitterDistance = 219
-        Me.SplitContainer3.TabIndex = 2
-        '
-        'gvAPInvoice
-        '
-        Me.gvAPInvoice.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gvAPInvoice.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gvAPInvoice.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gvAPInvoice.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gvAPInvoice.ForeColor = System.Drawing.Color.Black
-        Me.gvAPInvoice.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gvAPInvoice.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gvAPInvoice.MasterTemplate.AllowDeleteRow = False
-        Me.gvAPInvoice.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gvAPInvoice.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvAPInvoice.MasterTemplate.ViewDefinition = TableViewDefinition6
-        Me.gvAPInvoice.MyStopExport = False
-        Me.gvAPInvoice.Name = "gvAPInvoice"
-        Me.gvAPInvoice.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gvAPInvoice.ShowGroupPanel = False
-        Me.gvAPInvoice.ShowHeaderCellButtons = True
-        Me.gvAPInvoice.Size = New System.Drawing.Size(953, 215)
-        Me.gvAPInvoice.TabIndex = 2
-        Me.gvAPInvoice.TabStop = False
         '
         'frmPurchaseInvoice
         '
@@ -3854,8 +3854,13 @@ Partial Class frmPurchaseInvoice
         CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         Me.TabDedDetail.ResumeLayout(False)
+        Me.SplitContainer3.Panel1.ResumeLayout(False)
+        Me.SplitContainer3.Panel2.ResumeLayout(False)
+        Me.SplitContainer3.ResumeLayout(False)
         CType(Me.gvDeduction.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gvDeduction, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvAPInvoice.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvAPInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintInv, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnJE, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnNewHistory, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3871,11 +3876,6 @@ Partial Class frmPurchaseInvoice
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer3.Panel1.ResumeLayout(False)
-        Me.SplitContainer3.Panel2.ResumeLayout(False)
-        Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.gvAPInvoice.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gvAPInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

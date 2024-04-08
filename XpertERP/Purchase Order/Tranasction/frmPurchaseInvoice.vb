@@ -44,6 +44,8 @@ Public Class frmPurchaseInvoice
     Const colHeaderDiscountAmt As String = "colHeaderDiscountAmt"
     Const colDisPer As String = "COLDISPER"
     Const colDetailDisAmt As String = "colDetailDisAmt"
+    Const colDisPerUnit As String = "colDisPerUnit"
+    Const colDisAmtPerUnit As String = "colDisAmtPerUnit"
     Const colDisAmt As String = "COLDISAMT"
     Const colAmtAfterDis As String = "COLAMTAFTERDIS"
     Const colTaxableAmount As String = "colTaxableAmount"
@@ -1010,6 +1012,8 @@ Public Class frmPurchaseInvoice
 
         Dim repoDisPer As GridViewDecimalColumn = New GridViewDecimalColumn()
         Dim repoDisAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
+        Dim repoDisPerUnit As GridViewDecimalColumn = New GridViewDecimalColumn()
+        Dim repoDisAmtPerUnit As GridViewDecimalColumn = New GridViewDecimalColumn()
 
         repoDisPer = New GridViewDecimalColumn()
         repoDisPer.FormatString = "{0:N2}"
@@ -1065,6 +1069,29 @@ Public Class frmPurchaseInvoice
         repoDisAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoDisAmt.VisibleInColumnChooser = False
         repoDisAmt.ReadOnly = False
+        gv1.MasterTemplate.Columns.Add(repoDisAmt)
+
+        repoDisPerUnit = New GridViewDecimalColumn()
+        repoDisPerUnit.FormatString = "{0:n2}"
+        repoDisPerUnit.HeaderText = "Discount Per Unit"
+        repoDisPerUnit.Minimum = 0
+        repoDisPerUnit.Maximum = 100
+        repoDisPerUnit.Name = colDisPerUnit
+        repoDisPerUnit.Width = 80
+        repoDisPerUnit.DecimalPlaces = 2
+        repoDisPerUnit.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoDisPerUnit)
+
+        repoDisAmt = New GridViewDecimalColumn()
+        repoDisAmt.FormatString = "{0:n2}"
+        repoDisAmt.HeaderText = "Discount Amt UnitWise"
+        repoDisAmt.WrapText = True
+        repoDisAmt.Name = colDisAmtPerUnit
+        repoDisAmt.Width = 80
+        repoDisAmt.DecimalPlaces = 2
+        repoDisAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoDisAmt.VisibleInColumnChooser = False
+        repoDisAmt.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoDisAmt)
 
         repoDisAmt = New GridViewDecimalColumn()
@@ -2929,8 +2956,8 @@ Public Class frmPurchaseInvoice
                         clsCustomFieldGrid.getFinderForCustomFieldGrid(gv1, e.Column.Name.ToString, MyBase.Form_ID)
                     End If
                     ''richa agarwal ERO/09/08/19-000990 add discount amount directly i.e. if dis percent is not given by user and discount amount is provided then it will be reflected into amin amoount
-                    If e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse e.Column Is gv1.Columns(colCategoryType) OrElse e.Column Is gv1.Columns(colCapexSubCode) OrElse e.Column Is gv1.Columns(colICode) OrElse e.Column Is gv1.Columns(colAmt) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colSpecification) OrElse e.Column Is gv1.Columns(colRemarks) OrElse e.Column Is gv1.Columns(colDisPer) OrElse e.Column Is gv1.Columns(colDetailDisAmt) OrElse e.Column Is gv1.Columns(colMRP) OrElse e.Column Is gv1.Columns(colBatchNo) OrElse e.Column Is gv1.Columns(colExpiry) OrElse e.Column Is gv1.Columns(colManufactureDate) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal) Then
-                        If (e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse (clsCommon.CompairString(e.Column.Name, colQty) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colRate) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colDisPer) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colDetailDisAmt) = CompairStringResult.Equal) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal)) Then
+                    If e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse e.Column Is gv1.Columns(colCategoryType) OrElse e.Column Is gv1.Columns(colCapexSubCode) OrElse e.Column Is gv1.Columns(colICode) OrElse e.Column Is gv1.Columns(colAmt) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colSpecification) OrElse e.Column Is gv1.Columns(colRemarks) OrElse e.Column Is gv1.Columns(colDisPer) OrElse e.Column Is gv1.Columns(colDisPerUnit) OrElse e.Column Is gv1.Columns(colDetailDisAmt) OrElse e.Column Is gv1.Columns(colMRP) OrElse e.Column Is gv1.Columns(colBatchNo) OrElse e.Column Is gv1.Columns(colExpiry) OrElse e.Column Is gv1.Columns(colManufactureDate) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal) Then
+                        If (e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse (clsCommon.CompairString(e.Column.Name, colQty) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colRate) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colDisPer) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colDisPerUnit) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colDetailDisAmt) = CompairStringResult.Equal) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal)) Then
                             If e.Column Is gv1.Columns(colRate) Then
                                 If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowLargerItemCostThenVendorItemCost, clsFixedParameterCode.AllowLargerItemCostThenVendorItemCost, Nothing)) = 0 And clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PurchasePickItemFromVendorItemDetails, clsFixedParameterCode.PurchasePickItemFromVendorItemDetails, Nothing)) = 1 Then
                                     Dim strCode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
@@ -3854,6 +3881,7 @@ Public Class frmPurchaseInvoice
                 Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
 
                 Dim dblUnitCost As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value)
+                Dim dblAmtAfterDis As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmtAfterDis).Value)
 
                 If clsCommon.myLen(strReqNo) > 0 Then
                     If Not (arrReqNo.Contains(strReqNo)) Then
@@ -3876,6 +3904,10 @@ Public Class frmPurchaseInvoice
                     End If
                 End If
 
+                If dblAmtAfterDis < 0 Then
+                    clsCommon.MyMessageBoxShow(Me, " Amount After discount Cannot be in Negative. ")
+                    Return False
+                End If
                 ''-----------------
                 If clsCommon.myLen(strICode) > 0 Then
                     If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
@@ -4354,6 +4386,9 @@ Public Class frmPurchaseInvoice
                     objTr.Amount = clsCommon.myCdbl(grow.Cells(colAmt).Value)
                     objTr.Disc_Type = clsCommon.myCdbl(grow.Cells(colDisType).Value)
                     objTr.Disc_Per = clsCommon.myCdbl(grow.Cells(colDisPer).Value)
+
+                    objTr.Disc_Per_Unit = clsCommon.myCdbl(grow.Cells(colDisPerUnit).Value)
+                    objTr.Disc_Amt_Per_Unit = clsCommon.myCdbl(grow.Cells(colDisAmtPerUnit).Value)
 
                     objTr.Header_Discount_Per = clsCommon.myCdbl(grow.Cells(colHeaderDiscountPer).Value)
                     objTr.Header_Discount_Amount = clsCommon.myCdbl(grow.Cells(colHeaderDiscountAmt).Value)
@@ -5349,6 +5384,9 @@ Public Class frmPurchaseInvoice
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colHeaderDiscountPer).Value = objTr.Header_Discount_Per
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colHeaderDiscountAmt).Value = objTr.Header_Discount_Amount
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDetailDisAmt).Value = objTr.Detail_Discount_Amount
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = objTr.Disc_Per_Unit
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisAmtPerUnit).Value = objTr.Disc_Amt_Per_Unit
 
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDisAmt).Value = objTr.Disc_Amt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colAmtAfterDis).Value = objTr.Amt_Less_Discount
@@ -6449,7 +6487,13 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colShortQty).Value = obj.Short_Qty
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colRejectQty).Value = obj.Rejected_Qty
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDisType).Value = obj.Disc_Type
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
+
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingSRN.Load_discount_for_PI(obj.SRN_No, obj.Item_Code)
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = frmPendingSRN.Load_discount_per_unit_for_PI(obj.SRN_No, obj.Item_Code)
+
+
+
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = obj.MRP
                     ''gv1.Rows(gv1.Rows.Count - 1).Cells(colAssessableRate).Value = obj.Assessable
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colBatchNo).Value = obj.Batch_No
@@ -7204,6 +7248,8 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
 
         Dim dblHeaderDisAmt As Decimal = Math.Round(dblAmt * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colHeaderDiscountPer).Value) / 100, 2, MidpointRounding.AwayFromZero)
         Dim dblDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
+        Dim dbldisperunit As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPerUnit).Value)
+        Dim dbldisamtperunit As Decimal = (dblQty * dbldisperunit)
         ''richa agarwal 16 Aug,2019 ERO/09/08/19-000990
         Dim dblDetailDisAmt As Decimal
         If dblDisPer = 0 AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDetailDisAmt).Value) > 0 Then
@@ -7212,7 +7258,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
             dblDetailDisAmt = (dblAmt * dblDisPer) / 100
         End If
 
-        Dim dblDisAmt As Double = dblHeaderDisAmt + dblDetailDisAmt
+        Dim dblDisAmt As Double = dblHeaderDisAmt + dblDetailDisAmt + dbldisamtperunit
         Dim dblAmtAfterDis As Double = dblAmt - dblDisAmt
 
         Dim dblTotAmt As Decimal = 0
@@ -7351,6 +7397,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
         gv1.Rows(IntRowNo).Cells(colDetailDisAmt).Value = Math.Round(dblDetailDisAmt, 2)
         gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
         gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 2)
+        gv1.Rows(IntRowNo).Cells(colDisAmtPerUnit).Value = Math.Round(dbldisamtperunit, 2)
 
         gv1.Rows(IntRowNo).Cells(colItemInsuranceBaseAmt).Value = Math.Round(dclItemInsuranceBaseAmt, 2)
         gv1.Rows(IntRowNo).Cells(colItemInsuranceAmt).Value = Math.Round(dclItemInsuranceAmt, 2)
