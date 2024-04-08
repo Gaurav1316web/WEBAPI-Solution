@@ -66,6 +66,9 @@ Public Class frmPurchaseSettings
         ChkSkipMRNGRNinCaseofMT.Tag1 = clsFixedParameterCode.SkipMRNGRNinCaseofMT
         ChkSkipMRNGRNinCaseofMT.Tag = clsFixedParameterType.SkipMRNGRNinCaseofMT
 
+        ChkAutoGenerateMRN.Tag1 = clsFixedParameterCode.AutoGenerateMRN
+        ChkAutoGenerateMRN.Tag = clsFixedParameterType.AutoGenerateMRN
+
         chkGRN.Tag1 = clsFixedParameterCode.ShowGRN
         chkGRN.Tag = clsFixedParameterType.ShowGRN
 
