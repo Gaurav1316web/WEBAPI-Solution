@@ -2475,6 +2475,15 @@ Public Class clsSRNHead
                 qry = "update TSPL_QC_CHECK_HEAD set TSPL_QC_CHECK_HEAD.approved_for_srn=0 where document_code='" + obj.Against_QC_Code + "'" ''done by monika 31/01/2017
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+                qry = "delete from TSPL_SRN_DEDUCTION_SECURITY where SRN_No='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_SRN_DEDUCTION where SRN_No='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_SRN_TENDER_CALC where SRN_No='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
                 qry = "delete from TSPL_SRN_HEAD where SRN_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
