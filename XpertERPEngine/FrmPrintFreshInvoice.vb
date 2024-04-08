@@ -996,7 +996,9 @@ and not exists (select 1 from  (select  TSPL_SD_sale_invoice_DETAIL.Item_Code, "
                 End If
                 Qry += " order  by Main_Final.Line_No asc,Main_Final.Sku_Seq "
             End If
-            Return Qry
+            ' Return Qry
+        End If
+        Return Qry
     End Function
 
     Public Function PrintInvoiceForTruckSheetReport(ByVal FromDate, ByVal ToDate, ByVal whrcls) As String
