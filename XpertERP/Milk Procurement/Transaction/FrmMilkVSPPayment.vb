@@ -4534,6 +4534,19 @@ Public Class FrmMilkVSPPayment
             Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER
      "
             fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+            Dim arrMCCMapped As New ArrayList
+            Dim arrMCCName As New ArrayList
+            Dim dt As New DataTable
+            Dim query As String = "select MCC_Code,MCC_NAME from TSPL_MCC_MASTER  WHERE Area_Location_Code='" + fndArea.Value + "'"
+            dt = Nothing
+
+            dt = clsDBFuncationality.GetDataTable(query)
+
+            For i As Integer = 0 To dt.Rows.Count - 1
+                arrMCCMapped.Add(dt.Rows(i)("MCC_Code"))
+                arrMCCName.Add(dt.Rows(i)("MCC_NAME"))
+            Next
+            txtMCCMultiple.arrValueMember = arrMCCMapped
             'If fndLocation.Value <> "" Then
             '    lblLocation.Text = clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" & fndArea.Value & "'")
             'Else
