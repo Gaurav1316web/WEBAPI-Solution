@@ -223,7 +223,7 @@ Public Class frmDistributorCommission
                     For Each items In obj.Items
                         Dim qry As String = "select * from TSPL_Distributor_commission_Head 
 left join TSPL_DISTRIBUTOR_COMMISSION_ITEMS on TSPL_Distributor_commission_Head.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Doc_No 
-and TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + items + "' where TSPL_Distributor_commission_Head.Distributor_Tagging_Code='" + txtDistributorTagging.Value + "'"
+where TSPL_DISTRIBUTOR_COMMISSION_ITEMS.Item_Code='" + items + "' and TSPL_Distributor_commission_Head.Distributor_Tagging_Code='" + txtDistributorTagging.Value + "'"
                         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                         If dt IsNot Nothing And dt.Rows.Count > 0 Then
                             Throw New Exception("Item : " + items + " is already exists with " + txtDistributorTagging.Value + " ! Please select different item/items")

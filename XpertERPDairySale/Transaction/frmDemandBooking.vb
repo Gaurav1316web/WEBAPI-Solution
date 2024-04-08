@@ -11,6 +11,7 @@ Public Class frmDemandBooking
     Public Shared LockUnlock As Integer = 0
     Dim EnableLocation As Boolean = False
     Dim EnableResetDemand As Boolean = False
+    Dim ConvertPouchtoCrate As Boolean = False
     Dim SeparateDemandMilkandProduct As Boolean = False
     Dim LockedByUserName As String = ""
     Dim LockedByUserCode As String = ""
@@ -92,6 +93,7 @@ Public Class frmDemandBooking
             UseCutOffTimeonRouteForERP = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.UseCutOffTimeonRouteForERP, clsFixedParameterCode.UseCutOffTimeonRouteForERP, Nothing)) = 1, True, False)
             checkCreditLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, Nothing)) = 1, True, False)
             SeparateDemandMilkandProduct = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, Nothing)) = 1, True, False)
+            ConvertPouchtoCrate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, Nothing)) = 1, True, False)
             AddNew()
             SetUserMgmtNew()
             If clsCommon.myLen(StrDocNo) > 0 Then
@@ -663,7 +665,7 @@ Public Class frmDemandBooking
                         'If isLoadData = False AndAlso (clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) > 0) Then
                         If isLoadData = False Then
                             ''UpdateItemQtyAfterSave(gv1.CurrentRow.Index, gv1.CurrentColumn.Index)
-                            UpdateAllTotals()
+                            UpdateAllTotals(False)
                             HideUnhideRowsAndColumnsOFGrid()
                         End If
                     End If
@@ -706,7 +708,7 @@ Public Class frmDemandBooking
                 End If
             End If
             isInsideLoadData = True
-            UpdateAllTotals()
+            UpdateAllTotals(False)
             isInsideLoadData = False
             Dim dblQuantityCount As Double = 0
             Dim dblQuantityMORNINGCount As Double = 0
@@ -1232,7 +1234,7 @@ Public Class frmDemandBooking
                 lblTransporterName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select transporter_name from tspl_transport_master where Transport_Id =(select Transport_Id from tspl_vehicle_master where vehicle_id= '" + Convert.ToString(txtVehicleNo.Value) + "')"))
                 'HideUnhideRowsOFGrid()
                 isLoadData = False
-                UpdateAllTotals()
+                UpdateAllTotals(True)
                 If Not SettSeprateDemandForMorningEveningShift Then
                     HideUnhideRowsAndColumnsOFGrid()
                 End If
@@ -2095,7 +2097,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    Private Sub UpdateAllTotals()
+    Private Sub UpdateAllTotals(ByVal isLoad As Boolean)
         Try
             Dim TotalCrate As Double = 0
             Dim TotalLitre As Double = 0
@@ -2112,6 +2114,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             Dim dblDocTotalLitre As Double = 0
             Dim dblDocTotalAmt As Double = 0
             Dim dblTotalPCount As Double = 0
+            Dim dblToalPouchCount As Double = 0
             Dim dblTotalPAmt As Double = 0
             Dim dblTotalMAmt As Double = 0
             Dim colTotalQty As Double = 0
@@ -2149,11 +2152,20 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                         Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
                                         If CrateConvFactor > 0 And ItemConvFactor > 0 Then
                                             Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
-                                            If DispatchQty > (CrateConvFactor / 2) Then
-                                                dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                            If ConvertPouchtoCrate Then
+                                                If DispatchQty > (CrateConvFactor / 2) Then
+                                                    dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                                Else
+                                                    dblTotalCrateRowWise = 1
+                                                End If
                                             Else
-                                                dblTotalCrateRowWise = 0
+                                                If DispatchQty > (CrateConvFactor / 2) Then
+                                                    dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                                Else
+                                                    dblTotalCrateRowWise = 0
+                                                End If
                                             End If
+
                                         End If
                                         TotalCrate = TotalCrate + dblTotalCrateRowWise
                                         obj1.FreshItem_QtyInCrates = dblTotalCrateRowWise
@@ -2180,7 +2192,8 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                             If clsCommon.myLen(strPriceCode) <= 0 Then
                                 Throw New Exception("price_CodeNon not found for Customer " & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustName).Value) & "")
                             End If
-                            qry = " Select Is_With_Tax, RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price,XXXE.TAX1_Rate, " &
+                            If Not isLoad Then
+                                qry = " Select Is_With_Tax, RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price,XXXE.TAX1_Rate, " &
                         " XXXE.TAX2_Rate,XXXE.TAX3_Rate,XXXE.TAX4_Rate,XXXE.TAX5_Rate, " &
                         "  XXXE.TAX6_Rate,XXXE.TAX7_Rate,XXXE.TAX8_Rate,XXXE.TAX9_Rate, " &
                         " XXXE.TAX10_Rate,XXXE.TAX1 ,XXXE.TAX2,XXXE.TAX3, " &
@@ -2199,6 +2212,10 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                         "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  and  " &
                         "TSPL_ITEM_PRICE_MASTER.Price_Code='" & strPriceCode & "' and UOM='" & obj1.Unit_code & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & obj1.itemCode & "' AND Location_Code='" & clsCommon.myCstr(txtLocation.Value) & "'  " &
                         ") XXXE WHERE RowNo=1  "
+                            Else
+                                qry = "select item_Rate as Item_Basic_Price from TSPL_DEMAND_BOOKING_DETAIL where  Document_No='" + txtDocNo.Value + "' and Item_Code='" + obj1.itemCode + "' and Unit_code='" + obj1.Unit_code + "'"
+
+                            End If
                             dt = clsDBFuncationality.GetDataTable(qry)
                             If dt.Rows.Count > 0 Then
                                 dblRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
@@ -2268,7 +2285,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
     End Sub
     Private Sub btnUpdateCrateAndAmt_Click(sender As Object, e As EventArgs) Handles btnUpdateCrateAndAmt.Click
         Try
-            UpdateAllTotals()
+            UpdateAllTotals(False)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -4093,7 +4110,7 @@ where 2=2 "
                             clsCommon.ProgressBarPercentHide()
                         End Try
                         isInsideLoadData = False
-                        UpdateAllTotals()
+                        UpdateAllTotals(False)
                         clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                     Else
                         clsCommon.MyMessageBoxShow("You cannot import quantity because both Import and Export Data is different", Me.Text)

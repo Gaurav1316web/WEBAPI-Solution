@@ -1324,7 +1324,7 @@ Public Class clsFixedParameterType
     Public Const AllowIncreaseDispatchQty = "Allow Increase Dispatch Qty"
     Public Const FORPRICE = "FOR Price"
     Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
-
+    Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
 
 End Class
 Public Class clsFixedParameterCode
@@ -2785,6 +2785,7 @@ Public Class clsFixedParameterCode
     Public Const AllowIncreaseDispatchQty = "Allow Increase Dispatch Qty"
     Public Const FORPRICE = "FOR Price"
     Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
+    Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
 
 End Class
 Public Class clsFixedParameter
@@ -4520,6 +4521,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, "0", "Enter Weight in KG ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, "0", "0:Off, 1:On;")
 
 
 
@@ -6583,6 +6585,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, EnumControlType.CheckBox)
 
     End Sub
 End Class

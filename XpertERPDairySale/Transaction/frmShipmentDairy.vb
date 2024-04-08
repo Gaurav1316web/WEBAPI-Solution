@@ -447,7 +447,6 @@ Public Class frmShipmentDairy
         OPkmMandatoryonDS = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.OPkmMandatoryonDS, clsFixedParameterCode.OPkmMandatoryonDS, Nothing)) = 1, True, False)
         RunBatchFifowisewithmodifyfunctionality = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RunBatchFifowisewithModifyfunctionality, clsFixedParameterCode.RunBatchFifowisewithModifyfunctionality, Nothing)) = 1, True, False)
         FORPRICE = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, Nothing))
-
         dtpChallan.Value = clsCommon.GETSERVERDATE
         dtpInvoice.Value = clsCommon.GETSERVERDATE
         txtFdate.Value = clsCommon.GETSERVERDATE
@@ -582,7 +581,6 @@ Public Class frmShipmentDairy
         btnPrintsvl.Enabled = False
         'CreateTable()
     End Sub
-
     'Sub CreateTable()
     '    Dim coll As Dictionary(Of String, String)
     '    coll = New Dictionary(Of String, String)()
@@ -5234,7 +5232,6 @@ Public Class frmShipmentDairy
             Whrcls += " and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IS_Transpotation=1 "
         Else
             Whrcls += " and TSPL_DISTRIBUTOR_COMMISSION_HEAD.IS_Transpotation=0 "
-
         End If
         Dim DCQry As String = "select top 1 TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Commision_UOM,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.PK_ID,TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Distributor_Code,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Rate,TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Security_Rate from TSPL_DISTRIBUTOR_COMMISSION_HEAD
 left join TSPL_DISTRIBUTOR_COMMISSION_DETAIL on TSPL_DISTRIBUTOR_COMMISSION_DETAIL.Doc_No=TSPL_DISTRIBUTOR_COMMISSION_HEAD.Doc_No
@@ -5382,8 +5379,8 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 'Exit Function
             End If
             Return 0
-            End If
-            Dim obj_Cash As clsSchemeApplyOnDairy = Nothing
+        End If
+        Dim obj_Cash As clsSchemeApplyOnDairy = Nothing
         obj_Cash = clsSchemeApplyOnDairy.GetDiscountSchemeData(gv1.Rows(introw).Cells(colICode).Value, gv1.Rows(introw).Cells(colICode).Value, 1, clsCommon.myCstr(txtVendorNo.Value))
         If obj_Cash IsNot Nothing Then
             gv1.Rows(introw).Cells(Disc_Scheme_Amount).Value = obj_Cash.Cash_Amt
@@ -5561,7 +5558,6 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
             Dim dblCrateQty As Double = 0
             Dim dblCanQty As Double = 0
             Dim dblTotalQtyinKG As Double = 0
-
             ''richa add condition chkReplacement.Checked = False (calculation not required in case of replacement ) 15 Nov,2019
             If chkSampling.Checked = False AndAlso chkReplacement.Checked = False Then
                 For ii As Integer = 0 To gv1.Rows.Count - 1
@@ -5770,7 +5766,6 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 FillVehicleCharges()
             End If
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-
                 If dblTotalQtyinKG > FORPRICE Then
                     If Not IsTotalQtyinKG Then
                         For ii As Integer = 0 To gv1.Rows.Count - 1
@@ -5793,9 +5788,7 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                             UpdateAllTotals()
                         End If
                     End If
-
                 End If
-
             End If
         Catch ex As Exception
         End Try
@@ -7251,7 +7244,6 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 objTr.Security_Amt = clsCommon.myCdbl(grow.Cells(ColSCAmt).Value)
                 DCTotalAmt += objTr.Distributor_Commission_Amt
                 SCTotalAmt += objTr.Security_Amt
-
                 objTr.Distributor_Commission_RateWithTax = clsCommon.myCdbl(grow.Cells(ColDCRateWithTax).Value)
                 If (clsCommon.myLen(objTr.Item_Code) > 0) Then
                     obj.Arr.Add(objTr)
@@ -7352,7 +7344,6 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
                 isInsideLoadData = True
                 isNewEntry = False
                 btnSave.Text = "Update"
-
                 BlankAllControls()
                 LoadBlankGrid()
                 LoadBlankGridTax()
@@ -10872,7 +10863,6 @@ select max(TSPL_DISTRIBUTOR_ROUTE.Code) from TSPL_DISTRIBUTOR_ROUTE
 left join TSPL_DISTRIBUTOR_ROUTE_CUSTOMER on TSPL_DISTRIBUTOR_ROUTE.Code=TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Code
 where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + txtRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end))
  and TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and TSPL_DISTRIBUTOR_ROUTE_CUSTOMER.Route_No='" + txtRouteNo.Value + "' and 2=(Case when TSPL_DISTRIBUTOR_ROUTE.End_Date is null then 2 else (Case when TSPL_DISTRIBUTOR_ROUTE.End_Date>='" + clsCommon.GetPrintDate(txtDate.Value) + "' then 2 else 3 end) end)"
-
                     txtVendorNo.Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strQry1))
                     strQry1 = "select Cust_Code as Code,Customer_Name as Name,ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],TSPL_CUSTOMER_MASTER.add1 +case when len(TSPL_CUSTOMER_MASTER.add2)>0 then ', '+TSPL_CUSTOMER_MASTER.add2 else '' end +case when LEN(isnull(TSPL_CUSTOMER_MASTER.Add3,''))>0 then ', '+isnull(TSPL_CUSTOMER_MASTER.Add3,'') else ' ' end + case when LEN(TSPL_CITY_MASTER.City_Name)>0 then ', '+TSPL_CITY_MASTER.City_Name else ' ' end + case when len(TSPL_CUSTOMER_MASTER.State )>0 then TSPL_CUSTOMER_MASTER.State else '' end  as Address,TSPL_CUSTOMER_MASTER.Terms_Code as [Term Code] , TSPL_RECEIVABLE_PAYMENT_TERMS_MASTER.Terms_Desc as [Term Description] ,Tax_Group as [Tax Group],Tax_Group_Desc as [Tax Group Description],Salesman_Code as [Salesman Code],Salesman_Desc as Salesman  " &
         ",TSPL_CUSTOMER_MASTER.Route_No,TSPL_ROUTE_MASTER.Route_Desc,TSPL_ROUTE_MASTER.vehicle_code,TSPL_VEHICLE_MASTER.Number,TSPL_VEHICLE_MASTER.Capacity "
@@ -10884,8 +10874,6 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 "left outer join TSPL_ROUTE_MASTER on TSPL_CUSTOMER_MASTER.Route_No=TSPL_ROUTE_MASTER.Route_No  " &
                 "left outer join TSPL_VEHICLE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id "
                     strQry1 += " where 2=2 and TSPL_CUSTOMER_MASTER.Cust_Code ='" + txtVendorNo.Value + "'"
-
-
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry1)
                     If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                         lblVendorName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
@@ -10925,7 +10913,6 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                         Me.txtConversionRate.Text = 1
                         Me.txtApplicableFrom.Text = ""
                     End If
-
                     strQry1 = "SELECT TSPL_LOCATION_MASTER.Excisable,TSPL_LOCATION_MASTER.State, " &
        "TSPL_LOCATION_MASTER.Sales_Tax_Group as LocalTaxGroup,TSPL_TAX_GROUP_MASTER.Tax_Group_Desc as Local_Tax_GroupName, " &
        "TSPL_LOCATION_MASTER.Sales_Tax_GroupIS as InterstateTaxGroup,TSPL_TAX_GROUP_MASTERIS.Tax_Group_Desc as Interstate_Tax_GroupName " &
@@ -10997,14 +10984,12 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
             End If
         Else
             clsCommon.MyMessageBoxShow(Me, "Select Item Type", Me.Text)
-
         End If
         If clsCommon.myLen(txtRouteNo.Value) > 0 Then
             Vehicle()
         End If
         cmbDisItemType.Enabled = False
     End Sub
-
     Private Sub Vehicle()
         Dim Qry As String = "select TSPL_VEHICLE_MASTER.Vehicle_Id,TSPL_VEHICLE_MASTER.Number from TSPL_VEHICLE_MASTER
                             left join TSPL_ROUTE_MASTER on TSPL_ROUTE_MASTER.vehicle_code=TSPL_VEHICLE_MASTER.Vehicle_Id
@@ -11312,7 +11297,6 @@ where TSPL_DISTRIBUTOR_ROUTE.Start_Date<='" + clsCommon.GetPrintDate(txtDate.Val
                 Else
                     frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 End If
-
                 'frmCRV.funsubreportWithdt(CrystalReportFolder.KwalitySalesReport, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "crptTaxableNonTaxableInvoice", "Bill of Supply", dtDocdate, "rptCompanyAddress.rpt", "FreshHeader.rpt", clsERPFuncationality.CompanyAddresInvoiceHeader())
                 frmCRV = Nothing
             End If
@@ -13339,13 +13323,10 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
             gvDistributor.Columns("Commission_Amt").HeaderText = "Commission Amt"
             gvDistributor.Columns("Security_Amt").HeaderText = "Security Amt"
             gv1.ReadOnly = True
-
             ' txtRouteNo.Enabled = False
         End If
     End Sub
     Public Sub GetBoothWiseDCDetails(ByVal introw As Integer)
-
-
         For i As Integer = 0 To gvDistributor.Rows.Count - 1
             Dim Whrcls As String = ""
             Dim dblDCUOM As String = ""
@@ -13355,20 +13336,15 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
             Dim dblDCCFUOM As Double = 0
             Dim dblDCQtyinSU As Double = 0
             Dim dblDCAmt As Double = 0
-
             dblDCUOM = gvDistributor.Rows(i).Cells(7).Value
             dblICode = gvDistributor.Rows(i).Cells(3).Value
             dblDCUnitCF = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(dblDCUOM) + "' and Item_Code='" + clsCommon.myCstr(dblICode) + "'"))
             dblDCCFUOM = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(gv1.Rows(introw).Cells(ColDCUOM).Value) + "' and Item_Code='" + clsCommon.myCstr(dblICode) + "'"))
-            dblDCQtyinSU = (gvDistributor.Rows(i).Cells(6).Value * dblDCUnitCF) / dblDCCFUOM
-            gvDistributor.Rows(i).Cells(9).Value = dblDCQtyinSU * gv1.Rows(introw).Cells(ColDCRateWithTax).Value
-            gvDistributor.Rows(i).Cells(10).Value = dblDCQtyinSU * gv1.Rows(introw).Cells(ColSCAmt).Value
-
-
-
-
-
-
+            If dblDCCFUOM > 0 Then
+                dblDCQtyinSU = clsCommon.myCdbl((gvDistributor.Rows(i).Cells(6).Value * dblDCUnitCF) / dblDCCFUOM)
+                gvDistributor.Rows(i).Cells(9).Value = clsCommon.myCdbl(dblDCQtyinSU * gv1.Rows(introw).Cells(ColDCRateWithTax).Value)
+                gvDistributor.Rows(i).Cells(10).Value = clsCommon.myCdbl(dblDCQtyinSU * gv1.Rows(introw).Cells(ColSCAmt).Value)
+            End If
             '    gv1.CurrentRow.Cells(ColDCPKID).Value = clsCommon.myCstr(dt1.Rows(0)("PK_ID"))
             '        gv1.CurrentRow.Cells(ColDCApplicableDate).Value = clsCommon.myCstr(dt1.Rows(0)("Applicable_Date"))
             '        gv1.CurrentRow.Cells(ColDCUOM).Value = clsCommon.myCstr(dt1.Rows(0)("Commision_UOM"))
@@ -13380,11 +13356,7 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
             '    'gv1.CurrentRow.Cells(ColDCQtyinSU).Value = (gv1.Rows(IntRowNo).Cells(colQty).Value * gv1.Rows(IntRowNo).Cells(ColDCUnitCF).Value) / gv1.Rows(IntRowNo).Cells(ColDCCFUOM).Value
             '    'gv1.CurrentRow.Cells(ColDCAmt).Value = gv1.CurrentRow.Cells(ColDCQtyinSU).Value * gv1.CurrentRow.Cells(ColDCRateWithTax).Value
             '    'dblTotalDCAmt = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(ColDCAmt).Value)
-
         Next
-
-
-
     End Sub
     Function MergeDistributorItems(ByVal IsThrowException As Boolean) As Boolean
         Try
@@ -13482,34 +13454,28 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
         End If
     End Sub
     Private Sub calculateFOR(ByVal intRow As Integer)
-
         Try
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "BKN") = CompairStringResult.Equal Then
-
                 IsTotalQtyinKG = False
                 gv1.Rows(intRow).Cells(colCF).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='" + clsCommon.myCstr(gv1.Rows(intRow).Cells(colUnit).Value) + "' and Item_Code='" + clsCommon.myCstr(gv1.Rows(intRow).Cells(colICode).Value) + "'")
                 gv1.Rows(intRow).Cells(colCFKG).Value = clsDBFuncationality.getSingleValue("select Conversion_Factor from tspl_item_uom_detail where UOM_Code='KG' and Item_Code='" + clsCommon.myCstr(gv1.Rows(intRow).Cells(colICode).Value) + "'")
                 If gv1.Rows(intRow).Cells(colCFKG).Value IsNot Nothing AndAlso clsCommon.myCdbl(gv1.Rows(intRow).Cells(colCFKG).Value) > 0 Then
                     gv1.Rows(intRow).Cells(colQtyinKG).Value = (clsCommon.myCdbl(gv1.Rows(intRow).Cells(colQty).Value) * clsCommon.myCdbl(gv1.CurrentRow.Cells(colCF).Value)) / clsCommon.myCdbl(gv1.CurrentRow.Cells(colCFKG).Value)
-
                     'If clsCommon.myCdbl(gv1.Rows(intRow).Cells(colQtyinKG).Value) > FORPRICE Then
                     '    ItemPrice(clsCommon.myCstr(gv1.Rows(intRow).Cells(colICode).Value), clsCommon.myCstr(gv1.Rows(intRow).Cells(colUnit).Value), intRow, True)
                     '    UpdateCurrentRow(intRow)
                     '    IsTotalQtyinKG = True
                     'End If
-
                 End If
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
-
     End Sub
     Private Sub GetTaxRate()
         Dim strQry As String = ""
         clsDBFuncationality.getSingleValue(strQry)
     End Sub
-
     Private Sub btnprintsvl_Click(sender As Object, e As EventArgs) Handles btnPrintsvl.Click
         If clsCommon.myLen(txtDocNo.Value) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "No data found to print", Me.Text)
@@ -13517,16 +13483,13 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
             Print(txtDocNo.Value)
         End If
     End Sub
-
     Public Sub print(ByVal StrDocNo As String)
         If clsCommon.myLen(StrDocNo) <= 0 Then
             Exit Sub
         End If
-
         Try
             Dim qry As String = Nothing
             Dim qry1 As String = Nothing
-
             qry = "  Select ROW_NUMBER() OVER (ORDER BY xxxfinal.GL_Account_Code) AS rowno,xxxfinal.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.Logo_Img2, TSPL_Customer_Master.Add1 As Cust_Add1,TSPL_Customer_Master.Add2 As Cust_Add2,TSPL_Customer_Master.Pin_No,TSPL_STATE_MASTER.GST_STATE_Code,TSPL_STATE_MASTER.STATE_NAME from ( select ROW_NUMBER() OVER (ORDER BY x.GL_Account_Code) AS rowno,
                     MAX(Invoice_Created_By_Name)Invoice_Created_By_Name , MAX(Invoice_Modifiy_By_Name)Invoice_Modifiy_By_Name,MAX(LOC_GST_State_Code)LOC_GST_State_Code , MAX(Loc_GstInNo)Loc_GstInNo,
                     max(Modify_By)Modify_By,max(PJV_No)PJV_No,max(PJV_Date)PJV_Date,max(Narration)Narration, max(Created_By)Created_By,max(status)status,max(Line_No)Line_No,GL_Account_Code , max(GL_Account_Desc)GL_Account_Desc,sum(Expr1)Expr1 , sum(Amount)Amount ,sum(DrAmt)Debit,sum(CrAmt)Credit, max(Bill_To_Location)Bill_To_Location,max(Comp_Name)Comp_Name , max(Add1)Add1 , max(Add2)Add2 , max(Add3)Add3,
@@ -13551,9 +13514,7 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                     left outer join TSPL_USER_MASTER as TSPL_USER_MASTER_Modified_By on TSPL_USER_MASTER_Modified_By.User_Code = TSPL_SD_SALE_INVOICE_HEAD.Modify_By 
                     LEFT OUTER JOIN  TSPL_COMPANY_MASTER ON TSPL_SD_SALE_INVOICE_HEAD.Comp_Code = TSPL_COMPANY_MASTER.Comp_Code
                     WHERE TSPL_SD_SALE_INVOICE_HEAD.DOCUMENT_CODE = '" + clsCommon.myCstr(txtInvoiceNo.Text) + "'
-
                     UNION ALL
-
                     SELECT (TSPL_USER_MASTER_Created_By.User_Name) as Invoice_Created_By_Name,(TSPL_USER_MASTER_Modified_By.User_Name) as Invoice_Modifiy_By_Name,
                     (tspl_state_master.GST_STATE_Code) as LOC_GST_State_Code,TSPL_SD_SHIPMENT_HEAD.Vehicle_Code,
                     (TSPL_LOCATION_MASTER.GSTNO) as Loc_GstInNo ,(TSPL_JOURNAL_MASTER.Modify_By) AS Modify_By,(TSPL_JOURNAL_MASTER.Voucher_No) AS  PJV_No, convert(varchar,(TSPL_JOURNAL_MASTER.Voucher_Date),103) as PJV_Date ,(TSPL_JOURNAL_MASTER.Source_Narration) as  Narration, (TSPL_JOURNAL_MASTER.Created_By) AS Created_By, (TSPL_JOURNAL_DETAILS.Detail_Line_No) AS Line_No,  (TSPL_JOURNAL_DETAILS.Account_code) AS  GL_Account_Code, (TSPL_JOURNAL_DETAILS.Account_Desc) AS GL_Account_Desc,  (TSPL_JOURNAL_DETAILS.Amount) AS Expr1,(TSPL_JOURNAL_DETAILS.Amount) as Amount,(TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) AS Bill_To_Location,( TSPL_COMPANY_MASTER.Comp_Name) AS Comp_Name, (TSPL_COMPANY_MASTER.Add1) AS Add1, (TSPL_COMPANY_MASTER.Add2) as Add2, (TSPL_COMPANY_MASTER.Add3) as Add3,   (TSPL_COMPANY_MASTER.State) as State, (TSPL_COMPANY_MASTER.CST_LST) as CST_LST,(TSPL_COMPANY_MASTER.Comp_Code) AS Comp_Code, 
@@ -13576,7 +13537,6 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                     Left Outer Join TSPL_STATE_MASTER On TSPL_STATE_MASTER.STATE_CODE=TSPL_Customer_Master.State
 					Left Outer Join TSPL_COMPANY_MASTER On TSPL_COMPANY_MASTER.Comp_Code1='" + objCommonVar.CurrComp_Code1 + "'
 					where xxxfinal.Debit<>xxxfinal.Credit"
-
             qry1 = " select TSPL_SD_SHIPMENT_DETAIL.line_no,TSPL_ITEM_MASTER.HSN_Code, 
                     TSPL_SD_SHIPMENT_DETAIL.Unit_code,TSPL_SD_SHIPMENT_HEAD.Created_By,TSPL_SD_SHIPMENT_HEAD.Modify_By,
                     TSPL_SD_SHIPMENT_DETAIL.Item_Code as Item_Code , TSPL_ITEM_MASTER.Item_Desc as Item_Desc,
@@ -13586,23 +13546,17 @@ order by  TSPL_BOOKING_DETAIL.Against_DemandBooking_TR_Code "
                     left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_SD_SHIPMENT_DETAIL.Item_Code   
                     where  TSPL_SD_SHIPMENT_DETAIL.DOCUMENT_CODE = '" & StrDocNo & "'  
                     order by line_no "
-
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry1)
-
             Dim frmCRV As New frmCrystalReportViewer()
             'frmCRV.funsubreport(CrystalReportFolder.PurchaseOrder, qry, qry1, "rptPJV-V", "PJV Report", "PurchaseDetails1.rpt", clsCommon.myCDate(txtDate.Value), "rptCompanyAddress.rpt", "SubRptCmpnyMasterForERODE.rpt", clsERPFuncationality.CompanyAddresShowinHeaderPartForERODE())
-
             frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dt1, "rptSJV-V", "SJV Report", clsCommon.myCDate(clsCommon.GETSERVERDATE()), "PurchaseDetails1.rpt")
             frmCRV = Nothing
-
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub RadPageViewPage4_Paint(sender As Object, e As PaintEventArgs) Handles RadPageViewPage4.Paint
-
     End Sub
 End Class
 Class tempSchemStructrue
