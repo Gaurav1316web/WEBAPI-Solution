@@ -51,7 +51,7 @@ Public Class clsUnloading
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MILK_UNLOADING.location_Code,TSPL_MILK_UNLOADING.Unloading_Date_Time from TSPL_MILK_UNLOADING where Unloading_No='" + strDocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmUnloading, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Unloading_Date_Time")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmUnloading, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Unloading_Date_Time")), trans)
 
             End If
 
@@ -118,7 +118,7 @@ Public Class clsUnloading
         End If
         Dim DateTime As String = clsFixedParameter.GetData(clsFixedParameterType.AllowToSaveTimeWithDocumentDate, clsFixedParameterCode.AllowToSaveTimeWithDocumentDate, trans)
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmUnloading, obj.location_Code, obj.Unloading_Date_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmUnloading, obj.location_Code, obj.Unloading_Date_Time, trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Unloading_No", clsCommon.myCstr(obj.Unloading_No))
 
@@ -268,7 +268,7 @@ Public Class clsUnloading
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Unloading_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmUnloading, obj.location_Code, obj.Unloading_Date_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmUnloading, obj.location_Code, obj.Unloading_Date_Time, trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
@@ -292,7 +292,7 @@ Public Class clsUnloading
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Unloading_No) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmUnloading, obj.location_Code, obj.Unloading_Date_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmUnloading, obj.location_Code, obj.Unloading_Date_Time, trans)
             If (obj.isPosted = 0) Then
                 Throw New Exception("Transaction should be Posted ")
             End If
