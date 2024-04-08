@@ -94,7 +94,7 @@ Public Class clsBulkMilkSRN
             If (obj Is Nothing OrElse clsCommon.myLen(obj.SRN_NO) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmBulkMilkSRN, obj.Loc_Code, obj.SRN_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmBulkMilkSRN, obj.Loc_Code, obj.SRN_Date, trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
@@ -588,7 +588,7 @@ Public Class clsBulkMilkSRN
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select tspl_bulk_milk_srn.Loc_Code,tspl_bulk_milk_srn.SRN_Date from tspl_bulk_milk_srn where SRN_NO='" + strDocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmBulkMilkSRN, clsCommon.myCstr(dt.Rows(0)("Loc_Code")), clsCommon.myCDate(dt.Rows(0)("SRN_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmBulkMilkSRN, clsCommon.myCstr(dt.Rows(0)("Loc_Code")), clsCommon.myCDate(dt.Rows(0)("SRN_Date")), trans)
             End If
             Dim arr As List(Of String) = New List(Of String)
             arr.Add(strDocNo)
@@ -631,7 +631,7 @@ Public Class clsBulkMilkSRN
     Public Shared Function saveData(ByVal obj As clsBulkMilkSRN, ByVal trans As SqlTransaction, Optional ByVal isHistory As Boolean = False) As Boolean
         Try
             Dim TankerFromMaster As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.GateEntryTankerFromTankerMaster, clsFixedParameterCode.GateEntryTankerFromTankerMaster, trans))
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmBulkMilkSRN, obj.Loc_Code, obj.SRN_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmBulkMilkSRN, obj.Loc_Code, obj.SRN_Date, trans)
             Dim issaved As Boolean = True
             Dim chk As Integer = 0
             chk = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("   select count(*) from TSPL_Bulk_MILK_SRN where gate_entry_no='" & obj.Gate_Entry_No & "' and srn_no <>'" & obj.SRN_NO & "' and isnull(srn_return_no,'')='' ", trans))
@@ -890,7 +890,7 @@ Public Class clsBulkMilkSRN
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select tspl_bulk_milk_srn.Loc_Code,tspl_bulk_milk_srn.SRN_Date from tspl_bulk_milk_srn where SRN_NO='" + strCode + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmBulkMilkSRN, clsCommon.myCstr(dt.Rows(0)("Loc_Code")), clsCommon.myCDate(dt.Rows(0)("SRN_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmBulkMilkSRN, clsCommon.myCstr(dt.Rows(0)("Loc_Code")), clsCommon.myCDate(dt.Rows(0)("SRN_Date")), trans)
             End If
             Dim Qry As String = "select isPosted from TSPL_Bulk_MILK_SRN where SRN_NO='" + strCode + "'"
             'If Not clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Qry, trans)) = 1 Then

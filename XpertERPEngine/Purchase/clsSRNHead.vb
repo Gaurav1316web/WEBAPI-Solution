@@ -934,6 +934,10 @@ Public Class clsSRNHead
                     objTr.Header_Discount_Amount = clsCommon.myCdbl(dr("Header_Discount_Amount"))
                     objTr.Disc_Per = clsCommon.myCdbl(dr("Disc_Per"))
                     objTr.Detail_Discount_Amount = clsCommon.myCdbl(dr("Detail_Discount_Amount"))
+
+                    objTr.Disc_Per_Unit = clsCommon.myCdbl(dr("Disc_Per_Unit"))
+                    objTr.Disc_Amt_Per_Unit = clsCommon.myCdbl(dr("Disc_Amt_Per_Unit"))
+
                     objTr.Disc_Amt = clsCommon.myCdbl(dr("Disc_Amt"))
                     objTr.Amt_Less_Discount = clsCommon.myCdbl(dr("Amt_Less_Discount"))
                     objTr.Taxable_Amount_Per = clsCommon.myCdbl(dr("Taxable_Amount_Per"))
@@ -2471,6 +2475,15 @@ Public Class clsSRNHead
                 qry = "update TSPL_QC_CHECK_HEAD set TSPL_QC_CHECK_HEAD.approved_for_srn=0 where document_code='" + obj.Against_QC_Code + "'" ''done by monika 31/01/2017
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+                qry = "delete from TSPL_SRN_DEDUCTION_SECURITY where SRN_No='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_SRN_DEDUCTION where SRN_No='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_SRN_TENDER_CALC where SRN_No='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
                 qry = "delete from TSPL_SRN_HEAD where SRN_No='" + strCode + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -2964,6 +2977,8 @@ Public Class clsSRNDetail
     Public Header_Discount_Amount As Decimal = 0
     Public Disc_Per As Double = 0
     Public Detail_Discount_Amount As Decimal = 0
+    Public Disc_Per_Unit As Decimal = 0
+    Public Disc_Amt_Per_Unit As Decimal = 0
     Public Disc_Amt As Double = 0
     Public Amt_Less_Discount As Double = 0
     Public Taxable_Amount_Per As Decimal = 0
@@ -3105,6 +3120,8 @@ Public Class clsSRNDetail
                 clsCommon.AddColumnsForChange(coll, "Header_Discount_Amount", obj.Header_Discount_Amount)
                 clsCommon.AddColumnsForChange(coll, "Disc_Per", obj.Disc_Per)
                 clsCommon.AddColumnsForChange(coll, "Detail_Discount_Amount", obj.Detail_Discount_Amount)
+                clsCommon.AddColumnsForChange(coll, "Disc_Per_Unit", obj.Disc_Per_Unit)
+                clsCommon.AddColumnsForChange(coll, "Disc_Amt_Per_Unit", obj.Disc_Amt_Per_Unit)
                 clsCommon.AddColumnsForChange(coll, "Disc_Type", obj.Disc_Type)
                 clsCommon.AddColumnsForChange(coll, "Disc_Amt", obj.Disc_Amt)
                 clsCommon.AddColumnsForChange(coll, "Amt_Less_Discount", obj.Amt_Less_Discount)

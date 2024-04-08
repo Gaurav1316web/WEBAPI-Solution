@@ -62,7 +62,7 @@ Public Class FrmCostCentreConsumptionRpt
         '    qry += " AND TSPL_COST_CENTRE_HIRERACHY_DETAIL.HIRERACHY_LEVEL_CODE2 in(" + clsCommon.GetMulcallString(txtplantUnit.arrValueMember) + ")"
         'End If
         'qry += " ORDER BY TSPL_COST_CENTRE_HIRERACHY_DETAIL.COST_CENTRE_HIRERACHY_CODE "
-        Dim qry As String = " Select TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE as Code ,TSPL_DEPARTMENT_MASTER.DEPARTMENT_NAME  Name from TSPL_DEPARTMENT_MASTER "
+        Dim qry As String = " select Segment_code as Code,Description as Name from TSPL_GL_SEGMENT_CODE where Seg_No=3 "
         txtDepartment.arrValueMember = clsCommon.ShowMultipleSelectForm("LocMulSel", qry, "Code", "Name", txtDepartment.arrValueMember, txtDepartment.arrDispalyMember)
     End Sub
     Private Sub Reset()
@@ -140,11 +140,11 @@ Public Class FrmCostCentreConsumptionRpt
         Dim strToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy")
         Dim StrQuery As String = Nothing
         ' Ticket No : BHA/22/11/18-000697 By Prabhakar ==================
-        Dim strRecordExistOrNot As String = " select Count (*)  from TSPL_ISSUERETURN_HEAD " & _
-                                            " LEFT OUTER JOIN TSPL_ISSUERETURN_DETAIL ON TSPL_ISSUERETURN_HEAD.Doc_No=TSPL_ISSUERETURN_DETAIL.Doc_No " & _
-                                            " left outer join TSPL_DEPARTMENT_MASTER on TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE=TSPL_ISSUERETURN_HEAD.Dept " & _
-                                            " LEFT OUTER JOIN TSPL_COST_CENTER_TYPE_MASTER ON TSPL_COST_CENTER_TYPE_MASTER.CODE=TSPL_ISSUERETURN_HEAD.Cost_Center_Type " & _
-                                            " LEFT OUTER JOIN TSPL_COST_CENTER_UNIT_MASTER ON TSPL_COST_CENTER_UNIT_MASTER.CODE=TSPL_ISSUERETURN_HEAD.Cost_Center_Unit " & _
+        Dim strRecordExistOrNot As String = " select Count (*)  from TSPL_ISSUERETURN_HEAD " &
+                                            " LEFT OUTER JOIN TSPL_ISSUERETURN_DETAIL ON TSPL_ISSUERETURN_HEAD.Doc_No=TSPL_ISSUERETURN_DETAIL.Doc_No " &
+                                            " left outer join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code=TSPL_ISSUERETURN_HEAD.Dept " &
+                                            " LEFT OUTER JOIN TSPL_COST_CENTER_TYPE_MASTER ON TSPL_COST_CENTER_TYPE_MASTER.CODE=TSPL_ISSUERETURN_HEAD.Cost_Center_Type " &
+                                            " LEFT OUTER JOIN TSPL_COST_CENTER_UNIT_MASTER ON TSPL_COST_CENTER_UNIT_MASTER.CODE=TSPL_ISSUERETURN_HEAD.Cost_Center_Unit " &
                                             " WHERE convert(date,TSPL_ISSUERETURN_HEAD.Doc_Date,103)>='" + strFromDate + "' and convert(date,TSPL_ISSUERETURN_HEAD.Doc_Date,103)<='" + strToDate + "' and TSPL_COST_CENTER_UNIT_MASTER.Description is not null "
         Dim isRecordExistOrNot As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue(strRecordExistOrNot))
         If isRecordExistOrNot = 0 Then
@@ -159,16 +159,16 @@ Public Class FrmCostCentreConsumptionRpt
         If clsCommon.myLen(StrunitAddData) > 0 AndAlso clsCommon.myLen(StrunitData) > 0 Then
 
             StrQuery = " select  DEPT_COST_CENTRE.Dept_Name AS [DEPARTMENT],DEPT_COST_CENTRE.type AS  [Type],DEPT_COST_CENTRE.type_code AS [Cost Center No.]," + StrunitData + ", " + StrunitAddData + " as [Total (In Rs.)]"
-            StrQuery += " FROM ( Select TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE AS Dept_Code,TSPL_DEPARTMENT_MASTER.DEPARTMENT_NAME as Dept_Name,TSPL_COST_CENTER_TYPE_MASTER.Code AS Type_Code,TSPL_COST_CENTER_TYPE_MASTER.Description as Type  from TSPL_DEPARTMENT_MASTER inner join TSPL_COST_CENTER_TYPE_MASTER " + Environment.NewLine & _
-                        " on TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE=TSPL_COST_CENTER_TYPE_MASTER.Department ) AS DEPT_COST_CENTRE " + Environment.NewLine & _
+            StrQuery += " FROM ( Select TSPL_GL_SEGMENT_CODE.Segment_code AS Dept_Code,TSPL_GL_SEGMENT_CODE.Description as Dept_Name,TSPL_COST_CENTER_TYPE_MASTER.Code AS Type_Code,TSPL_COST_CENTER_TYPE_MASTER.Description as Type  from TSPL_GL_SEGMENT_CODE inner join TSPL_COST_CENTER_TYPE_MASTER " + Environment.NewLine &
+                        " on TSPL_GL_SEGMENT_CODE.Segment_code=TSPL_COST_CENTER_TYPE_MASTER.Department ) AS DEPT_COST_CENTRE " + Environment.NewLine &
                         " LEFT OUTER  join " + Environment.NewLine
 
-            StrQuery += "(SELECT * FROM (select TSPL_COST_CENTER_TYPE_MASTER.Code,TSPL_COST_CENTER_TYPE_MASTER.Description as Type, TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE,TSPL_DEPARTMENT_MASTER.DEPARTMENT_NAME as Department," + Environment.NewLine & _
-                     " TSPL_COST_CENTER_UNIT_MASTER.Description AS UNIT, isnull(TSPL_ISSUERETURN_DETAIL.Item_Net_Amt,0)*(case when  TSPL_ISSUERETURN_HEAD.Doc_Type='Return' then -1 else 1 end) AS Item_Net_Amt " + Environment.NewLine & _
-                     " from TSPL_ISSUERETURN_HEAD LEFT OUTER JOIN TSPL_ISSUERETURN_DETAIL ON TSPL_ISSUERETURN_HEAD.Doc_No=TSPL_ISSUERETURN_DETAIL.Doc_No " + Environment.NewLine & _
-                     " left outer join TSPL_DEPARTMENT_MASTER on TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE=TSPL_ISSUERETURN_HEAD.Dept" + Environment.NewLine & _
-                     " LEFT OUTER JOIN TSPL_COST_CENTER_TYPE_MASTER ON TSPL_COST_CENTER_TYPE_MASTER.CODE=TSPL_ISSUERETURN_HEAD.Cost_Center_Type " + Environment.NewLine & _
-                     " LEFT OUTER JOIN TSPL_COST_CENTER_UNIT_MASTER ON TSPL_COST_CENTER_UNIT_MASTER.CODE=TSPL_ISSUERETURN_HEAD.Cost_Center_Unit " + Environment.NewLine & _
+            StrQuery += "(SELECT * FROM (select TSPL_COST_CENTER_TYPE_MASTER.Code,TSPL_COST_CENTER_TYPE_MASTER.Description as Type, TSPL_GL_SEGMENT_CODE.Segment_code,TSPL_GL_SEGMENT_CODE.Description as Department," + Environment.NewLine &
+                     " TSPL_COST_CENTER_UNIT_MASTER.Description AS UNIT, isnull(TSPL_ISSUERETURN_DETAIL.Item_Net_Amt,0)*(case when  TSPL_ISSUERETURN_HEAD.Doc_Type='Return' then -1 else 1 end) AS Item_Net_Amt " + Environment.NewLine &
+                     " from TSPL_ISSUERETURN_HEAD LEFT OUTER JOIN TSPL_ISSUERETURN_DETAIL ON TSPL_ISSUERETURN_HEAD.Doc_No=TSPL_ISSUERETURN_DETAIL.Doc_No " + Environment.NewLine &
+                     " left outer join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code=TSPL_ISSUERETURN_HEAD.Dept" + Environment.NewLine &
+                     " LEFT OUTER JOIN TSPL_COST_CENTER_TYPE_MASTER ON TSPL_COST_CENTER_TYPE_MASTER.CODE=TSPL_ISSUERETURN_HEAD.Cost_Center_Type " + Environment.NewLine &
+                     " LEFT OUTER JOIN TSPL_COST_CENTER_UNIT_MASTER ON TSPL_COST_CENTER_UNIT_MASTER.CODE=TSPL_ISSUERETURN_HEAD.Cost_Center_Unit " + Environment.NewLine &
                      " WHERE convert(date,TSPL_ISSUERETURN_HEAD.Doc_Date,103)>='" + strFromDate + "' and convert(date,TSPL_ISSUERETURN_HEAD.Doc_Date,103)<='" + strToDate + "'" + Environment.NewLine
 
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
@@ -178,7 +178,7 @@ Public Class FrmCostCentreConsumptionRpt
                 StrQuery += " and TSPL_COST_CENTER_UNIT_MASTER.Code in(" + clsCommon.GetMulcallString(txtplantUnit.arrValueMember) + ")" + Environment.NewLine
             End If
             If txtDepartment.arrValueMember IsNot Nothing AndAlso txtDepartment.arrValueMember.Count > 0 Then
-                StrQuery += " and TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE in(" + clsCommon.GetMulcallString(txtDepartment.arrValueMember) + ")" + Environment.NewLine
+                StrQuery += " and TSPL_GL_SEGMENT_CODE.Segment_code in(" + clsCommon.GetMulcallString(txtDepartment.arrValueMember) + ")" + Environment.NewLine
             End If
             If txtItemType.arrValueMember IsNot Nothing AndAlso txtItemType.arrValueMember.Count > 0 Then
                 StrQuery += " and TSPL_COST_CENTER_TYPE_MASTER.Code in(" + clsCommon.GetMulcallString(txtItemType.arrValueMember) + ")" + Environment.NewLine
@@ -242,15 +242,15 @@ Public Class FrmCostCentreConsumptionRpt
             Dim StrDept As String = clsCommon.myCstr(gvData.CurrentRow.Cells("DEPARTMENT").Value)
             Dim StrTypeCode As String = clsCommon.myCstr(gvData.CurrentRow.Cells("Cost Center No.").Value)
             Dim StrUnitDesc As String = clsCommon.myCstr(gvData.CurrentColumn.Name)
-            Dim qry As String = "select TSPL_DEPARTMENT_MASTER.DEPARTMENT_NAME as Department, " & _
-                " TSPL_COST_CENTER_UNIT_MASTER.Description as [Plant / Section],TSPL_COST_CENTER_TYPE_MASTER.Description as Type,TSPL_ISSUERETURN_HEAD.Doc_No as [Document No],convert(varchar(15),TSPL_ISSUERETURN_HEAD.Doc_Date,103) as [Document Date], TSPL_ISSUERETURN_DETAIL.Item_Code as [Item Code]," & _
-                " TSPL_ITEM_MASTER.Item_Desc AS [Item Name],(case when TSPL_ISSUERETURN_HEAD.Doc_Type='Return' then isnull(TSPL_ISSUERETURN_DETAIL.Issued_Qty,0)*-1 else isnull(TSPL_ISSUERETURN_DETAIL.Issued_Qty,0) end) AS Quantity,(case when TSPL_ISSUERETURN_HEAD.Doc_Type='Return' then isnull(TSPL_ISSUERETURN_DETAIL.Item_Net_Amt,0)*-1 else isnull(TSPL_ISSUERETURN_DETAIL.Item_Net_Amt,0) end) AS Value  from TSPL_ISSUERETURN_HEAD " & _
-                " LEFT OUTER JOIN TSPL_ISSUERETURN_DETAIL ON TSPL_ISSUERETURN_HEAD.Doc_No=TSPL_ISSUERETURN_DETAIL.Doc_No " & _
-                " LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_ISSUERETURN_DETAIL.Item_Code " & _
-                " left outer join TSPL_DEPARTMENT_MASTER on TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE=TSPL_ISSUERETURN_HEAD.Dept  " & _
-                 " LEFT OUTER JOIN TSPL_COST_CENTER_TYPE_MASTER ON TSPL_COST_CENTER_TYPE_MASTER.CODE=TSPL_ISSUERETURN_HEAD.Cost_Center_Type  " & _
-                 " LEFT OUTER JOIN TSPL_COST_CENTER_UNIT_MASTER ON TSPL_COST_CENTER_UNIT_MASTER.CODE=TSPL_ISSUERETURN_HEAD.Cost_Center_Unit " & _
-                 " where TSPL_DEPARTMENT_MASTER.DEPARTMENT_NAME='" + StrDept + "' AND TSPL_COST_CENTER_TYPE_MASTER.Code='" + StrTypeCode + "' and TSPL_COST_CENTER_UNIT_MASTER.Description='" + StrUnitDesc + "' "
+            Dim qry As String = "select TSPL_GL_SEGMENT_CODE.Description as Department, " &
+                " TSPL_COST_CENTER_UNIT_MASTER.Description as [Plant / Section],TSPL_COST_CENTER_TYPE_MASTER.Description as Type,TSPL_ISSUERETURN_HEAD.Doc_No as [Document No],convert(varchar(15),TSPL_ISSUERETURN_HEAD.Doc_Date,103) as [Document Date], TSPL_ISSUERETURN_DETAIL.Item_Code as [Item Code]," &
+                " TSPL_ITEM_MASTER.Item_Desc AS [Item Name],(case when TSPL_ISSUERETURN_HEAD.Doc_Type='Return' then isnull(TSPL_ISSUERETURN_DETAIL.Issued_Qty,0)*-1 else isnull(TSPL_ISSUERETURN_DETAIL.Issued_Qty,0) end) AS Quantity,(case when TSPL_ISSUERETURN_HEAD.Doc_Type='Return' then isnull(TSPL_ISSUERETURN_DETAIL.Item_Net_Amt,0)*-1 else isnull(TSPL_ISSUERETURN_DETAIL.Item_Net_Amt,0) end) AS Value  from TSPL_ISSUERETURN_HEAD " &
+                " LEFT OUTER JOIN TSPL_ISSUERETURN_DETAIL ON TSPL_ISSUERETURN_HEAD.Doc_No=TSPL_ISSUERETURN_DETAIL.Doc_No " &
+                " LEFT OUTER JOIN TSPL_ITEM_MASTER ON TSPL_ITEM_MASTER.Item_Code=TSPL_ISSUERETURN_DETAIL.Item_Code " &
+                " left outer join TSPL_GL_SEGMENT_CODE on TSPL_GL_SEGMENT_CODE.Segment_code=TSPL_ISSUERETURN_HEAD.Dept  " &
+                 " LEFT OUTER JOIN TSPL_COST_CENTER_TYPE_MASTER ON TSPL_COST_CENTER_TYPE_MASTER.CODE=TSPL_ISSUERETURN_HEAD.Cost_Center_Type  " &
+                 " LEFT OUTER JOIN TSPL_COST_CENTER_UNIT_MASTER ON TSPL_COST_CENTER_UNIT_MASTER.CODE=TSPL_ISSUERETURN_HEAD.Cost_Center_Unit " &
+                 " where TSPL_GL_SEGMENT_CODE.Description='" + StrDept + "' AND TSPL_COST_CENTER_TYPE_MASTER.Code='" + StrTypeCode + "' and TSPL_COST_CENTER_UNIT_MASTER.Description='" + StrUnitDesc + "' "
             If txtLocation.arrValueMember IsNot Nothing AndAlso txtLocation.arrValueMember.Count > 0 Then
                 qry += " and TSPL_ISSUERETURN_HEAD.From_Location in(" + clsCommon.GetMulcallString(txtLocation.arrValueMember) + ")" + Environment.NewLine
             End If
@@ -258,7 +258,7 @@ Public Class FrmCostCentreConsumptionRpt
                 qry += " and TSPL_COST_CENTER_UNIT_MASTER.Code in(" + clsCommon.GetMulcallString(txtplantUnit.arrValueMember) + ")" + Environment.NewLine
             End If
             If txtDepartment.arrValueMember IsNot Nothing AndAlso txtDepartment.arrValueMember.Count > 0 Then
-                qry += " and TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE in(" + clsCommon.GetMulcallString(txtDepartment.arrValueMember) + ")" + Environment.NewLine
+                qry += " and TSPL_GL_SEGMENT_CODE.Segment_code in(" + clsCommon.GetMulcallString(txtDepartment.arrValueMember) + ")" + Environment.NewLine
             End If
             If txtItemType.arrValueMember IsNot Nothing AndAlso txtItemType.arrValueMember.Count > 0 Then
                 qry += " and TSPL_COST_CENTER_TYPE_MASTER.Code in(" + clsCommon.GetMulcallString(txtItemType.arrValueMember) + ")" + Environment.NewLine

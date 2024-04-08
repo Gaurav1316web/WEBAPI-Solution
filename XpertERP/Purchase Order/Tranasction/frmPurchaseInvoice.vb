@@ -44,6 +44,8 @@ Public Class frmPurchaseInvoice
     Const colHeaderDiscountAmt As String = "colHeaderDiscountAmt"
     Const colDisPer As String = "COLDISPER"
     Const colDetailDisAmt As String = "colDetailDisAmt"
+    Const colDisPerUnit As String = "colDisPerUnit"
+    Const colDisAmtPerUnit As String = "colDisAmtPerUnit"
     Const colDisAmt As String = "COLDISAMT"
     Const colAmtAfterDis As String = "COLAMTAFTERDIS"
     Const colTaxableAmount As String = "colTaxableAmount"
@@ -1010,6 +1012,8 @@ Public Class frmPurchaseInvoice
 
         Dim repoDisPer As GridViewDecimalColumn = New GridViewDecimalColumn()
         Dim repoDisAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
+        Dim repoDisPerUnit As GridViewDecimalColumn = New GridViewDecimalColumn()
+        Dim repoDisAmtPerUnit As GridViewDecimalColumn = New GridViewDecimalColumn()
 
         repoDisPer = New GridViewDecimalColumn()
         repoDisPer.FormatString = "{0:N2}"
@@ -1065,6 +1069,29 @@ Public Class frmPurchaseInvoice
         repoDisAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         repoDisAmt.VisibleInColumnChooser = False
         repoDisAmt.ReadOnly = False
+        gv1.MasterTemplate.Columns.Add(repoDisAmt)
+
+        repoDisPerUnit = New GridViewDecimalColumn()
+        repoDisPerUnit.FormatString = "{0:n2}"
+        repoDisPerUnit.HeaderText = "Discount Per Unit"
+        repoDisPerUnit.Minimum = 0
+        repoDisPerUnit.Maximum = 100
+        repoDisPerUnit.Name = colDisPerUnit
+        repoDisPerUnit.Width = 80
+        repoDisPerUnit.DecimalPlaces = 2
+        repoDisPerUnit.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoDisPerUnit)
+
+        repoDisAmt = New GridViewDecimalColumn()
+        repoDisAmt.FormatString = "{0:n2}"
+        repoDisAmt.HeaderText = "Discount Amt UnitWise"
+        repoDisAmt.WrapText = True
+        repoDisAmt.Name = colDisAmtPerUnit
+        repoDisAmt.Width = 80
+        repoDisAmt.DecimalPlaces = 2
+        repoDisAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoDisAmt.VisibleInColumnChooser = False
+        repoDisAmt.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoDisAmt)
 
         repoDisAmt = New GridViewDecimalColumn()
@@ -2929,8 +2956,8 @@ Public Class frmPurchaseInvoice
                         clsCustomFieldGrid.getFinderForCustomFieldGrid(gv1, e.Column.Name.ToString, MyBase.Form_ID)
                     End If
                     ''richa agarwal ERO/09/08/19-000990 add discount amount directly i.e. if dis percent is not given by user and discount amount is provided then it will be reflected into amin amoount
-                    If e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse e.Column Is gv1.Columns(colCategoryType) OrElse e.Column Is gv1.Columns(colCapexSubCode) OrElse e.Column Is gv1.Columns(colICode) OrElse e.Column Is gv1.Columns(colAmt) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colSpecification) OrElse e.Column Is gv1.Columns(colRemarks) OrElse e.Column Is gv1.Columns(colDisPer) OrElse e.Column Is gv1.Columns(colDetailDisAmt) OrElse e.Column Is gv1.Columns(colMRP) OrElse e.Column Is gv1.Columns(colBatchNo) OrElse e.Column Is gv1.Columns(colExpiry) OrElse e.Column Is gv1.Columns(colManufactureDate) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal) Then
-                        If (e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse (clsCommon.CompairString(e.Column.Name, colQty) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colRate) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colDisPer) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colDetailDisAmt) = CompairStringResult.Equal) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal)) Then
+                    If e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse e.Column Is gv1.Columns(colCategoryType) OrElse e.Column Is gv1.Columns(colCapexSubCode) OrElse e.Column Is gv1.Columns(colICode) OrElse e.Column Is gv1.Columns(colAmt) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colSpecification) OrElse e.Column Is gv1.Columns(colRemarks) OrElse e.Column Is gv1.Columns(colDisPer) OrElse e.Column Is gv1.Columns(colDisPerUnit) OrElse e.Column Is gv1.Columns(colDetailDisAmt) OrElse e.Column Is gv1.Columns(colMRP) OrElse e.Column Is gv1.Columns(colBatchNo) OrElse e.Column Is gv1.Columns(colExpiry) OrElse e.Column Is gv1.Columns(colManufactureDate) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal) Then
+                        If (e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse (clsCommon.CompairString(e.Column.Name, colQty) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colRate) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colDisPer) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colDisPerUnit) = CompairStringResult.Equal) OrElse (clsCommon.CompairString(e.Column.Name, colDetailDisAmt) = CompairStringResult.Equal) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal)) Then
                             If e.Column Is gv1.Columns(colRate) Then
                                 If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowLargerItemCostThenVendorItemCost, clsFixedParameterCode.AllowLargerItemCostThenVendorItemCost, Nothing)) = 0 And clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PurchasePickItemFromVendorItemDetails, clsFixedParameterCode.PurchasePickItemFromVendorItemDetails, Nothing)) = 1 Then
                                     Dim strCode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value)
@@ -3854,6 +3881,7 @@ Public Class frmPurchaseInvoice
                 Dim dblQty As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colQty).Value)
 
                 Dim dblUnitCost As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colRate).Value)
+                Dim dblAmtAfterDis As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmtAfterDis).Value)
 
                 If clsCommon.myLen(strReqNo) > 0 Then
                     If Not (arrReqNo.Contains(strReqNo)) Then
@@ -3876,6 +3904,10 @@ Public Class frmPurchaseInvoice
                     End If
                 End If
 
+                If dblAmtAfterDis < 0 Then
+                    clsCommon.MyMessageBoxShow(Me, " Amount After discount Cannot be in Negative. ")
+                    Return False
+                End If
                 ''-----------------
                 If clsCommon.myLen(strICode) > 0 Then
                     If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
@@ -4354,6 +4386,9 @@ Public Class frmPurchaseInvoice
                     objTr.Amount = clsCommon.myCdbl(grow.Cells(colAmt).Value)
                     objTr.Disc_Type = clsCommon.myCdbl(grow.Cells(colDisType).Value)
                     objTr.Disc_Per = clsCommon.myCdbl(grow.Cells(colDisPer).Value)
+
+                    objTr.Disc_Per_Unit = clsCommon.myCdbl(grow.Cells(colDisPerUnit).Value)
+                    objTr.Disc_Amt_Per_Unit = clsCommon.myCdbl(grow.Cells(colDisAmtPerUnit).Value)
 
                     objTr.Header_Discount_Per = clsCommon.myCdbl(grow.Cells(colHeaderDiscountPer).Value)
                     objTr.Header_Discount_Amount = clsCommon.myCdbl(grow.Cells(colHeaderDiscountAmt).Value)
@@ -5349,6 +5384,9 @@ Public Class frmPurchaseInvoice
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colHeaderDiscountPer).Value = objTr.Header_Discount_Per
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colHeaderDiscountAmt).Value = objTr.Header_Discount_Amount
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDetailDisAmt).Value = objTr.Detail_Discount_Amount
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = objTr.Disc_Per_Unit
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisAmtPerUnit).Value = objTr.Disc_Amt_Per_Unit
 
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDisAmt).Value = objTr.Disc_Amt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colAmtAfterDis).Value = objTr.Amt_Less_Discount
@@ -6449,7 +6487,13 @@ select SRN_No,'RM Late Penalty [ Recalculate ]' as Type,Item_Code,Penalty as Amo
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colShortQty).Value = obj.Short_Qty
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colRejectQty).Value = obj.Rejected_Qty
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDisType).Value = obj.Disc_Type
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
+
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = frmPendingSRN.Load_discount_for_PI(obj.SRN_No, obj.Item_Code)
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = frmPendingSRN.Load_discount_per_unit_for_PI(obj.SRN_No, obj.Item_Code)
+
+
+
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = obj.MRP
                     ''gv1.Rows(gv1.Rows.Count - 1).Cells(colAssessableRate).Value = obj.Assessable
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colBatchNo).Value = obj.Batch_No
@@ -7204,6 +7248,8 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
 
         Dim dblHeaderDisAmt As Decimal = Math.Round(dblAmt * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colHeaderDiscountPer).Value) / 100, 2, MidpointRounding.AwayFromZero)
         Dim dblDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
+        Dim dbldisperunit As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPerUnit).Value)
+        Dim dbldisamtperunit As Decimal = (dblQty * dbldisperunit)
         ''richa agarwal 16 Aug,2019 ERO/09/08/19-000990
         Dim dblDetailDisAmt As Decimal
         If dblDisPer = 0 AndAlso clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDetailDisAmt).Value) > 0 Then
@@ -7212,7 +7258,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
             dblDetailDisAmt = (dblAmt * dblDisPer) / 100
         End If
 
-        Dim dblDisAmt As Double = dblHeaderDisAmt + dblDetailDisAmt
+        Dim dblDisAmt As Double = dblHeaderDisAmt + dblDetailDisAmt + dbldisamtperunit
         Dim dblAmtAfterDis As Double = dblAmt - dblDisAmt
 
         Dim dblTotAmt As Decimal = 0
@@ -7351,6 +7397,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
         gv1.Rows(IntRowNo).Cells(colDetailDisAmt).Value = Math.Round(dblDetailDisAmt, 2)
         gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
         gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 2)
+        gv1.Rows(IntRowNo).Cells(colDisAmtPerUnit).Value = Math.Round(dbldisamtperunit, 2)
 
         gv1.Rows(IntRowNo).Cells(colItemInsuranceBaseAmt).Value = Math.Round(dclItemInsuranceBaseAmt, 2)
         gv1.Rows(IntRowNo).Cells(colItemInsuranceAmt).Value = Math.Round(dclItemInsuranceAmt, 2)
@@ -8525,7 +8572,9 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
             If UsLock1.Status = ERPTransactionStatus.Pending Then
                 strTabSRNTender = "TSPL_SRN_TENDER_CALC"
             End If
+            Dim frmCRV As New frmCrystalReportViewer()
             Dim qry As String = ""
+            Dim dt As DataTable
             If objCommonVar.RCDFCFP Then
                 qry = " SELECT ss.*,(select  CAST(sum(TSPL_SRN_DETAIL.SRN_Qty) AS DECIMAL(18,2)) as SRNQtyInQtl from TSPL_PI_DETAIL 
                         left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DETAIL.Item_Code = TSPL_PI_DETAIL.Item_Code
@@ -8607,35 +8656,9 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
 					 TSPL_TENDER_SCHEDULE.Location_Code='" + txtBillToLocation.Value + "' GROUP BY DocumentCode) TSPL_TENDER_SCHEDULE on
 					 TSPL_TENDER_SCHEDULE.DocumentCode=TSPL_TENDER_HEADER.DocumentCode
                     where TSPL_PI_HEAD.PI_No = '" + txtDocNo.Value + "' )ss WHERE 1=1 order by convert(date,ss.GRN_Date,103) "
-            Else
-                qry = " select isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) as TDS,isnull (" + strTabSRNTender + ".Penalty,0) as Penalty ,
-                           isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as Ded_Amt,
-                           convert (varchar, min (TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date ) over (Partition by TSPL_PI_HEAD.PI_No  ) ,103) as MinDate,
-                           convert (varchar, max (TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date ) over (Partition by TSPL_PI_HEAD.PI_No  ) ,103) as MaxDate,
-                    tspl_item_master.Item_Desc, UPPER( TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, TSPL_PI_HEAD.PI_No ,convert (varchar,TSPL_PI_HEAD.PI_Date,103) as PI_Date , TSPL_GRN_HEAD.GRN_No , TSPL_MRN_HEAD.MRN_No ,TSPL_SRN_HEAD.SRN_No,TSPL_PI_HEAD.PI_Date as PI_DATE  ,TSPL_PI_HEAD.Vendor_Code, TSPL_VENDOR_MASTER.Vendor_Name,TSPL_PI_HEAD.Vendor_Invoice_No as BillNo , TSPL_SRN_HEAD.Against_QC_Code as QualityReportNo,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as WeighingSlipNo, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date as WeighmentDate,TSPL_GRN_HEAD.VehicleNo  as TruckNo  , cast  (( TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) as QtyInKg  , TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as QtyInQtl,cast ((TSPL_PI_DETAIL.Amount / cast  (( TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) ) as decimal(18,2)) as RateInKg, cast ((TSPL_PI_DETAIL.Amount /TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) as decimal(18,2)) as RateInQtl, TSPL_PI_DETAIL.Total_Tax_Amt  as GST_RATE , TSPL_PI_DETAIL.Item_Net_Amt as Amount , isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) as  Per_QLT,  isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as QualityDeduction,  case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end as Securitys , TSPL_GRN_HEAD.Ref_No ,   isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (" + strTabSRNTender + ".Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end   as TotalDeduction    ,TSPL_PI_DETAIL.Item_Net_Amt  -  ( isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (" + strTabSRNTender + ".Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end ) as PayableAmount from TSPL_PI_DETAIL 
-                    left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No
-                    left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DETAIL.Item_Code = TSPL_PI_DETAIL.Item_Code
-                    left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No = TSPL_SRN_DETAIL.SRN_No
-                    left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No = TSPL_SRN_DETAIL.GRN_ID
-                    left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_GRN = TSPL_GRN_HEAD.GRN_No
-                    left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No = TSPL_GRN_HEAD.GRN_No
-                    left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code = TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
-                    
-                    left outer join (select MRN_No , sum(InputDataDeductionPer) as InputDataDeductionPer from TSPL_QC_CHECK_SRN_DETAIL group by MRN_No ) as  TSPL_QC_CHECK_SRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.MRN_No = TSPL_MRN_HEAD.MRN_No
-                    left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_PI_DETAIL.Item_Code
-                    left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_PI_HEAD.Vendor_Code
-                    left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_PI_HEAD.Comp_Code
-                    left outer join TSPL_ITEM_UOM_DETAIL as Source_UOM on Source_UOM.Item_Code = TSPL_PO_WEIGHTMENT_DETAIL.Item_Code and Source_UOM.UOM_Code = TSPL_PO_WEIGHTMENT_DETAIL.UOM
-                    left outer join TSPL_ITEM_UOM_DETAIL as Target_UOM on Target_UOM.Item_Code = TSPL_PO_WEIGHTMENT_DETAIL.Item_Code and Target_UOM.UOM_Code = 'KG'
-                    left outer join (SELECT SRN_NO,Item_Code,ISNULL(SUM(Penalty),0) AS Penalty FROM " + strTabSRNTender + " GROUP BY SRN_NO,Item_Code)" + strTabSRNTender + " on " + strTabSRNTender + ".SRN_No = TSPL_PI_DETAIL.SRN_Id and " + strTabSRNTender + ".Item_Code = TSPL_PI_DETAIL.Item_Code
-                    left outer join TSPL_SRN_DEDUCTION on TSPL_SRN_DEDUCTION.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DEDUCTION.Item_Code = TSPL_PI_DETAIL.Item_Code
-                    left outer join TSPL_PI_REMITTANCE on TSPL_PI_REMITTANCE.Document_No=TSPL_PI_HEAD.pi_no
-                    where TSPL_PI_HEAD.PI_No = '" + txtDocNo.Value + "'  "
-            End If
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
-            Dim frmCRV As New frmCrystalReportViewer()
-            If objCommonVar.RCDFCFP = True Then
+                dt = clsDBFuncationality.GetDataTable(qry)
+
                 Dim TempSumTDS_SRN_Wise As Decimal = clsCommon.myCdbl(dt.Compute("SUM(TDS)", " TDS is not null"))
                 If dt.Rows(0).Item("Actual_Total_TDS") <> TempSumTDS_SRN_Wise Then
                     dt.Rows(dt.Rows.Count - 1).Item("TDS") = dt.Rows(dt.Rows.Count - 1).Item("TDS") + (clsCommon.myCdbl(dt.Rows(0).Item("Actual_Total_TDS")) - TempSumTDS_SRN_Wise)
@@ -8662,11 +8685,47 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
 
                 dt.Rows(0).Item("RAL_Period") = RALPeriodDetail
 
-                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, Nothing, "rptPurchaseInvoicePrintNew", "Purchase Invoice")
+                qry = "select Document_No as APInvoiceNo,convert(varchar,Posting_Date,103) as APInvoiceDate,Document_Type as Type,Description,Document_Total as Amount  from (
+select   Document_No,Posting_Date,Document_Type,Description,-1*Document_Total as Document_Total,Document_No as SNo
+from TSPL_VENDOR_INVOICE_HEAD where RefDocType in( 'SCH-PNT' ) and RefDocNo='" + txtDocNo.Value + "' 
+union all
+select Document_No,Posting_Date,Document_Type,Description,Document_Total,RefDocNo as SNo
+from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (select Document_No from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('SCH-PNT') and RefDocNo='" + txtDocNo.Value + "' )
+)x order by Posting_Date,x.SNo,Document_No"
+                Dim dtAPDocs As DataTable = clsDBFuncationality.GetDataTable(qry)
+                frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, dtAPDocs, "rptPurchaseInvoicePrintNew", "Purchase Invoice", "SubPurchaseInvoice.rpt")
+
+
             Else
+                qry = " select isnull(TSPL_PI_REMITTANCE.Actual_Total_TDS,0) as TDS,isnull (" + strTabSRNTender + ".Penalty,0) as Penalty ,
+                           isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as Ded_Amt,
+                           convert (varchar, min (TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date ) over (Partition by TSPL_PI_HEAD.PI_No  ) ,103) as MinDate,
+                           convert (varchar, max (TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date ) over (Partition by TSPL_PI_HEAD.PI_No  ) ,103) as MaxDate,
+                    tspl_item_master.Item_Desc, UPPER( TSPL_COMPANY_MASTER.Comp_Name) as Comp_Name, TSPL_PI_HEAD.PI_No ,convert (varchar,TSPL_PI_HEAD.PI_Date,103) as PI_Date , TSPL_GRN_HEAD.GRN_No , TSPL_MRN_HEAD.MRN_No ,TSPL_SRN_HEAD.SRN_No,TSPL_PI_HEAD.PI_Date as PI_DATE  ,TSPL_PI_HEAD.Vendor_Code, TSPL_VENDOR_MASTER.Vendor_Name,TSPL_PI_HEAD.Vendor_Invoice_No as BillNo , TSPL_SRN_HEAD.Against_QC_Code as QualityReportNo,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code as WeighingSlipNo, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date as WeighmentDate,TSPL_GRN_HEAD.VehicleNo  as TruckNo  , cast  (( TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) as QtyInKg  , TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight as QtyInQtl,cast ((TSPL_PI_DETAIL.Amount / cast  (( TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) ) as decimal(18,2)) as RateInKg, cast ((TSPL_PI_DETAIL.Amount /TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight) as decimal(18,2)) as RateInQtl, TSPL_PI_DETAIL.Total_Tax_Amt  as GST_RATE , TSPL_PI_DETAIL.Item_Net_Amt as Amount , isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) as  Per_QLT,  isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as QualityDeduction,  case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end as Securitys , TSPL_GRN_HEAD.Ref_No ,   isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (" + strTabSRNTender + ".Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end   as TotalDeduction    ,TSPL_PI_DETAIL.Item_Net_Amt  -  ( isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (" + strTabSRNTender + ".Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end ) as PayableAmount from TSPL_PI_DETAIL 
+                    left outer join TSPL_PI_HEAD on TSPL_PI_DETAIL.PI_No = TSPL_PI_HEAD.PI_No
+                    left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DETAIL.Item_Code = TSPL_PI_DETAIL.Item_Code
+                    left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No = TSPL_SRN_DETAIL.SRN_No
+                    left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No = TSPL_SRN_DETAIL.GRN_ID
+                    left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_GRN = TSPL_GRN_HEAD.GRN_No
+                    left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No = TSPL_GRN_HEAD.GRN_No
+                    left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code = TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code
+                    
+                    left outer join (select MRN_No , sum(InputDataDeductionPer) as InputDataDeductionPer from TSPL_QC_CHECK_SRN_DETAIL group by MRN_No ) as  TSPL_QC_CHECK_SRN_DETAIL on TSPL_QC_CHECK_SRN_DETAIL.MRN_No = TSPL_MRN_HEAD.MRN_No
+                    left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code = TSPL_PI_DETAIL.Item_Code
+                    left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = TSPL_PI_HEAD.Vendor_Code
+                    left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code = TSPL_PI_HEAD.Comp_Code
+                    left outer join TSPL_ITEM_UOM_DETAIL as Source_UOM on Source_UOM.Item_Code = TSPL_PO_WEIGHTMENT_DETAIL.Item_Code and Source_UOM.UOM_Code = TSPL_PO_WEIGHTMENT_DETAIL.UOM
+                    left outer join TSPL_ITEM_UOM_DETAIL as Target_UOM on Target_UOM.Item_Code = TSPL_PO_WEIGHTMENT_DETAIL.Item_Code and Target_UOM.UOM_Code = 'KG'
+                    left outer join (SELECT SRN_NO,Item_Code,ISNULL(SUM(Penalty),0) AS Penalty FROM " + strTabSRNTender + " GROUP BY SRN_NO,Item_Code)" + strTabSRNTender + " on " + strTabSRNTender + ".SRN_No = TSPL_PI_DETAIL.SRN_Id and " + strTabSRNTender + ".Item_Code = TSPL_PI_DETAIL.Item_Code
+                    left outer join TSPL_SRN_DEDUCTION on TSPL_SRN_DEDUCTION.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DEDUCTION.Item_Code = TSPL_PI_DETAIL.Item_Code
+                    left outer join TSPL_PI_REMITTANCE on TSPL_PI_REMITTANCE.Document_No=TSPL_PI_HEAD.pi_no
+                    where TSPL_PI_HEAD.PI_No = '" + txtDocNo.Value + "'  "
+
+                dt = clsDBFuncationality.GetDataTable(qry)
+
+
                 frmCRV.funsubreportWithdt(CrystalReportFolder.PurchaseOrder, dt, Nothing, "rptPurchaseInvoicePrint", "Purchase Invoice")
             End If
-
             frmCRV = Nothing
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

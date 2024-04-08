@@ -1000,6 +1000,29 @@ Public Class frmPendingSRN
         btnCancelPressed()
     End Sub
 
+    Public Shared Function Load_discount_for_PI(ByVal SRN_No As String, ByVal item_code As String)
+        Dim disc_per As Double = 0
+        Try
+            Dim sQuery As String = "select disc_per from TSPL_SRN_DETAIL where SRN_No='" & SRN_No & "' and item_code='" & item_code & "'"
+            disc_per = clsDBFuncationality.getSingleValue(sQuery)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.ToString)
+        End Try
+        Return disc_per
+    End Function
+
+    Public Shared Function Load_discount_per_unit_for_PI(ByVal SRN_No As String, ByVal item_code As String)
+        Dim Disc_Per_Unit As Double = 0
+        Try
+            Dim sQuery As String = "select Disc_Per_Unit from TSPL_SRN_DETAIL where SRN_No='" & SRN_No & "' and item_code='" & item_code & "'"
+            Disc_Per_Unit = clsDBFuncationality.getSingleValue(sQuery)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.ToString)
+        End Try
+        Return Disc_Per_Unit
+    End Function
+
+
     Private Sub btnOk_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOk.Click
         btnOKPressed()
 

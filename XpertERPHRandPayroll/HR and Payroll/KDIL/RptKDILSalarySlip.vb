@@ -271,7 +271,7 @@ Public Class RptKDILSalarySlip
                     If dt1.Rows.Count > dt.Rows.Count Then
                         Counter = dt1.Rows.Count
                     End If
-                    If dt4.Rows.Count > dt1.Rows.Count Then
+                    If dt4.Rows.Count > Counter Then
                         Counter = dt4.Rows.Count
                     End If
                     For ii As Int16 = 0 To Counter

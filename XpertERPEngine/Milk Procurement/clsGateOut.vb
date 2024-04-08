@@ -59,7 +59,7 @@ Public Class clsGateOut
 left outer join TSPL_Gate_Out on TSPL_Gate_Out.Gate_Entry_No=tspl_gate_entry_details.Gate_Entry_No
 where TSPL_Gate_Out.Doc_No='" + strDocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmGateOut, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Doc_Date")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmGateOut, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Doc_Date")), trans)
             End If
 
             Dim qry As String = "delete from TSPL_Gate_Out where doc_No='" & strDocNo & "'"
@@ -129,7 +129,7 @@ where TSPL_Gate_Out.Doc_No='" + strDocNo + "'", trans)
             Dim strLocation_Code As String = clsDBFuncationality.getSingleValue("select tspl_gate_entry_details.location_Code from tspl_gate_entry_details
 left outer join TSPL_Gate_Out on TSPL_Gate_Out.Gate_Entry_No=tspl_gate_entry_details.Gate_Entry_No
 where TSPL_Gate_Out.Doc_No='" + obj.Doc_No + "'", trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmGateOut, strLocation_Code, obj.Doc_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmGateOut, strLocation_Code, obj.Doc_Date, trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Doc_No", clsCommon.myCstr(obj.Doc_No))
 
