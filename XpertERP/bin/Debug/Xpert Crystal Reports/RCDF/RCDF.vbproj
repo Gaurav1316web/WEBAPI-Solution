@@ -318,11 +318,13 @@
     <None Include="Crystal Reports GST\Inventory Report\TransferPreprintedLORoute.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\TransferPreprintedLORouteTAX.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptBMCDockReport.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptBMCRoutePrint.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptBulkSaleReturn.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCANSaleInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForDetail.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForSummary.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairyDeliveryOrder.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesGNG.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesUDP.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntry.rpt" />
@@ -343,6 +345,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptProductSaleTaxableChallan.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleReturn.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceGNG.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceBKN.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
@@ -360,6 +363,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\FreshHeader.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\New Microsoft Word Document.docx" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptAcceptanceLetterMT.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\rptBMCDCSPrint.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptBulkSalePriceChart.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptCompanyAddress.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptCPDPriceMaster.rpt" />

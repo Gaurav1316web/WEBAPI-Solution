@@ -40,10 +40,10 @@ Public Class rptSMSDetails
             Dim dt As New DataTable
 
             If rdbSms.Checked = True Then
-                qry = " select TSPL_SMS_DETAIL.Code as [SMS Code] ,tspl_sms_head.SMS_Text as [SMS Text], tspl_sms_head.Created_By as [Created By] ,  " & _
-                      " convert(varchar,tspl_sms_head.Created_Date,103) as [Created Date], " & _
-                      " TSPL_SMS_DETAIL.Mobile_No as [Mobile No] , convert (varchar, TSPL_SMS_DETAIL.Send_On ,103)  as [Send On]  from TSPL_SMS_DETAIL " & _
-                      " left outer join tspl_sms_head on tspl_sms_head.code =TSPL_SMS_DETAIL.Code " & _
+                qry = " select TSPL_SMS_DETAIL.Code as [SMS Code] ,tspl_sms_head.SMS_Text as [SMS Text], tspl_sms_head.Created_By as [Created By] , TSPL_SMS_DETAIL.Sender_Replay as [Sendor reply], " &
+                      " convert(varchar,tspl_sms_head.Created_Date,103) as [Created Date], " &
+                      " TSPL_SMS_DETAIL.Mobile_No as [Mobile No] , convert (varchar, TSPL_SMS_DETAIL.Send_On ,103)  as [Send On]  from TSPL_SMS_DETAIL " &
+                      " left outer join tspl_sms_head on tspl_sms_head.code =TSPL_SMS_DETAIL.Code " &
                       " where  convert(date,tspl_sms_head.Created_Date ,103)>=convert(date,'" + fromDate.Value + "',103) AND convert(date,tspl_sms_head.Created_Date,103)<=convert(date,'" + ToDate.Value + "',103) "
 
                 If rdbSend.Checked = True Then

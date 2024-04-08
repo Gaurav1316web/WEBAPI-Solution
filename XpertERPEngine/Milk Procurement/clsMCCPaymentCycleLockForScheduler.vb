@@ -60,10 +60,7 @@ End Class
 Public Class clsVSPBillAndIncentiveCalculation
     Public Function BillGenerationMCCWise(ByVal frmBillGen As RadForm, ByVal strMCCCode As String, ByVal txtFromDate As DateTime, ByVal txtToDate As DateTime, ByVal Formcode As String, ByVal arrVSP As ArrayList, ByVal PaymentType As String, ByVal PaymentValue As Integer) As Boolean
         UpdateSTDQtyOFSRN(txtFromDate, strMCCCode)
-
-
-        Dim isStopVSPBillIfSomethingWrong As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.StopVSPBillIfSomethingWrong, clsFixedParameterCode.StopVSPBillIfSomethingWrong, Nothing)) = 1)
-
+        Dim isStopVSPBillIfSomethingWrong As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.StopVSPBillIfSomethingWrong, clsFixedParameterCode.StopVSPBillIfSomethingWrong, Nothing)) = 1)
         Dim strMCCName As String = clsMccMaster.GetName(strMCCCode, Nothing)
         If clsCommon.myLen(strMCCCode) <= 0 Then
             Throw New Exception("Please Select MCC To Generate Bill")
@@ -147,19 +144,19 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
         Return True
     End Function
     Sub Generate_Bill_Payment_cycle_wise(ByVal frmBillGen As RadForm, ByVal strMCCCode As String, ByVal txtFromDate As DateTime, ByVal txtToDate As DateTime, ByVal txtVSP As ArrayList, ByVal PaymentType As String, ByVal PaymentValue As Integer, ByVal is_with_bill As Boolean, ByVal Formcode As String)
-        Dim trans As SqlTransaction = Nothing
+
         Try
-            Dim MultipleFinderFillAuto As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
-            Dim IsRoundOffPaiseAmount As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, Nothing)) = 1)
-            Dim isPickPendingMilkSRNinNextPaymentCycle As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, Nothing)) = 1)
-            Dim settDoNotIncludeIncentiveInMilkPurchaseInvoice As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.DoNotIncludeIncentiveInMilkPurchaseInvoice, clsFixedParameterCode.DoNotIncludeIncentiveInMilkPurchaseInvoice, Nothing)) = 1)
+            Dim MultipleFinderFillAuto As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1)
+            Dim IsRoundOffPaiseAmount As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, Nothing)) = 1)
+            Dim isPickPendingMilkSRNinNextPaymentCycle As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, Nothing)) = 1)
+            Dim settDoNotIncludeIncentiveInMilkPurchaseInvoice As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DoNotIncludeIncentiveInMilkPurchaseInvoice, clsFixedParameterCode.DoNotIncludeIncentiveInMilkPurchaseInvoice, Nothing)) = 1)
             Dim qry As String = "select Non_Company_VSP_Deduction,Company_VSP_Deduction,MCC_Name from tspl_mcc_master where mcc_Code='" + strMCCCode + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim CompanyVSPDeduction As Decimal = 0
             Dim NonCompanyVSPDeduction As Decimal = 0
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                CompanyVSPDeduction = clsCommon.myCdbl(dt.Rows(0)("Company_VSP_Deduction"))
-                NonCompanyVSPDeduction = clsCommon.myCdbl(dt.Rows(0)("Non_Company_VSP_Deduction"))
+                CompanyVSPDeduction = clsCommon.myCDecimal(dt.Rows(0)("Company_VSP_Deduction"))
+                NonCompanyVSPDeduction = clsCommon.myCDecimal(dt.Rows(0)("Non_Company_VSP_Deduction"))
             Else
                 CompanyVSPDeduction = 0
                 NonCompanyVSPDeduction = 0
@@ -174,15 +171,12 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                 Throw New Exception("Please Select VSP To Generate Bill")
             End If
             '' get MPPayment setting
-            Dim IsMP As Integer = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.isFarmerPaymentCycle, clsFixedParameterCode.isFarmerPaymentCycle, trans))
+            Dim IsMP As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.isFarmerPaymentCycle, clsFixedParameterCode.isFarmerPaymentCycle, Nothing))
             If IsMP = 1 Then
-                Dim arrVSP As ArrayList = clsMilkPurchaseInvoiceMCC.GetVSPWithoutMPData(txtFromDate, txtToDate, strMCCCode, txtVSP, trans)
+                Dim arrVSP As ArrayList = clsMilkPurchaseInvoiceMCC.GetVSPWithoutMPData(txtFromDate, txtToDate, strMCCCode, txtVSP, Nothing)
                 If Not arrVSP Is Nothing AndAlso arrVSP.Count > 0 Then
                     Dim strVSP As String = clsCommon.GetMulcallStringWithComma(arrVSP)
                     Throw New Exception("Some of the VSP dont have MP Collection Data. VSP without MP Data: " & strVSP)
-                    'If clsCommon.MyMessageBoxShow("Some of the VSP dont have MP Collection Data. Still do you want to proceed Bill Generation ?", "Validate MP Data", MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
-                    '    Throw New Exception("VSP without MP Data: " & strVSP)
-                    'End If
                 End If
             End If
             Dim Payment_Cycle_value As Integer = 0
@@ -203,20 +197,19 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
             Else
                 qry = "select case when Pc_Type='Day' then PC_VALUE when PC_Type='Month' then PC_Value * " & Date.DaysInMonth(txtToDate.Year, txtToDate.Month) & " end " _
             & " as Pc_Value from tspl_Mcc_master inner join TSPL_PAYMENT_CYCLE_MASTER  on tspl_Mcc_master.payment_cycle=TSPL_PAYMENT_CYCLE_MASTER.PC_CODE where Mcc_code='" & strMCCCode & "'"
-                Payment_Cycle_value = clsDBFuncationality.getSingleValue(qry, trans)
+                Payment_Cycle_value = clsDBFuncationality.getSingleValue(qry)
                 If Payment_Cycle_value <= 0 Then
                     Throw New Exception("Please Set Payment Cycle on Mcc [" & strMCCCode & "]")
                 End If
             End If
-
-            GeneratePONumber(strMCCCode, txtFromDate, txtToDate, trans)
-            If txtToDate.Date > clsCommon.GETSERVERDATE(trans).Date Then
+            'GeneratePONumber(strMCCCode, txtFromDate, txtToDate, Nothing)
+            If txtToDate.Date > clsCommon.GETSERVERDATE().Date Then
                 Throw New Exception("To Date is Greate than Server Date")
             End If
 
             Dim arrMCC As New ArrayList
             arrMCC.Add(strMCCCode)
-            If (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, trans)) = 1) Then
+            If (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MultipleFinderFillAuto, clsFixedParameterCode.MultipleFinderFillAuto, Nothing)) = 1) Then
                 txtVSP = Nothing
             End If
             Dim dtVSP As DataTable = clsDBFuncationality.GetDataTable(VSPQry(arrMCC, txtVSP, txtFromDate, txtToDate, Formcode, isPickPendingMilkSRNinNextPaymentCycle))
@@ -225,7 +218,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                 For Each drVSP As DataRow In dtVSP.Rows
                     Dim VSP As String = clsCommon.myCstr(drVSP("Code"))
                     counter += 1
-                    trans = clsDBFuncationality.GetTransactin()
+                    Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
                     Try
                         Srn_No_List.Clear()
                         'aaaaaaaaaaaaaaaaaa()
@@ -236,11 +229,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                         If Not MultipleFinderFillAuto Then
                             qry += " And TSPL_MILK_SRN_Head.mcc_coDE='" & strMCCCode & "' "
                         End If
-
-                        If isPickPendingMilkSRNinNextPaymentCycle Then
-                            ''Comment by balwinder on 24/Jan/2017 at  gajraula becuase pick Zero amount SRN in Milk Purchase Invoice
-                            'qry += " and TSPL_MILK_SRN_DETAIL.AMOUNT>0 " 
-                        Else
+                        If Not isPickPendingMilkSRNinNextPaymentCycle Then
                             qry += " AND convert(date,DOC_DATE,103) >=convert(date,'" & txtFromDate.Date & "',103) "
                         End If
                         qry += " and convert(date,DOC_DATE,103) <=convert(date,'" & txtToDate.Date & "',103)"
@@ -312,7 +301,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
         "where TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + strVSPCode + "' and TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_CODE='" + strMCC + "' and convert(date, TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)='" + clsCommon.GetPrintDate(dtDocDate, "dd/MMM/yyyy") + "'"
         Dim dt1 As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt1 IsNot Nothing AndAlso dt1.Rows.Count > 0 Then
-            Dim dblAmount As Decimal = clsCommon.myCdbl(dt1.Rows(0)("TIP_Amount"))
+            Dim dblAmount As Decimal = clsCommon.myCDecimal(dt1.Rows(0)("TIP_Amount"))
             If dblAmount > 0 Then
                 Dim strVendor As String = strVSPCode
                 Dim dt As DataTable
@@ -484,7 +473,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                     objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, strMCC, trans)
-                    If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                    If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                         objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                         objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, strMCC, trans)
                     End If
@@ -784,7 +773,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                 objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, strMCCCode, trans)
-                If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                     objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                     objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, strMCCCode, trans)
                 End If
@@ -850,7 +839,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                 ''Set Installment amount
                 Dim objAEMI As New clsAPInvoiceAdvanceInterest
                 objAEMI.Payment_No = clsCommon.myCstr(dr("Payment_No"))
-                objAEMI.Interest_Amount = Math.Round((clsCommon.myCdbl(dr("Payment_Amount")) * clsCommon.myCdbl(dr("Interest_Rate")) * dblPCDays) / (365 * 100), 2, MidpointRounding.ToEven)  ''BHA/20/06/18-000059 By balwinder change 360 days to 365 
+                objAEMI.Interest_Amount = Math.Round((clsCommon.myCDecimal(dr("Payment_Amount")) * clsCommon.myCDecimal(dr("Interest_Rate")) * dblPCDays) / (365 * 100), 2, MidpointRounding.ToEven)  ''BHA/20/06/18-000059 By balwinder change 360 days to 365 
                 objVendorInvHead.ArrAdvanceInterest.Add(objAEMI)
                 ''end of Set Installment amount
 
@@ -929,7 +918,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
         End If
     End Sub
     Public Shared Sub CreateVSPDebitNoteOfSecurityDeduction(ByVal strVSPCode As String, ByVal dtDocDate As DateTime, ByVal strMCC As String, ByVal trans As SqlTransaction)
-        Dim dblAmount As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Security_Deduction_Amount from TSPL_VENDOR_MASTER where Vendor_Code='" + strVSPCode + "'", trans))
+        Dim dblAmount As Decimal = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select Security_Deduction_Amount from TSPL_VENDOR_MASTER where Vendor_Code='" + strVSPCode + "'", trans))
         If dblAmount > 0 Then
             Dim strVendor As String = strVSPCode
             Dim dt As DataTable
@@ -1105,7 +1094,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                 objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, strMCC, trans)
-                If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                     objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                     objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, strMCC, trans)
                 End If
@@ -1392,7 +1381,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                 objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, strMCCCode, trans)
-                If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                     objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                     objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, strMCCCode, trans)
                 End If
@@ -1488,7 +1477,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                 objVendorInvDetail.Detail_Line_No = ii
                 objVendorInvDetail.GL_Account_Code = strInvCtrlAC
                 objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(strInvCtrlAC, trans)
-                objVendorInvDetail.Amount = clsCommon.myCdbl(dr("Installment_Amt"))
+                objVendorInvDetail.Amount = clsCommon.myCDecimal(dr("Installment_Amt"))
                 objVendorInvDetail.Discount_Per = 0
                 objVendorInvDetail.Discount = 0
                 objVendorInvDetail.Amount_less_Discount = objVendorInvDetail.Amount
@@ -1537,13 +1526,263 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
         End If
     End Sub
     Public Sub SelectMilkSRNItemsForVspPayment(ByVal strMCCCode As String, ByVal strSRN_No As List(Of String), ByVal Vsp_Name As String, ByVal frm_date As Date, ByVal End_date As Date, ByVal Is_With_Bill As Boolean, ByVal trans As SqlTransaction, ByVal Formcode As String, ByVal IsRoundOffPaiseAmount As Boolean, ByVal CompanyVSPDeduction As Decimal, ByVal NonCompanyVSPDeduction As Decimal, ByVal settDoNotIncludeIncentiveInMilkPurchaseInvoice As Boolean)
+        Dim isPickPendingMilkSRNinNextPaymentCycle As Boolean = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, trans)) = 1
+        Dim qry As String = "select distinct CAST(0 as bit) as Sel,code,Final.DOC_DATE,ICode,Final.MCC_code,Final.VLC_Code,VLC_Name,Vendor,Final.Vendor_Name,max(IName) as IName 
+,Unit ,Qty as POQty,Acc_Qty, SUM(Qty* case when RI=-1 then 1 else 0 end)  as GRNQty
+,SUM(Unapproved) as UnapprovedQty,SUM((Qty *RI)- Unapproved) as PedningQty ,MAX(Rate) as Rate,MAX(Vendor) as Vendor,MAX(TSPL_VENDOR_MASTER.Vendor_Name) as VendorName 
+,0 as Assessable,max(Amount) as Amount,max(Service_Charge_Amount) as Service_Charge_Amount,FAT_PER,SNF_PER,CLR,cans,Route_Code,route_name,Final.VEHICLE_CODE,Vehicle_Name,Correction_factor,Final.shift,Service_Charge_Type,Case when Nature='C' then Actual_charges end as  Commission, Case when Nature='E' then Actual_charges end as Payment_Commission,Head_Load_Amount as Head_Load_Amount,Own_Asset_Amount as Own_Asset_Amount,max( EMP_Amount) as EMP_Amount from ( 
+select  distinct  TSPL_MILK_SRN_DETAIL.DOC_CODE as Code,TSPL_MILK_SRN_DETAIL.Head_Load_Amount,TSPL_MILK_SRN_DETAIL.Own_Asset_Amount,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_HEAD.MCC_code,TSPL_VLC_MASTER_HEAD.VLC_CODE,vlc_name,TSPL_MILK_SRN_HEAD.VSP_CODE as Vendor,Vendor_name,TSPL_MILK_SRN_DETAIL.Item_Code as ICode,Item_Desc as IName,TSPL_MILK_SRN_DETAIL.Qty  as Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty  as ACC_Qty,0 as Unapproved,tspl_milk_receipt_Detail.Uom_Code as Unit,1 as RI,TSPL_MILK_SRN_DETAIL.RATE as Rate,1 as Chk,TSPL_MILK_SRN_DETAIL.Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,NO_OF_CANS as cans,TSPL_MILK_SAMPLE_DETAIL.CLR,TSPL_MILK_SRN_HEAD.Route_Code,route_name,TSPL_MILK_SRN_HEAD.VEHICLE_CODE,TSPL_VEHICLE_MASTER.Vehicle_Name,tspl_Milk_Srn_Detail.Correction_factor,case when TSPL_MILK_SRN_HEAD.SHIFT='M' then 'Morning' else 'Evening' end as shift,TSPL_MILK_SRN_DETAIL.emp_amount 
+from TSPL_MILK_SRN_DETAIL 
+left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE =TSPL_MILK_SRN_DETAIL.DOC_CODE  
+Left join tspl_item_Master on tspl_item_Master.Item_Code=TSPL_MILK_SRN_DETAIL.Item_Code 
+left join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_SRN_HEAD.VLC_CODE 
+left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.vendor_Code=TSPL_MILK_SRN_HEAD.Vsp_CODE  
+left join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE and TSPL_MILK_SAMPLE_DETAIL.Item_Code =TSPL_MILK_SRN_DETAIL.Item_Code and TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE =TSPL_MILK_SRN_HEAD.VLC_DOC_CODE and TSPL_MILK_SAMPLE_DETAIL.Sample_No =TSPL_MILK_SRN_HEAD.sample_No  
+Left join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE=TSPL_MILK_SAMPLE_DETAIL.DOC_CODE 
+left join  TSPL_MILK_Receipt_DETAIL on TSPL_MILK_Receipt_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE and TSPL_MILK_Receipt_DETAIL.Item_Code=TSPL_MILK_SAMPLE_Detail.Item_Code  and TSPL_MILK_Receipt_DETAIL.VLC_DOC_CODE=TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE and TSPL_MILK_Receipt_DETAIL.sample_No=TSPL_MILK_SAMPLE_DETAIL.sample_No 
+left join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_MILK_SRN_HEAD.VEHICLE_CODE 
+left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Code=TSPL_MILK_SRN_HEAD.Doc_Code 
+left join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_MILK_SRN_HEAD.ROUTE_CODE 
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_MILK_SRN_HEAD.mcc_code  
+where  TSPL_MILK_SRN_HEAD.Posted=1  and TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Code is null and tspl_Milk_Srn_Head.is_incentive_Created='N' "
+        If strSRN_No IsNot Nothing AndAlso strSRN_No.Count > 0 Then
+            qry += " and TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) + ")"
+        End If
+        If isPickPendingMilkSRNinNextPaymentCycle Then
+            qry += " and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= convert(date,'" & clsCommon.GetPrintDate(End_date, "dd-MMM-yyyy") & "',103) "
+        Else
+            qry += " and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) Between convert(date,'" & clsCommon.GetPrintDate(frm_date, "dd-MMM-yyyy") & "',103) and convert(date,'" & clsCommon.GetPrintDate(End_date, "dd-MMM-yyyy") & "',103) "
+        End If
+        qry += " and 2= (case when isnull(TSPL_MCC_MASTER.Failed_Sample_Apply,0)=1 and (TSPL_MILK_SRN_DETAIL.FAT_PER<TSPL_MCC_MASTER.Failed_Sample_FAT or TSPL_MILK_SRN_DETAIL.SNF_PER<TSPL_MCC_MASTER.Failed_Sample_SNF) and isnull(TSPL_MILK_SRN_head.Failed_Sample_Status,0)=0 and isnull( TSPL_MILK_SRN_head.Against_Reject_No,'')='' then 3 else 2 end) "
+        If clsCommon.myLen(Vsp_Name) > 0 Then
+            qry += " and TSPL_MILK_SRN_HEAD.VSP_Code='" + Vsp_Name + "'"
+        End If
+        qry += " )Final Left join tspl_milk_Shift_End_Detail sed on sed.mcc_Code=Final.MCC_CODE and convert(date,sed.DOC_DATE,103)=convert(date,Final.DOC_DATE,103) and sed.SHIFT=Final.shift left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=final.Vendor  
+group by Code,Final.DOC_DATE,Final.MCC_code,ICode,Unit,Final.VLC_Code,VLC_Name,Final.Vendor,Final.Vendor_Name,FAT_PER,SNF_PER,CLR,cans,Correction_factor,Route_Code,route_name,Final.VEHICLE_CODE,Vehicle_Name,Final.shift,commision_pers, payment_commision_pers,Nature,Actual_charges,Qty,Service_Charge_Type,Acc_Qty,Head_Load_Amount,Own_Asset_Amount  
+having SUM(Chk)>0 and   (SUM(Qty*RI) <>0 or (SUM(Qty*RI)=0  and (SUM((Qty *RI)- Unapproved)<>0 ))) order by Code "
+        Dim dtPendingSRN = clsDBFuncationality.GetDataTable(qry, trans)
+        Dim obj_SRN As New clsMilkSRNMCC
+        If dtPendingSRN IsNot Nothing AndAlso dtPendingSRN.Rows.Count > 0 Then
+            obj_SRN = clsMilkSRNMCC.GetData(dtPendingSRN.Rows(0)("code"), NavigatorType.Current, trans)
+            Dim TotOwnAsset As Double = 0
+            Dim TotDeduction_Amount As Double = 0
+            Dim objHead As New clsMilkPurchaseInvoiceMCC
+            objHead.Program_Code = Formcode
+            objHead.FROM_DATE = frm_date
+            objHead.TO_DATE = End_date
+            objHead.DOC_CODE = ""
+            objHead.DOC_DATE = clsCommon.myCDate(End_date)
+            objHead.Description = ""
+            objHead.ROUTE_CODE = clsCommon.myCstr(obj_SRN.ROUTE_CODE)
+            objHead.VSP_CODE = clsCommon.myCstr(obj_SRN.VSP_CODE)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select vsp_Payment,Handling_Charges_Per from TSPL_VENDOR_MASTER where form_type='VSP' and Vendor_Code='" & obj_SRN.VSP_CODE & "'", trans)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("VSP- " + obj_SRN.VSP_CODE + "Not exists in vsp master")
+            End If
+            objHead.Payment = clsCommon.myCstr(dt.Rows(0)("vsp_Payment"))
+            objHead.Handling_Charges_Per = clsCommon.myCDecimal(dt.Rows(0)("Handling_Charges_Per"))
+            objHead.Handling_Charges_Amount = 0
+            objHead.SRN_Net_Amount = 0
+            objHead.SRN_RO_Amount = 0
+            objHead.Irregular_MCC_CODE = clsCommon.myCstr(obj_SRN.MCC_CODE)
+
+            Dim objList As New List(Of clsMilkPurchaseInvoiceMCCDetail)
+            Dim objDetail As clsMilkPurchaseInvoiceMCCDetail = Nothing
+            Dim sQuery As String = "select TSPL_MILK_Shift_End_DETAIL.*,TSPL_MILK_SRN_HEAD.doc_code as srn_code from TSPL_MILK_Shift_End_DETAIL inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_head.VLC_DOC_CODE=TSPL_MILK_Shift_End_DETAIL.VLC_DOC_CODE where  TSPL_MILK_Shift_End_DETAIL.MCC_CODE='" & clsCommon.myCstr(obj_SRN.MCC_CODE) & "' " _
+                & "and convert(date,TSPL_MILK_Shift_End_DETAIL.DOC_DATE,103)='" & clsCommon.GetPrintDate(obj_SRN.DOC_DATE, "dd-MMM-yyyy") & "' and TSPL_MILK_Shift_End_DETAIL.SHIFT='" & IIf(clsCommon.myCstr(obj_SRN.SHIFT) = "M", "Morning", "Evening") & "'"
+            Dim DtShiftEnd As DataTable = clsDBFuncationality.GetDataTable(sQuery, trans)
+            Dim totAmount As Double = 0
+            Dim totCommssion As Double = 0
+            objHead.Total_PaymentCommission = 0
+            Dim totAmountwithPaymentCommssion As Double = 0
+            Dim totAmountIncentive As Double = 0
+            Dim totAmountIncentiveEMP As Double = 0
+            Dim totBasicAmount As Double = 0
+            objHead.Total_Head_Load_Amount = 0
+            For Each drPendingSRN As DataRow In dtPendingSRN.Rows
+                objDetail = New clsMilkPurchaseInvoiceMCCDetail
+                objDetail.DOC_CODE = ""
+                objDetail.AMOUNT = clsCommon.myCDecimal(drPendingSRN("Amount"))
+                objDetail.Cans = clsCommon.myCDecimal(drPendingSRN("Cans"))
+                objDetail.CLR = clsCommon.myCDecimal(drPendingSRN("CLR"))
+                objDetail.COMMISSION = clsCommon.myCDecimal(drPendingSRN("Commission"))
+                objDetail.Payment_COMMISSION = clsCommon.myCDecimal(drPendingSRN("Payment_Commission"))
+                If DtShiftEnd.Rows.Count > 0 Then
+                    Dim dr() As DataRow = DtShiftEnd.Select("vlc_code='" & clsCommon.myCstr(drPendingSRN("VLC_Code")) & "' and srn_code='" & clsCommon.myCstr(drPendingSRN("code")) & "'")
+                    If dr.Length > 0 Then
+                        objDetail.Deduction = IIf(clsCommon.myCstr(dr(0)("A_Or_R")) = "R", clsCommon.myCDecimal(drPendingSRN("Amount")) * clsCommon.myCDecimal(dr(0)("Deduction_of_VSP")) / 100, clsCommon.myCDecimal(dr(0)("Deduction_of_VSP")))
+                    End If
+                End If
+                objDetail.Own_Asset_Amount = clsCommon.myCDecimal(drPendingSRN("Own_Asset_Amount"))
+                objDetail.Correction_Factor = clsCommon.myCDecimal(drPendingSRN("Correction_Factor"))
+                objDetail.FAT_PER = clsCommon.myCDecimal(drPendingSRN("FAT_per"))
+                objDetail.SNF_PER = clsCommon.myCDecimal(drPendingSRN("SNF_per"))
+                objDetail.Item_Code = clsCommon.myCstr(drPendingSRN("ICode"))
+                objDetail.MCC_CODE = strMCCCode
+                objDetail.Qty = clsCommon.myCDecimal(drPendingSRN("POQty"))
+                objDetail.Acc_Qty = clsCommon.myCDecimal(drPendingSRN("ACC_Qty"))
+                objDetail.Service_Charge = clsCommon.myCstr(drPendingSRN("Service_Charge_Type"))
+                objDetail.RATE = clsCommon.myCDecimal(drPendingSRN("Rate"))
+                objDetail.Head_Load_Amount = clsCommon.myCDecimal(drPendingSRN("Head_Load_Amount"))
+                Dim Commission_AMount As Double = 0
+                objDetail.Service_Charge_Amount = Math.Round(drPendingSRN("Service_Charge_Amount"), 2)
+                ''Extra column of SRN
+                dt = clsDBFuncationality.GetDataTable("select NET_AMOUNT,Round_Off from TSPL_MILK_SRN_DETAIL where DOC_CODE='" + clsCommon.myCstr(drPendingSRN("code")) + "'", trans)
+                If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                    Throw New Exception("Milk SRN No [" + clsCommon.myCstr(drPendingSRN("code")) + "] not found")
+                End If
+
+                objDetail.SRN_Net_Amount = Math.Round(clsCommon.myCDecimal(dt.Rows(0)("NET_AMOUNT")), 2)
+                objDetail.SRN_RO_Amount = Math.Round(clsCommon.myCDecimal(dt.Rows(0)("Round_Off")), 2)
+
+                ''End of Extra column of SRN
+                objDetail.Net_AMOUNT = Math.Round(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select NET_AMOUNT from TSPL_MILK_SRN_DETAIL where DOC_CODE='" + clsCommon.myCstr(drPendingSRN("code")) + "'", trans)), 2)
+                objDetail.Handling_Charges_Amount = Math.Round((objDetail.Net_AMOUNT) * objHead.Handling_Charges_Per / 100, 2)
+                objDetail.Net_AMOUNT += objDetail.Handling_Charges_Amount
+
+                objDetail.TOTAL_AMOUNT = Math.Round(objDetail.Net_AMOUNT + objDetail.Service_Charge_Amount, 2)
+                objDetail.SRN_CODE = clsCommon.myCstr(drPendingSRN("code"))
+                objDetail.VEHICLE_NO = clsCommon.myCstr(obj_SRN.VEHICLE_CODE)
+                objDetail.VLC_NO = clsCommon.myCstr(drPendingSRN("VLC_Code"))
+                objHead.MCC_CODE = clsMilkPurchaseInvoiceMCC.GetIrregular_Location(objDetail.SRN_CODE, trans)
+                objDetail.MCC_CODE = clsMilkPurchaseInvoiceMCC.GetIrregular_Location(objDetail.SRN_CODE, trans)
+                If clsCommon.CompairString(objHead.MCC_CODE, objHead.Irregular_MCC_CODE) = CompairStringResult.Equal Then
+                    objHead.Irregular_MCC_CODE = ""
+                End If
+
+                objList.Add(objDetail)
+                objHead.Total_Head_Load_Amount += objDetail.Head_Load_Amount
+                TotOwnAsset += objDetail.Own_Asset_Amount
+                TotDeduction_Amount += (objDetail.Deduction)
+
+                totAmount += objDetail.AMOUNT
+                totBasicAmount += objDetail.AMOUNT
+                totCommssion += 0
+                Dim TotPaycomm As Decimal = Math.Round((objDetail.TOTAL_AMOUNT - objDetail.AMOUNT - objDetail.Handling_Charges_Amount + objDetail.SRN_RO_Amount), 2, MidpointRounding.ToEven)
+                If Math.Abs(TotPaycomm) > 0.1 Then
+                    objHead.Total_PaymentCommission += TotPaycomm
+                End If
+                totAmountwithPaymentCommssion += objDetail.Net_AMOUNT
+                objHead.Handling_Charges_Amount += objDetail.Handling_Charges_Amount
+                objHead.SRN_Net_Amount += objDetail.SRN_Net_Amount
+                objHead.SRN_RO_Amount += objDetail.SRN_RO_Amount
+            Next
+            objHead.Handling_Charges_Amount = Math.Round(objHead.Handling_Charges_Amount, 2, MidpointRounding.ToEven)
+            objHead.Total_Head_Load_Amount = Math.Round(objHead.Total_Head_Load_Amount, 2, MidpointRounding.ToEven)
+            If IsRoundOffPaiseAmount Then
+                objHead.Handling_Charges_RO_Amount = (objHead.Handling_Charges_Amount Mod 1)
+                objHead.Handling_Charges_Amount = objHead.Handling_Charges_Amount - objHead.Handling_Charges_RO_Amount
+
+                objHead.Total_Head_Load_RO_Amount = (objHead.Total_Head_Load_Amount Mod 1)
+                objHead.Total_Head_Load_Amount = objHead.Total_Head_Load_Amount - objHead.Total_Head_Load_RO_Amount
+            ElseIf objCommonVar.DCSAddDedROHeaderLevel Then
+                objHead.Handling_Charges_RO_Amount = objHead.Handling_Charges_Amount - clsCommon.myRoundOFF(objHead.Handling_Charges_Amount, objCommonVar.DCSAddDedRODecimalPlace, objCommonVar.DCSAddDedROIncreaseAfter)
+                objHead.Handling_Charges_Amount = objHead.Handling_Charges_Amount - objHead.Handling_Charges_RO_Amount
+
+                objHead.Total_Head_Load_RO_Amount = objHead.Total_Head_Load_Amount - clsCommon.myRoundOFF(objHead.Total_Head_Load_Amount, objCommonVar.DCSAddDedRODecimalPlace, objCommonVar.DCSAddDedROIncreaseAfter)
+                objHead.Total_Head_Load_Amount = objHead.Total_Head_Load_Amount - objHead.Total_Head_Load_RO_Amount
+
+                objHead.SRN_RO_Amount = objHead.SRN_Net_Amount - clsCommon.myRoundOFF(objHead.SRN_Net_Amount, objCommonVar.DCSAddDedRODecimalPlace, objCommonVar.DCSAddDedROIncreaseAfter)
+                objHead.SRN_Net_Amount = objHead.SRN_Net_Amount - objHead.SRN_RO_Amount
+
+                totAmount = clsCommon.myRoundOFF(totAmount, objCommonVar.DCSAddDedRODecimalPlace, objCommonVar.DCSAddDedROIncreaseAfter)
+                totCommssion = clsCommon.myRoundOFF(totCommssion, objCommonVar.DCSAddDedRODecimalPlace, objCommonVar.DCSAddDedROIncreaseAfter)
+                totAmountwithPaymentCommssion = clsCommon.myRoundOFF(totAmountwithPaymentCommssion, objCommonVar.DCSAddDedRODecimalPlace, objCommonVar.DCSAddDedROIncreaseAfter)
+            Else
+                objHead.Total_Head_Load_RO_Amount = objHead.Total_Head_Load_Amount - clsCommon.myRoundOFF(objHead.Total_Head_Load_Amount, clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.HeadLoadRODecimalPlace, clsFixedParameterCode.HeadLoadRODecimalPlace, trans)), clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.HeadLoadROIncreaseAfter, clsFixedParameterCode.HeadLoadROIncreaseAfter, trans)))
+                objHead.Total_Head_Load_Amount = objHead.Total_Head_Load_Amount - objHead.Total_Head_Load_RO_Amount
+            End If
+
+            objHead.Total_Own_Asset_Amount = TotOwnAsset
+            objHead.Total_Deduction_Amount = TotDeduction_Amount
+            objHead.VENDOR_INVOICE_NO = ""
+            objHead.VENDOR_INVOICE_DATE = obj_SRN.DOC_DATE
+            objHead.Amount = clsCommon.myCDecimal(totAmount)
+            objHead.Basic_Amount = Math.Round(clsCommon.myCDecimal(totAmount) - clsCommon.myCDecimal(totCommssion), 2)
+            objHead.Commission = clsCommon.myCDecimal(totCommssion)
+            objHead.Total_Amount_Acc = clsCommon.myCDecimal(totAmountwithPaymentCommssion) - objHead.Handling_Charges_RO_Amount
+
+            objHead.Program_Code = Formcode
+            objHead.No_Of_Asset = 0
+            If CompanyVSPDeduction > 0 Or NonCompanyVSPDeduction > 0 Then
+                sQuery = "select Issue_To,sum(Issued_Qty*RI) as NoOFAsset from (" + Environment.NewLine +
+                            "select TSPL_VSPAsset_HEAD.Doc_No,TSPL_VSPAsset_HEAD.Issue_To,TSPL_VSPAsset_detail.Item_Code,case when Doc_Type='Issue' then Issued_Qty else Issued_Qty_againstret end as Issued_Qty,case when Doc_Type='Issue' then 1 else -1 end as RI from TSPL_VSPAsset_detail" + Environment.NewLine +
+                            "left outer join TSPL_VSPAsset_HEAD on TSPL_VSPAsset_HEAD.Doc_No=TSPL_VSPAsset_detail.Doc_No" + Environment.NewLine +
+                            "where convert(date ,Doc_Date,103)<='" + clsCommon.GetPrintDate(objHead.DOC_DATE, "dd/MMM/yyyy") + "' and Issue_To='" + objHead.VSP_CODE + "' and Status=1" + Environment.NewLine +
+                            ")x group by Issue_To"
+                Dim dtAsset As DataTable = clsDBFuncationality.GetDataTable(sQuery, trans)
+                If dtAsset IsNot Nothing AndAlso dtAsset.Rows.Count > 0 Then
+                    If clsCommon.myCDecimal(dtAsset.Rows(0)("NoOFAsset")) > 0 Then
+                        objHead.No_Of_Asset = clsCommon.myCDecimal(dtAsset.Rows(0)("NoOFAsset"))
+                    End If
+                End If
+            End If
+
+            totAmount = 0
+            If clsMilkPurchaseInvoiceMCC.SaveData(objHead, objList, trans) Then
+                clsMilkPurchaseInvoiceMCC.SaveMPData(objHead.DOC_CODE, objHead.FROM_DATE, objHead.TO_DATE, objHead.MCC_CODE, objHead.VSP_CODE, trans)
+                If Not settDoNotIncludeIncentiveInMilkPurchaseInvoice Then
+                    Dim incentive As ArrayList = clsMilkPurchaseInvoiceMCC.LoadDataQuery_For_Incentive(objHead.DOC_CODE, objHead.VSP_CODE, objHead.MCC_CODE, frm_date, Today.Date, False, trans, (End_date.Day - frm_date.Day) + 1)
+                    clsMilkPurchaseInvoiceMCC.LoadDataQuery_For_Incentive_MP(objHead.DOC_CODE, objHead.VSP_CODE, objHead.MCC_CODE, frm_date, Today.Date, False, trans, (End_date.Day - frm_date.Day) + 1)
+                    Dim totincentiveEMP As Double = 0
+                    Dim totincentive As Double = 0
+                    totAmount = 0
+                    totBasicAmount = 0
+                    totAmountwithPaymentCommssion = 0
+                    Dim is_processed As Integer = 0
+                    Dim is_Emp_On_Amount_Only As String = clsDBFuncationality.getSingleValue("select EmpOnAMountOnly from tspl_Mcc_Master where Mcc_Code='" & objDetail.MCC_CODE & "'", trans)
+                    If incentive.Count > 0 Then
+                        If incentive(1) > 0 Then
+                            For Each drPendingSRN As DataRow In dtPendingSRN.Rows
+                                If is_processed = 0 Then
+                                    totincentiveEMP = Math.Round(clsCommon.myCDecimal(incentive(1)) * clsCommon.myCDecimal(drPendingSRN("Payment_Commission")) / 100, 2)
+                                    totAmount += objDetail.AMOUNT + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
+                                    totBasicAmount += objDetail.AMOUNT + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
+                                    objDetail.Net_AMOUNT += +IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
+                                    totAmountwithPaymentCommssion += objDetail.Net_AMOUNT '+ totincentiveEMP '+ incentive(1)
+                                    sQuery = "Update tspl_Milk_Purchase_Invoice_Detail set Total_Amount='" & clsCommon.myCDecimal(objDetail.AMOUNT) & "',Total_Amount_Acc='" & clsCommon.myCDecimal(objDetail.Net_AMOUNT) & "',Net_Amount='" & clsCommon.myCDecimal(objDetail.Net_AMOUNT) & "',incentive='" & incentive(1) & "' , incentiveEMP='" & totincentiveEMP & "' where srn_code='" & objDetail.SRN_CODE & "'"
+                                    clsDBFuncationality.ExecuteNonQuery(sQuery, trans)
+                                    is_processed = 1
+                                End If
+                                'Exit For
+                            Next
+                            is_processed = 0
+                            totAmount = objHead.Amount + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
+                            totAmountwithPaymentCommssion = objHead.Total_Amount_Acc + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
+
+                            sQuery = "Update tspl_Milk_Purchase_Invoice_Head set Total_Amount='" & clsCommon.myCDecimal(totAmount) & "',Total_Amount_Acc='" & clsCommon.myCDecimal(totAmountwithPaymentCommssion) & "' ,incentive_Head='" & incentive(1) & "' , incentiveEMP_Head='" & totincentiveEMP & "' where doc_code='" & clsCommon.myCstr(objHead.DOC_CODE) & "'"
+                            clsDBFuncationality.ExecuteNonQuery(sQuery, trans)
+                        End If
+                    End If
+                End If
+
+                sQuery = "select Total_Amount_Acc from tspl_Milk_Purchase_Invoice_Head where doc_code='" & objHead.DOC_CODE & "'"
+                totAmount = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(sQuery, trans))
+
+
+                Dim dblPreviousTDSAmt As Decimal = 0
+                Dim objRemittance As clsRemittance = SetVendorTDSDetails(True, objHead.DOC_CODE, objHead.DOC_DATE, dblPreviousTDSAmt, objHead.VSP_CODE, totAmount, totAmount, trans)
+                'UpdateTDSAmount(objRemittance, objHead.DOC_CODE, objHead.DOC_DATE, dblPreviousTDSAmt, objHead.VSP_CODE, totAmount, totAmount, trans)
+                Dim objPIRemittance As clsPIRemittance = clsPIRemittance.Convert(objRemittance, dblPreviousTDSAmt)
+                clsPIRemittance.SaveData(objPIRemittance, objHead.DOC_CODE, objHead.DOC_DATE, trans)
+
+                clsMilkPurchaseInvoiceMCC.PostData("M-PURINVOICE", objHead.DOC_CODE, trans)
+                'CreateHandlingCharges(objHead, trans) ''GKD/02/05/18-000126.By Balwinder On 03/05/2018 .No Need To make adjustment Entry of Handling Charges 
+                CreateDebitNoteForDeductionMapping(objHead, objList, trans)
+                VSPCommissionAndDeduction(frm_date, End_date, objHead, strSRN_No, trans) ''Bhole Baba
+                VSPCommissionAndPashuVikashKosh(frm_date, End_date, objHead, strSRN_No, trans) ''UCDF Baba
+                CreateVSPDebitNoteOfAsset(objHead, End_date, strMCCCode, trans, NonCompanyVSPDeduction, CompanyVSPDeduction)
+                CreateApplyDocmentOfAssetLost(objHead, End_date, strMCCCode, trans, NonCompanyVSPDeduction, CompanyVSPDeduction)
+            End If
+        End If
+    End Sub
+    Public Sub SelectMilkSRNItemsForVspPayment_OLD(ByVal strMCCCode As String, ByVal strSRN_No As List(Of String), ByVal Vsp_Name As String, ByVal frm_date As Date, ByVal End_date As Date, ByVal Is_With_Bill As Boolean, ByVal trans As SqlTransaction, ByVal Formcode As String, ByVal IsRoundOffPaiseAmount As Boolean, ByVal CompanyVSPDeduction As Decimal, ByVal NonCompanyVSPDeduction As Decimal, ByVal settDoNotIncludeIncentiveInMilkPurchaseInvoice As Boolean)
         Dim obj_SRN As New clsMilkSRNMCC
         Dim frm As New UcMilkPendingSRN()
         frm.VendorCode = Vsp_Name
         frm.Frm_date = frm_date
         frm.To_date = End_date
         frm.isForMP = False
-        Dim StrDoc As New List(Of String)
         If Is_With_Bill Then
             If Not frm.LoaDHeadDataQuery(trans) Then
                 Exit Sub
@@ -1580,7 +1819,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                         Throw New Exception("VSP- " + obj_SRN.VSP_CODE + "Not exists in vsp master")
                     End If
                     objHead.Payment = clsCommon.myCstr(dt.Rows(0)("vsp_Payment"))
-                    objHead.Handling_Charges_Per = clsCommon.myCdbl(dt.Rows(0)("Handling_Charges_Per"))
+                    objHead.Handling_Charges_Per = clsCommon.myCDecimal(dt.Rows(0)("Handling_Charges_Per"))
                     objHead.Handling_Charges_Amount = 0
                     objHead.SRN_Net_Amount = 0
                     objHead.SRN_RO_Amount = 0
@@ -1603,28 +1842,28 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                     For Each obj1 As clsMilkSRNMCCDetail In frm.ArrReturn
                         objDetail = New clsMilkPurchaseInvoiceMCCDetail
                         objDetail.DOC_CODE = ""
-                        objDetail.AMOUNT = clsCommon.myCdbl(obj1.AMOUNT)
-                        objDetail.Cans = clsCommon.myCdbl(obj1.Cans)
-                        objDetail.CLR = clsCommon.myCdbl(obj1.CLR)
-                        objDetail.COMMISSION = clsCommon.myCdbl(obj1.Commission)
-                        objDetail.Payment_COMMISSION = clsCommon.myCdbl(obj1.Payment_Commission)
+                        objDetail.AMOUNT = clsCommon.myCDecimal(obj1.AMOUNT)
+                        objDetail.Cans = clsCommon.myCDecimal(obj1.Cans)
+                        objDetail.CLR = clsCommon.myCDecimal(obj1.CLR)
+                        objDetail.COMMISSION = clsCommon.myCDecimal(obj1.Commission)
+                        objDetail.Payment_COMMISSION = clsCommon.myCDecimal(obj1.Payment_Commission)
                         If DtShiftEnd.Rows.Count > 0 Then
                             Dim dr() As DataRow = DtShiftEnd.Select("vlc_code='" & clsCommon.myCstr(obj1.VlC_Code) & "' and srn_code='" & clsCommon.myCstr(obj1.DOC_CODE) & "'")
                             If dr.Length > 0 Then
-                                objDetail.Deduction = IIf(clsCommon.myCstr(dr(0)("A_Or_R")) = "R", clsCommon.myCdbl(obj1.AMOUNT) * clsCommon.myCdbl(dr(0)("Deduction_of_VSP")) / 100, clsCommon.myCdbl(dr(0)("Deduction_of_VSP")))
+                                objDetail.Deduction = IIf(clsCommon.myCstr(dr(0)("A_Or_R")) = "R", clsCommon.myCDecimal(obj1.AMOUNT) * clsCommon.myCDecimal(dr(0)("Deduction_of_VSP")) / 100, clsCommon.myCDecimal(dr(0)("Deduction_of_VSP")))
                             End If
                         End If
-                        objDetail.Own_Asset_Amount = clsCommon.myCdbl(obj1.Own_Asset_Amount)
-                        objDetail.Correction_Factor = clsCommon.myCdbl(obj1.Correction_Factor)
-                        objDetail.FAT_PER = clsCommon.myCdbl(obj1.FAT)
+                        objDetail.Own_Asset_Amount = clsCommon.myCDecimal(obj1.Own_Asset_Amount)
+                        objDetail.Correction_Factor = clsCommon.myCDecimal(obj1.Correction_Factor)
+                        objDetail.FAT_PER = clsCommon.myCDecimal(obj1.FAT)
                         objDetail.Item_Code = clsCommon.myCstr(obj1.Item_CODE)
                         objDetail.MCC_CODE = strMCCCode
-                        objDetail.Qty = clsCommon.myCdbl(obj1.MILK_Qty)
-                        objDetail.Acc_Qty = clsCommon.myCdbl(obj1.ACC_Qty)
+                        objDetail.Qty = clsCommon.myCDecimal(obj1.MILK_Qty)
+                        objDetail.Acc_Qty = clsCommon.myCDecimal(obj1.ACC_Qty)
                         objDetail.Service_Charge = clsCommon.myCstr(obj1.Service_Charge_Type)
-                        objDetail.RATE = clsCommon.myCdbl(obj1.RATE)
-                        objDetail.SNF_PER = clsCommon.myCdbl(obj1.SNF)
-                        objDetail.Head_Load_Amount = clsCommon.myCdbl(obj1.Head_Load_Amount)
+                        objDetail.RATE = clsCommon.myCDecimal(obj1.RATE)
+                        objDetail.SNF_PER = clsCommon.myCDecimal(obj1.SNF)
+                        objDetail.Head_Load_Amount = clsCommon.myCDecimal(obj1.Head_Load_Amount)
                         Dim Commission_AMount As Double = 0
                         objDetail.Service_Charge_Amount = Math.Round(obj1.Service_Charge_Amount, 2)
                         ''Extra column of SRN
@@ -1633,14 +1872,14 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                             Throw New Exception("Milk SRN No " + obj1.DOC_CODE + " not found")
                         End If
 
-                        obj1.NET_AMOUNT = Math.Round(clsCommon.myCdbl(dt.Rows(0)("NET_AMOUNT")), 2)
-                        obj1.Round_Off = Math.Round(clsCommon.myCdbl(dt.Rows(0)("Round_Off")), 2)
+                        obj1.NET_AMOUNT = Math.Round(clsCommon.myCDecimal(dt.Rows(0)("NET_AMOUNT")), 2)
+                        obj1.Round_Off = Math.Round(clsCommon.myCDecimal(dt.Rows(0)("Round_Off")), 2)
 
                         objDetail.SRN_Net_Amount = obj1.NET_AMOUNT
                         objDetail.SRN_RO_Amount = obj1.Round_Off
 
                         ''End of Extra column of SRN
-                        objDetail.Net_AMOUNT = Math.Round(clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select NET_AMOUNT from TSPL_MILK_SRN_DETAIL where DOC_CODE='" + obj1.DOC_CODE + "'", trans)), 2) ''Not coming in object and only one row is exists 
+                        objDetail.Net_AMOUNT = Math.Round(clsCommon.myCDecimal(clsDBFuncationality.getSingleValue("select NET_AMOUNT from TSPL_MILK_SRN_DETAIL where DOC_CODE='" + obj1.DOC_CODE + "'", trans)), 2) ''Not coming in object and only one row is exists 
                         objDetail.Handling_Charges_Amount = Math.Round((objDetail.Net_AMOUNT) * objHead.Handling_Charges_Per / 100, 2)
                         objDetail.Net_AMOUNT += objDetail.Handling_Charges_Amount
 
@@ -1704,10 +1943,10 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                     objHead.Total_Deduction_Amount = TotDeduction_Amount
                     objHead.VENDOR_INVOICE_NO = ""
                     objHead.VENDOR_INVOICE_DATE = obj_SRN.DOC_DATE
-                    objHead.Amount = clsCommon.myCdbl(totAmount)
-                    objHead.Basic_Amount = Math.Round(clsCommon.myCdbl(totAmount) - clsCommon.myCdbl(totCommssion), 2)
-                    objHead.Commission = clsCommon.myCdbl(totCommssion)
-                    objHead.Total_Amount_Acc = clsCommon.myCdbl(totAmountwithPaymentCommssion) - objHead.Handling_Charges_RO_Amount
+                    objHead.Amount = clsCommon.myCDecimal(totAmount)
+                    objHead.Basic_Amount = Math.Round(clsCommon.myCDecimal(totAmount) - clsCommon.myCDecimal(totCommssion), 2)
+                    objHead.Commission = clsCommon.myCDecimal(totCommssion)
+                    objHead.Total_Amount_Acc = clsCommon.myCDecimal(totAmountwithPaymentCommssion) - objHead.Handling_Charges_RO_Amount
 
                     objHead.Program_Code = Formcode
                     objHead.No_Of_Asset = 0
@@ -1719,8 +1958,8 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                                 ")x group by Issue_To"
                         Dim dtAsset As DataTable = clsDBFuncationality.GetDataTable(sQuery, trans)
                         If dtAsset IsNot Nothing AndAlso dtAsset.Rows.Count > 0 Then
-                            If clsCommon.myCdbl(dtAsset.Rows(0)("NoOFAsset")) > 0 Then
-                                objHead.No_Of_Asset = clsCommon.myCdbl(dtAsset.Rows(0)("NoOFAsset"))
+                            If clsCommon.myCDecimal(dtAsset.Rows(0)("NoOFAsset")) > 0 Then
+                                objHead.No_Of_Asset = clsCommon.myCDecimal(dtAsset.Rows(0)("NoOFAsset"))
                             End If
                         End If
                     End If
@@ -1742,12 +1981,12 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                                 If incentive(1) > 0 Then
                                     For Each obj1 As clsMilkSRNMCCDetail In frm.ArrReturn
                                         If is_processed = 0 Then
-                                            totincentiveEMP = Math.Round(clsCommon.myCdbl(incentive(1)) * clsCommon.myCdbl(obj1.Payment_Commission) / 100, 2)
+                                            totincentiveEMP = Math.Round(clsCommon.myCDecimal(incentive(1)) * clsCommon.myCDecimal(obj1.Payment_Commission) / 100, 2)
                                             totAmount += objDetail.AMOUNT + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
                                             totBasicAmount += objDetail.AMOUNT + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
                                             objDetail.Net_AMOUNT += +IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
                                             totAmountwithPaymentCommssion += objDetail.Net_AMOUNT '+ totincentiveEMP '+ incentive(1)
-                                            sQuery = "Update tspl_Milk_Purchase_Invoice_Detail set Total_Amount='" & clsCommon.myCdbl(objDetail.AMOUNT) & "',Total_Amount_Acc='" & clsCommon.myCdbl(objDetail.Net_AMOUNT) & "',Net_Amount='" & clsCommon.myCdbl(objDetail.Net_AMOUNT) & "',incentive='" & incentive(1) & "' , incentiveEMP='" & totincentiveEMP & "' where srn_code='" & objDetail.SRN_CODE & "'"
+                                            sQuery = "Update tspl_Milk_Purchase_Invoice_Detail set Total_Amount='" & clsCommon.myCDecimal(objDetail.AMOUNT) & "',Total_Amount_Acc='" & clsCommon.myCDecimal(objDetail.Net_AMOUNT) & "',Net_Amount='" & clsCommon.myCDecimal(objDetail.Net_AMOUNT) & "',incentive='" & incentive(1) & "' , incentiveEMP='" & totincentiveEMP & "' where srn_code='" & objDetail.SRN_CODE & "'"
                                             clsDBFuncationality.ExecuteNonQuery(sQuery, trans)
                                             is_processed = 1
                                         End If
@@ -1757,14 +1996,14 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                                     totAmount = objHead.Amount + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
                                     totAmountwithPaymentCommssion = objHead.Total_Amount_Acc + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
 
-                                    sQuery = "Update tspl_Milk_Purchase_Invoice_Head set Total_Amount='" & clsCommon.myCdbl(totAmount) & "',Total_Amount_Acc='" & clsCommon.myCdbl(totAmountwithPaymentCommssion) & "' ,incentive_Head='" & incentive(1) & "' , incentiveEMP_Head='" & totincentiveEMP & "' where doc_code='" & clsCommon.myCstr(objHead.DOC_CODE) & "'"
+                                    sQuery = "Update tspl_Milk_Purchase_Invoice_Head set Total_Amount='" & clsCommon.myCDecimal(totAmount) & "',Total_Amount_Acc='" & clsCommon.myCDecimal(totAmountwithPaymentCommssion) & "' ,incentive_Head='" & incentive(1) & "' , incentiveEMP_Head='" & totincentiveEMP & "' where doc_code='" & clsCommon.myCstr(objHead.DOC_CODE) & "'"
                                     clsDBFuncationality.ExecuteNonQuery(sQuery, trans)
                                 End If
                             End If
                         End If
 
                         sQuery = "select Total_Amount_Acc from tspl_Milk_Purchase_Invoice_Head where doc_code='" & objHead.DOC_CODE & "'"
-                        totAmount = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sQuery, trans))
+                        totAmount = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(sQuery, trans))
 
 
                         Dim dblPreviousTDSAmt As Decimal = 0
@@ -1795,9 +2034,9 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
             Dim IncludeTax As String = clsDBFuncationality.getSingleValue("select ISNULL(TSPL_TDS_SECTION_MASTER.Include_Tax,'') AS Include_Tax from TSPL_TDS_VENDOR_DETAILS left outer join TSPL_TDS_DEDUCTION_HEAD on TSPL_TDS_DEDUCTION_HEAD.Deduction_Code=TSPL_TDS_VENDOR_DETAILS.Nature_Of_Deduction left outer join TSPL_TDS_SECTION_MASTER on TSPL_TDS_SECTION_MASTER.TDS_Group=TSPL_TDS_DEDUCTION_HEAD.TDS_Section where Vendor_Code='" + VendorCode + "'", trans)
             Dim appAmt As Double = 0
             If (clsCommon.CompairString(IncludeTax, "N") = CompairStringResult.Equal) Then
-                appAmt = clsCommon.myCdbl(TaxableAmt)
+                appAmt = clsCommon.myCDecimal(TaxableAmt)
             Else
-                appAmt = clsCommon.myCdbl(TotalAmt)
+                appAmt = clsCommon.myCDecimal(TotalAmt)
             End If
             Dim objDedDetails As clsTDSDeductionDetails = clsTDSDeductionDetails.GetApplicableTDRate(objVendor.Nature_Of_Deduction, appAmt, trans, False, VendorCode)
             If (objDedDetails IsNot Nothing) Then
@@ -1817,16 +2056,16 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                     qry = "select Cumm_Cutoff,Cumm_Cutoff_Document from TSPL_TDS_DEDUCTION_HEAD where Deduction_Code='" + objVendor.Nature_Of_Deduction + "'"
                     dtTemp = clsDBFuncationality.GetDataTable(qry, trans)
                     If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
-                        If clsCommon.myCdbl(dtTemp.Rows(0)("Cumm_Cutoff_Document")) <= 0 AndAlso clsCommon.myCdbl(dtTemp.Rows(0)("Cumm_Cutoff")) <= 0 Then
+                        If clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff_Document")) <= 0 AndAlso clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")) <= 0 Then
                             isApplyTDS = True
                         Else
                             qry = "select sum( " + IIf(clsCommon.CompairString(IncludeTax, "N") = CompairStringResult.Equal, "TSPL_VENDOR_INVOICE_HEAD.Amount_Less_Discount", "TSPL_VENDOR_INVOICE_HEAD.Document_Total") + ") as Document_Total from TSPL_VENDOR_INVOICE_HEAD where Vendor_Code='" + VendorCode + "' and Document_Type in ('I','C') and Document_No not in ('" + DocNo + "') and TSPL_VENDOR_INVOICE_HEAD.ISProcurementDeduction=0 and  convert(date, Invoice_Entry_Date,103)>='" + clsCommon.GetPrintDate(clsCommon.myCDate(dtFY.Rows(0)("Start_Date")), "dd/MMM/yyyy") + "' and  convert(date, Invoice_Entry_Date,103)<='" + clsCommon.GetPrintDate(clsCommon.myCDate(dtFY.Rows(0)("End_Date")), "dd/MMM/yyyy") + "' and TSPL_VENDOR_INVOICE_HEAD.Posting_Date is not null "
-                            dblPreviousTDSAmt = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
-                            If appAmt >= clsCommon.myCdbl(dtTemp.Rows(0)("Cumm_Cutoff_Document")) AndAlso clsCommon.myCdbl(dtTemp.Rows(0)("Cumm_Cutoff_Document")) > 0 Then
+                            dblPreviousTDSAmt = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans))
+                            If appAmt >= clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff_Document")) AndAlso clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff_Document")) > 0 Then
                                 isApplyTDS = True
-                            ElseIf (dblPreviousTDSAmt + appAmt) >= clsCommon.myCdbl(dtTemp.Rows(0)("Cumm_Cutoff")) AndAlso clsCommon.myCdbl(dtTemp.Rows(0)("Cumm_Cutoff")) > 0 Then
+                            ElseIf (dblPreviousTDSAmt + appAmt) >= clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")) AndAlso clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")) > 0 Then
                                 isApplyTDS = True
-                                appAmt = ((dblPreviousTDSAmt + appAmt) - clsCommon.myCdbl(dtTemp.Rows(0)("Cumm_Cutoff")))
+                                appAmt = ((dblPreviousTDSAmt + appAmt) - clsCommon.myCDecimal(dtTemp.Rows(0)("Cumm_Cutoff")))
                                 dblPreviousTDSAmt = 0
                                 TaxableAmt = appAmt
                                 TotalAmt = appAmt
@@ -2094,7 +2333,7 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                 objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, strMCC, trans)
-                If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                     objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                     objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, strMCC, trans)
                 End If
@@ -2233,7 +2472,7 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
             Dim dtEMI As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dtEMI IsNot Nothing AndAlso dtEMI.Rows.Count > 0 Then
                 For Each drEMI As DataRow In dtEMI.Rows
-                    Dim dblAmount As Decimal = clsCommon.myCdbl(drEMI("EMIAmt"))
+                    Dim dblAmount As Decimal = clsCommon.myCDecimal(drEMI("EMIAmt"))
                     If dblAmount > 0 Then
                         Dim objPay As clsPaymentHeader = New clsPaymentHeader()
                         objPay.Payment_No = ""
@@ -2263,8 +2502,8 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
                         objPayTr.Apply = "1"
                         objPayTr.Payment_Type = "AD"
                         objPayTr.Document_No = clsCommon.myCstr(dtAPDebitNote.Rows(0)("Document_No"))
-                        objPayTr.Net_Balance = clsCommon.myCdbl(dtAPDebitNote.Rows(0)("Document_Total"))
-                        objPayTr.Original_Invoice_Amt = clsCommon.myCdbl(dtAPDebitNote.Rows(0)("Document_Total"))
+                        objPayTr.Net_Balance = clsCommon.myCDecimal(dtAPDebitNote.Rows(0)("Document_Total"))
+                        objPayTr.Original_Invoice_Amt = clsCommon.myCDecimal(dtAPDebitNote.Rows(0)("Document_Total"))
                         objPayTr.Applied_Amount = dblAmount
                         'objPayTr.Pending_Balance = KFAmt
                         objPayTr.Vendor_Invoice_No = objHead.DOC_CODE
@@ -2281,7 +2520,7 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
     Sub VSPCommissionAndDeduction(ByVal FromDate As Date, ByVal ToDate As Date, ByVal objHead As clsMilkPurchaseInvoiceMCC, ByVal strSRN_No As List(Of String), ByVal trans As SqlTransaction)
         If strSRN_No IsNot Nothing AndAlso strSRN_No.Count > 0 Then
             Dim dblAmount As Decimal
-            Dim settVSPDayWiseIncentiveAtSRN As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPDayWiseIncentiveAtSRN, clsFixedParameterCode.VSPDayWiseIncentiveAtSRN, trans)) > 0)
+            Dim settVSPDayWiseIncentiveAtSRN As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.VSPDayWiseIncentiveAtSRN, clsFixedParameterCode.VSPDayWiseIncentiveAtSRN, trans)) > 0)
 
             Dim qry As String = "update TSPL_MILK_SRN_DETAIL set VSP_Commission_Apply=0, VSP_Deduction_Apply=0 "
             If Not settVSPDayWiseIncentiveAtSRN Then
@@ -2329,7 +2568,7 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
                         If dtSRN IsNot Nothing AndAlso dtSRN.Rows.Count > 0 Then
                             If objVSPComm.Commission_Rate > 0 Then
                                 Dim dtFATSNFUploader As DataTable = clsDBFuncationality.GetDataTable("select top 1 Price_Code,Planning_Code  from TSPL_FAT_SNF_UPLOADER_MASTER where Code='" + clsCommon.myCstr(dtSRN.Rows(0)("Price_Code")) + "'", trans)
-                                dclVSP_Commission_Amount = clsEkoPro.GetRateCalculated(clsCommon.myCstr(dtFATSNFUploader.Rows(0)("Planning_Code")), clsCommon.myCstr(dtFATSNFUploader.Rows(0)("Price_Code")), clsCommon.myCdbl(dtSRN.Rows(0)("Qty")), clsCommon.myCdbl(dtSRN.Rows(0)("FAT_PER")), clsCommon.myCdbl(dtSRN.Rows(0)("SNF_PER")), trans, objVSPComm.Commission_Rate)
+                                dclVSP_Commission_Amount = clsEkoPro.GetRateCalculated(clsCommon.myCstr(dtFATSNFUploader.Rows(0)("Planning_Code")), clsCommon.myCstr(dtFATSNFUploader.Rows(0)("Price_Code")), clsCommon.myCDecimal(dtSRN.Rows(0)("Qty")), clsCommon.myCDecimal(dtSRN.Rows(0)("FAT_PER")), clsCommon.myCDecimal(dtSRN.Rows(0)("SNF_PER")), trans, objVSPComm.Commission_Rate)
                             End If
                         End If
                     End If
@@ -2338,12 +2577,12 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
                             dtSRN = getSRN(strSRN, trans)
                         End If
                         If dtSRN IsNot Nothing AndAlso dtSRN.Rows.Count > 0 Then
-                            If clsCommon.myCdbl(dtSRN.Rows(0)("FAT_PER")) < objVSPDeduction.Deduction_Minimum_FAT_Per OrElse clsCommon.myCdbl(dtSRN.Rows(0)("SNF_PER")) < objVSPDeduction.Deduction_Minimum_SNF_Per Then
+                            If clsCommon.myCDecimal(dtSRN.Rows(0)("FAT_PER")) < objVSPDeduction.Deduction_Minimum_FAT_Per OrElse clsCommon.myCDecimal(dtSRN.Rows(0)("SNF_PER")) < objVSPDeduction.Deduction_Minimum_SNF_Per Then
                                 If objVSPDeduction.Deduction_Rate > 0 Then
                                     If objVSPDeduction.Deduction_On = 0 Then ''Apply On Rate
-                                        dclVSP_Deduction_Amount = Math.Round(objVSPDeduction.Deduction_Rate * clsCommon.myCdbl(dtSRN.Rows(0)("Qty")), 0, MidpointRounding.AwayFromZero)
+                                        dclVSP_Deduction_Amount = Math.Round(objVSPDeduction.Deduction_Rate * clsCommon.myCDecimal(dtSRN.Rows(0)("Qty")), 0, MidpointRounding.AwayFromZero)
                                     Else ''Apply On Percentage
-                                        dclVSP_Deduction_Amount = Math.Round((objVSPDeduction.Deduction_Rate * clsCommon.myCdbl(dtSRN.Rows(0)("NET_AMOUNT"))) / 100, 0, MidpointRounding.AwayFromZero)
+                                        dclVSP_Deduction_Amount = Math.Round((objVSPDeduction.Deduction_Rate * clsCommon.myCDecimal(dtSRN.Rows(0)("NET_AMOUNT"))) / 100, 0, MidpointRounding.AwayFromZero)
                                     End If
                                 End If
                             End If
@@ -2357,12 +2596,12 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
                 Next
 
                 qry = "select count(*) from TSPL_MILK_PURCHASE_INVOICE_HEAD where vsp_code='" + objHead.VSP_CODE + "' and DOC_CODE not in ('" + objHead.DOC_CODE + "')"
-                Dim countInv As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+                Dim countInv As Integer = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans))
                 If objVSPComm IsNot Nothing Then
-                    If countInv >= clsCommon.myCdbl(objVSPComm.Commission_No_Of_Payment_Cycle_For_New_VSP) Then
+                    If countInv >= clsCommon.myCDecimal(objVSPComm.Commission_No_Of_Payment_Cycle_For_New_VSP) Then
                         dt = clsDBFuncationality.GetDataTable(BaseQry, trans)
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                            If dt.Rows.Count >= clsCommon.myCdbl(objVSPComm.Commission_Minimum_Shift_In_Payment_Cycle) Then
+                            If dt.Rows.Count >= clsCommon.myCDecimal(objVSPComm.Commission_Minimum_Shift_In_Payment_Cycle) Then
                                 qry = BaseQry + " and Qty >=" + clsCommon.myCstr(objVSPComm.Commission_Minimum_Qty_In_Shift) + ""
                                 dt = clsDBFuncationality.GetDataTable(qry, trans)
                                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
@@ -2411,17 +2650,17 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
                                 dtVSPdayWiseIncentive = clsDBFuncationality.GetDataTable(qry, trans)
                                 If dtVSPdayWiseIncentive IsNot Nothing AndAlso dtVSPdayWiseIncentive.Rows.Count > 0 Then
                                     For ii As Integer = 5 To 1 Step -1
-                                        If clsCommon.myCdbl(dtVSPdayWiseIncentive.Rows(0)("Day_Wise_Incentive_Rate_" + clsCommon.myCstr(ii) + "")) > 0 Then
-                                            If clsCommon.myCdbl(dr("Qty")) >= clsCommon.myCdbl(dtVSPdayWiseIncentive.Rows(0)("Day_Wise_Incentive_From_" + clsCommon.myCstr(ii) + "")) AndAlso clsCommon.myCdbl(dr("Qty")) <= clsCommon.myCdbl(dtVSPdayWiseIncentive.Rows(0)("Day_Wise_Incentive_To_" + clsCommon.myCstr(ii) + "")) Then
+                                        If clsCommon.myCDecimal(dtVSPdayWiseIncentive.Rows(0)("Day_Wise_Incentive_Rate_" + clsCommon.myCstr(ii) + "")) > 0 Then
+                                            If clsCommon.myCDecimal(dr("Qty")) >= clsCommon.myCDecimal(dtVSPdayWiseIncentive.Rows(0)("Day_Wise_Incentive_From_" + clsCommon.myCstr(ii) + "")) AndAlso clsCommon.myCDecimal(dr("Qty")) <= clsCommon.myCDecimal(dtVSPdayWiseIncentive.Rows(0)("Day_Wise_Incentive_To_" + clsCommon.myCstr(ii) + "")) Then
                                                 qry = "select DOC_CODE,Qty,FAT_PER,SNF_PER,Price_Code,NET_AMOUNT from TSPL_MILK_SRN_DETAIL where DOC_CODE in (" +
                                                     "select  DOC_CODE from TSPL_MILK_SRN_HEAD where DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) + ") and  convert(date, DOC_DATE,103)='" + clsCommon.myCstr(dr("DOC_DATE")) + "')"
                                                 Dim dtSRND As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                                                 If dtSRND IsNot Nothing AndAlso dtSRND.Rows.Count > 0 Then
                                                     For Each drSRND As DataRow In dtSRND.Rows
                                                         Dim strPMCode As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 Price_Code  from TSPL_FAT_SNF_UPLOADER_MASTER where Code='" + clsCommon.myCstr(drSRND("Price_Code")) + "'", trans))
-                                                        Dim IncAmt As Decimal = clsEkoPro.GetRateCalculatedExact(strPMCode, clsCommon.myCdbl(drSRND("Qty")), clsCommon.myCdbl(drSRND("FAT_PER")), clsCommon.myCdbl(drSRND("SNF_PER")), trans, clsCommon.myCdbl(dtVSPdayWiseIncentive.Rows(0)("Day_Wise_Incentive_Rate_" + clsCommon.myCstr(ii) + "")))
-                                                        IncAmt -= clsCommon.myCdbl(drSRND("NET_AMOUNT"))
-                                                        qry = "update TSPL_MILK_SRN_DETAIL set VSP_Day_Wise_Incentive_Rate='" + clsCommon.myCstr(clsCommon.myCdbl(dtVSPdayWiseIncentive.Rows(0)("Day_Wise_Incentive_Rate_" + clsCommon.myCstr(ii) + ""))) + "', VSP_Day_Wise_Incentive=" + clsCommon.myCstr(IncAmt) + ",VSP_Mapping_Code_Day_Wise_Incentive='" + objVSPMapping.Code + "' where DOC_CODE='" + clsCommon.myCstr(drSRND("DOC_CODE")) + "'"
+                                                        Dim IncAmt As Decimal = clsEkoPro.GetRateCalculatedExact(strPMCode, clsCommon.myCDecimal(drSRND("Qty")), clsCommon.myCDecimal(drSRND("FAT_PER")), clsCommon.myCDecimal(drSRND("SNF_PER")), trans, clsCommon.myCDecimal(dtVSPdayWiseIncentive.Rows(0)("Day_Wise_Incentive_Rate_" + clsCommon.myCstr(ii) + "")))
+                                                        IncAmt -= clsCommon.myCDecimal(drSRND("NET_AMOUNT"))
+                                                        qry = "update TSPL_MILK_SRN_DETAIL set VSP_Day_Wise_Incentive_Rate='" + clsCommon.myCstr(clsCommon.myCDecimal(dtVSPdayWiseIncentive.Rows(0)("Day_Wise_Incentive_Rate_" + clsCommon.myCstr(ii) + ""))) + "', VSP_Day_Wise_Incentive=" + clsCommon.myCstr(IncAmt) + ",VSP_Mapping_Code_Day_Wise_Incentive='" + objVSPMapping.Code + "' where DOC_CODE='" + clsCommon.myCstr(drSRND("DOC_CODE")) + "'"
                                                         clsDBFuncationality.ExecuteNonQuery(qry, trans)
                                                     Next
                                                 End If
@@ -2443,7 +2682,7 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
             qry = "select sum( VSP_Commission_Amount*VSP_Commission_Apply) as VSP_Commission_Amount,sum(VSP_Deduction_Amount *  VSP_Deduction_Apply) as VSP_Deduction_Amount,sum(VSP_Day_Wise_Incentive) as VSP_Day_Wise_Incentive from TSPL_MILK_SRN_DETAIL where DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) + ") "
             Dim dtAmt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
-                If clsCommon.myCdbl(dtAmt.Rows(0)("VSP_Commission_Amount")) > 0 Then
+                If clsCommon.myCDecimal(dtAmt.Rows(0)("VSP_Commission_Amount")) > 0 Then
 #Region "CreateCreditNotForCommision"
                     Dim objVendorInvHead As New clsVedorInvoiceHead()
                     objVendorInvHead.isDeduction = 0
@@ -2468,7 +2707,7 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                         objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                        If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                        If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                             objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                             objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                         End If
@@ -2496,7 +2735,7 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
                         objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
 
 
-                        dblAmount = clsERPFuncationality.myFloor(clsCommon.myCdbl(dtAmt.Rows(0)("VSP_Commission_Amount")), 0)
+                        dblAmount = clsERPFuncationality.myFloor(clsCommon.myCDecimal(dtAmt.Rows(0)("VSP_Commission_Amount")), 0)
                         objVendorInvDetail.Amount = dblAmount
                         objVendorInvDetail.Discount_Per = 0
                         objVendorInvDetail.Discount = 0
@@ -2532,7 +2771,7 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
                     CreateCostAdjustmentAgainstAPInvoice(dtSRNFATSNF, objVendorInvHead, objHead.MCC_CODE, objHead.MCC_NAME, "Cost Adjustment Against AP Invoice (VSP Commissioin) : ", trans)
                 End If
 
-                If clsCommon.myCdbl(dtAmt.Rows(0)("VSP_Deduction_Amount")) > 0 Then
+                If clsCommon.myCDecimal(dtAmt.Rows(0)("VSP_Deduction_Amount")) > 0 Then
 #Region "CreateDebitNotForDeduction"
                     'Dim objDedMapping As New clsDeductionMappingHead
                     'objDedMapping = objDedMapping.GetLatestMappingCode(objHead.MCC_CODE, objHead.VSP_CODE, objHead.DOC_DATE, trans)
@@ -2560,7 +2799,7 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                             objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                            If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                            If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                                 objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                                 objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                             End If
@@ -2593,7 +2832,7 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
                             objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                             objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
 
-                            dblAmount = Math.Round(clsCommon.myCdbl(dtAmt.Rows(0)("VSP_Deduction_Amount")), 0)
+                            dblAmount = Math.Round(clsCommon.myCDecimal(dtAmt.Rows(0)("VSP_Deduction_Amount")), 0)
                             objVendorInvDetail.Amount = dblAmount
                             objVendorInvDetail.Discount_Per = 0
                             objVendorInvDetail.Discount = 0
@@ -2636,7 +2875,7 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
 #End Region
                 End If
 
-                If clsCommon.myCdbl(dtAmt.Rows(0)("VSP_Day_Wise_Incentive")) > 0 Then
+                If clsCommon.myCDecimal(dtAmt.Rows(0)("VSP_Day_Wise_Incentive")) > 0 Then
 #Region "CreateCreditNotForVSPDayWiseIncentive"
                     Dim objVendorInvHead As New clsVedorInvoiceHead()
                     objVendorInvHead.isDeduction = 0
@@ -2661,7 +2900,7 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                         objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                        If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                        If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                             objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                             objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                         End If
@@ -2685,7 +2924,7 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
                         objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                         objVendorInvDetail.Detail_Line_No = ii
                         objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
-                        dblAmount = clsERPFuncationality.myFloor(clsCommon.myCdbl(dtAmt.Rows(0)("VSP_Day_Wise_Incentive")), 0)
+                        dblAmount = clsERPFuncationality.myFloor(clsCommon.myCDecimal(dtAmt.Rows(0)("VSP_Day_Wise_Incentive")), 0)
                         objVendorInvDetail.Amount = dblAmount
                         objVendorInvDetail.Discount_Per = 0
                         objVendorInvDetail.Discount = 0
@@ -2730,8 +2969,8 @@ from TSPL_PAYMENT_HEADER where TSPL_PAYMENT_HEADER.Entry_Desc = 'Apply document 
 
                 dblAmount = 0
 
-                Dim SettLocalSaleAllowedPer As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.LocalSaleAllowedPer, clsFixedParameterCode.LocalSaleAllowedPer, trans))
-                Dim SettLocalSaleRate As Decimal = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.LocalSaleAllowedRate, clsFixedParameterCode.LocalSaleAllowedRate, trans))
+                Dim SettLocalSaleAllowedPer As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.LocalSaleAllowedPer, clsFixedParameterCode.LocalSaleAllowedPer, trans))
+                Dim SettLocalSaleRate As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.LocalSaleAllowedRate, clsFixedParameterCode.LocalSaleAllowedRate, trans))
 
                 qry = clsMilkPurchaseInvoiceProvisionHead.GetQryProData(objHead.DOC_CODE, strVLCCode, strSRN_No, FromDate, ToDate, SettLocalSaleAllowedPer, SettLocalSaleRate, IsNewFormatApplicable)
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -2744,7 +2983,7 @@ select  NoteAmt,Local_Sale_Amt
 )xx"
                 dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
                 If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
-                    If clsCommon.myCdbl(dtAmt.Rows(0)("NoteAmt")) < 0 Then
+                    If clsCommon.myCDecimal(dtAmt.Rows(0)("NoteAmt")) < 0 Then
 #Region "CreateCreditNotForPROData"
                         Dim objVendorInvHead As New clsVedorInvoiceHead()
                         objVendorInvHead.isDeduction = 0
@@ -2769,7 +3008,7 @@ select  NoteAmt,Local_Sale_Amt
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                             objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                            If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                            If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                                 objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                                 objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                             End If
@@ -2795,7 +3034,7 @@ select  NoteAmt,Local_Sale_Amt
                             objVendorInvDetail.Detail_Line_No = ii
                             objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
 
-                            dblAmount = Math.Abs(clsERPFuncationality.myFloor(clsCommon.myCdbl(dtAmt.Rows(0)("NoteAmt")), 0))
+                            dblAmount = Math.Abs(clsERPFuncationality.myFloor(clsCommon.myCDecimal(dtAmt.Rows(0)("NoteAmt")), 0))
                             objVendorInvDetail.Amount = dblAmount
                             objVendorInvDetail.Discount_Per = 0
                             objVendorInvDetail.Discount = 0
@@ -2828,7 +3067,7 @@ select  NoteAmt,Local_Sale_Amt
 
                         CreateCostAdjustmentAgainstAPInvoice(dtSRNFATSNF, objVendorInvHead, objHead.MCC_CODE, objHead.MCC_NAME, "Cost Adjustment Against AP Invoice (Farmer PRO Credit Note) : ", trans)
 #End Region
-                    ElseIf clsCommon.myCdbl(dtAmt.Rows(0)("NoteAmt")) > 0 Then
+                    ElseIf clsCommon.myCDecimal(dtAmt.Rows(0)("NoteAmt")) > 0 Then
 #Region "CreateDebitNotForProDATA"
                         If True Then
                             Dim objVendorInvHead As New clsVedorInvoiceHead()
@@ -2854,7 +3093,7 @@ select  NoteAmt,Local_Sale_Amt
                             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                 objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                                 objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                                If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                                If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                                     objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                                     objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                                 End If
@@ -2867,7 +3106,7 @@ select  NoteAmt,Local_Sale_Amt
                             Dim isFirstTime As Boolean = True
                             objVendorInvHead.Total_Landed_Amt = 0
                             objVendorInvHead.ArrAssetEMI = New List(Of clsAPInvoiceAssetEMIDetails)()
-                            dblAmount = Math.Round(clsCommon.myCdbl(dtAmt.Rows(0)("NoteAmt")), 0)
+                            dblAmount = Math.Round(clsCommon.myCDecimal(dtAmt.Rows(0)("NoteAmt")), 0)
                             If True Then
                                 ''Set AP Invvoice Detail Table
                                 Dim dtDed As DataTable = clsDBFuncationality.GetDataTable("select code,GL_Account_Code from TSPL_DEDUCTION_MASTER  where Is_Default_PRO_Data=1", trans)
@@ -2931,7 +3170,7 @@ select  NoteAmt,Local_Sale_Amt
                     End If
                     If IsNewFormatApplicable Then
 #Region "DebitNoteOfStdDeduction"
-                        dblAmount = Math.Round(clsCommon.myCdbl(dtAmt.Rows(0)("StdDedAmt")), 0)
+                        dblAmount = Math.Round(clsCommon.myCDecimal(dtAmt.Rows(0)("StdDedAmt")), 0)
                         If dblAmount > 0 Then
                             Dim objVendorInvHead As New clsVedorInvoiceHead()
                             objVendorInvHead.isDeduction = 1
@@ -2956,7 +3195,7 @@ select  NoteAmt,Local_Sale_Amt
                             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                 objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                                 objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                                If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                                If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                                     objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                                     objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                                 End If
@@ -3032,7 +3271,7 @@ select  NoteAmt,Local_Sale_Amt
 #End Region
 
 #Region "DebitNoteOfLocalSale"
-                        dblAmount = Math.Round(clsCommon.myCdbl(dtAmt.Rows(0)("Local_Sale_Amt")), 0)
+                        dblAmount = Math.Round(clsCommon.myCDecimal(dtAmt.Rows(0)("Local_Sale_Amt")), 0)
                         If dblAmount > 0 Then
                             Dim objVendorInvHead As New clsVedorInvoiceHead()
                             objVendorInvHead.isDeduction = 1
@@ -3057,7 +3296,7 @@ select  NoteAmt,Local_Sale_Amt
                             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                 objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                                 objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                                If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                                If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                                     objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                                     objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                                 End If
@@ -3207,7 +3446,7 @@ where  TSPL_MILK_SRN_HEAD.MCC_CODE='" + objHead.MCC_CODE + "' and TSPL_MILK_SRN_
                 dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
                 dblAmount = 0
                 If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
-                    If clsCommon.myCdbl(dtAmt.Rows(0)("NoteAmt")) > 0 Then
+                    If clsCommon.myCDecimal(dtAmt.Rows(0)("NoteAmt")) > 0 Then
 
                         Dim objVendorInvHead As New clsVedorInvoiceHead()
                         objVendorInvHead.isDeduction = 0
@@ -3234,7 +3473,7 @@ where  TSPL_MILK_SRN_HEAD.MCC_CODE='" + objHead.MCC_CODE + "' and TSPL_MILK_SRN_
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                             objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                            If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                            If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                                 objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                                 objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                             End If
@@ -3268,7 +3507,7 @@ where  TSPL_MILK_SRN_HEAD.MCC_CODE='" + objHead.MCC_CODE + "' and TSPL_MILK_SRN_
                             objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                             objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
 
-                            dblAmount = Math.Abs(clsCommon.myCdbl(dtAmt.Rows(0)("NoteAmt")))
+                            dblAmount = Math.Abs(clsCommon.myCDecimal(dtAmt.Rows(0)("NoteAmt")))
                             objVendorInvDetail.Amount = dblAmount
                             objVendorInvDetail.Discount_Per = 0
                             objVendorInvDetail.Discount = 0
@@ -3372,14 +3611,14 @@ where '" + clsCommon.GetPrintDate(clsCommon.myCDate(dr("Document_Date")), "dd/MM
                                         AgainstDocCode = clsCommon.myCstr(dtTemp.Rows(0)("FindCode"))
                                         If clsCommon.myLen(AgainstDocCode) > 0 Then
                                             If clsCommon.myCDecimal(dr("DiffFATKG")) < 0 Then
-                                                FAT_Rate = clsCommon.myCdbl(dtTemp.Rows(0)("Loss_FAT_Rate"))
+                                                FAT_Rate = clsCommon.myCDecimal(dtTemp.Rows(0)("Loss_FAT_Rate"))
                                             Else
-                                                FAT_Rate = clsCommon.myCdbl(dtTemp.Rows(0)("Gain_FAT_Rate"))
+                                                FAT_Rate = clsCommon.myCDecimal(dtTemp.Rows(0)("Gain_FAT_Rate"))
                                             End If
                                             If clsCommon.myCDecimal(dr("DiffSNFKG")) < 0 Then
-                                                SNF_Rate = clsCommon.myCdbl(dtTemp.Rows(0)("Loss_SNF_Rate"))
+                                                SNF_Rate = clsCommon.myCDecimal(dtTemp.Rows(0)("Loss_SNF_Rate"))
                                             Else
-                                                SNF_Rate = clsCommon.myCdbl(dtTemp.Rows(0)("Gain_SNF_Rate"))
+                                                SNF_Rate = clsCommon.myCDecimal(dtTemp.Rows(0)("Gain_SNF_Rate"))
                                             End If
                                         End If
                                     End If
@@ -3392,7 +3631,7 @@ where '" + clsCommon.GetPrintDate(clsCommon.myCDate(dr("Document_Date")), "dd/MM
                                     If dtMilkPrice Is Nothing OrElse dtMilkPrice.Rows.Count <= 0 Then
                                         Throw New Exception("Price Not found While Making Dr/Cr Note of Own DCS")
                                     End If
-                                    Dim arr As clsFatSnfRateCalculator = clsFatSnfRateCalculator.CalculateFATSNFRatefromTransactionPer(clsCommon.myCDecimal(dr("MCCQty")), dblAmt, clsCommon.myCDecimal(dr("MCCFAT")), clsCommon.myCDecimal(dr("MCCSNF")), clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Snf_Ratio")))
+                                    Dim arr As clsFatSnfRateCalculator = clsFatSnfRateCalculator.CalculateFATSNFRatefromTransactionPer(clsCommon.myCDecimal(dr("MCCQty")), dblAmt, clsCommon.myCDecimal(dr("MCCFAT")), clsCommon.myCDecimal(dr("MCCSNF")), clsCommon.myCDecimal(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCDecimal(dtMilkPrice.Rows(0).Item("Snf_Ratio")))
                                     FAT_Rate = arr.fatR
                                     SNF_Rate = arr.snfR
                                     clsCommon.AddColumnsForChange(coll, "Planning_Code", AgainstDocCode, True)
@@ -3447,7 +3686,7 @@ where '" + clsCommon.GetPrintDate(clsCommon.myCDate(dr("Document_Date")), "dd/MM
                         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                             objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                             objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                            If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                            If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                                 objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                                 objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                             End If
@@ -3539,7 +3778,7 @@ where '" + clsCommon.GetPrintDate(clsCommon.myCDate(dr("Document_Date")), "dd/MM
                             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                 objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                                 objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                                If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                                If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                                     objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                                     objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                                 End If
@@ -3628,8 +3867,8 @@ where TSPL_MILK_SRN_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDate
                 Dim AvgSNF As Decimal = clsCommon.myCDecimal(dt.Rows(0)("SNFPer"))
                 Dim strPriceCode As String = ""
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, trans)) > 0)
-                    Dim PickPriceFromFATAndSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.PickPriceFromFATAndSNF, trans)) > 0)
+                    Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, trans)) > 0)
+                    Dim PickPriceFromFATAndSNF As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.PickPriceFromFATAndSNF, trans)) > 0)
                     If isPickCLRInsteadOfSNF Then
                         If PickPriceFromFATAndSNF Then
                             AvgRate = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(clsCommon.myCDecimal(dt.Rows(0)("Qty")), strPriceCode, AvgFAT, AvgSNF, objHead.MCC_CODE, strVLCCode, "M", objHead.DOC_DATE, trans, "M", 0, 0)
@@ -3701,7 +3940,7 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=" + clsCommon.myCstr(dr("PK_Id")) +
                 dblAmount = 0
                 If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
                     For Each dr As DataRow In dtAmt.Rows
-                        If clsCommon.myCdbl(dr("Amount")) > 0 Then
+                        If clsCommon.myCDecimal(dr("Amount")) > 0 Then
 #Region "CreateDebitNotForOWNBMC"
                             If True Then
                                 Dim objVendorInvHead As New clsVedorInvoiceHead()
@@ -3728,7 +3967,7 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=" + clsCommon.myCstr(dr("PK_Id")) +
                                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                     objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                                     objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                                    If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                                    If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                                         objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                                         objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                                     End If
@@ -3741,7 +3980,7 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=" + clsCommon.myCstr(dr("PK_Id")) +
                                 Dim isFirstTime As Boolean = True
                                 objVendorInvHead.Total_Landed_Amt = 0
                                 objVendorInvHead.ArrAssetEMI = New List(Of clsAPInvoiceAssetEMIDetails)()
-                                dblAmount = Math.Abs(clsCommon.myCdbl(dr("Amount")))
+                                dblAmount = Math.Abs(clsCommon.myCDecimal(dr("Amount")))
                                 If True Then
                                     ''Set AP Invvoice Detail Table
                                     Dim dtDed As DataTable = clsDBFuncationality.GetDataTable("select code,GL_Account_Code from TSPL_DEDUCTION_MASTER  where Own_BMC_Milk_Reject_Type='" + clsCommon.myCstr(dr("Milk_Type")) + "'", trans)
@@ -3954,7 +4193,7 @@ where TSPL_VENDOR_INVOICE_HEAD.RefDocType  in ('DCS-ADD','DCS-DED') and TSPL_VEN
                             End If
                         End If
 
-                        If clsCommon.myCdbl(drAmt("Nature_Type")) = 0 Then
+                        If clsCommon.myCDecimal(drAmt("Nature_Type")) = 0 Then
 #Region "CreateCreditNotForDCSAddition"
                             Dim objVendorInvHead As New clsVedorInvoiceHead()
                             objVendorInvHead.isDeduction = 0
@@ -3979,7 +4218,7 @@ where TSPL_VENDOR_INVOICE_HEAD.RefDocType  in ('DCS-ADD','DCS-DED') and TSPL_VEN
                             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                 objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                                 objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                                If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                                If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                                     objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                                     objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                                 End If
@@ -4033,7 +4272,7 @@ where TSPL_VENDOR_INVOICE_HEAD.RefDocType  in ('DCS-ADD','DCS-DED') and TSPL_VEN
                             End If
                             objVendorInvHead.ApplicableFrom = objVendorInvHead.Invoice_Entry_Date
                             objVendorInvHead.Main_VSP_Milk_AP_Invoice_No = clsVedorInvoiceHead.GetMainVSPMilkAPInvoiceNo(ToDate, objVendorInvHead.Vendor_Code, trans)
-                            If clsCommon.myCdbl(drAmt("Apply_TDS")) = 1 Then
+                            If clsCommon.myCDecimal(drAmt("Apply_TDS")) = 1 Then
                                 Dim dblPreviousTDSAmt As Decimal = 0
                                 Dim objRemittance As clsRemittance = SetVendorTDSDetails(True, objVendorInvHead.Document_No, objHead.DOC_DATE, dblPreviousTDSAmt, objVendorInvHead.Vendor_Code, objVendorInvHead.Document_Total, objVendorInvHead.Document_Total, trans)
                                 objVendorInvHead.RemittanceObject = objRemittance
@@ -4042,7 +4281,7 @@ where TSPL_VENDOR_INVOICE_HEAD.RefDocType  in ('DCS-ADD','DCS-DED') and TSPL_VEN
                             objVendorInvHead.SaveData(objVendorInvHead, True, trans)
                             clsVedorInvoiceHead.PostData("", objVendorInvHead.Document_No, "", trans)
 #End Region
-                        ElseIf clsCommon.myCdbl(drAmt("Nature_Type")) = 1 Then
+                        ElseIf clsCommon.myCDecimal(drAmt("Nature_Type")) = 1 Then
 #Region "CreateDebitNotForDCSDeduction"
                             If True Then
                                 Dim objVendorInvHead As New clsVedorInvoiceHead()
@@ -4068,7 +4307,7 @@ where TSPL_VENDOR_INVOICE_HEAD.RefDocType  in ('DCS-ADD','DCS-DED') and TSPL_VEN
                                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                     objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                                     objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                                    If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                                    If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                                         objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                                         objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                                     End If
@@ -4167,7 +4406,7 @@ where TSPL_VENDOR_INVOICE_HEAD.RefDocType  in ('DCS-ADD','DCS-DED') and TSPL_VEN
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                     objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                    If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                    If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                         objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                         objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                     End If
@@ -4257,7 +4496,7 @@ where TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                     objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                     objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                    If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                    If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                         objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                         objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                     End If
@@ -4320,7 +4559,7 @@ where TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No
 from TSPL_MILK_SRN_DETAIL 
 where TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) + ") "
             dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
-            If clsCommon.myCdbl(dtAmt.Rows(0)("Negative_Amount")) > 0 Then
+            If clsCommon.myCDecimal(dtAmt.Rows(0)("Negative_Amount")) > 0 Then
                 If True Then
                     Dim objVendorInvHead As New clsVedorInvoiceHead()
                     objVendorInvHead.isDeduction = 1
@@ -4345,7 +4584,7 @@ where TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                         objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                        If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                        If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                             objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                             objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                         End If
@@ -4378,7 +4617,7 @@ where TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No
                         objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                         objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
 
-                        dblAmount = Math.Round(clsCommon.myCdbl(dtAmt.Rows(0)("Negative_Amount")), 0)
+                        dblAmount = Math.Round(clsCommon.myCDecimal(dtAmt.Rows(0)("Negative_Amount")), 0)
                         objVendorInvDetail.Amount = dblAmount
                         objVendorInvDetail.Discount_Per = 0
                         objVendorInvDetail.Discount = 0
@@ -4425,7 +4664,7 @@ where TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No
             Dim qry As String = "select Commission_Rate,Deduction_Rate from TSPL_MCC_MASTER where MCC_Code='" + objHead.MCC_CODE + "'"
             Dim dtMCC As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dtMCC IsNot Nothing AndAlso dtMCC.Rows.Count > 0 Then
-                If clsCommon.myCdbl(dtMCC.Rows(0)("Commission_Rate")) > 0 OrElse clsCommon.myCdbl(dtMCC.Rows(0)("Deduction_Rate")) > 0 Then
+                If clsCommon.myCDecimal(dtMCC.Rows(0)("Commission_Rate")) > 0 OrElse clsCommon.myCDecimal(dtMCC.Rows(0)("Deduction_Rate")) > 0 Then
                     qry = "select sum(TSPL_MILK_SRN_DETAIL.AMOUNT) as AMOUNT,sum(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR) as ACC_WEIGHT_LTR from  TSPL_MILK_SRN_DETAIL 
 left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE 
 left outer join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE and TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
@@ -4434,10 +4673,10 @@ left outer join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE=TS
 where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) + ") "
                     Dim dtAmt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                     If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
-                        Dim settDCSAddDedRODecimalPlance As Integer = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPBillDocumentToBeAddedInMilkCost, clsFixedParameterCode.VSPBillDocumentToBeAddedInMilkCost, trans)) > 0)
+                        Dim settDCSAddDedRODecimalPlance As Integer = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.VSPBillDocumentToBeAddedInMilkCost, clsFixedParameterCode.VSPBillDocumentToBeAddedInMilkCost, trans)) > 0)
 
-                        If clsCommon.myCdbl(dtMCC.Rows(0)("Commission_Rate")) > 0 Then
-                            If clsCommon.myCdbl(dtAmt.Rows(0)("AMOUNT")) > 0 Then
+                        If clsCommon.myCDecimal(dtMCC.Rows(0)("Commission_Rate")) > 0 Then
+                            If clsCommon.myCDecimal(dtAmt.Rows(0)("AMOUNT")) > 0 Then
 #Region "CreateCreditNotForCommision"
                                 Dim objVendorInvHead As New clsVedorInvoiceHead()
                                 objVendorInvHead.isDeduction = 0
@@ -4462,7 +4701,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
                                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                     objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                                     objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                                    If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                                    If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                                         objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                                         objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                                     End If
@@ -4490,7 +4729,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
                                     objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
 
 
-                                    Dim dblAmount As Decimal = clsERPFuncationality.myFloor((clsCommon.myCdbl(dtAmt.Rows(0)("AMOUNT")) * clsCommon.myCdbl(dtMCC.Rows(0)("Commission_Rate"))) / 100, 0)
+                                    Dim dblAmount As Decimal = clsERPFuncationality.myFloor((clsCommon.myCDecimal(dtAmt.Rows(0)("AMOUNT")) * clsCommon.myCDecimal(dtMCC.Rows(0)("Commission_Rate"))) / 100, 0)
                                     objVendorInvDetail.Amount = dblAmount
                                     objVendorInvDetail.Discount_Per = 0
                                     objVendorInvDetail.Discount = 0
@@ -4524,8 +4763,8 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
 #End Region
                             End If
                         End If
-                        If clsCommon.myCdbl(dtMCC.Rows(0)("Deduction_Rate")) > 0 Then
-                            If clsCommon.myCdbl(dtAmt.Rows(0)("ACC_WEIGHT_LTR")) > 0 Then
+                        If clsCommon.myCDecimal(dtMCC.Rows(0)("Deduction_Rate")) > 0 Then
+                            If clsCommon.myCDecimal(dtAmt.Rows(0)("ACC_WEIGHT_LTR")) > 0 Then
 #Region "CreateDebitNotForPashuVikashKos"
                                 If True Then
                                     Dim objVendorInvHead As New clsVedorInvoiceHead()
@@ -4551,7 +4790,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
                                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                         objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                                         objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                                        If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                                        If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                                             objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                                             objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                                         End If
@@ -4584,7 +4823,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
                                         objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
                                         objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
 
-                                        Dim dblAmount As Decimal = Math.Round(clsCommon.myCdbl(dtAmt.Rows(0)("ACC_WEIGHT_LTR")) * clsCommon.myCdbl(dtMCC.Rows(0)("Deduction_Rate")), 0)
+                                        Dim dblAmount As Decimal = Math.Round(clsCommon.myCDecimal(dtAmt.Rows(0)("ACC_WEIGHT_LTR")) * clsCommon.myCDecimal(dtMCC.Rows(0)("Deduction_Rate")), 0)
                                         objVendorInvDetail.Amount = dblAmount
                                         objVendorInvDetail.Discount_Per = 0
                                         objVendorInvDetail.Discount = 0
@@ -4633,7 +4872,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
         End If
     End Sub
     Public Shared Function CreateCostAdjustmentAgainstAPInvoice(ByVal dtSRNFATSNF As DataTable, ByVal objVendorInvHead As clsVedorInvoiceHead, ByVal strMCCCode As String, ByVal strMCCName As String, ByVal strPreDesc As String, ByVal trans As SqlTransaction) As Boolean
-        Dim SettVSPBillDocumentToBeAddedInMilkCost As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VSPBillDocumentToBeAddedInMilkCost, clsFixedParameterCode.VSPBillDocumentToBeAddedInMilkCost, trans)) > 0)
+        Dim SettVSPBillDocumentToBeAddedInMilkCost As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.VSPBillDocumentToBeAddedInMilkCost, clsFixedParameterCode.VSPBillDocumentToBeAddedInMilkCost, trans)) > 0)
         If SettVSPBillDocumentToBeAddedInMilkCost Then
             If dtSRNFATSNF IsNot Nothing AndAlso dtSRNFATSNF.Rows.Count > 0 Then
                 Dim objCostAdj As ClsAdjustments = Nothing
@@ -4677,7 +4916,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
                 objCostAdjTr.fat_kg = 0
                 objCostAdjTr.snf_pers = 0
                 objCostAdjTr.snf_kg = 0
-                objCostAdjTr.fat_Amt = clsCommon.myCDivide((objVendorInvHead.Document_Total * clsCommon.myCdbl(dtSRNFATSNF.Rows(0)("Fat_Amt"))), (clsCommon.myCdbl(dtSRNFATSNF.Rows(0)("Fat_Amt")) + clsCommon.myCdbl(dtSRNFATSNF.Rows(0)("SNF_Amt"))))
+                objCostAdjTr.fat_Amt = clsCommon.myCDivide((objVendorInvHead.Document_Total * clsCommon.myCDecimal(dtSRNFATSNF.Rows(0)("Fat_Amt"))), (clsCommon.myCDecimal(dtSRNFATSNF.Rows(0)("Fat_Amt")) + clsCommon.myCDecimal(dtSRNFATSNF.Rows(0)("SNF_Amt"))))
                 objCostAdjTr.snf_Amt = objVendorInvHead.Document_Total - objCostAdjTr.fat_Amt
                 objCostAdj.Arr.Add(objCostAdjTr)
 
@@ -4857,7 +5096,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
                 objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
-                If clsCommon.myCdbl(objVendorInvHead.Discount_Amount) > 0 Then
+                If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
                     objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
                     objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
                 End If
@@ -5104,7 +5343,7 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
                         '          Dim dr() As DataRow = DtShiftEnd.Select("vlc_code='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colVLC_NO).Value) & "' and srn_code='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colSRN_CODE).Value) & "'")
                         '          'Dim dr() As DataRow = DtShiftEnd.Select("vlc_code='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colVLC_NO).Value) & "'")
                         '          If dr.Length > 0 Then
-                        '              gv1.Rows(gv1.Rows.Count - 1).Cells(colDeduction).Value = IIf(clsCommon.myCstr(dr(0)("A_Or_R")) = "R", clsCommon.myCdbl(gv1.Rows(gv1.Rows.Count - 1).Cells(colAMOUNT).Value) * clsCommon.myCdbl(dr(0)("Deduction_of_VSP")) / 100, clsCommon.myCdbl(dr(0)("Deduction_of_VSP")))
+                        '              gv1.Rows(gv1.Rows.Count - 1).Cells(colDeduction).Value = IIf(clsCommon.myCstr(dr(0)("A_Or_R")) = "R", clsCommon.myCDecimal(gv1.Rows(gv1.Rows.Count - 1).Cells(colAMOUNT).Value) * clsCommon.myCDecimal(dr(0)("Deduction_of_VSP")) / 100, clsCommon.myCDecimal(dr(0)("Deduction_of_VSP")))
                         '          End If
                         '      End If
                         '      If Not Is_With_Bill Then
@@ -5163,77 +5402,77 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
                         For Each obj1 As clsMilkSRNMCCDetail In frm.ArrReturn
                             obj = New clsMilkPurchaseInvoiceMCCDetail
                             obj.DOC_CODE = ""
-                            obj.AMOUNT = clsCommon.myCdbl(obj1.AMOUNT)
-                            obj.Cans = clsCommon.myCdbl(obj1.Cans)
-                            obj.CLR = clsCommon.myCdbl(obj1.CLR)
-                            obj.COMMISSION = clsCommon.myCdbl(obj1.Commission)
-                            obj.Payment_COMMISSION = clsCommon.myCdbl(obj1.Payment_Commission)
+                            obj.AMOUNT = clsCommon.myCDecimal(obj1.AMOUNT)
+                            obj.Cans = clsCommon.myCDecimal(obj1.Cans)
+                            obj.CLR = clsCommon.myCDecimal(obj1.CLR)
+                            obj.COMMISSION = clsCommon.myCDecimal(obj1.Commission)
+                            obj.Payment_COMMISSION = clsCommon.myCDecimal(obj1.Payment_Commission)
                             If DtShiftEnd.Rows.Count > 0 Then
                                 Dim dr() As DataRow = DtShiftEnd.Select("vlc_code='" & clsCommon.myCstr(obj1.VlC_Code) & "' and srn_code='" & clsCommon.myCstr(obj1.DOC_CODE) & "'")
                                 'Dim dr() As DataRow = DtShiftEnd.Select("vlc_code='" & clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colVLC_NO).Value) & "'")
                                 If dr.Length > 0 Then
-                                    obj.Deduction = IIf(clsCommon.myCstr(dr(0)("A_Or_R")) = "R", clsCommon.myCdbl(obj1.AMOUNT) * clsCommon.myCdbl(dr(0)("Deduction_of_VSP")) / 100, clsCommon.myCdbl(dr(0)("Deduction_of_VSP")))
+                                    obj.Deduction = IIf(clsCommon.myCstr(dr(0)("A_Or_R")) = "R", clsCommon.myCDecimal(obj1.AMOUNT) * clsCommon.myCDecimal(dr(0)("Deduction_of_VSP")) / 100, clsCommon.myCDecimal(dr(0)("Deduction_of_VSP")))
                                 End If
                             End If
-                            'obj.Deduction = clsCommon.myCdbl(grow.Cells(colDeduction).Value)
-                            obj.Own_Asset_Amount = clsCommon.myCdbl(obj1.Own_Asset_Amount)
-                            obj.Head_Load_Amount = clsCommon.myCdbl(obj1.Head_Load_Amount)
-                            obj.Correction_Factor = clsCommon.myCdbl(obj1.Correction_Factor)
-                            obj.FAT_PER = clsCommon.myCdbl(obj1.FAT)
-                            'obj.Incentive = clsCommon.myCdbl(grow.Cells(colIncentive).Value)
-                            'obj.IncentiveEMP = clsCommon.myCdbl(grow.Cells(colIncentiveEMP).Value)
+                            'obj.Deduction = clsCommon.myCDecimal(grow.Cells(colDeduction).Value)
+                            obj.Own_Asset_Amount = clsCommon.myCDecimal(obj1.Own_Asset_Amount)
+                            obj.Head_Load_Amount = clsCommon.myCDecimal(obj1.Head_Load_Amount)
+                            obj.Correction_Factor = clsCommon.myCDecimal(obj1.Correction_Factor)
+                            obj.FAT_PER = clsCommon.myCDecimal(obj1.FAT)
+                            'obj.Incentive = clsCommon.myCDecimal(grow.Cells(colIncentive).Value)
+                            'obj.IncentiveEMP = clsCommon.myCDecimal(grow.Cells(colIncentiveEMP).Value)
                             obj.Item_Code = clsCommon.myCstr(obj1.Item_CODE)
                             obj.MCC_CODE = obj1.MCC_CODE
-                            obj.Qty = clsCommon.myCdbl(obj1.MILK_Qty)
-                            obj.Acc_Qty = clsCommon.myCdbl(obj1.ACC_Qty)
+                            obj.Qty = clsCommon.myCDecimal(obj1.MILK_Qty)
+                            obj.Acc_Qty = clsCommon.myCDecimal(obj1.ACC_Qty)
                             obj.Service_Charge = clsCommon.myCstr(obj1.Service_Charge_Type)
-                            obj.RATE = clsCommon.myCdbl(obj1.RATE)
-                            obj.SNF_PER = clsCommon.myCdbl(obj1.SNF)
-                            obj.Head_Load_Amount = clsCommon.myCdbl(obj1.Head_Load_Amount)
-                            'obj.Own_Asset_Amount = clsCommon.myCdbl(obj1.Own_Asset_Amount)
+                            obj.RATE = clsCommon.myCDecimal(obj1.RATE)
+                            obj.SNF_PER = clsCommon.myCDecimal(obj1.SNF)
+                            obj.Head_Load_Amount = clsCommon.myCDecimal(obj1.Head_Load_Amount)
+                            'obj.Own_Asset_Amount = clsCommon.myCDecimal(obj1.Own_Asset_Amount)
                             '=====================================
                             Dim Commission_AMount As Double = 0
                             Dim Payment_Commission_AMount As Double = 0
                             If clsCommon.myCstr(obj1.Service_Charge_Type) = "%(Percentage)" Then
                                 'grow.Cells(colCOMMISSIONAmount).Value = grow.Cells(colAMOUNT).Value * grow.Cells(colCOMMISSION).Value / 100
                                 'grow.Cells(colPaymentCOMMISSIONAmount).Value = grow.Cells(colAMOUNT).Value * grow.Cells(colPaymentCOMMISSION).Value / 100
-                                'grow.Cells(colIncentiveEMP).Value = clsCommon.myCdbl(grow.Cells(colIncentive).Value) * grow.Cells(colPaymentCOMMISSION).Value / 100
+                                'grow.Cells(colIncentiveEMP).Value = clsCommon.myCDecimal(grow.Cells(colIncentive).Value) * grow.Cells(colPaymentCOMMISSION).Value / 100
 
-                                Commission_AMount = Math.Round(clsCommon.myCdbl(obj1.AMOUNT) * clsCommon.myCdbl(obj1.Commission) / 100, 2)
-                                Payment_Commission_AMount = Math.Round(clsCommon.myCdbl(obj1.AMOUNT) * clsCommon.myCdbl(obj1.Payment_Commission) / 100, 2)
-                                ' obj1.i = Math.Round(clsCommon.myCdbl(obj1.AMOUNT) * clsCommon.myCdbl(obj1.Payment_Commission) / 100, 2)
+                                Commission_AMount = Math.Round(clsCommon.myCDecimal(obj1.AMOUNT) * clsCommon.myCDecimal(obj1.Commission) / 100, 2)
+                                Payment_Commission_AMount = Math.Round(clsCommon.myCDecimal(obj1.AMOUNT) * clsCommon.myCDecimal(obj1.Payment_Commission) / 100, 2)
+                                ' obj1.i = Math.Round(clsCommon.myCDecimal(obj1.AMOUNT) * clsCommon.myCDecimal(obj1.Payment_Commission) / 100, 2)
                             ElseIf clsCommon.myCstr(obj1.Service_Charge_Type) = "Rate/Kg" Then
                                 'grow.Cells(colCOMMISSIONAmount).Value = grow.Cells(colAcc_Qty).Value * grow.Cells(colCOMMISSION).Value
                                 'grow.Cells(colPaymentCOMMISSIONAmount).Value = grow.Cells(colAcc_Qty).Value * grow.Cells(colPaymentCOMMISSION).Value
-                                'grow.Cells(colIncentiveEMP).Value = clsCommon.myCdbl(grow.Cells(colIncentive).Value) * grow.Cells(colPaymentCOMMISSION).Value / 100
+                                'grow.Cells(colIncentiveEMP).Value = clsCommon.myCDecimal(grow.Cells(colIncentive).Value) * grow.Cells(colPaymentCOMMISSION).Value / 100
 
-                                Commission_AMount = Math.Round(clsCommon.myCdbl(obj1.ACC_Qty) * clsCommon.myCdbl(obj1.Commission), 2)
-                                Payment_Commission_AMount = Math.Round(clsCommon.myCdbl(obj1.ACC_Qty) * clsCommon.myCdbl(obj1.Payment_Commission), 2)
+                                Commission_AMount = Math.Round(clsCommon.myCDecimal(obj1.ACC_Qty) * clsCommon.myCDecimal(obj1.Commission), 2)
+                                Payment_Commission_AMount = Math.Round(clsCommon.myCDecimal(obj1.ACC_Qty) * clsCommon.myCDecimal(obj1.Payment_Commission), 2)
                             ElseIf clsCommon.myCstr(obj1.Service_Charge_Type) = "Rate/Ltr" And clsCommon.myCstr(obj1.UOM) = "LTR" Then
                                 'grow.Cells(colCOMMISSIONAmount).Value = grow.Cells(colQty).Value * grow.Cells(colCOMMISSION).Value
                                 'grow.Cells(colPaymentCOMMISSIONAmount).Value = grow.Cells(colQty).Value * grow.Cells(colPaymentCOMMISSION).Value
-                                'grow.Cells(colIncentiveEMP).Value = clsCommon.myCdbl(grow.Cells(colIncentive).Value) * grow.Cells(colPaymentCOMMISSION).Value / 100
+                                'grow.Cells(colIncentiveEMP).Value = clsCommon.myCDecimal(grow.Cells(colIncentive).Value) * grow.Cells(colPaymentCOMMISSION).Value / 100
 
-                                Commission_AMount = Math.Round(clsCommon.myCdbl(obj1.MILK_Qty) * clsCommon.myCdbl(obj1.Commission), 2)
-                                Payment_Commission_AMount = Math.Round(clsCommon.myCdbl(obj1.MILK_Qty) * clsCommon.myCdbl(obj1.Payment_Commission), 2)
+                                Commission_AMount = Math.Round(clsCommon.myCDecimal(obj1.MILK_Qty) * clsCommon.myCDecimal(obj1.Commission), 2)
+                                Payment_Commission_AMount = Math.Round(clsCommon.myCDecimal(obj1.MILK_Qty) * clsCommon.myCDecimal(obj1.Payment_Commission), 2)
                             End If
-                            'grow.Cells(colDocument_AMOUNT).Value = clsCommon.myCdbl(grow.Cells(colAMOUNT).Value) + clsCommon.myCdbl(grow.Cells(colCOMMISSIONAmount).Value) + clsCommon.myCdbl(grow.Cells(colIncentive).Value) + clsCommon.myCdbl(grow.Cells(colIncentiveEMP).Value) '- clsCommon.myCdbl(grow.Cells(colDeduction).Value)
-                            'grow.Cells(colTOTAL_AMOUNT).Value = clsCommon.myCdbl(grow.Cells(colAMOUNT).Value) + clsCommon.myCdbl(grow.Cells(colPaymentCOMMISSIONAmount).Value) + clsCommon.myCdbl(grow.Cells(colIncentive).Value) + clsCommon.myCdbl(grow.Cells(colIncentiveEMP).Value) '- clsCommon.myCdbl(grow.Cells(colDeduction).Value)
-                            'grow.Cells(colNetAMOUNT).Value = Math.Round(clsCommon.myCdbl(grow.Cells(colAMOUNT).Value) + clsCommon.myCdbl(grow.Cells(colPaymentCOMMISSIONAmount).Value) + clsCommon.myCdbl(grow.Cells(colIncentive).Value) + clsCommon.myCdbl(grow.Cells(colIncentiveEMP).Value)) ' - clsCommon.myCdbl(grow.Cells(colDeduction).Value), CInt(clsCommon.myCdbl(DtMCC.Rows(0).Item("FAT_SNF_CALC"))))
-                            'grow.Cells(colNetsaveAMOUNT).Value = Math.Round(clsCommon.myCdbl(grow.Cells(colAMOUNT).Value) + clsCommon.myCdbl(grow.Cells(colPaymentCOMMISSIONAmount).Value) + clsCommon.myCdbl(grow.Cells(colIncentive).Value) + clsCommon.myCdbl(grow.Cells(colIncentiveEMP).Value)) ' - clsCommon.myCdbl(grow.Cells(colDeduction).Value), CInt(clsCommon.myCdbl(DtMCC.Rows(0).Item("FAT_SNF_SAVE"))))
+                            'grow.Cells(colDocument_AMOUNT).Value = clsCommon.myCDecimal(grow.Cells(colAMOUNT).Value) + clsCommon.myCDecimal(grow.Cells(colCOMMISSIONAmount).Value) + clsCommon.myCDecimal(grow.Cells(colIncentive).Value) + clsCommon.myCDecimal(grow.Cells(colIncentiveEMP).Value) '- clsCommon.myCDecimal(grow.Cells(colDeduction).Value)
+                            'grow.Cells(colTOTAL_AMOUNT).Value = clsCommon.myCDecimal(grow.Cells(colAMOUNT).Value) + clsCommon.myCDecimal(grow.Cells(colPaymentCOMMISSIONAmount).Value) + clsCommon.myCDecimal(grow.Cells(colIncentive).Value) + clsCommon.myCDecimal(grow.Cells(colIncentiveEMP).Value) '- clsCommon.myCDecimal(grow.Cells(colDeduction).Value)
+                            'grow.Cells(colNetAMOUNT).Value = Math.Round(clsCommon.myCDecimal(grow.Cells(colAMOUNT).Value) + clsCommon.myCDecimal(grow.Cells(colPaymentCOMMISSIONAmount).Value) + clsCommon.myCDecimal(grow.Cells(colIncentive).Value) + clsCommon.myCDecimal(grow.Cells(colIncentiveEMP).Value)) ' - clsCommon.myCDecimal(grow.Cells(colDeduction).Value), CInt(clsCommon.myCDecimal(DtMCC.Rows(0).Item("FAT_SNF_CALC"))))
+                            'grow.Cells(colNetsaveAMOUNT).Value = Math.Round(clsCommon.myCDecimal(grow.Cells(colAMOUNT).Value) + clsCommon.myCDecimal(grow.Cells(colPaymentCOMMISSIONAmount).Value) + clsCommon.myCDecimal(grow.Cells(colIncentive).Value) + clsCommon.myCDecimal(grow.Cells(colIncentiveEMP).Value)) ' - clsCommon.myCDecimal(grow.Cells(colDeduction).Value), CInt(clsCommon.myCDecimal(DtMCC.Rows(0).Item("FAT_SNF_SAVE"))))
 
-                            'obj.do = clsCommon.myCdbl(obj1.AMOUNT) + clsCommon.myCdbl(Payment_Commission_AMount) '+ clsCommon.myCdbl(grow.Cells(colIncentive).Value) + clsCommon.myCdbl(grow.Cells(colIncentiveEMP).Value) '- clsCommon.myCdbl(grow.Cells(colDeduction).Value)
-                            obj.TOTAL_AMOUNT = Math.Round(clsCommon.myCdbl(obj1.AMOUNT) + clsCommon.myCdbl(Payment_Commission_AMount), 2) '+ clsCommon.myCdbl(grow.Cells(colIncentive).Value) + clsCommon.myCdbl(grow.Cells(colIncentiveEMP).Value) '- clsCommon.myCdbl(grow.Cells(colDeduction).Value)
-                            'grow.Cells(colNetAMOUNT).Value = Math.Round(clsCommon.myCdbl(obj1.AMOUNT) + clsCommon.myCdbl(grow.Cells(colPaymentCOMMISSIONAmount).Value) + clsCommon.myCdbl(grow.Cells(colIncentive).Value) + clsCommon.myCdbl(grow.Cells(colIncentiveEMP).Value)) ' - clsCommon.myCdbl(grow.Cells(colDeduction).Value), CInt(clsCommon.myCdbl(DtMCC.Rows(0).Item("FAT_SNF_CALC"))))
-                            obj.Net_AMOUNT = Math.Round(clsCommon.myCdbl(obj1.AMOUNT) + clsCommon.myCdbl(Payment_Commission_AMount), 2) '+ clsCommon.myCdbl(grow.Cells(colIncentive).Value) + clsCommon.myCdbl(grow.Cells(colIncentiveEMP).Value)) ' - clsCommon.myCdbl(grow.Cells(colDeduction).Value), CInt(clsCommon.myCdbl(DtMCC.Rows(0).Item("FAT_SNF_SAVE"))))
+                            'obj.do = clsCommon.myCDecimal(obj1.AMOUNT) + clsCommon.myCDecimal(Payment_Commission_AMount) '+ clsCommon.myCDecimal(grow.Cells(colIncentive).Value) + clsCommon.myCDecimal(grow.Cells(colIncentiveEMP).Value) '- clsCommon.myCDecimal(grow.Cells(colDeduction).Value)
+                            obj.TOTAL_AMOUNT = Math.Round(clsCommon.myCDecimal(obj1.AMOUNT) + clsCommon.myCDecimal(Payment_Commission_AMount), 2) '+ clsCommon.myCDecimal(grow.Cells(colIncentive).Value) + clsCommon.myCDecimal(grow.Cells(colIncentiveEMP).Value) '- clsCommon.myCDecimal(grow.Cells(colDeduction).Value)
+                            'grow.Cells(colNetAMOUNT).Value = Math.Round(clsCommon.myCDecimal(obj1.AMOUNT) + clsCommon.myCDecimal(grow.Cells(colPaymentCOMMISSIONAmount).Value) + clsCommon.myCDecimal(grow.Cells(colIncentive).Value) + clsCommon.myCDecimal(grow.Cells(colIncentiveEMP).Value)) ' - clsCommon.myCDecimal(grow.Cells(colDeduction).Value), CInt(clsCommon.myCDecimal(DtMCC.Rows(0).Item("FAT_SNF_CALC"))))
+                            obj.Net_AMOUNT = Math.Round(clsCommon.myCDecimal(obj1.AMOUNT) + clsCommon.myCDecimal(Payment_Commission_AMount), 2) '+ clsCommon.myCDecimal(grow.Cells(colIncentive).Value) + clsCommon.myCDecimal(grow.Cells(colIncentiveEMP).Value)) ' - clsCommon.myCDecimal(grow.Cells(colDeduction).Value), CInt(clsCommon.myCDecimal(DtMCC.Rows(0).Item("FAT_SNF_SAVE"))))
 
                             '===============================================================
                             obj.SRN_CODE = clsCommon.myCstr(obj1.DOC_CODE)
-                            obj.TOTAL_AMOUNT = clsCommon.myCdbl(obj.TOTAL_AMOUNT)
+                            obj.TOTAL_AMOUNT = clsCommon.myCDecimal(obj.TOTAL_AMOUNT)
                             obj.VEHICLE_NO = clsCommon.myCstr(obj_SRN.VEHICLE_CODE)
                             obj.VLC_NO = clsCommon.myCstr(obj1.VlC_Code)
-                            obj.Net_AMOUNT = clsCommon.myCdbl(obj.Net_AMOUNT)
-                            obj1.NET_AMOUNT = clsCommon.myCdbl(obj.Net_AMOUNT)
+                            obj.Net_AMOUNT = clsCommon.myCDecimal(obj.Net_AMOUNT)
+                            obj1.NET_AMOUNT = clsCommon.myCDecimal(obj.Net_AMOUNT)
                             objHead.MCC_CODE = clsMilkPurchaseInvoiceMCC.GetIrregular_Location(obj.SRN_CODE, trans)
                             obj.MCC_CODE = clsMilkPurchaseInvoiceMCC.GetIrregular_Location(obj.SRN_CODE, trans)
                             If clsCommon.CompairString(objHead.MCC_CODE, objHead.Irregular_MCC_CODE) = CompairStringResult.Equal Then
@@ -5258,11 +5497,11 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
 
                         objHead.VENDOR_INVOICE_NO = "" 'clsCommon.myCstr(TxtVendorInvoiceNo.Text)
                         objHead.VENDOR_INVOICE_DATE = obj_SRN.DOC_DATE 'clsCommon.myCDate(VENDOR_INVOICE_DATE.Value)
-                        objHead.Amount = clsCommon.myCdbl(totAmount)
-                        objHead.Basic_Amount = Math.Round(clsCommon.myCdbl(totAmount) - clsCommon.myCdbl(totCommssion), 2)
-                        objHead.Commission = clsCommon.myCdbl(totCommssion)
-                        objHead.Total_Amount_Acc = clsCommon.myCdbl(totAmountwithPaymentCommssion)
-                        objHead.Total_PaymentCommission = clsCommon.myCdbl(totPaymentCommssion)
+                        objHead.Amount = clsCommon.myCDecimal(totAmount)
+                        objHead.Basic_Amount = Math.Round(clsCommon.myCDecimal(totAmount) - clsCommon.myCDecimal(totCommssion), 2)
+                        objHead.Commission = clsCommon.myCDecimal(totCommssion)
+                        objHead.Total_Amount_Acc = clsCommon.myCDecimal(totAmountwithPaymentCommssion)
+                        objHead.Total_PaymentCommission = clsCommon.myCDecimal(totPaymentCommssion)
                         objHead.Program_Code = Formcode
                         'End If
                         'Next
@@ -5295,12 +5534,12 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
                             '    If incentive(1) > 0 Then
                             '        For Each obj1 As clsMilkSRNMCCDetail In frm.ArrReturn
                             '            If is_processed = 0 Then
-                            '                totincentiveEMP = Math.Round(clsCommon.myCdbl(incentive(1)) * clsCommon.myCdbl(obj1.Payment_Commission) / 100, 2)
+                            '                totincentiveEMP = Math.Round(clsCommon.myCDecimal(incentive(1)) * clsCommon.myCDecimal(obj1.Payment_Commission) / 100, 2)
                             '                totAmount += obj.AMOUNT + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
                             '                totBasicAmount += obj.AMOUNT + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
                             '                obj.Net_AMOUNT += +IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
                             '                totAmountwithPaymentCommssion += obj.Net_AMOUNT '+ totincentiveEMP '+ incentive(1)
-                            '                sQuery = "Update tspl_Milk_Purchase_Invoice_Detail set Total_Amount='" & clsCommon.myCdbl(obj.AMOUNT) & "',Total_Amount_Acc='" & clsCommon.myCdbl(obj.Net_AMOUNT) & "',Net_Amount='" & clsCommon.myCdbl(obj.Net_AMOUNT) & "',incentive='" & incentive(1) & "' , incentiveEMP='" & totincentiveEMP & "' where srn_code='" & obj.SRN_CODE & "'"
+                            '                sQuery = "Update tspl_Milk_Purchase_Invoice_Detail set Total_Amount='" & clsCommon.myCDecimal(obj.AMOUNT) & "',Total_Amount_Acc='" & clsCommon.myCDecimal(obj.Net_AMOUNT) & "',Net_Amount='" & clsCommon.myCDecimal(obj.Net_AMOUNT) & "',incentive='" & incentive(1) & "' , incentiveEMP='" & totincentiveEMP & "' where srn_code='" & obj.SRN_CODE & "'"
                             '                clsDBFuncationality.ExecuteNonQuery(sQuery, trans)
                             '                is_processed = 1
                             '            End If
@@ -5310,11 +5549,11 @@ where TSPL_MILK_SRN_HEAD.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) 
                             '        totAmount = objHead.Amount + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
                             '        totAmountwithPaymentCommssion = objHead.ACC_Amount + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
 
-                            '        'totincentiveEMP += clsCommon.myCdbl(gv1.Rows(0).Cells(colIncentiveEMP).Value)
+                            '        'totincentiveEMP += clsCommon.myCDecimal(gv1.Rows(0).Cells(colIncentiveEMP).Value)
                             '        sQuery = "select * from tspl_Milk_Purchase_Invoice_Head where doc_code='" & clsCommon.myCstr(objHead.DOC_CODE) & "'"
                             '        Dim dt As DataTable = clsDBFuncationality.GetDataTable(sQuery, trans)
-                            '        'sQuery = "Update tspl_Milk_Purchase_Invoice_Head set Total_Amount=convert(Total_Amount as float)+" & clsCommon.myCdbl(totAmount) & ",Total_Amount_Acc=convert(Total_Amount_Acc  as float)+" & clsCommon.myCdbl(totAmountwithPaymentCommssion) & " ,incentive_Head='" & incentive(1) & "' , incentiveEMP_Head='" & totincentiveEMP & "' where doc_code='" & clsCommon.myCstr(objHead.DOC_CODE) & "'"
-                            '        sQuery = "Update tspl_Milk_Purchase_Invoice_Head set Total_Amount='" & clsCommon.myCdbl(totAmount) & "',Total_Amount_Acc='" & clsCommon.myCdbl(totAmountwithPaymentCommssion) & "' ,incentive_Head='" & incentive(1) & "' , incentiveEMP_Head='" & totincentiveEMP & "' where doc_code='" & clsCommon.myCstr(objHead.DOC_CODE) & "'"
+                            '        'sQuery = "Update tspl_Milk_Purchase_Invoice_Head set Total_Amount=convert(Total_Amount as float)+" & clsCommon.myCDecimal(totAmount) & ",Total_Amount_Acc=convert(Total_Amount_Acc  as float)+" & clsCommon.myCDecimal(totAmountwithPaymentCommssion) & " ,incentive_Head='" & incentive(1) & "' , incentiveEMP_Head='" & totincentiveEMP & "' where doc_code='" & clsCommon.myCstr(objHead.DOC_CODE) & "'"
+                            '        sQuery = "Update tspl_Milk_Purchase_Invoice_Head set Total_Amount='" & clsCommon.myCDecimal(totAmount) & "',Total_Amount_Acc='" & clsCommon.myCDecimal(totAmountwithPaymentCommssion) & "' ,incentive_Head='" & incentive(1) & "' , incentiveEMP_Head='" & totincentiveEMP & "' where doc_code='" & clsCommon.myCstr(objHead.DOC_CODE) & "'"
                             '        clsDBFuncationality.ExecuteNonQuery(sQuery, trans)
                             '    End If
                             'End If
@@ -5465,7 +5704,7 @@ a:      Next
             Dim qry As String = "select is_Chilling_Provision_Monthly from TSPL_MCC_MASTER where MCC_Type='Chilling Basis' and MCC_Code='" + strMCCCode + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                If clsCommon.myCdbl(dt.Rows(0)("is_Chilling_Provision_Monthly")) = 0 Then
+                If clsCommon.myCDecimal(dt.Rows(0)("is_Chilling_Provision_Monthly")) = 0 Then
                     qry = "select * FROM ExplodeDates( " + "'" + clsCommon.GetPrintDate(txtFromDate, "dd/MMM/yyyy") + "'" + ",'" + clsCommon.GetPrintDate(txtToDate, "dd/MMM/yyyy") + "')"
                     Dim dtDateRange As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                     If dtDateRange IsNot Nothing AndAlso dtDateRange.Rows.Count > 0 Then
@@ -5473,7 +5712,7 @@ a:      Next
                             CreateMCCChillingProvisionDaily(clsCommon.myCDate(drDateRange(0)), strMCCCode, strMCCName, trans)
                         Next
                     End If
-                ElseIf clsCommon.myCdbl(dt.Rows(0)("is_Chilling_Provision_Monthly")) = 1 Then
+                ElseIf clsCommon.myCDecimal(dt.Rows(0)("is_Chilling_Provision_Monthly")) = 1 Then
                     CreateMCCChillingProvisionMonthly(strMCCCode, strMCCName, trans, txtToDate)
                 End If
             End If
@@ -5503,7 +5742,7 @@ a:      Next
             Dim dtChilling As DataTable = clsDBFuncationality.GetDataTable(sQuery, trans)
             Dim Provision_Amt As Decimal = 0
             If dtChilling IsNot Nothing AndAlso dtChilling.Rows.Count > 0 Then
-                Provision_Amt = Math.Round(clsCommon.myCdbl(dtChilling.Rows(0)("Amount")), 2)
+                Provision_Amt = Math.Round(clsCommon.myCDecimal(dtChilling.Rows(0)("Amount")), 2)
             End If
             If Provision_Amt <= 0 Then
                 Provision_Amt = 0
@@ -5564,7 +5803,7 @@ a:      Next
                     Dim dtChilling As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
                     Dim Provision_Amt = 0
                     If dtChilling IsNot Nothing AndAlso dtChilling.Rows.Count > 0 Then
-                        Provision_Amt = Math.Round(clsCommon.myCdbl(dtChilling.Rows(0)("Amount")), 2)
+                        Provision_Amt = Math.Round(clsCommon.myCDecimal(dtChilling.Rows(0)("Amount")), 2)
                     End If
                     If Provision_Amt <= 0 Then
                         Provision_Amt = 0

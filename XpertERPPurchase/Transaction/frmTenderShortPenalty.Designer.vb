@@ -47,13 +47,14 @@ Partial Class frmTenderShortPenalty
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
-        Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
+        Me.btnRecalculate = New Telerik.WinControls.UI.RadButton()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
+        Me.btnDeleteUnusedCalc = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -78,13 +79,14 @@ Partial Class frmTenderShortPenalty
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnRecalculate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDeleteUnusedCalc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -104,14 +106,15 @@ Partial Class frmTenderShortPenalty
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton3)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDeleteUnusedCalc)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnRecalculate)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(672, 437)
+        Me.SplitContainer1.Size = New System.Drawing.Size(749, 437)
         Me.SplitContainer1.SplitterDistance = 404
         Me.SplitContainer1.TabIndex = 1
         '
@@ -150,7 +153,7 @@ Partial Class frmTenderShortPenalty
         'SplitContainer2.Panel2
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.RadGroupBox2)
-        Me.SplitContainer2.Size = New System.Drawing.Size(672, 404)
+        Me.SplitContainer2.Size = New System.Drawing.Size(749, 404)
         Me.SplitContainer2.SplitterDistance = 139
         Me.SplitContainer2.TabIndex = 1
         '
@@ -473,7 +476,7 @@ Partial Class frmTenderShortPenalty
         Me.RadGroupBox2.Location = New System.Drawing.Point(0, 0)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(672, 261)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(749, 261)
         Me.RadGroupBox2.TabIndex = 18
         '
         'gv1
@@ -497,33 +500,33 @@ Partial Class frmTenderShortPenalty
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(652, 231)
+        Me.gv1.Size = New System.Drawing.Size(729, 231)
         Me.gv1.TabIndex = 0
         '
-        'RadButton3
+        'btnRecalculate
         '
-        Me.RadButton3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton3.Location = New System.Drawing.Point(364, 4)
-        Me.RadButton3.Name = "RadButton3"
-        Me.RadButton3.Size = New System.Drawing.Size(134, 22)
-        Me.RadButton3.TabIndex = 6
-        Me.RadButton3.Text = "Recalculate Penalty"
-        Me.RadButton3.Visible = False
+        Me.btnRecalculate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnRecalculate.Location = New System.Drawing.Point(364, 4)
+        Me.btnRecalculate.Name = "btnRecalculate"
+        Me.btnRecalculate.Size = New System.Drawing.Size(134, 22)
+        Me.btnRecalculate.TabIndex = 6
+        Me.btnRecalculate.Text = "Recalculate Penalty"
+        Me.btnRecalculate.Visible = False
         '
-        'RadButton1
+        'btnReverse
         '
-        Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(292, 4)
-        Me.RadButton1.Name = "RadButton1"
-        Me.RadButton1.Size = New System.Drawing.Size(69, 22)
-        Me.RadButton1.TabIndex = 4
-        Me.RadButton1.Text = "Reverse"
-        Me.RadButton1.Visible = False
+        Me.btnReverse.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnReverse.Location = New System.Drawing.Point(293, 4)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(69, 22)
+        Me.btnReverse.TabIndex = 4
+        Me.btnReverse.Text = "Reverse"
+        Me.btnReverse.Visible = False
         '
         'btnPrint
         '
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(220, 4)
+        Me.btnPrint.Location = New System.Drawing.Point(222, 4)
         Me.btnPrint.Name = "btnPrint"
         Me.btnPrint.Size = New System.Drawing.Size(69, 22)
         Me.btnPrint.TabIndex = 3
@@ -533,7 +536,7 @@ Partial Class frmTenderShortPenalty
         'btnDelete
         '
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(148, 4)
+        Me.btnDelete.Location = New System.Drawing.Point(151, 4)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(69, 22)
         Me.btnDelete.TabIndex = 2
@@ -542,7 +545,7 @@ Partial Class frmTenderShortPenalty
         'btnPost
         '
         Me.btnPost.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPost.Location = New System.Drawing.Point(77, 4)
+        Me.btnPost.Location = New System.Drawing.Point(80, 4)
         Me.btnPost.Name = "btnPost"
         Me.btnPost.Size = New System.Drawing.Size(69, 22)
         Me.btnPost.TabIndex = 1
@@ -552,7 +555,7 @@ Partial Class frmTenderShortPenalty
         '
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(592, 4)
+        Me.btnClose.Location = New System.Drawing.Point(670, 4)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 5
@@ -561,17 +564,27 @@ Partial Class frmTenderShortPenalty
         'btnSave
         '
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(5, 4)
+        Me.btnSave.Location = New System.Drawing.Point(9, 4)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
+        'btnDeleteUnusedCalc
+        '
+        Me.btnDeleteUnusedCalc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnDeleteUnusedCalc.Location = New System.Drawing.Point(500, 4)
+        Me.btnDeleteUnusedCalc.Name = "btnDeleteUnusedCalc"
+        Me.btnDeleteUnusedCalc.Size = New System.Drawing.Size(159, 22)
+        Me.btnDeleteUnusedCalc.TabIndex = 7
+        Me.btnDeleteUnusedCalc.Text = "Delete Unused Calculation"
+        Me.btnDeleteUnusedCalc.Visible = False
+        '
         'frmTenderShortPenalty
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(672, 437)
+        Me.ClientSize = New System.Drawing.Size(749, 437)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "frmTenderShortPenalty"
         '
@@ -604,13 +617,14 @@ Partial Class frmTenderShortPenalty
         Me.RadGroupBox2.ResumeLayout(False)
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnRecalculate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDeleteUnusedCalc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -639,12 +653,13 @@ Partial Class frmTenderShortPenalty
     Friend WithEvents lblItem As common.Controls.MyLabel
     Friend WithEvents lblBillToLocation As common.Controls.MyLabel
     Friend WithEvents RadLabel6 As common.Controls.MyLabel
-    Friend WithEvents RadButton1 As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnReverse As Telerik.WinControls.UI.RadButton
     Friend WithEvents MyLabel14 As common.Controls.MyLabel
     Friend WithEvents txtTenderNo As common.UserControls.txtFinder
     Friend WithEvents RadButton2 As RadButton
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents SplitContainer2 As SplitContainer
-    Friend WithEvents RadButton3 As RadButton
+    Friend WithEvents btnRecalculate As RadButton
+    Friend WithEvents btnDeleteUnusedCalc As RadButton
 End Class
 
