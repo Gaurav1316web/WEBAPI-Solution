@@ -65,7 +65,7 @@ Public Class clsGateEntry
     Public ROUTE_NO As String = Nothing
     Public Shared Function saveData(ByVal obj As clsGateEntry, ByVal trans As SqlTransaction, Optional ByVal isHistory As Boolean = False, Optional ByVal isAmendment As Boolean = False) As Boolean
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmGateEntry, obj.location_Code, obj.Date_And_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmGateEntry, obj.location_Code, obj.Date_And_Time, trans)
             Dim issaved As Boolean = True
             '============Added by preeti Gupta==============
             Dim Status As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select isPosted from tspl_gate_entry_details Where Gate_Entry_No='" + obj.Gate_Entry_No + "'", trans))
@@ -319,7 +319,7 @@ Public Class clsGateEntry
                 Throw New Exception("No Data found to Post")
             End If
             'trans = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmGateEntry, obj.location_Code, obj.Date_And_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmGateEntry, obj.location_Code, obj.Date_And_Time, trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
@@ -483,7 +483,7 @@ Public Class clsGateEntry
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_Code,Date_And_Time from tspl_gate_entry_details where Gate_Entry_No='" + strGateEntryNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmGateEntry, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Date_And_Time")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmGateEntry, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Date_And_Time")), trans)
 
             End If
 
@@ -816,7 +816,7 @@ Public Class clsGateEntry
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_Code,Date_And_Time from tspl_gate_entry_details where Gate_Entry_No='" + strDocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmGateEntry, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Date_And_Time")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmGateEntry, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Date_And_Time")), trans)
 
             End If
             Dim Qry As String = "select isPosted from Tspl_Gate_Entry_Details where Gate_Entry_No='" + strDocNo + "'"

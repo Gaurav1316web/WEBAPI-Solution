@@ -136,7 +136,7 @@ Public Class clsMilkPurchaseInvoiceHead
 
 
             If Not isRecreateAPInvoice Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmBulkMilkPurchaseInvoice, obj.Loc_Code, obj.DOC_DATE, trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmBulkMilkPurchaseInvoice, obj.Loc_Code, obj.DOC_DATE, trans)
                 If (obj.isPosted = 1) Then
                     Throw New Exception("Already Post on :" + obj.Posting_Date)
                 End If
@@ -796,7 +796,7 @@ Public Class clsMilkPurchaseInvoiceHead
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Loc_Code,DOC_DATE from TSPL_BULK_MILK_PURCHASE_INVOICE_head where DOC_NO='" + strCode + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmBulkMilkPurchaseInvoice, clsCommon.myCstr(dt.Rows(0)("Loc_Code")), clsCommon.myCDate(dt.Rows(0)("DOC_DATE")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmBulkMilkPurchaseInvoice, clsCommon.myCstr(dt.Rows(0)("Loc_Code")), clsCommon.myCDate(dt.Rows(0)("DOC_DATE")), trans)
 
             End If
             Dim Qry As String = "select isPosted from tspl_Bulk_milk_purchase_Invoice_head where DOC_NO='" + strCode + "'"
@@ -899,7 +899,7 @@ Public Class clsMilkPurchaseInvoiceHead
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select Loc_Code,DOC_DATE from TSPL_BULK_MILK_PURCHASE_INVOICE_head where DOC_NO='" + strDocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmBulkMilkPurchaseInvoice, clsCommon.myCstr(dt.Rows(0)("Loc_Code")), clsCommon.myCDate(dt.Rows(0)("DOC_DATE")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmBulkMilkPurchaseInvoice, clsCommon.myCstr(dt.Rows(0)("Loc_Code")), clsCommon.myCDate(dt.Rows(0)("DOC_DATE")), trans)
 
             End If
             clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_PI_REMITTANCE where Document_No='" + strDocNo + "'", trans)
@@ -927,7 +927,7 @@ Public Class clsMilkPurchaseInvoiceHead
 
     Public Shared Function saveData(ByVal obj As clsMilkPurchaseInvoiceHead, ByVal trans As SqlTransaction) As Boolean
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmBulkMilkPurchaseInvoice, obj.Loc_Code, obj.DOC_DATE, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmBulkMilkPurchaseInvoice, obj.Loc_Code, obj.DOC_DATE, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleMCCMilkProcurement, clsUserMgtCode.frmMilkPurchaseInvoice, obj.Loc_Code, obj.DOC_DATE, trans)
             clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_PI_REMITTANCE where Document_No='" + obj.DOC_NO + "'", trans)
 

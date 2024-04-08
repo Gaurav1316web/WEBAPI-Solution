@@ -45,7 +45,7 @@ Public Class clsCleaning
 left outer join TSPL_Cleaning on TSPL_Cleaning.Gate_Entry_No= tspl_gate_entry_details.Gate_Entry_No 
 where TSPL_Cleaning.Doc_No ='" + StrDocNo + "'", trans))
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmCleaning, strLocation_Code, obj.Start_Date_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmCleaning, strLocation_Code, obj.Start_Date_Time, trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
@@ -157,7 +157,7 @@ where TSPL_Cleaning.Doc_No ='" + StrDocNo + "'", trans))
                 left outer join tspl_gate_entry_details on tspl_gate_entry_details.Gate_Entry_No=TSPL_Cleaning.Gate_Entry_No
                 where TSPL_Cleaning.Doc_No='" + strDocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmUnloading, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Start_Date_Time")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmUnloading, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Start_Date_Time")), trans)
             End If
 
             Dim qry As String = "delete from TSPL_cleaning where doc_No='" & strDocNo & "'"
@@ -230,7 +230,7 @@ where TSPL_Cleaning.Doc_No ='" + StrDocNo + "'", trans))
 left outer join TSPL_Cleaning on TSPL_Cleaning.Gate_Entry_No= tspl_gate_entry_details.Gate_Entry_No 
 where TSPL_Cleaning.Doc_No ='" + obj.Doc_No + "'", trans))
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmCleaning, strLocation_Code, obj.Start_Date_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmCleaning, strLocation_Code, obj.Start_Date_Time, trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Doc_No", clsCommon.myCstr(obj.Doc_No))
 
@@ -387,7 +387,7 @@ where TSPL_Cleaning.Doc_No ='" + obj.Doc_No + "'", trans))
 left outer join TSPL_Cleaning on TSPL_Cleaning.Gate_Entry_No= tspl_gate_entry_details.Gate_Entry_No 
 where TSPL_Cleaning.Doc_No ='" + strCode + "'", trans))
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmCleaning, strLocation_Code, obj.Start_Date_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmCleaning, strLocation_Code, obj.Start_Date_Time, trans)
             If Not (obj.isPosted = 1) Then
                 Throw New Exception("Transaction should be posted")
             End If

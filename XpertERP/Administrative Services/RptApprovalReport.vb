@@ -282,7 +282,7 @@ Public Class RptApprovalReport
         dt.Rows.Add(dr)
 
         dr = dt.NewRow()
-        dr("Code") = clsUserMgtCode.ModuleBulkMilkProcurement
+        dr("Code") = clsUserMgtCode.ModuleProductionDairy
         dr("Name") = "Bulk Milk Procurement"
         dt.Rows.Add(dr)
 
@@ -315,7 +315,7 @@ Public Class RptApprovalReport
 
 
             If Not clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), clsUserMgtCode.ModuleSaleDairy) = CompairStringResult.Equal Then ''std. sales
-                If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), clsUserMgtCode.ModuleBulkMilkProcurement) = CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), clsUserMgtCode.ModuleProductionDairy) = CompairStringResult.Equal Then
                     qry = "select Program_Code AS Code, Program_Name as Name from tspl_program_master " & _
                                 "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" + cboModule.SelectedValue.ToString() + "' and Program_Name in ('Bulk Transaction')) " + whrCls + " "
 

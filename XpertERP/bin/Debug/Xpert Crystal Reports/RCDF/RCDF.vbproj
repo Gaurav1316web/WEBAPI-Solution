@@ -318,11 +318,13 @@
     <None Include="Crystal Reports GST\Inventory Report\TransferPreprintedLORoute.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\TransferPreprintedLORouteTAX.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptBMCDockReport.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptBMCRoutePrint.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptBulkSaleReturn.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCANSaleInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForDetail.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForSummary.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairyDeliveryOrder.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesJPR.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesGNG.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntriesUDP.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptDairySaleGatePassEntry.rpt" />
@@ -343,6 +345,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\crptProductSaleTaxableChallan.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleInvoiceCSA.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptSaleReturn.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceGNG.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceBKN.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptTaxableNonTaxableInvoiceJPR.rpt" />
@@ -360,6 +363,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\FreshHeader.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\New Microsoft Word Document.docx" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptAcceptanceLetterMT.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\rptBMCDCSPrint.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptBulkSalePriceChart.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptCompanyAddress.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptCPDPriceMaster.rpt" />
@@ -587,6 +591,8 @@
     <None Include="Crystal Reports GST\Purchase Order\PO-G - Copy.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G old1.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PO-GALW.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PO-GBKN.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-V.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\POReport\FrmPurchaseOrderReport-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\POReport\FrmPurchaseOrderReport-V.rpt" />
@@ -1318,6 +1324,9 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNew.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceNewJPR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviceneww.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviseBankWiseSubReportALW.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviseReportALW.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptBankAdviseSubReportALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankWiseSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankSummary.rpt" />
@@ -1621,6 +1630,7 @@
     <None Include="Crystal Reports\Purchase\rptAPInvoice.rpt" />
     <None Include="Crystal Reports\Purchase\rptAPInvoice_old.rpt" />
     <None Include="Crystal Reports\Purchase\rptRouteList.rpt" />
+    <None Include="Crystal Reports\Purchase\rptTransactionWiseStock.rpt" />
     <None Include="Crystal Reports\Purchase\rptVendorSecurity.rpt" />
     <None Include="Crystal Reports\Purchase\rptVendorSecurity_summary.rpt" />
     <None Include="Crystal Reports\Purchase\VendorLedger.rpt" />

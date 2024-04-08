@@ -59,7 +59,7 @@ Public Class clsMilkTransferIn
         Dim issaved As Boolean = True
         Try
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmMilkTransferIn, obj.location_code, obj.Receipt_Challan_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmMilkTransferIn, obj.location_code, obj.Receipt_Challan_Date, trans)
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "PriceCode", clsCommon.myCstr(obj.PriceCode))
             clsCommon.AddColumnsForChange(coll, "FAT_R", clsCommon.myCstr(obj.FAT_R))
@@ -148,7 +148,7 @@ Public Class clsMilkTransferIn
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_code,Receipt_Challan_Date from tspl_milk_transfer_in where Receipt_Challan_No='" + strCode + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmMilkTransferIn, dt.Rows(0)("location_code"), dt.Rows(0)("Receipt_Challan_Date"), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmMilkTransferIn, dt.Rows(0)("location_code"), dt.Rows(0)("Receipt_Challan_Date"), trans)
 
             End If
             Dim Qry As String = "select isPosted from TSPL_MILK_TRANSFER_IN where Receipt_Challan_No='" + strCode + "'"
@@ -397,7 +397,7 @@ Public Class clsMilkTransferIn
             Dim objW As clsWeighment = clsWeighment.getData(obj.Weighment_No, "MccProc", NavigatorType.Current, trans)
             Dim objD As clsMccDispatch = clsMccDispatch.getData(obj.Dispatch_Challan_No, NavigatorType.Current, trans)
             'trans = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmMilkTransferIn, obj.location_code, obj.Receipt_Challan_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmMilkTransferIn, obj.location_code, obj.Receipt_Challan_Date, trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
@@ -1439,7 +1439,7 @@ Public Class clsMilkTransferIn
         Try
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_code,Receipt_Challan_Date from tspl_milk_transfer_in where Receipt_Challan_No='" + strReceiptChallanNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmMilkTransferIn, dt.Rows(0)("location_code"), dt.Rows(0)("Receipt_Challan_Date"), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmMilkTransferIn, dt.Rows(0)("location_code"), dt.Rows(0)("Receipt_Challan_Date"), trans)
 
             End If
 

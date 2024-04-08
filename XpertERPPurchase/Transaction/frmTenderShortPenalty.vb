@@ -19,8 +19,9 @@ Public Class frmTenderShortPenalty
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnPrint.Visible = MyBase.isPrintFlag
-        RadButton1.Visible = False
-        RadButton3.Visible = False
+        btnReverse.Visible = False
+        btnRecalculate.Visible = False
+        btnDeleteUnusedCalc.Visible = False
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
@@ -163,16 +164,17 @@ Public Class frmTenderShortPenalty
                 btnPost.Enabled = True
                 btnDelete.Enabled = True
                 RadButton2.Enabled = True
-                RadButton1.Enabled = False
-                RadButton3.Enabled = False
+                btnReverse.Enabled = False
+                btnRecalculate.Enabled = False
+
                 btnSave.Text = "Update"
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnSave.Enabled = False
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
                     RadButton2.Enabled = False
-                    RadButton1.Enabled = True
-                    RadButton3.Enabled = True
+                    btnReverse.Enabled = True
+                    btnRecalculate.Enabled = True
                 End If
                 UsLock1.Status = obj.Status
                 txtDocNo.Value = obj.Document_No
@@ -324,8 +326,9 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
                 frm.strCode = "sireversandcreate"
                 frm.ShowDialog()
                 If frm.isPasswordCorrect Then
-                    RadButton1.Visible = True
-                    RadButton3.Visible = True
+                    btnReverse.Visible = True
+                    btnRecalculate.Visible = True
+                    btnDeleteUnusedCalc.Visible = True
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
@@ -337,7 +340,7 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
         e.Cancel = True
     End Sub
 
-    Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton1.Click
+    Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnReverse.Click
         Try
             If clsCommon.myLen(txtDocNo.Value) > 0 Then
                 If clsCommon.MyMessageBoxShow(Me, "Unpost the current transaction" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
@@ -456,7 +459,7 @@ and 2= (case when isnull(TSPL_MRN_HEAD.NIR_QC,0)=1 then (case when isnull(TSPL_N
     End Function
 
     Private Sub RadButton2_Click_1(sender As Object, e As EventArgs) Handles RadButton2.Click
-        Calculate()
+        Calculate(False)
     End Sub
 
     Sub SetGridFormation(ByVal dt As DataTable)
@@ -579,7 +582,7 @@ and 2= (case when isnull(TSPL_MRN_HEAD.NIR_QC,0)=1 then (case when isnull(TSPL_N
         gv1.TableElement.TableHeaderHeight = 40
     End Sub
 
-    Private Sub Calculate()
+    Private Sub Calculate(ByVal OnlyClearPenalty As Boolean)
         Try
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
                 txtBillToLocation.Focus()
@@ -611,17 +614,19 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
             Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
             Try
                 clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, True, True, True, tran)
-                arrSRN = New ArrayList
-                For ii As Integer = 0 To dt.Rows.Count - 1
-                    If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 AndAlso clsCommon.myCDecimal(dt.Rows(ii)("NIRQCStatus")) = 1 Then
-                        If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
-                            clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, True, True, True, tran)
-                            arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
+                If Not OnlyClearPenalty Then
+                    arrSRN = New ArrayList
+                    For ii As Integer = 0 To dt.Rows.Count - 1
+                        If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 AndAlso clsCommon.myCDecimal(dt.Rows(ii)("NIRQCStatus")) = 1 Then
+                            If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
+                                clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, True, True, True, tran)
+                                arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
+                            End If
+                        Else
+                            Exit For
                         End If
-                    Else
-                        Exit For
-                    End If
-                Next
+                    Next
+                End If
                 tran.Commit()
             Catch ex As Exception
                 tran.Rollback()
@@ -644,6 +649,7 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
 
     Private Sub ReCalculate()
         Try
+            Calculate(True)
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
                 txtBillToLocation.Focus()
                 Throw New Exception("Please select " + txtBillToLocation.MyLinkLable1.Text)
@@ -700,19 +706,36 @@ and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
                                     End If
                                 Next
                             End If
+                            Dim arrSRN As New ArrayList
+                            If idxDoc = 0 Then
+                                arrSRN = New ArrayList
+                                For Each dr As DataRow In dtDoc.Rows
+                                    arrSRN.Add(dr("Document_No")) ''Add all purchase invoice
+                                Next
+
+                                qry = "select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No in (" + clsCommon.GetMulcallString(arrSRN) + ")"
+                                dt = clsDBFuncationality.GetDataTable(qry, tran)
+                                arrSRN = New ArrayList
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    For Each dr As DataRow In dt.Rows
+                                        arrSRN.Add(dr("SRN_No"))
+                                    Next
+                                End If
+                                clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, False, False, True, tran)
+                            End If
 
 
                             qry = " and TSPL_SRN_HEAD.SRN_No in ( select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + clsCommon.myCstr(dtDoc.Rows(idxDoc)("Document_No")) + "')"
                             qry = GetBaseQery("0", qry)
                             dt = clsDBFuncationality.GetDataTable(qry, tran)
-                            Dim arrSRN As New ArrayList
+                            arrSRN = New ArrayList
                             For ii As Integer = 0 To dt.Rows.Count - 1
                                 If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
                                     arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
                                 End If
                             Next
 
-                            clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, False, False, True, tran)
+
                             arrSRN = New ArrayList
                             For ii As Integer = 0 To dt.Rows.Count - 1
                                 If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 AndAlso clsCommon.myCDecimal(dt.Rows(ii)("NIRQCStatus")) = 1 Then
@@ -751,7 +774,11 @@ and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
         End Try
     End Sub
 
-    Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles RadButton3.Click
+    Private Sub RadButton3_Click(sender As Object, e As EventArgs) Handles btnRecalculate.Click
         ReCalculate()
+    End Sub
+
+    Private Sub RadButton4_Click(sender As Object, e As EventArgs) Handles btnDeleteUnusedCalc.Click
+        Calculate(True)
     End Sub
 End Class

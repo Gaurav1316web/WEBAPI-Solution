@@ -15,6 +15,8 @@ Public Class rptPaymentProcessRouteReport
     Dim isLoad As Boolean = False
     Dim FYFromDate As Date
     Dim FYToDate As Date
+    Dim AreaWiseBilling As Boolean = False
+    Dim MccName As String = Nothing
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -67,6 +69,11 @@ Public Class rptPaymentProcessRouteReport
             Payablechk.Visible = True
         End If
         isLoad = False
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+        fndArea.Visible = AreaWiseBilling
+        lblArea.Visible = AreaWiseBilling
+        TxtFinderArea.Visible = AreaWiseBilling
+        lblFArea.Visible = AreaWiseBilling
     End Sub
     Sub Reset()
         ' ToDate.Value = clsCommon.GETSERVERDATE()
@@ -2708,7 +2715,7 @@ inner join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DO
                     arrHeader.Add("MCC: " & clsCommon.GetMulcallString(txtMultiMCC.arrValueMember))
                 End If
                 arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(dtpFromDCS_Ledger.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDCS_Ledger.Value, "dd/MM/yyyy")) + " ")
-                clsCommon.MyExportToPDF("DCS LEDGER", Gv1, arrHeader, "DCS LEDGER", PageSetupReport_ID, objCommonVar.CurrentUserCode)
+                clsCommon.MyOldExportToPDF("DCS LEDGER", Gv1, arrHeader, "DCS LEDGER", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
 
         Catch ex As Exception
@@ -3983,8 +3990,13 @@ TSPL_MILK_COLLECTION_MCC
                             strMCC = "'" + str + "'"
                         End If
                     Next
+                    ' If clsCommon.myLen(fndArea.Value) > 0 Then
+                    ' Qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+                    'Else
                     Qry += " and TSPL_MCC_MASTER.MCC_Code IN (" + clsCommon.myCstr(strMCC) + ")"
-                End If
+                        'End If
+                        'Qry += " and TSPL_MCC_MASTER.MCC_Code IN (" + clsCommon.myCstr(strMCC) + ")"
+                    End If
                 If rbtnPDCS.Checked Then
                     Qry += " and TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER='PDCS'"
                 ElseIf rbtnRegistered.Checked Then
@@ -4212,5 +4224,60 @@ TSPL_MILK_COLLECTION_MCC
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+    Private Sub fndArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER "
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+
+            Dim arrMCCMapped As New ArrayList
+            Dim dt As New DataTable
+            'Dim query As String = "select MCC_NAME from TSPL_MCC_MASTER  WHERE Area_Location_Code='" + fndArea.Value + "'"
+            Dim query As String = "select MCC_Code from TSPL_MCC_MASTER  WHERE Area_Location_Code='" + fndArea.Value + "'"
+
+            dt = Nothing
+            dt = clsDBFuncationality.GetDataTable(query)
+
+            For i As Integer = 0 To dt.Rows.Count - 1
+                arrMCCMapped.Add(dt.Rows(i)("MCC_Code"))
+                'arrMCCMapped.Add(dt.Rows(i)("MCC_NAME").ToString())
+            Next
+            fndMultMCC.arrValueMember = arrMCCMapped
+            'txtMCC.arrValueMember
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub TxtFinderArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles TxtFinderArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER "
+            TxtFinderArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", TxtFinderArea.Value, "Code", isButtonClicked)
+
+            Dim arrMCCMapped As New ArrayList
+            Dim arrMCCName As New ArrayList
+            Dim dt As New DataTable
+            'Dim query As String = "select MCC_NAME from TSPL_MCC_MASTER  WHERE Area_Location_Code='" + fndArea.Value + "'"
+            Dim query As String = "select MCC_Code,MCC_NAME from TSPL_MCC_MASTER  WHERE Area_Location_Code='" + TxtFinderArea.Value + "'"
+            dt = Nothing
+            dt = clsDBFuncationality.GetDataTable(query)
+
+            For i As Integer = 0 To dt.Rows.Count - 1
+                arrMCCMapped.Add(dt.Rows(i)("MCC_Code"))
+                arrMCCName.Add(dt.Rows(i)("MCC_NAME"))
+                'arrMCCMapped.Add(dt.Rows(i)("MCC_NAME").ToString())
+            Next
+            txtMultiMCC.arrValueMember = arrMCCMapped
+            'If arrMCCName.Count > 0 Then
+            '    MccName = arrMCCName(0).ToString()   ' Assuming you want the first MCC name
+            'End If
+            'txtMCC.arrValueMember
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
+        End Try
+    End Sub
+
 
 End Class

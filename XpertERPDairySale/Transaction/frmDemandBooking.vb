@@ -14,6 +14,7 @@ Public Class frmDemandBooking
     Dim SeparateDemandMilkandProduct As Boolean = False
     Dim LockedByUserName As String = ""
     Dim LockedByUserCode As String = ""
+    Dim dr As DataRow
     Dim SingleUserParticularDairyBookingEdit As Boolean = False
     Dim UseCutOffTimeonRouteForERP As Boolean = False
     Dim checkCreditLimit As Boolean = False
@@ -2657,7 +2658,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub TruckSheetExcel()
+    Private Sub TruckSheetExcel(ByVal TripNo As String)
         Dim GVTruckSheet As New RadGridView()
         Me.Controls.Add(GVTruckSheet)
         Try
@@ -2799,7 +2800,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
      Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
 	left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
 	left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
-    WHERE TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'  ) XXXFirst Group By
+    WHERE TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'" + IIf(clsCommon.CompairString(TripNo, "ALL") = CompairStringResult.Equal, "", "and TSPL_DEMAND_BOOKING_DETAIL.Trip_No='" + TripNo + "'") + " ) XXXFirst Group By
     XXXFirst.Cust_Code,	XXXFirst.Item_Code  ) 
     as s "
             If rdbnFreshAmbientBoth.IsChecked = True Then
@@ -2936,7 +2937,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Product Amount").Name)
             GVTruckSheet.ViewDefinition = view
             Dim arrHeader As List(Of String) = New List(Of String)()
-            arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "   Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
+            arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "   Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "   Trip No : " & clsCommon.myCstr(TripNo))
             arrHeader.Add("Route : " & lblRouteDesc.Text & "    City : " & lblCityName.Text & "   Distributor : " & lblTransporterName.Text)
             'arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")))
             'arrHeader.Add("Route : " & lblRouteDesc.Text)
@@ -3646,12 +3647,40 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
         End Try
     End Sub
     Private Sub rmi_TS_Excel_Click(sender As Object, e As EventArgs) Handles rmi_TS_Excel.Click
-        TruckSheet(EnumExportTo.Excel)
+
+        Dim TripNO As String = ""
+        Dim qry As String = "select distinct CAST(Trip_No AS VARCHAR(10)) as Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + txtDocNo.Value + "'"
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        dr = dt.NewRow()
+        dr("Code") = "ALL"
+        'dr("Name") = "ALL"
+        dt.Rows.Add(dr)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            TripNO = clsCommon.myCstr(dt.Rows(0)("Code"))
+            If dt.Rows.Count > 1 Then
+                Dim frmFC As New FrmFreeComboBox
+                frmFC.ComboSource = dt
+                frmFC.ComboValueMember = "Code"
+                frmFC.ComboDisplayMember = "Code"
+                frmFC.LabelCaption = "Trip No"
+                frmFC.ShowDialog()
+                TripNO = frmFC.strRetValue
+            End If
+            If clsCommon.myLen(TripNO) > 0 Then
+                'If clsCommon.myLen(txtMCC.Value) > 0 Then
+                '    RefreshMCCCollectionDetail(txtMCC.Value, strMilkType, Nothing)
+                'End If
+                'LoadTransactionData(strMilkType)
+            End If
+        End If
+
+        TruckSheet(EnumExportTo.Excel, TripNO)
     End Sub
     Private Sub rmi_TS_PDF_Click(sender As Object, e As EventArgs) Handles rmi_TS_PDF.Click
-        TruckSheet(EnumExportTo.PDF)
+        TruckSheet(EnumExportTo.PDF, "ALL")
     End Sub
-    Private Sub TruckSheet(ByVal exporter As EnumExportTo)
+    Private Sub TruckSheet(ByVal exporter As EnumExportTo, ByVal TripNo As String)
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please select document", Me.Text)
@@ -3665,7 +3694,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             End If
             clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set IsTruckSheetGenerated='Y' where document_no='" & txtDocNo.Value & "' and ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'")
             If exporter = EnumExportTo.Excel Then
-                TruckSheetExcel()
+                TruckSheetExcel(TripNo)
             Else
                 TruckSheetPDF()
             End If

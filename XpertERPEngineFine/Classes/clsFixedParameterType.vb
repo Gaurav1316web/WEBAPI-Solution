@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const PDAccountPaymanager As String = "PD Account Paymanager"
     Public Const BankAdviseRequired As String = "Bank Advice Start Date"
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
     Public Const CalculateFATSNFLossCycleWise As String = "Calculate FAT SNF Loss Cycle Wise"
@@ -1323,10 +1324,12 @@ Public Class clsFixedParameterType
     Public Const PricePlanRoundOffTruncate = "Price Plan RoundOff/Truncate"
     Public Const AllowIncreaseDispatchQty = "Allow Increase Dispatch Qty"
     Public Const FORPRICE = "FOR Price"
+    Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
 
 
 End Class
 Public Class clsFixedParameterCode
+    Public Const NoOfRecordForLotNo As String = "No Of Record For Lot No"
     Public Const BankAdviseRequired As String = "Bank Advice Start Date"
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
     Public Const CalculateFATSNFLossCycleWise As String = "Calculate FAT SNF Loss Cycle Wise"
@@ -2783,6 +2786,7 @@ Public Class clsFixedParameterCode
     Public Const PricePlanRoundOffTruncate = "Price Plan RoundOff/Truncate"
     Public Const AllowIncreaseDispatchQty = "Allow Increase Dispatch Qty"
     Public Const FORPRICE = "FOR Price"
+    Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
 
 End Class
 Public Class clsFixedParameter
@@ -2871,6 +2875,7 @@ Public Class clsFixedParameter
     End Function
 
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, "4500", "No of Records to Set Lot No")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, "", "Bank Advise Start Date [dd/MMM/yyyy]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, "1", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, "0", "0:OFF;1:ON")
@@ -4517,6 +4522,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, "0", "0:RoundOff, 1:Truncate;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, "0", "Enter Weight in KG ")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, "0", "0:Off, 1:On;")
+
 
 
         '
@@ -4556,6 +4563,7 @@ Public Class clsFixedParameterProgramMapping
 
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmBankAdvise, clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, EnumControlType.CheckBox)
 
@@ -6578,6 +6586,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, EnumControlType.CheckBox)
 
     End Sub
 End Class

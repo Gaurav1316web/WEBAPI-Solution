@@ -71,6 +71,8 @@ Public Class frmSRN
     Const colHeaderDiscountAmt As String = "colHeaderDiscountAmt"
     Const colDisPer As String = "COLDISPER"
     Const colDetailDisAmt As String = "colDetailDisAmt"
+    Const colDisPerUnit As String = "colDisPerUnit"
+    Const colDisAmtPerUnit As String = "colDisAmtPerUnit"
     Const colDisAmt As String = "COLDISAMT"
     Const colAmtAfterDis As String = "COLAMTAFTERDIS"
     Const colTaxableAmount As String = "colTaxableAmount"
@@ -1225,6 +1227,8 @@ Public Class frmSRN
 
         Dim repoDisPer As GridViewDecimalColumn = New GridViewDecimalColumn()
         Dim repoDisAmt As GridViewDecimalColumn = New GridViewDecimalColumn()
+        Dim repoDisPerUnit As GridViewDecimalColumn = New GridViewDecimalColumn()
+        Dim repoDisAmtPerUnit As GridViewDecimalColumn = New GridViewDecimalColumn()
 
         repoDisPer = New GridViewDecimalColumn()
         repoDisPer.FormatString = "{0:N2}"
@@ -1259,6 +1263,28 @@ Public Class frmSRN
         gv1.MasterTemplate.Columns.Add(repoDisPer)
         repoDisPer = Nothing
 
+        repoDisPerUnit = New GridViewDecimalColumn()
+        repoDisPerUnit.FormatString = "{0:n2}"
+        repoDisPerUnit.HeaderText = "Discount Per Unit"
+        repoDisPerUnit.Minimum = 0
+        repoDisPerUnit.Maximum = 100
+        repoDisPerUnit.Name = colDisPerUnit
+        repoDisPerUnit.Width = 80
+        repoDisPerUnit.DecimalPlaces = 2
+        repoDisPerUnit.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoDisPerUnit)
+
+        repoDisAmt = New GridViewDecimalColumn()
+        repoDisAmt.FormatString = "{0:n2}"
+        repoDisAmt.HeaderText = "Discount Amt UnitWise"
+        repoDisAmt.WrapText = True
+        repoDisAmt.Name = colDisAmtPerUnit
+        repoDisAmt.Width = 80
+        repoDisAmt.DecimalPlaces = 2
+        repoDisAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        repoDisAmt.VisibleInColumnChooser = False
+        repoDisAmt.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoDisAmt)
 
         repoDisAmt = New GridViewDecimalColumn()
         repoDisAmt.FormatString = ""
@@ -1270,6 +1296,8 @@ Public Class frmSRN
         repoDisAmt.VisibleInColumnChooser = False
         repoDisAmt.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoDisAmt)
+
+
 
         repoDisAmt = New GridViewDecimalColumn()
         repoDisAmt.FormatString = ""
@@ -3218,8 +3246,8 @@ Public Class frmSRN
 
                         End If
                     End If
-                    If e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse e.Column Is gv1.Columns(colCategoryType) OrElse e.Column Is gv1.Columns(colCapexSubCode) OrElse e.Column Is gv1.Columns(colICode) OrElse e.Column Is gv1.Columns(colAmt) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colLeakQty) OrElse e.Column Is gv1.Columns(colBurstQty) OrElse e.Column Is gv1.Columns(colShortQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colSpecification) OrElse e.Column Is gv1.Columns(colRemarks) OrElse e.Column Is gv1.Columns(colDisPer) OrElse e.Column Is gv1.Columns(colMRP) OrElse e.Column Is gv1.Columns(colBatchNo) OrElse e.Column Is gv1.Columns(colExpiry) OrElse e.Column Is gv1.Columns(colManufactureDate) OrElse e.Column Is gv1.Columns(colUnit) OrElse e.Column Is gv1.Columns(colOrgMRNQty) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal) Then
-                        If (e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colLeakQty) OrElse e.Column Is gv1.Columns(colBurstQty) OrElse e.Column Is gv1.Columns(colShortQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colDisPer) OrElse e.Column Is gv1.Columns(colOrgMRNQty) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal)) Then
+                    If e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse e.Column Is gv1.Columns(colCategoryType) OrElse e.Column Is gv1.Columns(colCapexSubCode) OrElse e.Column Is gv1.Columns(colICode) OrElse e.Column Is gv1.Columns(colAmt) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colLeakQty) OrElse e.Column Is gv1.Columns(colBurstQty) OrElse e.Column Is gv1.Columns(colShortQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colSpecification) OrElse e.Column Is gv1.Columns(colRemarks) OrElse e.Column Is gv1.Columns(colDisPer) OrElse e.Column Is gv1.Columns(colDisPerUnit) OrElse e.Column Is gv1.Columns(colMRP) OrElse e.Column Is gv1.Columns(colBatchNo) OrElse e.Column Is gv1.Columns(colExpiry) OrElse e.Column Is gv1.Columns(colManufactureDate) OrElse e.Column Is gv1.Columns(colUnit) OrElse e.Column Is gv1.Columns(colOrgMRNQty) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal) Then
+                        If (e.Column Is gv1.Columns(colItemInsuranceAmt) OrElse e.Column Is gv1.Columns(colItemInsurancePer) OrElse e.Column Is gv1.Columns(colInsurancePer) OrElse e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colLeakQty) OrElse e.Column Is gv1.Columns(colBurstQty) OrElse e.Column Is gv1.Columns(colShortQty) OrElse e.Column Is gv1.Columns(colRate) OrElse e.Column Is gv1.Columns(colDisPer) OrElse e.Column Is gv1.Columns(colDisPerUnit) OrElse e.Column Is gv1.Columns(colOrgMRNQty) OrElse (e.Column Is gv1.Columns(colAmt) AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colRowType).Value), clsItemRowType.RowTypeMisc) = CompairStringResult.Equal)) Then
                             If ((e.Column Is gv1.Columns(colQty) OrElse e.Column Is gv1.Columns(colLeakQty) OrElse e.Column Is gv1.Columns(colBurstQty) OrElse e.Column Is gv1.Columns(colOrgMRNQty) OrElse e.Column Is gv1.Columns(colShortQty))) Then
                                 If e.Column Is gv1.Columns(colOrgMRNQty) AndAlso (clsCommon.myLen(txtPONo.Value) > 0) Then
                                     If clsCommon.myCdbl(gv1.CurrentRow.Cells(colOrgGRNQty).Value) > 0 AndAlso clsCommon.myCdbl(gv1.CurrentRow.Cells(colOrgMRNQty).Value) > clsCommon.myCdbl(gv1.CurrentRow.Cells(colOrgGRNQty).Value) Then
@@ -4427,6 +4455,7 @@ Public Class frmSRN
                 Dim strICode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value)
                 Dim strIName As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colIName).Value)
                 Dim strUOM As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colUnit).Value)
+                Dim dblAmtAfterDis As Double = clsCommon.myCdbl(gv1.Rows(ii).Cells(colAmtAfterDis).Value)
 
                 If clsCommon.myLen(strICode) > 0 Then
                     If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then
@@ -4453,6 +4482,10 @@ Public Class frmSRN
 
                 End If
 
+                If dblAmtAfterDis < 0 Then
+                    clsCommon.MyMessageBoxShow(Me, " Amount After discount Cannot be in Negative. ")
+                    Return False
+                End If
 
                 '' this function create error for UDL that wise Case Inserted
 
@@ -5311,6 +5344,9 @@ Public Class frmSRN
                     objTr.Header_Discount_Amount = clsCommon.myCdbl(grow.Cells(colHeaderDiscountAmt).Value)
                     objTr.Detail_Discount_Amount = clsCommon.myCdbl(grow.Cells(colDetailDisAmt).Value)
 
+                    objTr.Disc_Per_Unit = clsCommon.myCdbl(grow.Cells(colDisPerUnit).Value)
+                    objTr.Disc_Amt_Per_Unit = clsCommon.myCdbl(grow.Cells(colDisAmtPerUnit).Value)
+
                     objTr.Disc_Amt = clsCommon.myCdbl(grow.Cells(colDisAmt).Value)
                     objTr.Amt_Less_Discount = clsCommon.myCdbl(grow.Cells(colAmtAfterDis).Value)
 
@@ -6135,6 +6171,8 @@ Public Class frmSRN
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colHeaderDiscountAmt).Value = objTr.Header_Discount_Amount
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDetailDisAmt).Value = objTr.Detail_Discount_Amount
 
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = objTr.Disc_Per_Unit
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colDisAmtPerUnit).Value = objTr.Disc_Amt_Per_Unit
 
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDisAmt).Value = objTr.Disc_Amt
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colAmtAfterDis).Value = objTr.Amt_Less_Discount
@@ -7312,6 +7350,9 @@ Public Class frmSRN
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
                     End If
 
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = obj.Disc_Per_Unit
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisAmtPerUnit).Value = obj.Disc_Amt_Per_Unit
+
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = obj.MRP
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colBinNo).Value = obj.Bin_No
                     If clsCommon.myLen(txtPONo.Value) > 0 Then
@@ -7729,6 +7770,9 @@ Public Class frmSRN
                     Else
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPer).Value = obj.Disc_Per
                     End If
+                    gv1.Rows(gv1.Rows.Count - 1).Cells(colDisPerUnit).Value = frmPendingPO.Load_discount_per_unit_for_GRN(obj.PurchaseOrder_No, obj.Item_Code) 'obj.Disc_Per_Unit
+                    'gv1.Rows(gv1.Rows.Count - 1).Cells(colDisAmtPerUnit).Value = obj.Disc_Amt_Per_Unit
+
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colHeaderDiscountPer).Value = obj.Header_Discount_Per
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colMRP).Value = obj.MRP
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colBinNo).Value = obj.Bin_No
@@ -9097,8 +9141,10 @@ Public Class frmSRN
 
             Dim dblHeaderDisAmt As Decimal = Math.Round(dblAmt * clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colHeaderDiscountPer).Value) / 100, 2, MidpointRounding.AwayFromZero)
             Dim dblDisPer As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPer).Value)
+            Dim dbldisperunit As Double = clsCommon.myCdbl(gv1.Rows(IntRowNo).Cells(colDisPerUnit).Value)
+            Dim dbldisamtperunit As Decimal = (dblQty * dbldisperunit)
             Dim dblDetailDisAmt As Decimal = (dblAmt * dblDisPer) / 100
-            Dim dblDisAmt As Double = dblHeaderDisAmt + dblDetailDisAmt
+            Dim dblDisAmt As Double = dblHeaderDisAmt + dblDetailDisAmt + dbldisamtperunit
             Dim dblAmtAfterDis As Double = dblAmt - dblDisAmt
 
             Dim dblTotAmt As Decimal = 0
@@ -9230,6 +9276,7 @@ Public Class frmSRN
 
             gv1.Rows(IntRowNo).Cells(colDisAmt).Value = Math.Round(dblDisAmt, 2)
             gv1.Rows(IntRowNo).Cells(colAmtAfterDis).Value = Math.Round(dblAmtAfterDis, 2)
+            gv1.Rows(IntRowNo).Cells(colDisAmtPerUnit).Value = Math.Round(dbldisamtperunit, 2)
 
             gv1.Rows(IntRowNo).Cells(colItemInsuranceBaseAmt).Value = Math.Round(dclItemInsuranceBaseAmt, 2)
             gv1.Rows(IntRowNo).Cells(colItemInsuranceAmt).Value = Math.Round(dclItemInsuranceAmt, 2)

@@ -65,7 +65,7 @@ Public Class clsWeighment
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_Code,Date_And_Time from tspl_weighment_detail where Weighment_No='" + strDocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmWeighment, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Date_And_Time")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmWeighment, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Date_And_Time")), trans)
 
             End If
             Dim Qry As String = "select isPosted from tspl_weighment_detail where Weighment_no='" + strDocNo + "'"
@@ -295,7 +295,7 @@ Public Class clsWeighment
             If IsPosted = 1 AndAlso Not isHistory Then
                 Throw New Exception("Record is Already posted")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmWeighment, obj.location_Code, obj.Weighment_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmWeighment, obj.location_Code, obj.Weighment_Date, trans)
             If Not obj.isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.Weighment_No), "TSPL_Weighment_Detail", "Weighment_No", "TSPL_Weighment_Chember_Details", "Weighment_No", trans)
             End If
@@ -658,7 +658,7 @@ Public Class clsWeighment
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_Code,Date_And_Time from tspl_weighment_detail where Weighment_No='" + strWeighmentNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
 
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmWeighment, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Date_And_Time")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmWeighment, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("Date_And_Time")), trans)
 
             End If
 
@@ -720,7 +720,7 @@ Public Class clsWeighment
                 Throw New Exception("No Data found to Post")
             End If
             'trans = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmWeighment, obj.location_Code, obj.Weighment_Date, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmWeighment, obj.location_Code, obj.Weighment_Date, trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If

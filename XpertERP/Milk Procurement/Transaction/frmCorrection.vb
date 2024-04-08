@@ -1077,8 +1077,8 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                 Arr(0).Correction_SNF = txtBMCCorrSNF.Value
                 Arr(0).Retesting_OR_Correction = 2
             End If
-            Arr(0).FAT = txtBMCCorrFAT.Value
-            Arr(0).SNF = txtBMCCorrSNF.Value
+            'Arr(0).FAT = txtBMCCorrFAT.Value
+            'Arr(0).SNF = txtBMCCorrSNF.Value
             Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
             Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
             clsMilkCollectionMCCDetail.SaveData(lblBMCDocNo.Text, txtBMCDate.Value, Arr, True, Nothing, isCorrection)

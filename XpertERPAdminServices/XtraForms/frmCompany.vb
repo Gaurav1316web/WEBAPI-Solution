@@ -216,7 +216,7 @@ Public Class FrmCompany
 
                         obj = New clsModuleScreenHead()
                         obj.IsAvailable = True
-                        obj.Module_Name = clsUserMgtCode.ModuleBulkMilkProcurement
+                        obj.Module_Name = clsUserMgtCode.ModuleProductionDairy
                         ObjList.Add(obj)
 
                         obj = New clsModuleScreenHead()

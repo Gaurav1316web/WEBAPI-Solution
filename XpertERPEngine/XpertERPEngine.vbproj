@@ -985,11 +985,6 @@
     <Compile Include="ServiceAndWarranty\ClsServiceEnquiry.vb" />
     <Compile Include="ServiceAndWarranty\ClsServiceVisitDetails.vb" />
     <Compile Include="ServiceAndWarranty\ClsSolutionKnowledgeBase.vb" />
-    <Compile Include="Silage Production\clsSilageEnterPre.vb" />
-    <Compile Include="Silage Production\clsSilageFormerProduction.vb" />
-    <Compile Include="Silage Production\clsSilageProductionApplication.vb" />
-    <Compile Include="Silage Production\clsSilageProductionAreaMaster.vb" />
-    <Compile Include="Silage Production\clsSilageCriteriaMaster.vb" />
     <Compile Include="TDS Module\ClsHouseRentDeclaration.vb" />
     <Compile Include="TDS Module\ClsHRAExemptionRule.vb" />
     <Compile Include="TDS Module\ClsIncomeTaxSlab.vb" />

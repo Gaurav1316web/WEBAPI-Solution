@@ -606,8 +606,8 @@ Public Class frmMilkCollectionDCS
         lblTotPendingSNFKg.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(lblSNFKg.Text) - (TotEveningSNFKG + TotMorningSNFKG)), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
 
 
-        txtTotPendingFATPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblTotPendingFATKg.Text) * 100, clsCommon.myCDecimal(lblTotPendingQty.Text)), 1, MidpointRounding.ToEven)
-        txtTotPendingSNFPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblTotPendingSNFKg.Text) * 100, clsCommon.myCDecimal(lblTotPendingQty.Text)), 1, MidpointRounding.ToEven)
+        txtTotPendingFATPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblTotPendingFATKg.Text) * 100, clsCommon.myCDecimal(lblTotPendingQty.Text)), 2, MidpointRounding.ToEven)
+        txtTotPendingSNFPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblTotPendingSNFKg.Text) * 100, clsCommon.myCDecimal(lblTotPendingQty.Text)), 2, MidpointRounding.ToEven)
 
     End Sub
 

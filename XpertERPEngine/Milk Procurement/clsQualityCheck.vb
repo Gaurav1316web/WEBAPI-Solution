@@ -78,7 +78,7 @@ Public Class clsQualityCheck
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_Code, QC_In_Date_Time from tspl_quality_check where QC_No='" + strDocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmQualityCheck, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("QC_In_Date_Time")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmQualityCheck, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("QC_In_Date_Time")), trans)
 
             End If
             Dim Qry As String = "select isPosted from tspl_quality_check where Qc_no='" + strDocNo + "'"
@@ -140,7 +140,7 @@ Public Class clsQualityCheck
                 Throw New Exception("No Data found to Post")
             End If
             ' trans = clsDBFuncationality.GetTransactin()
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmQualityCheck, obj.location_Code, obj.QC_In_Date_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmQualityCheck, obj.location_Code, obj.QC_In_Date_Time, trans)
             If (obj.isPosted = 1) Then
                 Throw New Exception("Already Post on :" + obj.Posting_Date)
             End If
@@ -195,7 +195,7 @@ Public Class clsQualityCheck
 
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select location_Code, QC_In_Date_Time from tspl_quality_check where QC_No='" + strDocNo + "'", trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmQualityCheck, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("QC_In_Date_Time")), trans)
+                clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmQualityCheck, clsCommon.myCstr(dt.Rows(0)("location_Code")), clsCommon.myCDate(dt.Rows(0)("QC_In_Date_Time")), trans)
 
             End If
 
@@ -273,7 +273,7 @@ Public Class clsQualityCheck
 
     Public Shared Function saveData(ByVal obj As clsQualityCheck, ByVal trans As SqlTransaction, Optional ByVal isHistory As Boolean = False) As Boolean
         Try
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmQualityCheck, obj.location_Code, obj.QC_In_Date_Time, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmQualityCheck, obj.location_Code, obj.QC_In_Date_Time, trans)
             Dim DateTime As String = clsFixedParameter.GetData(clsFixedParameterType.AllowToSaveTimeWithDocumentDate, clsFixedParameterCode.AllowToSaveTimeWithDocumentDate, trans)
             '============Added by preeti Gupta==============
             Dim Status As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select isPosted from tspl_quality_check Where QC_No='" + obj.QC_No + "'", trans))

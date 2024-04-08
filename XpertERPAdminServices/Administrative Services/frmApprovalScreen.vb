@@ -280,7 +280,7 @@ Public Class frmApprovalScreen
             " inner join TSPL_MODULE_PERMISSION on TSPL_MODULE_PERMISSION.Module_Name=TSPL_PROGRAM_MASTER.Program_Code " + Environment.NewLine +
             " where Type='M' and Program_Code in ('" + clsUserMgtCode.ModuleSalesNew + "','" + clsUserMgtCode.ModuleProductSale + "','" + clsUserMgtCode.ModuleSaleDairy +
             "','" + clsUserMgtCode.ModuleCSASale + "','" + clsUserMgtCode.ModuleFreshSale + "','" + clsUserMgtCode.ModuleBulkSale + "','" + clsUserMgtCode.ModuleMerchantTradeSale +
-            "','" + clsUserMgtCode.ModuleMCCMilkProcurement + "','" + clsUserMgtCode.ModuleBulkMilkProcurement + "','" + clsUserMgtCode.ModuleJobWorkOutWard + "','" + clsUserMgtCode.ModulePurchase + "','" +
+            "','" + clsUserMgtCode.ModuleMCCMilkProcurement + "','" + clsUserMgtCode.ModuleProductionDairy + "','" + clsUserMgtCode.ModuleJobWorkOutWard + "','" + clsUserMgtCode.ModulePurchase + "','" +
             clsUserMgtCode.ModuleReceivable + "','" + clsUserMgtCode.ModulePayable + "','" + clsUserMgtCode.ModuleMaterial +
            "') order by SNo"
 
@@ -302,7 +302,7 @@ Public Class frmApprovalScreen
             Dim qry As String
             Dim whrCls As String = " and Program_Code in ('PO-ODR','PO-REQ','PO-INV','SALN-SO','SALE-ORDER','SALN-SP','DEL-NOTE-FS','DEL-ORD-PS','DISPATCH-BS','M-Material', 'DBT-NEFT-UPL', 'VSP-Item','Pay-Pro','SHIPMENT-PS','CSA-INV-TRN','M-SRN-B','M-RECEIPT','M-QC','LC-CREATION','BOOK-DS','CSA-DO-TRN','SALE-RET-PS','RETRUN-DS','STORE-REQ','AP-INVOICE','PYMT-NEW','AR-INVOICE','RECEIPT-E','" + clsUserMgtCode.Transfer + "','" + clsUserMgtCode.frmMilkJobWorkTransferOther + "')"
             If Not clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), clsUserMgtCode.ModuleSaleDairy) = CompairStringResult.Equal Then ''std. sales
-                If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), clsUserMgtCode.ModuleBulkMilkProcurement) = CompairStringResult.Equal Then
+                If clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), clsUserMgtCode.ModuleProductionDairy) = CompairStringResult.Equal Then
                     qry = "select Program_Code AS Code, Program_Name as Name from tspl_program_master " &
                                 "where Parent_Code=(select Program_Code from TSPL_PROGRAM_MASTER where Parent_Code='" + clsCommon.myCstr(cboModule.SelectedValue) + "' and Program_Name in ('Bulk Transaction')) " + whrCls + " "
 
