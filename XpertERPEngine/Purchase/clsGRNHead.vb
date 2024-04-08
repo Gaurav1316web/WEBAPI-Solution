@@ -890,6 +890,10 @@ Public Class clsGRNHead
                         objTr.Header_Discount_Amount = clsCommon.myCdbl(dr("Header_Discount_Amount"))
                         objTr.Disc_Per = clsCommon.myCdbl(dr("Disc_Per"))
                         objTr.Detail_Discount_Amount = clsCommon.myCdbl(dr("Detail_Discount_Amount"))
+
+                        objTr.Disc_Per_Unit = clsCommon.myCdbl(dr("Disc_Per_Unit"))
+                        objTr.Disc_Amt_Per_Unit = clsCommon.myCdbl(dr("Disc_Amt_Per_Unit"))
+
                         objTr.Disc_Amt = clsCommon.myCdbl(dr("Disc_Amt"))
                         objTr.Amt_Less_Discount = clsCommon.myCdbl(dr("Amt_Less_Discount"))
 
@@ -1469,6 +1473,8 @@ Public Class clsGRNDetail
     Public Header_Discount_Per As Decimal = 0
     Public Header_Discount_Amount As Decimal = 0
     Public Disc_Per As Double = 0
+    Public Disc_Per_Unit As Decimal = 0
+    Public Disc_Amt_Per_Unit As Decimal = 0
     Public Detail_Discount_Amount As Decimal = 0
     Public Disc_Amt As Double = 0
     Public Amt_Less_Discount As Double = 0
@@ -1569,6 +1575,8 @@ Public Class clsGRNDetail
                 clsCommon.AddColumnsForChange(coll, "Header_Discount_Amount", obj.Header_Discount_Amount)
                 clsCommon.AddColumnsForChange(coll, "Disc_Per", obj.Disc_Per)
                 clsCommon.AddColumnsForChange(coll, "Detail_Discount_Amount", obj.Detail_Discount_Amount)
+                clsCommon.AddColumnsForChange(coll, "Disc_Per_Unit", obj.Disc_Per_Unit)
+                clsCommon.AddColumnsForChange(coll, "Disc_Amt_Per_Unit", obj.Disc_Amt_Per_Unit)
                 clsCommon.AddColumnsForChange(coll, "Disc_Amt", obj.Disc_Amt)
                 clsCommon.AddColumnsForChange(coll, "Amt_Less_Discount", obj.Amt_Less_Discount)
                 clsCommon.AddColumnsForChange(coll, "Taxable_Amount_Per", obj.Taxable_Amount_Per)
