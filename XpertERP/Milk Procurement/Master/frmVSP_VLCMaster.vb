@@ -1132,58 +1132,58 @@ Public Class frmVSP_VLCMaster
             Dim StrVdrNo As String = ""
             Dim StrTempVSPName As String = clsCommon.myCstr(txtvendorname.Text).Replace(" ", "")
             StrTempVSPName = StrTempVSPName.Replace("'", "")
-            qry = "select count(*) from TSPL_VENDOR_MASTER Inner Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code where TSPL_VENDOR_MASTER.Vendor_Name ='" + StrTempVSPName + "' and TSPL_VENDOR_MASTER.form_type='VSP' And TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(txtVLCCodeVlcUploader.Text) + "'"
-            check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
-            If check <= 0 Then
-                coll = New Hashtable()
-                clsCommon.AddColumnsForChange(coll, "Vendor_Name", StrTempVSPName)
-                clsCommon.AddColumnsForChange(coll, "Closing_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
-                clsCommon.AddColumnsForChange(coll, "State", txtState.Text)
-                clsCommon.AddColumnsForChange(coll, "form_type", "VSP")
-                clsCommon.AddColumnsForChange(coll, "state_code", txtstatecode.Value, True)
-                clsCommon.AddColumnsForChange(coll, "City_Code", fndCity.Value, True)
-                clsCommon.AddColumnsForChange(coll, "City_Code_Desc", txtCity.Text, True)
-                clsCommon.AddColumnsForChange(coll, "PC_CODE", fndpaymentCycle.Value, True)
-                clsCommon.AddColumnsForChange(coll, "Vendor_Group_Code", fndgroupcode.Value)
-                clsCommon.AddColumnsForChange(coll, "Vendor_Group_Code_Desc", txtgroupdes.Text)
-                clsCommon.AddColumnsForChange(coll, "Start_Date", Nothing, True)
-                clsCommon.AddColumnsForChange(coll, "End_Date", Nothing, True)
-                clsCommon.AddColumnsForChange(coll, "is_Head_Load", "F")
-                clsCommon.AddColumnsForChange(coll, "Status", "N")
-                clsCommon.AddColumnsForChange(coll, "Onhold", "N")
-                clsCommon.AddColumnsForChange(coll, "Transporter", "Y")
-                clsCommon.AddColumnsForChange(coll, "Currency_Code", objCommonVar.BaseCurrencyCode)
-                clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)
-                clsCommon.AddColumnsForChange(coll, "modify_by", objCommonVar.CurrentUserCode)
-                clsCommon.AddColumnsForChange(coll, "modify_date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
-                clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-                clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
+            'qry = "select count(*) from TSPL_VENDOR_MASTER Inner Join TSPL_VLC_MASTER_HEAD ON TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code where TSPL_VENDOR_MASTER.Vendor_Name ='" + StrTempVSPName + "' and TSPL_VENDOR_MASTER.form_type='VSP' And TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(txtVLCCodeVlcUploader.Text) + "'"
+            'check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
+            'If check <= 0 Then
+            '    coll = New Hashtable()
+            '    clsCommon.AddColumnsForChange(coll, "Vendor_Name", StrTempVSPName)
+            '    clsCommon.AddColumnsForChange(coll, "Closing_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
+            '    clsCommon.AddColumnsForChange(coll, "State", txtState.Text)
+            '    clsCommon.AddColumnsForChange(coll, "form_type", "VSP")
+            '    clsCommon.AddColumnsForChange(coll, "state_code", txtstatecode.Value, True)
+            '    clsCommon.AddColumnsForChange(coll, "City_Code", fndCity.Value, True)
+            '    clsCommon.AddColumnsForChange(coll, "City_Code_Desc", txtCity.Text, True)
+            '    clsCommon.AddColumnsForChange(coll, "PC_CODE", fndpaymentCycle.Value, True)
+            '    clsCommon.AddColumnsForChange(coll, "Vendor_Group_Code", fndgroupcode.Value)
+            '    clsCommon.AddColumnsForChange(coll, "Vendor_Group_Code_Desc", txtgroupdes.Text)
+            '    clsCommon.AddColumnsForChange(coll, "Start_Date", Nothing, True)
+            '    clsCommon.AddColumnsForChange(coll, "End_Date", Nothing, True)
+            '    clsCommon.AddColumnsForChange(coll, "is_Head_Load", "F")
+            '    clsCommon.AddColumnsForChange(coll, "Status", "N")
+            '    clsCommon.AddColumnsForChange(coll, "Onhold", "N")
+            '    clsCommon.AddColumnsForChange(coll, "Transporter", "Y")
+            '    clsCommon.AddColumnsForChange(coll, "Currency_Code", objCommonVar.BaseCurrencyCode)
+            '    clsCommon.AddColumnsForChange(coll, "comp_code", objCommonVar.CurrentCompanyCode)
+            '    clsCommon.AddColumnsForChange(coll, "modify_by", objCommonVar.CurrentUserCode)
+            '    clsCommon.AddColumnsForChange(coll, "modify_date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
+            '    clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
+            '    clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
 
-                StrVdrNo = clsERPFuncationality.GetNextCode(trans, clsCommon.GETSERVERDATE(trans), clsDocType.PTMMASTER, "", "")
-                clsCommon.AddColumnsForChange(coll, "Vendor_Code", StrVdrNo)
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_MASTER", OMInsertOrUpdate.Insert, "", trans)
-            End If
+            '    StrVdrNo = clsERPFuncationality.GetNextCode(trans, clsCommon.GETSERVERDATE(trans), clsDocType.PTMMASTER, "", "")
+            '    clsCommon.AddColumnsForChange(coll, "Vendor_Code", StrVdrNo)
+            '    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_VENDOR_MASTER", OMInsertOrUpdate.Insert, "", trans)
+            'End If
             ''end of Primary Transporter Master
 
             ''Primary Transporter Vehiclee Master
 
-            qry = "select count(*) from TSPL_Primary_Vehicle_Master where vehicle_code='" + StrTempVSPName + "'"
-            check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
-            If check <= 0 Then
-                Dim obj As clsfrmPrimaryTransporterVehicalMaster
-                obj = New clsfrmPrimaryTransporterVehicalMaster()
-                obj.docno = StrTempVSPName
-                obj.primarycode = StrVdrNo
-                obj.primaryname = StrTempVSPName
-                obj.mcccode = clsCommon.myCstr(fndMcc.Value)
-                obj.mccname = clsMccMaster.GetName(fndMcc.Value, trans)
-                obj.pricekm = 0
-                obj.status = "Rate/K.M"
-                clsfrmPrimaryTransporterVehicalMaster.SaveData(obj.docno, True, obj, trans)
-            End If
+            'qry = "select count(*) from TSPL_Primary_Vehicle_Master where vehicle_code='" + StrTempVSPName + "'"
+            'check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
+            'If check <= 0 Then
+            '    Dim obj As clsfrmPrimaryTransporterVehicalMaster
+            '    obj = New clsfrmPrimaryTransporterVehicalMaster()
+            '    obj.docno = StrTempVSPName
+            '    obj.primarycode = StrVdrNo
+            '    obj.primaryname = StrTempVSPName
+            '    obj.mcccode = clsCommon.myCstr(fndMcc.Value)
+            '    obj.mccname = clsMccMaster.GetName(fndMcc.Value, trans)
+            '    obj.pricekm = 0
+            '    obj.status = "Rate/K.M"
+            '    clsfrmPrimaryTransporterVehicalMaster.SaveData(obj.docno, True, obj, trans)
+            'End If
 
 
-            '' Milk Route Master
+            ''' Milk Route Master
             If False Then
                 qry = "select count(*) from tspl_mcc_route_master where route_Name='" + StrTempVSPName + "'"
                 check = CInt(clsDBFuncationality.getSingleValue(qry, trans))
@@ -1206,7 +1206,7 @@ Public Class frmVSP_VLCMaster
                     End If
                 End If
             End If
-            ''end of Milk Route master
+            '''end of Milk Route master
 
             '' Village Master
             qry = "select count(*) from TSPL_VILLAGE_MASTER where Village_Name='" + StrTempVSPName + "'"
