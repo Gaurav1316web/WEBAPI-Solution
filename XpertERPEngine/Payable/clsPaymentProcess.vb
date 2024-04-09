@@ -2343,9 +2343,8 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_Pa
             BaseQry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code " + Environment.NewLine
         End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
-            BaseQry += " left join(select VLC_CODE,Head_Load_Rate from TSPL_HEAD_LOAD_DCS left outer join TSPL_HEAD_LOAD on TSPL_HEAD_LOAD.Document_No = TSPL_HEAD_LOAD_DCS.Document_No
-                         where convert(date,TSPL_HEAD_LOAD.Document_date,103)> = convert(date,('" + fromDate + "'),103) 
-                         and convert(date,TSPL_HEAD_LOAD.Document_date,103) <=convert(date,('" + Todate + "'),103)   )Headload on TSPL_VLC_MASTER_HEAD.VLC_Code = Headload.VLC_CODE "
+            BaseQry += " left join(select VLC_CODE,Max(Head_Load_Rate)Head_Load_Rate from TSPL_HEAD_LOAD_DCS left outer join TSPL_HEAD_LOAD on TSPL_HEAD_LOAD.Document_No = TSPL_HEAD_LOAD_DCS.Document_No
+                         group by VLC_CODE )Headload on TSPL_VLC_MASTER_HEAD.VLC_Code = Headload.VLC_CODE "
             'BaseQry += " Left Outer Join TSPL_HEAD_LOAD_DCS On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_HEAD_LOAD_DCS.VLC_CODE " + Environment.NewLine
         End If
         'Comment by balwinder on 26/03/2024 as TSPL_TRANSFER_TO_SAVING_DETAIL is not used in this query

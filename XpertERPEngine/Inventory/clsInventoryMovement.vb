@@ -5388,9 +5388,9 @@ Public Class clsPhysicalstock
                     If objtr.Difference < 0 OrElse objtr.DifferenceAmt < 0 Then
                         obj.Adjustment_Date = objtr.Stock_Date
                         obj.Reference = ""
-                        obj.Description = objtr.Description
-                        If clsCommon.myLen(obj.Description) > 100 Then
-                            obj.Description = obj.Description.Substring(0, 100)
+                        obj.Description = "Auto Adjustment Created due to Physical stock entry no " + objtr.Physical_No + " on " + clsCommon.GetPrintDate(objtr.Stock_Date, "dd/MMM/yyyy") + ""
+                        If clsCommon.myLen(obj.Description) > 300 Then
+                            obj.Description = obj.Description.Substring(0, 300)
                         End If
                         obj.Reference_Document = ""
                         obj.Document_No = ""
