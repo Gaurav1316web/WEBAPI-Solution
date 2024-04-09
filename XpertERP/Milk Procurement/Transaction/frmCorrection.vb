@@ -927,9 +927,9 @@ where TSPL_MILK_SRN_HEAD.Against_Reject_No is null and TSPL_MILK_SRN_HEAD.MCC_CO
                 Throw New Exception("Please provide Route code ")
             End If
             Dim whr As String = "len(isnull(TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,''))>0 "
-            If Not SettShowAllMCC Then
-                whr += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO='" + txtBMCRouteNo.Value + "' "
-            End If
+            'If Not SettShowAllMCC Then
+            '    whr += " and TSPL_BULK_ROUTE_MASTER_MCC.ROUTE_NO='" + txtBMCRouteNo.Value + "' "
+            'End If
             txtBMCBMC.Value = clsMccMaster.getFinderUploader(whr, txtBMCBMC.Value, isButtonClicked)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable("select TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MCC_MASTER.MCC_Code,TSPL_MCC_MASTER.MCC_NAME from TSPL_MCC_MASTER where Mcc_Code_VLC_Uploader='" + clsCommon.myCstr(txtBMCBMC.Value) + "'")
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

@@ -22,7 +22,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -30,6 +30,8 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.fndArea = New common.UserControls.txtFinder()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
         Me.rbtnAll = New System.Windows.Forms.RadioButton()
         Me.rbtnInActive = New System.Windows.Forms.RadioButton()
@@ -66,6 +68,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -151,6 +154,8 @@ Partial Class rptTemporaryPaymentDeductionSummary
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel2)
+        Me.RadPageViewPage1.Controls.Add(Me.fndArea)
         Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox1)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel1)
         Me.RadPageViewPage1.Controls.Add(Me.txtDeduction)
@@ -165,6 +170,41 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.RadPageViewPage1.Size = New System.Drawing.Size(833, 278)
         Me.RadPageViewPage1.Text = "Filters"
         '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Location = New System.Drawing.Point(302, 13)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(29, 18)
+        Me.MyLabel2.TabIndex = 1504
+        Me.MyLabel2.Text = "Area"
+        '
+        'fndArea
+        '
+        Me.fndArea.CalculationExpression = Nothing
+        Me.fndArea.FieldCode = Nothing
+        Me.fndArea.FieldDesc = Nothing
+        Me.fndArea.FieldMaxLength = 0
+        Me.fndArea.FieldName = Nothing
+        Me.fndArea.isCalculatedField = False
+        Me.fndArea.IsSourceFromTable = False
+        Me.fndArea.IsSourceFromValueList = False
+        Me.fndArea.IsUnique = False
+        Me.fndArea.Location = New System.Drawing.Point(382, 12)
+        Me.fndArea.MendatroryField = True
+        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndArea.MyLinkLable1 = Nothing
+        Me.fndArea.MyLinkLable2 = Nothing
+        Me.fndArea.MyReadOnly = False
+        Me.fndArea.MyShowMasterFormButton = False
+        Me.fndArea.Name = "fndArea"
+        Me.fndArea.ReferenceFieldDesc = Nothing
+        Me.fndArea.ReferenceFieldName = Nothing
+        Me.fndArea.ReferenceTableName = Nothing
+        Me.fndArea.Size = New System.Drawing.Size(296, 18)
+        Me.fndArea.TabIndex = 1503
+        Me.fndArea.Value = ""
+        '
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
@@ -172,7 +212,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.RadGroupBox1.Controls.Add(Me.rbtnInActive)
         Me.RadGroupBox1.Controls.Add(Me.rbtnActive)
         Me.RadGroupBox1.HeaderText = ""
-        Me.RadGroupBox1.Location = New System.Drawing.Point(382, 99)
+        Me.RadGroupBox1.Location = New System.Drawing.Point(382, 113)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Size = New System.Drawing.Size(194, 27)
         Me.RadGroupBox1.TabIndex = 446
@@ -210,7 +250,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         'MyLabel1
         '
         Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Location = New System.Drawing.Point(302, 49)
+        Me.MyLabel1.Location = New System.Drawing.Point(302, 63)
         Me.MyLabel1.Name = "MyLabel1"
         Me.MyLabel1.Size = New System.Drawing.Size(58, 18)
         Me.MyLabel1.TabIndex = 445
@@ -227,7 +267,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.txtDeduction.IsSourceFromTable = False
         Me.txtDeduction.IsSourceFromValueList = False
         Me.txtDeduction.IsUnique = False
-        Me.txtDeduction.Location = New System.Drawing.Point(382, 49)
+        Me.txtDeduction.Location = New System.Drawing.Point(382, 63)
         Me.txtDeduction.MendatroryField = True
         Me.txtDeduction.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtDeduction.MyLinkLable1 = Nothing
@@ -245,7 +285,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         'chkDCSWise
         '
         Me.chkDCSWise.AutoSize = True
-        Me.chkDCSWise.Location = New System.Drawing.Point(382, 75)
+        Me.chkDCSWise.Location = New System.Drawing.Point(382, 89)
         Me.chkDCSWise.Name = "chkDCSWise"
         Me.chkDCSWise.Size = New System.Drawing.Size(75, 17)
         Me.chkDCSWise.TabIndex = 443
@@ -255,7 +295,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         'MyLabel4
         '
         Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Location = New System.Drawing.Point(302, 24)
+        Me.MyLabel4.Location = New System.Drawing.Point(302, 38)
         Me.MyLabel4.Name = "MyLabel4"
         Me.MyLabel4.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel4.TabIndex = 442
@@ -272,7 +312,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.txtMCC.IsSourceFromTable = False
         Me.txtMCC.IsSourceFromValueList = False
         Me.txtMCC.IsUnique = False
-        Me.txtMCC.Location = New System.Drawing.Point(382, 24)
+        Me.txtMCC.Location = New System.Drawing.Point(382, 38)
         Me.txtMCC.MendatroryField = True
         Me.txtMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMCC.MyLinkLable1 = Nothing
@@ -441,7 +481,8 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -530,6 +571,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
@@ -594,5 +636,7 @@ Partial Class rptTemporaryPaymentDeductionSummary
     Friend WithEvents rbtnAll As RadioButton
     Friend WithEvents rbtnInActive As RadioButton
     Friend WithEvents rbtnActive As RadioButton
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents fndArea As common.UserControls.txtFinder
 End Class
 

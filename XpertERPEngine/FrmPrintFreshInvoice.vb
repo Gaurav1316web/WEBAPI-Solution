@@ -869,12 +869,13 @@ Public Class FrmPrintFreshInvoice
                 Qry += " , isnull(TSPL_COMPANY_MASTER.Comp_Name,'') as Company_Name,  isnull(TSPL_COMPANY_MASTER.Add2,'') as Address2,TSPL_COMPANY_MASTER.Regn_No,
   isnull(TSPL_COMPANY_MASTER.Access_Officer,'') as FSSAI_NO,TSPL_RECEIPT_HEADER.Receipt_No,TSPL_RECEIPT_HEADER.Receipt_Date,TSPL_RECEIPT_HEADER.Receipt_Amount,TSPL_RECEIPT_HEADER.Payment_Code,TSPL_RECEIPT_HEADER.cheque_No,TSPL_RECEIPT_HEADER.Cheque_Date, '" + clsCommon.myCstr(OpeningBal) + "' as OpeningBal,'" + clsCommon.myCstr(ClosingBal) + "' as ClosingBal "
 
-                Qry = "  select Main_Final.*,TSPL_COMPANY_MASTER.Logo_Img,TSPL_COMPANY_MASTER.GSTReg_No As SellerGST,TSPL_COMPANY_MASTER.Pan_No,Convert(decimal(18,2),(valueInRs/((Qty_Default*ConversionFactor)/CF))) As RateLtr from ( select final.*,tbl_Brand.Brand,tbl_Brand.BRANDDESC from ( " &
+            End If
+            Qry += "  from ( select final.*,tbl_Brand.Brand,tbl_Brand.BRANDDESC from ( " &
                         "select  (Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then cast(TSPL_SD_SALE_INVOICE_HEAD.BarCode_Img as image) End) as BarCode_Img,TSPL_SD_SHIPMENT_HEAD.Security_TotalAmt,case when TSPL_SD_SHIPMENT_HEAD.Shift_Type='AM' then 'Morning' else 'Evening' end as Shift_Type,  TSPL_SD_SALE_INVOICE_DETAIL.TAX1 as ITAX1,TSPL_SD_SALE_INVOICE_DETAIL.TAX1_RATE AS   ITAX1_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX2 as ITAX2,TSPL_SD_SALE_INVOICE_DETAIL.TAX2_RATE AS ITAX2_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX3 AS ITAX3,TSPL_SD_SALE_INVOICE_DETAIL.TAX3_Rate AS ITAX3_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX4 AS ITAX4 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX4_RATE AS ITAX4_RATE,
                     TSPL_SD_SALE_INVOICE_DETAIL.TAX5 as ITAX5,TSPL_SD_SALE_INVOICE_DETAIL.TAX5_RATE AS   ITAX5_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX6 as ITAX6,TSPL_SD_SALE_INVOICE_DETAIL.TAX6_RATE AS ITAX6_RATE,TSPL_SD_SALE_INVOICE_DETAIL.TAX7 AS ITAX7,TSPL_SD_SALE_INVOICE_DETAIL.TAX7_Rate AS ITAX7_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX8 AS ITAX8 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX8_RATE AS ITAX8_RATE,
                     TSPL_SD_SALE_INVOICE_DETAIL.TAX9 AS ITAX9,TSPL_SD_SALE_INVOICE_DETAIL.TAX9_Rate AS ITAX9_Rate ,TSPL_SD_SALE_INVOICE_DETAIL.TAX10 AS ITAX10 ,TSPL_SD_SALE_INVOICE_DETAIL.TAX10_RATE AS ITAX10_RATE, 
                      (Case When TSPL_SD_SHIPMENT_HEAD.DO_Item_Type='T' Then 'IRN : '+ TSPL_SD_SALE_INVOICE_HEAD.IRN_No End) As IRN_No,Zone_Code,ITEMDETAIL1.Conversion_Factor As CF,TSPL_ITEM_UOM_DETAIL.Conversion_Factor As ConversionFactor,"
-                If clsCommon.myCdbl(LeakageDeduction_Freshsale) > 0 Then
+            If clsCommon.myCdbl(LeakageDeduction_Freshsale) > 0 Then
                     Qry += "TSPL_SD_SALE_INVOICE_HEAD.Amount_Less_Discount*'" & LeakageDeduction_Freshsale & "'/100 as LeakageDeduction_Freshsale,1 as LeakageDeduction, "
                 Else
                     Qry += " TSPL_SD_SALE_INVOICE_HEAD.EInvoice_Type,0 as LeakageDeduction_Freshsale,0 as LeakageDeduction, "
@@ -996,9 +997,8 @@ and not exists (select 1 from  (select  TSPL_SD_sale_invoice_DETAIL.Item_Code, "
                 End If
                 Qry += " order  by Main_Final.Line_No asc,Main_Final.Sku_Seq "
             End If
-            ' Return Qry
-        End If
         Return Qry
+
     End Function
 
     Public Function PrintInvoiceForTruckSheetReport(ByVal FromDate, ByVal ToDate, ByVal whrcls) As String
