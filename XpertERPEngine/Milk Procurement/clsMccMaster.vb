@@ -2566,11 +2566,18 @@ left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_FAT_SNF_UPL
                             dclDedPer = clsCommon.myCDecimal(drSlab("Deduction_Per"))
                             dclReturnMilkValue = (dclReturnMilkValue * ((100 - dclDedPer) / 100))
 
-                            Dim arr As Dictionary(Of Decimal, Decimal) = clsPriceChartPlanningTSDDCFSNFDed.GetData(strPlanningCode, clsCommon.myCDecimal(drSlab("SNo")), tran)
-                            If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                                If arr.ContainsKey(dblSNFPer) Then
-                                    dclReturnMilkValue += arr.Item(dblSNFPer)
+                            Dim arrSNF As Dictionary(Of Decimal, Decimal) = clsPriceChartPlanningTSDDCFSNFDed.GetData(strPlanningCode, clsCommon.myCDecimal(drSlab("SNo")), tran)
+                            If arrSNF IsNot Nothing AndAlso arrSNF.Count > 0 Then
+                                If arrSNF.ContainsKey(dblSNFPer) Then
+                                    dclReturnMilkValue += arrSNF.Item(dblSNFPer)
                                 End If
+                            End If
+                        End If
+
+                        Dim arrFAT As Dictionary(Of Decimal, Decimal) = clsPriceChartPlanningTSDDCFFATDed.GetData(strPlanningCode, clsCommon.myCDecimal(drSlab("SNo")), tran)
+                        If arrFAT IsNot Nothing AndAlso arrFAT.Count > 0 Then
+                            If arrFAT.ContainsKey(dblFATPer) Then
+                                dclReturnMilkValue += arrFAT.Item(dblFATPer)
                             End If
                         End If
                         Exit For
