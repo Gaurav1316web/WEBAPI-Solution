@@ -318,6 +318,7 @@
     <None Include="Crystal Reports GST\Inventory Report\TransferPreprintedLORoute.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\TransferPreprintedLORouteTAX.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptBMCDockReport.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\crptBMCRoutePrint.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptBulkSaleReturn.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCANSaleInvoice.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\crptCrateAccountingForDetail.rpt" />
@@ -362,6 +363,7 @@
     <None Include="Crystal Reports GST\Kwality Sales Report\FreshHeader.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\New Microsoft Word Document.docx" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptAcceptanceLetterMT.rpt" />
+    <None Include="Crystal Reports GST\Kwality Sales Report\rptBMCDCSPrint.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptBulkSalePriceChart.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptCompanyAddress.rpt" />
     <None Include="Crystal Reports GST\Kwality Sales Report\rptCPDPriceMaster.rpt" />
@@ -589,6 +591,8 @@
     <None Include="Crystal Reports GST\Purchase Order\PO-G - Copy.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G old1.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-G.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PO-GALW.rpt" />
+    <None Include="Crystal Reports GST\Purchase Order\PO-GBKN.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\PO-V.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\POReport\FrmPurchaseOrderReport-G.rpt" />
     <None Include="Crystal Reports GST\Purchase Order\POReport\FrmPurchaseOrderReport-V.rpt" />

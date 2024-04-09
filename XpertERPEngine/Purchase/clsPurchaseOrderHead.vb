@@ -6031,7 +6031,7 @@ Public Class clsPurchaseOrderDetail
     Public Header_Discount_Amount As Decimal = 0
     Public Disc_Per As Double = 0
     Public Detail_Discount_Amount As Decimal = 0
-    Public Disc_Per_Unit As Double = 0
+    Public Disc_Per_Unit As Decimal = 0
     Public Disc_Amt_Per_Unit As Decimal = 0
     Public Disc_Amt As Double = 0
     Public Disc_Type As Integer = 0

@@ -2465,7 +2465,7 @@ Public Class MDI
             arrExcluded.Add(clsUserMgtCode.MccMilkTransferPrice)
             arrExcluded.Add("RcpChgRutRpt")
             arrExcluded.Add("MCCChngDet")
-            arrExcluded.Add(clsUserMgtCode.frmCostCenterTypeMaster)
+            ''  arrExcluded.Add(clsUserMgtCode.frmCostCenterTypeMaster)
             If clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyFinancialCostCenter, clsFixedParameterCode.ApplyFinancialCostCenter, Nothing)) = "1", True, False)) = True Then
                 arrExcluded.Add(clsUserMgtCode.CostFACenter)
             End If

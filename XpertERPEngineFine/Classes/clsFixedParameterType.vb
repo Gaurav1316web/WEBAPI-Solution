@@ -514,6 +514,7 @@ Public Class clsFixedParameterType
     Public Const ShowTaxRateColumnOnTransaction As String = "ShowTaxRateColumnOnTransaction"
     Public Const ShowGRN As String = "ShowGRN"
     Public Const SkipMRNGRNinCaseofMT As String = "SkipMRNGRNinCaseofMT"
+    Public Const AutoGenerateMRN As String = "AutoGenerateMRN"
     Public Const ShowMRN As String = "ShowMRN"
 
     Public Const LicenceExpiryDate As String = "IsApplyCommonService1" 'A B
@@ -1324,7 +1325,7 @@ Public Class clsFixedParameterType
     Public Const AllowIncreaseDispatchQty = "Allow Increase Dispatch Qty"
     Public Const FORPRICE = "FOR Price"
     Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
-
+    Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
 
 End Class
 Public Class clsFixedParameterCode
@@ -1868,6 +1869,7 @@ Public Class clsFixedParameterCode
     Public Const AllowLargerItemCostThenVendorItemCost As String = "AllowLargerItemCostThenVendorItemCost"
     Public Const ShowGRN As String = "ShowGRN"
     Public Const SkipMRNGRNinCaseofMT As String = "SkipMRNGRNinCaseofMT"
+    Public Const AutoGenerateMRN As String = "AutoGenerateMRN"
     Public Const ShowMRN As String = "ShowMRN"
     Public Const EnableProjectFinder As String = "EnableProjectFinder"
     Public Const PostShipmentonAutoSTN As String = "PostShipmentonAutoSTN"
@@ -2785,6 +2787,7 @@ Public Class clsFixedParameterCode
     Public Const AllowIncreaseDispatchQty = "Allow Increase Dispatch Qty"
     Public Const FORPRICE = "FOR Price"
     Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
+    Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
 
 End Class
 Public Class clsFixedParameter
@@ -3414,6 +3417,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowGRN, clsFixedParameterCode.ShowGRN, "", "If Setting Is On Then GRN (Gate Receipt Note) Screen will be shown in Purchase Module")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowMRN, clsFixedParameterCode.ShowMRN, "", "If Setting Is On Then MRN (Material Receipt Note) Screen will be shown in Purchase Module")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SkipMRNGRNinCaseofMT, clsFixedParameterCode.SkipMRNGRNinCaseofMT, "1", "0-OFF;1-On setting will work only in case of Merchant trade")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AutoGenerateMRN, clsFixedParameterCode.AutoGenerateMRN, "1", "0-OFF;1-On setting will work only in case of Merchant trade")
         InsertDefaultValueFixedParameter(clsFixedParameterType.WorkingHours, clsFixedParameterCode.WorkingHours, "8", "8: Total no of working hours in company")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TreatExcessLeaveAbsent, clsFixedParameterCode.TreatExcessLeaveAbsent, "0", "0-OFF;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.VehicleInsuranceAlert, clsFixedParameterCode.VehicleInsuranceAlert, "0", "0-OFF;1-On")
@@ -4520,6 +4524,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, "0", "Enter Weight in KG ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, "0", "0:Off, 1:On;")
 
 
 
@@ -6084,6 +6089,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSalesInvoiceMT, clsFixedParameterType.CHADetailsMandatoryOnExportSale, clsFixedParameterCode.CHADetailsMandatoryOnExportSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSalesInvoiceMT, clsFixedParameterType.EnableGSTRelatedfields, clsFixedParameterCode.EnableGSTRelatedfields, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmSRNMT, clsFixedParameterType.SkipMRNGRNinCaseofMT, clsFixedParameterCode.SkipMRNGRNinCaseofMT, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.mbtnGRN, clsFixedParameterType.AutoGenerateMRN, clsFixedParameterCode.AutoGenerateMRN, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmSRNMT, clsFixedParameterType.ShowMRN, clsFixedParameterCode.ShowMRN, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmSRNMT, clsFixedParameterType.ShowGRN, clsFixedParameterCode.ShowGRN, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmSRNMT, clsFixedParameterType.AutoDepartmentMendatroryFieldOnPurcahseCycle, clsFixedParameterCode.AutoDepartmentMendatroryFieldOnPurcahseCycle, EnumControlType.CheckBox)
@@ -6583,6 +6589,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, EnumControlType.CheckBox)
 
     End Sub
 End Class

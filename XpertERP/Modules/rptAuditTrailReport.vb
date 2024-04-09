@@ -802,7 +802,7 @@ Public Class rptAuditTrailReport
                     StrOrderBy = " order by Convert (datetime, zz.[Document Date],103)  "
                 End If
                 '--------Milk Procurement Bulk-------------------------
-            ElseIf clsCommon.CompairString(strModuleCode, clsUserMgtCode.ModuleBulkMilkProcurement) = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(strModuleCode, clsUserMgtCode.ModuleProductionDairy) = CompairStringResult.Equal Then
 
                 If clsCommon.CompairString(fndScreen.Value, clsUserMgtCode.frmTankerTransporterMaster) = CompairStringResult.Equal Then
                     qry = "  select '" + strMoudleName + "' as [Module Name],'" + ScrScreenName + "' as [Screen Name] , '" + ScreenType + "' as [Screen Type],Vendor_Code as [Document Code], Vendor_Name as [Description] ,''  as [Document Date],Created_By as [Created By],Convert(varchar, Created_Date,103) as [Created Date] " & _
