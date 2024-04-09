@@ -7,6 +7,7 @@ Public Class rptTemporaryPaymentDeductionSummary
     Inherits FrmMainTranScreen
     Dim isLoad As Boolean = False
     Dim dtPrint As DataTable = Nothing
+    Dim AreaWiseBilling As Boolean = False
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -20,6 +21,9 @@ Public Class rptTemporaryPaymentDeductionSummary
         ToDate.Value = clsCommon.GETSERVERDATE()
         Reset()
         isLoad = False
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+        fndArea.Visible = AreaWiseBilling
+        MyLabel2.Visible = AreaWiseBilling
     End Sub
     Sub Reset()
         EnableDisableControl(True)
@@ -29,6 +33,8 @@ Public Class rptTemporaryPaymentDeductionSummary
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         RadPageView1.SelectedPage = RadPageViewPage1
         rbtnAll.Checked = True
+        txtMCC.Value = ""
+        fndArea.Value = ""
     End Sub
 
     Private Sub EnableDisableControl(ByVal val As Boolean)
@@ -502,6 +508,10 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
             Dim MCCWhere As String = Nothing
             Dim subMCCQry1 As String = Nothing
             Dim subMCCQry2 As String = Nothing
+            Dim subAreaQry As String = Nothing
+            If fndArea.Value.Length > 0 Then
+                subAreaQry = " and tSPL_MCC_MASTER.Area_Location_Code='" + fndArea.Value + "'"
+            End If
             If txtMCC.Value.Length > 0 Then
                 subMCCQry1 = " and TSPL_VLC_MASTER_HEAD.MCC='" + txtMCC.Value + "'"
                 'subMCCQry2 = " and TSPL_MULTIPLE_DEDUCTION_HEAD.MCC_Code='" + txtMCC.Value + "'"
@@ -542,9 +552,19 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                         Select 'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc 
                         ,isnull(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,0) as Amount
                         from TSPL_PAYMENT_PROCESS_DEDUCTION 
-                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
-                        where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in ('" + strOldDocNo + "') " + subMCCQry1 + "" + whrActiveInactive + "
-                                        union all
+                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE"
+                If AreaWiseBilling Then
+                    qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+						left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
+                End If
+                qry += " where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in ('" + strOldDocNo + "') " + whrActiveInactive + ""
+                If AreaWiseBilling = True Then
+                    qry += subAreaQry
+                Else
+                    qry += subMCCQry1
+                End If
+
+                qry += "              union all
                         select case when isnull(TSPL_MULTIPLE_DEDUCTION_HEAD.Trans_Type,'Deduction')='Addition' then 'A' else 'D' end Type
                         ,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader as VSP_Uploader_Code 
                         ,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code,TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Name
@@ -552,10 +572,20 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                         ,isnull(TSPL_MULTIPLE_DEDUCTION_detail.amount,0) as Amount
                         from TSPL_MULTIPLE_DEDUCTION_HEAD 
                         LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
-                        left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC,TSPL_VLC_MASTER_HEAD.Active from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
-                        where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 " + whrActiveInactive + "
-                        and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 and convert(date,Document_Date,103)<convert(date,('" + fromDate.Value + "'),103) " + subMCCQry1 + "
-                        ) Final " + subQryWhere + "group by  Final.Ded_Code ,[Type] " + subQry + " having sum(Amount)>0 order by [Type] desc"
+                        left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC,TSPL_VLC_MASTER_HEAD.Active from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code"
+                If AreaWiseBilling Then
+                    qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+						left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
+                End If
+                qry += "  where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 " + whrActiveInactive + "
+                        and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 and convert(date,Document_Date,103)<convert(date,('" + fromDate.Value + "'),103)"
+                If AreaWiseBilling = True Then
+                    qry += subAreaQry
+                Else
+                    qry += subMCCQry1
+                End If
+
+                qry += "  ) Final " + subQryWhere + "group by  Final.Ded_Code ,[Type] " + subQry + " having sum(Amount)>0 order by [Type] desc"
 
             ElseIf rdbOldCurrent.Checked Then ''2
                 Dim subNewQry As String = Nothing
@@ -573,33 +603,62 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                         ,isnull(TSPL_MULTIPLE_DEDUCTION_detail.amount,0) as Amount,0 As ReDedctAmt
                         from TSPL_MULTIPLE_DEDUCTION_HEAD 
                         LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
-                        left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC,TSPL_VLC_MASTER_HEAD.Active from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
-                        where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 " + subMCCQry1 + "" + whrActiveInactive + "
-                        and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 and convert(date,Document_Date,103)<=convert(date,('" + ToDate.Value + "'),103) 
+                        left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC,TSPL_VLC_MASTER_HEAD.Active from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code"
+                If AreaWiseBilling Then
+                    qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+						     left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
+                End If
+                qry += "  where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted = 1 " + whrActiveInactive + ""
+                If AreaWiseBilling = True Then
+                    qry += subAreaQry
+                Else
+                    qry += subMCCQry1
+                End If
+                qry += " And TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 And convert(Date, Document_Date, 103)<=convert(date,('" + ToDate.Value + "'),103) 
                         union all  
-                        select 'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc
+                        Select 'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc
                         ,isnull(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,0) as Amount,IsNull(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,0) As ReDedctAmt from TSPL_PAYMENT_PROCESS_DEDUCTION 
-                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
-                        inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
-                        inner join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_VENDOR_INVOICE_HEAD.Document_No
-                        inner join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
-                        where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=0 " + subMCCQry1 + "" + whrActiveInactive + "
-                        union all
-                        select   'A' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_NAME, TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode as Ded_Code,TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc as Ded_Desc,isnull(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,0) as Amount,0 As ReDedctAmt 
-                        from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
-                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
-                        inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
-                        inner join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_VENDOR_INVOICE_HEAD.Document_No
-                        inner join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
-                        where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in (" + strDocNo + ") and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=0 " + subMCCQry1 + "" + whrActiveInactive + "
-                        ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " having  sum(Amount)>0 order by " + subQrderBy + " [Type] desc "
+                        Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
+                        inner Join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
+                        inner Join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_VENDOR_INVOICE_HEAD.Document_No
+                        inner Join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No"
+If AreaWiseBilling Then
+                    qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+						     Left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
+                End If
+                qry += "  where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") And TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=0 " + whrActiveInactive + ""
+                If AreaWiseBilling = True Then
+                    qry += subAreaQry
+                Else
+                    qry += subMCCQry1
+                End If
+                qry += " union all
+                        Select 'A' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_NAME, TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode as Ded_Code,TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc as Ded_Desc,isnull(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,0) as Amount,0 As ReDedctAmt 
+                        From TSPL_PAYMENT_PROCESS_CREDIT_NOTE
+                        Left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
+                        inner Join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
+                        inner Join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_VENDOR_INVOICE_HEAD.Document_No
+                        inner Join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No"
+                If AreaWiseBilling Then
+                    qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+						     Left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
+                End If
+
+                qry += "  where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in (" + strDocNo + ") And TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=0 " + whrActiveInactive + ""
+                If AreaWiseBilling = True Then
+                    qry += subAreaQry
+                Else
+                    qry += subMCCQry1
+                End If
+
+                qry += " ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " having  sum(Amount)>0 order by " + subQrderBy + " [Type] desc "
 
             ElseIf rdbCurrentStanding.Checked = True Then  ''3
                 Dim subNewQry As String = Nothing
                 If btnPrint.Text = "Print" Then
                     subNewQry = "select '" + clsCommon.myCstr(objCommonVar.CurrentUser) + "' As PrintedBy,'" + clsCommon.GetPrintDate(fromDate.Value) + "' As FromDate,'" + clsCommon.GetPrintDate(ToDate.Value) + "' As ToDate,(Select Comp_Name From TSPL_COMPANY_MASTER Where Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "') As Comp_Name,(Select City_Code From TSPL_COMPANY_MASTER Where Comp_Code1='" + clsCommon.myCstr(objCommonVar.CurrComp_Code1) + "') As City_Code,Document_Date, "
                 Else
-                    subNewQry = "Select "
+                            subNewQry = "Select "
                 End If
                 qry = subNewQry + " case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
                        ,Max(Ded_code+'-'+Ded_Desc) as DeductionName " + subDCSQry + ", sum(Amount * RI) as [Amount] from (
@@ -610,33 +669,74 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                         ,isnull(TSPL_MULTIPLE_DEDUCTION_detail.amount,0) as Amount,1 as RI
                         from TSPL_MULTIPLE_DEDUCTION_HEAD 
                         LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
-                        left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC,TSPL_VLC_MASTER_HEAD.Active from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
-                        where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 " + subMCCQry1 + "" + whrActiveInactive + "
-                        and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 and convert(date,Document_Date,103)<convert(date,('" + fromDate.Value + "'),103)
+                        left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.MCC,TSPL_VLC_MASTER_HEAD.Active from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code"
+                        If AreaWiseBilling Then
+                    qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+						     Left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
+                End If
+                qry += " where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1  "
+                If AreaWiseBilling = True Then
+                    qry += subAreaQry
+                Else
+                    qry += subMCCQry1
+                End If
+
+                qry += " " + whrActiveInactive + " and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 and convert(date,Document_Date,103)<convert(date,('" + fromDate.Value + "'),103)
                         union all
                         Select '' AS Document_Date,'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc 
                         ,isnull(TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt,0) as Amount,1 as RI
                         from TSPL_PAYMENT_PROCESS_DEDUCTION 
-                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
-                        where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in ('" + strOldDocNo + "') " + subMCCQry1 + "" + whrActiveInactive + "
-                        union all
-                        select  convert(DATE, TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date, 103) ,'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc 
+                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE"
+                If AreaWiseBilling Then
+                    qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+						     Left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
+                End If
+                qry += " where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in ('" + strOldDocNo + "')  "
+                If AreaWiseBilling = True Then
+                    qry += subAreaQry
+                Else
+                    qry += subMCCQry1
+                End If
+                qry += " " + whrActiveInactive + "
+union all
+                        Select  convert(DATE, TSPL_MULTIPLE_DEDUCTION_HEAD.Document_Date, 103) ,'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc 
                         ,isnull(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount,0) as Amount,-1 as RI
                         from TSPL_PAYMENT_PROCESS_DEDUCTION 
                         left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
                         inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No
                         inner join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_VENDOR_INVOICE_HEAD.Document_No
-                        inner join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
-                        where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=0 " + subMCCQry1 + "" + whrActiveInactive + "
-                        union all
+                        inner join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No"
+                If AreaWiseBilling Then
+                    qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+						     Left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
+                End If
+
+                qry += "  where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=0 "
+                If AreaWiseBilling = True Then
+                    qry += subAreaQry
+                Else
+                    qry += subMCCQry1
+                End If
+
+                qry += " " + whrActiveInactive + " 
+union all
                         select  '' AS Document_Date, 'A' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE,TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_NAME, TSPL_MULTIPLE_DEDUCTION_DETAIL.DeductionCode as Ded_Code,TSPL_MULTIPLE_DEDUCTION_DETAIL.Deduction_Desc as Ded_Desc,isnull(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount,0) as Amount,-1 as RI 
                         from TSPL_PAYMENT_PROCESS_CREDIT_NOTE
                         left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE
                         inner join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No=TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No
                         inner join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo=TSPL_VENDOR_INVOICE_HEAD.Document_No
-                        inner join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
-                        where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in (" + strDocNo + ") and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=0 " + subMCCQry1 + "" + whrActiveInactive + "
-                        ) Final " + subQryWhere + " " + MCCWhere + "  group by  Final.Ded_Code  " + subQry + "  ,[Type], Document_Date  order by [Type] desc"
+                        inner join TSPL_MULTIPLE_DEDUCTION_HEAD on TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No=TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No"
+                If AreaWiseBilling Then
+                    qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+						     Left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
+                End If
+                qry += "  where  TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in (" + strDocNo + ") and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=0  "
+                If AreaWiseBilling = True Then
+                    qry += subAreaQry
+                Else
+                    qry += subMCCQry1
+                End If
+                qry += " " + whrActiveInactive + " ) Final " + subQryWhere + " " + MCCWhere + "  group by  Final.Ded_Code  " + subQry + "  ,[Type], Document_Date  order by [Type] desc"
 
             ElseIf chkWithOpening.Checked = True Then ''4
                 qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type
@@ -648,10 +748,22 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                         ,isnull(TSPL_MULTIPLE_DEDUCTION_detail.amount,0) as Amount
                         from TSPL_MULTIPLE_DEDUCTION_HEAD 
                         LEFT OUTER JOIN TSPL_MULTIPLE_DEDUCTION_DETAIL ON TSPL_MULTIPLE_DEDUCTION_HEAD.Document_No =TSPL_MULTIPLE_DEDUCTION_DETAIL.Document_No
-                        left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.Active from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code
-                        where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1
-                        and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 and convert(date,Document_Date,103)>=convert(date,('" + fromDate.Value + "'),103) and convert(date,Document_Date,103)<=convert(date,('" + ToDate.Value + "'),103) " + subMCCQry1 + "" + whrActiveInactive + "
-                        ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type]" + subQry + " order by [Type] desc"
+
+                        left outer Join (select distinct TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_VLC_MASTER_HEAD.VLC_CODE_VLC_Uploader,TSPL_VLC_MASTER_HEAD.Active,TSPL_VLC_MASTER_HEAD.mcc from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_MULTIPLE_DEDUCTION_detail.Vendor_Code"
+                   If AreaWiseBilling Then
+                    qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+						     Left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
+                End If
+                qry += " where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1
+                        and TSPL_MULTIPLE_DEDUCTION_HEAD.IsOpening=1 and convert(date,Document_Date,103)>=convert(date,('" + fromDate.Value + "'),103) and convert(date,Document_Date,103)<=convert(date,('" + ToDate.Value + "'),103) " + whrActiveInactive + " "
+                If AreaWiseBilling = True Then
+                    qry += subAreaQry
+                Else
+                    qry += subMCCQry1
+                End If
+
+
+                qry += "  ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type]" + subQry + " order by [Type] desc"
 
             ElseIf chkORD_CD.Checked = True Then ''5
                 qry = "select case when isnull(Final.Type,'D')='D' then 'Deduction' when isnull(Final.Type,'')='A' then 'Addition' else '' end Type,Max(Ded_code+'-'+Ded_Desc) as DeductionName
@@ -663,9 +775,19 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
                         UNION ALL 
                         Select 'D' Type,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_NAME, TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Code,TSPL_PAYMENT_PROCESS_DEDUCTION.Ded_Desc,TSPL_PAYMENT_PROCESS_DEDUCTION.Amount-TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt as Amount 
                         from TSPL_PAYMENT_PROCESS_DEDUCTION 
-                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE
-                        where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") " + subMCCQry1 + "" + whrActiveInactive + "
-                        ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " order by [Type] desc"
+                        left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE"
+                         If AreaWiseBilling Then
+                    qry += " left outer join tSPL_MCC_MASTER on tSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC
+						     Left outer join tspl_location_master on tspl_location_master.Location_Code=tSPL_MCC_MASTER.Area_Location_Code"
+                End If
+                qry += "  where  TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No in (" + strDocNo + ") " + whrActiveInactive + " "
+                If AreaWiseBilling = True Then
+                    qry += subAreaQry
+                Else
+                    qry += subMCCQry1
+                End If
+
+                qry += "  ) Final " + subQryWhere + " group by  Final.Ded_Code ,[Type] " + subQry + " order by [Type] desc"
             End If
 
             If btnPrint.Text = "Print" Then
@@ -1129,6 +1251,29 @@ where TSPL_MULTIPLE_DEDUCTION_HEAD.IsPosted=1 and TSPL_MULTIPLE_DEDUCTION_HEAD.I
             End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text, MessageBoxButtons.OK)
+        End Try
+    End Sub
+
+    Private Sub fndArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER "
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+
+            'Dim Mcc As New String
+            Dim dt As New DataTable
+            Dim query As String = "select MCC_NAME from TSPL_MCC_MASTER  WHERE Area_Location_Code='" + fndArea.Value + "'"
+            dt = Nothing
+            dt = clsDBFuncationality.GetDataTable(query)
+
+            'For i As Integer = 0 To dt.Rows.Count - 1
+            '    Mcc.Add(dt.Rows(i)("MCC_NAME"))
+            '    'arrMCCMapped.Add(dt.Rows(i)("MCC_NAME").ToString())
+            'Next
+            'txtMCC.Value = Mcc
+            'txtMCC.arrValueMember
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString)
         End Try
     End Sub
 End Class

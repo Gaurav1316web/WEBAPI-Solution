@@ -22,6 +22,8 @@ Partial Class frmDCSAdditionDeduction
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.txtExcludeDCS = New common.UserControls.txtMultiSelectFinder()
         Me.DescHindi = New common.Controls.MyLabel()
         Me.txtDescNameHindi = New common.Controls.MyTextBox()
         Me.lblDescription = New common.Controls.MyLabel()
@@ -89,11 +91,11 @@ Partial Class frmDCSAdditionDeduction
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel12 = New common.Controls.MyLabel()
-        Me.txtExcludeDCS = New common.UserControls.txtMultiSelectFinder()
+        Me.chkApplyFormula = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.DescHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDescNameHindi, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -155,7 +157,7 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkApplyFormula, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -170,6 +172,7 @@ Partial Class frmDCSAdditionDeduction
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.chkApplyFormula)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel12)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtExcludeDCS)
         Me.SplitContainer1.Panel1.Controls.Add(Me.DescHindi)
@@ -229,6 +232,29 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Size = New System.Drawing.Size(681, 449)
         Me.SplitContainer1.SplitterDistance = 415
         Me.SplitContainer1.TabIndex = 0
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel12.Location = New System.Drawing.Point(5, 314)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(68, 18)
+        Me.MyLabel12.TabIndex = 386
+        Me.MyLabel12.Text = "Exclude DCS"
+        '
+        'txtExcludeDCS
+        '
+        Me.txtExcludeDCS.arrDispalyMember = Nothing
+        Me.txtExcludeDCS.arrValueMember = Nothing
+        Me.txtExcludeDCS.Location = New System.Drawing.Point(101, 313)
+        Me.txtExcludeDCS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtExcludeDCS.MyLinkLable1 = Nothing
+        Me.txtExcludeDCS.MyLinkLable2 = Nothing
+        Me.txtExcludeDCS.MyNullText = "All"
+        Me.txtExcludeDCS.Name = "txtExcludeDCS"
+        Me.txtExcludeDCS.Size = New System.Drawing.Size(570, 20)
+        Me.txtExcludeDCS.TabIndex = 385
         '
         'DescHindi
         '
@@ -314,7 +340,7 @@ Partial Class frmDCSAdditionDeduction
         'chkSubtract
         '
         Me.chkSubtract.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkSubtract.Location = New System.Drawing.Point(612, 238)
+        Me.chkSubtract.Location = New System.Drawing.Point(442, 238)
         Me.chkSubtract.Name = "chkSubtract"
         Me.chkSubtract.Size = New System.Drawing.Size(62, 16)
         Me.chkSubtract.TabIndex = 376
@@ -488,7 +514,7 @@ Partial Class frmDCSAdditionDeduction
         Me.txtAddAmount.MyLinkLable2 = Nothing
         Me.txtAddAmount.MyNullText = "Amount of DCS Addition/Deduction Will be added"
         Me.txtAddAmount.Name = "txtAddAmount"
-        Me.txtAddAmount.Size = New System.Drawing.Size(506, 20)
+        Me.txtAddAmount.Size = New System.Drawing.Size(337, 20)
         Me.txtAddAmount.TabIndex = 366
         '
         'txtDescName
@@ -1136,28 +1162,14 @@ Partial Class frmDCSAdditionDeduction
         Me.btnDelete.TabIndex = 1
         Me.btnDelete.Text = "Delete"
         '
-        'MyLabel12
+        'chkApplyFormula
         '
-        Me.MyLabel12.FieldName = Nothing
-        Me.MyLabel12.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(5, 314)
-        Me.MyLabel12.Name = "MyLabel12"
-        Me.MyLabel12.Size = New System.Drawing.Size(68, 18)
-        Me.MyLabel12.TabIndex = 386
-        Me.MyLabel12.Text = "Exclude DCS"
-        '
-        'txtExcludeDCS
-        '
-        Me.txtExcludeDCS.arrDispalyMember = Nothing
-        Me.txtExcludeDCS.arrValueMember = Nothing
-        Me.txtExcludeDCS.Location = New System.Drawing.Point(101, 313)
-        Me.txtExcludeDCS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtExcludeDCS.MyLinkLable1 = Nothing
-        Me.txtExcludeDCS.MyLinkLable2 = Nothing
-        Me.txtExcludeDCS.MyNullText = "All"
-        Me.txtExcludeDCS.Name = "txtExcludeDCS"
-        Me.txtExcludeDCS.Size = New System.Drawing.Size(570, 20)
-        Me.txtExcludeDCS.TabIndex = 385
+        Me.chkApplyFormula.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkApplyFormula.Location = New System.Drawing.Point(510, 238)
+        Me.chkApplyFormula.Name = "chkApplyFormula"
+        Me.chkApplyFormula.Size = New System.Drawing.Size(93, 16)
+        Me.chkApplyFormula.TabIndex = 387
+        Me.chkApplyFormula.Text = "Apply Formula"
         '
         'frmDCSAdditionDeduction
         '
@@ -1176,6 +1188,7 @@ Partial Class frmDCSAdditionDeduction
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.DescHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDescNameHindi, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDescription, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1241,7 +1254,7 @@ Partial Class frmDCSAdditionDeduction
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkApplyFormula, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1316,4 +1329,5 @@ Partial Class frmDCSAdditionDeduction
     Friend WithEvents txtDescNameHindi As common.Controls.MyTextBox
     Friend WithEvents MyLabel12 As common.Controls.MyLabel
     Friend WithEvents txtExcludeDCS As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents chkApplyFormula As RadCheckBox
 End Class
