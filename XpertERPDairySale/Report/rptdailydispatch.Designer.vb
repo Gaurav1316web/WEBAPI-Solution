@@ -50,6 +50,8 @@ Partial Class rptdailydispatch
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
+        Me.ChkMilk = New Telerik.WinControls.UI.RadCheckBox()
+        Me.ChkProduct = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -79,6 +81,8 @@ Partial Class rptdailydispatch
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChkMilk, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ChkProduct, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -107,7 +111,7 @@ Partial Class rptdailydispatch
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(800, 418)
         Me.RadPageView1.TabIndex = 5
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -123,6 +127,8 @@ Partial Class rptdailydispatch
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.ChkProduct)
+        Me.RadPanel1.Controls.Add(Me.ChkMilk)
         Me.RadPanel1.Controls.Add(Me.txtlocation)
         Me.RadPanel1.Controls.Add(Me.txtcustomer)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
@@ -453,6 +459,22 @@ Partial Class rptdailydispatch
         Me.btnreset.TabIndex = 342
         Me.btnreset.Text = "Reset"
         '
+        'ChkMilk
+        '
+        Me.ChkMilk.Location = New System.Drawing.Point(460, 13)
+        Me.ChkMilk.Name = "ChkMilk"
+        Me.ChkMilk.Size = New System.Drawing.Size(41, 18)
+        Me.ChkMilk.TabIndex = 1462
+        Me.ChkMilk.Text = "Milk"
+        '
+        'ChkProduct
+        '
+        Me.ChkProduct.Location = New System.Drawing.Point(517, 13)
+        Me.ChkProduct.Name = "ChkProduct"
+        Me.ChkProduct.Size = New System.Drawing.Size(59, 18)
+        Me.ChkProduct.TabIndex = 1463
+        Me.ChkProduct.Text = "Product"
+        '
         'rptdailydispatch
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -496,6 +518,8 @@ Partial Class rptdailydispatch
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChkMilk, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ChkProduct, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -526,4 +550,6 @@ Partial Class rptdailydispatch
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents txtlocation As UserControls.txtFinder
     Friend WithEvents txtcustomer As UserControls.txtFinder
+    Friend WithEvents ChkProduct As RadCheckBox
+    Friend WithEvents ChkMilk As RadCheckBox
 End Class
