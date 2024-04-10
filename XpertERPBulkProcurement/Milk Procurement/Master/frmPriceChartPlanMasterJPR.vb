@@ -22,7 +22,8 @@ Public Class frmPriceChartPlanMasterJPR
     Public Const colBelowSNFRate As String = "colBelowSNFRate"
     Public Const colDeductionPer As String = "colDeductionPer"
 
-    Public Const colFillDeduction As String = "colFillDeduction"
+    Public Const colFATAddDed As String = "colFATAddDed"
+    Public Const colSNFAddDed As String = "colSNFAddDed"
 
     Dim arrNext As Dictionary(Of Integer, clsRowColumnTemp)
     Dim NextCounter As Integer = 0
@@ -157,7 +158,8 @@ Public Class frmPriceChartPlanMasterJPR
                     objTSDDCF.Fixed_Rate = clsCommon.myCDecimal(gvFATDed.Rows(ii).Cells(colFixedRate).Value)
                     objTSDDCF.Below_SNF_Rate = clsCommon.myCDecimal(gvFATDed.Rows(ii).Cells(colBelowSNFRate).Value)
                     objTSDDCF.Deduction_Per = clsCommon.myCDecimal(gvFATDed.Rows(ii).Cells(colDeductionPer).Value)
-                    objTSDDCF.arr = TryCast(gvFATDed.Rows(ii).Cells(colSNo).Tag, Dictionary(Of Decimal, Decimal))
+                    objTSDDCF.arrFAT = TryCast(gvFATDed.Rows(ii).Cells(colFATFrom).Tag, Dictionary(Of Decimal, Decimal))
+                    objTSDDCF.arrSNF = TryCast(gvFATDed.Rows(ii).Cells(colSNFFrom).Tag, Dictionary(Of Decimal, Decimal))
                     If ((objTSDDCF.FAT_From > 0 OrElse objTSDDCF.FAT_To > 0) AndAlso (objTSDDCF.SNF_From > 0 OrElse objTSDDCF.SNF_To > 0) OrElse (objTSDDCF.Rate_Per > 0 OrElse objTSDDCF.Fixed_Rate > 0 OrElse objTSDDCF.Below_SNF_Rate > 0)) Then
                         obj.arrTSDDCS.Add(objTSDDCF)
                     End If
@@ -254,7 +256,8 @@ Public Class frmPriceChartPlanMasterJPR
                         gvFATDed.Rows(gvFATDed.Rows.Count - 1).Cells(colFixedRate).Value = objTSDDCS.Fixed_Rate
                         gvFATDed.Rows(gvFATDed.Rows.Count - 1).Cells(colBelowSNFRate).Value = objTSDDCS.Below_SNF_Rate
                         gvFATDed.Rows(gvFATDed.Rows.Count - 1).Cells(colDeductionPer).Value = objTSDDCS.Deduction_Per
-                        gvFATDed.Rows(gvFATDed.Rows.Count - 1).Cells(colSNo).Tag = objTSDDCS.arr
+                        gvFATDed.Rows(gvFATDed.Rows.Count - 1).Cells(colFATFrom).Tag = objTSDDCS.arrFAT
+                        gvFATDed.Rows(gvFATDed.Rows.Count - 1).Cells(colSNFFrom).Tag = objTSDDCS.arrSNF
                     Next
                 End If
 
@@ -405,12 +408,20 @@ Public Class frmPriceChartPlanMasterJPR
                 dclReturnMilkValue = ((dclRate * dblFATPer) / 100)
                 dclReturnMilkValue += clsCommon.myCDecimal(gvFATDed.Rows(ii).Cells(colFixedRate).Value)
 
-                Dim arr As Dictionary(Of Decimal, Decimal) = TryCast(gvFATDed.Rows(ii).Cells(colSNo).Tag, Dictionary(Of Decimal, Decimal))
-                If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                    If arr.ContainsKey(dblSNFPer) Then
-                        dclReturnMilkValue += arr.Item(dblSNFPer)
+                Dim arrFATDed As Dictionary(Of Decimal, Decimal) = TryCast(gvFATDed.Rows(ii).Cells(colFATFrom).Tag, Dictionary(Of Decimal, Decimal))
+                If arrFATDed IsNot Nothing AndAlso arrFATDed.Count > 0 Then
+                    If arrFATDed.ContainsKey(dblFATPer) Then
+                        dclReturnMilkValue += arrFATDed.Item(dblFATPer)
                     End If
                 End If
+
+                Dim arrSNFDed As Dictionary(Of Decimal, Decimal) = TryCast(gvFATDed.Rows(ii).Cells(colSNFFrom).Tag, Dictionary(Of Decimal, Decimal))
+                If arrSNFDed IsNot Nothing AndAlso arrSNFDed.Count > 0 Then
+                    If arrSNFDed.ContainsKey(dblSNFPer) Then
+                        dclReturnMilkValue += arrSNFDed.Item(dblSNFPer)
+                    End If
+                End If
+
                 dclDedPer = clsCommon.myCDecimal(gvFATDed.Rows(ii).Cells(colDeductionPer).Value)
                 Exit For
             End If
@@ -787,10 +798,21 @@ Public Class frmPriceChartPlanMasterJPR
             Dim ShowBtn As New GridViewCommandColumn()
             ShowBtn.FormatString = ""
             ShowBtn.UseDefaultText = True
-            ShowBtn.DefaultText = "SNF Deduction"
+            ShowBtn.DefaultText = "FAT Add/Ded"
             ShowBtn.HeaderText = ""
-            ShowBtn.Name = colFillDeduction
-            ShowBtn.FieldName = colFillDeduction
+            ShowBtn.Name = colFATAddDed
+            ShowBtn.FieldName = colFATAddDed
+            ShowBtn.Width = 100
+            ShowBtn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+            gv.MasterTemplate.Columns.Add(ShowBtn)
+
+            ShowBtn = New GridViewCommandColumn()
+            ShowBtn.FormatString = ""
+            ShowBtn.UseDefaultText = True
+            ShowBtn.DefaultText = "SNF Add/Ded"
+            ShowBtn.HeaderText = ""
+            ShowBtn.Name = colSNFAddDed
+            ShowBtn.FieldName = colSNFAddDed
             ShowBtn.Width = 100
             ShowBtn.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
             gv.MasterTemplate.Columns.Add(ShowBtn)
@@ -833,14 +855,23 @@ Public Class frmPriceChartPlanMasterJPR
 
     Private Sub gvFATDed_CommandCellClick(sender As Object, e As EventArgs) Handles gvFATDed.CommandCellClick
         Try
-            If gvFATDed.CurrentColumn Is gvFATDed.Columns(colFillDeduction) Then
+            If gvFATDed.CurrentColumn Is gvFATDed.Columns(colFATAddDed) Then
                 Dim frm As New frmPriceChartPlanMasterTSDDCFDeduction()
-                frm.ArrDed = gvFATDed.CurrentRow.Cells(colSNo).Tag
+                frm.ArrDed = gvFATDed.CurrentRow.Cells(colFATFrom).Tag
+                frm.SNFFrom = gvFATDed.CurrentRow.Cells(colFATFrom).Value
+                frm.SNFTo = gvFATDed.CurrentRow.Cells(colFATTo).Value
+                frm.ShowDialog()
+                If frm.isOK Then
+                    gvFATDed.CurrentRow.Cells(colFATFrom).Tag = frm.ArrDed
+                End If
+            ElseIf gvFATDed.CurrentColumn Is gvFATDed.Columns(colSNFAddDed) Then
+                Dim frm As New frmPriceChartPlanMasterTSDDCFDeduction()
+                frm.ArrDed = gvFATDed.CurrentRow.Cells(colSNFFrom).Tag
                 frm.SNFFrom = gvFATDed.CurrentRow.Cells(colSNFFrom).Value
                 frm.SNFTo = gvFATDed.CurrentRow.Cells(colSNFTo).Value
                 frm.ShowDialog()
                 If frm.isOK Then
-                    gvFATDed.CurrentRow.Cells(colSNo).Tag = frm.ArrDed
+                    gvFATDed.CurrentRow.Cells(colSNFFrom).Tag = frm.ArrDed
                 End If
             End If
         Catch ex As Exception

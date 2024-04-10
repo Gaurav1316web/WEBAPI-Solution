@@ -3,11 +3,15 @@ Imports System.IO
 Imports common
 
 Public Class frmTDSReport
+    Dim AreaWiseBilling As Boolean = False
 
     Private Sub frmTDSReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = txtFromDate.Value.AddMonths(1)
         Reset()
+        AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
+        fndArea.Visible = AreaWiseBilling
+        lblArea.Visible = AreaWiseBilling
     End Sub
     Private Sub txtMultMCC__My_Click(sender As Object, e As EventArgs) Handles txtMultMCC._My_Click
         Dim qry As String = ""
@@ -191,6 +195,35 @@ where Isnull(TDS_Amount,0)>0 And  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsC
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub fndArea__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndArea._MYValidating
+        Try
+            Dim sQuery As String = " Select TSPL_LOCATION_MASTER.Location_Code as Code ,  TSPL_LOCATION_MASTER.Location_Desc, Type from TSPL_LOCATION_MASTER "
+            fndArea.Value = clsCommon.ShowSelectForm("Location@Plant@Master", sQuery, "Code", "TSPL_LOCATION_MASTER.Type <> 'PLANT' OR TSPL_LOCATION_MASTER.Location_Category <> 'Mcc'", fndArea.Value, "Code", isButtonClicked)
+
+            Dim arrMCCMapped As New ArrayList
+            Dim arrMCCName As New ArrayList
+            Dim dt As New DataTable
+            'Dim query As String = "select MCC_NAME from TSPL_MCC_MASTER  WHERE Area_Location_Code='" + fndArea.Value + "'"
+            Dim query As String = "select MCC_Code,MCC_NAME from TSPL_MCC_MASTER  WHERE Area_Location_Code='" + fndArea.Value + "'"
+            dt = Nothing
+            dt = clsDBFuncationality.GetDataTable(query)
+
+            For i As Integer = 0 To dt.Rows.Count - 1
+                arrMCCMapped.Add(dt.Rows(i)("MCC_Code"))
+                arrMCCName.Add(dt.Rows(i)("MCC_NAME"))
+                'arrMCCMapped.Add(dt.Rows(i)("MCC_NAME").ToString())
+            Next
+            txtMultMCC.arrValueMember = arrMCCMapped
+            'If arrMCCName.Count > 0 Then
+            '    MccName = arrMCCName(0).ToString()   ' Assuming you want the first MCC name
+            'End If
+            'txtMCC.arrValueMember
+
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 End Class
