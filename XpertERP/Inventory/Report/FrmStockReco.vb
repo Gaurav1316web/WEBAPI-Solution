@@ -930,7 +930,7 @@ goAlreadyAdded:
             If clsCommon.myLen(strCategoryTable) > 0 Then
                 qry += "," + strCodeColumnSelect + "," + strCodeDescColumnSelect
             End If
-            qry += " ,TSPL_ITEM_MASTER.Item_Type,VirtualTableItemType.Name as Item_Type_Name,TSPL_INVENTORY_SOURCE_CODE.In_Category,TSPL_INVENTORY_SOURCE_CODE.Out_Category,TSPL_INVENTORY_SOURCE_CODE.Code,(case when ISNULL(InventroyMovement.Location_Code,'')='' then InventroyMovement.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end) as PrimaryLocation "
+            qry += " ,TSPL_ITEM_MASTER.Item_Type,VirtualTableItemType.Name as Item_Type_Name,TSPL_INVENTORY_SOURCE_CODE.In_Category,TSPL_INVENTORY_SOURCE_CODE.Out_Category,TSPL_INVENTORY_SOURCE_CODE.Code,(case when ISNULL(InventroyMovement.Location_Code,'')='' then InventroyMovement.Location_Code else TSPL_LOCATION_MASTER.Main_Location_Code end) as PrimaryLocation  ,TSPL_ITEM_MASTER.RACK_NO  "
             If clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Transaction Wise") = CompairStringResult.Equal Then
                 qry += " ,case TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_KG when TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_KG then TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_KG * case when InOut='I' then 1.00 else -1.00 end else case when InOut='I' then ( (case when IsFromMilk=1 then MilkFATKG else (Stock_Qty*isnull((select ((TSPL_ITEM_QC_PARAMETER_MASTER.Actual_Range/100) * (case when FATSNFConvertedUnit.Conversion_Factor=0 then 0 else 1/FATSNFConvertedUnit.Conversion_Factor end)) from TSPL_ITEM_QC_PARAMETER_MASTER  left outer join TSPL_PARAMETER_MASTER on TSPL_PARAMETER_MASTER.Code=TSPL_ITEM_QC_PARAMETER_MASTER.Code  where item_code=InventroyMovement.Item_Code and Type='FAT'),0)) end) * case when InOut='I' then 1.00 else -1.00 end) else -1.00 end end as Prod_Fat_KG "
                 qry += " ,case TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_Per  when TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_Per then TSPL_PP_PRODUCTION_ENTRY_DETAIL.FAT_Per else 0 end as Prod_Fat_Per  "
@@ -1120,11 +1120,11 @@ goAlreadyAdded:
                             " SUM(cost * (CASE WHEN PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))  AS [Cost], " &
                             " SUM(QtyKG * (CASE WHEN PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))  AS Balance_QtyKG," &
                             " SUM((case when IsFromMilk=1 then MilkFATKG else (STOCK_QTY*FatPer) end ) * (CASE WHEN PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))  AS [Balance_FAT]," &
-                            " SUM((case when IsFromMilk=1 then MilkSNFKG else (STOCK_QTY*SNFPer) end ) * (CASE WHEN PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))  AS [Balance_SNF]"
+                            " SUM((case when IsFromMilk=1 then MilkSNFKG else (STOCK_QTY*SNFPer) end ) * (CASE WHEN PUNCHING_DAte <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  THEN 1.00 ELSE 0 end) * (case when InOut='I' then 1.00 else -1.00 end))  AS [Balance_SNF],MAX(Structure_Descq)Structure_Descq,MAX(RACK_NO)RACK_NO  "
 
             Dim strFinalQry As String = ""
             If clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Type Wise Summary") = CompairStringResult.Equal Then
-                strFinalQry = "select  Item_Type,Item_Type_Name, "
+                strFinalQry = "select  Item_Type,Structure_Descq,Item_Type_Name,Rack_No, "
                 strFinalQry += OuterOpClo
                 strFinalQry += " from (" + Environment.NewLine
                 strFinalQry += " select  Item_Type,max(Item_Type_Name) as Item_Type_Name,"
@@ -1986,9 +1986,17 @@ goAlreadyAdded:
             gv1.Columns("Item_Type").IsVisible = False
             gv1.Columns("Item_Type").HeaderText = "Item Type Code"
 
+            gv1.Columns("Structure_Descq").IsVisible = True
+            gv1.Columns("Structure_Descq").Width = 100
+            gv1.Columns("Structure_Descq").HeaderText = "Structure"
+
             gv1.Columns("Item_Type_Name").IsVisible = True
             gv1.Columns("Item_Type_Name").Width = 100
             gv1.Columns("Item_Type_Name").HeaderText = "Item Type"
+
+            gv1.Columns("Rack_No").IsVisible = True
+            gv1.Columns("Rack_No").Width = 100
+            gv1.Columns("Rack_No").HeaderText = "Rack No"
 
             gv1.Columns("OPBal").IsVisible = True
             gv1.Columns("OPBal").Width = 100
