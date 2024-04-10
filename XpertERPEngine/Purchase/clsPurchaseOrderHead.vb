@@ -5741,7 +5741,8 @@ a:
                 If IsPO = True Then
                     Return frmCRViewer.funreport(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, EnumTecxpertPaperSize.NA, "JO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")))
                 Else
-                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "WO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
+                    'Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(), "WO-G", "Work Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt")
+                    Return frmCRViewer.funsubreportWithdt(isPDFPath, CrystalReportFolder.PurchaseOrder, dt, clsERPFuncationality.CompanyAddresShowinFooter(tran), "PO-G", "Purchase Order", clsCommon.myCDate(dt.Rows(0)("po_date")), "rptCompanyAddress.rpt", "MMM.rpt", dt3)
                 End If
             ElseIf clsCommon.CompairString(clsCommon.myCstr(dt.Rows(0)("PurchaseOrder_Type")), "L") = CompairStringResult.Equal Then
                 SetItemWiseTax(dt, StrDocNo, tran)
