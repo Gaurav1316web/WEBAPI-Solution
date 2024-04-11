@@ -17,6 +17,8 @@ Public Class rptPaymentProcessRouteReport
     Dim FYToDate As Date
     Dim AreaWiseBilling As Boolean = False
     Dim MccName As String = Nothing
+    Dim AreaName As String = Nothing
+
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
@@ -2708,12 +2710,41 @@ inner join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DO
                 Exit Sub
             End If
             'PDF
+            If AreaWiseBilling = True Then
+                If TxtFinderArea.Value IsNot Nothing AndAlso TxtFinderArea.Value.Count > 0 Then
+
+                    AreaName = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select mcc_name from tspl_mcc_master where Area_Location_code in ('" + TxtFinderArea.Value + "')"))
+
+                    'Dim AreaName As String = clsCommon.myCstr(clsDBFuncationality("select MCC_NAME from tspl_MCC_MASTER where Area_Location_code in ('" + TxtFinderArea.Value + "') "))
+                End If
+            End If
+            If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+                Dim Qry As String = " select mcc_name from tspl_mcc_master where mcc_code in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ") "
+                Dim dtMCC As DataTable = clsDBFuncationality.GetDataTable(Qry)
+                If dtMCC IsNot Nothing AndAlso dtMCC.Rows.Count > 0 Then
+                    Dim listMCC As List(Of String) = New List(Of String)
+                    For Each dr As DataRow In dtMCC.Rows
+                        listMCC.Add(clsCommon.myCstr(dr("mcc_name")))
+                    Next
+                    MccName = clsCommon.GetMulcallString(listMCC)
+                End If
+            End If
+            'Dim mccname As String = clsCommon.myCstr(clsDBFuncationality("select mcc_name from tspl_mcc_master where mcc_code in (" & clsCommon.GetMulcallString(txtMultiMCC.arrValueMember)) & " )")
             If Gv1.Rows.Count > 0 Then
                 Dim arrHeader As List(Of String) = New List(Of String)()
-                ' arrHeader.Add("Union: " & objCommonVar.CurrentCompanyName)
-                If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
-                    arrHeader.Add("MCC: " & clsCommon.GetMulcallString(txtMultiMCC.arrValueMember))
+                If AreaWiseBilling = True Then
+                    If TxtFinderArea.Value IsNot Nothing AndAlso clsCommon.myLen(TxtFinderArea.Value) > 0 Then
+                        'If clsCommon.myLen(TxtFinderArea.Value) > 0 Then
+                        arrHeader.Add("AREA: " & AreaName)
+                    End If
+                Else
+                    If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+                        arrHeader.Add("MCC: " & MccName)
+                    End If
                 End If
+                ' arrHeader.Add("Union: " & objCommonVar.CurrentCompanyName)
+
+
                 arrHeader.Add(("Date Range: " + clsCommon.GetPrintDate(dtpFromDCS_Ledger.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(dtpToDCS_Ledger.Value, "dd/MM/yyyy")) + " ")
                 clsCommon.MyOldExportToPDF("DCS LEDGER", Gv1, arrHeader, "DCS LEDGER", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
@@ -3994,9 +4025,9 @@ TSPL_MILK_COLLECTION_MCC
                     ' Qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
                     'Else
                     Qry += " and TSPL_MCC_MASTER.MCC_Code IN (" + clsCommon.myCstr(strMCC) + ")"
-                        'End If
-                        'Qry += " and TSPL_MCC_MASTER.MCC_Code IN (" + clsCommon.myCstr(strMCC) + ")"
-                    End If
+                    'End If
+                    'Qry += " and TSPL_MCC_MASTER.MCC_Code IN (" + clsCommon.myCstr(strMCC) + ")"
+                End If
                 If rbtnPDCS.Checked Then
                     Qry += " and TSPL_VLC_MASTER_HEAD.Registered_PDCS_CLUSTER='PDCS'"
                 ElseIf rbtnRegistered.Checked Then

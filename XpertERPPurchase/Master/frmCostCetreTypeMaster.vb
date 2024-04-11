@@ -260,12 +260,11 @@ Public Class FrmCostCetreTypeMaster
 
     Private Sub txtDepartment__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDepartment._MYValidating
         Try
-            Dim obj As clsDepartment = clsDepartment.Finder(txtDepartment.Value, isButtonClicked)
-            If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Code) > 0 Then
-                txtDepartment.Value = obj.Code
-                lblDepartmentDes.Text = obj.Name
+            Dim Qry As String = "select  DEPARTMENT_CODE , DEPARTMENT_NAME  from TSPL_DEPARTMENT_MASTER "
+            txtDepartment.Value = clsCommon.ShowSelectForm("fndDepartment", Qry, "DEPARTMENT_CODE", "", txtDepartment.Value, "DEPARTMENT_CODE", isButtonClicked)
+            If clsCommon.myLen(txtDepartment.Value) > 0 Then
+                lblDepartmentDes.Text = clsDBFuncationality.getSingleValue("Select DEPARTMENT_NAME from TSPL_DEPARTMENT_MASTER Where DEPARTMENT_CODE='" + txtDepartment.Value + "' ")
             Else
-                txtDepartment.Value = ""
                 lblDepartmentDes.Text = ""
             End If
         Catch ex As Exception

@@ -509,7 +509,7 @@ Public Class rptVSPMilkNotSold
                         If AreaWiseBilling = True Then
                             Qry += " inner join tspl_mcc_master on tspl_mcc_master.MCC_Code=TSPL_VLC_MASTER_HEAD.mcc				"
                         End If
-                        Qry += "where TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount>0 "
+                        Qry += " where TSPL_MULTIPLE_DEDUCTION_DETAIL.Amount>0 "
                         If AreaWiseBilling = True Then
                             Qry += "  and tspl_mcc_master.Area_Location_Code='" + fndArea.Value + "'"
                         Else

@@ -656,8 +656,22 @@ Public Class clsEmployeeMaster
         End Try
         Return isSaved
     End Function
-
     Public Function SaveDataFromExcelSheet(ByVal obj As clsEmployeeMaster, ByVal isNewEntry As Boolean) As Boolean
+        Dim trans As SqlTransaction = Nothing
+        Try
+            trans = clsDBFuncationality.GetTransactin()
+            If SaveDataFromExcelSheet(obj, isNewEntry, trans) Then
+                trans.Commit()
+            End If
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+            Return False
+        End Try
+        Return True
+    End Function
+
+    Public Function SaveDataFromExcelSheet(ByVal obj As clsEmployeeMaster, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Dim isSaved As Boolean = True
         'Try
         Dim coll As New Hashtable()
@@ -816,9 +830,9 @@ Public Class clsEmployeeMaster
         clsCommon.AddColumnsForChange(coll, "SecChequeNoRs100", obj.SecChequeNoRs100)
         clsCommon.AddColumnsForChange(coll, "UANNo", obj.UANNo, True)
         clsCommon.AddColumnsForChange(coll, "Modify_By", objCommonVar.CurrentUserCode)
-        clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy"))
+        clsCommon.AddColumnsForChange(coll, "Modify_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
         If clsCommon.myLen(obj.EMP_CODE) <= 0 Then
-            obj.EMP_CODE = clsERPFuncationality.GetNextCode(Nothing, clsCommon.myCDate(clsCommon.GETSERVERDATE()), clsDocType.Employee_Master, "", "")
+            obj.EMP_CODE = clsERPFuncationality.GetNextCode(Nothing, clsCommon.myCDate(clsCommon.GETSERVERDATE(trans)), clsDocType.Employee_Master, "", "")
             If clsCommon.myLen(obj.EMP_CODE) <= 0 Then
                 Throw New Exception("Error in Code Genration")
             End If
@@ -826,16 +840,16 @@ Public Class clsEmployeeMaster
         clsCommon.AddColumnsForChange(coll, "EMP_CODE", obj.EMP_CODE)
 
         Dim qry As String = "SELECT Count(*) FROM TSPL_EMPLOYEE_MASTER where EMP_CODE= '" & obj.EMP_CODE & "'"
-        Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
+        Dim check As Integer = clsDBFuncationality.getSingleValue(qry, trans)
         If check = 0 Then
             clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
-            clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy"))
-            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_MASTER", OMInsertOrUpdate.Insert, "")
+            clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MM/yyyy"))
+            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_MASTER", OMInsertOrUpdate.Insert, "", trans)
         Else
-            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_MASTER", OMInsertOrUpdate.Update, "EMP_CODE='" + obj.EMP_CODE + "'")
+            isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_EMPLOYEE_MASTER", OMInsertOrUpdate.Update, "EMP_CODE='" + obj.EMP_CODE + "'", trans)
         End If
 
-        isSaved = objEmployeeStatus.SaveData_FromEmpMaster(obj, Nothing)
+        isSaved = objEmployeeStatus.SaveData_FromEmpMaster(obj, trans)
         'Dim qry_Count As String = "SELECT Count(*) FROM TSPL_EMPLOYEE_STATUS where EMP_CODE= '" & obj.EMP_CODE & "'"
         'Dim check_Exist As Integer = clsDBFuncationality.getSingleValue(qry_Count)
         'If check_Exist = 0 Then
