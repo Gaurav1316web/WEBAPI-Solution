@@ -1134,7 +1134,7 @@ goAlreadyAdded:
                 strFinalQry = "select  Item_Type,Item_Type_Name,Structure_Code,Structure_Descq, "
                 strFinalQry += OuterOpClo
                 strFinalQry += " from (" + Environment.NewLine
-                strFinalQry += " select Item_Type,max(Item_Type_Name) as Item_Type_Name, Structure_Code,max(Structure_Descq) as Structure_Descq,"
+                strFinalQry += " select Item_Type,max(Item_Type_Name) as Item_Type_Name, Structure_Code,"
                 strFinalQry += InnerOpClo
                 strFinalQry += "  from (" + qry + ")xxx Group by Item_Type,Structure_Code )xxxx" + Environment.NewLine
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Group Wise Summary") = CompairStringResult.Equal Then
@@ -1152,7 +1152,7 @@ goAlreadyAdded:
                 strFinalQry += InnerOpClo
                 strFinalQry += "  from (" + qry + ")xxx Group by Item_Type,Item_Group, Item_Category_Struct_Code," + strCodeColumn + " )xxxx" + Environment.NewLine
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item Wise Summary") = CompairStringResult.Equal Then
-                strFinalQry = "select Item_Type,Item_Type_Name,Item_Group,Group_Description," + strCodeColumn + "," + strCodeDescColumn + ", Item_Category_Struct_Code  as Item_Category_Struct_Code,Item_Code,Item_Desc,itf_code,Stock_Qty,Stock_UOM,"
+                strFinalQry = "select Item_Type,Structure_Descq,Item_Type_Name,Rack_No,Item_Group,Group_Description," + strCodeColumn + "," + strCodeDescColumn + ",Item_Category_Struct_Code  as Item_Category_Struct_Code,Item_Code,Item_Desc,itf_code,Stock_Qty,Stock_UOM,"
                 strFinalQry += OuterOpClo
                 If ChkMRPWise.Checked = True Then
                     strFinalQry += ",MRP "
@@ -1170,7 +1170,7 @@ goAlreadyAdded:
                 strFinalQry += " )xxxx" + Environment.NewLine
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Item And Location Wise Summary") = CompairStringResult.Equal Then
                 ''BHA/13/09/18-000548 richa 
-                strFinalQry = "select Item_Type,Item_Type_Name,Item_Group,Group_Description," + strCodeColumn + "," + strCodeDescColumn + ", Item_Category_Struct_Code  as Item_Category_Struct_Code,Main_Location_Code,MainLocationDesc,Location_Code,[Loc Desp],Item_Code,Item_Desc,Inventory_Control_Acc,Inventory_Control_Acc_desc, itf_code,Stock_Qty,Stock_UOM,"
+                strFinalQry = "select Item_Type,Structure_Descq,Item_Type_Name,Rack_No,Item_Group,Group_Description," + strCodeColumn + "," + strCodeDescColumn + ", Item_Category_Struct_Code  as Item_Category_Struct_Code,Main_Location_Code,MainLocationDesc,Location_Code,[Loc Desp],Item_Code,Item_Desc,Inventory_Control_Acc,Inventory_Control_Acc_desc, itf_code,Stock_Qty,Stock_UOM,"
                 strFinalQry += OuterOpClo
                 If ChkMRPWise.Checked = True Then
                     strFinalQry += ",MRP "
@@ -1218,8 +1218,8 @@ goAlreadyAdded:
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Date, Item And Document Wise Detail") = CompairStringResult.Equal Then
                 '' change by Panch Raj against Ticket No: GKD/09/05/18-000128
                 'strFinalQry = "select CompName,FromDate,ToDate,Trans_Id,Location_Code,[Loc Desp],SourceType ,Item_Type,Item_Type_Name,Item_Group,Group_Description," + strCodeColumn + "," + strCodeDescColumn + ",Item_Category_Struct_Code,itf_code ,Stock_Qty,Rate,Cost,SourceCode,SourceName,Source_Doc_No,Punching_Date,Trans_Type,Trans_Type_Name,InOut,InOutView,Item_Code ,Item_Desc,Stock_UOM, (ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0)) as OPQty, case when (ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))=0 then 0 else  ((isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0))/((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0)))) end as OPRate, (isnull(CLBalance_FAT,0)-isnull(RecFAT,0)+isnull(IssFAT,0)) as OPFAT, isnull((CASE when (CLBalance_QTYKG-Balance_QTYKG) =0 then 0 else ((CLBalance_FAT-Balance_FAT)*100/(CLBalance_QTYKG-Balance_QTYKG)) end),0) as OPFATPER, (isnull(CLBalance_SNF,0)-isnull(RecSNF,0)+isnull(IssSNF,0)) as OPSNF, isnull((CASE when (CLBalance_QTYKG-Balance_QTYKG) =0 then 0 else ((CLBalance_SNF-Balance_SNF)*100/(CLBalance_QTYKG-Balance_QTYKG)) end),0) as OPSNFPER ,(isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0)) as OPCost, RecQty,RecRate,RecFAT,RecFATPER,RecSNF,RecSNFPER,RecCost ,IssQty,IssRate,IssFAT,IssFATPER,IssSNF,IssSNFPER,IssCost ,CLQty ,case when isnull(CLQty,0)=0 then 0 else CLCost/CLQty end as CLRate, CLBalance_FAT as CLFAT, isnull((CASE when CLBalance_QTYKG=0 then 0 else (CLBalance_FAT*100/CLBalance_QTYKG) end),0) as CLFATPER, CLBalance_SNF as CLSNF, isnull((CASE when CLBalance_QTYKG=0 then 0 else (CLBalance_SNF*100/CLBalance_QTYKG) end),0) as CLSNFPER, CLCost from ( "
-                strFinalQry = "select CompName,FromDate,ToDate,Trans_Id,Location_Code,[Loc Desp],SourceType ,Item_Type,Item_Type_Name,Item_Group,Group_Description," + strCodeColumn + "," + strCodeDescColumn + ",Item_Category_Struct_Code,itf_code ,Stock_Qty,Rate,Cost,SourceCode,SourceName,Source_Doc_No,Punching_Date,Trans_Type,Trans_Type_Name,InOut,InOutView,Item_Code ,Item_Desc,Stock_UOM, (ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0)) as OPQty, case when (ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))=0 then 0 else  ((isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0))/((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0)))) end as OPRate, cast((isnull(CLBalance_FAT,0)-isnull(RecFAT,0)+isnull(IssFAT,0)) as decimal(18,2)) as OPFAT, isnull((CASE when (CLBalance_QTYKG-Balance_QTYKG) =0 then 0 else cast(((CLBalance_FAT-Balance_FAT)*100/(CLBalance_QTYKG-Balance_QTYKG)) as decimal(18,2)) end),0) as OPFATPER, cast((isnull(CLBalance_SNF,0)-isnull(RecSNF,0)+isnull(IssSNF,0)) as decimal(18,2)) as OPSNF, isnull((CASE when (CLBalance_QTYKG-Balance_QTYKG) =0 then 0 else cast(((CLBalance_SNF-Balance_SNF)*100/(CLBalance_QTYKG-Balance_QTYKG)) as decimal(18,2)) end),0) as OPSNFPER ,(isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0)) as OPCost, RecQty,RecRate,cast(RecFAT as decimal(18,2)) as RecFAT,cast(RecFATPER as decimal(18,2)) as RecFATPER,cast(RecSNF as decimal(18,2)) as RecSNF,cast(RecSNFPER as decimal(18,2)) as RecSNFPER,RecCost ,IssQty,IssRate,cast(IssFAT as decimal(18,2)) as IssFAT,cast(IssFATPER as decimal(18,2)) as IssFATPER,cast(IssSNF as decimal(18,2)) as IssSNF,cast(IssSNFPER as decimal(18,2)) as IssSNFPER,IssCost ,CLQty ,case when isnull(CLQty,0)=0 then 0 else CLCost/CLQty end as CLRate, cast(CLBalance_FAT as decimal(18,2)) as CLFAT, isnull((CASE when CLBalance_QTYKG=0 then 0 else cast((CLBalance_FAT*100/CLBalance_QTYKG) as decimal(18,2)) end),0) as CLFATPER, cast(CLBalance_SNF as decimal(18,2)) as CLSNF, isnull((CASE when CLBalance_QTYKG=0 then 0 else cast((CLBalance_SNF*100/CLBalance_QTYKG) as decimal(18,2)) end),0) as CLSNFPER, CLCost from ( "
-                strFinalQry += "select  case when '" & LocationFirstTime & "'='1' then '" & LocationAddress & "' else '" + objCommonVar.CurrentCompanyName + " ' end as CompName,'" + clsCommon.myCDate(txtFromDate.Value, "dd/MMM/yyyy") + "' as FromDate,'" + clsCommon.myCDate(txtToDate.Value, "dd/MMM/yyyy") + "' as ToDate ,  Trans_Id,Location_Code,[Loc Desp],SourceType ,Item_Type,Item_Type_Name,Item_Group,Group_Description ," + strCodeColumn + "," + strCodeDescColumn + ", Item_Category_Struct_Code,itf_code ,Stock_Qty,Rate,Cost,SourceCode,SourceName,Source_Doc_No,Punching_Date as Punching_Date,Trans_Type,Trans_Type_Name,InOut,InOutView, Item_Code ,Item_Desc,Stock_UOM,Balance_FAT,Balance_SNF,isnull(Balance_QTYKG,0) as Balance_QTYKG, (case when InOut='I' then Stock_Qty else 0 end) as RecQty,  (case when InOut='I' then Rate else 0 end) as RecRate, (case when InOut='I' then Balance_FAT else 0 end) as RecFAT, (case when InOut='I' then isnull((CASE when Balance_QTYKG=0 then 0 else (Balance_FAT*100/Balance_QTYKG) end),0) else 0 end ) as RecFATPER, (case when InOut='I' then Balance_SNF else 0 end) as RecSNF, (case when InOut='I' then isnull((CASE when Balance_QTYKG=0 then 0 else ([Balance_SNF]*100/[Balance_QTYKG]) end),0) else 0 end) as RecSNFPER, (case when InOut='I' then Cost else 0 end) as RecCost, (case when InOut='O' then -1.00*Stock_Qty else 0 end) as IssQty, (case when InOut='O' then Rate else 0 end) as IssRate, (case when InOut='O' then -1.00*Balance_FAT else 0 end) as IssFAT,(case when InOut='O' then isnull((CASE when Balance_QTYKG=0 then 0 else (Balance_FAT*100/Balance_QTYKG) end),0) else 0 end ) as IssFATPER, (case when InOut='O' then -1.00*Balance_SNF else 0 end) as IssSNF, (case when InOut='O' then isnull((CASE when Balance_QTYKG=0 then 0 else ([Balance_SNF]*100/[Balance_QTYKG]) end),0) else 0 end) as IssSNFPER, (case when InOut='O' then -1.00*Cost else 0 end) as IssCost, SUM(Stock_Qty) OVER (Partition BY Item_Code ORDER BY Item_Code, Punching_Date,Trans_Id) as CLQty  ,SUM(Cost) OVER (Partition BY Item_Code ORDER BY Item_Code, Punching_Date,Trans_Id) as CLCost,SUM(isnull(Balance_QTYKG,0)) OVER (Partition BY Item_Code ORDER BY Item_Code, Punching_Date,Trans_Id) as CLBalance_QTYKG ,SUM(Balance_FAT) OVER (Partition BY Item_Code ORDER BY Item_Code, Punching_Date,Trans_Id) as CLBalance_FAT,SUM(Balance_SNF) OVER (Partition BY Item_Code ORDER BY Item_Code, Punching_Date,Trans_Id) as CLBalance_SNF "
+                strFinalQry = "select CompName,FromDate,ToDate,Trans_Id,Location_Code,[Loc Desp],SourceType ,Item_Type,Structure_Descq,Item_Type_Name,Rack_No,Item_Group,Group_Description," + strCodeColumn + "," + strCodeDescColumn + ",Item_Category_Struct_Code,itf_code ,Stock_Qty,Rate,Cost,SourceCode,SourceName,Source_Doc_No,Punching_Date,Trans_Type,Trans_Type_Name,InOut,InOutView,Item_Code ,Item_Desc,Stock_UOM, (ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0)) as OPQty, case when (ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))=0 then 0 else  ((isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0))/((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0)))) end as OPRate, cast((isnull(CLBalance_FAT,0)-isnull(RecFAT,0)+isnull(IssFAT,0)) as decimal(18,2)) as OPFAT, isnull((CASE when (CLBalance_QTYKG-Balance_QTYKG) =0 then 0 else cast(((CLBalance_FAT-Balance_FAT)*100/(CLBalance_QTYKG-Balance_QTYKG)) as decimal(18,2)) end),0) as OPFATPER, cast((isnull(CLBalance_SNF,0)-isnull(RecSNF,0)+isnull(IssSNF,0)) as decimal(18,2)) as OPSNF, isnull((CASE when (CLBalance_QTYKG-Balance_QTYKG) =0 then 0 else cast(((CLBalance_SNF-Balance_SNF)*100/(CLBalance_QTYKG-Balance_QTYKG)) as decimal(18,2)) end),0) as OPSNFPER ,(isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0)) as OPCost, RecQty,RecRate,cast(RecFAT as decimal(18,2)) as RecFAT,cast(RecFATPER as decimal(18,2)) as RecFATPER,cast(RecSNF as decimal(18,2)) as RecSNF,cast(RecSNFPER as decimal(18,2)) as RecSNFPER,RecCost ,IssQty,IssRate,cast(IssFAT as decimal(18,2)) as IssFAT,cast(IssFATPER as decimal(18,2)) as IssFATPER,cast(IssSNF as decimal(18,2)) as IssSNF,cast(IssSNFPER as decimal(18,2)) as IssSNFPER,IssCost ,CLQty ,case when isnull(CLQty,0)=0 then 0 else CLCost/CLQty end as CLRate, cast(CLBalance_FAT as decimal(18,2)) as CLFAT, isnull((CASE when CLBalance_QTYKG=0 then 0 else cast((CLBalance_FAT*100/CLBalance_QTYKG) as decimal(18,2)) end),0) as CLFATPER, cast(CLBalance_SNF as decimal(18,2)) as CLSNF, isnull((CASE when CLBalance_QTYKG=0 then 0 else cast((CLBalance_SNF*100/CLBalance_QTYKG) as decimal(18,2)) end),0) as CLSNFPER, CLCost from ( "
+                strFinalQry += "select  case when '" & LocationFirstTime & "'='1' then '" & LocationAddress & "' else '" + objCommonVar.CurrentCompanyName + " ' end as CompName,'" + clsCommon.myCDate(txtFromDate.Value, "dd/MMM/yyyy") + "' as FromDate,'" + clsCommon.myCDate(txtToDate.Value, "dd/MMM/yyyy") + "' as ToDate ,  Trans_Id,Location_Code,[Loc Desp],SourceType ,Item_Type,Item_Type_Name,Item_Group,Group_Description ," + strCodeColumn + "," + strCodeDescColumn + ", Item_Category_Struct_Code,itf_code ,Stock_Qty,Rate,Cost,SourceCode,SourceName,Source_Doc_No,Punching_Date as Punching_Date,Trans_Type,Trans_Type_Name,InOut,InOutView, Item_Code ,Item_Desc,Stock_UOM,Balance_FAT,Balance_SNF,isnull(Balance_QTYKG,0) as Balance_QTYKG, (case when InOut='I' then Stock_Qty else 0 end) as RecQty,  (case when InOut='I' then Rate else 0 end) as RecRate, (case when InOut='I' then Balance_FAT else 0 end) as RecFAT, (case when InOut='I' then isnull((CASE when Balance_QTYKG=0 then 0 else (Balance_FAT*100/Balance_QTYKG) end),0) else 0 end ) as RecFATPER, (case when InOut='I' then Balance_SNF else 0 end) as RecSNF, (case when InOut='I' then isnull((CASE when Balance_QTYKG=0 then 0 else ([Balance_SNF]*100/[Balance_QTYKG]) end),0) else 0 end) as RecSNFPER, (case when InOut='I' then Cost else 0 end) as RecCost, (case when InOut='O' then -1.00*Stock_Qty else 0 end) as IssQty, (case when InOut='O' then Rate else 0 end) as IssRate, (case when InOut='O' then -1.00*Balance_FAT else 0 end) as IssFAT,(case when InOut='O' then isnull((CASE when Balance_QTYKG=0 then 0 else (Balance_FAT*100/Balance_QTYKG) end),0) else 0 end ) as IssFATPER, (case when InOut='O' then -1.00*Balance_SNF else 0 end) as IssSNF, (case when InOut='O' then isnull((CASE when Balance_QTYKG=0 then 0 else ([Balance_SNF]*100/[Balance_QTYKG]) end),0) else 0 end) as IssSNFPER, (case when InOut='O' then -1.00*Cost else 0 end) as IssCost, SUM(Stock_Qty) OVER (Partition BY Item_Code ORDER BY Item_Code, Punching_Date,Trans_Id) as CLQty  ,SUM(Cost) OVER (Partition BY Item_Code ORDER BY Item_Code, Punching_Date,Trans_Id) as CLCost,SUM(isnull(Balance_QTYKG,0)) OVER (Partition BY Item_Code ORDER BY Item_Code, Punching_Date,Trans_Id) as CLBalance_QTYKG ,SUM(Balance_FAT) OVER (Partition BY Item_Code ORDER BY Item_Code, Punching_Date,Trans_Id) as CLBalance_FAT,SUM(Balance_SNF) OVER (Partition BY Item_Code ORDER BY Item_Code, Punching_Date,Trans_Id) as CLBalance_SNF,Structure_Descq,RACK_NO "
                 If ChkMRPWise.Checked Then
                     strFinalQry += ",MRP "
                 End If
@@ -1228,22 +1228,18 @@ goAlreadyAdded:
                 If ChkMRPWise.Checked Then
                     strFinalQry += ",Max(MRP) as MRP "
                 End If
-                strFinalQry += " from (" + qry + ") xxx " + Environment.NewLine
+                strFinalQry += " ,MAX(Structure_Descq)Structure_Descq,MAX(RACK_NO)RACK_NO from (" + qry + ") xxx " + Environment.NewLine
                 strFinalQry += " where Punching_Date < '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' group by xxx.Item_Code " + Environment.NewLine
                 strFinalQry += " union all "
                 strFinalQry += " select Trans_Id,Trans_Type,Trans_Type_Name,Source_Doc_No,Punching_Date,InOutView, InOut,Location_Code,[Loc Desp], [LocAddress],SourceCode,SourceName,SourceType ,Item_Type,Item_Type_Name,Item_Group,Group_Description," + strCodeColumn + "," + strCodeDescColumn + ",Item_Code ,Item_Desc,Item_Category_Struct_Code,Stock_UOM,itf_code ,( Stock_Qty * case when InOut='I' then 1.00 else -1.00 end) as Stock_Qty,(QtyKG * case when InOut='I' then 1.00 else -1.00 end) as Balance_QTYKG,convert(decimal(28,3),case when Stock_Qty=0 then 0 else Cost/Stock_Qty end) as Rate,(Cost * case when InOut='I' then 1.00 else -1.00 end) as Cost,( (case when IsFromMilk=1 then MilkFATKG else (Stock_Qty*FatPer) end) * case when InOut='I' then 1 else -1.00 end) as Balance_FAT, ( (case when IsFromMilk=1 then MilkSNFKG else (Stock_Qty*SNFPer) end ) * case when InOut='I' then 1.00 else -1.00 end) as Balance_SNF  "
                 If ChkMRPWise.Checked Then
                     strFinalQry += ",MRP "
                 End If
-                strFinalQry += " from (" + qry + ") xxx " + Environment.NewLine
+                strFinalQry += " ,Structure_Descq,RACK_NO from (" + qry + ") xxx " + Environment.NewLine
                 strFinalQry += " where Punching_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and Punching_Date<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' " + Environment.NewLine
 
                 strFinalQry += ")xxxxxx  )xxxxxxx where Trans_Id<>0  Order by  Punching_Date,Trans_Id"
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboType.SelectedValue), "Date and Item Wise Stock") = CompairStringResult.Equal Then
-
-
-
-
                 strFinalQry = "select *,(case when (CLRate=0 or IssRate=0) then 0 else (IssRate-CLRate) end) as DiffRate,(case when (CLRate=0 or IssRate=0) then 0 else (IssFATPER-CLFATPER) end) as DiffFATPer,(case when (CLRate=0 or IssRate=0) then 0 else (IssSNFPER-CLSNFPER) end) as DiffSNFPer from (select xxxxxxx.Location_Code,[Loc Desp],convert(varchar, Punching_Date,103) as Punching_Date  ,Item_Code ,Item_Desc,Stock_UOM, case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else  Convert(decimal(18,3),(ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))) end as OPQty," + Environment.NewLine +
                   " case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<" + RateTunning + ") then 0 else  Convert(decimal(18,2),((isnull(CLCost,0)-isnull(RecCost,0)+isnull(IssCost,0))/((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))))) end as OPRate," + Environment.NewLine +
                   " case when ( abs(cast((ISNULL(CLQty,0) - isnull(RecQty,0)+isnull(IssQty,0))as  decimal(18,2)))<=0.11 or (abs(cast((ISNULL(CLCost,0) - isnull(RecCost,0)+isnull(IssCost,0))as  decimal(18,2)))<0.11 and tspl_location_master.Is_jobWork=0) ) then 0 else Convert(decimal(18,2),(isnull(CLBalance_FAT,0)-isnull(RecFAT,0)+isnull(IssFAT,0))) end as OPFAT" + Environment.NewLine +
@@ -1992,7 +1988,7 @@ goAlreadyAdded:
 
             gv1.Columns("Item_Type_Name").IsVisible = True
             gv1.Columns("Item_Type_Name").Width = 100
-            gv1.Columns("Item_Type_Name").HeaderText = "Item Type"
+            gv1.Columns("Item_Type_Name").HeaderText = "Category"
 
             gv1.Columns("Rack_No").IsVisible = True
             gv1.Columns("Rack_No").Width = 100
@@ -2784,9 +2780,17 @@ goAlreadyAdded:
             gv1.Columns("Item_Type").IsVisible = False
             gv1.Columns("Item_Type").HeaderText = "Item Type Code"
 
+            gv1.Columns("Structure_Descq").IsVisible = True
+            gv1.Columns("Structure_Descq").Width = 100
+            gv1.Columns("Structure_Descq").HeaderText = "Structure"
+
             gv1.Columns("Item_Type_Name").IsVisible = True
             gv1.Columns("Item_Type_Name").Width = 100
             gv1.Columns("Item_Type_Name").HeaderText = "Item Type"
+
+            gv1.Columns("Rack_No").IsVisible = True
+            gv1.Columns("Rack_No").Width = 100
+            gv1.Columns("Rack_No").HeaderText = "Rack No"
 
             gv1.Columns("Item_Group").IsVisible = False
             gv1.Columns("Item_Group").HeaderText = "Item Group Code"
@@ -3006,9 +3010,17 @@ goAlreadyAdded:
             gv1.Columns("Item_Type").IsVisible = False
             gv1.Columns("Item_Type").HeaderText = "Item Type Code"
 
+            gv1.Columns("Structure_Descq").IsVisible = True
+            gv1.Columns("Structure_Descq").Width = 100
+            gv1.Columns("Structure_Descq").HeaderText = "Structure"
+
             gv1.Columns("Item_Type_Name").IsVisible = True
             gv1.Columns("Item_Type_Name").Width = 100
             gv1.Columns("Item_Type_Name").HeaderText = "Item Type"
+
+            gv1.Columns("Rack_No").IsVisible = True
+            gv1.Columns("Rack_No").Width = 100
+            gv1.Columns("Rack_No").HeaderText = "Rack No"
 
             gv1.Columns("Item_Group").IsVisible = False
             gv1.Columns("Item_Group").HeaderText = "Item Group Code"
@@ -3413,9 +3425,17 @@ goAlreadyAdded:
             gv1.Columns("Punching_Date").Width = 100
             gv1.Columns("Punching_Date").HeaderText = "Document Date"
 
+            gv1.Columns("Structure_Descq").IsVisible = True
+            gv1.Columns("Structure_Descq").Width = 100
+            gv1.Columns("Structure_Descq").HeaderText = "Structure"
+
             gv1.Columns("Item_Type_Name").IsVisible = True
             gv1.Columns("Item_Type_Name").Width = 100
             gv1.Columns("Item_Type_Name").HeaderText = "Item Type"
+
+            gv1.Columns("Rack_No").IsVisible = True
+            gv1.Columns("Rack_No").Width = 100
+            gv1.Columns("Rack_No").HeaderText = "Rack No"
 
             gv1.Columns("InOutView").IsVisible = True
             gv1.Columns("InOutView").Width = 100
