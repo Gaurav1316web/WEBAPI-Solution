@@ -459,7 +459,7 @@ and 2= (case when isnull(TSPL_MRN_HEAD.NIR_QC,0)=1 then (case when isnull(TSPL_N
     End Function
 
     Private Sub RadButton2_Click_1(sender As Object, e As EventArgs) Handles RadButton2.Click
-        Calculate(False)
+        Calculate()
     End Sub
 
     Sub SetGridFormation(ByVal dt As DataTable)
@@ -582,7 +582,7 @@ and 2= (case when isnull(TSPL_MRN_HEAD.NIR_QC,0)=1 then (case when isnull(TSPL_N
         gv1.TableElement.TableHeaderHeight = 40
     End Sub
 
-    Private Sub Calculate(ByVal OnlyClearPenalty As Boolean)
+    Private Sub Calculate()
         Try
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
                 txtBillToLocation.Focus()
@@ -610,23 +610,20 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
                     arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
                 End If
             Next
-
             Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
             Try
                 clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, True, True, True, tran)
-                If Not OnlyClearPenalty Then
-                    arrSRN = New ArrayList
-                    For ii As Integer = 0 To dt.Rows.Count - 1
-                        If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 AndAlso clsCommon.myCDecimal(dt.Rows(ii)("NIRQCStatus")) = 1 Then
-                            If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
-                                clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, True, True, True, tran)
-                                arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
-                            End If
-                        Else
-                            Exit For
+                arrSRN = New ArrayList
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 AndAlso clsCommon.myCDecimal(dt.Rows(ii)("NIRQCStatus")) = 1 Then
+                        If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
+                            clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, True, True, True, tran)
+                            arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
                         End If
-                    Next
-                End If
+                    Else
+                        Exit For
+                    End If
+                Next
                 tran.Commit()
             Catch ex As Exception
                 tran.Rollback()
@@ -649,7 +646,6 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
 
     Private Sub ReCalculate()
         Try
-            Calculate(True)
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
                 txtBillToLocation.Focus()
                 Throw New Exception("Please select " + txtBillToLocation.MyLinkLable1.Text)
@@ -710,7 +706,7 @@ and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
                             If idxDoc = 0 Then
                                 arrSRN = New ArrayList
                                 For Each dr As DataRow In dtDoc.Rows
-                                    arrSRN.Add(dr("Document_No")) ''Add all purchase invoice
+                                    arrSRN.Add(clsCommon.myCstr(dr("Document_No"))) ''Add all Tender Penalty Docuemnts 
                                 Next
 
                                 qry = "select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No in (" + clsCommon.GetMulcallString(arrSRN) + ")"
@@ -718,9 +714,21 @@ and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
                                 arrSRN = New ArrayList
                                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                     For Each dr As DataRow In dt.Rows
-                                        arrSRN.Add(dr("SRN_No"))
+                                        arrSRN.Add(clsCommon.myCstr(dr("SRN_No")))
                                     Next
                                 End If
+
+                                qry = "select TSPL_SRN_TENDER_CALC.SRN_No from TSPL_SRN_TENDER_CALC 
+inner join  TSPL_TENDER_SCHEDULE on TSPL_TENDER_SCHEDULE.PK_Id=TSPL_SRN_TENDER_CALC.Against_Tender_Schedule_PK_Id
+where TSPL_SRN_TENDER_CALC.Against_TenderNo='" + txtTenderNo.Value + "' and TSPL_TENDER_SCHEDULE.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER_SCHEDULE.Location_Code='" + txtBillToLocation.Value + "' and TSPL_TENDER_SCHEDULE.Item_Code='" + txtItem.Value + "' 
+and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_TENDER_CALC.SRN_No)"
+                                dt = clsDBFuncationality.GetDataTable(qry, tran)
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    For Each dr As DataRow In dt.Rows
+                                        arrSRN.Add(clsCommon.myCstr(dr("SRN_No")))
+                                    Next
+                                End If
+
                                 clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, False, False, True, tran)
                             End If
 
@@ -779,6 +787,6 @@ and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
     End Sub
 
     Private Sub RadButton4_Click(sender As Object, e As EventArgs) Handles btnDeleteUnusedCalc.Click
-        Calculate(True)
+        'Calculate(True)
     End Sub
 End Class

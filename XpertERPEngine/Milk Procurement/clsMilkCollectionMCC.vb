@@ -440,12 +440,6 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
                 clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
                 clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
-                If isCorrection = 0 Then
-                    clsCommon.AddColumnsForChange(coll, "Original_Qty", obj.Original_Qty)
-                    clsCommon.AddColumnsForChange(coll, "Original_FATKg", obj.Original_FATKg)
-                    clsCommon.AddColumnsForChange(coll, "Original_SNFKg", obj.Original_SNFKg)
-                End If
-
                 If obj.Retesting_OR_Correction = 1 Then
                     clsCommon.AddColumnsForChange(coll, "Retesting_FAT", obj.Retesting_FAT)
                     clsCommon.AddColumnsForChange(coll, "Retesting_SNF", obj.Retesting_SNF)
@@ -470,6 +464,10 @@ Public Class clsMilkCollectionMCCDetail
                 If obj.PK_Id > 0 Then
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(obj.PK_Id) + "' ", trans)
                 Else
+                    clsCommon.AddColumnsForChange(coll, "Original_Qty", obj.Qty)
+                    clsCommon.AddColumnsForChange(coll, "Original_FATKg", obj.FATKG)
+                    clsCommon.AddColumnsForChange(coll, "Original_SNFKg", obj.SNFKG)
+
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 End If
             Next
