@@ -2322,6 +2322,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptAvgSaleDetailReport, "Average Sale Detail Report", "1.36.03.19", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptdairydispatch, "Dairy Dispatch Report", "1.36.03.20", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptRouteSaleRegister, "Route Sale Register", "1.36.03.21", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptGatePassReport, "Gate Pass Report", "1.36.03.22", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)
