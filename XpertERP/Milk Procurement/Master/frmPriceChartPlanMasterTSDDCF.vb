@@ -29,31 +29,6 @@ Public Class frmPriceChartPlanMasterTSDDCF
     End Sub
 
     Private Sub FrmPriceChartMaster_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-        coll.Add("TSDDCS_Rate", "decimal(18,2) null")
-        coll.Add("TSDDCS_Calcualtion_Method", "integer null")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_PRICE_CHART_PLANNING", coll)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Planning_Code", "Varchar(30) not null REFERENCES TSPL_PRICE_CHART_PLANNING(Planning_Code)")
-        coll.Add("SNo", "integer null")
-        coll.Add("FAT_From", "decimal(18,1) null")
-        coll.Add("FAT_To", "decimal(18,1) null")
-        coll.Add("Apply_FAT", "decimal(18,1) null")
-        coll.Add("SNF_From", "decimal(18,1) null")
-        coll.Add("SNF_To", "decimal(18,1) null")
-        coll.Add("Apply_SNF", "decimal(18,1) null")
-        coll.Add("Rate_Per", "decimal(18,2) null")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_PRICE_CHART_PLANNING_TSDDCF", coll)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Planning_Code", "Varchar(30) not null REFERENCES TSPL_PRICE_CHART_PLANNING(Planning_Code)")
-        coll.Add("SNo", "integer null")
-        coll.Add("SNF_Per", "decimal(18,1) null")
-        coll.Add("Ded_Amount", "decimal(18,2) null")
-        clsCommonFunctionality.CreateOrAlterTable("TSPL_PRICE_CHART_PLANNING_TSDDCF_SNF_DEDUCTION", coll)
-
         SetUserMgmtNew()
         LoadShift()
         Reset()
@@ -220,7 +195,7 @@ Public Class frmPriceChartPlanMasterTSDDCF
                     objTSDDCF.SNF_To = clsCommon.myCdbl(gvFATDed.Rows(ii).Cells(colSNFTo).Value)
                     objTSDDCF.Apply_SNF = clsCommon.myCdbl(gvFATDed.Rows(ii).Cells(colApplySNF).Value)
                     objTSDDCF.Rate_Per = clsCommon.myCdbl(gvFATDed.Rows(ii).Cells(colRatePer).Value)
-                    objTSDDCF.arr = TryCast(gvFATDed.Rows(ii).Cells(colSNo).Tag, Dictionary(Of Decimal, Decimal))
+                    objTSDDCF.arrSNF = TryCast(gvFATDed.Rows(ii).Cells(colSNo).Tag, Dictionary(Of Decimal, Decimal))
                     If objTSDDCF.FAT_From > 0 AndAlso objTSDDCF.FAT_To > 0 AndAlso objTSDDCF.SNF_From > 0 AndAlso objTSDDCF.SNF_To > 0 AndAlso objTSDDCF.Rate_Per > 0 Then
                         obj.arrTSDDCS.Add(objTSDDCF)
                     End If
@@ -325,7 +300,7 @@ Public Class frmPriceChartPlanMasterTSDDCF
                         gvFATDed.Rows(gvFATDed.Rows.Count - 1).Cells(colSNFTo).Value = objTSDDCS.SNF_To
                         gvFATDed.Rows(gvFATDed.Rows.Count - 1).Cells(colApplySNF).Value = objTSDDCS.Apply_SNF
                         gvFATDed.Rows(gvFATDed.Rows.Count - 1).Cells(colRatePer).Value = objTSDDCS.Rate_Per
-                        gvFATDed.Rows(gvFATDed.Rows.Count - 1).Cells(colSNo).Tag = objTSDDCS.arr
+                        gvFATDed.Rows(gvFATDed.Rows.Count - 1).Cells(colSNo).Tag = objTSDDCS.arrSNF
                     Next
                 End If
                 'gvSNFDed.Rows.AddNew()

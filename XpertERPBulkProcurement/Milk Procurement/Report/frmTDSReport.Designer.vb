@@ -22,7 +22,7 @@ Partial Class frmTDSReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -41,6 +41,8 @@ Partial Class frmTDSReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
+        Me.fndArea = New common.UserControls.txtFinder()
+        Me.lblArea = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -61,6 +63,7 @@ Partial Class frmTDSReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -99,6 +102,8 @@ Partial Class frmTDSReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblArea)
+        Me.RadPageViewPage1.Controls.Add(Me.fndArea)
         Me.RadPageViewPage1.Controls.Add(Me.txtMultDCS)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel3)
         Me.RadPageViewPage1.Controls.Add(Me.GroupBox1)
@@ -114,7 +119,7 @@ Partial Class frmTDSReport
         '
         Me.txtMultDCS.arrDispalyMember = Nothing
         Me.txtMultDCS.arrValueMember = Nothing
-        Me.txtMultDCS.Location = New System.Drawing.Point(60, 77)
+        Me.txtMultDCS.Location = New System.Drawing.Point(60, 102)
         Me.txtMultDCS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultDCS.MyLinkLable1 = Me.MyLabel3
         Me.txtMultDCS.MyLinkLable2 = Nothing
@@ -127,7 +132,7 @@ Partial Class frmTDSReport
         '
         Me.MyLabel3.FieldName = Nothing
         Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(20, 78)
+        Me.MyLabel3.Location = New System.Drawing.Point(20, 103)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(27, 18)
         Me.MyLabel3.TabIndex = 430
@@ -227,7 +232,7 @@ Partial Class frmTDSReport
         '
         Me.txtMultMCC.arrDispalyMember = Nothing
         Me.txtMultMCC.arrValueMember = Nothing
-        Me.txtMultMCC.Location = New System.Drawing.Point(60, 53)
+        Me.txtMultMCC.Location = New System.Drawing.Point(60, 78)
         Me.txtMultMCC.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMultMCC.MyLinkLable1 = Me.MyLabel16
         Me.txtMultMCC.MyLinkLable2 = Nothing
@@ -240,7 +245,7 @@ Partial Class frmTDSReport
         '
         Me.MyLabel16.FieldName = Nothing
         Me.MyLabel16.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(20, 54)
+        Me.MyLabel16.Location = New System.Drawing.Point(20, 79)
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(30, 18)
         Me.MyLabel16.TabIndex = 427
@@ -270,7 +275,8 @@ Partial Class frmTDSReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -317,6 +323,42 @@ Partial Class frmTDSReport
         Me.btnReset.TabIndex = 155
         Me.btnReset.Text = "Reset"
         '
+        'fndArea
+        '
+        Me.fndArea.CalculationExpression = Nothing
+        Me.fndArea.FieldCode = Nothing
+        Me.fndArea.FieldDesc = Nothing
+        Me.fndArea.FieldMaxLength = 0
+        Me.fndArea.FieldName = Nothing
+        Me.fndArea.isCalculatedField = False
+        Me.fndArea.IsSourceFromTable = False
+        Me.fndArea.IsSourceFromValueList = False
+        Me.fndArea.IsUnique = False
+        Me.fndArea.Location = New System.Drawing.Point(59, 53)
+        Me.fndArea.MendatroryField = True
+        Me.fndArea.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndArea.MyLinkLable1 = Nothing
+        Me.fndArea.MyLinkLable2 = Nothing
+        Me.fndArea.MyReadOnly = False
+        Me.fndArea.MyShowMasterFormButton = False
+        Me.fndArea.Name = "fndArea"
+        Me.fndArea.ReferenceFieldDesc = Nothing
+        Me.fndArea.ReferenceFieldName = Nothing
+        Me.fndArea.ReferenceTableName = Nothing
+        Me.fndArea.Size = New System.Drawing.Size(294, 19)
+        Me.fndArea.TabIndex = 1531
+        Me.fndArea.Value = ""
+        '
+        'lblArea
+        '
+        Me.lblArea.FieldName = Nothing
+        Me.lblArea.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblArea.Location = New System.Drawing.Point(23, 55)
+        Me.lblArea.Name = "lblArea"
+        Me.lblArea.Size = New System.Drawing.Size(29, 18)
+        Me.lblArea.TabIndex = 1532
+        Me.lblArea.Text = "Area"
+        '
         'frmTDSReport
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -351,6 +393,7 @@ Partial Class frmTDSReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -374,4 +417,6 @@ Partial Class frmTDSReport
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
     Friend WithEvents btnPrint As RadButton
+    Friend WithEvents fndArea As common.UserControls.txtFinder
+    Friend WithEvents lblArea As common.Controls.MyLabel
 End Class

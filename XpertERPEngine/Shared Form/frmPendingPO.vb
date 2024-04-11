@@ -450,7 +450,8 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
         Dim Disc_Per_Unit As Double = 0
         Try
             Dim sQuery As String = "select Disc_Per_Unit from TSPL_PURCHASE_ORDER_detail where purchaseorder_No='" & po_No & "' and item_code='" & item_code & "'"
-            Disc_Per_Unit = clsDBFuncationality.getSingleValue(sQuery)
+            ' Disc_Per_Unit = clsDBFuncationality.getSingleValue(sQuery)
+            Disc_Per_Unit = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sQuery))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.ToString)
         End Try

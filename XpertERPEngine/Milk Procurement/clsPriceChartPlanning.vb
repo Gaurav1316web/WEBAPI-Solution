@@ -77,6 +77,9 @@ Public Class clsPriceChartPlanning
             qry = "Delete from TSPL_PRICE_CHART_PLANNING_TSDDCF where Planning_Code='" + obj.Planning_Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
+            qry = "Delete from TSPL_PRICE_CHART_PLANNING_TSDDCF_FAT_DEDUCTION where Planning_Code='" + obj.Planning_Code + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
             qry = "Delete from TSPL_PRICE_CHART_PLANNING_TSDDCF_SNF_DEDUCTION where Planning_Code='" + obj.Planning_Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -500,7 +503,8 @@ Public Class clsPriceChartPlanningTSDDCF
     Public Fixed_Rate As Decimal
     Public Below_SNF_Rate As Decimal
     Public Deduction_Per As Decimal
-    Public arr As Dictionary(Of Decimal, Decimal)
+    Public arrFAT As Dictionary(Of Decimal, Decimal)
+    Public arrSNF As Dictionary(Of Decimal, Decimal)
 #End Region
 
     Public Shared Function SaveData(ByVal strCode As String, ByVal Arr As List(Of clsPriceChartPlanningTSDDCF), ByVal trans As SqlTransaction) As Boolean
@@ -522,7 +526,8 @@ Public Class clsPriceChartPlanningTSDDCF
                     clsCommon.AddColumnsForChange(coll, "Below_SNF_Rate", obj.Below_SNF_Rate, True)
                     clsCommon.AddColumnsForChange(coll, "Deduction_Per", obj.Deduction_Per, True)
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRICE_CHART_PLANNING_TSDDCF", OMInsertOrUpdate.Insert, "", trans)
-                    clsPriceChartPlanningTSDDCFSNFDed.SaveData(strCode, index, obj.arr, trans)
+                    clsPriceChartPlanningTSDDCFSNFDed.SaveData(strCode, index, obj.arrSNF, trans)
+                    clsPriceChartPlanningTSDDCFFATDed.SaveData(strCode, index, obj.arrFAT, trans)
                     index += 1
                 Next
             End If
@@ -551,7 +556,8 @@ Public Class clsPriceChartPlanningTSDDCF
                 obj.Fixed_Rate = clsCommon.myCDecimal(dr("Fixed_Rate"))
                 obj.Below_SNF_Rate = clsCommon.myCDecimal(dr("Below_SNF_Rate"))
                 obj.Deduction_Per = clsCommon.myCDecimal(dr("Deduction_Per"))
-                obj.arr = clsPriceChartPlanningTSDDCFSNFDed.GetData(obj.Planning_Code, obj.SNo)
+                obj.arrSNF = clsPriceChartPlanningTSDDCFSNFDed.GetData(obj.Planning_Code, obj.SNo)
+                obj.arrFAT = clsPriceChartPlanningTSDDCFFATDed.GetData(obj.Planning_Code, obj.SNo)
                 arr.Add(obj)
             Next
         End If
@@ -595,6 +601,48 @@ Public Class clsPriceChartPlanningTSDDCFSNFDed
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             For Each dr As DataRow In dt.Rows
                 arr.Add(clsCommon.myCDecimal(dr("SNF_Per")), clsCommon.myCDecimal(dr("Ded_Amount")))
+            Next
+        End If
+        Return arr
+    End Function
+End Class
+
+Public Class clsPriceChartPlanningTSDDCFFATDed
+#Region "variables"
+    Public Planning_Code As String = Nothing
+    Public SNo As Integer
+    Public FAT_Per As Double
+    Public Ded_Amount As Double
+#End Region
+
+    Public Shared Function SaveData(ByVal strCode As String, ByVal intSNo As Integer, ByVal Arr As Dictionary(Of Decimal, Decimal), ByVal trans As SqlTransaction) As Boolean
+        Try
+            If Arr IsNot Nothing AndAlso Arr.Count > 0 Then
+                For ii As Integer = 0 To Arr.Count - 1
+                    Dim coll As New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "Planning_Code", strCode)
+                    clsCommon.AddColumnsForChange(coll, "SNo", intSNo)
+                    clsCommon.AddColumnsForChange(coll, "FAT_Per", Arr.Keys(ii))
+                    clsCommon.AddColumnsForChange(coll, "Ded_Amount", Arr(Arr.Keys(ii)))
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_PRICE_CHART_PLANNING_TSDDCF_FAT_DEDUCTION", OMInsertOrUpdate.Insert, "", trans)
+                Next
+            End If
+        Catch err As Exception
+            Throw New Exception(err.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function GetData(ByVal strCode As String, ByVal intSNo As Integer) As Dictionary(Of Decimal, Decimal)
+        Return GetData(strCode, intSNo, Nothing)
+    End Function
+    Public Shared Function GetData(ByVal strCode As String, ByVal intSNo As Integer, ByVal tran As SqlTransaction) As Dictionary(Of Decimal, Decimal)
+        Dim arr As New Dictionary(Of Decimal, Decimal)
+        Dim qry As String = "Select TSPL_PRICE_CHART_PLANNING_TSDDCF_FAT_DEDUCTION.* from TSPL_PRICE_CHART_PLANNING_TSDDCF_FAT_DEDUCTION Where Planning_Code='" + strCode + "' and SNo='" + clsCommon.myCstr(intSNo) + "' order by FAT_Per "
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            For Each dr As DataRow In dt.Rows
+                arr.Add(clsCommon.myCDecimal(dr("FAT_Per")), clsCommon.myCDecimal(dr("Ded_Amount")))
             Next
         End If
         Return arr

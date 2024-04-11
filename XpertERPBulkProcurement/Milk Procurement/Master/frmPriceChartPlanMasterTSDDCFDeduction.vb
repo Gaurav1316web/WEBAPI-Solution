@@ -24,11 +24,13 @@ Public Class frmPriceChartPlanMasterTSDDCFDeduction
                 If ArrDed.ContainsKey(ii) Then
                     gv1.Rows(gv1.Rows.Count - 1).Cells(colDed).Value = Math.Abs(ArrDed(ii))
                     If Not flag Then
-                        flag = True
-                        If ArrDed(ii) < 0 Then
-                            rbtnDeduction.IsChecked = True
-                        Else
-                            rbtnAddition.IsChecked = True
+                        If ArrDed(ii) <> 0 Then
+                            flag = True
+                            If ArrDed(ii) < 0 Then
+                                rbtnDeduction.IsChecked = True
+                            Else
+                                rbtnAddition.IsChecked = True
+                            End If
                         End If
                     End If
                 End If

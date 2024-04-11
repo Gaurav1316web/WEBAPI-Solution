@@ -282,6 +282,12 @@
     <Compile Include="Report\FrmZoneWiseSKUReport.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Report\rptGatePassReport.Designer.vb">
+      <DependentUpon>rptGatePassReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Report\rptGatePassReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Report\rptAbsentBooth.Designer.vb">
       <DependentUpon>rptAbsentBooth.vb</DependentUpon>
     </Compile>
@@ -839,6 +845,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Report\FrmZoneWiseSKUReport.resx">
       <DependentUpon>FrmZoneWiseSKUReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Report\rptGatePassReport.resx">
+      <DependentUpon>rptGatePassReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Report\rptAbsentBooth.resx">
       <DependentUpon>rptAbsentBooth.vb</DependentUpon>

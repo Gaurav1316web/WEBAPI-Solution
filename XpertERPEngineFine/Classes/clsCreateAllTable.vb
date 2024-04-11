@@ -1253,6 +1253,13 @@ Public Class clsCreateAllTable
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Planning_Code", "Varchar(30) not null REFERENCES TSPL_PRICE_CHART_PLANNING(Planning_Code)")
+            coll.Add("SNo", "integer null")
+            coll.Add("FAT_Per", "decimal(18,1) null")
+            coll.Add("Ded_Amount", "decimal(18,2) null")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_PRICE_CHART_PLANNING_TSDDCF_FAT_DEDUCTION", coll)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Planning_Code", "Varchar(30) not null REFERENCES TSPL_PRICE_CHART_PLANNING(Planning_Code)")
             coll.Add("Min_Range", "decimal(18,1) null")
             coll.Add("Value", "decimal(18,2) null")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_PRICE_CHART_PLANNING_TOTAL_SOLID", coll)
@@ -24601,6 +24608,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Check_Saving_AC", "integer NULL")
             coll.Add("Conversion", "decimal(18,3) not NULL default 1")
             coll.Add("Description_Hindi", "nvarchar(200) NULL")
+            coll.Add("Apply_Formula", "integer NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_DCS_ADDITION_DEDUCTION", coll, Nothing, True)
             qry = "alter table TSPL_DCS_ADDITION_DEDUCTION alter column Applicable_Value Decimal(18,3) not null"
             clsDBFuncationality.ExecuteNonQuery(qry)

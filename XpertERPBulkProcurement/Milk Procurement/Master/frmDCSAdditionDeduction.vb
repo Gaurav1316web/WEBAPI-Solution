@@ -171,6 +171,7 @@ Public Class frmDCSAdditionDeduction
                 obj.Applicable_On = clsCommon.myCdbl(cboApplyOn.SelectedValue)
                 obj.Include_Shortage_Own_BMC = chkIncludeShortageOwnBMC.Checked
                 obj.Subtract = chkSubtract.Checked
+                obj.Apply_Formula = chkApplyFormula.Checked
                 If rbtnQtyUOMRec.IsChecked Then
                     obj.Qty_UOM = 0
                 ElseIf rbtnQtyUOMLtr.IsChecked Then
@@ -274,6 +275,7 @@ Public Class frmDCSAdditionDeduction
                 End If
                 chkIncludeShortageOwnBMC.Checked = obj.Include_Shortage_Own_BMC
                 chkSubtract.Checked = obj.Subtract
+                chkApplyFormula.Checked = obj.Apply_Formula
                 If obj.Check_Saving_AC > 0 Then
                     chkSavingAC.Checked = True
 
@@ -474,6 +476,7 @@ Public Class frmDCSAdditionDeduction
         chkApplyTDS.Checked = False
         chkIncludeShortageOwnBMC.Checked = False
         chkSubtract.Checked = False
+        chkApplyFormula.Checked = False
         chkSavingAC.Checked = False
         rbtnACExists.Visible = False
         rbtnACNotExists.Visible = False

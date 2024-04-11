@@ -218,7 +218,7 @@ Public Class frmPriceChartPlanMasterRCDF
                     objTSDDCF.SNF_From = clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colFrom).Value)
                     objTSDDCF.SNF_To = clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colTo).Value)
                     objTSDDCF.Rate_Per = clsCommon.myCdbl(gvSNF.Rows(ii).Cells(colRatePer).Value)
-                    objTSDDCF.arr = TryCast(gvSNF.Rows(ii).Cells(colSNo).Tag, Dictionary(Of Decimal, Decimal))
+                    objTSDDCF.arrSNF = TryCast(gvSNF.Rows(ii).Cells(colSNo).Tag, Dictionary(Of Decimal, Decimal))
                     If objTSDDCF.SNF_From > 0 AndAlso objTSDDCF.SNF_To > 0 AndAlso objTSDDCF.Rate_Per > 0 Then
                         obj.arrTSDDCS.Add(objTSDDCF)
                     End If
@@ -228,7 +228,7 @@ Public Class frmPriceChartPlanMasterRCDF
                     objTSDDCF.FAT_From = clsCommon.myCdbl(gvFAT.Rows(ii).Cells(colFrom).Value)
                     objTSDDCF.FAT_To = clsCommon.myCdbl(gvFAT.Rows(ii).Cells(colTo).Value)
                     objTSDDCF.Rate_Per = clsCommon.myCdbl(gvFAT.Rows(ii).Cells(colRatePer).Value)
-                    objTSDDCF.arr = TryCast(gvFAT.Rows(ii).Cells(colSNo).Tag, Dictionary(Of Decimal, Decimal))
+                    objTSDDCF.arrSNF = TryCast(gvFAT.Rows(ii).Cells(colSNo).Tag, Dictionary(Of Decimal, Decimal))
                     If objTSDDCF.FAT_From > 0 AndAlso objTSDDCF.FAT_To > 0 AndAlso objTSDDCF.Rate_Per > 0 Then
                         obj.arrTSDDCS.Add(objTSDDCF)
                     End If
@@ -344,14 +344,14 @@ Public Class frmPriceChartPlanMasterRCDF
                             gvSNF.Rows(gvSNF.Rows.Count - 1).Cells(colFrom).Value = objTSDDCS.SNF_From
                             gvSNF.Rows(gvSNF.Rows.Count - 1).Cells(colTo).Value = objTSDDCS.SNF_To
                             gvSNF.Rows(gvSNF.Rows.Count - 1).Cells(colRatePer).Value = objTSDDCS.Rate_Per
-                            gvSNF.Rows(gvSNF.Rows.Count - 1).Cells(colSNo).Tag = objTSDDCS.arr
+                            gvSNF.Rows(gvSNF.Rows.Count - 1).Cells(colSNo).Tag = objTSDDCS.arrSNF
                         ElseIf objTSDDCS.FAT_From > 0 AndAlso objTSDDCS.FAT_To > 0 Then
                             gvFAT.Rows.AddNew()
                             gvFAT.Rows(gvFAT.Rows.Count - 1).Cells(colSNo).Value = gvFAT.Rows.Count
                             gvFAT.Rows(gvFAT.Rows.Count - 1).Cells(colFrom).Value = objTSDDCS.FAT_From
                             gvFAT.Rows(gvFAT.Rows.Count - 1).Cells(colTo).Value = objTSDDCS.FAT_To
                             gvFAT.Rows(gvFAT.Rows.Count - 1).Cells(colRatePer).Value = objTSDDCS.Rate_Per
-                            gvFAT.Rows(gvFAT.Rows.Count - 1).Cells(colSNo).Tag = objTSDDCS.arr
+                            gvFAT.Rows(gvFAT.Rows.Count - 1).Cells(colSNo).Tag = objTSDDCS.arrSNF
                         End If
                     Next
                 End If
