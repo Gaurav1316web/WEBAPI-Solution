@@ -235,6 +235,7 @@ Public Class clsDistributorCommissionDetails
     Public Route_Code As String = Nothing
     Public Distributor_Code As String = Nothing
     Public Rate As Double = 0
+    Public Transporter_Rate As Double = 0
     Public Security_Rate As Double = 0
 #End Region
 
@@ -247,6 +248,7 @@ Public Class clsDistributorCommissionDetails
                     clsCommon.AddColumnsForChange(coll, "Route_Code", obj.Route_Code)
                     clsCommon.AddColumnsForChange(coll, "Distributor_Code", obj.Distributor_Code)
                     clsCommon.AddColumnsForChange(coll, "Rate", obj.Rate)
+                    clsCommon.AddColumnsForChange(coll, "Transporter_Rate", obj.Transporter_Rate)
                     clsCommon.AddColumnsForChange(coll, "Security_Rate", obj.Security_Rate, True)
 
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_Distributor_Commission_Detail", OMInsertOrUpdate.Insert, "", trans)
@@ -264,7 +266,7 @@ Public Class clsDistributorCommissionDetails
 
         Try
             Dim dt As DataTable
-            Dim strQry As String = "select Doc_No,Route_Code,Distributor_Code,Rate,Security_Rate from TSPL_Distributor_Commission_Detail where Doc_No='" & strDocNo & "'"
+            Dim strQry As String = "select Doc_No,Route_Code,Distributor_Code,Rate,Transporter_Rate,Security_Rate from TSPL_Distributor_Commission_Detail where Doc_No='" & strDocNo & "'"
             dt = New DataTable()
             dt = clsDBFuncationality.GetDataTable(strQry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -276,6 +278,7 @@ Public Class clsDistributorCommissionDetails
                     objTr.Route_Code = clsCommon.myCstr(dr("Route_Code"))
                     objTr.Distributor_Code = clsCommon.myCstr(dr("Distributor_Code"))
                     objTr.Rate = clsCommon.myCDecimal(dr("Rate"))
+                    objTr.Transporter_Rate = clsCommon.myCDecimal(dr("Transporter_Rate"))
                     objTr.Security_Rate = clsCommon.myCDecimal(dr("Security_Rate"))
                     arr.Add(objTr)
                 Next
