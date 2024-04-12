@@ -108,6 +108,7 @@ Public Class frmReimbursementDetails
     End Sub
 
     Private Sub frmMonthlyAttendance_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        dtpReimbursementDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy")
         SetUserMgmtNew()
         LoadGridColumns()
         isNewEntry = True
@@ -272,13 +273,17 @@ Public Class frmReimbursementDetails
                         ObjList.Add(obj)
                     End If
                 Next
-                If (obj.SaveData(obj, ObjList, isNewEntry, clsCommon.myCstr(txtCode.Value))) Then
-                    LoadData(obj.REIMBURSEMENT_CODE, NavigatorType.Current)
-                    Return True
-                    'common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                If ObjList.Count > 0 Then
+                    If (obj.SaveData(obj, ObjList, isNewEntry, clsCommon.myCstr(txtCode.Value))) Then
+                        LoadData(obj.REIMBURSEMENT_CODE, NavigatorType.Current)
+                        Return True
+                        'common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "Please fill atleast one value.", Me.Text)
                 End If
             End If
-            Return False
+                Return False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
