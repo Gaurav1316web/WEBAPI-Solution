@@ -269,10 +269,8 @@ Public Class clsItemWiseTaxAuthority
         Try
             Dim dblTaxRate As Double = 0
             Dim intExemptedType As Integer = 0
-            Dim IsExmpted As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select Is_Tax_Exempted from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='" + strTaxGroup + "'"))
+            Dim IsExmpted As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select Is_Tax_Exempted from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='" + strTaxGroup + "'", trans))
             If Not IsExmpted Then
-
-
                 Dim intTCSCount As Integer = clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_TAX_MASTER inner join TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax_Code where TSPL_TAX_MASTER.Is_TCS='Y' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Code='" & strTaxGroup & "'", trans)
                 If intTCSCount > 0 Then
                     intExemptedType = 0
