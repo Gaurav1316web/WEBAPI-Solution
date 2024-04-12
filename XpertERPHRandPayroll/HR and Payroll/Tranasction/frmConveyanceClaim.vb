@@ -341,8 +341,10 @@ Public Class frmConveyanceClaim
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
             If clsCommon.myLen(LocCode) > 0 Then
-                whrcls = " LOCATION_CODE='" + LocCode + "'"
+                whrcls = " LOCATION_CODE='" + LocCode + "' and Emp_Status<>'Inactive'"
             End If
+        Else
+            whrcls = " Emp_Status<>'Inactive'"
         End If
         txtEmpCode.Value = clsEmployeeMaster.getFinder(whrcls, Me.txtEmpCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("EMP_FINDER", Qry, "Code", "", txtCode.Value, "EMP_CODE", isButtonClicked)
         lblEmpName.Text = clsEmployeeMaster.GetName(txtEmpCode.Value, Nothing)

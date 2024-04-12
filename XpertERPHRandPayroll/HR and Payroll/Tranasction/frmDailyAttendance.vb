@@ -267,8 +267,12 @@ Public Class frmDailyAttendance
      & " LEFT JOIN TSPL_EMPLOYEE_MASTER TT4 ON TT1.EMP_CODE=TT4.EMP_CODE "
 
                 Dim cond As String
-                cond = " (TT2.ATTN_REGISTER_TYPE='DAILY' OR TT2.ATTN_REGISTER_TYPE='DL') and TT4.Location_Code='" & findLocation.Value & "'" _
+                cond = " (TT2.ATTN_REGISTER_TYPE='DAILY' OR TT2.ATTN_REGISTER_TYPE='DL') and TT4.Location_Code='" & findLocation.Value & "' " _
        & " AND TT1.EMP_CODE NOT IN (SELECT DISTINCT EMP_CODE FROM TSPL_DAILY_ATTENDANCE_DETAIL WHERE ATTENDANCE_DATE='" & Format(Me.dtpAttendanceDate.Value, "dd MMM yyyy") & "')"
+
+                If clsCommon.myLen(txtCode.Value) <= 0 Then
+                    cond += " and TT4.Emp_Status<>'Inactive'"
+                End If
 
 
                 Dim obj As clsEmployeeMaster = clsMonthAttendance.FinderForEmployee(clsCommon.myCstr(gvDailyAttendance.CurrentRow.Cells(colempCode).Value), False, strq, cond)

@@ -368,7 +368,7 @@ Public Class frmEPF
         Try
             'ClearAllCurrentRowFinder()
             Dim qry As String = "SELECT EMP_CODE as code,Emp_Name,Designation,PF_NO FROM TSPL_EMPLOYEE_MASTER"
-            gv1.CurrentRow.Cells(colEMP_Code).Value = clsCommon.ShowSelectForm("fndnder21", qry, "code", "", clsCommon.myCstr(gv1.CurrentRow.Cells(colEMP_Code).Value), "Code", isButtonClick)
+            gv1.CurrentRow.Cells(colEMP_Code).Value = clsCommon.ShowSelectForm("fndnder21", qry, "code", " Emp_Status<>'Inactive'", clsCommon.myCstr(gv1.CurrentRow.Cells(colEMP_Code).Value), "Code", isButtonClick)
             If clsCommon.myLen(gv1.CurrentRow.Cells(colEMP_Code).Value) > 0 Then
                 ADDNewRows()
             End If

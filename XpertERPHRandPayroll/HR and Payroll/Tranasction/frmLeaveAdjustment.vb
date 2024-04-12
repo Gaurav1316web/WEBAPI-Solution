@@ -171,7 +171,7 @@ Public Class frmLeaveAdjustment
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
         obj.Program_Code = Form_ID
-        obj.DOCUMENT_NO = clsCommon.myCstr(Me.txtcode.Value)
+        obj.DOCUMENT_NO = clsCommon.myCstr(Me.txtCode.Value)
         obj.REASON = Reason
         obj.ACTIVITY_TYPE = Activity_Type
         Return clsCancelLog.SaveData(obj, True, trans)
@@ -328,8 +328,10 @@ Public Class frmLeaveAdjustment
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
             If clsCommon.myLen(LocCode) > 0 Then
-                whrcls = " LOCATION_CODE='" + LocCode + "'"
+                whrcls = " LOCATION_CODE='" + LocCode + "' and Emp_Status<>'Inactive'"
             End If
+        Else
+            whrcls = "  Emp_Status<>'Inactive'"
         End If
         Dim qry As String = " select EMP_CODE as LVADJUSTMENT_CODE,  Emp_Name as Name, LOCATION_CODE As 'LOCATION CODE' from TSPL_EMPLOYEE_MASTER "
         txtEmpCode.Value = clsCommon.ShowSelectForm("EMP_FND", qry, "LVADJUSTMENT_CODE", whrcls, txtEmpCode.Value, "EMP_CODE", isButtonClicked)

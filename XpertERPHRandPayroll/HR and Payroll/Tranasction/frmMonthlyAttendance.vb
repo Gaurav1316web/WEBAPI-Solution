@@ -702,7 +702,9 @@ Public Class frmMonthlyAttendance
     Private Sub findEnteredBy__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findEnteredBy._MYValidating
         Dim whrcls As String = Nothing
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
-            whrcls = " LOCATION_CODE in (" + objCommonVar.strCurrUserLocations + ")"
+            whrcls = " LOCATION_CODE in (" + objCommonVar.strCurrUserLocations + ") and Emp_Status<>'Inactive'"
+        Else
+            whrcls = " Emp_Status<>'Inactive'"
         End If
         Dim qry As String = "SELECT EMP_CODE AS 'Code',EMP_Name as 'Employee Name' FROM TSPL_EMPLOYEE_MASTER "
         findEnteredBy.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", whrcls, findEnteredBy.Value, "", isButtonClicked)
@@ -748,6 +750,9 @@ Public Class frmMonthlyAttendance
        & " AND TT1.EMP_CODE NOT IN (SELECT DISTINCT EMP_CODE FROM TSPL_MONTHLY_ATTENDANCE_DETAIL T1 " _
        & " JOIN TSPL_monthly_ATTENDANCE T2 ON T1.MTA_CODE=T2.MTA_CODE WHERE T2.PAY_PERIOD_CODE='" & Me.findPayperiod.Value & "')"
 
+                If clsCommon.myLen(txtCode.Value) <= 0 Then
+                    cond += " and TT4.Emp_Status<>'Inactive'"
+                End If
 
 
                 Dim obj As clsEmployeeMaster = clsMonthAttendance.FinderForEmployee(clsCommon.myCstr(gvMonthlyAttendance.CurrentRow.Cells(colempCode).Value), False, strq, cond)
@@ -1331,6 +1336,10 @@ Public Class frmMonthlyAttendance
         cond = " And coalesce(TT3.EMP_CODE,'') NOT IN (SELECT DISTINCT EMP_CODE FROM TSPL_MONTHLY_ATTENDANCE_DETAIL T1 " _
                & " JOIN TSPL_monthly_ATTENDANCE T2 ON T1.MTA_CODE=T2.MTA_CODE WHERE T2.PAY_PERIOD_CODE='" & Me.findPayperiod.Value & "')"
 
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            cond += " and TT4.Emp_Status<>'Inactive'"
+        End If
+
         strq = strq & cond
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(strq)
         Dim From_PP As Date
@@ -1367,7 +1376,7 @@ Public Class frmMonthlyAttendance
   & " WHERE Location_Code='" & txtBranch.Value & "' GROUP BY EMP_CODE) AS T2 ON T1.EMP_STATUS_CODE=T2.EMP_STATUS_CODE) AS TT1 " _
   & " LEFT JOIN TSPL_ATTENDANCE_MASTER TT2 ON TT1.ATTENDANCE_CODE=TT2.ATTENDANCE_CODE " _
   & " LEFT JOIN TSPL_MONTHLY_ATTENDANCE_DETAIL TT3 ON TT1.EMP_CODE=TT3.EMP_CODE " _
-  & " LEFT JOIN TSPL_EMPLOYEE_MASTER TT4 ON TT1.EMP_CODE=TT4.EMP_CODE where WORKING_STATUS='Working' " _
+  & " LEFT JOIN TSPL_EMPLOYEE_MASTER TT4 ON TT1.EMP_CODE=TT4.EMP_CODE where WORKING_STATUS='Working' and Emp_Status<>'Inactive' " _
          & " and 2=(case when  TT4.RELIEVING_DATE is null then (case when  len( TT4.Joining_date) <=0 then 3 else (case when convert(date,TT4.Joining_date,103) <='" + lblToDate.Text + "'  then 2 else 3 end) end) else (case when  (convert(date,TT4.RELIEVING_DATE,103) >='" + lblToDate.Text + "'  or convert(date,TT4.RELIEVING_DATE,103) between '" + lblFromDate.Text + "'  and '" + lblToDate.Text + "'  ) then 2 else 3 end) end) 
          and (TT2.ATTN_REGISTER_TYPE='MONTHLY' OR TT2.ATTN_REGISTER_TYPE='MT') "
         Return strq

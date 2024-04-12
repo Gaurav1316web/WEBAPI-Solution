@@ -411,7 +411,7 @@ Public Class FrmEmployeeTransfer
     Private Sub fndEmployeeCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles fndEmployeeCode._MYValidating
 
         Dim qry As String = " Select Emp_Code AS Code ,Emp_Name  From TSPL_EMPLOYEE_MASTER "
-        fndEmployeeCode.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("EMP", qry, "Code", "LEAVING_REASON = ''", fndEmployeeCode.Value, "Code", isButtonClicked))
+        fndEmployeeCode.Value = clsCommon.myCstr(clsCommon.ShowSelectForm("EMP", qry, "Code", "LEAVING_REASON = '' and Emp_Status<>'Inactive'", fndEmployeeCode.Value, "Code", isButtonClicked))
 
         If clsCommon.myLen(clsCommon.myCstr(fndEmployeeCode.Value)) > 0 Then
             lblEmployeeName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Emp_Name from TSPL_EMPLOYEE_MASTER where Emp_Code='" & fndEmployeeCode.Value & "'"))

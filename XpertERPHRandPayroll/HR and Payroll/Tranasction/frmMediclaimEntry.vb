@@ -401,7 +401,7 @@ Public Class FrmMediclaimEntry
 
     Private Sub fndempcode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtempcode._MYValidating
         Dim qry As String = "select TSPL_EMPLOYEE_MASTER.emp_code as Code,TSPL_EMPLOYEE_MASTER.emp_name as Name,TSPL_EMPLOYEE_MASTER.birth_date as DOB,TSPL_EMPLOYEE_MASTER.joining_date as DOJ,TSPL_DESIGNATION_MASTER.designation_desc as Designation,TSPL_EMPLOYEE_MASTER.emp_type as [Empolyeement],(TSPL_EMPLOYEE_MASTER.add1+' '+TSPL_EMPLOYEE_MASTER.add2) as Address from TSPL_EMPLOYEE_MASTER left outer join TSPL_DESIGNATION_MASTER on TSPL_DESIGNATION_MASTER.designation_id=TSPL_EMPLOYEE_MASTER.designation"
-        Dim whrcls As String = "" '" TSPL_EMPLOYEE_MASTER.rel_date>='" + txtdate.Text + "'"
+        Dim whrcls As String = " TSPL_EMPLOYEE_MASTER.Emp_Status<>'Inactive'" '" TSPL_EMPLOYEE_MASTER.rel_date>='" + txtdate.Text + "'"
         saveclick = False
         txtempcode.Value = clsCommon.ShowSelectForm("EMPFND", qry, "Code", whrcls, txtempcode.Value, "Code", isButtonClicked)
 

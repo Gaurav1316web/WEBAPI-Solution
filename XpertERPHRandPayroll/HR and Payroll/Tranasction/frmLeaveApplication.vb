@@ -496,6 +496,11 @@ Public Class frmLeaveApplication
             StrJoin = " LEFT JOIN tspl_user_master ON TSPL_EMPLOYEE_MASTER.EMP_CODE=tspl_user_master.EMP_CODE "
             StrWhere = " tspl_user_master.user_code='" + objCommonVar.CurrentUserCode + "' " + whrcls
         End If
+        If clsCommon.myLen(StrWhere) > 0 Then
+            StrWhere += " and Emp_Status<>'Inactive'"
+        Else
+            StrWhere += " Emp_Status<>'Inactive'"
+        End If
         Dim qry As String = " select TSPL_EMPLOYEE_MASTER.EMP_CODE as Code,  TSPL_EMPLOYEE_MASTER.Emp_Name as Name from TSPL_EMPLOYEE_MASTER " + StrJoin + " "
         txtEmpCode.Value = clsCommon.ShowSelectForm("EMP_FND", qry, "Code", StrWhere, txtEmpCode.Value, "TSPL_EMPLOYEE_MASTER.EMP_CODE", isButtonClicked)
         lblEmpName.Text = clsEmployeeMaster.GetData(txtEmpCode.Value, Nothing).Emp_Name

@@ -450,8 +450,10 @@ Public Class frmDeductionDetails
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
             If clsCommon.myLen(LocCode) > 0 Then
-                whrcls = " LOCATION_CODE='" + LocCode + "'"
+                whrcls = " LOCATION_CODE='" + LocCode + "' and Emp_Status<>'Inactive'"
             End If
+        Else
+            whrcls = " Emp_Status<>'Inactive'"
         End If
         Dim qry As String = "SELECT EMP_CODE as Code,EMP_Name as Name FROM TSPL_EMPLOYEE_MASTER "
         findAllowancegiveby.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", whrcls, findAllowancegiveby.Value, "", isButtonClicked)
@@ -738,7 +740,7 @@ Public Class frmDeductionDetails
   & " SELECT T1.EMP_STATUS_CODE,t1.ATTENDANCE_CODE,T1.EMP_CODE,T1.WORKING_STATUS " _
   & " FROM TSPL_EMPLOYEE_STATUS T1 JOIN ( " _
   & " select TSPL_EMPLOYEE_STATUS.EMP_CODE,MAX(TSPL_EMPLOYEE_STATUS.EMP_STATUS_CODE) AS EMP_STATUS_CODE,MAX(TSPL_EMPLOYEE_STATUS.REVISION_NO) AS REVISION_NO  from TSPL_EMPLOYEE_STATUS left join TSPL_EMPLOYEE_MASTER on TSPL_EMPLOYEE_MASTER.EMP_CODE =TSPL_EMPLOYEE_STATUS.EMP_CODE " _
-  & " WHERE TSPL_EMPLOYEE_STATUS.WORKING_STATUS='Working' and TSPL_EMPLOYEE_STATUS.Location_Code='" & txtBranch.Value & "' and 2=(case when  TSPL_EMPLOYEE_MASTER.RELIEVING_DATE is null then (case when  len( TSPL_EMPLOYEE_MASTER.Joining_date) <=0 then 3 else (case when convert(date,TSPL_EMPLOYEE_MASTER.Joining_date,103) <=convert(date,'" + dtpTo + "',103)  then 2 else 3 end) end) else (case when  (convert(date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103) >=convert(date,'" + dtpTo + "',103)  or convert(date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103) between convert(date,'" + dtpFrom + "',103)  and convert(date,'" + dtpTo + "',103)  ) then 2 else 3 end) end) GROUP BY TSPL_EMPLOYEE_STATUS.EMP_CODE) AS T2 ON T1.EMP_STATUS_CODE=T2.EMP_STATUS_CODE) AS TT1 " _
+  & " WHERE TSPL_EMPLOYEE_STATUS.WORKING_STATUS='Working' and TSPL_EMPLOYEE_MASTER.Emp_Status<>'Inactive' and TSPL_EMPLOYEE_STATUS.Location_Code='" & txtBranch.Value & "' and 2=(case when  TSPL_EMPLOYEE_MASTER.RELIEVING_DATE is null then (case when  len( TSPL_EMPLOYEE_MASTER.Joining_date) <=0 then 3 else (case when convert(date,TSPL_EMPLOYEE_MASTER.Joining_date,103) <=convert(date,'" + dtpTo + "',103)  then 2 else 3 end) end) else (case when  (convert(date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103) >=convert(date,'" + dtpTo + "',103)  or convert(date,TSPL_EMPLOYEE_MASTER.RELIEVING_DATE,103) between convert(date,'" + dtpFrom + "',103)  and convert(date,'" + dtpTo + "',103)  ) then 2 else 3 end) end) GROUP BY TSPL_EMPLOYEE_STATUS.EMP_CODE) AS T2 ON T1.EMP_STATUS_CODE=T2.EMP_STATUS_CODE) AS TT1 " _
   & " LEFT JOIN TSPL_EMPLOYEE_MASTER TT4 ON TT1.EMP_CODE=TT4.EMP_CODE "
 
         'Dim cond As String

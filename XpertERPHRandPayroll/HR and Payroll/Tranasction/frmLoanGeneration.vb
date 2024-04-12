@@ -478,11 +478,13 @@ Public Class frmLoanGeneration
 
     Private Sub findGeneratedBy__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findGeneratedBy._MYValidating
         Dim qry As String = "SELECT EMP_CODE as Code,EMP_Name as Name FROM TSPL_EMPLOYEE_MASTER "
-        findGeneratedBy.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", "", findGeneratedBy.Value, "", isButtonClicked)
-        Dim clsemp As clsEmployeeMaster
-        clsemp = clsEmployeeMaster.FinderForEmployee(findGeneratedBy.Value, Nothing)
-        If Not clsemp Is Nothing Then
-            lblGeneratedByName.Text = clsemp.Emp_Name
+        findGeneratedBy.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", " Emp_Status<>'Inactive'", findGeneratedBy.Value, "", isButtonClicked)
+        If clsCommon.myLen(findGeneratedBy.Value) > 0 Then
+            Dim clsemp As clsEmployeeMaster
+            clsemp = clsEmployeeMaster.FinderForEmployee(findGeneratedBy.Value, Nothing)
+            If Not clsemp Is Nothing Then
+                lblGeneratedByName.Text = clsemp.Emp_Name
+            End If
         End If
 
     End Sub

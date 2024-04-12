@@ -417,10 +417,14 @@ Public Class frmReimbursementDetails
 
     Private Sub txtEmpCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtEmpCode._MYValidating
         Dim qry As String = "SELECT EMP_CODE as Code,EMP_Name as Name FROM TSPL_EMPLOYEE_MASTER "
-        txtEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", "", txtEmpCode.Value, "", isButtonClicked)
-        Dim clsemp As clsEmployeeMaster
-        clsemp = clsEmployeeMaster.FinderForEmployee(txtEmpCode.Value, Nothing)
-        lblEmpName.Text = clsemp.Emp_Name
+        txtEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", " Emp_Status<>'Inactive'", txtEmpCode.Value, "", isButtonClicked)
+        If clsCommon.myLen(txtEmpCode.Value) > 0 Then
+            Dim clsemp As clsEmployeeMaster
+            clsemp = clsEmployeeMaster.FinderForEmployee(txtEmpCode.Value, Nothing)
+            lblEmpName.Text = clsemp.Emp_Name
+        Else
+            lblEmpName.Text = Nothing
+        End If
 
     End Sub
 

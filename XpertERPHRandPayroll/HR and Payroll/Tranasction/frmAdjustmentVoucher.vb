@@ -432,7 +432,7 @@ Public Class frmAdjustmentVoucher
 
     Private Sub findEnteredBy__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtAdjustBy._MYValidating
         Dim qry As String = "SELECT EMP_CODE AS 'Code', EMP_Name as 'Employee Name' FROM TSPL_EMPLOYEE_MASTER "
-        txtAdjustBy.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", "", txtAdjustBy.Value, "EMP_CODE", isButtonClicked)
+        txtAdjustBy.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", " Emp_Status<>'Inactive'", txtAdjustBy.Value, "EMP_CODE", isButtonClicked)
         lblAdjustmentByName.Text = clsEmployeeMaster.GetName(txtAdjustBy.Value, Nothing)
     End Sub
     Sub OpenEmpList(ByVal isButtonClick As Boolean)
@@ -571,8 +571,8 @@ Public Class frmAdjustmentVoucher
             DTLoc = clsDBFuncationality.GetDataTable(LocWhrCls)
             If DTLoc IsNot Nothing AndAlso DTLoc.Rows.Count > 0 Then
 
-                Divqry = " SELECT DISTINCT ISNULL(TSPL_EMPLOYEE_MASTER.DEVISION_CODE,'') AS [Code],ISNULL(TSPL_DEVISION_MASTER.DEVISION_NAME,'') AS [Division Name] FROM TSPL_EMPLOYEE_MASTER " & _
-                      " LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_EMPLOYEE_MASTER.Location_Code " & _
+                Divqry = " SELECT DISTINCT ISNULL(TSPL_EMPLOYEE_MASTER.DEVISION_CODE,'') AS [Code],ISNULL(TSPL_DEVISION_MASTER.DEVISION_NAME,'') AS [Division Name] FROM TSPL_EMPLOYEE_MASTER " &
+                      " LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code = TSPL_EMPLOYEE_MASTER.Location_Code " &
                       " LEFT OUTER JOIN TSPL_DEVISION_MASTER ON TSPL_DEVISION_MASTER.DEVISION_CODE = TSPL_EMPLOYEE_MASTER.DEVISION_CODE "
 
                 DivWhrCls = Divqry + " Where  TSPL_LOCATION_MASTER.Location_Code ='" & LocCode & "' AND LEN( ISNULL(TSPL_EMPLOYEE_MASTER.DEVISION_CODE,'')) >0 "
@@ -704,7 +704,8 @@ Public Class frmAdjustmentVoucher
   & " FROM TSPL_EMPLOYEE_STATUS T1 JOIN ( " _
   & " select EMP_CODE,MAX(EMP_STATUS_CODE) AS EMP_STATUS_CODE,MAX(REVISION_NO) AS REVISION_NO  from TSPL_EMPLOYEE_STATUS " _
   & " WHERE WORKING_STATUS='Working' and Location_Code='" & FndLocationCode.Value & "' GROUP BY EMP_CODE) AS T2 ON T1.EMP_STATUS_CODE=T2.EMP_STATUS_CODE) AS TT1 " _
-  & " LEFT JOIN TSPL_EMPLOYEE_MASTER TT4 ON TT1.EMP_CODE=TT4.EMP_CODE "
+  & " LEFT JOIN TSPL_EMPLOYEE_MASTER TT4 ON TT1.EMP_CODE=TT4.EMP_CODE " _
+  & " where TT4.Emp_Status<>'Inactive'"
 
 
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(strq)

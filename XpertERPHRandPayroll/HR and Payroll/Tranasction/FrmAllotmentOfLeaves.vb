@@ -1010,7 +1010,7 @@ Public Class FrmAllotmentOfLeaves
             End If
 
             LoadGridColumns()
-            Dim qry As String = "select EMP_CODE ,Emp_Name  from TSPL_EMPLOYEE_MASTER where LOCATION_CODE = '" + fndLocation.Value + "'  "
+            Dim qry As String = "select EMP_CODE ,Emp_Name  from TSPL_EMPLOYEE_MASTER where LOCATION_CODE = '" + fndLocation.Value + "' and Emp_Status<>'Inactive'  "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows
