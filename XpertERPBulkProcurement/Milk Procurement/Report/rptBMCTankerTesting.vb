@@ -89,18 +89,15 @@ Public Class rptBMCTankerTesting
             Dim qry As String = ""
             If clsCommon.CompairString(txtReportType.SelectedItem.Value, "BMC") = CompairStringResult.Equal Then
                 qry = "SELECT convert(varchar,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) as Document_Date,TSPL_MILK_COLLECTION_MCC_DETAIL.SNo ,TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC.Route_Code,
-                TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader ,TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No , TSPL_MILK_COLLECTION_MCC_DETAIL.Qty,
-                TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,
-
-
-
-                '' as CLR,
-                TSPL_MILK_COLLECTION_MCC_DETAIL.Temp , TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_FAT , TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_SNF  ,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_CLR,TSPL_MILK_COLLECTION_MCC.Route_Code as Route ,TSPL_MILK_COLLECTION_MCC_DETAIL.Qty as Corr_Qty,  TSPL_MILK_COLLECTION_MCC_DETAIL.FAT as Correction_FAT , TSPL_MILK_COLLECTION_MCC_DETAIL.SNF as Correction_SNF , '' as Corr_CLR
-                FROM TSPL_MILK_COLLECTION_MCC_DETAIL 
-                left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No =TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No  
-                left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code  
-                where  convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "', 103)
-                and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "', 103)"
+                TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader ,TSPL_MILK_COLLECTION_MCC_DETAIL.Sample_No , TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty as Qty
+,cast((case when TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty>0 then TSPL_MILK_COLLECTION_MCC_DETAIL.Original_FATKg*100/TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty else 0 end) as decimal(18,1)) as FAT 
+,cast((case when TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty>0 then TSPL_MILK_COLLECTION_MCC_DETAIL.Original_SNFKg*100/TSPL_MILK_COLLECTION_MCC_DETAIL.Original_Qty else 0 end) as decimal(18,1)) as SNF,'' as CLR,
+TSPL_MILK_COLLECTION_MCC_DETAIL.Temp , TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_FAT , TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_SNF  ,TSPL_MILK_COLLECTION_MCC_DETAIL.Retesting_CLR,TSPL_MILK_COLLECTION_MCC.Route_Code as Route ,TSPL_MILK_COLLECTION_MCC_DETAIL.Correction_Qty as Corr_Qty,  TSPL_MILK_COLLECTION_MCC_DETAIL.Correction_FAT as Correction_FAT , TSPL_MILK_COLLECTION_MCC_DETAIL.Correction_SNF as Correction_SNF , '' as Corr_CLR
+FROM TSPL_MILK_COLLECTION_MCC_DETAIL 
+left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No =TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No  
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_code=TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code  
+where  convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) >= CONVERT(date, '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd-MMM-yyyy") + "', 103)
+and convert( date ,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) <= CONVERT(date, '" + clsCommon.GetPrintDate(txtToDate.Value, "dd-MMM-yyyy") + "', 103)"
                 If clsCommon.myLen(txtRoute.arrValueMember) > 0 Then
                     qry += "and TSPL_MILK_COLLECTION_MCC.Route_Code in (" + clsCommon.GetMulcallString(txtRoute.arrValueMember) + ")"
                 End If
@@ -109,6 +106,8 @@ Public Class rptBMCTankerTesting
 
                 End If
                 qry += "ORDER BY TSPL_MILK_COLLECTION_MCC_DETAIL.SNO"
+
+
             Else
                 qry = "select convert(varchar,TSPL_MILK_COLLECTION_MCC.Document_Date , 103) as Document_Date, ROW_NUMBER() OVER(PARTITION BY 1 ORDER BY TSPL_MILK_COLLECTION_MCC.Document_No) AS SNo, TSPL_MILK_COLLECTION_MCC.Tanker_No , TSPL_MILK_COLLECTION_MCC.Route_Code, TSPL_MILK_COLLECTION_MCC.Trip_No,TSPL_MILK_COLLECTION_MCC.Original_Qty AS Qty
                        ,Case When TSPL_MILK_COLLECTION_MCC.Original_Qty >0 Then cast(TSPL_MILK_COLLECTION_MCC.Original_FATKg * 100/TSPL_MILK_COLLECTION_MCC.Original_Qty as decimal(18,2)) Else 0 End as FAT
@@ -176,6 +175,8 @@ Public Class rptBMCTankerTesting
         gv1.Columns("Qty").HeaderText = "Qty"
         gv1.Columns("FAT").HeaderText = "Fat"
         gv1.Columns("SNF").HeaderText = "Snf"
+
+
         gv1.Columns("Temp").HeaderText = "Temp"
         gv1.Columns("Retesting_FAT").HeaderText = "Fat"
         gv1.Columns("Retesting_SNF").HeaderText = "Snf"

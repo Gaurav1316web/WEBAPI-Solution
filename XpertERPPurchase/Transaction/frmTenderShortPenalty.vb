@@ -665,7 +665,7 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
             Dim ServerDate As DateTime = clsCommon.GETSERVERDATE()
             Dim qry As String = "select Document_No from TSPL_TENDER_PENALTY 
 where Location_Code='" + txtBillToLocation.Value + "' and  Tender_No='" + txtTenderNo.Value + "' and Vendor_Code='" + txtVendorNo.Value + "' 
-and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
+and Item_Code ='" + txtItem.Value + "' and Status=1 order by Created_Date"
             Dim dtDoc As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dtDoc IsNot Nothing AndAlso dtDoc.Rows.Count > 0 Then
                 If clsCommon.MyMessageBoxShow(Me, "There are [" + clsCommon.myCstr(dtDoc.Rows.Count) + "] Documents to recalculate " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
@@ -736,13 +736,6 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
                             qry = " and TSPL_SRN_HEAD.SRN_No in ( select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + clsCommon.myCstr(dtDoc.Rows(idxDoc)("Document_No")) + "')"
                             qry = GetBaseQery("0", qry)
                             dt = clsDBFuncationality.GetDataTable(qry, tran)
-                            arrSRN = New ArrayList
-                            For ii As Integer = 0 To dt.Rows.Count - 1
-                                If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
-                                    arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
-                                End If
-                            Next
-
 
                             arrSRN = New ArrayList
                             For ii As Integer = 0 To dt.Rows.Count - 1
