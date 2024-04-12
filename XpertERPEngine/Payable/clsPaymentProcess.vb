@@ -2336,13 +2336,13 @@ TSPL_VLC_MASTER_HEAD.VLC_Name ,coalesce(TSPL_MILK_PURCHASE_INVOICE_HEAD.TOTAL_Pa
             BaseQry += " Left Outer Join TSPL_MCC_MASTER On TSPL_VLC_MASTER_HEAD.MCC = TSPL_MCC_MASTER.MCC_Code " + Environment.NewLine
         End If
 
-        If AreaWiseBilling = True Then
-            BaseQry += " Left Outer Join( select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,tspl_location_master.Location_Desc,tspl_location_master.Location_Code   From TSPL_PAYMENT_PROCESS_HEAD  
-                         left  join tspl_location_master on tspl_location_master.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code
-                         ) xxxSetLocation On xxxSetLocation.Location_Code=TSPL_MCC_MASTER.area_Location_code"
-        Else
-            BaseQry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code " + Environment.NewLine
-        End If
+        'If AreaWiseBilling = True Then
+        '    BaseQry += " Left Outer Join( select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,tspl_location_master.Location_Desc,tspl_location_master.Location_Code   From TSPL_PAYMENT_PROCESS_HEAD  
+        '                 left  join tspl_location_master on tspl_location_master.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code
+        '                 ) xxxSetLocation On xxxSetLocation.Location_Code=TSPL_MCC_MASTER.area_Location_code"
+        'Else
+        '    BaseQry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code " + Environment.NewLine
+        'End If
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") = CompairStringResult.Equal Then
             BaseQry += " left join(select VLC_CODE,Max(Head_Load_Rate)Head_Load_Rate from TSPL_HEAD_LOAD_DCS left outer join TSPL_HEAD_LOAD on TSPL_HEAD_LOAD.Document_No = TSPL_HEAD_LOAD_DCS.Document_No
                          group by VLC_CODE )Headload on TSPL_VLC_MASTER_HEAD.VLC_Code = Headload.VLC_CODE "
@@ -2363,7 +2363,7 @@ left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_MILK_RECEI
         BaseQry += " left outer join TSPL_VILLAGE_MASTER on TSPL_VILLAGE_MASTER.Village_Code = TSPL_VLC_MASTER_HEAD.Village_Code " + Environment.NewLine +
         " left join TSPL_MILK_REJECT_head on TSPL_MILK_REJECT_head.doc_code=TSPL_MILK_SRN_HEAD.Against_reject_no
         left outer join  TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE = TSPL_MILK_REJECT_head.DOC_CODE and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO   
-        Left Join(select max(created_date) As created_date, VLC_Code, VSP_CODE, sum(Total_EMP_Amount) As Total_EMP_Amount, sum(Incentive_Amount) As Incentive_Amount, sum(Incentive_EMP_Amount) As Incentive_EMP_Amount, sum(EMP_Amount) As EMP_Amount, sum(Vsp_Own_System_Amount) As Vsp_Own_System_Amount, sum(Head_Load_Amount) As Head_Load_Amount, sum(Payable_Amount) As Payable_Amount, sum(Credit_Note_Amount)As Credit_Note_Amount, sum(Deduction_Amount) As Deduction_Amount, sum(Item_Issue_Amount) As Item_Issue_Amount, sum(Item_Issue_Return_Amount) As Item_Issue_Return_Amount, sum(MCC_Sale_Amount) As MCC_Sale_Amount , sum(MCC_Sale_Return_Amount) As MCC_Sale_Return_Amount,sum(Compulsory_Amount) as Compulsory_Amount from (Select TSPL_PAYMENT_PROCESS_HEAD.Created_Date  , TSPL_PAYMENT_PROCESS_DETAIL.Incentive_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Incentive_EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Vsp_Own_System_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Total_EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount, TSPL_VLC_MASTER_HEAD.VLC_Code, TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE, TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Return_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Amount, TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Amount, TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Return_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount  from TSPL_PAYMENT_PROCESS_DETAIL"
+        Left Join(select max(created_date) As created_date, VLC_Code, VSP_CODE, sum(Total_EMP_Amount) As Total_EMP_Amount, sum(Incentive_Amount) As Incentive_Amount, sum(Incentive_EMP_Amount) As Incentive_EMP_Amount, sum(EMP_Amount) As EMP_Amount, sum(Vsp_Own_System_Amount) As Vsp_Own_System_Amount, sum(Head_Load_Amount) As Head_Load_Amount, sum(Payable_Amount) As Payable_Amount, sum(Credit_Note_Amount)As Credit_Note_Amount, sum(Deduction_Amount) As Deduction_Amount, sum(Item_Issue_Amount) As Item_Issue_Amount, sum(Item_Issue_Return_Amount) As Item_Issue_Return_Amount, sum(MCC_Sale_Amount) As MCC_Sale_Amount , sum(MCC_Sale_Return_Amount) As MCC_Sale_Return_Amount,sum(Compulsory_Amount) as Compulsory_Amount,MAX(Area_Location_Code)Area_Location_Code from (Select TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code,TSPL_PAYMENT_PROCESS_HEAD.Created_Date  , TSPL_PAYMENT_PROCESS_DETAIL.Incentive_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Incentive_EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Vsp_Own_System_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Total_EMP_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount, TSPL_VLC_MASTER_HEAD.VLC_Code, TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE, TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Credit_Note_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Deduction_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Return_Amount, TSPL_PAYMENT_PROCESS_DETAIL.Item_Issue_Amount, TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Amount, TSPL_PAYMENT_PROCESS_DETAIL.MCC_Sale_Return_Amount,TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount  from TSPL_PAYMENT_PROCESS_DETAIL"
         BaseQry += " left join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No =TSPL_PAYMENT_PROCESS_DETAIL.Doc_No"
         BaseQry += " left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader =TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader " & whrcls1 & ""
         BaseQry += " ) as pp group by VSP_CODE,VLC_Code"
@@ -2371,8 +2371,19 @@ left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_MILK_RECEI
         BaseQry += "  PaymentProcess.vsp_code = TSPL_MILK_PURCHASE_INVOICE_Head.vsp_code And PaymentProcess.VLC_Code = (case when TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No Is Not null then TSPL_MILK_RECEIPT_DETAIL.VLC_Code else TSPL_MILK_REJECT_DETAIL.VLC_CODE end) " + Environment.NewLine
 
         BaseQry += "    left outer join (select TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE , TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No as BillNo , convert(varchar,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103) as BillDate, TSPL_PAYMENT_PROCESS_DETAIL.SNo as BILLSRL, TSPL_PAYMENT_PROCESS_DETAIL.Doc_No, TSPL_PAYMENT_PROCESS_DETAIL. is_Hold_Payment_Process, TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in ( " + strDocNo + " ) ) as TBL_BILL_DETAILS on TBL_BILL_DETAILS.VSP_CODE =
-          TSPL_MILK_PURCHASE_INVOICE_Head.vsp_code
-          LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=(case when TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No is not null then TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No else TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No end)"
+          TSPL_MILK_PURCHASE_INVOICE_Head.vsp_code"
+
+        If AreaWiseBilling = True Then
+            BaseQry += "  Left Outer Join(select MAX(TSPL_PAYMENT_PROCESS_HEAD.Doc_No)Doc_No,MAX(tspl_location_master.Location_Desc)Location_Desc,tspl_location_master.Location_Code   From TSPL_PAYMENT_PROCESS_HEAD  
+                         left  join tspl_location_master on tspl_location_master.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code
+						 GROUP BY tspl_location_master.Location_Code
+                         ) xxxSetLocation On xxxSetLocation.Location_Code=PaymentProcess.area_Location_code"
+        Else
+            BaseQry += " left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_MILK_PURCHASE_INVOICE_HEAD.MCC_Code " + Environment.NewLine
+        End If
+
+
+        BaseQry += "  LEFT OUTER JOIN TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=(case when TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No is not null then TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No else TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No end)"
 
         If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JDH") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "ALW") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") <> CompairStringResult.Equal Then
             BaseQry += " left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO= TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO " + Environment.NewLine
