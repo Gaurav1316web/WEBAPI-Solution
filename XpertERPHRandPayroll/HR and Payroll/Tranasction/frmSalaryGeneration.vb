@@ -116,7 +116,7 @@ Public Class frmSalaryGeneration
 
     Private Sub findPayperiod__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findPayperiod._MYValidating
         Try
-            findPayperiod.Value = clsPayPeriodMaster.getFinder("Posted=1 and FREEZED=0", findPayperiod.Value, isButtonClicked)
+            findPayperiod.Value = clsPayPeriodMaster.getFinder("Posted=1 and FREEZED=0 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", findPayperiod.Value, isButtonClicked)
             SetPayperiodDtl()
             txtEmp.arrValueMember = Nothing
             If clsCommon.myLen(findPayperiod.Value) > 0 Then

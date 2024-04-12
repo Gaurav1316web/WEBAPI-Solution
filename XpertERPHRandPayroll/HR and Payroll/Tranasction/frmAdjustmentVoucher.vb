@@ -426,7 +426,7 @@ Public Class frmAdjustmentVoucher
 
     Private Sub findPayperiod__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findPayperiod._MYValidating
         Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', PAY_PERIOD_NAME as 'Pay Period Name' FROM TSPL_PAYPERIOD_MASTER  "
-        findPayperiod.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", " POSTED=1 AND FREEZED=0", findPayperiod.Value, "PAY_PERIOD_CODE", isButtonClicked)
+        findPayperiod.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", " POSTED=1 AND FREEZED=0 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", findPayperiod.Value, "PAY_PERIOD_CODE", isButtonClicked)
         lblPayPeriodName.Text = clsPayPeriodMaster.GetName(findPayperiod.Value, Nothing)
     End Sub
 

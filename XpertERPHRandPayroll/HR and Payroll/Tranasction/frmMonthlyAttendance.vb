@@ -683,7 +683,7 @@ Public Class frmMonthlyAttendance
     Private Sub findPayperiod__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findPayperiod._MYValidating
         Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
         & " PAY_PERIOD_NAME as 'Pay Period Name',date_from as [From Date],date_to as [Date To] FROM TSPL_PAYPERIOD_MASTER  "
-        findPayperiod.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", " POSTED=1 AND FREEZED=0 and convert(date, date_to,103) <= Convert (date,SYSDATETIME(),103)", findPayperiod.Value, "", isButtonClicked)
+        findPayperiod.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", " POSTED=1 AND FREEZED=0 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", findPayperiod.Value, "", isButtonClicked)
         If clsCommon.myLen(findPayperiod.Value) > 0 Then
             Dim clspp As clsPayPeriodMaster
             clspp = clsPayPeriodMaster.GetData(findPayperiod.Value, NavigatorType.Current)

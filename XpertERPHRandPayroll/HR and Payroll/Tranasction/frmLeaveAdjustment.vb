@@ -318,7 +318,7 @@ Public Class frmLeaveAdjustment
 
     Private Sub txtPayPeriodCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPayPeriodCode._MYValidating
         Dim qry As String = "select PAY_PERIOD_CODE as LVADJUSTMENT_CODE , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
-        txtPayPeriodCode.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "LVADJUSTMENT_CODE", "POSTED=1 and FREEZED=0", txtPayPeriodCode.Value, "PAY_PERIOD_CODE", isButtonClicked)
+        txtPayPeriodCode.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "LVADJUSTMENT_CODE", "POSTED=1 and FREEZED=0 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", txtPayPeriodCode.Value, "PAY_PERIOD_CODE", isButtonClicked)
         lblPayPeriodName.Text = clsPayPeriodMaster.GetName(txtPayPeriodCode.Value, Nothing)
     End Sub
 
