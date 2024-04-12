@@ -130,9 +130,9 @@ Public Class frmCorrection
                 btnTankerMilkExport.Visible = True
                 btnTankerMilkImport.Visible = True
             End If
-            If clsCommon.CompairString(MyBase.Form_ID, "MLK-PRO-COR") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(MyBase.Form_ID, clsUserMgtCode.MilkProcurementCorrection) = CompairStringResult.Equal Then
                 isCorrection = 1
-            ElseIf clsCommon.CompairString(MyBase.Form_ID, "MLK-RE-TST") = CompairStringResult.Equal Then
+            ElseIf clsCommon.CompairString(MyBase.Form_ID, clsUserMgtCode.MilkRetesting) = CompairStringResult.Equal Then
                 isCorrection = 2
             Else
                 isCorrection = 0
@@ -1071,14 +1071,19 @@ where TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE is not null and TSPL_MILK_COLLE
                 Arr(0).Retesting_SNF = txtBMCCorrSNF.Value
                 Arr(0).Retesting_CLR = txtRetestingCLR.Value
                 Arr(0).Retesting_OR_Correction = 1
+
+                Arr(0).FAT = Arr(0).Retesting_FAT
+                Arr(0).SNF = Arr(0).Retesting_SNF
             Else
                 Arr(0).Correction_Qty = txtBMCCorrQty.Value
                 Arr(0).Correction_FAT = txtBMCCorrFAT.Value
                 Arr(0).Correction_SNF = txtBMCCorrSNF.Value
                 Arr(0).Retesting_OR_Correction = 2
+
+                Arr(0).FAT = Arr(0).Correction_FAT
+                Arr(0).SNF = Arr(0).Correction_SNF
             End If
-            'Arr(0).FAT = txtBMCCorrFAT.Value
-            'Arr(0).SNF = txtBMCCorrSNF.Value
+
             Arr(0).FATKG = Math.Round(Arr(0).Qty * Arr(0).FAT / 100, 3, MidpointRounding.ToEven)
             Arr(0).SNFKG = Math.Round(Arr(0).Qty * Arr(0).SNF / 100, 3, MidpointRounding.ToEven)
             clsMilkCollectionMCCDetail.SaveData(lblBMCDocNo.Text, txtBMCDate.Value, Arr, True, Nothing, isCorrection)

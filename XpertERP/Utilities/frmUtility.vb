@@ -26277,4 +26277,54 @@ where TSPL_SD_SHIPMENT_HEAD.Document_Code in (select Shipment_Code  from TSPL_SD
             End If
         End If
     End Sub
+
+    Private Sub TxtMultiSelectFinder19__My_Click(sender As Object, e As EventArgs) Handles TxtMultiSelectFinder19._My_Click
+        Dim qry As String = "select Document_No,convert(date, Document_Date,103) as Document_Date ,Location_Code,Tender_No,Vendor_Code,Item_Code,Remarks,Status from TSPL_TENDER_PENALTY  order by Document_Date"
+        TxtMultiSelectFinder19.arrValueMember = clsCommon.ShowMultipleSelectForm("RALPe@u", qry, "Document_No", "", TxtMultiSelectFinder19.arrValueMember, Nothing)
+    End Sub
+
+    Private Sub RadButton352_Click(sender As Object, e As EventArgs) Handles RadButton352.Click
+        Try
+            If TxtMultiSelectFinder19.arrValueMember Is Nothing OrElse TxtMultiSelectFinder19.arrValueMember.Count <= 0 Then
+                Throw New Exception("Please select At least One Document")
+            End If
+            Dim StrAllException As String = ""
+            Dim qry As String = "select Document_No,convert(date, Document_Date,103) as Document_Date,Item_Code  from TSPL_TENDER_PENALTY where Document_No in (" + clsCommon.GetMulcallString(TxtMultiSelectFinder19.arrValueMember) + ") order by Document_Date"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsCommon.ProgressBarPercentShow()
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    Dim strDocCode As String = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
+                    clsCommon.ProgressBarPercentUpdate(ii + 1, dt.Rows.Count, "[ " & strDocCode & " ]")
+                    Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+                    Try
+                        Dim strItemCode As String = clsCommon.myCstr(dt.Rows(ii)("Item_Code"))
+                        qry = "select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + strDocCode + "'"
+                        Dim dtSRN As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+                        If dtSRN IsNot Nothing AndAlso dtSRN.Rows.Count > 0 Then
+                            For Each dr As DataRow In dtSRN.Rows
+                                Dim strSRNNo As String = clsCommon.myCstr(dr("SRN_No"))
+                                Dim aff As New ArrayList
+                                aff.Add(strSRNNo)
+                                clsTenderPenalty.DeleteSRNDeduction(aff, strItemCode, True, True, False, tran)
+                                clsSRNHead.GenerateSRNDeduction(strSRNNo, strItemCode, True, True, False, tran)
+                            Next
+                        End If
+                        tran.Commit()
+                    Catch ex As Exception
+                        tran.Rollback()
+                        StrAllException += "Error In Document no:" + clsCommon.myCstr(dt.Rows(ii)("Document_No")) + Environment.NewLine + ex.Message
+                    End Try
+                Next
+                clsCommon.ProgressBarPercentHide()
+            End If
+            If clsCommon.myLen(StrAllException) > 0 Then
+                clsCommon.MyMessageBoxShow(StrAllException, Me.Text)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Task Done", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

@@ -243,10 +243,10 @@ Public Class clsBMCDCS_DCS
 
         Dim strQry = "select TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.PK_ID,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNFKG,
 TSPL_MILK_COLLECTION_BMCDCS_DCS.FATKG,TSPL_MILK_COLLECTION_BMCDCS_DCS.SNF,TSPL_MILK_COLLECTION_BMCDCS_DCS.FAT,TSPL_MILK_COLLECTION_BMCDCS_DCS.Qty,
-TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift,TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code
+TSPL_MILK_COLLECTION_BMCDCS_DCS.IShift,TSPL_MILK_COLLECTION_BMCDCS_DCS.VLC_Code,TSPL_MILK_COLLECTION_BMCDCS.No_Cluster_DCS
 from TSPL_MILK_COLLECTION_BMCDCS_DCS
 left outer join TSPL_MILK_COLLECTION_BMCDCS on TSPL_MILK_COLLECTION_BMCDCS.PK_ID=TSPL_MILK_COLLECTION_BMCDCS_DCS.REF_PK_ID
-where TSPL_MILK_COLLECTION_BMCDCS.MCC_Code='" + clsCommon.myCstr(MCC_Code) + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(Document_Date) + "'"
+where TSPL_MILK_COLLECTION_BMCDCS.MCC_Code='" + MCC_Code + "' and TSPL_MILK_COLLECTION_BMCDCS.IDate='" + clsCommon.GetPrintDate(Document_Date) + "'"
 
         dt = New DataTable()
         dt = clsDBFuncationality.GetDataTable(strQry)
@@ -259,11 +259,30 @@ where TSPL_MILK_COLLECTION_BMCDCS.MCC_Code='" + clsCommon.myCstr(MCC_Code) + "' 
                 Obj_DCS.PK_ID = clsCommon.myCDecimal(dr("PK_ID"))
                 Obj_DCS.VLC_Code = clsCommon.myCstr(dr("VLC_Code"))
                 Obj_DCS.IShift = clsCommon.myCstr(dr("IShift"))
-                Obj_DCS.Qty = clsCommon.myCDecimal(dr("Qty"))
-                Obj_DCS.FAT = clsCommon.myCDecimal(dr("FAT"))
-                Obj_DCS.SNF = clsCommon.myCDecimal(dr("SNF"))
-                Obj_DCS.FATKG = clsCommon.myCDecimal(dr("FATKG"))
-                Obj_DCS.SNFKG = clsCommon.myCDecimal(dr("SNFKG"))
+
+                Dim flag As Boolean = True
+                If clsCommon.myCDecimal(dr("No_Cluster_DCS")) = 1 Then
+                    strQry = "select TSPL_MILK_COLLECTION_MCC_DETAIL.Qty, TSPL_MILK_COLLECTION_MCC_DETAIL.FAT,TSPL_MILK_COLLECTION_MCC_DETAIL.SNF,TSPL_MILK_COLLECTION_MCC_DETAIL.FATKG,TSPL_MILK_COLLECTION_MCC_DETAIL.SNFKG from TSPL_MILK_COLLECTION_MCC_DETAIL 
+left outer join TSPL_MILK_COLLECTION_MCC on TSPL_MILK_COLLECTION_MCC.Document_No=TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No
+where TSPL_MILK_COLLECTION_MCC_DETAIL.MCC_Code='" + MCC_Code + "' and convert(date,TSPL_MILK_COLLECTION_MCC.Document_Date,103)='" + clsCommon.GetPrintDate(Document_Date) + "'"
+                    Dim dtTemp As DataTable = clsDBFuncationality.GetDataTable(strQry)
+                    If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
+                        Obj_DCS.Qty = clsCommon.myCDecimal(dtTemp.Rows(0)("Qty"))
+                        Obj_DCS.FAT = clsCommon.myCDecimal(dtTemp.Rows(0)("FAT"))
+                        Obj_DCS.SNF = clsCommon.myCDecimal(dtTemp.Rows(0)("SNF"))
+                        Obj_DCS.FATKG = clsCommon.myCDecimal(dtTemp.Rows(0)("FATKG"))
+                        Obj_DCS.SNFKG = clsCommon.myCDecimal(dtTemp.Rows(0)("SNFKG"))
+                        flag = False
+                    End If
+                End If
+                If flag Then
+                    Obj_DCS.Qty = clsCommon.myCDecimal(dr("Qty"))
+                    Obj_DCS.FAT = clsCommon.myCDecimal(dr("FAT"))
+                    Obj_DCS.SNF = clsCommon.myCDecimal(dr("SNF"))
+                    Obj_DCS.FATKG = clsCommon.myCDecimal(dr("FATKG"))
+                    Obj_DCS.SNFKG = clsCommon.myCDecimal(dr("SNFKG"))
+                End If
+
                 obj.Arr_DCSDetails.Add(Obj_DCS)
             Next
         End If

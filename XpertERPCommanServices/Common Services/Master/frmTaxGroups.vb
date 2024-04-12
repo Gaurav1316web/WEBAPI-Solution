@@ -765,16 +765,31 @@ Public Class FrmTaxGroups
         Try
             pnlTaxFormula.Text = ""
             Dim taxableTax As String = ""
+            Dim taxableTax1 As String = ""
+            Dim taxtype As String = ""
+            Dim taxtype1 As String = ""
+
             If chkExcisable.ToggleState = ToggleState.Off Then
+
                 For Each grow As GridViewRowInfo In gvTaxGroups.Rows
                     taxableTax = ""
+                    taxableTax1 = ""
+
+                    taxtype = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Type from TSPL_TAX_MASTER where Tax_Code='" + clsCommon.myCstr(grow.Cells(0).Value) + "'"))
+
                     For Each gro As GridViewRowInfo In gvTaxGroups.Rows
-                        If gro.Index < grow.Index AndAlso gro.Cells(2).Value = "Yes" Then
+                        taxtype1 = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Type from TSPL_TAX_MASTER where Tax_Code='" + clsCommon.myCstr(gro.Cells(0).Value) + "'"))
+
+                        If (gro.Index < grow.Index AndAlso gro.Cells(2).Value = "Yes") AndAlso (clsCommon.CompairString(taxtype, "CGST") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(taxtype, "SGST") <> CompairStringResult.Equal) Then
+
                             taxableTax = taxableTax + " + (Tax Amount for <b>" + gro.Cells(0).Value + "</b>)"
+                        ElseIf (gro.Index < grow.Index AndAlso gro.Cells(2).Value = "Yes") AndAlso (clsCommon.CompairString(taxtype1, "CGST") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(taxtype1, "SGST") <> CompairStringResult.Equal) Then
+                            taxableTax1 = taxableTax1 + " + (Tax Amount for <b>" + gro.Cells(0).Value + "</b>)"
                         End If
                     Next
+
                     If grow.Cells(3).Value = "No" Then
-                        pnlTaxFormula.Text = pnlTaxFormula.Text + "<html><b>" + grow.Cells(0).Value + "-</b> (Base Amount) " + IIf(clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colTaxOnBaseAmount).Value), "Yes") = CompairStringResult.Equal, "", taxableTax) + " * (Tax Rate for <b>" + grow.Cells(0).Value + "</b>)/100<br></html>"
+                        pnlTaxFormula.Text = pnlTaxFormula.Text + "<html><b>" + grow.Cells(0).Value + "-</b> (Base Amount) " + IIf(clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colTaxOnBaseAmount).Value), "Yes") = CompairStringResult.Equal, "", IIf(clsCommon.CompairString(clsCommon.myCstr(grow.Cells(colTaxOnBaseAmount).Value), "No") = CompairStringResult.Equal AndAlso (clsCommon.CompairString(taxtype, "CGST") = CompairStringResult.Equal OrElse clsCommon.CompairString(taxtype, "SGST") = CompairStringResult.Equal), taxableTax1, taxableTax)) + " * (Tax Rate for <b>" + grow.Cells(0).Value + "</b>)/100<br></html>"
                     Else
                         For Each gro As GridViewRowInfo In gvTaxGroups.Rows
                             If gro.Cells(0).Value = grow.Cells(4).Value Then
