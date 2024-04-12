@@ -280,7 +280,7 @@ Public Class frmHourlyAttendance
     Private Sub findPayperiod__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findPayperiod._MYValidating
         Dim qry As String = "SELECT PAY_PERIOD_CODE AS Code,(DATEDIFF(DAY,date_from,date_to)+1) as Total_Days, " _
         & " PAY_PERIOD_NAME as Pay_period_Name FROM TSPL_PAYPERIOD_MASTER "
-        findPayperiod.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", findPayperiod.Value, "", isButtonClicked)
+        findPayperiod.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", findPayperiod.Value, "", isButtonClicked)
         Dim clspp As clsPayPeriodMaster
         clspp = clsPayPeriodMaster.GetData(findPayperiod.Value, NavigatorType.Current)
         If Not clspp Is Nothing Then
@@ -292,7 +292,7 @@ Public Class frmHourlyAttendance
 
     Private Sub findEnteredBy__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findEnteredBy._MYValidating
         Dim qry As String = "SELECT EMP_CODE AS 'Code',EMP_Name as 'Employee Name' FROM TSPL_EMPLOYEE_MASTER "
-        findEnteredBy.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", "", findEnteredBy.Value, "", isButtonClicked)
+        findEnteredBy.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", " Emp_Status<>'Inactive'", findEnteredBy.Value, "", isButtonClicked)
 
     End Sub
 
@@ -325,6 +325,10 @@ Public Class frmHourlyAttendance
                 Dim cond As String
                 cond = " (TT2.ATTN_REGISTER_TYPE='HOURLY' OR TT2.ATTN_REGISTER_TYPE='HR') " _
        & " AND TT1.EMP_CODE NOT IN (SELECT DISTINCT EMP_CODE FROM TSPL_HOURLY_ATTENDANCE_DETAIL WHERE ATTENDANCE_DATE='" & Format(Me.dtpAttendanceDate.Value, "dd MMM yyyy") & "')"
+
+                If clsCommon.myLen(txtCode.Value) <= 0 Then
+                    cond += " and TT4.Emp_Status<>'Inactive'"
+                End If
 
                 Dim obj As clsEmployeeMaster = clsMonthAttendance.FinderForEmployee(clsCommon.myCstr(gvHourlyAttendance.CurrentRow.Cells(colempCode).Value), False, strq, cond)
 

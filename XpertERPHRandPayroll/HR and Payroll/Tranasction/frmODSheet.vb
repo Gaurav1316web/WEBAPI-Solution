@@ -320,7 +320,11 @@ Public Class frmODSheet
     End Sub
 
     Private Sub txtEmpCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtEmpCode._MYValidating
-        txtEmpCode.Value = clsEmployeeMaster.getFinder("", Me.txtEmpCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("EMP_FINDER", Qry, "Code", "", txtCode.Value, "EMP_CODE", isButtonClicked)
+        Dim whrcls As String = Nothing
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            whrcls = " TSPL_EMPLOYEE_MASTER.Emp_Status<>'Inactive'"
+        End If
+        txtEmpCode.Value = clsEmployeeMaster.getFinder(whrcls, Me.txtEmpCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("EMP_FINDER", Qry, "Code", "", txtCode.Value, "EMP_CODE", isButtonClicked)
         lblEmpName.Text = clsEmployeeMaster.GetName(txtEmpCode.Value, Nothing)
     End Sub
 

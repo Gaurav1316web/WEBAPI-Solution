@@ -360,7 +360,7 @@ Public Class FrmAllotmentOfLeaves
     End Sub
 
     Private Sub fndPayPeriod__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndPayPeriod._MYValidating
-        fndPayPeriod.Value = clsPayPeriodMaster.getFinder("POSTED=1 and FREEZED=0", fndPayPeriod.Value, isButtonClicked)
+        fndPayPeriod.Value = clsPayPeriodMaster.getFinder("POSTED=1 and FREEZED=0 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", fndPayPeriod.Value, isButtonClicked)
         lblPayPeriodName.Text = clsPayPeriodMaster.GetName(fndPayPeriod.Value, Nothing)
         Dim objPayrollSett As clsPayrollSetting = clsPayrollSetting.GetPayrollSetting(fndLocation.Value, Nothing)
         If objPayrollSett Is Nothing Then
@@ -1010,7 +1010,7 @@ Public Class FrmAllotmentOfLeaves
             End If
 
             LoadGridColumns()
-            Dim qry As String = "select EMP_CODE ,Emp_Name  from TSPL_EMPLOYEE_MASTER where LOCATION_CODE = '" + fndLocation.Value + "'  "
+            Dim qry As String = "select EMP_CODE ,Emp_Name  from TSPL_EMPLOYEE_MASTER where LOCATION_CODE = '" + fndLocation.Value + "' and Emp_Status<>'Inactive'  "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 For Each dr As DataRow In dt.Rows

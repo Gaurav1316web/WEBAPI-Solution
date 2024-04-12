@@ -425,8 +425,10 @@ Public Class frmOTSheet
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             LocCode = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select isnull(TSPL_USER_MASTER.Default_Location,'') from TSPL_USER_MASTER Left Outer Join TSPL_LOCATION_MASTER on TSPL_USER_MASTER.Default_Location =TSPL_LOCATION_MASTER.Location_Code where 1=1 and TSPL_USER_MASTER.User_Code='" + objCommonVar.CurrentUserCode + "' "))
             If clsCommon.myLen(LocCode) > 0 Then
-                whrcls = " LOCATION_CODE='" + LocCode + "'"
+                whrcls = " LOCATION_CODE='" + LocCode + "' and Emp_Status<>'Inactive'"
             End If
+        Else
+            whrcls = " Emp_Status<>'Inactive'"
         End If
         Dim qry As String = "select EMP_CODE AS Code, Emp_Name AS Name ,Designation  from TSPL_EMPLOYEE_MASTER"
         txtEmpCode.Value = clsCommon.ShowSelectForm("EMP_FINDER", qry, "Code", whrcls, txtCode.Value, "EMP_CODE", isButtonClicked)
@@ -449,7 +451,7 @@ Public Class frmOTSheet
         Dim qry As String = "SELECT PAY_PERIOD_CODE AS Code,(DATEDIFF(DAY,date_from,date_to)+1) as Totaldays, " _
         & " PAY_PERIOD_NAME as Name FROM TSPL_PAYPERIOD_MASTER"
         'Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
-        txtPayPeriod.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", txtPayPeriod.Value, "PAY_PERIOD_CODE", isButtonClicked)
+        txtPayPeriod.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", txtPayPeriod.Value, "PAY_PERIOD_CODE", isButtonClicked)
         lblPayPeriod.Text = clsPayPeriodMaster.GetName(txtPayPeriod.Value, Nothing)
     End Sub
 

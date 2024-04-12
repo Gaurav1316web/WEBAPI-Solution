@@ -286,7 +286,7 @@ Public Class frmLoanAdjustment
             Dim qry As String = "SELECT PAY_PERIOD_CODE AS Code,(DATEDIFF(DAY,date_from,date_to)+1) as Totaldays, " _
             & " PAY_PERIOD_NAME as Name FROM TSPL_PAYPERIOD_MASTER"
             'Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
-            findPayperiod.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", findPayperiod.Value, "PAY_PERIOD_CODE", isButtonClicked)
+            findPayperiod.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", findPayperiod.Value, "PAY_PERIOD_CODE", isButtonClicked)
             If clsCommon.myLen(findPayperiod.Value) > 0 Then
                 Dim clspp As clsPayPeriodMaster
                 clspp = clsPayPeriodMaster.GetData(findPayperiod.Value, NavigatorType.Current)
@@ -302,10 +302,12 @@ Public Class frmLoanAdjustment
 
         Try
             Dim qry As String = "SELECT EMP_CODE as Code,EMP_Name as Name FROM TSPL_EMPLOYEE_MASTER "
-            findLoanAdjustby.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", "", findLoanAdjustby.Value, "", isButtonClicked)
-            Dim clsemp As clsEmployeeMaster
-            clsemp = clsEmployeeMaster.FinderForEmployee(findLoanAdjustby.Value, Nothing)
-            lblAdjustedByName.Text = clsemp.Emp_Name
+            findLoanAdjustby.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", " Emp_Status<>'Inactive'", findLoanAdjustby.Value, "", isButtonClicked)
+            If clsCommon.myLen(findLoanAdjustby.Value) > 0 Then
+                Dim clsemp As clsEmployeeMaster
+                clsemp = clsEmployeeMaster.FinderForEmployee(findLoanAdjustby.Value, Nothing)
+                lblAdjustedByName.Text = clsemp.Emp_Name
+            End If
         Catch ex As Exception
 
         End Try

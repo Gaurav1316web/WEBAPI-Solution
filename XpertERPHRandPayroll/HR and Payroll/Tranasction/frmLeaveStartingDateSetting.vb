@@ -193,7 +193,7 @@ Public Class frmLeaveStartingDateSetting
     End Sub
 
     Private Sub txtCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtCode._MYValidating
-        Dim str As String = "select count(*) from TSPL_EMPLOYEE_MASTER where EMP_CODE ='" + txtCode.Value + "' "
+        Dim str As String = "select count(*) from TSPL_EMPLOYEE_MASTER where EMP_CODE ='" + txtCode.Value + "' and Emp_Status<>'Inactive' "
         Dim no As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(str))
         If no = 0 AndAlso isButtonClicked = False Then
             txtCode.MyReadOnly = False
@@ -204,7 +204,7 @@ Public Class frmLeaveStartingDateSetting
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
             Dim qry As String = " select EMP_CODE as Code,  Emp_Name as Name from TSPL_EMPLOYEE_MASTER "
-            txtCode.Value = clsCommon.ShowSelectForm("EMP_FND", qry, "Code", "", txtCode.Value, "EMP_CODE", isButtonClicked)
+            txtCode.Value = clsCommon.ShowSelectForm("EMP_FND", qry, "Code", " Emp_Status<>'Inactive'", txtCode.Value, "EMP_CODE", isButtonClicked)
             lblEmpName.Text = clsEmployeeMaster.GetName(txtCode.Value, Nothing)
             If txtCode.Value <> "" Then
                 LoadData(txtCode.Value, txtLeaveCode.Value)
