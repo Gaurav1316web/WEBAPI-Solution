@@ -26356,7 +26356,7 @@ group by DocumentCode,Location,Vendor_Code,Item_Code order by DocumentCode,Locat
                         clsCommon.ProgressBarPercentUpdate(iiTender + 1, dtTender.Rows.Count, "RAL [ " & strTender & " ] Location [ " & strLocation & " ] Vendor [ " & strVendor & " ] Item [ " & strItem & " ]")
                         qry = "select Document_No from TSPL_TENDER_PENALTY 
 where Location_Code='" + strLocation + "' and  Tender_No='" + strTender + "' and Vendor_Code='" + strVendor + "' 
-and Item_Code ='" + strItem + "' and Status=1 order by Created_Date"
+and Item_Code ='" + strItem + "'  order by Created_Date"
                         Dim dtDoc As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
                         If dtDoc IsNot Nothing AndAlso dtDoc.Rows.Count > 0 Then
                             Try
