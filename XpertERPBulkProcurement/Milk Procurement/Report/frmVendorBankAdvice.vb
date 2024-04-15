@@ -8,6 +8,7 @@ Public Class frmVendorBankAdvice
 #Region "Variables"
     Dim MultipleFinderFillAuto As Boolean = False
     Dim AreaWiseBilling As Boolean = False
+    Dim VendorBankAdviceForSWM As Boolean = False
     Dim StrPermission As String
     Dim dtREJECT As DataTable
     Dim IsBankAdviseStartDate As String
@@ -27,6 +28,8 @@ Public Class frmVendorBankAdvice
         'RadGroupBox1.Visible = Not MultipleFinderFillAuto
         txtPaymentCycleFrom.Enabled = Not MultipleFinderFillAuto
         txtPaymentCycleTo.Enabled = Not MultipleFinderFillAuto
+        VendorBankAdviceForSWM = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, Nothing)) = 1)
+        btnPrintSWM.Visible = VendorBankAdviceForSWM
         'RadGroupBox3.Visible =MultipleFinderFillAuto
         If MultipleFinderFillAuto = False Then
             RadGroupBox3.Visible = True
@@ -328,10 +331,11 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommo
                     Else
                         BaseQry += " TSPL_Vendor_MASTER.Bank_Code as GRPColumn,"
                     End If
-                    BaseQry += "TSPL_BANK_MASTER.DESCRIPTION as [Company Bank], TSPL_BANK_MASTER.BANKACCNUMBER as [Company Bank Account No],
-TSPL_COMPANY_MASTER.Comp_Name
-,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address
-,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No,"
+                    BaseQry += " CASE WHEN TSPL_Vendor_MASTER.Bank_Code LIKE 'PNB%' THEN 'PNB Bank' ELSE 'Other Banks' END AS GRPColumns,TSPL_COMPANY_MASTER.Bank_Name,TSPL_COMPANY_MASTER.BankAccountNo,TSPL_COMPANY_MASTER.BankIFSCCode,TSPL_COMPANY_MASTER.BankBranchAddress,
+                               TSPL_BANK_MASTER.DESCRIPTION as [Company Bank], TSPL_BANK_MASTER.BANKACCNUMBER as [Company Bank Account No],
+                               TSPL_COMPANY_MASTER.Comp_Name
+                               ,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address
+                               ,case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No,"
                     If AreaWiseBilling = True Then
                         BaseQry += " TSPL_LOCATION_MASTER.Location_Desc AS MCC_Name "
                     Else
@@ -499,6 +503,8 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
                         frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdvice", "Bank Advice")
                     ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "JPR") = CompairStringResult.Equal Then
                         frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewJPR", "Bank Advice")
+                    ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal AndAlso VendorBankAdviceForSWM = True Then
+                        frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewSWM", "Bank Advice")
                     Else
                         frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNew", "Bank Advice")
                         frmCRV = Nothing
@@ -610,6 +616,21 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
 
             Gv1.Columns("GRPColumn").HeaderText = "Group Range"
             Gv1.Columns("GRPColumn").IsVisible = False
+
+            Gv1.Columns("GRPColumns").HeaderText = "Group Ranges"
+            Gv1.Columns("GRPColumns").IsVisible = False
+
+            Gv1.Columns("Bank_Name").HeaderText = "Bank_Name"
+            Gv1.Columns("Bank_Name").IsVisible = False
+
+            Gv1.Columns("BankAccountNo").HeaderText = "BankAccountNo"
+            Gv1.Columns("BankAccountNo").IsVisible = False
+
+            Gv1.Columns("BankIFSCCode").HeaderText = "BankIFSCCode"
+            Gv1.Columns("BankIFSCCode").IsVisible = False
+
+            Gv1.Columns("BankBranchAddress").HeaderText = "BankBranchAddress"
+            Gv1.Columns("BankBranchAddress").IsVisible = False
 
             Gv1.Columns("Comp_Name").HeaderText = "Company Name"
             Gv1.Columns("Comp_Name").IsVisible = False
@@ -1522,6 +1543,14 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
             rbtnBankAdvice.IsChecked = False
             rbtnBankWiseSummary.IsChecked = False
             rbtnCurrentBankWiseSummary.IsChecked = False
+        End If
+    End Sub
+
+    Private Sub btnPrintSWM_Click(sender As Object, e As EventArgs) Handles btnPrintSWM.Click
+        If ChkIFSCCode.Checked Then
+            Printt()
+        Else
+            Print(True)
         End If
     End Sub
 End Class

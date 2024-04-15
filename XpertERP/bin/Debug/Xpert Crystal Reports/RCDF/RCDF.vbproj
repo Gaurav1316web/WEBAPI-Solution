@@ -1353,6 +1353,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewGNG.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewJAL.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewJDH.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewJDHInHindi.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewJHL.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewJPR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewKTA.rpt" />
@@ -1360,6 +1361,7 @@
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewSKR.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessNewTNK.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessUDP.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptMilkPurchaseBillPaymentProcessUDPInHindi.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMobileAppMilkCollectionReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMPWiseMilkCollectionAtPoolingPoint.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMultpleDeductionNewGNG.rpt" />
