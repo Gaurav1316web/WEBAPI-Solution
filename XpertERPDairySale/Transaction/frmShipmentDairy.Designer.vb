@@ -274,6 +274,8 @@ Partial Class frmShipmentDairy
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtTCAmt = New common.Controls.MyLabel()
+        Me.lblTCAmt = New common.Controls.MyLabel()
         Me.txtSecurity = New common.Controls.MyLabel()
         Me.lblSecuirty = New common.Controls.MyLabel()
         Me.txtDCAmt = New common.Controls.MyLabel()
@@ -401,8 +403,6 @@ Partial Class frmShipmentDairy
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.txtTCAmt = New common.Controls.MyLabel()
-        Me.lblTCAmt = New common.Controls.MyLabel()
         CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -648,6 +648,8 @@ Partial Class frmShipmentDairy
         Me.pvpCustomFields.SuspendLayout()
         Me.Attachments.SuspendLayout()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSecuirty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -766,8 +768,6 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadMenu1.SuspendLayout()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -884,7 +884,7 @@ Partial Class frmShipmentDairy
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -5074,6 +5074,28 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage4.Text = "Total"
         '
+        'txtTCAmt
+        '
+        Me.txtTCAmt.AutoSize = False
+        Me.txtTCAmt.BorderVisible = True
+        Me.txtTCAmt.FieldName = Nothing
+        Me.txtTCAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTCAmt.Location = New System.Drawing.Point(764, 77)
+        Me.txtTCAmt.Name = "txtTCAmt"
+        Me.txtTCAmt.Size = New System.Drawing.Size(82, 18)
+        Me.txtTCAmt.TabIndex = 1413
+        Me.txtTCAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblTCAmt
+        '
+        Me.lblTCAmt.FieldName = Nothing
+        Me.lblTCAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTCAmt.Location = New System.Drawing.Point(607, 78)
+        Me.lblTCAmt.Name = "lblTCAmt"
+        Me.lblTCAmt.Size = New System.Drawing.Size(153, 16)
+        Me.lblTCAmt.TabIndex = 1414
+        Me.lblTCAmt.Text = "Transporter Commission Amt"
+        '
         'txtSecurity
         '
         Me.txtSecurity.AutoSize = False
@@ -6691,28 +6713,6 @@ Partial Class frmShipmentDairy
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
-        'txtTCAmt
-        '
-        Me.txtTCAmt.AutoSize = False
-        Me.txtTCAmt.BorderVisible = True
-        Me.txtTCAmt.FieldName = Nothing
-        Me.txtTCAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtTCAmt.Location = New System.Drawing.Point(764, 77)
-        Me.txtTCAmt.Name = "txtTCAmt"
-        Me.txtTCAmt.Size = New System.Drawing.Size(82, 18)
-        Me.txtTCAmt.TabIndex = 1413
-        Me.txtTCAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'lblTCAmt
-        '
-        Me.lblTCAmt.FieldName = Nothing
-        Me.lblTCAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTCAmt.Location = New System.Drawing.Point(607, 78)
-        Me.lblTCAmt.Name = "lblTCAmt"
-        Me.lblTCAmt.Size = New System.Drawing.Size(153, 16)
-        Me.lblTCAmt.TabIndex = 1414
-        Me.lblTCAmt.Text = "Transporter Commission Amt"
-        '
         'frmShipmentDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6987,6 +6987,8 @@ Partial Class frmShipmentDairy
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSecurity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSecuirty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDCAmt, System.ComponentModel.ISupportInitialize).EndInit()
@@ -7113,8 +7115,6 @@ Partial Class frmShipmentDairy
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadMenu1.ResumeLayout(False)
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

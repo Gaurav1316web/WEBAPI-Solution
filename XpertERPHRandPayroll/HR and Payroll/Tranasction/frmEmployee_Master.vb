@@ -157,6 +157,7 @@ Public Class frmEmployee_Master
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
         AddNew()
+        'EmployeeStatusDate()
         'CreateTable()
     End Sub
 
@@ -396,6 +397,20 @@ Public Class frmEmployee_Master
                 obj.Hold_Slary = chkHoldsalary.Checked
                 obj.BLOOD_GROUP = txtBloodGroup.Text
                 obj.Emp_Status = clsCommon.myCstr(CboEmployeeStatus.SelectedValue)
+                If clsCommon.CompairString(lblActiveInactiveDate.Text, "Active Date") = CompairStringResult.Equal AndAlso txtActiveInactiveDate.Checked Then
+                    obj.Active_Date = 1
+                    obj.Status_Active_Date = txtActiveInactiveDate.Value
+                Else
+                    obj.Active_Date = 0
+                    obj.Status_Active_Date = Nothing
+                End If
+                If clsCommon.CompairString(lblActiveInactiveDate.Text, "Inactive Date") = CompairStringResult.Equal AndAlso txtActiveInactiveDate.Checked Then
+                    obj.Inactive_Date = 1
+                    obj.Status_Inactive_Date = txtActiveInactiveDate.Value
+                Else
+                    obj.Inactive_Date = 0
+                    obj.Status_Inactive_Date = Nothing
+                End If
                 obj.Payroll_Code = txtPayRollCode.Text
                 obj.GL_Account = TxtGLAccount.Value
                 obj.CAST_CATEGORY_CODE = txtCastCategory.Value
@@ -796,6 +811,24 @@ Public Class frmEmployee_Master
             chkHoldsalary.Checked = obj.Hold_Slary
             txtBloodGroup.Text = obj.BLOOD_GROUP
             CboEmployeeStatus.SelectedValue = obj.Emp_Status
+            If clsCommon.CompairString(clsCommon.myCstr(obj.Emp_Status), "Active") = CompairStringResult.Equal Then
+                If obj.Active_Date = 1 Then
+                    lblActiveInactiveDate.Text = "Active Date"
+                    txtActiveInactiveDate.Checked = True
+                    txtActiveInactiveDate.Value = obj.Status_Active_Date
+                Else
+                    txtActiveInactiveDate.Checked = False
+                End If
+            End If
+            If clsCommon.CompairString(clsCommon.myCstr(obj.Emp_Status), "Inactive") = CompairStringResult.Equal Then
+                If obj.Inactive_Date = 1 Then
+                    lblActiveInactiveDate.Text = "Inactive Date"
+                    txtActiveInactiveDate.Checked = True
+                    txtActiveInactiveDate.Value = obj.Status_Inactive_Date
+                Else
+                    txtActiveInactiveDate.Checked = False
+                End If
+            End If
             txtPayRollCode.Text = obj.Payroll_Code
             TxtGLAccount.Value = obj.GL_Account
             txtCastCategory.Value = obj.CAST_CATEGORY_CODE
@@ -1271,6 +1304,8 @@ Public Class frmEmployee_Master
     End Sub
 
     Sub AddNew()
+        txtActiveInactiveDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy")
+        txtActiveInactiveDate.Checked = False
         isNewEntry = True
         btnsave.Text = "Save"
         txtCode.MyReadOnly = False
@@ -4439,5 +4474,26 @@ Public Class frmEmployee_Master
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub CboEmployeeStatus_SelectedValueChanged(sender As Object, e As EventArgs) Handles CboEmployeeStatus.SelectedValueChanged
+        Try
+            EmployeeStatusDate()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Public Sub EmployeeStatusDate()
+        If clsCommon.CompairString(clsCommon.myCstr(CboEmployeeStatus.SelectedIndex), "0") = CompairStringResult.Equal Then
+            lblActiveInactiveDate.Visible = True
+            lblActiveInactiveDate.Text = "Active Date"
+            txtActiveInactiveDate.Visible = True
+        Else
+            lblActiveInactiveDate.Visible = True
+            lblActiveInactiveDate.Text = "Inactive Date"
+            txtActiveInactiveDate.Visible = True
+        End If
+        txtActiveInactiveDate.Checked = False
     End Sub
 End Class
