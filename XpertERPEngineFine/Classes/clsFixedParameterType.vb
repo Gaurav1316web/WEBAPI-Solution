@@ -752,6 +752,7 @@ Public Class clsFixedParameterType
     Public Const CmtSetting As String = "Comment Setting"
     Public Const AreaWiseBilling As String = "Area Wise Billing"
     Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
+    Public Const VendorBankAdviceForSWM As String = "Vendor Bank Advice For SWM"
     Public Const MilkSamplShowOddEvenTwoGrid As String = "Show Odd and Even Two Grid"
     Public Const OpenODDEvenForm As String = "Open Odd-Even Form"
     Public Const Open4AnalyzerForm As String = "Open 4 Milk Analyzer Form"
@@ -1696,6 +1697,7 @@ Public Class clsFixedParameterCode
     Public Const CmtSetting As String = "Comment Setting"
     Public Const AreaWiseBilling As String = "Area Wise Billing"
     Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
+    Public Const VendorBankAdviceForSWM As String = "Vendor Bank Advice For SWM"
     Public Const GateEntryTankerFromTankerMaster As String = "Gate Entry tanker From Master"
     Public Const QualityThenWeighmentinBulkProcurement As String = "First QC then Weighment"
     Public Const isIntimationRequired As String = "Show Intimation Screen"
@@ -3814,6 +3816,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkSamplShowOddEvenTwoGrid, clsFixedParameterCode.MilkSamplShowOddEvenTwoGrid, "0", "0:Off, 1:On; Show Tow Grid Odd Even")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OpenODDEvenForm, clsFixedParameterCode.OpenODDEvenForm, "1", "0:Off, 1:On; Open Odd Even Form")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Open4AnalyzerForm, clsFixedParameterCode.Open4AnalyzerForm, "0", "0:Off, 1:On; Open 4 Analyzer Form")
@@ -5384,6 +5387,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
         ' InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, EnumControlType.NumericBox)
