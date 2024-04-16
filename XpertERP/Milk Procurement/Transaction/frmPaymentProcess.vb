@@ -172,6 +172,7 @@ Public Class FrmPaymentProcess
     Private PayableAmountZeroForMCCSale As Boolean = False
     Dim isPickPendingMilkSRNinNextPaymentCycle As Boolean = False
     Dim AreaWiseBilling As Boolean = False
+    Dim PaymentProcessInHindi As Boolean = False
     Dim IsRoundOffPaiseAmount As Boolean
     Dim settingShowFATSNF As Boolean = False
     Dim SettShowMCCFinder As Boolean = False
@@ -199,6 +200,8 @@ Public Class FrmPaymentProcess
         AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         Label1.Visible = AreaWiseBilling
         fndArea.Visible = AreaWiseBilling
+        PaymentProcessInHindi = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, Nothing)) = 1)
+        btnPrintHindi.Visible = PaymentProcessInHindi
         Reset()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D To Delete ")
@@ -8686,5 +8689,26 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
 
     Private Sub SetPaymentProcessHoldSaving(ii As Integer)
         gv.Rows(ii).Cells(colIsPaymentProcessHoldSaving).Value = (clsCommon.myCBool(gv.Rows(ii).Cells(colIsPaymentProcessHoldSavingAuto).Value) OrElse clsCommon.myCBool(gv.Rows(ii).Cells(colIsPaymentProcessHoldSavingManual).Value))
+    End Sub
+
+    Private Sub btnPrintHindi_Click(sender As Object, e As EventArgs) Handles btnPrintHindi.Click
+        Try
+            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
+                Load_Report_Paymnet_UDL()
+            ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Then
+                Load_Report_Paymnet_BHAD()
+            ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHBA") = CompairStringResult.Equal Then
+                Load_Report_Paymnet_BHBA()
+            ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UCDF") = CompairStringResult.Equal Then
+                Load_Report_Paymnet_UCDF()
+            ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDF") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+                'Load_Report_Paymnet_RCDF()
+                clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "", clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", False)
+            Else
+                Load_Report(Nothing, Nothing, Nothing, Nothing, False, True)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

@@ -846,7 +846,6 @@
     <Compile Include="Payroll\clsPayrollSetting.vb" />
     <Compile Include="Payroll\clsPTSlab.vb" />
     <Compile Include="Payroll\ClsSentMailSlip.vb" />
-    <Compile Include="PJC\clsCostType.vb" />
     <Compile Include="Production\CllsProductionLine.vb" />
     <Compile Include="Production\clsAssembliesDis.vb" />
     <Compile Include="Production\ClsCostMaintainance.vb" />
@@ -1114,9 +1113,6 @@
     <Compile Include="HR\ClsPerformanceGroupMapping.vb" />
     <Compile Include="HR\clsPerformanceRating.vb" />
     <Compile Include="Payroll\clsPFRulesMaster.vb" />
-    <Compile Include="PJC\clsPJCAccountSet.vb" />
-    <Compile Include="PJC\clsPJCExpense.vb" />
-    <Compile Include="PJC\clsPJCSettings.vb" />
     <Compile Include="Production\clsPPLogSheetMaster.vb" />
     <Compile Include="Milk Procurement\clsPriceChartBulkProc.vb" />
     <Compile Include="Sale\clsPriceGroupMapping.vb" />
@@ -1140,8 +1136,6 @@
     <Compile Include="HR\ClsProfileMaster.vb" />
     <Compile Include="Finance\clsProfitAndLossPerforma.vb" />
     <Compile Include="Common\ClsProgramMapping.vb" />
-    <Compile Include="PJC\clsProjectMaster.vb" />
-    <Compile Include="PJC\clsProjectStatus.vb" />
     <Compile Include="Sale\clsProspectDetail.vb" />
     <Compile Include="Sale\ProductSale\clsPSDeliveryOrder.vb" />
     <Compile Include="Purchase\clsPurchaseSettings.vb" />

@@ -399,7 +399,11 @@ Public Class frmEmployeeShiftChange
             If Not isCellValueChanged Then
                 If e.Column Is gvAllowance.Columns(colempCode) Then
                     isCellValueChanged = True
-                    gvAllowance.CurrentRow.Cells(colempCode).Value = clsEmployeeMaster.getFinder("", gvAllowance.CurrentRow.Cells(colempCode).Value, False)
+                    Dim whrcls As String = Nothing
+                    If clsCommon.myLen(txtCode.Value) <= 0 Then
+                        whrcls = " TSPL_EMPLOYEE_MASTER.Emp_Status<>'Inactive'"
+                    End If
+                    gvAllowance.CurrentRow.Cells(colempCode).Value = clsEmployeeMaster.getFinder(whrcls, gvAllowance.CurrentRow.Cells(colempCode).Value, False)
                     gvAllowance.CurrentRow.Cells(colempName).Value = clsEmployeeMaster.GetName(gvAllowance.CurrentRow.Cells(colempCode).Value, Nothing)
                     isCellValueChanged = False
                 End If

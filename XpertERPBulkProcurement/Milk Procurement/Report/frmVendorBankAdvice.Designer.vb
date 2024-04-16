@@ -22,7 +22,7 @@ Partial Class frmVendorBankAdvice
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -63,6 +63,7 @@ Partial Class frmVendorBankAdvice
         Me.fromDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.Gv1 = New common.UserControls.MyRadGridView()
+        Me.btnPrintSWM = New Telerik.WinControls.UI.RadButton()
         Me.btnExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmiExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmiPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -109,6 +110,7 @@ Partial Class frmVendorBankAdvice
         Me.RadPageViewPage2.SuspendLayout()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintSWM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -155,6 +157,7 @@ Partial Class frmVendorBankAdvice
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintSWM)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGo)
@@ -670,13 +673,24 @@ Partial Class frmVendorBankAdvice
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
         Me.Gv1.Size = New System.Drawing.Size(794, 278)
         Me.Gv1.TabIndex = 0
+        '
+        'btnPrintSWM
+        '
+        Me.btnPrintSWM.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPrintSWM.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnPrintSWM.Location = New System.Drawing.Point(258, 15)
+        Me.btnPrintSWM.Name = "btnPrintSWM"
+        Me.btnPrintSWM.Size = New System.Drawing.Size(71, 22)
+        Me.btnPrintSWM.TabIndex = 158
+        Me.btnPrintSWM.Text = "Print"
+        Me.btnPrintSWM.Visible = False
         '
         'btnExp
         '
@@ -794,6 +808,7 @@ Partial Class frmVendorBankAdvice
         Me.RadPageViewPage2.ResumeLayout(False)
         CType(Me.Gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.Gv1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintSWM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExp, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
@@ -851,5 +866,6 @@ Partial Class frmVendorBankAdvice
     Friend WithEvents lblArea As common.Controls.MyLabel
     Friend WithEvents rbtnBothSavCur As common.Controls.MyRadioButton
     Friend WithEvents RadGroupBox4 As RadGroupBox
+    Friend WithEvents btnPrintSWM As RadButton
 End Class
 
