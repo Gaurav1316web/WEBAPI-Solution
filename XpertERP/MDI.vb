@@ -9639,6 +9639,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptProductionStatusReport
                         frm = New rptProductionStatusReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.rptProductionStandardization
+                        frm = New rptProductionStandardization
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmProductionUtilityCost
                         frm = New frmProductionUtilityCost
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
