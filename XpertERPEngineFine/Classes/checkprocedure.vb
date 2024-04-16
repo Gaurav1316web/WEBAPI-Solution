@@ -1607,6 +1607,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DCSFinancialHead, "DCS Financial Head", "1.17.01.59", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.DCSSupervisorTagging, "DCS Supervisor Tagging", "1.17.01.60", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.MPMilkPrice, "MP Milk Price", "1.17.01.61", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.ChillingChargesSlab, "Chilling Charges Slab", "1.17.01.57", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         '=============================Mcc Transaction===========================================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "MCC Transaction", "1.17.02", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.frmOpenMCCShift, "Open MCC Shift", "1.17.02.01", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
