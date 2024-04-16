@@ -79,6 +79,7 @@
     <Compile Include="Classes\ClsCostCenter.vb" />
     <Compile Include="Classes\clsDairyInvoice.vb" />
     <Compile Include="Classes\clsEPF.vb" />
+    <Compile Include="Milk Procurement\clsChillingCharges.vb" />
     <Compile Include="MIS\clsDailySMPProduction.vb" />
     <Compile Include="MIS\clsProductionTransactionType.vb" />
     <Compile Include="PJC\clsCostType.vb" />

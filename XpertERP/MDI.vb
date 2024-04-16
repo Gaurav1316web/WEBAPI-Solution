@@ -5321,6 +5321,9 @@ Public Class MDI
                     Case clsUserMgtCode.MPIncetiveSlab
                         frm = New frmMPIncetiveSlab()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.ChillingChargesSlab
+                        frm = New frmChillingChargesSlab()
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.FrmOwnBmcExpanse
                         frm = New FrmOwnBmcExpanse()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)

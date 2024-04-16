@@ -2013,6 +2013,7 @@ Public Class clsUserMgtCode
     Public Const FarmerProMaster As String = "FRM_PRO_MST"
     Public Const CappingMaster As String = "CAP-Master"
     Public Const MPIncetiveSlab As String = "MP-INC-SLP"
+    Public Const ChillingChargesSlab As String = "CHL-CHR-SLB"
     Public Const FrmOwnBmcExpanse As String = "OWN-BMC-EXP"
     Public Const OwnBMCGainLossRate As String = "BMC-RATE"
     Public Const FreightChargesMaster As String = "FRE_CHG"
