@@ -258,7 +258,10 @@ Public Class rptDailyQtyReport
                     If clsCommon.myLen(TxtTankerNo.Value) > 0 Then
                         qry = qry + " where tanker_no ='" + TxtTankerNo.Value + "'"
                     End If
-
+                    If rbtnTranpoterGainLoss.Checked Then
+                        qry += " order by convert(date,XXGetAllRecords.Document_Date,103) asc 
+"
+                    End If
                 ElseIf rdbTankerWise.Checked = True Then
                     qry = "SELECT  Max(XXXFinal.tanker_no) AS Tanker_No, Sum (MCC_Qty) AS MCC_Qty,  Sum (MCC_FATKG) AS MCC_FATKG, Sum (MCC_SNFKG) AS MCC_SNFKG, 
                           sum(entered_qty) AS Entered_Qty, Sum (entered_fatkg)  AS Entered_FATKg, Sum (entered_snfkg) AS Entered_SNFKg, Sum(entered_qty) - Sum(MCC_Qty) AS DiffEnteredVsMCC_Qty, Sum (entered_fatkg) - Sum (MCC_FATKG)  AS
@@ -364,13 +367,6 @@ Public Class rptDailyQtyReport
                     '        Group By TSPL_BULK_ROUTE_MASTER.ROUTE_NO,tspl_gate_entry_details.Date_And_Time )TankerData On TankerData.Document_Date=BMCData.Document_Date And TankerData.ROUTE_NO=BMCData.ROUTE_NO)xxx
                     'Where Convert(Date,xxx.Document_Date,103)>= convert (date,'" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) And Convert(Date,xxx.Document_Date,103)<= convert (date,'" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103)"
                 End If
-
-
-
-
-
-
-
                 dt = clsDBFuncationality.GetDataTable(qry)
                 Gv1.DataSource = Nothing
                 Gv1.Rows.Clear()
@@ -2152,6 +2148,9 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
     						 "
                 If clsCommon.myLen(TxtTankerNo.Value) > 0 Then
                     qry += " where Tanker_No='" + TxtTankerNo.Value + "'"
+                End If
+                If rbtnTranpoterGainLoss.Checked Then
+                    qry += " order by convert(date,XXGetAllRecords.Document_Date,103) asc "
                 End If
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
