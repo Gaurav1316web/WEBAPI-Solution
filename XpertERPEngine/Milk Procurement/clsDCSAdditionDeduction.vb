@@ -25,11 +25,13 @@ Public Class clsDCSAdditionDeduction
     Public Apply_TDS As Boolean
     Public Include_Shortage_Own_BMC As Boolean
     Public Subtract As Boolean
+    Public Apply_Formula As Boolean
     Public Posted As ERPTransactionStatus = ERPTransactionStatus.Pending
     Public Check_Saving_AC As Integer = 0
     Public Conversion As Decimal = 0
 
     Public Arr As ArrayList = Nothing
+    Public ArrDCSExclude As ArrayList = Nothing
 #End Region
     Public Function SaveData(ByVal obj As clsDCSAdditionDeduction, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -46,6 +48,8 @@ Public Class clsDCSAdditionDeduction
     Public Function SaveData(ByVal obj As clsDCSAdditionDeduction, ByVal isNewEntry As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim qry As String = "Delete from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT  where Code='" + obj.Code + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            qry = "Delete from TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE  where Code='" + obj.Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
@@ -77,6 +81,7 @@ Public Class clsDCSAdditionDeduction
             clsCommon.AddColumnsForChange(coll, "Apply_TDS", IIf(obj.Apply_TDS, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Include_Shortage_Own_BMC", IIf(obj.Include_Shortage_Own_BMC, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Subtract", IIf(obj.Subtract, 1, 0))
+            clsCommon.AddColumnsForChange(coll, "Apply_Formula", IIf(obj.Apply_Formula, 1, 0))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Check_Saving_AC", obj.Check_Saving_AC)
@@ -101,7 +106,38 @@ Public Class clsDCSAdditionDeduction
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", OMInsertOrUpdate.Insert, "", trans)
                 Next
             End If
+            SaveDCSExcludeData(obj.Code, obj.ArrDCSExclude, trans)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Code, "TSPL_DCS_ADDITION_DEDUCTION", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", "Code", trans)
+        Catch err As Exception
+            Throw New Exception(err.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Function SaveDCSExcludeData(ByVal Code As String, ByVal ArrDCSExclude As ArrayList) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            SaveDCSExcludeData(Code, ArrDCSExclude, trans)
+            trans.Commit()
+        Catch err As Exception
+            trans.Rollback()
+            Throw New Exception(err.Message)
+        End Try
+        Return True
+    End Function
+    Public Function SaveDCSExcludeData(ByVal Code As String, ByVal ArrDCSExclude As ArrayList, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim qry As String = "Delete from TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE  where Code='" + Code + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            If ArrDCSExclude IsNot Nothing AndAlso ArrDCSExclude.Count > 0 Then
+                For Each str As String In ArrDCSExclude
+                    Dim coll As New Hashtable()
+                    clsCommon.AddColumnsForChange(coll, "Code", Code)
+                    clsCommon.AddColumnsForChange(coll, "DCS_Exclude", str)
+                    clsCommonFunctionality.UpdateDataTable(coll, "TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE", OMInsertOrUpdate.Insert, "", trans)
+                Next
+            End If
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -132,6 +168,9 @@ Public Class clsDCSAdditionDeduction
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_DCS_ADDITION_DEDUCTION", "Code", "TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT", "Code", tran)
 
             qry = "Delete from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT  where Code='" + strCode + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+            qry = "Delete from TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE  where Code='" + strCode + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
             qry = "Delete from TSPL_DCS_ADDITION_DEDUCTION where Code='" + strCode + "'"
@@ -196,8 +235,10 @@ Public Class clsDCSAdditionDeduction
             obj.Apply_TDS = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_TDS")) = 1, True, False)
             obj.Include_Shortage_Own_BMC = IIf(clsCommon.myCdbl(dt.Rows(0)("Include_Shortage_Own_BMC")) = 1, True, False)
             obj.Subtract = IIf(clsCommon.myCdbl(dt.Rows(0)("Subtract")) = 1, True, False)
+            obj.Apply_Formula = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_Formula")) = 1, True, False)
             obj.Check_Saving_AC = clsCommon.myCdbl(dt.Rows(0)("Check_Saving_AC"))
             obj.Conversion = clsCommon.myCdbl(dt.Rows(0)("Conversion"))
+
             obj.Arr = Nothing
             qry = " select Add_Of_Add_Ded_Code from TSPL_DCS_ADDITION_DEDUCTION_ADD_AMT where Code='" + obj.Code + "' "
             dt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -207,8 +248,17 @@ Public Class clsDCSAdditionDeduction
                     obj.Arr.Add(clsCommon.myCstr(dr("Add_Of_Add_Ded_Code")))
                 Next
             End If
-        End If
 
+            obj.ArrDCSExclude = Nothing
+            qry = " select DCS_Exclude from TSPL_DCS_ADDITION_DEDUCTION_DCS_EXCLUDE where Code='" + obj.Code + "' "
+            dt = clsDBFuncationality.GetDataTable(qry, trans)
+            If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                obj.ArrDCSExclude = New ArrayList()
+                For Each dr As DataRow In dt.Rows
+                    obj.ArrDCSExclude.Add(clsCommon.myCstr(dr("DCS_Exclude")))
+                Next
+            End If
+        End If
         Return obj
     End Function
 

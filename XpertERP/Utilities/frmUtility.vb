@@ -26277,4 +26277,188 @@ where TSPL_SD_SHIPMENT_HEAD.Document_Code in (select Shipment_Code  from TSPL_SD
             End If
         End If
     End Sub
+
+    Private Sub TxtMultiSelectFinder19__My_Click(sender As Object, e As EventArgs) Handles TxtMultiSelectFinder19._My_Click
+        Dim qry As String = "select Document_No,convert(date, Document_Date,103) as Document_Date ,Location_Code,Tender_No,Vendor_Code,Item_Code,Remarks,Status from TSPL_TENDER_PENALTY  order by Document_Date"
+        TxtMultiSelectFinder19.arrValueMember = clsCommon.ShowMultipleSelectForm("RALPe@u", qry, "Document_No", "", TxtMultiSelectFinder19.arrValueMember, Nothing)
+    End Sub
+
+    Private Sub RadButton352_Click(sender As Object, e As EventArgs) Handles RadButton352.Click
+        Try
+            If TxtMultiSelectFinder19.arrValueMember Is Nothing OrElse TxtMultiSelectFinder19.arrValueMember.Count <= 0 Then
+                Throw New Exception("Please select At least One Document")
+            End If
+            Dim StrAllException As String = ""
+            Dim qry As String = "select Document_No,convert(date, Document_Date,103) as Document_Date,Item_Code  from TSPL_TENDER_PENALTY where Document_No in (" + clsCommon.GetMulcallString(TxtMultiSelectFinder19.arrValueMember) + ") order by Document_Date"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                clsCommon.ProgressBarPercentShow()
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    Dim strDocCode As String = clsCommon.myCstr(dt.Rows(ii)("Document_No"))
+                    clsCommon.ProgressBarPercentUpdate(ii + 1, dt.Rows.Count, "[ " & strDocCode & " ]")
+                    Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+                    Try
+                        Dim strItemCode As String = clsCommon.myCstr(dt.Rows(ii)("Item_Code"))
+                        qry = "select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + strDocCode + "'"
+                        Dim dtSRN As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+                        If dtSRN IsNot Nothing AndAlso dtSRN.Rows.Count > 0 Then
+                            For Each dr As DataRow In dtSRN.Rows
+                                Dim strSRNNo As String = clsCommon.myCstr(dr("SRN_No"))
+                                Dim aff As New ArrayList
+                                aff.Add(strSRNNo)
+                                clsTenderPenalty.DeleteSRNDeduction(aff, strItemCode, True, True, False, tran)
+                                clsSRNHead.GenerateSRNDeduction(strSRNNo, strItemCode, True, True, False, tran)
+                            Next
+                        End If
+                        tran.Commit()
+                    Catch ex As Exception
+                        tran.Rollback()
+                        StrAllException += "Error In Document no:" + clsCommon.myCstr(dt.Rows(ii)("Document_No")) + Environment.NewLine + ex.Message
+                    End Try
+                Next
+                clsCommon.ProgressBarPercentHide()
+            End If
+            If clsCommon.myLen(StrAllException) > 0 Then
+                clsCommon.MyMessageBoxShow(StrAllException, Me.Text)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Task Done", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub TxtMultiSelectFinder20__My_Click(sender As Object, e As EventArgs) Handles TxtMultiSelectFinder20._My_Click
+        Dim qry As String = "select DocumentCode,convert(date,DocumentDate,103) as DocumentDate  from TSPL_TENDER_HEADER order by DocumentDate"
+        TxtMultiSelectFinder20.arrValueMember = clsCommon.ShowMultipleSelectForm("RALPe@t", qry, "DocumentCode", "", TxtMultiSelectFinder20.arrValueMember, Nothing)
+
+    End Sub
+
+    Private Sub RadButton353_Click(sender As Object, e As EventArgs) Handles RadButton353.Click
+        Try
+            If TxtMultiSelectFinder20.arrValueMember Is Nothing OrElse TxtMultiSelectFinder20.arrValueMember.Count <= 0 Then
+                Throw New Exception("Please select At least One RAL")
+            End If
+            Dim StrAllException As String = ""
+            Dim qry As String = "select DocumentCode,Location,Vendor_Code,Item_Code from TSPL_TENDER_DETAIL where DocumentCode in (" + clsCommon.GetMulcallString(TxtMultiSelectFinder20.arrValueMember) + ") 
+group by DocumentCode,Location,Vendor_Code,Item_Code order by DocumentCode,Location,Vendor_Code,Item_Code"
+            Dim dtTender As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dtTender IsNot Nothing AndAlso dtTender.Rows.Count > 0 Then
+                Dim ServerDate As DateTime = clsCommon.GETSERVERDATE()
+                clsCommon.ProgressBarPercentShow()
+                For iiTender As Integer = 0 To dtTender.Rows.Count - 1
+                    Dim strTender As String = clsCommon.myCstr(dtTender.Rows(iiTender)("DocumentCode"))
+                    Dim strLocation As String = clsCommon.myCstr(dtTender.Rows(iiTender)("Location"))
+                    Dim strVendor As String = clsCommon.myCstr(dtTender.Rows(iiTender)("Vendor_Code"))
+                    Dim strItem As String = clsCommon.myCstr(dtTender.Rows(iiTender)("Item_Code"))
+                    Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+                    Try
+                        clsCommon.ProgressBarPercentUpdate(iiTender + 1, dtTender.Rows.Count, "RAL [ " & strTender & " ] Location [ " & strLocation & " ] Vendor [ " & strVendor & " ] Item [ " & strItem & " ]")
+                        qry = "select Document_No from TSPL_TENDER_PENALTY 
+where Location_Code='" + strLocation + "' and  Tender_No='" + strTender + "' and Vendor_Code='" + strVendor + "' 
+and Item_Code ='" + strItem + "'  order by Created_Date"
+                        Dim dtDoc As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+                        If dtDoc IsNot Nothing AndAlso dtDoc.Rows.Count > 0 Then
+                            Try
+                                Dim dt As DataTable = Nothing
+                                For idxDoc As Integer = 0 To dtDoc.Rows.Count - 1
+                                    qry = "select TSPL_PI_detail.PI_No from TSPL_PI_detail where  SRN_Id in ( select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + clsCommon.myCstr(dtDoc.Rows(idxDoc)("Document_No")) + "') group by TSPL_PI_detail.PI_No"
+                                    Dim dtPI As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+                                    If dtPI IsNot Nothing AndAlso dtPI.Rows.Count > 0 Then
+                                        For Each drPI As DataRow In dtPI.Rows
+                                            qry = "select Document_No From TSPL_VENDOR_INVOICE_HEAD where RefDocType in('SCH-PNT') and RefDocNo='" + clsCommon.myCstr(drPI("PI_No")) + "' and not exists(select 1 from TSPL_VENDOR_INVOICE_HEAD as innerTab where innerTab.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code and innerTab.RefDocNo=TSPL_VENDOR_INVOICE_HEAD.Document_No and innerTab.RefDocType='REV-SPT' and innerTab.Document_Type='C')"
+                                            dt = clsDBFuncationality.GetDataTable(qry, tran)
+                                            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                                For Each dr As DataRow In dt.Rows
+                                                    qry = clsCommon.myCstr(dr("Document_No"))
+                                                    Dim objVendorInvHead As clsVedorInvoiceHead = clsVedorInvoiceHead.GetData(qry, "", tran)
+                                                    objVendorInvHead.Invoice_Entry_Date = clsCommon.GetPrintDate(ServerDate, "dd/MMM/yyyy")
+                                                    objVendorInvHead.Description = "Reverse of AP Debit Note Against Schedule Penalty [" + objVendorInvHead.Document_No + "]"
+                                                    objVendorInvHead.isDeduction = 0
+                                                    objVendorInvHead.Document_Type = "C"
+                                                    objVendorInvHead.RefDocType = "REV-SPT"
+                                                    objVendorInvHead.RefDocNo = objVendorInvHead.Document_No
+                                                    objVendorInvHead.Document_No = ""
+                                                    objVendorInvHead.SaveData(objVendorInvHead, True, tran)
+                                                    clsVedorInvoiceHead.PostData("", objVendorInvHead.Document_No, "", tran)
+                                                    'clsVedorInvoiceHead.ReverseAndUnpost(qry, tran)
+                                                    'clsVedorInvoiceHead.DeleteData(qry, tran)
+                                                Next
+                                            End If
+                                        Next
+                                    End If
+                                    Dim arrSRN As New ArrayList
+                                    If idxDoc = 0 Then
+                                        arrSRN = New ArrayList
+                                        For Each dr As DataRow In dtDoc.Rows
+                                            arrSRN.Add(clsCommon.myCstr(dr("Document_No"))) ''Add all Tender Penalty Docuemnts 
+                                        Next
+                                        qry = "select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No in (" + clsCommon.GetMulcallString(arrSRN) + ")"
+                                        dt = clsDBFuncationality.GetDataTable(qry, tran)
+                                        arrSRN = New ArrayList
+                                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                            For Each dr As DataRow In dt.Rows
+                                                arrSRN.Add(clsCommon.myCstr(dr("SRN_No")))
+                                            Next
+                                        End If
+                                        qry = "select TSPL_SRN_TENDER_CALC.SRN_No from TSPL_SRN_TENDER_CALC 
+inner join  TSPL_TENDER_SCHEDULE on TSPL_TENDER_SCHEDULE.PK_Id=TSPL_SRN_TENDER_CALC.Against_Tender_Schedule_PK_Id
+where TSPL_SRN_TENDER_CALC.Against_TenderNo='" + strTender + "' and TSPL_TENDER_SCHEDULE.Vendor_Code='" + strVendor + "' and TSPL_TENDER_SCHEDULE.Location_Code='" + strLocation + "' and TSPL_TENDER_SCHEDULE.Item_Code='" + strItem + "' 
+and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_TENDER_CALC.SRN_No)"
+                                        dt = clsDBFuncationality.GetDataTable(qry, tran)
+                                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                            For Each dr As DataRow In dt.Rows
+                                                arrSRN.Add(clsCommon.myCstr(dr("SRN_No")))
+                                            Next
+                                        End If
+                                        clsTenderPenalty.DeleteSRNDeduction(arrSRN, strItem, True, True, True, tran)
+                                    End If
+
+                                    qry = " and TSPL_SRN_HEAD.SRN_No in ( select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + clsCommon.myCstr(dtDoc.Rows(idxDoc)("Document_No")) + "')"
+                                    qry = clsSRNHead.GetBaseQeryTenderPenalty(strTender, strItem, strVendor, strLocation, "0", qry)
+                                    dt = clsDBFuncationality.GetDataTable(qry, tran)
+
+                                    arrSRN = New ArrayList
+                                    For ii As Integer = 0 To dt.Rows.Count - 1
+                                        If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 AndAlso clsCommon.myCDecimal(dt.Rows(ii)("NIRQCStatus")) = 1 Then
+                                            If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
+                                                clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), strItem, True, True, True, tran)
+                                                arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
+                                            End If
+                                        Else
+                                            Exit For
+                                        End If
+                                    Next
+
+                                    If dtPI IsNot Nothing AndAlso dtPI.Rows.Count > 0 Then
+                                        For Each drPI As DataRow In dtPI.Rows
+                                            Dim objPI As clsPurchaseInvoiceHead = clsPurchaseInvoiceHead.GetData(clsCommon.myCstr(drPI("PI_No")), NavigatorType.Current, tran, "")
+                                            objPI.PI_Date = ServerDate
+                                            clsPurchaseInvoiceHead.RCDF1QCDed2SecDed3RALPenalty(objPI, True, True, True, True, tran)
+                                        Next
+                                    End If
+                                Next
+                            Catch ex As Exception
+                                Throw New Exception(ex.Message)
+                            End Try
+                        End If
+                        tran.Commit()
+                    Catch ex As Exception
+                        tran.Rollback()
+                        clsCommon.ProgressBarPercentHide()
+                        StrAllException += "Error In RAL [ " & strTender & " ] Location [ " & strLocation & " ] Vendor [ " & strVendor & " ] Item [ " & strItem & " ]" + Environment.NewLine + ex.Message
+                    End Try
+                Next
+                clsCommon.ProgressBarPercentHide()
+                clsCommon.MyMessageBoxShow(Me, "Data recalculated successfully", Me.Text, MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End If
+            If clsCommon.myLen(StrAllException) > 0 Then
+                clsCommon.MyMessageBoxShow(StrAllException, Me.Text)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Task Done", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

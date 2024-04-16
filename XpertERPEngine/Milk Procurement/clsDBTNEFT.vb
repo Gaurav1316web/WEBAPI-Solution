@@ -216,6 +216,11 @@ left outer join TSPL_MP_INCENTIVE_ENTRY_HEAD on TSPL_MP_INCENTIVE_ENTRY_HEAD.Doc
             End If
             Dim qry As String = "Update TSPL_DBT_NEFT set Status=1,RCDF_Status=0, Posted_Date='" + strPostDate + "',Posted_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            SetLotNo(obj.Document_Code, trans)
+
+
+
             '================================
             CreateEmailContent(obj, strDocNo, excelPath, trans)
             '================================
@@ -251,6 +256,33 @@ select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as For
             Throw New Exception(ex.Message)
         End Try
         Return True
+    End Function
+
+    Private Shared Function SetLotNo(document_Code As String, trans As SqlTransaction) As Boolean
+        Dim intLotNo As Integer = 0
+        Dim intNoOfRecordForLotNo As Integer = clsFixedParameter.GetData(clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, trans)
+        Dim MaxPKID As String = ""
+        Dim dt As DataTable = GetTRData(document_Code, MaxPKID, intNoOfRecordForLotNo, trans)
+        While (dt IsNot Nothing AndAlso dt.Rows.Count > 0)
+            intLotNo += 1
+            Dim qry As String = "Update TSPL_DBT_NEFT_DETAIL set Lot_No ='" + clsCommon.myCstr(intLotNo) + "' where document_Code='" + document_Code + "' 
+and TSPL_DBT_NEFT_DETAIL.PK_Id>='" + clsCommon.myCstr(dt.Rows(0)("PK_Id")) + "' and TSPL_DBT_NEFT_DETAIL.PK_Id<='" + clsCommon.myCstr(dt.Rows(dt.Rows.Count - 1)("PK_Id")) + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            MaxPKID = clsCommon.myCstr(dt.Rows(dt.Rows.Count - 1)("PK_Id"))
+            dt = GetTRData(document_Code, MaxPKID, intNoOfRecordForLotNo, trans)
+        End While
+        Return True
+    End Function
+
+    Private Shared Function GetTRData(document_Code As String, ByVal maxPKID As String, ByVal NoOFRecords As String, trans As SqlTransaction) As DataTable
+        Dim qry As String = "select top " & NoOFRecords & "  TSPL_DBT_NEFT_DETAIL.PK_Id from TSPL_DBT_NEFT_DETAIL 
+where  TSPL_DBT_NEFT_DETAIL.Document_Code = '" + document_Code + "'  "
+        If clsCommon.myLen(maxPKID) > 0 Then
+            qry += " and  TSPL_DBT_NEFT_DETAIL.PK_Id > '" & maxPKID & "'"
+        End If
+        qry += " order by TSPL_DBT_NEFT_DETAIL.PK_Id"
+        Return clsDBFuncationality.GetDataTable(qry, trans)
     End Function
 
     Shared Sub CreateEmailContent(ByVal obj As clsDBTNEFT, ByVal strDocNo As String, ByVal strExcelPath As String, ByVal trans As SqlTransaction)
@@ -434,6 +466,38 @@ WHERE  TSPL_DBT_NEFT.document_code ='" + strDocNo + "'"
 
             qry = "Update TSPL_DBT_NEFT set Status=0, Posted_Date=null,Posted_By=null where Document_Code='" + obj.Document_Code + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function ClearApprovalLevel(ByVal strCode As String) As Boolean
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+            ClearApprovalLevel(strCode, trans)
+            trans.Commit()
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function ClearApprovalLevel(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
+        Try
+            Dim qry As String
+
+            Dim obj As clsDBTNEFT = clsDBTNEFT.GetData(strCode, NavigatorType.Current, trans)
+            If obj.RCDF_Status = ERPTransactionStatus.Approved Then
+                Throw New Exception("Transaction Approved by RCDF can't reverse it.")
+            End If
+            If Not obj.Status = ERPTransactionStatus.Approved Then
+                qry = "delete from TSPL_APPROVAL_LEVEL_TRANSACTION_DETAIL where Document_Code in ('" + obj.Document_Code + "')"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+                qry = "delete from TSPL_ATTACHMENTS where TransactionId in ('" + obj.Document_Code + "') and FormId='" + clsUserMgtCode.DBTNEFTUploader + "'"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
 
         Catch ex As Exception
             Throw New Exception(ex.Message)

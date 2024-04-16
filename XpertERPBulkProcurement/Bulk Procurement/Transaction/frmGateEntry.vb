@@ -500,6 +500,7 @@ Public Class FrmGateEntry
                 txtTankerNoBulk.ReadOnly = False
                 fndTankerNo.Visible = False
                 dtpChallanDateBulk.Enabled = True
+                dtpChallanDateBulk.ReadOnly = False
             End If
         End If
         If FinalChamberwise = 1 And chkBulkMilkProc.IsChecked And GateEntryChamberwisewithManualTankerEntry = 0 Then

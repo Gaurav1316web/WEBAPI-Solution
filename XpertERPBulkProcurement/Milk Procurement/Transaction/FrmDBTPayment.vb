@@ -148,12 +148,36 @@ where isnull([Status],0)=0 "
 
     Private Sub gvDetail_DoubleClick(sender As Object, e As EventArgs) Handles gvDetail.DoubleClick
         Try
-            Dim strCode As String = clsCommon.myCstr(gvDetail.CurrentRow.Cells("PK_ID").Value)
-            If clsCommon.myLen(strCode) > 0 Then
-                UcAttachment1.BlankAllControls()
-                UcAttachment1.LoadData(strCode)
-                GroupBox1.Visible = True
+            If gvDetail.CurrentColumn Is gvDetail.Columns("Document_Code") Then
+                Dim strCode As String = clsCommon.myCstr(gvDetail.CurrentRow.Cells("PK_ID").Value)
+                If clsCommon.myLen(strCode) > 0 Then
+                    UcAttachment1.BlankAllControls()
+                    UcAttachment1.LoadData(strCode)
+                    GroupBox1.Visible = True
+                End If
+            Else
+                Dim strDBName As String = clsCommon.myCstr(gvDetail.CurrentRow.Cells("DB_Name").Value)
+                Dim strDOCNo As String = clsCommon.myCstr(gvDetail.CurrentRow.Cells("Document_Code").Value)
+                If clsCommon.myLen(strDBName) > 0 AndAlso clsCommon.myLen(strDOCNo) > 0 Then
+                    Dim qry As String = "select '" + strDBName + "'+'#'+'" + strDOCNo + "'+'#'+CAST(Lot_No as varchar) as Refenceno from (
+select distinct Lot_No from " + strDBName + ".dbo.TSPL_DBT_NEFT_DETAIL where TSPL_DBT_NEFT_DETAIL.Document_Code='" + strDOCNo + "'  
+)x order by Lot_No"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        Dim frm As New FrmFreeGrid
+                        frm.dt = dt
+                        If frm.dt Is Nothing OrElse frm.dt.Rows.Count <= 0 Then
+                            clsCommon.MyMessageBoxShow(Me, "No data Found", Me.Text)
+                            Exit Sub
+                        End If
+                        frm.strFormName = "Reference no for Pay manager "
+                        frm.ReportID = "dbtpaypm"
+                        frm.WindowState = FormWindowState.Maximized
+                        frm.Show()
+                    End If
+                End If
             End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

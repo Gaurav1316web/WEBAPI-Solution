@@ -11,9 +11,11 @@ Public Class frmDemandBooking
     Public Shared LockUnlock As Integer = 0
     Dim EnableLocation As Boolean = False
     Dim EnableResetDemand As Boolean = False
+    Dim ConvertPouchtoCrate As Boolean = False
     Dim SeparateDemandMilkandProduct As Boolean = False
     Dim LockedByUserName As String = ""
     Dim LockedByUserCode As String = ""
+    Dim dr As DataRow
     Dim SingleUserParticularDairyBookingEdit As Boolean = False
     Dim UseCutOffTimeonRouteForERP As Boolean = False
     Dim checkCreditLimit As Boolean = False
@@ -91,6 +93,7 @@ Public Class frmDemandBooking
             UseCutOffTimeonRouteForERP = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.UseCutOffTimeonRouteForERP, clsFixedParameterCode.UseCutOffTimeonRouteForERP, Nothing)) = 1, True, False)
             checkCreditLimit = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.CheckCreditLimit, clsFixedParameterCode.CheckCreditLimit, Nothing)) = 1, True, False)
             SeparateDemandMilkandProduct = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.SeparateDemandMilkandProduct, clsFixedParameterCode.SeparateDemandMilkandProduct, Nothing)) = 1, True, False)
+            ConvertPouchtoCrate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, Nothing)) = 1, True, False)
             AddNew()
             SetUserMgmtNew()
             If clsCommon.myLen(StrDocNo) > 0 Then
@@ -662,7 +665,7 @@ Public Class frmDemandBooking
                         'If isLoadData = False AndAlso (clsCommon.myLen(clsCommon.myCstr(txtDocNo.Value)) > 0) Then
                         If isLoadData = False Then
                             ''UpdateItemQtyAfterSave(gv1.CurrentRow.Index, gv1.CurrentColumn.Index)
-                            UpdateAllTotals()
+                            UpdateAllTotals(False)
                             HideUnhideRowsAndColumnsOFGrid()
                         End If
                     End If
@@ -705,7 +708,7 @@ Public Class frmDemandBooking
                 End If
             End If
             isInsideLoadData = True
-            UpdateAllTotals()
+            UpdateAllTotals(False)
             isInsideLoadData = False
             Dim dblQuantityCount As Double = 0
             Dim dblQuantityMORNINGCount As Double = 0
@@ -1231,7 +1234,7 @@ Public Class frmDemandBooking
                 lblTransporterName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select transporter_name from tspl_transport_master where Transport_Id =(select Transport_Id from tspl_vehicle_master where vehicle_id= '" + Convert.ToString(txtVehicleNo.Value) + "')"))
                 'HideUnhideRowsOFGrid()
                 isLoadData = False
-                UpdateAllTotals()
+                UpdateAllTotals(True)
                 If Not SettSeprateDemandForMorningEveningShift Then
                     HideUnhideRowsAndColumnsOFGrid()
                 End If
@@ -2094,7 +2097,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    Private Sub UpdateAllTotals()
+    Private Sub UpdateAllTotals(ByVal isLoad As Boolean)
         Try
             Dim TotalCrate As Double = 0
             Dim TotalLitre As Double = 0
@@ -2111,6 +2114,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
             Dim dblDocTotalLitre As Double = 0
             Dim dblDocTotalAmt As Double = 0
             Dim dblTotalPCount As Double = 0
+            Dim dblToalPouchCount As Double = 0
             Dim dblTotalPAmt As Double = 0
             Dim dblTotalMAmt As Double = 0
             Dim colTotalQty As Double = 0
@@ -2148,11 +2152,20 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                                         Dim ItemConvFactor As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Conversion_Factor  from TSPL_ITEM_UOM_DETAIL Left Outer Join tspl_unit_master on tspl_unit_master.Unit_Code = TSPL_ITEM_UOM_DETAIL.UOM_Code Where TSPL_ITEM_UOM_DETAIL.Item_Code ='" & clsCommon.myCstr(obj1.itemCode) & "' and TSPL_ITEM_UOM_DETAIL.UOM_Code ='" & clsCommon.myCstr(obj1.Unit_code) & "' "))
                                         If CrateConvFactor > 0 And ItemConvFactor > 0 Then
                                             Dim DispatchQty As Double = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) * ItemConvFactor
-                                            If DispatchQty > (CrateConvFactor / 2) Then
-                                                dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                            If ConvertPouchtoCrate Then
+                                                If DispatchQty > (CrateConvFactor / 2) Then
+                                                    dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                                Else
+                                                    dblTotalCrateRowWise = 1
+                                                End If
                                             Else
-                                                dblTotalCrateRowWise = 0
+                                                If DispatchQty > (CrateConvFactor / 2) Then
+                                                    dblTotalCrateRowWise = Math.Ceiling(DispatchQty / CrateConvFactor)
+                                                Else
+                                                    dblTotalCrateRowWise = 0
+                                                End If
                                             End If
+
                                         End If
                                         TotalCrate = TotalCrate + dblTotalCrateRowWise
                                         obj1.FreshItem_QtyInCrates = dblTotalCrateRowWise
@@ -2179,7 +2192,8 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                             If clsCommon.myLen(strPriceCode) <= 0 Then
                                 Throw New Exception("price_CodeNon not found for Customer " & clsCommon.myCstr(gv1.Rows(dblrows).Cells(colCustName).Value) & "")
                             End If
-                            qry = " Select Is_With_Tax, RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price,XXXE.TAX1_Rate, " &
+                            If Not isLoad Then
+                                qry = " Select Is_With_Tax, RowNo, Item_Price_ID, XXXE.Item_Code, UOM, Start_Date, Item_Basic_Price,Item_Basic_Net,Price_Code,Item_Selling_Price,XXXE.TAX1_Rate, " &
                         " XXXE.TAX2_Rate,XXXE.TAX3_Rate,XXXE.TAX4_Rate,XXXE.TAX5_Rate, " &
                         "  XXXE.TAX6_Rate,XXXE.TAX7_Rate,XXXE.TAX8_Rate,XXXE.TAX9_Rate, " &
                         " XXXE.TAX10_Rate,XXXE.TAX1 ,XXXE.TAX2,XXXE.TAX3, " &
@@ -2198,6 +2212,10 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
                         "TSPL_ITEM_PRICE_MASTER.UOM=TSPL_ITEM_UOM_DETAIL.UOM_Code   where  Start_Date<='" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  and (End_Date >= '" & clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy") & "'  or End_date is null)  and  " &
                         "TSPL_ITEM_PRICE_MASTER.Price_Code='" & strPriceCode & "' and UOM='" & obj1.Unit_code & "' and TSPL_ITEM_PRICE_MASTER.item_code='" & obj1.itemCode & "' AND Location_Code='" & clsCommon.myCstr(txtLocation.Value) & "'  " &
                         ") XXXE WHERE RowNo=1  "
+                            Else
+                                qry = "select item_Rate as Item_Basic_Price from TSPL_DEMAND_BOOKING_DETAIL where  Document_No='" + txtDocNo.Value + "' and Item_Code='" + obj1.itemCode + "' and Unit_code='" + obj1.Unit_code + "'"
+
+                            End If
                             dt = clsDBFuncationality.GetDataTable(qry)
                             If dt.Rows.Count > 0 Then
                                 dblRate = clsCommon.myCdbl(dt.Rows(0).Item("Item_Basic_Price"))
@@ -2267,7 +2285,7 @@ group by ShiftType ,convert(date,Document_Date ,103))FinalQry"
     End Sub
     Private Sub btnUpdateCrateAndAmt_Click(sender As Object, e As EventArgs) Handles btnUpdateCrateAndAmt.Click
         Try
-            UpdateAllTotals()
+            UpdateAllTotals(False)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -2657,7 +2675,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub TruckSheetExcel()
+    Private Sub TruckSheetExcel(ByVal TripNo As String)
         Dim GVTruckSheet As New RadGridView()
         Me.Controls.Add(GVTruckSheet)
         Try
@@ -2799,7 +2817,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
      Left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_DEMAND_BOOKING_DETAIL.Item_Code
 	left outer join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_MASTER.Cust_Code =TSPL_DEMAND_BOOKING_DETAIL.Cust_Code
 	left outer join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_DEMAND_BOOKING_DETAIL.Unit_code
-    WHERE TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'  ) XXXFirst Group By
+    WHERE TSPL_DEMAND_BOOKING_MASTER.Document_No='" + txtDocNo.Value + "' and TSPL_DEMAND_BOOKING_DETAIL.ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'" + IIf(clsCommon.CompairString(TripNo, "ALL") = CompairStringResult.Equal, "", "and TSPL_DEMAND_BOOKING_DETAIL.Trip_No='" + TripNo + "'") + " ) XXXFirst Group By
     XXXFirst.Cust_Code,	XXXFirst.Item_Code  ) 
     as s "
             If rdbnFreshAmbientBoth.IsChecked = True Then
@@ -2936,7 +2954,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(GVTruckSheet.Columns("Product Amount").Name)
             GVTruckSheet.ViewDefinition = view
             Dim arrHeader As List(Of String) = New List(Of String)()
-            arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "   Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening"))
+            arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")) & "   Shift : " & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "   Trip No : " & clsCommon.myCstr(TripNo))
             arrHeader.Add("Route : " & lblRouteDesc.Text & "    City : " & lblCityName.Text & "   Distributor : " & lblTransporterName.Text)
             'arrHeader.Add("Doc Date : " & clsCommon.myCstr(clsCommon.GetPrintDate(txtDate.Value, "dd-MMM-yyyy")))
             'arrHeader.Add("Route : " & lblRouteDesc.Text)
@@ -3646,12 +3664,40 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
         End Try
     End Sub
     Private Sub rmi_TS_Excel_Click(sender As Object, e As EventArgs) Handles rmi_TS_Excel.Click
-        TruckSheet(EnumExportTo.Excel)
+
+        Dim TripNO As String = ""
+        Dim qry As String = "select distinct CAST(Trip_No AS VARCHAR(10)) as Code from TSPL_DEMAND_BOOKING_DETAIL where Document_No='" + txtDocNo.Value + "'"
+
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+        dr = dt.NewRow()
+        dr("Code") = "ALL"
+        'dr("Name") = "ALL"
+        dt.Rows.Add(dr)
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            TripNO = clsCommon.myCstr(dt.Rows(0)("Code"))
+            If dt.Rows.Count > 1 Then
+                Dim frmFC As New FrmFreeComboBox
+                frmFC.ComboSource = dt
+                frmFC.ComboValueMember = "Code"
+                frmFC.ComboDisplayMember = "Code"
+                frmFC.LabelCaption = "Trip No"
+                frmFC.ShowDialog()
+                TripNO = frmFC.strRetValue
+            End If
+            If clsCommon.myLen(TripNO) > 0 Then
+                'If clsCommon.myLen(txtMCC.Value) > 0 Then
+                '    RefreshMCCCollectionDetail(txtMCC.Value, strMilkType, Nothing)
+                'End If
+                'LoadTransactionData(strMilkType)
+            End If
+        End If
+
+        TruckSheet(EnumExportTo.Excel, TripNO)
     End Sub
     Private Sub rmi_TS_PDF_Click(sender As Object, e As EventArgs) Handles rmi_TS_PDF.Click
-        TruckSheet(EnumExportTo.PDF)
+        TruckSheet(EnumExportTo.PDF, "ALL")
     End Sub
-    Private Sub TruckSheet(ByVal exporter As EnumExportTo)
+    Private Sub TruckSheet(ByVal exporter As EnumExportTo, ByVal TripNo As String)
         Try
             If clsCommon.myLen(txtDocNo.Value) <= 0 Then
                 common.clsCommon.MyMessageBoxShow(Me, "Please select document", Me.Text)
@@ -3665,7 +3711,7 @@ where  TSPL_DISTRIBUTOR_ROUTE.Status=1 and IS_Transpoter=0 and TSPL_DISTRIBUTOR_
             End If
             clsDBFuncationality.ExecuteNonQuery("update TSPL_DEMAND_BOOKING_DETAIL set IsTruckSheetGenerated='Y' where document_no='" & txtDocNo.Value & "' and ShiftType='" & IIf(rbtnMorning.IsChecked = True, "Morning", "Evening") & "'")
             If exporter = EnumExportTo.Excel Then
-                TruckSheetExcel()
+                TruckSheetExcel(TripNo)
             Else
                 TruckSheetPDF()
             End If
@@ -4064,7 +4110,7 @@ where 2=2 "
                             clsCommon.ProgressBarPercentHide()
                         End Try
                         isInsideLoadData = False
-                        UpdateAllTotals()
+                        UpdateAllTotals(False)
                         clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
                     Else
                         clsCommon.MyMessageBoxShow("You cannot import quantity because both Import and Export Data is different", Me.Text)

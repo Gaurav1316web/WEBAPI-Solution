@@ -1712,15 +1712,15 @@ Public Class FrmMCCMilkRegister
                     Dim SummaryVSPDayWiseInc As New GridViewSummaryItem("VSP_Day_Wise_Incentive", "{0:F2}", GridAggregateFunction.Sum)
                     summaryRowItem.Add(SummaryVSPDayWiseInc)
 
-                    'If chkRejection.Checked = True AndAlso chkShiftWise.Checked = False AndAlso chkOnlyRejection.Checked = False Then
-                    '    gv.GroupDescriptors.Add(New GridGroupByExpression("[Route Code] as [Route Code] format ""{0}: {1}"" Group By [Route Code]"))
-                    'End If
+                    If chkRejection.Checked = True AndAlso chkShiftWise.Checked = False AndAlso chkOnlyRejection.Checked = False Then
+                        gv.GroupDescriptors.Add(New GridGroupByExpression("[Route Code] as [Route Code] format ""{0}: {1}"" Group By [Route Code]"))
+                    End If
 
                     gv.ShowGroupPanel = False
                     gv.MasterTemplate.AutoExpandGroups = True
 
                     gv.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
-                    'gv.MasterTemplate.ShowTotals = True
+                    gv.MasterTemplate.ShowTotals = True
                 ElseIf chkVLCWisePayable.Checked Then
                     gv.Columns("MCC Code").IsVisible = True
                     gv.Columns("MCC Code").Width = 100
@@ -3421,7 +3421,7 @@ Public Class FrmMCCMilkRegister
                     " final.[SRN Qty],final.[SRN Rate],final.[Shift Status] ,Invoice_no ,Invoice_Date , IS_MANUAL, MACHINE_NO,IS_MILK_SAMPLE_MANUAL,RejectType,RejectReason,Defaulter, " &
                     " final.EMP_Amount,final.TIP_Amount,final.Service_Charge_Amount ,([SRN Amount]+EMP_Amount+TIP_Amount-Service_Charge_Amount) as NetAmount,final.Purchase_Order_No,final.Head_Load_Amount ,final.SNF_Ded_Value,final.SNF_Ded_Rate,final.SNF_Ded_Amount, final.price_code,final.[Transporter Code],final.[Transporter Name],final.Handling_Charges_Amount,final.VSP_Commission_Amount,final.VSP_Deduction_Amount,final.VSP_Day_Wise_Incentive,final.SubStandard,final.vehicle,final.[Mcc_Uploader_Code]  From ( " & strRejectionQuery & ") As final where 2=2 "
                     ElseIf chkRejection.Checked = True Then
-                        qry = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[MCC Type] ,final.[Chilling Center],final.[Plant Code],final.[Plant Name] ,final.Date ,final.[Doc Date] ,final.Shift ," &
+                        qry = "Select final.[Milk Receipt Code] ,final.MCC as [MCC Code] ,final.[MCC Name],final.[Area],final.[MCC Type] ,final.[Chilling Center],final.[Plant Code],final.[Plant Name] ,final.Date ,final.[Doc Date] ,final.Shift ," &
                     " final.[Route Code],final.[Route Name] ,final.[Vehicle Code] ,final.[VSP Code],final.[VSP Name], final.[Vendor Group Code],final.[Vendor Group Desc] ,final.[Vlc Uploader Code] ,final.[Vlc Code] ,final.[VLC Name] ," &
                     " final.[Sample No] ,final.[No Of Cans],final.Item_Code,final.Item_Desc,final.[Milk Weight],final.UOM_Code as [UOM],final.[Milk Weight(KG)]," &
                     " final.[Milk Weight(LTR)]  as [Milk Weight(LTR)]," &

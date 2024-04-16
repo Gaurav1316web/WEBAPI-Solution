@@ -182,6 +182,7 @@ Public Class frmCustomerAccountSet
             ' Ticket No : TEC/02/11/18-000359 By Prabhakar
             clsCommon.AddColumnsForChange(coll, "Customer_Opening_Clearing_AC", Me.fndCustomerOpeningClearingAC.Value, True)
             clsCommon.AddColumnsForChange(coll, "Customer_Security_Opening_Clearing_AC", Me.fndCustomerSecurityOpeningClearingAC.Value, True)
+            clsCommon.AddColumnsForChange(coll, "Rate_Difference", Me.FndRateDifference.Value, True)
 
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_ACCOUNT_SET", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_ACCOUNT_SET.Cust_account='" + fndaccountsetcode.Value + "'", Nothing)
             '' end multicurrency
@@ -223,6 +224,7 @@ Public Class frmCustomerAccountSet
 
             clsCommon.AddColumnsForChange(coll, "Customer_Opening_Clearing_AC", Me.fndCustomerOpeningClearingAC.Value, True)
             clsCommon.AddColumnsForChange(coll, "Customer_Security_Opening_Clearing_AC", Me.fndCustomerSecurityOpeningClearingAC.Value, True)
+            clsCommon.AddColumnsForChange(coll, "Rate_Difference", Me.FndRateDifference.Value, True)
 
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_ACCOUNT_SET", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_ACCOUNT_SET.Cust_account='" + fndaccountsetcode.Value + "'", Nothing)
 
@@ -420,29 +422,30 @@ Public Class frmCustomerAccountSet
     Public Sub funfill()
         Try
 
-            Dim query As String = "select cust_account,cust_acct_desc,receivable_control_acct,receipts_discount_acct,advance_acct,write_offs, " & _
-            " Container_Deposit,tspl_customer_account_set.CURRENCY_CODE,tspl_customer_account_set.EXCHANGE_LOSS_ACCOUNT, " & _
-            " TSPL_CUSTOMER_ACCOUNT_SET.SECURITY_ACCOUNT,gl3.description as SECURITY_ACCOUNT_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.CREATE_SECURITY_ACCOUNT,gl4.description as CREATE_SECURITY_ACCOUNT_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.BANK_GUARANTEE, gl5.description as BANK_GUARANTEE_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.ACCOUNT1, gl6.description as ACCOUNT1_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.ACCOUNT2, gl7.description as ACCOUNT2_NAME,TSPL_CUSTOMER_ACCOUNT_SET.Bank_Charges_Other_Account, g23.description as Bank_Charges_Other_Account_NAME,TSPL_CUSTOMER_ACCOUNT_SET.Foreign_Bank_Charges_Account, g22.description as Foreign_Bank_Charges_Account_NAME,TSPL_CUSTOMER_ACCOUNT_SET.SubSidy_Account, g24.description as SubSidy_Account_Desc , " & _
-            " TSPL_CURRENCY_MASTER.currency_name,gl1.description as EXCHANGE_LOSS_ACCOUNT_Name,gl2.description as EXCHANGE_GAIN_ACCOUNT_Name,tspl_customer_account_set.EXCHANGE_GAIN_ACCOUNT,tspl_customer_account_set.GSOC_Acct,gl8.description as gsoc_name,tspl_customer_account_set.Consignment_Acct,gl9.description as consgnmnt_name,tspl_customer_account_set.Gain_Acct,g20.description as gain_name,tspl_customer_account_set.Loss_Acct,g21.description as loss_name,TSPL_CUSTOMER_ACCOUNT_SET.Penalty_Charges_Account, g25.description as Penalty_Charges_Account_NAME,TSPL_CUSTOMER_ACCOUNT_SET.Leakage_Deduction,g26.Description as Leakage_Deduction_Desc,tspl_customer_account_set.Customer_Opening_Clearing_AC, g27.Description as Customer_Opening_Clearing_AC_Desc ,tspl_customer_account_set.Customer_Security_Opening_Clearing_AC , g28.Description as Customer_Security_Opening_Clearing_AC_Desc   from tspl_customer_account_set " & _
-            " left join TSPL_CURRENCY_MASTER on tspl_customer_account_set.currency_code=TSPL_CURRENCY_MASTER.currency_code " & _
-            " left join TSPL_GL_ACCOUNTS gl1 on tspl_customer_account_set.EXCHANGE_LOSS_ACCOUNT=gl1.account_code " & _
-            " left join TSPL_GL_ACCOUNTS gl2 on tspl_customer_account_set.EXCHANGE_GAIN_ACCOUNT=gl2.account_code " & _
-            " left join TSPL_GL_ACCOUNTS gl3 on tspl_customer_account_set.SECURITY_ACCOUNT=gl3.account_code " & _
-            " left join TSPL_GL_ACCOUNTS gl4 on tspl_customer_account_set.CREATE_SECURITY_ACCOUNT=gl4.account_code " & _
-            " left join TSPL_GL_ACCOUNTS gl5 on tspl_customer_account_set.BANK_GUARANTEE=gl5.account_code " & _
-            " left join TSPL_GL_ACCOUNTS gl6 on tspl_customer_account_set.ACCOUNT1=gl6.account_code " & _
-            "left join TSPL_GL_ACCOUNTS gl7 on tspl_customer_account_set.ACCOUNT2=gl7.account_code " & _
-            "left join TSPL_GL_ACCOUNTS gl8 on tspl_customer_account_set.GSOC_Acct=gl8.account_code " & _
-            "left join TSPL_GL_ACCOUNTS gl9 on tspl_customer_account_set.Consignment_Acct=gl9.account_code " & _
-            "left join TSPL_GL_ACCOUNTS g20 on tspl_customer_account_set.Gain_Acct=g20.account_code " & _
-            "left join TSPL_GL_ACCOUNTS g21 on tspl_customer_account_set.Loss_Acct=g21.account_code " & _
-            "left join TSPL_GL_ACCOUNTS g22 on tspl_customer_account_set.Foreign_Bank_Charges_Account=g22.account_code " & _
-            "left join TSPL_GL_ACCOUNTS g23 on tspl_customer_account_set.Bank_Charges_Other_Account=g23.account_code " & _
-            "left join TSPL_GL_ACCOUNTS g24 on tspl_customer_account_set.SubSidy_Account=g24.account_code " & _
-            "left join TSPL_GL_ACCOUNTS g25 on tspl_customer_account_set.Penalty_Charges_Account=g25.account_code " & _
-            "left join TSPL_GL_ACCOUNTS g26 on tspl_customer_account_set.Leakage_Deduction=g26.account_code " & _
-            " left join TSPL_GL_ACCOUNTS g27 on tspl_customer_account_set.Customer_Opening_Clearing_AC=g27.account_code " & _
-            " left join TSPL_GL_ACCOUNTS g28 on tspl_customer_account_set.Customer_Security_Opening_Clearing_AC=g28.account_code " & _
+            Dim query As String = "select cust_account,cust_acct_desc,receivable_control_acct,receipts_discount_acct,advance_acct,write_offs, " &
+            " Container_Deposit,tspl_customer_account_set.CURRENCY_CODE,tspl_customer_account_set.EXCHANGE_LOSS_ACCOUNT, " &
+            " TSPL_CUSTOMER_ACCOUNT_SET.SECURITY_ACCOUNT,gl3.description as SECURITY_ACCOUNT_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.CREATE_SECURITY_ACCOUNT,gl4.description as CREATE_SECURITY_ACCOUNT_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.BANK_GUARANTEE, gl5.description as BANK_GUARANTEE_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.ACCOUNT1, gl6.description as ACCOUNT1_NAME ,TSPL_CUSTOMER_ACCOUNT_SET.ACCOUNT2, gl7.description as ACCOUNT2_NAME,TSPL_CUSTOMER_ACCOUNT_SET.Bank_Charges_Other_Account, g23.description as Bank_Charges_Other_Account_NAME,TSPL_CUSTOMER_ACCOUNT_SET.Foreign_Bank_Charges_Account, g22.description as Foreign_Bank_Charges_Account_NAME,TSPL_CUSTOMER_ACCOUNT_SET.SubSidy_Account, g24.description as SubSidy_Account_Desc , " &
+            " TSPL_CURRENCY_MASTER.currency_name,gl1.description as EXCHANGE_LOSS_ACCOUNT_Name,gl2.description as EXCHANGE_GAIN_ACCOUNT_Name,tspl_customer_account_set.EXCHANGE_GAIN_ACCOUNT,tspl_customer_account_set.GSOC_Acct,gl8.description as gsoc_name,tspl_customer_account_set.Consignment_Acct,gl9.description as consgnmnt_name,tspl_customer_account_set.Gain_Acct,g20.description as gain_name,tspl_customer_account_set.Loss_Acct,g21.description as loss_name,TSPL_CUSTOMER_ACCOUNT_SET.Penalty_Charges_Account, g25.description as Penalty_Charges_Account_NAME,TSPL_CUSTOMER_ACCOUNT_SET.Leakage_Deduction,g26.Description as Leakage_Deduction_Desc,tspl_customer_account_set.Customer_Opening_Clearing_AC, g27.Description as Customer_Opening_Clearing_AC_Desc ,tspl_customer_account_set.Customer_Security_Opening_Clearing_AC , g28.Description as Customer_Security_Opening_Clearing_AC_Desc,tspl_customer_account_set.Rate_Difference, g29.Description as  Rate_Difference_Desc  from tspl_customer_account_set " &
+            " left join TSPL_CURRENCY_MASTER on tspl_customer_account_set.currency_code=TSPL_CURRENCY_MASTER.currency_code " &
+            " left join TSPL_GL_ACCOUNTS gl1 on tspl_customer_account_set.EXCHANGE_LOSS_ACCOUNT=gl1.account_code " &
+            " left join TSPL_GL_ACCOUNTS gl2 on tspl_customer_account_set.EXCHANGE_GAIN_ACCOUNT=gl2.account_code " &
+            " left join TSPL_GL_ACCOUNTS gl3 on tspl_customer_account_set.SECURITY_ACCOUNT=gl3.account_code " &
+            " left join TSPL_GL_ACCOUNTS gl4 on tspl_customer_account_set.CREATE_SECURITY_ACCOUNT=gl4.account_code " &
+            " left join TSPL_GL_ACCOUNTS gl5 on tspl_customer_account_set.BANK_GUARANTEE=gl5.account_code " &
+            " left join TSPL_GL_ACCOUNTS gl6 on tspl_customer_account_set.ACCOUNT1=gl6.account_code " &
+            "left join TSPL_GL_ACCOUNTS gl7 on tspl_customer_account_set.ACCOUNT2=gl7.account_code " &
+            "left join TSPL_GL_ACCOUNTS gl8 on tspl_customer_account_set.GSOC_Acct=gl8.account_code " &
+            "left join TSPL_GL_ACCOUNTS gl9 on tspl_customer_account_set.Consignment_Acct=gl9.account_code " &
+            "left join TSPL_GL_ACCOUNTS g20 on tspl_customer_account_set.Gain_Acct=g20.account_code " &
+            "left join TSPL_GL_ACCOUNTS g21 on tspl_customer_account_set.Loss_Acct=g21.account_code " &
+            "left join TSPL_GL_ACCOUNTS g22 on tspl_customer_account_set.Foreign_Bank_Charges_Account=g22.account_code " &
+            "left join TSPL_GL_ACCOUNTS g23 on tspl_customer_account_set.Bank_Charges_Other_Account=g23.account_code " &
+            "left join TSPL_GL_ACCOUNTS g24 on tspl_customer_account_set.SubSidy_Account=g24.account_code " &
+            "left join TSPL_GL_ACCOUNTS g25 on tspl_customer_account_set.Penalty_Charges_Account=g25.account_code " &
+            "left join TSPL_GL_ACCOUNTS g26 on tspl_customer_account_set.Leakage_Deduction=g26.account_code " &
+            " left join TSPL_GL_ACCOUNTS g27 on tspl_customer_account_set.Customer_Opening_Clearing_AC=g27.account_code " &
+            " left join TSPL_GL_ACCOUNTS g28 on tspl_customer_account_set.Customer_Security_Opening_Clearing_AC=g28.account_code " &
+             " left join TSPL_GL_ACCOUNTS g29 on tspl_customer_account_set.Rate_Difference= g29.account_code " &
                         " where cust_account='" + fndaccountsetcode.Value + "'"
 
             Dim adp As New SqlDataAdapter(query, connectSql.SqlCon)
@@ -500,6 +503,8 @@ Public Class frmCustomerAccountSet
             lblCustomerOpeningClearingAC.Text = clsCommon.myCstr(dr("Customer_Opening_Clearing_AC_Desc"))
             fndCustomerSecurityOpeningClearingAC.Value = clsCommon.myCstr(dr("Customer_Security_Opening_Clearing_AC"))
             lblCustomerSecurityOpeningClearingAC.Text = clsCommon.myCstr(dr("Customer_Security_Opening_Clearing_AC_Desc"))
+            FndRateDifference.Value = clsCommon.myCstr(dr("Rate_Difference"))
+            lblRateDifference.Text = clsCommon.myCstr(dr("Rate_Difference_Desc"))
 
             rdbtnsave.Text = "Update"
             rdbtndelete.Enabled = True
@@ -583,6 +588,8 @@ Public Class frmCustomerAccountSet
     'This function is used for reset all Controls.
     Public Sub funreset()
         fndaccountsetcode.Value = ""
+        FndRateDifference.Value = ""
+        lblRateDifference.Text = ""
         fndaccountsetcode.Enabled = True
         rdtxtdescription.Text = ""
         fndadvance.Value = ""
@@ -1772,6 +1779,12 @@ Public Class frmCustomerAccountSet
         Dim qry As String = "select account_code as [AccountCode],description as [Description] from tspl_gl_accounts "
         fndCustomerOpeningClearingAC.Value = clsCommon.ShowSelectForm("Clearing", qry, "AccountCode", " ControlAccount ='Y' ", fndCustomerOpeningClearingAC.Value, "", isButtonClicked)
         lblCustomerOpeningClearingAC.Text = clsDBFuncationality.getSingleValue("select description from tspl_gl_accounts where account_code='" + fndCustomerOpeningClearingAC.Value + "' ")
+    End Sub
+
+    Private Sub FndRateDifference__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles FndRateDifference._MYValidating
+        Dim qry As String = "select account_code as [AccountCode],description as [Description] from tspl_gl_accounts "
+        FndRateDifference.Value = clsCommon.ShowSelectForm("BankCO", qry, "AccountCode", " ControlAccount ='Y' ", FndRateDifference.Value, "", isButtonClicked)
+        lblRateDifference.Text = clsDBFuncationality.getSingleValue("select description from tspl_gl_accounts where account_code='" + FndRateDifference.Value + "' ")
     End Sub
 
     Private Sub fndCustomerSecurityOpeningClearingAC__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCustomerSecurityOpeningClearingAC._MYValidating

@@ -1540,7 +1540,7 @@ Public Class frmBulkMilkPurchaseInvoiceMultiple
 
 
                 Try
-                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.BulkMilkPurchaseInvoiceMultiple, txtLocation.Value, txtInvoiceDate.Value, trans)
+                    clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.BulkMilkPurchaseInvoiceMultiple, txtLocation.Value, txtInvoiceDate.Value, trans)
 
                     clsCommon.ProgressBarPercentShow()
                     Dim ii As Integer = 1

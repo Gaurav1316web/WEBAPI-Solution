@@ -25,6 +25,8 @@ Public Class frmTransactionHistory
     Dim dtAllData As DataTable = Nothing
     Dim IsInsideLoadDataOfItem As Boolean = False
     Dim strVersionNoSelect As String = ""
+    Dim isSNoExist As Integer
+    Dim isLineNoExist As Integer
 #End Region
 
     Private Sub frmTransactionHistory_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -204,8 +206,6 @@ Public Class frmTransactionHistory
             End If
             '' End
             '' =========Final Binding Main Qry=======
-            Dim isSNoExist As Integer = clsDBFuncationality.getSingleValue("SELECT count(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TSPL_SRN_DETAIL_Hist_Data' AND COLUMN_NAME = 'SNo'")
-            Dim isLineNoExist As Integer = clsDBFuncationality.getSingleValue("SELECT count(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TSPL_SRN_DETAIL_Hist_Data' AND COLUMN_NAME = 'Line_No'")
 
             Mainqry = "select (" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as [Head version],(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as " & clsCommon.HistTableColHistVersion & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistBy & ") as " & clsCommon.HistTableColHistBy & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistOn & ") as " & clsCommon.HistTableColHistOn & "," & strDetailTransCodeHistColumn & " from " & DetailTable + clsCommon.HistTablePostFix & ""
             Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "' and " & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & " in (" & strVersionNoSelect & ")  order by "
@@ -342,22 +342,33 @@ Public Class frmTransactionHistory
         Try
             If StopFirstTime = 0 Then
                 If gvDetail.Rows.Count > 0 Then
-
+                    Dim ColExist As String = ""
+                    If isLineNoExist > 0 Then
+                        ColExist = "Line_No"
+                    ElseIf isSNoExist > 0 Then
+                        ColExist = "SNO"
+                    End If
                     For i As Integer = 0 To gvDetail.Rows.Count - 2
 
                         '' Column A
-                        For ic As Integer = 3 To gvDetail.Columns.Count - 1
+                        For ic As Integer = 4 To gvDetail.Columns.Count - 1
                             ''Condition
-                            If clsCommon.CompairString(clsCommon.myCstr(gvDetail.Rows(i).Cells(1).Value), clsCommon.myCstr(gvDetail.Rows(i + 1).Cells(1).Value)) = CompairStringResult.Equal Then
-                            Else
-                                If clsCommon.CompairString(clsCommon.myCstr(gvDetail.Rows(i).Cells(ic).Value), clsCommon.myCstr(gvDetail.Rows(i + 1).Cells(ic).Value)) = CompairStringResult.Equal Then
+                            If clsCommon.myCstr(gvDetail.Rows(i).Cells("Hist_Version").Value) <> clsCommon.myCstr(gvDetail.Rows(i + 1).Cells(1).Value) Then
+                                If clsCommon.myLen(ColExist) > 0 Then
+                                    If clsCommon.CompairString(clsCommon.myCstr(gvDetail.Rows(i).Cells(ColExist).Value), clsCommon.myCstr(gvDetail.Rows(i + 1).Cells(ColExist).Value)) = CompairStringResult.Equal AndAlso clsCommon.myCstr(gvDetail.Rows(i).Cells(ic).Value) <> clsCommon.myCstr(gvDetail.Rows(i + 1).Cells(ic).Value) Then
+                                        gvDetail.Rows(i + 1).Cells(ic).Style.BackColor = System.Drawing.Color.Yellow
+                                        gvDetail.Rows(i + 1).Cells(ic).Style.ForeColor = Color.Red
+                                    End If
                                 Else
-                                    gvDetail.Rows(i + 1).Cells(ic).Style.BackColor = System.Drawing.Color.Yellow
-                                    gvDetail.Rows(i + 1).Cells(ic).Style.ForeColor = Color.Red
 
+                                    If clsCommon.CompairString(clsCommon.myCstr(gvDetail.Rows(i).Cells(ic).Value), clsCommon.myCstr(gvDetail.Rows(i + 1).Cells(ic).Value)) = CompairStringResult.Equal Then
+                                    Else
+                                        gvDetail.Rows(i + 1).Cells(ic).Style.BackColor = System.Drawing.Color.Yellow
+                                        gvDetail.Rows(i + 1).Cells(ic).Style.ForeColor = Color.Red
+
+                                    End If
                                 End If
                             End If
-                           
                         Next
                         i = i + 1
                     Next
@@ -429,8 +440,8 @@ Public Class frmTransactionHistory
                     strDetailTransCodeHistColumn += "(" & DetailTable + clsCommon.HistTablePostFix & "." + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ") as " + clsCommon.myCstr(dtMasterCategory.Rows(ii)("Name")).Trim() + ""
                 Next
             End If
-            Dim isSNoExist As Integer = clsDBFuncationality.getSingleValue("SELECT count(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TSPL_SRN_DETAIL_Hist_Data' AND COLUMN_NAME = 'SNo'")
-            Dim isLineNoExist As Integer = clsDBFuncationality.getSingleValue("SELECT count(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'TSPL_SRN_DETAIL_Hist_Data' AND COLUMN_NAME = 'Line_No'")
+            isSNoExist = clsDBFuncationality.getSingleValue("SELECT count(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" & DetailTable + clsCommon.HistTablePostFix & "' AND COLUMN_NAME = 'SNo'")
+            isLineNoExist = clsDBFuncationality.getSingleValue("SELECT count(COLUMN_NAME) FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = '" & DetailTable + clsCommon.HistTablePostFix & "' AND COLUMN_NAME = 'Line_No'")
 
             Mainqry = " select CAST(0 as bit) as Sel, (" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as [Head version],(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistVersion & ") as " & clsCommon.HistTableColHistVersion & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistBy & ") as " & clsCommon.HistTableColHistBy & " ,(" & DetailTable + clsCommon.HistTablePostFix & "." & clsCommon.HistTableColHistOn & ") as " & clsCommon.HistTableColHistOn & "," & strDetailTransCodeHistColumn & " from " & DetailTable + clsCommon.HistTablePostFix & ""
             Mainqry += " where 2=2 and " & PrimaryKeyValue & "='" & code & "'  order by "

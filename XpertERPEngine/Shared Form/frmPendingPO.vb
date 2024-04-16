@@ -446,6 +446,18 @@ END AS Qty,0 as Unapproved,TSPL_GRN_DETAIL.Unit_code as Unit,'' as Location,
         Return disc_per
     End Function
 
+    Public Shared Function Load_discount_per_unit_for_GRN(ByVal po_No As String, ByVal item_code As String)
+        Dim Disc_Per_Unit As Double = 0
+        Try
+            Dim sQuery As String = "select Disc_Per_Unit from TSPL_PURCHASE_ORDER_detail where purchaseorder_No='" & po_No & "' and item_code='" & item_code & "'"
+            ' Disc_Per_Unit = clsDBFuncationality.getSingleValue(sQuery)
+            Disc_Per_Unit = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sQuery))
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.ToString)
+        End Try
+        Return Disc_Per_Unit
+    End Function
+
     Sub LoadHeadData()
         IsInsideLoadData = True
         LoadBlankHeadGrid()

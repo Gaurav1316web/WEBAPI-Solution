@@ -150,7 +150,7 @@ Public Class clsUserMgtCode
     Public Const ModuleProjectManagement As String = "MPROJMGT"
     Public Const ModuleService As String = "MService"
     Public Const ModuleMCCMilkProcurement As String = "MMMProc"
-    Public Const ModuleBulkMilkProcurement As String = "MMBProc"
+    'Public Const ModuleBulkMilkProcurement As String = "MMBProc"
     Public Const ModuleMilkProcurement As String = "MMProc"
     Public Const ModulesalePurchaseSecurity As String = "MMSPS"
     Public Const ModuleJobWorkOutWard As String = "MJWOut"
@@ -255,6 +255,7 @@ Public Class clsUserMgtCode
     Public Const rptAvgSaleDetailReport As String = "AVG_SAL_RPT"
     Public Const rptdairydispatch As String = "DRY_DIS_RPT"
     Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"
+    Public Const rptGatePassReport As String = "GAT_PAS_RPT"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
@@ -444,9 +445,9 @@ Public Class clsUserMgtCode
     Public Const SubModuleMCCMilkProcurementReport As String = "SMMPROCRPT"
 
 
-    Public Const SubModuleBULKMilkProcurementSetup As String = "SMBPROCSetup"
-    Public Const SubModuleMilkProcurementTransaction As String = "SMMPROCTRANS"
-    Public Const SubModuleBulkMilkProcurementReport As String = "SMBPROCRPT"
+    'Public Const SubModuleBULKMilkProcurementSetup As String = "SMBPROCSetup"
+    'Public Const SubModuleMilkProcurementTransaction As String = "SMMPROCTRANS"
+    'Public Const SubModuleBulkMilkProcurementReport As String = "SMBPROCRPT"
 
     'Public Const SubModuleShareSetup As String = "SMShareSetup"
     'Public Const SubModuleShareTransaction As String = "SMShareTRANS"

@@ -32,6 +32,7 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         Me.GroupBox2 = New System.Windows.Forms.GroupBox()
         Me.txtStart = New common.MyNumBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.chkBeginFromCurrentRow = New Telerik.WinControls.UI.RadCheckBox()
         Me.rbtnSame = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnBottomToTop = New Telerik.WinControls.UI.RadRadioButton()
         Me.txtValue = New common.MyNumBox()
@@ -41,7 +42,6 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.rbtnAddition = New Telerik.WinControls.UI.RadRadioButton()
         Me.rbtnDeduction = New Telerik.WinControls.UI.RadRadioButton()
-        Me.chkBeginFromCurrentRow = New Telerik.WinControls.UI.RadCheckBox()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -53,6 +53,7 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         Me.GroupBox2.SuspendLayout()
         CType(Me.txtStart, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkBeginFromCurrentRow, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnSame, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnBottomToTop, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtValue, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -62,7 +63,6 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         Me.GroupBox1.SuspendLayout()
         CType(Me.rbtnAddition, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rbtnDeduction, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkBeginFromCurrentRow, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -136,12 +136,12 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         Me.GroupBox2.Anchor = CType((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.GroupBox2.Controls.Add(Me.txtStart)
         Me.GroupBox2.Controls.Add(Me.chkBeginFromCurrentRow)
+        Me.GroupBox2.Controls.Add(Me.rbtnTopToBottom)
         Me.GroupBox2.Controls.Add(Me.rbtnSame)
         Me.GroupBox2.Controls.Add(Me.MyLabel2)
         Me.GroupBox2.Controls.Add(Me.rbtnBottomToTop)
         Me.GroupBox2.Controls.Add(Me.txtValue)
         Me.GroupBox2.Controls.Add(Me.MyLabel1)
-        Me.GroupBox2.Controls.Add(Me.rbtnTopToBottom)
         Me.GroupBox2.Controls.Add(Me.btnclose)
         Me.GroupBox2.Location = New System.Drawing.Point(309, 1)
         Me.GroupBox2.Name = "GroupBox2"
@@ -187,6 +187,15 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         Me.MyLabel2.TabIndex = 32
         Me.MyLabel2.Text = "Start"
         '
+        'chkBeginFromCurrentRow
+        '
+        Me.chkBeginFromCurrentRow.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkBeginFromCurrentRow.Location = New System.Drawing.Point(6, 53)
+        Me.chkBeginFromCurrentRow.Name = "chkBeginFromCurrentRow"
+        Me.chkBeginFromCurrentRow.Size = New System.Drawing.Size(135, 16)
+        Me.chkBeginFromCurrentRow.TabIndex = 356
+        Me.chkBeginFromCurrentRow.Text = "Begin from current row"
+        '
         'rbtnSame
         '
         Me.rbtnSame.Location = New System.Drawing.Point(208, 13)
@@ -198,13 +207,12 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         '
         'rbtnBottomToTop
         '
-        Me.rbtnBottomToTop.CheckState = System.Windows.Forms.CheckState.Checked
-        Me.rbtnBottomToTop.Location = New System.Drawing.Point(6, 13)
+        Me.rbtnBottomToTop.Location = New System.Drawing.Point(105, 13)
         Me.rbtnBottomToTop.Name = "rbtnBottomToTop"
         Me.rbtnBottomToTop.Size = New System.Drawing.Size(95, 18)
         Me.rbtnBottomToTop.TabIndex = 0
+        Me.rbtnBottomToTop.TabStop = False
         Me.rbtnBottomToTop.Text = "Bottom To Top"
-        Me.rbtnBottomToTop.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'txtValue
         '
@@ -245,12 +253,13 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         '
         'rbtnTopToBottom
         '
-        Me.rbtnTopToBottom.Location = New System.Drawing.Point(110, 13)
+        Me.rbtnTopToBottom.CheckState = System.Windows.Forms.CheckState.Checked
+        Me.rbtnTopToBottom.Location = New System.Drawing.Point(6, 13)
         Me.rbtnTopToBottom.Name = "rbtnTopToBottom"
         Me.rbtnTopToBottom.Size = New System.Drawing.Size(95, 18)
         Me.rbtnTopToBottom.TabIndex = 1
-        Me.rbtnTopToBottom.TabStop = False
         Me.rbtnTopToBottom.Text = "Top To Bottom"
+        Me.rbtnTopToBottom.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
         '
         'btnclose
         '
@@ -269,7 +278,7 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         Me.GroupBox1.Size = New System.Drawing.Size(92, 59)
         Me.GroupBox1.TabIndex = 0
         Me.GroupBox1.TabStop = False
-        Me.GroupBox1.Text = "SNF Nature"
+        Me.GroupBox1.Text = "Nature"
         '
         'rbtnAddition
         '
@@ -288,15 +297,6 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         Me.rbtnDeduction.TabIndex = 21
         Me.rbtnDeduction.Text = "Deduction"
         Me.rbtnDeduction.ToggleState = Telerik.WinControls.Enumerations.ToggleState.[On]
-        '
-        'chkBeginFromCurrentRow
-        '
-        Me.chkBeginFromCurrentRow.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.chkBeginFromCurrentRow.Location = New System.Drawing.Point(6, 53)
-        Me.chkBeginFromCurrentRow.Name = "chkBeginFromCurrentRow"
-        Me.chkBeginFromCurrentRow.Size = New System.Drawing.Size(135, 16)
-        Me.chkBeginFromCurrentRow.TabIndex = 356
-        Me.chkBeginFromCurrentRow.Text = "Begin from current row"
         '
         'frmPriceChartPlanMasterTSDDCFDeduction
         '
@@ -324,6 +324,7 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         Me.GroupBox2.PerformLayout()
         CType(Me.txtStart, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkBeginFromCurrentRow, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnSame, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnBottomToTop, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtValue, System.ComponentModel.ISupportInitialize).EndInit()
@@ -334,7 +335,6 @@ Partial Class frmPriceChartPlanMasterTSDDCFDeduction
         Me.GroupBox1.PerformLayout()
         CType(Me.rbtnAddition, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rbtnDeduction, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkBeginFromCurrentRow, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

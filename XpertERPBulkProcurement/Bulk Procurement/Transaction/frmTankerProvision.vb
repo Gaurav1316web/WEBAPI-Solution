@@ -816,7 +816,7 @@ Public Class frmTankerProvision
         If clsCommon.myLen(txtCode.Value) <= 0 Then
             common.clsCommon.MyMessageBoxShow(Me, "Document No not found to Post", Me.Text)
             Exit Sub
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmTankerProvision, txtLocCode.Value, txtDate.Value, Nothing)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmTankerProvision, txtLocCode.Value, txtDate.Value, Nothing)
 
         End If
 

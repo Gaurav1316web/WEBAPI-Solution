@@ -77,9 +77,16 @@
     </Compile>
     <Compile Include="Accounts\clsJournalMaster.vb" />
     <Compile Include="Classes\ClsCostCenter.vb" />
+    <Compile Include="Classes\clsDairyInvoice.vb" />
     <Compile Include="Classes\clsEPF.vb" />
     <Compile Include="MIS\clsDailySMPProduction.vb" />
     <Compile Include="MIS\clsProductionTransactionType.vb" />
+    <Compile Include="PJC\clsCostType.vb" />
+    <Compile Include="PJC\clsPJCAccountSet.vb" />
+    <Compile Include="PJC\clsPJCExpense.vb" />
+    <Compile Include="PJC\clsPJCSettings.vb" />
+    <Compile Include="PJC\clsProjectMaster.vb" />
+    <Compile Include="PJC\clsProjectStatus.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleFreightCalculation.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleFreightMaster.vb" />
     <Compile Include="BulkProcurement\clsOwnBMCGainLossRate.vb" />
@@ -121,6 +128,11 @@
     <Compile Include="Share\clsShareAllotment.vb" />
     <Compile Include="Share\ClsShareMaster.vb" />
     <Compile Include="Share\ClsShareMovement.vb" />
+    <Compile Include="Silage Production\clsSilageCriteriaMaster.vb" />
+    <Compile Include="Silage Production\clsSilageEnterPre.vb" />
+    <Compile Include="Silage Production\clsSilageFormerProduction.vb" />
+    <Compile Include="Silage Production\clsSilageProductionApplication.vb" />
+    <Compile Include="Silage Production\clsSilageProductionAreaMaster.vb" />
     <Compile Include="UserControl1.vb">
       <SubType>UserControl</SubType>
     </Compile>

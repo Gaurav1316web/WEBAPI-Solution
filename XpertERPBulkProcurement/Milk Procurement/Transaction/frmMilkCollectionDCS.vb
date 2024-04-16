@@ -606,8 +606,8 @@ Public Class frmMilkCollectionDCS
         lblTotPendingSNFKg.Text = clsCommon.myCstr(Math.Round((clsCommon.myCDecimal(lblSNFKg.Text) - (TotEveningSNFKG + TotMorningSNFKG)), SettHeaderFATSNFKGDecimalPlaces, MidpointRounding.ToEven))
 
 
-        txtTotPendingFATPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblTotPendingFATKg.Text) * 100, clsCommon.myCDecimal(lblTotPendingQty.Text)), 1, MidpointRounding.ToEven)
-        txtTotPendingSNFPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblTotPendingSNFKg.Text) * 100, clsCommon.myCDecimal(lblTotPendingQty.Text)), 1, MidpointRounding.ToEven)
+        txtTotPendingFATPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblTotPendingFATKg.Text) * 100, clsCommon.myCDecimal(lblTotPendingQty.Text)), 2, MidpointRounding.ToEven)
+        txtTotPendingSNFPer.Text = Math.Round(clsCommon.myCDivide(clsCommon.myCDecimal(lblTotPendingSNFKg.Text) * 100, clsCommon.myCDecimal(lblTotPendingQty.Text)), 2, MidpointRounding.ToEven)
 
     End Sub
 
@@ -725,14 +725,20 @@ Public Class frmMilkCollectionDCS
             If Not objCommonVar.DisplayTypeInMilkReceipt Then
                 gv1.CurrentRow.Cells(colDocCollectionMilkType).Value = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_Cow_Price")) = 1, "C", "M")
             End If
+
+
             If Not clsCommon.CompairString(clsCommon.myCstr(txtMCC.Tag), clsCommon.myCstr(dt.Rows(0)("MCC"))) = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow(Me, "DCS does not belong to BMC [" + txtMCC.Value + "]", Me.Text)
+                If clsCommon.MyMessageBoxShow(Me, "DCS does not belong to BMC [" + txtMCC.Value + "]" + Environment.NewLine + "Do You Want To Continue? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+                    gv1.Rows.Remove(gv1.CurrentRow)
+                End If
+
+                'If Not clsCommon.CompairString(clsCommon.myCstr(txtMCC.Tag), clsCommon.myCstr(dt.Rows(0)("MCC"))) = CompairStringResult.Equal Then
+                '    clsCommon.MyMessageBoxShow(Me, "DCS does not belong to BMC [" + txtMCC.Value + "]", Me.Text)
+                'End If
             End If
         End If
 
     End Sub
-
-
 
     Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         SaveData()
@@ -1160,6 +1166,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
             End If
         End If
     End Sub
+
+
 
     Private Sub txtDesc_Leave(sender As Object, e As EventArgs) Handles txtDesc.Leave
         If gv1.Rows.Count > 0 Then

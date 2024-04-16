@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class rptDailyQtyReport
     Inherits XpertERPEngine.FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,9 +20,9 @@ Partial Class rptDailyQtyReport
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -40,6 +40,9 @@ Partial Class rptDailyQtyReport
         Me.rbtnBMCDock = New System.Windows.Forms.RadioButton()
         Me.MyLabel5 = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnDockShiftWise = New System.Windows.Forms.RadioButton()
+        Me.rbtnDockDateWise = New System.Windows.Forms.RadioButton()
+        Me.rbtnRouteWise = New System.Windows.Forms.RadioButton()
         Me.rbtnBMCTankerCollection = New System.Windows.Forms.RadioButton()
         Me.rdbMultiple = New System.Windows.Forms.RadioButton()
         Me.rdbCollectionWise = New System.Windows.Forms.RadioButton()
@@ -78,7 +81,8 @@ Partial Class rptDailyQtyReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.rbtnRouteWise = New System.Windows.Forms.RadioButton()
+        Me.rbtnBMCDCSPrint = New System.Windows.Forms.RadioButton()
+        Me.rbtnBMCRoutePrint = New System.Windows.Forms.RadioButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -293,14 +297,16 @@ Partial Class rptDailyQtyReport
         'RadGroupBox2
         '
         Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbtnBMCRoutePrint)
+        Me.RadGroupBox2.Controls.Add(Me.rbtnBMCDCSPrint)
         Me.RadGroupBox2.Controls.Add(Me.rbtnSummary)
         Me.RadGroupBox2.Controls.Add(Me.rbtnDockSummary)
         Me.RadGroupBox2.Controls.Add(Me.rbtnBMCDock)
         Me.RadGroupBox2.HeaderText = "Print"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(369, 104)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(369, 107)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(350, 42)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(513, 42)
         Me.RadGroupBox2.TabIndex = 446
         Me.RadGroupBox2.Text = "Print"
         '
@@ -348,6 +354,8 @@ Partial Class rptDailyQtyReport
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.rbtnDockShiftWise)
+        Me.RadGroupBox1.Controls.Add(Me.rbtnDockDateWise)
         Me.RadGroupBox1.Controls.Add(Me.rbtnRouteWise)
         Me.RadGroupBox1.Controls.Add(Me.rbtnBMCTankerCollection)
         Me.RadGroupBox1.Controls.Add(Me.rdbMultiple)
@@ -362,8 +370,40 @@ Partial Class rptDailyQtyReport
         Me.RadGroupBox1.Location = New System.Drawing.Point(369, 9)
         Me.RadGroupBox1.Name = "RadGroupBox1"
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox1.Size = New System.Drawing.Size(552, 63)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(552, 88)
         Me.RadGroupBox1.TabIndex = 406
+        '
+        'rbtnDockShiftWise
+        '
+        Me.rbtnDockShiftWise.AutoSize = True
+        Me.rbtnDockShiftWise.Checked = True
+        Me.rbtnDockShiftWise.Location = New System.Drawing.Point(158, 59)
+        Me.rbtnDockShiftWise.Name = "rbtnDockShiftWise"
+        Me.rbtnDockShiftWise.Size = New System.Drawing.Size(106, 17)
+        Me.rbtnDockShiftWise.TabIndex = 4
+        Me.rbtnDockShiftWise.TabStop = True
+        Me.rbtnDockShiftWise.Text = "Dock Shift Wise"
+        Me.rbtnDockShiftWise.UseVisualStyleBackColor = True
+        '
+        'rbtnDockDateWise
+        '
+        Me.rbtnDockDateWise.AutoSize = True
+        Me.rbtnDockDateWise.Location = New System.Drawing.Point(9, 59)
+        Me.rbtnDockDateWise.Name = "rbtnDockDateWise"
+        Me.rbtnDockDateWise.Size = New System.Drawing.Size(106, 17)
+        Me.rbtnDockDateWise.TabIndex = 3
+        Me.rbtnDockDateWise.Text = "Dock Date Wise"
+        Me.rbtnDockDateWise.UseVisualStyleBackColor = True
+        '
+        'rbtnRouteWise
+        '
+        Me.rbtnRouteWise.AutoSize = True
+        Me.rbtnRouteWise.Location = New System.Drawing.Point(408, 37)
+        Me.rbtnRouteWise.Name = "rbtnRouteWise"
+        Me.rbtnRouteWise.Size = New System.Drawing.Size(139, 17)
+        Me.rbtnRouteWise.TabIndex = 456
+        Me.rbtnRouteWise.Text = "Route Wise Collection"
+        Me.rbtnRouteWise.UseVisualStyleBackColor = True
         '
         'rbtnBMCTankerCollection
         '
@@ -428,7 +468,7 @@ Partial Class rptDailyQtyReport
         'rbtnDock
         '
         Me.rbtnDock.AutoSize = True
-        Me.rbtnDock.Location = New System.Drawing.Point(159, 13)
+        Me.rbtnDock.Location = New System.Drawing.Point(158, 13)
         Me.rbtnDock.Name = "rbtnDock"
         Me.rbtnDock.Size = New System.Drawing.Size(51, 17)
         Me.rbtnDock.TabIndex = 5
@@ -800,7 +840,7 @@ Partial Class rptDailyQtyReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -868,15 +908,25 @@ Partial Class rptDailyQtyReport
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'rbtnRouteWise
+        'rbtnBMCDCSPrint
         '
-        Me.rbtnRouteWise.AutoSize = True
-        Me.rbtnRouteWise.Location = New System.Drawing.Point(408, 37)
-        Me.rbtnRouteWise.Name = "rbtnRouteWise"
-        Me.rbtnRouteWise.Size = New System.Drawing.Size(139, 17)
-        Me.rbtnRouteWise.TabIndex = 456
-        Me.rbtnRouteWise.Text = "Route Wise Collection"
-        Me.rbtnRouteWise.UseVisualStyleBackColor = True
+        Me.rbtnBMCDCSPrint.AutoSize = True
+        Me.rbtnBMCDCSPrint.Location = New System.Drawing.Point(302, 15)
+        Me.rbtnBMCDCSPrint.Name = "rbtnBMCDCSPrint"
+        Me.rbtnBMCDCSPrint.Size = New System.Drawing.Size(99, 17)
+        Me.rbtnBMCDCSPrint.TabIndex = 7
+        Me.rbtnBMCDCSPrint.Text = "BMC DCS Print"
+        Me.rbtnBMCDCSPrint.UseVisualStyleBackColor = True
+        '
+        'rbtnBMCRoutePrint
+        '
+        Me.rbtnBMCRoutePrint.AutoSize = True
+        Me.rbtnBMCRoutePrint.Location = New System.Drawing.Point(401, 15)
+        Me.rbtnBMCRoutePrint.Name = "rbtnBMCRoutePrint"
+        Me.rbtnBMCRoutePrint.Size = New System.Drawing.Size(109, 17)
+        Me.rbtnBMCRoutePrint.TabIndex = 8
+        Me.rbtnBMCRoutePrint.Text = "BMC Route Print"
+        Me.rbtnBMCRoutePrint.UseVisualStyleBackColor = True
         '
         'rptDailyQtyReport
         '
@@ -984,12 +1034,8 @@ Partial Class rptDailyQtyReport
     Friend WithEvents MyLabel5 As common.Controls.MyLabel
     Friend WithEvents TxtTankerNo As common.UserControls.txtFinder
     Friend WithEvents btnPrint As RadButton
-    Friend WithEvents RadGroupBox2 As RadGroupBox
-    Friend WithEvents rbtnDockSummary As RadioButton
-    Friend WithEvents rbtnBMCDock As RadioButton
     Friend WithEvents ddlShift As common.Controls.MyComboBox
     Friend WithEvents MyLabel6 As common.Controls.MyLabel
-    Friend WithEvents rbtnSummary As RadioButton
     Friend WithEvents rbtnBmcSummary As RadioButton
     Friend WithEvents rdbMultiple As RadioButton
     Friend WithEvents rdbCollectionWise As RadioButton
@@ -997,5 +1043,13 @@ Partial Class rptDailyQtyReport
     Friend WithEvents lblArea As common.Controls.MyLabel
     Friend WithEvents fndArea As common.UserControls.txtFinder
     Friend WithEvents rbtnRouteWise As RadioButton
+    Friend WithEvents RadGroupBox2 As RadGroupBox
+    Friend WithEvents rbtnSummary As RadioButton
+    Friend WithEvents rbtnDockSummary As RadioButton
+    Friend WithEvents rbtnBMCDock As RadioButton
+    Friend WithEvents rbtnDockShiftWise As RadioButton
+    Friend WithEvents rbtnDockDateWise As RadioButton
+    Friend WithEvents rbtnBMCDCSPrint As RadioButton
+    Friend WithEvents rbtnBMCRoutePrint As RadioButton
 End Class
 

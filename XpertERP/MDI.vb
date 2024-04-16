@@ -371,7 +371,7 @@ Public Class MDI
 
         Try
             Dim strTempVersion As String = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertCommon.dll").FileVersion
-            If Not clsCommon.CompairString(strTempVersion, "2.1.6.70") = CompairStringResult.Equal Then
+            If Not clsCommon.CompairString(strTempVersion, "2.1.6.71") = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertCommon ")
             End If
             strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertERPBlankTableScript.dll").FileVersion
@@ -2465,7 +2465,7 @@ Public Class MDI
             arrExcluded.Add(clsUserMgtCode.MccMilkTransferPrice)
             arrExcluded.Add("RcpChgRutRpt")
             arrExcluded.Add("MCCChngDet")
-            arrExcluded.Add(clsUserMgtCode.frmCostCenterTypeMaster)
+            ''  arrExcluded.Add(clsUserMgtCode.frmCostCenterTypeMaster)
             If clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ApplyFinancialCostCenter, clsFixedParameterCode.ApplyFinancialCostCenter, Nothing)) = "1", True, False)) = True Then
                 arrExcluded.Add(clsUserMgtCode.CostFACenter)
             End If
@@ -8312,6 +8312,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptRouteSaleRegister
                         frm = New RptRouteSaleRegister
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptGatePassReport
+                        frm = New GatePassReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
                     Case clsUserMgtCode.rptPaymentCycleWiseReport
                         frm = New rptPaymentCycleWiseReport

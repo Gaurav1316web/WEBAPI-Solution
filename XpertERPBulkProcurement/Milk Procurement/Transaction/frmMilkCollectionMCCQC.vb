@@ -262,6 +262,9 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                                     clsCommon.AddColumnsForChange(coll, "Machine_FAT", dictionary(ii).FAT)
                                     clsCommon.AddColumnsForChange(coll, "Machine_SNF", dictionary(ii).SNF)
                                 End If
+                                clsCommon.AddColumnsForChange(coll, "Original_Qty", dictionary(ii).Qty)
+                                clsCommon.AddColumnsForChange(coll, "Original_FATKg", dictionary(ii).FATKG)
+                                clsCommon.AddColumnsForChange(coll, "Original_SNFKg", dictionary(ii).SNFKG)
                                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dictionary(ii).PK_Id) + "' ", trans)
                             Next
                             UcAttachment1.SaveData(clsCommon.GetPrintDate(txtDate.Value, "yyyy/MM/dd"), False, trans)

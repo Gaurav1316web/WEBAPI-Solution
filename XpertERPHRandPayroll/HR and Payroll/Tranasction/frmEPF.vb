@@ -80,7 +80,7 @@ Public Class frmEPF
         Dim qry As String = "SELECT PAY_PERIOD_CODE AS Code,(DATEDIFF(DAY,date_from,date_to)+1) as Totaldays, " _
     & " PAY_PERIOD_NAME as Name FROM TSPL_PAYPERIOD_MASTER"
         'Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
-        fndPayperiod.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", fndPayperiod.Value, "PAY_PERIOD_CODE", isButtonClicked)
+        fndPayperiod.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", fndPayperiod.Value, "PAY_PERIOD_CODE", isButtonClicked)
         If clsCommon.myLen(fndPayperiod.Value) > 0 Then
             Dim clspp As clsPayPeriodMaster
             clspp = clsPayPeriodMaster.GetData(fndPayperiod.Value, NavigatorType.Current)
@@ -368,7 +368,7 @@ Public Class frmEPF
         Try
             'ClearAllCurrentRowFinder()
             Dim qry As String = "SELECT EMP_CODE as code,Emp_Name,Designation,PF_NO FROM TSPL_EMPLOYEE_MASTER"
-            gv1.CurrentRow.Cells(colEMP_Code).Value = clsCommon.ShowSelectForm("fndnder21", qry, "code", "", clsCommon.myCstr(gv1.CurrentRow.Cells(colEMP_Code).Value), "Code", isButtonClick)
+            gv1.CurrentRow.Cells(colEMP_Code).Value = clsCommon.ShowSelectForm("fndnder21", qry, "code", " Emp_Status<>'Inactive'", clsCommon.myCstr(gv1.CurrentRow.Cells(colEMP_Code).Value), "Code", isButtonClick)
             If clsCommon.myLen(gv1.CurrentRow.Cells(colEMP_Code).Value) > 0 Then
                 ADDNewRows()
             End If

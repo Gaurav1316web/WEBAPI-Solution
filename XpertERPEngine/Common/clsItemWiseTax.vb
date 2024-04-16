@@ -269,40 +269,43 @@ Public Class clsItemWiseTaxAuthority
         Try
             Dim dblTaxRate As Double = 0
             Dim intExemptedType As Integer = 0
-            Dim intTCSCount As Integer = clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_TAX_MASTER inner join TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax_Code where TSPL_TAX_MASTER.Is_TCS='Y' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Code='" & strTaxGroup & "'", trans)
-            If intTCSCount > 0 Then
-                intExemptedType = 0
-            Else
-                intExemptedType = clsDBFuncationality.getSingleValue("select Is_Tax_Exempted from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='" & strTaxGroup & "'", trans)
-            End If
-
-            If intExemptedType = 0 Then
-                If clsCommon.myLen(strItemCode) = 0 Then
-                    Throw New Exception("Please enter Item Code")
-                ElseIf clsCommon.myLen(strTaxGroup) = 0 Then
-                    Throw New Exception("Please enter Tax Group")
-                ElseIf clsCommon.myLen(strTaxCode) = 0 Then
-                    Throw New Exception("Please enter Tax Code")
-                ElseIf clsCommon.myLen(strTaxType) = 0 Then
-                    Throw New Exception("Please enter valid Tax Type it should be 'P' or 'S'")
-                End If
-                Dim qry = "select top 1 * from  TSPL_ITEM_WISE_TAX left outer join TSPL_ITEM_WISE_TAX_GROUP on TSPL_ITEM_WISE_TAX.HCODE=TSPL_ITEM_WISE_TAX_GROUP.HCODE " &
-                    "left outer join TSPL_ITEM_WISE_TAX_AUTHORITY on TSPL_ITEM_WISE_TAX.HCODE=TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE " &
-                    "and TSPL_ITEM_WISE_TAX_GROUP.DCODE=TSPL_ITEM_WISE_TAX_AUTHORITY.DCODE  " &
-                    "where Status=1 and DOC_DATE < ='" & clsCommon.GetPrintDate(strDocDate, "dd/MMM/yyyy") & "' and   Tax_Group_Code='" & strTaxGroup & "' and Tax_Authority='" & strTaxCode & "' and Item_Code='" & strItemCode & "' order by DOC_DATE desc "
-                Dim dt As DataTable
-                dt = clsDBFuncationality.GetDataTable(qry, trans)
-                If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                    obj = New clsItemWiseTaxAuthority
-                    obj.HCODE = clsCommon.myCstr(dt.Rows(0)("HCODE"))
-                    obj.TAX_Rate = clsCommon.myCdbl(dt.Rows(0)("TAX_Rate"))
+            Dim IsExmpted As Boolean = clsCommon.myCBool(clsDBFuncationality.getSingleValue("select Is_Tax_Exempted from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='" + strTaxGroup + "'", trans))
+            If Not IsExmpted Then
+                Dim intTCSCount As Integer = clsDBFuncationality.getSingleValue("select COUNT(*) from TSPL_TAX_MASTER inner join TSPL_TAX_GROUP_DETAILS on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax_Code where TSPL_TAX_MASTER.Is_TCS='Y' and TSPL_TAX_GROUP_DETAILS.Tax_Group_Code='" & strTaxGroup & "'", trans)
+                If intTCSCount > 0 Then
+                    intExemptedType = 0
                 Else
-                    Throw New Exception("Please enter Tax Rate For  " + Environment.NewLine +
-                                               "Item    --  " & strItemCode & " " + Environment.NewLine +
-                                               "Tax Group  --   " & strTaxGroup & " " + Environment.NewLine +
-                                               "Tax Code  --   " & strTaxCode & " " + Environment.NewLine +
-                                               "Tax Type --   " & strTaxType & " ")
+                    intExemptedType = clsDBFuncationality.getSingleValue("select Is_Tax_Exempted from TSPL_TAX_GROUP_MASTER where Tax_Group_Code='" & strTaxGroup & "'", trans)
+                End If
 
+                If intExemptedType = 0 Then
+                    If clsCommon.myLen(strItemCode) = 0 Then
+                        Throw New Exception("Please enter Item Code")
+                    ElseIf clsCommon.myLen(strTaxGroup) = 0 Then
+                        Throw New Exception("Please enter Tax Group")
+                    ElseIf clsCommon.myLen(strTaxCode) = 0 Then
+                        Throw New Exception("Please enter Tax Code")
+                    ElseIf clsCommon.myLen(strTaxType) = 0 Then
+                        Throw New Exception("Please enter valid Tax Type it should be 'P' or 'S'")
+                    End If
+                    Dim qry = "select top 1 * from  TSPL_ITEM_WISE_TAX left outer join TSPL_ITEM_WISE_TAX_GROUP on TSPL_ITEM_WISE_TAX.HCODE=TSPL_ITEM_WISE_TAX_GROUP.HCODE " &
+                        "left outer join TSPL_ITEM_WISE_TAX_AUTHORITY on TSPL_ITEM_WISE_TAX.HCODE=TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE " &
+                        "and TSPL_ITEM_WISE_TAX_GROUP.DCODE=TSPL_ITEM_WISE_TAX_AUTHORITY.DCODE  " &
+                        "where Status=1 and DOC_DATE < ='" & clsCommon.GetPrintDate(strDocDate, "dd/MMM/yyyy") & "' and   Tax_Group_Code='" & strTaxGroup & "' and Tax_Authority='" & strTaxCode & "' and Item_Code='" & strItemCode & "' order by DOC_DATE desc "
+                    Dim dt As DataTable
+                    dt = clsDBFuncationality.GetDataTable(qry, trans)
+                    If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
+                        obj = New clsItemWiseTaxAuthority
+                        obj.HCODE = clsCommon.myCstr(dt.Rows(0)("HCODE"))
+                        obj.TAX_Rate = clsCommon.myCdbl(dt.Rows(0)("TAX_Rate"))
+                    Else
+                        Throw New Exception("Please enter Tax Rate For  " + Environment.NewLine +
+                                                   "Item    --  " & strItemCode & " " + Environment.NewLine +
+                                                   "Tax Group  --   " & strTaxGroup & " " + Environment.NewLine +
+                                                   "Tax Code  --   " & strTaxCode & " " + Environment.NewLine +
+                                                   "Tax Type --   " & strTaxType & " ")
+
+                    End If
                 End If
             End If
         Catch ex As Exception

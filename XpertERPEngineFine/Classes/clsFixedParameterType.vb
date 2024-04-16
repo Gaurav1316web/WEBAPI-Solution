@@ -2,6 +2,7 @@
 Imports common
 Imports System.Data.SqlClient
 Public Class clsFixedParameterType
+    Public Const PDAccountPaymanager As String = "PD Account Paymanager"
     Public Const BankAdviseRequired As String = "Bank Advice Start Date"
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
     Public Const CalculateFATSNFLossCycleWise As String = "Calculate FAT SNF Loss Cycle Wise"
@@ -513,6 +514,7 @@ Public Class clsFixedParameterType
     Public Const ShowTaxRateColumnOnTransaction As String = "ShowTaxRateColumnOnTransaction"
     Public Const ShowGRN As String = "ShowGRN"
     Public Const SkipMRNGRNinCaseofMT As String = "SkipMRNGRNinCaseofMT"
+    Public Const AutoGenerateMRN As String = "AutoGenerateMRN"
     Public Const ShowMRN As String = "ShowMRN"
 
     Public Const LicenceExpiryDate As String = "IsApplyCommonService1" 'A B
@@ -749,6 +751,8 @@ Public Class clsFixedParameterType
     Public Const MixFATPer As String = "Mix FAT Per"
     Public Const CmtSetting As String = "Comment Setting"
     Public Const AreaWiseBilling As String = "Area Wise Billing"
+    Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
+    Public Const VendorBankAdviceForSWM As String = "Vendor Bank Advice For SWM"
     Public Const MilkSamplShowOddEvenTwoGrid As String = "Show Odd and Even Two Grid"
     Public Const OpenODDEvenForm As String = "Open Odd-Even Form"
     Public Const Open4AnalyzerForm As String = "Open 4 Milk Analyzer Form"
@@ -1322,10 +1326,12 @@ Public Class clsFixedParameterType
     Public Const PricePlanRoundOffTruncate = "Price Plan RoundOff/Truncate"
     Public Const AllowIncreaseDispatchQty = "Allow Increase Dispatch Qty"
     Public Const FORPRICE = "FOR Price"
-
+    Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
+    Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
 
 End Class
 Public Class clsFixedParameterCode
+    Public Const NoOfRecordForLotNo As String = "No Of Record For Lot No"
     Public Const BankAdviseRequired As String = "Bank Advice Start Date"
     Public Const ApplyMergeForDCSMultipleDays As String = "Apply Merge For DCS Multiple Days"
     Public Const CalculateFATSNFLossCycleWise As String = "Calculate FAT SNF Loss Cycle Wise"
@@ -1690,6 +1696,8 @@ Public Class clsFixedParameterCode
     Public Const MixFATPer As String = "Mix FAT Per"
     Public Const CmtSetting As String = "Comment Setting"
     Public Const AreaWiseBilling As String = "Area Wise Billing"
+    Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
+    Public Const VendorBankAdviceForSWM As String = "Vendor Bank Advice For SWM"
     Public Const GateEntryTankerFromTankerMaster As String = "Gate Entry tanker From Master"
     Public Const QualityThenWeighmentinBulkProcurement As String = "First QC then Weighment"
     Public Const isIntimationRequired As String = "Show Intimation Screen"
@@ -1865,6 +1873,7 @@ Public Class clsFixedParameterCode
     Public Const AllowLargerItemCostThenVendorItemCost As String = "AllowLargerItemCostThenVendorItemCost"
     Public Const ShowGRN As String = "ShowGRN"
     Public Const SkipMRNGRNinCaseofMT As String = "SkipMRNGRNinCaseofMT"
+    Public Const AutoGenerateMRN As String = "AutoGenerateMRN"
     Public Const ShowMRN As String = "ShowMRN"
     Public Const EnableProjectFinder As String = "EnableProjectFinder"
     Public Const PostShipmentonAutoSTN As String = "PostShipmentonAutoSTN"
@@ -2781,6 +2790,8 @@ Public Class clsFixedParameterCode
     Public Const PricePlanRoundOffTruncate = "Price Plan RoundOff/Truncate"
     Public Const AllowIncreaseDispatchQty = "Allow Increase Dispatch Qty"
     Public Const FORPRICE = "FOR Price"
+    Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
+    Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
 
 End Class
 Public Class clsFixedParameter
@@ -2869,6 +2880,7 @@ Public Class clsFixedParameter
     End Function
 
     Public Shared Function FixedParameterValues() As Boolean
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, "4500", "No of Records to Set Lot No")
         InsertDefaultValueFixedParameter(clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, "", "Bank Advise Start Date [dd/MMM/yyyy]")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, "1", "0:OFF;1:ON")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CalculateFATSNFLossCycleWise, clsFixedParameterCode.CalculateFATSNFLossCycleWise, "0", "0:OFF;1:ON")
@@ -3409,6 +3421,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowGRN, clsFixedParameterCode.ShowGRN, "", "If Setting Is On Then GRN (Gate Receipt Note) Screen will be shown in Purchase Module")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowMRN, clsFixedParameterCode.ShowMRN, "", "If Setting Is On Then MRN (Material Receipt Note) Screen will be shown in Purchase Module")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SkipMRNGRNinCaseofMT, clsFixedParameterCode.SkipMRNGRNinCaseofMT, "1", "0-OFF;1-On setting will work only in case of Merchant trade")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AutoGenerateMRN, clsFixedParameterCode.AutoGenerateMRN, "1", "0-OFF;1-On setting will work only in case of Merchant trade")
         InsertDefaultValueFixedParameter(clsFixedParameterType.WorkingHours, clsFixedParameterCode.WorkingHours, "8", "8: Total no of working hours in company")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TreatExcessLeaveAbsent, clsFixedParameterCode.TreatExcessLeaveAbsent, "0", "0-OFF;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.VehicleInsuranceAlert, clsFixedParameterCode.VehicleInsuranceAlert, "0", "0-OFF;1-On")
@@ -3802,6 +3815,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, "0", "Mix FAT Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkSamplShowOddEvenTwoGrid, clsFixedParameterCode.MilkSamplShowOddEvenTwoGrid, "0", "0:Off, 1:On; Show Tow Grid Odd Even")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OpenODDEvenForm, clsFixedParameterCode.OpenODDEvenForm, "1", "0:Off, 1:On; Open Odd Even Form")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Open4AnalyzerForm, clsFixedParameterCode.Open4AnalyzerForm, "0", "0:Off, 1:On; Open 4 Analyzer Form")
@@ -4514,6 +4529,9 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.PricePlanRoundOffTruncate, clsFixedParameterCode.PricePlanRoundOffTruncate, "0", "0:RoundOff, 1:Truncate;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, "0", "Enter Weight in KG ")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, "0", "0:Off, 1:On;")
+
 
 
         '
@@ -4553,6 +4571,7 @@ Public Class clsFixedParameterProgramMapping
 
     Public Shared Sub SetDefaultValues()
         clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_FIXED_PARAMETER_PROGRAM_MAPPING")
+        InsertDefaultValue(clsUserMgtCode.DBTNEFTUploader, clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.frmBankAdvise, clsFixedParameterType.BankAdviseRequired, clsFixedParameterCode.BankAdviseRequired, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDays, clsFixedParameterType.ApplyMergeForDCSMultipleDays, clsFixedParameterCode.ApplyMergeForDCSMultipleDays, EnumControlType.CheckBox)
 
@@ -5367,23 +5386,10 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptMccMasterDetail, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptDBTMilkPayment, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.frmAutoAdditionDeductionReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptMultipleDeductionReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.MilkProcurementUploader, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptMilkPaymentSummary, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptPaymentProcessRouteReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptDailyQtyReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptPaymentCycleWiseReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-
         ' InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.FAAcquisitionEntry, clsFixedParameterType.ReadOnlyTemplateFieldsOnAcqusition, clsFixedParameterCode.ReadOnlyTemplateFieldsOnAcqusition, EnumControlType.CheckBox)
 
@@ -6076,6 +6082,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmSalesInvoiceMT, clsFixedParameterType.CHADetailsMandatoryOnExportSale, clsFixedParameterCode.CHADetailsMandatoryOnExportSale, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmSalesInvoiceMT, clsFixedParameterType.EnableGSTRelatedfields, clsFixedParameterCode.EnableGSTRelatedfields, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmSRNMT, clsFixedParameterType.SkipMRNGRNinCaseofMT, clsFixedParameterCode.SkipMRNGRNinCaseofMT, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.mbtnGRN, clsFixedParameterType.AutoGenerateMRN, clsFixedParameterCode.AutoGenerateMRN, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmSRNMT, clsFixedParameterType.ShowMRN, clsFixedParameterCode.ShowMRN, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmSRNMT, clsFixedParameterType.ShowGRN, clsFixedParameterCode.ShowGRN, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.FrmSRNMT, clsFixedParameterType.AutoDepartmentMendatroryFieldOnPurcahseCycle, clsFixedParameterCode.AutoDepartmentMendatroryFieldOnPurcahseCycle, EnumControlType.CheckBox)
@@ -6574,6 +6581,8 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.AllowIncreaseDispatchQty, clsFixedParameterCode.AllowIncreaseDispatchQty, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyBookingCustomer, clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, EnumControlType.TextBox)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, EnumControlType.CheckBox)
 
     End Sub
 End Class

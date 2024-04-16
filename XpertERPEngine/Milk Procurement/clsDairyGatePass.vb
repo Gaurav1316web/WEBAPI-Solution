@@ -31,6 +31,7 @@ Public Class clsDairyGatePassEntry
     Public Distance_In_Route As Decimal = 0
     Public Price_KM_In_Vehicle As Decimal = 0
     Public Toll_Amount As Decimal = 0
+    Public Trip_No As Decimal = 1
     Public Closing_Date As DateTime? = Nothing
     Public Arr As List(Of clsDairyGPDetail) = Nothing
     Public IsTransfer As Integer = 0
@@ -72,7 +73,7 @@ Public Class clsDairyGatePassEntry
             End If
 
 
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmTankerProvision, obj.Location_Code, obj.GPDate, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmTankerProvision, obj.Location_Code, obj.GPDate, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDairyGatePass, obj.Location_Code, obj.GPDate, trans)
             If Not isNewEntry Then
                 clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, clsCommon.myCstr(obj.GPCode), "TSPL_DAIRYSALE_GATEPASS_MASTER", "GPCode", "TSPL_DAIRYSALE_GATEPASS_DETAIL", "GPCode", trans)
@@ -114,6 +115,7 @@ Public Class clsDairyGatePassEntry
             clsCommon.AddColumnsForChange(coll, "Comp_Code", objCommonVar.CurrentCompanyCode)
             clsCommon.AddColumnsForChange(coll, "Location_Code", obj.Location_Code)
             clsCommon.AddColumnsForChange(coll, "Location_Desc", obj.Location_Desc)
+            clsCommon.AddColumnsForChange(coll, "Trip_No", obj.Trip_No, True)
             '=============Added by preeti Gupta Against ticket no[]
             clsCommon.AddColumnsForChange(coll, "Route_No", obj.Route_No)
             clsCommon.AddColumnsForChange(coll, "TotalCAN", obj.TotalCAN)
@@ -236,6 +238,7 @@ Public Class clsDairyGatePassEntry
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Comments = clsCommon.myCstr(dt.Rows(0)("Comments"))
             obj.Post = clsCommon.myCstr(dt.Rows(0)("Post"))
+            obj.Trip_No = clsCommon.myCdbl(dt.Rows(0)("Trip_No"))
             If clsCommon.myCstr(dt.Rows(0)("Status")) IsNot Nothing AndAlso clsCommon.myLen(dt.Rows(0)("Status")) > 0 Then
                 obj.Status = clsCommon.myCstr(dt.Rows(0)("Status"))
             End If
@@ -425,7 +428,7 @@ Public Class clsDairyGatePassEntry
             If (obj Is Nothing OrElse clsCommon.myLen(obj.GPCode) <= 0) Then
                 Throw New Exception("Document No not found to Delete")
             End If
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmTankerProvision, obj.Location_Code, obj.GPDate, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmTankerProvision, obj.Location_Code, obj.GPDate, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDairyGatePass, obj.Location_Code, obj.GPDate, trans)
 
 
@@ -468,7 +471,7 @@ Public Class clsDairyGatePassEntry
                 Throw New Exception("Transaction status should be posted for reverse and unpost")
             End If
             Dim obj As clsDairyGatePassEntry = clsDairyGatePassEntry.GetData(strCode, NavigatorType.Current, "", trans)
-            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleBulkMilkProcurement, clsUserMgtCode.frmTankerProvision, obj.Location_Code, obj.GPDate, trans)
+            clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleProductionDairy, clsUserMgtCode.frmTankerProvision, obj.Location_Code, obj.GPDate, trans)
             clsERPFuncationality.ValidateLocationCode(objCommonVar.CurrentCompanyCode, clsUserMgtCode.ModuleSaleDairy, clsUserMgtCode.frmDairyGatePass, obj.Location_Code, obj.GPDate, trans)
 
 
@@ -535,6 +538,7 @@ Public Class clsDairyGPDetail
     Public Qty As Double = 0
     Public HSN_Code As String = Nothing
     Public PK_ID As Integer
+    Public Trip_No As Integer = 1
 
 #End Region
 
@@ -559,6 +563,7 @@ Public Class clsDairyGPDetail
                     clsCommon.AddColumnsForChange(coll1, "Item_Code", obj.Item_Code)
                     clsCommon.AddColumnsForChange(coll1, "Unit_Code", obj.Unit_Code)
                     clsCommon.AddColumnsForChange(coll1, "GP_Qty", obj.Qty)
+                    clsCommon.AddColumnsForChange(coll1, "Trip_No", obj.Trip_No)
                     clsCommonFunctionality.UpdateDataTable(coll1, "TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 End If
             Next

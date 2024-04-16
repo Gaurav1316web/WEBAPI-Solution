@@ -890,6 +890,10 @@ Public Class clsGRNHead
                         objTr.Header_Discount_Amount = clsCommon.myCdbl(dr("Header_Discount_Amount"))
                         objTr.Disc_Per = clsCommon.myCdbl(dr("Disc_Per"))
                         objTr.Detail_Discount_Amount = clsCommon.myCdbl(dr("Detail_Discount_Amount"))
+
+                        objTr.Disc_Per_Unit = clsCommon.myCdbl(dr("Disc_Per_Unit"))
+                        objTr.Disc_Amt_Per_Unit = clsCommon.myCdbl(dr("Disc_Amt_Per_Unit"))
+
                         objTr.Disc_Amt = clsCommon.myCdbl(dr("Disc_Amt"))
                         objTr.Amt_Less_Discount = clsCommon.myCdbl(dr("Amt_Less_Discount"))
 
@@ -988,6 +992,9 @@ Public Class clsGRNHead
 
     Public Shared Function PostData(ByVal strDocNo As String, ByVal isCheckForPosted As Boolean, ByVal trans As SqlTransaction) As Boolean
         Try
+            Dim Is_Auto_Generate_MRN As Boolean = False
+            Is_Auto_Generate_MRN = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AutoGenerateMRN, clsFixedParameterCode.AutoGenerateMRN, trans)) = "1", True, False))
+
             Dim isSaved As Boolean = True
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("GRN No not found to Post")
@@ -1020,6 +1027,10 @@ Public Class clsGRNHead
             End If
             '================================================================================
 
+            If Is_Auto_Generate_MRN Then
+                GenerateMRN(obj, trans)
+            End If
+
             qry = "Update TSPL_GRN_HEAD set Status=1, Posting_Date='" + strPostDate + "',Modify_By='" + objCommonVar.CurrentUserCode + "' where GRN_No='" + strDocNo + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
@@ -1027,6 +1038,360 @@ Public Class clsGRNHead
                 CreateInternalEmailSMS(obj, trans)
             End If
 
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
+    Public Shared Function GenerateMRN(ByVal obj As clsGRNHead, ByVal trans As SqlTransaction)
+        Try
+            Dim objMRNHead As New clsMRNHead()
+            objMRNHead.isJobWorkOutward = IIf(obj.isJobWorkOutward = True, 1, 0)
+            objMRNHead.MRN_Date = obj.GRN_Date
+            objMRNHead.Vendor_Code = obj.Vendor_Code
+            objMRNHead.Vendor_Name = obj.Vendor_Name
+            objMRNHead.Ref_No = obj.Ref_No
+            objMRNHead.Total_Tax_Amt = obj.Total_Tax_Amt
+            objMRNHead.Remarks = obj.Remarks
+            objMRNHead.Bill_To_Location = obj.Bill_To_Location
+            objMRNHead.Ship_To_Location = obj.Ship_To_Location
+            objMRNHead.Sublocation_Code = obj.Sublocation_Code
+            objMRNHead.Comments = obj.Comments
+            objMRNHead.On_Hold = obj.On_Hold
+            objMRNHead.Description = obj.Description
+            objMRNHead.Tax_Group = obj.Tax_Group
+            objMRNHead.PurchaseOrder_Type = obj.PurchaseOrder_Type
+            objMRNHead.RGP_Type = obj.RGP_Type
+            objMRNHead.Retention = obj.Retention
+            If objMRNHead.RoadPermit_Date IsNot Nothing AndAlso clsCommon.myLen(obj.RoadPermit_Date) > 0 AndAlso IsDate(obj.RoadPermit_Date) Then
+                objMRNHead.RoadPermit_Date = clsCommon.myCDate(obj.RoadPermit_Date)
+            Else
+                objMRNHead.RoadPermit_Date = clsCommon.GETSERVERDATE(trans)
+            End If
+            objMRNHead.RoadPermit_No = obj.RoadPermit_No
+            objMRNHead.InvoiceNo = obj.Invoiceno
+            objMRNHead.InvoiceDate = obj.InvoiceDate
+            objMRNHead.Item_Type = obj.Item_Type
+            objMRNHead.Dept = obj.Dept
+            objMRNHead.Dept_Desc = obj.Dept_Desc
+            objMRNHead.IsCancel = 0
+            objMRNHead.TAX1 = obj.TAX1
+            objMRNHead.TAX1_Rate = obj.TAX1_Rate
+            objMRNHead.TAX1_Base_Amt = obj.TAX1_Base_Amt
+            objMRNHead.TAX1_Amt = obj.TAX1_Amt
+            objMRNHead.TAX2 = obj.TAX2
+            objMRNHead.TAX2_Rate = obj.TAX2_Rate
+            objMRNHead.TAX2_Base_Amt = obj.TAX2_Base_Amt
+            objMRNHead.TAX2_Amt = obj.TAX2_Amt
+            objMRNHead.TAX3 = obj.TAX3
+            objMRNHead.TAX3_Rate = obj.TAX3_Rate
+            objMRNHead.TAX3_Base_Amt = obj.TAX3_Base_Amt
+            objMRNHead.TAX3_Amt = obj.TAX3_Amt
+            objMRNHead.TAX4 = obj.TAX4
+            objMRNHead.TAX4_Rate = obj.TAX4_Rate
+            objMRNHead.TAX4_Base_Amt = obj.TAX4_Base_Amt
+            objMRNHead.TAX4_Amt = obj.TAX4_Amt
+            objMRNHead.TAX5 = obj.TAX5
+            objMRNHead.TAX5_Rate = obj.TAX5_Rate
+            objMRNHead.TAX5_Base_Amt = obj.TAX5_Base_Amt
+            objMRNHead.TAX5_Amt = obj.TAX5_Amt
+            objMRNHead.TAX6 = obj.TAX6
+            objMRNHead.TAX6_Rate = obj.TAX6_Rate
+            objMRNHead.TAX6_Base_Amt = obj.TAX6_Base_Amt
+            objMRNHead.TAX6_Amt = obj.TAX6_Amt
+            objMRNHead.TAX7 = obj.TAX7
+            objMRNHead.TAX7_Rate = obj.TAX7_Rate
+            objMRNHead.TAX7_Base_Amt = obj.TAX7_Base_Amt
+            objMRNHead.TAX7_Amt = obj.TAX7_Amt
+            objMRNHead.TAX8 = obj.TAX8
+            objMRNHead.TAX8_Rate = obj.TAX8_Rate
+            objMRNHead.TAX8_Base_Amt = obj.TAX8_Base_Amt
+            objMRNHead.TAX8_Amt = obj.TAX8_Amt
+            objMRNHead.TAX9 = obj.TAX9
+            objMRNHead.TAX9_Rate = obj.TAX9_Rate
+            objMRNHead.TAX9_Base_Amt = obj.TAX9_Base_Amt
+            objMRNHead.TAX9_Amt = obj.TAX9_Amt
+            objMRNHead.TAX10 = obj.TAX10
+            objMRNHead.TAX10_Rate = obj.TAX10_Rate
+            objMRNHead.TAX10_Base_Amt = obj.TAX10_Base_Amt
+            objMRNHead.TAX10_Amt = obj.TAX10_Amt
+            objMRNHead.Total_Add_Charge_Insurance = obj.Total_Add_Charge_Insurance
+            objMRNHead.Total_Item_Insurance_Amt = obj.Total_Item_Insurance_Amt
+            objMRNHead.Tax_Calculation_Type = IIf(obj.Tax_Calculation_Type = EnumTaxCalucationType.Automatic, 0, 1)
+            objMRNHead.Terms_Code = obj.Terms_Code
+            objMRNHead.Due_Date = obj.Due_Date
+            objMRNHead.Discount_Base = obj.Discount_Base
+            objMRNHead.Discount_Amt = obj.Discount_Amt
+            objMRNHead.Amount_Less_Discount = obj.Amount_Less_Discount
+            objMRNHead.Total_Taxable_Amount = obj.Total_Taxable_Amount
+            objMRNHead.MRN_Total_Amt = obj.GRN_Total_Amt
+            objMRNHead.Carrier = obj.Carrier
+            objMRNHead.VehicleNo = obj.VehicleNo
+            objMRNHead.GRNo = obj.GRNo
+            objMRNHead.GENo = obj.GENo
+            If objMRNHead.GEDate.HasValue Then
+                objMRNHead.GEDate = clsCommon.GetPrintDate(obj.GEDate, "dd/MMM/yyyy")
+            End If
+            objMRNHead.Against_PO = obj.Against_PO
+            objMRNHead.Against_GRN = obj.GRN_No
+            objMRNHead.Against_Schedule_Code = obj.Against_Schedule_Code
+            objMRNHead.Against_RGP_No = obj.Against_RGP_No
+            If clsCommon.myLen(objMRNHead.Against_RGP_No) > 0 AndAlso clsCommon.myLen(objMRNHead.Against_Schedule_Code) <= 0 Then
+                objMRNHead.Against_Schedule_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Against_Schedule_Code from TSPL_RGP_HEAD where RGP_NO='" + objMRNHead.Against_PO + "'", trans))
+            End If
+            If clsCommon.myLen(objMRNHead.Against_Schedule_Code) > 0 AndAlso clsCommon.myLen(objMRNHead.Against_PO) <= 0 Then
+                objMRNHead.Against_PO = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select po_code from TSPL_PO_SCH_HEAD where document_code='" + objMRNHead.Against_PO + "'", trans))
+            End If
+
+            If clsCommon.myLen(objMRNHead.Against_RGP_No) > 0 AndAlso clsCommon.myLen(objMRNHead.Against_Schedule_Code) <= 0 AndAlso clsCommon.myLen(objMRNHead.Against_PO) <= 0 Then
+                objMRNHead.Against_PO = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select po_id from TSPL_RGP_HEAD where RGP_NO='" + objMRNHead.Against_PO + "'", trans))
+            End If
+            If clsCommon.myLen(objMRNHead.Against_PO) > 0 AndAlso clsCommon.myLen(objMRNHead.Against_Requisition) <= 0 Then
+                objMRNHead.Against_Requisition = clsCommon.myCstr(clsDBFuncationality.getSingleValue("SELECT Against_Requisition FROM TSPL_PURCHASE_ORDER_HEAD WHERE PurchaseOrder_No='" + objMRNHead.Against_PO + "' and isnull(TSPL_PURCHASE_ORDER_HEAD.ISCANCEL,0)=0", trans))
+            End If
+            objMRNHead.Against_Schedule_Code = obj.Against_Schedule_Code
+            objMRNHead.Against_RGP_No = obj.Against_RGP_No
+
+            objMRNHead.Add_Charge_Code1 = obj.Add_Charge_Code1
+            objMRNHead.Add_Charge_Name1 = obj.Add_Charge_Name1
+            objMRNHead.Add_Charge_Amt1 = obj.Add_Charge_Amt1
+
+            objMRNHead.Add_Charge_Code2 = obj.Add_Charge_Code2
+            objMRNHead.Add_Charge_Name2 = obj.Add_Charge_Name2
+            objMRNHead.Add_Charge_Amt2 = obj.Add_Charge_Amt2
+
+            objMRNHead.Add_Charge_Code3 = obj.Add_Charge_Code3
+            objMRNHead.Add_Charge_Name3 = obj.Add_Charge_Name3
+            objMRNHead.Add_Charge_Amt3 = obj.Add_Charge_Amt3
+
+            objMRNHead.Add_Charge_Code4 = obj.Add_Charge_Amt3
+            objMRNHead.Add_Charge_Name4 = obj.Add_Charge_Name4
+            objMRNHead.Add_Charge_Amt4 = obj.Add_Charge_Amt4
+
+            objMRNHead.Add_Charge_Code5 = obj.Add_Charge_Code5
+            objMRNHead.Add_Charge_Name5 = obj.Add_Charge_Name5
+            objMRNHead.Add_Charge_Amt5 = obj.Add_Charge_Amt5
+
+            objMRNHead.Add_Charge_Code6 = obj.Add_Charge_Code6
+            objMRNHead.Add_Charge_Name6 = obj.Add_Charge_Name6
+            objMRNHead.Add_Charge_Amt6 = obj.Add_Charge_Amt6
+
+            objMRNHead.Add_Charge_Code7 = obj.Add_Charge_Code7
+            objMRNHead.Add_Charge_Name7 = obj.Add_Charge_Name7
+            objMRNHead.Add_Charge_Amt7 = obj.Add_Charge_Amt7
+
+            objMRNHead.Add_Charge_Code8 = obj.Add_Charge_Code8
+            objMRNHead.Add_Charge_Name8 = obj.Add_Charge_Name8
+            objMRNHead.Add_Charge_Amt8 = obj.Add_Charge_Amt8
+
+            objMRNHead.Add_Charge_Code9 = obj.Add_Charge_Code9
+            objMRNHead.Add_Charge_Name9 = obj.Add_Charge_Name9
+            objMRNHead.Add_Charge_Amt9 = obj.Add_Charge_Amt9
+
+            objMRNHead.Add_Charge_Code10 = obj.Add_Charge_Code10
+            objMRNHead.Add_Charge_Name10 = obj.Add_Charge_Name10
+            objMRNHead.Add_Charge_Amt10 = obj.Add_Charge_Amt10
+
+            objMRNHead.Total_Add_Charge = obj.Total_Add_Charge
+
+            objMRNHead.Arr = New List(Of clsMRNDetail)
+            For Each objGRNDetail As clsGRNDetail In obj.Arr
+                Dim objMRNDetail As New clsMRNDetail()
+                objMRNDetail.Category = objGRNDetail.Category
+                objMRNDetail.Emergency = objGRNDetail.Emergency
+                objMRNDetail.Capex_Code = objGRNDetail.Capex_Code
+                objMRNDetail.Capex_SubCode = objGRNDetail.Capex_SubCode
+
+                objMRNDetail.Line_No = objGRNDetail.Line_No
+                objMRNDetail.Row_Type = objGRNDetail.Row_Type
+                objMRNDetail.Item_Code = objGRNDetail.Item_Code
+                objMRNDetail.Item_Desc = objGRNDetail.Item_Desc
+                objMRNDetail.MRN_Qty = objGRNDetail.GRN_Qty
+                objMRNDetail.GRN_Id = objGRNDetail.GRN_No
+                objMRNDetail.Unit_code = objGRNDetail.Unit_code
+                objMRNDetail.PO_ID = objGRNDetail.PO_Id
+                objMRNDetail.Requisition_Id = objGRNDetail.Requisition_Id
+                objMRNDetail.RGP_No = objGRNDetail.Against_RGP_No
+
+                objMRNDetail.Location = objGRNDetail.Location
+                objMRNDetail.Item_Cost = objGRNDetail.Item_Cost
+                objMRNDetail.Amount = objGRNDetail.Amount
+                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "KL") = CompairStringResult.Equal AndAlso clsCommon.myLen(obj.Against_Requisition) > 0 Then
+                    objMRNDetail.Disc_Per = objGRNDetail.Disc_Per
+                Else
+                    objMRNDetail.Disc_Per = objGRNDetail.Disc_Per
+                End If
+
+                objMRNDetail.Header_Discount_Per = objGRNDetail.Header_Discount_Per
+                objMRNDetail.Header_Discount_Amount = objGRNDetail.Header_Discount_Amount
+                objMRNDetail.Detail_Discount_Amount = objGRNDetail.Detail_Discount_Amount
+
+                objMRNDetail.Disc_Amt = objGRNDetail.Disc_Amt
+                objMRNDetail.Amt_Less_Discount = objGRNDetail.Amt_Less_Discount
+
+                objMRNDetail.Item_Insurance_Base_Amt = objGRNDetail.Item_Insurance_Base_Amt
+                objMRNDetail.Item_Insurance_Apply_On = objGRNDetail.Item_Insurance_Apply_On
+                objMRNDetail.Item_Insurance_Rate = objGRNDetail.Item_Insurance_Rate
+                objMRNDetail.Item_Insurance_Amt = objGRNDetail.Item_Insurance_Amt
+                objMRNDetail.Item_Amt_After_Insurance = objGRNDetail.Item_Amt_After_Insurance
+
+
+                objMRNDetail.Taxable_Amount = objGRNDetail.Taxable_Amount
+                objMRNDetail.Taxable_Amount_Per = objGRNDetail.Taxable_Amount_Per
+                objMRNDetail.TAX1 = objGRNDetail.TAX1
+                objMRNDetail.TAX1_Base_Amt = objGRNDetail.TAX1_Base_Amt
+                objMRNDetail.TAX1_Rate = objGRNDetail.TAX1_Rate
+                objMRNDetail.TAX1_Amt = objGRNDetail.TAX1_Amt
+                objMRNDetail.TAX2 = objGRNDetail.TAX2
+                objMRNDetail.TAX2_Base_Amt = objGRNDetail.TAX2_Base_Amt
+                objMRNDetail.TAX2_Rate = objGRNDetail.TAX2_Rate
+                objMRNDetail.TAX2_Amt = objGRNDetail.TAX2_Amt
+                objMRNDetail.TAX3 = objGRNDetail.TAX3
+                objMRNDetail.TAX3_Base_Amt = objGRNDetail.TAX3_Base_Amt
+                objMRNDetail.TAX3_Rate = objGRNDetail.TAX3_Rate
+                objMRNDetail.TAX3_Amt = objGRNDetail.TAX3_Amt
+                objMRNDetail.TAX4 = objGRNDetail.TAX4
+                objMRNDetail.TAX4_Base_Amt = objGRNDetail.TAX4_Base_Amt
+                objMRNDetail.TAX4_Rate = objGRNDetail.TAX4_Rate
+                objMRNDetail.TAX4_Amt = objGRNDetail.TAX4_Amt
+                objMRNDetail.TAX5 = objGRNDetail.TAX5
+                objMRNDetail.TAX5_Base_Amt = objGRNDetail.TAX5_Base_Amt
+                objMRNDetail.TAX5_Rate = objGRNDetail.TAX5_Rate
+                objMRNDetail.TAX5_Amt = objGRNDetail.TAX5_Amt
+                objMRNDetail.TAX6 = objGRNDetail.TAX6
+                objMRNDetail.TAX6_Base_Amt = objGRNDetail.TAX6_Base_Amt
+                objMRNDetail.TAX6_Rate = objGRNDetail.TAX6_Rate
+                objMRNDetail.TAX6_Amt = objGRNDetail.TAX6_Amt
+                objMRNDetail.TAX7 = objGRNDetail.TAX7
+                objMRNDetail.TAX7_Base_Amt = objGRNDetail.TAX7_Base_Amt
+                objMRNDetail.TAX7_Rate = objGRNDetail.TAX7_Rate
+                objMRNDetail.TAX7_Amt = objGRNDetail.TAX7_Amt
+                objMRNDetail.TAX8 = objGRNDetail.TAX8
+                objMRNDetail.TAX8_Base_Amt = objGRNDetail.TAX8_Base_Amt
+                objMRNDetail.TAX8_Rate = objGRNDetail.TAX8_Rate
+                objMRNDetail.TAX8_Amt = objGRNDetail.TAX8_Amt
+                objMRNDetail.TAX9 = objGRNDetail.TAX9
+                objMRNDetail.TAX9_Base_Amt = objGRNDetail.TAX9_Base_Amt
+                objMRNDetail.TAX9_Rate = objGRNDetail.TAX9_Rate
+                objMRNDetail.TAX9_Amt = objGRNDetail.TAX9_Amt
+                objMRNDetail.TAX10 = objGRNDetail.TAX10
+                objMRNDetail.TAX10_Base_Amt = objGRNDetail.TAX10_Base_Amt
+                objMRNDetail.TAX10_Rate = objGRNDetail.TAX10_Rate
+                objMRNDetail.TAX10_Amt = objGRNDetail.TAX10_Amt
+                objMRNDetail.Total_Tax_Amt = objGRNDetail.Total_Tax_Amt
+                objMRNDetail.Item_Net_Amt = objGRNDetail.Item_Net_Amt
+                objMRNDetail.Location = objGRNDetail.Location
+
+                objMRNDetail.MRP = objGRNDetail.MRP
+                objMRNDetail.Batch_No = objGRNDetail.Batch_No
+
+                objMRNDetail.Specification = objGRNDetail.Specification
+                objMRNDetail.Remarks = objGRNDetail.Remarks
+
+                If clsCommon.myLen(objGRNDetail.Expiry_Date) > 0 Then
+                    objMRNDetail.Expiry_Date = objGRNDetail.Expiry_Date
+                End If
+                If clsCommon.myLen(objGRNDetail.MFG_Date) > 0 Then
+                    objMRNDetail.MFG_Date = objGRNDetail.MFG_Date
+                End If
+                objMRNDetail.Leak_Qty = objGRNDetail.Leak_Qty
+                objMRNDetail.Burst_Qty = objGRNDetail.Burst_Qty
+                objMRNDetail.Short_Qty = objGRNDetail.Short_Qty
+                objMRNDetail.Balance_Qty = objGRNDetail.GRN_Qty + objGRNDetail.Leak_Qty + objGRNDetail.Burst_Qty + objGRNDetail.Short_Qty
+
+
+                ''-----------------19/10/2016---------additional charge itemwise------------------------------------------
+                objMRNDetail.ItemAdd_Charge_Code1 = objGRNDetail.ItemAdd_Charge_Code1
+                objMRNDetail.ItemAdd_Charge_Code2 = objGRNDetail.ItemAdd_Charge_Code2
+                objMRNDetail.ItemAdd_Charge_Code3 = objGRNDetail.ItemAdd_Charge_Code3
+                objMRNDetail.ItemAdd_Charge_Code4 = objGRNDetail.ItemAdd_Charge_Code4
+                objMRNDetail.ItemAdd_Charge_Code5 = objGRNDetail.ItemAdd_Charge_Code5
+                objMRNDetail.ItemAdd_Charge_Code6 = objGRNDetail.ItemAdd_Charge_Code6
+                objMRNDetail.ItemAdd_Charge_Code7 = objGRNDetail.ItemAdd_Charge_Code7
+                objMRNDetail.ItemAdd_Charge_Code8 = objGRNDetail.ItemAdd_Charge_Code8
+                objMRNDetail.ItemAdd_Charge_Code9 = objGRNDetail.ItemAdd_Charge_Code9
+                objMRNDetail.ItemAdd_Charge_Code10 = objGRNDetail.ItemAdd_Charge_Code10
+                objMRNDetail.ItemAdd_Calc_Charge_Amt1 = objGRNDetail.ItemAdd_Calc_Charge_Amt1
+                objMRNDetail.ItemAdd_Calc_Charge_Amt2 = objGRNDetail.ItemAdd_Calc_Charge_Amt2
+                objMRNDetail.ItemAdd_Calc_Charge_Amt3 = objGRNDetail.ItemAdd_Calc_Charge_Amt3
+                objMRNDetail.ItemAdd_Calc_Charge_Amt4 = objGRNDetail.ItemAdd_Calc_Charge_Amt4
+                objMRNDetail.ItemAdd_Calc_Charge_Amt5 = objGRNDetail.ItemAdd_Calc_Charge_Amt5
+                objMRNDetail.ItemAdd_Calc_Charge_Amt6 = objGRNDetail.ItemAdd_Calc_Charge_Amt6
+                objMRNDetail.ItemAdd_Calc_Charge_Amt7 = objGRNDetail.ItemAdd_Calc_Charge_Amt7
+                objMRNDetail.ItemAdd_Calc_Charge_Amt8 = objGRNDetail.ItemAdd_Calc_Charge_Amt8
+                objMRNDetail.ItemAdd_Calc_Charge_Amt9 = objGRNDetail.ItemAdd_Calc_Charge_Amt9
+                objMRNDetail.ItemAdd_Calc_Charge_Amt10 = objGRNDetail.ItemAdd_Calc_Charge_Amt10
+                objMRNDetail.ItemAdd_Org_Charge_Amt1 = objGRNDetail.ItemAdd_Org_Charge_Amt1
+                objMRNDetail.ItemAdd_Org_Charge_Amt2 = objGRNDetail.ItemAdd_Org_Charge_Amt2
+                objMRNDetail.ItemAdd_Org_Charge_Amt3 = objGRNDetail.ItemAdd_Org_Charge_Amt3
+                objMRNDetail.ItemAdd_Org_Charge_Amt4 = objGRNDetail.ItemAdd_Org_Charge_Amt4
+                objMRNDetail.ItemAdd_Org_Charge_Amt5 = objGRNDetail.ItemAdd_Org_Charge_Amt5
+                objMRNDetail.ItemAdd_Org_Charge_Amt6 = objGRNDetail.ItemAdd_Org_Charge_Amt6
+                objMRNDetail.ItemAdd_Org_Charge_Amt7 = objGRNDetail.ItemAdd_Org_Charge_Amt7
+                objMRNDetail.ItemAdd_Org_Charge_Amt8 = objGRNDetail.ItemAdd_Org_Charge_Amt8
+                objMRNDetail.ItemAdd_Org_Charge_Amt9 = objGRNDetail.ItemAdd_Org_Charge_Amt9
+                objMRNDetail.ItemAdd_Org_Charge_Amt10 = objGRNDetail.ItemAdd_Org_Charge_Amt10
+                objMRNDetail.Total_ItemAdd_Charge = objGRNDetail.Total_ItemAdd_Charge
+                ''=======================================================================================
+                objMRNDetail.Against_Item_Wise_Tax_Rate = objGRNDetail.Against_Item_Wise_Tax_Rate
+                If clsCommon.myLen(obj.GRNo) > 0 Then
+                    obj.Against_RGP_No = objGRNDetail.Against_RGP_No
+                End If
+                objMRNDetail.Insurance_Base_Amt = objGRNDetail.Insurance_Base_Amt
+                objMRNDetail.Insurance_Per = objGRNDetail.Insurance_Per
+
+                If (clsCommon.myLen(objMRNDetail.Item_Code) > 0) Then
+                    objMRNHead.Arr.Add(objMRNDetail)
+                End If
+
+            Next
+
+            '' CurrencConversion
+            ''  If clsModuleCurrencyMapping.CheckMultiCurrency(Me.Module_Code) = True Then
+            objMRNHead.CURRENCY_CODE = obj.CURRENCY_CODE
+            objMRNHead.ConvRate = obj.ConvRate
+            If clsCommon.myLen(obj.ApplicableFrom) > 0 Then
+                objMRNHead.ApplicableFrom = obj.ApplicableFrom
+            Else
+                objMRNHead.ApplicableFrom = Nothing
+            End If
+
+            'Else
+            '    objMRNHead.CURRENCY_CODE = Nothing
+            '    objMRNHead.ConvRate = 1
+            '    objMRNHead.ApplicableFrom = Nothing
+            'End If
+            objMRNHead.Arr_ACInsurance = New List(Of clsMRNAdditionChargeInsurance)
+            If objMRNHead.Arr_ACInsurance Is Nothing Then
+                For Each objtr As clsGRNAdditionChargeInsurance In obj.Arr_ACInsurance
+                    Dim objMRNAddInsuance As New clsMRNAdditionChargeInsurance()
+                    objMRNAddInsuance.AC_Code = objtr.AC_Code
+                    objMRNAddInsuance.Amount = objtr.Amount
+                    If clsCommon.myLen(objtr.AC_Code) > 0 Then
+                        obj.Arr_ACInsurance.Add(objtr)
+                    End If
+                Next
+            End If
+
+            Dim isamendment As Boolean = False
+            Dim isNewEntry As Boolean = True
+            If (objMRNHead.SaveData(objMRNHead, isNewEntry, trans, isamendment)) Then
+                clsMRNHead.PostData(objMRNHead.MRN_No, trans)
+            End If
+        Catch ex As Exception
+
+        End Try
+        Return True
+    End Function
+    Public Shared Function DeleteMRN(ByVal strCode As String, ByVal trans As SqlTransaction)
+        Try
+            Dim DocNo As String = clsDBFuncationality.getSingleValue("select MRN_No from TSPL_MRN_HEAD where Against_GRN='" & strCode & "'", trans)
+            If clsCommon.myLen(DocNo) > 0 Then
+                clsMRNHead.ReverseAndUnpost(DocNo, trans)
+                clsMRNHead.DeleteData(DocNo, trans)
+            End If
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -1345,32 +1710,37 @@ Public Class clsGRNHead
 
     Public Shared Function ReverseAndUnpost(ByVal strCode As String, ByVal trans As SqlTransaction) As Boolean
         Try
+            Dim Is_Auto_Generate_MRN As Boolean = False
+            Is_Auto_Generate_MRN = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AutoGenerateMRN, clsFixedParameterCode.AutoGenerateMRN, trans)) = "1", True, False))
+
             Dim qry As String = "select 1 from TSPL_GRN_HEAD where GRN_No='" + strCode + "' and Status=1"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Throw New Exception("Transaction status should be posted.")
             End If
-            qry = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + strCode + "'"
-            dt = clsDBFuncationality.GetDataTable(qry, trans)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                qry = "GRN is used in following MRN"
-                For Each dr As DataRow In dt.Rows
-                    qry += Environment.NewLine + clsCommon.myCstr(dr("MRN_No"))
-                Next
-                qry += Environment.NewLine + "Can't unpost it"
-                Throw New Exception(qry)
-            End If
+            If Not Is_Auto_Generate_MRN Then
+                qry = "select distinct MRN_No from TSPL_MRN_DETAIL where GRN_Id ='" + strCode + "'"
+                dt = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    qry = "GRN is used in following MRN"
+                    For Each dr As DataRow In dt.Rows
+                        qry += Environment.NewLine + clsCommon.myCstr(dr("MRN_No"))
+                    Next
+                    qry += Environment.NewLine + "Can't unpost it"
+                    Throw New Exception(qry)
+                End If
 
-            'PO Weighment check
-            qry = "select distinct Weighment_Code from TSPL_PO_WEIGHTMENT_HEAD where TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No ='" + strCode + "'"
-            dt = clsDBFuncationality.GetDataTable(qry, trans)
-            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                qry = "GRN is used in following Weighment"
-                For Each dr As DataRow In dt.Rows
-                    qry += Environment.NewLine + clsCommon.myCstr(dr("Weighment_Code"))
-                Next
-                qry += Environment.NewLine + "Can't update it"
-                Throw New Exception(qry)
+                'PO Weighment check
+                qry = "select distinct Weighment_Code from TSPL_PO_WEIGHTMENT_HEAD where TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No ='" + strCode + "'"
+                dt = clsDBFuncationality.GetDataTable(qry, trans)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    qry = "GRN is used in following Weighment"
+                    For Each dr As DataRow In dt.Rows
+                        qry += Environment.NewLine + clsCommon.myCstr(dr("Weighment_Code"))
+                    Next
+                    qry += Environment.NewLine + "Can't update it"
+                    Throw New Exception(qry)
+                End If
             End If
 
 
@@ -1391,6 +1761,10 @@ Public Class clsGRNHead
             End If
             qry = "delete from TSPL_RGP_BOM_DETAIL where grn_no='" + strCode + "' and isnull(srn_no,'')=''"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            If Is_Auto_Generate_MRN Then
+                DeleteMRN(strCode,trans)
+            End If
 
             qry = "update TSPL_GRN_HEAD set Status=0,Posting_Date=null where GRN_No='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
@@ -1469,6 +1843,8 @@ Public Class clsGRNDetail
     Public Header_Discount_Per As Decimal = 0
     Public Header_Discount_Amount As Decimal = 0
     Public Disc_Per As Double = 0
+    Public Disc_Per_Unit As Decimal = 0
+    Public Disc_Amt_Per_Unit As Decimal = 0
     Public Detail_Discount_Amount As Decimal = 0
     Public Disc_Amt As Double = 0
     Public Amt_Less_Discount As Double = 0
@@ -1569,6 +1945,8 @@ Public Class clsGRNDetail
                 clsCommon.AddColumnsForChange(coll, "Header_Discount_Amount", obj.Header_Discount_Amount)
                 clsCommon.AddColumnsForChange(coll, "Disc_Per", obj.Disc_Per)
                 clsCommon.AddColumnsForChange(coll, "Detail_Discount_Amount", obj.Detail_Discount_Amount)
+                clsCommon.AddColumnsForChange(coll, "Disc_Per_Unit", obj.Disc_Per_Unit)
+                clsCommon.AddColumnsForChange(coll, "Disc_Amt_Per_Unit", obj.Disc_Amt_Per_Unit)
                 clsCommon.AddColumnsForChange(coll, "Disc_Amt", obj.Disc_Amt)
                 clsCommon.AddColumnsForChange(coll, "Amt_Less_Discount", obj.Amt_Less_Discount)
                 clsCommon.AddColumnsForChange(coll, "Taxable_Amount_Per", obj.Taxable_Amount_Per)

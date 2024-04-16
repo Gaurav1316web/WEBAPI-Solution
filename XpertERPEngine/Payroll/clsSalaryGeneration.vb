@@ -5018,7 +5018,7 @@ Public Class clsSalaryGeneration
        "( " +
 "(CASE WHEN PF_MAX_LIM >0 THEN " +
 "(CASE WHEN IS_PF_ATTN_ENABLE = 0 THEN (CASE WHEN (case when PAYABLE_DAYS=0 then 0 else   HEAD_VALUE end  ) > PF_MAX_LIM THEN " + Environment.NewLine +
-" (PF_MAX_LIM  )" + Environment.NewLine +
+" ((Isnull(HEAD_VALUE,0)+IsNull(ACTUAL_AMOUNT,0))  )" + Environment.NewLine +
 " ELSE (case when PAYABLE_DAYS=0 then 0 else HEAD_VALUE end) End )" +
 "ELSE " +
 "(CASE WHEN HEAD_VALUE > PF_MAX_LIM THEN ((PF_MAX_LIM  )) ELSE ( (HEAD_VALUE))End)End)" +

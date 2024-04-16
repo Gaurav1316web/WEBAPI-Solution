@@ -395,7 +395,7 @@ select State_Code from TSPL_VENDOR_MASTER where Vendor_Code='" + objTender.Arr(i
                     obj.Description = objTender.Arr(ii).Remarks
 
 
-                    obj.GSTRegistered = False
+                    obj.GSTRegistered = IIf(clsVendorMaster.IsGSTRegisteredVendor(obj.Vendor_Code, trans), 1, 0)
                     obj.PurchaseOrder_Type = "L"
                     'obj.PROJECT_ID = fndProject.Value
                     obj.MCC_Purchase = 0

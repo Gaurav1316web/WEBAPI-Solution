@@ -172,6 +172,7 @@ Public Class FrmPaymentProcess
     Private PayableAmountZeroForMCCSale As Boolean = False
     Dim isPickPendingMilkSRNinNextPaymentCycle As Boolean = False
     Dim AreaWiseBilling As Boolean = False
+    Dim PaymentProcessInHindi As Boolean = False
     Dim IsRoundOffPaiseAmount As Boolean
     Dim settingShowFATSNF As Boolean = False
     Dim SettShowMCCFinder As Boolean = False
@@ -199,6 +200,8 @@ Public Class FrmPaymentProcess
         AreaWiseBilling = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, Nothing)) = 1)
         Label1.Visible = AreaWiseBilling
         fndArea.Visible = AreaWiseBilling
+        PaymentProcessInHindi = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, Nothing)) = 1)
+        btnPrintHindi.Visible = PaymentProcessInHindi
         Reset()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D To Delete ")
@@ -3126,7 +3129,7 @@ left outer join  TSPL_CUSTOMER_VENDOR_MAPPING on TSPL_CUSTOMER_VENDOR_MAPPING.Cu
 inner join TSPL_Customer_Invoice_Head on  TSPL_Customer_Invoice_Head.Against_Sale_No=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No  and coalesce(TSPL_Customer_Invoice_Head.Against_Sale_No,'')<>''   
 left outer join TSPL_VENDOR_MASTER   on  TSPL_VENDOR_MASTER .Vendor_code  =TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code   
 left outer join TSPL_SD_SALE_INVOICE_HEAD on TSPL_SD_SALE_INVOICE_HEAD.Document_Code=TSPL_SD_SHIPMENT_HEAD.Sale_Invoice_No    
-where TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and " & IIf(chkSkipPrevMccSale.Checked, " convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'") + " and tspl_customer_invoice_head.Balance_Amt<>0 "
+where  isnull(TSPL_SD_SHIPMENT_HEAD.Is_CashSale,'N')='N' and TSPL_SD_SHIPMENT_HEAD.Trans_Type='MCC' and " & IIf(chkSkipPrevMccSale.Checked, " convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) between '" & clsCommon.GetPrintDate(dtpFromDate.Value, "dd/MMM/yyyy") & "' and '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'", " convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103) <= '" & clsCommon.GetPrintDate(dtpToDate.Value, "dd/MMM/yyyy") & "'") + " and tspl_customer_invoice_head.Balance_Amt<>0 "
             If clsCommon.myLen(strVendorCode) > 0 Then
                 qry += " and TSPL_CUSTOMER_VENDOR_MAPPING.vendor_code  in (  " & strVendorCode & " )"
             End If
@@ -8686,5 +8689,26 @@ where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndDocNo.Value + "' and TSPL_MILK_
 
     Private Sub SetPaymentProcessHoldSaving(ii As Integer)
         gv.Rows(ii).Cells(colIsPaymentProcessHoldSaving).Value = (clsCommon.myCBool(gv.Rows(ii).Cells(colIsPaymentProcessHoldSavingAuto).Value) OrElse clsCommon.myCBool(gv.Rows(ii).Cells(colIsPaymentProcessHoldSavingManual).Value))
+    End Sub
+
+    Private Sub btnPrintHindi_Click(sender As Object, e As EventArgs) Handles btnPrintHindi.Click
+        Try
+            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDL") = CompairStringResult.Equal Then
+                Load_Report_Paymnet_UDL()
+            ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Then
+                Load_Report_Paymnet_BHAD()
+            ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHBA") = CompairStringResult.Equal Then
+                Load_Report_Paymnet_BHBA()
+            ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UCDF") = CompairStringResult.Equal Then
+                Load_Report_Paymnet_UCDF()
+            ElseIf clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "RCDF") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+                'Load_Report_Paymnet_RCDF()
+                clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + fndDocNo.Value + "'", dtpFromDate.Text, dtpToDate.Text, "", clsCommon.GetMulcallString(txtVSP.arrValueMember), "", "", "", False)
+            Else
+                Load_Report(Nothing, Nothing, Nothing, Nothing, False, True)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class
