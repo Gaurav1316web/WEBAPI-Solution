@@ -1527,10 +1527,9 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
     End Sub
     Public Sub SelectMilkSRNItemsForVspPayment(ByVal strMCCCode As String, ByVal strSRN_No As List(Of String), ByVal Vsp_Name As String, ByVal frm_date As Date, ByVal End_date As Date, ByVal Is_With_Bill As Boolean, ByVal trans As SqlTransaction, ByVal Formcode As String, ByVal IsRoundOffPaiseAmount As Boolean, ByVal CompanyVSPDeduction As Decimal, ByVal NonCompanyVSPDeduction As Decimal, ByVal settDoNotIncludeIncentiveInMilkPurchaseInvoice As Boolean)
         Dim isPickPendingMilkSRNinNextPaymentCycle As Boolean = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, trans)) = 1
-        Dim qry As String = "select distinct CAST(0 as bit) as Sel,code,Final.DOC_DATE,ICode,Final.MCC_code,Final.VLC_Code,VLC_Name,Vendor,Final.Vendor_Name,max(IName) as IName 
-,Unit ,Qty as POQty,Acc_Qty, SUM(Qty* case when RI=-1 then 1 else 0 end)  as GRNQty
-,SUM(Unapproved) as UnapprovedQty,SUM((Qty *RI)- Unapproved) as PedningQty ,MAX(Rate) as Rate,MAX(Vendor) as Vendor,MAX(TSPL_VENDOR_MASTER.Vendor_Name) as VendorName 
-,0 as Assessable,max(Amount) as Amount,max(Service_Charge_Amount) as Service_Charge_Amount,FAT_PER,SNF_PER,CLR,cans,Route_Code,route_name,Final.VEHICLE_CODE,Vehicle_Name,Correction_factor,Final.shift,Service_Charge_Type,Case when Nature='C' then Actual_charges end as  Commission, Case when Nature='E' then Actual_charges end as Payment_Commission,Head_Load_Amount as Head_Load_Amount,Own_Asset_Amount as Own_Asset_Amount,max( EMP_Amount) as EMP_Amount from ( 
+        Dim qry As String = "select distinct CAST(0 as bit) as Sel,code,Final.DOC_DATE,ICode,Final.MCC_code,Final.VLC_Code,VLC_Name,Vendor,Final.Vendor_Name,IName 
+,Unit ,Qty as POQty,Acc_Qty, (Qty* case when RI=-1 then 1 else 0 end)  as GRNQty
+,(Unapproved) as UnapprovedQty, ((Qty *RI)- Unapproved) as PedningQty , (Rate) as Rate, (Vendor) as Vendor, (TSPL_VENDOR_MASTER.Vendor_Name) as VendorName,0 as Assessable, (Amount) as Amount, (Service_Charge_Amount) as Service_Charge_Amount,FAT_PER,SNF_PER,CLR,cans,Route_Code,route_name,Final.VEHICLE_CODE,Vehicle_Name,Correction_factor,Final.shift,Service_Charge_Type,Case when Nature='C' then Actual_charges end as  Commission, Case when Nature='E' then Actual_charges end as Payment_Commission,Head_Load_Amount as Head_Load_Amount,Own_Asset_Amount as Own_Asset_Amount, ( EMP_Amount) as EMP_Amount from (  
 select  distinct  TSPL_MILK_SRN_DETAIL.DOC_CODE as Code,TSPL_MILK_SRN_DETAIL.Head_Load_Amount,TSPL_MILK_SRN_DETAIL.Own_Asset_Amount,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_HEAD.MCC_code,TSPL_VLC_MASTER_HEAD.VLC_CODE,vlc_name,TSPL_MILK_SRN_HEAD.VSP_CODE as Vendor,Vendor_name,TSPL_MILK_SRN_DETAIL.Item_Code as ICode,Item_Desc as IName,TSPL_MILK_SRN_DETAIL.Qty  as Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty  as ACC_Qty,0 as Unapproved,tspl_milk_receipt_Detail.Uom_Code as Unit,1 as RI,TSPL_MILK_SRN_DETAIL.RATE as Rate,1 as Chk,TSPL_MILK_SRN_DETAIL.Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,NO_OF_CANS as cans,TSPL_MILK_SAMPLE_DETAIL.CLR,TSPL_MILK_SRN_HEAD.Route_Code,route_name,TSPL_MILK_SRN_HEAD.VEHICLE_CODE,TSPL_VEHICLE_MASTER.Vehicle_Name,tspl_Milk_Srn_Detail.Correction_factor,case when TSPL_MILK_SRN_HEAD.SHIFT='M' then 'Morning' else 'Evening' end as shift,TSPL_MILK_SRN_DETAIL.emp_amount 
 from TSPL_MILK_SRN_DETAIL 
 left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE =TSPL_MILK_SRN_DETAIL.DOC_CODE  
@@ -1557,9 +1556,8 @@ where  TSPL_MILK_SRN_HEAD.Posted=1  and TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Co
         If clsCommon.myLen(Vsp_Name) > 0 Then
             qry += " and TSPL_MILK_SRN_HEAD.VSP_Code='" + Vsp_Name + "'"
         End If
-        qry += " )Final Left join tspl_milk_Shift_End_Detail sed on sed.mcc_Code=Final.MCC_CODE and convert(date,sed.DOC_DATE,103)=convert(date,Final.DOC_DATE,103) and sed.SHIFT=Final.shift left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=final.Vendor  
-group by Code,Final.DOC_DATE,Final.MCC_code,ICode,Unit,Final.VLC_Code,VLC_Name,Final.Vendor,Final.Vendor_Name,FAT_PER,SNF_PER,CLR,cans,Correction_factor,Route_Code,route_name,Final.VEHICLE_CODE,Vehicle_Name,Final.shift,commision_pers, payment_commision_pers,Nature,Actual_charges,Qty,Service_Charge_Type,Acc_Qty,Head_Load_Amount,Own_Asset_Amount  
-having SUM(Chk)>0 and   (SUM(Qty*RI) <>0 or (SUM(Qty*RI)=0  and (SUM((Qty *RI)- Unapproved)<>0 ))) order by Code "
+        qry += " )  Final 
+Left join tspl_milk_Shift_End_Detail sed on sed.mcc_Code=Final.MCC_CODE and convert(date,sed.DOC_DATE,103)=convert(date,Final.DOC_DATE,103) and sed.SHIFT=Final.shift left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=final.Vendor   order by Code   "
         Dim dtPendingSRN = clsDBFuncationality.GetDataTable(qry, trans)
         Dim obj_SRN As New clsMilkSRNMCC
         If dtPendingSRN IsNot Nothing AndAlso dtPendingSRN.Rows.Count > 0 Then

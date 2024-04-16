@@ -1328,6 +1328,7 @@ Public Class clsFixedParameterType
     Public Const FORPRICE = "FOR Price"
     Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
     Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
+    Public Const ChangeInventroyMovemnet = "Inventroy Movement from Dispath/Gatepass"
 
 End Class
 Public Class clsFixedParameterCode
@@ -2792,7 +2793,7 @@ Public Class clsFixedParameterCode
     Public Const FORPRICE = "FOR Price"
     Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
     Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
-
+    Public Const ChangeInventroyMovemnet = "Inventroy Movement from Dispath/Gatepass"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -4531,6 +4532,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, "0", "Enter Weight in KG ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, "0", "0:Dispatch, 1:Gatepass;")
 
 
 
@@ -6583,6 +6585,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, EnumControlType.CheckBox)
 
     End Sub
 End Class

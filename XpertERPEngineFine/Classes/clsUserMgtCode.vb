@@ -2,6 +2,7 @@
 Public Class clsUserMgtCode
 
     'Public Const FrmReceiptInvoiceMapping As String = "REC-INV-MAP"
+    Public Const frmActiveInactiveEmpRegister As String = "ACT-INACT"
     Public Const frmPOBulkProc As String = "PO-BULK-P"
     Public Const frmDBTNEFTUnionReport As String = "UNION-RPT"
     Public Const rptDBTNEFTPaymentDetailReport As String = "DBT-PAY-DET"
