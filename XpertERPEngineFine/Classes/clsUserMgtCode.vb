@@ -2,6 +2,7 @@
 Public Class clsUserMgtCode
 
     'Public Const FrmReceiptInvoiceMapping As String = "REC-INV-MAP"
+    Public Const frmActiveInactiveEmpRegister As String = "ACT-INACT"
     Public Const frmPOBulkProc As String = "PO-BULK-P"
     Public Const frmDBTNEFTUnionReport As String = "UNION-RPT"
     Public Const rptDBTNEFTPaymentDetailReport As String = "DBT-PAY-DET"
@@ -2530,6 +2531,7 @@ Public Class clsUserMgtCode
     Public Const AuditTrailJobWorkInward As String = "ADIT_JWINW"
     Public Const AuditTrailElectrical As String = "ADIT_ELTICL"
     Public Const rptProductionStatusReport As String = "PRO_STS_RPT"
+    Public Const rptProductionStandardization As String = "PRO_SDZ_RPT"
     Public Const frmProductionUtilityCost As String = "PRO_UC_RPT"
     Public Const VehicleMasterForDairySale As String = "VM_DS"
     Public Const frmDistributorCommission As String = "Dis-COM-MST"

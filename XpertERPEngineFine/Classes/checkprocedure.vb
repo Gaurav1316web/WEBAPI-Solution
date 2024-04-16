@@ -1051,6 +1051,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptLoanStatement, "Loan Statement", "1.11.03.16", clsUserMgtCode.SubModuleHRReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmSalaryGenerationRegisterArrear, "Arrear Register", "1.11.03.17", clsUserMgtCode.SubModuleHRReport, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailHRAndPayroll, "HR And Payroll Audit Trail Report", "1.11.03.18", clsUserMgtCode.SubModuleHRReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmActiveInactiveEmpRegister, "Employee Active/Inactive Report", "1.11.03.19", clsUserMgtCode.SubModuleHRReport, 37)
 
         'Monthly Reports
         InsertDefaultValue(clsUserMgtCode.SubModuleHRMonthlyReport, "Monthly Report", "1.11.04", clsUserMgtCode.ModuleHR, "SM", 30)
@@ -1328,6 +1329,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptTankerStatusReport, "Tanker Status Report", "1.29.03.27", clsUserMgtCode.SubModuleProductionReportDairy, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailMilkProcurementBulk, "Milk Procurement Bulk Audit Trail Report", "1.29.03.28", clsUserMgtCode.SubModuleProductionReportDairy, 37)
         InsertDefaultValue(clsUserMgtCode.RptTotalMilkProcurement, "Total Milk Procurement Report", "1.29.03.29", clsUserMgtCode.SubModuleProductionReportDairy, 37)
+        InsertDefaultValue(clsUserMgtCode.rptProductionStandardization, "Production Standardization Report", "1.29.03.30", clsUserMgtCode.SubModuleProductionReportDairy, 37)
 
 
 
