@@ -1892,8 +1892,10 @@ Public Class clsPSShipmentHead
                 'trans.Commit()
                 Return False
             End If
+            If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, trans)) = 0 Then
+                UpdateInventoryMovement(obj, trans, False, IsDairyModule)
 
-            UpdateInventoryMovement(obj, trans, False, IsDairyModule)
+            End If
             '===update by preeti gupta Against ticket no[BHA/22/06/18-000081][added Setting Only]
             CreateSMSContent(obj, strVoucherNoForRecreateOnly, trans)
 
@@ -3348,19 +3350,22 @@ Public Class clsPSShipmentHead
 
             'Qry = "delete from TSPL_INVENTORY_MOVEMENT_New where Source_Doc_No='" & strCode & "' and Trans_Type= 'PS-SH'"
             'clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+            If clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, trans)) = 0 Then
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_INVENTORY_MOVEMENT", "Source_Doc_No", trans)
+                clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "tspl_batch_item", "document_code", trans)
 
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "TSPL_INVENTORY_MOVEMENT", "Source_Doc_No", trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, strCode, "tspl_batch_item", "document_code", trans)
+                Qry = "update tspl_batch_item set against_inv_movement_trans_id=NULL where document_type='" + TransType_Str + "' and document_code='" + strCode + "'"
+                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
-            Qry = "update tspl_batch_item set against_inv_movement_trans_id=NULL where document_type='" + TransType_Str + "' and document_code='" + strCode + "'"
-            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & strCode & "' and Trans_Type= '" + TransType_Str + "'"
+                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
 
-            Qry = "delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & strCode & "' and Trans_Type= '" + TransType_Str + "'"
-            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                Qry = "delete from TSPL_INVENTORY_MOVEMENT_New where Source_Doc_No='" & strCode & "' and Trans_Type= '" + TransType_Str + "'"
+                clsDBFuncationality.ExecuteNonQuery(Qry, trans)
+                'sanjay
 
-            Qry = "delete from TSPL_INVENTORY_MOVEMENT_New where Source_Doc_No='" & strCode & "' and Trans_Type= '" + TransType_Str + "'"
-            clsDBFuncationality.ExecuteNonQuery(Qry, trans)
-            'sanjay
+            End If
+
 
             Dim VoucherNo As String = clsDBFuncationality.getSingleValue("select Voucher_No from TSPL_JOURNAL_MASTER where Source_Code='SD-SH' and Source_Doc_No='" + strCode + "'", trans)
             If clsCommon.myLen(VoucherNo) > 0 Then

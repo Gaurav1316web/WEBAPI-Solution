@@ -2212,6 +2212,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_Purchaseable", "Varchar(1) null")
             coll.Add("Is_AllowQC_ON_Purchase", "Varchar(1) null")
             coll.Add("Is_AllowQC_ON_Production", "Varchar(1) null")
+            coll.Add("FG_for_CF_RPT", "Varchar(1) null")
             coll.Add("Item_Image", "Varbinary(Max) null")
             coll.Add("CSA_TYPE", "VARCHAR(30) NOT NULL DEFAULT 'None'")
             coll.Add("Is_CrateType", "integer not NULL default 0")
