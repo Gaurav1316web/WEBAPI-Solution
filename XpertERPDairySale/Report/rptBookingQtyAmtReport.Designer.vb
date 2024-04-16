@@ -22,10 +22,10 @@ Partial Class rptBookingQtyAmtReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
@@ -33,6 +33,8 @@ Partial Class rptBookingQtyAmtReport
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.cboDocumentType = New Telerik.WinControls.UI.RadDropDownList()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.chkDistributor = New Telerik.WinControls.UI.RadCheckBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.txtItem = New common.UserControls.txtMultiSelectFinder()
@@ -67,8 +69,11 @@ Partial Class rptBookingQtyAmtReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnGo = New Telerik.WinControls.UI.RadButton()
         Me.btnReset = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.cboDocumentType = New Telerik.WinControls.UI.RadDropDownList()
+        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnBoths = New System.Windows.Forms.RadioButton()
+        Me.rbtnMilk = New System.Windows.Forms.RadioButton()
+        Me.rbtnproduct = New System.Windows.Forms.RadioButton()
+        Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -76,6 +81,8 @@ Partial Class rptBookingQtyAmtReport
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.cboDocumentType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel1.SuspendLayout()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -107,8 +114,9 @@ Partial Class rptBookingQtyAmtReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboDocumentType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox7.SuspendLayout()
+        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -151,6 +159,7 @@ Partial Class rptBookingQtyAmtReport
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton2)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadButton1)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadSplitExp)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
@@ -174,6 +183,7 @@ Partial Class rptBookingQtyAmtReport
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.RadGroupBox7)
         Me.RadPageViewPage1.Controls.Add(Me.cboDocumentType)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel4)
         Me.RadPageViewPage1.Controls.Add(Me.chkDistributor)
@@ -190,6 +200,33 @@ Partial Class rptBookingQtyAmtReport
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(671, 278)
         Me.RadPageViewPage1.Text = "Filters"
+        '
+        'cboDocumentType
+        '
+        Me.cboDocumentType.AutoCompleteDisplayMember = Nothing
+        Me.cboDocumentType.AutoCompleteValueMember = Nothing
+        Me.cboDocumentType.DropDownAnimationEnabled = True
+        Me.cboDocumentType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        RadListDataItem4.Text = "Both"
+        RadListDataItem5.Text = "Posted"
+        RadListDataItem6.Text = "UnPosted"
+        Me.cboDocumentType.Items.Add(RadListDataItem4)
+        Me.cboDocumentType.Items.Add(RadListDataItem5)
+        Me.cboDocumentType.Items.Add(RadListDataItem6)
+        Me.cboDocumentType.Location = New System.Drawing.Point(132, 94)
+        Me.cboDocumentType.Name = "cboDocumentType"
+        Me.cboDocumentType.Size = New System.Drawing.Size(137, 20)
+        Me.cboDocumentType.TabIndex = 430
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(19, 94)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(85, 18)
+        Me.MyLabel4.TabIndex = 402
+        Me.MyLabel4.Text = "Document Type"
         '
         'chkDistributor
         '
@@ -520,7 +557,8 @@ Partial Class rptBookingQtyAmtReport
         Me.Gv1.MasterTemplate.AllowAddNewRow = False
         Me.Gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.Gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.Gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.Gv1.MyStopExport = False
         Me.Gv1.Name = "Gv1"
         Me.Gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.Gv1.ShowHeaderCellButtons = True
@@ -531,7 +569,7 @@ Partial Class rptBookingQtyAmtReport
         '
         Me.RadButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadButton1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton1.Location = New System.Drawing.Point(267, 15)
+        Me.RadButton1.Location = New System.Drawing.Point(337, 15)
         Me.RadButton1.Name = "RadButton1"
         Me.RadButton1.Size = New System.Drawing.Size(232, 22)
         Me.RadButton1.TabIndex = 156
@@ -541,7 +579,7 @@ Partial Class rptBookingQtyAmtReport
         '
         Me.RadSplitExp.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.RadSplitExp.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmiExcel, Me.rmiPDF})
-        Me.RadSplitExp.Location = New System.Drawing.Point(166, 15)
+        Me.RadSplitExp.Location = New System.Drawing.Point(160, 15)
         Me.RadSplitExp.Name = "RadSplitExp"
         Me.RadSplitExp.Size = New System.Drawing.Size(95, 22)
         Me.RadSplitExp.TabIndex = 155
@@ -581,38 +619,65 @@ Partial Class rptBookingQtyAmtReport
         '
         Me.btnReset.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnReset.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnReset.Location = New System.Drawing.Point(88, 15)
+        Me.btnReset.Location = New System.Drawing.Point(87, 15)
         Me.btnReset.Name = "btnReset"
         Me.btnReset.Size = New System.Drawing.Size(71, 22)
         Me.btnReset.TabIndex = 152
         Me.btnReset.Text = "Reset"
         '
-        'MyLabel4
+        'RadGroupBox7
         '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(19, 94)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(85, 18)
-        Me.MyLabel4.TabIndex = 402
-        Me.MyLabel4.Text = "Document Type"
+        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.rbtnBoths)
+        Me.RadGroupBox7.Controls.Add(Me.rbtnMilk)
+        Me.RadGroupBox7.Controls.Add(Me.rbtnproduct)
+        Me.RadGroupBox7.HeaderText = ""
+        Me.RadGroupBox7.Location = New System.Drawing.Point(132, 120)
+        Me.RadGroupBox7.Name = "RadGroupBox7"
+        Me.RadGroupBox7.Size = New System.Drawing.Size(250, 26)
+        Me.RadGroupBox7.TabIndex = 440
         '
-        'cboDocumentType
+        'rbtnBoths
         '
-        Me.cboDocumentType.AutoCompleteDisplayMember = Nothing
-        Me.cboDocumentType.AutoCompleteValueMember = Nothing
-        Me.cboDocumentType.DropDownAnimationEnabled = True
-        Me.cboDocumentType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        RadListDataItem1.Text = "Both"
-        RadListDataItem2.Text = "Posted"
-        RadListDataItem3.Text = "UnPosted"
-        Me.cboDocumentType.Items.Add(RadListDataItem1)
-        Me.cboDocumentType.Items.Add(RadListDataItem2)
-        Me.cboDocumentType.Items.Add(RadListDataItem3)
-        Me.cboDocumentType.Location = New System.Drawing.Point(132, 94)
-        Me.cboDocumentType.Name = "cboDocumentType"
-        Me.cboDocumentType.Size = New System.Drawing.Size(137, 20)
-        Me.cboDocumentType.TabIndex = 430
+        Me.rbtnBoths.AutoSize = True
+        Me.rbtnBoths.Location = New System.Drawing.Point(186, 4)
+        Me.rbtnBoths.Name = "rbtnBoths"
+        Me.rbtnBoths.Size = New System.Drawing.Size(49, 17)
+        Me.rbtnBoths.TabIndex = 442
+        Me.rbtnBoths.Text = "Both"
+        Me.rbtnBoths.UseVisualStyleBackColor = True
+        '
+        'rbtnMilk
+        '
+        Me.rbtnMilk.AutoSize = True
+        Me.rbtnMilk.Checked = True
+        Me.rbtnMilk.Location = New System.Drawing.Point(5, 4)
+        Me.rbtnMilk.Name = "rbtnMilk"
+        Me.rbtnMilk.Size = New System.Drawing.Size(47, 17)
+        Me.rbtnMilk.TabIndex = 440
+        Me.rbtnMilk.TabStop = True
+        Me.rbtnMilk.Text = "Milk"
+        Me.rbtnMilk.UseVisualStyleBackColor = True
+        '
+        'rbtnproduct
+        '
+        Me.rbtnproduct.AutoSize = True
+        Me.rbtnproduct.Location = New System.Drawing.Point(83, 4)
+        Me.rbtnproduct.Name = "rbtnproduct"
+        Me.rbtnproduct.Size = New System.Drawing.Size(65, 17)
+        Me.rbtnproduct.TabIndex = 441
+        Me.rbtnproduct.Text = "Product"
+        Me.rbtnproduct.UseVisualStyleBackColor = True
+        '
+        'RadButton2
+        '
+        Me.RadButton2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton2.Location = New System.Drawing.Point(257, 15)
+        Me.RadButton2.Name = "RadButton2"
+        Me.RadButton2.Size = New System.Drawing.Size(78, 22)
+        Me.RadButton2.TabIndex = 157
+        Me.RadButton2.Text = "Print Notepad"
         '
         'rptBookingQtyAmtReport
         '
@@ -635,6 +700,8 @@ Partial Class rptBookingQtyAmtReport
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.cboDocumentType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkDistributor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
@@ -670,8 +737,10 @@ Partial Class rptBookingQtyAmtReport
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboDocumentType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox7.ResumeLayout(False)
+        Me.RadGroupBox7.PerformLayout()
+        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -720,5 +789,10 @@ Partial Class rptBookingQtyAmtReport
     Friend WithEvents chkDistributor As RadCheckBox
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents cboDocumentType As RadDropDownList
+    Friend WithEvents RadGroupBox7 As RadGroupBox
+    Friend WithEvents rbtnBoths As RadioButton
+    Friend WithEvents rbtnMilk As RadioButton
+    Friend WithEvents rbtnproduct As RadioButton
+    Friend WithEvents RadButton2 As RadButton
 End Class
 
