@@ -89,8 +89,8 @@ Public Class clsBulkSaleFreightCalculation
             obj.Document_Code = clsCommon.myCstr(dt.Rows(0)("Document_Code"))
             obj.Customer_Code = clsCommon.myCstr(dt.Rows(0)("Customer_Code"))
             obj.Document_date = clsCommon.myCDate(dt.Rows(0)("Document_date"))
-            obj.From_Date = clsCommon.myCDate(dt.Rows(0)("From_Date"))
-            obj.To_Date = clsCommon.myCDate(dt.Rows(0)("To_Date"))
+            obj.From_Date = clsCommon.myCDate(dt.Rows(0)("From Date"))
+            obj.To_Date = clsCommon.myCDate(dt.Rows(0)("To Date"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
 
             qry = "select *  from TSPL_BLK_FREIGHT_CALC_DETAIL where Document_Code='" + obj.Document_Code + "' order by SNo "
@@ -125,7 +125,7 @@ Public Class clsBulkSaleFreightCalculation
 
     Public Shared Function getFinder(ByVal strCode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim sql As String = "select Document_Code as DocumentNo ,convert(varchar(12),Start_Date,103) AS [Start Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'Posted' else 'Unposted' end as Posted from TSPL_BLK_FREIGHT_CALC_HEAD"
+        Dim sql As String = "select Document_Code as DocumentNo ,convert(varchar(12),From_Date,103) AS [From Date],convert(varchar(12),To_Date,103) AS [To Date],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'Posted' else 'Unposted' end as Posted from TSPL_BLK_FREIGHT_CALC_HEAD"
         str = clsCommon.ShowSelectForm("BulkSaleFreightMaster", sql, "DocumentNo", "", strCode, "DocumentNo", isButtonClicked)
         Return str
     End Function
@@ -243,12 +243,30 @@ Public Class clsBulkSaleFreightCalculation
 
 
         Catch ex As Exception
-
             Throw New Exception(ex.Message)
         End Try
         Return True
     End Function
-
+    Public Shared Function LoadDispatchAcknowledgeData(ByVal FromDate As String, ByVal ToDate As String, ByVal Customer As String) As DataTable
+        Dim dt As DataTable = New DataTable()
+        Try
+            Dim qry As String = ""
+            qry = "SELECT ROW_NUMBER() Over (Order By (Document_Date)) As SNo,  xx.Date,xx.Tanker_No,xx.Dispatch_No, xx.Qty, xx.Fat, xx.Snf,isnull(tab2.Tender_Qty,0)Tender_Qty,
+            isnull(tab2.Rate,0)Rate,isnull(tab2.Pro_Rate,0)Pro_Rate,isnull(tab2.DieselPetrol,0)DieselPetrol,isnull(tab2.Applicable_Rate,0)Applicable_Rate,isnull(tab2.GPS_KM,0)GPS_KM ,isnull(tab2.Payable_Amount,0)Payable_Amount
+            FROM ( SELECT  CONVERT(VARCHAR, TSPL_BULK_SALE_ACKNOWLEDGEMENT.Document_Date, 103) AS Date,TSPL_Dispatch_BulkSale.Tanker_Code AS Tanker_No,TSPL_Dispatch_BulkSale.Document_No AS Dispatch_No,
+            ISNULL(TSPL_BULK_SALE_ACKNOWLEDGEMENT.Qty, 0) AS Qty,ISNULL(TSPL_BULK_SALE_ACKNOWLEDGEMENT.FAT, 0) AS Fat,ISNULL(TSPL_BULK_SALE_ACKNOWLEDGEMENT.SNF, 0) AS Snf,TSPL_Dispatch_BulkSale.Customer_Code,TSPL_BULK_SALE_ACKNOWLEDGEMENT.Document_Date
+            FROM TSPL_BULK_SALE_ACKNOWLEDGEMENT LEFT OUTER JOIN TSPL_Dispatch_BulkSale ON TSPL_Dispatch_BulkSale.Document_No = TSPL_BULK_SALE_ACKNOWLEDGEMENT.Bulk_Dispatch_Document
+            LEFT OUTER JOIN TSPL_Dispatch_Detail_BulkSale ON TSPL_Dispatch_BulkSale.Document_No = TSPL_Dispatch_Detail_BulkSale.Document_No where TSPL_BULK_SALE_ACKNOWLEDGEMENT.Status = 1 ) AS xx
+            cross APPLY ( SELECT TOP 1 TSPL_BLK_FREIGHT_MASTER.Start_Date, TSPL_BLK_FREIGHT_detail.Tender_Qty,TSPL_BLK_FREIGHT_detail.Rate,TSPL_BLK_FREIGHT_detail.DieselPetrol, TSPL_BLK_FREIGHT_detail.Payable_Amount, TSPL_BLK_FREIGHT_detail.Applicable_Rate,
+            TSPL_BLK_FREIGHT_detail.Pro_Rate,TSPL_BLK_FREIGHT_detail.GPS_KM  FROM TSPL_BLK_FREIGHT_MASTER LEFT outer JOIN  TSPL_BLK_FREIGHT_detail ON TSPL_BLK_FREIGHT_detail.Document_Code = TSPL_BLK_FREIGHT_MASTER.Document_Code
+            WHERE TSPL_BLK_FREIGHT_MASTER.Status = 1 and TSPL_BLK_FREIGHT_MASTER.Customer_Code = xx.Customer_Code  AND TSPL_BLK_FREIGHT_MASTER.Start_Date <= xx.Document_Date ORDER BY TSPL_BLK_FREIGHT_MASTER.Start_Date DESC ) AS tab2
+            WHERE CONVERT(DATE, xx.Document_Date, 103) >=  CONVERT(DATE, '" & clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") & "', 103) AND  CONVERT(DATE, xx.Document_Date, 103) <= CONVERT(DATE, '" & clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") & "', 103) AND xx.Customer_Code = '" & Customer & "' "
+            dt = clsDBFuncationality.GetDataTable(qry)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return dt
+    End Function
 End Class
 
 Public Class clsBulkSaleFreightCalculationDetail
@@ -278,9 +296,9 @@ Public Class clsBulkSaleFreightCalculationDetail
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_Code", strCode)
                 clsCommon.AddColumnsForChange(coll, "SNO", obj.SNO)
-                clsCommon.AddColumnsForChange(coll, "Dispatch_Date", obj.Dispatch_Date)
-                clsCommon.AddColumnsForChange(coll, "Bulk_Dispatch_Tanker", obj.Dispatch_Date)
-                clsCommon.AddColumnsForChange(coll, "Bulk_Dispatch_Document", obj.Bulk_Dispatch_Tanker)
+                clsCommon.AddColumnsForChange(coll, "Dispatch_Date", clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MMM/yyyy"))
+                clsCommon.AddColumnsForChange(coll, "Bulk_Dispatch_Tanker", obj.Bulk_Dispatch_Tanker)
+                clsCommon.AddColumnsForChange(coll, "Bulk_Dispatch_Document", obj.Bulk_Dispatch_Document)
                 clsCommon.AddColumnsForChange(coll, "Ack_Qty", obj.Ack_Qty)
                 clsCommon.AddColumnsForChange(coll, "Ack_Fat", obj.Ack_Fat)
                 clsCommon.AddColumnsForChange(coll, "Ack_Snf", obj.Ack_Snf)

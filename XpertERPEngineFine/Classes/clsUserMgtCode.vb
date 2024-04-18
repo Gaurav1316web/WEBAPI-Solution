@@ -6,6 +6,7 @@ Public Class clsUserMgtCode
     Public Const frmPOBulkProc As String = "PO-BULK-P"
     Public Const frmDBTNEFTUnionReport As String = "UNION-RPT"
     Public Const rptDBTNEFTPaymentDetailReport As String = "DBT-PAY-DET"
+    Public Const rptExeVersionReport As String = "EXE-VER"
     Public Const frmDCSSavingLedger As String = "DCS-LGR-RPT"
     Public Const frmDBTStatusAndLastDPTStatus As String = "DBT-STATUS"
     Public Const frmDBTApprovalStatus As String = "DBT-APPRO"
@@ -292,6 +293,21 @@ Public Class clsUserMgtCode
 
     ''============ShareReport=======================
     Public Const SubModuleShareReport As String = "SMShareR"
+
+    ''==========BullManagementModule======
+    Public Const ModuleBullManagement As String = "MSBullMang"
+    Public Const SubModuleBullManagementSetup As String = "MSBullMangS"
+    ''===========BullManagementTransaction=================
+    Public Const SubModuleBullManagementTransaction As String = "MSBullMangT"
+    Public Const frmBullBreedMaster As String = "BULL-BR-M"
+    Public Const frmBullTestParameter As String = "BULL-TE-P"
+    Public Const frmBullParameterGroup As String = "BULL-PAR-G"
+    Public Const frmBullShedMaster As String = "BULL-SHE-M"
+    Public Const frmBullShedParameterMaster As String = "BULL-S-PA-M"
+    Public Const frmBullShedParameterGroup As String = "Bull-Sh-P-G"
+    ''============BullManagementReport=======================
+    Public Const SubModuleBullManagementReport As String = "MSBullMangR"
+
 
 
     ''richa 03/11/2014
@@ -2014,6 +2030,7 @@ Public Class clsUserMgtCode
     Public Const FarmerProMaster As String = "FRM_PRO_MST"
     Public Const CappingMaster As String = "CAP-Master"
     Public Const MPIncetiveSlab As String = "MP-INC-SLP"
+    Public Const ChillingChargesSlab As String = "CHL-CHR-SLB"
     Public Const FrmOwnBmcExpanse As String = "OWN-BMC-EXP"
     Public Const OwnBMCGainLossRate As String = "BMC-RATE"
     Public Const FreightChargesMaster As String = "FRE_CHG"

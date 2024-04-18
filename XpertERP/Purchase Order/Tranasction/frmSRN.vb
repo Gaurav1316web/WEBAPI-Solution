@@ -4333,9 +4333,11 @@ Public Class frmSRN
             RefreshGRPNo()
             CalculateInsuranceTotal(False)
             For ii As Integer = 0 To gv1.Rows.Count - 1
-                If PurchaseModulePickFixTaxRate AndAlso clsCommon.myLen(gv1.Rows(ii).Cells(colMRN_NO).Value) <= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then ''ERO/21/10/19-001071 by balwinder on 19/11/2019
-                    gv1.CurrentRow = gv1.Rows(ii)
-                    SetitemWiseTaxSetting(True, True)
+                If clsCommon.myLen(gv1.Rows(ii).Cells(colMRNNo).Value) > 0 Then
+                    If PurchaseModulePickFixTaxRate AndAlso clsCommon.myLen(gv1.Rows(ii).Cells(colMRN_NO).Value) <= 0 AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(ii).Cells(colRowType).Value), clsItemRowType.RowTypeItem) = CompairStringResult.Equal Then ''ERO/21/10/19-001071 by balwinder on 19/11/2019
+                        gv1.CurrentRow = gv1.Rows(ii)
+                        SetitemWiseTaxSetting(True, True)
+                    End If
                 End If
                 UpdateCurrentRow(ii)
             Next
@@ -6745,7 +6747,7 @@ Public Class frmSRN
         If is_Load_MRN Then
             qry += ",max(Against_MRN) as [Against MRN Code],max(against_grn) as [Against GRN Code] , max(TSPL_SRN_HEAD.VehicleNo) AS VehicleNO, max(TSPL_GRN_HEAD.GRN_Date) as GRN_date"
         Else
-            qry += ",max(TSPL_SRN_HEAD.Against_PO) as [Against PO Code], TSPL_PURCHASE_ORDER_HEAD.ReferencePO as [Reference PO]  "
+            qry += ",max(TSPL_SRN_HEAD.Against_PO) as [Against PO Code], max(TSPL_PURCHASE_ORDER_HEAD.ReferencePO) as [Reference PO]  "
         End If
         qry += " ,TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as TenderNo,max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code) as Weighment_Code,max(TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date) as Weighment_Date from TSPL_SRN_HEAD LEFT OUTER JOIN TSPL_VENDOR_MASTER ON TSPL_VENDOR_MASTER.Vendor_Code = TSPL_SRN_HEAD.Vendor_Code left join TSPL_USER_MASTER on TSPL_USER_MASTER.User_Code =TSPL_SRN_HEAD.Created_By  left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No = TSPL_SRN_HEAD.Against_PO left outer join TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_No=TSPL_SRN_HEAD.Against_GRN left outer join TSPL_QC_CHECK_HEAD On TSPL_QC_CHECK_HEAD.Document_Code=TSPL_SRN_HEAD.Against_QC_Code left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No  left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No
                and TSPL_SRN_DETAIL.Item_code Not In ('PM0002','PM0001')

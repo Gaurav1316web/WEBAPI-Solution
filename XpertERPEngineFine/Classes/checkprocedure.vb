@@ -1607,6 +1607,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DCSFinancialHead, "DCS Financial Head", "1.17.01.59", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.DCSSupervisorTagging, "DCS Supervisor Tagging", "1.17.01.60", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.MPMilkPrice, "MP Milk Price", "1.17.01.61", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.ChillingChargesSlab, "Chilling Charges Slab", "1.17.01.57", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         '=============================Mcc Transaction===========================================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "MCC Transaction", "1.17.02", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.frmOpenMCCShift, "Open MCC Shift", "1.17.02.01", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
@@ -1980,7 +1981,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmBulkCreditLimitApproval, "Bulk Credit Limit Approval", "1.23.01.03", clsUserMgtCode.SubModuleBSSetup, 27)
         InsertDefaultValue(clsUserMgtCode.FrmBulkTransactionApproval, "Bulk Transaction Approval", "1.23.01.04", clsUserMgtCode.SubModuleBSSetup, 27)
         InsertDefaultValue(clsUserMgtCode.TankerMasterSale, "Tanker Master Sale", "1.23.01.05", clsUserMgtCode.SubModuleBSSetup, 27)
-        InsertDefaultValue(clsUserMgtCode.BulkSaleFreightMaster, "Bulk Sale Frieight Master", "1.23.01.06", clsUserMgtCode.SubModuleBSSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.BulkSaleFreightMaster, "Bulk Sale Freight Master", "1.23.01.06", clsUserMgtCode.SubModuleBSSetup, 27)
 
         ''transaction
         InsertDefaultValue(clsUserMgtCode.SubModuleBulkSaleTransaction, "Transaction", "1.23.02", clsUserMgtCode.ModuleBulkSale, "SM", 26)
@@ -2804,6 +2805,14 @@ Public Class ProgramCodeNew
         '' setup
         '=========================================================
 
+
+
+
+
+
+
+
+
         InsertDefaultValue(clsUserMgtCode.SubModuleMISSetUp, "Setup", "1.47.01", clsUserMgtCode.ModuleMIS, "SM", 24)
         InsertDefaultValue(clsUserMgtCode.MISitemGroups, "MIS Item Group", "1.47.01.01", clsUserMgtCode.SubModuleMISSetUp, 27)
         InsertDefaultValue(clsUserMgtCode.MISitemMaster, "MIS Item Master", "1.47.01.02", clsUserMgtCode.SubModuleMISSetUp, 27)
@@ -2843,8 +2852,26 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmDBTStatusAndLastDPTStatus, "DBT Status And Last DPT Status", "1.49.03.03", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.frmDBTApprovalStatus, "DBT Approval Status", "1.49.03.04", clsUserMgtCode.SubModuleMilkUnion, 8)
         InsertDefaultValue(clsUserMgtCode.rptDBTNEFTPaymentDetailReport, "DBT NEFT Payment Detail Report", "1.49.03.05", clsUserMgtCode.SubModuleMilkUnion, 8)
+        InsertDefaultValue(clsUserMgtCode.rptExeVersionReport, "Exe Version Report", "1.49.03.06", clsUserMgtCode.SubModuleMilkUnion, 8)
 
+        InsertDefaultValue(clsUserMgtCode.ModuleBullManagement, "Bull Management", "1.50", clsUserMgtCode.ExpertERP, "M", 23)
 
+        ''----------------SETUP--------------------------------
+        InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementSetup, "Setup", "1.50.01", clsUserMgtCode.ModuleBullManagement, "SM", 24)
+        ' InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementSetup, "Bull breed Master", "1.50.01.01", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+        ''------------------------------TRANSACTION--------------------------------------------------------
+        InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementTransaction, "Transaction", "1.50.02", clsUserMgtCode.ModuleBullManagement, "SM", 26)
+        InsertDefaultValue(clsUserMgtCode.frmBullBreedMaster, "Bull Breed Master", "1.50.02.01", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmBullTestParameter, "Bull Test Parameter", "1.50.02.02", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmBullParameterGroup, "Bull Parameter Group", "1.50.02.03", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmBullShedMaster, "Bull Shed Master", "1.50.02.04", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmBullShedParameterMaster, "Bull Shed Parameter Master", "1.50.02.05", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmBullShedParameterGroup, "Bull Shed Parameter Group", "1.50.02.06", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
+
+        'InsertDefaultValue(clsUserMgtCode.frmBullParameterGroup, "Bull Shed Parameter Group", "1.50.02.06", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
+
+        ''----------------------------------------------REPORT---------------------------------------------------------
+        InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementReport, "Report", "1.50.03", clsUserMgtCode.ModuleBullManagement, "SM", 30)
         Try
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.BankCashBook, "Bank Cash Book")
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.VehicleUtili, "Vehicle Utilization")
