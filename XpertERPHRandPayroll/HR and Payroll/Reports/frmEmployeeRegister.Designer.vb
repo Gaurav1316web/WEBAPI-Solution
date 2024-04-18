@@ -24,12 +24,18 @@ Partial Class frmEmployeeRegister
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gv1 = New common.UserControls.MyRadGridView()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblDepartment = New common.Controls.MyLabel()
+        Me.lblDesignation = New common.Controls.MyLabel()
+        Me.txtDepartment = New common.UserControls.txtFinder()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.TxtDesignation = New common.UserControls.txtFinder()
+        Me.lbldes = New common.Controls.MyLabel()
         Me.lblLocationName = New common.Controls.MyLabel()
         Me.fndLocation = New common.UserControls.txtFinder()
         Me.txtEmp = New common.UserControls.txtMultiSelectFinder()
@@ -50,12 +56,6 @@ Partial Class frmEmployeeRegister
         Me.btnExport = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
-        Me.lbldes = New common.Controls.MyLabel()
-        Me.TxtDesignation = New common.UserControls.txtFinder()
-        Me.MyLabel2 = New common.Controls.MyLabel()
-        Me.txtDepartment = New common.UserControls.txtFinder()
-        Me.lblDesignation = New common.Controls.MyLabel()
-        Me.lblDepartment = New common.Controls.MyLabel()
         CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -65,6 +65,10 @@ Partial Class frmEmployeeRegister
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblDepartment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDesignation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lbldes, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.CboStatus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLocationCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,10 +80,6 @@ Partial Class frmEmployeeRegister
         CType(Me.btnRefresh, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lbldes, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDesignation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDepartment, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -104,11 +104,12 @@ Partial Class frmEmployeeRegister
         Me.gv1.MasterTemplate.EnableGrouping = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(379, 252)
+        Me.gv1.Size = New System.Drawing.Size(1021, 414)
         Me.gv1.TabIndex = 146
         '
         'btnClose
@@ -152,7 +153,7 @@ Partial Class frmEmployeeRegister
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
         Me.RadPageView1.Size = New System.Drawing.Size(1042, 462)
         Me.RadPageView1.TabIndex = 215
         '
@@ -176,6 +177,98 @@ Partial Class frmEmployeeRegister
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1021, 414)
         Me.RadPageViewPage1.Text = "Filter"
+        '
+        'lblDepartment
+        '
+        Me.lblDepartment.AutoSize = False
+        Me.lblDepartment.BorderVisible = True
+        Me.lblDepartment.FieldName = Nothing
+        Me.lblDepartment.Location = New System.Drawing.Point(321, 74)
+        Me.lblDepartment.Name = "lblDepartment"
+        Me.lblDepartment.Size = New System.Drawing.Size(239, 19)
+        Me.lblDepartment.TabIndex = 401
+        '
+        'lblDesignation
+        '
+        Me.lblDesignation.AutoSize = False
+        Me.lblDesignation.BorderVisible = True
+        Me.lblDesignation.FieldName = Nothing
+        Me.lblDesignation.Location = New System.Drawing.Point(321, 47)
+        Me.lblDesignation.Name = "lblDesignation"
+        Me.lblDesignation.Size = New System.Drawing.Size(239, 19)
+        Me.lblDesignation.TabIndex = 400
+        '
+        'txtDepartment
+        '
+        Me.txtDepartment.CalculationExpression = Nothing
+        Me.txtDepartment.FieldCode = Nothing
+        Me.txtDepartment.FieldDesc = Nothing
+        Me.txtDepartment.FieldMaxLength = 0
+        Me.txtDepartment.FieldName = Nothing
+        Me.txtDepartment.isCalculatedField = False
+        Me.txtDepartment.IsSourceFromTable = False
+        Me.txtDepartment.IsSourceFromValueList = False
+        Me.txtDepartment.IsUnique = False
+        Me.txtDepartment.Location = New System.Drawing.Point(100, 74)
+        Me.txtDepartment.MendatroryField = True
+        Me.txtDepartment.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDepartment.MyLinkLable1 = Me.MyLabel2
+        Me.txtDepartment.MyLinkLable2 = Nothing
+        Me.txtDepartment.MyReadOnly = False
+        Me.txtDepartment.MyShowMasterFormButton = False
+        Me.txtDepartment.Name = "txtDepartment"
+        Me.txtDepartment.ReferenceFieldDesc = Nothing
+        Me.txtDepartment.ReferenceFieldName = Nothing
+        Me.txtDepartment.ReferenceTableName = Nothing
+        Me.txtDepartment.Size = New System.Drawing.Size(215, 19)
+        Me.txtDepartment.TabIndex = 399
+        Me.txtDepartment.Value = ""
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(13, 74)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(65, 16)
+        Me.MyLabel2.TabIndex = 398
+        Me.MyLabel2.Text = "Department"
+        '
+        'TxtDesignation
+        '
+        Me.TxtDesignation.CalculationExpression = Nothing
+        Me.TxtDesignation.FieldCode = Nothing
+        Me.TxtDesignation.FieldDesc = Nothing
+        Me.TxtDesignation.FieldMaxLength = 0
+        Me.TxtDesignation.FieldName = Nothing
+        Me.TxtDesignation.isCalculatedField = False
+        Me.TxtDesignation.IsSourceFromTable = False
+        Me.TxtDesignation.IsSourceFromValueList = False
+        Me.TxtDesignation.IsUnique = False
+        Me.TxtDesignation.Location = New System.Drawing.Point(100, 47)
+        Me.TxtDesignation.MendatroryField = False
+        Me.TxtDesignation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.TxtDesignation.MyLinkLable1 = Me.lbldes
+        Me.TxtDesignation.MyLinkLable2 = Nothing
+        Me.TxtDesignation.MyReadOnly = False
+        Me.TxtDesignation.MyShowMasterFormButton = False
+        Me.TxtDesignation.Name = "TxtDesignation"
+        Me.TxtDesignation.ReferenceFieldDesc = Nothing
+        Me.TxtDesignation.ReferenceFieldName = Nothing
+        Me.TxtDesignation.ReferenceTableName = Nothing
+        Me.TxtDesignation.Size = New System.Drawing.Size(215, 19)
+        Me.TxtDesignation.TabIndex = 397
+        Me.TxtDesignation.Value = ""
+        '
+        'lbldes
+        '
+        Me.lbldes.FieldName = Nothing
+        Me.lbldes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbldes.Location = New System.Drawing.Point(13, 47)
+        Me.lbldes.Name = "lbldes"
+        Me.lbldes.Size = New System.Drawing.Size(66, 16)
+        Me.lbldes.TabIndex = 396
+        Me.lbldes.Text = "Designation"
         '
         'lblLocationName
         '
@@ -287,7 +380,7 @@ Partial Class frmEmployeeRegister
         Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(50.0!, 28.0!)
         Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(379, 252)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(1021, 414)
         Me.RadPageViewPage2.Text = "Report"
         '
         'RadMenu1
@@ -378,98 +471,6 @@ Partial Class frmEmployeeRegister
         Me.btnPDF.Name = "btnPDF"
         Me.btnPDF.Text = "PDF"
         '
-        'lbldes
-        '
-        Me.lbldes.FieldName = Nothing
-        Me.lbldes.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbldes.Location = New System.Drawing.Point(13, 47)
-        Me.lbldes.Name = "lbldes"
-        Me.lbldes.Size = New System.Drawing.Size(66, 16)
-        Me.lbldes.TabIndex = 396
-        Me.lbldes.Text = "Designation"
-        '
-        'TxtDesignation
-        '
-        Me.TxtDesignation.CalculationExpression = Nothing
-        Me.TxtDesignation.FieldCode = Nothing
-        Me.TxtDesignation.FieldDesc = Nothing
-        Me.TxtDesignation.FieldMaxLength = 0
-        Me.TxtDesignation.FieldName = Nothing
-        Me.TxtDesignation.isCalculatedField = False
-        Me.TxtDesignation.IsSourceFromTable = False
-        Me.TxtDesignation.IsSourceFromValueList = False
-        Me.TxtDesignation.IsUnique = False
-        Me.TxtDesignation.Location = New System.Drawing.Point(100, 47)
-        Me.TxtDesignation.MendatroryField = False
-        Me.TxtDesignation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TxtDesignation.MyLinkLable1 = Me.lbldes
-        Me.TxtDesignation.MyLinkLable2 = Nothing
-        Me.TxtDesignation.MyReadOnly = False
-        Me.TxtDesignation.MyShowMasterFormButton = False
-        Me.TxtDesignation.Name = "TxtDesignation"
-        Me.TxtDesignation.ReferenceFieldDesc = Nothing
-        Me.TxtDesignation.ReferenceFieldName = Nothing
-        Me.TxtDesignation.ReferenceTableName = Nothing
-        Me.TxtDesignation.Size = New System.Drawing.Size(215, 19)
-        Me.TxtDesignation.TabIndex = 397
-        Me.TxtDesignation.Value = ""
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(13, 74)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(65, 16)
-        Me.MyLabel2.TabIndex = 398
-        Me.MyLabel2.Text = "Department"
-        '
-        'txtDepartment
-        '
-        Me.txtDepartment.CalculationExpression = Nothing
-        Me.txtDepartment.FieldCode = Nothing
-        Me.txtDepartment.FieldDesc = Nothing
-        Me.txtDepartment.FieldMaxLength = 0
-        Me.txtDepartment.FieldName = Nothing
-        Me.txtDepartment.isCalculatedField = False
-        Me.txtDepartment.IsSourceFromTable = False
-        Me.txtDepartment.IsSourceFromValueList = False
-        Me.txtDepartment.IsUnique = False
-        Me.txtDepartment.Location = New System.Drawing.Point(100, 74)
-        Me.txtDepartment.MendatroryField = True
-        Me.txtDepartment.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDepartment.MyLinkLable1 = Me.MyLabel2
-        Me.txtDepartment.MyLinkLable2 = Nothing
-        Me.txtDepartment.MyReadOnly = False
-        Me.txtDepartment.MyShowMasterFormButton = False
-        Me.txtDepartment.Name = "txtDepartment"
-        Me.txtDepartment.ReferenceFieldDesc = Nothing
-        Me.txtDepartment.ReferenceFieldName = Nothing
-        Me.txtDepartment.ReferenceTableName = Nothing
-        Me.txtDepartment.Size = New System.Drawing.Size(215, 19)
-        Me.txtDepartment.TabIndex = 399
-        Me.txtDepartment.Value = ""
-        '
-        'lblDesignation
-        '
-        Me.lblDesignation.AutoSize = False
-        Me.lblDesignation.BorderVisible = True
-        Me.lblDesignation.FieldName = Nothing
-        Me.lblDesignation.Location = New System.Drawing.Point(321, 47)
-        Me.lblDesignation.Name = "lblDesignation"
-        Me.lblDesignation.Size = New System.Drawing.Size(239, 19)
-        Me.lblDesignation.TabIndex = 400
-        '
-        'lblDepartment
-        '
-        Me.lblDepartment.AutoSize = False
-        Me.lblDepartment.BorderVisible = True
-        Me.lblDepartment.FieldName = Nothing
-        Me.lblDepartment.Location = New System.Drawing.Point(321, 74)
-        Me.lblDepartment.Name = "lblDepartment"
-        Me.lblDepartment.Size = New System.Drawing.Size(239, 19)
-        Me.lblDepartment.TabIndex = 401
-        '
         'frmEmployeeRegister
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -493,6 +494,10 @@ Partial Class frmEmployeeRegister
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblDepartment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDesignation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lbldes, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.CboStatus, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLocationCode, System.ComponentModel.ISupportInitialize).EndInit()
@@ -504,10 +509,6 @@ Partial Class frmEmployeeRegister
         CType(Me.btnRefresh, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnExport, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lbldes, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDesignation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDepartment, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

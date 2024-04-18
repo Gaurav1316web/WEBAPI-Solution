@@ -76,11 +76,25 @@
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
     <Compile Include="Accounts\clsJournalMaster.vb" />
+    <Compile Include="Bull Breed Management\clsBullBreedMaster.vb" />
+    <Compile Include="Bull Breed Management\clsBullMovementType.vb" />
+    <Compile Include="Bull Breed Management\clsBullParameterGroup.vb" />
+    <Compile Include="Bull Breed Management\clsBullShedMaster.vb" />
+    <Compile Include="Bull Breed Management\clsBullShedParameter.vb" />
+    <Compile Include="Bull Breed Management\clsBullShedParameterGroup.vb" />
+    <Compile Include="Bull Breed Management\clsBullTestParameter.vb" />
     <Compile Include="Classes\ClsCostCenter.vb" />
     <Compile Include="Classes\clsDairyInvoice.vb" />
     <Compile Include="Classes\clsEPF.vb" />
+    <Compile Include="Milk Procurement\clsChillingCharges.vb" />
     <Compile Include="MIS\clsDailySMPProduction.vb" />
     <Compile Include="MIS\clsProductionTransactionType.vb" />
+    <Compile Include="PJC\clsCostType.vb" />
+    <Compile Include="PJC\clsPJCAccountSet.vb" />
+    <Compile Include="PJC\clsPJCExpense.vb" />
+    <Compile Include="PJC\clsPJCSettings.vb" />
+    <Compile Include="PJC\clsProjectMaster.vb" />
+    <Compile Include="PJC\clsProjectStatus.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleFreightCalculation.vb" />
     <Compile Include="Sales Distribution\clsBulkSaleFreightMaster.vb" />
     <Compile Include="BulkProcurement\clsOwnBMCGainLossRate.vb" />

@@ -639,10 +639,10 @@ Public Class FrmProjectMaster
 
                 ''For Custom Fields
                 obj.Form_ID = MyBase.Form_ID
-                obj.arrCustomFields = New List(Of clsCustomFieldValues)
-                If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
-                    UcCustomFields1.GetData(obj.arrCustomFields)
-                End If
+                'obj.arrCustomFields = New List(Of clsCustomFieldValues)
+                'If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
+                '    UcCustomFields1.GetData(obj.arrCustomFields)
+                'End If
                 'If MyBase.ArrDetailFields IsNot Nothing AndAlso MyBase.ArrDetailFields.Count > 0 Then
                 '    clsCustomFieldGrid.GetData(obj.arrCustomFields, gvJob, MyBase.ArrDetailFields, colICode)
                 'End If

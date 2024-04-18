@@ -390,10 +390,10 @@ Public Class FrmPJCExpense
                 obj.TotPaymentCost = clsCommon.myCdbl(txtPaymentTotal.Text)
                 ''For Custom Fields
                 obj.Form_ID = MyBase.Form_ID
-                obj.arrCustomFields = New List(Of clsCustomFieldValues)
-                If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
-                    UcCustomFields1.GetData(obj.arrCustomFields)
-                End If
+                'obj.arrCustomFields = New List(Of clsCustomFieldValues)
+                'If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
+                '    UcCustomFields1.GetData(obj.arrCustomFields)
+                'End If
                 ''End of For Custom Fields
 
                 obj.Arr = New List(Of ClsPJCExpenseDetail)()

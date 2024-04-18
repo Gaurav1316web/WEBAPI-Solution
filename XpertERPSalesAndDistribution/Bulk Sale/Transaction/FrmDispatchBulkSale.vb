@@ -747,6 +747,8 @@ Public Class FrmDispatchBulkSale
         lblTaxGrpName.Text = ""
         txtinsuranceno.Text = ""
         txtDocNo.Value = ""
+        txtTransporter.Value = ""
+        lblTransporterName.Text = ""
         fndCustomerNo.Value = ""
         lblCustomerCode.Text = ""
         lblCustomerName.Text = ""
@@ -1638,7 +1640,7 @@ Public Class FrmDispatchBulkSale
                 obj.Status = "Open"
                 obj.EWayBillNo = TxtEWayBillNo.Text
                 obj.EWayBillDate = txtewaybilldate.Value
-
+                obj.Transporter = txtTransporter.Value
                 obj.Tax_Group = txtTaxGroup.Value
                 If (gv2.Rows.Count > 0) Then
                     obj.TAX1 = clsCommon.myCstr(gv2.Rows(0).Cells(colTTaxAutCode).Value)
@@ -1814,6 +1816,8 @@ Public Class FrmDispatchBulkSale
                 lblCustomerCode.Text = obj.Customer_Code
                 lblCustomerName.Text = clsDBFuncationality.getSingleValue("Select Customer_Name  from TSPL_CUSTOMER_MASTER where Cust_Code='" + lblCustomerCode.Text + "'")
                 FndTankerCode.Value = obj.Tanker_Code
+                txtTransporter.Value = obj.Transporter
+                lblTransporterName.Text = clsDBFuncationality.getSingleValue("Select Vendor_Name  from tspl_vendor_master where Vendor_Code='" + txtTransporter.Value + "'")
 
                 LblQCCode.Text = obj.QC_Code
                 TxtChallanNo.Text = obj.Challan_No
@@ -3125,6 +3129,15 @@ Public Class FrmDispatchBulkSale
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
+
+    Private Sub txtTransporter__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtTransporter._MYValidating
+        Dim qry As String = "select Vendor_Code as Code,Vendor_Name as Name from tspl_vendor_master"
+        Dim whrcls As String = ""
+        whrcls = "Transporter = 'Y'"
+        txtTransporter.Value = clsCommon.ShowSelectForm("DispatchBulkSale", qry, "Code", whrcls, txtTransporter.Value, "Code", isButtonClicked)
+        lblTransporterName.Text = clsDBFuncationality.getSingleValue("Select Vendor_Name from tspl_vendor_master where Vendor_Code  ='" + txtTransporter.Value + "' ")
+    End Sub
+
 
     Private Sub BlankTaxDetails(ByVal intRowNo As Integer, ByVal isBlankRate As Boolean)
         For ii As Integer = 1 To 5

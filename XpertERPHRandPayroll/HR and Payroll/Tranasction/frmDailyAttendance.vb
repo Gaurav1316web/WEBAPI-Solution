@@ -231,7 +231,7 @@ Public Class frmDailyAttendance
     Private Sub findPayperiod__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles findPayperiod._MYValidating
         Dim qry As String = "SELECT PAY_PERIOD_CODE AS 'Code',(DATEDIFF(DAY,date_from,date_to)+1) as 'Total days', " _
         & " PAY_PERIOD_NAME as 'Pay Period Name' FROM TSPL_PAYPERIOD_MASTER  "
-        findPayperiod.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0", findPayperiod.Value, "", isButtonClicked)
+        findPayperiod.Value = clsCommon.ShowSelectForm("TSPL_PAYPERIOD_MASTER", qry, "Code", "POSTED=1 AND FREEZED=0 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", findPayperiod.Value, "", isButtonClicked)
         Dim clspp As clsPayPeriodMaster
         clspp = clsPayPeriodMaster.GetData(findPayperiod.Value, NavigatorType.Current)
 
@@ -267,8 +267,12 @@ Public Class frmDailyAttendance
      & " LEFT JOIN TSPL_EMPLOYEE_MASTER TT4 ON TT1.EMP_CODE=TT4.EMP_CODE "
 
                 Dim cond As String
-                cond = " (TT2.ATTN_REGISTER_TYPE='DAILY' OR TT2.ATTN_REGISTER_TYPE='DL') and TT4.Location_Code='" & findLocation.Value & "'" _
+                cond = " (TT2.ATTN_REGISTER_TYPE='DAILY' OR TT2.ATTN_REGISTER_TYPE='DL') and TT4.Location_Code='" & findLocation.Value & "' " _
        & " AND TT1.EMP_CODE NOT IN (SELECT DISTINCT EMP_CODE FROM TSPL_DAILY_ATTENDANCE_DETAIL WHERE ATTENDANCE_DATE='" & Format(Me.dtpAttendanceDate.Value, "dd MMM yyyy") & "')"
+
+                If clsCommon.myLen(txtCode.Value) <= 0 Then
+                    cond += " and TT4.Emp_Status<>'Inactive'"
+                End If
 
 
                 Dim obj As clsEmployeeMaster = clsMonthAttendance.FinderForEmployee(clsCommon.myCstr(gvDailyAttendance.CurrentRow.Cells(colempCode).Value), False, strq, cond)

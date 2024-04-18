@@ -751,6 +751,8 @@ Public Class clsFixedParameterType
     Public Const MixFATPer As String = "Mix FAT Per"
     Public Const CmtSetting As String = "Comment Setting"
     Public Const AreaWiseBilling As String = "Area Wise Billing"
+    Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
+    Public Const VendorBankAdviceForSWM As String = "Vendor Bank Advice For SWM"
     Public Const MilkSamplShowOddEvenTwoGrid As String = "Show Odd and Even Two Grid"
     Public Const OpenODDEvenForm As String = "Open Odd-Even Form"
     Public Const Open4AnalyzerForm As String = "Open 4 Milk Analyzer Form"
@@ -1326,6 +1328,7 @@ Public Class clsFixedParameterType
     Public Const FORPRICE = "FOR Price"
     Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
     Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
+    Public Const ChangeInventroyMovemnet = "Inventroy Movement from Dispath/Gatepass"
 
 End Class
 Public Class clsFixedParameterCode
@@ -1694,6 +1697,8 @@ Public Class clsFixedParameterCode
     Public Const MixFATPer As String = "Mix FAT Per"
     Public Const CmtSetting As String = "Comment Setting"
     Public Const AreaWiseBilling As String = "Area Wise Billing"
+    Public Const PaymentProcessPrintInHindi As String = "Payment Process Print In Hindi"
+    Public Const VendorBankAdviceForSWM As String = "Vendor Bank Advice For SWM"
     Public Const GateEntryTankerFromTankerMaster As String = "Gate Entry tanker From Master"
     Public Const QualityThenWeighmentinBulkProcurement As String = "First QC then Weighment"
     Public Const isIntimationRequired As String = "Show Intimation Screen"
@@ -2788,7 +2793,7 @@ Public Class clsFixedParameterCode
     Public Const FORPRICE = "FOR Price"
     Public Const AllowGatePassDemandTripWise = "Allow Gatepass Demand Trip Wise"
     Public Const ConvertPouchtoCrate = "Convert 1 Pouch to Crate"
-
+    Public Const ChangeInventroyMovemnet = "Inventroy Movement from Dispath/Gatepass"
 End Class
 Public Class clsFixedParameter
 #Region "Variables"
@@ -3417,7 +3422,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowGRN, clsFixedParameterCode.ShowGRN, "", "If Setting Is On Then GRN (Gate Receipt Note) Screen will be shown in Purchase Module")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowMRN, clsFixedParameterCode.ShowMRN, "", "If Setting Is On Then MRN (Material Receipt Note) Screen will be shown in Purchase Module")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SkipMRNGRNinCaseofMT, clsFixedParameterCode.SkipMRNGRNinCaseofMT, "1", "0-OFF;1-On setting will work only in case of Merchant trade")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.AutoGenerateMRN, clsFixedParameterCode.AutoGenerateMRN, "1", "0-OFF;1-On setting will work only in case of Merchant trade")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AutoGenerateMRN, clsFixedParameterCode.AutoGenerateMRN, "0", "0-OFF;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.WorkingHours, clsFixedParameterCode.WorkingHours, "8", "8: Total no of working hours in company")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TreatExcessLeaveAbsent, clsFixedParameterCode.TreatExcessLeaveAbsent, "0", "0-OFF;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.VehicleInsuranceAlert, clsFixedParameterCode.VehicleInsuranceAlert, "0", "0-OFF;1-On")
@@ -3811,6 +3816,8 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, "0", "Mix FAT Percentage")
         InsertDefaultValueFixedParameter(clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.MilkSamplShowOddEvenTwoGrid, clsFixedParameterCode.MilkSamplShowOddEvenTwoGrid, "0", "0:Off, 1:On; Show Tow Grid Odd Even")
         InsertDefaultValueFixedParameter(clsFixedParameterType.OpenODDEvenForm, clsFixedParameterCode.OpenODDEvenForm, "1", "0:Off, 1:On; Open Odd Even Form")
         InsertDefaultValueFixedParameter(clsFixedParameterType.Open4AnalyzerForm, clsFixedParameterCode.Open4AnalyzerForm, "0", "0:Off, 1:On; Open 4 Analyzer Form")
@@ -4525,6 +4532,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.FORPRICE, clsFixedParameterCode.FORPRICE, "0", "Enter Weight in KG ")
         InsertDefaultValueFixedParameter(clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, "0", "0:Off, 1:On;")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, "0", "0:Off, 1:On;")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, "0", "0:Dispatch, 1:Gatepass;")
 
 
 
@@ -5380,23 +5388,10 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.CowFATPer, clsFixedParameterCode.CowFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.mbtnPurchaseOrder, clsFixedParameterType.CmtSetting, clsFixedParameterCode.CmtSetting, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.MilkVSPPayment, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, EnumControlType.CheckBox)
         'InsertDefaultValue(clsUserMgtCode.frmVendorBankAdvice, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmPaymentProcess, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptMccMasterDetail, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptDBTMilkPayment, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.frmAutoAdditionDeductionReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptMultipleDeductionReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.MilkProcurementUploader, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.MilkShiftUploader, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptMilkPaymentSummary, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptPaymentProcessRouteReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptTemporaryPaymentDeductionSummary, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptVSPMilkNotsold, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptDailyQtyReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptTruckSheetDailySummaryReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-        'InsertDefaultValue(clsUserMgtCode.rptPaymentCycleWiseReport, clsFixedParameterType.AreaWiseBilling, clsFixedParameterCode.AreaWiseBilling, EnumControlType.CheckBox)
-
         ' InsertDefaultValue(clsUserMgtCode.MCCMilkRegister, clsFixedParameterType.MixFATPer, clsFixedParameterCode.MixFATPer, EnumControlType.NumericBox)
         InsertDefaultValue(clsUserMgtCode.FAAcquisitionEntry, clsFixedParameterType.ReadOnlyTemplateFieldsOnAcqusition, clsFixedParameterCode.ReadOnlyTemplateFieldsOnAcqusition, EnumControlType.CheckBox)
 
@@ -6590,6 +6585,7 @@ Public Class clsFixedParameterProgramMapping
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, clsFixedParameterType.AndroidMilkCollectionBMCDCS, clsFixedParameterCode.AddPostFunctionality, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDairyGatePass, clsFixedParameterType.AllowGatePassDemandTripWise, clsFixedParameterCode.AllowGatePassDemandTripWise, EnumControlType.CheckBox)
         InsertDefaultValue(clsUserMgtCode.frmDemandBooking, clsFixedParameterType.ConvertPouchtoCrate, clsFixedParameterCode.ConvertPouchtoCrate, EnumControlType.CheckBox)
+        InsertDefaultValue(clsUserMgtCode.frmSaleDispatchDairy, clsFixedParameterType.ChangeInventroyMovemnet, clsFixedParameterCode.ChangeInventroyMovemnet, EnumControlType.CheckBox)
 
     End Sub
 End Class

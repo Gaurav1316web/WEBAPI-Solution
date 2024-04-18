@@ -338,13 +338,15 @@ Public Class frmApplyLoan
     Private Sub txtEmpcode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtEmpCode._MYValidating
         Try
             Dim qry As String = "	 SELECT EMP_CODE AS Code,EMP_Name as Name,Location_Desc as Location ,DEVISION_NAME as Division FROM TSPL_EMPLOYEE_MASTER left join tspl_location_master on tspl_location_master.Location_Code =TSPL_EMPLOYEE_MASTER.LOCATION_CODE left join TSPL_DEVISION_MASTER on TSPL_DEVISION_MASTER.DEVISION_CODE = TSPL_EMPLOYEE_MASTER.DEVISION_CODE"
-            txtEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", "", txtEmpCode.Value, "", isButtonClicked)
-            Dim clsemp As New clsEmployeeMaster
-            clsemp = clsEmployeeMaster.FinderForEmployee(txtEmpCode.Value, Nothing)
-            lblEmpName.Text = clsemp.Emp_Name
-            lblLocationCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_Employee_master left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_Employee_master.LOCATION_CODE where Emp_Code='" & txtEmpCode.Value & "'"))
-            lblDevision.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEVISION_NAME   from TSPL_Employee_master left join TSPL_DEVISION_MASTER  on TSPL_DEVISION_MASTER.DEVISION_CODE  =TSPL_Employee_master.DEVISION_CODE  where Emp_Code='" & txtEmpCode.Value & "'"))
-            lblGrossSalary.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum (isnull(PAYPERIOD_AMOUNT,0) ) as PAYPERIOD_AMOUNT from TSPL_EMPLOYEE_SALARY  INNER join TSPL_EMPLOYEE_SALARY_PAYHEADS on TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE =TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE  INNER JOIN  (SELECT MAX(REVISION_NO) AS REVISION_NO FROM TSPL_EMPLOYEE_SALARY where emp_code='" & txtEmpCode.Value & "' and posted='1') TT ON TT.REVISION_NO= TSPL_EMPLOYEE_SALARY.REVISION_NO where emp_code='" & txtEmpCode.Value & "'"))
+            txtEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", " Emp_Status<>'Inactive'", txtEmpCode.Value, "", isButtonClicked)
+            If clsCommon.myLen(txtEmpCode.Value) > 0 Then
+                Dim clsemp As New clsEmployeeMaster
+                clsemp = clsEmployeeMaster.FinderForEmployee(txtEmpCode.Value, Nothing)
+                lblEmpName.Text = clsemp.Emp_Name
+                lblLocationCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc  from TSPL_Employee_master left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code =TSPL_Employee_master.LOCATION_CODE where Emp_Code='" & txtEmpCode.Value & "'"))
+                lblDevision.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select DEVISION_NAME   from TSPL_Employee_master left join TSPL_DEVISION_MASTER  on TSPL_DEVISION_MASTER.DEVISION_CODE  =TSPL_Employee_master.DEVISION_CODE  where Emp_Code='" & txtEmpCode.Value & "'"))
+                lblGrossSalary.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select sum (isnull(PAYPERIOD_AMOUNT,0) ) as PAYPERIOD_AMOUNT from TSPL_EMPLOYEE_SALARY  INNER join TSPL_EMPLOYEE_SALARY_PAYHEADS on TSPL_EMPLOYEE_SALARY_PAYHEADS.EMP_SAL_CODE =TSPL_EMPLOYEE_SALARY.EMP_SAL_CODE  INNER JOIN  (SELECT MAX(REVISION_NO) AS REVISION_NO FROM TSPL_EMPLOYEE_SALARY where emp_code='" & txtEmpCode.Value & "' and posted='1') TT ON TT.REVISION_NO= TSPL_EMPLOYEE_SALARY.REVISION_NO where emp_code='" & txtEmpCode.Value & "'"))
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

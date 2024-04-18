@@ -259,12 +259,15 @@ select '" + strPKID + "'+CODE as Code,'" + clsUserMgtCode.DBTPayment + "' as For
     End Function
 
     Private Shared Function SetLotNo(document_Code As String, trans As SqlTransaction) As Boolean
-        Dim intLotNo As Integer = 0
+        Dim intLotNo As Integer = 9
         Dim intNoOfRecordForLotNo As Integer = clsFixedParameter.GetData(clsFixedParameterType.PDAccountPaymanager, clsFixedParameterCode.NoOfRecordForLotNo, trans)
         Dim MaxPKID As String = ""
         Dim dt As DataTable = GetTRData(document_Code, MaxPKID, intNoOfRecordForLotNo, trans)
         While (dt IsNot Nothing AndAlso dt.Rows.Count > 0)
             intLotNo += 1
+            If intLotNo > 99 Then
+                Throw New Exception("Invalid Lot No [" + clsCommon.myCstr(intLotNo) + "]")
+            End If
             Dim qry As String = "Update TSPL_DBT_NEFT_DETAIL set Lot_No ='" + clsCommon.myCstr(intLotNo) + "' where document_Code='" + document_Code + "' 
 and TSPL_DBT_NEFT_DETAIL.PK_Id>='" + clsCommon.myCstr(dt.Rows(0)("PK_Id")) + "' and TSPL_DBT_NEFT_DETAIL.PK_Id<='" + clsCommon.myCstr(dt.Rows(dt.Rows.Count - 1)("PK_Id")) + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)

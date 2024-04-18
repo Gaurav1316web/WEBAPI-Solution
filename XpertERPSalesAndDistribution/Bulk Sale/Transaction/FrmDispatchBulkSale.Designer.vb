@@ -21,11 +21,15 @@ Partial Class FrmDispatchBulkSale
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtTransporter = New common.UserControls.txtFinder()
+        Me.RadLabel2 = New common.Controls.MyLabel()
+        Me.lblTransporterName = New common.Controls.MyLabel()
+        Me.MyLabel24 = New common.Controls.MyLabel()
         Me.txtTCSTaxRate = New common.MyNumBox()
         Me.MyLabel57 = New common.Controls.MyLabel()
         Me.RadLabel25 = New common.Controls.MyLabel()
@@ -51,7 +55,6 @@ Partial Class FrmDispatchBulkSale
         Me.LblQCCode = New common.Controls.MyLabel()
         Me.lblCustomerCode = New common.Controls.MyLabel()
         Me.fndCustomerNo = New common.UserControls.txtFinder()
-        Me.RadLabel2 = New common.Controls.MyLabel()
         Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.TxtToleranceinplus = New common.MyNumBox()
         Me.MyLabel17 = New common.Controls.MyLabel()
@@ -132,6 +135,9 @@ Partial Class FrmDispatchBulkSale
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -158,7 +164,6 @@ Partial Class FrmDispatchBulkSale
         CType(Me.LblQCCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomerCode, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.lblCustomerCode.SuspendLayout()
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.GroupBox1.SuspendLayout()
         CType(Me.TxtToleranceinplus, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -251,8 +256,8 @@ Partial Class FrmDispatchBulkSale
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1009, 546)
-        Me.SplitContainer1.SplitterDistance = 511
+        Me.SplitContainer1.Size = New System.Drawing.Size(1009, 503)
+        Me.SplitContainer1.SplitterDistance = 468
         Me.SplitContainer1.TabIndex = 0
         '
         'RadPageView1
@@ -265,7 +270,7 @@ Partial Class FrmDispatchBulkSale
         Me.RadPageView1.Location = New System.Drawing.Point(0, 20)
         Me.RadPageView1.Name = "RadPageView1"
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(1009, 491)
+        Me.RadPageView1.Size = New System.Drawing.Size(1009, 448)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
@@ -273,6 +278,9 @@ Partial Class FrmDispatchBulkSale
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.txtTransporter)
+        Me.RadPageViewPage1.Controls.Add(Me.lblTransporterName)
+        Me.RadPageViewPage1.Controls.Add(Me.MyLabel24)
         Me.RadPageViewPage1.Controls.Add(Me.txtTCSTaxRate)
         Me.RadPageViewPage1.Controls.Add(Me.MyLabel57)
         Me.RadPageViewPage1.Controls.Add(Me.RadLabel25)
@@ -325,8 +333,64 @@ Partial Class FrmDispatchBulkSale
         Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(87.0!, 26.0!)
         Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(988, 445)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(988, 402)
         Me.RadPageViewPage1.Text = "Dispatch Note"
+        '
+        'txtTransporter
+        '
+        Me.txtTransporter.CalculationExpression = Nothing
+        Me.txtTransporter.FieldCode = Nothing
+        Me.txtTransporter.FieldDesc = Nothing
+        Me.txtTransporter.FieldMaxLength = 0
+        Me.txtTransporter.FieldName = Nothing
+        Me.txtTransporter.isCalculatedField = False
+        Me.txtTransporter.IsSourceFromTable = False
+        Me.txtTransporter.IsSourceFromValueList = False
+        Me.txtTransporter.IsUnique = False
+        Me.txtTransporter.Location = New System.Drawing.Point(90, 231)
+        Me.txtTransporter.MendatroryField = True
+        Me.txtTransporter.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTransporter.MyLinkLable1 = Me.RadLabel2
+        Me.txtTransporter.MyLinkLable2 = Nothing
+        Me.txtTransporter.MyReadOnly = False
+        Me.txtTransporter.MyShowMasterFormButton = False
+        Me.txtTransporter.Name = "txtTransporter"
+        Me.txtTransporter.ReferenceFieldDesc = Nothing
+        Me.txtTransporter.ReferenceFieldName = Nothing
+        Me.txtTransporter.ReferenceTableName = Nothing
+        Me.txtTransporter.Size = New System.Drawing.Size(146, 22)
+        Me.txtTransporter.TabIndex = 1406
+        Me.txtTransporter.Value = ""
+        '
+        'RadLabel2
+        '
+        Me.RadLabel2.FieldName = Nothing
+        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadLabel2.Location = New System.Drawing.Point(10, 24)
+        Me.RadLabel2.Name = "RadLabel2"
+        Me.RadLabel2.Size = New System.Drawing.Size(73, 16)
+        Me.RadLabel2.TabIndex = 38
+        Me.RadLabel2.Text = "Customer No"
+        '
+        'lblTransporterName
+        '
+        Me.lblTransporterName.AutoSize = False
+        Me.lblTransporterName.BorderVisible = True
+        Me.lblTransporterName.FieldName = Nothing
+        Me.lblTransporterName.Location = New System.Drawing.Point(241, 231)
+        Me.lblTransporterName.Name = "lblTransporterName"
+        Me.lblTransporterName.Size = New System.Drawing.Size(291, 20)
+        Me.lblTransporterName.TabIndex = 1407
+        '
+        'MyLabel24
+        '
+        Me.MyLabel24.FieldName = Nothing
+        Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel24.Location = New System.Drawing.Point(10, 232)
+        Me.MyLabel24.Name = "MyLabel24"
+        Me.MyLabel24.Size = New System.Drawing.Size(65, 16)
+        Me.MyLabel24.TabIndex = 1408
+        Me.MyLabel24.Text = "Transporter"
         '
         'txtTCSTaxRate
         '
@@ -709,16 +773,6 @@ Partial Class FrmDispatchBulkSale
         Me.fndCustomerNo.TabIndex = 2
         Me.fndCustomerNo.Value = ""
         Me.fndCustomerNo.Visible = False
-        '
-        'RadLabel2
-        '
-        Me.RadLabel2.FieldName = Nothing
-        Me.RadLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel2.Location = New System.Drawing.Point(10, 24)
-        Me.RadLabel2.Name = "RadLabel2"
-        Me.RadLabel2.Size = New System.Drawing.Size(73, 16)
-        Me.RadLabel2.TabIndex = 38
-        Me.RadLabel2.Text = "Customer No"
         '
         'GroupBox1
         '
@@ -1424,10 +1478,10 @@ Partial Class FrmDispatchBulkSale
         Me.RadGroupBox2.Controls.Add(Me.gv1)
         Me.RadGroupBox2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadGroupBox2.HeaderText = "Item Details"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 228)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(2, 262)
         Me.RadGroupBox2.Name = "RadGroupBox2"
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(983, 217)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(983, 146)
         Me.RadGroupBox2.TabIndex = 14
         Me.RadGroupBox2.Text = "Item Details"
         '
@@ -1446,12 +1500,13 @@ Partial Class FrmDispatchBulkSale
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv1.ShowGroupPanel = False
         Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(963, 187)
+        Me.gv1.Size = New System.Drawing.Size(963, 116)
         Me.gv1.TabIndex = 13
         Me.gv1.TabStop = False
         '
@@ -1630,7 +1685,8 @@ Partial Class FrmDispatchBulkSale
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gv2.ShowHeaderCellButtons = True
@@ -1802,7 +1858,7 @@ Partial Class FrmDispatchBulkSale
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1009, 546)
+        Me.ClientSize = New System.Drawing.Size(1009, 503)
         Me.Controls.Add(Me.SplitContainer1)
         Me.Name = "FrmDispatchBulkSale"
         '
@@ -1818,6 +1874,9 @@ Partial Class FrmDispatchBulkSale
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1846,7 +1905,6 @@ Partial Class FrmDispatchBulkSale
         CType(Me.LblQCCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomerCode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.lblCustomerCode.ResumeLayout(False)
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
         CType(Me.TxtToleranceinplus, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2020,5 +2078,8 @@ Partial Class FrmDispatchBulkSale
     Friend WithEvents lblActualTCSTaxBaseAmt As common.Controls.MyLabel
     Friend WithEvents MyLabel58 As common.Controls.MyLabel
     Friend WithEvents txttcstaxbaseamount As common.MyNumBox
+    Friend WithEvents txtTransporter As common.UserControls.txtFinder
+    Friend WithEvents lblTransporterName As common.Controls.MyLabel
+    Friend WithEvents MyLabel24 As common.Controls.MyLabel
 End Class
 

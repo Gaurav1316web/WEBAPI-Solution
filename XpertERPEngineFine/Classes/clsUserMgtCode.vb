@@ -2,9 +2,11 @@
 Public Class clsUserMgtCode
 
     'Public Const FrmReceiptInvoiceMapping As String = "REC-INV-MAP"
+    Public Const frmActiveInactiveEmpRegister As String = "ACT-INACT"
     Public Const frmPOBulkProc As String = "PO-BULK-P"
     Public Const frmDBTNEFTUnionReport As String = "UNION-RPT"
     Public Const rptDBTNEFTPaymentDetailReport As String = "DBT-PAY-DET"
+    Public Const rptExeVersionReport As String = "EXE-VER"
     Public Const frmDCSSavingLedger As String = "DCS-LGR-RPT"
     Public Const frmDBTStatusAndLastDPTStatus As String = "DBT-STATUS"
     Public Const frmDBTApprovalStatus As String = "DBT-APPRO"
@@ -291,6 +293,23 @@ Public Class clsUserMgtCode
 
     ''============ShareReport=======================
     Public Const SubModuleShareReport As String = "SMShareR"
+
+    ''==========BullManagementModule======
+    Public Const ModuleBullManagement As String = "MSBullMang"
+    Public Const SubModuleBullManagementSetup As String = "MSBullMangS"
+    ''===========BullManagementTransaction=================
+    Public Const SubModuleBullManagementTransaction As String = "MSBullMangT"
+    Public Const frmBullBreedMaster As String = "BULL-BR-M"
+    Public Const frmBullTestParameter As String = "BULL-TE-P"
+    Public Const frmBullParameterGroup As String = "BULL-PAR-G"
+    Public Const frmBullShedMaster As String = "BULL-SHE-M"
+    Public Const frmBullShedParameterMaster As String = "BULL-S-PA-M"
+    Public Const frmBullShedParameterGroup As String = "Bull-Sh-P-G"
+    Public Const frmBullMovementType As String = "BULL-MO-TY"
+
+    ''============BullManagementReport=======================
+    Public Const SubModuleBullManagementReport As String = "MSBullMangR"
+
 
 
     ''richa 03/11/2014
@@ -2013,6 +2032,7 @@ Public Class clsUserMgtCode
     Public Const FarmerProMaster As String = "FRM_PRO_MST"
     Public Const CappingMaster As String = "CAP-Master"
     Public Const MPIncetiveSlab As String = "MP-INC-SLP"
+    Public Const ChillingChargesSlab As String = "CHL-CHR-SLB"
     Public Const FrmOwnBmcExpanse As String = "OWN-BMC-EXP"
     Public Const OwnBMCGainLossRate As String = "BMC-RATE"
     Public Const FreightChargesMaster As String = "FRE_CHG"
@@ -2132,6 +2152,7 @@ Public Class clsUserMgtCode
     Public Const rptTankerStatusReport As String = "TNK_ST_RPT"
     Public Const rptTruckSheetReport As String = "TRU_SH_RPT"
     Public Const rptDailyQtyReport As String = "DAILY_QTY_R"
+    Public Const rptBMCCapacityUtilizationReport As String = "BMC_CP_UTLZ"
     Public Const rptDcsSecurity As String = "DCS_SEC_RPT"
     Public Const rptDayWiseCol As String = "DAY_WSE_RPT"
     Public Const rptMarginAmt As String = "MRG_AMT_RPT"
@@ -2530,6 +2551,8 @@ Public Class clsUserMgtCode
     Public Const AuditTrailJobWorkInward As String = "ADIT_JWINW"
     Public Const AuditTrailElectrical As String = "ADIT_ELTICL"
     Public Const rptProductionStatusReport As String = "PRO_STS_RPT"
+    Public Const rptProductionStandardization As String = "PRO_SDZ_RPT"
+    Public Const ProductionEntryReport As String = "PRO_ENT_RPT"
     Public Const frmProductionUtilityCost As String = "PRO_UC_RPT"
     Public Const VehicleMasterForDairySale As String = "VM_DS"
     Public Const frmDistributorCommission As String = "Dis-COM-MST"

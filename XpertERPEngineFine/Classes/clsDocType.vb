@@ -542,7 +542,10 @@ Public Class clsDocType
     Public Const ShareMaster As String = "Share Master"
     Public Const ShareAllotment As String = "Share Allotment"
     Public Const CostCenterGroupStore As String = "Cost Center"
-    '
+    Public Const frmBullBreedMaster As String = "Bull Breed Master "
+    Public Const frmBullTestParameter As String = "Bull Test Parameter "
+    Public Const frmBullParameterGroup As String = "Bull Parameter Group"
+
     Public Const Cleaning As String = "Cleaning"
     Public Const MilkCleaning As String = "MilkCleaning"
     Public Const GateOut As String = "Gate Out"
@@ -713,6 +716,7 @@ Public Class clsDocType
     Public Const FarmerProMaster As String = "Farmer PRO Master"
     Public Const DCSAdditionDeduction As String = "DCS Addition Deduction"
     Public Const MPIncetiveSlab As String = "MP Incentive Slab"
+    Public Const ChillingChargesSlab As String = "Chilling Charges Slab"
     Public Const OwnBMCGainLossRate As String = "Own BMC Gain Loss Rate"
     Public Const CappingMaster As String = "Capping Master"
     Public Const MatrixPriceChart As String = "Matrix Price Chart"
@@ -1910,6 +1914,7 @@ Public Class clsDocType
             InsertDefaultValue(clsDocType.UserRequestMaster, "", False, False)
             InsertDefaultValue(clsDocType.DCSAdditionDeduction, "", False, False)
             InsertDefaultValue(clsDocType.MPIncetiveSlab, "", False, False)
+            InsertDefaultValue(clsDocType.ChillingChargesSlab, "", False, False)
             InsertDefaultValue(clsDocType.CappingMaster, "", False, False)
             InsertDefaultValue(clsDocType.MatrixPriceChart, "", False, False, True, False)
             InsertDefaultValue(clsDocType.MatrixPricePlan, "", False, False, True, False)

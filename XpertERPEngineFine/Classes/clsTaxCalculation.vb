@@ -166,6 +166,24 @@ Public Class clsTaxCalculation
         Return clsDBFuncationality.GetDataTable(qry)
     End Function
 
+    Public Shared Function GetTaxType(ByVal strTaxCode As String, ByVal trans As SqlTransaction) As String
+        Dim taxType As String = ""
+        Dim Type As String = ""
+
+        Type = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Type from TSPL_TAX_MASTER where Tax_Code='" + strTaxCode + "'", trans))
+        Select Case Type
+            Case "CGST"
+                taxType = "GST"
+            Case "SGST"
+                taxType = "GST"
+            Case "IGST"
+                taxType = "GST"
+            Case Else
+                taxType = Type
+        End Select
+
+        Return taxType
+    End Function
 End Class
 
 Public Class clsTaxDetails

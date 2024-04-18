@@ -199,6 +199,18 @@
     <Compile Include="ProcessProduction\Master\frmProcessProductionLogSheet.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="ProcessProduction\Reports\ProductionEntryReport.Designer.vb">
+      <DependentUpon>ProductionEntryReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessProduction\Reports\ProductionEntryReport.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ProcessProduction\Reports\rptProductionStandardization.Designer.vb">
+      <DependentUpon>rptProductionStandardization.vb</DependentUpon>
+    </Compile>
+    <Compile Include="ProcessProduction\Reports\rptProductionStandardization.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="ProcessProduction\Transaction\ClsOutgoingQcEntry.vb" />
     <Compile Include="ProcessProduction\Transaction\frmOutgoingQCEntry.Designer.vb">
       <DependentUpon>frmOutgoingQCEntry.vb</DependentUpon>
@@ -719,6 +731,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ProcessProduction\Master\frmProcessProductionLogSheet.resx">
       <DependentUpon>frmProcessProductionLogSheet.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcessProduction\Reports\ProductionEntryReport.resx">
+      <DependentUpon>ProductionEntryReport.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ProcessProduction\Reports\rptProductionStandardization.resx">
+      <DependentUpon>rptProductionStandardization.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ProcessProduction\Transaction\frmOutgoingQCEntry.resx">
       <DependentUpon>frmOutgoingQCEntry.vb</DependentUpon>
