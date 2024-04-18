@@ -327,7 +327,6 @@ left outer join TSPL_ITEM_MASTER on TSPL_ITEM_MASTER.Item_Code=TSPL_TENDER_PENAL
                 If frm.isPasswordCorrect Then
                     btnReverse.Visible = True
                     btnRecalculate.Visible = True
-                    btnDeleteUnusedCalc.Visible = True
                 End If
             Else
                 clsCommon.MyMessageBoxShow(Me, "You are not authorized to perform this action.", Me.Text, MessageBoxButtons.OK, Telerik.WinControls.RadMessageIcon.Error)
