@@ -542,7 +542,10 @@ Public Class clsDocType
     Public Const ShareMaster As String = "Share Master"
     Public Const ShareAllotment As String = "Share Allotment"
     Public Const CostCenterGroupStore As String = "Cost Center"
-    '
+    Public Const frmBullBreedMaster As String = "Bull Breed Master "
+    Public Const frmBullTestParameter As String = "Bull Test Parameter "
+    Public Const frmBullParameterGroup As String = "Bull Parameter Group"
+
     Public Const Cleaning As String = "Cleaning"
     Public Const MilkCleaning As String = "MilkCleaning"
     Public Const GateOut As String = "Gate Out"
