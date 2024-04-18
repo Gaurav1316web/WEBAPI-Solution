@@ -4,6 +4,7 @@ Public Class clsBulkSaleAcknowledgement
 #Region "Variable"
     Public Document_No As String = Nothing
     Public Document_Date As DateTime = Nothing
+    Public Customer_Code As String = Nothing
     Public Bulk_Dispatch_Document As String = Nothing
     Public Qty As Decimal = 0
     Public FAT As Decimal = 0
@@ -133,7 +134,7 @@ Public Class clsBulkSaleAcknowledgement
         Return obj
     End Function
     Public Shared Function ReturnDispatchQry() As String
-        Dim qry As String = "select TSPL_Dispatch_BulkSale.Document_No,TSPL_Dispatch_Detail_BulkSale.Qty,TSPL_Dispatch_Detail_BulkSale.FatPer,TSPL_Dispatch_Detail_BulkSale.Fat_KG,TSPL_Dispatch_Detail_BulkSale.SNFPer,TSPL_Dispatch_Detail_BulkSale.SNF_KG,TSPL_Dispatch_Detail_BulkSale.FatRate,TSPL_Dispatch_Detail_BulkSale.SNFRate,
+        Dim qry As String = "select TSPL_Dispatch_BulkSale.Document_No,TSPL_Dispatch_BulkSale.Customer_Code,TSPL_Dispatch_Detail_BulkSale.Qty,TSPL_Dispatch_Detail_BulkSale.FatPer,TSPL_Dispatch_Detail_BulkSale.Fat_KG,TSPL_Dispatch_Detail_BulkSale.SNFPer,TSPL_Dispatch_Detail_BulkSale.SNF_KG,TSPL_Dispatch_Detail_BulkSale.FatRate,TSPL_Dispatch_Detail_BulkSale.SNFRate,
                              TSPL_Dispatch_Detail_BulkSale.Amount from TSPL_Dispatch_Detail_BulkSale  
                              Left Outer Join TSPL_Dispatch_BulkSale On TSPL_Dispatch_BulkSale.Document_No=TSPL_Dispatch_Detail_BulkSale.Document_No  Where 1=1 "
         Return qry
@@ -158,6 +159,7 @@ Public Class clsBulkSaleAcknowledgement
         If dt1.Rows.Count > 0 Then
             obj = New clsBulkSaleAcknowledgement()
             obj.Bulk_Dispatch_Document = clsCommon.myCstr(dt1.Rows(0)("Document_No"))
+            obj.Customer_Code = clsCommon.myCstr(dt1.Rows(0)("Customer_Code"))
             obj.Dispatch_QTY = clsCommon.myCDecimal(dt1.Rows(0)("Qty"))
             obj.Dispatch_FAT = clsCommon.myCDecimal(dt1.Rows(0)("FatPer"))
             obj.Dispatch_FATKG = clsCommon.myCDecimal(dt1.Rows(0)("Fat_KG"))
@@ -197,4 +199,5 @@ Public Class clsBulkSaleAcknowledgement
         End Try
         Return True
     End Function
+
 End Class

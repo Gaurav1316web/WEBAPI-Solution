@@ -47,14 +47,15 @@ Public Class FrmDBTPayment
 
     Private Sub LoadData()
         Try
-            Dim qry As String = "select CAST(0 as Bit) as Sel,PK_Id,DB_Name,Document_Code,Document_Date,From_Date,To_Date 
-from TSPL_DBT_NEFT_RCDF 
+            Dim qry As String = "select CAST(0 as Bit) as Sel,TSPL_DBT_NEFT_RCDF.PK_Id,TSPL_DBT_NEFT_RCDF.DB_Name,TSPL_MASTER.dbo.TSPL_APP_LOCATION.Code as PortNo,TSPL_DBT_NEFT_RCDF.Document_Code,TSPL_DBT_NEFT_RCDF.Document_Date,TSPL_DBT_NEFT_RCDF.From_Date,TSPL_DBT_NEFT_RCDF.To_Date 
+from TSPL_DBT_NEFT_RCDF
+left outer join TSPL_MASTER.dbo.TSPL_APP_LOCATION on TSPL_MASTER.dbo.TSPL_APP_LOCATION.DataBase_Name=TSPL_DBT_NEFT_RCDF.DB_Name
 where isnull([Status],0)=0 "
             If txtUnion.arrValueMember IsNot Nothing AndAlso txtUnion.arrValueMember.Count > 0 Then
-                qry += "and [DB_NAME] in (" + clsCommon.GetMulcallString(txtUnion.arrValueMember) + ")"
+                qry += "and TSPL_DBT_NEFT_RCDF.DB_NAME in (" + clsCommon.GetMulcallString(txtUnion.arrValueMember) + ")"
             End If
             If txtMonth.Checked Then
-                qry += "and DATEPART(month, From_Date)=" + clsCommon.myCstr(txtMonth.Value.Month) + " and DATEPART(YEAR, From_Date)=" + clsCommon.myCstr(txtMonth.Value.Year) + " "
+                qry += "and DATEPART(month, TSPL_DBT_NEFT_RCDF.From_Date)=" + clsCommon.myCstr(txtMonth.Value.Month) + " and DATEPART(YEAR, TSPL_DBT_NEFT_RCDF.From_Date)=" + clsCommon.myCstr(txtMonth.Value.Year) + " "
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             gvDetail.DataSource = Nothing
@@ -89,6 +90,10 @@ where isnull([Status],0)=0 "
         gvDetail.Columns("DB_Name").IsVisible = True
         gvDetail.Columns("DB_Name").Width = 100
         gvDetail.Columns("DB_Name").HeaderText = "Union"
+
+        gvDetail.Columns("PortNo").IsVisible = True
+        gvDetail.Columns("PortNo").IsVisible=False
+        gvDetail.Columns("PortNo").HeaderText = "Port No"
 
         gvDetail.Columns("Document_Code").IsVisible = True
         gvDetail.Columns("Document_Code").Width = 150
@@ -157,10 +162,14 @@ where isnull([Status],0)=0 "
                 End If
             Else
                 Dim strDBName As String = clsCommon.myCstr(gvDetail.CurrentRow.Cells("DB_Name").Value)
+                Dim strPortNo As String = clsCommon.myCstr(gvDetail.CurrentRow.Cells("PortNo").Value)
                 Dim strDOCNo As String = clsCommon.myCstr(gvDetail.CurrentRow.Cells("Document_Code").Value)
                 If clsCommon.myLen(strDBName) > 0 AndAlso clsCommon.myLen(strDOCNo) > 0 Then
-                    Dim qry As String = "select '" + strDBName + "'+'#'+'" + strDOCNo + "'+'#'+CAST(Lot_No as varchar) as Refenceno from (
-select distinct Lot_No from " + strDBName + ".dbo.TSPL_DBT_NEFT_DETAIL where TSPL_DBT_NEFT_DETAIL.Document_Code='" + strDOCNo + "'  
+                    Dim qry As String = "select '" + strPortNo + "'+CAST(UKID as varchar)+CAST(Lot_No as varchar) as Refenceno from (
+select distinct TSPL_DBT_NEFT_DETAIL.Lot_No,TSPL_DBT_NEFT.UKID 
+from " + strDBName + ".dbo.TSPL_DBT_NEFT_DETAIL 
+left outer join " + strDBName + ".dbo.TSPL_DBT_NEFT on " + strDBName + ".dbo.TSPL_DBT_NEFT.Document_Code=" + strDBName + ".dbo.TSPL_DBT_NEFT_DETAIL.Document_Code
+where TSPL_DBT_NEFT_DETAIL.Document_Code='" + strDOCNo + "'  
 )x order by Lot_No"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then

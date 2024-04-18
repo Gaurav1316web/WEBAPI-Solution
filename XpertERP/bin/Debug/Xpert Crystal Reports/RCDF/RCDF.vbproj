@@ -1334,12 +1334,15 @@
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseReportALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankAdviseSubReportALW.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptBankWiseSummary.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptDayWiseCollection.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankAdvice.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTFarmerWiseBankSummary.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBTNEFTUploader.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDBT_NEFTUnionReport.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptDCSLedgerReport.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptDcsSecurity.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptIncentiveEntryBySRN.rpt" />
+    <None Include="Crystal Reports\Milk Procurement\crptMarginPerAmt.rpt" />
     <None Include="Crystal Reports\Milk Procurement\CrptMCCMilkBillDetails%28MccWise%29.rpt" />
     <None Include="Crystal Reports\Milk Procurement\CrptMCCMilkBillDetails%28RouteWise%29.rpt" />
     <None Include="Crystal Reports\Milk Procurement\crptMccMilkBillSummary.rpt" />

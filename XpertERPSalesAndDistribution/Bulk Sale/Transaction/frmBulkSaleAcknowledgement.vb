@@ -90,23 +90,23 @@ Public Class frmBulkSaleAcknowledgement
         End Try
     End Sub
 
-    Private Sub fndBulkSaleNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles fndBulkSaleNo._MYNavigator
-        Dim qry As String = String.Empty
-        Try
-            qry = "select count(*) from TSPL_Dispatch_BulkSale where Document_No='" + fndBulkSaleNo.Value + "' and Comp_Code='" + objCommonVar.CurrentCompanyCode + "'"
-            Dim check As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
-            If check > 0 Then
-                fndBulkSaleNo.MyReadOnly = True
-            ElseIf check <= 0 Then
-                fndBulkSaleNo.MyReadOnly = False
-            End If
-            LoadDataBulkSale(fndBulkSaleNo.Value, NavType)
-        Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
-        Finally
-            qry = Nothing
-        End Try
-    End Sub
+    'Private Sub fndBulkSaleNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType)
+    '    Dim qry As String = String.Empty
+    '    Try
+    '        qry = "select count(*) from TSPL_Dispatch_BulkSale where Document_No='" + fndBulkSaleNo.Value + "' and Comp_Code='" + objCommonVar.CurrentCompanyCode + "'"
+    '        Dim check As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+    '        If check > 0 Then
+    '            fndBulkSaleNo.MyReadOnly = True
+    '        ElseIf check <= 0 Then
+    '            fndBulkSaleNo.MyReadOnly = False
+    '        End If
+    '        LoadDataBulkSale(fndBulkSaleNo.Value, NavType)
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '    Finally
+    '        qry = Nothing
+    '    End Try
+    'End Sub
     Sub LoadDataBulkSale(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
             Dim obj As clsBulkSaleAcknowledgement = Nothing
@@ -123,6 +123,7 @@ Public Class frmBulkSaleAcknowledgement
                 txtSaleSNFRate.Text = obj.Dispatch_SNFRate
                 txtSNFRate.Value = obj.Dispatch_SNFRate
                 txtSaleAmount.Text = obj.Dispatch_Amount
+                txtCustomer.Text = obj.Customer_Code
                 CalculateAmount()
                 CalculateDiffAmount()
             End If

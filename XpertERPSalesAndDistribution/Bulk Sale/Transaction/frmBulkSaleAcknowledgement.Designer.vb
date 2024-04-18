@@ -4,7 +4,7 @@ Partial Class frmBulkSaleAcknowledgement
     Inherits FrmMainTranScreen
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -21,9 +21,10 @@ Partial Class frmBulkSaleAcknowledgement
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.fndBulkSaleNo = New common.UserControls.txtFinder()
         Me.MyLabel19 = New common.Controls.MyLabel()
         Me.txtDiffAmount = New common.MyNumBox()
         Me.MyLabel18 = New common.Controls.MyLabel()
@@ -46,6 +47,7 @@ Partial Class frmBulkSaleAcknowledgement
         Me.MyLabel2 = New common.Controls.MyLabel()
         Me.txtFATKg = New common.Controls.MyLabel()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel20 = New common.Controls.MyLabel()
         Me.txtSaleAmount = New common.Controls.MyLabel()
         Me.MyLabel17 = New common.Controls.MyLabel()
         Me.txtSaleSNFRate = New common.Controls.MyLabel()
@@ -63,7 +65,6 @@ Partial Class frmBulkSaleAcknowledgement
         Me.MyLabel14 = New common.Controls.MyLabel()
         Me.txtSaleFATKg = New common.Controls.MyLabel()
         Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.fndBulkSaleNo = New common.UserControls.txtNavigator()
         Me.UsLock1 = New common.usLock()
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.RadLabel4 = New common.Controls.MyLabel()
@@ -73,6 +74,7 @@ Partial Class frmBulkSaleAcknowledgement
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.txtCustomer = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -98,6 +100,7 @@ Partial Class frmBulkSaleAcknowledgement
         CType(Me.txtFATKg, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSaleAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSaleSNFRate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -122,6 +125,7 @@ Partial Class frmBulkSaleAcknowledgement
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -134,6 +138,7 @@ Partial Class frmBulkSaleAcknowledgement
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.fndBulkSaleNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel19)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtDiffAmount)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel18)
@@ -157,7 +162,6 @@ Partial Class frmBulkSaleAcknowledgement
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtFATKg)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.fndBulkSaleNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.UsLock1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtDate)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel4)
@@ -173,6 +177,32 @@ Partial Class frmBulkSaleAcknowledgement
         Me.SplitContainer1.Size = New System.Drawing.Size(889, 486)
         Me.SplitContainer1.SplitterDistance = 444
         Me.SplitContainer1.TabIndex = 0
+        '
+        'fndBulkSaleNo
+        '
+        Me.fndBulkSaleNo.CalculationExpression = Nothing
+        Me.fndBulkSaleNo.FieldCode = Nothing
+        Me.fndBulkSaleNo.FieldDesc = Nothing
+        Me.fndBulkSaleNo.FieldMaxLength = 0
+        Me.fndBulkSaleNo.FieldName = Nothing
+        Me.fndBulkSaleNo.isCalculatedField = False
+        Me.fndBulkSaleNo.IsSourceFromTable = False
+        Me.fndBulkSaleNo.IsSourceFromValueList = False
+        Me.fndBulkSaleNo.IsUnique = False
+        Me.fndBulkSaleNo.Location = New System.Drawing.Point(92, 47)
+        Me.fndBulkSaleNo.MendatroryField = True
+        Me.fndBulkSaleNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndBulkSaleNo.MyLinkLable1 = Nothing
+        Me.fndBulkSaleNo.MyLinkLable2 = Nothing
+        Me.fndBulkSaleNo.MyReadOnly = False
+        Me.fndBulkSaleNo.MyShowMasterFormButton = False
+        Me.fndBulkSaleNo.Name = "fndBulkSaleNo"
+        Me.fndBulkSaleNo.ReferenceFieldDesc = Nothing
+        Me.fndBulkSaleNo.ReferenceFieldName = Nothing
+        Me.fndBulkSaleNo.ReferenceTableName = Nothing
+        Me.fndBulkSaleNo.Size = New System.Drawing.Size(289, 19)
+        Me.fndBulkSaleNo.TabIndex = 1450
+        Me.fndBulkSaleNo.Value = ""
         '
         'MyLabel19
         '
@@ -512,6 +542,8 @@ Partial Class frmBulkSaleAcknowledgement
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtCustomer)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel20)
         Me.RadGroupBox1.Controls.Add(Me.txtSaleAmount)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel17)
         Me.RadGroupBox1.Controls.Add(Me.txtSaleSNFRate)
@@ -531,9 +563,19 @@ Partial Class frmBulkSaleAcknowledgement
         Me.RadGroupBox1.HeaderText = "Bulk Sale Details"
         Me.RadGroupBox1.Location = New System.Drawing.Point(409, 47)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(380, 158)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(380, 190)
         Me.RadGroupBox1.TabIndex = 14
         Me.RadGroupBox1.Text = "Bulk Sale Details"
+        '
+        'MyLabel20
+        '
+        Me.MyLabel20.FieldName = Nothing
+        Me.MyLabel20.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel20.Location = New System.Drawing.Point(15, 21)
+        Me.MyLabel20.Name = "MyLabel20"
+        Me.MyLabel20.Size = New System.Drawing.Size(55, 16)
+        Me.MyLabel20.TabIndex = 1450
+        Me.MyLabel20.Text = "Customer"
         '
         'txtSaleAmount
         '
@@ -541,7 +583,7 @@ Partial Class frmBulkSaleAcknowledgement
         Me.txtSaleAmount.BorderVisible = True
         Me.txtSaleAmount.FieldName = Nothing
         Me.txtSaleAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSaleAmount.Location = New System.Drawing.Point(69, 132)
+        Me.txtSaleAmount.Location = New System.Drawing.Point(79, 153)
         Me.txtSaleAmount.Name = "txtSaleAmount"
         Me.txtSaleAmount.Size = New System.Drawing.Size(110, 18)
         Me.txtSaleAmount.TabIndex = 1448
@@ -551,7 +593,7 @@ Partial Class frmBulkSaleAcknowledgement
         '
         Me.MyLabel17.FieldName = Nothing
         Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel17.Location = New System.Drawing.Point(15, 133)
+        Me.MyLabel17.Location = New System.Drawing.Point(15, 154)
         Me.MyLabel17.Name = "MyLabel17"
         Me.MyLabel17.Size = New System.Drawing.Size(45, 16)
         Me.MyLabel17.TabIndex = 1447
@@ -563,7 +605,7 @@ Partial Class frmBulkSaleAcknowledgement
         Me.txtSaleSNFRate.BorderVisible = True
         Me.txtSaleSNFRate.FieldName = Nothing
         Me.txtSaleSNFRate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSaleSNFRate.Location = New System.Drawing.Point(69, 110)
+        Me.txtSaleSNFRate.Location = New System.Drawing.Point(79, 131)
         Me.txtSaleSNFRate.Name = "txtSaleSNFRate"
         Me.txtSaleSNFRate.Size = New System.Drawing.Size(110, 18)
         Me.txtSaleSNFRate.TabIndex = 1446
@@ -573,7 +615,7 @@ Partial Class frmBulkSaleAcknowledgement
         '
         Me.MyLabel16.FieldName = Nothing
         Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(15, 111)
+        Me.MyLabel16.Location = New System.Drawing.Point(15, 132)
         Me.MyLabel16.Name = "MyLabel16"
         Me.MyLabel16.Size = New System.Drawing.Size(56, 16)
         Me.MyLabel16.TabIndex = 1445
@@ -585,7 +627,7 @@ Partial Class frmBulkSaleAcknowledgement
         Me.txtSaleFATRate.BorderVisible = True
         Me.txtSaleFATRate.FieldName = Nothing
         Me.txtSaleFATRate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSaleFATRate.Location = New System.Drawing.Point(69, 88)
+        Me.txtSaleFATRate.Location = New System.Drawing.Point(79, 109)
         Me.txtSaleFATRate.Name = "txtSaleFATRate"
         Me.txtSaleFATRate.Size = New System.Drawing.Size(110, 18)
         Me.txtSaleFATRate.TabIndex = 1444
@@ -595,7 +637,7 @@ Partial Class frmBulkSaleAcknowledgement
         '
         Me.MyLabel15.FieldName = Nothing
         Me.MyLabel15.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel15.Location = New System.Drawing.Point(15, 89)
+        Me.MyLabel15.Location = New System.Drawing.Point(15, 110)
         Me.MyLabel15.Name = "MyLabel15"
         Me.MyLabel15.Size = New System.Drawing.Size(55, 16)
         Me.MyLabel15.TabIndex = 1443
@@ -607,7 +649,7 @@ Partial Class frmBulkSaleAcknowledgement
         Me.txtSaleSNF.BorderVisible = True
         Me.txtSaleSNF.FieldName = Nothing
         Me.txtSaleSNF.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSaleSNF.Location = New System.Drawing.Point(69, 66)
+        Me.txtSaleSNF.Location = New System.Drawing.Point(79, 87)
         Me.txtSaleSNF.Name = "txtSaleSNF"
         Me.txtSaleSNF.Size = New System.Drawing.Size(110, 18)
         Me.txtSaleSNF.TabIndex = 1442
@@ -619,7 +661,7 @@ Partial Class frmBulkSaleAcknowledgement
         Me.txtSaleFAT.BorderVisible = True
         Me.txtSaleFAT.FieldName = Nothing
         Me.txtSaleFAT.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSaleFAT.Location = New System.Drawing.Point(69, 44)
+        Me.txtSaleFAT.Location = New System.Drawing.Point(79, 65)
         Me.txtSaleFAT.Name = "txtSaleFAT"
         Me.txtSaleFAT.Size = New System.Drawing.Size(110, 18)
         Me.txtSaleFAT.TabIndex = 1441
@@ -631,7 +673,7 @@ Partial Class frmBulkSaleAcknowledgement
         Me.txtQtySale.BorderVisible = True
         Me.txtQtySale.FieldName = Nothing
         Me.txtQtySale.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtQtySale.Location = New System.Drawing.Point(69, 23)
+        Me.txtQtySale.Location = New System.Drawing.Point(79, 44)
         Me.txtQtySale.Name = "txtQtySale"
         Me.txtQtySale.Size = New System.Drawing.Size(110, 18)
         Me.txtQtySale.TabIndex = 1440
@@ -641,7 +683,7 @@ Partial Class frmBulkSaleAcknowledgement
         '
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel9.Location = New System.Drawing.Point(191, 68)
+        Me.MyLabel9.Location = New System.Drawing.Point(201, 89)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(46, 16)
         Me.MyLabel9.TabIndex = 1439
@@ -651,7 +693,7 @@ Partial Class frmBulkSaleAcknowledgement
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel10.Location = New System.Drawing.Point(191, 46)
+        Me.MyLabel10.Location = New System.Drawing.Point(201, 67)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(45, 16)
         Me.MyLabel10.TabIndex = 1438
@@ -663,7 +705,7 @@ Partial Class frmBulkSaleAcknowledgement
         Me.txtSaleSNFKg.BorderVisible = True
         Me.txtSaleSNFKg.FieldName = Nothing
         Me.txtSaleSNFKg.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSaleSNFKg.Location = New System.Drawing.Point(239, 66)
+        Me.txtSaleSNFKg.Location = New System.Drawing.Point(249, 87)
         Me.txtSaleSNFKg.Name = "txtSaleSNFKg"
         Me.txtSaleSNFKg.Size = New System.Drawing.Size(110, 18)
         Me.txtSaleSNFKg.TabIndex = 1437
@@ -673,7 +715,7 @@ Partial Class frmBulkSaleAcknowledgement
         '
         Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(15, 68)
+        Me.MyLabel12.Location = New System.Drawing.Point(15, 89)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(29, 16)
         Me.MyLabel12.TabIndex = 1432
@@ -683,7 +725,7 @@ Partial Class frmBulkSaleAcknowledgement
         '
         Me.MyLabel13.FieldName = Nothing
         Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel13.Location = New System.Drawing.Point(16, 46)
+        Me.MyLabel13.Location = New System.Drawing.Point(16, 67)
         Me.MyLabel13.Name = "MyLabel13"
         Me.MyLabel13.Size = New System.Drawing.Size(28, 16)
         Me.MyLabel13.TabIndex = 1436
@@ -693,7 +735,7 @@ Partial Class frmBulkSaleAcknowledgement
         '
         Me.MyLabel14.FieldName = Nothing
         Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel14.Location = New System.Drawing.Point(15, 22)
+        Me.MyLabel14.Location = New System.Drawing.Point(15, 43)
         Me.MyLabel14.Name = "MyLabel14"
         Me.MyLabel14.Size = New System.Drawing.Size(24, 16)
         Me.MyLabel14.TabIndex = 1431
@@ -705,7 +747,7 @@ Partial Class frmBulkSaleAcknowledgement
         Me.txtSaleFATKg.BorderVisible = True
         Me.txtSaleFATKg.FieldName = Nothing
         Me.txtSaleFATKg.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSaleFATKg.Location = New System.Drawing.Point(239, 44)
+        Me.txtSaleFATKg.Location = New System.Drawing.Point(249, 65)
         Me.txtSaleFATKg.Name = "txtSaleFATKg"
         Me.txtSaleFATKg.Size = New System.Drawing.Size(110, 18)
         Me.txtSaleFATKg.TabIndex = 1430
@@ -720,22 +762,6 @@ Partial Class frmBulkSaleAcknowledgement
         Me.MyLabel1.Size = New System.Drawing.Size(72, 16)
         Me.MyLabel1.TabIndex = 13
         Me.MyLabel1.Text = "Bulk Sale No"
-        '
-        'fndBulkSaleNo
-        '
-        Me.fndBulkSaleNo.FieldName = Nothing
-        Me.fndBulkSaleNo.Location = New System.Drawing.Point(92, 46)
-        Me.fndBulkSaleNo.MendatroryField = False
-        Me.fndBulkSaleNo.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Normal
-        Me.fndBulkSaleNo.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.fndBulkSaleNo.MyLinkLable1 = Me.MyLabel1
-        Me.fndBulkSaleNo.MyLinkLable2 = Nothing
-        Me.fndBulkSaleNo.MyMaxLength = 32767
-        Me.fndBulkSaleNo.MyReadOnly = False
-        Me.fndBulkSaleNo.Name = "fndBulkSaleNo"
-        Me.fndBulkSaleNo.Size = New System.Drawing.Size(269, 19)
-        Me.fndBulkSaleNo.TabIndex = 12
-        Me.fndBulkSaleNo.Value = ""
         '
         'UsLock1
         '
@@ -850,6 +876,18 @@ Partial Class frmBulkSaleAcknowledgement
         Me.btnsave.TabIndex = 5
         Me.btnsave.Text = "Save"
         '
+        'txtCustomer
+        '
+        Me.txtCustomer.AutoSize = False
+        Me.txtCustomer.BorderVisible = True
+        Me.txtCustomer.FieldName = Nothing
+        Me.txtCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCustomer.Location = New System.Drawing.Point(79, 21)
+        Me.txtCustomer.Name = "txtCustomer"
+        Me.txtCustomer.Size = New System.Drawing.Size(110, 18)
+        Me.txtCustomer.TabIndex = 1451
+        Me.txtCustomer.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
         'frmBulkSaleAcknowledgement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -889,6 +927,7 @@ Partial Class frmBulkSaleAcknowledgement
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSaleAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSaleSNFRate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -913,6 +952,7 @@ Partial Class frmBulkSaleAcknowledgement
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -929,7 +969,6 @@ Partial Class frmBulkSaleAcknowledgement
     Friend WithEvents RadLabel1 As Controls.MyLabel
     Friend WithEvents fndDocNo As UserControls.txtNavigator
     Friend WithEvents MyLabel1 As Controls.MyLabel
-    Friend WithEvents fndBulkSaleNo As UserControls.txtNavigator
     Friend WithEvents RadGroupBox1 As RadGroupBox
     Friend WithEvents MyLabel2 As Controls.MyLabel
     Friend WithEvents txtFATKg As Controls.MyLabel
@@ -968,4 +1007,7 @@ Partial Class frmBulkSaleAcknowledgement
     Friend WithEvents txtAmount As MyNumBox
     Friend WithEvents MyLabel19 As Controls.MyLabel
     Friend WithEvents txtDiffAmount As MyNumBox
+    Friend WithEvents MyLabel20 As Controls.MyLabel
+    Friend WithEvents fndBulkSaleNo As UserControls.txtFinder
+    Friend WithEvents txtCustomer As Controls.MyLabel
 End Class

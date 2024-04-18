@@ -294,6 +294,23 @@ Public Class clsUserMgtCode
     ''============ShareReport=======================
     Public Const SubModuleShareReport As String = "SMShareR"
 
+    ''==========BullManagementModule======
+    Public Const ModuleBullManagement As String = "MSBullMang"
+    Public Const SubModuleBullManagementSetup As String = "MSBullMangS"
+    ''===========BullManagementTransaction=================
+    Public Const SubModuleBullManagementTransaction As String = "MSBullMangT"
+    Public Const frmBullBreedMaster As String = "BULL-BR-M"
+    Public Const frmBullTestParameter As String = "BULL-TE-P"
+    Public Const frmBullParameterGroup As String = "BULL-PAR-G"
+    Public Const frmBullShedMaster As String = "BULL-SHE-M"
+    Public Const frmBullShedParameterMaster As String = "BULL-S-PA-M"
+    Public Const frmBullShedParameterGroup As String = "Bull-Sh-P-G"
+    Public Const frmBullMovementType As String = "BULL-MO-TY"
+
+    ''============BullManagementReport=======================
+    Public Const SubModuleBullManagementReport As String = "MSBullMangR"
+
+
 
     ''richa 03/11/2014
     Public Const ModuleFreshSale As String = "MFreshSale"
@@ -2135,6 +2152,7 @@ Public Class clsUserMgtCode
     Public Const rptTankerStatusReport As String = "TNK_ST_RPT"
     Public Const rptTruckSheetReport As String = "TRU_SH_RPT"
     Public Const rptDailyQtyReport As String = "DAILY_QTY_R"
+    Public Const rptBMCCapacityUtilizationReport As String = "BMC_CP_UTLZ"
     Public Const rptDcsSecurity As String = "DCS_SEC_RPT"
     Public Const rptDayWiseCol As String = "DAY_WSE_RPT"
     Public Const rptMarginAmt As String = "MRG_AMT_RPT"

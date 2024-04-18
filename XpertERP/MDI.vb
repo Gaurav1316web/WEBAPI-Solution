@@ -9738,7 +9738,28 @@ Public Class MDI
                         frm = New frmDailySMPProduction
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
-
+                        '------------Bull Management-----------
+                    Case clsUserMgtCode.frmBullBreedMaster
+                        frm = New frmBullBreedMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullTestParameter
+                        frm = New frmBullTestParameter
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullParameterGroup
+                        frm = New frmBullParameterGroup
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullShedMaster
+                        frm = New frmBullShedMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullShedParameterMaster
+                        frm = New frmBullShedParameterMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullShedParameterGroup
+                        frm = New frmBullShedParameterGroup
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullMovementType
+                        frm = New frmBullMovementType
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         ''-------------------- MIS Master---------------
 
                         'Case clsUserMgtCode.MISitemGroups
