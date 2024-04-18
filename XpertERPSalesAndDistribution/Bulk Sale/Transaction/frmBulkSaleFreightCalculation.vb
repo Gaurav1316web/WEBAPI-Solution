@@ -13,6 +13,7 @@ Public Class frmBulkSaleFreightCalculation
     Const colDispatchDate As String = "colDispatchDate"
     Const colDispatchNo As String = "colDispatchNo"
     Const colTankerNo As String = "colTankerNo"
+    Const colTransporter As String = "colTransporter"
     Const ColAckQty As String = "ColAckQty"
     Const colAckFat As String = "colAckFat"
     Const colAckSnf As String = "colAckSnf"
@@ -29,42 +30,6 @@ Public Class frmBulkSaleFreightCalculation
 #End Region
 
     Private Sub frmBulkSaleFreightCalculation_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
-        coll.Add("Document_Date", "DateTime not NULL")
-        coll.Add("Customer_Code", "varchar(12) NOT NULL")
-        coll.Add("Status", "integer not null default 0")
-        coll.Add("From_Date", "Date Not null")
-        coll.Add("To_Date", "Date Not null")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "datetime NOT NULL")
-        coll.Add("Posted_By", "varchar(12) NULL")
-        coll.Add("Posted_Date", "datetime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_HEAD", coll, Nothing, True, False, Nothing, Nothing, Nothing, False)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("SNo", "integer null")
-        coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BLK_FREIGHT_CALC_HEAD(Document_Code)")
-        coll.Add("Dispatch_Date", "Date null ")
-        coll.Add("Bulk_Dispatch_Document", "Varchar(30) null ")
-        coll.Add("Bulk_Dispatch_Tanker", "Varchar(20) null ")
-        coll.Add("Ack_Qty", "decimal (18,2) NULL")
-        coll.Add("Ack_Fat", "decimal (18,2) NULL")
-        coll.Add("Ack_Snf", "decimal (18,2) NULL")
-        coll.Add("Tender_Qty", "decimal (18,2) NULL")
-        coll.Add("Rate", "decimal(18, 2) NULL")
-        coll.Add("Pro_Rate", "decimal(18, 2) NULL")
-        coll.Add("DieselPetrol", "decimal (18,2) NULL")
-        coll.Add("Applicable_Rate", "decimal (18,2) NULL")
-        coll.Add("GPS_KM", "decimal(18,2) NULL")
-        coll.Add("Payable_Amount", "decimal (18,2) NULL")
-
-        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "Document_Date", False)
-
         SetUserMgmtNew()
         LoadBlankGrid()
         Addnew()
@@ -204,7 +169,7 @@ Public Class frmBulkSaleFreightCalculation
                 obj.From_Date = clsCommon.myCDate(txtFromDate.Value)
                 obj.To_Date = clsCommon.myCDate(txtToDate.Value)
                 obj.Arr = New List(Of clsBulkSaleFreightCalculationDetail)
-
+                Dim TotalAmt As Double = 0
                 For Each grow As GridViewRowInfo In gv1.Rows
                     Dim objTr As New clsBulkSaleFreightCalculationDetail()
                     If btnsave.Text = "Save" Then
@@ -212,6 +177,7 @@ Public Class frmBulkSaleFreightCalculation
                             objTr.SNO = grow.Cells("SNo").Value
                             objTr.Dispatch_Date = clsCommon.myCDate(grow.Cells("Date").Value)
                             objTr.Bulk_Dispatch_Document = clsCommon.myCstr(grow.Cells("Dispatch_No").Value)
+                            objTr.Bulk_Dispatch_Transporter = clsCommon.myCstr(grow.Cells("Transporter").Value)
                             objTr.Bulk_Dispatch_Tanker = clsCommon.myCstr(grow.Cells("Tanker_No").Value)
                             objTr.Ack_Qty = clsCommon.myCdbl(grow.Cells("Qty").Value)
                             objTr.Ack_Fat = clsCommon.myCdbl(grow.Cells("Fat").Value)
@@ -223,6 +189,7 @@ Public Class frmBulkSaleFreightCalculation
                             objTr.Payable_Amount = clsCommon.myCDecimal(grow.Cells("Payable_Amount").Value)
                             objTr.DieselPetrol = clsCommon.myCDecimal(grow.Cells("DieselPetrol").Value)
                             objTr.GPS_KM = clsCommon.myCDecimal(grow.Cells("GPS_KM").Value)
+                            TotalAmt = TotalAmt + clsCommon.myCdbl(grow.Cells("Payable_Amount").Value)
                             obj.Arr.Add(objTr)
                         End If
 
@@ -232,6 +199,7 @@ Public Class frmBulkSaleFreightCalculation
                             objTr.Dispatch_Date = clsCommon.myCDate(grow.Cells(colDispatchDate).Value)
                             objTr.Bulk_Dispatch_Document = clsCommon.myCstr(grow.Cells(colDispatchNo).Value)
                             objTr.Bulk_Dispatch_Tanker = clsCommon.myCstr(grow.Cells(colTankerNo).Value)
+                            objTr.Bulk_Dispatch_Transporter = clsCommon.myCstr(grow.Cells(colTransporter).Value)
                             objTr.Ack_Qty = clsCommon.myCdbl(grow.Cells(ColAckQty).Value)
                             objTr.Ack_Fat = clsCommon.myCdbl(grow.Cells(colAckFat).Value)
                             objTr.Ack_Snf = clsCommon.myCdbl(grow.Cells(colAckSnf).Value)
@@ -242,12 +210,13 @@ Public Class frmBulkSaleFreightCalculation
                             objTr.Payable_Amount = clsCommon.myCDecimal(grow.Cells(colPayableAmount).Value)
                             objTr.DieselPetrol = clsCommon.myCDecimal(grow.Cells(colDieselPetrol).Value)
                             objTr.GPS_KM = clsCommon.myCDecimal(grow.Cells(colGPSKM).Value)
+                            TotalAmt = TotalAmt + clsCommon.myCdbl(grow.Cells(colPayableAmount).Value)
                             obj.Arr.Add(objTr)
                         End If
 
 
                     End If
-
+                    obj.Total_Amt = TotalAmt
                 Next
 
                 If (obj.SaveData(obj, isNewEntry, Nothing, False)) Then
@@ -264,6 +233,7 @@ Public Class frmBulkSaleFreightCalculation
         txtDocumentNo.Value = ""
         btnsave.Enabled = True
         btnPost.Enabled = True
+        btnGo.Enabled = True
         txtdate.Value = clsCommon.GETSERVERDATE()
         txtFromDate.Value = clsCommon.GETSERVERDATE()
         txtToDate.Value = clsCommon.GETSERVERDATE()
@@ -317,6 +287,14 @@ Public Class frmBulkSaleFreightCalculation
         repoTankerNo.Width = 150
         repoTankerNo.ReadOnly = True
         gv1.MasterTemplate.Columns.Add(repoTankerNo)
+
+        Dim repoTransporter As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoTransporter.FormatString = ""
+        repoTransporter.HeaderText = "Transporter"
+        repoTransporter.Name = colTransporter
+        repoTransporter.Width = 150
+        repoTransporter.ReadOnly = True
+        gv1.MasterTemplate.Columns.Add(repoTransporter)
 
         Dim repoColAckQty As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoColAckQty.FormatString = ""
@@ -453,7 +431,7 @@ Public Class frmBulkSaleFreightCalculation
                 txtToDate.Value = obj.To_Date
                 txtCustomer.Value = obj.Customer_Code
                 lblCustomerName.Text = clsDBFuncationality.getSingleValue("Select Customer_Name from TSPL_CUSTOMER_MASTER where Cust_Code  ='" + txtCustomer.Value + "' ")
-
+                lblTotalAmount.Text = obj.Total_Amt
                 isNewEntry = False
                 btnsave.Text = "Update"
                 If obj.Status = 1 Then
@@ -465,6 +443,7 @@ Public Class frmBulkSaleFreightCalculation
                 Else
                     lblStatus.Status = ERPTransactionStatus.Pending
                     btndelete.Enabled = True
+                    btnGo.Enabled = True
                 End If
 
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
@@ -474,6 +453,7 @@ Public Class frmBulkSaleFreightCalculation
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDispatchDate).Value = objTr.Dispatch_Date
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colDispatchNo).Value = objTr.Bulk_Dispatch_Document
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colTankerNo).Value = objTr.Bulk_Dispatch_Tanker
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colTransporter).Value = objTr.Bulk_Dispatch_Transporter
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColAckQty).Value = objTr.Ack_Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colAckFat).Value = objTr.Ack_Fat
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colAckSnf).Value = objTr.Ack_Snf
@@ -493,7 +473,6 @@ Public Class frmBulkSaleFreightCalculation
             isLoadData = True
             isInsideLoadData = True
             isInsideLoadData = False
-            'RefreshSerialNo()
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
@@ -520,13 +499,13 @@ Public Class frmBulkSaleFreightCalculation
         End Try
     End Sub
 
-    Private Sub gv1_UserDeletedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserDeletedRow
+    Private Sub gv1_UserDeletedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs)
         For ii As Integer = 1 To gv1.Rows.Count
             gv1.Rows(ii - 1).Cells(colSNo).Value = ii
         Next
     End Sub
 
-    Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
+    Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs)
         If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
             Exit Sub
@@ -534,25 +513,6 @@ Public Class frmBulkSaleFreightCalculation
             e.Cancel = False
         End If
     End Sub
-
-    'Private Sub gv1_UserAddedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserAddedRow
-    '    For i As Integer = 0 To gv1.Rows.Count - 1
-    '        gv1.Rows(0).Cells(0).Value = 1
-    '        If i <> 0 Then
-    '            gv1.Rows(i).Cells(colSNo).Value = i + 1
-    '        End If
-    '    Next
-    'End Sub
-    'Private Sub gv1_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
-    '    If gv1.RowCount > 0 Then
-    '        Dim intCurrRow As Integer = gv1.CurrentRow.Index
-    '        gv1.CurrentRow.Cells(colSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
-    '        If intCurrRow = gv1.Rows.Count - 1 Then
-    '            gv1.Rows.AddNew()
-    '            gv1.CurrentRow = gv1.Rows(intCurrRow)
-    '        End If
-    '    End If
-    'End Sub
 
     Private Sub btndelete_Click(sender As Object, e As EventArgs) Handles btndelete.Click
         Try
@@ -620,6 +580,10 @@ Public Class frmBulkSaleFreightCalculation
                             Try
 
                                 gv1.Rows(ii).Cells(colSNo).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("SNO").Value)
+                                gv1.Rows(ii).Cells(colSNo).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("Dispatch Date").Value)
+                                gv1.Rows(ii).Cells(colSNo).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("SNO").Value)
+                                gv1.Rows(ii).Cells(colSNo).Value = clsCommon.myCdbl(gvImport.Rows(ii).Cells("SNO").Value)
+
                                 gv1.Rows(ii).Cells(colTenderQty).Value = clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Tender Qty").Value)
                                 gv1.Rows(ii).Cells(colRate).Value = clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Rate").Value)
                                 gv1.Rows(ii).Cells(colProRate).Value = clsCommon.myCDecimal(gvImport.Rows(ii).Cells("Pro Rate").Value)
@@ -737,4 +701,5 @@ Public Class frmBulkSaleFreightCalculation
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         LoadDispatchAcknowledge(txtFromDate.Value, txtToDate.Value, txtCustomer.Value)
     End Sub
+
 End Class

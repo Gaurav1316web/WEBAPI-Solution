@@ -3422,7 +3422,7 @@ Public Class clsFixedParameter
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowGRN, clsFixedParameterCode.ShowGRN, "", "If Setting Is On Then GRN (Gate Receipt Note) Screen will be shown in Purchase Module")
         InsertDefaultValueFixedParameter(clsFixedParameterType.ShowMRN, clsFixedParameterCode.ShowMRN, "", "If Setting Is On Then MRN (Material Receipt Note) Screen will be shown in Purchase Module")
         InsertDefaultValueFixedParameter(clsFixedParameterType.SkipMRNGRNinCaseofMT, clsFixedParameterCode.SkipMRNGRNinCaseofMT, "1", "0-OFF;1-On setting will work only in case of Merchant trade")
-        InsertDefaultValueFixedParameter(clsFixedParameterType.AutoGenerateMRN, clsFixedParameterCode.AutoGenerateMRN, "1", "0-OFF;1-On setting will work only in case of Merchant trade")
+        InsertDefaultValueFixedParameter(clsFixedParameterType.AutoGenerateMRN, clsFixedParameterCode.AutoGenerateMRN, "0", "0-OFF;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.WorkingHours, clsFixedParameterCode.WorkingHours, "8", "8: Total no of working hours in company")
         InsertDefaultValueFixedParameter(clsFixedParameterType.TreatExcessLeaveAbsent, clsFixedParameterCode.TreatExcessLeaveAbsent, "0", "0-OFF;1-On")
         InsertDefaultValueFixedParameter(clsFixedParameterType.VehicleInsuranceAlert, clsFixedParameterCode.VehicleInsuranceAlert, "0", "0-OFF;1-On")

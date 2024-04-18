@@ -22,7 +22,7 @@ Partial Class FrmDBTPayment
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadGroupBox3 = New Telerik.WinControls.UI.RadGroupBox()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.RadLabel12 = New common.Controls.MyLabel()
@@ -190,7 +190,7 @@ Partial Class FrmDBTPayment
         '
         Me.gvDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvDetail.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gvDetail.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gvDetail.MyStopExport = False
         Me.gvDetail.Name = "gvDetail"
         Me.gvDetail.ShowHeaderCellButtons = True

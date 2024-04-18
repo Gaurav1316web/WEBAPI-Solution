@@ -26285,6 +26285,7 @@ where TSPL_SD_SHIPMENT_HEAD.Document_Code in (select Shipment_Code  from TSPL_SD
 
     Private Sub RadButton352_Click(sender As Object, e As EventArgs) Handles RadButton352.Click
         Try
+            Throw New Exception("Not in use")
             If TxtMultiSelectFinder19.arrValueMember Is Nothing OrElse TxtMultiSelectFinder19.arrValueMember.Count <= 0 Then
                 Throw New Exception("Please select At least One Document")
             End If
@@ -26434,6 +26435,7 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
                                         For Each drPI As DataRow In dtPI.Rows
                                             Dim objPI As clsPurchaseInvoiceHead = clsPurchaseInvoiceHead.GetData(clsCommon.myCstr(drPI("PI_No")), NavigatorType.Current, tran, "")
                                             objPI.PI_Date = ServerDate
+                                            clsPurchaseInvoiceHead.RCDF1QCDed2SecDed3RALPenaltyDelete(objPI, True, True, True, tran)
                                             clsPurchaseInvoiceHead.RCDF1QCDed2SecDed3RALPenalty(objPI, True, True, True, True, tran)
                                         Next
                                     End If

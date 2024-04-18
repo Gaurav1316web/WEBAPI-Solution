@@ -305,6 +305,8 @@ Public Class clsUserMgtCode
     Public Const frmBullShedMaster As String = "BULL-SHE-M"
     Public Const frmBullShedParameterMaster As String = "BULL-S-PA-M"
     Public Const frmBullShedParameterGroup As String = "Bull-Sh-P-G"
+    Public Const frmBullMovementType As String = "BULL-MO-TY"
+
     ''============BullManagementReport=======================
     Public Const SubModuleBullManagementReport As String = "MSBullMangR"
 
@@ -2150,6 +2152,7 @@ Public Class clsUserMgtCode
     Public Const rptTankerStatusReport As String = "TNK_ST_RPT"
     Public Const rptTruckSheetReport As String = "TRU_SH_RPT"
     Public Const rptDailyQtyReport As String = "DAILY_QTY_R"
+    Public Const rptBMCCapacityUtilizationReport As String = "BMC_CP_UTLZ"
     Public Const rptDcsSecurity As String = "DCS_SEC_RPT"
     Public Const rptDayWiseCol As String = "DAY_WSE_RPT"
     Public Const rptMarginAmt As String = "MRG_AMT_RPT"
@@ -2549,6 +2552,7 @@ Public Class clsUserMgtCode
     Public Const AuditTrailElectrical As String = "ADIT_ELTICL"
     Public Const rptProductionStatusReport As String = "PRO_STS_RPT"
     Public Const rptProductionStandardization As String = "PRO_SDZ_RPT"
+    Public Const ProductionEntryReport As String = "PRO_ENT_RPT"
     Public Const frmProductionUtilityCost As String = "PRO_UC_RPT"
     Public Const VehicleMasterForDairySale As String = "VM_DS"
     Public Const frmDistributorCommission As String = "Dis-COM-MST"

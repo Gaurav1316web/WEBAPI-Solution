@@ -34968,6 +34968,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Total_Amt", "decimal(18,2) not null default 0")
             coll.Add("ActualTCSBaseAmount", "float null")
             coll.Add("ChangedTCSBaseAmount", "float null")
+            coll.Add("Transporter", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_Dispatch_BulkSale", coll, Nothing, True, False, "", "Document_No", "Document_Date")
 
             '-------------------------TSPL_Dispatch_Detail_BulkSale----------------------
@@ -52994,7 +52995,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("RCDF_Post_By", "varchar(12) NULL")
             coll.Add("RCDF_Post_Date", "Datetime NULL")
             coll.Add("Bank_Letter_Date", "Datetime NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
+            coll.Add("UKID", "INT IDENTITY(1,1) not null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT", coll, "UNIQUE(UKID)", True, False, "", "Document_Code", "Document_Date")
 
             qry = "update TSPL_DBT_NEFT set Bank_Letter_Date=Document_Date where Bank_Letter_Date is null"
             clsDBFuncationality.ExecuteNonQuery(qry)
@@ -54269,6 +54271,18 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_PARAMETER_GROUP_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
+            coll.Add("Name", "Varchar(50) NOT NULL ")
+            coll.Add("Peridocity", "Varchar(50) NOT NULL ")
+            coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_MOVEMENT_TYPE", coll)
+
+
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION")
             coll.Add("Code", "varchar(30) NOT NULL REFERENCES TSPL_BULL_PARAMETER_GROUP_MASTER (Code)")
             coll.Add("TPCode", "varchar(30) NOT NULL REFERENCES TSPL_BULL_TEST_PARAMETER (Code)")
@@ -54624,6 +54638,71 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Rate", "DECIMAL(18,2) NULL")
             coll.Add("Amt", "DECIMAL(18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES", coll, Nothing, False, False, "TSPL_MILK_PURCHASE_INVOICE_HEAD", "InvoiceNo", "")
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
+            coll.Add("Document_Date", "DateTime not NULL")
+            coll.Add("Customer_Code", "varchar(12) NOT NULL")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("Start_Date", "Date Not null")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "datetime NOT NULL")
+            coll.Add("Posted_By", "varchar(12) NULL")
+            coll.Add("Posted_Date", "datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_MASTER", coll, Nothing, True, False, Nothing, Nothing, Nothing, True)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("SNo", "integer null")
+            coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BLK_FREIGHT_MASTER(Document_Code)")
+            coll.Add("Tender_Qty", "decimal (18,2) NULL")
+            coll.Add("Rate", "decimal(18, 2) NULL")
+            coll.Add("Pro_Rate", "decimal(18, 2) NULL")
+            coll.Add("DieselPetrol", "decimal (18,2) NULL")
+            coll.Add("Applicable_Rate", "decimal (18,2) NULL")
+            coll.Add("GPS_KM", "decimal(18,2) NULL")
+            coll.Add("Payable_Amount", "decimal (18,2) NULL")
+
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_MASTER", "Document_Code", "Document_Date", True)
+
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
+            coll.Add("Document_Date", "DateTime not NULL")
+            coll.Add("Customer_Code", "varchar(12) NOT NULL")
+            coll.Add("Total_Amt", "decimal (18,2) NULL")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("From_Date", "Date Not null")
+            coll.Add("To_Date", "Date Not null")
+            coll.Add("Created_By", "varchar(12) NOT NULL")
+            coll.Add("Created_Date", "datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL")
+            coll.Add("Modified_Date", "datetime NOT NULL")
+            coll.Add("Posted_By", "varchar(12) NULL")
+            coll.Add("Posted_Date", "datetime NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_HEAD", coll, Nothing, True, False, Nothing, Nothing, Nothing, False)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("SNo", "integer null")
+            coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BLK_FREIGHT_CALC_HEAD(Document_Code)")
+            coll.Add("Dispatch_Date", "Date null ")
+            coll.Add("Bulk_Dispatch_Document", "Varchar(30) null ")
+            coll.Add("Bulk_Dispatch_Tanker", "Varchar(20) null ")
+            coll.Add("Bulk_Dispatch_Transporter", "Varchar(12) null ")
+            coll.Add("Ack_Qty", "decimal (18,2) NULL")
+            coll.Add("Ack_Fat", "decimal (18,2) NULL")
+            coll.Add("Ack_Snf", "decimal (18,2) NULL")
+            coll.Add("Tender_Qty", "decimal (18,2) NULL")
+            coll.Add("Rate", "decimal(18, 2) NULL")
+            coll.Add("Pro_Rate", "decimal(18, 2) NULL")
+            coll.Add("DieselPetrol", "decimal (18,2) NULL")
+            coll.Add("Applicable_Rate", "decimal (18,2) NULL")
+            coll.Add("GPS_KM", "decimal(18,2) NULL")
+            coll.Add("Payable_Amount", "decimal (18,2) NULL")
+
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "Document_Date", False)
+
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
