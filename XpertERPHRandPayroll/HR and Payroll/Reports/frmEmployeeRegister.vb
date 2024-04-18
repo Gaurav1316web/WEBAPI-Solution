@@ -40,6 +40,8 @@ Public Class frmEmployeeRegister
         End Try
     End Sub
 
+
+
     Private Sub frmEmployeeRegister_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
         CboStatus.DataSource = GetEmpStatusDataTable()
@@ -354,5 +356,18 @@ Public Class frmEmployeeRegister
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
+    End Sub
+
+    Private Sub gv1_CellDoubleClick(sender As Object, e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv1.CellDoubleClick
+        Try
+            If clsCommon.myLen(clsCommon.myCstr(gv1.CurrentRow.Cells(0).Value)) > 0 Then
+                Dim frm As New frmActiveInactiveEmpRegister()
+                If (frm.LoadDetailData(clsCommon.myCstr(gv1.CurrentRow.Cells(0).Value))) Then
+                    frm.ShowDialog()
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

@@ -48,6 +48,7 @@ Partial Class FrmItemMasterRMOther
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.chkFGforCFRPT = New common.Controls.MyCheckBox()
         Me.txtDCSSeqNo = New common.MyNumBox()
         Me.lblDCSSeqNo = New common.Controls.MyLabel()
         Me.chkqcprod = New common.Controls.MyCheckBox()
@@ -303,6 +304,7 @@ Partial Class FrmItemMasterRMOther
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.chkFGforCFRPT, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDCSSeqNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDCSSeqNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkqcprod, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -566,13 +568,14 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage2
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(1108, 601)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.chkFGforCFRPT)
         Me.RadPageViewPage1.Controls.Add(Me.txtDCSSeqNo)
         Me.RadPageViewPage1.Controls.Add(Me.lblDCSSeqNo)
         Me.RadPageViewPage1.Controls.Add(Me.chkqcprod)
@@ -713,6 +716,17 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1087, 553)
         Me.RadPageViewPage1.Text = "Item Detail"
+        '
+        'chkFGforCFRPT
+        '
+        Me.chkFGforCFRPT.Location = New System.Drawing.Point(954, 3)
+        Me.chkFGforCFRPT.MyLinkLable1 = Nothing
+        Me.chkFGforCFRPT.MyLinkLable2 = Nothing
+        Me.chkFGforCFRPT.Name = "chkFGforCFRPT"
+        Me.chkFGforCFRPT.Size = New System.Drawing.Size(90, 18)
+        Me.chkFGforCFRPT.TabIndex = 210
+        Me.chkFGforCFRPT.Tag1 = Nothing
+        Me.chkFGforCFRPT.Text = "FG For CF RPT"
         '
         'txtDCSSeqNo
         '
@@ -4352,6 +4366,7 @@ Partial Class FrmItemMasterRMOther
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.chkFGforCFRPT, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDCSSeqNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDCSSeqNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkqcprod, System.ComponentModel.ISupportInitialize).EndInit()
@@ -4843,5 +4858,6 @@ Partial Class FrmItemMasterRMOther
     Friend WithEvents txtDCSSeqNo As MyNumBox
     Friend WithEvents lblDCSSeqNo As Controls.MyLabel
     Friend WithEvents gvSchedule As UserControls.MyRadGridView
+    Friend WithEvents chkFGforCFRPT As Controls.MyCheckBox
 End Class
 

@@ -1165,6 +1165,8 @@ Public Class frmDairyGatePass
             End If
             If myMessages.postConfirm() Then
                 If (clsDairyGatePassEntry.PostData(MyBase.Form_ID, txtCode.Value)) Then
+                    btnSave.Enabled = False
+                    btnPost.Enabled = False
                     UploadDoc(txtCode.Value)
                     Dim strQry As String = "select distinct Document_Code from TSPL_SD_SHIPMENT_DETAIL where PK_ID in(select PK_ID from TSPL_DAIRYSALE_GATEPASS_SHIPMENT_DETAIL where GPCode='" + txtCode.Value + "')"
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry)
@@ -1179,8 +1181,8 @@ Public Class frmDairyGatePass
                     common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
 
-                    btnSave.Enabled = False
-                    btnPost.Enabled = False
+                    'btnSave.Enabled = False
+                    'btnPost.Enabled = False
                 End If
                 'clsDBFuncationality.ExecuteNonQuery("Update TSPL_DAIRYSALE_GATEPASS_MASTER set post='Y' where gpcode='" & txtCode.Value & "'")
             End If

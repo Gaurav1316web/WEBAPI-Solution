@@ -180,6 +180,12 @@
     <Compile Include="Bulk Procurement\Transaction\BulkProcurementUploader.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Milk Procurement\Master\frmChillingChargesSlab.Designer.vb">
+      <DependentUpon>frmChillingChargesSlab.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Master\frmChillingChargesSlab.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Milk Procurement\Master\frmHeadLoadMaster.Designer.vb">
       <DependentUpon>frmHeadLoadMaster.vb</DependentUpon>
     </Compile>
@@ -226,6 +232,12 @@
       <DependentUpon>frmDCSSavingLedger.vb</DependentUpon>
     </Compile>
     <Compile Include="Milk Procurement\Report\frmDCSSavingLedger.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptExeVersionReport.Designer.vb">
+      <DependentUpon>rptExeVersionReport.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Milk Procurement\Report\rptExeVersionReport.vb">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Milk Procurement\Report\FrmMCCMilkRegister.Designer.vb">
@@ -829,6 +841,9 @@
     <EmbeddedResource Include="Bulk Procurement\Transaction\BulkProcurementUploader.resx">
       <DependentUpon>BulkProcurementUploader.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Master\frmChillingChargesSlab.resx">
+      <DependentUpon>frmChillingChargesSlab.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Master\frmHeadLoadMaster.resx">
       <DependentUpon>frmHeadLoadMaster.vb</DependentUpon>
     </EmbeddedResource>
@@ -889,6 +904,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptDCSSecurity.resx">
       <DependentUpon>rptDCSSecurity.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Milk Procurement\Report\rptExeVersionReport.resx">
+      <DependentUpon>rptExeVersionReport.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Milk Procurement\Report\rptMarginAmount.resx">
       <DependentUpon>rptMarginAmount.vb</DependentUpon>
