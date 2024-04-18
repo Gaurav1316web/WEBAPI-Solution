@@ -216,4 +216,34 @@ Public Class rptMarginAmount
         gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
     End Sub
+    Private Sub ExportGrid(ByVal exporter As EnumExportTo)
+        Try
+            If gv1.Rows.Count <= 0 Then
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
+                Exit Sub
+            End If
+            Dim strHeading As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptMarginAmt & "'"))
+
+            Dim arrHeader As List(Of String) = New List(Of String)()
+            'arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+            arrHeader.Add("Report Name : " + strHeading)
+            arrHeader.Add("Date Range from : " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
+
+            transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
+            If exporter = EnumExportTo.Excel Then
+                'transportSql.QuickExportToExcel(Gv1, "", Me.Text,, arrHeader)
+                transportSql.exportdata(gv1, "", Me.Text, , arrHeader, False, True)
+            Else
+                clsCommon.MyExportToPDF(strHeading, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK)
+        End Try
+    End Sub
+    Private Sub rmiExcel_Click(sender As Object, e As EventArgs) Handles rmiExcel.Click
+        ExportGrid(EnumExportTo.Excel)
+    End Sub
+    Private Sub rmiPDF_Click(sender As Object, e As EventArgs) Handles rmiPDF.Click
+        ExportGrid(EnumExportTo.PDF)
+    End Sub
 End Class
