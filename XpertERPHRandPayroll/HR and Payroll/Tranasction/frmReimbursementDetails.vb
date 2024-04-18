@@ -108,6 +108,7 @@ Public Class frmReimbursementDetails
     End Sub
 
     Private Sub frmMonthlyAttendance_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        dtpReimbursementDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy")
         SetUserMgmtNew()
         LoadGridColumns()
         isNewEntry = True
@@ -272,13 +273,17 @@ Public Class frmReimbursementDetails
                         ObjList.Add(obj)
                     End If
                 Next
-                If (obj.SaveData(obj, ObjList, isNewEntry, clsCommon.myCstr(txtCode.Value))) Then
-                    LoadData(obj.REIMBURSEMENT_CODE, NavigatorType.Current)
-                    Return True
-                    'common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                If ObjList.Count > 0 Then
+                    If (obj.SaveData(obj, ObjList, isNewEntry, clsCommon.myCstr(txtCode.Value))) Then
+                        LoadData(obj.REIMBURSEMENT_CODE, NavigatorType.Current)
+                        Return True
+                        'common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    End If
+                Else
+                    clsCommon.MyMessageBoxShow(Me, "Please fill atleast one value.", Me.Text)
                 End If
             End If
-            Return False
+                Return False
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -329,7 +334,7 @@ Public Class frmReimbursementDetails
         Dim qry As String = "SELECT PAY_PERIOD_CODE AS Code,(DATEDIFF(DAY,date_from,date_to)+1) as Totaldays, " _
         & " PAY_PERIOD_NAME as Name FROM TSPL_PAYPERIOD_MASTER"
         'Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
-        findPayperiod.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", findPayperiod.Value, "PAY_PERIOD_CODE", isButtonClicked)
+        findPayperiod.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", findPayperiod.Value, "PAY_PERIOD_CODE", isButtonClicked)
         If clsCommon.myLen(findPayperiod.Value) > 0 Then
             Dim clspp As clsPayPeriodMaster
             clspp = clsPayPeriodMaster.GetData(findPayperiod.Value, NavigatorType.Current)
@@ -412,10 +417,14 @@ Public Class frmReimbursementDetails
 
     Private Sub txtEmpCode__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles txtEmpCode._MYValidating
         Dim qry As String = "SELECT EMP_CODE as Code,EMP_Name as Name FROM TSPL_EMPLOYEE_MASTER "
-        txtEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", "", txtEmpCode.Value, "", isButtonClicked)
-        Dim clsemp As clsEmployeeMaster
-        clsemp = clsEmployeeMaster.FinderForEmployee(txtEmpCode.Value, Nothing)
-        lblEmpName.Text = clsemp.Emp_Name
+        txtEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "Code", " Emp_Status<>'Inactive'", txtEmpCode.Value, "", isButtonClicked)
+        If clsCommon.myLen(txtEmpCode.Value) > 0 Then
+            Dim clsemp As clsEmployeeMaster
+            clsemp = clsEmployeeMaster.FinderForEmployee(txtEmpCode.Value, Nothing)
+            lblEmpName.Text = clsemp.Emp_Name
+        Else
+            lblEmpName.Text = Nothing
+        End If
 
     End Sub
 

@@ -453,6 +453,12 @@
     <Compile Include="HR and Payroll\KDIL\rptPayrollPerformaforcontribution.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="HR and Payroll\Reports\frmActiveInactiveEmpRegister.Designer.vb">
+      <DependentUpon>frmActiveInactiveEmpRegister.vb</DependentUpon>
+    </Compile>
+    <Compile Include="HR and Payroll\Reports\frmActiveInactiveEmpRegister.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="HR and Payroll\Reports\Monthly Report\rptEmployeeStatusReport.Designer.vb">
       <DependentUpon>rptEmployeeStatusReport.vb</DependentUpon>
     </Compile>
@@ -1867,6 +1873,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\KDIL\rptPayrollPerformaforcontribution.resx">
       <DependentUpon>rptPayrollPerformaforcontribution.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="HR and Payroll\Reports\frmActiveInactiveEmpRegister.resx">
+      <DependentUpon>frmActiveInactiveEmpRegister.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="HR and Payroll\Reports\Monthly Report\rptEmployeeStatusReport.resx">
       <DependentUpon>rptEmployeeStatusReport.vb</DependentUpon>

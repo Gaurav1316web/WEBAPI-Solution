@@ -1004,7 +1004,7 @@ Public Class frmPendingSRN
         Dim disc_per As Double = 0
         Try
             Dim sQuery As String = "select disc_per from TSPL_SRN_DETAIL where SRN_No='" & SRN_No & "' and item_code='" & item_code & "'"
-            disc_per = clsDBFuncationality.getSingleValue(sQuery)
+            disc_per = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sQuery))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.ToString)
         End Try
@@ -1015,7 +1015,7 @@ Public Class frmPendingSRN
         Dim Disc_Per_Unit As Double = 0
         Try
             Dim sQuery As String = "select Disc_Per_Unit from TSPL_SRN_DETAIL where SRN_No='" & SRN_No & "' and item_code='" & item_code & "'"
-            Disc_Per_Unit = clsDBFuncationality.getSingleValue(sQuery)
+            Disc_Per_Unit = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sQuery))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.ToString)
         End Try

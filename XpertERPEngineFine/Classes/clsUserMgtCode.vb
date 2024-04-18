@@ -2,9 +2,11 @@
 Public Class clsUserMgtCode
 
     'Public Const FrmReceiptInvoiceMapping As String = "REC-INV-MAP"
+    Public Const frmActiveInactiveEmpRegister As String = "ACT-INACT"
     Public Const frmPOBulkProc As String = "PO-BULK-P"
     Public Const frmDBTNEFTUnionReport As String = "UNION-RPT"
     Public Const rptDBTNEFTPaymentDetailReport As String = "DBT-PAY-DET"
+    Public Const rptExeVersionReport As String = "EXE-VER"
     Public Const frmDCSSavingLedger As String = "DCS-LGR-RPT"
     Public Const frmDBTStatusAndLastDPTStatus As String = "DBT-STATUS"
     Public Const frmDBTApprovalStatus As String = "DBT-APPRO"
@@ -255,6 +257,7 @@ Public Class clsUserMgtCode
     Public Const rptAvgSaleDetailReport As String = "AVG_SAL_RPT"
     Public Const rptdairydispatch As String = "DRY_DIS_RPT"
     Public Const rptRouteSaleRegister As String = "ROT_SAL_REG"
+    Public Const rptGatePassReport As String = "GAT_PAS_RPT"
 
     '===Dairy Visual Sales reports  
     Public Const SubModuleVisualSaleReport As String = "SMVSaleR"
@@ -2027,6 +2030,7 @@ Public Class clsUserMgtCode
     Public Const FarmerProMaster As String = "FRM_PRO_MST"
     Public Const CappingMaster As String = "CAP-Master"
     Public Const MPIncetiveSlab As String = "MP-INC-SLP"
+    Public Const ChillingChargesSlab As String = "CHL-CHR-SLB"
     Public Const FrmOwnBmcExpanse As String = "OWN-BMC-EXP"
     Public Const OwnBMCGainLossRate As String = "BMC-RATE"
     Public Const FreightChargesMaster As String = "FRE_CHG"
@@ -2544,6 +2548,7 @@ Public Class clsUserMgtCode
     Public Const AuditTrailJobWorkInward As String = "ADIT_JWINW"
     Public Const AuditTrailElectrical As String = "ADIT_ELTICL"
     Public Const rptProductionStatusReport As String = "PRO_STS_RPT"
+    Public Const rptProductionStandardization As String = "PRO_SDZ_RPT"
     Public Const frmProductionUtilityCost As String = "PRO_UC_RPT"
     Public Const VehicleMasterForDairySale As String = "VM_DS"
     Public Const frmDistributorCommission As String = "Dis-COM-MST"

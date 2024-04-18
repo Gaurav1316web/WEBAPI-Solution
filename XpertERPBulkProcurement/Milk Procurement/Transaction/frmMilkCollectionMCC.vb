@@ -9,6 +9,9 @@ Public Class frmMilkCollectionMCC
     Dim isNewEntry As Boolean = False
     Const ColSNo As String = "ColSNo"
     Const ColPKID As String = "ColPKID"
+    Const ColAgainst_Multiple_Days As String = "ColAgainst_Multiple_Days"
+    Const ColREF_PK_ID_BMCDCS_TRIP As String = "ColREF_PK_ID_BMCDCS_TRIP"
+    Const ColAgainst_Multiple_Days_Merge_Day_Detail As String = "ColAgainst_Multiple_Days_Merge_Day_Detail"
     Const colMilkType As String = "colMilkType"
     Const colMCCUploaderCode As String = "colMCCUploaderCode"
     Const colMCCCode As String = "colMCCCode"
@@ -26,6 +29,8 @@ Public Class frmMilkCollectionMCC
     Const colFATKG As String = "colFATKG"
     Const colSNFKG As String = "colSNFKG"
     Const colTemp As String = "colTemp"
+
+
     Dim isInsideLoadData As Boolean = False
     Dim isCellValueChangedOpen As Boolean = False
     Dim SettMilkCollectionFATSNFTypeHeader As Integer
@@ -462,6 +467,7 @@ Public Class frmMilkCollectionMCC
         repoNumBox.ReadOnly = True
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
         repoNumBox = New GridViewDecimalColumn()
         repoNumBox.FormatString = ""
         repoNumBox.HeaderText = "PKID"
@@ -470,6 +476,36 @@ Public Class frmMilkCollectionMCC
         repoNumBox.ReadOnly = True
         repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "Against_Multiple_Days"
+        repoNumBox.Name = ColAgainst_Multiple_Days
+        repoNumBox.IsVisible = False
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "REF_PK_ID_BMCDCS_TRIP"
+        repoNumBox.Name = ColREF_PK_ID_BMCDCS_TRIP
+        repoNumBox.IsVisible = False
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+        repoNumBox = New GridViewDecimalColumn()
+        repoNumBox.FormatString = ""
+        repoNumBox.HeaderText = "Against_Multiple_Days_Merge_Day_Detail"
+        repoNumBox.Name = ColAgainst_Multiple_Days_Merge_Day_Detail
+        repoNumBox.IsVisible = False
+        repoNumBox.ReadOnly = True
+        repoNumBox.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoNumBox)
+
+
+
         Dim repoComboBox As GridViewComboBoxColumn = New GridViewComboBoxColumn()
         repoComboBox = New GridViewComboBoxColumn()
         repoComboBox.FormatString = ""
@@ -960,6 +996,11 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                     If flag Then
                         Dim objTr As New clsMilkCollectionMCCDetail()
                         objTr.SNo = ii + 1
+
+                        objTr.Against_Multiple_Days = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColAgainst_Multiple_Days).Value)
+                        objTr.REF_PK_ID_BMCDCS_TRIP = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColREF_PK_ID_BMCDCS_TRIP).Value)
+                        objTr.Against_Multiple_Days_Merge_Day_Detail = clsCommon.myCDecimal(gv1.Rows(ii).Cells(ColAgainst_Multiple_Days_Merge_Day_Detail).Value)
+
                         objTr.Sample_No = clsCommon.myCDecimal(gv1.Rows(ii).Cells(colSampleNo).Value)
                         objTr.MCC_Code = clsCommon.myCstr(gv1.Rows(ii).Cells(colMCCCode).Value)
                         objTr.Milk_Type = clsCommon.myCstr(gv1.Rows(ii).Cells(colMilkType).Value)
@@ -1034,6 +1075,9 @@ Left outer join TSPL_GAZE_READING on TSPL_GAZE_READING.Code=tspl_Silo_Detail.Gaz
                             gv1.Rows(gv1.Rows.Count - 1).Cells(colMCCUploaderCode).Value = objTr.MCC_Uploader_Code
                         End If
                         gv1.Rows(gv1.Rows.Count - 1).Cells(ColPKID).Value = objTr.PK_Id
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColAgainst_Multiple_Days).Value = objTr.Against_Multiple_Days
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColREF_PK_ID_BMCDCS_TRIP).Value = objTr.REF_PK_ID_BMCDCS_TRIP
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(ColAgainst_Multiple_Days_Merge_Day_Detail).Value = objTr.Against_Multiple_Days_Merge_Day_Detail
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colFATPer).Value = objTr.FAT
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colSNFPer).Value = objTr.SNF

@@ -274,6 +274,8 @@ Partial Class frmShipmentDairy
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.RadPageViewPage4 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.txtTCAmt = New common.Controls.MyLabel()
+        Me.lblTCAmt = New common.Controls.MyLabel()
         Me.txtSecurity = New common.Controls.MyLabel()
         Me.lblSecuirty = New common.Controls.MyLabel()
         Me.txtDCAmt = New common.Controls.MyLabel()
@@ -646,6 +648,8 @@ Partial Class frmShipmentDairy
         Me.pvpCustomFields.SuspendLayout()
         Me.Attachments.SuspendLayout()
         Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSecuirty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -5022,6 +5026,8 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage4
         '
+        Me.RadPageViewPage4.Controls.Add(Me.txtTCAmt)
+        Me.RadPageViewPage4.Controls.Add(Me.lblTCAmt)
         Me.RadPageViewPage4.Controls.Add(Me.txtSecurity)
         Me.RadPageViewPage4.Controls.Add(Me.lblSecuirty)
         Me.RadPageViewPage4.Controls.Add(Me.txtDCAmt)
@@ -5068,6 +5074,28 @@ Partial Class frmShipmentDairy
         Me.RadPageViewPage4.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage4.Text = "Total"
         '
+        'txtTCAmt
+        '
+        Me.txtTCAmt.AutoSize = False
+        Me.txtTCAmt.BorderVisible = True
+        Me.txtTCAmt.FieldName = Nothing
+        Me.txtTCAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTCAmt.Location = New System.Drawing.Point(764, 77)
+        Me.txtTCAmt.Name = "txtTCAmt"
+        Me.txtTCAmt.Size = New System.Drawing.Size(82, 18)
+        Me.txtTCAmt.TabIndex = 1413
+        Me.txtTCAmt.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblTCAmt
+        '
+        Me.lblTCAmt.FieldName = Nothing
+        Me.lblTCAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTCAmt.Location = New System.Drawing.Point(607, 78)
+        Me.lblTCAmt.Name = "lblTCAmt"
+        Me.lblTCAmt.Size = New System.Drawing.Size(153, 16)
+        Me.lblTCAmt.TabIndex = 1414
+        Me.lblTCAmt.Text = "Transporter Commission Amt"
+        '
         'txtSecurity
         '
         Me.txtSecurity.AutoSize = False
@@ -5106,11 +5134,11 @@ Partial Class frmShipmentDairy
         '
         Me.lblDCAmt.FieldName = Nothing
         Me.lblDCAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDCAmt.Location = New System.Drawing.Point(403, 76)
+        Me.lblDCAmt.Location = New System.Drawing.Point(371, 76)
         Me.lblDCAmt.Name = "lblDCAmt"
-        Me.lblDCAmt.Size = New System.Drawing.Size(92, 16)
+        Me.lblDCAmt.Size = New System.Drawing.Size(147, 16)
         Me.lblDCAmt.TabIndex = 121
-        Me.lblDCAmt.Text = "Commission Amt"
+        Me.lblDCAmt.Text = "Distributor Commission Amt"
         '
         'txtTCSTaxRate
         '
@@ -6959,6 +6987,8 @@ Partial Class frmShipmentDairy
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
         Me.RadPageViewPage4.PerformLayout()
+        CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSecurity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSecuirty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDCAmt, System.ComponentModel.ISupportInitialize).EndInit()
@@ -7462,5 +7492,7 @@ Partial Class frmShipmentDairy
     Friend WithEvents txtFATPER As common.Controls.MyTextBox
     Friend WithEvents lblFATPER As common.Controls.MyLabel
     Friend WithEvents rgbTaxNonTax As RadGroupBox
+    Friend WithEvents txtTCAmt As common.Controls.MyLabel
+    Friend WithEvents lblTCAmt As common.Controls.MyLabel
 End Class
 

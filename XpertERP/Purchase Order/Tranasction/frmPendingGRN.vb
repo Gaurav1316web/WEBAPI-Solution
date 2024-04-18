@@ -937,7 +937,8 @@ Public Class frmPendingGRN
         Dim Disc_Per_Unit As Double = 0
         Try
             Dim sQuery As String = "select Disc_Per_Unit from TSPL_GRN_DETAIL where GRN_No='" & GRN_No & "' and item_code='" & item_code & "'"
-            Disc_Per_Unit = clsDBFuncationality.getSingleValue(sQuery)
+            'Disc_Per_Unit = clsDBFuncationality.getSingleValue(sQuery)
+            Disc_Per_Unit = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sQuery))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.ToString)
         End Try

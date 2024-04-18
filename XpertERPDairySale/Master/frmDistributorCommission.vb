@@ -10,6 +10,7 @@ Public Class frmDistributorCommission
     Const colCustCode As String = "colCustCode"
     Const colCustName As String = "colCustName"
     Const colCRate As String = "colCRate"
+    Const colTRate As String = "colTRate"
     Const colSecRate As String = "colSecRate"
     Private isCellValueChangedOpen As Boolean = False
     Private isInsideLoadData As Boolean = False
@@ -101,7 +102,7 @@ Public Class frmDistributorCommission
         Dim repoCustCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCustCode.FormatString = ""
         If rbtnCommission.IsChecked Then
-            repoCustCode.HeaderText = "Distributor Code"
+            repoCustCode.HeaderText = "Distributor/Transpoter Code"
         Else
             repoCustCode.HeaderText = "Transpoter Code"
         End If
@@ -115,7 +116,7 @@ Public Class frmDistributorCommission
         Dim repoCustName = New GridViewTextBoxColumn()
         repoCustName.FormatString = ""
         If rbtnCommission.IsChecked Then
-            repoCustName.HeaderText = "Distributor Name"
+            repoCustName.HeaderText = "Distributor/Transpoter Name"
         Else
             repoCustName.HeaderText = "Transpoter Name"
         End If
@@ -126,9 +127,9 @@ Public Class frmDistributorCommission
         GV1.MasterTemplate.Columns.Add(repoCustName)
         Dim repoTextBox = New GridViewDecimalColumn()
         repoTextBox.FormatString = "{0:n4}"
-        repoTextBox.HeaderText = "Rate Per UOM"
+        repoTextBox.HeaderText = "Distributor Rate Per UOM"
         repoTextBox.Name = colCRate
-        repoTextBox.Width = 80
+        repoTextBox.Width = 120
         repoTextBox.Minimum = 0
         repoNumBox.ShowUpDownButtons = False
         repoNumBox.Step = 0
@@ -136,6 +137,18 @@ Public Class frmDistributorCommission
         repoTextBox.IsVisible = True
         'repoTextBox.ReadOnly = True
         GV1.MasterTemplate.Columns.Add(repoTextBox)
+        Dim repoTRate = New GridViewDecimalColumn()
+        repoTRate.FormatString = "{0:n4}"
+        repoTRate.HeaderText = "Transporter Rate Per UOM"
+        repoTRate.Name = colTRate
+        repoTRate.Width = 120
+        repoTRate.Minimum = 0
+        repoTRate.ShowUpDownButtons = False
+        repoTRate.Step = 0
+        repoTRate.DecimalPlaces = 4
+        repoTRate.IsVisible = True
+        'repoTextBox.ReadOnly = True
+        GV1.MasterTemplate.Columns.Add(repoTRate)
         If chkSecurity.Checked Then
             Dim SecRateTextBox = New GridViewDecimalColumn()
             SecRateTextBox.FormatString = "{0:n2}"
@@ -173,6 +186,7 @@ Public Class frmDistributorCommission
         txtApplicableDate.Value = txtDate.Value
         rbtnCommission.IsChecked = True
         rbtnTranspotation.IsChecked = False
+        rbtnTranspotation.Visible = False
         chkSecurity.Checked = False
         txtDistributorTagging.Value = ""
         txtItems.arrValueMember = Nothing
@@ -273,7 +287,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
             Dim obj As New List(Of clsDistributorCommissionDetails)
             Dim currentdate As Date = Date.Today
             If clsCommon.myLen(txtUOM.Value) > 0 Then
-                If transportSql.importExcel(gv, "Route Code", "Distributor Code", "Is Transpotation", "Rate", "Security Rate") Then
+                If transportSql.importExcel(gv, "Route Code", "Distributor Code", "Is Transpotation", "Rate", "Transporter Rate", "Security Rate") Then
                     'Dim trans As SqlTransaction = Nothing
                     Dim linno As Integer = 0
                     Dim TempNewRecord As Boolean = False
@@ -312,6 +326,11 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                                 Continue For
                             Else
                                 Arr.Rate = clsCommon.myCDecimal(grow.Cells("Rate").Value)
+                            End If
+                            If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Transporter_Rate").Value))) Then
+                                Continue For
+                            Else
+                                Arr.Transporter_Rate = clsCommon.myCDecimal(grow.Cells("Transporter_Rate").Value)
                             End If
                             If (String.IsNullOrEmpty(clsCommon.myCstr(grow.Cells("Security Rate").Value))) Then
                                 Continue For
@@ -362,9 +381,9 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
     End Sub
     Public Sub Export()
         Try
-            Dim str As String = "select Route_Code as [Route Code],Distributor_Code as [Distributor Code],'' as [Is Transpotation],Rate as [Rate],Security_Rate as [Security Rate] from TSPL_Distributor_Commission_Detail"
+            Dim str As String = "select Route_Code as [Route Code],Distributor_Code as [Distributor Code],'' as [Is Transpotation],Rate as [Rate],Transporter_Rate as [Transporter Rate],Security_Rate as [Security Rate] from TSPL_Distributor_Commission_Detail"
             Dim whrCls As String = ""
-            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "Is Transpotation", "Rate", "Security Rate"})
+            ListImpExpColumnsMandatory = New List(Of String)({"Route Code", "Distributor Code", "Is Transpotation", "Rate", "Transporter Rate", "Security Rate"})
             transportSql.ExporttoExcel(str, whrCls, Me)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -452,6 +471,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCustCode).Value = objTr.Distributor_Code
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCustName).Value = clsDBFuncationality.getSingleValue("select Customer_Name from TSPL_Customer_Master where cust_code='" + objTr.Distributor_Code + "'")
                         GV1.Rows(GV1.Rows.Count - 1).Cells(colCRate).Value = objTr.Rate
+                        GV1.Rows(GV1.Rows.Count - 1).Cells(colTRate).Value = objTr.Transporter_Rate
                         If chkSecurity.Checked Then
                             GV1.Rows(GV1.Rows.Count - 1).Cells(colSecRate).Value = objTr.Security_Rate
                         End If
@@ -535,6 +555,7 @@ where TSPL_DISTRIBUTOR_ROUTE.Code='" + txtDistributorTagging.Value + "' "
                 objTr.Distributor_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(colCustCode).Value)
                 objTr.Route_Code = clsCommon.myCstr(GV1.Rows(ii).Cells(ColRouteCode).Value)
                 objTr.Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colCRate).Value)
+                objTr.Transporter_Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colTRate).Value)
                 If chkSecurity.Checked Then
                     objTr.Security_Rate = clsCommon.myCDecimal(GV1.Rows(ii).Cells(colSecRate).Value)
                 Else
