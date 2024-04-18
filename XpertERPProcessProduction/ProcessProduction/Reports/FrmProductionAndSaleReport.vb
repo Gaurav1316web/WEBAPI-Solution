@@ -84,7 +84,9 @@ Public Class FrmProductionAndSaleReport
                         queryStock += " as Qty"
                     Next
                 Next
-
+                If clsCommon.myLen(queryStock) <= 0 Then
+                    Throw New Exception("No data found to display")
+                End If
                 queryStock = "select ST.LOCATION_CODE,sum(ST.Qty) as Qty from (" + queryStock + ") ST GROUP BY ST.LOCATION_CODE "
 
 
@@ -172,18 +174,18 @@ Public Class FrmProductionAndSaleReport
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =BreakDown.Location_Code "
 
 
-                query += " LEFT OUTER JOIN (" + queryStock + " ) FGS ON TSPL_LOCATION_MASTER.LOCATION_CODE =FGS.Location_Code"
+                    query += " LEFT OUTER JOIN (" + queryStock + " ) FGS ON TSPL_LOCATION_MASTER.LOCATION_CODE =FGS.Location_Code"
 
-                query += " where TSPL_LOCATION_MASTER.IsMainPlant='0'"
+                    query += " where TSPL_LOCATION_MASTER.IsMainPlant='0'"
 
-            ElseIf rdbWeekly.Checked = True Then
-                'fDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,2-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
-                'tDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,8-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
-                'dtpFrom.Value = fDate
-                'toDate.Value = tDate
-                'dtcurrent = fromDate.Value
-                'dtnext = toDate.Value
-                fDate = fromDate.Value
+                ElseIf rdbWeekly.Checked = True Then
+                    'fDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,2-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
+                    'tDate = CDate(clsDBFuncationality.getSingleValue("select DATEADD(DAY,8-DATEPART(WEEKDAY,convert(date,'" + fromDate.Value + "',103)),convert(date,'" + fromDate.Value + "',103))"))
+                    'dtpFrom.Value = fDate
+                    'toDate.Value = tDate
+                    'dtcurrent = fromDate.Value
+                    'dtnext = toDate.Value
+                    fDate = fromDate.Value
                 tDate = toDate.Value
                 DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
 

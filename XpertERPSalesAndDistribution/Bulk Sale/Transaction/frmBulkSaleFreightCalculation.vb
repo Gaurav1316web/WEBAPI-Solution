@@ -198,7 +198,7 @@ Public Class frmBulkSaleFreightCalculation
         Try
             If (AllowToSave()) Then
                 Dim obj As New clsBulkSaleFreightCalculation()
-                obj.Document_Code = clsCommon.myCstr(txtDocumentNo.Value)
+                obj.Document_Code = txtDocumentNo.Value
                 obj.Document_date = clsCommon.myCDate(txtdate.Value)
                 obj.Customer_Code = clsCommon.myCstr(txtCustomer.Value)
                 obj.From_Date = clsCommon.myCDate(txtFromDate.Value)
@@ -207,16 +207,45 @@ Public Class frmBulkSaleFreightCalculation
 
                 For Each grow As GridViewRowInfo In gv1.Rows
                     Dim objTr As New clsBulkSaleFreightCalculationDetail()
-                    If clsCommon.myCdbl((grow.Cells(colTenderQty).Value)) > 0 Then
-                        objTr.SNO = grow.Cells(colSNo).Value
-                        objTr.Tender_Qty = clsCommon.myCdbl((grow.Cells(colTenderQty).Value))
-                        objTr.Rate = clsCommon.myCDecimal(grow.Cells(colRate).Value)
-                        objTr.Pro_Rate = clsCommon.myCDecimal(grow.Cells(colProRate).Value)
-                        objTr.Applicable_Rate = clsCommon.myCDecimal(grow.Cells(colApplicableRate).Value)
-                        objTr.Payable_Amount = clsCommon.myCDecimal(grow.Cells(colPayableAmount).Value)
-                        objTr.DieselPetrol = clsCommon.myCDecimal(grow.Cells(colDieselPetrol).Value)
-                        objTr.GPS_KM = clsCommon.myCDecimal(grow.Cells(colGPSKM).Value)
-                        obj.Arr.Add(objTr)
+                    If btnsave.Text = "Save" Then
+                        If clsCommon.myCdbl((grow.Cells("Tender_Qty").Value)) > 0 Then
+                            objTr.SNO = grow.Cells("SNo").Value
+                            objTr.Dispatch_Date = clsCommon.myCDate(grow.Cells("Date").Value)
+                            objTr.Bulk_Dispatch_Document = clsCommon.myCstr(grow.Cells("Dispatch_No").Value)
+                            objTr.Bulk_Dispatch_Tanker = clsCommon.myCstr(grow.Cells("Tanker_No").Value)
+                            objTr.Ack_Qty = clsCommon.myCdbl(grow.Cells("Qty").Value)
+                            objTr.Ack_Fat = clsCommon.myCdbl(grow.Cells("Fat").Value)
+                            objTr.Ack_Snf = clsCommon.myCdbl(grow.Cells("Snf").Value)
+                            objTr.Tender_Qty = clsCommon.myCdbl(grow.Cells("Tender_Qty").Value)
+                            objTr.Rate = clsCommon.myCDecimal(grow.Cells("Rate").Value)
+                            objTr.Pro_Rate = clsCommon.myCDecimal(grow.Cells("Pro_Rate").Value)
+                            objTr.Applicable_Rate = clsCommon.myCDecimal(grow.Cells("Applicable_Rate").Value)
+                            objTr.Payable_Amount = clsCommon.myCDecimal(grow.Cells("Payable_Amount").Value)
+                            objTr.DieselPetrol = clsCommon.myCDecimal(grow.Cells("DieselPetrol").Value)
+                            objTr.GPS_KM = clsCommon.myCDecimal(grow.Cells("GPS_KM").Value)
+                            obj.Arr.Add(objTr)
+                        End If
+
+                    Else
+                        If clsCommon.myCdbl((grow.Cells(colTenderQty).Value)) > 0 Then
+                            objTr.SNO = grow.Cells(colSNo).Value
+                            objTr.Dispatch_Date = clsCommon.myCDate(grow.Cells(colDispatchDate).Value)
+                            objTr.Bulk_Dispatch_Document = clsCommon.myCstr(grow.Cells(colDispatchNo).Value)
+                            objTr.Bulk_Dispatch_Tanker = clsCommon.myCstr(grow.Cells(colTankerNo).Value)
+                            objTr.Ack_Qty = clsCommon.myCdbl(grow.Cells(ColAckQty).Value)
+                            objTr.Ack_Fat = clsCommon.myCdbl(grow.Cells(colAckFat).Value)
+                            objTr.Ack_Snf = clsCommon.myCdbl(grow.Cells(colAckSnf).Value)
+                            objTr.Tender_Qty = clsCommon.myCdbl(grow.Cells(colTenderQty).Value)
+                            objTr.Rate = clsCommon.myCDecimal(grow.Cells(colRate).Value)
+                            objTr.Pro_Rate = clsCommon.myCDecimal(grow.Cells(colProRate).Value)
+                            objTr.Applicable_Rate = clsCommon.myCDecimal(grow.Cells(colApplicableRate).Value)
+                            objTr.Payable_Amount = clsCommon.myCDecimal(grow.Cells(colPayableAmount).Value)
+                            objTr.DieselPetrol = clsCommon.myCDecimal(grow.Cells(colDieselPetrol).Value)
+                            objTr.GPS_KM = clsCommon.myCDecimal(grow.Cells(colGPSKM).Value)
+                            obj.Arr.Add(objTr)
+                        End If
+
+
                     End If
 
                 Next
@@ -266,7 +295,7 @@ Public Class frmBulkSaleFreightCalculation
         repoDate.Format = DateTimePickerFormat.Custom
         repoDate.CustomFormat = "dd/MM/yyyy"
         repoDate.FormatString = "{0:dd/MM/yyyy}"
-        repoDate.HeaderText = "Date"
+        repoDate.HeaderText = "Dispatch Date"
         repoDate.Name = colDispatchDate
         repoDate.ReadOnly = True
         repoDate.IsVisible = True
@@ -432,6 +461,7 @@ Public Class frmBulkSaleFreightCalculation
                     btndelete.Enabled = False
                     btnsave.Enabled = False
                     btnPost.Enabled = False
+                    btnGo.Enabled = False
                 Else
                     lblStatus.Status = ERPTransactionStatus.Pending
                     btndelete.Enabled = True
@@ -539,11 +569,12 @@ Public Class frmBulkSaleFreightCalculation
         End Try
     End Sub
 
-    Private Sub LoadDispatchAcknowledgeData()
+    Private Sub LoadDispatchAcknowledge(ByVal FromDate As String, ByVal ToDate As String, ByVal Customer As String)
         Try
-            Dim qry As String = ""
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+
+            Dim dt As DataTable = clsBulkSaleFreightCalculation.LoadDispatchAcknowledgeData(FromDate, ToDate, Customer)
             gv1.Rows.Clear()
+            gv1.Columns.Clear()
             gv1.SummaryRowsBottom.Clear()
             gv1.Columns.Clear()
             gv1.DataSource = Nothing
@@ -551,12 +582,19 @@ Public Class frmBulkSaleFreightCalculation
                 gv1.DataSource = dt
                 If txtDieselHike.Value > 0 Then
                     For ii As Integer = 0 To dt.Rows.Count - 1
-                        gv1.Rows(ii).Cells(colDieselPetrol).Value = txtDieselHike.Value
+                        If btnsave.Text = "Save" Then
+                            gv1.Rows(ii).Cells(colDieselPetrol).Value = txtDieselHike.Value
+                        Else
+                            gv1.Rows(ii).Cells("DieselPetrol").Value = txtDieselHike.Value
+
+                        End If
                     Next
 
                 End If
+                gv1.BestFitColumns()
+                SetGridFormation()
             Else
-                    clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No data found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -621,6 +659,28 @@ Public Class frmBulkSaleFreightCalculation
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
     End Sub
 
+    Sub SetGridFormation()
+        gv1.EnableFiltering = True
+        gv1.ShowRowHeaderColumn = True
+        For ii As Integer = 0 To gv1.Columns.Count - 1
+            gv1.Columns(ii).ReadOnly = True
+            gv1.Columns(ii).IsVisible = True
+            '  gv1.Columns(ii).Width = 100
+        Next
+        gv1.Columns("Date").HeaderText = "Dispatch Date"
+        gv1.Columns("Tanker_No").HeaderText = "Tanker No"
+        gv1.Columns("Dispatch_No").HeaderText = "Dispatch No "
+        gv1.Columns("Qty").FormatString = ""
+        gv1.Columns("Tender_Qty").HeaderText = "Tender Qty"
+        gv1.Columns("Rate").HeaderText = "Rate Per 9KL"
+        gv1.Columns("Pro_Rate").HeaderText = "Pro-Rate Payable Rate"
+        gv1.Columns("DieselPetrol").HeaderText = "Diesel Hike/Red."
+        gv1.Columns("Payable_Amount").HeaderText = "Payable_Amount"
+        gv1.Columns("GPS_KM").HeaderText = "GPS KM"
+        gv1.Columns("Applicable_Rate").HeaderText = "Applicable_Rate"
+
+    End Sub
+
     Private Sub btnSaveLayout_Click(sender As Object, e As EventArgs) Handles btnSaveLayout.Click
         If clsCommon.myLen(MyBase.Form_ID) > 0 Then
             gv1.MasterTemplate.FilterDescriptors.Clear()
@@ -675,6 +735,6 @@ Public Class frmBulkSaleFreightCalculation
     End Sub
 
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
-        LoadDispatchAcknowledgeData()
+        LoadDispatchAcknowledge(txtFromDate.Value, txtToDate.Value, txtCustomer.Value)
     End Sub
 End Class
