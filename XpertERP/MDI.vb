@@ -7847,6 +7847,7 @@ Public Class MDI
                     Case clsUserMgtCode.rptDBTNEFTPaymentDetailReport
                         frm = New rptDBTNEFTPaymentDetailReport
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmBulkMilkSRNReturn
                         frm = New FrmBulkMilkSRNReturn
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -8357,6 +8358,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptMilkUnion
                         frm = New rptmilkunion
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo)
+                    Case clsUserMgtCode.rptExeVersionReport
+                        frm = New rptExeVersionReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmPaymentProcessFarmer
                         frm = New frmPaymentProcessFarmer
