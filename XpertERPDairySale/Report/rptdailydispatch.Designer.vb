@@ -50,8 +50,9 @@ Partial Class rptdailydispatch
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
         Me.btnreset = New Telerik.WinControls.UI.RadButton()
-        Me.ChkMilk = New Telerik.WinControls.UI.RadCheckBox()
-        Me.ChkProduct = New Telerik.WinControls.UI.RadCheckBox()
+        Me.RadGroupBox7 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbtnMilk = New System.Windows.Forms.RadioButton()
+        Me.rbtnproduct = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -81,8 +82,8 @@ Partial Class rptdailydispatch
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChkMilk, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChkProduct, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox7.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -127,8 +128,7 @@ Partial Class rptdailydispatch
         '
         'RadPanel1
         '
-        Me.RadPanel1.Controls.Add(Me.ChkProduct)
-        Me.RadPanel1.Controls.Add(Me.ChkMilk)
+        Me.RadPanel1.Controls.Add(Me.RadGroupBox7)
         Me.RadPanel1.Controls.Add(Me.txtlocation)
         Me.RadPanel1.Controls.Add(Me.txtcustomer)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox1)
@@ -459,21 +459,38 @@ Partial Class rptdailydispatch
         Me.btnreset.TabIndex = 342
         Me.btnreset.Text = "Reset"
         '
-        'ChkMilk
+        'RadGroupBox7
         '
-        Me.ChkMilk.Location = New System.Drawing.Point(460, 13)
-        Me.ChkMilk.Name = "ChkMilk"
-        Me.ChkMilk.Size = New System.Drawing.Size(41, 18)
-        Me.ChkMilk.TabIndex = 1462
-        Me.ChkMilk.Text = "Milk"
+        Me.RadGroupBox7.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox7.Controls.Add(Me.rbtnMilk)
+        Me.RadGroupBox7.Controls.Add(Me.rbtnproduct)
+        Me.RadGroupBox7.HeaderText = ""
+        Me.RadGroupBox7.Location = New System.Drawing.Point(437, 13)
+        Me.RadGroupBox7.Name = "RadGroupBox7"
+        Me.RadGroupBox7.Size = New System.Drawing.Size(157, 26)
+        Me.RadGroupBox7.TabIndex = 1464
         '
-        'ChkProduct
+        'rbtnMilk
         '
-        Me.ChkProduct.Location = New System.Drawing.Point(517, 13)
-        Me.ChkProduct.Name = "ChkProduct"
-        Me.ChkProduct.Size = New System.Drawing.Size(59, 18)
-        Me.ChkProduct.TabIndex = 1463
-        Me.ChkProduct.Text = "Product"
+        Me.rbtnMilk.AutoSize = True
+        Me.rbtnMilk.Checked = True
+        Me.rbtnMilk.Location = New System.Drawing.Point(5, 4)
+        Me.rbtnMilk.Name = "rbtnMilk"
+        Me.rbtnMilk.Size = New System.Drawing.Size(47, 17)
+        Me.rbtnMilk.TabIndex = 440
+        Me.rbtnMilk.TabStop = True
+        Me.rbtnMilk.Text = "Milk"
+        Me.rbtnMilk.UseVisualStyleBackColor = True
+        '
+        'rbtnproduct
+        '
+        Me.rbtnproduct.AutoSize = True
+        Me.rbtnproduct.Location = New System.Drawing.Point(83, 4)
+        Me.rbtnproduct.Name = "rbtnproduct"
+        Me.rbtnproduct.Size = New System.Drawing.Size(65, 17)
+        Me.rbtnproduct.TabIndex = 441
+        Me.rbtnproduct.Text = "Product"
+        Me.rbtnproduct.UseVisualStyleBackColor = True
         '
         'rptdailydispatch
         '
@@ -518,8 +535,9 @@ Partial Class rptdailydispatch
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnreset, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChkMilk, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChkProduct, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox7, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox7.ResumeLayout(False)
+        Me.RadGroupBox7.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -550,6 +568,7 @@ Partial Class rptdailydispatch
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents txtlocation As UserControls.txtFinder
     Friend WithEvents txtcustomer As UserControls.txtFinder
-    Friend WithEvents ChkProduct As RadCheckBox
-    Friend WithEvents ChkMilk As RadCheckBox
+    Friend WithEvents RadGroupBox7 As RadGroupBox
+    Friend WithEvents rbtnMilk As RadioButton
+    Friend WithEvents rbtnproduct As RadioButton
 End Class

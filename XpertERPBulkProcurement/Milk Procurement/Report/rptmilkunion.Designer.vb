@@ -22,11 +22,14 @@ Partial Class rptmilkunion
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rdbPosted = New System.Windows.Forms.RadioButton()
+        Me.rdbUnposted = New System.Windows.Forms.RadioButton()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
         Me.txtToDate = New common.Controls.MyDateTimePicker()
         Me.lblToDate = New common.Controls.MyLabel()
@@ -37,9 +40,7 @@ Partial Class rptmilkunion
         Me.btngo = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
-        Me.rdbPosted = New System.Windows.Forms.RadioButton()
-        Me.rdbUnposted = New System.Windows.Forms.RadioButton()
+        Me.rbdAllTrans = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -48,6 +49,8 @@ Partial Class rptmilkunion
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -59,8 +62,6 @@ Partial Class rptmilkunion
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.RadGroupBox2.SuspendLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -118,6 +119,41 @@ Partial Class rptmilkunion
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(779, 363)
         Me.RadPanel1.TabIndex = 15
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.Controls.Add(Me.rbdAllTrans)
+        Me.RadGroupBox2.Controls.Add(Me.rdbPosted)
+        Me.RadGroupBox2.Controls.Add(Me.rdbUnposted)
+        Me.RadGroupBox2.HeaderText = ""
+        Me.RadGroupBox2.Location = New System.Drawing.Point(299, 14)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(269, 29)
+        Me.RadGroupBox2.TabIndex = 442
+        '
+        'rdbPosted
+        '
+        Me.rdbPosted.AutoSize = True
+        Me.rdbPosted.Checked = True
+        Me.rdbPosted.Location = New System.Drawing.Point(13, 5)
+        Me.rdbPosted.Name = "rdbPosted"
+        Me.rdbPosted.Size = New System.Drawing.Size(60, 17)
+        Me.rdbPosted.TabIndex = 437
+        Me.rdbPosted.TabStop = True
+        Me.rdbPosted.Text = "Posted"
+        Me.rdbPosted.UseVisualStyleBackColor = True
+        '
+        'rdbUnposted
+        '
+        Me.rdbUnposted.AutoSize = True
+        Me.rdbUnposted.Location = New System.Drawing.Point(83, 6)
+        Me.rdbUnposted.Name = "rdbUnposted"
+        Me.rdbUnposted.Size = New System.Drawing.Size(76, 17)
+        Me.rdbUnposted.TabIndex = 438
+        Me.rdbUnposted.Text = "Unposted"
+        Me.rdbUnposted.UseVisualStyleBackColor = True
         '
         'txtFromDate
         '
@@ -218,7 +254,7 @@ Partial Class rptmilkunion
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -261,39 +297,15 @@ Partial Class rptmilkunion
         Me.btnPrint.TabIndex = 330
         Me.btnPrint.Text = "Print"
         '
-        'RadGroupBox2
+        'rbdAllTrans
         '
-        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
-        Me.RadGroupBox2.Controls.Add(Me.rdbPosted)
-        Me.RadGroupBox2.Controls.Add(Me.rdbUnposted)
-        Me.RadGroupBox2.HeaderText = ""
-        Me.RadGroupBox2.Location = New System.Drawing.Point(299, 14)
-        Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
-        Me.RadGroupBox2.Size = New System.Drawing.Size(173, 29)
-        Me.RadGroupBox2.TabIndex = 442
-        '
-        'rdbPosted
-        '
-        Me.rdbPosted.AutoSize = True
-        Me.rdbPosted.Checked = True
-        Me.rdbPosted.Location = New System.Drawing.Point(13, 5)
-        Me.rdbPosted.Name = "rdbPosted"
-        Me.rdbPosted.Size = New System.Drawing.Size(60, 17)
-        Me.rdbPosted.TabIndex = 437
-        Me.rdbPosted.TabStop = True
-        Me.rdbPosted.Text = "Posted"
-        Me.rdbPosted.UseVisualStyleBackColor = True
-        '
-        'rdbUnposted
-        '
-        Me.rdbUnposted.AutoSize = True
-        Me.rdbUnposted.Location = New System.Drawing.Point(83, 6)
-        Me.rdbUnposted.Name = "rdbUnposted"
-        Me.rdbUnposted.Size = New System.Drawing.Size(76, 17)
-        Me.rdbUnposted.TabIndex = 438
-        Me.rdbUnposted.Text = "Unposted"
-        Me.rdbUnposted.UseVisualStyleBackColor = True
+        Me.rbdAllTrans.AutoSize = True
+        Me.rbdAllTrans.Location = New System.Drawing.Point(165, 6)
+        Me.rbdAllTrans.Name = "rbdAllTrans"
+        Me.rbdAllTrans.Size = New System.Drawing.Size(95, 17)
+        Me.rbdAllTrans.TabIndex = 439
+        Me.rbdAllTrans.Text = "All Transation"
+        Me.rbdAllTrans.UseVisualStyleBackColor = True
         '
         'rptmilkunion
         '
@@ -316,6 +328,9 @@ Partial Class rptmilkunion
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadGroupBox2.ResumeLayout(False)
+        Me.RadGroupBox2.PerformLayout()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblToDate, System.ComponentModel.ISupportInitialize).EndInit()
@@ -327,9 +342,6 @@ Partial Class rptmilkunion
         CType(Me.btngo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -352,4 +364,5 @@ Partial Class rptmilkunion
     Friend WithEvents RadGroupBox2 As RadGroupBox
     Friend WithEvents rdbPosted As RadioButton
     Friend WithEvents rdbUnposted As RadioButton
+    Friend WithEvents rbdAllTrans As RadioButton
 End Class
