@@ -1978,7 +1978,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.FrmBulkCreditLimitApproval, "Bulk Credit Limit Approval", "1.23.01.03", clsUserMgtCode.SubModuleBSSetup, 27)
         InsertDefaultValue(clsUserMgtCode.FrmBulkTransactionApproval, "Bulk Transaction Approval", "1.23.01.04", clsUserMgtCode.SubModuleBSSetup, 27)
         InsertDefaultValue(clsUserMgtCode.TankerMasterSale, "Tanker Master Sale", "1.23.01.05", clsUserMgtCode.SubModuleBSSetup, 27)
-        InsertDefaultValue(clsUserMgtCode.BulkSaleFreightMaster, "Bulk Sale Frieight Master", "1.23.01.06", clsUserMgtCode.SubModuleBSSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.BulkSaleFreightMaster, "Bulk Sale Freight Master", "1.23.01.06", clsUserMgtCode.SubModuleBSSetup, 27)
 
         ''transaction
         InsertDefaultValue(clsUserMgtCode.SubModuleBulkSaleTransaction, "Transaction", "1.23.02", clsUserMgtCode.ModuleBulkSale, "SM", 26)
