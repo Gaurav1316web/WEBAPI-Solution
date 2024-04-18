@@ -21,7 +21,6 @@ Public Class frmTenderShortPenalty
         btnPrint.Visible = MyBase.isPrintFlag
         btnReverse.Visible = False
         btnRecalculate.Visible = False
-        btnDeleteUnusedCalc.Visible = False
     End Sub
     Private Sub FrmAPInvoiceEntry_Load(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles MyBase.Load
         SetUserMgmtNew()
@@ -755,7 +754,5 @@ and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PEN
         ReCalculate()
     End Sub
 
-    Private Sub RadButton4_Click(sender As Object, e As EventArgs) Handles btnDeleteUnusedCalc.Click
-        'Calculate(True)
-    End Sub
+
 End Class

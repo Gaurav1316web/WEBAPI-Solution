@@ -52995,7 +52995,8 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("RCDF_Post_By", "varchar(12) NULL")
             coll.Add("RCDF_Post_Date", "Datetime NULL")
             coll.Add("Bank_Letter_Date", "Datetime NULL")
-            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT", coll, Nothing, True, False, "", "Document_Code", "Document_Date")
+            coll.Add("UKID", "INT IDENTITY(1,1) not null")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DBT_NEFT", coll, "UNIQUE(UKID)", True, False, "", "Document_Code", "Document_Date")
 
             qry = "update TSPL_DBT_NEFT set Bank_Letter_Date=Document_Date where Bank_Letter_Date is null"
             clsDBFuncationality.ExecuteNonQuery(qry)
