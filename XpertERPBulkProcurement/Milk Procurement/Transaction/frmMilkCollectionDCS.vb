@@ -711,9 +711,9 @@ Public Class frmMilkCollectionDCS
         " from TSPL_VLC_MASTER_HEAD" + Environment.NewLine +
         " left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code  " + Environment.NewLine +
         " left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC " + Environment.NewLine
-        Dim whrCls As String = ""
+        Dim whrCls As String = " isnull(TSPL_VLC_MASTER_HEAD.Active,0)=1 "
         If Not SettShowAllDCS Then
-            whrCls = "  TSPL_VLC_MASTER_HEAD.MCC  ='" + clsCommon.myCstr(txtMCC.Tag) + "'"
+            whrCls = " and TSPL_VLC_MASTER_HEAD.MCC  ='" + clsCommon.myCstr(txtMCC.Tag) + "'"
         End If
 
         gv1.CurrentRow.Cells(colVLCUploaderCode).Value = clsCommon.ShowSelectForm("SMaRNUdC", qry, "Uploader_Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colVLCUploaderCode).Value), "Uploader_Code", isButtonClick)
@@ -725,14 +725,20 @@ Public Class frmMilkCollectionDCS
             If Not objCommonVar.DisplayTypeInMilkReceipt Then
                 gv1.CurrentRow.Cells(colDocCollectionMilkType).Value = IIf(clsCommon.myCdbl(dt.Rows(0)("Apply_Cow_Price")) = 1, "C", "M")
             End If
+
+
             If Not clsCommon.CompairString(clsCommon.myCstr(txtMCC.Tag), clsCommon.myCstr(dt.Rows(0)("MCC"))) = CompairStringResult.Equal Then
-                clsCommon.MyMessageBoxShow(Me, "DCS does not belong to BMC [" + txtMCC.Value + "]", Me.Text)
+                If clsCommon.MyMessageBoxShow(Me, "DCS does not belong to BMC [" + txtMCC.Value + "]" + Environment.NewLine + "Do You Want To Continue? ", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.No Then
+                    gv1.Rows.Remove(gv1.CurrentRow)
+                End If
+
+                'If Not clsCommon.CompairString(clsCommon.myCstr(txtMCC.Tag), clsCommon.myCstr(dt.Rows(0)("MCC"))) = CompairStringResult.Equal Then
+                '    clsCommon.MyMessageBoxShow(Me, "DCS does not belong to BMC [" + txtMCC.Value + "]", Me.Text)
+                'End If
             End If
         End If
 
     End Sub
-
-
 
     Private Sub btnOK_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnSave.Click
         SaveData()
@@ -1160,6 +1166,8 @@ left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_MILK_COLLECTION
             End If
         End If
     End Sub
+
+
 
     Private Sub txtDesc_Leave(sender As Object, e As EventArgs) Handles txtDesc.Leave
         If gv1.Rows.Count > 0 Then

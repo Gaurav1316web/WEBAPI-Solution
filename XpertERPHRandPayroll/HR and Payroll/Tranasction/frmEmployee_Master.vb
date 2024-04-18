@@ -157,6 +157,7 @@ Public Class frmEmployee_Master
             LoadData(clsCommon.myCstr(Me.Tag), NavigatorType.Current)
         End If
         AddNew()
+        'EmployeeStatusDate()
         'CreateTable()
     End Sub
 
@@ -396,6 +397,20 @@ Public Class frmEmployee_Master
                 obj.Hold_Slary = chkHoldsalary.Checked
                 obj.BLOOD_GROUP = txtBloodGroup.Text
                 obj.Emp_Status = clsCommon.myCstr(CboEmployeeStatus.SelectedValue)
+                If clsCommon.CompairString(lblActiveInactiveDate.Text, "Active Date") = CompairStringResult.Equal AndAlso txtActiveInactiveDate.Checked Then
+                    obj.Active_Date = 1
+                    obj.Status_Active_Date = txtActiveInactiveDate.Value
+                Else
+                    obj.Active_Date = 0
+                    obj.Status_Active_Date = Nothing
+                End If
+                If clsCommon.CompairString(lblActiveInactiveDate.Text, "Inactive Date") = CompairStringResult.Equal AndAlso txtActiveInactiveDate.Checked Then
+                    obj.Inactive_Date = 1
+                    obj.Status_Inactive_Date = txtActiveInactiveDate.Value
+                Else
+                    obj.Inactive_Date = 0
+                    obj.Status_Inactive_Date = Nothing
+                End If
                 obj.Payroll_Code = txtPayRollCode.Text
                 obj.GL_Account = TxtGLAccount.Value
                 obj.CAST_CATEGORY_CODE = txtCastCategory.Value
@@ -796,6 +811,24 @@ Public Class frmEmployee_Master
             chkHoldsalary.Checked = obj.Hold_Slary
             txtBloodGroup.Text = obj.BLOOD_GROUP
             CboEmployeeStatus.SelectedValue = obj.Emp_Status
+            If clsCommon.CompairString(clsCommon.myCstr(obj.Emp_Status), "Active") = CompairStringResult.Equal Then
+                If obj.Active_Date = 1 Then
+                    lblActiveInactiveDate.Text = "Active Date"
+                    txtActiveInactiveDate.Checked = True
+                    txtActiveInactiveDate.Value = obj.Status_Active_Date
+                Else
+                    txtActiveInactiveDate.Checked = False
+                End If
+            End If
+            If clsCommon.CompairString(clsCommon.myCstr(obj.Emp_Status), "Inactive") = CompairStringResult.Equal Then
+                If obj.Inactive_Date = 1 Then
+                    lblActiveInactiveDate.Text = "Inactive Date"
+                    txtActiveInactiveDate.Checked = True
+                    txtActiveInactiveDate.Value = obj.Status_Inactive_Date
+                Else
+                    txtActiveInactiveDate.Checked = False
+                End If
+            End If
             txtPayRollCode.Text = obj.Payroll_Code
             TxtGLAccount.Value = obj.GL_Account
             txtCastCategory.Value = obj.CAST_CATEGORY_CODE
@@ -1271,6 +1304,8 @@ Public Class frmEmployee_Master
     End Sub
 
     Sub AddNew()
+        txtActiveInactiveDate.Value = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy")
+        txtActiveInactiveDate.Checked = False
         isNewEntry = True
         btnsave.Text = "Save"
         txtCode.MyReadOnly = False
@@ -2587,6 +2622,7 @@ Public Class frmEmployee_Master
         If transportSql.importExcel(gv, "Emp ID", "Employee Name", "Fathers Name", "Mothers Name", "Date of Birth", "Sex", "Marital Status", "Spouse Name", "Designation", "Designation Name", "Occupation", "Department", "Department Name", "Sub Department", "Sub Department Name", "Grade", "Location", "Working Location", "Division", "Bank Account No", "Bank Branch IFC", "Bank Branch Description", "Emp Bank Name", "Sal Structure", "Attendance", "Res No", "Res Name", "Payment Mode", "Current Address", "Current Country Code", "Current Country Name", "Current State", "Current State Name", "Current City", "Current City Name", "Current Phone No", "Current Mobile No", "Current Postal Code", "Current Tehsil", "Current Village", "Current Post office", "Current Police Station", "Current Type", "Current Address Verified", "Current Verification Remarks", "Permanent Address", "Permanent Country", "Permanent Country Name", "Permanent State", "Permanent State Name", "Permanent City", "Permanent City Name", "Permanent Phone No", "Permanent Mobile No", "Permanent Postal", "Permanent Tehsil", "Permanent Village", "Permanent Post Office", "Permanent Police Station", "Permanent Type", "Permanent Address Verified", "Permanent Verification remarks", "E - Mail ID", "STD Code", "Date of Joining", "Salary calculate frm", "Date of leaving", "Reason for leaving", "ESI Applicable", "ESI No", "ESI Dispensary", "PF Applicable", "PF No", "PF No for Dept File", "Restrict PF", "Zero Pension", "Zero PT", "PAN", "Ward/Circle", "Director", "Resignation Submit Date", "Notice Period In Days", "Salary Account", "Advance To Staff", "Conveyance Type", "Employment Nature", "Is OT Applicable", "Is OD Applicable", "Show in Statutory", "Minimum Basic Salary", "Vendor Code", "Agency Code", "User Code", "Age For Pension", "Aadhar No", "PF Calculation Type", "EPF Rate", "Max Amount EPF", "Employee Band Code", "BioMetric Employee Code", "Employee Status(Active/Inactive)", "Card_No", "UIN_NO", "SecChequeNoLac1", "SecChequeNoRs100", "UANNo") Then
             Dim trans As SqlTransaction = Nothing
             Try
+                Dim lstemp As New List(Of clsEmployeeMaster)
                 clsCommon.ProgressBarShow()
                 For Each grow As GridViewRowInfo In gv.Rows
                     Dim obj As New clsEmployeeMaster()
@@ -3451,16 +3487,26 @@ Public Class frmEmployee_Master
 
                     obj.UANNo = clsCommon.myCstr(grow.Cells("UANNo").Value)
                     '' end kdil and viney
-                    obj.SaveDataFromExcelSheet(obj, True)
+                    lstemp.Add(obj)
                     grow = Nothing
                     obj = Nothing
-
-
                 Next
 
-                clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                If lstemp IsNot Nothing AndAlso lstemp.Count > 0 Then
+                    trans = clsDBFuncationality.GetTransactin()
+                    For Each items As clsEmployeeMaster In lstemp
+                        Try
+                            items.SaveDataFromExcelSheet(items, True, trans)
+                        Catch ex As Exception
+                            Throw New Exception(ex.Message)
+                        End Try
+                    Next
+                    trans.Commit()
+                    clsCommon.ProgressBarHide()
+                    common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                End If
             Catch ex As Exception
+                trans.Rollback()
                 clsCommon.ProgressBarHide()
                 clsCommon.MyMessageBoxShow(ex.Message & " At Line No : " & i)
             End Try
@@ -4428,5 +4474,26 @@ Public Class frmEmployee_Master
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+    End Sub
+
+    Private Sub CboEmployeeStatus_SelectedValueChanged(sender As Object, e As EventArgs) Handles CboEmployeeStatus.SelectedValueChanged
+        Try
+            EmployeeStatusDate()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Public Sub EmployeeStatusDate()
+        If clsCommon.CompairString(clsCommon.myCstr(CboEmployeeStatus.SelectedIndex), "0") = CompairStringResult.Equal Then
+            lblActiveInactiveDate.Visible = True
+            lblActiveInactiveDate.Text = "Active Date"
+            txtActiveInactiveDate.Visible = True
+        Else
+            lblActiveInactiveDate.Visible = True
+            lblActiveInactiveDate.Text = "Inactive Date"
+            txtActiveInactiveDate.Visible = True
+        End If
+        txtActiveInactiveDate.Checked = False
     End Sub
 End Class

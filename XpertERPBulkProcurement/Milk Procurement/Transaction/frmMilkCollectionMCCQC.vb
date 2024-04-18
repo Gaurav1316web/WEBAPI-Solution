@@ -96,7 +96,6 @@ Public Class frmMilkCollectionMCCQC
                 UcAttachment1.LoadData(clsCommon.GetPrintDate(txtDate.Value, "yyyy/MM/dd"))
                 UcAttachment1.AddAttachment(FileName, SafeFileName)
 
-
             Else
                 gv1.Columns.Clear()
             End If
@@ -201,9 +200,31 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                     gv1.Rows(ii).Cells("Gaze_Qty").Value = clsCommon.myCDecimal(dtTemp.Rows(0)("Gaze_Qty"))
                     gv1.Rows(ii).Cells("IsOK").Value = 1
                 Catch ex As Exception
-                    gv1.Rows(ii).Cells("Error").Value = "Missing Sample"
+                    Dim errMsg As New ArrayList()
+                    Dim errqry As String = "Route_Code = '" + strRouteNo + "' "
+                    Try
+                        Dim dtTemp As DataTable = dt.Select(errqry).CopyToDataTable()
+                    Catch
+                        errMsg.Add("Route [ Correct Route : " + clsCommon.myCstr(dt.Rows(ii)("Route_Code")) + "]")
+                    End Try
+
+                    errqry = "  Mcc_Code_VLC_Uploader='" + strMCC + "'"
+                    Try
+                        Dim dtTemp As DataTable = dt.Select(errqry).CopyToDataTable()
+                    Catch
+                        errMsg.Add("DCS")
+                    End Try
+
+                    errqry = " Route_Code = '" + strRouteNo + "' and  Mcc_Code_VLC_Uploader='" + strMCC + "' and Sample_No='" + strSampleNo + "'"
+                    Try
+                        Dim dtTemp As DataTable = dt.Select(errqry).CopyToDataTable()
+                    Catch
+                        errMsg.Add("Sample " + strSampleNo)
+                    End Try
+
+                    gv1.Rows(ii).Cells("Error").Value = "Mismatch " + clsCommon.GetMulcallString(errMsg).Replace("'", "")
                     gv1.Rows(ii).Cells("IsOK").Value = 2
-                End Try
+                    End Try
             Next
             If isStartProgressBar Then
                 clsCommon.ProgressBarPercentHide()
@@ -262,6 +283,9 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                                     clsCommon.AddColumnsForChange(coll, "Machine_FAT", dictionary(ii).FAT)
                                     clsCommon.AddColumnsForChange(coll, "Machine_SNF", dictionary(ii).SNF)
                                 End If
+                                clsCommon.AddColumnsForChange(coll, "Original_Qty", dictionary(ii).Qty)
+                                clsCommon.AddColumnsForChange(coll, "Original_FATKg", dictionary(ii).FATKG)
+                                clsCommon.AddColumnsForChange(coll, "Original_SNFKg", dictionary(ii).SNFKG)
                                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dictionary(ii).PK_Id) + "' ", trans)
                             Next
                             UcAttachment1.SaveData(clsCommon.GetPrintDate(txtDate.Value, "yyyy/MM/dd"), False, trans)

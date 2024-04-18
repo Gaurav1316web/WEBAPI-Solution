@@ -470,7 +470,7 @@ Public Class frmLeaveApplication
 
     Private Sub txtPayPeriod__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPayPeriod._MYValidating
         Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
-        txtPayPeriod.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", txtPayPeriod.Value, "PAY_PERIOD_CODE", isButtonClicked)
+        txtPayPeriod.Value = clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", txtPayPeriod.Value, "PAY_PERIOD_CODE", isButtonClicked)
         lblPayPeriodName.Text = clsPayPeriodMaster.GetName(txtPayPeriod.Value, Nothing)
         If clsCommon.myLen(txtPayPeriod.Value) > 0 Then
             LoadGridData()
@@ -495,6 +495,11 @@ Public Class frmLeaveApplication
         Else
             StrJoin = " LEFT JOIN tspl_user_master ON TSPL_EMPLOYEE_MASTER.EMP_CODE=tspl_user_master.EMP_CODE "
             StrWhere = " tspl_user_master.user_code='" + objCommonVar.CurrentUserCode + "' " + whrcls
+        End If
+        If clsCommon.myLen(StrWhere) > 0 Then
+            StrWhere += " and Emp_Status<>'Inactive'"
+        Else
+            StrWhere += " Emp_Status<>'Inactive'"
         End If
         Dim qry As String = " select TSPL_EMPLOYEE_MASTER.EMP_CODE as Code,  TSPL_EMPLOYEE_MASTER.Emp_Name as Name from TSPL_EMPLOYEE_MASTER " + StrJoin + " "
         txtEmpCode.Value = clsCommon.ShowSelectForm("EMP_FND", qry, "Code", StrWhere, txtEmpCode.Value, "TSPL_EMPLOYEE_MASTER.EMP_CODE", isButtonClicked)

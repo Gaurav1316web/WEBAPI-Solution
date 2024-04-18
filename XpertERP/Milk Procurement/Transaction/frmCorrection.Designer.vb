@@ -113,6 +113,7 @@ Partial Class frmCorrection
         Me.lblBMCBMC = New common.Controls.MyLabel()
         Me.txtBMCRouteNo = New common.UserControls.txtFinder()
         Me.RadGroupBox4 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadButton5 = New Telerik.WinControls.UI.RadButton()
         Me.txtRetestingCLR = New common.MyNumBox()
         Me.MyLabel22 = New common.Controls.MyLabel()
         Me.lblBMCStatus = New common.Controls.MyLabel()
@@ -128,7 +129,6 @@ Partial Class frmCorrection
         Me.MyLabel24 = New common.Controls.MyLabel()
         Me.RadButton4 = New Telerik.WinControls.UI.RadButton()
         Me.MyLabel25 = New common.Controls.MyLabel()
-        Me.RadButton5 = New Telerik.WinControls.UI.RadButton()
         Me.txtBMCCorrBMC = New common.UserControls.txtFinder()
         Me.MyLabel26 = New common.Controls.MyLabel()
         Me.txtBMCCorrQty = New common.MyNumBox()
@@ -250,6 +250,7 @@ Partial Class frmCorrection
         CType(Me.lblBMCBMC, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox4.SuspendLayout()
+        CType(Me.RadButton5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtRetestingCLR, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBMCStatus, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -265,7 +266,6 @@ Partial Class frmCorrection
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadButton5, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBMCCorrQty, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -337,7 +337,7 @@ Partial Class frmCorrection
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage3
         Me.RadPageView1.Size = New System.Drawing.Size(667, 424)
         Me.RadPageView1.TabIndex = 2
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1589,6 +1589,7 @@ Partial Class frmCorrection
         'RadGroupBox4
         '
         Me.RadGroupBox4.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox4.Controls.Add(Me.RadButton5)
         Me.RadGroupBox4.Controls.Add(Me.txtRetestingCLR)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel22)
         Me.RadGroupBox4.Controls.Add(Me.lblBMCStatus)
@@ -1604,7 +1605,6 @@ Partial Class frmCorrection
         Me.RadGroupBox4.Controls.Add(Me.MyLabel24)
         Me.RadGroupBox4.Controls.Add(Me.RadButton4)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel25)
-        Me.RadGroupBox4.Controls.Add(Me.RadButton5)
         Me.RadGroupBox4.Controls.Add(Me.txtBMCCorrBMC)
         Me.RadGroupBox4.Controls.Add(Me.MyLabel26)
         Me.RadGroupBox4.Controls.Add(Me.txtBMCCorrQty)
@@ -1618,6 +1618,16 @@ Partial Class frmCorrection
         Me.RadGroupBox4.Size = New System.Drawing.Size(459, 208)
         Me.RadGroupBox4.TabIndex = 3
         Me.RadGroupBox4.Text = "Correction"
+        '
+        'RadButton5
+        '
+        Me.RadButton5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.RadButton5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.RadButton5.Location = New System.Drawing.Point(71, 175)
+        Me.RadButton5.Name = "RadButton5"
+        Me.RadButton5.Size = New System.Drawing.Size(88, 21)
+        Me.RadButton5.TabIndex = 5
+        Me.RadButton5.Text = "Apply"
         '
         'txtRetestingCLR
         '
@@ -1810,16 +1820,6 @@ Partial Class frmCorrection
         Me.MyLabel25.Size = New System.Drawing.Size(59, 18)
         Me.MyLabel25.TabIndex = 6
         Me.MyLabel25.Text = "BMC Code"
-        '
-        'RadButton5
-        '
-        Me.RadButton5.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.RadButton5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadButton5.Location = New System.Drawing.Point(71, 175)
-        Me.RadButton5.Name = "RadButton5"
-        Me.RadButton5.Size = New System.Drawing.Size(88, 21)
-        Me.RadButton5.TabIndex = 5
-        Me.RadButton5.Text = "Apply"
         '
         'txtBMCCorrBMC
         '
@@ -2478,6 +2478,7 @@ Partial Class frmCorrection
         CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox4.ResumeLayout(False)
         Me.RadGroupBox4.PerformLayout()
+        CType(Me.RadButton5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtRetestingCLR, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBMCStatus, System.ComponentModel.ISupportInitialize).EndInit()
@@ -2493,7 +2494,6 @@ Partial Class frmCorrection
         CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadButton5, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBMCCorrQty, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()

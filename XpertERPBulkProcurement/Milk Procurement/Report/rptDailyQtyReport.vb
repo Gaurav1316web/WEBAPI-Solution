@@ -264,6 +264,9 @@ Public Class rptDailyQtyReport
                     If clsCommon.myLen(TxtTankerNo.Value) > 0 Then
                         qry = qry + " where tanker_no ='" + TxtTankerNo.Value + "'"
                     End If
+                    If rbtnTranpoterGainLoss.Checked Then
+                        qry += " order by convert(date,XXGetAllRecords.Document_Date,103) asc "
+                    End If
 
                 ElseIf rdbTankerWise.Checked = True Then
                     qry = "SELECT  Max(XXXFinal.tanker_no) AS Tanker_No, Sum (MCC_Qty) AS MCC_Qty,  Sum (MCC_FATKG) AS MCC_FATKG, Sum (MCC_SNFKG) AS MCC_SNFKG, 
@@ -282,9 +285,7 @@ Public Class rptDailyQtyReport
                          ORDER  BY Tanker_No asc "
 
                 ElseIf rbtnRouteWise.Checked = True Then
-                    qry = "SELECT ROW_NUMBER() OVER(ORDER BY ROUTE_NO) AS 'S.No.',  CONVERT (VARCHAR, Document_Date,103) AS Date , ROUTE_NO, max(ROUTE_NAME)ROUTE_NAME,  Sum (MCC_Qty) AS MCC_Qty, convert(decimal(18,2),(sum(MCC_FATKG)*100)/sum(MCC_Qty)) MCC_FAT_Per, convert(decimal(18,2),(sum(MCC_SNFKG)*100)/sum(MCC_Qty)) MCC_SNF_Per,
-                          sum (MCC_FATKG) AS MCC_FATKG, sum (MCC_SNFKG) AS MCC_SNFKG, sum(entered_qty) AS Entered_Qty, convert(decimal(18,2),(sum(Entered_FATKg)*100)/sum(Entered_Qty)) Entered_FAT_Per,convert(decimal(18,2),(sum(Entered_SNFKg)*100)/sum(Entered_Qty)) Entered_SNF_Per, Sum (entered_fatkg)  AS Entered_FATKg,
-                          Sum (entered_snfkg) AS Entered_SNFKg, Sum(MCC_Qty) - Sum(Entered_Qty) AS DiffEnteredVsMCC_Qty, Sum (MCC_FATKG) - Sum (Entered_FATKg)  AS DiffEnteredVsMCC_FAT, Sum (MCC_SNFKG)- Sum (Entered_SNFKg) AS DiffEnteredVsMCC_SNF FROM ( SELECT ROUTE_NO,max(ROUTE_NAME)ROUTE_NAME,  sum(entered_qty) AS Entered_Qty, Isnull(sum(entered_fatkg),0) AS Entered_FATKg, Isnull(sum(entered_snfkg),0) AS Entered_SNFKg, (document_date) AS Document_Date,	 
+                    BaseQry = "( SELECT ROUTE_NO,max(ROUTE_NAME)ROUTE_NAME,  sum(entered_qty) AS Entered_Qty, Isnull(sum(entered_fatkg),0) AS Entered_FATKg, Isnull(sum(entered_snfkg),0) AS Entered_SNFKg, (document_date) AS Document_Date,	 
                           max(MCC_Qty) AS MCC_Qty, Isnull(max(MCC_FATKG), 0) AS MCC_FATKG, Isnull(max(MCC_SNFKG), 0) AS MCC_SNFKG FROM   (
 						  SELECT Trip_No, tspl_bulk_route_master.ROUTE_NO,tspl_bulk_route_master.ROUTE_NAME, ISNULL(qty,0) as entered_qty , FATKG as entered_fatkg, SNFKG as entered_snfkg,
                           tspl_milk_collection_mcc_detail.document_no, tspl_milk_collection_mcc.document_date
@@ -294,8 +295,21 @@ Public Class rptDailyQtyReport
                           LEFT OUTER JOIN tspl_mcc_master ON tspl_mcc_master.mcc_code = tspl_milk_collection_mcc_detail.mcc_code 
                           LEFT OUTER JOIN tspl_bulk_route_master ON tspl_bulk_route_master.route_no = tspl_milk_collection_mcc.route_code
                            WHERE  CONVERT(DATE, tspl_milk_collection_mcc.document_date, 103) >= CONVERT(DATE, '" + clsCommon.GetPrintDate(fromDate.Value, "dd-MMM-yyyy") + "',103) AND CONVERT (DATE, tspl_milk_collection_mcc.document_date, 103)
-                         <= CONVERT (DATE, '" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) ) xyz GROUP  BY ROUTE_NO, Document_Date,Trip_No) XXXFinal GROUP  BY  ROUTE_NO , Document_Date
-                         ORDER  BY ROUTE_NO , Document_Date asc "
+                         <= CONVERT (DATE, '" + clsCommon.GetPrintDate(dtpToDate.Value, "dd-MMM-yyyy") + "',103) ) xyz GROUP  BY ROUTE_NO, Document_Date,Trip_No)"
+
+                    qry = "select * from ( SELECT 1 AS 'S.No.',  CONVERT (VARCHAR, Document_Date,103) AS Date , ROUTE_NO, max(ROUTE_NAME)ROUTE_NAME,  Sum (MCC_Qty) AS MCC_Qty, convert(decimal(18,2),(sum(MCC_FATKG)*100)/sum(MCC_Qty)) MCC_FAT_Per, convert(decimal(18,2),(sum(MCC_SNFKG)*100)/sum(MCC_Qty)) MCC_SNF_Per,
+                          sum (MCC_FATKG) AS MCC_FATKG, sum (MCC_SNFKG) AS MCC_SNFKG, sum(entered_qty) AS Entered_Qty, convert(decimal(18,2),(sum(Entered_FATKg)*100)/sum(Entered_Qty)) Entered_FAT_Per,convert(decimal(18,2),(sum(Entered_SNFKg)*100)/sum(Entered_Qty)) Entered_SNF_Per, Sum (entered_fatkg)  AS Entered_FATKg,
+                          Sum (entered_snfkg) AS Entered_SNFKg, Sum(MCC_Qty) - Sum(Entered_Qty) AS DiffEnteredVsMCC_Qty, Sum (MCC_FATKG) - Sum (Entered_FATKg)  AS DiffEnteredVsMCC_FAT, Sum (MCC_SNFKG)- Sum (Entered_SNFKg) AS DiffEnteredVsMCC_SNF FROM
+                        " & BaseQry & " XXXFinal GROUP  BY  ROUTE_NO , Document_Date"
+                    qry += "" & Environment.NewLine & " Union all " & Environment.NewLine & ""
+                    qry += " SELECT 2 AS 'S.No.', 'Total' AS Date , ROUTE_NO, max(ROUTE_NAME)ROUTE_NAME,  Sum (MCC_Qty) AS MCC_Qty, convert(decimal(18,2),(sum(MCC_FATKG)*100)/sum(MCC_Qty)) MCC_FAT_Per, convert(decimal(18,2),(sum(MCC_SNFKG)*100)/sum(MCC_Qty)) MCC_SNF_Per,
+                          sum (MCC_FATKG) AS MCC_FATKG, sum (MCC_SNFKG) AS MCC_SNFKG, sum(entered_qty) AS Entered_Qty, convert(decimal(18,2),(sum(Entered_FATKg)*100)/sum(Entered_Qty)) Entered_FAT_Per,convert(decimal(18,2),(sum(Entered_SNFKg)*100)/sum(Entered_Qty)) Entered_SNF_Per, Sum (entered_fatkg)  AS Entered_FATKg,
+                          Sum (entered_snfkg) AS Entered_SNFKg, Sum(MCC_Qty) - Sum(Entered_Qty) AS DiffEnteredVsMCC_Qty, Sum (MCC_FATKG) - Sum (Entered_FATKg)  AS DiffEnteredVsMCC_FAT, Sum (MCC_SNFKG)- Sum (Entered_SNFKg) AS DiffEnteredVsMCC_SNF FROM " & BaseQry & " XXXFinal GROUP  BY  ROUTE_NO "
+                    qry += "" & Environment.NewLine & " Union all " & Environment.NewLine & ""
+                    qry += " SELECT 3 AS 'S.No.', '' AS Date , 'Grand Total' as ROUTE_NO, '' as ROUTE_NAME,  Sum (MCC_Qty) AS MCC_Qty, convert(decimal(18,2),(sum(MCC_FATKG)*100)/sum(MCC_Qty)) MCC_FAT_Per, convert(decimal(18,2),(sum(MCC_SNFKG)*100)/sum(MCC_Qty)) MCC_SNF_Per,
+                          sum (MCC_FATKG) AS MCC_FATKG, sum (MCC_SNFKG) AS MCC_SNFKG, sum(entered_qty) AS Entered_Qty, convert(decimal(18,2),(sum(Entered_FATKg)*100)/sum(Entered_Qty)) Entered_FAT_Per,convert(decimal(18,2),(sum(Entered_SNFKg)*100)/sum(Entered_Qty)) Entered_SNF_Per, Sum (entered_fatkg)  AS Entered_FATKg,
+                          Sum (entered_snfkg) AS Entered_SNFKg, Sum(MCC_Qty) - Sum(Entered_Qty) AS DiffEnteredVsMCC_Qty, Sum (MCC_FATKG) - Sum (Entered_FATKg)  AS DiffEnteredVsMCC_FAT, Sum (MCC_SNFKG)- Sum (Entered_SNFKg) AS DiffEnteredVsMCC_SNF FROM " & BaseQry & " XXXFinal  )xx "
+                    qry += "ORDER  BY ROUTE_NO ,[S.No.], Date "
                 ElseIf rdbCollectionWise.Checked = True Then
                     qry = " select TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_No,FORMAT(TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Document_Date, 'dd/MM/yyyy') AS Document_Date,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.MCC_Code,
                             TSPL_MCC_MASTER.MCC_NAME,TSPL_MCC_MASTER.Mcc_Code_VLC_Uploader,TSPL_MILK_COLLECTION_DCS_MULTIPLE_DAYS.Route_Code,
@@ -418,7 +432,7 @@ Public Class rptDailyQtyReport
                         Dim EnteredSnfKg As New GridViewSummaryItem("Entered_SNFKg", "{0:F2}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(EnteredSnfKg)
                     End If
-                    If rbtnBMCTankerCollection.Checked = False Then
+                    If rbtnBMCTankerCollection.Checked = False AndAlso rbtnRouteWise.Checked = False Then
                         Dim MCCQty As New GridViewSummaryItem("MCC_Qty", "{0:F2}", GridAggregateFunction.Sum)
                         summaryRowItem.Add(MCCQty)
                         Dim MCCFatKg As New GridViewSummaryItem("MCC_FATKG", "{0:F2}", GridAggregateFunction.Sum)
@@ -493,21 +507,21 @@ Public Class rptDailyQtyReport
 
                         End If
 
-                        If rbtnRouteWise.Checked Then
-                            Dim EnteredQty As New GridViewSummaryItem("Entered_Qty", "{0:F0}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(EnteredQty)
-                            Dim EnteredFatKg As New GridViewSummaryItem("Entered_FATKg", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(EnteredFatKg)
-                            Dim EnteredSnfKg As New GridViewSummaryItem("Entered_SNFKg", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(EnteredSnfKg)
-                            Dim DiffDCSVsEnteredQty As New GridViewSummaryItem("DiffEnteredVsMCC_Qty", "{0:F0}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(DiffDCSVsEnteredQty)
-                            Dim DiffEnteredVsDCSFatKg As New GridViewSummaryItem("DiffEnteredVsMCC_FAT", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(DiffEnteredVsDCSFatKg)
-                            Dim DiffEnteredVsDCSSnfKg As New GridViewSummaryItem("DiffEnteredVsMCC_SNF", "{0:F2}", GridAggregateFunction.Sum)
-                            summaryRowItem.Add(DiffEnteredVsDCSSnfKg)
+                        'If rbtnRouteWise.Checked Then
+                        '    Dim EnteredQty As New GridViewSummaryItem("Entered_Qty", "{0:F0}", GridAggregateFunction.Sum)
+                        '    summaryRowItem.Add(EnteredQty)
+                        '    Dim EnteredFatKg As New GridViewSummaryItem("Entered_FATKg", "{0:F2}", GridAggregateFunction.Sum)
+                        '    summaryRowItem.Add(EnteredFatKg)
+                        '    Dim EnteredSnfKg As New GridViewSummaryItem("Entered_SNFKg", "{0:F2}", GridAggregateFunction.Sum)
+                        '    summaryRowItem.Add(EnteredSnfKg)
+                        '    Dim DiffDCSVsEnteredQty As New GridViewSummaryItem("DiffEnteredVsMCC_Qty", "{0:F0}", GridAggregateFunction.Sum)
+                        '    summaryRowItem.Add(DiffDCSVsEnteredQty)
+                        '    Dim DiffEnteredVsDCSFatKg As New GridViewSummaryItem("DiffEnteredVsMCC_FAT", "{0:F2}", GridAggregateFunction.Sum)
+                        '    summaryRowItem.Add(DiffEnteredVsDCSFatKg)
+                        '    Dim DiffEnteredVsDCSSnfKg As New GridViewSummaryItem("DiffEnteredVsMCC_SNF", "{0:F2}", GridAggregateFunction.Sum)
+                        '    summaryRowItem.Add(DiffEnteredVsDCSSnfKg)
 
-                        End If
+                        'End If
 
                         If rdbMultiple.Checked Then
                             Dim EnteredQty As New GridViewSummaryItem("Entered_Qty", "{0:F0}", GridAggregateFunction.Sum)
@@ -545,8 +559,9 @@ Public Class rptDailyQtyReport
                             Dim SNFKG As New GridViewSummaryItem("SNFKG", "{0:F2}", GridAggregateFunction.Sum)
                             summaryRowItem.Add(SNFKG)
                         End If
-
-                        Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        If rbtnRouteWise.Checked = False Then
+                            Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
+                        End If
                     End If
                     If rbtnBMCTankerCollection.Checked Then
                         Dim Qty As New GridViewSummaryItem("Qty", "{0:F0}", GridAggregateFunction.Sum)
@@ -1181,6 +1196,7 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
             ' DiffEnteredVsMCC_Qty, DiffEnteredVsMCC_FAT,DiffEnteredVsMCC_SNF,DiffEnteredVsMCC_FATKG,DiffEnteredVsMCC_SNFKG
             If rbtnRouteWise.Checked = True Then
                 Gv1.Columns("ROUTE_NO").HeaderText = "Route Code"
+                Gv1.Columns("S.No.").IsVisible = False
                 Gv1.Columns("ROUTE_NAME").HeaderText = "Route Name"
                 Gv1.Columns("MCC_Qty").HeaderText = "Quantity"
                 Gv1.Columns("MCC_Qty").FormatString = "{0:n0}"
@@ -1773,10 +1789,10 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                 End If
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
                 If rbtnDock.Checked Then
-
-                    transportSql.exportdata(Gv1, "", Me.Text, , arrHeader, False, False, False)
+                    transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
                 Else
-                    transportSql.exportdata(Gv1, "", Me.Text, , arrHeader, False, False, True)
+                    transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
+                    'transportSql.exportdata(Gv1, "", Me.Text, , arrHeader, False, False, True)
                 End If
 
 
@@ -1796,8 +1812,8 @@ CAST(ROUND( XXGetAllRecords.DiffMCCVsEntered_SNFKG, 2) AS DECIMAL(10, 2))as Diff
                     arrHeader.Add("                                   " & objCommonVar.CurrentCompanyName)
                     arrHeader.Add("                                       Tanker KGFAT-KGSNF-Quantity of period " & clsCommon.myCstr(fromDate.Text) + "-" + clsCommon.myCstr(dtpToDate.Text))
                 Else
-                    arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-                    arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptDailyQtyReport & "'"))
+                    ' arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+                    'arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptDailyQtyReport & "'"))
                     arrHeader.Add("Date : " & clsCommon.myCstr(fromDate.Text) + "  To " + clsCommon.myCstr(dtpToDate.Text))
 
                 End If
@@ -2233,7 +2249,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
                 End If
                 qry += "Max(xxx.VLC)VLC,'" + Area + "' as Area,Max(xxx.[VLC Name])[VLC Name],Max(xxx.Route)Route,(Convert(int,xxx.[Route Code]))[Route Code],Sum(xxx.[No of Cans])[No of Cans],Sum(xxx.[Good Qty])[Good Qty],Sum(xxx.[Good FAT %])[Good FAT %],Sum(xxx.[Good FATKg])[Good FATKg],Sum(xxx.[Good SNF %])[Good SNF %],Sum(xxx.[Good SNFKG])[Good SNFKG],Sum(xxx.[SOUR Qty])[SOUR Qty],Sum(xxx.[SOUR FAT %])[SOUR FAT %],Sum(xxx.[SOUR FATKg])[SOUR FATKg],Sum(xxx.[SOUR SNF %])[SOUR SNF %],Sum(xxx.[SOUR SNFKG])[SOUR SNFKG],Sum(xxx.[CURD Qty])[CURD Qty],Sum([CURD FAT %])[CURD FAT %],Sum(xxx.[CURD FATKg])[CURD FATKg],Sum(xxx.[CURD SNF %])[CURD SNF %],Sum(xxx.[CURD SNFKG])[CURD SNFKG],Max(xxx.Comp_Name)Comp_Name
                         from (select TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No,"
-                If AreaWiseBilling =True
+                If AreaWiseBilling = True Then
                     qry += " xxxSetLocation.Location_Desc,"
                 End If
                 qry += "TSPL_MILK_SHIFT_UPLOADER_DETAIL.SNo,TSPL_MCC_MASTER.MCC_NAME,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC, TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code as [VLC Code],TSPL_VLC_MASTER_HEAD.VLC_Name as [VLC Name],TSPL_MILK_SHIFT_UPLOADER_DETAIL.No_Of_Cans as [No of Cans],TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO as [Route Code],TSPL_BULK_ROUTE_MASTER.ROUTE_NAME as [Route],TSPL_COMPANY_MASTER.Comp_Name,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift,TSPL_MILK_SHIFT_UPLOADER_HEAD.Shift_Date
@@ -2255,7 +2271,7 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
                         left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SHIFT_UPLOADER_DETAIL.VLC_Code
                         left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_MILK_SHIFT_UPLOADER_DETAIL.BULK_ROUTE_NO
                         Left Outer Join TSPL_MCC_MASTER ON TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC"
-                If AreaWiseBilling =True Then
+                If AreaWiseBilling = True Then
                     qry += " Left Outer Join( select TSPL_PAYMENT_PROCESS_HEAD.Doc_No,tspl_location_master.Location_Desc,tspl_location_master.Location_Code   From TSPL_PAYMENT_PROCESS_HEAD left  join tspl_location_master on tspl_location_master.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code)  xxxSetLocation On xxxSetLocation.Location_Code=TSPL_MCC_MASTER.area_Location_code "
                 End If
 
@@ -2304,6 +2320,9 @@ left outer join TSPL_BULK_ROUTE_MASTER on TSPL_BULK_ROUTE_MASTER.ROUTE_NO=TSPL_V
     						 "
                 If clsCommon.myLen(TxtTankerNo.Value) > 0 Then
                     qry += " where Tanker_No='" + TxtTankerNo.Value + "'"
+                End If
+                If rbtnTranpoterGainLoss.Checked Then
+                    qry += " order by convert(date,XXGetAllRecords.Document_Date,103) asc "
                 End If
             End If
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)

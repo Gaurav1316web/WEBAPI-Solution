@@ -440,12 +440,6 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "SNF", obj.SNF)
                 clsCommon.AddColumnsForChange(coll, "FATKG", obj.FATKG)
                 clsCommon.AddColumnsForChange(coll, "SNFKG", obj.SNFKG)
-                If isCorrection = 0 Then
-                    clsCommon.AddColumnsForChange(coll, "Original_Qty", obj.Original_Qty)
-                    clsCommon.AddColumnsForChange(coll, "Original_FATKg", obj.Original_FATKg)
-                    clsCommon.AddColumnsForChange(coll, "Original_SNFKg", obj.Original_SNFKg)
-                End If
-
                 If obj.Retesting_OR_Correction = 1 Then
                     clsCommon.AddColumnsForChange(coll, "Retesting_FAT", obj.Retesting_FAT)
                     clsCommon.AddColumnsForChange(coll, "Retesting_SNF", obj.Retesting_SNF)
@@ -463,13 +457,16 @@ Public Class clsMilkCollectionMCCDetail
                 clsCommon.AddColumnsForChange(coll, "Silo_Capacity", obj.Silo_Capacity)
                 clsCommon.AddColumnsForChange(coll, "Against_Multiple_Days", obj.Against_Multiple_Days, True)
                 clsCommon.AddColumnsForChange(coll, "Against_Multiple_Days_Merge_Day_Detail", obj.Against_Multiple_Days_Merge_Day_Detail, True)
-
                 clsCommon.AddColumnsForChange(coll, "REF_PK_ID_BMCDCS_TRIP", obj.REF_PK_ID_BMCDCS_TRIP, True)
                 clsCommon.AddColumnsForChange(coll, "IsUpdatedFromCorrection", IIf(IsUpdatedFromCorrection = True, 1, 0))
 
                 If obj.PK_Id > 0 Then
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(obj.PK_Id) + "' ", trans)
                 Else
+                    clsCommon.AddColumnsForChange(coll, "Original_Qty", obj.Qty)
+                    clsCommon.AddColumnsForChange(coll, "Original_FATKg", obj.FATKG)
+                    clsCommon.AddColumnsForChange(coll, "Original_SNFKg", obj.SNFKG)
+
                     clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Insert, "", trans)
                 End If
             Next
@@ -528,7 +525,9 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No='" + strPONo + "' "
                 objTr.Gaze_Reading_Code = clsCommon.myCstr(dr("Gaze_Reading_Code"))
                 objTr.Silo_Capacity = clsCommon.myCDecimal(dr("Silo_Capacity"))
                 objTr.Against_Multiple_Days = clsCommon.myCDecimal(dr("Against_Multiple_Days"))
+                objTr.REF_PK_ID_BMCDCS_TRIP = clsCommon.myCDecimal(dr("REF_PK_ID_BMCDCS_TRIP"))
                 objTr.Against_Multiple_Days_Merge_Day_Detail = clsCommon.myCDecimal(dr("Against_Multiple_Days_Merge_Day_Detail"))
+
                 arr.Add(objTr)
             Next
         End If

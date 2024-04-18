@@ -68,7 +68,7 @@ Public Class clsVSPBillAndIncentiveCalculation
         If arrVSP Is Nothing OrElse arrVSP.Count <= 0 Then
             Throw New Exception("Please Select VSP To Generate Bill")
         End If
-        CreateMCCChillingProvision(strMCCCode, strMCCName, txtFromDate, txtToDate)
+        'CreateMCCChillingProvision(strMCCCode, strMCCName, txtFromDate, txtToDate)
         Dim qry As String = "update TSPL_DCS_ADDITION_DEDUCTION set TSPL_DCS_ADDITION_DEDUCTION.Mapping_Matching=xx.MappingCode from (
 select Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where len(isnull( MappingCode,''))>0 and TSPL_DCS_ADDITION_DEDUCTION.Posted=1
 union all
@@ -1527,10 +1527,9 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
     End Sub
     Public Sub SelectMilkSRNItemsForVspPayment(ByVal strMCCCode As String, ByVal strSRN_No As List(Of String), ByVal Vsp_Name As String, ByVal frm_date As Date, ByVal End_date As Date, ByVal Is_With_Bill As Boolean, ByVal trans As SqlTransaction, ByVal Formcode As String, ByVal IsRoundOffPaiseAmount As Boolean, ByVal CompanyVSPDeduction As Decimal, ByVal NonCompanyVSPDeduction As Decimal, ByVal settDoNotIncludeIncentiveInMilkPurchaseInvoice As Boolean)
         Dim isPickPendingMilkSRNinNextPaymentCycle As Boolean = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, trans)) = 1
-        Dim qry As String = "select distinct CAST(0 as bit) as Sel,code,Final.DOC_DATE,ICode,Final.MCC_code,Final.VLC_Code,VLC_Name,Vendor,Final.Vendor_Name,max(IName) as IName 
-,Unit ,Qty as POQty,Acc_Qty, SUM(Qty* case when RI=-1 then 1 else 0 end)  as GRNQty
-,SUM(Unapproved) as UnapprovedQty,SUM((Qty *RI)- Unapproved) as PedningQty ,MAX(Rate) as Rate,MAX(Vendor) as Vendor,MAX(TSPL_VENDOR_MASTER.Vendor_Name) as VendorName 
-,0 as Assessable,max(Amount) as Amount,max(Service_Charge_Amount) as Service_Charge_Amount,FAT_PER,SNF_PER,CLR,cans,Route_Code,route_name,Final.VEHICLE_CODE,Vehicle_Name,Correction_factor,Final.shift,Service_Charge_Type,Case when Nature='C' then Actual_charges end as  Commission, Case when Nature='E' then Actual_charges end as Payment_Commission,Head_Load_Amount as Head_Load_Amount,Own_Asset_Amount as Own_Asset_Amount,max( EMP_Amount) as EMP_Amount from ( 
+        Dim qry As String = "select distinct CAST(0 as bit) as Sel,code,Final.DOC_DATE,ICode,Final.MCC_code,Final.VLC_Code,VLC_Name,Vendor,Final.Vendor_Name,IName 
+,Unit ,Qty as POQty,Acc_Qty, (Qty* case when RI=-1 then 1 else 0 end)  as GRNQty
+,(Unapproved) as UnapprovedQty, ((Qty *RI)- Unapproved) as PedningQty , (Rate) as Rate, (Vendor) as Vendor, (TSPL_VENDOR_MASTER.Vendor_Name) as VendorName,0 as Assessable, (Amount) as Amount, (Service_Charge_Amount) as Service_Charge_Amount,FAT_PER,SNF_PER,CLR,cans,Route_Code,route_name,Final.VEHICLE_CODE,Vehicle_Name,Correction_factor,Final.shift,Service_Charge_Type,Case when Nature='C' then Actual_charges end as  Commission, Case when Nature='E' then Actual_charges end as Payment_Commission,Head_Load_Amount as Head_Load_Amount,Own_Asset_Amount as Own_Asset_Amount, ( EMP_Amount) as EMP_Amount from (  
 select  distinct  TSPL_MILK_SRN_DETAIL.DOC_CODE as Code,TSPL_MILK_SRN_DETAIL.Head_Load_Amount,TSPL_MILK_SRN_DETAIL.Own_Asset_Amount,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_HEAD.MCC_code,TSPL_VLC_MASTER_HEAD.VLC_CODE,vlc_name,TSPL_MILK_SRN_HEAD.VSP_CODE as Vendor,Vendor_name,TSPL_MILK_SRN_DETAIL.Item_Code as ICode,Item_Desc as IName,TSPL_MILK_SRN_DETAIL.Qty  as Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty  as ACC_Qty,0 as Unapproved,tspl_milk_receipt_Detail.Uom_Code as Unit,1 as RI,TSPL_MILK_SRN_DETAIL.RATE as Rate,1 as Chk,TSPL_MILK_SRN_DETAIL.Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,NO_OF_CANS as cans,TSPL_MILK_SAMPLE_DETAIL.CLR,TSPL_MILK_SRN_HEAD.Route_Code,route_name,TSPL_MILK_SRN_HEAD.VEHICLE_CODE,TSPL_VEHICLE_MASTER.Vehicle_Name,tspl_Milk_Srn_Detail.Correction_factor,case when TSPL_MILK_SRN_HEAD.SHIFT='M' then 'Morning' else 'Evening' end as shift,TSPL_MILK_SRN_DETAIL.emp_amount 
 from TSPL_MILK_SRN_DETAIL 
 left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE =TSPL_MILK_SRN_DETAIL.DOC_CODE  
@@ -1557,9 +1556,8 @@ where  TSPL_MILK_SRN_HEAD.Posted=1  and TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Co
         If clsCommon.myLen(Vsp_Name) > 0 Then
             qry += " and TSPL_MILK_SRN_HEAD.VSP_Code='" + Vsp_Name + "'"
         End If
-        qry += " )Final Left join tspl_milk_Shift_End_Detail sed on sed.mcc_Code=Final.MCC_CODE and convert(date,sed.DOC_DATE,103)=convert(date,Final.DOC_DATE,103) and sed.SHIFT=Final.shift left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=final.Vendor  
-group by Code,Final.DOC_DATE,Final.MCC_code,ICode,Unit,Final.VLC_Code,VLC_Name,Final.Vendor,Final.Vendor_Name,FAT_PER,SNF_PER,CLR,cans,Correction_factor,Route_Code,route_name,Final.VEHICLE_CODE,Vehicle_Name,Final.shift,commision_pers, payment_commision_pers,Nature,Actual_charges,Qty,Service_Charge_Type,Acc_Qty,Head_Load_Amount,Own_Asset_Amount  
-having SUM(Chk)>0 and   (SUM(Qty*RI) <>0 or (SUM(Qty*RI)=0  and (SUM((Qty *RI)- Unapproved)<>0 ))) order by Code "
+        qry += " )  Final 
+Left join tspl_milk_Shift_End_Detail sed on sed.mcc_Code=Final.MCC_CODE and convert(date,sed.DOC_DATE,103)=convert(date,Final.DOC_DATE,103) and sed.SHIFT=Final.shift left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=final.Vendor   order by Code   "
         Dim dtPendingSRN = clsDBFuncationality.GetDataTable(qry, trans)
         Dim obj_SRN As New clsMilkSRNMCC
         If dtPendingSRN IsNot Nothing AndAlso dtPendingSRN.Rows.Count > 0 Then
@@ -4046,6 +4044,217 @@ where  TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=" + clsCommon.myCstr(dr("PK_Id")) +
 #End Region
 
 
+#Region "CreateCreditNotForChillingCharges"
+                qry = "select cast( Silo_Area as int) as Silo_Area from TSPL_Silo_Detail where Prog_Code='MCC-MST' and Trans_Code='" + objHead.MCC_CODE + "' and isnull(Silo_Area,0)>0"
+                Dim dtSilo As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                If dtSilo IsNot Nothing AndAlso dtSilo.Rows.Count > 0 Then
+                    Dim ArrSilo As New ArrayList
+                    For Each dr As DataRow In dtSilo.Rows
+                        ArrSilo.Add(clsCommon.myCstr(dr("Silo_Area")))
+                    Next
+                    qry = "select top 1 case when TSPL_CHILLING_CHARGES.Inactive=0 then TSPL_CHILLING_CHARGES.Code else '' end as  FindCode
+from TSPL_CHILLING_CHARGES 
+where '" + clsCommon.GetPrintDate(objHead.DOC_DATE, "dd/MMM/yyyy") + "'>=TSPL_CHILLING_CHARGES.Start_Date  and (2= case when TSPL_CHILLING_CHARGES.End_Date is null then 2 else case when '" + clsCommon.GetPrintDate(objHead.DOC_DATE, "dd/MMM/yyyy") + "'<= TSPL_CHILLING_CHARGES.End_Date then 2 else 3 end end)  and TSPL_CHILLING_CHARGES.Posted=1 order by TSPL_CHILLING_CHARGES.Start_Date desc,TSPL_CHILLING_CHARGES.Code desc"
+                    dtTemp = clsDBFuncationality.GetDataTable(qry, trans)
+                    If dtTemp IsNot Nothing AndAlso dtTemp.Rows.Count > 0 Then
+                        If clsCommon.myLen(clsCommon.myCstr(dtTemp.Rows(0)("FindCode"))) > 0 Then
+                            qry = "select TSPL_CHILLING_CHARGES.Code as FindCode,TSPL_CHILLING_CHARGES.Applicable_On,TSPL_CHILLING_CHARGES.Payment_Mehod,TSPL_CHILLING_CHARGES.Calculation_Mehod,TSPL_CHILLING_CHARGES.Start_Date, TSPL_CHILLING_CHARGES.End_Date
+from TSPL_CHILLING_CHARGES  where TSPL_CHILLING_CHARGES.Code='" + clsCommon.myCstr(dtTemp.Rows(0)("FindCode")) + "' "
+                            dtTemp = clsDBFuncationality.GetDataTable(qry, trans)
+                            Dim dtFromDate As Date
+                            Dim dtToDate As Date
+                            Dim flag As Boolean = True
+                            If dtTemp.Rows(0)("Payment_Mehod") = 1 Then ''Monthly
+                                Dim MonthLastDate As Date = New Date(clsCommon.myCDate(objHead.FROM_DATE).Year, clsCommon.myCDate(objHead.FROM_DATE).Month, 1)
+                                MonthLastDate = MonthLastDate.AddMonths(1)
+                                MonthLastDate = MonthLastDate.AddDays(-1)
+                                If clsCommon.GetDateWithStartTime(MonthLastDate) = clsCommon.GetDateWithStartTime(clsCommon.myCDate(objHead.TO_DATE)) Then
+                                    Dim MonthFirstDate As Date = New Date(MonthLastDate.Year, MonthLastDate.Month, 1)
+                                    dtFromDate = clsCommon.myCDate(dtTemp.Rows(0)("Start_Date"))
+                                    If MonthFirstDate > dtFromDate Then
+                                        dtFromDate = MonthFirstDate
+                                    End If
+                                    dtToDate = MonthLastDate
+                                    If dtTemp.Rows(0)("End_Date") IsNot DBNull.Value Then
+                                        If clsCommon.myCDate(dtTemp.Rows(0)("End_Date")) < MonthLastDate Then
+                                            dtToDate = clsCommon.myCDate(dtTemp.Rows(0)("End_Date"))
+                                        End If
+                                    End If
+                                Else
+                                    flag = False
+                                End If
+                            Else ''Cycle Wise
+                                dtFromDate = clsCommon.myCDate(dtTemp.Rows(0)("Start_Date"))
+                                If objHead.FROM_DATE > dtFromDate Then
+                                    dtFromDate = objHead.FROM_DATE
+                                End If
+                                dtToDate = objHead.TO_DATE
+                                If dtTemp.Rows(0)("End_Date") IsNot DBNull.Value Then
+                                    If clsCommon.myCDate(dtTemp.Rows(0)("End_Date")) < objHead.TO_DATE Then
+                                        dtToDate = clsCommon.myCDate(dtTemp.Rows(0)("End_Date"))
+                                    End If
+                                End If
+                            End If
+                            If flag Then
+                                qry = "select TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Qty
+from TSPL_MILK_SRN_DETAIL 
+left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
+where  TSPL_MILK_SRN_HEAD.MCC_CODE='" + objHead.MCC_CODE + "' and TSPL_MILK_SRN_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(dtFromDate), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(dtToDate), "dd/MMM/yyyy hh:mm:ss tt") + "'"
+                                If dtTemp.Rows(0)("Calculation_Mehod") = 1 Then ''Daywise
+                                    qry = "Select DOC_DATE,sum(Qty) As Qty from (" + qry + ") xx group by DOC_DATE"
+                                Else  'Avg
+                                    Dim NoOfDay As Integer = DateDiff(DateInterval.Day, dtFromDate, dtToDate)
+                                    If NoOfDay = 0 Then
+                                        NoOfDay = 1
+                                    End If
+                                    qry = "Select '" + clsCommon.GetPrintDate(dtToDate, "dd/MMM/yyyy") + "' as DOC_DATE,sum(Qty)/" + clsCommon.myCstr(NoOfDay) + " As Qty from (" + qry + ") xx"
+                                End If
+                                dt = clsDBFuncationality.GetDataTable(qry, trans)
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    For Each dr As DataRow In dt.Rows
+                                        Dim dclQty As Decimal = clsCommon.myCDecimal(dr("Qty"))
+                                        If dclQty > 0 Then
+                                            qry = "select PK_ID,Capacity,Rate from TSPL_CHILLING_CHARGES_SLAB where Code='" + clsCommon.myCstr(dtTemp.Rows(0)("FindCode")) + "' And Capacity in (" + clsCommon.GetMulcallString(ArrSilo) + ") order by Rate"
+                                            dtSilo = clsDBFuncationality.GetDataTable(qry, trans)
+                                            If dtSilo IsNot Nothing AndAlso dtSilo.Rows.Count > 0 Then
+                                                For kk As Integer = 0 To dtSilo.Rows.Count - 1
+                                                    If dclQty > 0 Then
+                                                        Dim dclApplyQty As Decimal = 0
+                                                        Dim dclRate As Decimal = clsCommon.myCDecimal(dtSilo.Rows(kk)("Rate"))
+                                                        If clsCommon.myCDecimal(dtTemp.Rows(0)("Applicable_On")) = 1 Then ''SiloCapacity
+                                                            dclApplyQty = clsCommon.myCDecimal(dtSilo.Rows(kk)("Capacity"))
+                                                        ElseIf clsCommon.myCDecimal(dtTemp.Rows(0)("Applicable_On")) = 2 Then ''Milk received
+                                                            If clsCommon.myCDecimal(dtSilo.Rows(kk)("Capacity")) <= dclQty Then
+                                                                dclApplyQty = clsCommon.myCDecimal(dtSilo.Rows(kk)("Capacity"))
+                                                            Else
+                                                                dclApplyQty = dclQty
+                                                            End If
+                                                            dclQty = dclQty - dclApplyQty
+                                                        ElseIf clsCommon.myCDecimal(dtTemp.Rows(0)("Applicable_On")) = 3 Then ''Lower
+                                                            If clsCommon.myCDecimal(dtSilo.Rows(kk)("Capacity")) <= dclQty Then
+                                                                dclApplyQty = clsCommon.myCDecimal(dtSilo.Rows(kk)("Capacity"))
+                                                            Else
+                                                                dclApplyQty = dclQty
+                                                            End If
+                                                            dclQty = 0
+                                                        End If
+                                                        Dim coll As New Hashtable()
+                                                        clsCommon.AddColumnsForChange(coll, "InvoiceNo", objHead.DOC_CODE)
+                                                        clsCommon.AddColumnsForChange(coll, "Apply_Date", clsCommon.GetPrintDate(clsCommon.myCDate(dr("DOC_DATE")), "dd/MMM/yyyy"))
+                                                        clsCommon.AddColumnsForChange(coll, "Against_Chilling_Slab_PK_ID", clsCommon.myCDecimal(dtSilo.Rows(kk)("PK_Id")))
+                                                        clsCommon.AddColumnsForChange(coll, "Qty", dclApplyQty)
+                                                        clsCommon.AddColumnsForChange(coll, "Rate", dclRate)
+                                                        clsCommon.AddColumnsForChange(coll, "Amt", dclApplyQty * dclRate)
+                                                        clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES", OMInsertOrUpdate.Insert, "", trans)
+                                                    End If
+                                                Next
+                                            End If
+                                        End If
+                                    Next
+                                End If
+                            End If
+
+                        End If
+                    End If
+                End If
+                ''Now Create Dr/Cr Note
+                qry = "select sum(Amt) as NoteAmt  from TSPL_MILK_PURCHASE_INVOICE_CHILLING_CHARGES where InvoiceNo='" + objHead.DOC_CODE + "'"
+                dtAmt = clsDBFuncationality.GetDataTable(qry, trans)
+                dblAmount = 0
+                If dtAmt IsNot Nothing AndAlso dtAmt.Rows.Count > 0 Then
+                    If clsCommon.myCDecimal(dtAmt.Rows(0)("NoteAmt")) > 0 Then
+                        Dim objVendorInvHead As New clsVedorInvoiceHead()
+                        objVendorInvHead.isDeduction = 0
+                        objVendorInvHead.Invoice_Entry_Date = clsCommon.GetPrintDate(objHead.DOC_DATE, "dd/MMM/yyyy")
+                        objVendorInvHead.Vendor_Code = objHead.VSP_CODE
+                        objVendorInvHead.Vendor_Name = clsVendorMaster.GetName(objHead.VSP_CODE, trans)
+                        objVendorInvHead.Vendor_Invoice_No = ""
+                        objVendorInvHead.Invoice_Type = "AP"
+                        objVendorInvHead.Vendor_Invoice_Date = objVendorInvHead.Invoice_Entry_Date
+                        objVendorInvHead.loc_code = clsLocation.GetSegmentCode(objHead.MCC_CODE, trans)
+                        objVendorInvHead.Account_Set = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select  Vendor_Account from TSPL_VENDOR_MASTER where Vendor_Code ='" + objVendorInvHead.Vendor_Code + "'", trans))
+                        If (clsCommon.myLen(objVendorInvHead.Account_Set) < 0) Then
+                            Throw New Exception("Please set the vendor Account Set For Vendor : " + objVendorInvHead.Vendor_Name)
+                        End If
+                        objVendorInvHead.Document_Type = "C"
+
+                        objVendorInvHead.Description = "AP Credit Note For Chilling Charges"
+                        objVendorInvHead.RefDocType = "CHC-CRE"
+
+                        objVendorInvHead.RefDocNo = objHead.DOC_CODE
+                        objVendorInvHead.On_Hold = False
+                        objVendorInvHead.Due_Date = objVendorInvHead.Invoice_Entry_Date
+                        dt = clsDBFuncationality.GetDataTable("select Acct_Set_Code,Payable_Account,Discount_Account,PRO_DATA_ACCOUNT from TSPL_VENDOR_ACCOUNT_SET  where Acct_Set_Code='" + objVendorInvHead.Account_Set + "'", trans)
+                        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                            objVendorInvHead.Vendor_Control_AC = clsCommon.myCstr(dt.Rows(0)("Payable_Account"))
+                            objVendorInvHead.Vendor_Control_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Vendor_Control_AC, objHead.MCC_CODE, trans)
+                            If clsCommon.myCDecimal(objVendorInvHead.Discount_Amount) > 0 Then
+                                objVendorInvHead.Discount_GL_AC = clsCommon.myCstr(dt.Rows(0)("Discount_Account"))
+                                objVendorInvHead.Discount_GL_AC = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvHead.Discount_GL_AC, objHead.MCC_CODE, trans)
+                            End If
+                        End If
+                        If clsCommon.myLen(objVendorInvHead.Vendor_Control_AC) <= 0 Then
+                            Throw New Exception("Please set the vendor payable Account")
+                        End If
+                        objVendorInvHead.Arr = New List(Of clsVedorInvoiceDetail)
+                        Dim ii As Integer = 0
+                        Dim isFirstTime As Boolean = True
+                        objVendorInvHead.Total_Landed_Amt = 0
+                        objVendorInvHead.ArrAssetEMI = New List(Of clsAPInvoiceAssetEMIDetails)()
+
+                        If True Then
+                            ''Set AP Invvoice Detail Table
+
+                            Dim dtDed As DataTable = clsDBFuncationality.GetDataTable("select code,GL_Account_Code from TSPL_DEDUCTION_MASTER  where Is_Own_BMC_Excess=1", trans)
+                            If dtDed Is Nothing OrElse dtDed.Rows.Count <= 0 Then
+                                Throw New Exception("Please set default  Own BMC Excess in Deduction Master")
+                            End If
+                            If clsCommon.myLen(clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))) <= 0 Then
+                                Throw New Exception("Please set GL Account for deduction [" + clsCommon.myCstr(dtDed.Rows(0)("code")) + "]")
+                            End If
+
+                            ii = ii + 1
+                            Dim objVendorInvDetail As New clsVedorInvoiceDetail()
+                            objVendorInvDetail.Detail_Line_No = ii
+                            objVendorInvDetail.DeductionCode = clsCommon.myCstr(dtDed.Rows(0)("code"))
+                            objVendorInvDetail.DeductionDesc = ClsDeductionMaster.GetName(objVendorInvDetail.DeductionCode, trans)
+                            objVendorInvDetail.GL_Account_Code = clsCommon.myCstr(dtDed.Rows(0)("GL_Account_Code"))
+                            objVendorInvDetail.GL_Account_Code = clsERPFuncationality.ChangeGLAccountLocationSegment(objVendorInvDetail.GL_Account_Code, objHead.MCC_CODE, trans)
+                            objVendorInvDetail.GL_Account_Desc = clsGLAccount.GetName(objVendorInvDetail.GL_Account_Code, trans)
+
+                            dblAmount = Math.Abs(clsCommon.myCDecimal(dtAmt.Rows(0)("NoteAmt")))
+                            objVendorInvDetail.Amount = dblAmount
+                            objVendorInvDetail.Discount_Per = 0
+                            objVendorInvDetail.Discount = 0
+                            objVendorInvDetail.Amount_less_Discount = dblAmount
+                            objVendorInvDetail.Total_Tax = 0
+                            objVendorInvDetail.Total_Amount = dblAmount
+                            objVendorInvDetail.Landed_Amount = dblAmount
+                            ''End of Set AP Invvoice Detail Table
+
+                            If (clsCommon.myLen(objVendorInvDetail.GL_Account_Code) > 0) Then
+                                objVendorInvHead.Arr.Add(objVendorInvDetail)
+                            End If
+
+                            ''Set AP Invvoice Header Table
+                            objVendorInvHead.Total_Landed_Amt += dblAmount
+                            objVendorInvHead.Discount_Base += dblAmount
+                            objVendorInvHead.Discount_Amount += 0
+                            objVendorInvHead.Amount_Less_Discount += dblAmount
+                            objVendorInvHead.Document_Total += dblAmount
+                            objVendorInvHead.Balance_Amt += dblAmount
+                            ''End of Set AP Invvoice Header Table
+                        End If
+                        If (objVendorInvHead.Arr Is Nothing OrElse objVendorInvHead.Arr.Count <= 0) Then
+                            Throw New Exception("No GL Account Found For AP Invoice")
+                        End If
+                        objVendorInvHead.ApplicableFrom = objVendorInvHead.Invoice_Entry_Date
+                        objVendorInvHead.Main_VSP_Milk_AP_Invoice_No = clsVedorInvoiceHead.GetMainVSPMilkAPInvoiceNo(ToDate, objVendorInvHead.Vendor_Code, trans)
+                        objVendorInvHead.SaveData(objVendorInvHead, True, trans)
+                        clsVedorInvoiceHead.PostData("", objVendorInvHead.Document_No, "", trans)
+                    End If
+                End If
+#End Region
             End If
 
             qry = "select top 1 1 from TSPL_DCS_ADDITION_DEDUCTION where ISNULL(Inactive,0)=0"

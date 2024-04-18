@@ -291,7 +291,7 @@ Public Class frmLTAClaim
             Dim qry As String = "select EMP_CODE, Emp_Name,Joining_date, TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE,TSPL_DEPARTMENT_MASTER.DEPARTMENT_NAME, TSPL_EMPLOYEE_MASTER.Designation,  TSPL_DESIGNATION_MASTER.Designation_Desc " &
                                 "from TSPL_EMPLOYEE_MASTER LEFT OUTER JOIN TSPL_DEPARTMENT_MASTER ON TSPL_DEPARTMENT_MASTER.DEPARTMENT_CODE = TSPL_EMPLOYEE_MASTER.DEPARTMENT_CODE " &
                                 "LEFT OUTER JOIN TSPL_DESIGNATION_MASTER ON TSPL_DESIGNATION_MASTER.Designation_id = TSPL_EMPLOYEE_MASTER.Designation "
-            txtEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "EMP_CODE", "", txtEmpCode.Value, "", isButtonClicked)
+            txtEmpCode.Value = clsCommon.ShowSelectForm("TSPL_EMPLOYEE_MASTER", qry, "EMP_CODE", " Emp_Status<>'Inactive'", txtEmpCode.Value, "", isButtonClicked)
 
             qry += "where EMP_CODE='" + txtEmpCode.Value + "' "
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)

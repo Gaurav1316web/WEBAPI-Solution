@@ -22,7 +22,7 @@ Public Class FrmProductionAndSaleReport
 
     Private Sub FrmProductionAndSaleReport_KeyDown(ByVal sender As Object, ByVal e As System.Windows.Forms.KeyEventArgs) Handles Me.KeyDown
         If e.Alt AndAlso e.KeyCode = Keys.R AndAlso btnReport.Enabled Then
-            fillGridReport()
+            fillGridReport(False)
         ElseIf e.Alt AndAlso e.KeyCode = Keys.E AndAlso btnreset.Enabled Then
             reset()
         ElseIf e.Alt AndAlso e.KeyCode = Keys.C Then
@@ -47,7 +47,7 @@ Public Class FrmProductionAndSaleReport
     'End Class
 
 
-    Public Sub fillGridReport()
+    Public Sub fillGridReport(ByVal Print As Boolean)
         Try
             'Dim dtBreakDownCode As DataTable
             Dim queryStock As String
@@ -72,7 +72,7 @@ Public Class FrmProductionAndSaleReport
                 DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
                 Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT LOCATION_CODE FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0'")
                 'Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from TSPL_ITEM_MASTER where Structure_Code='FG' and Item_Desc like '%SARAS%'")
-                Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from TSPL_ITEM_MASTER where FG_for_CF=1")
+                Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from TSPL_ITEM_MASTER where FG_for_CF_RPT=1")
                 queryStock = ""
                 For ll As Integer = 0 To dtLocation.Rows.Count - 1
                     For ii As Integer = 0 To dtItem.Rows.Count - 1
@@ -90,8 +90,8 @@ Public Class FrmProductionAndSaleReport
 
 
                 query = "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo
-                        ,TSPL_LOCATION_MASTER.Loc_Short_Name as [Location]
-                        ,cast((TSPL_LOCATION_MASTER.Silo_Capacity/31*(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "')))) AS DECIMAL(18,0)) as [Capacity],
+                        ,TSPL_LOCATION_MASTER.Loc_Short_Name as [Location],format(convert(date,'" + fromDate.Value + "',103), 'dd MMMM yyyy') as Date,upper(format(convert(date,'" + fromDate.Value + "',103), 'MMMM yyyy'))as Date1,
+                        cast((TSPL_LOCATION_MASTER.Silo_Capacity/31*(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "')))) AS DECIMAL(18,0)) as [Capacity],
                         NoOfShift
                         ,CAST((ProdDailyQty.Qty/1000) AS DECIMAL(18,0)) as ProdDailyQty
                         ,CAST((ProdCumQty.Qty/1000) AS DECIMAL(18,0)) as ProdCumQty
@@ -116,14 +116,14 @@ Public Class FrmProductionAndSaleReport
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-                         where TSPL_Item_Master.FG_for_CF=1 AND TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+                         where TSPL_Item_Master.FG_for_CF_RPT=1 AND TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                           GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdDailyQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdDailyQty.LOCATION_CODE
                          LEFT OUTER JOIN
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-                         where TSPL_Item_Master.FG_for_CF=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         where TSPL_Item_Master.FG_for_CF_RPT=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                           GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
@@ -135,7 +135,7 @@ Public Class FrmProductionAndSaleReport
                          left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code 
 						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
-                        WHERE TSPL_Item_Master.FG_for_CF=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+                        WHERE TSPL_Item_Master.FG_for_CF_RPT=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                         GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) SaleDailyQty
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =SaleDailyQty.Bill_To_Location 
                         LEFT OUTER JOIN
@@ -146,7 +146,7 @@ Public Class FrmProductionAndSaleReport
                         left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code 
 						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
-                        WHERE TSPL_Item_Master.FG_for_CF=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 
+                        WHERE TSPL_Item_Master.FG_for_CF_RPT=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 
                         and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                         GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) SaleCumQty
@@ -159,7 +159,7 @@ Public Class FrmProductionAndSaleReport
                         left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code 
 						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
-                        WHERE TSPL_Item_Master.FG_for_CF=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+                        WHERE TSPL_Item_Master.FG_for_CF_RPT=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                         GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) PSO
                         ON TSPL_LOCATION_MASTER.LOCATION_CODE =PSO.Bill_To_Location 
                          LEFT OUTER JOIN
@@ -217,7 +217,7 @@ Public Class FrmProductionAndSaleReport
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-                         where TSPL_Item_Master.FG_for_CF=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         where TSPL_Item_Master.FG_for_CF_RPT=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                           GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
@@ -232,7 +232,7 @@ Public Class FrmProductionAndSaleReport
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-                         where TSPL_Item_Master.FG_for_CF=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         where TSPL_Item_Master.FG_for_CF_RPT=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                           GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
@@ -247,7 +247,7 @@ Public Class FrmProductionAndSaleReport
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-                         where TSPL_Item_Master.FG_for_CF=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         where TSPL_Item_Master.FG_for_CF_RPT=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                           GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
@@ -268,7 +268,7 @@ Public Class FrmProductionAndSaleReport
                         left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code 
 						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
 						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
-                        WHERE TSPL_Item_Master.FG_for_CF=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 
+                        WHERE TSPL_Item_Master.FG_for_CF_RPT=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 
                          and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                         GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) SaleCumQty
@@ -300,7 +300,7 @@ Public Class FrmProductionAndSaleReport
                         (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
                          left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
                          LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-                         where TSPL_Item_Master.FG_for_CF=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+                         where TSPL_Item_Master.FG_for_CF_RPT=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
                          and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
                           GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
                           ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
@@ -335,13 +335,19 @@ Public Class FrmProductionAndSaleReport
 
 
             If (dt2 IsNot Nothing AndAlso dt2.Rows.Count > 0) Then
-                gv1.Visible = True
-                gv1.DataSource = dt2
-                gv1.ReadOnly = True
-                SetGridFormat(gv1)
-                ReStoreGridLayout()
-                If rdbDaily.Checked = True Then
-                    View()
+                If Print = True Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt2, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report")
+                    frmCRV = Nothing
+                Else
+                    gv1.Visible = True
+                    gv1.DataSource = dt2
+                    gv1.ReadOnly = True
+                    SetGridFormat(gv1)
+                    ReStoreGridLayout()
+                    If rdbDaily.Checked = True Then
+                        View()
+                    End If
                 End If
             Else
                 common.clsCommon.MyMessageBoxShow("No Data Found")
@@ -466,7 +472,7 @@ Public Class FrmProductionAndSaleReport
         Try
             PageSetupReport_ID = Me.Form_ID + clsCommon.myCstr(IIf(rdbDaily.Checked = True, "Daily", "Weekly"))
             TemplateGridview = gv1
-            fillGridReport()
+            fillGridReport(False)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
@@ -691,138 +697,139 @@ Public Class FrmProductionAndSaleReport
 
     Private Sub RadMenuItem3_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
         Try
-            'Dim dtBreakDownCode As DataTable
-            Dim queryStock As String
-            Dim query As String
-            Dim Month As Integer = fromDate.Value.Month
-            Dim Year As Integer = fromDate.Value.Year
+            '      'Dim dtBreakDownCode As DataTable
+            '      Dim queryStock As String
+            '      Dim query As String
+            '      Dim Month As Integer = fromDate.Value.Month
+            '      Dim Year As Integer = fromDate.Value.Year
 
-            Dim fDate As DateTime = Nothing
-            Dim tDate As DateTime = Nothing
-            Dim dtcurrent As DateTime = Nothing
-            Dim dtnext As DateTime = Nothing
-            'DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
-            'Dim tDate As DateTime = New DateTime(Year, Month, DateTime.DaysInMonth(Year, Month))
-            ',TSPL_LOCATION_MASTER.location_code as [Location Code]
-            If rdbDaily.Checked = True Then
-                fDate = New DateTime(Year, Month, 1)
-                tDate = fromDate.Value
-                DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
-                Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT LOCATION_CODE FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0'")
-                'Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from TSPL_ITEM_MASTER where Structure_Code='FG' and Item_Desc like '%SARAS%'")
-                Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from TSPL_ITEM_MASTER where FG_for_CF=1")
-                queryStock = ""
-                For ll As Integer = 0 To dtLocation.Rows.Count - 1
-                    For ii As Integer = 0 To dtItem.Rows.Count - 1
-                        If clsCommon.myLen(queryStock) > 0 Then
-                            queryStock += " UNION ALL "
-                        End If
-                        queryStock += " select '" + clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")) + "' AS Item_Code,'" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "' AS LOCATION_CODE, "
-                        queryStock += clsCommon.myCstr(clsItemLocationDetails.getBalance1(clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")), clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")), "", tDate, Nothing, clsCommon.myCstr("MT"), 0))
-                        queryStock += " as Qty"
-                    Next
-                Next
+            '      Dim fDate As DateTime = Nothing
+            '      Dim tDate As DateTime = Nothing
+            '      Dim dtcurrent As DateTime = Nothing
+            '      Dim dtnext As DateTime = Nothing
+            '      'DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
+            '      'Dim tDate As DateTime = New DateTime(Year, Month, DateTime.DaysInMonth(Year, Month))
+            '      ',TSPL_LOCATION_MASTER.location_code as [Location Code]
+            '      If rdbDaily.Checked = True Then
+            '          fDate = New DateTime(Year, Month, 1)
+            '          tDate = fromDate.Value
+            '          DayCount = DateDiff(DateInterval.Day, fDate, tDate) + 1
+            '          Dim dtLocation As DataTable = clsDBFuncationality.GetDataTable("SELECT LOCATION_CODE FROM TSPL_LOCATION_MASTER where TSPL_LOCATION_MASTER.IsMainPlant='0'")
+            '          'Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from TSPL_ITEM_MASTER where Structure_Code='FG' and Item_Desc like '%SARAS%'")
+            '          Dim dtItem As DataTable = clsDBFuncationality.GetDataTable("select Item_Code from TSPL_ITEM_MASTER where FG_for_CF=1")
+            '          queryStock = ""
+            '          For ll As Integer = 0 To dtLocation.Rows.Count - 1
+            '              For ii As Integer = 0 To dtItem.Rows.Count - 1
+            '                  If clsCommon.myLen(queryStock) > 0 Then
+            '                      queryStock += " UNION ALL "
+            '                  End If
+            '                  queryStock += " select '" + clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")) + "' AS Item_Code,'" + clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")) + "' AS LOCATION_CODE, "
+            '                  queryStock += clsCommon.myCstr(clsItemLocationDetails.getBalance1(clsCommon.myCstr(dtItem.Rows(ii).Item("Item_Code")), clsCommon.myCstr(dtLocation.Rows(ll).Item("LOCATION_CODE")), "", tDate, Nothing, clsCommon.myCstr("MT"), 0))
+            '                  queryStock += " as Qty"
+            '              Next
+            '          Next
 
-                queryStock = "select ST.LOCATION_CODE,sum(ST.Qty) as Qty from (" + queryStock + ") ST GROUP BY ST.LOCATION_CODE "
-
-
-
-                query = "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo
-                        ,TSPL_LOCATION_MASTER.Loc_Short_Name as [Location],format(convert(date,'" + fromDate.Value + "',103), 'dd MMMM yyyy') as Date,upper(format(convert(date,'" + fromDate.Value + "',103), 'MMMM yyyy'))as Date1
-                        ,isnull(cast((TSPL_LOCATION_MASTER.Silo_Capacity/31*(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "')))) AS DECIMAL(18,0)),0) as [Capacity],
-                        isnull(NoOfShift,0)NoOfShift
-                        ,isnull(CAST((ProdDailyQty.Qty/1000) AS DECIMAL(18,0)),0) as ProdDailyQty
-                        ,isnull(CAST((ProdCumQty.Qty/1000) AS DECIMAL(18,0)),0) as ProdCumQty
-                        ,case when TSPL_LOCATION_MASTER.Silo_Capacity>0 then isnull(CAST(ProdDailyQty.Qty*100/(TSPL_LOCATION_MASTER.Silo_Capacity*1000) AS DECIMAL(18,0)),0) else 0 end as CUD
-                        ,case when TSPL_LOCATION_MASTER.Silo_Capacity>0 then isnull(CAST((ProdCumQty.Qty*100)/(TSPL_LOCATION_MASTER.Silo_Capacity*1000*" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)),0) else 0 end as CUM
-                        ,case when TSPL_LOCATION_MASTER.Silo_Capacity>0 then isnull(CAST((ProdCumQty.Qty*100)/(TSPL_LOCATION_MASTER.Silo_Capacity*1000*" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)),0) else 0 end as CUY
-                        ,isnull(CAST(SaleDailyQty.Qty AS DECIMAL(18,0)),0) as SaleDailyQty
-                        ,isnull(CAST(SaleCumQty.Qty AS DECIMAL(18,0)),0) as SaleCumQty
-                        ,isnull(CAST(FGS.Qty AS DECIMAL(18,0)),0) as FGS
-                        ,case when isnull(PSO.Qty,0)<0 then 0 else isnull(CAST(isnull(PSO.Qty,0) AS DECIMAL(18,0)),0) end as PSO
-                        ,isnull(BreakDown.BreakdownHRS,0)BreakdownHRS
-                        ,isnull(BreakDown.BreakdownREASON,0)BreakdownREASON
-                        FROM TSPL_LOCATION_MASTER 
-
-                        Left outer join 
-						(select count (TSPL_SPP_PRODUCTION_ENTRY.Shift_Code) as NoOfShift,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE  from TSPL_SPP_PRODUCTION_ENTRY 
-						WHERE CONVERT (DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) BETWEEN CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) AND CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)  
-                           Group By LOCATION_CODE) NoOfShift
-						   ON TSPL_LOCATION_MASTER.LOCATION_CODE = NoOfShift.LOCATION_CODE
-
-                         LEFT OUTER JOIN
-                        (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
-                         left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-                         LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-                         where TSPL_Item_Master.FG_for_CF=1 AND TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdDailyQty
-                          ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdDailyQty.LOCATION_CODE
-                         LEFT OUTER JOIN
-                        (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
-                         left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
-                         LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
-                         where TSPL_Item_Master.FG_for_CF=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
-                         and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                          GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
-                          ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
-                        LEFT OUTER JOIN
-                        (SELECT SUM((isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM 
-                        TSPL_SD_SHIPMENT_DETAIL left join 
-                        TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.document_code
-                        LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SHIPMENT_DETAIL.ITEM_CODE
-                         left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code 
-						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
-						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
-                        WHERE TSPL_Item_Master.FG_for_CF=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                        GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) SaleDailyQty
-                        ON TSPL_LOCATION_MASTER.LOCATION_CODE =SaleDailyQty.Bill_To_Location 
-                        LEFT OUTER JOIN
-                        (SELECT SUM((isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM 
-                        TSPL_SD_SHIPMENT_DETAIL left join 
-                        TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.document_code
-                        LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SHIPMENT_DETAIL.ITEM_CODE
-                        left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code 
-						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
-						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
-                        WHERE TSPL_Item_Master.FG_for_CF=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 
-                        and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
-                         and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                        GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) SaleCumQty
-                        ON TSPL_LOCATION_MASTER.LOCATION_CODE =SaleCumQty.Bill_To_Location 
-                         LEFT OUTER JOIN
-                        (SELECT SUM(isnull(TSPL_SD_SHIPMENT_HEAD.Order_Qty,0))-SUM((isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM 
-                        TSPL_SD_SHIPMENT_DETAIL left join 
-                        TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.document_code
-                        LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SHIPMENT_DETAIL.ITEM_CODE
-                        left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code 
-						AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
-						left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
-                        WHERE TSPL_Item_Master.FG_for_CF=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
-                        GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) PSO
-                        ON TSPL_LOCATION_MASTER.LOCATION_CODE =PSO.Bill_To_Location 
-                         LEFT OUTER JOIN
-
-                        (select TSPL_BREAK_DOWN_ENTRY.Location_Code
-                        ,max(DATEDIFF(HOUR,Start_Time,End_Time)) AS BreakdownHRS,max(TSPL_BREAK_DOWN_MASTER.Name) as BreakdownREASON 
-                         from TSPL_BREAK_DOWN_ENTRY
-                        left join TSPL_BREAK_DOWN_MASTER ON TSPL_BREAK_DOWN_ENTRY.Break_Down_Code = TSPL_BREAK_DOWN_MASTER.CODE
-                        left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_BREAK_DOWN_ENTRY.Location_Code
-                        WHERE convert(date,TSPL_BREAK_DOWN_ENTRY.Start_Time,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) group by TSPL_BREAK_DOWN_ENTRY.Location_Code) BreakDown
-                        ON TSPL_LOCATION_MASTER.LOCATION_CODE =BreakDown.Location_Code "
+            '          queryStock = "select ST.LOCATION_CODE,sum(ST.Qty) as Qty from (" + queryStock + ") ST GROUP BY ST.LOCATION_CODE "
 
 
-                query += " LEFT OUTER JOIN (" + queryStock + " ) FGS ON TSPL_LOCATION_MASTER.LOCATION_CODE =FGS.Location_Code"
 
-                query += " where TSPL_LOCATION_MASTER.IsMainPlant='0'"
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
-                If dt IsNot Nothing And dt.Rows.Count > 0 Then
-                    Dim frmCRV As New frmCrystalReportViewer()
-                    frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report")
-                    frmCRV = Nothing
-                Else
-                    clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
-                End If
-            End If
+            '          query = "select ROW_NUMBER() OVER(ORDER BY TSPL_LOCATION_MASTER.Location_code ASC) as SNo
+            '                  ,TSPL_LOCATION_MASTER.Loc_Short_Name as [Location],format(convert(date,'" + fromDate.Value + "',103), 'dd MMMM yyyy') as Date,upper(format(convert(date,'" + fromDate.Value + "',103), 'MMMM yyyy'))as Date1
+            '                  ,isnull(cast((TSPL_LOCATION_MASTER.Silo_Capacity/31*(day(eomonth('" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "')))) AS DECIMAL(18,0)),0) as [Capacity],
+            '                  isnull(NoOfShift,0)NoOfShift
+            '                  ,isnull(CAST((ProdDailyQty.Qty/1000) AS DECIMAL(18,0)),0) as ProdDailyQty
+            '                  ,isnull(CAST((ProdCumQty.Qty/1000) AS DECIMAL(18,0)),0) as ProdCumQty
+            '                  ,case when TSPL_LOCATION_MASTER.Silo_Capacity>0 then isnull(CAST(ProdDailyQty.Qty*100/(TSPL_LOCATION_MASTER.Silo_Capacity*1000) AS DECIMAL(18,0)),0) else 0 end as CUD
+            '                  ,case when TSPL_LOCATION_MASTER.Silo_Capacity>0 then isnull(CAST((ProdCumQty.Qty*100)/(TSPL_LOCATION_MASTER.Silo_Capacity*1000*" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)),0) else 0 end as CUM
+            '                  ,case when TSPL_LOCATION_MASTER.Silo_Capacity>0 then isnull(CAST((ProdCumQty.Qty*100)/(TSPL_LOCATION_MASTER.Silo_Capacity*1000*" + clsCommon.myCstr(DayCount) + ") AS DECIMAL(18,0)),0) else 0 end as CUY
+            '                  ,isnull(CAST(SaleDailyQty.Qty AS DECIMAL(18,0)),0) as SaleDailyQty
+            '                  ,isnull(CAST(SaleCumQty.Qty AS DECIMAL(18,0)),0) as SaleCumQty
+            '                  ,isnull(CAST(FGS.Qty AS DECIMAL(18,0)),0) as FGS
+            '                  ,case when isnull(PSO.Qty,0)<0 then 0 else isnull(CAST(isnull(PSO.Qty,0) AS DECIMAL(18,0)),0) end as PSO
+            '                  ,isnull(BreakDown.BreakdownHRS,0)BreakdownHRS
+            '                  ,isnull(BreakDown.BreakdownREASON,0)BreakdownREASON
+            '                  FROM TSPL_LOCATION_MASTER 
+
+            '                  Left outer join 
+            '(select count (TSPL_SPP_PRODUCTION_ENTRY.Shift_Code) as NoOfShift,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE  from TSPL_SPP_PRODUCTION_ENTRY 
+            'WHERE CONVERT (DATE,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103) BETWEEN CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) AND CONVERT(DATE,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)  
+            '                     Group By LOCATION_CODE) NoOfShift
+            '   ON TSPL_LOCATION_MASTER.LOCATION_CODE = NoOfShift.LOCATION_CODE
+
+            '                   LEFT OUTER JOIN
+            '                  (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
+            '                   left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+            '                   LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
+            '                   where TSPL_Item_Master.FG_for_CF=1 AND TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+            '                    GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdDailyQty
+            '                    ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdDailyQty.LOCATION_CODE
+            '                   LEFT OUTER JOIN
+            '                  (select sum(TSPL_SPP_PRODUCTION_ENTRY_DETAIL.FINAL_PRODUCTION_QTY) as Qty,TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE from TSPL_SPP_PRODUCTION_ENTRY_DETAIL
+            '                   left join TSPL_SPP_PRODUCTION_ENTRY on TSPL_SPP_PRODUCTION_ENTRY.PROD_ENTRY_CODE=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.PROD_ENTRY_CODE
+            '                   LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SPP_PRODUCTION_ENTRY_DETAIL.ITEM_CODE
+            '                   where TSPL_Item_Master.FG_for_CF=1 and TSPL_SPP_PRODUCTION_ENTRY.posted=1 and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+            '                   and convert(date,TSPL_SPP_PRODUCTION_ENTRY.PROD_DATE,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+            '                    GROUP BY TSPL_SPP_PRODUCTION_ENTRY.LOCATION_CODE) ProdCumQty
+            '                    ON TSPL_LOCATION_MASTER.LOCATION_CODE =ProdCumQty.LOCATION_CODE
+            '                  LEFT OUTER JOIN
+            '                  (SELECT SUM((isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM 
+            '                  TSPL_SD_SHIPMENT_DETAIL left join 
+            '                  TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.document_code
+            '                  LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SHIPMENT_DETAIL.ITEM_CODE
+            '                   left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+            'AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
+            'left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
+            '                  WHERE TSPL_Item_Master.FG_for_CF=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+            '                  GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) SaleDailyQty
+            '                  ON TSPL_LOCATION_MASTER.LOCATION_CODE =SaleDailyQty.Bill_To_Location 
+            '                  LEFT OUTER JOIN
+            '                  (SELECT SUM((isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM 
+            '                  TSPL_SD_SHIPMENT_DETAIL left join 
+            '                  TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.document_code
+            '                  LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SHIPMENT_DETAIL.ITEM_CODE
+            '                  left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+            'AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
+            'left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
+            '                  WHERE TSPL_Item_Master.FG_for_CF=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 
+            '                  and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)>=convert(date,'" + clsCommon.GetPrintDate(fDate, "dd/MMM/yyyy") + "',103)
+            '                   and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)<=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+            '                  GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) SaleCumQty
+            '                  ON TSPL_LOCATION_MASTER.LOCATION_CODE =SaleCumQty.Bill_To_Location 
+            '                   LEFT OUTER JOIN
+            '                  (SELECT SUM(isnull(TSPL_SD_SHIPMENT_HEAD.Order_Qty,0))-SUM((isnull(TSPL_SD_SHIPMENT_DETAIL.Qty,0)*FromUOM.Conversion_Factor)/ToUOM.Conversion_Factor) AS Qty,TSPL_SD_SHIPMENT_HEAD.Bill_To_Location FROM 
+            '                  TSPL_SD_SHIPMENT_DETAIL left join 
+            '                  TSPL_SD_SHIPMENT_HEAD on TSPL_SD_SHIPMENT_HEAD.document_code=TSPL_SD_SHIPMENT_DETAIL.document_code
+            '                  LEFT JOIN TSPL_Item_Master ON TSPL_Item_Master.Item_Code=TSPL_SD_SHIPMENT_DETAIL.ITEM_CODE
+            '                  left outer join TSPL_ITEM_UOM_DETAIL FromUOM on FromUOM.Item_Code =TSPL_SD_SHIPMENT_DETAIL.Item_Code 
+            'AND FromUOM.UOM_Code=TSPL_SD_SHIPMENT_DETAIL.Unit_code
+            'left outer join TSPL_ITEM_UOM_DETAIL as ToUOM ON ToUOM.item_code=TSPL_SD_SHIPMENT_DETAIL.item_code and ToUOM.UOM_Code='MT'
+            '                  WHERE TSPL_Item_Master.FG_for_CF=1 AND TSPL_SD_SHIPMENT_HEAD.Status=1 and convert(date,TSPL_SD_SHIPMENT_HEAD.Document_Date,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103)
+            '                  GROUP BY TSPL_SD_SHIPMENT_HEAD.Bill_To_Location) PSO
+            '                  ON TSPL_LOCATION_MASTER.LOCATION_CODE =PSO.Bill_To_Location 
+            '                   LEFT OUTER JOIN
+
+            '                  (select TSPL_BREAK_DOWN_ENTRY.Location_Code
+            '                  ,max(DATEDIFF(HOUR,Start_Time,End_Time)) AS BreakdownHRS,max(TSPL_BREAK_DOWN_MASTER.Name) as BreakdownREASON 
+            '                   from TSPL_BREAK_DOWN_ENTRY
+            '                  left join TSPL_BREAK_DOWN_MASTER ON TSPL_BREAK_DOWN_ENTRY.Break_Down_Code = TSPL_BREAK_DOWN_MASTER.CODE
+            '                  left join TSPL_LOCATION_MASTER on TSPL_LOCATION_MASTER.Location_Code=TSPL_BREAK_DOWN_ENTRY.Location_Code
+            '                  WHERE convert(date,TSPL_BREAK_DOWN_ENTRY.Start_Time,103)=convert(date,'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "',103) group by TSPL_BREAK_DOWN_ENTRY.Location_Code) BreakDown
+            '                  ON TSPL_LOCATION_MASTER.LOCATION_CODE =BreakDown.Location_Code "
+
+
+            '          query += " LEFT OUTER JOIN (" + queryStock + " ) FGS ON TSPL_LOCATION_MASTER.LOCATION_CODE =FGS.Location_Code"
+
+            '          query += " where TSPL_LOCATION_MASTER.IsMainPlant='0'"
+            '          Dim dt As DataTable = clsDBFuncationality.GetDataTable(query)
+            '          If dt IsNot Nothing And dt.Rows.Count > 0 Then
+            '              Dim frmCRV As New frmCrystalReportViewer()
+            '              frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "Daily_Production_sale_FG_stock_BD_report", "Daily Production Sale Report")
+            '              frmCRV = Nothing
+            '          Else
+            '              clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
+            '          End If
+            '      End If
+            fillGridReport(True)
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try

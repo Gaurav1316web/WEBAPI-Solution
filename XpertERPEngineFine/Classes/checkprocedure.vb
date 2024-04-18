@@ -1051,6 +1051,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptLoanStatement, "Loan Statement", "1.11.03.16", clsUserMgtCode.SubModuleHRReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmSalaryGenerationRegisterArrear, "Arrear Register", "1.11.03.17", clsUserMgtCode.SubModuleHRReport, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailHRAndPayroll, "HR And Payroll Audit Trail Report", "1.11.03.18", clsUserMgtCode.SubModuleHRReport, 37)
+        InsertDefaultValue(clsUserMgtCode.frmActiveInactiveEmpRegister, "Employee Active/Inactive Report", "1.11.03.19", clsUserMgtCode.SubModuleHRReport, 37)
 
         'Monthly Reports
         InsertDefaultValue(clsUserMgtCode.SubModuleHRMonthlyReport, "Monthly Report", "1.11.04", clsUserMgtCode.ModuleHR, "SM", 30)
@@ -1328,6 +1329,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptTankerStatusReport, "Tanker Status Report", "1.29.03.27", clsUserMgtCode.SubModuleProductionReportDairy, 37)
         InsertDefaultValue(clsUserMgtCode.AuditTrailMilkProcurementBulk, "Milk Procurement Bulk Audit Trail Report", "1.29.03.28", clsUserMgtCode.SubModuleProductionReportDairy, 37)
         InsertDefaultValue(clsUserMgtCode.RptTotalMilkProcurement, "Total Milk Procurement Report", "1.29.03.29", clsUserMgtCode.SubModuleProductionReportDairy, 37)
+        InsertDefaultValue(clsUserMgtCode.rptProductionStandardization, "Production Standardization Report", "1.29.03.30", clsUserMgtCode.SubModuleProductionReportDairy, 37)
 
 
 
@@ -1605,6 +1607,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.DCSFinancialHead, "DCS Financial Head", "1.17.01.59", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.DCSSupervisorTagging, "DCS Supervisor Tagging", "1.17.01.60", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.MPMilkPrice, "MP Milk Price", "1.17.01.61", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.ChillingChargesSlab, "Chilling Charges Slab", "1.17.01.57", clsUserMgtCode.SubModuleMCCMilkProcurementSetup, 27)
         '=============================Mcc Transaction===========================================================
         InsertDefaultValue(clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, "MCC Transaction", "1.17.02", clsUserMgtCode.ModuleMCCMilkProcurement, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.frmOpenMCCShift, "Open MCC Shift", "1.17.02.01", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 8)
@@ -2322,6 +2325,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptAvgSaleDetailReport, "Average Sale Detail Report", "1.36.03.19", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptdairydispatch, "Dairy Dispatch Report", "1.36.03.20", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptRouteSaleRegister, "Route Sale Register", "1.36.03.21", clsUserMgtCode.SubModuleSaleDairyReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptGatePassReport, "Gate Pass Report", "1.36.03.22", clsUserMgtCode.SubModuleSaleDairyReport, 37)
 
         InsertDefaultValue(clsUserMgtCode.frmCarteJaliRpt, "Crate Jali Report", "1.06.03.29", clsUserMgtCode.SubModuleSaleDairyReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptCustomerEffective_ItemRate, "Item Effective Price List", "1.06.03.30", clsUserMgtCode.SubModuleSaleDairyReport, 37)

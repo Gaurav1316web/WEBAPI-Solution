@@ -194,9 +194,9 @@ Partial Class MSIProductionSaleReport
         '
         Me.btnPrint.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnPrint.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnPrint.Location = New System.Drawing.Point(99, 8)
+        Me.btnPrint.Location = New System.Drawing.Point(76, 8)
         Me.btnPrint.Name = "btnPrint"
-        Me.btnPrint.Size = New System.Drawing.Size(62, 17)
+        Me.btnPrint.Size = New System.Drawing.Size(67, 17)
         Me.btnPrint.TabIndex = 60
         Me.btnPrint.Text = "Print"
         '

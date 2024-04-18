@@ -192,7 +192,7 @@ Public Class frmTenderShortPenalty
                 EnableDisableControls(False)
 
                 Dim qry As String = " and  TSPL_SRN_HEAD.SRN_No in (" + clsCommon.GetMulcallString(obj.Arr) + ")"
-                qry = GetBaseQery("1", qry)
+                qry = clsSRNHead.GetBaseQeryTenderPenalty(txtTenderNo.Value, txtItem.Value, txtVendorNo.Value, txtBillToLocation.Value, "1", qry)
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
 
@@ -432,34 +432,10 @@ Group by xx.DocumentCode,xx.Location,xx.Vendor_Code,xx.Item_Code having sum(xx.R
 
     End Sub
 
-    Function GetBaseQery(ByVal UserStaus As String, ByVal WhrCls As String) As String
-        Dim qry As String = "select  cast(" + UserStaus + " as bit) as UserStatus, TSPL_GRN_HEAD.GRN_No,convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as GRN_Date,TSPL_GRN_HEAD.VehicleNo,isnull(TSPL_GRN_HEAD.Status,0) as GRNStatus,TSPL_SRN_HEAD.SRN_No,convert(varchar,TSPL_SRN_HEAD.SRN_Date,103) as  SRN_Date,isnull(TSPL_SRN_HEAD.Status,0) as SRNStatus, TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code,convert(varchar,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) as Weighment_Date,TSPL_PO_WEIGHTMENT_DETAIL.Gross_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Tare_Weight,TSPL_PO_WEIGHTMENT_DETAIL.Extra_Weight,TSPL_PO_WEIGHTMENT_DETAIL.UOM,TSPL_PO_WEIGHTMENT_DETAIL.Net_Weight,isnull(TSPL_PO_WEIGHTMENT_HEAD.Status,0) as WeightmentStatus,TSPL_SRN_DETAIL.SRN_Qty
-,TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt as SecurityDeductionAmt,TSPL_SRN_DEDUCTION.Ded_Per as QualityDeductionPer,TSPL_SRN_DEDUCTION.Ded_Amt as QualityDeductionAmt,case when isnull(TSPL_SRN_TENDER_CALC.Penalty,0)=0 then null else TSPL_SRN_TENDER_CALC.Qty end as LatePenaltyQty,case when isnull(TSPL_SRN_TENDER_CALC.Penalty,0)=0 then null else TSPL_TENDER_SCHEDULE_PENALTY.Penalty end as LatePenaltyPer,TSPL_SRN_TENDER_CALC.Penalty as LatePenaltyAmt
-,(case when isnull(TSPL_MRN_HEAD.NIR_QC,0)=0 then 1 else (case when (isnull(TSPL_NIR_QC.QC_Status,0)=1 and isnull(TSPL_NIR_QC.Status,0)=1 and TSPL_QC_CHECK_HEAD.Posted=1) then 1 else 0 end) end) as NIRQCStatus
-," + UserStaus + " as FinalStatus
-from TSPL_GRN_DETAIL
-left outer join TSPL_GRN_HEAD on TSPL_GRN_HEAD.GRN_No=TSPL_GRN_DETAIL.GRN_No
-left outer join TSPL_MRN_HEAD on TSPL_MRN_HEAD.Against_GRN=TSPL_GRN_DETAIL.GRN_No
-left outer join TSPL_NIR_QC on TSPL_NIR_QC.MRN_No=TSPL_MRN_HEAD.MRN_No
-left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_DETAIL.PO_Id
-left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.GRN_ID=TSPL_GRN_HEAD.GRN_No and TSPL_SRN_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
-left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No=TSPL_SRN_DETAIL.SRN_No
-left outer join TSPL_PO_WEIGHTMENT_HEAD on TSPL_PO_WEIGHTMENT_HEAD.Against_GRN_No=TSPL_GRN_HEAD.GRN_No
-left outer join TSPL_PO_WEIGHTMENT_DETAIL on TSPL_PO_WEIGHTMENT_DETAIL.Weighment_Code= TSPL_PO_WEIGHTMENT_HEAD.Weighment_Code and  TSPL_PO_WEIGHTMENT_DETAIL.Item_Code=TSPL_GRN_DETAIL.Item_Code
-left outer join TSPL_SRN_DEDUCTION_SECURITY on TSPL_SRN_DEDUCTION_SECURITY.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_DEDUCTION_SECURITY.Item_Code=TSPL_SRN_DETAIL.Item_Code
-left outer join TSPL_SRN_DEDUCTION on TSPL_SRN_DEDUCTION.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_DEDUCTION.Item_Code=TSPL_SRN_DETAIL.Item_Code
-left outer join TSPL_SRN_TENDER_CALC on TSPL_SRN_TENDER_CALC.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_SRN_TENDER_CALC.Item_Code=TSPL_SRN_DETAIL.Item_Code and isnull(TSPL_SRN_TENDER_CALC.Penalty,0)>0
-left outer join TSPL_TENDER_SCHEDULE_PENALTY on  TSPL_TENDER_SCHEDULE_PENALTY.PK_Id=TSPL_SRN_TENDER_CALC.Against_Tender_Schedule_Penalty_PK_Id
-left outer join TSPL_TENDER_HEADER on TSPL_TENDER_HEADER.DocumentCode=TSPL_PURCHASE_ORDER_HEAD.RefTendorNo
-left outer join TSPL_QC_CHECK_HEAD on TSPL_QC_CHECK_HEAD.Gate_Entry_No=TSPL_GRN_HEAD.GRN_No
-where TSPL_PURCHASE_ORDER_HEAD.Against_Tender='Y' and TSPL_PURCHASE_ORDER_HEAD.RefTendorNo='" + txtTenderNo.Value + "' and  isnull(TSPL_QC_CHECK_HEAD.QC_Status,'')<>'Rejected'  and TSPL_GRN_DETAIL.Item_Code='" + txtItem.Value + "' and TSPL_GRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_GRN_HEAD.Bill_To_Location='" + txtBillToLocation.Value + "' and ISNULL( TSPL_GRN_HEAD.IsCancel,0)=0  
-and 2= (case when isnull(TSPL_MRN_HEAD.NIR_QC,0)=1 then (case when isnull(TSPL_NIR_QC.QC_Status,0)=1 then 2 else 3 end) else 2 end) " + WhrCls
-        qry += " Order by CONVERT(date, TSPL_GRN_HEAD.GRN_Date,103),isnull(TSPL_SRN_HEAD.Status,0) desc"
-        Return qry
-    End Function
+
 
     Private Sub RadButton2_Click_1(sender As Object, e As EventArgs) Handles RadButton2.Click
-        Calculate(False)
+        Calculate()
     End Sub
 
     Sub SetGridFormation(ByVal dt As DataTable)
@@ -582,7 +558,7 @@ and 2= (case when isnull(TSPL_MRN_HEAD.NIR_QC,0)=1 then (case when isnull(TSPL_N
         gv1.TableElement.TableHeaderHeight = 40
     End Sub
 
-    Private Sub Calculate(ByVal OnlyClearPenalty As Boolean)
+    Private Sub Calculate()
         Try
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
                 txtBillToLocation.Focus()
@@ -602,7 +578,7 @@ and 2= (case when isnull(TSPL_MRN_HEAD.NIR_QC,0)=1 then (case when isnull(TSPL_N
             End If
             Dim qry As String = "and not exists(select 1 from TSPL_PI_DETAIL where TSPL_PI_DETAIL.SRN_Id=TSPL_SRN_HEAD.SRN_No)
 and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_HEAD.SRN_No and TSPL_TENDER_PENALTY_DETAIL.Document_No not in ('" + txtDocNo.Value + "') ) "
-            qry = GetBaseQery("0", qry)
+            qry = clsSRNHead.GetBaseQeryTenderPenalty(txtTenderNo.Value, txtItem.Value, txtVendorNo.Value, txtBillToLocation.Value, "0", qry)
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             Dim arrSRN As New ArrayList
             For ii As Integer = 0 To dt.Rows.Count - 1
@@ -610,23 +586,20 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
                     arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
                 End If
             Next
-
             Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
             Try
                 clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, True, True, True, tran)
-                If Not OnlyClearPenalty Then
-                    arrSRN = New ArrayList
-                    For ii As Integer = 0 To dt.Rows.Count - 1
-                        If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 AndAlso clsCommon.myCDecimal(dt.Rows(ii)("NIRQCStatus")) = 1 Then
-                            If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
-                                clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, True, True, True, tran)
-                                arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
-                            End If
-                        Else
-                            Exit For
+                arrSRN = New ArrayList
+                For ii As Integer = 0 To dt.Rows.Count - 1
+                    If clsCommon.myCDecimal(dt.Rows(ii)("SRNStatus")) = 1 AndAlso clsCommon.myCDecimal(dt.Rows(ii)("NIRQCStatus")) = 1 Then
+                        If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
+                            clsSRNHead.GenerateSRNDeduction(clsCommon.myCstr(dt.Rows(ii)("SRN_No")), txtItem.Value, True, True, True, tran)
+                            arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
                         End If
-                    Next
-                End If
+                    Else
+                        Exit For
+                    End If
+                Next
                 tran.Commit()
             Catch ex As Exception
                 tran.Rollback()
@@ -649,7 +622,6 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
 
     Private Sub ReCalculate()
         Try
-            Calculate(True)
             If clsCommon.myLen(txtBillToLocation.Value) <= 0 Then
                 txtBillToLocation.Focus()
                 Throw New Exception("Please select " + txtBillToLocation.MyLinkLable1.Text)
@@ -669,7 +641,7 @@ and not exists(select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALT
             Dim ServerDate As DateTime = clsCommon.GETSERVERDATE()
             Dim qry As String = "select Document_No from TSPL_TENDER_PENALTY 
 where Location_Code='" + txtBillToLocation.Value + "' and  Tender_No='" + txtTenderNo.Value + "' and Vendor_Code='" + txtVendorNo.Value + "' 
-and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
+and Item_Code ='" + txtItem.Value + "' and Status=1 order by Created_Date"
             Dim dtDoc As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dtDoc IsNot Nothing AndAlso dtDoc.Rows.Count > 0 Then
                 If clsCommon.MyMessageBoxShow(Me, "There are [" + clsCommon.myCstr(dtDoc.Rows.Count) + "] Documents to recalculate " + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = DialogResult.Yes Then
@@ -710,7 +682,7 @@ and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
                             If idxDoc = 0 Then
                                 arrSRN = New ArrayList
                                 For Each dr As DataRow In dtDoc.Rows
-                                    arrSRN.Add(dr("Document_No")) ''Add all purchase invoice
+                                    arrSRN.Add(clsCommon.myCstr(dr("Document_No"))) ''Add all Tender Penalty Docuemnts 
                                 Next
 
                                 qry = "select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No in (" + clsCommon.GetMulcallString(arrSRN) + ")"
@@ -718,23 +690,28 @@ and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
                                 arrSRN = New ArrayList
                                 If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                                     For Each dr As DataRow In dt.Rows
-                                        arrSRN.Add(dr("SRN_No"))
+                                        arrSRN.Add(clsCommon.myCstr(dr("SRN_No")))
                                     Next
                                 End If
+
+                                qry = "select TSPL_SRN_TENDER_CALC.SRN_No from TSPL_SRN_TENDER_CALC 
+inner join  TSPL_TENDER_SCHEDULE on TSPL_TENDER_SCHEDULE.PK_Id=TSPL_SRN_TENDER_CALC.Against_Tender_Schedule_PK_Id
+where TSPL_SRN_TENDER_CALC.Against_TenderNo='" + txtTenderNo.Value + "' and TSPL_TENDER_SCHEDULE.Vendor_Code='" + txtVendorNo.Value + "' and TSPL_TENDER_SCHEDULE.Location_Code='" + txtBillToLocation.Value + "' and TSPL_TENDER_SCHEDULE.Item_Code='" + txtItem.Value + "' 
+and   not exists (select 1 from TSPL_TENDER_PENALTY_DETAIL where TSPL_TENDER_PENALTY_DETAIL.SRN_No=TSPL_SRN_TENDER_CALC.SRN_No)"
+                                dt = clsDBFuncationality.GetDataTable(qry, tran)
+                                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                                    For Each dr As DataRow In dt.Rows
+                                        arrSRN.Add(clsCommon.myCstr(dr("SRN_No")))
+                                    Next
+                                End If
+
                                 clsTenderPenalty.DeleteSRNDeduction(arrSRN, txtItem.Value, False, False, True, tran)
                             End If
 
 
                             qry = " and TSPL_SRN_HEAD.SRN_No in ( select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + clsCommon.myCstr(dtDoc.Rows(idxDoc)("Document_No")) + "')"
-                            qry = GetBaseQery("0", qry)
+                            qry = clsSRNHead.GetBaseQeryTenderPenalty(txtTenderNo.Value, txtItem.Value, txtVendorNo.Value, txtBillToLocation.Value, "0", qry)
                             dt = clsDBFuncationality.GetDataTable(qry, tran)
-                            arrSRN = New ArrayList
-                            For ii As Integer = 0 To dt.Rows.Count - 1
-                                If Not arrSRN.Contains(clsCommon.myCstr(dt.Rows(ii)("SRN_No"))) Then
-                                    arrSRN.Add(clsCommon.myCstr(dt.Rows(ii)("SRN_No")))
-                                End If
-                            Next
-
 
                             arrSRN = New ArrayList
                             For ii As Integer = 0 To dt.Rows.Count - 1
@@ -779,6 +756,6 @@ and Item_Code ='" + txtItem.Value + "' and Status=1 order by Document_Date"
     End Sub
 
     Private Sub RadButton4_Click(sender As Object, e As EventArgs) Handles btnDeleteUnusedCalc.Click
-        Calculate(True)
+        'Calculate(True)
     End Sub
 End Class

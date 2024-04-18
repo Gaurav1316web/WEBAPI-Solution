@@ -354,20 +354,20 @@ Public Class frmGenerateBonus
 
     Private Sub txtToPayPeriodCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtToPayPeriodCode._MYValidating
         'Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
-        txtToPayPeriodCode.Value = clsPayPeriodMaster.getFinder("POSTED=1", txtToPayPeriodCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", txtToPayPeriodCode.Value, "PAY_PERIOD_CODE", isButtonClicked)
+        txtToPayPeriodCode.Value = clsPayPeriodMaster.getFinder("POSTED=1 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", txtToPayPeriodCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", txtToPayPeriodCode.Value, "PAY_PERIOD_CODE", isButtonClicked)
         lblToPayPeriodName.Text = clsPayPeriodMaster.GetName(txtToPayPeriodCode.Value, Nothing)
     End Sub
 
     Private Sub txtFromPayPeriodCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtFromPayPeriodCode._MYValidating
 
         'Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
-        txtFromPayPeriodCode.Value = clsPayPeriodMaster.getFinder("POSTED=1", txtFromPayPeriodCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", txtFromPayPeriodCode.Value, "PAY_PERIOD_CODE", isButtonClicked)
+        txtFromPayPeriodCode.Value = clsPayPeriodMaster.getFinder("POSTED=1 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", txtFromPayPeriodCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", txtFromPayPeriodCode.Value, "PAY_PERIOD_CODE", isButtonClicked)
         lblFromPayPeriodName.Text = clsPayPeriodMaster.GetName(txtFromPayPeriodCode.Value, Nothing)
     End Sub
 
     Private Sub txtPayablePayPeriodCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPayablePayPeriodCode._MYValidating
         'Dim qry As String = "select PAY_PERIOD_CODE as Code , PAY_PERIOD_NAME as Name, DATE_FROM as 'From Date', DATE_TO AS 'To Date', DESCRIPTION as Description  from TSPL_PAYPERIOD_MASTER"
-        txtPayablePayPeriodCode.Value = clsPayPeriodMaster.getFinder("POSTED=1", txtPayablePayPeriodCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", txtPayablePayPeriodCode.Value, "PAY_PERIOD_CODE", isButtonClicked)
+        txtPayablePayPeriodCode.Value = clsPayPeriodMaster.getFinder("POSTED=1 and convert(date, date_from,103) <= Convert (date,SYSDATETIME(),103)", txtPayablePayPeriodCode.Value, isButtonClicked) 'clsCommon.ShowSelectForm("PAYPERIOD_Master", qry, "Code", "POSTED=1 and FREEZED=0", txtPayablePayPeriodCode.Value, "PAY_PERIOD_CODE", isButtonClicked)
         lblPayablePayPeriodName.Text = clsPayPeriodMaster.GetName(txtPayablePayPeriodCode.Value, Nothing)
     End Sub
     Sub LoadGridColumns()
