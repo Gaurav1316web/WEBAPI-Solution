@@ -26341,7 +26341,7 @@ where TSPL_SD_SHIPMENT_HEAD.Document_Code in (select Shipment_Code  from TSPL_SD
                 Throw New Exception("Please select At least One RAL")
             End If
             Dim StrAllException As String = ""
-            Dim qry As String = "select DocumentCode,Location,Vendor_Code,Item_Code from TSPL_TENDER_DETAIL where DocumentCode in (" + clsCommon.GetMulcallString(TxtMultiSelectFinder20.arrValueMember) + ") 
+            Dim qry As String = "select DocumentCode,Location,Vendor_Code,Item_Code from TSPL_TENDER_DETAIL where Location='AJMR' and DocumentCode in (" + clsCommon.GetMulcallString(TxtMultiSelectFinder20.arrValueMember) + ") 
 group by DocumentCode,Location,Vendor_Code,Item_Code order by DocumentCode,Location,Vendor_Code,Item_Code"
             Dim dtTender As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dtTender IsNot Nothing AndAlso dtTender.Rows.Count > 0 Then
@@ -26363,7 +26363,7 @@ and Item_Code ='" + strItem + "'  order by Created_Date"
                             Try
                                 Dim dt As DataTable = Nothing
                                 For idxDoc As Integer = 0 To dtDoc.Rows.Count - 1
-                                    qry = "select TSPL_PI_detail.PI_No from TSPL_PI_detail where  SRN_Id in ( select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + clsCommon.myCstr(dtDoc.Rows(idxDoc)("Document_No")) + "') group by TSPL_PI_detail.PI_No"
+                                    qry = "select TSPL_PI_detail.PI_No from TSPL_PI_detail where TSPL_PI_detail.PI_No='POI-AJM/2324/000067' and  SRN_Id in ( select SRN_No from TSPL_TENDER_PENALTY_DETAIL where Document_No='" + clsCommon.myCstr(dtDoc.Rows(idxDoc)("Document_No")) + "') group by TSPL_PI_detail.PI_No"
                                     Dim dtPI As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
                                     If dtPI IsNot Nothing AndAlso dtPI.Rows.Count > 0 Then
                                         For Each drPI As DataRow In dtPI.Rows
