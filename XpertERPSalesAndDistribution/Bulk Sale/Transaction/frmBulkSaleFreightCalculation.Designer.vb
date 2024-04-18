@@ -21,9 +21,16 @@ Partial Class frmBulkSaleFreightCalculation
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition17 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtDieselHike = New common.MyNumBox()
+        Me.txtToDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel4 = New common.Controls.MyLabel()
+        Me.txtFromDate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel3 = New common.Controls.MyLabel()
         Me.lblStatus = New common.usLock()
         Me.lblCustomerName = New common.Controls.MyLabel()
         Me.txtCustomer = New common.UserControls.txtFinder()
@@ -48,19 +55,21 @@ Partial Class frmBulkSaleFreightCalculation
         Me.btnSaveLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.txtToDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel4 = New common.Controls.MyLabel()
-        Me.txtFromDate = New common.Controls.MyDateTimePicker()
-        Me.MyLabel3 = New common.Controls.MyLabel()
-        Me.txtDieselHike = New common.MyNumBox()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.btnGo = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel5 = New common.Controls.MyLabel()
+        Me.lblTotalAmount = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDieselHike, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -76,13 +85,8 @@ Partial Class frmBulkSaleFreightCalculation
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDieselHike, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotalAmount, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -122,6 +126,8 @@ Partial Class frmBulkSaleFreightCalculation
         '
         'SplitContainer2.Panel1
         '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel5)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblTotalAmount)
         Me.SplitContainer2.Panel1.Controls.Add(Me.btnGo)
         Me.SplitContainer2.Panel1.Controls.Add(Me.MyLabel1)
         Me.SplitContainer2.Panel1.Controls.Add(Me.txtDieselHike)
@@ -145,6 +151,133 @@ Partial Class frmBulkSaleFreightCalculation
         Me.SplitContainer2.Size = New System.Drawing.Size(996, 452)
         Me.SplitContainer2.SplitterDistance = 98
         Me.SplitContainer2.TabIndex = 0
+        '
+        'btnGo
+        '
+        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnGo.Location = New System.Drawing.Point(541, 54)
+        Me.btnGo.Name = "btnGo"
+        Me.btnGo.Size = New System.Drawing.Size(76, 18)
+        Me.btnGo.TabIndex = 1096
+        Me.btnGo.Text = ">>>"
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel1.Location = New System.Drawing.Point(351, 53)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(91, 16)
+        Me.MyLabel1.TabIndex = 1095
+        Me.MyLabel1.Text = "Diesel Hike/Red."
+        '
+        'txtDieselHike
+        '
+        Me.txtDieselHike.BackColor = System.Drawing.Color.Transparent
+        Me.txtDieselHike.CalculationExpression = Nothing
+        Me.txtDieselHike.DecimalPlaces = 2
+        Me.txtDieselHike.FieldCode = Nothing
+        Me.txtDieselHike.FieldDesc = Nothing
+        Me.txtDieselHike.FieldMaxLength = 0
+        Me.txtDieselHike.FieldName = Nothing
+        Me.txtDieselHike.Font = New System.Drawing.Font("Segoe UI", 9.0!)
+        Me.txtDieselHike.isCalculatedField = False
+        Me.txtDieselHike.IsSourceFromTable = False
+        Me.txtDieselHike.IsSourceFromValueList = False
+        Me.txtDieselHike.IsUnique = False
+        Me.txtDieselHike.Location = New System.Drawing.Point(451, 52)
+        Me.txtDieselHike.MaxLength = 6
+        Me.txtDieselHike.MendatroryField = False
+        Me.txtDieselHike.MyLinkLable1 = Nothing
+        Me.txtDieselHike.MyLinkLable2 = Nothing
+        Me.txtDieselHike.Name = "txtDieselHike"
+        Me.txtDieselHike.ReferenceFieldDesc = Nothing
+        Me.txtDieselHike.ReferenceFieldName = Nothing
+        Me.txtDieselHike.ReferenceTableName = Nothing
+        Me.txtDieselHike.Size = New System.Drawing.Size(74, 21)
+        Me.txtDieselHike.TabIndex = 1094
+        Me.txtDieselHike.Text = "0"
+        Me.txtDieselHike.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtDieselHike.Value = 0R
+        '
+        'txtToDate
+        '
+        Me.txtToDate.CalculationExpression = Nothing
+        Me.txtToDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtToDate.FieldCode = Nothing
+        Me.txtToDate.FieldDesc = Nothing
+        Me.txtToDate.FieldMaxLength = 0
+        Me.txtToDate.FieldName = Nothing
+        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtToDate.isCalculatedField = False
+        Me.txtToDate.IsSourceFromTable = False
+        Me.txtToDate.IsSourceFromValueList = False
+        Me.txtToDate.IsUnique = False
+        Me.txtToDate.Location = New System.Drawing.Point(250, 52)
+        Me.txtToDate.MendatroryField = False
+        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.MyLinkLable1 = Me.MyLabel4
+        Me.txtToDate.MyLinkLable2 = Nothing
+        Me.txtToDate.Name = "txtToDate"
+        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtToDate.ReferenceFieldDesc = Nothing
+        Me.txtToDate.ReferenceFieldName = Nothing
+        Me.txtToDate.ReferenceTableName = Nothing
+        Me.txtToDate.Size = New System.Drawing.Size(87, 20)
+        Me.txtToDate.TabIndex = 412
+        Me.txtToDate.TabStop = False
+        Me.txtToDate.Text = "28/06/2012"
+        Me.txtToDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
+        '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(191, 53)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(45, 18)
+        Me.MyLabel4.TabIndex = 413
+        Me.MyLabel4.Text = "To Date"
+        '
+        'txtFromDate
+        '
+        Me.txtFromDate.CalculationExpression = Nothing
+        Me.txtFromDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtFromDate.FieldCode = Nothing
+        Me.txtFromDate.FieldDesc = Nothing
+        Me.txtFromDate.FieldMaxLength = 0
+        Me.txtFromDate.FieldName = Nothing
+        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtFromDate.isCalculatedField = False
+        Me.txtFromDate.IsSourceFromTable = False
+        Me.txtFromDate.IsSourceFromValueList = False
+        Me.txtFromDate.IsUnique = False
+        Me.txtFromDate.Location = New System.Drawing.Point(94, 52)
+        Me.txtFromDate.MendatroryField = False
+        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.MyLinkLable1 = Me.MyLabel3
+        Me.txtFromDate.MyLinkLable2 = Nothing
+        Me.txtFromDate.Name = "txtFromDate"
+        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtFromDate.ReferenceFieldDesc = Nothing
+        Me.txtFromDate.ReferenceFieldName = Nothing
+        Me.txtFromDate.ReferenceTableName = Nothing
+        Me.txtFromDate.Size = New System.Drawing.Size(86, 20)
+        Me.txtFromDate.TabIndex = 410
+        Me.txtFromDate.TabStop = False
+        Me.txtFromDate.Text = "28/06/2012"
+        Me.txtFromDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel3.Location = New System.Drawing.Point(7, 53)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(59, 18)
+        Me.MyLabel3.TabIndex = 411
+        Me.MyLabel3.Text = "From Date"
         '
         'lblStatus
         '
@@ -287,7 +420,8 @@ Partial Class frmBulkSaleFreightCalculation
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition17
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
         Me.gv1.Size = New System.Drawing.Size(996, 350)
@@ -399,132 +533,27 @@ Partial Class frmBulkSaleFreightCalculation
         Me.RadMenu1.Size = New System.Drawing.Size(996, 20)
         Me.RadMenu1.TabIndex = 12
         '
-        'txtToDate
+        'MyLabel5
         '
-        Me.txtToDate.CalculationExpression = Nothing
-        Me.txtToDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtToDate.FieldCode = Nothing
-        Me.txtToDate.FieldDesc = Nothing
-        Me.txtToDate.FieldMaxLength = 0
-        Me.txtToDate.FieldName = Nothing
-        Me.txtToDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtToDate.isCalculatedField = False
-        Me.txtToDate.IsSourceFromTable = False
-        Me.txtToDate.IsSourceFromValueList = False
-        Me.txtToDate.IsUnique = False
-        Me.txtToDate.Location = New System.Drawing.Point(250, 52)
-        Me.txtToDate.MendatroryField = False
-        Me.txtToDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.MyLinkLable1 = Me.MyLabel4
-        Me.txtToDate.MyLinkLable2 = Nothing
-        Me.txtToDate.Name = "txtToDate"
-        Me.txtToDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtToDate.ReferenceFieldDesc = Nothing
-        Me.txtToDate.ReferenceFieldName = Nothing
-        Me.txtToDate.ReferenceTableName = Nothing
-        Me.txtToDate.Size = New System.Drawing.Size(87, 20)
-        Me.txtToDate.TabIndex = 412
-        Me.txtToDate.TabStop = False
-        Me.txtToDate.Text = "28/06/2012"
-        Me.txtToDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
+        Me.MyLabel5.FieldName = Nothing
+        Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel5.Location = New System.Drawing.Point(539, 31)
+        Me.MyLabel5.Name = "MyLabel5"
+        Me.MyLabel5.Size = New System.Drawing.Size(82, 16)
+        Me.MyLabel5.TabIndex = 1097
+        Me.MyLabel5.Text = "Total  Amount"
         '
-        'MyLabel4
+        'lblTotalAmount
         '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(191, 53)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(45, 18)
-        Me.MyLabel4.TabIndex = 413
-        Me.MyLabel4.Text = "To Date"
-        '
-        'txtFromDate
-        '
-        Me.txtFromDate.CalculationExpression = Nothing
-        Me.txtFromDate.CustomFormat = "dd/MM/yyyy"
-        Me.txtFromDate.FieldCode = Nothing
-        Me.txtFromDate.FieldDesc = Nothing
-        Me.txtFromDate.FieldMaxLength = 0
-        Me.txtFromDate.FieldName = Nothing
-        Me.txtFromDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtFromDate.isCalculatedField = False
-        Me.txtFromDate.IsSourceFromTable = False
-        Me.txtFromDate.IsSourceFromValueList = False
-        Me.txtFromDate.IsUnique = False
-        Me.txtFromDate.Location = New System.Drawing.Point(94, 52)
-        Me.txtFromDate.MendatroryField = False
-        Me.txtFromDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.MyLinkLable1 = Me.MyLabel3
-        Me.txtFromDate.MyLinkLable2 = Nothing
-        Me.txtFromDate.Name = "txtFromDate"
-        Me.txtFromDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtFromDate.ReferenceFieldDesc = Nothing
-        Me.txtFromDate.ReferenceFieldName = Nothing
-        Me.txtFromDate.ReferenceTableName = Nothing
-        Me.txtFromDate.Size = New System.Drawing.Size(86, 20)
-        Me.txtFromDate.TabIndex = 410
-        Me.txtFromDate.TabStop = False
-        Me.txtFromDate.Text = "28/06/2012"
-        Me.txtFromDate.Value = New Date(2012, 6, 28, 14, 31, 57, 31)
-        '
-        'MyLabel3
-        '
-        Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Font = New System.Drawing.Font("Segoe UI", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel3.Location = New System.Drawing.Point(7, 53)
-        Me.MyLabel3.Name = "MyLabel3"
-        Me.MyLabel3.Size = New System.Drawing.Size(59, 18)
-        Me.MyLabel3.TabIndex = 411
-        Me.MyLabel3.Text = "From Date"
-        '
-        'txtDieselHike
-        '
-        Me.txtDieselHike.BackColor = System.Drawing.Color.Transparent
-        Me.txtDieselHike.CalculationExpression = Nothing
-        Me.txtDieselHike.DecimalPlaces = 2
-        Me.txtDieselHike.FieldCode = Nothing
-        Me.txtDieselHike.FieldDesc = Nothing
-        Me.txtDieselHike.FieldMaxLength = 0
-        Me.txtDieselHike.FieldName = Nothing
-        Me.txtDieselHike.Font = New System.Drawing.Font("Segoe UI", 9.0!)
-        Me.txtDieselHike.isCalculatedField = False
-        Me.txtDieselHike.IsSourceFromTable = False
-        Me.txtDieselHike.IsSourceFromValueList = False
-        Me.txtDieselHike.IsUnique = False
-        Me.txtDieselHike.Location = New System.Drawing.Point(451, 52)
-        Me.txtDieselHike.MaxLength = 6
-        Me.txtDieselHike.MendatroryField = False
-        Me.txtDieselHike.MyLinkLable1 = Nothing
-        Me.txtDieselHike.MyLinkLable2 = Nothing
-        Me.txtDieselHike.Name = "txtDieselHike"
-        Me.txtDieselHike.ReferenceFieldDesc = Nothing
-        Me.txtDieselHike.ReferenceFieldName = Nothing
-        Me.txtDieselHike.ReferenceTableName = Nothing
-        Me.txtDieselHike.Size = New System.Drawing.Size(74, 21)
-        Me.txtDieselHike.TabIndex = 1094
-        Me.txtDieselHike.Text = "0"
-        Me.txtDieselHike.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtDieselHike.Value = 0R
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel1.Location = New System.Drawing.Point(351, 53)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(91, 16)
-        Me.MyLabel1.TabIndex = 1095
-        Me.MyLabel1.Text = "Diesel Hike/Red."
-        '
-        'btnGo
-        '
-        Me.btnGo.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnGo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnGo.Location = New System.Drawing.Point(541, 54)
-        Me.btnGo.Name = "btnGo"
-        Me.btnGo.Size = New System.Drawing.Size(76, 18)
-        Me.btnGo.TabIndex = 1096
-        Me.btnGo.Text = ">>>"
+        Me.lblTotalAmount.AutoSize = False
+        Me.lblTotalAmount.BorderVisible = True
+        Me.lblTotalAmount.FieldName = Nothing
+        Me.lblTotalAmount.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalAmount.Location = New System.Drawing.Point(631, 30)
+        Me.lblTotalAmount.Name = "lblTotalAmount"
+        Me.lblTotalAmount.Size = New System.Drawing.Size(104, 20)
+        Me.lblTotalAmount.TabIndex = 1098
+        Me.lblTotalAmount.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         '
         'frmBulkSaleFreightCalculation
         '
@@ -538,7 +567,7 @@ Partial Class frmBulkSaleFreightCalculation
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "Bulk Sale Freight Master"
+        Me.Text = "Bulk Sale Freight Calculation"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
@@ -546,6 +575,13 @@ Partial Class frmBulkSaleFreightCalculation
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDieselHike, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCustomerName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -561,13 +597,8 @@ Partial Class frmBulkSaleFreightCalculation
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDieselHike, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnGo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotalAmount, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -606,5 +637,7 @@ Partial Class frmBulkSaleFreightCalculation
     Friend WithEvents txtDieselHike As common.MyNumBox
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
     Friend WithEvents btnGo As RadButton
+    Friend WithEvents MyLabel5 As common.Controls.MyLabel
+    Friend WithEvents lblTotalAmount As common.Controls.MyLabel
 End Class
 
