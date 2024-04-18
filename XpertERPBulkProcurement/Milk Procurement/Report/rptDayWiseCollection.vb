@@ -226,7 +226,7 @@ Public Class rptDayWiseCollection
             Dim strHeading As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptDayWiseCol & "'"))
 
             Dim arrHeader As List(Of String) = New List(Of String)()
-            arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
+            'arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
             arrHeader.Add("Report Name : " + strHeading)
             arrHeader.Add("Date Range from : " + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + " To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
 

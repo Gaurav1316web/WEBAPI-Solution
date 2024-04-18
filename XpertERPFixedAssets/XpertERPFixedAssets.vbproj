@@ -200,6 +200,12 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
+    <Compile Include="BullManagement\Master\frmBullMovementType.Designer.vb">
+      <DependentUpon>frmBullMovementType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="BullManagement\Master\frmBullMovementType.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="BullManagement\Transaction\frmBullBreedMaster.Designer.vb">
       <DependentUpon>frmBullBreedMaster.vb</DependentUpon>
     </Compile>
@@ -529,6 +535,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="BullManagement\Master\frmBullMovementType.resx">
+      <DependentUpon>frmBullMovementType.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="BullManagement\Transaction\frmBullBreedMaster.resx">
       <DependentUpon>frmBullBreedMaster.vb</DependentUpon>
     </EmbeddedResource>
@@ -709,7 +718,6 @@
     <None Include="Resources\search4.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BullManagement\Master\" />
     <Folder Include="BullManagement\Report\" />
     <Folder Include="Shares\Report\" />
   </ItemGroup>

@@ -9757,6 +9757,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullShedParameterGroup
                         frm = New frmBullShedParameterGroup
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullMovementType
+                        frm = New frmBullMovementType
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         ''-------------------- MIS Master---------------
 
                         'Case clsUserMgtCode.MISitemGroups

@@ -54270,6 +54270,18 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_PARAMETER_GROUP_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
+            coll.Add("Name", "Varchar(50) NOT NULL ")
+            coll.Add("Peridocity", "Varchar(50) NOT NULL ")
+            coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_MOVEMENT_TYPE", coll)
+
+
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION")
             coll.Add("Code", "varchar(30) NOT NULL REFERENCES TSPL_BULL_PARAMETER_GROUP_MASTER (Code)")
             coll.Add("TPCode", "varchar(30) NOT NULL REFERENCES TSPL_BULL_TEST_PARAMETER (Code)")

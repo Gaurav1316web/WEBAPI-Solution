@@ -305,6 +305,8 @@ Public Class clsUserMgtCode
     Public Const frmBullShedMaster As String = "BULL-SHE-M"
     Public Const frmBullShedParameterMaster As String = "BULL-S-PA-M"
     Public Const frmBullShedParameterGroup As String = "Bull-Sh-P-G"
+    Public Const frmBullMovementType As String = "BULL-MO-TY"
+
     ''============BullManagementReport=======================
     Public Const SubModuleBullManagementReport As String = "MSBullMangR"
 
