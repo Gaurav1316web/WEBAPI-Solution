@@ -139,7 +139,7 @@ Public Class MSIProductionSaleReport
 
             Dim dtbreakdown As DataTable = clsDBFuncationality.GetDataTable(Breakdown)
             If dt IsNot Nothing And dt.Rows.Count <= 0 Then
-                Dim qry As String = "  select 0 columns1"
+                Dim qry As String = "  SELECT '" + clsCommon.GetPrintDate(FromDate.Value) + "' as Date,'" + txtLocation.Value + "' as Location_Code,'" + lblLocation.Text + "' as Location_Desc "
                 dt = clsDBFuncationality.GetDataTable(qry)
                 Dim frmCRV As New frmCrystalReportViewer()
                 frmCRV.funsubreportWithdt(Nothing, CrystalReportFolder.SalesReport, dt, dtshift, "rptMSIProductionSaleReport", "", Nothing, "SubShift.rpt", "SubPrdDaily.rpt", dtproductiondaily, "SubPrdPeriodically.rpt", dtproductionperiodically, "SubSaleDaily.rpt", dtsalesdaily, "SubSalePeriodically.rpt", dtsalesperiodically, "SubInventory.rpt", dtinventory, "Subbreakdown.rpt", dtbreakdown)
