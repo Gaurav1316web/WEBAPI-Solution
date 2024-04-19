@@ -289,6 +289,8 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.lblDCSDemand = New common.Controls.MyLabel()
+        Me.txtDCSDemandNo = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -540,6 +542,8 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDCSDemand, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDCSDemandNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -604,6 +608,8 @@ Partial Class frmDairyBookingCustomer
         '
         'RadPageViewPage1
         '
+        Me.RadPageViewPage1.Controls.Add(Me.lblDCSDemand)
+        Me.RadPageViewPage1.Controls.Add(Me.txtDCSDemandNo)
         Me.RadPageViewPage1.Controls.Add(Me.chkGhee)
         Me.RadPageViewPage1.Controls.Add(Me.rgbTaxNonTax)
         Me.RadPageViewPage1.Controls.Add(Me.lblSubLocation)
@@ -4093,6 +4099,26 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
+        'lblDCSDemand
+        '
+        Me.lblDCSDemand.FieldName = Nothing
+        Me.lblDCSDemand.Location = New System.Drawing.Point(1029, 33)
+        Me.lblDCSDemand.Name = "lblDCSDemand"
+        Me.lblDCSDemand.Size = New System.Drawing.Size(91, 18)
+        Me.lblDCSDemand.TabIndex = 1558
+        Me.lblDCSDemand.Text = "DCS Demand No"
+        '
+        'txtDCSDemandNo
+        '
+        Me.txtDCSDemandNo.AutoSize = False
+        Me.txtDCSDemandNo.BorderVisible = True
+        Me.txtDCSDemandNo.FieldName = Nothing
+        Me.txtDCSDemandNo.Location = New System.Drawing.Point(1126, 33)
+        Me.txtDCSDemandNo.Name = "txtDCSDemandNo"
+        Me.txtDCSDemandNo.Size = New System.Drawing.Size(133, 19)
+        Me.txtDCSDemandNo.TabIndex = 1559
+        Me.txtDCSDemandNo.TextWrap = False
+        '
         'frmDairyBookingCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4379,6 +4405,8 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDCSDemand, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDCSDemandNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -4643,5 +4671,7 @@ Partial Class frmDairyBookingCustomer
     Friend WithEvents chkGhee As RadCheckBox
     Friend WithEvents txtTCAmt As common.Controls.MyLabel
     Friend WithEvents lblTCAmt As common.Controls.MyLabel
+    Friend WithEvents lblDCSDemand As common.Controls.MyLabel
+    Friend WithEvents txtDCSDemandNo As common.Controls.MyLabel
 End Class
 

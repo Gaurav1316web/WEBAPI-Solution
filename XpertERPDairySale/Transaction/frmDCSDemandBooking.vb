@@ -15,18 +15,14 @@ Public Class frmDCSDemandBooking
     Const colOutstanding As String = "colOutstanding"
     Const colLastMilkdate As String = "colLastMilkdate"
     Const colunbilledMilkAmt As String = "colunbilledMilkAmt"
+    Const colbilledMilkAmt As String = "colbilledMilkAmt"
     Const colCalAmtforSale As String = "colCalAmtforSale"
     Const colItemCode As String = "colItemCode"
     Const colTotal As String = "colTotal"
     Public Const RowCash As String = "Cash"
     Public Const RowCredit As String = "Credit"
-
-
-
-
 #End Region
     Public Sub SetUserMgmtNew()
-        ''MyBase.SetUserMgmt(clsUserMgtCode.frmbookingdairy)
         If Not (MyBase.isReadFlag) Then
             Throw New Exception("Permission Denied")
             Me.Close()
@@ -36,12 +32,6 @@ Public Class frmDCSDemandBooking
         btnPost.Visible = MyBase.isPostFlag
         btnDelete.Visible = MyBase.isDeleteFlag
         btnreverse.Visible = False
-
-        'If MyBase.isReverse Then
-        '    btnreverse.Enabled = True
-        'Else
-        '    btnreverse.Enabled = False
-        'End If
         If MyBase.isExport = True Then
             btnExport.Enabled = True
             btnImport.Enabled = True
@@ -77,7 +67,6 @@ Public Class frmDCSDemandBooking
             setGridFocusEnd()
         ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
             If MyBase.isReverse Then
-
                 Dim frm As New FrmPWD(Nothing)
                 frm.strType = "SIRC"
                 frm.strCode = "SIReversAndCreate"
@@ -90,7 +79,6 @@ Public Class frmDCSDemandBooking
             End If
         End If
     End Sub
-
     Private Sub btnClose_Click_1(sender As Object, e As EventArgs) Handles btnClose.Click
         CloseForm()
     End Sub
@@ -123,7 +111,6 @@ Public Class frmDCSDemandBooking
         gv1.Columns.Clear()
         gv1.DataSource = Nothing
         gv1.Rows.AddNew()
-
         Dim repoLineNo As GridViewDecimalColumn = New GridViewDecimalColumn()
         repoLineNo = New GridViewDecimalColumn()
         repoLineNo.FormatString = ""
@@ -132,7 +119,6 @@ Public Class frmDCSDemandBooking
         repoLineNo.Width = 50
         repoLineNo.RowSpan = 50
         repoLineNo.WrapText = True
-
         repoLineNo.ReadOnly = True
         repoLineNo.IsPinned = True
         repoLineNo.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
@@ -165,7 +151,6 @@ Public Class frmDCSDemandBooking
         repoCreditType.Name = colCreditType
         repoCreditType.Width = 80
         repoCreditType.WrapText = True
-
         repoCreditType.ReadOnly = False
         repoCreditType.DataSource = GetCreditType()
         repoCreditType.ValueMember = "Code"
@@ -203,6 +188,16 @@ Public Class frmDCSDemandBooking
         repoLastUnBilledMilkAmt.IsVisible = True
         repoLastUnBilledMilkAmt.IsPinned = True
         gv1.MasterTemplate.Columns.Add(repoLastUnBilledMilkAmt)
+        Dim repoLastBilledMilkAmt As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+        repoLastBilledMilkAmt.FormatString = ""
+        repoLastBilledMilkAmt.HeaderText = "Last Billed Milk Amount"
+        repoLastBilledMilkAmt.Name = colbilledMilkAmt
+        repoLastBilledMilkAmt.Width = 80
+        repoLastBilledMilkAmt.WrapText = True
+        repoLastBilledMilkAmt.ReadOnly = True
+        repoLastBilledMilkAmt.IsVisible = True
+        repoLastBilledMilkAmt.IsPinned = True
+        gv1.MasterTemplate.Columns.Add(repoLastBilledMilkAmt)
         Dim repoCalAmtforSale As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoCalAmtforSale.FormatString = ""
         repoCalAmtforSale.HeaderText = "Calculated Amount For Sale"
@@ -213,7 +208,6 @@ Public Class frmDCSDemandBooking
         repoCalAmtforSale.IsVisible = True
         repoCalAmtforSale.IsPinned = True
         gv1.MasterTemplate.Columns.Add(repoCalAmtforSale)
-
         Dim repoIName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         qry = "select * from (
     select 'Ambient' as FreshAmbient,tspl_item_master.Item_Code ,tspl_item_master.Short_Description,tspl_item_master.Item_Desc , TSPL_ITEM_UOM_DETAIL.UOM_Code,tspl_item_master.Short_Description +' - '+ TSPL_ITEM_UOM_DETAIL.UOM_Code as ItemDescNew,tspl_item_master.TypeOfItm,tspl_item_master.DcsSeqNo   from tspl_item_master 
@@ -226,7 +220,6 @@ Public Class frmDCSDemandBooking
         ElseIf rbtnOther.IsChecked Then
             qry += " And tspl_item_master.TypeOfItm='O' "
         End If
-
         qry += " and tspl_item_master.DcsSeqNo is not null and tspl_item_master.DcsSeqNo>0
     and TSPL_ITEM_UOM_DETAIL.Default_UOM=1
     )z order by DcsSeqNo,Item_Code"
@@ -252,18 +245,6 @@ Public Class frmDCSDemandBooking
                 gv1.MasterTemplate.Columns.Add(repoIName)
             Next
         End If
-        'Dim repoTotal As GridViewDecimalColumn = New GridViewDecimalColumn()
-        'repoTotal = New GridViewDecimalColumn()
-        'repoTotal.FormatString = ""
-        'repoTotal.HeaderText = "Total"
-        'repoTotal.Name = colTotal
-        'repoTotal.Width = 80
-        'repoTotal.Minimum = 0
-        'repoTotal.ReadOnly = True
-        'repoTotal.IsVisible = True
-        'repoTotal.IsPinned = True
-        'repoTotal.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        'gv1.MasterTemplate.Columns.Add(repoTotal)
         gv1.AllowDeleteRow = True
         gv1.AllowAddNewRow = False
         gv1.ShowGroupPanel = False
@@ -300,8 +281,8 @@ Public Class frmDCSDemandBooking
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colOutstanding).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colLastMilkdate).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colunbilledMilkAmt).Name)
+                view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colbilledMilkAmt).Name)
                 view.ColumnGroups(0).Rows(0).ColumnNames.Add(gv1.Columns(colCalAmtforSale).Name)
-
                 view.ColumnGroups(0).IsPinned = True
                 Dim TempColGroupCount As Integer = 1
                 Dim obj As ItemValueClass = New ItemValueClass()
@@ -309,21 +290,12 @@ Public Class frmDCSDemandBooking
                 For dblcolumns As Integer = 6 To gv1.Columns.Count - 1
                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(dblcolumns).Tag, ItemValueClass)
                     If obj1 IsNot Nothing Then
-
                         view.ColumnGroups.Add(New GridViewColumnGroup(clsCommon.myCstr(obj1.ShortDesc)))
                         view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
                         view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(dblcolumns).Name)
                         TempColGroupCount += 1
-
                     End If
                 Next
-                'view.ColumnGroups.Add(New GridViewColumnGroup("Total"))
-                'view.ColumnGroups(TempColGroupCount).Rows.Add(New GridViewColumnGroupRow())
-                'view.ColumnGroups(TempColGroupCount).Rows(0).ColumnNames.Add(gv1.Columns(colTotal).Name)
-
-                'view.ColumnGroups(TempColGroupCount).IsPinned = True
-                'view.ColumnGroups(TempColGroupCount).PinPosition = PinnedColumnPosition.Right
-                'MergeHorizontally(gv1, 0, gv1.Rows.Count - 1)
                 gv1.ViewDefinition = view
             End If
         Catch ex As Exception
@@ -333,15 +305,12 @@ Public Class frmDCSDemandBooking
     Sub CloseForm()
         Me.Close()
     End Sub
-
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         SaveData()
     End Sub
-
     Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
         PostData()
     End Sub
-
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         DeleteData()
     End Sub
@@ -365,7 +334,6 @@ Public Class frmDCSDemandBooking
             Dim LineNo As Integer = 1
             If (AllowToSave(Nothing)) Then
                 Dim obj As New clsDCSDemand()
-                'isNewEntry = True
                 If Not isNewEntry Then
                     obj.Document_No = txtDocNo.Value
                 End If
@@ -383,7 +351,7 @@ Public Class frmDCSDemandBooking
                 Dim intLine As Integer = 0
                 For dblrows As Integer = 0 To gv1.Rows.Count - 1
                     Dim k As Integer = 1
-                    For dblcolumns As Integer = 8 To gv1.Columns.Count - 1
+                    For dblcolumns As Integer = 9 To gv1.Columns.Count - 1
                         Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                         k = k + 1
                         If obj1 IsNot Nothing Then
@@ -396,7 +364,6 @@ Public Class frmDCSDemandBooking
                                 objTr.LastMilkDate = clsCommon.GetPrintDate(gv1.Rows(dblrows).Cells(colLastMilkdate).Value, "dd/MMM/yyyy hh:mm tt")
                                 objTr.UnbilledMilkAmt = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colunbilledMilkAmt).Value)
                                 objTr.CalAmtforSale = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(colCalAmtforSale).Value)
-
                                 If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0 Then
                                     objTr.Item_Code = clsCommon.myCstr(obj1.itemCode)
                                     objTr.Unit_code = clsCommon.myCstr(obj1.Unit_code)
@@ -422,10 +389,8 @@ Public Class frmDCSDemandBooking
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
             Dim obj As New clsDCSDemand
-            'Dim intRow As Integer
             obj = clsDCSDemand.GetData(strCode, NavTyep)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(obj.Document_No) > 0) Then
-
                 AddNew()
                 isNewEntry = False
                 'Catel Feed=CF,Ghee=G,Other=O
@@ -449,32 +414,24 @@ Public Class frmDCSDemandBooking
                     btnPost.Enabled = False
                     btnDelete.Enabled = False
                     UsLock1.Status = ERPTransactionStatus.Approved
-
                 End If
                 LoadDCS(obj.Route_No)
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-                    'Dim LineNo As Integer = 1
-
                     For Each objTr As clsDCSDemandDetail In obj.Arr
                         For dblrows As Integer = 0 To gv1.Rows.Count - 1
-                            'gv1.Rows(dblrows).Cells(colLineNo).Value = LineNo
-                            'gv1.Rows(dblrows).Cells(colDCSCode).Value = objTr.VLC_Uploader
-                            'gv1.Rows(dblrows).Cells(colDCSName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Name from TSPL_VLC_master_Head where VLC_Code_VLC_Uploader='" + objTr.VLC_Uploader + "'"))
-                            'gv1.Rows(dblrows).Cells(colDCSName).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select VLC_Name from TSPL_VLC_master_Head where VLC_Code_VLC_Uploader='" + objTr.VLC_Uploader + "'"))
                             If clsCommon.CompairString(clsCommon.myCstr(gv1.Rows(dblrows).Cells(colDCSCode).Value), objTr.VLC_Uploader) = CompairStringResult.Equal Then
                                 Dim k As Integer = 1
                                 gv1.Rows(dblrows).Cells(colCreditType).Value = objTr.CreditType
                                 gv1.Rows(dblrows).Cells(colOutstanding).Value = objTr.OutStandingAmt
                                 gv1.Rows(dblrows).Cells(colLastMilkdate).Value = objTr.LastMilkDate
                                 gv1.Rows(dblrows).Cells(colunbilledMilkAmt).Value = objTr.UnbilledMilkAmt
+                                gv1.Rows(dblrows).Cells(colbilledMilkAmt).Value = objTr.LastBilledMilkAmt
                                 gv1.Rows(dblrows).Cells(colCalAmtforSale).Value = objTr.CalAmtforSale
-                                For columns = 8 To gv1.Columns.Count - 1
+                                For columns = 9 To gv1.Columns.Count - 1
                                     Dim obj1 As ItemValueClass = TryCast(gv1.Columns(colItemCode + clsCommon.myCstr(k)).Tag, ItemValueClass)
                                     k = k + 1
                                     If clsCommon.CompairString(objTr.Item_Code, clsCommon.myCstr(obj1.itemCode)) = CompairStringResult.Equal AndAlso clsCommon.CompairString(objTr.Unit_code, clsCommon.myCstr(obj1.Unit_code)) = CompairStringResult.Equal Then
                                         gv1.Rows(dblrows).Cells(columns).Value = objTr.Qty
-
-
                                     End If
                                 Next
                             End If
@@ -529,9 +486,7 @@ Public Class frmDCSDemandBooking
                 End If
             End If
         Catch ex As Exception
-
         End Try
-
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
         Dim obj As New clsCancelLog
@@ -549,15 +504,12 @@ Public Class frmDCSDemandBooking
             gv1.CurrentRow = gv1.Rows(intCurrRow)
         Else
             If gv1.CurrentColumn IsNot gv1.Columns(gv1.Columns.Count - 1) Then
-
                 gv1.CurrentColumn = gv1.Columns(intCurrCol + 1)
             Else
                 gv1.CurrentRow = gv1.Rows(intCurrRow + 1)
                 gv1.CurrentColumn = gv1.Columns(6)
-
             End If
         End If
-
     End Sub
     Private Sub setPagedown()
         Dim scrollDelta As Integer = gv1.TableElement.ViewElement.ScrollableRows.Size.Height + CInt(gv1.TableElement.ViewElement.ScrollableRows.ScrollOffset.Height)
@@ -588,7 +540,6 @@ Public Class frmDCSDemandBooking
     Private Sub setGridFocusHome()
         Dim intCurrRow As Integer = gv1.CurrentRow.Index
         If gv1.Rows.Count > 0 Then
-            'gv1.CurrentColumn = gv1.Columns(7)
             gv1.Rows(intCurrRow).Cells(6).IsSelected = True
             gv1.Rows(intCurrRow).IsCurrent = True
             gv1.Columns(6).IsCurrent = True
@@ -602,7 +553,6 @@ Public Class frmDCSDemandBooking
             gv1.Columns(gv1.Columns.Count - 1).IsCurrent = True
         End If
     End Sub
-
     Private Sub rbtnCatelFeed_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnCatelFeed.ToggleStateChanged
         If rbtnCatelFeed.IsChecked Then
             rbtnGhee.IsChecked = False
@@ -611,10 +561,8 @@ Public Class frmDCSDemandBooking
             If clsCommon.myLen(txtRouteNo.Value) > 0 Then
                 LoadDCS(txtRouteNo.Value)
             End If
-
         End If
     End Sub
-
     Private Sub rbtnGhee_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnGhee.ToggleStateChanged
         If rbtnGhee.IsChecked Then
             rbtnCatelFeed.IsChecked = False
@@ -625,7 +573,6 @@ Public Class frmDCSDemandBooking
             End If
         End If
     End Sub
-
     Private Sub rbtnOther_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnOther.ToggleStateChanged
         If rbtnOther.IsChecked Then
             rbtnGhee.IsChecked = False
@@ -636,13 +583,10 @@ Public Class frmDCSDemandBooking
             End If
         End If
     End Sub
-
     Private Sub txtRouteNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtRouteNo._MYValidating
         Try
             Dim qry As String = "Select TSPL_BULK_ROUTE_MASTER.Route_No as Code from TSPL_BULK_ROUTE_MASTER"
-
             txtRouteNo.Value = clsCommon.ShowSelectForm("DCSDemandRouteFinder", qry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
-
             lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRouteNo.Value, Nothing))
             LoadBlankGrid()
             LoadDCS(txtRouteNo.Value)
@@ -655,12 +599,8 @@ Public Class frmDCSDemandBooking
         Try
             Dim obj As New clsMCCCodes()
             obj = clsMCCCodes.GetData(True)
-
             If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Default_LocCode) > 0 Then
                 arrloc = obj.arrLocCodes
-            Else
-                'fndMCCCode.Enabled = False
-                'Throw New Exception("Please Set Default Location Of LogIn User")
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -674,20 +614,17 @@ Public Class frmDCSDemandBooking
             qry = "select Location_Code AS Code,Location_Desc as Name  from TSPL_LOCATION_MASTER"
             WhrCls = " Is_Sub_Location = 'N' AND Location_Category <> 'MCC' and GIT_Type  <> 'Y' "
         Else
-            qry = "select Location_Code as Code,Location_Desc as Name , tspl_mcc_master.Mcc_Code_VLC_Uploader as [MCC Code For VLC Uploder] from TSPL_LOCATION_MASTER left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code = TSPL_LOCATION_MASTER.Location_Code  "
+            'qry = "select Location_Code as Code,Location_Desc as Name , tspl_mcc_master.Mcc_Code_VLC_Uploader as [MCC Code For VLC Uploder] from TSPL_LOCATION_MASTER left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code = TSPL_LOCATION_MASTER.Location_Code  "
+            qry = "select Location_Desc as Code , tspl_mcc_master.Mcc_Code_VLC_Uploader as [MCC Code For VLC Uploder] from TSPL_LOCATION_MASTER left outer join tspl_mcc_master on tspl_mcc_master.MCC_Code = TSPL_LOCATION_MASTER.Location_Code  "
             WhrCls = " Location_Type='Physical' and CSA_Type='N' and Is_Section='N' and Is_Sub_Location='N' "
             WhrCls += "  and location_category='MCC' and  Location_Code in (" + MCCLOCATIONFINDER() + ")"
-
         End If
-
         If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
             WhrCls += "  and  Location_Code in (" + objCommonVar.strCurrUserLocations + ") "
         End If
-
         txtLocation.Value = clsCommon.ShowSelectForm("DCSDemandLocFnd", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
         lblLocationDesc.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
     End Sub
-
     Public Sub LoadDCS(ByVal RouteNo As String)
         Try
             If clsCommon.myLen(RouteNo) > 0 Then
@@ -700,9 +637,14 @@ Public Class frmDCSDemandBooking
                         gv1.Rows(dbrow).Cells(colLineNo).Value = dbrow + 1
                         gv1.Rows(dbrow).Cells(colDCSCode).Value = clsCommon.myCstr(dr("VLC_Code_VLC_Uploader"))
                         gv1.Rows(dbrow).Cells(colDCSName).Value = clsCommon.myCstr(dr("VLC_Name"))
+                        gv1.Rows(dbrow).Cells(colCreditType).Value = RowCredit
+
                         gv1.Rows(dbrow).Cells(colOutstanding).Value = GetOutStandingBal(clsCommon.myCstr(dr("VSP_Code")), clsCommon.GetPrintDate(txtDate.Value))
-                        gv1.Rows(dbrow).Cells(colLastMilkdate).Value = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select top 1 DOC_DATE from TSPL_MILK_RECEIPT_DETAIL Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' order by TSPL_MILK_RECEIPT_DETAIL.DOC_DATE desc"), "dd-MMM-yyyy")
-                        gv1.Rows(dbrow).Cells(colunbilledMilkAmt).Value = GetUnbilledAmt(clsCommon.myCstr(dr("VSP_Code")))
+                            gv1.Rows(dbrow).Cells(colLastMilkdate).Value = clsCommon.GetPrintDate(clsDBFuncationality.getSingleValue("select top 1 DOC_DATE from TSPL_MILK_RECEIPT_DETAIL Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE where TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(dr("VLC_Code_VLC_Uploader")) + "' order by TSPL_MILK_RECEIPT_DETAIL.DOC_DATE desc"), "dd-MMM-yyyy")
+                            gv1.Rows(dbrow).Cells(colunbilledMilkAmt).Value = GetUnbilledAmt(clsCommon.myCstr(dr("VSP_Code")))
+                            gv1.Rows(dbrow).Cells(colbilledMilkAmt).Value = GetLastbilledAmt(clsCommon.myCstr(dr("VSP_Code")))
+
+
                         Dim chkCreditlimt As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("select Credit_Limit_On_Milk_Receipt_Per from TSPL_VENDOR_MASTER where vendor_code='" + clsCommon.myCstr(dr("VSP_Code")) + "' "))
                         If chkCreditlimt > 0 Then
                             gv1.Rows(dbrow).Cells(colCalAmtforSale).Value = (clsCommon.myCdbl(gv1.Rows(dbrow).Cells(colunbilledMilkAmt).Value) * chkCreditlimt) / 100
@@ -713,7 +655,6 @@ Public Class frmDCSDemandBooking
                         gv1.Rows.AddNew()
                     Next
                 End If
-
             Else
                 Throw New Exception("Please Select Route No")
             End If
@@ -721,7 +662,6 @@ Public Class frmDCSDemandBooking
             Throw New Exception(ex.Message)
         End Try
     End Sub
-
     Public Sub CreateTable()
         Dim coll As Dictionary(Of String, String)
         coll = New Dictionary(Of String, String)()
@@ -745,27 +685,23 @@ Public Class frmDCSDemandBooking
         coll.Add("CreditType", "Varchar(30) Not null")
         coll.Add("OutStandingAmt", "decimal(18,2) null")
         coll.Add("UnbilledMilkAmt", "decimal(18,2) null")
+        coll.Add("LastBilledMilkAmt", "decimal(18,2) null")
         coll.Add("CalAmtforSale", "decimal(18,2) null")
         coll.Add("LastMilkDate", "Datetime NULL")
         coll.Add("Item_Code", "Varchar(50) null references TSPL_Item_MASTER(Item_Code)")
         coll.Add("Qty", "decimal(18,2) null")
         coll.Add("Unit_code", "Varchar(12) null")
         clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_DCS_DEMAND_BOOKING_DETAIL", coll, "", False, False, "TSPL_DCS_DEMAND_BOOKING_MASTER", "Document_No", "")
-
     End Sub
-
     Private Sub txtDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtDocNo._MYValidating
-
         Try
             Dim qry As String = "select TSPL_DCS_DEMAND_BOOKING_MASTER.Document_No as DocumentNo,convert(varchar(12),TSPL_DCS_DEMAND_BOOKING_MASTER.Document_date,103) as DocumentDate,TSPL_DCS_DEMAND_BOOKING_MASTER.Route_No as [Route No],TSPL_DCS_DEMAND_BOOKING_MASTER.Location as [Location Code],case when Posted=1 then 'posted' else 'Unposted' end as Posted from TSPL_DCS_DEMAND_BOOKING_MASTER "
-            'Dim whrClas As String = " TSPL_DEMAND_BOOKING_MASTER.comp_code='" + objCommonVar.CurrentCompanyCode + "' "
             Reset()
             LoadData(clsCommon.ShowSelectForm("FSBook1DocNo", qry, "DocumentNo", "", txtDocNo.Value, "Document_date DESC", isButtonClicked, " TSPL_DCS_DEMAND_BOOKING_MASTER.Document_date "), NavigatorType.Current)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
     Private Sub txtDocNo__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtDocNo._MYNavigator
         Try
             Dim qry As String = "select count(*) from TSPL_DCS_DEMAND_BOOKING_MASTER where Document_No='" + txtDocNo.Value + "'"
@@ -793,19 +729,7 @@ Public Class frmDCSDemandBooking
                 fromDate = New DateTime(dtDoc.Year, dtDoc.Month, 16)
                 toDate = New DateTime(dtDoc.Year, dtDoc.Month, DateTime.DaysInMonth(dtDoc.Year, dtDoc.Month))
             End If
-            'If dtDoc.Day
             strcustomerfilter = "'" + VendorNo + "'"
-            ' Dim qry = ""
-            'Dim qry As String = "Select  case when (( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt)) )>=0 then -abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) else abs(( SUM(convert(decimal(18,2),OpngBal)) + SUM(convert(decimal(18,2),DrAmt)) ) -SUM(convert(decimal(18,2),CrAmt))) end  as BalAmt From ( " &
-            '        "Select MAX(TSPL_CUSTOMER_MASTER.Cust_Group_Code) as Cust_Group_Code, ACode, MAX(TSPL_CUSTOMER_MASTER.Customer_Name) as AName, '' as CurrencyCode,  " &
-            '        "null as ConvRate, SUM(DrAmt* Final.ConvRate)-SUM(CrAmt) as OpngBal, 0 as DrAmt, 0 as CrAmt, 0 as [Sales], 0 as CollectionRefund, 0 as DrNote,  " &
-            '        "0 as CrNote, MAX(tspl_customer_master.Cust_Category_Code) as Cust_Category_Code,MAX(CUST_CATEGORY_DESC) as Cust_Category_Desc,  " &
-            '        "MAX(tspl_customer_master.Cust_Type_Code) As Cust_Type_Code,MAX(Cust_Type_Desc) As Cust_Type_Desc from   " &
-            '        "(" & clsCustomerMaster.GetCustomerBaseQry(False, False, "", False, "ConvRate", strcustomerfilter, True, clsCommon.GetPrintDate(dtDoc.AddDays(1), "dd/MMM/yyyy"), "", False, False, True, Nothing, False) & "   " &
-            '        " ) Final left outer join TSPL_CUSTOMER_MASTER on final.ACode=TSPL_CUSTOMER_MASTER.Cust_Code LEFT OUTER JOIN TSPL_CUSTOMER_GROUP_MASTER ON TSPL_CUSTOMER_GROUP_MASTER.Cust_Group_Code=TSPL_CUSTOMER_MASTER.Cust_Group_Code " &
-            '        "Left outer join TSPL_RECEIPT_HEADER on TSPL_RECEIPT_HEADER.Receipt_No =Final.DocNo  LEFT OUTER JOIN TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE=Final.Bank_Code " &
-            '        "where  CONVERT(DATE,final.DocDate,103) <= '" & clsCommon.GetPrintDate(dtDoc, "dd/MMM/yyyy") & "' AND LEN(ACode)>0 and ACode in ('" & VendorNo & "')   AND TSPL_CUSTOMER_MASTER.Status='N' GROUP BY ACode " &
-            '        ") XXX GROUP BY ACode ORDER BY ACode"
             Dim qry As String = "Select (OP + Sale) as [Balance Amount] from ( 
                 select max( TSPL_DEDUCTION_MASTER.Description ) as DeductionName, TSPL_VENDOR_MASTER.Vendor_Code, max(VLC_Code_VLC_Uploader) as DCSCode, max(TSPL_VENDOR_MASTER.Vendor_Name) as [DCS Name],
             sum( (Amount - Reduce_Deduc_Amt) * ( case when convert(date,Document_Date,103) < '" + clsCommon.GetPrintDate(fromDate) + "' then 1 else 0 end ) * (case when RI = 1 then 1 else -1 end) ) as OP,
@@ -815,14 +739,6 @@ Public Class frmDCSDemandBooking
             Union all select TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date, TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No, TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date, TSPL_VENDOR_INVOICE_HEAD.Document_Type, TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode, TSPL_PAYMENT_PROCESS_DEDUCTION.Vendor_CODE, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_PAYMENT_PROCESS_DEDUCTION.Amount, TSPL_PAYMENT_PROCESS_DEDUCTION.Reduce_Deduc_Amt, 2 as RI from TSPL_PAYMENT_PROCESS_DEDUCTION left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No left join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_No left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_DEDUCTION.AP_Invoice_No left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where 2 = 2 and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader = '" + VendorNo + "' 
             Union all select TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No as Document_No, TSPL_PAYMENT_PROCESS_HEAD.To_Date as Doc_Date, TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No, TSPL_VENDOR_INVOICE_HEAD.Posting_Date as AP_Invoice_Date, TSPL_VENDOR_INVOICE_HEAD.Document_Type, TSPL_MULTIPLE_DEDUCTION_detail.DeductionCode, TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Vendor_CODE, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader, TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount, 0 as Reduce_Deduc_Amt, 3 as RI from TSPL_PAYMENT_PROCESS_CREDIT_NOTE left join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.Document_No = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No left join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No left join TSPL_MULTIPLE_DEDUCTION_DETAIL on TSPL_MULTIPLE_DEDUCTION_DETAIL.Against_Deduction_DocNo = TSPL_PAYMENT_PROCESS_CREDIT_NOTE.AP_Invoice_No left join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_VENDOR_INVOICE_HEAD.Vendor_Code where 2 = 2 and TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader = '" + VendorNo + "' ) xx 
             left join TSPL_DEDUCTION_MASTER on TSPL_DEDUCTION_MASTER.Code = xx.DeductionCode left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code = xx.Vendor_Code group by TSPL_VENDOR_MASTER.Vendor_Code ) xxx"
-
-            '            Dim qry As String = "select 
-            '(Sum(X.DrBal)-sum(X.CrBal)) as Balance
-            'from(
-            'select case when Document_Type='C' then sum(Balance_Amt) else 0 end  as CrBal ,
-            'case when  Document_Type='D' then sum(Balance_Amt) else 0 end as DrBal from TSPL_VENDOR_INVOICE_HEAD where Vendor_Code='" + VendorNo + "' and Document_Type not in ('I') and Balance_Amt>0 group by Document_Type
-            ') X
-            '"
             Dim dblBal As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, Nothing))
             OSBal = dblBal
         Catch ex As Exception
@@ -837,8 +753,13 @@ from TSPL_MILK_SRN_HEAD
 left join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
 where TSPL_MILK_SRN_HEAD.DOC_CODE not in( select SRN_CODE from TSPL_MILK_PURCHASE_INVOICE_DETAIL) and TSPL_MILK_SRN_HEAD.VSP_CODE='" + VSP_Code + "'"
         dblBal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, Nothing))
-
-
+        Return dblBal
+    End Function
+    Public Function GetLastbilledAmt(ByVal VSP_Code As String) As Decimal
+        Dim dblBal As Decimal
+        Dim qry As String = "select sum(TOTAL_AMOUNT) as Total_Amt from TSPL_MILK_PURCHASE_INVOICE_DETAIL where DOC_CODE in(select top 1 DOC_CODE from TSPL_MILK_PURCHASE_INVOICE_HEAD where VSP_CODE='" + VSP_Code + "' and  convert(date,FROM_DATE,103)<='" + clsCommon.GetPrintDate(txtDate.Value) + "' and convert(date,TO_DATE,103)<='" + clsCommon.GetPrintDate(txtDate.Value) + "'
+order by FROM_DATE desc)"
+        dblBal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, Nothing))
         Return dblBal
     End Function
 End Class
