@@ -83,7 +83,7 @@ Public Class rptdailydispatch
                 Exit Sub
             End If
 
-            Dim whr As String = " where TSPL_BOOKING_DETAIL.Route_No='" + txtrouteno.Value + "' and TSPL_BOOKING_MATSER.Bill_To_Location='" + txtlocation.Value + "' and TSPL_BOOKING_DETAIL.customer_code='" + txtcustomer.Value + "' AND convert
+            Dim whr As String = " where TSPL_BOOKING_DETAIL.Route_No='" + txtrouteno.Value + "' and TSPL_BOOKING_MATSER.location_code='" + txtlocation.Value + "' and TSPL_BOOKING_DETAIL.Cust_Code='" + txtcustomer.Value + "' AND convert
                                     (date,TSPL_BOOKING_MATSER.Document_Date,103)>='" + clsCommon.GetPrintDate(txtfromdate.Value) + "' and convert(date,TSPL_BOOKING_MATSER.Document_Date,103)<='" + clsCommon.GetPrintDate(txttodate.Value) + "' "
             If rbtnMilk.Checked = True Then
                 whr += " And TSPL_ITEM_MASTER.Is_FreshItem ='1' "
