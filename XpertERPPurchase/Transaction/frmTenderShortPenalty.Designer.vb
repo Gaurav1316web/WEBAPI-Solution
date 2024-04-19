@@ -54,7 +54,6 @@ Partial Class frmTenderShortPenalty
         Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
-        Me.btnDeleteUnusedCalc = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -86,7 +85,6 @@ Partial Class frmTenderShortPenalty
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnDeleteUnusedCalc, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -106,7 +104,6 @@ Partial Class frmTenderShortPenalty
         '
         'SplitContainer1.Panel2
         '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDeleteUnusedCalc)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnRecalculate)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
@@ -570,16 +567,6 @@ Partial Class frmTenderShortPenalty
         Me.btnSave.TabIndex = 0
         Me.btnSave.Text = "Save"
         '
-        'btnDeleteUnusedCalc
-        '
-        Me.btnDeleteUnusedCalc.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDeleteUnusedCalc.Location = New System.Drawing.Point(500, 4)
-        Me.btnDeleteUnusedCalc.Name = "btnDeleteUnusedCalc"
-        Me.btnDeleteUnusedCalc.Size = New System.Drawing.Size(159, 22)
-        Me.btnDeleteUnusedCalc.TabIndex = 7
-        Me.btnDeleteUnusedCalc.Text = "Delete Unused Calculation"
-        Me.btnDeleteUnusedCalc.Visible = False
-        '
         'frmTenderShortPenalty
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -624,7 +611,6 @@ Partial Class frmTenderShortPenalty
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnDeleteUnusedCalc, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -660,6 +646,5 @@ Partial Class frmTenderShortPenalty
     Friend WithEvents btnPrint As RadButton
     Friend WithEvents SplitContainer2 As SplitContainer
     Friend WithEvents btnRecalculate As RadButton
-    Friend WithEvents btnDeleteUnusedCalc As RadButton
 End Class
 

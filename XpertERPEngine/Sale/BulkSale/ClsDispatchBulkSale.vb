@@ -9,6 +9,7 @@ Public Class ClsDispatchBulkSale
     Public Document_No As String = Nothing
     Public Document_Date As Date
     Public Customer_Code As String = Nothing
+    Public Transporter As String = Nothing
     Public QC_Code As String = Nothing
     Public Tanker_Code As String = Nothing
     Public Tax_Calculation_Type As EnumTaxCalucationType
@@ -115,6 +116,7 @@ Public Class ClsDispatchBulkSale
             clsCommon.AddColumnsForChange(coll, "Tare_Weight", obj.Tare_Weight)
             clsCommon.AddColumnsForChange(coll, "Gross_Weight", obj.Gross_Weight)
             clsCommon.AddColumnsForChange(coll, "Net_Weight", obj.Net_Weight)
+            clsCommon.AddColumnsForChange(coll, "Transporter", obj.Transporter)
             If clsCommon.myLen(obj.Price_Code) > 0 Then
                 clsCommon.AddColumnsForChange(coll, "Price_Code", obj.Price_Code, True)
             End If
@@ -294,7 +296,7 @@ Public Class ClsDispatchBulkSale
     Public Shared Function GetData(ByVal strCode As String, ByVal arrLoc As String, ByVal NavType As NavigatorType, ByVal trans As SqlTransaction) As ClsDispatchBulkSale
         Dim obj As ClsDispatchBulkSale = Nothing
         Dim Arr As List(Of ClsDispatchBulkSale) = Nothing
-        Dim qry As String = "Select ChangedTCSBaseAmount,ActualTCSBaseAmount,EWayBillDate,EWayBillNo, SalesOrder_Code,Document_No,Document_Date,Customer_Code,QC_Code,Tanker_Code,Location_Code,Dip_marking,Challan_No,Insurance_No,Seal_No,Tare_Weight,ApprovalRequired,Approved,Status,Gross_Weight,Net_Weight,Price_Code,Total_Amt,Posted,Is_Create_Auto_Invoice,Posting_Date,Modified_Date,Created_Date,ReverseFlag,Fat_Weightage=isnull(Fat_Weightage,0),Snf_Weightage=isnull(Snf_Weightage,0),Fat_Ratio=isnull(Fat_Ratio,0),Snf_Ratio  =isnull(Snf_Ratio ,0),TSPL_Dispatch_BulkSale.Tax_Group,TSPL_Dispatch_BulkSale.TAX1,TSPL_Dispatch_BulkSale.TAX1_Rate,TSPL_Dispatch_BulkSale.TAX1_Amt,TSPL_Dispatch_BulkSale.TAX1_Base_Amt,TSPL_Dispatch_BulkSale.TAX2,TSPL_Dispatch_BulkSale.TAX2_Rate,TSPL_Dispatch_BulkSale.TAX2_Amt,TSPL_Dispatch_BulkSale.TAX2_Base_Amt,TSPL_Dispatch_BulkSale.TAX3,TSPL_Dispatch_BulkSale.TAX3_Rate,TSPL_Dispatch_BulkSale.TAX3_Amt,TSPL_Dispatch_BulkSale.TAX3_Base_Amt,TSPL_Dispatch_BulkSale.TAX4,TSPL_Dispatch_BulkSale.TAX4_Rate,TSPL_Dispatch_BulkSale.TAX4_Amt,TSPL_Dispatch_BulkSale.TAX4_Base_Amt,TSPL_Dispatch_BulkSale.TAX5,TSPL_Dispatch_BulkSale.TAX5_Rate,TSPL_Dispatch_BulkSale.TAX5_Amt,TSPL_Dispatch_BulkSale.TAX5_Base_Amt,TSPL_Dispatch_BulkSale.Total_Tax_Amt,TSPL_Dispatch_BulkSale.Document_Amount,TSPL_Dispatch_BulkSale.Tax_Calculation_Type  from TSPL_Dispatch_BulkSale where 2=2 "
+        Dim qry As String = "Select ChangedTCSBaseAmount,ActualTCSBaseAmount,EWayBillDate,EWayBillNo, SalesOrder_Code,Document_No,Document_Date,Customer_Code,QC_Code,Tanker_Code,Location_Code,Dip_marking,Challan_No,Insurance_No,Seal_No,Tare_Weight,ApprovalRequired,Approved,Status,Gross_Weight,Net_Weight,Price_Code,Total_Amt,Posted,Is_Create_Auto_Invoice,Posting_Date,Modified_Date,Created_Date,ReverseFlag,Fat_Weightage=isnull(Fat_Weightage,0),Snf_Weightage=isnull(Snf_Weightage,0),Fat_Ratio=isnull(Fat_Ratio,0),Snf_Ratio  =isnull(Snf_Ratio ,0),TSPL_Dispatch_BulkSale.Tax_Group,TSPL_Dispatch_BulkSale.TAX1,TSPL_Dispatch_BulkSale.TAX1_Rate,TSPL_Dispatch_BulkSale.TAX1_Amt,TSPL_Dispatch_BulkSale.TAX1_Base_Amt,TSPL_Dispatch_BulkSale.TAX2,TSPL_Dispatch_BulkSale.TAX2_Rate,TSPL_Dispatch_BulkSale.TAX2_Amt,TSPL_Dispatch_BulkSale.TAX2_Base_Amt,TSPL_Dispatch_BulkSale.TAX3,TSPL_Dispatch_BulkSale.TAX3_Rate,TSPL_Dispatch_BulkSale.TAX3_Amt,TSPL_Dispatch_BulkSale.TAX3_Base_Amt,TSPL_Dispatch_BulkSale.TAX4,TSPL_Dispatch_BulkSale.TAX4_Rate,TSPL_Dispatch_BulkSale.TAX4_Amt,TSPL_Dispatch_BulkSale.TAX4_Base_Amt,TSPL_Dispatch_BulkSale.TAX5,TSPL_Dispatch_BulkSale.TAX5_Rate,TSPL_Dispatch_BulkSale.TAX5_Amt,TSPL_Dispatch_BulkSale.TAX5_Base_Amt,TSPL_Dispatch_BulkSale.Total_Tax_Amt,TSPL_Dispatch_BulkSale.Document_Amount,TSPL_Dispatch_BulkSale.Tax_Calculation_Type,TSPL_Dispatch_BulkSale.Transporter  from TSPL_Dispatch_BulkSale where 2=2 "
         If clsCommon.myLen(arrLoc) > 0 Then
             qry += "  and TSPL_Dispatch_BulkSale.Location_Code in (" + arrLoc + ") "
         End If
@@ -339,6 +341,7 @@ Public Class ClsDispatchBulkSale
             obj.ChangedTCSBaseAmount = clsCommon.myCdbl(dt.Rows(0)("ChangedTCSBaseAmount"))
             obj.ActualTCSBaseAmount = clsCommon.myCdbl(dt.Rows(0)("ActualTCSBaseAmount"))
             obj.Is_Create_Auto_Invoice = clsCommon.myCdbl(dt.Rows(0)("Is_Create_Auto_Invoice"))
+            obj.Transporter = clsCommon.myCstr(dt.Rows(0)("Transporter"))
             If dt.Rows(0)("Posting_Date") IsNot DBNull.Value Then
                 obj.Posting_Date = clsCommon.myCDate(dt.Rows(0)("Posting_Date"))
             End If

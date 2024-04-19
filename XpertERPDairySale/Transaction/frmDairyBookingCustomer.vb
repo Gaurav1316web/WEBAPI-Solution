@@ -8475,7 +8475,7 @@ from
     Private Sub btnPrintChallan_Click(sender As Object, e As EventArgs) Handles btnPrintChallan.Click
         Try
             Dim frmCRV As New frmCrystalReportViewer()
-            Dim Qry As String = "Select * from (select 1 As CopyType,TSPL_BOOKING_MATSER.Document_Date,
+            Dim Qry As String = "Select * from (select 1 As CopyType,InLtr.Conversion_factor As [ConversionInLtr],InCrate.Conversion_factor As [ConversionInCrate],InPouch.Conversion_factor As [ConversionInPouch],TSPL_BOOKING_MATSER.Document_Date,
                         TSPL_BOOKING_MATSER.Is_Taxable,Case When TSPL_BOOKING_MATSER.GatePass_Type='AM' OR TSPL_BOOKING_MATSER.GatePass_Type='M' Then '[M]' Else '[E]' End As Shift,
                         TSPL_BOOKING_DETAIL.*,
                         TSPL_BATCH_ITEM.Batch_No,TSPL_ITEM_MASTER.Item_Desc,TSPL_ITEM_MASTER.HSN_Code,
