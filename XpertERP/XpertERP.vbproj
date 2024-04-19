@@ -342,6 +342,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPBulkProcurement\bin\Debug\XpertERPBulkProcurement.dll</HintPath>
     </Reference>
+    <Reference Include="XpertErpBullManagement">
+      <HintPath>..\XpertErpBullManagement\bin\Debug\XpertErpBullManagement.dll</HintPath>
+    </Reference>
     <Reference Include="XpertERPCommanServices">
       <HintPath>..\XpertERPCommanServices\bin\Debug\XpertERPCommanServices.dll</HintPath>
     </Reference>

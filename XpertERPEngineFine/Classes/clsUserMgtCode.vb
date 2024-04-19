@@ -306,6 +306,12 @@ Public Class clsUserMgtCode
     Public Const frmBullShedParameterMaster As String = "BULL-S-PA-M"
     Public Const frmBullShedParameterGroup As String = "Bull-Sh-P-G"
     Public Const frmBullMovementType As String = "BULL-MO-TY"
+    Public Const frmBullSpeciesMaster As String = "BULL-SPEC-M"
+    Public Const frmBullCategoryMaster As String = "BULL-CATE-M"
+    Public Const frmBullSubCategoryMaster As String = "BULL-SUB-CAT"
+    Public Const frmBullSSCentreMaster As String = "BULL-SS-CE"
+    Public Const frmBullPenIDMaster As String = "BULL-PAN-M"
+
 
     ''============BullManagementReport=======================
     Public Const SubModuleBullManagementReport As String = "MSBullMangR"
