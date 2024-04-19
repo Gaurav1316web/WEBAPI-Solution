@@ -21,6 +21,7 @@ Imports XpertERPService
 Imports XpertERPTDS
 Imports XpertERPPurchase
 Imports XpertERPMIS
+Imports XpertErpBullManagement
 
 Public Class MDI
 #Region "Varaibles"
@@ -9652,6 +9653,9 @@ Public Class MDI
                     Case clsUserMgtCode.rptProductionStandardization
                         frm = New rptProductionStandardization
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.ProductionEntryReport
+                        frm = New ProductionEntryReport
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmProductionUtilityCost
                         frm = New frmProductionUtilityCost
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9760,7 +9764,23 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullMovementType
                         frm = New frmBullMovementType
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                        ''-------------------- MIS Master---------------
+
+                    Case clsUserMgtCode.frmBullSpeciesMaster
+                        frm = New frmBullSpeciesMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullCategoryMaster
+                        frm = New frmBullCategoryMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullSubCategoryMaster
+                        frm = New frmBullSubCategoryMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullSSCentreMaster
+                        frm = New frmBullSSCentreMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullPenIDMaster
+                        frm = New frmBullPenIDMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        '-------------------- MIS Master---------------
 
                         'Case clsUserMgtCode.MISitemGroups
                         '    frm = New frmMISI(lblUserCode.Text, objCommonVar.CurrentCompanyCode)

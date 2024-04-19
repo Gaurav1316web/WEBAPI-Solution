@@ -3029,6 +3029,7 @@ Public Class clsPurchaseInvoiceHead
         Return True
     End Function
 
+
     Public Shared Sub RCDF1QCDed2SecDed3RALPenalty(ByVal obj As clsPurchaseInvoiceHead, ByVal ApplyQCDed As Boolean, ByVal ApplySecDed As Boolean, ByVal ApplyRALPenalty As Boolean, ByVal ReCalculateRALPenalty As Boolean, ByVal trans As SqlTransaction)
         If objCommonVar.RCDFCFP Then
             Dim qry As String
@@ -3324,6 +3325,33 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
                 End If
             End If
 #End Region
+        End If
+    End Sub
+
+    Public Shared Sub RCDF1QCDed2SecDed3RALPenaltyDelete(ByVal obj As clsPurchaseInvoiceHead, ByVal ApplyQCDed As Boolean, ByVal ApplySecDed As Boolean, ByVal ApplyRALPenalty As Boolean, ByVal tran As SqlTransaction)
+        If objCommonVar.RCDFCFP Then
+            If (ApplyQCDed OrElse ApplySecDed OrElse ApplyRALPenalty) Then
+                Dim arr As New ArrayList
+                If ApplyQCDed Then
+                    arr.Add("QC-DED")
+                End If
+                If ApplySecDed Then
+                    arr.Add("SEC-DED")
+                End If
+                If ApplyRALPenalty Then
+                    arr.Add("SCH-PNT")
+                End If
+
+                Dim qry As String = "select Document_No From TSPL_VENDOR_INVOICE_HEAD where RefDocType in(" + clsCommon.GetMulcallString(arr) + ") and RefDocNo='" + clsCommon.myCstr(obj.PI_No) + "' and not exists(select 1 from TSPL_VENDOR_INVOICE_HEAD as innerTab where innerTab.Vendor_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code and innerTab.RefDocNo=TSPL_VENDOR_INVOICE_HEAD.Document_No and innerTab.RefDocType='REV-SPT' and innerTab.Document_Type='C')"
+                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, tran)
+                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                    For Each dr As DataRow In dt.Rows
+                        qry = clsCommon.myCstr(dr("Document_No"))
+                        clsVedorInvoiceHead.ReverseAndUnpost(qry, tran)
+                        clsVedorInvoiceHead.DeleteData(qry, tran)
+                    Next
+                End If
+            End If
         End If
     End Sub
 
