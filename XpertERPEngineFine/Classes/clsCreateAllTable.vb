@@ -8222,6 +8222,7 @@ Public Class clsCreateAllTable
             coll.Add("Is_CustomerChanged", "Integer Default 0")
             coll.Add("GatePass_Type", "varchar(2) NUll")
             coll.Add("Against_DemandBooking_No", "varchar(30)  NULL REFERENCES TSPL_DEMAND_BOOKING_MASTER(Document_No)")
+            coll.Add("Against_DCSBooking_No", "varchar(30)  NULL REFERENCES TSPL_DCS_DEMAND_BOOKING_MASTER(Document_No)")
             coll.Add("Is_DCS", "Integer Default 0")
             coll.Add("Is_BPL", "Integer Default 0")
             coll.Add("Is_GHEE", "Integer Default 0")
