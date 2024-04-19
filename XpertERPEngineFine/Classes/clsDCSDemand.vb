@@ -1,6 +1,8 @@
 ﻿Imports common
 Imports System.Data.SqlClient
 Imports System.IO
+
+
 Public Class clsDCSDemand
 #Region "Variable"
     Public Document_No As String = ""
@@ -108,6 +110,7 @@ Public Class clsDCSDemand
 
                     End If
                     objTr.UnbilledMilkAmt = clsCommon.myCdbl(dr("UnbilledMilkAmt"))
+                    objTr.LastBilledMilkAmt = clsCommon.myCdbl(dr("LastBilledMilkAmt"))
                     objTr.CalAmtforSale = clsCommon.myCdbl(dr("CalAmtforSale"))
 
 
@@ -180,6 +183,8 @@ Public Class clsDCSDemand
             If obj.Posted = 1 Then
                 Throw New Exception("Docuemnt is already posted")
             End If
+
+
             Dim dtNow As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt")
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Posted", 1)
@@ -216,6 +221,7 @@ Public Class clsDCSDemand
         Return True
     End Function
 
+
 End Class
 Public Class clsDCSDemandDetail
 
@@ -227,6 +233,7 @@ Public Class clsDCSDemandDetail
     Public CreditType As String = ""
     Public OutStandingAmt As Double = 0
     Public UnbilledMilkAmt As Double = 0
+    Public LastBilledMilkAmt As Double = 0
     Public CalAmtforSale As Double = 0
     Public LastMilkDate As Date? = Nothing
     Public Item_Code As String = ""
@@ -251,6 +258,7 @@ Public Class clsDCSDemandDetail
                     clsCommon.AddColumnsForChange(coll, "LastMilkDate", Nothing, True)
                 End If
                 clsCommon.AddColumnsForChange(coll, "UnbilledMilkAmt", obj.UnbilledMilkAmt)
+                clsCommon.AddColumnsForChange(coll, "LastBilledMilkAmt", obj.LastBilledMilkAmt)
                 clsCommon.AddColumnsForChange(coll, "CalAmtforSale", obj.CalAmtforSale)
 
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
