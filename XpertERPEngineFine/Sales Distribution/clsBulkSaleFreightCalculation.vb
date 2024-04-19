@@ -10,6 +10,7 @@ Public Class clsBulkSaleFreightCalculation
     Public To_Date As Date? = Nothing
     Public Document_date As Date? = Nothing
     Public Status As Integer = 0
+    Public Total_Amt As Decimal = 0
     Public Customer_Code As String = Nothing
     Public Arr As List(Of clsBulkSaleFreightCalculationDetail) = Nothing
 #End Region
@@ -34,6 +35,7 @@ Public Class clsBulkSaleFreightCalculation
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Document_date", clsCommon.GetPrintDate(obj.Document_date, "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Customer_Code", clsCommon.myCstr(obj.Customer_Code))
+            clsCommon.AddColumnsForChange(coll, "Total_Amt", clsCommon.myCdbl(obj.Total_Amt))
             clsCommon.AddColumnsForChange(coll, "From_Date", clsCommon.GetPrintDate(obj.From_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "To_Date", clsCommon.GetPrintDate(obj.To_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
@@ -69,7 +71,7 @@ Public Class clsBulkSaleFreightCalculation
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal TransType As String, ByVal trans As SqlTransaction) As clsBulkSaleFreightCalculation
         Dim obj As clsBulkSaleFreightCalculation = Nothing
-        Dim qry As String = "select Document_Code ,Customer_Code, Document_date,From_Date as 'From Date',To_Date as 'To Date' ,ISNULL( Status,0) as Status from TSPL_BLK_FREIGHT_CALC_HEAD where 2=2 "
+        Dim qry As String = "select Document_Code,Total_Amt ,Customer_Code, Document_date,From_Date as 'From Date',To_Date as 'To Date' ,ISNULL( Status,0) as Status from TSPL_BLK_FREIGHT_CALC_HEAD where 2=2 "
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_BLK_FREIGHT_CALC_HEAD.Document_Code = (select MIN(Document_Code) from TSPL_BLK_FREIGHT_CALC_HEAD)"
@@ -92,6 +94,7 @@ Public Class clsBulkSaleFreightCalculation
             obj.From_Date = clsCommon.myCDate(dt.Rows(0)("From Date"))
             obj.To_Date = clsCommon.myCDate(dt.Rows(0)("To Date"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
+            obj.Total_Amt = clsCommon.myCdbl(dt.Rows(0)("Total_Amt"))
 
             qry = "select *  from TSPL_BLK_FREIGHT_CALC_DETAIL where Document_Code='" + obj.Document_Code + "' order by SNo "
             dt = clsDBFuncationality.GetDataTable(qry, trans)
@@ -104,6 +107,7 @@ Public Class clsBulkSaleFreightCalculation
                     objtr.Dispatch_Date = clsCommon.myCDate(dr("Dispatch_Date"))
                     objtr.Bulk_Dispatch_Document = clsCommon.myCstr(dr("Bulk_Dispatch_Document"))
                     objtr.Bulk_Dispatch_Tanker = clsCommon.myCstr(dr("Bulk_Dispatch_Tanker"))
+                    objtr.Bulk_Dispatch_Transporter = clsCommon.myCstr(dr("Bulk_Dispatch_Transporter"))
                     objtr.Ack_Qty = clsCommon.myCdbl(dr("Ack_Qty"))
                     objtr.Ack_Fat = clsCommon.myCDecimal(dr("Ack_Fat"))
                     objtr.Ack_Snf = clsCommon.myCDecimal(dr("Ack_Snf"))
@@ -251,9 +255,9 @@ Public Class clsBulkSaleFreightCalculation
         Dim dt As DataTable = New DataTable()
         Try
             Dim qry As String = ""
-            qry = "SELECT ROW_NUMBER() Over (Order By (Document_Date)) As SNo,  xx.Date,xx.Tanker_No,xx.Dispatch_No, xx.Qty, xx.Fat, xx.Snf,isnull(tab2.Tender_Qty,0)Tender_Qty,
+            qry = "SELECT ROW_NUMBER() Over (Order By (Document_Date)) As SNo,  xx.Date,xx.Tanker_No,xx.Transporter,xx.Dispatch_No, xx.Qty, xx.Fat, xx.Snf,isnull(tab2.Tender_Qty,0)Tender_Qty,
             isnull(tab2.Rate,0)Rate,isnull(tab2.Pro_Rate,0)Pro_Rate,isnull(tab2.DieselPetrol,0)DieselPetrol,isnull(tab2.Applicable_Rate,0)Applicable_Rate,isnull(tab2.GPS_KM,0)GPS_KM ,isnull(tab2.Payable_Amount,0)Payable_Amount
-            FROM ( SELECT  CONVERT(VARCHAR, TSPL_BULK_SALE_ACKNOWLEDGEMENT.Document_Date, 103) AS Date,TSPL_Dispatch_BulkSale.Tanker_Code AS Tanker_No,TSPL_Dispatch_BulkSale.Document_No AS Dispatch_No,
+            FROM ( SELECT  CONVERT(VARCHAR, TSPL_BULK_SALE_ACKNOWLEDGEMENT.Document_Date, 103) AS Date,TSPL_Dispatch_BulkSale.Tanker_Code AS Tanker_No,	TSPL_Dispatch_BulkSale.Transporter as Transporter,TSPL_Dispatch_BulkSale.Document_No AS Dispatch_No,
             ISNULL(TSPL_BULK_SALE_ACKNOWLEDGEMENT.Qty, 0) AS Qty,ISNULL(TSPL_BULK_SALE_ACKNOWLEDGEMENT.FAT, 0) AS Fat,ISNULL(TSPL_BULK_SALE_ACKNOWLEDGEMENT.SNF, 0) AS Snf,TSPL_Dispatch_BulkSale.Customer_Code,TSPL_BULK_SALE_ACKNOWLEDGEMENT.Document_Date
             FROM TSPL_BULK_SALE_ACKNOWLEDGEMENT LEFT OUTER JOIN TSPL_Dispatch_BulkSale ON TSPL_Dispatch_BulkSale.Document_No = TSPL_BULK_SALE_ACKNOWLEDGEMENT.Bulk_Dispatch_Document
             LEFT OUTER JOIN TSPL_Dispatch_Detail_BulkSale ON TSPL_Dispatch_BulkSale.Document_No = TSPL_Dispatch_Detail_BulkSale.Document_No where TSPL_BULK_SALE_ACKNOWLEDGEMENT.Status = 1 ) AS xx
@@ -277,6 +281,7 @@ Public Class clsBulkSaleFreightCalculationDetail
     Public Dispatch_Date As Date? = Nothing
     Public Bulk_Dispatch_Document As String = Nothing
     Public Bulk_Dispatch_Tanker As String = Nothing
+    Public Bulk_Dispatch_Transporter As String = Nothing
     Public Ack_Qty As Double = 0
     Public Ack_Fat As Decimal = 0
     Public Ack_Snf As Decimal = 0
@@ -299,6 +304,7 @@ Public Class clsBulkSaleFreightCalculationDetail
                 clsCommon.AddColumnsForChange(coll, "Dispatch_Date", clsCommon.GetPrintDate(obj.Dispatch_Date, "dd/MMM/yyyy"))
                 clsCommon.AddColumnsForChange(coll, "Bulk_Dispatch_Tanker", obj.Bulk_Dispatch_Tanker)
                 clsCommon.AddColumnsForChange(coll, "Bulk_Dispatch_Document", obj.Bulk_Dispatch_Document)
+                clsCommon.AddColumnsForChange(coll, "Bulk_Dispatch_Transporter", obj.Bulk_Dispatch_Transporter)
                 clsCommon.AddColumnsForChange(coll, "Ack_Qty", obj.Ack_Qty)
                 clsCommon.AddColumnsForChange(coll, "Ack_Fat", obj.Ack_Fat)
                 clsCommon.AddColumnsForChange(coll, "Ack_Snf", obj.Ack_Snf)

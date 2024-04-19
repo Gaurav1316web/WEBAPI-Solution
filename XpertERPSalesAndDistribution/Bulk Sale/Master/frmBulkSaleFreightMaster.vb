@@ -22,36 +22,6 @@ Public Class frmBulkSaleFreightMaster
 #End Region
 
     Private Sub frmBulkSaleFreightMaster_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
-        coll.Add("Document_Date", "DateTime not NULL")
-        coll.Add("Customer_Code", "varchar(12) NOT NULL")
-        coll.Add("Status", "integer not null default 0")
-        coll.Add("Start_Date", "Date Not null")
-
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "datetime NOT NULL")
-        coll.Add("Posted_By", "varchar(12) NULL")
-        coll.Add("Posted_Date", "datetime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_MASTER", coll, Nothing, True, False, Nothing, Nothing, Nothing, True)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("SNo", "integer null")
-        coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BLK_FREIGHT_MASTER(Document_Code)")
-        coll.Add("Tender_Qty", "decimal (18,2) NULL")
-        coll.Add("Rate", "decimal(18, 2) NULL")
-        coll.Add("Pro_Rate", "decimal(18, 2) NULL")
-        coll.Add("DieselPetrol", "decimal (18,2) NULL")
-        coll.Add("Applicable_Rate", "decimal (18,2) NULL")
-        coll.Add("GPS_KM", "decimal(18,2) NULL")
-        coll.Add("Payable_Amount", "decimal (18,2) NULL")
-
-        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_MASTER", "Document_Code", "Document_Date", True)
-
         SetUserMgmtNew()
         LoadBlankGrid()
         Addnew()

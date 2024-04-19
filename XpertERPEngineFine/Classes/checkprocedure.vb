@@ -1330,6 +1330,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.AuditTrailMilkProcurementBulk, "Milk Procurement Bulk Audit Trail Report", "1.29.03.28", clsUserMgtCode.SubModuleProductionReportDairy, 37)
         InsertDefaultValue(clsUserMgtCode.RptTotalMilkProcurement, "Total Milk Procurement Report", "1.29.03.29", clsUserMgtCode.SubModuleProductionReportDairy, 37)
         InsertDefaultValue(clsUserMgtCode.rptProductionStandardization, "Production Standardization Report", "1.29.03.30", clsUserMgtCode.SubModuleProductionReportDairy, 37)
+        InsertDefaultValue(clsUserMgtCode.ProductionEntryReport, "Production Entry Report", "1.29.03.31", clsUserMgtCode.SubModuleProductionReportDairy, 37)
 
 
 
@@ -1830,6 +1831,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.rptDcsPaymentReport, "Dcs Payment Report", "1.17.03.119", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.rptYearlyMonthlyDcsCollectionReport, "Yearly/Monthly Dcs Collection", "1.17.03.120", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
         InsertDefaultValue(clsUserMgtCode.frmDCSSavingLedger, "DCS Saving Ledger", "1.17.03.121", clsUserMgtCode.SubModuleMCCMilkProcurementTransaction, 37)
+        InsertDefaultValue(clsUserMgtCode.rptBMCCapacityUtilizationReport, "BMC Capacity Utilization Report", "1.17.03.122", clsUserMgtCode.SubModuleMCCMilkProcurementReport, 37)
 
 
 

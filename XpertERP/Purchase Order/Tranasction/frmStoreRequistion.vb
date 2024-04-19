@@ -143,10 +143,10 @@ Public Class frmStoreRequistion
         '--------------------------------------------------------------
         If EnableStoreCostCentre = 1 Then
             pnlUnit_CostType.Visible = True
-            txtDept.Enabled = True
+            txtDept.Enabled = False
         Else
             pnlUnit_CostType.Visible = False
-            txtDept.Enabled = False
+            txtDept.Enabled = True
         End If
 
         If clsCommon.myLen(strDocumentNo) > 0 Then
@@ -911,6 +911,13 @@ Public Class frmStoreRequistion
         cboItemType.Enabled = True
         txtLocation.Enabled = True
         gv1.Rows.AddNew()
+
+        If EnableStoreCostCentre = 1 Then
+            txtDept.Enabled = False
+        Else
+            txtDept.Enabled = True
+        End If
+
         ''For Custom Fields
 
         '' updation by preeti gupta
@@ -2607,6 +2614,8 @@ Public Class frmStoreRequistion
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+
+
 End Class
 
 
