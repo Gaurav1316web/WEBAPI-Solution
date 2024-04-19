@@ -2867,6 +2867,14 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmBullShedMaster, "Bull Shed Master", "1.50.01.05", clsUserMgtCode.SubModuleBullManagementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmBullShedParameterMaster, "Bull Shed Parameter Master", "1.50.01.06", clsUserMgtCode.SubModuleBullManagementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmBullShedParameterGroup, "Bull Shed Parameter Group", "1.50.01.07", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+
+        InsertDefaultValue(clsUserMgtCode.frmBullSpeciesMaster, "Bull Species Master", "1.50.01.08", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmBullCategoryMaster, "Bull Category Master", "1.50.01.09", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmBullSubCategoryMaster, "Bull Sub Category Master", "1.50.01.10", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmBullSSCentreMaster, "Bull SS Centre Master", "1.50.01.11", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmBullPenIDMaster, "Bull Pen ID Master", "1.50.01.12", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+
+
         ''------------------------------TRANSACTION--------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementTransaction, "Transaction", "1.50.02", clsUserMgtCode.ModuleBullManagement, "SM", 26)
         'InsertDefaultValue(clsUserMgtCode.frmBullBreedMaster, "Bull Breed Master", "1.50.02.01", clsUserMgtCode.SubModuleBullManagementTransaction, 8)

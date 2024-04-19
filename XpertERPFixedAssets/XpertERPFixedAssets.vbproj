@@ -200,48 +200,6 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
-    <Compile Include="BullManagement\Master\frmBullMovementType.Designer.vb">
-      <DependentUpon>frmBullMovementType.vb</DependentUpon>
-    </Compile>
-    <Compile Include="BullManagement\Master\frmBullMovementType.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BullManagement\Transaction\frmBullBreedMaster.Designer.vb">
-      <DependentUpon>frmBullBreedMaster.vb</DependentUpon>
-    </Compile>
-    <Compile Include="BullManagement\Transaction\frmBullBreedMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BullManagement\Transaction\frmBullParameterGroup.Designer.vb">
-      <DependentUpon>frmBullParameterGroup.vb</DependentUpon>
-    </Compile>
-    <Compile Include="BullManagement\Transaction\frmBullParameterGroup.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BullManagement\Transaction\frmBullShedMaster.Designer.vb">
-      <DependentUpon>frmBullShedMaster.vb</DependentUpon>
-    </Compile>
-    <Compile Include="BullManagement\Transaction\frmBullShedMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BullManagement\Transaction\frmBullShedParameterGroup.Designer.vb">
-      <DependentUpon>frmBullShedParameterGroup.vb</DependentUpon>
-    </Compile>
-    <Compile Include="BullManagement\Transaction\frmBullShedParameterGroup.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BullManagement\Transaction\frmBullShedParameterMaster.Designer.vb">
-      <DependentUpon>frmBullShedParameterMaster.vb</DependentUpon>
-    </Compile>
-    <Compile Include="BullManagement\Transaction\frmBullShedParameterMaster.vb">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="BullManagement\Transaction\frmBullTestParameter.Designer.vb">
-      <DependentUpon>frmBullTestParameter.vb</DependentUpon>
-    </Compile>
-    <Compile Include="BullManagement\Transaction\frmBullTestParameter.vb">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Include="Fixed Assets\Master\frmAMAcquisitionCode.Designer.vb">
       <DependentUpon>frmAMAcquisitionCode.vb</DependentUpon>
     </Compile>
@@ -535,27 +493,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="BullManagement\Master\frmBullMovementType.resx">
-      <DependentUpon>frmBullMovementType.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BullManagement\Transaction\frmBullBreedMaster.resx">
-      <DependentUpon>frmBullBreedMaster.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BullManagement\Transaction\frmBullParameterGroup.resx">
-      <DependentUpon>frmBullParameterGroup.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BullManagement\Transaction\frmBullShedMaster.resx">
-      <DependentUpon>frmBullShedMaster.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BullManagement\Transaction\frmBullShedParameterGroup.resx">
-      <DependentUpon>frmBullShedParameterGroup.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BullManagement\Transaction\frmBullShedParameterMaster.resx">
-      <DependentUpon>frmBullShedParameterMaster.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BullManagement\Transaction\frmBullTestParameter.resx">
-      <DependentUpon>frmBullTestParameter.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Fixed Assets\Master\frmAMAcquisitionCode.resx">
       <DependentUpon>frmAMAcquisitionCode.vb</DependentUpon>
     </EmbeddedResource>
@@ -718,7 +655,6 @@
     <None Include="Resources\search4.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="BullManagement\Report\" />
     <Folder Include="Shares\Report\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
