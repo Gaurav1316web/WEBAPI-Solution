@@ -350,8 +350,13 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.From_
                         If clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.RoundOffBankAdvice, clsFixedParameterCode.RoundOffBankAdvice, Nothing)) = "1" Then
                             BaseQry += " Round((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)-isnull(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0)),0) as Payable_Amount  "
                         Else
-                            ' BaseQry += " Cast((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as decimal(18)) as Payable_Amount "
-                            BaseQry += " (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)-isnull(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0))  as Payable_Amount  "
+                            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                                ' BaseQry += " Cast((isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as decimal(18)) as Payable_Amount "
+                                BaseQry += " (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0))  as Payable_Amount  "
+
+                            Else
+                                BaseQry += " (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)-isnull(TSPL_TRANSFER_TO_SAVING_DETAIL.Amount,0))  as Payable_Amount  "
+                            End If
                         End If
 
                     End If
