@@ -490,7 +490,7 @@ and convert( date ,xxxxx.Doc_Date , 103) <= CONVERT(date, '" & txtToDate.Value &
                 Dim arrHeader As List(Of String) = New List(Of String)()
                 arrHeader.Add("Print Date (" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(), "dd-MMM-yyyy hh:mm:ss tt") + ")")
                 arrHeader.Add("Company : " & objCommonVar.CurrentCompanyName)
-                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptDailyQtyReport & "'"))
+                arrHeader.Add("Name : " & clsDBFuncationality.getSingleValue("select program_name from tspl_program_Master where program_cODE='" & clsUserMgtCode.rptCattleFeedSaleReport & "'"))
                 arrHeader.Add("Date Range : " & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "  To " + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy"))
                 If clsCommon.myLen(txtLocation.Value) > 0 Then
                     arrHeader.Add("Location : " & txtLocation.Value)

@@ -43,7 +43,7 @@ Public Class frmDCSDemandBooking
     Private Sub frmDCSDemandBooking_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         AllowPlandDeptMCCLocation = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.Allow_Plant_Depot_MCC_typeLocation, clsFixedParameterCode.Allow_Plant_Depot_MCC_typeLocation, Nothing)) = "1", True, False))
         SetUserMgmtNew()
-        CreateTable()
+        'CreateTable()
         AddNew()
     End Sub
     Private Sub frmDCSDemandBooking_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
