@@ -472,6 +472,9 @@ Public Class clsPaymentProcessHead
                     End If
 
                     If Not obj.ArrPPDetail(i).is_Hold_Payment_Process_Saving AndAlso obj.ArrPPDetail(i).Saving_Amount > 0 Then
+                        If clsCommon.myLen(obj.ArrPPDetail.Item(i).Bank_Code_Saving) <= 0 Then
+                            Throw New Exception("Saving account of DCS[" + obj.ArrPPDetail.Item(i).VSP_CODE + "] not found")
+                        End If
                         objPay = New clsPaymentHeader()
                         objPay.Against_PP_Detail_No = obj.ArrPPDetail(i).PP_Detail_No
                         objPay.Payment_No = ""
