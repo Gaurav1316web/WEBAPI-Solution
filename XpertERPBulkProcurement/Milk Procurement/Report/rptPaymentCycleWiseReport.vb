@@ -119,14 +119,14 @@ Public Class rptPaymentCycleWiseReport
                                         from TSPL_PAYMENT_PROCESS_HEAD where Doc_No in (" + strDocumentCode + ")"
 
                 Dim PaymentProcessDeatil As DataTable = clsDBFuncationality.GetDataTable(strQry)
-                clsPaymentProcessHead.PaymentProcessDrCrPrint(strDocumentCode, clsCommon.myCstr(PaymentProcessDeatil.Rows(0).Item("From_Date")), clsCommon.myCstr(PaymentProcessDeatil.Rows(0).Item("To_Date")), strLocaton, strDCS, strRoute, "", "", "")
+                clsPaymentProcessHead.PaymentProcessDrCrPrint(strDocumentCode, fromDate.Value, ToDate.Value, strLocaton, strDCS, strRoute, "", "", "")
 
             ElseIf chkShowData.Checked = True Then
                 Dim query As String = ""
                 If rbtnHeadLoad.IsChecked = True Then
                     query = "select VLC_Code_VLC_Uploader as [VSP Uploader Code],VSP_CODE as [VSP Code],Vendor_Name AS [VSP Name],MAX(Head_Load_Amount) AS [Amount]
                     from ("
-                    query += clsCommon.myCstr(clsPaymentProcessHead.Load_Report_Paymnet_RCDF(strDocumentCode, fromDate.Text, ToDate.Text, strLocaton, strDCS, strRoute, strBank, strHold, True))
+                    query += clsCommon.myCstr(clsPaymentProcessHead.Load_Report_Paymnet_RCDF(strDocumentCode, fromDate.Value, ToDate.Value, strLocaton, strDCS, strRoute, strBank, strHold, True))
                     query += " )xx GROUP BY VLC_Code_VLC_Uploader,VSP_CODE,Vendor_Name"
                 ElseIf rbtnOutstanding.IsChecked = True Then
                     query = "select Final.VSP_Uploader_Code as [VSP Uploader Code], Final.Vendor_CODE as [VSP Code], Vendor_NAME as [VSP Name], sum(Amount) as [Amount] from (
