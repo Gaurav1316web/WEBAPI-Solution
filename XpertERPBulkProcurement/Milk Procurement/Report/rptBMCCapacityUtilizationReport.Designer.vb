@@ -22,8 +22,8 @@ Partial Class rptBMCCapacityUtilizationReport
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.gvDB = New Telerik.WinControls.UI.MasterGridViewTemplate()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
@@ -48,8 +48,8 @@ Partial Class rptBMCCapacityUtilizationReport
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmsaveLayout = New Telerik.WinControls.UI.RadMenuItem()
+        Me.rmDeleteLayout = New Telerik.WinControls.UI.RadMenuItem()
         CType(Me.gvDB, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
@@ -79,7 +79,7 @@ Partial Class rptBMCCapacityUtilizationReport
         'gvDB
         '
         Me.gvDB.AllowAddNewRow = False
-        Me.gvDB.ViewDefinition = TableViewDefinition7
+        Me.gvDB.ViewDefinition = TableViewDefinition1
         '
         'RadPageView1
         '
@@ -274,7 +274,7 @@ Partial Class rptBMCCapacityUtilizationReport
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -350,19 +350,19 @@ Partial Class rptBMCCapacityUtilizationReport
         '
         'RadMenuItem3
         '
-        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1, Me.RadMenuItem2})
+        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.rmsaveLayout, Me.rmDeleteLayout})
         Me.RadMenuItem3.Name = "RadMenuItem3"
         Me.RadMenuItem3.Text = "Setting"
         '
-        'RadMenuItem1
+        'rmsaveLayout
         '
-        Me.RadMenuItem1.Name = "RadMenuItem1"
-        Me.RadMenuItem1.Text = "Save Layout"
+        Me.rmsaveLayout.Name = "rmsaveLayout"
+        Me.rmsaveLayout.Text = "Save Layout"
         '
-        'RadMenuItem2
+        'rmDeleteLayout
         '
-        Me.RadMenuItem2.Name = "RadMenuItem2"
-        Me.RadMenuItem2.Text = "Delete Layout"
+        Me.rmDeleteLayout.Name = "rmDeleteLayout"
+        Me.rmDeleteLayout.Text = "Delete Layout"
         '
         'rptBMCCapacityUtilizationReport
         '
@@ -422,8 +422,8 @@ Partial Class rptBMCCapacityUtilizationReport
     Friend WithEvents lblBMC As common.Controls.MyLabel
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents RadMenuItem3 As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents rmsaveLayout As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents rmDeleteLayout As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents MyLabel3 As common.Controls.MyLabel
     Friend WithEvents MyLabel4 As common.Controls.MyLabel
     Friend WithEvents txtToDate As common.Controls.MyDateTimePicker
