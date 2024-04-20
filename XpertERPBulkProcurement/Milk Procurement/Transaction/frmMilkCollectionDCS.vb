@@ -713,7 +713,7 @@ Public Class frmMilkCollectionDCS
         " left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_VLC_MASTER_HEAD.MCC " + Environment.NewLine
         Dim whrCls As String = " isnull(TSPL_VLC_MASTER_HEAD.Active,0)=1 "
         If Not SettShowAllDCS Then
-            whrCls = " and TSPL_VLC_MASTER_HEAD.MCC  ='" + clsCommon.myCstr(txtMCC.Tag) + "'"
+            whrCls += " and TSPL_VLC_MASTER_HEAD.MCC  ='" + clsCommon.myCstr(txtMCC.Tag) + "'"
         End If
 
         gv1.CurrentRow.Cells(colVLCUploaderCode).Value = clsCommon.ShowSelectForm("SMaRNUdC", qry, "Uploader_Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colVLCUploaderCode).Value), "Uploader_Code", isButtonClick)
