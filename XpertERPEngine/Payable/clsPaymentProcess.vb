@@ -2263,7 +2263,7 @@ where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") )x group by VSP_
         'Else
         '    BaseQry += " "
         'End If
-        BaseQry += ",TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.Vendor_Name_Hindi,TSPL_VENDOR_MASTER.Bank_Code as Vendor_Bank_Code, TSPL_VENDOR_MASTER.Bank_Name as Vendor_Bank_Name, TSPL_VENDOR_MASTER.Account_Type as Vendor_Bank_Account_Type1 , TSPL_VENDOR_MASTER.AccountType2 as Vendor_Bank_Account_Type2 , TSPL_VENDOR_MASTER.Account_No as Vendor_Account_No1, TSPL_VENDOR_MASTER.AccNo2 as Vendor_Account_No2,TSPL_VENDOR_MASTER.PAN As DCS_PAN, "
+        BaseQry += ",TSPL_MILK_SRN_HEAD.ROUTE_CODE As SRN_ROUTE,TSPL_VENDOR_MASTER.Vendor_Name,TSPL_VENDOR_MASTER.Vendor_Name_Hindi,TSPL_VENDOR_MASTER.Bank_Code as Vendor_Bank_Code, TSPL_VENDOR_MASTER.Bank_Name as Vendor_Bank_Name, TSPL_VENDOR_MASTER.Account_Type as Vendor_Bank_Account_Type1 , TSPL_VENDOR_MASTER.AccountType2 as Vendor_Bank_Account_Type2 , TSPL_VENDOR_MASTER.Account_No as Vendor_Account_No1, TSPL_VENDOR_MASTER.AccNo2 as Vendor_Account_No2,TSPL_VENDOR_MASTER.PAN As DCS_PAN, "
         If AreaWiseBilling = True Then
             BaseQry += "  xxxSetLocation.Location_Desc as MCC_NAME "
         Else
