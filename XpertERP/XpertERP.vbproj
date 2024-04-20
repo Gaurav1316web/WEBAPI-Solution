@@ -52,7 +52,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DocumentationFile>ERP.xml</DocumentationFile>
     <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022,42353,42354,42355,40000</NoWarn>
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <Optimize>false</Optimize>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <Prefer32Bit>false</Prefer32Bit>
@@ -341,6 +341,9 @@
     <Reference Include="XpertERPBulkProcurement, Version=5.2.8.63, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\XpertERPBulkProcurement\bin\Debug\XpertERPBulkProcurement.dll</HintPath>
+    </Reference>
+    <Reference Include="XpertErpBullManagement">
+      <HintPath>..\XpertErpBullManagement\bin\Debug\XpertErpBullManagement.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPCommanServices">
       <HintPath>..\XpertERPCommanServices\bin\Debug\XpertERPCommanServices.dll</HintPath>

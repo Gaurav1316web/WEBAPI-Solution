@@ -13,6 +13,8 @@ Public Class frmSendBillToDCS
     Private Sub frmSendBillToDCS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         txtDate.Value = clsCommon.GETSERVERDATE()
         LoadShift()
+        txtSendBill.Text = 0
+        txtRemainingBill.Text = 0
     End Sub
     Public Sub LoadShift()
         Dim dt As DataTable = New DataTable()
@@ -35,20 +37,37 @@ Public Class frmSendBillToDCS
     End Sub
     Private Sub fndPaymentProcessDocNo__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndPaymentProcessDocNo._MYValidating
         fndPaymentProcessDocNo.Value = clsPaymentProcessHead.getFinder("FarmType='PP' And isPosted=1", fndPaymentProcessDocNo.Value, isButtonClicked)
+        If clsCommon.myLen(fndPaymentProcessDocNo.Value) > 0 Then
+            CalculateSendOrRemainingBill()
+        End If
     End Sub
 
     Private Sub RadButton2_Click(sender As Object, e As EventArgs) Handles RadButton2.Click
         fndPaymentProcessDocNo.Value = Nothing
+        txtMultDCS.arrValueMember = Nothing
+        txtSendBill.Text = 0
+        txtRemainingBill.Text = 0
     End Sub
 
-    Private Sub btnPrintBillMobUser_Click(sender As Object, e As EventArgs) Handles btnPrintBillMobUser.Click
-        Try
-            Dim qry As String = "select TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,
-                                 TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE,TSPL_PAYMENT_PROCESS_DETAIL.VSP_NAME,TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No 
+    Function ReturnDCSQry() As String
+        Dim qry As String = "select TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,
+                                 TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE,TSPL_PAYMENT_PROCESS_DETAIL.VSP_NAME,TSPL_PAYMENT_PROCESS_DETAIL.VLC_CODE_Uploader,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No,TSPL_Vendor_Master.Zone_Code 
                                  from TSPL_PAYMENT_PROCESS_DETAIL 
                                  left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
                                  left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
-                                 where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndPaymentProcessDocNo.Value + "' and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null"
+                                 Left Outer Join TSPL_Vendor_Master On TSPL_Vendor_Master.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
+                                 where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='" + fndPaymentProcessDocNo.Value + "' "
+        Return qry
+    End Function
+
+
+    Private Sub btnPrintBillMobUser_Click(sender As Object, e As EventArgs) Handles btnPrintBillMobUser.Click
+        Try
+            Dim qry As String = ReturnDCSQry()
+            qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null "
+            If txtMultDCS.arrValueMember IsNot Nothing AndAlso txtMultDCS.arrValueMember.Count > 0 Then
+                qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE IN (" & clsCommon.GetMulcallString(txtMultDCS.arrValueMember) & ")"
+            End If
 
             'Dim qry As String = "select top 2 TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No from TSPL_PAYMENT_PROCESS_DETAIL 
             'left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
@@ -85,6 +104,8 @@ Public Class frmSendBillToDCS
                 Next
                 clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow(Me, "Bill Print Successfully Done.", Me.Text)
+                CalculateSendOrRemainingBill()
+                txtMultDCS.arrValueMember = Nothing
             End If
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
@@ -164,6 +185,28 @@ Public Class frmSendBillToDCS
                 clsCommon.ProgressBarHide()
                 Throw New Exception(ex.Message)
             End Try
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Private Sub txtMultDCS__My_Click(sender As Object, e As EventArgs) Handles txtMultDCS._My_Click
+        Try
+            If clsCommon.myLen(fndPaymentProcessDocNo.Value) > 0 Then
+                Dim qry As String = "Select Doc_No As [Document Code], VSP_CODE As [DCS Code],	VSP_NAME As [DCS Name], VLC_CODE_Uploader As [DCS Uploader Code],Zone_Code As [Zone] from (" + ReturnDCSQry() + " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null )xxx"
+                txtMultDCS.arrValueMember = clsCommon.ShowMultipleSelectForm(True, "DCS@", qry, "DCS Code", "", txtMultDCS.arrValueMember, Nothing)
+            Else
+                clsCommon.MyMessageBoxShow(Me, "Fill Document Code.", Me.Text)
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+
+    Public Sub CalculateSendOrRemainingBill()
+        Try
+            txtSendBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is Not null ) xxx"))
+            txtRemainingBill.Text = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) from (" & ReturnDCSQry() & " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null ) xxx"))
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
