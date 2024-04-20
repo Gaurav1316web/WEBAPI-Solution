@@ -2371,8 +2371,11 @@ left join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_MILK_RECEI
         BaseQry += " ) as PaymentProcess on "
         BaseQry += "  PaymentProcess.vsp_code = TSPL_MILK_PURCHASE_INVOICE_Head.vsp_code And PaymentProcess.VLC_Code = (case when TSPL_MILK_RECEIPT_DETAIL.Against_Shift_Uploader_TR_No Is Not null then TSPL_MILK_RECEIPT_DETAIL.VLC_Code else TSPL_MILK_REJECT_DETAIL.VLC_CODE end) " + Environment.NewLine
 
-        BaseQry += "    left outer join (select TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE , TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No as BillNo , convert(varchar,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103) as BillDate, TSPL_PAYMENT_PROCESS_DETAIL.SNo as BILLSRL, TSPL_PAYMENT_PROCESS_DETAIL.Doc_No, TSPL_PAYMENT_PROCESS_DETAIL. is_Hold_Payment_Process, TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in ( " + strDocNo + " ) and TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE In (" + strVSPCode + ") ) as TBL_BILL_DETAILS on TBL_BILL_DETAILS.VSP_CODE =
-          TSPL_MILK_PURCHASE_INVOICE_Head.vsp_code"
+        BaseQry += "    left outer join (select TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE , TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No as BillNo , convert(varchar,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_Date,103) as BillDate, TSPL_PAYMENT_PROCESS_DETAIL.SNo as BILLSRL, TSPL_PAYMENT_PROCESS_DETAIL.Doc_No, TSPL_PAYMENT_PROCESS_DETAIL. is_Hold_Payment_Process, TSPL_PAYMENT_PROCESS_DETAIL.Bank_Code from TSPL_PAYMENT_PROCESS_DETAIL where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in ( " + strDocNo + " )"
+        If clsCommon.myLen(strVSPCode) > 0 Then
+            BaseQry += "and TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE In (" + strVSPCode + ")"
+        End If
+        BaseQry += " ) as TBL_BILL_DETAILS on TBL_BILL_DETAILS.VSP_CODE =TSPL_MILK_PURCHASE_INVOICE_Head.vsp_code"
 
         If AreaWiseBilling = True Then
             BaseQry += "  Left Outer Join(select MAX(TSPL_PAYMENT_PROCESS_HEAD.Doc_No)Doc_No,MAX(tspl_location_master.Location_Desc)Location_Desc,tspl_location_master.Location_Code   From TSPL_PAYMENT_PROCESS_HEAD  
@@ -2398,7 +2401,11 @@ left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no
 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
-where  TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ") and TSPL_VLC_MASTER_HEAD.VSP_Code In (" + strVSPCode + ") )x group by VSP_Code)TabCompulsory on TabCompulsory.VSP_Code=TBL_BILL_DETAILS.VSP_CODE"
+where  TSPL_PAYMENT_PROCESS_COMPULSORY.Doc_No in (" + strDocNo + ")"
+        If clsCommon.myLen(strVSPCode) > 0 Then
+            BaseQry += " and TSPL_VLC_MASTER_HEAD.VSP_Code In (" + strVSPCode + ") "
+        End If
+        BaseQry += " )x group by VSP_Code)TabCompulsory on TabCompulsory.VSP_Code=TBL_BILL_DETAILS.VSP_CODE"
 
         BaseQry += " left outer join (select VSP_Code,max(Item_Desc) as Item_Desc, sum([Amount]) as [Amount] from (
 			 select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VSP_Uploader_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,'' as Vendor_NAME,TSPL_DCS_ADDITION_DEDUCTION.Description as Item_Desc,(TSPL_VENDOR_INVOICE_HEAD.Document_Total) as [Amount]  from TSPL_PAYMENT_PROCESS_SAVING 
@@ -2406,7 +2413,11 @@ left outer join TSPL_VENDOR_INVOICE_HEAD on TSPL_VENDOR_INVOICE_HEAD.document_no
 left outer join TSPL_VENDOR_INVOICE_DETAIL on TSPL_VENDOR_INVOICE_DETAIL.document_no=TSPL_VENDOR_INVOICE_HEAD.document_no
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =TSPL_VENDOR_INVOICE_HEAD.Vendor_CODE
 left outer join TSPL_DCS_ADDITION_DEDUCTION on TSPL_DCS_ADDITION_DEDUCTION.Code=TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction
-where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code in (" + strVSPCode + ") )x group by VSP_Code)TabSaving on TabSaving.VSP_Code=TBL_BILL_DETAILS.VSP_CODE"
+where  TSPL_PAYMENT_PROCESS_SAVING.Doc_No in (" + strDocNo + ") "
+        If clsCommon.myLen(strVSPCode) > 0 Then
+            BaseQry += " and TSPL_VENDOR_INVOICE_HEAD.Vendor_Code in (" + strVSPCode + ") "
+        End If
+        BaseQry += " )x group by VSP_Code)TabSaving on TabSaving.VSP_Code=TBL_BILL_DETAILS.VSP_CODE"
 
         BaseQry += "  " & whrcls & " "
         Dim dt As New DataTable
