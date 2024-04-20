@@ -1850,7 +1850,9 @@ group by code,Sequence_No,Description order by  Sequence_No,code asc"
 
             dtCredit = clsDBFuncationality.GetDataTable(sQuery)
 
-            sQuery = "select *
+            sQuery = "select 
+Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
+,max(Milk_Qty) as Milk_Qty,max(Milk_Amount) as Milk_Amount,max(Date1) as Date1,max(Date2) as Date2,max(comp_add1) as comp_add1,max(comp_add2) as comp_add2,max(comp_add3) as comp_add3,max(comp_Fax) as comp_Fax,max(comp_Email) as comp_Email,max(CompPhone) as CompPhone,max(Pincode) as Pincode,max(Tcan_No) as Tcan_No,max(Doc_Date) as Doc_Date,min(from_date) as from_date, max(to_date) as to_date,max(Milk_Qty) as Milk_Qty,max(Milk_Amount) as Milk_Amount,max(DebitAmount) as DebitAmount,max(CreditAmount) as CreditAmount,max(Hold_Payable_Amount) as Hold_Payable_Amount
                         from (select TSPL_PAYMENT_PROCESS_HEAD.doc_no
                         ,TSPL_COMPANY_MASTER.Comp_Code ,TSPL_COMPANY_MASTER.Comp_Name,"
             If AreaWiseBilling = True Then
@@ -1858,7 +1860,7 @@ group by code,Sequence_No,Description order by  Sequence_No,code asc"
             Else
                 sQuery += " TSPL_MCC_MASTER.MCC_NAME,"
             End If
-            sQuery += "TSPL_COMPANY_MASTER.Regn_No
+            sQuery += "TSPL_COMPANY_MASTER.Regn_No,'" + CycleFromDate + " ' as Date1,'" + CycleToDate + "' as Date2
                     ,TSPL_COMPANY_MASTER.Add1 as comp_add1 , TSPL_COMPANY_MASTER.Add2 as  comp_add2 
                     ,TSPL_COMPANY_MASTER.Add3 as comp_add3 ,TSPL_COMPANY_MASTER.Fax as comp_Fax ,TSPL_COMPANY_MASTER.Email as comp_Email, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone , cast(TSPL_COMPANY_MASTER.logo_img as image) as logo_img,tspl_company_master.Pincode,tspl_company_master.Tcan_No
                                         ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,103) as Doc_Date
@@ -1890,7 +1892,7 @@ group by code,Sequence_No,Description order by  Sequence_No,code asc"
                         TSPL_PAYMENT_PROCESS_DETAIL INNER JOIN
                         TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
                         where Document_Type='C' and RefDocType='Milk_HE'  and TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount<>0 AND TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") group by 
-                        TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,Description)final1  on final1.Doc_No=xxy.doc_no "
+                        TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,Description)final1  on final1.Doc_No=xxy.doc_no group by Comp_Code,Comp_Name,Regn_No"
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
                 sQuery += " left outer join (
