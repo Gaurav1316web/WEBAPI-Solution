@@ -22,9 +22,13 @@ Partial Class frmSendBillToDCS
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtRemainingBill = New System.Windows.Forms.TextBox()
+        Me.MyLabel3 = New common.Controls.MyLabel()
+        Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.txtSendBill = New System.Windows.Forms.TextBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblMCCCode = New common.Controls.MyLabel()
         Me.fndMCCCode = New common.UserControls.txtFinder()
@@ -34,6 +38,8 @@ Partial Class frmSendBillToDCS
         Me.txtDate = New common.Controls.MyDateTimePicker()
         Me.RadButton3 = New Telerik.WinControls.UI.RadButton()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.txtMultDCS = New common.UserControls.txtMultiSelectFinder()
         Me.RadButton2 = New Telerik.WinControls.UI.RadButton()
         Me.btnSendBill = New Telerik.WinControls.UI.RadButton()
         Me.btnPrintBillMobUser = New Telerik.WinControls.UI.RadButton()
@@ -43,6 +49,8 @@ Partial Class frmSendBillToDCS
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.lblMCCCode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -53,6 +61,7 @@ Partial Class frmSendBillToDCS
         CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSendBill, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPrintBillMobUser, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -70,6 +79,10 @@ Partial Class frmSendBillToDCS
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtRemainingBill)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel3)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel2)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtSendBill)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox2)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox1)
         '
@@ -79,6 +92,42 @@ Partial Class frmSendBillToDCS
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 450)
         Me.SplitContainer1.SplitterDistance = 405
         Me.SplitContainer1.TabIndex = 0
+        '
+        'txtRemainingBill
+        '
+        Me.txtRemainingBill.Location = New System.Drawing.Point(609, 41)
+        Me.txtRemainingBill.Name = "txtRemainingBill"
+        Me.txtRemainingBill.ReadOnly = True
+        Me.txtRemainingBill.Size = New System.Drawing.Size(90, 20)
+        Me.txtRemainingBill.TabIndex = 390
+        Me.txtRemainingBill.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        '
+        'MyLabel3
+        '
+        Me.MyLabel3.FieldName = Nothing
+        Me.MyLabel3.Location = New System.Drawing.Point(526, 42)
+        Me.MyLabel3.Name = "MyLabel3"
+        Me.MyLabel3.Size = New System.Drawing.Size(77, 18)
+        Me.MyLabel3.TabIndex = 389
+        Me.MyLabel3.Text = "Remaining Bill"
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Location = New System.Drawing.Point(377, 43)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(49, 18)
+        Me.MyLabel2.TabIndex = 388
+        Me.MyLabel2.Text = "Send Bill"
+        '
+        'txtSendBill
+        '
+        Me.txtSendBill.Location = New System.Drawing.Point(430, 41)
+        Me.txtSendBill.Name = "txtSendBill"
+        Me.txtSendBill.ReadOnly = True
+        Me.txtSendBill.Size = New System.Drawing.Size(90, 20)
+        Me.txtSendBill.TabIndex = 279
+        Me.txtSendBill.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         '
         'RadGroupBox2
         '
@@ -91,9 +140,9 @@ Partial Class frmSendBillToDCS
         Me.RadGroupBox2.Controls.Add(Me.txtDate)
         Me.RadGroupBox2.Controls.Add(Me.RadButton3)
         Me.RadGroupBox2.HeaderText = "Generate DCS SMS"
-        Me.RadGroupBox2.Location = New System.Drawing.Point(13, 128)
+        Me.RadGroupBox2.Location = New System.Drawing.Point(13, 136)
         Me.RadGroupBox2.Name = "RadGroupBox2"
-        Me.RadGroupBox2.Size = New System.Drawing.Size(335, 71)
+        Me.RadGroupBox2.Size = New System.Drawing.Size(345, 71)
         Me.RadGroupBox2.TabIndex = 278
         Me.RadGroupBox2.Text = "Generate DCS SMS"
         '
@@ -159,10 +208,10 @@ Partial Class frmSendBillToDCS
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem1.Text = "M"
-        RadListDataItem2.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem1)
-        Me.cboShift.Items.Add(RadListDataItem2)
+        RadListDataItem3.Text = "M"
+        RadListDataItem4.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem3)
+        Me.cboShift.Items.Add(RadListDataItem4)
         Me.cboShift.Location = New System.Drawing.Point(164, 16)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -226,6 +275,8 @@ Partial Class frmSendBillToDCS
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel1)
+        Me.RadGroupBox1.Controls.Add(Me.txtMultDCS)
         Me.RadGroupBox1.Controls.Add(Me.RadButton2)
         Me.RadGroupBox1.Controls.Add(Me.btnSendBill)
         Me.RadGroupBox1.Controls.Add(Me.btnPrintBillMobUser)
@@ -234,13 +285,35 @@ Partial Class frmSendBillToDCS
         Me.RadGroupBox1.HeaderText = "Mobile User Bill "
         Me.RadGroupBox1.Location = New System.Drawing.Point(13, 22)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(335, 100)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(345, 105)
         Me.RadGroupBox1.TabIndex = 277
         Me.RadGroupBox1.Text = "Mobile User Bill "
         '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Location = New System.Drawing.Point(5, 42)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(27, 18)
+        Me.MyLabel1.TabIndex = 387
+        Me.MyLabel1.Text = "DCS"
+        '
+        'txtMultDCS
+        '
+        Me.txtMultDCS.arrDispalyMember = Nothing
+        Me.txtMultDCS.arrValueMember = Nothing
+        Me.txtMultDCS.Location = New System.Drawing.Point(69, 42)
+        Me.txtMultDCS.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMultDCS.MyLinkLable1 = Nothing
+        Me.txtMultDCS.MyLinkLable2 = Nothing
+        Me.txtMultDCS.MyNullText = "Please select..."
+        Me.txtMultDCS.Name = "txtMultDCS"
+        Me.txtMultDCS.Size = New System.Drawing.Size(261, 19)
+        Me.txtMultDCS.TabIndex = 386
+        '
         'RadButton2
         '
-        Me.RadButton2.Location = New System.Drawing.Point(252, 62)
+        Me.RadButton2.Location = New System.Drawing.Point(256, 67)
         Me.RadButton2.Name = "RadButton2"
         Me.RadButton2.Size = New System.Drawing.Size(74, 20)
         Me.RadButton2.TabIndex = 290
@@ -248,7 +321,7 @@ Partial Class frmSendBillToDCS
         '
         'btnSendBill
         '
-        Me.btnSendBill.Location = New System.Drawing.Point(176, 62)
+        Me.btnSendBill.Location = New System.Drawing.Point(180, 67)
         Me.btnSendBill.Name = "btnSendBill"
         Me.btnSendBill.Size = New System.Drawing.Size(74, 20)
         Me.btnSendBill.TabIndex = 289
@@ -257,7 +330,7 @@ Partial Class frmSendBillToDCS
         '
         'btnPrintBillMobUser
         '
-        Me.btnPrintBillMobUser.Location = New System.Drawing.Point(69, 62)
+        Me.btnPrintBillMobUser.Location = New System.Drawing.Point(73, 67)
         Me.btnPrintBillMobUser.Name = "btnPrintBillMobUser"
         Me.btnPrintBillMobUser.Size = New System.Drawing.Size(105, 20)
         Me.btnPrintBillMobUser.TabIndex = 288
@@ -294,7 +367,7 @@ Partial Class frmSendBillToDCS
         Me.fndPaymentProcessDocNo.ReferenceFieldDesc = Nothing
         Me.fndPaymentProcessDocNo.ReferenceFieldName = Nothing
         Me.fndPaymentProcessDocNo.ReferenceTableName = Nothing
-        Me.fndPaymentProcessDocNo.Size = New System.Drawing.Size(257, 19)
+        Me.fndPaymentProcessDocNo.Size = New System.Drawing.Size(261, 19)
         Me.fndPaymentProcessDocNo.TabIndex = 276
         Me.fndPaymentProcessDocNo.Value = ""
         '
@@ -321,8 +394,11 @@ Partial Class frmSendBillToDCS
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "frmSendBillToDCS"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
+        Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -335,6 +411,7 @@ Partial Class frmSendBillToDCS
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSendBill, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPrintBillMobUser, System.ComponentModel.ISupportInitialize).EndInit()
@@ -361,4 +438,10 @@ Partial Class frmSendBillToDCS
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
     Friend WithEvents lblMCCCode As common.Controls.MyLabel
     Friend WithEvents fndMCCCode As common.UserControls.txtFinder
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
+    Friend WithEvents txtMultDCS As common.UserControls.txtMultiSelectFinder
+    Friend WithEvents MyLabel3 As common.Controls.MyLabel
+    Friend WithEvents MyLabel2 As common.Controls.MyLabel
+    Friend WithEvents txtSendBill As TextBox
+    Friend WithEvents txtRemainingBill As TextBox
 End Class
