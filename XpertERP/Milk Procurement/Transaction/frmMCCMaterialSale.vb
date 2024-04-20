@@ -6419,7 +6419,7 @@ Public Class frmMCCMaterialSale
         Qry += "left outer join TSPL_TAX_MASTER as dtax1 on dtax1.tax_code =TSPL_SD_SHIPMENT_DETAIL.tax1  " &
             " left outer join tspl_tax_master as dtax2 on dtax2.tax_code = TSPL_SD_SHIPMENT_DETAIL.tax2   " &
             " left outer join tspl_tax_master as dtax3 on dtax3.Tax_Code=TSPL_SD_SHIPMENT_DETAIL.TAX3  " &
-            " left outer join TSPL_TAX_MASTER as dtax4 on tax4.Tax_Code= TSPL_SD_SHIPMENT_DETAIL.tax4  " &
+            " left outer join TSPL_TAX_MASTER as dtax4 on dtax4.Tax_Code= TSPL_SD_SHIPMENT_DETAIL.tax4  " &
              "  left outer join TSPL_TAX_MASTER as dtax5 on dtax5.Tax_Code=TSPL_SD_SHIPMENT_DETAIL.tax5  " &
                " left outer join TSPL_TAX_MASTER as dtax6 on dtax6.Tax_Code =TSPL_SD_SHIPMENT_DETAIL.TAX6  " &
                 " left outer join TSPL_TAX_MASTER as dtax7 on dtax7.Tax_Code =TSPL_SD_SHIPMENT_DETAIL.TAX7  " &
