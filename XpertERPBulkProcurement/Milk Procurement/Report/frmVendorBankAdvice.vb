@@ -31,11 +31,11 @@ Public Class frmVendorBankAdvice
         VendorBankAdviceForSWM = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.VendorBankAdviceForSWM, clsFixedParameterCode.VendorBankAdviceForSWM, Nothing)) = 1)
         btnPrintSWM.Visible = VendorBankAdviceForSWM
         'RadGroupBox3.Visible =MultipleFinderFillAuto
-        If MultipleFinderFillAuto = False Then
-            RadGroupBox3.Visible = True
-        Else
-            RadGroupBox3.Visible = MultipleFinderFillAuto
-        End If
+        'If MultipleFinderFillAuto = False Then
+        '    RadGroupBox3.Visible = True
+        'Else
+        '    RadGroupBox3.Visible = MultipleFinderFillAuto
+        'End If
         'RadGroupBox3.Visible = True
         txtMCC.Enabled = Not MultipleFinderFillAuto
         rbtnSaving.Visible = MultipleFinderFillAuto
@@ -63,8 +63,8 @@ Public Class frmVendorBankAdvice
         Gv1.Rows.Clear()
         Gv1.Columns.Clear()
         rbtnSaving.IsChecked = False
-        rbtnSavingBankWiseSummary.IsChecked = False
-        rbtnSavingCompulsory.IsChecked = False
+        rbtnCompulsoryWiseSummary.IsChecked = False
+        rbtnCompulsory.IsChecked = False
         rbtnBankAdvice.IsChecked = True
         Gv1.MasterTemplate.SummaryRowsBottom.Clear()
         txtMCC.Value = ""
@@ -82,9 +82,9 @@ Public Class frmVendorBankAdvice
 
         If rbtnSaving.IsChecked = True Then
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID) + "_SA"
-        ElseIf rbtnSavingCompulsory.IsChecked = True Then
+        ElseIf rbtnCompulsory.IsChecked = True Then
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID) + "_SC"
-        ElseIf rbtnSavingBankWiseSummary.IsChecked = True Then
+        ElseIf rbtnCompulsoryWiseSummary.IsChecked = True Then
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID) + "_SBS"
         Else
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
@@ -149,17 +149,17 @@ Public Class frmVendorBankAdvice
             Dim Doc_No_Value As String = "select Doc_No from TSPL_PAYMENT_PROCESS_Invoice"
 
 
-            If rbtnSavingBankWiseSummary.IsChecked AndAlso rbtnCurrentBankWiseSummary.IsChecked Then
+            If rbtnCompulsoryWiseSummary.IsChecked AndAlso rbtnCurrentBankWiseSummary.IsChecked Then
                 clsCommon.MyMessageBoxShow(Me, "You have to select only option at a time ", Me.Text)
                 Exit Sub
             End If
-            If rbtnSaving.IsChecked Then
+            If rbtnSaving.IsChecked OrElse rbtnSavingSummary.IsChecked Then
                 BaseQry = " select  '' AS CycleRange, TSPL_Vendor_MASTER.Bank_Code+(case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .IFSC_Code,mp_V.IFSC_Code)   else coalesce(TSPL_VENDOR_MASTER .Joint_IFSC_Code,mp_v.Joint_IFSC_Code)   end)  as GRPColumn,
                             TSPL_COMPANY_MASTER.Comp_Name
                             ,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No,TSPL_MCC_MASTER.MCC_NAME, TSPL_PAYMENT_PROCESS_HEAD.From_Date,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name
                             ,TSPL_PAYMENT_CYCLE_GENERATED.Name as CycleNo ,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_CODE_Uploader, coalesce(TSPL_VENDOR_MASTER.VSP_Payee_Name,Mp_V.VSP_Payee_Name)  as Payee_Joint_Name,TSPL_Vendor_MASTER.BankCode2 as Bank_Code, 
   TSPL_VENDOR_MASTER.BankBranch2 as Branch_Name, 
-  TSPL_Vendor_MASTER.BankCode2 as Bank_Code_Desc, 
+  TSPL_BANK_MASTER2.DESCRIPTION as Bank_Code_Desc, 
   case when isnull(
     coalesce(
       TSPL_VENDOR_MASTER.vsp_payment, 
@@ -200,6 +200,7 @@ Public Class frmVendorBankAdvice
                             left outer join ( select distinct VSP_Code, VLC_Code_VLC_Uploader  from TSPL_VLC_MASTER_HEAD) as TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code =  TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
                             left outer join TSPL_COMPANY_MASTER on TSPL_COMPANY_MASTER.Comp_Code='" + objCommonVar.CurrentCompanyCode + "'
                             left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code= TSPL_VENDOR_INVOICE_HEAD.Vendor_Code --TSPL_PAYMENT_PROCESS_SAVING.VSP_CODE
+                            left outer join TSPL_BANK_MASTER as TSPL_BANK_MASTER2 on TSPL_BANK_MASTER2.BANK_CODE=TSPL_Vendor_MASTER.BankCode2 
                             left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date    
                             left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE_GENERATED.From_Date,103)<=convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) and convert(date,TSPL_PAYMENT_CYCLE_GENERATED.To_Date,103)>=convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103)   and TSPL_PAYMENT_CYCLE_GENERATED.MCC_Code = TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected   
                             left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Bank_Code
@@ -211,8 +212,10 @@ Public Class frmVendorBankAdvice
                 If clsCommon.myLen(fndArea.Value) > 0 Then
                     BaseQry += " And TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code = '" + fndArea.Value + "' "
                 End If
-            ElseIf rbtnSavingCompulsory.IsChecked Then
-
+                'If rbtnSavingSummary.IsChecked Then
+                '    BaseQry = " select  ROW_NUMBER() over ( order by Bank_Code) as SNO ,max(Bank_Code) as GRPColumn,sum(Payable_Amount) as Payable_Amount ,max(Branch_Name) as Bank_Desc from (" + BaseQry + ") xx group by xx.Bank_Code "
+                'End If
+            ElseIf rbtnCompulsory.IsChecked Then
                 BaseQry = " select max(x.CycleRange)CycleRange,x.GRPColumn,max(x.[Company Bank])[Company Bank],max(x.[Company Bank Account No])[Company Bank Account No],
                             max(x.Comp_Name)Comp_Name,max(x.Comp_address)Comp_address,max(x.CompPhone)CompPhone,max(x.Regn_No)Regn_No,max(x.MCC_NAME)MCC_NAME,
                             max(x.From_Date)From_Date,max(x.GSTReg_No)GSTReg_No,max(x.Doc_No)Doc_No,max(x.Fiscal_Name)Fiscal_Name,max(x.CycleNo)CycleNo,
@@ -278,7 +281,7 @@ Public Class frmVendorBankAdvice
                 BaseQry += " and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0 )x
 							group by x.GRPColumn,x.VLC_CODE_Uploader,x.Payee_Joint_Account_No "
 
-            ElseIf rbtnSavingBankWiseSummary.IsChecked Then
+            ElseIf rbtnCompulsoryWiseSummary.IsChecked Then
                 BaseQry = "select  '" + strCycleRange + "' AS CycleRange,"
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                     BaseQry += " TSPL_Vendor_MASTER.Bank_Code+TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code as GRPColumn,"
@@ -324,7 +327,7 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.From_
             End If
 
             If rbtnBankAdvice.IsChecked OrElse rbtnBankWiseSummary.IsChecked Then
-                If rbtnSaving.IsChecked = False AndAlso rbtnSavingCompulsory.IsChecked = False AndAlso rbtnSavingBankWiseSummary.IsChecked = False Then
+                If rbtnSaving.IsChecked = False AndAlso rbtnCompulsory.IsChecked = False AndAlso rbtnCompulsoryWiseSummary.IsChecked = False Then
                     BaseQry = "select  '" + strCycleRange + "' AS CycleRange,"
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                         BaseQry += " TSPL_Vendor_MASTER.Bank_Code+TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code as GRPColumn,"
@@ -368,7 +371,7 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.From_
                                 left outer join TSPL_Vendor_MASTER on TSPL_Vendor_MASTER.Vendor_Code=TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE
                                 left outer join TSPL_Fiscal_Year_Master on TSPL_Fiscal_Year_Master.Start_Date<=TSPL_PAYMENT_PROCESS_HEAD.From_Date and TSPL_Fiscal_Year_Master.End_Date>=TSPL_PAYMENT_PROCESS_HEAD.From_Date
                                 left outer join TSPL_BANK_MASTER ON TSPL_BANK_MASTER.BANK_CODE = TSPL_Vendor_MASTER.Company_Bank_Current "
-                If AreaWiseBilling =True Then
+                If AreaWiseBilling = True Then
                     BaseQry += " LEFT OUTER JOIN TSPL_LOCATION_MASTER ON TSPL_LOCATION_MASTER.Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code"
                 Else
                     BaseQry += " left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected"
@@ -440,20 +443,20 @@ where TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 and  TSPL_PAYMENT_PROCESS_HEAD.From
 
             Dim FinalQuery As String = ""
             If rbtnBankAdvice.IsChecked OrElse rbtnSaving.IsChecked Then
-
-
-                'BaseQry += "and  TSPL_PAYMENT_PROCESS_Invoice.Doc_No='" + clsCommon.myCstr(Doc_No_Value) + "'"
-                'BaseQry += "And TSPL_PAYMENT_PROCESS_Detail.MCC_Code='" + clsCommon.myCstr(txtMCC.Value) + "'"
                 FinalQuery = BaseQry + " order by TSPL_Vendor_MASTER.Bank_Code"
             ElseIf rbtnBankWiseSummary.IsChecked Then
                 FinalQuery += "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No ,sum(Payable_Amount) as Payable_Amount
 ,max(CompPhone) as CompPhone,max(Regn_No) as Regn_No,max(MCC_NAME) as MCC_NAME
 from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by Bank_Code,Branch_Name )xxxx order by GRPColumn "
-            ElseIf rbtnCurrentBankWiseSummary.IsChecked OrElse rbtnSavingBankWiseSummary.IsChecked Then
+            ElseIf rbtnCurrentBankWiseSummary.IsChecked OrElse rbtnCompulsoryWiseSummary.IsChecked Then
                 FinalQuery += "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select  max(GRPColumn) as GRPColumn,sum(Payable_Amount) as Payable_Amount , Bank_Desc
 from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by Bank_Desc )xxxx order by GRPColumn "
+            ElseIf rbtnSavingSummary.IsChecked Then
+                FinalQuery += "select ROW_NUMBER() over ( order by Bank_Code) as SNO , max(CycleRange) as CycleRange, max(Bank_Code) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,max (Bank_Code_Desc)Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No ,sum(Payable_Amount) as Payable_Amount
+,max(CompPhone) as CompPhone,max(Regn_No) as Regn_No,max(MCC_NAME) as MCC_NAME
+from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group by Bank_Code "
             End If
-            If rbtnSavingCompulsory.IsChecked Then
+            If rbtnCompulsory.IsChecked Then
                 FinalQuery = BaseQry
             End If
 
@@ -514,7 +517,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
                         frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNew", "Bank Advice")
                         frmCRV = Nothing
                     End If
-                ElseIf rbtnBankWiseSummary.CheckState Then
+                ElseIf rbtnBankWiseSummary.IsChecked OrElse rbtnSavingSummary.IsChecked Then
                     Dim frmCRV As New frmCrystalReportViewer()
                     frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankWiseSummary", "Bank Wise Summary")
                     frmCRV = Nothing
@@ -615,7 +618,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
         Next
 
 
-        If rbtnBankAdvice.IsChecked OrElse rbtnSavingCompulsory.IsChecked OrElse rbtnSaving.IsChecked Then
+        If rbtnBankAdvice.IsChecked OrElse rbtnCompulsory.IsChecked OrElse rbtnSaving.IsChecked Then
             Gv1.Columns("CycleRange").HeaderText = "Cycle Range"
             Gv1.Columns("CycleRange").IsVisible = False
 
@@ -761,7 +764,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
             Gv1.Columns("Payable_Amount").IsVisible = True
             Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
             'Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
-        ElseIf rbtnCurrentBankWiseSummary.IsChecked OrElse rbtnSavingBankWiseSummary.IsChecked Then
+        ElseIf rbtnCurrentBankWiseSummary.IsChecked OrElse rbtnCompulsoryWiseSummary.IsChecked Then
             Gv1.Columns("Payable_Amount").HeaderText = "Amount"
             Gv1.Columns("Payable_Amount").IsVisible = True
             Gv1.Columns("Payable_Amount").FormatString = "{0:n2}"
@@ -833,11 +836,8 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
         txtFiscalYear.Enabled = flag
         txtPaymentCycleFrom.Enabled = flag
         txtPaymentCycleTo.Enabled = flag
-        RadGroupBox1.Enabled = flag
         txtbankgroupname.Enabled = flag
         txtBankGroup.Enabled = flag
-        RadGroupBox3.Enabled = flag
-        RadGroupBox2.Enabled = flag
         ChkIFSCCode.Enabled = flag
         fndArea.Enabled = flag
     End Sub
@@ -1144,8 +1144,8 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
             If Not flagSaving Then
                 flagCurrent = True
                 rbtnSaving.IsChecked = False
-                rbtnSavingCompulsory.IsChecked = False
-                rbtnSavingBankWiseSummary.IsChecked = False
+                rbtnCompulsory.IsChecked = False
+                rbtnCompulsoryWiseSummary.IsChecked = False
                 rbtnBothSavCur.IsChecked = False
                 flagCurrent = False
             End If
@@ -1156,8 +1156,8 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
 
     End Sub
 
-    Private Sub rbtnSaving_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnSaving.ToggleStateChanged, rbtnSavingCompulsory.ToggleStateChanged, rbtnSavingBankWiseSummary.ToggleStateChanged
-        If rbtnSaving.IsChecked OrElse rbtnSavingCompulsory.IsChecked OrElse rbtnSavingBankWiseSummary.IsChecked Then
+    Private Sub rbtnSaving_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles rbtnSaving.ToggleStateChanged, rbtnCompulsory.ToggleStateChanged, rbtnCompulsoryWiseSummary.ToggleStateChanged
+        If rbtnSaving.IsChecked OrElse rbtnCompulsory.IsChecked OrElse rbtnCompulsoryWiseSummary.IsChecked Then
             rbtnBothSavCur.IsChecked = False
             If Not flagCurrent Then
                 flagSaving = True
@@ -1258,7 +1258,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
             End If
             Dim BaseQry As String = ""
 
-            If rbtnSavingBankWiseSummary.IsChecked AndAlso rbtnCurrentBankWiseSummary.IsChecked Then
+            If rbtnCompulsoryWiseSummary.IsChecked AndAlso rbtnCurrentBankWiseSummary.IsChecked Then
                 clsCommon.MyMessageBoxShow(Me, "You have to select only option at a time ", Me.Text)
                 Exit Sub
             End If
@@ -1314,7 +1314,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
                                         left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
                                         where TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  and	TSPL_PAYMENT_PROCESS_HEAD.To_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0  "
 
-            ElseIf rbtnSavingCompulsory.IsChecked Then
+            ElseIf rbtnCompulsory.IsChecked Then
 
                 BaseQry = " select  '' AS CycleRange, TSPL_Vendor_MASTER.Bank_Code+(case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .IFSC_Code,mp_V.IFSC_Code)   else coalesce(TSPL_VENDOR_MASTER .Joint_IFSC_Code,mp_v.Joint_IFSC_Code)   end)  as GRPColumn,TSPL_BANK_MASTER.DESCRIPTION as [Company Bank], TSPL_BANK_MASTER.BANKACCNUMBER as [Company Bank Account No],
                                         TSPL_COMPANY_MASTER.Comp_Name
@@ -1367,7 +1367,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
                                         left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.MCC_Code=TSPL_PAYMENT_PROCESS_HEAD.MCC_Code_Selected
                                         where TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1 and TSPL_PAYMENT_PROCESS_HEAD.From_Date>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(fromDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "'  and	TSPL_PAYMENT_PROCESS_HEAD.To_Date <='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(ToDate.Value), "dd/MMM/yyyy hh:mm:ss tt") + "' and TSPL_VENDOR_INVOICE_HEAD.Document_Total>0  "
 
-            ElseIf rbtnSavingBankWiseSummary.IsChecked Then
+            ElseIf rbtnCompulsoryWiseSummary.IsChecked Then
 
                 BaseQry = "select  '" + strCycleRange + "' AS CycleRange,"
                 If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
@@ -1406,7 +1406,7 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
             End If
 
             If rbtnBankAdvice.IsChecked OrElse rbtnBankWiseSummary.IsChecked Then
-                If rbtnSaving.IsChecked = False AndAlso rbtnSavingCompulsory.IsChecked = False AndAlso rbtnSavingBankWiseSummary.IsChecked = False Then
+                If rbtnSaving.IsChecked = False AndAlso rbtnCompulsory.IsChecked = False AndAlso rbtnCompulsoryWiseSummary.IsChecked = False Then
                     BaseQry = "select  '" + strCycleRange + "' AS CycleRange,"
                     If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "GNG") = CompairStringResult.Equal Then
                         BaseQry += " TSPL_Vendor_MASTER.Bank_Code+TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_IFSC_Code as GRPColumn,"
@@ -1484,13 +1484,13 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
             End If
             Dim FinalQuery As String = ""
 
-            If rbtnBankAdvice.IsChecked OrElse rbtnSavingCompulsory.IsChecked OrElse rbtnSaving.IsChecked Then
+            If rbtnBankAdvice.IsChecked OrElse rbtnCompulsory.IsChecked OrElse rbtnSaving.IsChecked Then
                 FinalQuery = BaseQry + " order by TSPL_Vendor_MASTER.Bank_Code"
             ElseIf rbtnBankWiseSummary.IsChecked Then
                 FinalQuery += "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select max(CycleRange) as CycleRange, max(GRPColumn) as GRPColumn,max(Comp_Name) as Comp_Name,max(Comp_address) as Comp_address, max(From_Date) as From_Date,max(GSTReg_No) as GSTReg_No,max(Fiscal_Name) as Fiscal_Name,max(CycleNo) as CycleNo,max(Date_Range) as Date_Range,Bank_Code,Branch_Name,max(Bank_Code_Desc) as Bank_Code_Desc, max (Payee_Joint_IFSC_Code) as Payee_Joint_IFSC_Code,max(Payee_Joint_Account_No) as Payee_Joint_Account_No ,sum(Payable_Amount) as Payable_Amount
             ,max(CompPhone) as CompPhone,max(Regn_No) as Regn_No,max(MCC_NAME) as MCC_NAME
             from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by Bank_Code,Branch_Name )xxxx order by GRPColumn "
-            ElseIf rbtnCurrentBankWiseSummary.IsChecked OrElse rbtnSavingBankWiseSummary.IsChecked Then
+            ElseIf rbtnCurrentBankWiseSummary.IsChecked OrElse rbtnCompulsoryWiseSummary.IsChecked Then
                 FinalQuery += "select ROW_NUMBER() over ( order by GRPColumn) as SNO , * from ( select  max(GRPColumn) as GRPColumn,sum(Payable_Amount) as Payable_Amount , Bank_Desc
             from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by Bank_Desc )xxxx order by GRPColumn "
             End If
@@ -1543,8 +1543,8 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + " )xxx group by 
         'End If
         If rbtnBothSavCur.IsChecked Then
             rbtnSaving.IsChecked = False
-            rbtnSavingCompulsory.IsChecked = False
-            rbtnSavingBankWiseSummary.IsChecked = False
+            rbtnCompulsory.IsChecked = False
+            rbtnCompulsoryWiseSummary.IsChecked = False
             rbtnBankAdvice.IsChecked = False
             rbtnBankWiseSummary.IsChecked = False
             rbtnCurrentBankWiseSummary.IsChecked = False
