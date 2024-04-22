@@ -842,7 +842,7 @@ Public Class frmRCDFStandardization
         For Each grow As GridViewRowInfo In gvProduce.Rows
             If clsCommon.myLen(grow.Cells(colProduceBOMCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colProduceItemCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colProduceUOM).Value) > 0 Then
                 objlist = New List(Of clsRecursiveitems)
-                clsRecursiveitems.GetItemOfBOM(objlist, grow.Cells(colProduceItemCode).Value, grow.Cells(colProduceQty).Value, grow.Cells(colProduceUOM).Value, "", "", dtpDate.Value, Nothing, 1, True, grow.Cells(colProduceBOMCode).Value)
+                clsRecursiveitems.GetItemOfBOM(objlist, grow.Cells(colProduceItemCode).Value, grow.Cells(colProduceQty).Value, grow.Cells(colProduceUOM).Value, "", "", dtpDate.Value, Nothing, 1, True, grow.Cells(colProduceBOMCode).Value, False)
                 If objlist IsNot Nothing AndAlso objlist.Count > 0 Then
                     For Each objtr As clsRecursiveitems In objlist
                         gvIssue.Rows.AddNew()

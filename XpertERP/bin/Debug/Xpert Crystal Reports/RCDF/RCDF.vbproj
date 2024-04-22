@@ -273,6 +273,7 @@
     <None Include="Crystal Reports GST\Inventory Report\crptStockTransferChallanInvoiceInterState.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\crptStockTransferChallanInvoiceInterState_Challan.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\crptStockTransferChallanInvoice_Challan.rpt" />
+    <None Include="Crystal Reports GST\Inventory Report\crptStockTransferChallanInvoice_ChallanNew.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\crptStockTransferChallanOut.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\crptStockTransferSTA.rpt" />
     <None Include="Crystal Reports GST\Inventory Report\crptTransferLO.rpt" />
