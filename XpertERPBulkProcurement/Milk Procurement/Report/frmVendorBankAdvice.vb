@@ -86,6 +86,8 @@ Public Class frmVendorBankAdvice
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID) + "_SC"
         ElseIf rbtnCompulsoryWiseSummary.IsChecked = True Then
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID) + "_SBS"
+        ElseIf rbtnSavingSummary.IsChecked = True Then
+            PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID) + "_SS"
         Else
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
         End If
@@ -154,10 +156,9 @@ Public Class frmVendorBankAdvice
                 Exit Sub
             End If
             If rbtnSaving.IsChecked OrElse rbtnSavingSummary.IsChecked Then
-                BaseQry = " select  '' AS CycleRange, TSPL_Vendor_MASTER.Bank_Code+(case when isnull(coalesce(TSPL_VENDOR_MASTER.vsp_payment,Mp_V.vsp_payment),'')='Self' then coalesce(TSPL_VENDOR_MASTER .IFSC_Code,mp_V.IFSC_Code)   else coalesce(TSPL_VENDOR_MASTER .Joint_IFSC_Code,mp_v.Joint_IFSC_Code)   end)  as GRPColumn,
-                            TSPL_COMPANY_MASTER.Comp_Name
-                            ,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No,TSPL_MCC_MASTER.MCC_NAME, TSPL_PAYMENT_PROCESS_HEAD.From_Date,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_No, TSPL_Fiscal_Year_Master.Fiscal_Name
-                            ,TSPL_PAYMENT_CYCLE_GENERATED.Name as CycleNo ,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_CODE_Uploader, coalesce(TSPL_VENDOR_MASTER.VSP_Payee_Name,Mp_V.VSP_Payee_Name)  as Payee_Joint_Name,TSPL_Vendor_MASTER.BankCode2 as Bank_Code, 
+                BaseQry = " select  '' AS CycleRange,TSPL_Vendor_MASTER.BankCode2 as GRPColumn,TSPL_COMPANY_MASTER.Comp_Name
+,TSPL_COMPANY_MASTER.add1 +case when len(TSPL_COMPANY_MASTER.add2)>0 then ', '+TSPL_COMPANY_MASTER.add2 else '' end +case when LEN(isnull(TSPL_COMPANY_MASTER.Add3,''))>0 then ', '+isnull(TSPL_COMPANY_MASTER.Add3,'') else ' ' end  + case when len(TSPL_COMPANY_MASTER.State )>0 then TSPL_COMPANY_MASTER.State else '' end as Comp_address, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone ,TSPL_COMPANY_MASTER.Regn_No,TSPL_MCC_MASTER.MCC_NAME, TSPL_PAYMENT_PROCESS_HEAD.From_Date,'GSTIN : '+ TSPL_COMPANY_MASTER.GSTReg_No as GSTReg_No,TSPL_PAYMENT_PROCESS_HEAD.Doc_No,TSPL_Fiscal_Year_Master.Fiscal_Name
+,TSPL_PAYMENT_CYCLE_GENERATED.Name as CycleNo ,convert(varchar, TSPL_PAYMENT_PROCESS_HEAD.From_Date,103) +' To '+ convert(varchar,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) as Date_Range, TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as VLC_CODE_Uploader, coalesce(TSPL_VENDOR_MASTER.VSP_Payee_Name,Mp_V.VSP_Payee_Name)  as Payee_Joint_Name,TSPL_Vendor_MASTER.BankCode2 as Bank_Code, 
   TSPL_VENDOR_MASTER.BankBranch2 as Branch_Name, 
   TSPL_BANK_MASTER2.DESCRIPTION as Bank_Code_Desc, 
   case when isnull(
@@ -416,7 +417,6 @@ left outer join TSPL_PAYMENT_CYCLE_GENERATED on convert(date, TSPL_PAYMENT_CYCLE
                     Else
                         BaseQry += " (isnull(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount,0)-isnull(TSPL_PAYMENT_PROCESS_DETAIL.Compulsory_Amount,0)) as Payable_Amount "
                     End If
-
                 End If
                 BaseQry += " from TSPL_PAYMENT_PROCESS_DETAIL 
 left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
@@ -530,9 +530,13 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
                         clsCommon.MyMessageBoxShow(Me, "Data Not Found", Me.Text)
                     End If
                     frmCRV = Nothing
+                ElseIf rbtnSaving.IsChecked Then
+                    Dim frmCRV As New frmCrystalReportViewer()
+                    frmCRV.funreport(CrystalReportFolder.MilkProcurement, dt, "crptBankAdviceNewSaving", "Bank Advice Saving")
+                    frmCRV = Nothing
                 End If
             End If
-            ReStoreGridLayout()
+            'ReStoreGridLayout()
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -616,9 +620,71 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             Gv1.Columns(ii).ReadOnly = True
             Gv1.Columns(ii).BestFit()
         Next
+        If rbtnSaving.IsChecked Then
+            Gv1.Columns("CycleRange").HeaderText = "Cycle Range"
+            Gv1.Columns("CycleRange").IsVisible = False
 
+            Gv1.Columns("GRPColumn").HeaderText = "Group Range"
+            Gv1.Columns("GRPColumn").IsVisible = False
 
-        If rbtnBankAdvice.IsChecked OrElse rbtnCompulsory.IsChecked OrElse rbtnSaving.IsChecked Then
+            Gv1.Columns("Comp_Name").HeaderText = "Company Name"
+            Gv1.Columns("Comp_Name").IsVisible = False
+
+            Gv1.Columns("Comp_address").HeaderText = "Company Address"
+            Gv1.Columns("Comp_address").IsVisible = False
+
+            Gv1.Columns("CompPhone").HeaderText = "Phone No"
+            Gv1.Columns("CompPhone").IsVisible = False
+
+            Gv1.Columns("Regn_No").HeaderText = "Regn No"
+            Gv1.Columns("Regn_No").IsVisible = False
+
+            Gv1.Columns("MCC_NAME").HeaderText = "Area"
+            Gv1.Columns("MCC_NAME").IsVisible = False
+
+            Gv1.Columns("From_Date").HeaderText = "Date"
+            Gv1.Columns("From_Date").IsVisible = False
+
+            Gv1.Columns("GSTReg_No").HeaderText = "GSTIN"
+            Gv1.Columns("GSTReg_No").IsVisible = False
+
+            Gv1.Columns("Doc_No").HeaderText = "Documant No"
+            Gv1.Columns("Doc_No").IsVisible = False
+
+            Gv1.Columns("Fiscal_Name").HeaderText = "Fiscal Year"
+            Gv1.Columns("Fiscal_Name").IsVisible = False
+
+            Gv1.Columns("CycleNo").HeaderText = "Cycle No"
+            Gv1.Columns("CycleNo").IsVisible = False
+
+            Gv1.Columns("Date_Range").HeaderText = "Date Range"
+            Gv1.Columns("Date_Range").IsVisible = False
+
+            Gv1.Columns("VLC_CODE_Uploader").HeaderText = "DCS Code"
+            Gv1.Columns("VLC_CODE_Uploader").IsVisible = True
+
+            Gv1.Columns("Payee_Joint_Name").HeaderText = "Society Name"
+            Gv1.Columns("Payee_Joint_Name").IsVisible = True
+
+            Gv1.Columns("Bank_Code").HeaderText = "Bank"
+            Gv1.Columns("Bank_Code").IsVisible = False
+
+            Gv1.Columns("Branch_Name").HeaderText = "Branch"
+            Gv1.Columns("Branch_Name").IsVisible = False
+
+            Gv1.Columns("Bank_Code_Desc").HeaderText = "Bank Name"
+            Gv1.Columns("Bank_Code_Desc").IsVisible = MultipleFinderFillAuto
+
+            Gv1.Columns("Payee_Joint_IFSC_Code").HeaderText = "IFSC Code"
+            Gv1.Columns("Payee_Joint_IFSC_Code").IsVisible = MultipleFinderFillAuto
+
+            Gv1.Columns("Payee_Joint_Account_No").HeaderText = "Account No"
+            Gv1.Columns("Payee_Joint_Account_No").IsVisible = True
+
+            Gv1.Columns("Payable_Amount").HeaderText = "Amount"
+            Gv1.Columns("Payable_Amount").IsVisible = True
+
+        ElseIf rbtnBankAdvice.IsChecked OrElse rbtnCompulsory.IsChecked Then
             Gv1.Columns("CycleRange").HeaderText = "Cycle Range"
             Gv1.Columns("CycleRange").IsVisible = False
 
@@ -631,8 +697,10 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             Gv1.Columns("Bank_Name").HeaderText = "Bank_Name"
             Gv1.Columns("Bank_Name").IsVisible = False
 
+
             Gv1.Columns("BankAccountNo").HeaderText = "BankAccountNo"
             Gv1.Columns("BankAccountNo").IsVisible = False
+
 
             Gv1.Columns("BankIFSCCode").HeaderText = "BankIFSCCode"
             Gv1.Columns("BankIFSCCode").IsVisible = False
@@ -805,7 +873,6 @@ from (" + Environment.NewLine + BaseQry + Environment.NewLine + "   )xxx group b
             Gv1.Columns("CurrentAmt").HeaderText = "Current Amount"
             Gv1.Columns("CurrentAmt").IsVisible = True
         End If
-
         If rbtnBothSavCur.IsChecked Then
             Dim summaryRowItemB As New GridViewSummaryRowItem()
             'Dim MilkTypeB As New GridViewSummaryItem("Payable_Amount", "{0:n0}", GridAggregateFunction.Sum)
