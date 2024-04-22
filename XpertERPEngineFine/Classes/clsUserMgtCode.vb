@@ -313,6 +313,7 @@ Public Class clsUserMgtCode
     Public Const frmBullSubCategoryMaster As String = "BULL-SUB-CAT"
     Public Const frmBullSSCentreMaster As String = "BULL-SS-CE"
     Public Const frmBullPenIDMaster As String = "BULL-PAN-M"
+    Public Const frmBullMasters As String = "BULL-Maste"
 
 
     ''============BullManagementReport=======================

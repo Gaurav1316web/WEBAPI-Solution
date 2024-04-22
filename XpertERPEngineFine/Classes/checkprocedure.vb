@@ -2622,7 +2622,7 @@ Public Class ProgramCodeNew
         'InsertDefaultValue(clsUserMgtCode.FrmServiceName, "Service Name Master", "1.37.01.07", clsUserMgtCode.SubModuleParavetMaster, 27)
         InsertDefaultValue(clsUserMgtCode.FrmServiceMaster, "Service Master", "1.37.01.08", clsUserMgtCode.SubModuleParavetMaster, 27)
         InsertDefaultValue(clsUserMgtCode.FrmNDDBMaster, "NDDB Master", "1.37.01.09", clsUserMgtCode.SubModuleParavetMaster, 27)
-        InsertDefaultValue(clsUserMgtCode.FrmBullMaster, "BULL Master", "1.37.01.10", clsUserMgtCode.SubModuleParavetMaster, 27)
+        InsertDefaultValue(clsUserMgtCode.FrmBullMaster, "Bull Master", "1.37.01.10", clsUserMgtCode.SubModuleParavetMaster, 27)
         ' Submodule Transaction
         InsertDefaultValue(clsUserMgtCode.SubModuleParavetTrans, "Transaction", "1.37.02", clsUserMgtCode.ModuleParavet, "SM", 26)
 
@@ -2868,6 +2868,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmBullShedMaster, "Bull Shed Master", "1.50.01.05", clsUserMgtCode.SubModuleBullManagementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmBullShedParameterMaster, "Bull Shed Parameter Master", "1.50.01.06", clsUserMgtCode.SubModuleBullManagementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmBullShedParameterGroup, "Bull Shed Parameter Group", "1.50.01.07", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmBullMasters, "BULL Master", "1.50.01.08", clsUserMgtCode.SubModuleBullManagementSetup, 27)
 
         InsertDefaultValue(clsUserMgtCode.frmBullSpeciesMaster, "Bull Species Master", "1.50.01.08", clsUserMgtCode.SubModuleBullManagementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmBullCategoryMaster, "Bull Category Master", "1.50.01.09", clsUserMgtCode.SubModuleBullManagementSetup, 27)
