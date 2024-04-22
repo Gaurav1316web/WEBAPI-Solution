@@ -2313,11 +2313,11 @@ TSPL_PAYMENT_PROCESS_DETAIL.VSP_NAME, 'TDS' as Ded_Code,TSPL_MILK_PURCHASE_INVOI
             End If
             sQueryDD += " ISNULL (TSPL_PAYMENT_PROCESS_DETAIL.TDS_Amount ,0) as 'AMOUNT'  from TSPL_PAYMENT_PROCESS_HEAD
 left outer join TSPL_PAYMENT_PROCESS_DETAIL on TSPL_PAYMENT_PROCESS_HEAD.Doc_no = TSPL_PAYMENT_PROCESS_DETAIL.Doc_No		
-left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE"
+left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code = TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE "
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "CHT") = CompairStringResult.Equal Then
                 sQueryDD += " Left Outer Join TSPL_MCC_MASTER On TSPL_VLC_MASTER_HEAD.MCC = TSPL_MCC_MASTER.MCC_Code "
             End If
-            sQueryDD += "inner join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No"
+            sQueryDD += " inner join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No"
 
             sQueryDD += " where convert(date,TSPL_PAYMENT_PROCESS_HEAD.From_Date,103)>=convert(date,('" + fromDate + "'),103) and convert(date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,103) <=convert(date,('" + Todate + "'),103) and TSPL_PAYMENT_PROCESS_HEAD.isPosted = 1"
             If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
