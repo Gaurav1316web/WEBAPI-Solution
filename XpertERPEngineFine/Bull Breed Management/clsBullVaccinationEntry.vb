@@ -10,6 +10,13 @@ Public Class clsBullVaccinationEntry
     Public Status As Integer = 0
     Public Remarks As String = Nothing
     Public Bull_Code As String = Nothing
+    Public BullAliasName As String = Nothing
+    Public RegDate As Date? = Nothing
+    Public PreBullId As string = nothing
+    Public SSBullId As String = Nothing
+    Public SSCentre As String = Nothing
+    Public DOB As String = Nothing
+    Public Breed As String = Nothing
     Public Arr As List(Of clsBullVaccinationEntryDetail) = Nothing
 #End Region
     Public Function SaveData(ByVal obj As clsBullVaccinationEntry, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal AutoSave As Boolean) As Boolean
@@ -67,7 +74,8 @@ Public Class clsBullVaccinationEntry
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal TransType As String, ByVal trans As SqlTransaction) As clsBullVaccinationEntry
         Dim obj As clsBullVaccinationEntry = Nothing
-        Dim qry As String = "select Document_Code,Remarks ,Bull_Code, Document_date ,ISNULL( Status,0) as Status from TSPL_BULL_VACCINE_ENTRY where 2=2 "
+        Dim qry As String = "select Document_Code,Remarks ,TSPL_BULL_VACCINE_ENTRY.Bull_Code, Document_date ,ISNULL( Status,0) as Status ,Bull_Alia_Name as Name,Prev_Bull_Id,Registration_Date as [Registration Date] ,SS_Bull_Id as [SS Bull Id],Breed_Code as Breed ,SS_Centre_Code as [SS Centre],Date_Of_Birth as [Date of Birth]
+         from TSPL_BULL_VACCINE_ENTRY where 2=2 "
         Select Case NavType
             Case NavigatorType.First
                 qry += " and TSPL_BULL_VACCINE_ENTRY.Document_Code = (select MIN(Document_Code) from TSPL_BULL_VACCINE_ENTRY)"
@@ -90,13 +98,12 @@ Public Class clsBullVaccinationEntry
             obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
 
-            qry = "select *  from TSPL_BULL_VACCINE_ENTRY_DETAIL where Document_Code='" + obj.Document_Code + "' order by SNo "
+            qry = "select *  from TSPL_BULL_VACCINE_ENTRY_DETAIL where Document_Code='" + obj.Document_Code + "' order by PK_Id "
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 obj.Arr = New List(Of clsBullVaccinationEntryDetail)
                 For Each dr As DataRow In dt.Rows
                     Dim objtr As New clsBullVaccinationEntryDetail
-                    objtr.SNO = clsCommon.myCdbl(dr("SNO"))
                     objtr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
                     objtr.Qty = clsCommon.myCdbl(dr("Qty"))
                     objtr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
@@ -241,7 +248,6 @@ End Class
 Public Class clsBullVaccinationEntryDetail
 
 #Region "Variables"
-    Public SNO As Integer
     Public Document_Code As String = Nothing
     Public Item_Code As String = Nothing
     Public Unit_code As String = Nothing
@@ -254,7 +260,6 @@ Public Class clsBullVaccinationEntryDetail
             For Each obj As clsBullVaccinationEntryDetail In Arr
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_Code", strCode)
-                clsCommon.AddColumnsForChange(coll, "SNO", obj.SNO)
                 clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
                 clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
                 clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
