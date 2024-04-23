@@ -2880,6 +2880,7 @@ Public Class ProgramCodeNew
         ''------------------------------TRANSACTION--------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementTransaction, "Transaction", "1.50.02", clsUserMgtCode.ModuleBullManagement, "SM", 26)
         InsertDefaultValue(clsUserMgtCode.frmBullMovement, "Bull Movement", "1.50.02.01", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmBullCurlingEntry, "Bull Curling Entry", "1.50.02.03", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmBullBreedMaster, "Bull Breed Master", "1.50.02.01", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmBullTestParameter, "Bull Test Parameter", "1.50.02.02", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmBullParameterGroup, "Bull Parameter Group", "1.50.02.03", clsUserMgtCode.SubModuleBullManagementTransaction, 8)

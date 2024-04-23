@@ -78,6 +78,7 @@
     <Compile Include="Accounts\clsJournalMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullBreedMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullCategoryMaster.vb" />
+    <Compile Include="Bull Breed Management\ClsBullCurlingEntry.vb" />
     <Compile Include="Bull Breed Management\clsBullMovementType.vb" />
     <Compile Include="Bull Breed Management\clsBullParameterGroup.vb" />
     <Compile Include="Bull Breed Management\clsBullPenIDMaster.vb" />
