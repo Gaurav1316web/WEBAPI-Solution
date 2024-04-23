@@ -1,11 +1,11 @@
 ﻿Imports XpertERPEngine
-
+Imports XpertERPEngineFine
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmBullParameterGroup
+Partial Class frmBullSourcePainting
     'Inherits System.Windows.Forms.Form
     Inherits FrmMainTranScreen
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()>
+    <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -22,201 +22,68 @@ Partial Class frmBullParameterGroup
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()>
+    <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBullParameterGroup))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBullSourcePainting))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.gv1 = New common.UserControls.MyRadGridView()
-        Me.btnnew = New Telerik.WinControls.UI.RadButton()
-        Me.txtCode = New common.UserControls.txtNavigator()
-        Me.lblCode = New common.Controls.MyLabel()
-        Me.txtname = New common.Controls.MyTextBox()
-        Me.lblName = New common.Controls.MyLabel()
-        Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.btndelete = New Telerik.WinControls.UI.RadButton()
-        Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.txtCode = New common.UserControls.txtNavigator()
+        Me.lblCode = New common.Controls.MyLabel()
+        Me.txtname = New common.Controls.MyTextBox()
+        Me.lblName = New common.Controls.MyLabel()
+        Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.btndelete = New Telerik.WinControls.UI.RadButton()
+        Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtname, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.gv1)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.btnnew)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadMenu1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtCode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblCode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtname)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblName)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.btnnew)
         '
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
-        Me.SplitContainer1.Size = New System.Drawing.Size(792, 380)
-        Me.SplitContainer1.SplitterDistance = 338
-        Me.SplitContainer1.TabIndex = 58
-        '
-        'gv1
-        '
-        Me.gv1.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
-            Or System.Windows.Forms.AnchorStyles.Left) _
-            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.gv1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.gv1.Cursor = System.Windows.Forms.Cursors.Default
-        Me.gv1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.gv1.ForeColor = System.Drawing.Color.Black
-        Me.gv1.ImeMode = System.Windows.Forms.ImeMode.NoControl
-        Me.gv1.Location = New System.Drawing.Point(3, 64)
-        '
-        '
-        '
-        Me.gv1.MasterTemplate.AllowDeleteRow = False
-        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.gv1.MyStopExport = False
-        Me.gv1.Name = "gv1"
-        Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
-        Me.gv1.ShowGroupPanel = False
-        Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(786, 269)
-        Me.gv1.TabIndex = 61
-        Me.gv1.TabStop = False
-        '
-        'btnnew
-        '
-        Me.btnnew.Image = CType(resources.GetObject("btnnew.Image"), System.Drawing.Image)
-        Me.btnnew.Location = New System.Drawing.Point(310, 14)
-        Me.btnnew.Name = "btnnew"
-        Me.btnnew.Size = New System.Drawing.Size(16, 21)
-        Me.btnnew.TabIndex = 62
-        '
-        'txtCode
-        '
-        Me.txtCode.FieldName = Nothing
-        Me.txtCode.Location = New System.Drawing.Point(59, 14)
-        Me.txtCode.MendatroryField = True
-        Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
-        Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
-        Me.txtCode.MyLinkLable1 = Me.lblCode
-        Me.txtCode.MyLinkLable2 = Nothing
-        Me.txtCode.MyMaxLength = 30
-        Me.txtCode.MyReadOnly = False
-        Me.txtCode.Name = "txtCode"
-        Me.txtCode.Size = New System.Drawing.Size(253, 21)
-        Me.txtCode.TabIndex = 56
-        Me.txtCode.Value = ""
-        '
-        'lblCode
-        '
-        Me.lblCode.FieldName = Nothing
-        Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCode.Location = New System.Drawing.Point(12, 16)
-        Me.lblCode.Name = "lblCode"
-        Me.lblCode.Size = New System.Drawing.Size(33, 16)
-        Me.lblCode.TabIndex = 59
-        Me.lblCode.Text = "Code"
-        '
-        'txtname
-        '
-        Me.txtname.CalculationExpression = Nothing
-        Me.txtname.FieldCode = Nothing
-        Me.txtname.FieldDesc = Nothing
-        Me.txtname.FieldMaxLength = 0
-        Me.txtname.FieldName = Nothing
-        Me.txtname.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtname.isCalculatedField = False
-        Me.txtname.IsSourceFromTable = False
-        Me.txtname.IsSourceFromValueList = False
-        Me.txtname.IsUnique = False
-        Me.txtname.Location = New System.Drawing.Point(59, 38)
-        Me.txtname.MaxLength = 200
-        Me.txtname.MendatroryField = True
-        Me.txtname.MyLinkLable1 = Me.lblName
-        Me.txtname.MyLinkLable2 = Nothing
-        Me.txtname.Name = "txtname"
-        Me.txtname.ReferenceFieldDesc = Nothing
-        Me.txtname.ReferenceFieldName = Nothing
-        Me.txtname.ReferenceTableName = Nothing
-        '
-        '
-        '
-        Me.txtname.RootElement.StretchVertically = True
-        Me.txtname.Size = New System.Drawing.Size(353, 20)
-        Me.txtname.TabIndex = 57
-        '
-        'lblName
-        '
-        Me.lblName.FieldName = Nothing
-        Me.lblName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblName.Location = New System.Drawing.Point(12, 40)
-        Me.lblName.Name = "lblName"
-        Me.lblName.Size = New System.Drawing.Size(36, 16)
-        Me.lblName.TabIndex = 58
-        Me.lblName.Text = "Name"
-        '
-        'btnsave
-        '
-        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnsave.Location = New System.Drawing.Point(12, 8)
-        Me.btnsave.Name = "btnsave"
-        Me.btnsave.Size = New System.Drawing.Size(66, 18)
-        Me.btnsave.TabIndex = 9
-        Me.btnsave.Text = "Save"
-        '
-        'btndelete
-        '
-        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
-        Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btndelete.Location = New System.Drawing.Point(85, 8)
-        Me.btndelete.Name = "btndelete"
-        Me.btndelete.Size = New System.Drawing.Size(66, 18)
-        Me.btndelete.TabIndex = 10
-        Me.btndelete.Text = "Delete"
-        '
-        'btnclose
-        '
-        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(714, 8)
-        Me.btnclose.Name = "btnclose"
-        Me.btnclose.Size = New System.Drawing.Size(66, 18)
-        Me.btnclose.TabIndex = 11
-        Me.btnclose.Text = "Close"
+        Me.SplitContainer1.Size = New System.Drawing.Size(492, 245)
+        Me.SplitContainer1.SplitterDistance = 208
+        Me.SplitContainer1.TabIndex = 0
         '
         'RadMenu1
         '
         Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
         Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(792, 20)
-        Me.RadMenu1.TabIndex = 57
+        Me.RadMenu1.Size = New System.Drawing.Size(492, 20)
+        Me.RadMenu1.TabIndex = 62
         '
         'RadMenuItem1
         '
@@ -237,44 +104,142 @@ Partial Class frmBullParameterGroup
         Me.RadMenuItem4.Text = "Import"
         Me.RadMenuItem4.UseCompatibleTextRendering = False
         '
-        'frmBullParameterGroup
+        'txtCode
+        '
+        Me.txtCode.FieldName = Nothing
+        Me.txtCode.Location = New System.Drawing.Point(59, 37)
+        Me.txtCode.MendatroryField = True
+        Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
+        Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
+        Me.txtCode.MyLinkLable1 = Me.lblCode
+        Me.txtCode.MyLinkLable2 = Nothing
+        Me.txtCode.MyMaxLength = 30
+        Me.txtCode.MyReadOnly = False
+        Me.txtCode.Name = "txtCode"
+        Me.txtCode.Size = New System.Drawing.Size(241, 21)
+        Me.txtCode.TabIndex = 58
+        Me.txtCode.Value = ""
+        '
+        'lblCode
+        '
+        Me.lblCode.FieldName = Nothing
+        Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCode.Location = New System.Drawing.Point(12, 39)
+        Me.lblCode.Name = "lblCode"
+        Me.lblCode.Size = New System.Drawing.Size(33, 16)
+        Me.lblCode.TabIndex = 61
+        Me.lblCode.Text = "Code"
+        '
+        'txtname
+        '
+        Me.txtname.CalculationExpression = Nothing
+        Me.txtname.FieldCode = Nothing
+        Me.txtname.FieldDesc = Nothing
+        Me.txtname.FieldMaxLength = 0
+        Me.txtname.FieldName = Nothing
+        Me.txtname.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtname.isCalculatedField = False
+        Me.txtname.IsSourceFromTable = False
+        Me.txtname.IsSourceFromValueList = False
+        Me.txtname.IsUnique = False
+        Me.txtname.Location = New System.Drawing.Point(59, 61)
+        Me.txtname.MaxLength = 200
+        Me.txtname.MendatroryField = True
+        Me.txtname.MyLinkLable1 = Me.lblName
+        Me.txtname.MyLinkLable2 = Nothing
+        Me.txtname.Name = "txtname"
+        Me.txtname.ReferenceFieldDesc = Nothing
+        Me.txtname.ReferenceFieldName = Nothing
+        Me.txtname.ReferenceTableName = Nothing
+        '
+        '
+        '
+        Me.txtname.RootElement.StretchVertically = True
+        Me.txtname.Size = New System.Drawing.Size(258, 20)
+        Me.txtname.TabIndex = 59
+        '
+        'lblName
+        '
+        Me.lblName.FieldName = Nothing
+        Me.lblName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblName.Location = New System.Drawing.Point(12, 63)
+        Me.lblName.Name = "lblName"
+        Me.lblName.Size = New System.Drawing.Size(36, 16)
+        Me.lblName.TabIndex = 60
+        Me.lblName.Text = "Name"
+        '
+        'btnnew
+        '
+        Me.btnnew.Image = CType(resources.GetObject("btnnew.Image"), System.Drawing.Image)
+        Me.btnnew.Location = New System.Drawing.Point(299, 37)
+        Me.btnnew.Name = "btnnew"
+        Me.btnnew.Size = New System.Drawing.Size(18, 21)
+        Me.btnnew.TabIndex = 63
+        '
+        'btnsave
+        '
+        Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnsave.Location = New System.Drawing.Point(18, 7)
+        Me.btnsave.Name = "btnsave"
+        Me.btnsave.Size = New System.Drawing.Size(66, 18)
+        Me.btnsave.TabIndex = 9
+        Me.btnsave.Text = "Save"
+        '
+        'btndelete
+        '
+        Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btndelete.Location = New System.Drawing.Point(91, 7)
+        Me.btndelete.Name = "btndelete"
+        Me.btndelete.Size = New System.Drawing.Size(66, 18)
+        Me.btndelete.TabIndex = 10
+        Me.btndelete.Text = "Delete"
+        '
+        'btnclose
+        '
+        Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnclose.Location = New System.Drawing.Point(409, 7)
+        Me.btnclose.Name = "btnclose"
+        Me.btnclose.Size = New System.Drawing.Size(66, 18)
+        Me.btnclose.TabIndex = 11
+        Me.btnclose.Text = "Close"
+        '
+        'frmBullSourcePainting
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(792, 400)
+        Me.ClientSize = New System.Drawing.Size(492, 245)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Controls.Add(Me.RadMenu1)
-        Me.Name = "frmBullParameterGroup"
+        Me.Name = "frmBullSourcePainting"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "frmBullParameterGroup"
+        Me.Text = "frmBullSourcePainting"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtname, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
 
+    Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem4 As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents txtCode As common.UserControls.txtNavigator
     Friend WithEvents lblCode As common.Controls.MyLabel
     Friend WithEvents txtname As common.Controls.MyTextBox
@@ -283,5 +248,4 @@ Partial Class frmBullParameterGroup
     Friend WithEvents btnsave As Telerik.WinControls.UI.RadButton
     Friend WithEvents btndelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnclose As Telerik.WinControls.UI.RadButton
-    Friend WithEvents gv1 As common.UserControls.MyRadGridView
 End Class

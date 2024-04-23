@@ -132,7 +132,8 @@ where 1=1 "
 
     Public Shared Function UploadWithHttpRequest(ByVal filePath As String, ByVal fileName As String) As String
         Try
-            Dim url As String
+            Dim url As String = Nothing
+            Dim FullResponse As String = Nothing
             If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
                 url = "http://172.21.80.251:7888/api/FileUploads/FileUpload"  ''Server Live IP
             Else
@@ -154,17 +155,32 @@ where 1=1 "
             Using RequestStream As Stream = request.GetRequestStream()
                 RequestStream.Write(formData, 0, formData.Length)
                 RequestStream.Close()
+                RequestStream.Dispose()
             End Using
 
             Dim response = TryCast(request.GetResponse(), HttpWebResponse)
             Dim ResponseReader = New StreamReader(response.GetResponseStream())
-            Dim FullResponse As String = ResponseReader.ReadToEnd()
+            FullResponse = ResponseReader.ReadToEnd()
             response.Close()
+
+            response = Nothing
+            fileByteArray = Nothing
+            formDataBoundary = Nothing
+            contentType = Nothing
+            formData = Nothing
+            request = Nothing
+            ResponseReader = Nothing
+
             Return FullResponse
         Catch ex As Exception
             Throw ex
+        Finally
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+            GC.Collect()
         End Try
     End Function
+
 
     Private Shared Function GetMultipartFormDataForUpload(ByVal byteArray As Byte(), ByVal fileName As String, ByVal contentType As String, ByVal Boundary As String) As Byte()
         Dim FormDataStream As Stream = New MemoryStream()

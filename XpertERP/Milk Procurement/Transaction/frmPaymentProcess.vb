@@ -6935,6 +6935,10 @@ where TSPL_VENDOR_MASTER.Vendor_Code='" + gv.Rows(k).Cells(colVendorCode).Value 
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        Finally
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+            GC.Collect()
         End Try
     End Sub
 
