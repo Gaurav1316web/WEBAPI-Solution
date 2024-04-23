@@ -27,6 +27,7 @@ Partial Class FrmItemTypeMaster
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
         Me.txtTolerancePer = New common.MyNumBox()
         Me.chkFixedTolerance = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel2 = New common.Controls.MyLabel()
@@ -38,7 +39,7 @@ Partial Class FrmItemTypeMaster
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.chkVaccine = New Telerik.WinControls.UI.RadCheckBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -48,6 +49,7 @@ Partial Class FrmItemTypeMaster
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         CType(Me.txtTolerancePer, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkFixedTolerance, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -59,7 +61,7 @@ Partial Class FrmItemTypeMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.GroupBox1.SuspendLayout()
+        CType(Me.chkVaccine, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -70,12 +72,9 @@ Partial Class FrmItemTypeMaster
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(629, 20)
         Me.RadMenu1.TabIndex = 5
-        Me.RadMenu1.Text = "RadMenu1"
         '
         'RadMenuItem1
         '
-        Me.RadMenuItem1.AccessibleDescription = "Setting"
-        Me.RadMenuItem1.AccessibleName = "Setting"
         Me.RadMenuItem1.Name = "RadMenuItem1"
         Me.RadMenuItem1.Text = "Setting"
         '
@@ -108,7 +107,6 @@ Partial Class FrmItemTypeMaster
         Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
         Me.RadPageView1.Size = New System.Drawing.Size(629, 217)
         Me.RadPageView1.TabIndex = 1
-        Me.RadPageView1.Text = "RadPageView1"
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
         '
         'RadPageViewPage1
@@ -122,6 +120,7 @@ Partial Class FrmItemTypeMaster
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.chkVaccine)
         Me.RadPanel1.Controls.Add(Me.GroupBox1)
         Me.RadPanel1.Controls.Add(Me.MyLabel2)
         Me.RadPanel1.Controls.Add(Me.MyLabel1)
@@ -133,6 +132,16 @@ Partial Class FrmItemTypeMaster
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(608, 169)
         Me.RadPanel1.TabIndex = 0
+        '
+        'GroupBox1
+        '
+        Me.GroupBox1.Controls.Add(Me.txtTolerancePer)
+        Me.GroupBox1.Controls.Add(Me.chkFixedTolerance)
+        Me.GroupBox1.Location = New System.Drawing.Point(14, 65)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(363, 51)
+        Me.GroupBox1.TabIndex = 26
+        Me.GroupBox1.TabStop = False
         '
         'txtTolerancePer
         '
@@ -281,15 +290,13 @@ Partial Class FrmItemTypeMaster
         Me.btnsave.TabIndex = 1
         Me.btnsave.Text = "Save"
         '
-        'GroupBox1
+        'chkVaccine
         '
-        Me.GroupBox1.Controls.Add(Me.txtTolerancePer)
-        Me.GroupBox1.Controls.Add(Me.chkFixedTolerance)
-        Me.GroupBox1.Location = New System.Drawing.Point(14, 65)
-        Me.GroupBox1.Name = "GroupBox1"
-        Me.GroupBox1.Size = New System.Drawing.Size(363, 51)
-        Me.GroupBox1.TabIndex = 26
-        Me.GroupBox1.TabStop = False
+        Me.chkVaccine.Location = New System.Drawing.Point(15, 121)
+        Me.chkVaccine.Name = "chkVaccine"
+        Me.chkVaccine.Size = New System.Drawing.Size(59, 18)
+        Me.chkVaccine.TabIndex = 12134
+        Me.chkVaccine.Text = "Vaccine"
         '
         'FrmItemTypeMaster
         '
@@ -317,6 +324,8 @@ Partial Class FrmItemTypeMaster
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
         CType(Me.txtTolerancePer, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkFixedTolerance, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -328,8 +337,7 @@ Partial Class FrmItemTypeMaster
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout()
+        CType(Me.chkVaccine, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -353,5 +361,6 @@ Partial Class FrmItemTypeMaster
     Friend WithEvents chkFixedTolerance As RadCheckBox
     Friend WithEvents txtTolerancePer As common.MyNumBox
     Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents chkVaccine As RadCheckBox
 End Class
 
