@@ -174,7 +174,7 @@ Public Class frmBullMasters
             Dim obj As New clsBullMasters()
             'obj.Date_Of_Birth = txtDob.Value
             If IsNumeric(fndCode.Value) AndAlso clsCommon.myLen(fndCode.Value) >= 12 Then
-                obj.Bull_Code = clsCommon.myCdbl(fndCode.Text)
+                obj.Bull_Code = clsCommon.myCstr(fndCode.Value)
             Else
                 clsCommon.MyMessageBoxShow("fill 12 Digit Bull id", Me.Text)
                 fndCode.Focus()
@@ -206,14 +206,6 @@ Public Class frmBullMasters
             End If
             obj.Bull_Book_Value = txtBullBook.Text
             obj.Country_Code = fndCounty.Value
-            'If IsNumeric(DigitBullId.Text) AndAlso clsCommon.myLen(DigitBullId.Text) >= 12 Then
-            '    obj.Digit_Bull_Id = clsCommon.myCdbl(DigitBullId.Text)
-            'Else
-            '    clsCommon.MyMessageBoxShow("fill 12 Digit Bull id", Me.Text)
-            '    DigitBullId.Focus()
-            '    DigitBullId.Text = ""
-            '    Exit Sub
-            'End If
             obj.Prev_Bull_Id = TXTPrevBull.Text
             obj.Date_Of_Birth = txtDateOfBirth.Value
             obj.Registration_Date = txtRegDate.Value
@@ -225,7 +217,7 @@ Public Class frmBullMasters
             obj.Bull_source_Printing_Straws = fndBullSourcePainting.Value
             obj.Bull_RFID = txtBullRFID.Text
             obj.Remark = txtRemark.Text
-
+            obj.SS_Bull_Id = TXTSSbull.Text
             If (obj.SaveData(obj, isNewEntry)) Then
                 clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
                 LoadData(obj.Bull_Code, NavigatorType.Current)
@@ -332,9 +324,9 @@ Public Class frmBullMasters
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check > 0 Then
-            qry = "select Code,Species_Code,Category_Code,Sub_Category_Code,SS_Centre_Code,Breed_Code,Shed_Code,Pen_Code,Status_Code,Sub_Status_Code,Exotic_Blood_Per,Bull_Book_Value,Country_Code,Prev_Bull_Id,SS_Bull_Id,Bull_Alia_Name,Bull_Rating,Dam_Location_Yeild,Bull_source_Printing_Straws,Is_Semen,Digit_Bull_Id,Bull_RFID,Remark,Registration_Date,Date_Of_Birth,Status_Changed_Date,Exit_Date from TSPL_BULL_MASTER"
+            qry = "select Bull_Code,Species_Code,Category_Code,Sub_Category_Code,SS_Centre_Code,Breed_Code,Shed_Code,Pen_Code,Status_Code,Sub_Status_Code,Exotic_Blood_Per,Bull_Book_Value,Country_Code,Prev_Bull_Id,SS_Bull_Id,Bull_Alia_Name,Bull_Rating,Dam_Location_Yeild,Bull_source_Printing_Straws,Is_Semen,Bull_RFID,Remark,Registration_Date,Date_Of_Birth,Status_Changed_Date,Exit_Date from TSPL_BULL_MASTER"
         Else
-            qry = "select '' as Code"
+            qry = "select '' as Bull_Code"
         End If
 
         transportSql.ExporttoExcel(qry, Me)
@@ -346,7 +338,7 @@ Public Class frmBullMasters
         Dim oldNewentry As Boolean = isNewEntry
         Dim counter As Integer = 0
 
-        If transportSql.importExcel(gv_Import, "Code", "Name") Then
+        If transportSql.importExcel(gv_Import, "Bull_Code", "Name") Then
             Dim obj As New clsBullMasters()
 
             Try
@@ -354,7 +346,7 @@ Public Class frmBullMasters
                 For Each grow As GridViewRowInfo In gv_Import.Rows
                     'obj = New clsBullBreedMaster()
 
-                    obj.Bull_Code = clsCommon.myCstr(grow.Cells("Code").Value)
+                    obj.Bull_Code = clsCommon.myCstr(grow.Cells("Bull_Code").Value)
                     If clsCommon.myLen(obj.Bull_Code) > 50 Then
                         Throw New Exception("Code has max. length 50 see at line no. " + clsCommon.myCstr(counter + 1) + "")
                     End If
@@ -367,7 +359,7 @@ Public Class frmBullMasters
                     '    obj.Name = obj.Name.Substring(0, 200)
                     'End If
 
-                    Dim qry As Integer = clsDBFuncationality.getSingleValue("select count(*) from TSPL_BULL_MASTER where code='" + obj.Bull_Code + "'")
+                    Dim qry As Integer = clsDBFuncationality.getSingleValue("select count(*) from TSPL_BULL_MASTER where Bull_Code='" + obj.Bull_Code + "'")
                     isNewEntry = True
                     If qry > 0 Then
                         isNewEntry = False

@@ -9808,6 +9808,12 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullMovement
                         frm = New frmBullMovement
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        'Case clsUserMgtCode.frmBullSourceName
+                        '    frm = New frmBullSourceName
+                        '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                        'Case clsUserMgtCode.frmBullPurchaseNo
+                        '    frm = New frmBullPurchaseNo
+                        '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         '-------------------- MIS Master---------------
 
                         'Case clsUserMgtCode.MISitemGroups
