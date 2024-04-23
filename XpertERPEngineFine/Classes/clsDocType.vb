@@ -20,7 +20,7 @@ Public Class clsDocType
     Public Const CHACHARGEMASTER As String = "CHA Charge Master"
     Public Const DebitNote As String = "AP Debit Note"
     Public Const CreditNote As String = "AP Credit Note"
-
+    Public Const BullMasters As String = "Bull Masters"
     ''richa job work module
     Public Const GateEntryJWO As String = "JWO Gate Entry"
     Public Const WeighmentJWO As String = "JWO Weighment"
