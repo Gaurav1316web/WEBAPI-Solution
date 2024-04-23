@@ -61,6 +61,57 @@ Public Class frmSendBillToDCS
     End Function
 
 
+    'Private Sub btnPrintBillMobUser_Click(sender As Object, e As EventArgs) Handles btnPrintBillMobUser.Click
+    '    Try
+    '        Dim qry As String = ReturnDCSQry()
+    '        qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null "
+    '        If txtMultDCS.arrValueMember IsNot Nothing AndAlso txtMultDCS.arrValueMember.Count > 0 Then
+    '            qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE IN (" & clsCommon.GetMulcallString(txtMultDCS.arrValueMember) & ")"
+    '        End If
+
+    '        'Dim qry As String = "select top 2 TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No from TSPL_PAYMENT_PROCESS_DETAIL 
+    '        'left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
+    '        'left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
+    '        'where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='PPR/2324/000032' and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null"
+
+    '        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+    '        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+    '            clsCommon.ProgressBarPercentShow()
+    '            Dim ii As Integer = 0
+    '            For Each dr As DataRow In dt.Rows
+    '                clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / dt.Rows.Count, " " & " Printing " & (ii + 1) & " Of " & dt.Rows.Count)
+    '                Dim PDFPath As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + clsCommon.myCstr(clsCommon.myCstr(dr("Doc_No"))) + "'", clsCommon.myCDate(clsCommon.myCstr(dr("From_Date"))), clsCommon.myCDate(clsCommon.myCstr(dr("To_Date"))), "", "'" + clsCommon.myCstr(dr("VSP_CODE")) + "'", "", "", "", False, True)
+    '                Dim Str As String = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath))
+    '                Dim jObj As JObject = JObject.Parse(Str)
+    '                Dim ArrJ As JArray = Nothing
+    '                If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then
+    '                    ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+    '                    If clsCommon.myCDecimal(ArrJ(0).SelectToken("Result")) > 0 Then
+    '                        Dim FileNo As Integer = clsCommon.myCDecimal(ArrJ(0).SelectToken("Result"))
+    '                        If FileNo > 0 Then
+    '                            Str = " UPDATE TSPL_MILK_PURCHASE_INVOICE_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where DOC_CODE='" + clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")) + "'"
+    '                            clsDBFuncationality.ExecuteNonQuery(Str)
+    '                        End If
+    '                    Else
+    '                        Throw New Exception(ArrJ(0).SelectToken("Message"))
+    '                    End If
+    '                Else
+    '                    ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+    '                    Throw New Exception(ArrJ(0).SelectToken("Message"))
+    '                End If
+    '                SaveFile(PDFPath, clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("Doc_No")), clsCommon.myCDate(dr("Doc_Date")), clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("VSP_NAME")), clsCommon.myCstr(dr("VLC_CODE_Uploader")), clsCommon.myCDate(dr("From_Date")), clsCommon.myCDate(dr("To_Date")))
+    '                ii = ii + 1
+    '            Next
+    '            clsCommon.ProgressBarPercentHide()
+    '            clsCommon.MyMessageBoxShow(Me, "Bill Print Successfully Done.", Me.Text)
+    '            CalculateSendOrRemainingBill()
+    '            txtMultDCS.arrValueMember = Nothing
+    '        End If
+    '    Catch ex As Exception
+    '        clsCommon.ProgressBarPercentHide()
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
     Private Sub btnPrintBillMobUser_Click(sender As Object, e As EventArgs) Handles btnPrintBillMobUser.Click
         Try
             Dim qry As String = ReturnDCSQry()
@@ -69,37 +120,13 @@ Public Class frmSendBillToDCS
                 qry += " and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE IN (" & clsCommon.GetMulcallString(txtMultDCS.arrValueMember) & ")"
             End If
 
-            'Dim qry As String = "select top 2 TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,TSPL_PAYMENT_PROCESS_HEAD.From_Date,TSPL_PAYMENT_PROCESS_HEAD.To_Date,TSPL_PAYMENT_PROCESS_DETAIL.VSP_CODE,TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No from TSPL_PAYMENT_PROCESS_DETAIL 
-            'left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
-            'left outer join TSPL_PAYMENT_PROCESS_HEAD on TSPL_PAYMENT_PROCESS_HEAD.Doc_No=TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
-            'where TSPL_PAYMENT_PROCESS_DETAIL.Doc_No='PPR/2324/000032' and TSPL_MILK_PURCHASE_INVOICE_HEAD.FILE_INFO is null"
-
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 clsCommon.ProgressBarPercentShow()
                 Dim ii As Integer = 0
                 For Each dr As DataRow In dt.Rows
-                    clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / dt.Rows.Count, " " & " Printing " & (ii + 1) & " Of " & dt.Rows.Count)
-                    Dim PDFPath As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + clsCommon.myCstr(clsCommon.myCstr(dr("Doc_No"))) + "'", clsCommon.myCDate(clsCommon.myCstr(dr("From_Date"))), clsCommon.myCDate(clsCommon.myCstr(dr("To_Date"))), "", "'" + clsCommon.myCstr(dr("VSP_CODE")) + "'", "", "", "", False, True)
-                    Dim Str As String = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath))
-                    Dim jObj As JObject = JObject.Parse(Str)
-                    Dim ArrJ As JArray = Nothing
-                    If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then
-                        ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
-                        If clsCommon.myCDecimal(ArrJ(0).SelectToken("Result")) > 0 Then
-                            Dim FileNo As Integer = clsCommon.myCDecimal(ArrJ(0).SelectToken("Result"))
-                            If FileNo > 0 Then
-                                Str = " UPDATE TSPL_MILK_PURCHASE_INVOICE_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where DOC_CODE='" + clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")) + "'"
-                                clsDBFuncationality.ExecuteNonQuery(Str)
-                            End If
-                        Else
-                            Throw New Exception(ArrJ(0).SelectToken("Message"))
-                        End If
-                    Else
-                        ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
-                        Throw New Exception(ArrJ(0).SelectToken("Message"))
-                    End If
-                    SaveFile(PDFPath, clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("Doc_No")), clsCommon.myCDate(dr("Doc_Date")), clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("VSP_NAME")), clsCommon.myCstr(dr("VLC_CODE_Uploader")), clsCommon.myCDate(dr("From_Date")), clsCommon.myCDate(dr("To_Date")))
+                    clsCommon.ProgressBarPercentUpdate((ii + 1) * 100 / dt.Rows.Count, " Printing " & (ii + 1) & " Of " & dt.Rows.Count)
+                    ProcessFile(dr) ' Process each file individually
                     ii = ii + 1
                 Next
                 clsCommon.ProgressBarPercentHide()
@@ -110,8 +137,53 @@ Public Class frmSendBillToDCS
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        Finally
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+            GC.Collect()
         End Try
     End Sub
+
+    Private Sub ProcessFile(dr As DataRow)
+        Dim PDFPath As String = clsPaymentProcessHead.Load_Report_Paymnet_RCDF("'" + clsCommon.myCstr(clsCommon.myCstr(dr("Doc_No"))) + "'", clsCommon.myCDate(clsCommon.myCstr(dr("From_Date"))), clsCommon.myCDate(clsCommon.myCstr(dr("To_Date"))), "", "'" + clsCommon.myCstr(dr("VSP_CODE")) + "'", "", "", "", False, True)
+        If PDFPath IsNot Nothing AndAlso clsCommon.myLen(PDFPath) > 0 Then
+            Dim Str As String = clsAttachDocument.UploadWithHttpRequest(PDFPath, Path.GetFileName(PDFPath))
+            Dim jObj As JObject = JObject.Parse(Str)
+            Dim ArrJ As JArray = Nothing
+            Try
+                If clsCommon.CompairString(clsCommon.myCstr(jObj.SelectToken("result")), "true") = CompairStringResult.Equal Then
+                    ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+                    If clsCommon.myCDecimal(ArrJ(0).SelectToken("Result")) > 0 Then
+                        Dim FileNo As Integer = clsCommon.myCDecimal(ArrJ(0).SelectToken("Result"))
+                        If FileNo > 0 Then
+                            Str = " UPDATE TSPL_MILK_PURCHASE_INVOICE_HEAD set FILE_INFO=" + clsCommon.myCstr(FileNo) + " where DOC_CODE='" + clsCommon.myCstr(dr("Milk_Purchase_Invoice_No")) + "'"
+                            clsDBFuncationality.ExecuteNonQuery(Str)
+                        End If
+                    Else
+                        Throw New Exception(ArrJ(0).SelectToken("Message"))
+                    End If
+                Else
+                    ArrJ = JArray.Parse(clsCommon.myCstr(jObj.SelectToken("data")))
+                    Throw New Exception(ArrJ(0).SelectToken("Message"))
+                End If
+            Finally
+                ' Dispose objects to release memory
+                If jObj IsNot Nothing Then
+                    jObj = Nothing
+                End If
+                If ArrJ IsNot Nothing Then
+                    ArrJ = Nothing
+                End If
+            End Try
+
+            SaveFile(PDFPath, clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("Doc_No")), clsCommon.myCDate(dr("Doc_Date")), clsCommon.myCstr(dr("VSP_CODE")), clsCommon.myCstr(dr("VSP_NAME")), clsCommon.myCstr(dr("VLC_CODE_Uploader")), clsCommon.myCDate(dr("From_Date")), clsCommon.myCDate(dr("To_Date")))
+        Else
+            clsCommon.MyMessageBoxShow(Me, "Empty File Path", Me.Text)
+        End If
+    End Sub
+
+
+
 
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         clsERPFuncationality.closeForm(Me)
