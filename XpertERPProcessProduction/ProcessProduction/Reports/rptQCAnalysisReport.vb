@@ -93,8 +93,6 @@ Public Class rptQCAnalysisReport
             Dim paramDedPivot As String = Nothing
             If dtParam.Rows.Count > 0 Then
                 For i As Integer = 0 To dtParam.Rows.Count - 1
-
-
                     If i = 0 Then
                         paramInputPivot += "[" + clsCommon.myCstr(dtParam.Rows(i)("param_desc")) + "] "
                         paramDedPivot += "[" + clsCommon.myCstr(dtParam.Rows(i)("param_desc")) + "Ded] "
@@ -198,13 +196,7 @@ Public Class rptQCAnalysisReport
             gv1.Columns(ii).HeaderText = (gv1.Columns(ii).HeaderText).Replace("Ded", "")
         Next
         gv1.Columns("Qc").IsVisible = False
-        'Dim summaryRowItem As New GridViewSummaryRowItem()
-        'Dim Qty As New GridViewSummaryItem("Qty", "", GridAggregateFunction.Sum)
-        'summaryRowItem.Add(Qty)
-        'Dim Amount As New GridViewSummaryItem("Amount", "{0:F2}", GridAggregateFunction.Sum)
-        'summaryRowItem.Add(Amount)
 
-        'gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
     End Sub
 
     Private Sub btnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
@@ -329,5 +321,11 @@ Public Class rptQCAnalysisReport
                                  and TSPL_TENDER_DETAIL.Location='" + txtLocation.Value + "' group by tspl_tender_header.DocumentCode "
             txtRALNo.arrValueMember = clsCommon.ShowMultipleSelectForm(False, "QCAnalysisRpt", qry, "RALNO", "", txtRALNo.arrValueMember, Nothing)
         End If
+    End Sub
+    Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
+        CancelPressed()
+    End Sub
+    Sub CancelPressed()
+        Me.Close()
     End Sub
 End Class
