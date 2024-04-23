@@ -475,6 +475,11 @@ Public Class MDI
             If Not clsCommon.CompairString(CurrEXEVersion, strTempVersion) = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertERPMIS")
             End If
+
+            strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertErpBullManagement.dll").FileVersion
+            If Not clsCommon.CompairString(CurrEXEVersion, strTempVersion) = CompairStringResult.Equal Then
+                Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertErpBullManagement")
+            End If
             '--Check Apps Version
             If File.Exists(Application.StartupPath + "\XpertSMSApp.exe") Then
                 strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertSMSApp.exe").FileVersion
@@ -6003,7 +6008,7 @@ Public Class MDI
                         frm = New frmBulkSaleFreightMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBulkSaleFreightCalculation
-                        frm = New frmBulkSaleFreightCalculation()
+                        frm = New frmBullVaccinationEntry()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.NIRQC
                         frm = New frmNIRQC()
@@ -9790,6 +9795,9 @@ Public Class MDI
                         frm = New frmBullMovementType
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.frmBullVaccinationEntry
+                        frm = New frmBullVaccinationEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBullSpeciesMaster
                         frm = New frmBullSpeciesMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9805,15 +9813,6 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullPenIDMaster
                         frm = New frmBullPenIDMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                    Case clsUserMgtCode.frmBullMovement
-                        frm = New frmBullMovement
-                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                        'Case clsUserMgtCode.frmBullSourceName
-                        '    frm = New frmBullSourceName
-                        '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-                        'Case clsUserMgtCode.frmBullPurchaseNo
-                        '    frm = New frmBullPurchaseNo
-                        '    formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         '-------------------- MIS Master---------------
 
                         'Case clsUserMgtCode.MISitemGroups

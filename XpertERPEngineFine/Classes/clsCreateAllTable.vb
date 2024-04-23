@@ -49301,6 +49301,7 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("PREFIX_CODE", "varchar(50) null")
             coll.Add("PREFIX", "varchar(50) null")
             coll.Add("IsFixedTolerance", "char(1)  NOT NULL default 'N'")
+            coll.Add("IsVaccine", "char(1)  NOT NULL default 'N'")
             coll.Add("TolerancePer", "decimal(18,2) NOT NULL DEFAULT 0")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_ITEM_TYPE_MASTER", coll)
 

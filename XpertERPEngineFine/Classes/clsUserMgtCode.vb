@@ -323,6 +323,7 @@ Public Class clsUserMgtCode
     'Public Const frmBullPurchaseNo As String = "BUL-PURCHASE"
 
 
+    Public Const frmBullVaccinationEntry As String = "BULL-VAC-EN"
 
     ''============BullManagementReport=======================
     Public Const SubModuleBullManagementReport As String = "MSBullMangR"
