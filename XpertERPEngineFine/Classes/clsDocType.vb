@@ -735,6 +735,7 @@ Public Class clsDocType
     Public Const MISItemGroupMaster As String = "MIS Item Group Master"
     Public Const frmDailyMilkProducts As String = "Daily Milk Products"
     Public Const frmDailySMPProduction As String = "Daily SMP Production"
+    Public Const CattleFeedPlantDaily As String = "Cattle Feed Plant"
     Public Shared Function SetDefaultValues() As Boolean
         Try
 
@@ -995,6 +996,9 @@ Public Class clsDocType
 
             InsertDefaultValue(clsDocType.VCGLEntry, "", False, True)
             InsertDefaultValue(clsDocType.CreateRemmitance, "", False, False)
+            InsertDefaultValue(clsDocType.frmDailyMilkProducts, "", False, False)
+            InsertDefaultValue(clsDocType.frmDailySMPProduction, "", False, False)
+            InsertDefaultValue(clsDocType.CattleFeedPlantDaily, "", False, True)
             'InsertDefaultValue(clsDocType.EmptyTransaction, clsDocTransactionType.EmptyTransactionOut, False)
             'InsertDefaultValue(clsDocType.EmptyTransaction, clsDocTransactionType.EmptyTransactionRouteIn, False)
             'InsertDefaultValue(clsDocType.EmptyTransaction, clsDocTransactionType.EmptyTransactionDepotIn, False)

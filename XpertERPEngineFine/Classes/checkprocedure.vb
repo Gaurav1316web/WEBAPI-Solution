@@ -2517,6 +2517,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.SubModuleQCReport, "Report", "1.23.03", clsUserMgtCode.ModuleQualityControl, "SM", 30)
         InsertDefaultValue(clsUserMgtCode.rptPendingQCReport, "QC Status Report", "1.23.03.01", clsUserMgtCode.SubModuleQCReport, 37)
         InsertDefaultValue(clsUserMgtCode.QualitySummaryReport, "Quality Summary Report", "1.23.03.02", clsUserMgtCode.SubModuleQCReport, 37)
+        InsertDefaultValue(clsUserMgtCode.rptQCAnalysisReport, "QC Analysis Report", "1.23.03.03", clsUserMgtCode.SubModuleQCReport, 37)
 
         ''===========================end QC===========================================================
 
@@ -2884,6 +2885,7 @@ Public Class ProgramCodeNew
 
         ''------------------------------TRANSACTION--------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementTransaction, "Transaction", "1.50.02", clsUserMgtCode.ModuleBullManagement, "SM", 26)
+        InsertDefaultValue(clsUserMgtCode.frmBullMovement, "Bull Movement", "1.50.02.01", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmBullBreedMaster, "Bull Breed Master", "1.50.02.01", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmBullTestParameter, "Bull Test Parameter", "1.50.02.02", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         'InsertDefaultValue(clsUserMgtCode.frmBullParameterGroup, "Bull Parameter Group", "1.50.02.03", clsUserMgtCode.SubModuleBullManagementTransaction, 8)

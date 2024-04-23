@@ -343,7 +343,7 @@ SELECT [TSPL_APP_LOCATION].Location_Name,[TSPL_APP_LOCATION].DataBase_Name FROM 
                    "
                 Next
             End If
-            query="select * from ("+query+")xx "
+            query = "select * from (" + query + ")xx "
             Dim dt2 As DataTable = clsDBFuncationality.GetDataTable(query)
             gv1.DataSource = Nothing
             gv1.Rows.Clear()

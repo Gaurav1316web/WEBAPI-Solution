@@ -344,7 +344,9 @@ Public Class rptVSPMilkNotSold
                 doc.Margins.Left = 50
                 doc.Margins.Right = 50
                 doc.HeaderHeight = 90
-                doc.Landscape = True
+                If Gv1.Columns.Count >= 8 Then
+                    doc.Landscape = True
+                End If
                 doc.AssociatedObject = Gv1
                 doc.DocumentName = objCommonVar.CurrentCompanyName
                 Dim dtCompDetails As DataTable = Nothing

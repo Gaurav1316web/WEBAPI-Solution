@@ -279,6 +279,8 @@ Public Class clsUserMgtCode
     Public Const frmQualityCheckApprovalForSRN As String = "QC_APRV_SRN"
     Public Const rptPendingQCReport As String = "PND_QC_RPT"
     Public Const QualitySummaryReport As String = "QTY_SUMY_RPT"
+    Public Const rptQCAnalysisReport As String = "QC_ANLS_RPT"
+
     'frmQualityCheckForSRN
     ''==================
 
@@ -312,6 +314,7 @@ Public Class clsUserMgtCode
     Public Const frmBullSSCentreMaster As String = "BULL-SS-CE"
     Public Const frmBullPenIDMaster As String = "BULL-PAN-M"
     Public Const frmBullMasters As String = "BULL-Maste"
+    Public Const frmBullMovement As String = "BULL-MVMNT"
     Public Const frmBullStatus As String = "BULL-Status"
     Public Const frmBullSubStatus As String = "BULL-SUB-S"
     Public Const frmBullSourcePainting As String = "BULL-SOUR"
