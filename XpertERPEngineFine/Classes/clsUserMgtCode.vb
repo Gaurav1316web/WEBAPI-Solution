@@ -320,6 +320,7 @@ Public Class clsUserMgtCode
     Public Const frmBullSourcePainting As String = "BULL-SOUR"
     Public Const frmBullRating As String = "BULL-RATING"
 
+    Public Const frmBullVaccinationEntry As String = "BULL-VAC-EN"
 
     ''============BullManagementReport=======================
     Public Const SubModuleBullManagementReport As String = "MSBullMangR"
