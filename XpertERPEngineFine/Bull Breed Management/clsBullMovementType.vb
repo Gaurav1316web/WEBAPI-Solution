@@ -118,4 +118,12 @@ Public Class clsBullMovementType
             Throw New Exception(ex.Message)
         End Try
     End Function
+
+    Public Shared Function getBullMovementTypeQuery(Optional ByVal WhrCls As String = "") As DataTable
+        Dim dt As DataTable = New DataTable()
+
+        Dim qry As String = " SELECT '' AS Code,'Select' as Name union SELECT Code , Name  FROM TSPL_BULL_MOVEMENT_TYPE WHERE 1=1 " + WhrCls
+        dt = clsDBFuncationality.GetDataTable(qry)
+        Return dt
+    End Function
 End Class
