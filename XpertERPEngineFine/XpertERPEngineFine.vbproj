@@ -78,6 +78,7 @@
     <Compile Include="Accounts\clsJournalMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullBreedMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullCategoryMaster.vb" />
+    <Compile Include="Bull Breed Management\clsBullMasters.vb" />
     <Compile Include="Bull Breed Management\clsBullMovementType.vb" />
     <Compile Include="Bull Breed Management\clsBullParameterGroup.vb" />
     <Compile Include="Bull Breed Management\clsBullPenIDMaster.vb" />
@@ -86,8 +87,12 @@
     <Compile Include="Bull Breed Management\clsBullShedParameterGroup.vb" />
     <Compile Include="Bull Breed Management\clsBullSpeciesMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullSSCentreMaster.vb" />
+    <Compile Include="Bull Breed Management\clsBullStatus.vb" />
     <Compile Include="Bull Breed Management\clsBullSubCategoryMaster.vb" />
+    <Compile Include="Bull Breed Management\clsBullSubStatus.vb" />
     <Compile Include="Bull Breed Management\clsBullTestParameter.vb" />
+    <Compile Include="Classes\clsBullRating.vb" />
+    <Compile Include="Bull Breed Management\clsBullVaccinationEntry.vb" />
     <Compile Include="Classes\ClsCostCenter.vb" />
     <Compile Include="Classes\clsDairyInvoice.vb" />
     <Compile Include="Classes\clsEPF.vb" />

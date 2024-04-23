@@ -6123,9 +6123,9 @@ where TSPL_DISTRIBUTOR_COMMISSION_HEAD.Applicable_Date<='" + clsCommon.GetPrintD
     End Sub
     Function AllowToSave(ByVal ChekPostBtn As Boolean, Optional ByVal UpdateCustomerAfterPost As Boolean = False) As Boolean
         Try
-            If SettDistributorWiseBilling Then
-                MergeDistributorItems(True)
-            End If
+            'If SettDistributorWiseBilling Then
+            '    MergeDistributorItems(True)
+            'End If
             'Sanjay Ticket No- ERO/02/07/18-000365 not allow to update record if it is posted
             If UpdateCustomerAfterPost <> True Then
                 If Not isNewEntry AndAlso clsCommon.myLen(txtDocNo.Value) > 0 Then

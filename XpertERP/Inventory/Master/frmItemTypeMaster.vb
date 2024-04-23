@@ -40,6 +40,7 @@ Public Class FrmItemTypeMaster
         obj.ITEM_TYPE_CODE = fndItemType.Value
         obj.ITEM_TYPE_NAME = txtItemTypeName.Text
         obj.IsFixedTolerance = IIf(chkFixedTolerance.Checked = True, "Y", "N")
+        obj.IsVaccine = IIf(chkVaccine.Checked = True, "Y", "N")
         obj.TolerancePer = IIf(chkFixedTolerance.Checked = True, clsCommon.myCdbl(txtTolerancePer.Value), 0)
 
         If (clsItemType.SaveData(obj, isNewEntry) = True) Then
@@ -69,6 +70,7 @@ Public Class FrmItemTypeMaster
             fndItemType.Value = clsCommon.myCstr(dt.Rows(0)("Code"))
             txtItemTypeName.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
             chkFixedTolerance.Checked = IIf(dt.Rows(0)("IsFixedTolerance") = "Y", True, False)
+            chkVaccine.Checked = IIf(dt.Rows(0)("IsVaccine") = "Y", True, False)
             txtTolerancePer.Value = clsCommon.myCdbl(dt.Rows(0)("TolerancePer"))
             isNewEntry = False
             btnsave.Text = "Update"
@@ -77,6 +79,7 @@ Public Class FrmItemTypeMaster
             fndItemType.Value = String.Empty
             txtItemTypeName.Text = String.Empty
             chkFixedTolerance.Checked = False
+            chkVaccine.Checked = False
             txtTolerancePer.Value = 0
             isNewEntry = True
             btnsave.Text = "Save"
@@ -106,6 +109,7 @@ Public Class FrmItemTypeMaster
                     txtItemTypeName.Text = clsCommon.myCstr(dt.Rows(0)("Description"))
                     chkFixedTolerance.Checked = IIf(dt.Rows(0)("IsFixedTolerance") = "Y", True, False)
                     txtTolerancePer.Value = clsCommon.myCdbl(dt.Rows(0)("TolerancePer"))
+                    chkVaccine.Checked = IIf(dt.Rows(0)("IsVaccine") = "Y", True, False)
                 End If
 
                 isNewEntry = False
@@ -114,6 +118,7 @@ Public Class FrmItemTypeMaster
             Else
                 txtItemTypeName.Text = String.Empty
                 chkFixedTolerance.Checked = False
+                chkVaccine.Checked = False
                 txtTolerancePer.Value = 0
                 isNewEntry = True
                 fndItemType.MyReadOnly = False
@@ -133,6 +138,7 @@ Public Class FrmItemTypeMaster
         fndItemType.Value = Nothing
         txtItemTypeName.Text = String.Empty
         chkFixedTolerance.Checked = False
+        chkVaccine.Checked = False
         txtTolerancePer.Value = 0
         fndItemType.MyReadOnly = False
     End Sub

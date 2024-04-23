@@ -5,7 +5,7 @@ Partial Class frmBullMasters
     'Inherits System.Windows.Forms.Form
     Inherits FrmMainTranScreen
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()>
+    <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -22,9 +22,14 @@ Partial Class frmBullMasters
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()>
+    <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBullMasters))
+        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.lblBullSourcePrintStrew = New common.Controls.MyLabel()
         Me.lblDamLocation = New common.Controls.MyLabel()
         Me.lblBullRating = New common.Controls.MyLabel()
@@ -55,61 +60,58 @@ Partial Class frmBullMasters
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.MyLabel32 = New common.Controls.MyLabel()
         Me.MyLabel28 = New common.Controls.MyLabel()
-        Me.txtDateOfBirth = New common.Controls.MyDateTimePicker()
+        Me.txtDob = New common.Controls.MyDateTimePicker()
+        Me.txtRegDate = New common.Controls.MyDateTimePicker()
+        Me.txtStatusDateChanged = New common.Controls.MyDateTimePicker()
+        Me.txtEndDate = New common.Controls.MyDateTimePicker()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
-        Me.fndCounty = New common.UserControls.txtFinder()
-        Me.fndBullSourcePainting = New common.UserControls.txtFinder()
-        Me.fndBullRating = New common.UserControls.txtFinder()
-        Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
-        Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.TXTEndDate = New common.Controls.MyDateTimePicker()
-        Me.btnnew = New Telerik.WinControls.UI.RadButton()
-        Me.txtRegDate = New common.Controls.MyDateTimePicker()
-        Me.txtStatusDateChanged = New common.Controls.MyDateTimePicker()
-        Me.lblcode = New System.Windows.Forms.Label()
+        Me.Label27 = New System.Windows.Forms.Label()
         Me.Label26 = New System.Windows.Forms.Label()
         Me.Label25 = New System.Windows.Forms.Label()
         Me.Label24 = New System.Windows.Forms.Label()
         Me.Label23 = New System.Windows.Forms.Label()
         Me.Label22 = New System.Windows.Forms.Label()
         Me.Label21 = New System.Windows.Forms.Label()
-        Me.lblBullSource = New System.Windows.Forms.Label()
-        Me.lblPenIds = New System.Windows.Forms.Label()
-        Me.lbldobs = New System.Windows.Forms.Label()
-        Me.lblPREVbULL = New System.Windows.Forms.Label()
-        Me.lblLocationYield = New System.Windows.Forms.Label()
-        Me.lblshed = New System.Windows.Forms.Label()
-        Me.lblbreeds = New System.Windows.Forms.Label()
-        Me.lblBullRatings = New System.Windows.Forms.Label()
-        Me.lblsscentres = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.Label9 = New System.Windows.Forms.Label()
         Me.Label8 = New System.Windows.Forms.Label()
         Me.Label7 = New System.Windows.Forms.Label()
-        Me.lblExotic = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
         Me.Label5 = New System.Windows.Forms.Label()
-        Me.lblSpeciess = New System.Windows.Forms.Label()
-        Me.lblRegDate = New System.Windows.Forms.Label()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.Label1 = New System.Windows.Forms.Label()
-        Me.txtDamLocation = New System.Windows.Forms.TextBox()
-        Me.txtRemark = New System.Windows.Forms.TextBox()
-        Me.txtBullRFID = New System.Windows.Forms.TextBox()
+        Me.cmbBullSourceForPaintingStraws = New Telerik.WinControls.UI.RadDropDownList()
+        Me.cmbBullRating = New Telerik.WinControls.UI.RadDropDownList()
+        Me.cmbCountry = New Telerik.WinControls.UI.RadDropDownList()
+        Me.TextBox9 = New System.Windows.Forms.TextBox()
+        Me.TextBox8 = New System.Windows.Forms.TextBox()
+        Me.TextBox7 = New System.Windows.Forms.TextBox()
         Me.fndPenId = New common.UserControls.txtFinder()
         Me.fndShedId = New common.UserControls.txtFinder()
         Me.fndSSCentre = New common.UserControls.txtFinder()
-        Me.txtBullBook = New System.Windows.Forms.TextBox()
-        Me.TXTExoticBloodPer = New System.Windows.Forms.TextBox()
+        Me.TextBox6 = New System.Windows.Forms.TextBox()
+        Me.TextBox5 = New System.Windows.Forms.TextBox()
         Me.fndSubStatus = New common.UserControls.txtFinder()
-        Me.txtBullAlias = New System.Windows.Forms.TextBox()
+        Me.TextBox4 = New System.Windows.Forms.TextBox()
         Me.fndBullStatus = New common.UserControls.txtFinder()
-        Me.TXTSSbull = New System.Windows.Forms.TextBox()
-        Me.TXTPrevBull = New System.Windows.Forms.TextBox()
+        Me.TextBox3 = New System.Windows.Forms.TextBox()
+        Me.TextBox2 = New System.Windows.Forms.TextBox()
         Me.fndBreed = New common.UserControls.txtFinder()
+        Me.TextBox1 = New System.Windows.Forms.TextBox()
         Me.fndSubCategory = New common.UserControls.txtFinder()
         Me.fndCategory = New common.UserControls.txtFinder()
         Me.fndSpecies = New common.UserControls.txtFinder()
@@ -117,7 +119,19 @@ Partial Class frmBullMasters
         Me.RadioButton1 = New System.Windows.Forms.RadioButton()
         Me.fndCode = New common.UserControls.txtNavigator()
         Me.RadPageViewPage2 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.fndVidhanSabha = New common.UserControls.txtFinder()
+        Me.fndPanchayatSamiti = New common.UserControls.txtFinder()
+        Me.fndGramPanchayat = New common.UserControls.txtFinder()
+        Me.fndRevenueVillage = New common.UserControls.txtFinder()
+        Me.fndZone = New common.UserControls.txtFinder()
+        Me.fndBlock = New common.UserControls.txtFinder()
+        Me.fndDistrict = New common.UserControls.txtFinder()
+        Me.fndSupervisorCode = New common.UserControls.txtFinder()
         Me.RadPageViewPage3 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.fndCompanyBank1 = New common.UserControls.txtFinder()
+        Me.fndCompanyBank = New common.UserControls.txtFinder()
+        Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
         Me.btnDelete = New Telerik.WinControls.UI.RadButton()
         Me.btnClose = New Telerik.WinControls.UI.RadButton()
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
@@ -151,18 +165,23 @@ Partial Class frmBullMasters
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDateOfBirth, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDob, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRegDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtStatusDateChanged, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TXTEndDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtRegDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtStatusDateChanged, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbBullSourceForPaintingStraws, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbBullRating, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbCountry, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage2.SuspendLayout()
+        Me.RadPageViewPage3.SuspendLayout()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -469,278 +488,35 @@ Partial Class frmBullMasters
         Me.MyLabel28.TabIndex = 376
         Me.MyLabel28.Text = "Company Bank"
         '
-        'txtDateOfBirth
+        'txtDob
         '
-        Me.txtDateOfBirth.CalculationExpression = Nothing
-        Me.txtDateOfBirth.CustomFormat = "dd/MM/yyyy"
-        Me.txtDateOfBirth.FieldCode = Nothing
-        Me.txtDateOfBirth.FieldDesc = Nothing
-        Me.txtDateOfBirth.FieldMaxLength = 0
-        Me.txtDateOfBirth.FieldName = Nothing
-        Me.txtDateOfBirth.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDateOfBirth.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtDateOfBirth.isCalculatedField = False
-        Me.txtDateOfBirth.IsSourceFromTable = False
-        Me.txtDateOfBirth.IsSourceFromValueList = False
-        Me.txtDateOfBirth.IsUnique = False
-        Me.txtDateOfBirth.Location = New System.Drawing.Point(528, 277)
-        Me.txtDateOfBirth.MendatroryField = False
-        Me.txtDateOfBirth.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtDateOfBirth.MyLinkLable1 = Nothing
-        Me.txtDateOfBirth.MyLinkLable2 = Nothing
-        Me.txtDateOfBirth.Name = "txtDateOfBirth"
-        Me.txtDateOfBirth.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtDateOfBirth.ReferenceFieldDesc = Nothing
-        Me.txtDateOfBirth.ReferenceFieldName = Nothing
-        Me.txtDateOfBirth.ReferenceTableName = Nothing
-        Me.txtDateOfBirth.Size = New System.Drawing.Size(134, 18)
-        Me.txtDateOfBirth.TabIndex = 482
-        Me.txtDateOfBirth.TabStop = False
-        Me.txtDateOfBirth.Text = "13/06/2011"
-        Me.txtDateOfBirth.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'SplitContainer1
-        '
-        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer1.Name = "SplitContainer1"
-        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
-        '
-        'SplitContainer1.Panel1
-        '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
-        '
-        'SplitContainer1.Panel2
-        '
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
-        Me.SplitContainer1.Size = New System.Drawing.Size(992, 473)
-        Me.SplitContainer1.SplitterDistance = 424
-        Me.SplitContainer1.TabIndex = 0
-        '
-        'RadPageView1
-        '
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
-        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
-        Me.RadPageView1.DefaultPage = Me.RadPageViewPage1
-        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
-        Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
-        Me.RadPageView1.Size = New System.Drawing.Size(992, 424)
-        Me.RadPageView1.TabIndex = 1
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
-        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ShowItemCloseButton = False
-        '
-        'RadPageViewPage1
-        '
-        Me.RadPageViewPage1.Controls.Add(Me.fndCounty)
-        Me.RadPageViewPage1.Controls.Add(Me.fndBullSourcePainting)
-        Me.RadPageViewPage1.Controls.Add(Me.fndBullRating)
-        Me.RadPageViewPage1.Controls.Add(Me.RadMenu1)
-        Me.RadPageViewPage1.Controls.Add(Me.TXTEndDate)
-        Me.RadPageViewPage1.Controls.Add(Me.btnnew)
-        Me.RadPageViewPage1.Controls.Add(Me.txtRegDate)
-        Me.RadPageViewPage1.Controls.Add(Me.txtStatusDateChanged)
-        Me.RadPageViewPage1.Controls.Add(Me.txtDateOfBirth)
-        Me.RadPageViewPage1.Controls.Add(Me.lblcode)
-        Me.RadPageViewPage1.Controls.Add(Me.Label26)
-        Me.RadPageViewPage1.Controls.Add(Me.Label25)
-        Me.RadPageViewPage1.Controls.Add(Me.Label24)
-        Me.RadPageViewPage1.Controls.Add(Me.Label23)
-        Me.RadPageViewPage1.Controls.Add(Me.Label22)
-        Me.RadPageViewPage1.Controls.Add(Me.Label21)
-        Me.RadPageViewPage1.Controls.Add(Me.lblBullSource)
-        Me.RadPageViewPage1.Controls.Add(Me.lblPenIds)
-        Me.RadPageViewPage1.Controls.Add(Me.lbldobs)
-        Me.RadPageViewPage1.Controls.Add(Me.lblPREVbULL)
-        Me.RadPageViewPage1.Controls.Add(Me.lblLocationYield)
-        Me.RadPageViewPage1.Controls.Add(Me.lblshed)
-        Me.RadPageViewPage1.Controls.Add(Me.lblbreeds)
-        Me.RadPageViewPage1.Controls.Add(Me.lblBullRatings)
-        Me.RadPageViewPage1.Controls.Add(Me.lblsscentres)
-        Me.RadPageViewPage1.Controls.Add(Me.Label10)
-        Me.RadPageViewPage1.Controls.Add(Me.Label9)
-        Me.RadPageViewPage1.Controls.Add(Me.Label8)
-        Me.RadPageViewPage1.Controls.Add(Me.Label7)
-        Me.RadPageViewPage1.Controls.Add(Me.lblExotic)
-        Me.RadPageViewPage1.Controls.Add(Me.Label5)
-        Me.RadPageViewPage1.Controls.Add(Me.lblSpeciess)
-        Me.RadPageViewPage1.Controls.Add(Me.lblRegDate)
-        Me.RadPageViewPage1.Controls.Add(Me.Label2)
-        Me.RadPageViewPage1.Controls.Add(Me.Label1)
-        Me.RadPageViewPage1.Controls.Add(Me.txtDamLocation)
-        Me.RadPageViewPage1.Controls.Add(Me.txtRemark)
-        Me.RadPageViewPage1.Controls.Add(Me.txtBullRFID)
-        Me.RadPageViewPage1.Controls.Add(Me.fndPenId)
-        Me.RadPageViewPage1.Controls.Add(Me.fndShedId)
-        Me.RadPageViewPage1.Controls.Add(Me.fndSSCentre)
-        Me.RadPageViewPage1.Controls.Add(Me.txtBullBook)
-        Me.RadPageViewPage1.Controls.Add(Me.TXTExoticBloodPer)
-        Me.RadPageViewPage1.Controls.Add(Me.fndSubStatus)
-        Me.RadPageViewPage1.Controls.Add(Me.txtBullAlias)
-        Me.RadPageViewPage1.Controls.Add(Me.fndBullStatus)
-        Me.RadPageViewPage1.Controls.Add(Me.TXTSSbull)
-        Me.RadPageViewPage1.Controls.Add(Me.TXTPrevBull)
-        Me.RadPageViewPage1.Controls.Add(Me.fndBreed)
-        Me.RadPageViewPage1.Controls.Add(Me.fndSubCategory)
-        Me.RadPageViewPage1.Controls.Add(Me.fndCategory)
-        Me.RadPageViewPage1.Controls.Add(Me.fndSpecies)
-        Me.RadPageViewPage1.Controls.Add(Me.RadioButton2)
-        Me.RadPageViewPage1.Controls.Add(Me.RadioButton1)
-        Me.RadPageViewPage1.Controls.Add(Me.fndCode)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(125.0!, 28.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
-        Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(971, 376)
-        Me.RadPageViewPage1.Text = "Bull Basic Information"
-        '
-        'fndCounty
-        '
-        Me.fndCounty.CalculationExpression = Nothing
-        Me.fndCounty.FieldCode = Nothing
-        Me.fndCounty.FieldDesc = Nothing
-        Me.fndCounty.FieldMaxLength = 0
-        Me.fndCounty.FieldName = Nothing
-        Me.fndCounty.isCalculatedField = False
-        Me.fndCounty.IsSourceFromTable = False
-        Me.fndCounty.IsSourceFromValueList = False
-        Me.fndCounty.IsUnique = False
-        Me.fndCounty.Location = New System.Drawing.Point(164, 255)
-        Me.fndCounty.MendatroryField = True
-        Me.fndCounty.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndCounty.MyLinkLable1 = Nothing
-        Me.fndCounty.MyLinkLable2 = Nothing
-        Me.fndCounty.MyReadOnly = False
-        Me.fndCounty.MyShowMasterFormButton = False
-        Me.fndCounty.Name = "fndCounty"
-        Me.fndCounty.ReferenceFieldDesc = Nothing
-        Me.fndCounty.ReferenceFieldName = Nothing
-        Me.fndCounty.ReferenceTableName = Nothing
-        Me.fndCounty.Size = New System.Drawing.Size(135, 18)
-        Me.fndCounty.TabIndex = 490
-        Me.fndCounty.Value = ""
-        '
-        'fndBullSourcePainting
-        '
-        Me.fndBullSourcePainting.CalculationExpression = Nothing
-        Me.fndBullSourcePainting.FieldCode = Nothing
-        Me.fndBullSourcePainting.FieldDesc = Nothing
-        Me.fndBullSourcePainting.FieldMaxLength = 0
-        Me.fndBullSourcePainting.FieldName = Nothing
-        Me.fndBullSourcePainting.isCalculatedField = False
-        Me.fndBullSourcePainting.IsSourceFromTable = False
-        Me.fndBullSourcePainting.IsSourceFromValueList = False
-        Me.fndBullSourcePainting.IsUnique = False
-        Me.fndBullSourcePainting.Location = New System.Drawing.Point(529, 228)
-        Me.fndBullSourcePainting.MendatroryField = True
-        Me.fndBullSourcePainting.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndBullSourcePainting.MyLinkLable1 = Nothing
-        Me.fndBullSourcePainting.MyLinkLable2 = Nothing
-        Me.fndBullSourcePainting.MyReadOnly = False
-        Me.fndBullSourcePainting.MyShowMasterFormButton = False
-        Me.fndBullSourcePainting.Name = "fndBullSourcePainting"
-        Me.fndBullSourcePainting.ReferenceFieldDesc = Nothing
-        Me.fndBullSourcePainting.ReferenceFieldName = Nothing
-        Me.fndBullSourcePainting.ReferenceTableName = Nothing
-        Me.fndBullSourcePainting.Size = New System.Drawing.Size(135, 18)
-        Me.fndBullSourcePainting.TabIndex = 489
-        Me.fndBullSourcePainting.Value = ""
-        '
-        'fndBullRating
-        '
-        Me.fndBullRating.CalculationExpression = Nothing
-        Me.fndBullRating.FieldCode = Nothing
-        Me.fndBullRating.FieldDesc = Nothing
-        Me.fndBullRating.FieldMaxLength = 0
-        Me.fndBullRating.FieldName = Nothing
-        Me.fndBullRating.isCalculatedField = False
-        Me.fndBullRating.IsSourceFromTable = False
-        Me.fndBullRating.IsSourceFromValueList = False
-        Me.fndBullRating.IsUnique = False
-        Me.fndBullRating.Location = New System.Drawing.Point(529, 178)
-        Me.fndBullRating.MendatroryField = True
-        Me.fndBullRating.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndBullRating.MyLinkLable1 = Nothing
-        Me.fndBullRating.MyLinkLable2 = Nothing
-        Me.fndBullRating.MyReadOnly = False
-        Me.fndBullRating.MyShowMasterFormButton = False
-        Me.fndBullRating.Name = "fndBullRating"
-        Me.fndBullRating.ReferenceFieldDesc = Nothing
-        Me.fndBullRating.ReferenceFieldName = Nothing
-        Me.fndBullRating.ReferenceTableName = Nothing
-        Me.fndBullRating.Size = New System.Drawing.Size(135, 18)
-        Me.fndBullRating.TabIndex = 488
-        Me.fndBullRating.Value = ""
-        '
-        'RadMenu1
-        '
-        Me.RadMenu1.BackColor = System.Drawing.Color.FromArgb(CType(CType(233, Byte), Integer), CType(CType(240, Byte), Integer), CType(CType(249, Byte), Integer))
-        Me.RadMenu1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem1})
-        Me.RadMenu1.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu1.Name = "RadMenu1"
-        Me.RadMenu1.Size = New System.Drawing.Size(971, 20)
-        Me.RadMenu1.TabIndex = 487
-        '
-        'RadMenuItem1
-        '
-        Me.RadMenuItem1.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem2, Me.RadMenuItem4})
-        Me.RadMenuItem1.Name = "RadMenuItem1"
-        Me.RadMenuItem1.Text = "File"
-        Me.RadMenuItem1.UseCompatibleTextRendering = False
-        '
-        'RadMenuItem2
-        '
-        Me.RadMenuItem2.Name = "RadMenuItem2"
-        Me.RadMenuItem2.Text = "Export"
-        Me.RadMenuItem2.UseCompatibleTextRendering = False
-        '
-        'RadMenuItem4
-        '
-        Me.RadMenuItem4.Name = "RadMenuItem4"
-        Me.RadMenuItem4.Text = "Import"
-        Me.RadMenuItem4.UseCompatibleTextRendering = False
-        '
-        'TXTEndDate
-        '
-        Me.TXTEndDate.CalculationExpression = Nothing
-        Me.TXTEndDate.CustomFormat = "dd/MM/yyyy"
-        Me.TXTEndDate.FieldCode = Nothing
-        Me.TXTEndDate.FieldDesc = Nothing
-        Me.TXTEndDate.FieldMaxLength = 0
-        Me.TXTEndDate.FieldName = Nothing
-        Me.TXTEndDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.TXTEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.TXTEndDate.isCalculatedField = False
-        Me.TXTEndDate.IsSourceFromTable = False
-        Me.TXTEndDate.IsSourceFromValueList = False
-        Me.TXTEndDate.IsUnique = False
-        Me.TXTEndDate.Location = New System.Drawing.Point(527, 351)
-        Me.TXTEndDate.MendatroryField = False
-        Me.TXTEndDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.TXTEndDate.MyLinkLable1 = Nothing
-        Me.TXTEndDate.MyLinkLable2 = Nothing
-        Me.TXTEndDate.Name = "TXTEndDate"
-        Me.TXTEndDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.TXTEndDate.ReferenceFieldDesc = Nothing
-        Me.TXTEndDate.ReferenceFieldName = Nothing
-        Me.TXTEndDate.ReferenceTableName = Nothing
-        Me.TXTEndDate.Size = New System.Drawing.Size(142, 18)
-        Me.TXTEndDate.TabIndex = 486
-        Me.TXTEndDate.TabStop = False
-        Me.TXTEndDate.Text = "13/06/2011"
-        Me.TXTEndDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'btnnew
-        '
-        Me.btnnew.Image = CType(resources.GetObject("btnnew.Image"), System.Drawing.Image)
-        Me.btnnew.Location = New System.Drawing.Point(301, 39)
-        Me.btnnew.Name = "btnnew"
-        Me.btnnew.Size = New System.Drawing.Size(16, 18)
-        Me.btnnew.TabIndex = 485
+        Me.txtDob.CalculationExpression = Nothing
+        Me.txtDob.CustomFormat = "dd/MM/yyyy"
+        Me.txtDob.FieldCode = Nothing
+        Me.txtDob.FieldDesc = Nothing
+        Me.txtDob.FieldMaxLength = 0
+        Me.txtDob.FieldName = Nothing
+        Me.txtDob.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDob.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtDob.isCalculatedField = False
+        Me.txtDob.IsSourceFromTable = False
+        Me.txtDob.IsSourceFromValueList = False
+        Me.txtDob.IsUnique = False
+        Me.txtDob.Location = New System.Drawing.Point(468, 299)
+        Me.txtDob.MendatroryField = False
+        Me.txtDob.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDob.MyLinkLable1 = Nothing
+        Me.txtDob.MyLinkLable2 = Nothing
+        Me.txtDob.Name = "txtDob"
+        Me.txtDob.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtDob.ReferenceFieldDesc = Nothing
+        Me.txtDob.ReferenceFieldName = Nothing
+        Me.txtDob.ReferenceTableName = Nothing
+        Me.txtDob.Size = New System.Drawing.Size(133, 18)
+        Me.txtDob.TabIndex = 451
+        Me.txtDob.TabStop = False
+        Me.txtDob.Text = "13/06/2011"
+        Me.txtDob.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
         'txtRegDate
         '
@@ -756,7 +532,7 @@ Partial Class frmBullMasters
         Me.txtRegDate.IsSourceFromTable = False
         Me.txtRegDate.IsSourceFromValueList = False
         Me.txtRegDate.IsUnique = False
-        Me.txtRegDate.Location = New System.Drawing.Point(163, 158)
+        Me.txtRegDate.Location = New System.Drawing.Point(141, 179)
         Me.txtRegDate.MendatroryField = False
         Me.txtRegDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtRegDate.MyLinkLable1 = Nothing
@@ -766,8 +542,8 @@ Partial Class frmBullMasters
         Me.txtRegDate.ReferenceFieldDesc = Nothing
         Me.txtRegDate.ReferenceFieldName = Nothing
         Me.txtRegDate.ReferenceTableName = Nothing
-        Me.txtRegDate.Size = New System.Drawing.Size(136, 18)
-        Me.txtRegDate.TabIndex = 484
+        Me.txtRegDate.Size = New System.Drawing.Size(87, 18)
+        Me.txtRegDate.TabIndex = 452
         Me.txtRegDate.TabStop = False
         Me.txtRegDate.Text = "13/06/2011"
         Me.txtRegDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
@@ -786,7 +562,7 @@ Partial Class frmBullMasters
         Me.txtStatusDateChanged.IsSourceFromTable = False
         Me.txtStatusDateChanged.IsSourceFromValueList = False
         Me.txtStatusDateChanged.IsUnique = False
-        Me.txtStatusDateChanged.Location = New System.Drawing.Point(163, 330)
+        Me.txtStatusDateChanged.Location = New System.Drawing.Point(763, 129)
         Me.txtStatusDateChanged.MendatroryField = False
         Me.txtStatusDateChanged.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtStatusDateChanged.MyLinkLable1 = Nothing
@@ -796,25 +572,155 @@ Partial Class frmBullMasters
         Me.txtStatusDateChanged.ReferenceFieldDesc = Nothing
         Me.txtStatusDateChanged.ReferenceFieldName = Nothing
         Me.txtStatusDateChanged.ReferenceTableName = Nothing
-        Me.txtStatusDateChanged.Size = New System.Drawing.Size(142, 18)
-        Me.txtStatusDateChanged.TabIndex = 483
+        Me.txtStatusDateChanged.Size = New System.Drawing.Size(143, 18)
+        Me.txtStatusDateChanged.TabIndex = 453
         Me.txtStatusDateChanged.TabStop = False
         Me.txtStatusDateChanged.Text = "13/06/2011"
         Me.txtStatusDateChanged.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
         '
-        'lblcode
+        'txtEndDate
         '
-        Me.lblcode.AutoSize = True
-        Me.lblcode.Location = New System.Drawing.Point(23, 39)
-        Me.lblcode.Name = "lblcode"
-        Me.lblcode.Size = New System.Drawing.Size(34, 13)
-        Me.lblcode.TabIndex = 481
-        Me.lblcode.Text = "Code"
+        Me.txtEndDate.CalculationExpression = Nothing
+        Me.txtEndDate.CustomFormat = "dd/MM/yyyy"
+        Me.txtEndDate.FieldCode = Nothing
+        Me.txtEndDate.FieldDesc = Nothing
+        Me.txtEndDate.FieldMaxLength = 0
+        Me.txtEndDate.FieldName = Nothing
+        Me.txtEndDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtEndDate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtEndDate.isCalculatedField = False
+        Me.txtEndDate.IsSourceFromTable = False
+        Me.txtEndDate.IsSourceFromValueList = False
+        Me.txtEndDate.IsUnique = False
+        Me.txtEndDate.Location = New System.Drawing.Point(764, 205)
+        Me.txtEndDate.MendatroryField = False
+        Me.txtEndDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtEndDate.MyLinkLable1 = Nothing
+        Me.txtEndDate.MyLinkLable2 = Nothing
+        Me.txtEndDate.Name = "txtEndDate"
+        Me.txtEndDate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtEndDate.ReferenceFieldDesc = Nothing
+        Me.txtEndDate.ReferenceFieldName = Nothing
+        Me.txtEndDate.ReferenceTableName = Nothing
+        Me.txtEndDate.ShowCheckBox = True
+        Me.txtEndDate.Size = New System.Drawing.Size(142, 18)
+        Me.txtEndDate.TabIndex = 454
+        Me.txtEndDate.TabStop = False
+        Me.txtEndDate.Text = "13/06/2011"
+        Me.txtEndDate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'SplitContainer1
+        '
+        Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer1.Name = "SplitContainer1"
+        Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer1.Panel1
+        '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadPageView1)
+        '
+        'SplitContainer1.Panel2
+        '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnDelete)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnClose)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnSave)
+        Me.SplitContainer1.Size = New System.Drawing.Size(992, 473)
+        Me.SplitContainer1.SplitterDistance = 421
+        Me.SplitContainer1.TabIndex = 0
+        '
+        'RadPageView1
+        '
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage1)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage2)
+        Me.RadPageView1.Controls.Add(Me.RadPageViewPage3)
+        Me.RadPageView1.DefaultPage = Me.RadPageViewPage1
+        Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
+        Me.RadPageView1.Name = "RadPageView1"
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.Size = New System.Drawing.Size(992, 421)
+        Me.RadPageView1.TabIndex = 1
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ItemAlignment = Telerik.WinControls.UI.StripViewItemAlignment.Near
+        CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).ShowItemCloseButton = False
+        '
+        'RadPageViewPage1
+        '
+        Me.RadPageViewPage1.Controls.Add(Me.Label27)
+        Me.RadPageViewPage1.Controls.Add(Me.Label26)
+        Me.RadPageViewPage1.Controls.Add(Me.Label25)
+        Me.RadPageViewPage1.Controls.Add(Me.Label24)
+        Me.RadPageViewPage1.Controls.Add(Me.Label23)
+        Me.RadPageViewPage1.Controls.Add(Me.Label22)
+        Me.RadPageViewPage1.Controls.Add(Me.Label21)
+        Me.RadPageViewPage1.Controls.Add(Me.Label20)
+        Me.RadPageViewPage1.Controls.Add(Me.Label19)
+        Me.RadPageViewPage1.Controls.Add(Me.Label18)
+        Me.RadPageViewPage1.Controls.Add(Me.Label17)
+        Me.RadPageViewPage1.Controls.Add(Me.Label16)
+        Me.RadPageViewPage1.Controls.Add(Me.Label15)
+        Me.RadPageViewPage1.Controls.Add(Me.Label14)
+        Me.RadPageViewPage1.Controls.Add(Me.Label13)
+        Me.RadPageViewPage1.Controls.Add(Me.Label12)
+        Me.RadPageViewPage1.Controls.Add(Me.Label11)
+        Me.RadPageViewPage1.Controls.Add(Me.Label10)
+        Me.RadPageViewPage1.Controls.Add(Me.Label9)
+        Me.RadPageViewPage1.Controls.Add(Me.Label8)
+        Me.RadPageViewPage1.Controls.Add(Me.Label7)
+        Me.RadPageViewPage1.Controls.Add(Me.Label6)
+        Me.RadPageViewPage1.Controls.Add(Me.Label5)
+        Me.RadPageViewPage1.Controls.Add(Me.Label4)
+        Me.RadPageViewPage1.Controls.Add(Me.Label3)
+        Me.RadPageViewPage1.Controls.Add(Me.Label2)
+        Me.RadPageViewPage1.Controls.Add(Me.Label1)
+        Me.RadPageViewPage1.Controls.Add(Me.txtEndDate)
+        Me.RadPageViewPage1.Controls.Add(Me.txtStatusDateChanged)
+        Me.RadPageViewPage1.Controls.Add(Me.txtRegDate)
+        Me.RadPageViewPage1.Controls.Add(Me.txtDob)
+        Me.RadPageViewPage1.Controls.Add(Me.cmbBullSourceForPaintingStraws)
+        Me.RadPageViewPage1.Controls.Add(Me.cmbBullRating)
+        Me.RadPageViewPage1.Controls.Add(Me.cmbCountry)
+        Me.RadPageViewPage1.Controls.Add(Me.TextBox9)
+        Me.RadPageViewPage1.Controls.Add(Me.TextBox8)
+        Me.RadPageViewPage1.Controls.Add(Me.TextBox7)
+        Me.RadPageViewPage1.Controls.Add(Me.fndPenId)
+        Me.RadPageViewPage1.Controls.Add(Me.fndShedId)
+        Me.RadPageViewPage1.Controls.Add(Me.fndSSCentre)
+        Me.RadPageViewPage1.Controls.Add(Me.TextBox6)
+        Me.RadPageViewPage1.Controls.Add(Me.TextBox5)
+        Me.RadPageViewPage1.Controls.Add(Me.fndSubStatus)
+        Me.RadPageViewPage1.Controls.Add(Me.TextBox4)
+        Me.RadPageViewPage1.Controls.Add(Me.fndBullStatus)
+        Me.RadPageViewPage1.Controls.Add(Me.TextBox3)
+        Me.RadPageViewPage1.Controls.Add(Me.TextBox2)
+        Me.RadPageViewPage1.Controls.Add(Me.fndBreed)
+        Me.RadPageViewPage1.Controls.Add(Me.TextBox1)
+        Me.RadPageViewPage1.Controls.Add(Me.fndSubCategory)
+        Me.RadPageViewPage1.Controls.Add(Me.fndCategory)
+        Me.RadPageViewPage1.Controls.Add(Me.fndSpecies)
+        Me.RadPageViewPage1.Controls.Add(Me.RadioButton2)
+        Me.RadPageViewPage1.Controls.Add(Me.RadioButton1)
+        Me.RadPageViewPage1.Controls.Add(Me.fndCode)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(121.0!, 24.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.Name = "RadPageViewPage1"
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(971, 377)
+        Me.RadPageViewPage1.Text = "Bull Basic Information"
+        '
+        'Label27
+        '
+        Me.Label27.AutoSize = True
+        Me.Label27.Location = New System.Drawing.Point(8, 35)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(34, 13)
+        Me.Label27.TabIndex = 481
+        Me.Label27.Text = "Code"
         '
         'Label26
         '
         Me.Label26.AutoSize = True
-        Me.Label26.Location = New System.Drawing.Point(364, 359)
+        Me.Label26.Location = New System.Drawing.Point(645, 208)
         Me.Label26.Name = "Label26"
         Me.Label26.Size = New System.Drawing.Size(52, 13)
         Me.Label26.TabIndex = 480
@@ -823,7 +729,7 @@ Partial Class frmBullMasters
         'Label25
         '
         Me.Label25.AutoSize = True
-        Me.Label25.Location = New System.Drawing.Point(364, 336)
+        Me.Label25.Location = New System.Drawing.Point(643, 184)
         Me.Label25.Name = "Label25"
         Me.Label25.Size = New System.Drawing.Size(84, 13)
         Me.Label25.TabIndex = 479
@@ -832,7 +738,7 @@ Partial Class frmBullMasters
         'Label24
         '
         Me.Label24.AutoSize = True
-        Me.Label24.Location = New System.Drawing.Point(21, 358)
+        Me.Label24.Location = New System.Drawing.Point(641, 160)
         Me.Label24.Name = "Label24"
         Me.Label24.Size = New System.Drawing.Size(85, 13)
         Me.Label24.TabIndex = 478
@@ -841,7 +747,7 @@ Partial Class frmBullMasters
         'Label23
         '
         Me.Label23.AutoSize = True
-        Me.Label23.Location = New System.Drawing.Point(21, 332)
+        Me.Label23.Location = New System.Drawing.Point(641, 134)
         Me.Label23.Name = "Label23"
         Me.Label23.Size = New System.Drawing.Size(116, 13)
         Me.Label23.TabIndex = 477
@@ -850,7 +756,7 @@ Partial Class frmBullMasters
         'Label22
         '
         Me.Label22.AutoSize = True
-        Me.Label22.Location = New System.Drawing.Point(363, 309)
+        Me.Label22.Location = New System.Drawing.Point(641, 107)
         Me.Label22.Name = "Label22"
         Me.Label22.Size = New System.Drawing.Size(61, 13)
         Me.Label22.TabIndex = 476
@@ -859,97 +765,106 @@ Partial Class frmBullMasters
         'Label21
         '
         Me.Label21.AutoSize = True
-        Me.Label21.Location = New System.Drawing.Point(21, 308)
+        Me.Label21.Location = New System.Drawing.Point(640, 78)
         Me.Label21.Name = "Label21"
         Me.Label21.Size = New System.Drawing.Size(54, 13)
         Me.Label21.TabIndex = 475
         Me.Label21.Text = "SS Bull Id"
         '
-        'lblBullSource
+        'Label20
         '
-        Me.lblBullSource.AutoSize = True
-        Me.lblBullSource.Location = New System.Drawing.Point(362, 229)
-        Me.lblBullSource.Name = "lblBullSource"
-        Me.lblBullSource.Size = New System.Drawing.Size(162, 13)
-        Me.lblBullSource.TabIndex = 474
-        Me.lblBullSource.Text = "Bull Source For Painting Straw"
+        Me.Label20.AutoSize = True
+        Me.Label20.Location = New System.Drawing.Point(304, 254)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(162, 13)
+        Me.Label20.TabIndex = 474
+        Me.Label20.Text = "Bull Source For Painting Straw"
         '
-        'lblPenIds
+        'Label19
         '
-        Me.lblPenIds.AutoSize = True
-        Me.lblPenIds.Location = New System.Drawing.Point(364, 157)
-        Me.lblPenIds.Name = "lblPenIds"
-        Me.lblPenIds.Size = New System.Drawing.Size(39, 13)
-        Me.lblPenIds.TabIndex = 473
-        Me.lblPenIds.Text = "Pen Id"
+        Me.Label19.AutoSize = True
+        Me.Label19.Location = New System.Drawing.Point(305, 178)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(39, 13)
+        Me.Label19.TabIndex = 473
+        Me.Label19.Text = "Pen Id"
         '
-        'lbldobs
+        'Label18
         '
-        Me.lbldobs.AutoSize = True
-        Me.lbldobs.Location = New System.Drawing.Point(363, 284)
-        Me.lbldobs.Name = "lbldobs"
-        Me.lbldobs.Size = New System.Drawing.Size(74, 13)
-        Me.lbldobs.TabIndex = 472
-        Me.lbldobs.Text = "Date Of Birth"
+        Me.Label18.AutoSize = True
+        Me.Label18.Location = New System.Drawing.Point(306, 302)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(74, 13)
+        Me.Label18.TabIndex = 472
+        Me.Label18.Text = "Date Of Birth"
         '
-        'lblPREVbULL
+        'Label17
         '
-        Me.lblPREVbULL.AutoSize = True
-        Me.lblPREVbULL.Location = New System.Drawing.Point(363, 257)
-        Me.lblPREVbULL.Name = "lblPREVbULL"
-        Me.lblPREVbULL.Size = New System.Drawing.Size(63, 13)
-        Me.lblPREVbULL.TabIndex = 471
-        Me.lblPREVbULL.Text = "Prev Bull Id"
+        Me.Label17.AutoSize = True
+        Me.Label17.Location = New System.Drawing.Point(305, 279)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(63, 13)
+        Me.Label17.TabIndex = 471
+        Me.Label17.Text = "Prev Bull Id"
         '
-        'lblLocationYield
+        'Label16
         '
-        Me.lblLocationYield.AutoSize = True
-        Me.lblLocationYield.Location = New System.Drawing.Point(363, 206)
-        Me.lblLocationYield.Name = "lblLocationYield"
-        Me.lblLocationYield.Size = New System.Drawing.Size(112, 13)
-        Me.lblLocationYield.TabIndex = 470
-        Me.lblLocationYield.Text = "Dam's Loaction Yield"
+        Me.Label16.AutoSize = True
+        Me.Label16.Location = New System.Drawing.Point(305, 232)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(111, 13)
+        Me.Label16.TabIndex = 470
+        Me.Label16.Text = "Dam's Loaction Yeild"
         '
-        'lblshed
+        'Label15
         '
-        Me.lblshed.AutoSize = True
-        Me.lblshed.Location = New System.Drawing.Point(363, 133)
-        Me.lblshed.Name = "lblshed"
-        Me.lblshed.Size = New System.Drawing.Size(46, 13)
-        Me.lblshed.TabIndex = 469
-        Me.lblshed.Text = "Shed Id"
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(305, 156)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(46, 13)
+        Me.Label15.TabIndex = 469
+        Me.Label15.Text = "Shed Id"
         '
-        'lblbreeds
+        'Label14
         '
-        Me.lblbreeds.AutoSize = True
-        Me.lblbreeds.Location = New System.Drawing.Point(363, 85)
-        Me.lblbreeds.Name = "lblbreeds"
-        Me.lblbreeds.Size = New System.Drawing.Size(36, 13)
-        Me.lblbreeds.TabIndex = 468
-        Me.lblbreeds.Text = "Breed"
+        Me.Label14.AutoSize = True
+        Me.Label14.Location = New System.Drawing.Point(305, 107)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(36, 13)
+        Me.Label14.TabIndex = 468
+        Me.Label14.Text = "Breed"
         '
-        'lblBullRatings
+        'Label13
         '
-        Me.lblBullRatings.AutoSize = True
-        Me.lblBullRatings.Location = New System.Drawing.Point(364, 181)
-        Me.lblBullRatings.Name = "lblBullRatings"
-        Me.lblBullRatings.Size = New System.Drawing.Size(74, 13)
-        Me.lblBullRatings.TabIndex = 466
-        Me.lblBullRatings.Text = "Bull Rating(*)"
+        Me.Label13.AutoSize = True
+        Me.Label13.Location = New System.Drawing.Point(304, 84)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(82, 13)
+        Me.Label13.TabIndex = 467
+        Me.Label13.Text = "12 Digit Bull Id"
         '
-        'lblsscentres
+        'Label12
         '
-        Me.lblsscentres.AutoSize = True
-        Me.lblsscentres.Location = New System.Drawing.Point(363, 108)
-        Me.lblsscentres.Name = "lblsscentres"
-        Me.lblsscentres.Size = New System.Drawing.Size(56, 13)
-        Me.lblsscentres.TabIndex = 465
-        Me.lblsscentres.Text = "SS Centre"
+        Me.Label12.AutoSize = True
+        Me.Label12.Location = New System.Drawing.Point(306, 203)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(74, 13)
+        Me.Label12.TabIndex = 466
+        Me.Label12.Text = "Bull Rating(*)"
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.Location = New System.Drawing.Point(305, 132)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(56, 13)
+        Me.Label11.TabIndex = 465
+        Me.Label11.Text = "SS Centre"
         '
         'Label10
         '
         Me.Label10.AutoSize = True
-        Me.Label10.Location = New System.Drawing.Point(21, 283)
+        Me.Label10.Location = New System.Drawing.Point(13, 305)
         Me.Label10.Name = "Label10"
         Me.Label10.Size = New System.Drawing.Size(73, 13)
         Me.Label10.TabIndex = 464
@@ -958,7 +873,7 @@ Partial Class frmBullMasters
         'Label9
         '
         Me.Label9.AutoSize = True
-        Me.Label9.Location = New System.Drawing.Point(21, 231)
+        Me.Label9.Location = New System.Drawing.Point(13, 256)
         Me.Label9.Name = "Label9"
         Me.Label9.Size = New System.Drawing.Size(45, 13)
         Me.Label9.TabIndex = 463
@@ -967,7 +882,7 @@ Partial Class frmBullMasters
         'Label8
         '
         Me.Label8.AutoSize = True
-        Me.Label8.Location = New System.Drawing.Point(21, 136)
+        Me.Label8.Location = New System.Drawing.Point(11, 156)
         Me.Label8.Name = "Label8"
         Me.Label8.Size = New System.Drawing.Size(53, 13)
         Me.Label8.TabIndex = 462
@@ -976,52 +891,52 @@ Partial Class frmBullMasters
         'Label7
         '
         Me.Label7.AutoSize = True
-        Me.Label7.Location = New System.Drawing.Point(21, 209)
+        Me.Label7.Location = New System.Drawing.Point(11, 231)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(86, 13)
         Me.Label7.TabIndex = 461
         Me.Label7.Text = "Bull Book Value"
         '
-        'lblExotic
+        'Label6
         '
-        Me.lblExotic.AutoSize = True
-        Me.lblExotic.Location = New System.Drawing.Point(21, 113)
-        Me.lblExotic.Name = "lblExotic"
-        Me.lblExotic.Size = New System.Drawing.Size(130, 13)
-        Me.lblExotic.TabIndex = 460
-        Me.lblExotic.Text = "Exotic Blood Percentage"
+        Me.Label6.AutoSize = True
+        Me.Label6.Location = New System.Drawing.Point(8, 128)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(130, 13)
+        Me.Label6.TabIndex = 460
+        Me.Label6.Text = "Exotic Blood Percentage"
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(21, 183)
+        Me.Label5.Location = New System.Drawing.Point(11, 205)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(53, 13)
         Me.Label5.TabIndex = 459
         Me.Label5.Text = "Category"
         '
-        'lblSpeciess
+        'Label4
         '
-        Me.lblSpeciess.AutoSize = True
-        Me.lblSpeciess.Location = New System.Drawing.Point(21, 88)
-        Me.lblSpeciess.Name = "lblSpeciess"
-        Me.lblSpeciess.Size = New System.Drawing.Size(45, 13)
-        Me.lblSpeciess.TabIndex = 458
-        Me.lblSpeciess.Text = "Species"
+        Me.Label4.AutoSize = True
+        Me.Label4.Location = New System.Drawing.Point(10, 105)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(45, 13)
+        Me.Label4.TabIndex = 458
+        Me.Label4.Text = "Species"
         '
-        'lblRegDate
+        'Label3
         '
-        Me.lblRegDate.AutoSize = True
-        Me.lblRegDate.Location = New System.Drawing.Point(21, 161)
-        Me.lblRegDate.Name = "lblRegDate"
-        Me.lblRegDate.Size = New System.Drawing.Size(97, 13)
-        Me.lblRegDate.TabIndex = 457
-        Me.lblRegDate.Text = "Registration Date"
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(11, 178)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(97, 13)
+        Me.Label3.TabIndex = 457
+        Me.Label3.Text = "Registration Date"
         '
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(21, 68)
+        Me.Label2.Location = New System.Drawing.Point(10, 79)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(125, 13)
         Me.Label2.TabIndex = 456
@@ -1030,32 +945,74 @@ Partial Class frmBullMasters
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(21, 258)
+        Me.Label1.Location = New System.Drawing.Point(13, 281)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(78, 13)
         Me.Label1.TabIndex = 455
         Me.Label1.Text = "Country Code"
         '
-        'txtDamLocation
+        'cmbBullSourceForPaintingStraws
         '
-        Me.txtDamLocation.Location = New System.Drawing.Point(528, 202)
-        Me.txtDamLocation.Name = "txtDamLocation"
-        Me.txtDamLocation.Size = New System.Drawing.Size(135, 20)
-        Me.txtDamLocation.TabIndex = 408
+        Me.cmbBullSourceForPaintingStraws.AutoCompleteDisplayMember = Nothing
+        Me.cmbBullSourceForPaintingStraws.AutoCompleteValueMember = Nothing
+        Me.cmbBullSourceForPaintingStraws.DropDownAnimationEnabled = True
+        RadListDataItem5.Text = "India"
+        RadListDataItem6.Text = "USA"
+        Me.cmbBullSourceForPaintingStraws.Items.Add(RadListDataItem5)
+        Me.cmbBullSourceForPaintingStraws.Items.Add(RadListDataItem6)
+        Me.cmbBullSourceForPaintingStraws.Location = New System.Drawing.Point(467, 249)
+        Me.cmbBullSourceForPaintingStraws.Name = "cmbBullSourceForPaintingStraws"
+        Me.cmbBullSourceForPaintingStraws.Size = New System.Drawing.Size(135, 20)
+        Me.cmbBullSourceForPaintingStraws.TabIndex = 450
         '
-        'txtRemark
+        'cmbBullRating
         '
-        Me.txtRemark.Location = New System.Drawing.Point(161, 230)
-        Me.txtRemark.Name = "txtRemark"
-        Me.txtRemark.Size = New System.Drawing.Size(140, 20)
-        Me.txtRemark.TabIndex = 405
+        Me.cmbBullRating.AutoCompleteDisplayMember = Nothing
+        Me.cmbBullRating.AutoCompleteValueMember = Nothing
+        Me.cmbBullRating.DropDownAnimationEnabled = True
+        RadListDataItem7.Text = "India"
+        RadListDataItem8.Text = "USA"
+        Me.cmbBullRating.Items.Add(RadListDataItem7)
+        Me.cmbBullRating.Items.Add(RadListDataItem8)
+        Me.cmbBullRating.Location = New System.Drawing.Point(465, 199)
+        Me.cmbBullRating.Name = "cmbBullRating"
+        Me.cmbBullRating.Size = New System.Drawing.Size(135, 20)
+        Me.cmbBullRating.TabIndex = 449
         '
-        'txtBullRFID
+        'cmbCountry
         '
-        Me.txtBullRFID.Location = New System.Drawing.Point(163, 133)
-        Me.txtBullRFID.Name = "txtBullRFID"
-        Me.txtBullRFID.Size = New System.Drawing.Size(136, 20)
-        Me.txtBullRFID.TabIndex = 403
+        Me.cmbCountry.AutoCompleteDisplayMember = Nothing
+        Me.cmbCountry.AutoCompleteValueMember = Nothing
+        Me.cmbCountry.DropDownAnimationEnabled = True
+        RadListDataItem1.Text = "India"
+        RadListDataItem2.Text = "USA"
+        Me.cmbCountry.Items.Add(RadListDataItem1)
+        Me.cmbCountry.Items.Add(RadListDataItem2)
+        Me.cmbCountry.Location = New System.Drawing.Point(138, 279)
+        Me.cmbCountry.Name = "cmbCountry"
+        Me.cmbCountry.Size = New System.Drawing.Size(125, 20)
+        Me.cmbCountry.TabIndex = 448
+        '
+        'TextBox9
+        '
+        Me.TextBox9.Location = New System.Drawing.Point(465, 223)
+        Me.TextBox9.Name = "TextBox9"
+        Me.TextBox9.Size = New System.Drawing.Size(135, 20)
+        Me.TextBox9.TabIndex = 408
+        '
+        'TextBox8
+        '
+        Me.TextBox8.Location = New System.Drawing.Point(138, 253)
+        Me.TextBox8.Name = "TextBox8"
+        Me.TextBox8.Size = New System.Drawing.Size(126, 20)
+        Me.TextBox8.TabIndex = 405
+        '
+        'TextBox7
+        '
+        Me.TextBox7.Location = New System.Drawing.Point(141, 153)
+        Me.TextBox7.Name = "TextBox7"
+        Me.TextBox7.Size = New System.Drawing.Size(122, 20)
+        Me.TextBox7.TabIndex = 403
         '
         'fndPenId
         '
@@ -1068,7 +1025,7 @@ Partial Class frmBullMasters
         Me.fndPenId.IsSourceFromTable = False
         Me.fndPenId.IsSourceFromValueList = False
         Me.fndPenId.IsUnique = False
-        Me.fndPenId.Location = New System.Drawing.Point(528, 155)
+        Me.fndPenId.Location = New System.Drawing.Point(465, 175)
         Me.fndPenId.MendatroryField = True
         Me.fndPenId.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndPenId.MyLinkLable1 = Nothing
@@ -1094,10 +1051,10 @@ Partial Class frmBullMasters
         Me.fndShedId.IsSourceFromTable = False
         Me.fndShedId.IsSourceFromValueList = False
         Me.fndShedId.IsUnique = False
-        Me.fndShedId.Location = New System.Drawing.Point(528, 133)
+        Me.fndShedId.Location = New System.Drawing.Point(465, 151)
         Me.fndShedId.MendatroryField = True
         Me.fndShedId.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndShedId.MyLinkLable1 = Me.lblShedId
+        Me.fndShedId.MyLinkLable1 = Nothing
         Me.fndShedId.MyLinkLable2 = Nothing
         Me.fndShedId.MyReadOnly = False
         Me.fndShedId.MyShowMasterFormButton = False
@@ -1120,10 +1077,10 @@ Partial Class frmBullMasters
         Me.fndSSCentre.IsSourceFromTable = False
         Me.fndSSCentre.IsSourceFromValueList = False
         Me.fndSSCentre.IsUnique = False
-        Me.fndSSCentre.Location = New System.Drawing.Point(528, 110)
+        Me.fndSSCentre.Location = New System.Drawing.Point(465, 129)
         Me.fndSSCentre.MendatroryField = True
         Me.fndSSCentre.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndSSCentre.MyLinkLable1 = Me.lblSSCentre
+        Me.fndSSCentre.MyLinkLable1 = Nothing
         Me.fndSSCentre.MyLinkLable2 = Nothing
         Me.fndSSCentre.MyReadOnly = False
         Me.fndSSCentre.MyShowMasterFormButton = False
@@ -1135,19 +1092,19 @@ Partial Class frmBullMasters
         Me.fndSSCentre.TabIndex = 395
         Me.fndSSCentre.Value = ""
         '
-        'txtBullBook
+        'TextBox6
         '
-        Me.txtBullBook.Location = New System.Drawing.Point(162, 204)
-        Me.txtBullBook.Name = "txtBullBook"
-        Me.txtBullBook.Size = New System.Drawing.Size(140, 20)
-        Me.txtBullBook.TabIndex = 393
+        Me.TextBox6.Location = New System.Drawing.Point(138, 227)
+        Me.TextBox6.Name = "TextBox6"
+        Me.TextBox6.Size = New System.Drawing.Size(126, 20)
+        Me.TextBox6.TabIndex = 393
         '
-        'TXTExoticBloodPer
+        'TextBox5
         '
-        Me.TXTExoticBloodPer.Location = New System.Drawing.Point(162, 109)
-        Me.TXTExoticBloodPer.Name = "TXTExoticBloodPer"
-        Me.TXTExoticBloodPer.Size = New System.Drawing.Size(137, 20)
-        Me.TXTExoticBloodPer.TabIndex = 391
+        Me.TextBox5.Location = New System.Drawing.Point(141, 129)
+        Me.TextBox5.Name = "TextBox5"
+        Me.TextBox5.Size = New System.Drawing.Size(122, 20)
+        Me.TextBox5.TabIndex = 391
         '
         'fndSubStatus
         '
@@ -1160,7 +1117,7 @@ Partial Class frmBullMasters
         Me.fndSubStatus.IsSourceFromTable = False
         Me.fndSubStatus.IsSourceFromValueList = False
         Me.fndSubStatus.IsUnique = False
-        Me.fndSubStatus.Location = New System.Drawing.Point(525, 327)
+        Me.fndSubStatus.Location = New System.Drawing.Point(763, 181)
         Me.fndSubStatus.MendatroryField = True
         Me.fndSubStatus.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndSubStatus.MyLinkLable1 = Nothing
@@ -1175,12 +1132,12 @@ Partial Class frmBullMasters
         Me.fndSubStatus.TabIndex = 389
         Me.fndSubStatus.Value = ""
         '
-        'txtBullAlias
+        'TextBox4
         '
-        Me.txtBullAlias.Location = New System.Drawing.Point(160, 353)
-        Me.txtBullAlias.Name = "txtBullAlias"
-        Me.txtBullAlias.Size = New System.Drawing.Size(143, 20)
-        Me.txtBullAlias.TabIndex = 387
+        Me.TextBox4.Location = New System.Drawing.Point(763, 155)
+        Me.TextBox4.Name = "TextBox4"
+        Me.TextBox4.Size = New System.Drawing.Size(143, 20)
+        Me.TextBox4.TabIndex = 387
         '
         'fndBullStatus
         '
@@ -1193,7 +1150,7 @@ Partial Class frmBullMasters
         Me.fndBullStatus.IsSourceFromTable = False
         Me.fndBullStatus.IsSourceFromValueList = False
         Me.fndBullStatus.IsUnique = False
-        Me.fndBullStatus.Location = New System.Drawing.Point(526, 302)
+        Me.fndBullStatus.Location = New System.Drawing.Point(763, 104)
         Me.fndBullStatus.MendatroryField = True
         Me.fndBullStatus.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndBullStatus.MyLinkLable1 = Nothing
@@ -1208,19 +1165,19 @@ Partial Class frmBullMasters
         Me.fndBullStatus.TabIndex = 385
         Me.fndBullStatus.Value = ""
         '
-        'TXTSSbull
+        'TextBox3
         '
-        Me.TXTSSbull.Location = New System.Drawing.Point(162, 303)
-        Me.TXTSSbull.Name = "TXTSSbull"
-        Me.TXTSSbull.Size = New System.Drawing.Size(143, 20)
-        Me.TXTSSbull.TabIndex = 382
+        Me.TextBox3.Location = New System.Drawing.Point(763, 76)
+        Me.TextBox3.Name = "TextBox3"
+        Me.TextBox3.Size = New System.Drawing.Size(143, 20)
+        Me.TextBox3.TabIndex = 382
         '
-        'TXTPrevBull
+        'TextBox2
         '
-        Me.TXTPrevBull.Location = New System.Drawing.Point(529, 252)
-        Me.TXTPrevBull.Name = "TXTPrevBull"
-        Me.TXTPrevBull.Size = New System.Drawing.Size(133, 20)
-        Me.TXTPrevBull.TabIndex = 379
+        Me.TextBox2.Location = New System.Drawing.Point(468, 273)
+        Me.TextBox2.Name = "TextBox2"
+        Me.TextBox2.Size = New System.Drawing.Size(133, 20)
+        Me.TextBox2.TabIndex = 379
         '
         'fndBreed
         '
@@ -1233,10 +1190,10 @@ Partial Class frmBullMasters
         Me.fndBreed.IsSourceFromTable = False
         Me.fndBreed.IsSourceFromValueList = False
         Me.fndBreed.IsUnique = False
-        Me.fndBreed.Location = New System.Drawing.Point(528, 87)
+        Me.fndBreed.Location = New System.Drawing.Point(465, 106)
         Me.fndBreed.MendatroryField = True
         Me.fndBreed.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndBreed.MyLinkLable1 = Me.lblBreed
+        Me.fndBreed.MyLinkLable1 = Nothing
         Me.fndBreed.MyLinkLable2 = Nothing
         Me.fndBreed.MyReadOnly = False
         Me.fndBreed.MyShowMasterFormButton = False
@@ -1247,6 +1204,13 @@ Partial Class frmBullMasters
         Me.fndBreed.Size = New System.Drawing.Size(135, 18)
         Me.fndBreed.TabIndex = 377
         Me.fndBreed.Value = ""
+        '
+        'TextBox1
+        '
+        Me.TextBox1.Location = New System.Drawing.Point(465, 81)
+        Me.TextBox1.Name = "TextBox1"
+        Me.TextBox1.Size = New System.Drawing.Size(135, 20)
+        Me.TextBox1.TabIndex = 375
         '
         'fndSubCategory
         '
@@ -1259,7 +1223,7 @@ Partial Class frmBullMasters
         Me.fndSubCategory.IsSourceFromTable = False
         Me.fndSubCategory.IsSourceFromValueList = False
         Me.fndSubCategory.IsUnique = False
-        Me.fndSubCategory.Location = New System.Drawing.Point(161, 279)
+        Me.fndSubCategory.Location = New System.Drawing.Point(138, 305)
         Me.fndSubCategory.MendatroryField = True
         Me.fndSubCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndSubCategory.MyLinkLable1 = Nothing
@@ -1270,7 +1234,7 @@ Partial Class frmBullMasters
         Me.fndSubCategory.ReferenceFieldDesc = Nothing
         Me.fndSubCategory.ReferenceFieldName = Nothing
         Me.fndSubCategory.ReferenceTableName = Nothing
-        Me.fndSubCategory.Size = New System.Drawing.Size(140, 18)
+        Me.fndSubCategory.Size = New System.Drawing.Size(126, 18)
         Me.fndSubCategory.TabIndex = 372
         Me.fndSubCategory.Value = ""
         '
@@ -1285,7 +1249,7 @@ Partial Class frmBullMasters
         Me.fndCategory.IsSourceFromTable = False
         Me.fndCategory.IsSourceFromValueList = False
         Me.fndCategory.IsUnique = False
-        Me.fndCategory.Location = New System.Drawing.Point(162, 181)
+        Me.fndCategory.Location = New System.Drawing.Point(141, 203)
         Me.fndCategory.MendatroryField = True
         Me.fndCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndCategory.MyLinkLable1 = Nothing
@@ -1296,7 +1260,7 @@ Partial Class frmBullMasters
         Me.fndCategory.ReferenceFieldDesc = Nothing
         Me.fndCategory.ReferenceFieldName = Nothing
         Me.fndCategory.ReferenceTableName = Nothing
-        Me.fndCategory.Size = New System.Drawing.Size(137, 18)
+        Me.fndCategory.Size = New System.Drawing.Size(122, 18)
         Me.fndCategory.TabIndex = 369
         Me.fndCategory.Value = ""
         '
@@ -1311,10 +1275,10 @@ Partial Class frmBullMasters
         Me.fndSpecies.IsSourceFromTable = False
         Me.fndSpecies.IsSourceFromValueList = False
         Me.fndSpecies.IsUnique = False
-        Me.fndSpecies.Location = New System.Drawing.Point(163, 86)
+        Me.fndSpecies.Location = New System.Drawing.Point(141, 106)
         Me.fndSpecies.MendatroryField = True
         Me.fndSpecies.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.fndSpecies.MyLinkLable1 = Me.lblSpecies
+        Me.fndSpecies.MyLinkLable1 = Nothing
         Me.fndSpecies.MyLinkLable2 = Nothing
         Me.fndSpecies.MyReadOnly = False
         Me.fndSpecies.MyShowMasterFormButton = False
@@ -1322,14 +1286,14 @@ Partial Class frmBullMasters
         Me.fndSpecies.ReferenceFieldDesc = Nothing
         Me.fndSpecies.ReferenceFieldName = Nothing
         Me.fndSpecies.ReferenceTableName = Nothing
-        Me.fndSpecies.Size = New System.Drawing.Size(137, 18)
+        Me.fndSpecies.Size = New System.Drawing.Size(123, 18)
         Me.fndSpecies.TabIndex = 366
         Me.fndSpecies.Value = ""
         '
         'RadioButton2
         '
         Me.RadioButton2.AutoSize = True
-        Me.RadioButton2.Location = New System.Drawing.Point(167, 65)
+        Me.RadioButton2.Location = New System.Drawing.Point(142, 78)
         Me.RadioButton2.Name = "RadioButton2"
         Me.RadioButton2.Size = New System.Drawing.Size(40, 17)
         Me.RadioButton2.TabIndex = 66
@@ -1340,7 +1304,7 @@ Partial Class frmBullMasters
         'RadioButton1
         '
         Me.RadioButton1.AutoSize = True
-        Me.RadioButton1.Location = New System.Drawing.Point(254, 66)
+        Me.RadioButton1.Location = New System.Drawing.Point(187, 78)
         Me.RadioButton1.Name = "RadioButton1"
         Me.RadioButton1.Size = New System.Drawing.Size(40, 17)
         Me.RadioButton1.TabIndex = 65
@@ -1351,7 +1315,7 @@ Partial Class frmBullMasters
         'fndCode
         '
         Me.fndCode.FieldName = Nothing
-        Me.fndCode.Location = New System.Drawing.Point(75, 39)
+        Me.fndCode.Location = New System.Drawing.Point(53, 34)
         Me.fndCode.MendatroryField = True
         Me.fndCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -1367,25 +1331,317 @@ Partial Class frmBullMasters
         '
         'RadPageViewPage2
         '
-        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(96.0!, 28.0!)
-        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage2.Controls.Add(Me.fndVidhanSabha)
+        Me.RadPageViewPage2.Controls.Add(Me.fndPanchayatSamiti)
+        Me.RadPageViewPage2.Controls.Add(Me.fndGramPanchayat)
+        Me.RadPageViewPage2.Controls.Add(Me.fndRevenueVillage)
+        Me.RadPageViewPage2.Controls.Add(Me.fndZone)
+        Me.RadPageViewPage2.Controls.Add(Me.fndBlock)
+        Me.RadPageViewPage2.Controls.Add(Me.fndDistrict)
+        Me.RadPageViewPage2.Controls.Add(Me.fndSupervisorCode)
+        Me.RadPageViewPage2.ItemSize = New System.Drawing.SizeF(92.0!, 24.0!)
+        Me.RadPageViewPage2.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage2.Name = "RadPageViewPage2"
-        Me.RadPageViewPage2.Size = New System.Drawing.Size(971, 376)
+        Me.RadPageViewPage2.Size = New System.Drawing.Size(957, 343)
         Me.RadPageViewPage2.Text = "Bull Information"
+        '
+        'fndVidhanSabha
+        '
+        Me.fndVidhanSabha.CalculationExpression = Nothing
+        Me.fndVidhanSabha.FieldCode = Nothing
+        Me.fndVidhanSabha.FieldDesc = Nothing
+        Me.fndVidhanSabha.FieldMaxLength = 0
+        Me.fndVidhanSabha.FieldName = Nothing
+        Me.fndVidhanSabha.isCalculatedField = False
+        Me.fndVidhanSabha.IsSourceFromTable = False
+        Me.fndVidhanSabha.IsSourceFromValueList = False
+        Me.fndVidhanSabha.IsUnique = False
+        Me.fndVidhanSabha.Location = New System.Drawing.Point(123, 181)
+        Me.fndVidhanSabha.MendatroryField = True
+        Me.fndVidhanSabha.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndVidhanSabha.MyLinkLable1 = Nothing
+        Me.fndVidhanSabha.MyLinkLable2 = Nothing
+        Me.fndVidhanSabha.MyReadOnly = False
+        Me.fndVidhanSabha.MyShowMasterFormButton = False
+        Me.fndVidhanSabha.Name = "fndVidhanSabha"
+        Me.fndVidhanSabha.ReferenceFieldDesc = Nothing
+        Me.fndVidhanSabha.ReferenceFieldName = Nothing
+        Me.fndVidhanSabha.ReferenceTableName = Nothing
+        Me.fndVidhanSabha.Size = New System.Drawing.Size(239, 18)
+        Me.fndVidhanSabha.TabIndex = 372
+        Me.fndVidhanSabha.Value = ""
+        '
+        'fndPanchayatSamiti
+        '
+        Me.fndPanchayatSamiti.CalculationExpression = Nothing
+        Me.fndPanchayatSamiti.FieldCode = Nothing
+        Me.fndPanchayatSamiti.FieldDesc = Nothing
+        Me.fndPanchayatSamiti.FieldMaxLength = 0
+        Me.fndPanchayatSamiti.FieldName = Nothing
+        Me.fndPanchayatSamiti.isCalculatedField = False
+        Me.fndPanchayatSamiti.IsSourceFromTable = False
+        Me.fndPanchayatSamiti.IsSourceFromValueList = False
+        Me.fndPanchayatSamiti.IsUnique = False
+        Me.fndPanchayatSamiti.Location = New System.Drawing.Point(123, 158)
+        Me.fndPanchayatSamiti.MendatroryField = True
+        Me.fndPanchayatSamiti.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndPanchayatSamiti.MyLinkLable1 = Nothing
+        Me.fndPanchayatSamiti.MyLinkLable2 = Nothing
+        Me.fndPanchayatSamiti.MyReadOnly = False
+        Me.fndPanchayatSamiti.MyShowMasterFormButton = False
+        Me.fndPanchayatSamiti.Name = "fndPanchayatSamiti"
+        Me.fndPanchayatSamiti.ReferenceFieldDesc = Nothing
+        Me.fndPanchayatSamiti.ReferenceFieldName = Nothing
+        Me.fndPanchayatSamiti.ReferenceTableName = Nothing
+        Me.fndPanchayatSamiti.Size = New System.Drawing.Size(239, 18)
+        Me.fndPanchayatSamiti.TabIndex = 371
+        Me.fndPanchayatSamiti.Value = ""
+        '
+        'fndGramPanchayat
+        '
+        Me.fndGramPanchayat.CalculationExpression = Nothing
+        Me.fndGramPanchayat.FieldCode = Nothing
+        Me.fndGramPanchayat.FieldDesc = Nothing
+        Me.fndGramPanchayat.FieldMaxLength = 0
+        Me.fndGramPanchayat.FieldName = Nothing
+        Me.fndGramPanchayat.isCalculatedField = False
+        Me.fndGramPanchayat.IsSourceFromTable = False
+        Me.fndGramPanchayat.IsSourceFromValueList = False
+        Me.fndGramPanchayat.IsUnique = False
+        Me.fndGramPanchayat.Location = New System.Drawing.Point(123, 135)
+        Me.fndGramPanchayat.MendatroryField = True
+        Me.fndGramPanchayat.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndGramPanchayat.MyLinkLable1 = Nothing
+        Me.fndGramPanchayat.MyLinkLable2 = Nothing
+        Me.fndGramPanchayat.MyReadOnly = False
+        Me.fndGramPanchayat.MyShowMasterFormButton = False
+        Me.fndGramPanchayat.Name = "fndGramPanchayat"
+        Me.fndGramPanchayat.ReferenceFieldDesc = Nothing
+        Me.fndGramPanchayat.ReferenceFieldName = Nothing
+        Me.fndGramPanchayat.ReferenceTableName = Nothing
+        Me.fndGramPanchayat.Size = New System.Drawing.Size(239, 18)
+        Me.fndGramPanchayat.TabIndex = 370
+        Me.fndGramPanchayat.Value = ""
+        '
+        'fndRevenueVillage
+        '
+        Me.fndRevenueVillage.CalculationExpression = Nothing
+        Me.fndRevenueVillage.FieldCode = Nothing
+        Me.fndRevenueVillage.FieldDesc = Nothing
+        Me.fndRevenueVillage.FieldMaxLength = 0
+        Me.fndRevenueVillage.FieldName = Nothing
+        Me.fndRevenueVillage.isCalculatedField = False
+        Me.fndRevenueVillage.IsSourceFromTable = False
+        Me.fndRevenueVillage.IsSourceFromValueList = False
+        Me.fndRevenueVillage.IsUnique = False
+        Me.fndRevenueVillage.Location = New System.Drawing.Point(123, 111)
+        Me.fndRevenueVillage.MendatroryField = True
+        Me.fndRevenueVillage.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndRevenueVillage.MyLinkLable1 = Nothing
+        Me.fndRevenueVillage.MyLinkLable2 = Nothing
+        Me.fndRevenueVillage.MyReadOnly = False
+        Me.fndRevenueVillage.MyShowMasterFormButton = False
+        Me.fndRevenueVillage.Name = "fndRevenueVillage"
+        Me.fndRevenueVillage.ReferenceFieldDesc = Nothing
+        Me.fndRevenueVillage.ReferenceFieldName = Nothing
+        Me.fndRevenueVillage.ReferenceTableName = Nothing
+        Me.fndRevenueVillage.Size = New System.Drawing.Size(239, 18)
+        Me.fndRevenueVillage.TabIndex = 369
+        Me.fndRevenueVillage.Value = ""
+        '
+        'fndZone
+        '
+        Me.fndZone.CalculationExpression = Nothing
+        Me.fndZone.FieldCode = Nothing
+        Me.fndZone.FieldDesc = Nothing
+        Me.fndZone.FieldMaxLength = 0
+        Me.fndZone.FieldName = Nothing
+        Me.fndZone.isCalculatedField = False
+        Me.fndZone.IsSourceFromTable = False
+        Me.fndZone.IsSourceFromValueList = False
+        Me.fndZone.IsUnique = False
+        Me.fndZone.Location = New System.Drawing.Point(123, 87)
+        Me.fndZone.MendatroryField = True
+        Me.fndZone.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndZone.MyLinkLable1 = Nothing
+        Me.fndZone.MyLinkLable2 = Nothing
+        Me.fndZone.MyReadOnly = False
+        Me.fndZone.MyShowMasterFormButton = False
+        Me.fndZone.Name = "fndZone"
+        Me.fndZone.ReferenceFieldDesc = Nothing
+        Me.fndZone.ReferenceFieldName = Nothing
+        Me.fndZone.ReferenceTableName = Nothing
+        Me.fndZone.Size = New System.Drawing.Size(239, 18)
+        Me.fndZone.TabIndex = 368
+        Me.fndZone.Value = ""
+        '
+        'fndBlock
+        '
+        Me.fndBlock.CalculationExpression = Nothing
+        Me.fndBlock.FieldCode = Nothing
+        Me.fndBlock.FieldDesc = Nothing
+        Me.fndBlock.FieldMaxLength = 0
+        Me.fndBlock.FieldName = Nothing
+        Me.fndBlock.isCalculatedField = False
+        Me.fndBlock.IsSourceFromTable = False
+        Me.fndBlock.IsSourceFromValueList = False
+        Me.fndBlock.IsUnique = False
+        Me.fndBlock.Location = New System.Drawing.Point(123, 63)
+        Me.fndBlock.MendatroryField = True
+        Me.fndBlock.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndBlock.MyLinkLable1 = Nothing
+        Me.fndBlock.MyLinkLable2 = Nothing
+        Me.fndBlock.MyReadOnly = False
+        Me.fndBlock.MyShowMasterFormButton = False
+        Me.fndBlock.Name = "fndBlock"
+        Me.fndBlock.ReferenceFieldDesc = Nothing
+        Me.fndBlock.ReferenceFieldName = Nothing
+        Me.fndBlock.ReferenceTableName = Nothing
+        Me.fndBlock.Size = New System.Drawing.Size(239, 18)
+        Me.fndBlock.TabIndex = 367
+        Me.fndBlock.Value = ""
+        '
+        'fndDistrict
+        '
+        Me.fndDistrict.CalculationExpression = Nothing
+        Me.fndDistrict.FieldCode = Nothing
+        Me.fndDistrict.FieldDesc = Nothing
+        Me.fndDistrict.FieldMaxLength = 0
+        Me.fndDistrict.FieldName = Nothing
+        Me.fndDistrict.isCalculatedField = False
+        Me.fndDistrict.IsSourceFromTable = False
+        Me.fndDistrict.IsSourceFromValueList = False
+        Me.fndDistrict.IsUnique = False
+        Me.fndDistrict.Location = New System.Drawing.Point(123, 39)
+        Me.fndDistrict.MendatroryField = True
+        Me.fndDistrict.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndDistrict.MyLinkLable1 = Nothing
+        Me.fndDistrict.MyLinkLable2 = Nothing
+        Me.fndDistrict.MyReadOnly = False
+        Me.fndDistrict.MyShowMasterFormButton = False
+        Me.fndDistrict.Name = "fndDistrict"
+        Me.fndDistrict.ReferenceFieldDesc = Nothing
+        Me.fndDistrict.ReferenceFieldName = Nothing
+        Me.fndDistrict.ReferenceTableName = Nothing
+        Me.fndDistrict.Size = New System.Drawing.Size(239, 18)
+        Me.fndDistrict.TabIndex = 366
+        Me.fndDistrict.Value = ""
+        '
+        'fndSupervisorCode
+        '
+        Me.fndSupervisorCode.CalculationExpression = Nothing
+        Me.fndSupervisorCode.FieldCode = Nothing
+        Me.fndSupervisorCode.FieldDesc = Nothing
+        Me.fndSupervisorCode.FieldMaxLength = 0
+        Me.fndSupervisorCode.FieldName = Nothing
+        Me.fndSupervisorCode.isCalculatedField = False
+        Me.fndSupervisorCode.IsSourceFromTable = False
+        Me.fndSupervisorCode.IsSourceFromValueList = False
+        Me.fndSupervisorCode.IsUnique = False
+        Me.fndSupervisorCode.Location = New System.Drawing.Point(123, 15)
+        Me.fndSupervisorCode.MendatroryField = True
+        Me.fndSupervisorCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndSupervisorCode.MyLinkLable1 = Nothing
+        Me.fndSupervisorCode.MyLinkLable2 = Nothing
+        Me.fndSupervisorCode.MyReadOnly = False
+        Me.fndSupervisorCode.MyShowMasterFormButton = False
+        Me.fndSupervisorCode.Name = "fndSupervisorCode"
+        Me.fndSupervisorCode.ReferenceFieldDesc = Nothing
+        Me.fndSupervisorCode.ReferenceFieldName = Nothing
+        Me.fndSupervisorCode.ReferenceTableName = Nothing
+        Me.fndSupervisorCode.Size = New System.Drawing.Size(239, 18)
+        Me.fndSupervisorCode.TabIndex = 365
+        Me.fndSupervisorCode.Value = ""
         '
         'RadPageViewPage3
         '
-        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(108.0!, 28.0!)
-        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 37)
+        Me.RadPageViewPage3.Controls.Add(Me.fndCompanyBank1)
+        Me.RadPageViewPage3.Controls.Add(Me.fndCompanyBank)
+        Me.RadPageViewPage3.Controls.Add(Me.RadGroupBox1)
+        Me.RadPageViewPage3.Controls.Add(Me.RadGroupBox2)
+        Me.RadPageViewPage3.ItemSize = New System.Drawing.SizeF(104.0!, 24.0!)
+        Me.RadPageViewPage3.Location = New System.Drawing.Point(10, 33)
         Me.RadPageViewPage3.Name = "RadPageViewPage3"
-        Me.RadPageViewPage3.Size = New System.Drawing.Size(971, 376)
+        Me.RadPageViewPage3.Size = New System.Drawing.Size(957, 343)
         Me.RadPageViewPage3.Text = "Bull General Detail"
+        '
+        'fndCompanyBank1
+        '
+        Me.fndCompanyBank1.CalculationExpression = Nothing
+        Me.fndCompanyBank1.FieldCode = Nothing
+        Me.fndCompanyBank1.FieldDesc = Nothing
+        Me.fndCompanyBank1.FieldMaxLength = 0
+        Me.fndCompanyBank1.FieldName = Nothing
+        Me.fndCompanyBank1.isCalculatedField = False
+        Me.fndCompanyBank1.IsSourceFromTable = False
+        Me.fndCompanyBank1.IsSourceFromValueList = False
+        Me.fndCompanyBank1.IsUnique = False
+        Me.fndCompanyBank1.Location = New System.Drawing.Point(158, 180)
+        Me.fndCompanyBank1.MendatroryField = True
+        Me.fndCompanyBank1.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndCompanyBank1.MyLinkLable1 = Nothing
+        Me.fndCompanyBank1.MyLinkLable2 = Nothing
+        Me.fndCompanyBank1.MyReadOnly = False
+        Me.fndCompanyBank1.MyShowMasterFormButton = False
+        Me.fndCompanyBank1.Name = "fndCompanyBank1"
+        Me.fndCompanyBank1.ReferenceFieldDesc = Nothing
+        Me.fndCompanyBank1.ReferenceFieldName = Nothing
+        Me.fndCompanyBank1.ReferenceTableName = Nothing
+        Me.fndCompanyBank1.Size = New System.Drawing.Size(239, 18)
+        Me.fndCompanyBank1.TabIndex = 409
+        Me.fndCompanyBank1.Value = ""
+        '
+        'fndCompanyBank
+        '
+        Me.fndCompanyBank.CalculationExpression = Nothing
+        Me.fndCompanyBank.FieldCode = Nothing
+        Me.fndCompanyBank.FieldDesc = Nothing
+        Me.fndCompanyBank.FieldMaxLength = 0
+        Me.fndCompanyBank.FieldName = Nothing
+        Me.fndCompanyBank.isCalculatedField = False
+        Me.fndCompanyBank.IsSourceFromTable = False
+        Me.fndCompanyBank.IsSourceFromValueList = False
+        Me.fndCompanyBank.IsUnique = False
+        Me.fndCompanyBank.Location = New System.Drawing.Point(158, 14)
+        Me.fndCompanyBank.MendatroryField = True
+        Me.fndCompanyBank.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.fndCompanyBank.MyLinkLable1 = Nothing
+        Me.fndCompanyBank.MyLinkLable2 = Nothing
+        Me.fndCompanyBank.MyReadOnly = False
+        Me.fndCompanyBank.MyShowMasterFormButton = False
+        Me.fndCompanyBank.Name = "fndCompanyBank"
+        Me.fndCompanyBank.ReferenceFieldDesc = Nothing
+        Me.fndCompanyBank.ReferenceFieldName = Nothing
+        Me.fndCompanyBank.ReferenceTableName = Nothing
+        Me.fndCompanyBank.Size = New System.Drawing.Size(239, 18)
+        Me.fndCompanyBank.TabIndex = 389
+        Me.fndCompanyBank.Value = ""
+        '
+        'RadGroupBox1
+        '
+        Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.HeaderText = "Bank Details 1"
+        Me.RadGroupBox1.Location = New System.Drawing.Point(3, -2)
+        Me.RadGroupBox1.Name = "RadGroupBox1"
+        Me.RadGroupBox1.Size = New System.Drawing.Size(997, 160)
+        Me.RadGroupBox1.TabIndex = 412
+        Me.RadGroupBox1.Text = "Bank Details 1"
+        '
+        'RadGroupBox2
+        '
+        Me.RadGroupBox2.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox2.HeaderText = "Bank Details 2"
+        Me.RadGroupBox2.Location = New System.Drawing.Point(3, 164)
+        Me.RadGroupBox2.Name = "RadGroupBox2"
+        Me.RadGroupBox2.Size = New System.Drawing.Size(997, 168)
+        Me.RadGroupBox2.TabIndex = 413
+        Me.RadGroupBox2.Text = "Bank Details 2"
         '
         'btnDelete
         '
         Me.btnDelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnDelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnDelete.Location = New System.Drawing.Point(104, 12)
+        Me.btnDelete.Location = New System.Drawing.Point(104, 14)
         Me.btnDelete.Name = "btnDelete"
         Me.btnDelete.Size = New System.Drawing.Size(69, 22)
         Me.btnDelete.TabIndex = 8
@@ -1396,7 +1652,7 @@ Partial Class frmBullMasters
         Me.btnClose.AccessibleRole = System.Windows.Forms.AccessibleRole.None
         Me.btnClose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnClose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnClose.Location = New System.Drawing.Point(900, 12)
+        Me.btnClose.Location = New System.Drawing.Point(900, 14)
         Me.btnClose.Name = "btnClose"
         Me.btnClose.Size = New System.Drawing.Size(69, 22)
         Me.btnClose.TabIndex = 10
@@ -1406,7 +1662,7 @@ Partial Class frmBullMasters
         '
         Me.btnSave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnSave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnSave.Location = New System.Drawing.Point(29, 11)
+        Me.btnSave.Location = New System.Drawing.Point(29, 13)
         Me.btnSave.Name = "btnSave"
         Me.btnSave.Size = New System.Drawing.Size(69, 22)
         Me.btnSave.TabIndex = 7
@@ -1454,7 +1710,10 @@ Partial Class frmBullMasters
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDateOfBirth, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDob, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRegDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtStatusDateChanged, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEndDate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
@@ -1462,11 +1721,13 @@ Partial Class frmBullMasters
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TXTEndDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtRegDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtStatusDateChanged, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbBullSourceForPaintingStraws, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbBullRating, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbCountry, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.RadPageViewPage2.ResumeLayout(False)
+        Me.RadPageViewPage3.ResumeLayout(False)
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1478,10 +1739,22 @@ Partial Class frmBullMasters
     Friend WithEvents SplitContainer1 As SplitContainer
     Friend WithEvents RadPageView1 As Telerik.WinControls.UI.RadPageView
     Friend WithEvents RadPageViewPage2 As Telerik.WinControls.UI.RadPageViewPage
+    Friend WithEvents fndVidhanSabha As common.UserControls.txtFinder
+    Friend WithEvents fndPanchayatSamiti As common.UserControls.txtFinder
+    Friend WithEvents fndGramPanchayat As common.UserControls.txtFinder
+    Friend WithEvents fndRevenueVillage As common.UserControls.txtFinder
+    Friend WithEvents fndZone As common.UserControls.txtFinder
+    Friend WithEvents fndBlock As common.UserControls.txtFinder
+    Friend WithEvents fndDistrict As common.UserControls.txtFinder
+    Friend WithEvents fndSupervisorCode As common.UserControls.txtFinder
     Friend WithEvents MyLabel15 As common.Controls.MyLabel
     Friend WithEvents RadPageViewPage3 As Telerik.WinControls.UI.RadPageViewPage
+    Friend WithEvents fndCompanyBank1 As common.UserControls.txtFinder
+    Friend WithEvents fndCompanyBank As common.UserControls.txtFinder
     Friend WithEvents MyLabel32 As common.Controls.MyLabel
     Friend WithEvents MyLabel28 As common.Controls.MyLabel
+    Friend WithEvents RadGroupBox1 As Telerik.WinControls.UI.RadGroupBox
+    Friend WithEvents RadGroupBox2 As Telerik.WinControls.UI.RadGroupBox
     Friend WithEvents RadPageViewPage1 As Telerik.WinControls.UI.RadPageViewPage
     Friend WithEvents lblCountryCode As common.Controls.MyLabel
     Friend WithEvents fndCategory As common.UserControls.txtFinder
@@ -1498,23 +1771,24 @@ Partial Class frmBullMasters
     Friend WithEvents fndSubCategory As common.UserControls.txtFinder
     Friend WithEvents lbl12DigitBullId As common.Controls.MyLabel
     Friend WithEvents lblBreed As common.Controls.MyLabel
+    Friend WithEvents TextBox1 As TextBox
     Friend WithEvents lblPrevBullId As common.Controls.MyLabel
     Friend WithEvents fndBreed As common.UserControls.txtFinder
     Friend WithEvents lblDOB As common.Controls.MyLabel
-    Friend WithEvents TXTPrevBull As TextBox
+    Friend WithEvents TextBox2 As TextBox
     Friend WithEvents lblSSBullId As common.Controls.MyLabel
-    Friend WithEvents TXTSSbull As TextBox
+    Friend WithEvents TextBox3 As TextBox
     Friend WithEvents lblBullStatus As common.Controls.MyLabel
     Friend WithEvents fndBullStatus As common.UserControls.txtFinder
     Friend WithEvents lblBullAliasName As common.Controls.MyLabel
     Friend WithEvents lblBullSubStatus As common.Controls.MyLabel
-    Friend WithEvents txtBullAlias As TextBox
+    Friend WithEvents TextBox4 As TextBox
     Friend WithEvents fndSubStatus As common.UserControls.txtFinder
     Friend WithEvents lblExoticBullPercentage As common.Controls.MyLabel
     Friend WithEvents lblBullBookValue As common.Controls.MyLabel
-    Friend WithEvents TXTExoticBloodPer As TextBox
+    Friend WithEvents TextBox5 As TextBox
     Friend WithEvents lblSSCentre As common.Controls.MyLabel
-    Friend WithEvents txtBullBook As TextBox
+    Friend WithEvents TextBox6 As TextBox
     Friend WithEvents fndSSCentre As common.UserControls.txtFinder
     Friend WithEvents lblShedId As common.Controls.MyLabel
     Friend WithEvents lblPenId As common.Controls.MyLabel
@@ -1524,51 +1798,47 @@ Partial Class frmBullMasters
     Friend WithEvents lblExistDate As common.Controls.MyLabel
     Friend WithEvents lblRFID As common.Controls.MyLabel
     Friend WithEvents lblRemark As common.Controls.MyLabel
-    Friend WithEvents txtBullRFID As TextBox
+    Friend WithEvents TextBox7 As TextBox
     Friend WithEvents lblBullRating As common.Controls.MyLabel
-    Friend WithEvents txtRemark As TextBox
+    Friend WithEvents TextBox8 As TextBox
     Friend WithEvents lblDamLocation As common.Controls.MyLabel
     Friend WithEvents lblBullSourcePrintStrew As common.Controls.MyLabel
-    Friend WithEvents txtDamLocation As TextBox
+    Friend WithEvents TextBox9 As TextBox
     Friend WithEvents btnDelete As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnClose As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnSave As Telerik.WinControls.UI.RadButton
-    Friend WithEvents lblcode As Label
+    Friend WithEvents cmbCountry As Telerik.WinControls.UI.RadDropDownList
+    Friend WithEvents cmbBullRating As Telerik.WinControls.UI.RadDropDownList
+    Friend WithEvents cmbBullSourceForPaintingStraws As Telerik.WinControls.UI.RadDropDownList
+    Friend WithEvents Label27 As Label
     Friend WithEvents Label26 As Label
     Friend WithEvents Label25 As Label
     Friend WithEvents Label24 As Label
     Friend WithEvents Label23 As Label
     Friend WithEvents Label22 As Label
     Friend WithEvents Label21 As Label
-    Friend WithEvents lblBullSource As Label
-    Friend WithEvents lblPenIds As Label
-    Friend WithEvents lbldobs As Label
-    Friend WithEvents lblPREVbULL As Label
-    Friend WithEvents lblLocationYield As Label
-    Friend WithEvents lblshed As Label
-    Friend WithEvents lblbreeds As Label
-    Friend WithEvents lblBullRatings As Label
-    Friend WithEvents lblsscentres As Label
+    Friend WithEvents Label20 As Label
+    Friend WithEvents Label19 As Label
+    Friend WithEvents Label18 As Label
+    Friend WithEvents Label17 As Label
+    Friend WithEvents Label16 As Label
+    Friend WithEvents Label15 As Label
+    Friend WithEvents Label14 As Label
+    Friend WithEvents Label13 As Label
+    Friend WithEvents Label12 As Label
+    Friend WithEvents Label11 As Label
     Friend WithEvents Label10 As Label
     Friend WithEvents Label9 As Label
     Friend WithEvents Label8 As Label
     Friend WithEvents Label7 As Label
-    Friend WithEvents lblExotic As Label
+    Friend WithEvents Label6 As Label
     Friend WithEvents Label5 As Label
-    Friend WithEvents lblSpeciess As Label
-    Friend WithEvents lblRegDate As Label
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label3 As Label
     Friend WithEvents Label2 As Label
     Friend WithEvents Label1 As Label
-    Friend WithEvents txtDateOfBirth As common.Controls.MyDateTimePicker
-    Friend WithEvents txtStatusDateChanged As common.Controls.MyDateTimePicker
+    Friend WithEvents txtDob As common.Controls.MyDateTimePicker
     Friend WithEvents txtRegDate As common.Controls.MyDateTimePicker
-    Friend WithEvents btnnew As Telerik.WinControls.UI.RadButton
-    Friend WithEvents TXTEndDate As common.Controls.MyDateTimePicker
-    Friend WithEvents RadMenu1 As Telerik.WinControls.UI.RadMenu
-    Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents RadMenuItem4 As Telerik.WinControls.UI.RadMenuItem
-    Friend WithEvents fndBullRating As common.UserControls.txtFinder
-    Friend WithEvents fndBullSourcePainting As common.UserControls.txtFinder
-    Friend WithEvents fndCounty As common.UserControls.txtFinder
+    Friend WithEvents txtStatusDateChanged As common.Controls.MyDateTimePicker
+    Friend WithEvents txtEndDate As common.Controls.MyDateTimePicker
 End Class
