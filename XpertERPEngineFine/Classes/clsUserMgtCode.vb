@@ -312,6 +312,7 @@ Public Class clsUserMgtCode
     Public Const frmBullSSCentreMaster As String = "BULL-SS-CE"
     Public Const frmBullPenIDMaster As String = "BULL-PAN-M"
     Public Const frmBullMasters As String = "BULL-Maste"
+    Public Const frmBullMovement As String = "BULL-MVMNT"
 
 
     ''============BullManagementReport=======================

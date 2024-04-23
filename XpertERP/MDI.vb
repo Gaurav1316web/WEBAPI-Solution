@@ -9787,6 +9787,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullPenIDMaster
                         frm = New frmBullPenIDMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullMovement
+                        frm = New frmBullMovement
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         '-------------------- MIS Master---------------
 
                         'Case clsUserMgtCode.MISitemGroups
