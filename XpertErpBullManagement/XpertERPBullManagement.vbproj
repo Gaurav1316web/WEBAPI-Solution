@@ -374,6 +374,9 @@
     <EmbeddedResource Include="Transaction\frmBullCurlingEntry.resx">
       <DependentUpon>frmBullCurlingEntry.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmBullMovement.resx">
+      <DependentUpon>frmBullMovement.vb</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="My Project\Application.myapp">

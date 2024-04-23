@@ -27,23 +27,22 @@ Public Class frmBullVaccinationEntry
         coll = New Dictionary(Of String, String)()
         coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
         coll.Add("Document_Date", "DateTime not NULL")
-        coll.Add("Bull_Code", "VARCHAR(30)  NULL REFERENCES TSPL_BULL_MASTER (Bull_Code)")
+        coll.Add("Bull_Code", "VARCHAR(30) not NULL REFERENCES TSPL_BULL_MASTER (Bull_Code)")
         coll.Add("Status", "integer not null default 0")
-        coll.Add("Start_Date", "Date Not null")
-        coll.Add("Created_By", "varchar(12) NOT NULL")
-        coll.Add("Created_Date", "datetime NOT NULL")
-        coll.Add("Modified_By", "varchar(12) NOT NULL")
-        coll.Add("Modified_Date", "datetime NOT NULL")
+        coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES tspl_user_master(Created_By) ")
+        coll.Add("Created_Date", "datetime NOT NULL REFERENCES tspl_user_master(Created_Date) ")
+        coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES tspl_user_master(Modify_By) ")
+        coll.Add("Modified_Date", "datetime NOT NULL REFERENCES tspl_user_master (Modify_Date)")
         coll.Add("Posted_By", "varchar(12) NULL")
         coll.Add("Posted_Date", "datetime NULL")
         coll.Add("Remarks", "varchar(100) NULL")
         clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULL_VACCINE_ENTRY", coll, Nothing, True, False, Nothing, Nothing, Nothing, True)
 
         coll = New Dictionary(Of String, String)()
-        coll.Add("SNo", "integer null")
+        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION")
         coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BULL_VACCINE_ENTRY(Document_Code)")
-        coll.Add("Item_Code", "varchar(50) NOT NULL")
-        coll.Add("Unit_code", "varchar(12) NULL")
+        coll.Add("Item_Code", "varchar(50) NOT NULL REFERENCES tspl_item_master(Item_Code) ")
+        coll.Add("Unit_code", "varchar(12) Not NULL REFERENCES TSPL_ITEM_UOM_DETAIL (UOM_Code) ")
         coll.Add("Qty", "decimal (18,2) NULL")
         clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULL_VACCINE_ENTRY_DETAIL", coll, Nothing, True, False, "TSPL_BULL_VACCINE_ENTRY", "Document_Code", "Document_Date", True)
 
@@ -75,18 +74,23 @@ Public Class frmBullVaccinationEntry
     End Sub
 
     Private Sub txtCustomer__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBullCode._MYValidating
-        Dim qry As String = "select Bull_Code as Code,Bull_Alia_Name as Name,Prev_Bull_Id ,SS_Bull_Id as [SS Bull Id],Breed_Code as Breed ,SS_Centre_Code as [SS Centre],Date_Of_Birth as [Date of Birth] from  TSPL_BULL_MASTER "
-        txtBullCode.Value = clsCommon.ShowSelectForm("BullVaccEntry", qry, "Code", "", txtBullCode.Value, "Code", isButtonClicked)
-        qry += "where bull_code = '" & txtBullCode.Value & "'"
-        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-        lblBullAliasName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
-        lblPreBullId.Text = clsCommon.myCstr(dt.Rows(0)("Previous Bull Id"))
-        lblSSBullId.Text = clsCommon.myCstr(dt.Rows(0)("SS Bull Id"))
-        lblDOB.Text = clsCommon.myCstr(dt.Rows(0)("Date of Birth"))
-        lblBreed.Text = clsCommon.myCstr(dt.Rows(0)("Breed"))
-        lblSSCentre.Text = clsCommon.myCstr(dt.Rows(0)("SS Centre"))
-        lblRegFromDate.Text = clsCommon.myCDate(dt.Rows(0)("SS Centre"))
-        lblRegToDate.Text = clsCommon.myCDate(dt.Rows(0)("SS Centre"))
+        Try
+            Dim qry As String = "select Bull_Code as Code,Bull_Alia_Name as Name,Prev_Bull_Id as [Previous Bull Id],Registration_Date as [Registration Date] ,SS_Bull_Id as [SS Bull Id],Breed_Code as Breed ,SS_Centre_Code as [SS Centre],Date_Of_Birth as [Date of Birth] from  TSPL_BULL_MASTER "
+            txtBullCode.Value = clsCommon.ShowSelectForm("BullVaccEntry", qry, "Code", "", txtBullCode.Value, "Code", isButtonClicked)
+            qry += "where bull_code = '" & txtBullCode.Value & "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt.Rows.Count > 0 Then
+                lblBullAliasName.Text = clsCommon.myCstr(dt.Rows(0)("Name"))
+                lblPreBullId.Text = clsCommon.myCstr(dt.Rows(0)("Previous Bull Id"))
+                lblSSBullId.Text = clsCommon.myCstr(dt.Rows(0)("SS Bull Id"))
+                lblDOB.Text = clsCommon.myCDate(dt.Rows(0)("Date of Birth"))
+                lblBreed.Text = clsCommon.myCstr(dt.Rows(0)("Breed"))
+                lblSSCentre.Text = clsCommon.myCstr(dt.Rows(0)("SS Centre"))
+                lblRegDate.Text = clsCommon.myCDate(dt.Rows(0)("Registration Date"))
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
 
     End Sub
 
@@ -213,16 +217,16 @@ Public Class frmBullVaccinationEntry
                 For Each grow As GridViewRowInfo In gv1.Rows
                     Dim objTr As New clsBullVaccinationEntryDetail()
                     If clsCommon.myCdbl((grow.Cells(colQty).Value)) > 0 Then
-                        objTr.SNO = grow.Cells(colSNo).Value
                         objTr.Qty = clsCommon.myCdbl((grow.Cells(colQty).Value))
-                        objTr.Item_Code = clsCommon.myCDecimal(grow.Cells(colItemCode).Value)
-                        objTr.Unit_code = clsCommon.myCDecimal(grow.Cells(colUnitCode).Value)
+                        objTr.Item_Code = clsCommon.myCstr(grow.Cells(colItemCode).Value)
+                        objTr.Unit_code = clsCommon.myCstr(grow.Cells(colUnitCode).Value)
                         obj.Arr.Add(objTr)
                     End If
 
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
                     clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    Exit Sub
                 End If
                 If (obj.SaveData(obj, isNewEntry, Nothing, False)) Then
                     common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
@@ -238,6 +242,13 @@ Public Class frmBullVaccinationEntry
         isNewEntry = True
         txtDocumentNo.Value = ""
         btnsave.Enabled = True
+        lblBullAliasName.Text = ""
+        lblBreed.Text = ""
+        lblPreBullId.Text = ""
+        lblRegDate.Text = ""
+        lblDOB.Text = ""
+        lblSSBullId.Text = ""
+        lblSSCentre.Text = ""
         btnPost.Enabled = True
         txtdate.Value = clsCommon.GETSERVERDATE()
         btnsave.Text = "Save"
@@ -264,42 +275,42 @@ Public Class frmBullVaccinationEntry
         repoNumBox.HeaderText = "SNO"
         gv1.MasterTemplate.Columns.Add(repoNumBox)
 
-        Dim repoQty As GridViewTextBoxColumn = New GridViewTextBoxColumn()
-        repoQty.FormatString = ""
-        repoQty.Width = 100
-        repoQty.HeaderText = "Qty"
-        repoQty.Name = colQty
-        repoQty.IsVisible = True
-        repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        gv1.MasterTemplate.Columns.Add(repoQty)
-
-        Dim repoItemCode As GridViewDecimalColumn = New GridViewDecimalColumn()
+        Dim repoItemCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoItemCode.FormatString = ""
         repoItemCode.Width = 100
         repoItemCode.HeaderText = "Item Code"
         repoItemCode.Name = colItemCode
+        ' repoItemCode.HeaderImage = Global.XpertErpBullManagement.My.Resources.Resources.search4
         repoItemCode.IsVisible = True
-        repoItemCode.Minimum = 0
         repoItemCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoItemCode)
 
-        Dim repoItemDesc As GridViewDecimalColumn = New GridViewDecimalColumn()
+        Dim repoItemDesc As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoItemDesc.FormatString = ""
         repoItemDesc.Width = 120
         repoItemDesc.HeaderText = "Item Desc"
         repoItemDesc.Name = colItemDesc
         repoItemDesc.IsVisible = True
-        repoItemDesc.Minimum = 0
         repoItemDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoItemDesc)
 
-        Dim repoUnitCode As GridViewDecimalColumn = New GridViewDecimalColumn()
+        Dim repoQty As GridViewDecimalColumn = New GridViewDecimalColumn()
+        repoQty.FormatString = ""
+        repoQty.Width = 100
+        repoQty.HeaderText = "Qty"
+        repoQty.Minimum = 0
+        repoQty.Name = colQty
+        repoQty.IsVisible = True
+        repoQty.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        gv1.MasterTemplate.Columns.Add(repoQty)
+
+        Dim repoUnitCode As GridViewTextBoxColumn = New GridViewTextBoxColumn()
         repoUnitCode.FormatString = ""
         repoUnitCode.Width = 120
         repoUnitCode.HeaderText = "UOM"
         repoUnitCode.Name = colUnitCode
+        ' repoUnitCode.HeaderImage = Global.ERP.My.Resources.Resources.search4
         repoUnitCode.IsVisible = True
-        repoUnitCode.Minimum = 0
         repoUnitCode.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
         gv1.MasterTemplate.Columns.Add(repoUnitCode)
 
@@ -323,11 +334,19 @@ Public Class frmBullVaccinationEntry
             Dim obj As New clsBullVaccinationEntry()
             obj = clsBullVaccinationEntry.GetData(strCode, NavTyep, Nothing)
             If (obj IsNot Nothing AndAlso clsCommon.myLen(clsCommon.myCstr(obj.Document_Code)) > 0) Then
-                txtDocumentNo.Value = obj.Document_Code
+                txtDocumentNo.Value = clsCommon.myCstr(obj.Document_Code)
                 txtdate.Value = obj.Document_date
-                txtBullCode.Value = obj.Bull_Code
+                txtBullCode.Value = clsCommon.myCstr(obj.Bull_Code)
+                lblBullAliasName.Text = clsCommon.myCstr(obj.BullAliasName)
+                lblPreBullId.Text = clsCommon.myCstr(obj.PreBullId)
+                lblSSBullId.Text = clsCommon.myCstr(obj.SSBullId)
+                lblDOB.Text = clsCommon.myCDate(obj.DOB)
+                lblBreed.Text = clsCommon.myCstr(obj.Breed)
+                lblSSCentre.Text = clsCommon.myCstr(obj.SSCentre)
+                lblRegDate.Text = clsCommon.myCDate(obj.RegDate)
                 txtRemarks.Text = clsCommon.myCstr(obj.Remarks)
                 isNewEntry = False
+                isInsideLoadData = True
                 btnsave.Text = "Update"
                 If obj.Status = 1 Then
                     lblStatus.Status = ERPTransactionStatus.Approved
@@ -340,12 +359,16 @@ Public Class frmBullVaccinationEntry
                 End If
 
                 If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                    Dim ii As Integer = 1
                     For Each objTr As clsBullVaccinationEntryDetail In obj.Arr
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSNo).Value = objTr.SNO
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSNo).Value = ii
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.Qty
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colItemCode).Value = objTr.Item_Code
-                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemCode).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc from tspl_item_master where Item_Code='" + objTr.Item_Code + "'"))
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colItemDesc).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc from tspl_item_master where Item_Code='" + objTr.Item_Code + "'"))
                         gv1.Rows(gv1.Rows.Count - 1).Cells(colUnitCode).Value = objTr.Unit_code
+
+                        ii = ii + 1
                     Next
                 End If
 
@@ -409,7 +432,7 @@ Public Class frmBullVaccinationEntry
             Dim intCurrRow As Integer = gv1.CurrentRow.Index
             gv1.CurrentRow.Cells(colSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
             If intCurrRow = gv1.Rows.Count - 1 Then
-                ' gv1.Rows.AddNew()
+                gv1.Rows.AddNew()
                 gv1.CurrentRow = gv1.Rows(intCurrRow)
             End If
         End If
@@ -543,20 +566,34 @@ Public Class frmBullVaccinationEntry
     End Sub
 
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
-        Dim obj As clsItemMaster = clsItemMaster.FinderForRMOther(clsCommon.myCstr(gv1.CurrentRow.Cells(colItemCode).Value), isButtonClick)
-        If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
-            gv1.CurrentRow.Cells(colItemCode).Value = obj.Item_Code
-            gv1.CurrentRow.Cells(colItemDesc).Value = obj.Item_Desc
-        End If
+        Try
+            Dim qry As String = "select TSPL_ITEM_MASTER.Item_Code as Code,TSPL_ITEM_MASTER.Item_Desc as Name,TSPL_ITEM_MASTER.Unit_Code,TSPL_ITEM_UOM_DETAIL.Net_Weight as [Net Weight] FROM TSPL_ITEM_UOM_DETAIL left join TSPL_ITEM_MASTER on  TSPL_ITEM_MASTER.Item_Code=TSPL_ITEM_UOM_DETAIL.Item_Code
+         LEFT OUTER JOIN TSPL_ITEM_TYPE_MASTER ON TSPL_ITEM_TYPE_MASTER.ITEM_TYPE_CODE = tspl_item_master.Item_Type"
+            Dim WhrCls As String = " TSPL_ITEM_TYPE_MASTER.IsVaccine = 'Y' "
+            gv1.CurrentRow.Cells(colItemCode).Value = clsCommon.ShowSelectForm("ItemFinder", qry, "Code", WhrCls, gv1.CurrentRow.Cells(colItemCode).Value, "Code", isButtonClick)
+            If clsCommon.myLen(gv1.CurrentRow.Cells(colItemCode).Value) > 0 Then
+                gv1.CurrentRow.Cells(colItemDesc).Value = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Item_Desc from tspl_item_master where Item_Code='" + gv1.CurrentRow.Cells(colItemCode).Value + "'"))
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+
+        End Try
 
     End Sub
     Sub OpenUOMList(ByVal isButtonClick As Boolean)
-        Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colUnitCode).Value)
-        If clsCommon.myLen(strICode) > 0 Then
-            Dim qry As String = "select UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL"
-            Dim whrCls As String = "Item_Code='" + strICode + "' and Default_UOM = 1"
-            gv1.CurrentRow.Cells(colUnitCode).Value = clsCommon.ShowSelectForm("BullVaccEntryfndnder", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnitCode).Value), "Code", isButtonClick)
-        End If
+        Try
+            Dim strICode As String = clsCommon.myCstr(gv1.CurrentRow.Cells(colItemCode).Value)
+            If clsCommon.myLen(strICode) > 0 Then
+                Dim qry As String = "select UOM_Code as Code,UOM_Description as [Description] from TSPL_ITEM_UOM_DETAIL"
+                Dim whrCls As String = "Item_Code='" + strICode + "' "
+                gv1.CurrentRow.Cells(colUnitCode).Value = clsCommon.ShowSelectForm("BullVaccEntryfndnder", qry, "Code", whrCls, clsCommon.myCstr(gv1.CurrentRow.Cells(colUnitCode).Value), "Code", isButtonClick)
+            Else
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Item first", Me.Text)
+
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub btnPDF_Click(sender As Object, e As EventArgs) Handles btnPDF.Click
