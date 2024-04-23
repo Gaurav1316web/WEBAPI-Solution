@@ -54501,7 +54501,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
-            coll.Add("Document_No", "VARCHAR(30) NOT NULL")
+            coll.Add("Document_No", "VARCHAR(30) NOT NULL PRIMARY KEY")
             coll.Add("Document_Date", "Datetime NOT NULL")
             coll.Add("Remarks", "VARCHAR(200) NOT NULL")
             coll.Add("Status", "integer NULL")
