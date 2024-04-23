@@ -9771,6 +9771,20 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullMasters
                         frm = New frmBullMasters
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullStatus
+                        frm = New frmBullStatus
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullSubStatus
+                        frm = New frmBullSubStatus
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullSourcePainting
+                        frm = New frmBullSourcePainting
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullRating
+                        frm = New frmBullRating
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+
 
                     Case clsUserMgtCode.frmBullMovementType
                         frm = New frmBullMovementType
