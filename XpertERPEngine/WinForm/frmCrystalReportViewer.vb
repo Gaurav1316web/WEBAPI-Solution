@@ -38,62 +38,67 @@ Public Class frmCrystalReportViewer
     End Function
 
     Private Function GetReportPath(ByVal crpfolder As CrystalReportFolder, ByVal strReportName As String, ByVal dtTransDate As Date?) As String
-        Dim strpath = Application.StartupPath
-        Dim strGST As String = ""
+        Try
+            Dim strpath = Application.StartupPath
+            Dim strGST As String = ""
 
-        If clsERPFuncationality.GetGSTStatus(dtTransDate) Then
-            strGST = " GST"
-        End If
-
-
-        If System.IO.File.Exists(Application.StartupPath + "\CrystalReport.Txp") Then
-            Dim strCompCode = ""
-            If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
-                strCompCode = "RCDF"
-            Else
-                strCompCode = objCommonVar.CurrentCompanyCode
+            If clsERPFuncationality.GetGSTStatus(dtTransDate) Then
+                strGST = " GST"
             End If
-            strpath += "\Xpert Crystal Reports\" + strCompCode
-        End If
-        Dim strReportPath As String = ""
-        If crpfolder = CrystalReportFolder.CommonServices Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\Common Services\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.FixedAssets Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\Fixed Assets\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.GeneralLedger Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\General Ledger\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.HRPayroll Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\HR_Payroll\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.HumanResource Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\Human Resource\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.InventoryReport Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\Inventory Report\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.KwalitySalesReport Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\Kwality Sales Report\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.MilkProcurement Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\Milk Procurement\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.NewSalesReports Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\New Sales Reports\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.PRODUCTION Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\PRODUCTION\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.Purchase Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\Purchase\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.PurchaseOrder Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\Purchase Order\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.SalesReport Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\Sales Report\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.ServiceReport Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\Service Report\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.TDS Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\TDS\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.UtilityReports Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\Utility Reports\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.Engineering Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\Engineering\" & strReportName & ".rpt"
-        ElseIf crpfolder = CrystalReportFolder.UnionReports Then
-            strReportPath = strpath + "\Crystal Reports" + strGST + "\Union Reports\" & strReportName & ".rpt"
-        End If
-        Return strReportPath
+
+            If System.IO.File.Exists(Application.StartupPath + "\CrystalReport.Txp") Then
+                Dim strCompCode = ""
+                If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "UDP") = CompairStringResult.Equal Then
+                    strCompCode = "RCDF"
+                Else
+                    strCompCode = objCommonVar.CurrentCompanyCode
+                End If
+                strpath += "\Xpert Crystal Reports\" + strCompCode
+            End If
+            Dim strReportPath As String = ""
+            If crpfolder = CrystalReportFolder.CommonServices Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Common Services\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.FixedAssets Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Fixed Assets\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.GeneralLedger Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\General Ledger\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.HRPayroll Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\HR_Payroll\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.HumanResource Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Human Resource\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.InventoryReport Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Inventory Report\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.KwalitySalesReport Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Kwality Sales Report\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.MilkProcurement Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Milk Procurement\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.NewSalesReports Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\New Sales Reports\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.PRODUCTION Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\PRODUCTION\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.Purchase Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Purchase\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.PurchaseOrder Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Purchase Order\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.SalesReport Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Sales Report\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.ServiceReport Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Service Report\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.TDS Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\TDS\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.UtilityReports Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Utility Reports\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.Engineering Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Engineering\" & strReportName & ".rpt"
+            ElseIf crpfolder = CrystalReportFolder.UnionReports Then
+                strReportPath = strpath + "\Crystal Reports" + strGST + "\Union Reports\" & strReportName & ".rpt"
+            End If
+            Return strReportPath
+        Finally
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+            GC.Collect()
+        End Try
     End Function
 
     Private Sub frmCrystalReportViewer_FormClosed(sender As Object, e As FormClosedEventArgs) Handles Me.FormClosed
@@ -321,10 +326,11 @@ Public Class frmCrystalReportViewer
 
     Public Function funsubreportWithdt(ByVal isPDFPath As Boolean, ByVal crpfolder As CrystalReportFolder, ByVal dt1 As DataTable, ByVal dt2 As DataTable, ByVal strReportName As String, ByVal strCaption As String, ByVal dtTransDate? As Date, Optional ByVal strSubReport1 As String = vbNullString, Optional ByVal strSubReport2 As String = vbNullString, Optional ByVal dt3 As DataTable = Nothing, Optional ByVal strSubReport3 As String = vbNullString, Optional ByVal dt4 As DataTable = Nothing, Optional ByVal strSubReport4 As String = vbNullString, Optional ByVal dt5 As DataTable = Nothing, Optional ByVal strSubReport5 As String = vbNullString, Optional ByVal dt6 As DataTable = Nothing, Optional ByVal strSubReport6 As String = vbNullString, Optional ByVal dt7 As DataTable = Nothing, Optional ByVal strSubReport7 As String = vbNullString, Optional ByVal dt8 As DataTable = Nothing) As String
         Dim PDFPath As String = ""
+        Dim strReportPath As String = Nothing
         Try
             Dim rptshow As Boolean
             If dt1.Rows.Count > 0 Then
-                Dim strReportPath As String = GetReportPath(crpfolder, strReportName, dtTransDate)
+                strReportPath = GetReportPath(crpfolder, strReportName, dtTransDate)
                 rpdoc.Load(strReportPath)
                 Try
                     If strSubReport1 <> "" Then
@@ -402,8 +408,15 @@ Public Class frmCrystalReportViewer
                     rpdoc.Export()
                     rpdoc.Close()
                     rpdoc.Dispose()
+                    rpdoc = Nothing
+                    subPath = Nothing
+                    CrExportOptions = Nothing
+                    CrDiskFileDestinationOptions = Nothing
+                    CrFormatTypeOptions = Nothing
+                    Me.Close()
                 Else
                     rpdoc.ReportOptions.EnableSaveDataWithReport = False
+                    rpdoc = Nothing
                     rpdoc.Refresh()
                     rptshow = True
                     Me.Text = strReportPath
@@ -416,6 +429,17 @@ Public Class frmCrystalReportViewer
             End If
         Catch ex As Exception
             Throw New Exception(ex.Message.ToString())
+        Finally
+            dt1.Dispose()
+            dt2.Dispose()
+            dt3.Dispose()
+            dt4.Dispose()
+            dt5.Dispose()
+            dt6.Dispose()
+            dt7.Dispose()
+            GC.Collect()
+            GC.WaitForPendingFinalizers()
+            GC.Collect()
         End Try
         Return PDFPath
     End Function
