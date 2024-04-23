@@ -22,8 +22,8 @@ Partial Class frmSendBillToDCS
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.txtRemainingBill = New System.Windows.Forms.TextBox()
         Me.MyLabel3 = New common.Controls.MyLabel()
@@ -79,10 +79,6 @@ Partial Class frmSendBillToDCS
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtRemainingBill)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel3)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel2)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtSendBill)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox2)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadGroupBox1)
         '
@@ -95,7 +91,7 @@ Partial Class frmSendBillToDCS
         '
         'txtRemainingBill
         '
-        Me.txtRemainingBill.Location = New System.Drawing.Point(609, 41)
+        Me.txtRemainingBill.Location = New System.Drawing.Point(577, 19)
         Me.txtRemainingBill.Name = "txtRemainingBill"
         Me.txtRemainingBill.ReadOnly = True
         Me.txtRemainingBill.Size = New System.Drawing.Size(90, 20)
@@ -105,7 +101,7 @@ Partial Class frmSendBillToDCS
         'MyLabel3
         '
         Me.MyLabel3.FieldName = Nothing
-        Me.MyLabel3.Location = New System.Drawing.Point(526, 42)
+        Me.MyLabel3.Location = New System.Drawing.Point(494, 20)
         Me.MyLabel3.Name = "MyLabel3"
         Me.MyLabel3.Size = New System.Drawing.Size(77, 18)
         Me.MyLabel3.TabIndex = 389
@@ -114,7 +110,7 @@ Partial Class frmSendBillToDCS
         'MyLabel2
         '
         Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Location = New System.Drawing.Point(377, 43)
+        Me.MyLabel2.Location = New System.Drawing.Point(345, 21)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(49, 18)
         Me.MyLabel2.TabIndex = 388
@@ -122,7 +118,7 @@ Partial Class frmSendBillToDCS
         '
         'txtSendBill
         '
-        Me.txtSendBill.Location = New System.Drawing.Point(430, 41)
+        Me.txtSendBill.Location = New System.Drawing.Point(398, 19)
         Me.txtSendBill.Name = "txtSendBill"
         Me.txtSendBill.ReadOnly = True
         Me.txtSendBill.Size = New System.Drawing.Size(90, 20)
@@ -208,10 +204,10 @@ Partial Class frmSendBillToDCS
         Me.cboShift.IsSourceFromTable = False
         Me.cboShift.IsSourceFromValueList = False
         Me.cboShift.IsUnique = False
-        RadListDataItem3.Text = "M"
-        RadListDataItem4.Text = "E"
-        Me.cboShift.Items.Add(RadListDataItem3)
-        Me.cboShift.Items.Add(RadListDataItem4)
+        RadListDataItem1.Text = "M"
+        RadListDataItem2.Text = "E"
+        Me.cboShift.Items.Add(RadListDataItem1)
+        Me.cboShift.Items.Add(RadListDataItem2)
         Me.cboShift.Location = New System.Drawing.Point(164, 16)
         Me.cboShift.MendatroryField = True
         Me.cboShift.MyLinkLable1 = Me.lblBOMStatus
@@ -275,9 +271,13 @@ Partial Class frmSendBillToDCS
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.txtRemainingBill)
         Me.RadGroupBox1.Controls.Add(Me.MyLabel1)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel3)
         Me.RadGroupBox1.Controls.Add(Me.txtMultDCS)
+        Me.RadGroupBox1.Controls.Add(Me.MyLabel2)
         Me.RadGroupBox1.Controls.Add(Me.RadButton2)
+        Me.RadGroupBox1.Controls.Add(Me.txtSendBill)
         Me.RadGroupBox1.Controls.Add(Me.btnSendBill)
         Me.RadGroupBox1.Controls.Add(Me.btnPrintBillMobUser)
         Me.RadGroupBox1.Controls.Add(Me.lblDocNo)
@@ -285,7 +285,7 @@ Partial Class frmSendBillToDCS
         Me.RadGroupBox1.HeaderText = "Mobile User Bill "
         Me.RadGroupBox1.Location = New System.Drawing.Point(13, 22)
         Me.RadGroupBox1.Name = "RadGroupBox1"
-        Me.RadGroupBox1.Size = New System.Drawing.Size(345, 105)
+        Me.RadGroupBox1.Size = New System.Drawing.Size(678, 105)
         Me.RadGroupBox1.TabIndex = 277
         Me.RadGroupBox1.Text = "Mobile User Bill "
         '
@@ -394,7 +394,6 @@ Partial Class frmSendBillToDCS
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "frmSendBillToDCS"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
-        Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
         CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()

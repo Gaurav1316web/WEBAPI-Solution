@@ -475,6 +475,11 @@ Public Class MDI
             If Not clsCommon.CompairString(CurrEXEVersion, strTempVersion) = CompairStringResult.Equal Then
                 Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertERPMIS")
             End If
+
+            strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertErpBullManagement.dll").FileVersion
+            If Not clsCommon.CompairString(CurrEXEVersion, strTempVersion) = CompairStringResult.Equal Then
+                Throw New Exception("Wrong DLL Version" + Environment.NewLine + "XpertErpBullManagement")
+            End If
             '--Check Apps Version
             If File.Exists(Application.StartupPath + "\XpertSMSApp.exe") Then
                 strTempVersion = FileVersionInfo.GetVersionInfo(Application.StartupPath + "\XpertSMSApp.exe").FileVersion
@@ -6003,7 +6008,7 @@ Public Class MDI
                         frm = New frmBulkSaleFreightMaster()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBulkSaleFreightCalculation
-                        frm = New frmBulkSaleFreightCalculation()
+                        frm = New frmBullVaccinationEntry()
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.NIRQC
                         frm = New frmNIRQC()
@@ -9771,11 +9776,28 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullMasters
                         frm = New frmBullMasters
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullStatus
+                        frm = New frmBullStatus
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullSubStatus
+                        frm = New frmBullSubStatus
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullSourcePainting
+                        frm = New frmBullSourcePainting
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullRating
+                        frm = New frmBullRating
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+
 
                     Case clsUserMgtCode.frmBullMovementType
                         frm = New frmBullMovementType
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.frmBullVaccinationEntry
+                        frm = New frmBullVaccinationEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBullSpeciesMaster
                         frm = New frmBullSpeciesMaster
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
@@ -9793,6 +9815,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBullMovement
                         frm = New frmBullMovement
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullCurlingEntry
+                        frm = New frmBullCurlingEntry
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         '-------------------- MIS Master---------------
 

@@ -1527,23 +1527,20 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
     End Sub
     Public Sub SelectMilkSRNItemsForVspPayment(ByVal strMCCCode As String, ByVal strSRN_No As List(Of String), ByVal Vsp_Name As String, ByVal frm_date As Date, ByVal End_date As Date, ByVal Is_With_Bill As Boolean, ByVal trans As SqlTransaction, ByVal Formcode As String, ByVal IsRoundOffPaiseAmount As Boolean, ByVal CompanyVSPDeduction As Decimal, ByVal NonCompanyVSPDeduction As Decimal, ByVal settDoNotIncludeIncentiveInMilkPurchaseInvoice As Boolean)
         Dim isPickPendingMilkSRNinNextPaymentCycle As Boolean = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, trans)) = 1
-        Dim qry As String = "select distinct CAST(0 as bit) as Sel,code,Final.DOC_DATE,ICode,Final.MCC_code,Final.VLC_Code,VLC_Name,Vendor,Final.Vendor_Name,IName 
-,Unit ,Qty as POQty,Acc_Qty, (Qty* case when RI=-1 then 1 else 0 end)  as GRNQty
-,(Unapproved) as UnapprovedQty, ((Qty *RI)- Unapproved) as PedningQty , (Rate) as Rate, (Vendor) as Vendor, (TSPL_VENDOR_MASTER.Vendor_Name) as VendorName,0 as Assessable, (Amount) as Amount, (Service_Charge_Amount) as Service_Charge_Amount,FAT_PER,SNF_PER,CLR,cans,Route_Code,route_name,Final.VEHICLE_CODE,Vehicle_Name,Correction_factor,Final.shift,Service_Charge_Type,Case when Nature='C' then Actual_charges end as  Commission, Case when Nature='E' then Actual_charges end as Payment_Commission,Head_Load_Amount as Head_Load_Amount,Own_Asset_Amount as Own_Asset_Amount, ( EMP_Amount) as EMP_Amount from (  
-select  distinct  TSPL_MILK_SRN_DETAIL.DOC_CODE as Code,TSPL_MILK_SRN_DETAIL.Head_Load_Amount,TSPL_MILK_SRN_DETAIL.Own_Asset_Amount,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_HEAD.MCC_code,TSPL_VLC_MASTER_HEAD.VLC_CODE,vlc_name,TSPL_MILK_SRN_HEAD.VSP_CODE as Vendor,Vendor_name,TSPL_MILK_SRN_DETAIL.Item_Code as ICode,Item_Desc as IName,TSPL_MILK_SRN_DETAIL.Qty  as Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty  as ACC_Qty,0 as Unapproved,tspl_milk_receipt_Detail.Uom_Code as Unit,1 as RI,TSPL_MILK_SRN_DETAIL.RATE as Rate,1 as Chk,TSPL_MILK_SRN_DETAIL.Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,NO_OF_CANS as cans,TSPL_MILK_SAMPLE_DETAIL.CLR,TSPL_MILK_SRN_HEAD.Route_Code,route_name,TSPL_MILK_SRN_HEAD.VEHICLE_CODE,TSPL_VEHICLE_MASTER.Vehicle_Name,tspl_Milk_Srn_Detail.Correction_factor,case when TSPL_MILK_SRN_HEAD.SHIFT='M' then 'Morning' else 'Evening' end as shift,TSPL_MILK_SRN_DETAIL.emp_amount 
+        Dim qry As String = "select CAST(0 as bit) as Sel, TSPL_MILK_SRN_DETAIL.DOC_CODE as Code,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Item_Code as ICode,TSPL_MILK_SRN_HEAD.MCC_code,TSPL_VLC_MASTER_HEAD.VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_SRN_HEAD.VSP_CODE as Vendor,Vendor_name,TSPL_ITEM_MASTER.Item_Desc as IName,TSPL_MILK_SRN_DETAIL.UOM_Code as Unit,TSPL_MILK_SRN_DETAIL.Qty as POQty,TSPL_MILK_SRN_DETAIL.ACC_Qty ,TSPL_MILK_SRN_DETAIL.Qty as GRNQty,TSPL_MILK_SRN_DETAIL.Qty as PedningQty,TSPL_MILK_SRN_DETAIL.RATE,TSPL_VENDOR_MASTER.Vendor_Name as VendorName,0 as Assessable,TSPL_MILK_SRN_DETAIL.Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SAMPLE_DETAIL.CLR,NO_OF_CANS as cans,TSPL_MILK_SRN_HEAD.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name,TSPL_MILK_SRN_HEAD.VEHICLE_CODE,TSPL_VEHICLE_MASTER.Vehicle_Name,tspl_Milk_Srn_Detail.Correction_factor,case when TSPL_MILK_SRN_HEAD.SHIFT='M' then 'Morning' else 'Evening' end as shift,TSPL_MILK_SRN_DETAIL.Head_Load_Amount,TSPL_MILK_SRN_DETAIL.Own_Asset_Amount,TSPL_MILK_SRN_DETAIL.EMP_Amount 
+,TSPL_VENDOR_MASTER.Service_Charge_Type,Case when Nature='C' then TSPL_VENDOR_MASTER.Actual_charges end as  Commission, Case when Nature='E' then TSPL_VENDOR_MASTER.Actual_charges end as Payment_Commission
 from TSPL_MILK_SRN_DETAIL 
 left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE =TSPL_MILK_SRN_DETAIL.DOC_CODE  
-Left join tspl_item_Master on tspl_item_Master.Item_Code=TSPL_MILK_SRN_DETAIL.Item_Code 
+Left join TSPL_ITEM_MASTER on tspl_item_Master.Item_Code=TSPL_MILK_SRN_DETAIL.Item_Code 
 left join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_SRN_HEAD.VLC_CODE 
 left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.vendor_Code=TSPL_MILK_SRN_HEAD.Vsp_CODE  
 left join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE and TSPL_MILK_SAMPLE_DETAIL.Item_Code =TSPL_MILK_SRN_DETAIL.Item_Code and TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE =TSPL_MILK_SRN_HEAD.VLC_DOC_CODE and TSPL_MILK_SAMPLE_DETAIL.Sample_No =TSPL_MILK_SRN_HEAD.sample_No  
 Left join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE=TSPL_MILK_SAMPLE_DETAIL.DOC_CODE 
 left join  TSPL_MILK_Receipt_DETAIL on TSPL_MILK_Receipt_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE and TSPL_MILK_Receipt_DETAIL.Item_Code=TSPL_MILK_SAMPLE_Detail.Item_Code  and TSPL_MILK_Receipt_DETAIL.VLC_DOC_CODE=TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE and TSPL_MILK_Receipt_DETAIL.sample_No=TSPL_MILK_SAMPLE_DETAIL.sample_No 
 left join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_MILK_SRN_HEAD.VEHICLE_CODE 
-left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Code=TSPL_MILK_SRN_HEAD.Doc_Code 
 left join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_MILK_SRN_HEAD.ROUTE_CODE 
-left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_MILK_SRN_HEAD.mcc_code  
-where  TSPL_MILK_SRN_HEAD.Posted=1  and TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Code is null and tspl_Milk_Srn_Head.is_incentive_Created='N' "
+left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_MILK_SRN_HEAD.mcc_code 
+where  TSPL_MILK_SRN_HEAD.Posted=1 and tspl_Milk_Srn_Head.is_incentive_Created='N' "
         If strSRN_No IsNot Nothing AndAlso strSRN_No.Count > 0 Then
             qry += " and TSPL_MILK_SRN_DETAIL.DOC_CODE in (" + clsCommon.GetMulcallString(strSRN_No) + ")"
         End If
@@ -1556,8 +1553,7 @@ where  TSPL_MILK_SRN_HEAD.Posted=1  and TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Co
         If clsCommon.myLen(Vsp_Name) > 0 Then
             qry += " and TSPL_MILK_SRN_HEAD.VSP_Code='" + Vsp_Name + "'"
         End If
-        qry += " )  Final 
-Left join tspl_milk_Shift_End_Detail sed on sed.mcc_Code=Final.MCC_CODE and convert(date,sed.DOC_DATE,103)=convert(date,Final.DOC_DATE,103) and sed.SHIFT=Final.shift left outer join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=final.Vendor   order by Code   "
+        qry += " and not exists(select 1 from TSPL_MILK_PURCHASE_INVOICE_DETAIL where TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_Code=TSPL_MILK_SRN_HEAD.DOC_CODE)   order by TSPL_MILK_SRN_DETAIL.DOC_CODE   "
         Dim dtPendingSRN = clsDBFuncationality.GetDataTable(qry, trans)
         Dim obj_SRN As New clsMilkSRNMCC
         If dtPendingSRN IsNot Nothing AndAlso dtPendingSRN.Rows.Count > 0 Then

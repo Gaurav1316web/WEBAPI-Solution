@@ -20,7 +20,7 @@ Public Class clsDocType
     Public Const CHACHARGEMASTER As String = "CHA Charge Master"
     Public Const DebitNote As String = "AP Debit Note"
     Public Const CreditNote As String = "AP Credit Note"
-
+    Public Const BullMasters As String = "Bull Masters"
     ''richa job work module
     Public Const GateEntryJWO As String = "JWO Gate Entry"
     Public Const WeighmentJWO As String = "JWO Weighment"
@@ -396,6 +396,7 @@ Public Class clsDocType
     Public Const MilkCollectionDCSMulipleMerge As String = "Milk Coll DCS Multiple Merge"
     Public Const HeadLoadDCS As String = "Head Load DCS"
     Public Const BulkSaleFreightMaster As String = "Bulk Sale Freight Master"
+    Public Const BullVaccinationEntry As String = "Bull Vaccination Entry"
     Public Const VSPMASTER As String = "VSP Master"
     Public Const PTMMASTER As String = "PTM Master"
     Public Const TTMMASTER As String = "TTM Master"
