@@ -54501,7 +54501,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_MASTER", coll)
 
             coll = New Dictionary(Of String, String)()
-            coll.Add("Document_No", "VARCHAR(30) NOT NULL")
+            coll.Add("Document_No", "VARCHAR(30) NOT NULL PRIMARY KEY")
             coll.Add("Document_Date", "Datetime NOT NULL")
             coll.Add("Remarks", "VARCHAR(200) NOT NULL")
             coll.Add("Status", "integer NULL")
@@ -54511,13 +54511,15 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Modified_Date", "Datetime NOT NULL")
             coll.Add("Posted_By", "varchar(12)  NULL")
             coll.Add("Posted_Date", "Datetime  NULL")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_CURLING", coll)
+            'clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BULL_CURLING", coll)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BULL_CURLING", coll, Nothing, False, False, "", "Document_No", "")
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Document_No", "VARCHAR(30) NULL REFERENCES TSPL_BULL_CURLING(Document_No) ")
             coll.Add("Bull_ID", "VARCHAR(50) NULL REFERENCES TSPL_BULL_MASTER(Bull_Code) ")
             coll.Add("Amount", "Decimal (18,2) Null")
-            clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_CURLING_Detail", coll)
+            ' clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_CURLING_Detail", coll)
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_BULL_CURLING_Detail", coll, Nothing, False, False, "TSPL_BULL_CURLING", "Document_No", "")
 
 
             coll = New Dictionary(Of String, String)()
