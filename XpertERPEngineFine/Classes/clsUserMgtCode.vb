@@ -315,6 +315,7 @@ Public Class clsUserMgtCode
     Public Const frmBullPenIDMaster As String = "BULL-PAN-M"
     Public Const frmBullMasters As String = "BULL-Maste"
     Public Const frmBullMovement As String = "BULL-MVMNT"
+    Public Const frmBullCurlingEntry As String = "BULL-CUR-ENT"
     Public Const frmBullStatus As String = "BULL-Status"
     Public Const frmBullSubStatus As String = "BULL-SUB-S"
     Public Const frmBullSourcePainting As String = "BULL-SOUR"

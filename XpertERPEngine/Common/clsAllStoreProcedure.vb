@@ -5,6 +5,7 @@ Public Class clsAllStoreProcedure
         Try
 
             clsCommon.ProgressBarShow()
+            XpertERPEngineFine.clsAllStoreProcedure.CreateAllStoreProcedures()
             Dim strProcedureBody As String = " AS begin select * from TSPL_CITY_MASTER end "
             clsCommonFunctionality.CreateStoreProcedure("chec", strProcedureBody)
 
