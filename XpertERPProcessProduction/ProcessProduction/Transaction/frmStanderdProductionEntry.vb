@@ -2251,16 +2251,12 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
         End If
     End Sub
     Private Sub UpdateCurrentRow(ByVal RowNo As Integer)
-        'gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value = clsCommon.myCDecimal(gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value)
-        'gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value = gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty).Value / 50
-        gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty).Value = clsCommon.myCDecimal(gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value) * 50
+        Dim convFactMul As Decimal = clsItemMaster.GetConvertionFactor(clsCommon.myCstr(gvBatch.Rows(RowNo).Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.Rows(RowNo).Cells(colUOMBag).Value), Nothing)
+        Dim convFactDiv As Decimal = clsItemMaster.GetConvertionFactor(clsCommon.myCstr(gvBatch.Rows(RowNo).Cells(colItemCode).Value), clsCommon.myCstr(gvBatch.Rows(RowNo).Cells(colUOM).Value), Nothing)
+        gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty).Value = clsCommon.myCDivide(clsCommon.myCDecimal(gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value) * convFactMul, convFactDiv)
     End Sub
 
-    'Private Sub UpdateCurrentRow_new(ByVal RowNo As Integer)
-    '    'gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value = clsCommon.myCDecimal(gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value)
-    '    gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value = gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty).Value / 50
-    '    'gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty).Value = clsCommon.myCDecimal(gvBatch.Rows(RowNo).Cells(colFINAL_PROD_Qty_Bag).Value) * 50
-    'End Sub
+
 
     Private Sub gvConsumption_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles gvConsumption.CurrentColumnChanged
         If gvConsumption.RowCount > 0 AndAlso 2 = 3 Then
