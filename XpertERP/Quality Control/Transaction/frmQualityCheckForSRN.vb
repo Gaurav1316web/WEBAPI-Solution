@@ -2021,7 +2021,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
                 End If
                 If clsCommon.myLen(TxtFinderRalPrint.arrValueMember) > 0 Then
-                    StrWhere += "and  TSPL_GRN_HEAD.Ref_No in ('" + clsCommon.GetMulcallString(TxtFinderRalPrint.arrValueMember) + "')"
+                    StrWhere += "and  TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(TxtFinderRalPrint.arrValueMember) + ")"
                 End If
                 If rbtnQCdate.IsChecked = True Then
                     StrWhere += " and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) >= convert(date,('" & fromDate.Value & "'),103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,('" & ToDate.Value & "'),103) "
@@ -2117,7 +2117,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
                 End If
                 If clsCommon.myLen(TxtFinderRalPrint.arrValueMember) > 0 Then
-                    StrWhere += "and  TSPL_GRN_HEAD.Ref_No=in ('" + clsCommon.GetMulcallString(TxtFinderRalPrint.arrValueMember) + "')"
+                    StrWhere += "and  TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(TxtFinderRalPrint.arrValueMember) + ")"
                 End If
                 If rbtnQCdate.IsChecked = True Then
                     StrWhere += " and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) >= convert(date,('" & fromDate.Value & "'),103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,('" & ToDate.Value & "'),103) "
@@ -2205,7 +2205,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     StrWhere += " and TSPL_QC_CHECK_HEAD.Vendor_Code = '" + TxtFinderVendorPrint.Value + "' "
                 End If
                 If clsCommon.myLen(TxtFinderRalPrint.arrValueMember) > 0 Then
-                    StrWhere += "  And TSPL_GRN_HEAD.Ref_No in ('" + clsCommon.GetMulcallString(TxtFinderRalPrint.arrValueMember) + "')"
+                    StrWhere += "  And TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(TxtFinderRalPrint.arrValueMember) + ")"
                 End If
                 If clsCommon.myLen(TxtFinderItemPrint.Value) > 0 Then
                     StrWhere += "  and  TSPL_QC_CHECK_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'"
@@ -2308,7 +2308,7 @@ where TSPL_MRN_DETAIL.QC_Check=1 and TSPL_MRN_DETAIL.Status=0 and TSPL_MRN_Head.
                     StrWhere += " and TSPL_QC_CHECK_DETAIL.Item_Code = '" + TxtFinderItemPrint.Value + "'"
                 End If
                 StrWhere += " And TSPL_LOCATION_MASTER.Location_Code='" + txtLoationPrintFinder.Value + "'
-                              And TSPL_GRN_HEAD.Ref_No in ('" + clsCommon.GetMulcallString(TxtFinderRalPrint.arrValueMember) + "')"
+                              And TSPL_GRN_HEAD.Ref_No in (" + clsCommon.GetMulcallString(TxtFinderRalPrint.arrValueMember) + ")"
                 If clsCommon.myLen(objCommonVar.strCurrUserLocations) > 0 Then
                     StrWhere += " and TSPL_QC_CHECK_HEAD.Bill_To_location in (" + objCommonVar.strCurrUserLocations + ")"
                 End If
