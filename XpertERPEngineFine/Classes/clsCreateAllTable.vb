@@ -54523,6 +54523,23 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
 
 
             coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
+            coll.Add("Document_Date", "DateTime NOT NULL")
+            coll.Add("Bull_Code", "varchar(30) NULL REFERENCES TSPL_BULL_MASTER (Bull_Code)")
+            coll.Add("Bull_Movement_Type", "varchar(30) NULL REFERENCES TSPL_BULL_MOVEMENT_TYPE (Code)")
+            coll.Add("Bull_Shed", "varchar(30) NULL REFERENCES TSPL_BULL_SHED_MASTER (Code)")
+            coll.Add("Period", "DateTime NOT NULL ")
+            coll.Add("Status", "integer null")
+            coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            coll.Add("Post_By", "VARCHAR(12) NULL REFERENCES TSPL_USER_MASTER(User_Code) ")
+            coll.Add("Post_Date", "DateTime NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_MOVEMENT", coll)
+
+
+            coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION")
             coll.Add("Source_Code", "VARCHAR(30) NOT NULL")
             coll.Add("Source_Date", "Datetime NOT NULL")
