@@ -1887,15 +1887,13 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
             End If
 
             sQuery += " where TSPL_PAYMENT_PROCESS_HEAD.doc_no in (" + strDocNo + "))XXY
-
 					 left outer join 
-
 					 (select 
                         TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,'" + strHeadLoadColumnName + "' as Description,'' AS Code,sum(TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount) as HeadLoadAmount from 
                         TSPL_PAYMENT_PROCESS_DETAIL INNER JOIN
                         TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_HEAD.Against_MillkPurchaseInvoice_No=TSPL_PAYMENT_PROCESS_DETAIL.Milk_Purchase_Invoice_No
                         where Document_Type='C' and RefDocType='Milk_HE'  and TSPL_PAYMENT_PROCESS_DETAIL.Head_Load_Amount<>0 AND TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ") group by 
-                        TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,Description)final1  on final1.Doc_No=xxy.doc_no group by Comp_Code,Comp_Name,Regn_No"
+                        TSPL_PAYMENT_PROCESS_DETAIL.Doc_No,Description)final1  on final1.Doc_No=xxy.doc_no "
 
             If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
                 sQuery += " left outer join (
@@ -1907,6 +1905,7 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
                          where TSPL_PAYMENT_PROCESS_DETAIL.doc_no in (" + strDocNo + ") Group By TSPL_PAYMENT_PROCESS_DETAIL.Doc_No
                          ) As TotalOutStanding On TotalOutStanding.Doc_No=final1.Doc_No"
             End If
+            sQuery += " group by Comp_Code,Comp_Name,Regn_No "
             dt = clsDBFuncationality.GetDataTable(sQuery)
 
 

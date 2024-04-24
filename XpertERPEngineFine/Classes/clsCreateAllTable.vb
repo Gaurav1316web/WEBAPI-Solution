@@ -54933,6 +54933,28 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
 
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BLK_FREIGHT_CALC_DETAIL", coll, Nothing, True, False, "TSPL_BLK_FREIGHT_CALC_HEAD", "Document_Code", "Document_Date", False)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
+            coll.Add("Document_Date", "DateTime not NULL")
+            coll.Add("Bull_Code", "VARCHAR(30) not NULL REFERENCES TSPL_BULL_MASTER (Bull_Code)")
+            coll.Add("Status", "integer not null default 0")
+            coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+            coll.Add("Created_Date", "datetime NOT NULL  ")
+            coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+            coll.Add("Modified_Date", "datetime NOT NULL ")
+            coll.Add("Posted_By", "varchar(12) NULL")
+            coll.Add("Posted_Date", "datetime NULL")
+            coll.Add("Remarks", "varchar(100) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULL_VACCINE_ENTRY", coll, Nothing, True, False, Nothing, Nothing, Nothing, False)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION")
+            coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BULL_VACCINE_ENTRY(Document_Code)")
+            coll.Add("Item_Code", "varchar(50) NOT NULL REFERENCES tspl_item_master(Item_Code) ")
+            coll.Add("Unit_code", "varchar(12) Not NULL ")
+            coll.Add("Qty", "decimal (18,2) NULL")
+            clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULL_VACCINE_ENTRY_DETAIL", coll, Nothing, True, False, "TSPL_BULL_VACCINE_ENTRY", "Document_Code", "Document_Date", False)
+
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()

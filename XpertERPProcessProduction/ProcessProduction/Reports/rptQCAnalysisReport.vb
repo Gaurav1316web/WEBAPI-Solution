@@ -58,11 +58,11 @@ Public Class rptQCAnalysisReport
             Dim whrcls As String = "where 1 = 1 and TSPL_QC_CHECK_HEAD.posted=1 and TSPL_QC_CHECK_SRN_DETAIL.Mandatory = 1 "
 
             If rbtnQCdate.IsChecked = True Then
-                whrcls += " And convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,'" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "',103) "
+                whrcls += " And convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) >= CONVERT(DATE, '" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "', 103) and convert(date,TSPL_QC_CHECK_HEAD.Document_Date,103) <= convert(date,'" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "',103) "
 
             End If
             If rbtnWeighmentDate.IsChecked = True Then
-                whrcls += " and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) >= convert(date,('" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) <= convert(date,('" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "'),103) "
+                whrcls += " and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) >= convert(date,('" & clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") & "'),103) and convert(date,TSPL_PO_WEIGHTMENT_HEAD.Weighment_Date,103) <= convert(date,('" & clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") & "'),103) "
             End If
             If clsCommon.myLen(txtLocation.Value) > 0 Then
                 whrcls += " and TSPL_LOCATION_MASTER.Location_Code='" & txtLocation.Value & "'  "
