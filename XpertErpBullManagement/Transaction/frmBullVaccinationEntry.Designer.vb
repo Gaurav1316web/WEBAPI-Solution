@@ -24,7 +24,6 @@ Partial Class frmBullVaccinationEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
@@ -50,7 +49,6 @@ Partial Class frmBullVaccinationEntry
         Me.txtdate = New common.Controls.MyDateTimePicker()
         Me.lblCode = New common.Controls.MyLabel()
         Me.txtDocumentNo = New common.UserControls.txtNavigator()
-        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -60,7 +58,7 @@ Partial Class frmBullVaccinationEntry
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
-        Me.MyRadGridView1 = New common.UserControls.MyRadGridView()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -81,9 +79,6 @@ Partial Class frmBullVaccinationEntry
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.gv1.SuspendLayout()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -91,8 +86,8 @@ Partial Class frmBullVaccinationEntry
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyRadGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -407,25 +402,6 @@ Partial Class frmBullVaccinationEntry
         Me.txtDocumentNo.TabIndex = 25
         Me.txtDocumentNo.Value = ""
         '
-        'gv1
-        '
-        Me.gv1.Controls.Add(Me.MyRadGridView1)
-        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv1.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gv1.MasterTemplate.AllowAddNewRow = False
-        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.gv1.MyStopExport = False
-        Me.gv1.Name = "gv1"
-        Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(996, 325)
-        Me.gv1.TabIndex = 1
-        Me.gv1.TabStop = False
-        '
         'RadSplitButton1
         '
         Me.RadSplitButton1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
@@ -507,23 +483,23 @@ Partial Class frmBullVaccinationEntry
         Me.btnAddNew.Size = New System.Drawing.Size(21, 19)
         Me.btnAddNew.TabIndex = 22
         '
-        'MyRadGridView1
+        'gv1
         '
-        Me.MyRadGridView1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.MyRadGridView1.Location = New System.Drawing.Point(0, 0)
+        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv1.Location = New System.Drawing.Point(0, 0)
         '
         '
         '
-        Me.MyRadGridView1.MasterTemplate.AllowAddNewRow = False
-        Me.MyRadGridView1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.MyRadGridView1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.MyRadGridView1.MasterTemplate.ViewDefinition = TableViewDefinition1
-        Me.MyRadGridView1.MyStopExport = False
-        Me.MyRadGridView1.Name = "MyRadGridView1"
-        Me.MyRadGridView1.ShowHeaderCellButtons = True
-        Me.MyRadGridView1.Size = New System.Drawing.Size(996, 325)
-        Me.MyRadGridView1.TabIndex = 1
-        Me.MyRadGridView1.TabStop = False
+        Me.gv1.MasterTemplate.AllowAddNewRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
+        Me.gv1.Name = "gv1"
+        Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.Size = New System.Drawing.Size(996, 325)
+        Me.gv1.TabIndex = 1
+        Me.gv1.TabStop = False
         '
         'frmBullVaccinationEntry
         '
@@ -559,10 +535,6 @@ Partial Class frmBullVaccinationEntry
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.gv1.ResumeLayout(False)
-        Me.gv1.PerformLayout()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
@@ -570,8 +542,8 @@ Partial Class frmBullVaccinationEntry
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyRadGridView1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyRadGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -594,7 +566,6 @@ Partial Class frmBullVaccinationEntry
     Friend WithEvents btnAddNew As RadButton
     Friend WithEvents lblCode As common.Controls.MyLabel
     Friend WithEvents txtDocumentNo As common.UserControls.txtNavigator
-    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents RadSplitButton1 As RadSplitButton
     Friend WithEvents btnExcel As RadMenuItem
     Friend WithEvents btnPDF As RadMenuItem
@@ -611,5 +582,5 @@ Partial Class frmBullVaccinationEntry
     Friend WithEvents lblPreBullId As common.Controls.MyLabel
     Friend WithEvents lblRegDate As common.Controls.MyLabel
     Friend WithEvents lblDOB As common.Controls.MyLabel
-    Friend WithEvents MyRadGridView1 As common.UserControls.MyRadGridView
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
 End Class

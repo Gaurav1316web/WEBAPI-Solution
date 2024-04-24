@@ -5,6 +5,7 @@ Imports System.Data
 Imports System.Data.SqlClient
 Imports Telerik.WinControls.UI
 Imports XpertERPEngineFine
+Imports Telerik
 Public Class frmBullMovement
     Inherits FrmMainTranScreen
     Dim isNewEntry As Boolean = True
@@ -14,29 +15,13 @@ Public Class frmBullMovement
 
 
     Private Sub frmBullMovement_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        'Dim coll As Dictionary(Of String, String)
-        'coll = New Dictionary(Of String, String)()
-        'coll.Add("Document_Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
-        'coll.Add("Document_Date", "DateTime NOT NULL")
-        'coll.Add("Bull_Code", "varchar(30) NULL REFERENCES TSPL_BULL_MASTER (Code)")
-        'coll.Add("Bull_Movement_Type", "varchar(30) NULL REFERENCES TSPL_BULL_MOVEMENT_TYPE (Code)")
-        'coll.Add("Bull_Shed", "varchar(30) NULL REFERENCES TSPL_BULL_SHED_MASTER (Code)")
-        'coll.Add("Perid", "Varchar(50) NOT NULL ")
-        'coll.Add("Status", "integer null")
-        'coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
-        'coll.Add("Created_Date", "Datetime NOT NULL")
-        'coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
-        'coll.Add("Modified_Date", "Datetime NOT NULL")
-        'coll.Add("Post_By", "VARCHAR(12) NULL REFERENCES TSPL_USER_MASTER(User_Code) ")
-        'coll.Add("Post_Date", "DateTime NULL")
-        'clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_MOVEMENT", coll)
+
         SetUserMgmtNew()
         ButtonToolTip.SetToolTip(btnsave, "Press Alt+S for Save/Update")
         ButtonToolTip.SetToolTip(btndelete, "Press Alt+D  for Delete")
         ButtonToolTip.SetToolTip(btnclose, "Press Alt+C Close the Window")
         ButtonToolTip.SetToolTip(btnnew, "Press Alt+N Adding New")
         funReset()
-        LoadBullMovementType()
     End Sub
     Private Sub SetUserMgmtNew()
         If Not (MyBase.isReadFlag) Then
@@ -47,6 +32,28 @@ Public Class frmBullMovement
         RadMenuItem2.Enabled = MyBase.isModifyFlag ' For Export
         btndelete.Visible = MyBase.isDeleteFlag
     End Sub
+
+    Private Sub frmBullMovement_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
+        If e.Alt AndAlso e.KeyCode = Keys.N AndAlso btnnew.Enabled Then
+            btnnew.PerformClick()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.S AndAlso btnsave.Enabled AndAlso MyBase.isModifyFlag Then
+            SaveData()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.D AndAlso btnsave.Enabled AndAlso MyBase.isDeleteFlag Then
+            btndelete.PerformClick()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.P AndAlso btnPost.Enabled AndAlso MyBase.isPostFlag Then
+            btnPost.PerformClick()
+        ElseIf e.Alt AndAlso e.KeyCode = Keys.C AndAlso btnclose.Enabled Then
+            Me.Close()
+        ElseIf e.Alt AndAlso e.Shift AndAlso e.Control And e.KeyCode = Keys.F12 Then
+            Dim frm As New FrmPWD(Nothing)
+            frm.strType = "SIRC"
+            frm.strCode = "SIReversAndCreate"
+            frm.ShowDialog()
+            If frm.isPasswordCorrect Then
+                btnReverse.Visible = True
+            End If
+        End If
+    End Sub
     Sub funReset()
         isNewEntry = True
         txtCode.MyReadOnly = False
@@ -54,23 +61,23 @@ Public Class frmBullMovement
         txtCode.Focus()
         txtBullCode.Enabled = True
         txtBullCode.Value = ""
-        LblMainLocation.Text = ""
+        LblBullName.Text = ""
         TxtShed.Enabled = True
         TxtShed.Value = ""
         LblShed.Text = ""
         txtPeriod.Text = ""
-        cboBullMvmntType.SelectedValue = ""
+        txtMovementType.Value = ""
+        txtMovementType.Enabled = True
+        lbleMovementType.Text = ""
         txtDate.Value = clsCommon.GETSERVERDATE()
         btnsave.Text = "Save"
+        btnReverse.Visible = False
+        UsLock1.Status = ERPTransactionStatus.Pending
+        btndelete.Enabled = True
+        btnPost.Enabled = True
+        btnsave.Enabled = True
     End Sub
-    Sub LoadBullMovementType()
-        Dim Whr = ""
-        Dim dt As New DataTable()
-        dt = clsBullMovementType.getBullMovementTypeQuery()
-        cboBullMvmntType.DataSource = dt
-        cboBullMvmntType.ValueMember = "Code"
-        cboBullMvmntType.DisplayMember = "Name"
-    End Sub
+
 
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
         SaveData()
@@ -89,20 +96,11 @@ Public Class frmBullMovement
             Dim obj As New clsBullMovement()
             obj.Document_Code = txtCode.Value
             obj.Document_Date = txtDate.Value
-            obj.Perid = txtPeriod.Text
+            obj.Perid = txtPeriod.Value
             obj.Bull_Code = txtBullCode.Value
             obj.Bull_Shed = TxtShed.Value
-            obj.Bull_Movement_Type = cboBullMvmntType.SelectedValue
-            If IsNumeric(txtPeriod.Text) Then
-                ' Convert the input to a number
-                obj.Perid = clsCommon.myCdbl(txtPeriod.Text)
-            Else
-                ' Display an error message if the input is not a valid number
-                clsCommon.MyMessageBoxShow("Please enter a valid number for Days.", Me.Text)
-                txtPeriod.Focus()
-                txtPeriod.Text = ""
-                Exit Sub
-            End If
+            obj.Bull_Movement_Type = txtMovementType.Value
+
             If (obj.SaveData(obj, isNewEntry)) Then
                 clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
                 LoadData(obj.Document_Code, NavigatorType.Current)
@@ -132,7 +130,7 @@ Public Class frmBullMovement
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
         Try
             isNewEntry = True
-            btndelete.Enabled = False
+            btndelete.Enabled = True
             btnsave.Enabled = True
             btnsave.Text = "Update"
             txtCode.MyReadOnly = False
@@ -141,20 +139,28 @@ Public Class frmBullMovement
                 isNewEntry = False
                 txtCode.Value = obj.Document_Code
                 txtDate.Text = obj.Document_Date
-                txtBullCode.Text = obj.Bull_Code
+                txtBullCode.Value = obj.Bull_Code
                 TxtShed.Value = obj.Bull_Shed
-                cboBullMvmntType.SelectedValue = obj.Bull_Movement_Type
+                txtMovementType.Value = obj.Bull_Movement_Type
+                txtPeriod.Text = obj.Perid
                 txtCode.MyReadOnly = True
-                'btnsave.Text = "Update"
-                '' btndelete.Enabled = True
+                LblBullName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Bull_Alia_Name from TSPL_BULL_MASTER where Bull_Code='" + obj.Bull_Code + "'"))
+                LblShed.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Name from TSPL_BULL_SHED_MASTER where Code='" + obj.Bull_Shed + "'"))
+                lbleMovementType.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Name from TSPL_BULL_MOVEMENT_TYPE where Code='" + obj.Bull_Movement_Type + "'"))
                 If obj.Status = ERPTransactionStatus.Approved Then
                     btnsave.Enabled = False
-                    '' btnPost.Enabled = False
+                    btnPost.Enabled = False
                     btndelete.Enabled = False
+                Else
+                    btndelete.Enabled = True
+                    btnsave.Text = "Update"
+                    btnPost.Enabled = True
+                    btnsave.Enabled = True
                 End If
                 UsLock1.Status = obj.Status
             Else
-                'AddNew()
+
+                clsCommon.MyMessageBoxShow(Me, "No Data found", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message)
@@ -162,14 +168,14 @@ Public Class frmBullMovement
     End Sub
 
     Private Sub txtBullCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBullCode._MYValidating
-        Dim qry As String = "select Code , Bull_Alia_Name as Bull_Name from TSPL_BULL_MASTER"
+        Dim qry As String = "select Bull_Code as Code , Bull_Alia_Name as [Bull Name] from TSPL_BULL_MASTER"
         txtBullCode.Value = clsCommon.ShowSelectForm("BULLFND", qry, "Code", "", txtBullCode.Value, "Code", isButtonClicked)
 
         If clsCommon.myLen(txtBullCode.Value) > 0 Then
-            txtBullCode.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Bull_Alia_Name from TSPL_BULL_MASTER where Code='" + txtBullCode.Value + "'"))
+            LblBullName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Bull_Alia_Name from TSPL_BULL_MASTER where Bull_Code='" + txtBullCode.Value + "'"))
         Else
             txtBullCode.Value = ""
-            txtBullCode.Text = ""
+            LblBullName.Text = ""
         End If
     End Sub
 
@@ -178,10 +184,10 @@ Public Class frmBullMovement
         TxtShed.Value = clsCommon.ShowSelectForm("BULLSHEDFND", qry, "Code", "", TxtShed.Value, "Code", isButtonClicked)
 
         If clsCommon.myLen(TxtShed.Value) > 0 Then
-            TxtShed.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Name from TSPL_BULL_SHED_MASTER where Code='" + TxtShed.Value + "'"))
+            LblShed.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Name from TSPL_BULL_SHED_MASTER where Code='" + TxtShed.Value + "'"))
         Else
             TxtShed.Value = ""
-            TxtShed.Text = ""
+            LblShed.Text = ""
         End If
     End Sub
 
@@ -218,4 +224,83 @@ Public Class frmBullMovement
         End Try
     End Sub
 
+    Private Sub txtCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtCode._MYValidating
+        Dim Sqlqry As String = "select Document_Code,Document_Date,Bull_Code,Bull_Movement_Type,Bull_Shed,Period,Status from TSPL_BULL_MOVEMENT where Document_Code='" + txtCode.Value + "'"
+        Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
+        If count = 0 Then
+            txtCode.MyReadOnly = False
+        Else
+            txtCode.MyReadOnly = True
+        End If
+        If txtCode.MyReadOnly OrElse isButtonClicked Then
+            Dim whrClas As String = ""
+            Dim qry As String = "select Document_Code,Document_Date,Bull_Code,Bull_Movement_Type,Bull_Shed,Period,Status from TSPL_BULL_MOVEMENT"
+            txtCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Document_Code", whrClas, txtCode.Value, "TSPL_BULL_MOVEMENT.Document_Code asc", isButtonClicked, Nothing)
+            LoadData(txtCode.Value, NavigatorType.Current)
+        End If
+    End Sub
+
+    Private Sub btnPost_Click(sender As Object, e As EventArgs) Handles btnPost.Click
+        PostData()
+    End Sub
+    Sub PostData()
+        Try
+            Dim msg As String = ""
+            If (myMessages.postConfirm()) Then
+
+                If (clsBullMovement.PostData(txtCode.Value)) Then
+                    msg = "Successfully Posted"
+
+                End If
+                If clsCommon.myLen(msg) > 0 Then
+                    common.clsCommon.MyMessageBoxShow(msg)
+                End If
+                LoadData(txtCode.Value, NavigatorType.Current)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Private Sub btnReverse_Click(sender As Object, e As EventArgs) Handles btnReverse.Click
+        ReverseData()
+    End Sub
+    Sub ReverseData()
+
+        Try
+            If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+                Dim Reason As String = ""
+                Dim frm As New FrmFreeTxtBox1
+                frm.Text = "Remarks for Reverse"
+                frm.ShowDialog()
+                If clsCommon.myLen(frm.strRmks) <= 0 Then
+                    Exit Sub
+                Else
+                    Reason = frm.strRmks
+                End If
+                If clsBullMovement.ReverseData(txtCode.Value) Then
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Reversed", Me.Text)
+                    LoadData(txtCode.Value, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+
+    End Sub
+
+    Private Sub txtMovementType__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtMovementType._MYValidating
+        Dim qry As String = "select Code  , Name ,Peridocity from TSPL_BULL_MOVEMENT_TYPE"
+        txtMovementType.Value = clsCommon.ShowSelectForm("MVMNTFND", qry, "Code", "", txtMovementType.Value, "Code", isButtonClicked)
+
+        If clsCommon.myLen(txtMovementType.Value) > 0 Then
+            lbleMovementType.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Name from TSPL_BULL_MOVEMENT_TYPE where Code='" + txtMovementType.Value + "'"))
+            Dim periodic As Integer = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Peridocity from TSPL_BULL_MOVEMENT_TYPE where Code='" + txtMovementType.Value + "'"))
+            txtPeriod.Value = txtDate.Value.AddDays(periodic)
+        Else
+            txtMovementType.Value = ""
+            lbleMovementType.Text = ""
+        End If
+    End Sub
 End Class
