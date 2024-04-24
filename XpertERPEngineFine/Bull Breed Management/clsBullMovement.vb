@@ -7,7 +7,7 @@ Public Class clsBullMovement
     Public Bull_Code As String = Nothing
     Public Bull_Shed As String = Nothing
     Public Bull_Movement_Type As String = Nothing
-    Public Perid As String = Nothing
+    Public Perid As DateTime = Nothing
 #End Region
 
     Public Function SaveData(ByVal obj As clsBullMovement, ByVal isNewEntry As Boolean) As Boolean
@@ -26,15 +26,15 @@ Public Class clsBullMovement
         Dim IsSaved As Boolean = True
         Try
             IsSaved = True
-            Dim StrQry As String = "delete from TSPL_BULL_MOVEMENT where Code='" + obj.Document_Code + "'"
-            clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
+            'Dim StrQry As String = "delete from TSPL_BULL_MOVEMENT where Document_Code='" + obj.Document_Code + "'"
+            'clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
 
             Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "Document_Date", obj.Document_Date)
+            clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Bull_Code", obj.Bull_Code)
             clsCommon.AddColumnsForChange(coll, "Bull_Movement_Type", obj.Bull_Movement_Type)
             clsCommon.AddColumnsForChange(coll, "Bull_Shed", obj.Bull_Shed)
-            clsCommon.AddColumnsForChange(coll, "Perid", obj.Perid)
+            clsCommon.AddColumnsForChange(coll, "Period", clsCommon.GetPrintDate(obj.Perid, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Status", obj.Status)
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
@@ -93,7 +93,7 @@ Public Class clsBullMovement
                 obj.Bull_Code = clsCommon.myCstr(dt.Rows(0)("Bull_Code"))
                 obj.Bull_Movement_Type = clsCommon.myCstr(dt.Rows(0)("Bull_Movement_Type"))
                 obj.Bull_Shed = clsCommon.myCstr(dt.Rows(0)("Bull_Shed"))
-                obj.Perid = clsCommon.myCstr(dt.Rows(0)("Perid"))
+                obj.Perid = clsCommon.myCstr(dt.Rows(0)("Period"))
                 obj.Status = clsCommon.myCstr(dt.Rows(0)("Status"))
 
             End If
@@ -102,6 +102,36 @@ Public Class clsBullMovement
             Throw New Exception(err.Message)
         End Try
         Return obj
+    End Function
+    Public Shared Function PostData(ByVal strDocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
+
+        Try
+            If (clsCommon.myLen(strDocNo) <= 0) Then
+                Throw New Exception("Document No. not found to Post")
+            End If
+            Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
+            Dim qry As String = "Update TSPL_BULL_MOVEMENT set Status=1,Post_Date='" + strPostDate + "',Post_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+    Public Shared Function ReverseData(ByVal strDocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
+
+        Try
+            If (clsCommon.myLen(strDocNo) <= 0) Then
+                Throw New Exception("Document No. not found to Post")
+            End If
+            Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
+            Dim qry As String = "Update TSPL_BULL_MOVEMENT set Status=0,Post_Date='" + strPostDate + "',Post_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
     End Function
     Public Shared Function DeleteData(ByVal strCode As String) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -125,4 +155,5 @@ Public Class clsBullMovement
             Throw New Exception(ex.Message)
         End Try
     End Function
+
 End Class

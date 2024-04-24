@@ -24,15 +24,16 @@ Partial Class frmBullMovement
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBullMovement))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.LblShed = New common.Controls.MyLabel()
-        Me.txtPeriod = New System.Windows.Forms.MaskedTextBox()
-        Me.lblPeriod = New common.Controls.MyLabel()
+        Me.txtPeriod = New common.Controls.MyDateTimePicker()
+        Me.lbleMovementType = New common.Controls.MyLabel()
+        Me.txtMovementType = New common.UserControls.txtFinder()
         Me.MyLabel2 = New common.Controls.MyLabel()
+        Me.LblBullName = New common.Controls.MyLabel()
+        Me.LblShed = New common.Controls.MyLabel()
+        Me.lblPeriod = New common.Controls.MyLabel()
         Me.TxtShed = New common.UserControls.txtFinder()
-        Me.LblMainLocation = New common.Controls.MyLabel()
-        Me.lblBullMvmntType = New common.Controls.MyLabel()
-        Me.cboBullMvmntType = New common.Controls.MyComboBox()
         Me.MyLabel1 = New common.Controls.MyLabel()
         Me.txtBullCode = New common.UserControls.txtFinder()
         Me.RadLabel4 = New common.Controls.MyLabel()
@@ -45,27 +46,33 @@ Partial Class frmBullMovement
         Me.txtCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
+        Me.btnReverse = New Telerik.WinControls.UI.RadButton()
+        Me.btnPost = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lbleMovementType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.LblBullName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.LblShed, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.LblMainLocation, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblBullMvmntType, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.cboBullMvmntType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -78,15 +85,16 @@ Partial Class frmBullMovement
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.LblShed)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel4)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtPeriod)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.lbleMovementType)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtMovementType)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.LblShed)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblPeriod)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel2)
         Me.SplitContainer1.Panel1.Controls.Add(Me.TxtShed)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblBullMvmntType)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.cboBullMvmntType)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.LblMainLocation)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.LblBullName)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtBullCode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadLabel4)
         Me.SplitContainer1.Panel1.Controls.Add(Me.UsLock1)
@@ -98,12 +106,104 @@ Partial Class frmBullMovement
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnReverse)
+        Me.SplitContainer1.Panel2.Controls.Add(Me.btnPost)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Size = New System.Drawing.Size(853, 424)
         Me.SplitContainer1.SplitterDistance = 352
         Me.SplitContainer1.TabIndex = 0
+        '
+        'txtPeriod
+        '
+        Me.txtPeriod.CalculationExpression = Nothing
+        Me.txtPeriod.CustomFormat = "dd/MM/yyyy"
+        Me.txtPeriod.FieldCode = Nothing
+        Me.txtPeriod.FieldDesc = Nothing
+        Me.txtPeriod.FieldMaxLength = 0
+        Me.txtPeriod.FieldName = Nothing
+        Me.txtPeriod.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPeriod.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtPeriod.isCalculatedField = False
+        Me.txtPeriod.IsSourceFromTable = False
+        Me.txtPeriod.IsSourceFromValueList = False
+        Me.txtPeriod.IsUnique = False
+        Me.txtPeriod.Location = New System.Drawing.Point(151, 126)
+        Me.txtPeriod.MendatroryField = False
+        Me.txtPeriod.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtPeriod.MyLinkLable1 = Nothing
+        Me.txtPeriod.MyLinkLable2 = Nothing
+        Me.txtPeriod.Name = "txtPeriod"
+        Me.txtPeriod.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtPeriod.ReferenceFieldDesc = Nothing
+        Me.txtPeriod.ReferenceFieldName = Nothing
+        Me.txtPeriod.ReferenceTableName = Nothing
+        Me.txtPeriod.Size = New System.Drawing.Size(126, 18)
+        Me.txtPeriod.TabIndex = 452
+        Me.txtPeriod.TabStop = False
+        Me.txtPeriod.Text = "07/02/2024"
+        Me.txtPeriod.Value = New Date(2024, 2, 7, 0, 0, 0, 0)
+        '
+        'lbleMovementType
+        '
+        Me.lbleMovementType.AutoSize = False
+        Me.lbleMovementType.BorderVisible = True
+        Me.lbleMovementType.FieldName = Nothing
+        Me.lbleMovementType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lbleMovementType.Location = New System.Drawing.Point(331, 99)
+        Me.lbleMovementType.Name = "lbleMovementType"
+        Me.lbleMovementType.Size = New System.Drawing.Size(307, 19)
+        Me.lbleMovementType.TabIndex = 450
+        Me.lbleMovementType.TextWrap = False
+        '
+        'txtMovementType
+        '
+        Me.txtMovementType.CalculationExpression = Nothing
+        Me.txtMovementType.FieldCode = Nothing
+        Me.txtMovementType.FieldDesc = Nothing
+        Me.txtMovementType.FieldMaxLength = 0
+        Me.txtMovementType.FieldName = Nothing
+        Me.txtMovementType.isCalculatedField = False
+        Me.txtMovementType.IsSourceFromTable = False
+        Me.txtMovementType.IsSourceFromValueList = False
+        Me.txtMovementType.IsUnique = False
+        Me.txtMovementType.Location = New System.Drawing.Point(151, 99)
+        Me.txtMovementType.MendatroryField = True
+        Me.txtMovementType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtMovementType.MyLinkLable1 = Me.MyLabel2
+        Me.txtMovementType.MyLinkLable2 = Me.LblBullName
+        Me.txtMovementType.MyReadOnly = False
+        Me.txtMovementType.MyShowMasterFormButton = False
+        Me.txtMovementType.Name = "txtMovementType"
+        Me.txtMovementType.ReferenceFieldDesc = Nothing
+        Me.txtMovementType.ReferenceFieldName = Nothing
+        Me.txtMovementType.ReferenceTableName = Nothing
+        Me.txtMovementType.Size = New System.Drawing.Size(174, 20)
+        Me.txtMovementType.TabIndex = 449
+        Me.txtMovementType.Value = ""
+        '
+        'MyLabel2
+        '
+        Me.MyLabel2.FieldName = Nothing
+        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel2.Location = New System.Drawing.Point(21, 80)
+        Me.MyLabel2.Name = "MyLabel2"
+        Me.MyLabel2.Size = New System.Drawing.Size(33, 16)
+        Me.MyLabel2.TabIndex = 93
+        Me.MyLabel2.Text = "Shed"
+        '
+        'LblBullName
+        '
+        Me.LblBullName.AutoSize = False
+        Me.LblBullName.BorderVisible = True
+        Me.LblBullName.FieldName = Nothing
+        Me.LblBullName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.LblBullName.Location = New System.Drawing.Point(331, 55)
+        Me.LblBullName.Name = "LblBullName"
+        Me.LblBullName.Size = New System.Drawing.Size(307, 19)
+        Me.LblBullName.TabIndex = 89
+        Me.LblBullName.TextWrap = False
         '
         'LblShed
         '
@@ -117,32 +217,15 @@ Partial Class frmBullMovement
         Me.LblShed.TabIndex = 448
         Me.LblShed.TextWrap = False
         '
-        'txtPeriod
-        '
-        Me.txtPeriod.Location = New System.Drawing.Point(395, 100)
-        Me.txtPeriod.Name = "txtPeriod"
-        Me.txtPeriod.Size = New System.Drawing.Size(139, 20)
-        Me.txtPeriod.TabIndex = 447
-        '
         'lblPeriod
         '
         Me.lblPeriod.FieldName = Nothing
         Me.lblPeriod.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPeriod.Location = New System.Drawing.Point(331, 104)
+        Me.lblPeriod.Location = New System.Drawing.Point(21, 126)
         Me.lblPeriod.Name = "lblPeriod"
         Me.lblPeriod.Size = New System.Drawing.Size(39, 16)
         Me.lblPeriod.TabIndex = 446
         Me.lblPeriod.Text = "Period"
-        '
-        'MyLabel2
-        '
-        Me.MyLabel2.FieldName = Nothing
-        Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel2.Location = New System.Drawing.Point(21, 80)
-        Me.MyLabel2.Name = "MyLabel2"
-        Me.MyLabel2.Size = New System.Drawing.Size(33, 16)
-        Me.MyLabel2.TabIndex = 93
-        Me.MyLabel2.Text = "Shed"
         '
         'TxtShed
         '
@@ -159,7 +242,7 @@ Partial Class frmBullMovement
         Me.TxtShed.MendatroryField = True
         Me.TxtShed.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtShed.MyLinkLable1 = Me.MyLabel2
-        Me.TxtShed.MyLinkLable2 = Me.LblMainLocation
+        Me.TxtShed.MyLinkLable2 = Me.LblBullName
         Me.TxtShed.MyReadOnly = False
         Me.TxtShed.MyShowMasterFormButton = False
         Me.TxtShed.Name = "TxtShed"
@@ -169,55 +252,6 @@ Partial Class frmBullMovement
         Me.TxtShed.Size = New System.Drawing.Size(174, 20)
         Me.TxtShed.TabIndex = 92
         Me.TxtShed.Value = ""
-        '
-        'LblMainLocation
-        '
-        Me.LblMainLocation.AutoSize = False
-        Me.LblMainLocation.BorderVisible = True
-        Me.LblMainLocation.FieldName = Nothing
-        Me.LblMainLocation.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblMainLocation.Location = New System.Drawing.Point(331, 55)
-        Me.LblMainLocation.Name = "LblMainLocation"
-        Me.LblMainLocation.Size = New System.Drawing.Size(307, 19)
-        Me.LblMainLocation.TabIndex = 89
-        Me.LblMainLocation.TextWrap = False
-        '
-        'lblBullMvmntType
-        '
-        Me.lblBullMvmntType.FieldName = Nothing
-        Me.lblBullMvmntType.Location = New System.Drawing.Point(21, 102)
-        Me.lblBullMvmntType.Name = "lblBullMvmntType"
-        Me.lblBullMvmntType.Size = New System.Drawing.Size(109, 18)
-        Me.lblBullMvmntType.TabIndex = 91
-        Me.lblBullMvmntType.Text = "Bull Movement Type"
-        '
-        'cboBullMvmntType
-        '
-        Me.cboBullMvmntType.AutoCompleteDisplayMember = Nothing
-        Me.cboBullMvmntType.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest
-        Me.cboBullMvmntType.AutoCompleteValueMember = Nothing
-        Me.cboBullMvmntType.CalculationExpression = Nothing
-        Me.cboBullMvmntType.DropDownAnimationEnabled = True
-        Me.cboBullMvmntType.FieldCode = Nothing
-        Me.cboBullMvmntType.FieldDesc = Nothing
-        Me.cboBullMvmntType.FieldMaxLength = 0
-        Me.cboBullMvmntType.FieldName = Nothing
-        Me.cboBullMvmntType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.cboBullMvmntType.isCalculatedField = False
-        Me.cboBullMvmntType.IsSourceFromTable = False
-        Me.cboBullMvmntType.IsSourceFromValueList = False
-        Me.cboBullMvmntType.IsUnique = False
-        Me.cboBullMvmntType.Location = New System.Drawing.Point(150, 102)
-        Me.cboBullMvmntType.MaxLength = 30
-        Me.cboBullMvmntType.MendatroryField = True
-        Me.cboBullMvmntType.MyLinkLable1 = Nothing
-        Me.cboBullMvmntType.MyLinkLable2 = Nothing
-        Me.cboBullMvmntType.Name = "cboBullMvmntType"
-        Me.cboBullMvmntType.ReferenceFieldDesc = Nothing
-        Me.cboBullMvmntType.ReferenceFieldName = Nothing
-        Me.cboBullMvmntType.ReferenceTableName = Nothing
-        Me.cboBullMvmntType.Size = New System.Drawing.Size(175, 18)
-        Me.cboBullMvmntType.TabIndex = 90
         '
         'MyLabel1
         '
@@ -244,7 +278,7 @@ Partial Class frmBullMovement
         Me.txtBullCode.MendatroryField = True
         Me.txtBullCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBullCode.MyLinkLable1 = Me.MyLabel1
-        Me.txtBullCode.MyLinkLable2 = Me.LblMainLocation
+        Me.txtBullCode.MyLinkLable2 = Me.LblBullName
         Me.txtBullCode.MyReadOnly = False
         Me.txtBullCode.MyShowMasterFormButton = False
         Me.txtBullCode.Name = "txtBullCode"
@@ -360,11 +394,29 @@ Partial Class frmBullMovement
         '
         'btnnew
         '
-        Me.btnnew.Image = Global.XpertErpBullManagement.My.Resources.Resources._new
+        Me.btnnew.Image = CType(resources.GetObject("btnnew.Image"), System.Drawing.Image)
         Me.btnnew.Location = New System.Drawing.Point(458, 29)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(15, 21)
         Me.btnnew.TabIndex = 83
+        '
+        'btnReverse
+        '
+        Me.btnReverse.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnReverse.Location = New System.Drawing.Point(239, 40)
+        Me.btnReverse.Name = "btnReverse"
+        Me.btnReverse.Size = New System.Drawing.Size(69, 20)
+        Me.btnReverse.TabIndex = 389
+        Me.btnReverse.Text = "Reverse"
+        '
+        'btnPost
+        '
+        Me.btnPost.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
+        Me.btnPost.Location = New System.Drawing.Point(164, 40)
+        Me.btnPost.Name = "btnPost"
+        Me.btnPost.Size = New System.Drawing.Size(69, 20)
+        Me.btnPost.TabIndex = 21
+        Me.btnPost.Text = "Post"
         '
         'btnsave
         '
@@ -396,6 +448,16 @@ Partial Class frmBullMovement
         Me.btnclose.TabIndex = 20
         Me.btnclose.Text = "Close"
         '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(21, 102)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(109, 16)
+        Me.MyLabel4.TabIndex = 454
+        Me.MyLabel4.Text = "Bull Movement Type"
+        '
         'frmBullMovement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -412,21 +474,24 @@ Partial Class frmBullMovement
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtPeriod, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lbleMovementType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.LblBullName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.LblShed, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblPeriod, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.LblMainLocation, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblBullMvmntType, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.cboBullMvmntType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverse, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -447,13 +512,16 @@ Partial Class frmBullMovement
     Friend WithEvents UsLock1 As common.usLock
     Friend WithEvents txtDate As common.Controls.MyDateTimePicker
     Friend WithEvents MyLabel1 As common.Controls.MyLabel
-    Friend WithEvents LblMainLocation As common.Controls.MyLabel
+    Friend WithEvents LblBullName As common.Controls.MyLabel
     Friend WithEvents txtBullCode As common.UserControls.txtFinder
-    Friend WithEvents lblBullMvmntType As common.Controls.MyLabel
-    Friend WithEvents cboBullMvmntType As common.Controls.MyComboBox
     Friend WithEvents MyLabel2 As common.Controls.MyLabel
     Friend WithEvents TxtShed As common.UserControls.txtFinder
-    Friend WithEvents txtPeriod As MaskedTextBox
     Friend WithEvents lblPeriod As common.Controls.MyLabel
     Friend WithEvents LblShed As common.Controls.MyLabel
+    Friend WithEvents btnPost As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnReverse As Telerik.WinControls.UI.RadButton
+    Friend WithEvents lbleMovementType As common.Controls.MyLabel
+    Friend WithEvents txtMovementType As common.UserControls.txtFinder
+    Friend WithEvents txtPeriod As common.Controls.MyDateTimePicker
+    Friend WithEvents MyLabel4 As common.Controls.MyLabel
 End Class
