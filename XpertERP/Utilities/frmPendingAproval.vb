@@ -5907,6 +5907,27 @@ Left Outer Join TSPL_CUSTOMER_MASTER on TSPL_CUSTOMER_COMPLAINT_HEAD.Cust_Code =
                         Try
                             clsCommon.ProgressBarPercentUpdate((((j + 1) * 100) / (trnsLst.Count)), "Document Posting " + clsCommon.myCstr(j + 1) + "/" + clsCommon.myCstr(trnsLst.Count))
                             clsDemandBookingSale.PostData(clsUserMgtCode.frmDemandBooking, strDocNo, strCustomerCode)
+                            If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandAll, clsFixedParameterCode.ApplyDemandAll, Nothing)) = 1 Or clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+                                Dim isNewEntry As Boolean = False
+                                Dim obj As clsDemandBookingSale = clsDemandBookingSale.GetData(strDocNo, NavigatorType.Current)
+                                obj.Document_Date = clsCommon.myCDate(obj.Document_Date).AddDays(1)
+                                obj.Document_No = clsDBFuncationality.getSingleValue("select Document_No from TSPL_DEMAND_BOOKING_MASTER where Route_No='" + clsCommon.myCstr(obj.Route_No) + "' and ( CONVERT( date, TSPL_DEMAND_BOOKING_MASTER.Document_Date, 103 )='" + clsCommon.GetPrintDate(obj.Document_Date) + "') and location_code='" + clsCommon.myCstr(obj.Location_Code) + "' and ShiftType='" + obj.ShiftType + "' and IsIndividualCustomer=0 ")
+                                If clsCommon.myLen(obj.Document_No) > 0 Then
+                                    isNewEntry = False
+                                Else
+                                    isNewEntry = True
+                                End If
+                                If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
+                                    For ii As Integer = 0 To obj.Arr.Count - 1
+                                        If clsCommon.CompairString(obj.Arr(ii).Cust_Code, clsDBFuncationality.getSingleValue("Select Cust_Code from TSPL_CUSTOMER_MASTER where cust_code='" + clsCommon.myCstr(obj.Arr(ii).Cust_Code) + "' and IsReorder=1")) = CompairStringResult.Equal Then
+                                            obj.Arr(ii).Qty = obj.Arr(ii).Qty
+                                        Else
+                                            obj.Arr(ii).Qty = 0
+                                        End If
+                                    Next
+                                End If
+                                obj.SaveData(obj, isNewEntry)
+                            End If
                         Catch ex As Exception
                             Throw New Exception(ex.Message)
                         End Try
