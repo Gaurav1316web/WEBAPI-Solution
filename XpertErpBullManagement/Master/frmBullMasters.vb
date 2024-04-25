@@ -137,12 +137,16 @@ Public Class frmBullMasters
                 fndSubStatus.Value = obj.Sub_Status_Code
                 fndBullRating.Value = obj.Bull_Rating
                 fndBullSourcePainting.Value = obj.Bull_source_Printing_Straws
-
                 If obj.is_Semen Then
                     RadioButton2.Checked = True
                 Else
                     RadioButton1.Checked = True
                 End If
+                'If obj.is_Semen Then
+                '    RadioButton2.Checked = True
+                'Else
+                '    RadioButton1.Checked = True
+                'End If
 
                 TXTExoticBloodPer.Text = obj.Exotic_Blood_Per
                 txtBullBook.Text = obj.Bull_Book_Value
@@ -155,7 +159,7 @@ Public Class frmBullMasters
                 txtEndDate.Value = obj.Exit_Date
                 txtRemark.Text = obj.Remark
                 fndCode.MyReadOnly = True
-                btnSave.Text = "Update"
+                'btnSave.Text = "Save"
                 btnDelete.Enabled = True
             Else
                 'AddNew()
@@ -168,66 +172,152 @@ Public Class frmBullMasters
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         SaveData()
     End Sub
+    Private Function AllowToSave() As Boolean
+        If clsCommon.myLen(fndCode.Value) <= 0 Then
+            fndCode.Focus()
+            clsCommon.MyMessageBoxShow(Me, "Please select Code", Me.Text)
+            Return False
+        End If
+        'If clsCommon.myLen(txtPurchaseNo.Text) <= 0 Then
+        '    txtPurchaseRequestDate.Enabled = False
+        '    txtPurchaseDate.Enabled = False
+
+        '    txtPurchaseNo.Focus()
+        '    clsCommon.MyMessageBoxShow(Me, "Please select Purchase No", Me.Text)
+        '    Return False
+
+        'End If
+        'If clsCommon.myLen(txtPurchaseNo.Text) > 0 Then
+        '    txtPurchaseRequestDate.Enabled = True
+        '    txtPurchaseDate.Enabled = True
+
+        '    txtPurchaseNo.Focus()
+        'End If
+        'If clsCommon.myLen(txtPurchaseNo.Text) > 0 Then
+        '    txtPurchaseRequestDate.Enabled = True
+        '    txtPurchaseDate.EnableCodedUITests = True
+        'Else
+        '    txtPurchaseRequestDate.Enabled = False
+        '    txtPurchaseDate.EnableCodedUITests = False
+        'End If
+        'Return True
+    End Function
     Private Sub SaveData()
         Try
             'If (AllowToSave()) Then
             Dim obj As New clsBullMasters()
-            'obj.Date_Of_Birth = txtDob.Value
-            If IsNumeric(fndCode.Value) AndAlso clsCommon.myLen(fndCode.Value) >= 12 Then
-                obj.Bull_Code = clsCommon.myCstr(fndCode.Value)
-            Else
-                clsCommon.MyMessageBoxShow("fill 12 Digit Bull id", Me.Text)
-                fndCode.Focus()
-                fndCode.Text = ""
-                Exit Sub
-            End If
-            'obj.Code = fndCode.Value
-            obj.Species_Code = fndSpecies.Value
-            obj.Category_Code = fndCategory.Value
-            obj.Sub_Category_Code = fndSubCategory.Value
-            obj.SS_Centre_Code = fndSSCentre.Value
-            obj.Breed_Code = fndBreed.Value
-            obj.Shed_Code = fndShedId.Value
-            obj.Pen_Code = fndPenId.Value
-            obj.Status_Code = fndBullStatus.Value
+                'obj.Date_Of_Birth = txtDob.Value
+                If IsNumeric(fndCode.Value) AndAlso clsCommon.myLen(fndCode.Value) >= 12 Then
+                    obj.Bull_Code = clsCommon.myCstr(fndCode.Value)
+                Else
+                    clsCommon.MyMessageBoxShow("fill 12 Digit Bull id", Me.Text)
+                    fndCode.Focus()
+                    fndCode.Text = ""
+                    Exit Sub
+                End If
+                'obj.Code = fndCode.Value
+                obj.Species_Code = fndSpecies.Value
+                obj.Category_Code = fndCategory.Value
+                obj.Sub_Category_Code = fndSubCategory.Value
+                obj.SS_Centre_Code = fndSSCentre.Value
+                obj.Breed_Code = fndBreed.Value
+                obj.Shed_Code = fndShedId.Value
+                obj.Pen_Code = fndPenId.Value
+                obj.Status_Code = fndBullStatus.Value
             obj.Sub_Status_Code = fndSubStatus.Value
-            If obj.is_Semen Then
-                obj.RadioButton2 = True
+            If RadioButton1.Checked = True Then
+                obj.is_Semen = False
             Else
-                obj.RadioButton1 = True
+                obj.is_Semen = True
             End If
+            'If obj.is_Semen Then
+            '    obj.RadioButton2 = True
+            'Else
+            '    obj.RadioButton2 = True
+            'End If
             If IsNumeric(TXTExoticBloodPer.Text) Then
-                obj.Exotic_Blood_Per = clsCommon.myCdbl(TXTExoticBloodPer.Text)
-            Else
-                clsCommon.MyMessageBoxShow("Please enter a valid percentage", Me.Text)
-                TXTExoticBloodPer.Focus()
-                TXTExoticBloodPer.Text = ""
-                Exit Sub
-            End If
-            obj.Bull_Book_Value = txtBullBook.Text
-            obj.Country_Code = fndCounty.Value
-            obj.Prev_Bull_Id = TXTPrevBull.Text
-            obj.Date_Of_Birth = txtDateOfBirth.Value
-            obj.Registration_Date = txtRegDate.Value
-            obj.Exit_Date = txtEndDate.Value
-            obj.Status_Changed_Date = txtStatusDateChanged.Value
-            obj.Bull_Alia_Name = txtBullAlias.Text
-            obj.Bull_Rating = fndBullRating.Value
-            obj.Dam_Location_Yeild = txtDamLocation.Text
-            obj.Bull_source_Printing_Straws = fndBullSourcePainting.Value
-            obj.Bull_RFID = txtBullRFID.Text
-            obj.Remark = txtRemark.Text
+                    obj.Exotic_Blood_Per = clsCommon.myCdbl(TXTExoticBloodPer.Text)
+                Else
+                    clsCommon.MyMessageBoxShow("Please enter a valid percentage", Me.Text)
+                    TXTExoticBloodPer.Focus()
+                    TXTExoticBloodPer.Text = ""
+                    Exit Sub
+                End If
+                obj.Bull_Book_Value = txtBullBook.Text
+                obj.Country_Code = fndCounty.Value
+                obj.Prev_Bull_Id = TXTPrevBull.Text
+                obj.Date_Of_Birth = txtDateOfBirth.Value
+                obj.Registration_Date = txtRegDate.Value
+                obj.Exit_Date = txtEndDate.Value
+                obj.Status_Changed_Date = txtStatusDateChanged.Value
+                obj.Bull_Alia_Name = txtBullAlias.Text
+                obj.Bull_Rating = fndBullRating.Value
+                obj.Dam_Location_Yeild = txtDamLocation.Text
+                obj.Bull_source_Printing_Straws = fndBullSourcePainting.Value
+                obj.Bull_RFID = txtBullRFID.Text
+                obj.Remark = txtRemark.Text
+                obj.Source_Code = fndSourceName.Value
+                obj.Source_Address = txtSourceName.Text
+                obj.Owner_Of_Bull = txtOwnerName.Text
+                obj.Semen_Price_per_Straw = txtSemenPrice.Text
+                obj.Doses_Produce_Till_Date = txtProducedTillDate.Text
+                obj.Capacity_Of_Averege_Monthly_Doses = txtAveregeDoses.Text
+                obj.Breeding_Value = txtBreedingValue.Text
+                'obj.Purchase_Request_No = txtPurchaseNo.Text
+                'obj.Purchase_Date = txtPurchaseRequestDate.Value
+                'obj.Purchase_Request_Date = txtPurchaseDate.Value
+                obj.First_Collection_Date = txtFirstCollectionDate.Value
+                obj.Last_Updated_Date_For_Breeding_Value = txtLastDateBreeding.Value
+                obj.Purchase_Request_No = clsCommon.myCstr(txtPurchaseNo.Text)
+                obj.Purchase_Request_Date = clsCommon.myCDate(txtPurchaseRequestDate.Value)
+            obj.Purchase_Date = clsCommon.myCDate(txtPurchaseDate.Value)
+            obj.Genetic_Disease_Teasting = chkGeneticDiseaseTeasting.Checked
+            obj.Son_Of_Proven_Sire = chkSonOfProvenSire.Checked
+            obj.Genomic_Tested_Bulls = chkGenomicTestedBulls.Checked
+            obj.Karyotyping = chkKaryotyping.Checked
+            obj.SibilingTeasted = chkSibilingTeasted.Checked
+            obj.Should_be_shown_in_Sire_Directory = chkShouldbeshowninSireDirectory.Checked
+            obj.Proven = chkProven.Checked
+            obj.Under_Progeny_Test = chkUnderProgenyTest.Checked
+            obj.Percentage_Verification = chkPercentageVerification.Checked
+            obj.Is_IBR_Bull = chkIsIBRBull.Checked
+            obj.NO_OF_Doughters = txtNodaughters.Text
+            obj.No_Milking_Done = txtBirthWeight.Text
+            obj.Birth_Weight = txtWeightAtEntry.Text
+            obj.Dam_Origin = txtMilkingDone.Text
             obj.SS_Bull_Id = TXTSSbull.Text
+            '----progeny detail---
+            obj.Total_AI = txtTotalAI.Text
+            obj.Date_of_nominated_mating_initiated = txtDateofnominatedmatinginitiated.Text
+            obj.No_of_males_produced = txtNoofmalesproduced.Text
+            obj.Training_Centre = txtTrainingCentre.Text
+            obj.No_of_male_calves = txtNoofmalecalves.Text
+            obj.Total_Heifer_AI = txtTotalHeiferAI.Text
+            obj.No_of_insemination_carried_out = txtNoofinseminationcarriedout.Text
+            obj.Pre_Quarantine = txtPreQuarantine.Text
+            obj.No_under_semen_collection = txtNoundersemencollection.Text
+            obj.Total_Heifer_Conceptions = txtTotalHeiferConceptions.Text
+            obj.No_of_Female_Calves = txtNoofFemaleCalves.Text
+            obj.No_of_elite_females_currently_pregnant = txtNoofelitefemalescurrentlypregnant.Text
+            obj.Quarntine = txtQuarntine.Text
+            obj.Total_Conceptions = txtTotalConceptions.Text
+            obj.REARING_Centre = txtREARINGCentre.Text
+            obj.No_abortions = txtNoabortions.Text
+            obj.No_males_born = txtNomalesborn.Text
+            '--END --
             If (obj.SaveData(obj, isNewEntry)) Then
-                clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
-                LoadData(obj.Bull_Code, NavigatorType.Current)
-            End If
+                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
+                    LoadData(obj.Bull_Code, NavigatorType.Current)
+                End If
+            'End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub frmBullMasters_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        'txtPurchaseRequestDate.Enabled = False
+        'txtPurchaseDate.Enabled = False
         AddNew()
         'txtStatusDateChanged.Value = clsCommon.GETSERVERDATE()
         'txtDob.Value = clsCommon.GETSERVERDATE()
@@ -266,18 +356,45 @@ Public Class frmBullMasters
         txtStatusDateChanged.Value = clsCommon.GETSERVERDATE()
         TXTEndDate.Value = clsCommon.GETSERVERDATE()
         txtBullAlias.Text = ""
-        'txtDateOfBirth.Value = ""
-        'txtRegDate.Value = ""
-        'txtStatusDateChanged.Value = ""
-        'TXTEndDate.Value = ""
-
-        'txtStatusDateChanged.Value = clsCommon.GETSERVERDATE()
-
-        'txtEndDate.Value = clsCommon.GETSERVERDATE()
-        'txtRegDate.Value = clsCommon.GETSERVERDATE()
-        'txtDob.Value = clsCommon.GETSERVERDATE()
         fndCode.Focus()
         txtRemark.Text = ""
+        '----progeny detail---
+        txtTotalAI.Text = ""
+        txtDateofnominatedmatinginitiated.Text = ""
+        txtNoofmalesproduced.Text = ""
+        txtTrainingCentre.Text = ""
+        txtTotalHeiferAI.Text = ""
+        txtNoofmalecalves.Text = ""
+        txtNoofinseminationcarriedout.Text = ""
+        txtPreQuarantine.Text = ""
+        txtNoundersemencollection.Text = ""
+        txtTotalHeiferConceptions.Text = ""
+        txtNoofFemaleCalves.Text = ""
+        txtNoofelitefemalescurrentlypregnant.Text = ""
+        txtQuarntine.Text = ""
+        txtTotalConceptions.Text = ""
+        txtNoabortions.Text = ""
+        txtNomalesborn.Text = ""
+        txtREARINGCentre.Text = ""
+
+        '--end
+        '--bull general detail
+        txtNodaughters.Text = ""
+        txtlDamOrigin.Text = ""
+        txtBirthWeight.Text = ""
+        txtWeightAtEntry.Text = ""
+        txtMilkingDone.Text = ""
+        chkGeneticDiseaseTeasting.Checked = False
+        chkSonOfProvenSire.Checked = False
+        chkGenomicTestedBulls.Checked = False
+        chkKaryotyping.Checked = False
+        chkSibilingTeasted.Checked = False
+        chkShouldbeshowninSireDirectory.Checked = False
+        chkProven.Checked = False
+        chkUnderProgenyTest.Checked = False
+        chkPercentageVerification.Checked = False
+        chkIsIBRBull.Checked = False
+        '--end
         RadioButton2.Checked = True
         RadioButton1.Checked = False
         btnSave.Text = "Save"
@@ -416,6 +533,21 @@ Public Class frmBullMasters
             clsCommon.MyMessageBoxShow(ex.Message)
         End Try
     End Sub
+
+    Private Sub fndSourceName__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndSourceName._MYValidating
+        Try
+            Dim qry As String = " select Code as Code, Name as Name from TSPL_BULL_SOURCE_NAME  "
+            fndSourceName.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndSourceName.Value, "Code", isButtonClicked)
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
+    End Sub
+
+
+
+
+
+
 
 
 

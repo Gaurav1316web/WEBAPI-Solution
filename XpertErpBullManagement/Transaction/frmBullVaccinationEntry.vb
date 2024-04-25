@@ -50,7 +50,7 @@ Public Class frmBullVaccinationEntry
 
     End Sub
 
-    Private Sub txtCustomer__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBullCode._MYValidating
+    Private Sub txtBullCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtBullCode._MYValidating
         Try
             Dim qry As String = "select Bull_Code as Code,Bull_Alia_Name as Name,Prev_Bull_Id as [Previous Bull Id],Registration_Date as [Registration Date] ,SS_Bull_Id as [SS Bull Id],Breed_Code as Breed ,SS_Centre_Code as [SS Centre],Date_Of_Birth as [Date of Birth] from  TSPL_BULL_MASTER "
             txtBullCode.Value = clsCommon.ShowSelectForm("BullVaccEntry", qry, "Code", "", txtBullCode.Value, "Code", isButtonClicked)

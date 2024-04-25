@@ -9788,6 +9788,18 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullRating
                         frm = New frmBullRating
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullSourceName
+                        frm = New frmBullSourceName
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullPurchaseNo
+                        frm = New frmBullPurchaseNo
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullInsuranceMaster
+                        frm = New frmBullInsuranceMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullInsuranceType
+                        frm = New frmBullInsuranceType
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmDiseaseMaster
                         frm = New frmDiseaseMaster
@@ -9821,6 +9833,10 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullCurlingEntry
                         frm = New frmBullCurlingEntry
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullInsurance
+                        frm = New frmBullInsurance
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                         '-------------------- MIS Master---------------
 
                         'Case clsUserMgtCode.MISitemGroups
