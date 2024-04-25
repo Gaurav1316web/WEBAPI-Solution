@@ -1,5 +1,6 @@
 ﻿Imports common
 Imports System.Data.SqlClient
+Imports XpertERPEngineFine
 
 Public Class clsLocation
     Public bankBank As String = Nothing
