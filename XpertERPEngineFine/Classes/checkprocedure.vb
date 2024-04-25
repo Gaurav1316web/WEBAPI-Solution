@@ -1282,13 +1282,8 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.MilkCollectionDCSMultipleDaysMerge, "DCS Milk Collection Multiple Days Merge", "1.29.02.52", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCC, "MCC Milk Collection", "1.29.02.53", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
         InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCGateEntry, "BMC Milk Gate Entry", "1.29.02.54", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
-        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCSample, "BMC Milk QC", "1.29.02.55", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
+        InsertDefaultValue(clsUserMgtCode.MilkCollectionMCCSample, "BMC Milk QC", "1.29.02.55", clsUserMgtCode.SubModuleProductionTransactionDairy, "", 8, 0, "", "", "", True, False, False, Nothing)
         InsertDefaultValue(clsUserMgtCode.BulkProcurementUploader, "Bulk Procurement Uploader", "1.29.02.56", clsUserMgtCode.SubModuleProductionTransactionDairy, 8)
-
-
-
-
-
 
 
 

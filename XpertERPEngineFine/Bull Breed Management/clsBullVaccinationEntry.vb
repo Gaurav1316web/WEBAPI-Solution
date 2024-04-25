@@ -152,7 +152,7 @@ Public Class clsBullVaccinationEntry
     Public Shared Function PostData(ByVal FormId As String, ByVal strDocNo As String, ByVal trans As SqlTransaction) As Boolean
         Try
             If (clsCommon.myLen(strDocNo) <= 0) Then
-                Throw New Exception("Docume nt No not found to Post")
+                Throw New Exception("Document No not found to Post")
             End If
             Dim obj As clsBullVaccinationEntry = clsBullVaccinationEntry.GetData(strDocNo, NavigatorType.Current, "", trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
@@ -161,7 +161,7 @@ Public Class clsBullVaccinationEntry
             If (obj.Status = 1) Then
                 Throw New Exception("Already Posted")
             End If
-            ' UpdateInventoryMovement(obj, trans, False)
+            'UpdateInventoryMovement(obj, trans, False)
 
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_BULL_VACCINE_ENTRY set Status= 1, Posted_By = '" + objCommonVar.CurrentUserCode + "',Posted_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "'  where Document_Code='" & obj.Document_Code & "'", trans)
 
@@ -197,7 +197,7 @@ Public Class clsBullVaccinationEntry
     '            End If
     '            Dim objInventoryMovemnt As New clsInventoryMovement()
     '            objInventoryMovemnt.InOut = "O"
-    '            objInventoryMovemnt.Location_Code = objCommonVar.CurrLocationCode
+    '            objInventoryMovemnt.Location_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where User_Code = '" & objCommonVar.CurrentUserCode & "'", trans))
 
     '            'objInventoryMovemnt.Cust_Code = obj.Customer_Code
     '            'objInventoryMovemnt.Cust_Name = obj.Customer_Name

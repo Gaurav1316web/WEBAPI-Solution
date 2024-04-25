@@ -224,7 +224,7 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
 
                     gv1.Rows(ii).Cells("Error").Value = "Mismatch " + clsCommon.GetMulcallString(errMsg).Replace("'", "")
                     gv1.Rows(ii).Cells("IsOK").Value = 2
-                    End Try
+                End Try
             Next
             If isStartProgressBar Then
                 clsCommon.ProgressBarPercentHide()
@@ -287,6 +287,8 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                                 clsCommon.AddColumnsForChange(coll, "Original_FATKg", dictionary(ii).FATKG)
                                 clsCommon.AddColumnsForChange(coll, "Original_SNFKg", dictionary(ii).SNFKG)
                                 clsCommonFunctionality.UpdateDataTable(coll, "TSPL_MILK_COLLECTION_MCC_DETAIL", OMInsertOrUpdate.Update, "PK_Id='" + clsCommon.myCstr(dictionary(ii).PK_Id) + "' ", trans)
+
+                                SendSMSandEmail(ii, trans)
                             Next
                             UcAttachment1.SaveData(clsCommon.GetPrintDate(txtDate.Value, "yyyy/MM/dd"), False, trans)
                             trans.Commit()
@@ -403,4 +405,60 @@ where Convert(Date, tspl_Milk_collection_MCC.Document_Date,103) ='" + clsCommon.
                " '1000' as [R.NO.], '1-1' as [DCS], '7' as [FAT], '9' as [SNF], '27' as [CLR],'0.125' as [ACIDITY],'' as [REMARKS]"
         transportSql.ExporttoExcel(qry, Me)
     End Sub
+
+
+    Private Sub SendSMSandEmail(ByVal RoWNum As Integer, ByVal trans As SqlTransaction)
+        Try
+            Dim strPhoneno As String = Nothing
+            Dim dtContent As DataTable = Nothing
+            If clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkCollectionMCCSample) = CompairStringResult.Equal Then
+                dtContent = clsDBFuncationality.GetDataTable("SELECT SMS_Text,Email_Text,Email_subject from TSPL_ES_Content where Form_ID='" + clsUserMgtCode.MilkCollectionMCCSample + "'", trans)
+            End If
+
+            Dim DCSCode() As String
+            DCSCode = (clsCommon.myCstr(gv1.Rows(RoWNum).Cells("DCS").Value).Split("-"))
+
+            Dim Qry As String = "Select (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) As DCS_Contact, 
+                                TSPL_VENDOR_MASTER.Vendor_Name from TSPL_VENDOR_MASTER
+                                Left Outer join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_VENDOR_MASTER.Vendor_Code
+                                where TSPL_VENDOR_MASTER.Form_Type='VSP' And (Case When IsNull(TSPL_VENDOR_MASTER.Phone1,'')='' Then TSPL_VENDOR_MASTER.Phone2 Else TSPL_VENDOR_MASTER.Phone1 End) Not In ('Null','','(+__)__________') And TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader='" + clsCommon.myCstr(DCSCode(0)) + "'"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(Qry, trans)
+            strPhoneno = clsCommon.myCstr(dt.Rows(0)("DCS_Contact"))
+
+
+            Dim objEmailH As New clsEMailHead()
+            objEmailH.arrEMail = New List(Of String)()
+            Dim objSMSH As New clsSMSHead()
+            objSMSH.arrMobilNo = New List(Of String)()
+            If dtContent IsNot Nothing AndAlso dtContent.Rows.Count > 0 Then
+                If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+                    objSMSH.SMS_Text = clsCommon.myCstr(dtContent.Rows(0)("SMS_Text"))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Doc_Date, clsCommon.GetPrintDate(txtDate.Value, "dd/MMM/yyyy"))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCUploaderCode, clsCommon.myCstr(DCSCode(0)))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCName, clsCommon.myCstr(dt.Rows(0)("Vendor_Name")))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderFat, clsCommon.myCstr(gv1.Rows(RoWNum).Cells("FAT").Value))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.VLCDataUploaderSNF, clsCommon.myCstr(gv1.Rows(RoWNum).Cells("SNF").Value))
+                    objSMSH.SMS_Text = objSMSH.SMS_Text.Replace(frmEMailAndSMSSetting.Form_Code, MyBase.Form_ID)
+                End If
+            End If
+
+            If clsCommon.myLen(strPhoneno) > 0 Then
+                strPhoneno = strPhoneno.Replace("(", "").Replace(")", "").Replace("+", "").Replace("_____", "").Replace("____", "").Replace("___", "").Replace("__", "").Replace("_", "")
+            End If
+            If clsCommon.myLen(strPhoneno) >= 10 Then
+                objSMSH.arrMobilNo.Add(clsCommon.myCstr(strPhoneno))
+            End If
+
+            If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+                objSMSH.SaveData(clsUserMgtCode.MilkCollectionMCCSample, objSMSH, trans)
+                objSMSH = Nothing
+            End If
+            'If clsCommon.myLen(dtContent.Rows(0)("SMS_Text")) > 0 Then
+            '    clsCommon.MyMessageBoxShow(Me,"SMS Send Successfully", Me.Text)
+            'End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+    End Sub
+
 End Class
