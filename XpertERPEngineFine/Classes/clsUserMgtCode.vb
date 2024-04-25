@@ -319,8 +319,8 @@ Public Class clsUserMgtCode
     Public Const frmBullSubStatus As String = "BULL-SUB-S"
     Public Const frmBullSourcePainting As String = "BULL-SOUR"
     Public Const frmBullRating As String = "BULL-RATING"
-    'Public Const frmBullSourceName As String = "BULL-SOURCE"
-    'Public Const frmBullPurchaseNo As String = "BUL-PURCHASE"
+    Public Const frmBullSourceName As String = "BULL-SOURCE"
+    Public Const frmBullPurchaseNo As String = "BUL-PURCHASE"
 
 
     Public Const frmBullVaccinationEntry As String = "BULL-VAC-EN"

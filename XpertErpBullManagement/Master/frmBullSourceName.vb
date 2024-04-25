@@ -1,19 +1,16 @@
-﻿
-Imports System.Data
+﻿Imports System.Data
 Imports System.Data.SqlClient
 Imports common
 Imports Telerik.WinControls.UI
 Imports XpertERPEngine
 Imports XpertERPEngineFine
-
-Public Class frmBullMovementType
+Public Class frmBullSourceName
     Inherits FrmMainTranScreen
     Dim isNewEntry As Boolean = True
     Dim ErrorControl As New clsErrorControl()
 
-
     Private Sub fndCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCode._MYValidating
-        Dim Sqlqry As String = "select Code,Name,Peridocity from TSPL_BULL_MOVEMENT_TYPE where code='" + fndCode.Value + "'"
+        Dim Sqlqry As String = "select Code,Name from TSPL_BULL_SOURCE_NAME where code='" + fndCode.Value + "'"
         Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
         If count = 0 Then
             fndCode.MyReadOnly = False
@@ -22,8 +19,8 @@ Public Class frmBullMovementType
         End If
         If fndCode.MyReadOnly OrElse isButtonClicked Then
             Dim whrClas As String = ""
-            Dim qry As String = "select Code,Name,Peridocity from TSPL_BULL_MOVEMENT_TYPE"
-            fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, fndCode.Value, "TSPL_BULL_MOVEMENT_TYPE.Code asc", isButtonClicked, Nothing)
+            Dim qry As String = "select Code,Name from TSPL_BULL_SOURCE_NAME"
+            fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", whrClas, fndCode.Value, "TSPL_BULL_SOURCE_NAME.Code asc", isButtonClicked, Nothing)
             LoadData(fndCode.Value, NavigatorType.Current)
         End If
     End Sub
@@ -35,12 +32,11 @@ Public Class frmBullMovementType
             btnsave.Text = "Save"
             fndCode.MyReadOnly = False
 
-            Dim obj As clsBullMovementType = clsBullMovementType.GetData(strCode, NavTyep)
+            Dim obj As clsBullSourceName = clsBullSourceName.GetData(strCode, NavTyep)
             If obj IsNot Nothing Then
                 isNewEntry = False
                 fndCode.Value = obj.Code
                 txtname.Text = obj.Name
-                txtPeriodcity.Text = obj.Peridocity
                 fndCode.MyReadOnly = True
                 'btnsave.Text = "Update"
                 btndelete.Enabled = True
@@ -59,8 +55,6 @@ Public Class frmBullMovementType
             clsCommon.MyMessageBoxShow("Fill Name.")
             txtname.Focus()
             txtname.Select()
-            txtPeriodcity.Focus()
-            txtPeriodcity.Select()
 
             'ErrorControl.SetError(txtname, "Fill Name")
         Else
@@ -73,28 +67,18 @@ Public Class frmBullMovementType
         Try
             If (AllowToSave()) Then
                 If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmBullMovementType, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
+                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmBullSourceName, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
                     Else
                         Return
                     End If
                 End If
             End If
-            Dim obj As New clsBullMovementType()
+            Dim obj As New clsBullSourceName()
             obj.Code = fndCode.Value
             obj.Name = txtname.Text.Replace("'", "`")
             'obj.Type = txtType.Text
 
-            obj.Peridocity = txtPeriodcity.Text
-            If IsNumeric(txtPeriodcity.Text) Then
-                ' Convert the input to a number
-                obj.Peridocity = clsCommon.myCdbl(txtPeriodcity.Text)
-            Else
-                ' Display an error message if the input is not a valid number
-                clsCommon.MyMessageBoxShow("Please enter a valid number for Days.", Me.Text)
-                txtPeriodcity.Focus()
-                txtPeriodcity.Text = ""
-                Exit Sub
-            End If
+
             If (obj.SaveData(obj, isNewEntry)) Then
                 clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
                 LoadData(obj.Code, NavigatorType.Current)
@@ -106,13 +90,13 @@ Public Class frmBullMovementType
     End Sub
 
     Private Sub RadMenuItem5_Click(sender As Object, e As EventArgs) Handles RadMenuItem5.Click
-        Dim qry As String = "select count(*) from TSPL_BULL_MOVEMENT_TYPE"
+        Dim qry As String = "select count(*) from TSPL_BULL_SOURCE_NAME"
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check > 0 Then
-            qry = "select Code,Name, from TSPL_BULL_MOVEMENT_TYPE"
+            qry = "select Code,Name, from TSPL_BULL_SOURCE_NAME"
         Else
-            qry = "select '' as Code,'' as Name,'' AS Peridocity"
+            qry = "select '' as Code,'' as Name"
         End If
 
         transportSql.ExporttoExcel(qry, Me)
@@ -125,7 +109,7 @@ Public Class frmBullMovementType
         Dim counter As Integer = 0
 
         If transportSql.importExcel(gv_Import, "Code", "Name") Then
-            Dim obj As New clsBullMovementType()
+            Dim obj As New clsBullSourceName()
 
             Try
                 clsCommon.ProgressBarShow()
@@ -144,12 +128,8 @@ Public Class frmBullMovementType
                     If clsCommon.myLen(obj.Name) > 200 Then
                         obj.Name = obj.Name.Substring(0, 200)
                     End If
-                    obj.Peridocity = clsCommon.myCstr(grow.Cells("Peridocity").Value).Replace("'", "`")
 
-                    If clsCommon.myLen(obj.Peridocity) > 200 Then
-                        obj.Peridocity = obj.Peridocity.Substring(0, 200)
-                    End If
-                    Dim qry As Integer = clsDBFuncationality.getSingleValue("select count(*) from TSPL_BULL_MOVEMENT_TYPE where code='" + obj.Code + "'")
+                    Dim qry As Integer = clsDBFuncationality.getSingleValue("select count(*) from TSPL_BULL_SOURCE_NAME where code='" + obj.Code + "'")
                     isNewEntry = True
                     If qry > 0 Then
                         isNewEntry = False
@@ -199,7 +179,7 @@ Public Class frmBullMovementType
             End If
 
             If myMessages.deleteConfirm() Then
-                If clsBullTestParameter.DeleteData(fndCode.Value) Then
+                If clsBullSourceName.DeleteData(fndCode.Value) Then
                     myMessages.delete()
                     AddNew()
                 End If
@@ -211,8 +191,6 @@ Public Class frmBullMovementType
     Sub AddNew()
         fndCode.Value = ""
         txtname.Text = ""
-        txtPeriodcity.Text = ""
-
         fndCode.MyReadOnly = False
         btnsave.Text = "Save"
         btnsave.Enabled = True

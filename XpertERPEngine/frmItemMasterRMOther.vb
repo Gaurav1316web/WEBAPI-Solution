@@ -5838,7 +5838,7 @@ ExitLOOP:
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-    Private Sub chkIsSerailzedInventory_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkIsSerailzedInventory.CheckStateChanged
+    Private Sub chkIsSerailzedInventory_CheckStateChanged(ByVal sender As Object, ByVal e As System.EventArgs)
         Try
             txtNextAutoSerialCounter.Text = 0
         Catch ex As Exception
@@ -5965,7 +5965,7 @@ ExitLOOP:
             txt_shelflife.Visible = False
         End If
     End Sub
-    Private Sub txt_tolerance_TextChanged(sender As Object, e As EventArgs) Handles txt_tolerance.TextChanged
+    Private Sub txt_tolerance_TextChanged(sender As Object, e As EventArgs)
         If txt_tolerance.Text.Contains("-") Then
             txt_tolerance.Text = ""
         End If
@@ -5984,21 +5984,21 @@ ExitLOOP:
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    Private Sub ChkCrate_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles ChkCrate.ToggleStateChanged
+    Private Sub ChkCrate_ToggleStateChanged(sender As Object, args As StateChangedEventArgs)
         If ChkCrate.Checked = True Then
             chkCAN.Enabled = False
         Else
             chkCAN.Enabled = True
         End If
     End Sub
-    Private Sub chkCAN_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkCAN.ToggleStateChanged
+    Private Sub chkCAN_ToggleStateChanged(sender As Object, args As StateChangedEventArgs)
         If chkCAN.Checked = True Then
             ChkCrate.Enabled = False
         Else
             ChkCrate.Enabled = True
         End If
     End Sub
-    Private Sub ChkCrateType_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles ChkCrateType.ToggleStateChanged
+    Private Sub ChkCrateType_ToggleStateChanged(sender As Object, args As StateChangedEventArgs)
         '====================Added by preeti Gupta Against ticket no[BHA/12/06/18-000050]==========
         If ChkCrateType.Checked = True Then
             chkIsCanType.Enabled = False
@@ -6007,14 +6007,14 @@ ExitLOOP:
         End If
         '====================Added by preeti Gupta Against ticket no[BHA/12/06/18-000050]==========
     End Sub
-    Private Sub chkIsCanType_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkIsCanType.ToggleStateChanged
+    Private Sub chkIsCanType_ToggleStateChanged(sender As Object, args As StateChangedEventArgs)
         If chkIsCanType.Checked = True Then
             ChkCrateType.Enabled = False
         Else
             ChkCrateType.Enabled = True
         End If
     End Sub
-    Private Sub chkScrapItem_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkScrapItem.ToggleStateChanged
+    Private Sub chkScrapItem_ToggleStateChanged(sender As Object, args As StateChangedEventArgs)
         If chkScrapItem.Checked = True Then
             fndScrapItem.Visible = True
         Else
@@ -6183,7 +6183,7 @@ ExitLOOP:
             MsgBox(ex.Message, MsgBoxStyle.Exclamation, "UOM")
         End Try
     End Sub
-    Private Sub chkInsurance_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkInsurance.ToggleStateChanged
+    Private Sub chkInsurance_ToggleStateChanged(sender As Object, args As StateChangedEventArgs)
         If chkInsurance.Checked = False Then
             txtFromDate.Value = clsCommon.GETSERVERDATE
             txtToDate.Value = clsCommon.GETSERVERDATE
@@ -6450,7 +6450,7 @@ ExitLOOP:
         txtBBValue.Visible = True
     End Sub
 
-    Private Sub chkFGforCF_CheckStateChanged(sender As Object, e As EventArgs) Handles chkFGforCF.CheckStateChanged
+    Private Sub chkFGforCF_CheckStateChanged(sender As Object, e As EventArgs)
         If chkFGforCF.Checked = True Then
             txtBmBdQty.Visible = True
             MyLabelL.Visible = True
