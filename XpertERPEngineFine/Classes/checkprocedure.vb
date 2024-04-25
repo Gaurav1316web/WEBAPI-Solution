@@ -2891,6 +2891,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmBullVaccinationEntry, "Bull Vaccination Entry", "1.50.02.02", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBullCurlingEntry, "Bull Curling Entry", "1.50.02.03", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBullInsurance, "Bull Insurance", "1.50.02.04", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmBullTestParameterEntry, "Bull Test Parameter Entry", "1.50.02.05", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
 
         ''----------------------------------------------REPORT---------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementReport, "Report", "1.50.03", clsUserMgtCode.ModuleBullManagement, "SM", 30)
