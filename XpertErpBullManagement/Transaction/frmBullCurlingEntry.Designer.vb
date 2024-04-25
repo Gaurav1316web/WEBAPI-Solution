@@ -25,12 +25,14 @@ Partial Class frmBullCurlingEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBullCurlingEntry))
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.UsLock1 = New common.usLock()
         Me.lblDate = New common.Controls.MyLabel()
         Me.dtpDate = New Telerik.WinControls.UI.RadDateTimePicker()
         Me.fndCode = New common.UserControls.txtNavigator()
@@ -43,6 +45,7 @@ Partial Class frmBullCurlingEntry
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
+        Me.btnNew = New Telerik.WinControls.UI.RadButton()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -59,6 +62,7 @@ Partial Class frmBullCurlingEntry
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -69,6 +73,7 @@ Partial Class frmBullCurlingEntry
         Me.RadMenu1.Name = "RadMenu1"
         Me.RadMenu1.Size = New System.Drawing.Size(800, 20)
         Me.RadMenu1.TabIndex = 69
+        Me.RadMenu1.Visible = False
         '
         'RadMenuItem1
         '
@@ -98,6 +103,8 @@ Partial Class frmBullCurlingEntry
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.btnNew)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.UsLock1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblDate)
         Me.SplitContainer1.Panel1.Controls.Add(Me.dtpDate)
         Me.SplitContainer1.Panel1.Controls.Add(Me.fndCode)
@@ -116,6 +123,16 @@ Partial Class frmBullCurlingEntry
         Me.SplitContainer1.Size = New System.Drawing.Size(800, 430)
         Me.SplitContainer1.SplitterDistance = 395
         Me.SplitContainer1.TabIndex = 70
+        '
+        'UsLock1
+        '
+        Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
+        Me.UsLock1.Location = New System.Drawing.Point(514, 15)
+        Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.UsLock1.Name = "UsLock1"
+        Me.UsLock1.Size = New System.Drawing.Size(101, 20)
+        Me.UsLock1.Status = common.ERPTransactionStatus.Pending
+        Me.UsLock1.TabIndex = 76
         '
         'lblDate
         '
@@ -182,7 +199,7 @@ Partial Class frmBullCurlingEntry
         '
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -280,6 +297,16 @@ Partial Class frmBullCurlingEntry
         Me.btnclose.TabIndex = 72
         Me.btnclose.Text = "Close"
         '
+        'btnNew
+        '
+        Me.btnNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnNew.Image = CType(resources.GetObject("btnNew.Image"), System.Drawing.Image)
+        Me.btnNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
+        Me.btnNew.Location = New System.Drawing.Point(329, 16)
+        Me.btnNew.Name = "btnNew"
+        Me.btnNew.Size = New System.Drawing.Size(18, 21)
+        Me.btnNew.TabIndex = 77
+        '
         'frmBullCurlingEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -310,6 +337,7 @@ Partial Class frmBullCurlingEntry
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -333,4 +361,6 @@ Partial Class frmBullCurlingEntry
     Friend WithEvents lblDate As common.Controls.MyLabel
     Friend WithEvents dtpDate As Telerik.WinControls.UI.RadDateTimePicker
     Friend WithEvents btnreset As Telerik.WinControls.UI.RadButton
+    Friend WithEvents UsLock1 As common.usLock
+    Friend WithEvents btnNew As Telerik.WinControls.UI.RadButton
 End Class
