@@ -399,8 +399,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Inventory\ClsAdjustmentsQCC.vb" />
-    <Compile Include="Inventory\clsBatchInventoryNew.vb" />
-    <Compile Include="Inventory\clsInventoryMovementNew.vb" />
     <Compile Include="Inventory\clsItemLocationDetails.vb" />
     <Compile Include="Inventory\clsOutputEntry.vb" />
     <Compile Include="Inventory\clsPhysicalstock.vb" />
@@ -424,6 +422,7 @@
     <Compile Include="JobWork Outward\clsJWFormula.vb" />
     <Compile Include="JobWork Outward\clsJWOEstimate.vb" />
     <Compile Include="JobWork Outward\clsJWOFormula.vb" />
+    <Compile Include="LocationModel\clsLocationCustomerMappings.vb" />
     <Compile Include="Milk JobWork\clsJWIItemPriceMaster.vb" />
     <Compile Include="Milk Procurement\clsAcknowledgementEntry.vb" />
     <Compile Include="Milk Procurement\clsBankAdvise.vb" />
@@ -667,7 +666,6 @@
     <Compile Include="ItemModel\clsItemSubCategory.vb" />
     <Compile Include="ItemModel\clsItemType.vb" />
     <Compile Include="Inventory\ClsJobWorkRMConsum.vb" />
-    <Compile Include="Inventory\clsLocation.vb" />
     <Compile Include="Inventory\clsManufacturingOrder.vb" />
     <Compile Include="Inventory\clsOverheadCost.vb" />
     <Compile Include="Inventory\clsOverheadCostGroup.vb" />

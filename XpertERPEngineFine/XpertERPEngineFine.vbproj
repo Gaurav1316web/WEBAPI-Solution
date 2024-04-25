@@ -104,8 +104,10 @@
     <Compile Include="Common\clsCustomFieldValues.vb" />
     <Compile Include="Common\MIlkComponentType.vb" />
     <Compile Include="Inventory\clsBatchInventory.vb" />
+    <Compile Include="Inventory\clsBatchInventoryNew.vb" />
     <Compile Include="Inventory\clsCode.vb" />
     <Compile Include="Inventory\clsInventoryMovement.vb" />
+    <Compile Include="Inventory\clsInventoryMovementNew.vb" />
     <Compile Include="Inventory\clsInventorySourceCode.vb" />
     <Compile Include="Inventory\clsSerializeInvenotry.vb" />
     <Compile Include="Inventory\clsStockAgeingFilters.vb" />
@@ -116,6 +118,13 @@
     <Compile Include="ItemModel\clsItemSchedule.vb" />
     <Compile Include="ItemModel\clsItemSchedulePenalty.vb" />
     <Compile Include="ItemModel\clsItemUOMDetails.vb" />
+    <Compile Include="LocationModel\clsLocation.vb" />
+    <Compile Include="LocationModel\clsLocationCustomerMapping.vb" />
+    <Compile Include="LocationModel\clsLocationItemMapping.vb" />
+    <Compile Include="LocationModel\clsLocationPlantDepotMapping.vb" />
+    <Compile Include="LocationModel\clsLocationWiseItems.vb" />
+    <Compile Include="LocationModel\clsLocationWiseTax.vb" />
+    <Compile Include="LocationModel\ClsLocation_JobworkItem.vb" />
     <Compile Include="Milk Procurement\clsChillingCharges.vb" />
     <Compile Include="MIS\clsDailySMPProduction.vb" />
     <Compile Include="MIS\clsProductionTransactionType.vb" />
