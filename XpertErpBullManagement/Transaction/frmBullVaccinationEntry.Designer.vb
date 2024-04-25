@@ -24,7 +24,7 @@ Partial Class frmBullVaccinationEntry
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmimport = New Telerik.WinControls.UI.RadMenuItem()
@@ -33,8 +33,7 @@ Partial Class frmBullVaccinationEntry
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
-        Me.lblRegToDate = New common.Controls.MyLabel()
-        Me.lblRegFromDate = New common.Controls.MyLabel()
+        Me.lblRegDate = New common.Controls.MyLabel()
         Me.lblDOB = New common.Controls.MyLabel()
         Me.lblSSCentre = New common.Controls.MyLabel()
         Me.lblBreed = New common.Controls.MyLabel()
@@ -51,7 +50,6 @@ Partial Class frmBullVaccinationEntry
         Me.btnAddNew = New Telerik.WinControls.UI.RadButton()
         Me.lblCode = New common.Controls.MyLabel()
         Me.txtDocumentNo = New common.UserControls.txtNavigator()
-        Me.gv1 = New common.UserControls.MyRadGridView()
         Me.RadSplitButton1 = New Telerik.WinControls.UI.RadSplitButton()
         Me.btnExcel = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnPDF = New Telerik.WinControls.UI.RadMenuItem()
@@ -60,6 +58,7 @@ Partial Class frmBullVaccinationEntry
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.gv1 = New common.UserControls.MyRadGridView()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -67,8 +66,7 @@ Partial Class frmBullVaccinationEntry
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
-        CType(Me.lblRegToDate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblRegFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRegDate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDOB, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSSCentre, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBreed, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -82,14 +80,14 @@ Partial Class frmBullVaccinationEntry
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -130,6 +128,8 @@ Partial Class frmBullVaccinationEntry
         'SplitContainer1
         '
         Me.SplitContainer1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2
+        Me.SplitContainer1.IsSplitterFixed = True
         Me.SplitContainer1.Location = New System.Drawing.Point(0, 20)
         Me.SplitContainer1.Name = "SplitContainer1"
         Me.SplitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal
@@ -153,14 +153,15 @@ Partial Class frmBullVaccinationEntry
         'SplitContainer2
         '
         Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1
+        Me.SplitContainer2.IsSplitterFixed = True
         Me.SplitContainer2.Location = New System.Drawing.Point(0, 0)
         Me.SplitContainer2.Name = "SplitContainer2"
         Me.SplitContainer2.Orientation = System.Windows.Forms.Orientation.Horizontal
         '
         'SplitContainer2.Panel1
         '
-        Me.SplitContainer2.Panel1.Controls.Add(Me.lblRegToDate)
-        Me.SplitContainer2.Panel1.Controls.Add(Me.lblRegFromDate)
+        Me.SplitContainer2.Panel1.Controls.Add(Me.lblRegDate)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblDOB)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblSSCentre)
         Me.SplitContainer2.Panel1.Controls.Add(Me.lblBreed)
@@ -182,47 +183,37 @@ Partial Class frmBullVaccinationEntry
         '
         Me.SplitContainer2.Panel2.Controls.Add(Me.gv1)
         Me.SplitContainer2.Size = New System.Drawing.Size(996, 444)
-        Me.SplitContainer2.SplitterDistance = 141
+        Me.SplitContainer2.SplitterDistance = 130
         Me.SplitContainer2.TabIndex = 0
         '
-        'lblRegToDate
+        'lblRegDate
         '
-        Me.lblRegToDate.AutoSize = False
-        Me.lblRegToDate.BorderVisible = True
-        Me.lblRegToDate.FieldName = Nothing
-        Me.lblRegToDate.Location = New System.Drawing.Point(509, 84)
-        Me.lblRegToDate.Name = "lblRegToDate"
-        Me.lblRegToDate.Size = New System.Drawing.Size(188, 19)
-        Me.lblRegToDate.TabIndex = 43
-        '
-        'lblRegFromDate
-        '
-        Me.lblRegFromDate.AutoSize = False
-        Me.lblRegFromDate.BorderVisible = True
-        Me.lblRegFromDate.FieldName = Nothing
-        Me.lblRegFromDate.Location = New System.Drawing.Point(316, 84)
-        Me.lblRegFromDate.Name = "lblRegFromDate"
-        Me.lblRegFromDate.Size = New System.Drawing.Size(188, 19)
-        Me.lblRegFromDate.TabIndex = 42
+        Me.lblRegDate.AutoSize = False
+        Me.lblRegDate.BorderVisible = True
+        Me.lblRegDate.FieldName = Nothing
+        Me.lblRegDate.Location = New System.Drawing.Point(306, 83)
+        Me.lblRegDate.Name = "lblRegDate"
+        Me.lblRegDate.Size = New System.Drawing.Size(188, 19)
+        Me.lblRegDate.TabIndex = 44
         '
         'lblDOB
         '
         Me.lblDOB.AutoSize = False
         Me.lblDOB.BorderVisible = True
         Me.lblDOB.FieldName = Nothing
-        Me.lblDOB.Location = New System.Drawing.Point(99, 84)
+        Me.lblDOB.Location = New System.Drawing.Point(99, 83)
         Me.lblDOB.Name = "lblDOB"
-        Me.lblDOB.Size = New System.Drawing.Size(209, 19)
-        Me.lblDOB.TabIndex = 41
+        Me.lblDOB.Size = New System.Drawing.Size(204, 19)
+        Me.lblDOB.TabIndex = 43
         '
         'lblSSCentre
         '
         Me.lblSSCentre.AutoSize = False
         Me.lblSSCentre.BorderVisible = True
         Me.lblSSCentre.FieldName = Nothing
-        Me.lblSSCentre.Location = New System.Drawing.Point(509, 61)
+        Me.lblSSCentre.Location = New System.Drawing.Point(489, 61)
         Me.lblSSCentre.Name = "lblSSCentre"
-        Me.lblSSCentre.Size = New System.Drawing.Size(188, 19)
+        Me.lblSSCentre.Size = New System.Drawing.Size(174, 19)
         Me.lblSSCentre.TabIndex = 39
         '
         'lblBreed
@@ -230,9 +221,9 @@ Partial Class frmBullVaccinationEntry
         Me.lblBreed.AutoSize = False
         Me.lblBreed.BorderVisible = True
         Me.lblBreed.FieldName = Nothing
-        Me.lblBreed.Location = New System.Drawing.Point(316, 61)
+        Me.lblBreed.Location = New System.Drawing.Point(306, 61)
         Me.lblBreed.Name = "lblBreed"
-        Me.lblBreed.Size = New System.Drawing.Size(188, 19)
+        Me.lblBreed.Size = New System.Drawing.Size(179, 19)
         Me.lblBreed.TabIndex = 38
         '
         'lblSSBullId
@@ -242,7 +233,7 @@ Partial Class frmBullVaccinationEntry
         Me.lblSSBullId.FieldName = Nothing
         Me.lblSSBullId.Location = New System.Drawing.Point(99, 61)
         Me.lblSSBullId.Name = "lblSSBullId"
-        Me.lblSSBullId.Size = New System.Drawing.Size(209, 19)
+        Me.lblSSBullId.Size = New System.Drawing.Size(204, 19)
         Me.lblSSBullId.TabIndex = 37
         '
         'lblPreBullId
@@ -250,16 +241,16 @@ Partial Class frmBullVaccinationEntry
         Me.lblPreBullId.AutoSize = False
         Me.lblPreBullId.BorderVisible = True
         Me.lblPreBullId.FieldName = Nothing
-        Me.lblPreBullId.Location = New System.Drawing.Point(509, 38)
+        Me.lblPreBullId.Location = New System.Drawing.Point(489, 38)
         Me.lblPreBullId.Name = "lblPreBullId"
-        Me.lblPreBullId.Size = New System.Drawing.Size(188, 19)
+        Me.lblPreBullId.Size = New System.Drawing.Size(174, 19)
         Me.lblPreBullId.TabIndex = 35
         '
         'RadLabel14
         '
         Me.RadLabel14.FieldName = Nothing
         Me.RadLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel14.Location = New System.Drawing.Point(12, 109)
+        Me.RadLabel14.Location = New System.Drawing.Point(12, 107)
         Me.RadLabel14.Name = "RadLabel14"
         Me.RadLabel14.Size = New System.Drawing.Size(51, 16)
         Me.RadLabel14.TabIndex = 34
@@ -277,7 +268,7 @@ Partial Class frmBullVaccinationEntry
         Me.txtRemarks.IsSourceFromTable = False
         Me.txtRemarks.IsSourceFromValueList = False
         Me.txtRemarks.IsUnique = False
-        Me.txtRemarks.Location = New System.Drawing.Point(97, 108)
+        Me.txtRemarks.Location = New System.Drawing.Point(97, 106)
         Me.txtRemarks.MaxLength = 200
         Me.txtRemarks.MendatroryField = False
         Me.txtRemarks.Multiline = True
@@ -291,16 +282,16 @@ Partial Class frmBullVaccinationEntry
         '
         '
         Me.txtRemarks.RootElement.StretchVertically = True
-        Me.txtRemarks.Size = New System.Drawing.Size(430, 25)
+        Me.txtRemarks.Size = New System.Drawing.Size(561, 20)
         Me.txtRemarks.TabIndex = 33
         '
         'lblStatus
         '
         Me.lblStatus.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.lblStatus.Location = New System.Drawing.Point(534, 17)
+        Me.lblStatus.Location = New System.Drawing.Point(511, 17)
         Me.lblStatus.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.lblStatus.Name = "lblStatus"
-        Me.lblStatus.Size = New System.Drawing.Size(147, 19)
+        Me.lblStatus.Size = New System.Drawing.Size(152, 19)
         Me.lblStatus.Status = common.ERPTransactionStatus.Pending
         Me.lblStatus.TabIndex = 26
         '
@@ -309,9 +300,9 @@ Partial Class frmBullVaccinationEntry
         Me.lblBullAliasName.AutoSize = False
         Me.lblBullAliasName.BorderVisible = True
         Me.lblBullAliasName.FieldName = Nothing
-        Me.lblBullAliasName.Location = New System.Drawing.Point(316, 38)
+        Me.lblBullAliasName.Location = New System.Drawing.Point(306, 38)
         Me.lblBullAliasName.Name = "lblBullAliasName"
-        Me.lblBullAliasName.Size = New System.Drawing.Size(188, 19)
+        Me.lblBullAliasName.Size = New System.Drawing.Size(179, 19)
         Me.lblBullAliasName.TabIndex = 24
         '
         'txtBullCode
@@ -336,7 +327,7 @@ Partial Class frmBullVaccinationEntry
         Me.txtBullCode.ReferenceFieldDesc = Nothing
         Me.txtBullCode.ReferenceFieldName = Nothing
         Me.txtBullCode.ReferenceTableName = Nothing
-        Me.txtBullCode.Size = New System.Drawing.Size(212, 19)
+        Me.txtBullCode.Size = New System.Drawing.Size(204, 19)
         Me.txtBullCode.TabIndex = 19
         Me.txtBullCode.Value = ""
         '
@@ -393,6 +384,7 @@ Partial Class frmBullVaccinationEntry
         'btnAddNew
         '
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.btnAddNew.Image = Global.XpertErpBullManagement.My.Resources.Resources.new1
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
         Me.btnAddNew.Location = New System.Drawing.Point(355, 16)
         Me.btnAddNew.Name = "btnAddNew"
@@ -423,24 +415,6 @@ Partial Class frmBullVaccinationEntry
         Me.txtDocumentNo.Size = New System.Drawing.Size(256, 20)
         Me.txtDocumentNo.TabIndex = 25
         Me.txtDocumentNo.Value = ""
-        '
-        'gv1
-        '
-        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.gv1.Location = New System.Drawing.Point(0, 0)
-        '
-        '
-        '
-        Me.gv1.MasterTemplate.AllowAddNewRow = False
-        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
-        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
-        Me.gv1.MyStopExport = False
-        Me.gv1.Name = "gv1"
-        Me.gv1.ShowHeaderCellButtons = True
-        Me.gv1.Size = New System.Drawing.Size(996, 299)
-        Me.gv1.TabIndex = 1
-        Me.gv1.TabStop = False
         '
         'RadSplitButton1
         '
@@ -513,6 +487,24 @@ Partial Class frmBullVaccinationEntry
         Me.btnsave.TabIndex = 156
         Me.btnsave.Text = "Save"
         '
+        'gv1
+        '
+        Me.gv1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gv1.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gv1.MasterTemplate.AllowAddNewRow = False
+        Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
+        Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MyStopExport = False
+        Me.gv1.Name = "gv1"
+        Me.gv1.ShowHeaderCellButtons = True
+        Me.gv1.Size = New System.Drawing.Size(996, 310)
+        Me.gv1.TabIndex = 1
+        Me.gv1.TabStop = False
+        '
         'frmBullVaccinationEntry
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -534,8 +526,7 @@ Partial Class frmBullVaccinationEntry
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.lblRegToDate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblRegFromDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRegDate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDOB, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSSCentre, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBreed, System.ComponentModel.ISupportInitialize).EndInit()
@@ -549,14 +540,14 @@ Partial Class frmBullVaccinationEntry
         CType(Me.txtdate, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadSplitButton1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnReverseUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -579,7 +570,6 @@ Partial Class frmBullVaccinationEntry
     Friend WithEvents btnAddNew As RadButton
     Friend WithEvents lblCode As common.Controls.MyLabel
     Friend WithEvents txtDocumentNo As common.UserControls.txtNavigator
-    Friend WithEvents gv1 As common.UserControls.MyRadGridView
     Friend WithEvents RadSplitButton1 As RadSplitButton
     Friend WithEvents btnExcel As RadMenuItem
     Friend WithEvents btnPDF As RadMenuItem
@@ -594,7 +584,7 @@ Partial Class frmBullVaccinationEntry
     Friend WithEvents lblBreed As common.Controls.MyLabel
     Friend WithEvents lblSSBullId As common.Controls.MyLabel
     Friend WithEvents lblPreBullId As common.Controls.MyLabel
-    Friend WithEvents lblRegToDate As common.Controls.MyLabel
-    Friend WithEvents lblRegFromDate As common.Controls.MyLabel
+    Friend WithEvents lblRegDate As common.Controls.MyLabel
     Friend WithEvents lblDOB As common.Controls.MyLabel
+    Friend WithEvents gv1 As common.UserControls.MyRadGridView
 End Class
