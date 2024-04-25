@@ -2882,7 +2882,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmBullInsuranceType, "Bull Insurance Type", "1.50.01.21", clsUserMgtCode.SubModuleBullManagementSetup, 27)
         'InsertDefaultValue(clsUserMgtCode.frmBullSourceName, "Bull Source Name Master", "1.50.01.18", clsUserMgtCode.SubModuleBullManagementSetup, 27)
         'InsertDefaultValue(clsUserMgtCode.frmBullPurchaseNo, "Bull Purchase Request No", "1.50.01.18", clsUserMgtCode.SubModuleBullManagementSetup, 27)
-        InsertDefaultValue(clsUserMgtCode.frmDiseaseMaster, "Disease Master", "1.50.01.19", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmDiseaseMaster, "Disease Master", "1.50.01.22", clsUserMgtCode.SubModuleBullManagementSetup, 27)
 
 
         ''------------------------------TRANSACTION--------------------------------------------------------
