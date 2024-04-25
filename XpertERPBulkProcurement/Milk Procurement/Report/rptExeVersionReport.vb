@@ -126,17 +126,7 @@ Public Class rptExeVersionReport
         End Try
     End Sub
     Private Sub btnPDF_Click(sender As Object, e As EventArgs) Handles btnPDF.Click
-        Try
-            If gv1.Rows.Count > 0 Then
-                Dim arrHeader As List(Of String) = New List(Of String)()
-                clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
-
-            Else
-                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
-            End If
-        Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
-        End Try
+        print(EnumExportTo.PDF)
     End Sub
     Private Sub btnClose_Click(sender As Object, e As EventArgs) Handles btnClose.Click
         CancelPressed()
@@ -170,5 +160,30 @@ Public Class rptExeVersionReport
             txtFromDate.Enabled = True
             txtToDate.Enabled = True
         End If
+    End Sub
+
+    Private Sub btnExcel_Click(sender As Object, e As EventArgs) Handles btnExcel.Click
+        Print(EnumExportTo.Excel)
+    End Sub
+    Private Sub print(ByVal exporter As EnumExportTo)
+        Try
+            If gv1.Rows.Count > 0 Then
+
+                Dim arrHeader As List(Of String) = New List(Of String)()
+                arrHeader.Add("Run Date : " + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(Nothing, "dd/MM/yyyy hh:mm tt", False), "dd/MM/yyyy hh:mm tt")) ' clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MMM/yyyy HH:MM"))
+                arrHeader.Add("User : " + objCommonVar.CurrentUser)
+                If exporter = EnumExportTo.Excel Then
+                    transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
+                    transportSql.QuickExportToExcel(gv1, "", "", , arrHeader)
+                Else
+                    clsCommon.MyExportToPDF(Me.Text, gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
+
+                End If
+            Else
+                clsCommon.MyMessageBoxShow(Me, "No data found to export", Me.Text)
+            End If
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(ex.Message)
+        End Try
     End Sub
 End Class
