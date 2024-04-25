@@ -9794,7 +9794,12 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullPurchaseNo
                         frm = New frmBullPurchaseNo
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
-
+                    Case clsUserMgtCode.frmBullInsuranceMaster
+                        frm = New frmBullInsuranceMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullInsuranceType
+                        frm = New frmBullInsuranceType
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
 
 

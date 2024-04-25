@@ -54605,6 +54605,24 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Post_Date", "DateTime NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_MOVEMENT", coll)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
+            coll.Add("Name", "Varchar(50) NOT NULL ")
+            coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_INSURANCE_MASTER", coll)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
+            coll.Add("Name", "Varchar(50) NOT NULL ")
+            coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_INSURANCE_TYPE", coll)
+
 
             coll = New Dictionary(Of String, String)()
             coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION")

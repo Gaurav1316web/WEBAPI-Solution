@@ -322,6 +322,8 @@ Public Class clsUserMgtCode
     Public Const frmBullRating As String = "BULL-RATING"
     Public Const frmBullSourceName As String = "BULL-SOURCE"
     Public Const frmBullPurchaseNo As String = "BUL-PURCHASE"
+    Public Const frmBullInsuranceMaster As String = "BULL-INSR-M"
+    Public Const frmBullInsuranceType As String = "BULL-INSR-TY"
 
 
     Public Const frmBullVaccinationEntry As String = "BULL-VAC-EN"
