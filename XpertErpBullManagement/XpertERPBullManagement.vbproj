@@ -202,7 +202,9 @@
     <Compile Include="..\XpertERPService\My Project\SharedAssemblyInfo.vb">
       <Link>SharedAssemblyInfo.vb</Link>
     </Compile>
-    <Compile Include="Form1.vb" />
+    <Compile Include="Form1.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Form1.Designer.vb">
       <DependentUpon>Form1.vb</DependentUpon>
       <SubType>Form</SubType>
@@ -210,71 +212,117 @@
     <Compile Include="Master\frmBullBreedMaster.Designer.vb">
       <DependentUpon>frmBullBreedMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullBreedMaster.vb" />
+    <Compile Include="Master\frmBullBreedMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullCategoryMaster.Designer.vb">
       <DependentUpon>frmBullCategoryMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullCategoryMaster.vb" />
+    <Compile Include="Master\frmBullCategoryMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullMasters.Designer.vb">
       <DependentUpon>frmBullMasters.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullMasters.vb" />
+    <Compile Include="Master\frmBullMasters.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullMovementType.Designer.vb">
       <DependentUpon>frmBullMovementType.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullMovementType.vb" />
+    <Compile Include="Master\frmBullMovementType.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullParameterGroup.Designer.vb">
       <DependentUpon>frmBullParameterGroup.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullParameterGroup.vb" />
+    <Compile Include="Master\frmBullParameterGroup.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullPenIDMaster.Designer.vb">
       <DependentUpon>frmBullPenIDMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullPenIDMaster.vb" />
+    <Compile Include="Master\frmBullPenIDMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmBullPurchaseNo.Designer.vb">
+      <DependentUpon>frmBullPurchaseNo.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmBullPurchaseNo.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullRating.Designer.vb">
       <DependentUpon>frmBullRating.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullRating.vb" />
+    <Compile Include="Master\frmBullRating.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullShedMaster.Designer.vb">
       <DependentUpon>frmBullShedMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullShedMaster.vb" />
+    <Compile Include="Master\frmBullShedMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullShedParameterGroup.Designer.vb">
       <DependentUpon>frmBullShedParameterGroup.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullShedParameterGroup.vb" />
+    <Compile Include="Master\frmBullShedParameterGroup.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullShedParameterMaster.Designer.vb">
       <DependentUpon>frmBullShedParameterMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullShedParameterMaster.vb" />
+    <Compile Include="Master\frmBullShedParameterMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmBullSourceName.Designer.vb">
+      <DependentUpon>frmBullSourceName.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmBullSourceName.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullSourcePainting.Designer.vb">
       <DependentUpon>frmBullSourcePainting.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullSourcePainting.vb" />
+    <Compile Include="Master\frmBullSourcePainting.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullSpeciesMaster.Designer.vb">
       <DependentUpon>frmBullSpeciesMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullSpeciesMaster.vb" />
+    <Compile Include="Master\frmBullSpeciesMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullSSCentreMaster.Designer.vb">
       <DependentUpon>frmBullSSCentreMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullSSCentreMaster.vb" />
+    <Compile Include="Master\frmBullSSCentreMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullStatus.Designer.vb">
       <DependentUpon>frmBullStatus.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullStatus.vb" />
+    <Compile Include="Master\frmBullStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullSubCategoryMaster.Designer.vb">
       <DependentUpon>frmBullSubCategoryMaster.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullSubCategoryMaster.vb" />
+    <Compile Include="Master\frmBullSubCategoryMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullSubStatus.Designer.vb">
       <DependentUpon>frmBullSubStatus.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullSubStatus.vb" />
+    <Compile Include="Master\frmBullSubStatus.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullTestParameter.Designer.vb">
       <DependentUpon>frmBullTestParameter.vb</DependentUpon>
     </Compile>
-    <Compile Include="Master\frmBullTestParameter.vb" />
+    <Compile Include="Master\frmBullTestParameter.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>
       <DependentUpon>Application.myapp</DependentUpon>
@@ -328,6 +376,9 @@
     <EmbeddedResource Include="Master\frmBullPenIDMaster.resx">
       <DependentUpon>frmBullPenIDMaster.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBullPurchaseNo.resx">
+      <DependentUpon>frmBullPurchaseNo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullRating.resx">
       <DependentUpon>frmBullRating.vb</DependentUpon>
     </EmbeddedResource>
@@ -339,6 +390,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullShedParameterMaster.resx">
       <DependentUpon>frmBullShedParameterMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBullSourceName.resx">
+      <DependentUpon>frmBullSourceName.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullSourcePainting.resx">
       <DependentUpon>frmBullSourcePainting.vb</DependentUpon>

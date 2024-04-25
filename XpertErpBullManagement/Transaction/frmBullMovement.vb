@@ -234,8 +234,8 @@ Public Class frmBullMovement
         End If
         If txtCode.MyReadOnly OrElse isButtonClicked Then
             Dim whrClas As String = ""
-            Dim qry As String = "select Document_Code,Document_Date,Bull_Code,Bull_Movement_Type,Bull_Shed,Period,Status from TSPL_BULL_MOVEMENT"
-            txtCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Document_Code", whrClas, txtCode.Value, "TSPL_BULL_MOVEMENT.Document_Code asc", isButtonClicked, Nothing)
+            Dim qry As String = "select Document_Code as [Document Code],Document_Date as [Document Date],Bull_Code as [Bull Code],Bull_Movement_Type as [Bull Movement Type],Bull_Shed as [Bull Shed],Period,Status from TSPL_BULL_MOVEMENT"
+            txtCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Document Code", whrClas, txtCode.Value, "TSPL_BULL_MOVEMENT.Document_Code asc", isButtonClicked, Nothing)
             LoadData(txtCode.Value, NavigatorType.Current)
         End If
     End Sub
@@ -269,16 +269,17 @@ Public Class frmBullMovement
     Sub ReverseData()
 
         Try
+
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
-                Dim Reason As String = ""
-                Dim frm As New FrmFreeTxtBox1
-                frm.Text = "Remarks for Reverse"
-                frm.ShowDialog()
-                If clsCommon.myLen(frm.strRmks) <= 0 Then
-                    Exit Sub
-                Else
-                    Reason = frm.strRmks
-                End If
+                'Dim Reason As String = ""
+                'Dim frm As New FrmFreeTxtBox1
+                'frm.Text = "Remarks for Reverse"
+                'frm.ShowDialog()
+                'If clsCommon.myLen(frm.strRmks) <= 0 Then
+                '    Exit Sub
+                'Else
+                '    Reason = frm.strRmks
+                'End If
                 If clsBullMovement.ReverseData(txtCode.Value) Then
                     clsCommon.MyMessageBoxShow(Me, "Successfully Reversed", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)

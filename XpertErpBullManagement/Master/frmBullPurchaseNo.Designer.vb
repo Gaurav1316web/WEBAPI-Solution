@@ -1,10 +1,12 @@
 ﻿Imports XpertERPEngine
+Imports XpertERPEngineFine
 <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
-Partial Class frmBullMovementType
+Partial Class frmBullPurchaseNo
     'Inherits System.Windows.Forms.Form
     Inherits FrmMainTranScreen
+
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()>
+    <System.Diagnostics.DebuggerNonUserCode()> _
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -21,12 +23,10 @@ Partial Class frmBullMovementType
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()>
+    <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBullMovementType))
+        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBullPurchaseNo))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
-        Me.txtPeriodcity = New System.Windows.Forms.MaskedTextBox()
-        Me.lblPeriodcity = New common.Controls.MyLabel()
         Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
@@ -42,7 +42,6 @@ Partial Class frmBullMovementType
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
-        CType(Me.lblPeriodcity, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtname, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -63,48 +62,29 @@ Partial Class frmBullMovementType
         '
         'SplitContainer1.Panel1
         '
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtPeriodcity)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.lblPeriodcity)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.RadMenu2)
         Me.SplitContainer1.Panel1.Controls.Add(Me.fndCode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblCode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtname)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblName)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnnew)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.RadMenu2)
         '
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnclose)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnsave)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btndelete)
-        Me.SplitContainer1.Size = New System.Drawing.Size(492, 245)
-        Me.SplitContainer1.SplitterDistance = 199
+        Me.SplitContainer1.Size = New System.Drawing.Size(484, 236)
+        Me.SplitContainer1.SplitterDistance = 193
         Me.SplitContainer1.TabIndex = 0
-        '
-        'txtPeriodcity
-        '
-        Me.txtPeriodcity.Location = New System.Drawing.Point(77, 90)
-        Me.txtPeriodcity.Name = "txtPeriodcity"
-        Me.txtPeriodcity.Size = New System.Drawing.Size(139, 20)
-        Me.txtPeriodcity.TabIndex = 445
-        '
-        'lblPeriodcity
-        '
-        Me.lblPeriodcity.FieldName = Nothing
-        Me.lblPeriodcity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPeriodcity.Location = New System.Drawing.Point(12, 94)
-        Me.lblPeriodcity.Name = "lblPeriodcity"
-        Me.lblPeriodcity.Size = New System.Drawing.Size(56, 16)
-        Me.lblPeriodcity.TabIndex = 444
-        Me.lblPeriodcity.Text = "Periodcity"
         '
         'RadMenu2
         '
         Me.RadMenu2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
         Me.RadMenu2.Location = New System.Drawing.Point(0, 0)
         Me.RadMenu2.Name = "RadMenu2"
-        Me.RadMenu2.Size = New System.Drawing.Size(492, 20)
-        Me.RadMenu2.TabIndex = 63
+        Me.RadMenu2.Size = New System.Drawing.Size(484, 20)
+        Me.RadMenu2.TabIndex = 453
         '
         'RadMenuItem3
         '
@@ -128,7 +108,7 @@ Partial Class frmBullMovementType
         'fndCode
         '
         Me.fndCode.FieldName = Nothing
-        Me.fndCode.Location = New System.Drawing.Point(75, 44)
+        Me.fndCode.Location = New System.Drawing.Point(75, 37)
         Me.fndCode.MendatroryField = True
         Me.fndCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -138,17 +118,17 @@ Partial Class frmBullMovementType
         Me.fndCode.MyReadOnly = False
         Me.fndCode.Name = "fndCode"
         Me.fndCode.Size = New System.Drawing.Size(253, 21)
-        Me.fndCode.TabIndex = 58
+        Me.fndCode.TabIndex = 454
         Me.fndCode.Value = ""
         '
         'lblCode
         '
         Me.lblCode.FieldName = Nothing
         Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblCode.Location = New System.Drawing.Point(12, 46)
+        Me.lblCode.Location = New System.Drawing.Point(12, 39)
         Me.lblCode.Name = "lblCode"
         Me.lblCode.Size = New System.Drawing.Size(33, 16)
-        Me.lblCode.TabIndex = 62
+        Me.lblCode.TabIndex = 457
         Me.lblCode.Text = "Code"
         '
         'txtname
@@ -163,7 +143,7 @@ Partial Class frmBullMovementType
         Me.txtname.IsSourceFromTable = False
         Me.txtname.IsSourceFromValueList = False
         Me.txtname.IsUnique = False
-        Me.txtname.Location = New System.Drawing.Point(76, 67)
+        Me.txtname.Location = New System.Drawing.Point(76, 60)
         Me.txtname.MaxLength = 200
         Me.txtname.MendatroryField = True
         Me.txtname.MyLinkLable1 = Me.lblName
@@ -176,74 +156,73 @@ Partial Class frmBullMovementType
         '
         '
         Me.txtname.RootElement.StretchVertically = True
-        Me.txtname.Size = New System.Drawing.Size(353, 20)
-        Me.txtname.TabIndex = 60
+        Me.txtname.Size = New System.Drawing.Size(266, 20)
+        Me.txtname.TabIndex = 455
         '
         'lblName
         '
         Me.lblName.FieldName = Nothing
         Me.lblName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblName.Location = New System.Drawing.Point(12, 70)
+        Me.lblName.Location = New System.Drawing.Point(12, 63)
         Me.lblName.Name = "lblName"
         Me.lblName.Size = New System.Drawing.Size(36, 16)
-        Me.lblName.TabIndex = 61
+        Me.lblName.TabIndex = 456
         Me.lblName.Text = "Name"
         '
         'btnnew
         '
         Me.btnnew.Image = CType(resources.GetObject("btnnew.Image"), System.Drawing.Image)
-        Me.btnnew.Location = New System.Drawing.Point(327, 43)
+        Me.btnnew.Location = New System.Drawing.Point(327, 36)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(15, 21)
-        Me.btnnew.TabIndex = 446
+        Me.btnnew.TabIndex = 458
         '
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.btnclose.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnclose.Location = New System.Drawing.Point(414, 12)
+        Me.btnclose.Location = New System.Drawing.Point(406, 10)
         Me.btnclose.Name = "btnclose"
         Me.btnclose.Size = New System.Drawing.Size(66, 18)
-        Me.btnclose.TabIndex = 11
+        Me.btnclose.TabIndex = 69
         Me.btnclose.Text = "Close"
         '
         'btnsave
         '
         Me.btnsave.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btnsave.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btnsave.Location = New System.Drawing.Point(12, 12)
+        Me.btnsave.Location = New System.Drawing.Point(12, 11)
         Me.btnsave.Name = "btnsave"
         Me.btnsave.Size = New System.Drawing.Size(66, 18)
-        Me.btnsave.TabIndex = 10
+        Me.btnsave.TabIndex = 68
         Me.btnsave.Text = "Save"
         '
         'btndelete
         '
         Me.btndelete.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.btndelete.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.btndelete.Location = New System.Drawing.Point(85, 12)
+        Me.btndelete.Location = New System.Drawing.Point(85, 11)
         Me.btndelete.Name = "btndelete"
         Me.btndelete.Size = New System.Drawing.Size(66, 18)
-        Me.btndelete.TabIndex = 9
+        Me.btndelete.TabIndex = 67
         Me.btndelete.Text = "Delete"
         '
-        'frmBullMovementType
+        'frmBullPurchaseNo
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(492, 245)
+        Me.ClientSize = New System.Drawing.Size(484, 236)
         Me.Controls.Add(Me.SplitContainer1)
-        Me.Name = "frmBullMovementType"
+        Me.Name = "frmBullPurchaseNo"
         '
         '
         '
         Me.RootElement.ApplyShapeToControl = True
-        Me.Text = "frmBullMovementType"
+        Me.Text = "frmBullPurchaseNo"
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.lblPeriodcity, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtname, System.ComponentModel.ISupportInitialize).EndInit()
@@ -267,9 +246,7 @@ Partial Class frmBullMovementType
     Friend WithEvents txtname As common.Controls.MyTextBox
     Friend WithEvents lblName As common.Controls.MyLabel
     Friend WithEvents btnnew As Telerik.WinControls.UI.RadButton
-    Friend WithEvents txtPeriodcity As MaskedTextBox
-    Friend WithEvents lblPeriodcity As common.Controls.MyLabel
-    Friend WithEvents btndelete As Telerik.WinControls.UI.RadButton
-    Friend WithEvents btnsave As Telerik.WinControls.UI.RadButton
     Friend WithEvents btnclose As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btnsave As Telerik.WinControls.UI.RadButton
+    Friend WithEvents btndelete As Telerik.WinControls.UI.RadButton
 End Class
