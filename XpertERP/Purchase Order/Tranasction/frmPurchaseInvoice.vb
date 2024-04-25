@@ -8575,8 +8575,18 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
             Dim frmCRV As New frmCrystalReportViewer()
             Dim qry As String = ""
             Dim dt As DataTable
+            Dim SRNQTTY As String = ""
             If objCommonVar.RCDFCFP Then
-                qry = " SELECT ss.*,(select  CAST(sum(TSPL_SRN_DETAIL.SRN_Qty) AS DECIMAL(18,2)) as SRNQtyInQtl from TSPL_PI_DETAIL 
+                SRNQTTY = clsDBFuncationality.getSingleValue("select cast(SUM(SRN_Qty) as decimal(18,3)) QTY from TSPL_SRN_HEAD 
+                    left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.srn_no=TSPL_SRN_head.srn_no
+                    LEFT OUTER JOIN TSPL_GRN_HEAD ON TSPL_GRN_HEAD.GRN_NO=TSPL_SRN_HEAD.AGAINST_GRN
+                    where TSPL_SRN_head.Bill_To_Location='" + txtBillToLocation.Value + "' AND TSPL_SRN_DETAIL.Item_Code in (" + ItemCode + ") AND TSPL_SRN_HEAD.Vendor_Code='" + txtVendorNo.Value + "' AND TSPL_GRN_HEAD.REF_NO='" + txtRefNo.Text + "'
+                    AND SRN_Date<=(Select MAX(SRN_Date) SRNDATE  from TSPL_SRN_HEAD 
+                    left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.srn_no=TSPL_SRN_head.srn_no
+                    WHERE TSPL_SRN_DETAIL.SRN_No IN (SELECT SRN_Id FROM TSPL_PI_DETAIL WHERE pi_no='" + txtDocNo.Value + "'))")
+            End If
+            If objCommonVar.RCDFCFP Then
+                qry = " SELECT ss.*," + SRNQTTY + " as SRNQTTY,ss.RALQty - " + SRNQTTY + " as QWNSWNQTY,(select  CAST(sum(TSPL_SRN_DETAIL.SRN_Qty) AS DECIMAL(18,2)) as SRNQtyInQtl from TSPL_PI_DETAIL 
                         left outer join TSPL_SRN_DETAIL on TSPL_SRN_DETAIL.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DETAIL.Item_Code = TSPL_PI_DETAIL.Item_Code
                         left outer join TSPL_SRN_HEAD on TSPL_SRN_HEAD.SRN_No = TSPL_SRN_DETAIL.SRN_No
                         left outer join TSPL_GRN_HEAD GG on GG.GRN_No = TSPL_SRN_DETAIL.GRN_ID
@@ -8596,7 +8606,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
                     , cast  (( TSPL_PI_DETAIL.PI_Qty * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) as QtyInKg 
                     , TSPL_PI_DETAIL.PI_Qty as QtyInQtl
                     ,cast ((TSPL_PI_DETAIL.Item_Net_Amt / cast  (( TSPL_PI_DETAIL.PI_Qty * Source_UOM .Conversion_Factor / Target_UOM.Conversion_Factor)  as decimal(18,2)) ) as decimal(18,2)) as RateInKg, cast ((TSPL_PI_DETAIL.Item_Net_Amt /TSPL_PI_DETAIL.PI_Qty) as decimal(18,2)) as RateInQtl
-                    , TSPL_PI_DETAIL.Total_Tax_Amt  as GST_RATE , TSPL_PI_DETAIL.Item_Net_Amt as Amount , isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) as  Per_QLT,  isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as QualityDeduction, isnull(TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt,0) as Securitys , TSPL_GRN_HEAD.Ref_No ,   isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (" + strTabSRNTender + ".Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end   as TotalDeduction    ,TSPL_PI_DETAIL.Item_Net_Amt  -  ( isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (" + strTabSRNTender + ".Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end ) as PayableAmount
+                    , TSPL_PI_DETAIL.Total_Tax_Amt  as GST_RATE , TSPL_PI_DETAIL.Item_Net_Amt as Amount , isnull ( TSPL_QC_CHECK_SRN_DETAIL.InputDataDeductionPer,0) as  Per_QLT,  isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) as QualityDeduction, isnull(TSPL_SRN_DEDUCTION_SECURITY.Ded_Amt,0) as Securitys , TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as Ref_No ,   isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (" + strTabSRNTender + ".Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end   as TotalDeduction    ,TSPL_PI_DETAIL.Item_Net_Amt  -  ( isnull (TSPL_SRN_DEDUCTION.Ded_Amt,0) + isnull (" + strTabSRNTender + ".Penalty,0)  +case when  TSPL_ITEM_MASTER.Security_Deduction > 0 then cast ( ( TSPL_PI_DETAIL.Item_Net_Amt * TSPL_ITEM_MASTER.Security_Deduction/100 ) as decimal(18,2) ) else 0 end ) as PayableAmount
                     ,TSPL_LOCATION_MASTER.Location_Desc	
                     ,tspl_grn_head.grn_date
                     ,TSPL_GRN_HEAD.[Invoice/Challan_No] as GRNChallan_No,
@@ -8640,6 +8650,7 @@ from TSPL_VENDOR_INVOICE_HEAD where RefDocType in('REV-SPT') and RefDocNo in (se
                     left outer join (SELECT SRN_NO,Item_Code,ISNULL(SUM(Penalty),0) AS Penalty FROM " + strTabSRNTender + " GROUP BY SRN_NO,Item_Code)" + strTabSRNTender + " on " + strTabSRNTender + ".SRN_No = TSPL_PI_DETAIL.SRN_Id and " + strTabSRNTender + ".Item_Code = TSPL_PI_DETAIL.Item_Code
                     left outer join TSPL_SRN_DEDUCTION on TSPL_SRN_DEDUCTION.SRN_No = TSPL_PI_DETAIL.SRN_Id and TSPL_SRN_DEDUCTION.Item_Code = TSPL_PI_DETAIL.Item_Code
                     left outer join TSPL_PI_REMITTANCE on TSPL_PI_REMITTANCE.Document_No=TSPL_PI_HEAD.pi_no
+                    left outer join TSPL_PURCHASE_ORDER_HEAD on TSPL_PURCHASE_ORDER_HEAD.PurchaseOrder_No=TSPL_GRN_HEAD.Against_PO
                     left outer join TSPL_LOCATION_MASTER on TSPL_PI_HEAD.Bill_To_Location =TSPL_LOCATION_MASTER.Location_Code
                     left join (SELECT Weighment_Code, ISNULL([PM0001],0) AS 'JuteBagWeight',ISNULL([PM0002],0) AS 'PPBagWeight'  FROM (SELECT TSPL_PO_WEIGHTMENT_GUNNY.Weighment_Code,TSPL_PO_WEIGHTMENT_GUNNY.Item_Code,CAST(ISNULL(TSPL_PO_WEIGHTMENT_GUNNY.Qty,0)*ISNULL(TSPL_ITEM_UOM_DETAIL.Conversion_Factor,0)/100 AS decimal(18,2)) AS QTY FROM   TSPL_PO_WEIGHTMENT_GUNNY
 					left outer join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=TSPL_PO_WEIGHTMENT_GUNNY.Item_Code and TSPL_ITEM_UOM_DETAIL.UOM_Code='KG' ) AS PO_WEIGHTMENT_GUNNY

@@ -416,7 +416,6 @@ Public Class frmCrystalReportViewer
                     Me.Close()
                 Else
                     rpdoc.ReportOptions.EnableSaveDataWithReport = False
-                    rpdoc = Nothing
                     rpdoc.Refresh()
                     rptshow = True
                     Me.Text = strReportPath
@@ -430,13 +429,6 @@ Public Class frmCrystalReportViewer
         Catch ex As Exception
             Throw New Exception(ex.Message.ToString())
         Finally
-            dt1.Dispose()
-            dt2.Dispose()
-            dt3.Dispose()
-            dt4.Dispose()
-            dt5.Dispose()
-            dt6.Dispose()
-            dt7.Dispose()
             GC.Collect()
             GC.WaitForPendingFinalizers()
             GC.Collect()

@@ -151,7 +151,7 @@ Public Class FrmGRNReport
             If chkTrackingReport.Checked = True Then
                 qry = "select ROW_NUMBER() OVER(ORDER BY convert(varchar, TSPL_GRN_HEAD.GRN_Date,103),TSPL_GRN_HEAD.GRN_NO ASC) as SNo
                 ,convert(varchar, TSPL_GRN_HEAD.GRN_Date,103) as [GRN Date],TSPL_GRN_HEAD.GRN_No as [GRN No]
-                ,TSPL_GRN_HEAD.VehicleNo as [Vehicle No],TSPL_GRN_HEAD.Ref_No as [Tender No]
+                ,TSPL_GRN_HEAD.VehicleNo as [Vehicle No],TSPL_PURCHASE_ORDER_HEAD.RefTendorNo as [Tender No]
                 ,TSPL_GRN_HEAD.bill_to_location as [Location Code],tspl_location_master.Location_Desc AS [Location Name]
                 ,TSPL_GRN_HEAD.Vendor_Code as [Vendor Code],TSPL_VENDOR_MASTER.Vendor_Name as [Vendor Name]
                 ,TSPL_GRN_DETAIL.Item_Code  as [Item Code],tspl_item_master.Item_Desc as [Item Name]

@@ -338,6 +338,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Transaction\frmBullCurlingEntry.Designer.vb">
+      <DependentUpon>frmBullCurlingEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmBullCurlingEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmBullMovement.Designer.vb">
       <DependentUpon>frmBullMovement.vb</DependentUpon>
     </Compile>
@@ -418,6 +424,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmBullVaccinationEntry.resx">
       <DependentUpon>frmBullVaccinationEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmBullCurlingEntry.resx">
+      <DependentUpon>frmBullCurlingEntry.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmBullMovement.resx">
+      <DependentUpon>frmBullMovement.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
