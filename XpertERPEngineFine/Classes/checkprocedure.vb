@@ -2891,14 +2891,6 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmBullVaccinationEntry, "Bull Vaccination Entry", "1.50.02.02", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBullCurlingEntry, "Bull Curling Entry", "1.50.02.03", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBullInsurance, "Bull Insurance", "1.50.02.04", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullBreedMaster, "Bull Breed Master", "1.50.02.01", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullTestParameter, "Bull Test Parameter", "1.50.02.02", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullParameterGroup, "Bull Parameter Group", "1.50.02.03", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullShedMaster, "Bull Shed Master", "1.50.02.04", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullShedParameterMaster, "Bull Shed Parameter Master", "1.50.02.05", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullShedParameterGroup, "Bull Shed Parameter Group", "1.50.02.06", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullMovementType, "Bull movement Type", "1.50.02.07", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullParameterGroup, "Bull Shed Parameter Group", "1.50.02.06", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
 
         ''----------------------------------------------REPORT---------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementReport, "Report", "1.50.03", clsUserMgtCode.ModuleBullManagement, "SM", 30)
