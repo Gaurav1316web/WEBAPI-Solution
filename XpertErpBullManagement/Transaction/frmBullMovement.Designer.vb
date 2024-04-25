@@ -26,6 +26,7 @@ Partial Class frmBullMovement
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBullMovement))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.txtPeriod = New common.Controls.MyDateTimePicker()
         Me.lbleMovementType = New common.Controls.MyLabel()
         Me.txtMovementType = New common.UserControls.txtFinder()
@@ -51,10 +52,10 @@ Partial Class frmBullMovement
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel4 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lbleMovementType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -72,7 +73,6 @@ Partial Class frmBullMovement
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -115,6 +115,16 @@ Partial Class frmBullMovement
         Me.SplitContainer1.SplitterDistance = 352
         Me.SplitContainer1.TabIndex = 0
         '
+        'MyLabel4
+        '
+        Me.MyLabel4.FieldName = Nothing
+        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel4.Location = New System.Drawing.Point(21, 102)
+        Me.MyLabel4.Name = "MyLabel4"
+        Me.MyLabel4.Size = New System.Drawing.Size(87, 16)
+        Me.MyLabel4.TabIndex = 454
+        Me.MyLabel4.Text = "Movement Type"
+        '
         'txtPeriod
         '
         Me.txtPeriod.CalculationExpression = Nothing
@@ -129,7 +139,7 @@ Partial Class frmBullMovement
         Me.txtPeriod.IsSourceFromTable = False
         Me.txtPeriod.IsSourceFromValueList = False
         Me.txtPeriod.IsUnique = False
-        Me.txtPeriod.Location = New System.Drawing.Point(151, 126)
+        Me.txtPeriod.Location = New System.Drawing.Point(123, 124)
         Me.txtPeriod.MendatroryField = False
         Me.txtPeriod.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtPeriod.MyLinkLable1 = Nothing
@@ -151,9 +161,9 @@ Partial Class frmBullMovement
         Me.lbleMovementType.BorderVisible = True
         Me.lbleMovementType.FieldName = Nothing
         Me.lbleMovementType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lbleMovementType.Location = New System.Drawing.Point(331, 99)
+        Me.lbleMovementType.Location = New System.Drawing.Point(390, 102)
         Me.lbleMovementType.Name = "lbleMovementType"
-        Me.lbleMovementType.Size = New System.Drawing.Size(307, 19)
+        Me.lbleMovementType.Size = New System.Drawing.Size(324, 19)
         Me.lbleMovementType.TabIndex = 450
         Me.lbleMovementType.TextWrap = False
         '
@@ -168,7 +178,7 @@ Partial Class frmBullMovement
         Me.txtMovementType.IsSourceFromTable = False
         Me.txtMovementType.IsSourceFromValueList = False
         Me.txtMovementType.IsUnique = False
-        Me.txtMovementType.Location = New System.Drawing.Point(151, 99)
+        Me.txtMovementType.Location = New System.Drawing.Point(123, 101)
         Me.txtMovementType.MendatroryField = True
         Me.txtMovementType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtMovementType.MyLinkLable1 = Me.MyLabel2
@@ -179,7 +189,7 @@ Partial Class frmBullMovement
         Me.txtMovementType.ReferenceFieldDesc = Nothing
         Me.txtMovementType.ReferenceFieldName = Nothing
         Me.txtMovementType.ReferenceTableName = Nothing
-        Me.txtMovementType.Size = New System.Drawing.Size(174, 20)
+        Me.txtMovementType.Size = New System.Drawing.Size(266, 20)
         Me.txtMovementType.TabIndex = 449
         Me.txtMovementType.Value = ""
         '
@@ -199,9 +209,9 @@ Partial Class frmBullMovement
         Me.LblBullName.BorderVisible = True
         Me.LblBullName.FieldName = Nothing
         Me.LblBullName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblBullName.Location = New System.Drawing.Point(331, 55)
+        Me.LblBullName.Location = New System.Drawing.Point(390, 56)
         Me.LblBullName.Name = "LblBullName"
-        Me.LblBullName.Size = New System.Drawing.Size(307, 19)
+        Me.LblBullName.Size = New System.Drawing.Size(324, 19)
         Me.LblBullName.TabIndex = 89
         Me.LblBullName.TextWrap = False
         '
@@ -211,9 +221,9 @@ Partial Class frmBullMovement
         Me.LblShed.BorderVisible = True
         Me.LblShed.FieldName = Nothing
         Me.LblShed.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblShed.Location = New System.Drawing.Point(331, 76)
+        Me.LblShed.Location = New System.Drawing.Point(390, 79)
         Me.LblShed.Name = "LblShed"
-        Me.LblShed.Size = New System.Drawing.Size(307, 19)
+        Me.LblShed.Size = New System.Drawing.Size(324, 19)
         Me.LblShed.TabIndex = 448
         Me.LblShed.TextWrap = False
         '
@@ -238,7 +248,7 @@ Partial Class frmBullMovement
         Me.TxtShed.IsSourceFromTable = False
         Me.TxtShed.IsSourceFromValueList = False
         Me.TxtShed.IsUnique = False
-        Me.TxtShed.Location = New System.Drawing.Point(151, 76)
+        Me.TxtShed.Location = New System.Drawing.Point(123, 78)
         Me.TxtShed.MendatroryField = True
         Me.TxtShed.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TxtShed.MyLinkLable1 = Me.MyLabel2
@@ -249,7 +259,7 @@ Partial Class frmBullMovement
         Me.TxtShed.ReferenceFieldDesc = Nothing
         Me.TxtShed.ReferenceFieldName = Nothing
         Me.TxtShed.ReferenceTableName = Nothing
-        Me.TxtShed.Size = New System.Drawing.Size(174, 20)
+        Me.TxtShed.Size = New System.Drawing.Size(266, 20)
         Me.TxtShed.TabIndex = 92
         Me.TxtShed.Value = ""
         '
@@ -274,7 +284,7 @@ Partial Class frmBullMovement
         Me.txtBullCode.IsSourceFromTable = False
         Me.txtBullCode.IsSourceFromValueList = False
         Me.txtBullCode.IsUnique = False
-        Me.txtBullCode.Location = New System.Drawing.Point(151, 54)
+        Me.txtBullCode.Location = New System.Drawing.Point(123, 56)
         Me.txtBullCode.MendatroryField = True
         Me.txtBullCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBullCode.MyLinkLable1 = Me.MyLabel1
@@ -285,7 +295,7 @@ Partial Class frmBullMovement
         Me.txtBullCode.ReferenceFieldDesc = Nothing
         Me.txtBullCode.ReferenceFieldName = Nothing
         Me.txtBullCode.ReferenceTableName = Nothing
-        Me.txtBullCode.Size = New System.Drawing.Size(174, 20)
+        Me.txtBullCode.Size = New System.Drawing.Size(266, 20)
         Me.txtBullCode.TabIndex = 87
         Me.txtBullCode.Value = ""
         '
@@ -293,7 +303,7 @@ Partial Class frmBullMovement
         '
         Me.RadLabel4.FieldName = Nothing
         Me.RadLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel4.Location = New System.Drawing.Point(477, 32)
+        Me.RadLabel4.Location = New System.Drawing.Point(449, 34)
         Me.RadLabel4.Name = "RadLabel4"
         Me.RadLabel4.Size = New System.Drawing.Size(30, 16)
         Me.RadLabel4.TabIndex = 85
@@ -302,7 +312,7 @@ Partial Class frmBullMovement
         'UsLock1
         '
         Me.UsLock1.BackColor = System.Drawing.Color.LightSteelBlue
-        Me.UsLock1.Location = New System.Drawing.Point(644, 30)
+        Me.UsLock1.Location = New System.Drawing.Point(616, 32)
         Me.UsLock1.MyFont = New System.Drawing.Font("Verdana", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.UsLock1.Name = "UsLock1"
         Me.UsLock1.Size = New System.Drawing.Size(98, 20)
@@ -323,7 +333,7 @@ Partial Class frmBullMovement
         Me.txtDate.IsSourceFromTable = False
         Me.txtDate.IsSourceFromValueList = False
         Me.txtDate.IsUnique = False
-        Me.txtDate.Location = New System.Drawing.Point(511, 31)
+        Me.txtDate.Location = New System.Drawing.Point(486, 33)
         Me.txtDate.MendatroryField = False
         Me.txtDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtDate.MyLinkLable1 = Me.RadLabel4
@@ -369,7 +379,7 @@ Partial Class frmBullMovement
         'txtCode
         '
         Me.txtCode.FieldName = Nothing
-        Me.txtCode.Location = New System.Drawing.Point(151, 29)
+        Me.txtCode.Location = New System.Drawing.Point(123, 31)
         Me.txtCode.MendatroryField = True
         Me.txtCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.txtCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -395,7 +405,7 @@ Partial Class frmBullMovement
         'btnnew
         '
         Me.btnnew.Image = CType(resources.GetObject("btnnew.Image"), System.Drawing.Image)
-        Me.btnnew.Location = New System.Drawing.Point(458, 29)
+        Me.btnnew.Location = New System.Drawing.Point(430, 31)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(15, 21)
         Me.btnnew.TabIndex = 83
@@ -448,16 +458,6 @@ Partial Class frmBullMovement
         Me.btnclose.TabIndex = 20
         Me.btnclose.Text = "Close"
         '
-        'MyLabel4
-        '
-        Me.MyLabel4.FieldName = Nothing
-        Me.MyLabel4.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel4.Location = New System.Drawing.Point(21, 102)
-        Me.MyLabel4.Name = "MyLabel4"
-        Me.MyLabel4.Size = New System.Drawing.Size(109, 16)
-        Me.MyLabel4.TabIndex = 454
-        Me.MyLabel4.Text = "Bull Movement Type"
-        '
         'frmBullMovement
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -474,6 +474,7 @@ Partial Class frmBullMovement
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPeriod, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lbleMovementType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
@@ -491,7 +492,6 @@ Partial Class frmBullMovement
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

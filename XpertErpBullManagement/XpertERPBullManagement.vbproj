@@ -221,6 +221,21 @@
     <Compile Include="Master\frmBullCategoryMaster.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\frmBullInsuranceMaster.Designer.vb">
+      <DependentUpon>frmBullInsuranceMaster.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmBullInsuranceMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmBullInsuranceType.Designer.vb">
+      <DependentUpon>frmBullInsuranceType.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmBullInsuranceType.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Master\frmBullCategoryMaster.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullMasters.Designer.vb">
       <DependentUpon>frmBullMasters.vb</DependentUpon>
     </Compile>
@@ -358,6 +373,12 @@
     <EmbeddedResource Include="Master\frmBullCategoryMaster.resx">
       <DependentUpon>frmBullCategoryMaster.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBullInsuranceMaster.resx">
+      <DependentUpon>frmBullInsuranceMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBullInsuranceType.resx">
+      <DependentUpon>frmBullInsuranceType.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullMasters.resx">
       <DependentUpon>frmBullMasters.vb</DependentUpon>
     </EmbeddedResource>
@@ -370,6 +391,9 @@
     <EmbeddedResource Include="Master\frmBullPenIDMaster.resx">
       <DependentUpon>frmBullPenIDMaster.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBullPurchaseNo.resx">
+      <DependentUpon>frmBullPurchaseNo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullRating.resx">
       <DependentUpon>frmBullRating.vb</DependentUpon>
     </EmbeddedResource>
@@ -381,6 +405,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullShedParameterMaster.resx">
       <DependentUpon>frmBullShedParameterMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBullSourceName.resx">
+      <DependentUpon>frmBullSourceName.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullSourcePainting.resx">
       <DependentUpon>frmBullSourcePainting.vb</DependentUpon>

@@ -2876,9 +2876,10 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmBullSubCategoryMaster, "Bull Sub Category Master", "1.50.01.15", clsUserMgtCode.SubModuleBullManagementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmBullSSCentreMaster, "Bull SS Centre Master", "1.50.01.16", clsUserMgtCode.SubModuleBullManagementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmBullPenIDMaster, "Bull Pen ID Master", "1.50.01.17", clsUserMgtCode.SubModuleBullManagementSetup, 27)
-        'InsertDefaultValue(clsUserMgtCode.frmBullSourceName, "Bull Source Name Master", "1.50.01.18", clsUserMgtCode.SubModuleBullManagementSetup, 27)
-        'InsertDefaultValue(clsUserMgtCode.frmBullPurchaseNo, "Bull Purchase Request No", "1.50.01.18", clsUserMgtCode.SubModuleBullManagementSetup, 27)
-
+        InsertDefaultValue(clsUserMgtCode.frmBullSourceName, "Bull Source Name Master", "1.50.01.18", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmBullPurchaseNo, "Bull Purchase Request Master", "1.50.01.19", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmBullInsuranceMaster, "Bull Insurance Master", "1.50.01.20", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmBullInsuranceType, "Bull Insurance Type", "1.50.01.21", clsUserMgtCode.SubModuleBullManagementSetup, 27)
 
         ''------------------------------TRANSACTION--------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementTransaction, "Transaction", "1.50.02", clsUserMgtCode.ModuleBullManagement, "SM", 26)
