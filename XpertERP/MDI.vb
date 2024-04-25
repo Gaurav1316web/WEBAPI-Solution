@@ -9789,7 +9789,9 @@ Public Class MDI
                         frm = New frmBullRating
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
-
+                    Case clsUserMgtCode.frmDiseaseMaster
+                        frm = New frmDiseaseMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmBullMovementType
                         frm = New frmBullMovementType

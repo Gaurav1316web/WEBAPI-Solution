@@ -46600,6 +46600,15 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             clsCommonFunctionality.CreateOrAlterTable("TSPL_Paravet_NDDB_Master", coll)
 
             coll = New Dictionary(Of String, String)
+            coll.Add("Code", "Varchar(30) NOT NULL Primary key")
+            coll.Add("Name", "varchar(200) NOT Null")
+            coll.Add("Created_By", "varchar(50) NULL")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(50) NULL")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_Disease_Master", coll)
+
+            coll = New Dictionary(Of String, String)
             coll.Add("Bull_No", "Varchar(30) NOT NULL Primary key")
             coll.Add("Bull_Desc", "varchar(200) Null")
             coll.Add("Bull_Date", "DateTime Null")
