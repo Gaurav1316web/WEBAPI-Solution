@@ -570,6 +570,7 @@ Public Class frmShipmentDairy
         RadPageViewPage5.Item.Visibility = ElementVisibility.Collapsed
         RadPageViewPage6.Item.Visibility = ElementVisibility.Collapsed
         RadPageViewPage7.Item.Visibility = ElementVisibility.Collapsed
+        RadPageViewPage9.Item.Visibility = ElementVisibility.Collapsed
         RadMenuItem5.Visibility = ElementVisibility.Collapsed
         'If clsCommon.CompairString(objCommonVar.CurrentCompanyCode, "BHAD") = CompairStringResult.Equal Then
         '    rmInvoice.Visibility = True
@@ -11329,7 +11330,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
             '---------------------------------------------------------------------
         End If
     End Sub
-    Private Sub txtSalesman__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtSalesman._MYValidating
+    Private Sub txtSalesman__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean)
         Dim qry As String = "select EMP_CODE as Code,Emp_Name as Name from TSPL_EMPLOYEE_MASTER"
         Dim whrcls As String = "Emp_type='Salesman'"
         txtSalesman.Value = clsCommon.ShowSelectForm("DS-SHipSNOSaleman", qry, "Code", whrcls, txtSalesman.Value, "Code", isButtonClicked)
@@ -11427,7 +11428,7 @@ left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETA
         'Throw New Exception("cost " + clsCommon.myCstr(dblRetCost))
         Return dblRetCost
     End Function
-    Private Sub txtBarCode_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles txtBarCode.Validating
+    Private Sub txtBarCode_Validating(ByVal sender As System.Object, ByVal e As System.ComponentModel.CancelEventArgs)
         If clsCommon.myLen(txtBarCode.Text) > 0 Then
             Dim obj As clsBarCodeGenerator = clsBarCodeGenerator.GetData(txtBarCode.Text)
             If obj Is Nothing Then
