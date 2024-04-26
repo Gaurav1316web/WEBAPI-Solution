@@ -51,6 +51,7 @@ Public Class frmBullShedMaster
                 isNewEntry = False
                 fndCode.Value = obj.Code
                 txtname.Text = obj.Name
+                txtValue.Text = obj.AreaValue
                 'cmbArea.Text = obj.Area
                 'cmbArea.Text = cmbArea.SelectedItem.ToString()
                 If obj.Area = 1.0 Then
@@ -87,7 +88,10 @@ Public Class frmBullShedMaster
         Else
             'ErrorControl.ResetError(txtname)
         End If
-
+        If clsCommon.myLen(txtValue.Text) <= 0 Then
+            clsCommon.MyMessageBoxShow("Fill AreaValue.")
+            txtValue.Focus()
+        End If
         Return True
     End Function
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
@@ -106,6 +110,7 @@ Public Class frmBullShedMaster
             Dim obj As New clsBullShedMaster()
             obj.Code = fndCode.Value
             obj.Name = txtname.Text.Replace("'", "`")
+            obj.AreaValue = txtValue.Text
             obj.Area = Me.cmbArea.SelectedValue
             If cmbArea.SelectedText = "m²" Then
                 obj.Area = 1
@@ -152,6 +157,7 @@ Public Class frmBullShedMaster
     Sub AddNew()
         fndCode.Value = ""
         txtname.Text = ""
+        txtValue.Text = ""
         cmbArea.Text = ""
         'txtPeriodcity.Text = ""
 

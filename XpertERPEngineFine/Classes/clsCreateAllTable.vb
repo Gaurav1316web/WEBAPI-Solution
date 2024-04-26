@@ -54414,11 +54414,13 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
             coll.Add("Name", "Varchar(50) NOT NULL ")
             coll.Add("Area", "Decimal(18,2) NULL")
+            coll.Add("Area_Value", "Decimal(18,2) not null default 0")
             coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
             coll.Add("Created_Date", "Datetime NOT NULL")
             coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
             coll.Add("Modified_Date", "Datetime NOT NULL")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_SHED_MASTER", coll)
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
             coll.Add("Name", "Varchar(50) NOT NULL ")
