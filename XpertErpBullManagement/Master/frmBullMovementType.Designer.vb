@@ -92,7 +92,7 @@ Partial Class frmBullMovementType
         '
         Me.lblPeriodcity.FieldName = Nothing
         Me.lblPeriodcity.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblPeriodcity.Location = New System.Drawing.Point(12, 93)
+        Me.lblPeriodcity.Location = New System.Drawing.Point(12, 94)
         Me.lblPeriodcity.Name = "lblPeriodcity"
         Me.lblPeriodcity.Size = New System.Drawing.Size(56, 16)
         Me.lblPeriodcity.TabIndex = 444
@@ -128,7 +128,7 @@ Partial Class frmBullMovementType
         'fndCode
         '
         Me.fndCode.FieldName = Nothing
-        Me.fndCode.Location = New System.Drawing.Point(75, 43)
+        Me.fndCode.Location = New System.Drawing.Point(75, 44)
         Me.fndCode.MendatroryField = True
         Me.fndCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -145,7 +145,7 @@ Partial Class frmBullMovementType
         '
         Me.lblCode.FieldName = Nothing
         Me.lblCode.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblCode.Location = New System.Drawing.Point(12, 45)
+        Me.lblCode.Location = New System.Drawing.Point(12, 46)
         Me.lblCode.Name = "lblCode"
         Me.lblCode.Size = New System.Drawing.Size(33, 16)
         Me.lblCode.TabIndex = 62
@@ -183,7 +183,7 @@ Partial Class frmBullMovementType
         '
         Me.lblName.FieldName = Nothing
         Me.lblName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblName.Location = New System.Drawing.Point(12, 69)
+        Me.lblName.Location = New System.Drawing.Point(12, 70)
         Me.lblName.Name = "lblName"
         Me.lblName.Size = New System.Drawing.Size(36, 16)
         Me.lblName.TabIndex = 61

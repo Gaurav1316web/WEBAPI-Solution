@@ -236,6 +236,12 @@ Public Class frmEMailAndSMSSetting
         ContextMenuStrip2.Items.Add(SMSStringConstSMSText)
         If clsCommon.CompairString(Form_ID, clsUserMgtCode.ChangePwd) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(OTP)
+        ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.MilkCollectionMCCSample) = CompairStringResult.Equal Then
+            ContextMenuStrip1.Items.Add(Doc_Date)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCUploaderCode)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCName)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderFat)
+            ContextMenuStrip1.Items.Add(frmEMailAndSMSSetting.VLCDataUploaderSNF)
         ElseIf clsCommon.CompairString(Form_ID, clsUserMgtCode.ScrapSale) = CompairStringResult.Equal Then
             ContextMenuStrip1.Items.Add(Doc_No)
             ContextMenuStrip1.Items.Add(Doc_Date)
