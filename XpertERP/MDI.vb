@@ -9801,7 +9801,9 @@ Public Class MDI
                         frm = New frmBullInsuranceType
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
-
+                    Case clsUserMgtCode.frmDiseaseMaster
+                        frm = New frmDiseaseMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                     Case clsUserMgtCode.frmBullMovementType
                         frm = New frmBullMovementType
@@ -9833,6 +9835,9 @@ Public Class MDI
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                     Case clsUserMgtCode.frmBullInsurance
                         frm = New frmBullInsurance
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullTestParameterEntry
+                        frm = New frmBullTestParameterEntry
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                         '-------------------- MIS Master---------------

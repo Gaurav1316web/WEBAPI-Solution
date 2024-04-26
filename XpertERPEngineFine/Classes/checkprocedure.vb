@@ -2880,6 +2880,10 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmBullPurchaseNo, "Bull Purchase Request Master", "1.50.01.19", clsUserMgtCode.SubModuleBullManagementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmBullInsuranceMaster, "Bull Insurance Master", "1.50.01.20", clsUserMgtCode.SubModuleBullManagementSetup, 27)
         InsertDefaultValue(clsUserMgtCode.frmBullInsuranceType, "Bull Insurance Type", "1.50.01.21", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+        'InsertDefaultValue(clsUserMgtCode.frmBullSourceName, "Bull Source Name Master", "1.50.01.18", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+        'InsertDefaultValue(clsUserMgtCode.frmBullPurchaseNo, "Bull Purchase Request No", "1.50.01.18", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+        InsertDefaultValue(clsUserMgtCode.frmDiseaseMaster, "Disease Master", "1.50.01.22", clsUserMgtCode.SubModuleBullManagementSetup, 27)
+
 
         ''------------------------------TRANSACTION--------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementTransaction, "Transaction", "1.50.02", clsUserMgtCode.ModuleBullManagement, "SM", 26)
@@ -2887,14 +2891,7 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmBullVaccinationEntry, "Bull Vaccination Entry", "1.50.02.02", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBullCurlingEntry, "Bull Curling Entry", "1.50.02.03", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBullInsurance, "Bull Insurance", "1.50.02.04", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullBreedMaster, "Bull Breed Master", "1.50.02.01", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullTestParameter, "Bull Test Parameter", "1.50.02.02", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullParameterGroup, "Bull Parameter Group", "1.50.02.03", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullShedMaster, "Bull Shed Master", "1.50.02.04", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullShedParameterMaster, "Bull Shed Parameter Master", "1.50.02.05", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullShedParameterGroup, "Bull Shed Parameter Group", "1.50.02.06", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullMovementType, "Bull movement Type", "1.50.02.07", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
-        'InsertDefaultValue(clsUserMgtCode.frmBullParameterGroup, "Bull Shed Parameter Group", "1.50.02.06", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmBullTestParameterEntry, "Bull Test Parameter Entry", "1.50.02.05", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
 
         ''----------------------------------------------REPORT---------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementReport, "Report", "1.50.03", clsUserMgtCode.ModuleBullManagement, "SM", 30)

@@ -2417,6 +2417,8 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
     Sub FillRawItemGridFromBOM(ByVal import As Boolean)
         Dim objlist As New List(Of clsBOMRecursiveitems)
         Dim BOMList As New List(Of String)
+        Dim tDate As DateTime = Nothing
+        tDate = clsCommon.GetDateWithEndTime(dtpDate.Value)
         gvConsumption.Rows.Clear()
         For Each grow As GridViewRowInfo In gvBatch.Rows
             If clsCommon.myLen(grow.Cells(colBOMCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colItemCode).Value) > 0 AndAlso clsCommon.myLen(grow.Cells(colUOM).Value) > 0 Then
@@ -2446,7 +2448,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                         If clsCommon.CompairString(Product_Type, "MI") = CompairStringResult.Equal Then
                             BalanceQty = clsInventoryMovementNew.getBalance(clsCommon.myCstr(objtr.ITEM_CODE), clsLocation.GetMainLocationMilk(clsCommon.myCstr(txtConsmLocOther.Value), Nothing), clsCommon.myCstr(txtConsmLocOther.Value), txtCode.Value, dtpDate.Value, Nothing, clsCommon.myCstr(objtr.UNIT_CODE))
                         Else
-                            BalanceQty = clsItemLocationDetails.getBalance(clsCommon.myCstr(objtr.ITEM_CODE), clsCommon.myCstr(txtConsmLocOther.Value), txtCode.Value, dtpDate.Value, Nothing, clsCommon.myCstr(objtr.UNIT_CODE), 0)
+                            BalanceQty = clsItemLocationDetails.getBalance(clsCommon.myCstr(objtr.ITEM_CODE), clsCommon.myCstr(txtConsmLocOther.Value), txtCode.Value, tDate, Nothing, clsCommon.myCstr(objtr.UNIT_CODE), 0)
                         End If
 
                         gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty_Stock).Value = BalanceQty

@@ -3,6 +3,7 @@ Public Class clsBullShedMaster
     Public Code As String = Nothing
     Public Name As String = Nothing
     Public Area As Decimal = Nothing
+    Public AreaValue As Decimal = Nothing
 
     Public Function SaveData(ByVal obj As clsBullShedMaster, ByVal isNewEntry As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
@@ -28,6 +29,7 @@ Public Class clsBullShedMaster
 
             clsCommon.AddColumnsForChange(coll, "Name", obj.Name)
             clsCommon.AddColumnsForChange(coll, "Area", obj.Area)
+            clsCommon.AddColumnsForChange(coll, "Area_Value", obj.AreaValue)
 
 
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
@@ -89,6 +91,7 @@ Public Class clsBullShedMaster
                 obj.Code = clsCommon.myCstr(dt.Rows(0)("Code"))
                 obj.Name = clsCommon.myCstr(dt.Rows(0)("Name"))
                 obj.Area = clsCommon.myCstr(dt.Rows(0)("Area"))
+                obj.AreaValue = clsCommon.myCstr(dt.Rows(0)("Area_Value"))
 
             End If
 

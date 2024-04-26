@@ -98,7 +98,9 @@
     <Compile Include="Bull Breed Management\clsBullSubCategoryMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullSubStatus.vb" />
     <Compile Include="Bull Breed Management\clsBullTestParameter.vb" />
+    <Compile Include="Bull Breed Management\clsBullTestParameterEntry.vb" />
     <Compile Include="Bull Breed Management\clsBullVaccinationEntry.vb" />
+    <Compile Include="Bull Breed Management\clsDiseaseMaster.vb" />
     <Compile Include="Classes\clsAllStoreProcedure.vb" />
     <Compile Include="Classes\clsBullRating.vb" />
     <Compile Include="Classes\ClsCostCenter.vb" />

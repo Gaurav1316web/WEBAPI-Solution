@@ -175,7 +175,7 @@ Public Class FrmRptCustomerLedgerDemo
         chkMonthWise.Visible = False
         chkIncludeCardIndent.Checked = True
         AllowtoSHOWParentChildCustomer = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.AllowtoSHOWParentChildCustomer, clsFixedParameterCode.AllowtoSHOWParentChildCustomer, Nothing)) = 1, True, False))
-        strCusMappingByLocForCurUser = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'''' + ( Customer_Code ) +''''  as Alies_Name FROM TSPL_CUSTOMER_LOCATION_MAPPING where Location_Code in (select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code   in ( " + objCommonVar.strCurrUserLocationsSegment + " ) )  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') "))
+        'strCusMappingByLocForCurUser = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" DECLARE @colsScheme AS NVARCHAR(MAX),@query  AS NVARCHAR(MAX) SELECT   STUFF((SELECT distinct ',' +'''' + ( Customer_Code ) +''''  as Alies_Name FROM TSPL_CUSTOMER_LOCATION_MAPPING where Location_Code in (select Location_Code from TSPL_LOCATION_MASTER where Loc_Segment_Code   in ( " + objCommonVar.strCurrUserLocationsSegment + " ) )  FOR XML PATH(''), TYPE ).value('.', 'NVARCHAR(MAX)') ,1,1,'') "))
     End Sub
 
     Private Sub SetUserMgmtNew()
