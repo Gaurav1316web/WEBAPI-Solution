@@ -26,9 +26,6 @@ Public Class clsBullMovement
         Dim IsSaved As Boolean = True
         Try
             IsSaved = True
-            'Dim StrQry As String = "delete from TSPL_BULL_MOVEMENT where Document_Code='" + obj.Document_Code + "'"
-            'clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
-
             Dim coll As New Hashtable()
             clsCommon.AddColumnsForChange(coll, "Document_Date", clsCommon.GetPrintDate(obj.Document_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Bull_Code", obj.Bull_Code)
@@ -97,14 +94,12 @@ Public Class clsBullMovement
                 obj.Status = clsCommon.myCstr(dt.Rows(0)("Status"))
 
             End If
-
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
         Return obj
     End Function
     Public Shared Function PostData(ByVal strDocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
-
         Try
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Document No. not found to Post")
@@ -112,22 +107,24 @@ Public Class clsBullMovement
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
             Dim qry As String = "Update TSPL_BULL_MOVEMENT set Status=1,Post_Date='" + strPostDate + "',Post_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
         Return True
     End Function
     Public Shared Function ReverseData(ByVal strDocNo As String, Optional ByVal trans As SqlTransaction = Nothing) As Boolean
-
         Try
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Document No. not found to Post")
             End If
+            Dim posted As String = "select 1 from TSPL_BULL_MOVEMENT where Document_Code='" + strDocNo + "' and Status=1"
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(posted, trans)
+            If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+                Throw New Exception("Transaction status should be posted.")
+            End If
             Dim strPostDate As String = clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt")
             Dim qry As String = "Update TSPL_BULL_MOVEMENT set Status=0,Post_Date='" + strPostDate + "',Post_By='" + objCommonVar.CurrentUserCode + "' where Document_Code='" + strDocNo + "' "
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
         Catch ex As Exception
             Throw New Exception(ex.Message)
         End Try
@@ -149,7 +146,6 @@ Public Class clsBullMovement
         Try
             Dim qry As String = "delete from TSPL_BULL_MOVEMENT where Document_Code='" + strCode + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
-
             Return True
         Catch ex As Exception
             Throw New Exception(ex.Message)

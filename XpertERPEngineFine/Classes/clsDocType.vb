@@ -397,6 +397,7 @@ Public Class clsDocType
     Public Const HeadLoadDCS As String = "Head Load DCS"
     Public Const BulkSaleFreightMaster As String = "Bulk Sale Freight Master"
     Public Const BullVaccinationEntry As String = "Bull Vaccination Entry"
+    Public Const BullInsurance As String = "Bull Insurance"
     Public Const VSPMASTER As String = "VSP Master"
     Public Const PTMMASTER As String = "PTM Master"
     Public Const TTMMASTER As String = "TTM Master"
@@ -546,6 +547,7 @@ Public Class clsDocType
     Public Const frmBullBreedMaster As String = "Bull Breed Master "
     Public Const frmBullTestParameter As String = "Bull Test Parameter "
     Public Const frmBullParameterGroup As String = "Bull Parameter Group"
+    Public Const frmBullCurlingEntry As String = "Bull Curling Entry "
 
     Public Const Cleaning As String = "Cleaning"
     Public Const MilkCleaning As String = "MilkCleaning"

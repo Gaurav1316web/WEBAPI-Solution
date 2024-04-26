@@ -949,7 +949,7 @@ Public Class clsStanderdProductionEntryDetail
     End Function
     Public Shared Function GetProductionEntryDetail(ByVal strCode As String, Optional ByVal trans As SqlTransaction = Nothing) As List(Of clsStanderdProductionEntryDetail)
         Dim qry As String
-        qry = "SELECT T1.*,case when Conversion_Factor=50 then UOM_Code else '' end as UOM_Bag,Conversion_Factor,coalesce(TSPL_PURCHASE_ACCOUNTS.Costing_Method,0) as Costing_Method FROM  TSPL_SPP_PRODUCTION_ENTRY_DETAIL T1 " &
+        qry = "SELECT T1.*,TSPL_ITEM_UOM_DETAIL.UOM_Code as UOM_Bag,Conversion_Factor,coalesce(TSPL_PURCHASE_ACCOUNTS.Costing_Method,0) as Costing_Method FROM  TSPL_SPP_PRODUCTION_ENTRY_DETAIL T1 " &
         " left join TSPL_ITEM_MASTER on T1.ITEM_CODE=TSPL_ITEM_MASTER.Item_Code " &
         "inner  join TSPL_ITEM_UOM_DETAIL on TSPL_ITEM_UOM_DETAIL.Item_Code=T1.ITEM_CODE and   TSPL_ITEM_UOM_DETAIL.UOM_Code='bag'" &
         " left join TSPL_PURCHASE_ACCOUNTS on TSPL_ITEM_MASTER.Purchase_Class_Code=TSPL_PURCHASE_ACCOUNTS.Purchase_Class_Code WHERE 2=2 " &

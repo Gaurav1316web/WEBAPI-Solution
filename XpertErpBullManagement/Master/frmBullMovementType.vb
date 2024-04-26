@@ -11,9 +11,6 @@ Public Class frmBullMovementType
     Dim isNewEntry As Boolean = True
     Dim ErrorControl As New clsErrorControl()
 
-    Private Sub frmBullMovementType_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-
-    End Sub
 
     Private Sub fndCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCode._MYValidating
         Dim Sqlqry As String = "select Code,Name,Peridocity from TSPL_BULL_MOVEMENT_TYPE where code='" + fndCode.Value + "'"
