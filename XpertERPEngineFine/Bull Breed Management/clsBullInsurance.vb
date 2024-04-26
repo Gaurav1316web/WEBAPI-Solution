@@ -1,25 +1,30 @@
 ﻿Imports System.Data.SqlClient
 Imports common
 
-Public Class clsBullVaccinationEntry
+Public Class clsBullInsurance
 
 #Region "Variables"
 
     Public Document_Code As String = Nothing
-    Public Document_date As DateTime? = Nothing
+    Public Policy_Code As String = Nothing
+    Public Policy_Date As DateTime? = Nothing
     Public Status As Integer = 0
-    Public Remarks As String = Nothing
-    Public Bull_Code As String = Nothing
-    Public BullAliasName As String = Nothing
-    Public RegDate As Date? = Nothing
-    Public PreBullId As String = Nothing
-    Public SSBullId As String = Nothing
-    Public SSCentre As String = Nothing
-    Public DOB As String = Nothing
-    Public Breed As String = Nothing
-    Public Arr As List(Of clsBullVaccinationEntryDetail) = Nothing
+    Public Ins_Comp_Code As String = Nothing
+    Public Ins_Comp_Name As String = Nothing
+    Public Ins_Type_Code As String = Nothing
+    Public Ins_Type_Name As String = Nothing
+    Public Policy_Start_Date As Date? = Nothing
+    Public Policy_End__Date As Date? = Nothing
+    Public Insured_Amount As Double = 0
+    Public Premium_Per As Double = 0
+    Public Premium_Amount As Double = 0
+    Public Ser_Charge_Per As Double = 0
+    Public Ser_Charge_Amount As Double = 0
+    Public Total_Amount As Double = 0
+
+    Public Arr As List(Of clsBullInsuranceDetail) = Nothing
 #End Region
-    Public Function SaveData(ByVal obj As clsBullVaccinationEntry, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal AutoSave As Boolean) As Boolean
+    Public Function SaveData(ByVal obj As clsBullInsurance, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal AutoSave As Boolean) As Boolean
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
             SaveData(obj, isNewEntry, Nothing, trans, AutoSave)
@@ -31,21 +36,31 @@ Public Class clsBullVaccinationEntry
         Return True
     End Function
 
-    Public Function SaveData(ByVal obj As clsBullVaccinationEntry, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal trans As SqlTransaction, ByVal AutoSave As Boolean) As Boolean
+    Public Function SaveData(ByVal obj As clsBullInsurance, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal trans As SqlTransaction, ByVal AutoSave As Boolean) As Boolean
         Dim isSaved As Boolean = True
         Try
-            Dim qry As String = "delete from TSPL_BULL_VACCINE_ENTRY_DETAIL where Document_Code='" + obj.Document_Code + "'"
+            Dim qry As String = "delete from TSPL_BULL_INSURANCE_DETAIL where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
-            clsCommon.AddColumnsForChange(coll, "Document_date", clsCommon.GetPrintDate(obj.Document_date, "dd/MMM/yyyy hh:mm tt"))
-            clsCommon.AddColumnsForChange(coll, "Bull_Code", clsCommon.myCstr(obj.Bull_Code))
-            clsCommon.AddColumnsForChange(coll, "Remarks", clsCommon.myCstr(obj.Remarks))
+            clsCommon.AddColumnsForChange(coll, "Policy_Code", clsCommon.myCstr(obj.Policy_Code))
+            clsCommon.AddColumnsForChange(coll, "Policy_Date", clsCommon.GetPrintDate(obj.Policy_Date, "dd/MMM/yyyy hh:mm tt"))
+            clsCommon.AddColumnsForChange(coll, "Ins_Comp_Code", clsCommon.myCstr(obj.Ins_Comp_Code))
+            clsCommon.AddColumnsForChange(coll, "Ins_Type_Code", clsCommon.myCstr(obj.Ins_Type_Code))
+            clsCommon.AddColumnsForChange(coll, "Policy_Start_Date", clsCommon.GetPrintDate(obj.Policy_Start_Date, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Policy_End__Date", clsCommon.GetPrintDate(obj.Policy_End__Date, "dd/MMM/yyyy"))
+            clsCommon.AddColumnsForChange(coll, "Insured_Amount", clsCommon.myCdbl(obj.Insured_Amount))
+            clsCommon.AddColumnsForChange(coll, "Premium_Per", clsCommon.myCDecimal(obj.Premium_Per))
+            clsCommon.AddColumnsForChange(coll, "Premium_Amount", clsCommon.myCdbl(obj.Premium_Amount))
+            clsCommon.AddColumnsForChange(coll, "Ser_Charge_Per", clsCommon.myCDecimal(obj.Ser_Charge_Per))
+            clsCommon.AddColumnsForChange(coll, "Ser_Charge_Amount", clsCommon.myCdbl(obj.Ser_Charge_Amount))
+            clsCommon.AddColumnsForChange(coll, "Total_Amount", clsCommon.myCdbl(obj.Total_Amount))
+
             clsCommon.AddColumnsForChange(coll, "Modified_By", objCommonVar.CurrentUserCode)
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
             If isNewEntry Then
                 If clsCommon.CompairString(AutoSave, False) = CompairStringResult.Equal Then
-                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Document_date, clsDocType.BullVaccinationEntry, "", "")
+                    obj.Document_Code = clsERPFuncationality.GetNextCode(trans, obj.Policy_Date, clsDocType.BullInsurance, "", "")
                 End If
                 If (clsCommon.myLen(obj.Document_Code) <= 0) Then
                     Throw New Exception("Error in Document Code Generation")
@@ -54,12 +69,12 @@ Public Class clsBullVaccinationEntry
                 clsCommon.AddColumnsForChange(coll, "Created_By", objCommonVar.CurrentUserCode)
                 clsCommon.AddColumnsForChange(coll, "Created_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt"))
 
-                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_VACCINE_ENTRY", OMInsertOrUpdate.Insert, "", trans)
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_INSURANCE", OMInsertOrUpdate.Insert, "", trans)
             Else
-                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_VACCINE_ENTRY", OMInsertOrUpdate.Update, "TSPL_BULL_VACCINE_ENTRY.Document_Code='" + obj.Document_Code + "'", trans)
+                isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_INSURANCE", OMInsertOrUpdate.Update, "TSPL_BULL_INSURANCE.Document_Code='" + obj.Document_Code + "'", trans)
             End If
-            isSaved = isSaved AndAlso clsBullVaccinationEntryDetail.SaveData(obj.Document_Code, obj.Arr, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BULL_VACCINE_ENTRY", "Document_Code", "TSPL_BULL_VACCINE_ENTRY_DETAIL", "Document_Code", trans)
+            isSaved = isSaved AndAlso clsBullInsuranceDetail.SaveData(obj.Document_Code, obj.Arr, trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BULL_INSURANCE", "Document_Code", "TSPL_BULL_INSURANCE_DETAIL", "Document_Code", trans)
 
         Catch err As Exception
 
@@ -68,56 +83,55 @@ Public Class clsBullVaccinationEntry
         Return isSaved
     End Function
 
-    Public Shared Function GetData(ByVal strRetCode As String, ByVal NavType As NavigatorType, ByVal TransType As String) As clsBullVaccinationEntry
+    Public Shared Function GetData(ByVal strRetCode As String, ByVal NavType As NavigatorType, ByVal TransType As String) As clsBullInsurance
         Return GetData(strRetCode, NavType, TransType, Nothing)
     End Function
 
-    Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal TransType As String, ByVal trans As SqlTransaction) As clsBullVaccinationEntry
-        Dim obj As clsBullVaccinationEntry = Nothing
-        Dim qry As String = "select Document_Code,Remarks ,TSPL_BULL_VACCINE_ENTRY.Bull_Code, Document_date ,ISNULL( Status,0) as Status ,Bull_Alia_Name as Name,Prev_Bull_Id,Registration_Date as [Registration Date] ,SS_Bull_Id as [SS Bull Id],Breed_Code as Breed ,SS_Centre_Code as [SS Centre],Date_Of_Birth as [Date of Birth]
-         from TSPL_BULL_VACCINE_ENTRY left outer join tspl_bull_master on tspl_bull_master.Bull_Code = TSPL_BULL_VACCINE_ENTRY.Bull_Code   where 2=2 "
+    Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType, ByVal TransType As String, ByVal trans As SqlTransaction) As clsBullInsurance
+        Dim obj As clsBullInsurance = Nothing
+        Dim qry As String = "select Document_Code,Policy_Code,Policy_Date,Policy_Start_Date,Policy_End__Date,TSPL_BULL_INSURANCE.Ins_Comp_Code,TSPL_BULL_INSURANCE.Ins_Type_Code,Insured_Amount,Premium_Per,Premium_Amount,Ser_Charge_Per,Ser_Charge_Amount,Total_Amount ,ISNULL( Status,0) as Status ,TSPL_BULL_INSURANCE_MASTER.Name as Ins_Comp_Name ,TSPL_BULL_INSURANCE_TYPE.Name as Ins_Type_Name
+        from TSPL_BULL_INSURANCE left outer join TSPL_BULL_INSURANCE_MASTER on TSPL_BULL_INSURANCE_MASTER.Code = TSPL_BULL_INSURANCE.Ins_Comp_Code  left outer join TSPL_BULL_INSURANCE_TYPE on TSPL_BULL_INSURANCE_TYPE.Code = TSPL_BULL_INSURANCE.Ins_Type_Code   where 2=2 "
         Select Case NavType
             Case NavigatorType.First
-                qry += " and TSPL_BULL_VACCINE_ENTRY.Document_Code = (select MIN(Document_Code) from TSPL_BULL_VACCINE_ENTRY)"
+                qry += " and TSPL_BULL_INSURANCE.Document_Code = (select MIN(Document_Code) from TSPL_BULL_INSURANCE)"
             Case NavigatorType.Last
-                qry += " and TSPL_BULL_VACCINE_ENTRY.Document_Code = (select Max(Document_Code) from TSPL_BULL_VACCINE_ENTRY)"
+                qry += " and TSPL_BULL_INSURANCE.Document_Code = (select Max(Document_Code) from TSPL_BULL_INSURANCE)"
             Case NavigatorType.Next
-                qry += " and TSPL_BULL_VACCINE_ENTRY.Document_Code = (select Min(Document_Code) from TSPL_BULL_VACCINE_ENTRY where Document_Code >'" + strCode + "')"
+                qry += " and TSPL_BULL_INSURANCE.Document_Code = (select Min(Document_Code) from TSPL_BULL_INSURANCE where Document_Code >'" + strCode + "')"
             Case NavigatorType.Previous
-                qry += " and TSPL_BULL_VACCINE_ENTRY.Document_Code = (select Max(Document_Code) from TSPL_BULL_VACCINE_ENTRY where Document_Code <'" + strCode + "')"
+                qry += " and TSPL_BULL_INSURANCE.Document_Code = (select Max(Document_Code) from TSPL_BULL_INSURANCE where Document_Code <'" + strCode + "')"
             Case NavigatorType.Current
-                qry += " and TSPL_BULL_VACCINE_ENTRY.Document_Code = '" + strCode + "'"
+                qry += " and TSPL_BULL_INSURANCE.Document_Code = '" + strCode + "'"
         End Select
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
 
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-            obj = New clsBullVaccinationEntry()
+            obj = New clsBullInsurance()
             obj.Document_Code = clsCommon.myCstr(dt.Rows(0)("Document_Code"))
-            obj.Bull_Code = clsCommon.myCstr(dt.Rows(0)("Bull_Code"))
-            obj.Document_date = clsCommon.myCDate(dt.Rows(0)("Document_date"))
-            obj.Remarks = clsCommon.myCstr(dt.Rows(0)("Remarks"))
-            obj.BullAliasName = clsCommon.myCstr(dt.Rows(0)("Name"))
-            obj.PreBullId = clsCommon.myCstr(dt.Rows(0)("Prev_Bull_Id"))
-            obj.SSBullId = clsCommon.myCstr(dt.Rows(0)("SS Bull Id"))
-            obj.SSCentre = clsCommon.myCstr(dt.Rows(0)("SS Centre"))
-            obj.RegDate = clsCommon.myCstr(dt.Rows(0)("Registration Date"))
-            obj.DOB = clsCommon.myCstr(dt.Rows(0)("Date of Birth"))
-            obj.Breed = clsCommon.myCstr(dt.Rows(0)("Breed"))
-
+            obj.Policy_Code = clsCommon.myCstr(dt.Rows(0)("Policy_Code"))
+            obj.Policy_Date = clsCommon.myCDate(dt.Rows(0)("Policy_Date"))
+            obj.Ins_Comp_Code = clsCommon.myCstr(dt.Rows(0)("Ins_Comp_Code"))
+            obj.Ins_Comp_Name = clsCommon.myCstr(dt.Rows(0)("Ins_Comp_Name"))
+            obj.Ins_Type_Code = clsCommon.myCstr(dt.Rows(0)("Ins_Type_Code"))
+            obj.Ins_Type_Name = clsCommon.myCstr(dt.Rows(0)("Ins_Type_Name"))
+            obj.Policy_Start_Date = clsCommon.myCDate(dt.Rows(0)("Policy_Start_Date"))
+            obj.Policy_End__Date = clsCommon.myCDate(dt.Rows(0)("Policy_End__Date"))
+            obj.Insured_Amount = clsCommon.myCdbl(dt.Rows(0)("Insured_Amount"))
+            obj.Premium_Per = clsCommon.myCDecimal(dt.Rows(0)("Premium_Per"))
+            obj.Premium_Amount = clsCommon.myCdbl(dt.Rows(0)("Premium_Amount"))
+            obj.Ser_Charge_Per = clsCommon.myCDecimal(dt.Rows(0)("Ser_Charge_Per"))
+            obj.Ser_Charge_Amount = clsCommon.myCdbl(dt.Rows(0)("Ser_Charge_Amount"))
+            obj.Total_Amount = clsCommon.myCdbl(dt.Rows(0)("Total_Amount"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
 
-            qry = "	 select TSPL_BULL_VACCINE_ENTRY_DETAIL.*,tspl_item_master.Item_Desc  from TSPL_BULL_VACCINE_ENTRY_DETAIL
-		 left outer join tspl_item_master on tspl_item_master.Item_Code = TSPL_BULL_VACCINE_ENTRY_DETAIL.Item_Code where Document_Code='" + obj.Document_Code + "' order by PK_Id "
+            qry = "	select *  from TSPL_BULL_INSURANCE_DETAIL where Document_Code='" + obj.Document_Code + "' order by PK_Id "
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
-                obj.Arr = New List(Of clsBullVaccinationEntryDetail)
+                obj.Arr = New List(Of clsBullInsuranceDetail)
                 For Each dr As DataRow In dt.Rows
-                    Dim objtr As New clsBullVaccinationEntryDetail
+                    Dim objtr As New clsBullInsuranceDetail
                     objtr.Document_Code = clsCommon.myCstr(dr("Document_Code"))
-                    objtr.Qty = clsCommon.myCdbl(dr("Qty"))
-                    objtr.Item_Code = clsCommon.myCstr(dr("Item_Code"))
-                    objtr.Item_Desc = clsCommon.myCstr(dr("Item_Desc"))
-                    objtr.Unit_code = clsCommon.myCstr(dr("Unit_code"))
+                    objtr.Tag_No = clsCommon.myCstr(dr("Tag_No"))
                     obj.Arr.Add(objtr)
                 Next
             End If
@@ -129,8 +143,8 @@ Public Class clsBullVaccinationEntry
 
     Public Shared Function getFinder(ByVal strCode As String, ByVal isButtonClicked As Boolean) As String
         Dim str As String = ""
-        Dim sql As String = "select Document_Code as DocumentNo ,Bull_Code as [Bull Code],convert(varchar(12),Document_date,103) as DocumentDate,case when Status = 1 then 'Posted' else 'Unposted' end as Posted from TSPL_BULL_VACCINE_ENTRY"
-        str = clsCommon.ShowSelectForm("BullVaccinationEntry", sql, "DocumentNo", "", strCode, "DocumentNo", isButtonClicked)
+        Dim sql As String = "select Document_Code as DocumentCode,Policy_Code as PolicyCode,convert(varchar(12),Policy_Date,103) as [Policy Date],Policy_Start_Date as [Policy Start Date],Policy_End__Date as [Policy End Date] ,Ins_Comp_Code as [Insurance Company Code],Ins_Type_Code as [Insurance Type Code],case when Status = 1 then 'Posted' else 'Unposted' end as Posted from TSPL_BULL_INSURANCE"
+        str = clsCommon.ShowSelectForm("BullInsurance", sql, "DocumentCode", "", strCode, "DocumentCode", isButtonClicked)
         Return str
     End Function
 
@@ -154,7 +168,7 @@ Public Class clsBullVaccinationEntry
             If (clsCommon.myLen(strDocNo) <= 0) Then
                 Throw New Exception("Document No not found to Post")
             End If
-            Dim obj As clsBullVaccinationEntry = clsBullVaccinationEntry.GetData(strDocNo, NavigatorType.Current, "", trans)
+            Dim obj As clsBullInsurance = clsBullInsurance.GetData(strDocNo, NavigatorType.Current, "", trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("No Data found to Post")
             End If
@@ -163,7 +177,7 @@ Public Class clsBullVaccinationEntry
             End If
             'UpdateInventoryMovement(obj, trans, False)
 
-            clsDBFuncationality.ExecuteNonQuery("Update TSPL_BULL_VACCINE_ENTRY set Status= 1, Posted_By = '" + objCommonVar.CurrentUserCode + "',Posted_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "'  where Document_Code='" & obj.Document_Code & "'", trans)
+            clsDBFuncationality.ExecuteNonQuery("Update TSPL_BULL_INSURANCE set Status= 1, Posted_By = '" + objCommonVar.CurrentUserCode + "',Posted_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "'  where Document_Code='" & obj.Document_Code & "'", trans)
 
         Catch ex As Exception
 
@@ -172,7 +186,7 @@ Public Class clsBullVaccinationEntry
         Return True
     End Function
 
-    'Public Shared Function UpdateInventoryMovement(ByVal obj As clsBullVaccinationEntry, ByVal trans As SqlTransaction, Optional ByVal UpdateInventory As Boolean = False) As Boolean
+    'Public Shared Function UpdateInventoryMovement(ByVal obj As clsBullInsurance, ByVal trans As SqlTransaction, Optional ByVal UpdateInventory As Boolean = False) As Boolean
     '    Try
     '        Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
     '        If UpdateInventory = True Then
@@ -181,7 +195,7 @@ Public Class clsBullVaccinationEntry
     '        End If
     '        Dim strRgpNo As String = Nothing
     '        Dim intCounter As Integer = 0
-    '        For Each objTr As clsBullVaccinationEntryDetail In obj.Arr
+    '        For Each objTr As clsBullInsuranceDetail In obj.Arr
     '            intCounter = intCounter + 1
 
     '            Dim strItemType As String = clsItemMaster.GetItemType(objTr.Item_Code, trans)
@@ -212,7 +226,7 @@ Public Class clsBullVaccinationEntry
     '            objInventoryMovemnt.ItemType = strItemTypeToSave
     '            ArrInventoryMovement.Add(objInventoryMovemnt)
     '        Next
-    '        clsInventoryMovement.SaveData(clsUserMgtCode.frmBullVaccinationEntry, obj.Document_Code, obj.Document_date, clsCommon.GetPrintDate(obj.Document_date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+    '        clsInventoryMovement.SaveData(clsUserMgtCode.frmBullInsurance, obj.Document_Code, obj.Policy_Date, clsCommon.GetPrintDate(obj.Policy_Date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
     '    Catch ex As Exception
     '        Throw New Exception(ex.Message)
     '    End Try
@@ -239,7 +253,7 @@ Public Class clsBullVaccinationEntry
         Dim isResponse As Boolean = True
         Try
 
-            Dim obj As clsBullVaccinationEntry = clsBullVaccinationEntry.GetData(strCode, NavigatorType.Current, Nothing, trans)
+            Dim obj As clsBullInsurance = clsBullInsurance.GetData(strCode, NavigatorType.Current, Nothing, trans)
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Status) <= 0) Then
                 clsCommon.MyMessageBoxShow("No Data found to Reverse And UnPost")
                 isResponse = False
@@ -254,7 +268,7 @@ Public Class clsBullVaccinationEntry
             clsCommon.AddColumnsForChange(coll, "Status", 0)
             clsCommon.AddColumnsForChange(coll, "Posted_By", Nothing, True)
             clsCommon.AddColumnsForChange(coll, "Posted_Date", Nothing, True)
-            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_VACCINE_ENTRY", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_Code + "'", trans)
+            clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_INSURANCE", OMInsertOrUpdate.Update, "Document_Code='" + obj.Document_Code + "'", trans)
 
         Catch ex As Exception
             Throw New Exception(ex.Message)
@@ -277,7 +291,7 @@ Public Class clsBullVaccinationEntry
         If (clsCommon.myLen(strCode) <= 0) Then
             Throw New Exception("Document No not found to Delete")
         End If
-        Dim obj As clsBullVaccinationEntry = clsBullVaccinationEntry.GetData(strCode, NavigatorType.Current, "", trans)
+        Dim obj As clsBullInsurance = clsBullInsurance.GetData(strCode, NavigatorType.Current, "", trans)
         Try
             If (obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0) Then
                 Throw New Exception("Document No not found to Delete")
@@ -286,10 +300,10 @@ Public Class clsBullVaccinationEntry
                 Throw New Exception("Already Posted")
             End If
             Dim qry As String = Nothing
-            qry = "delete from TSPL_BULL_VACCINE_ENTRY_DETAIL where Document_Code='" + obj.Document_Code + "'"
+            qry = "delete from TSPL_BULL_INSURANCE_DETAIL where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
-            qry = "delete from TSPL_BULL_VACCINE_ENTRY where Document_Code='" + obj.Document_Code + "'"
+            qry = "delete from TSPL_BULL_INSURANCE where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
 
@@ -302,27 +316,21 @@ Public Class clsBullVaccinationEntry
 
 End Class
 
-Public Class clsBullVaccinationEntryDetail
+Public Class clsBullInsuranceDetail
 
 #Region "Variables"
     Public Document_Code As String = Nothing
-    Public Item_Code As String = Nothing
-    Public Item_Desc As String = Nothing
-    Public Unit_code As String = Nothing
-    Public Qty As Double = 0
+    Public Tag_No As String = Nothing
 
 #End Region
 
-    Public Shared Function SaveData(ByVal strCode As String, ByVal Arr As List(Of clsBullVaccinationEntryDetail), ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function SaveData(ByVal strCode As String, ByVal Arr As List(Of clsBullInsuranceDetail), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-            For Each obj As clsBullVaccinationEntryDetail In Arr
+            For Each obj As clsBullInsuranceDetail In Arr
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_Code", strCode)
-                clsCommon.AddColumnsForChange(coll, "Item_Code", obj.Item_Code)
-                clsCommon.AddColumnsForChange(coll, "Unit_code", obj.Unit_code)
-                clsCommon.AddColumnsForChange(coll, "Qty", obj.Qty)
-
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_VACCINE_ENTRY_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                clsCommon.AddColumnsForChange(coll, "Tag_No", obj.Tag_No)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_INSURANCE_DETAIL", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
         Return True
