@@ -14360,6 +14360,7 @@ Public Class clsCreateAllTable
             coll.Add("Customer_Opening_Clearing_AC", "varchar(50)  NULL")
             coll.Add("Customer_Security_Opening_Clearing_AC", "varchar(50)  NULL")
             coll.Add("Rate_Difference", "varchar(50)  NULL")
+            coll.Add("TDS_Recoverable", "varchar(50)  NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_ACCOUNT_SET", coll, "", True)
 
             'Try

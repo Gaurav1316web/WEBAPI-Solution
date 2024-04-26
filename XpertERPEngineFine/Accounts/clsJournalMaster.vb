@@ -198,6 +198,7 @@ Public Class clsJournalMaster
                 If objTotal.Amount > 0 Then
                     dblTotal += objTotal.Amount
                 End If
+
             Next
             If dblTotal > 0 Then
                 If clsCommon.myLen(strVourcherNoForRecreateOnly) > 0 Then
