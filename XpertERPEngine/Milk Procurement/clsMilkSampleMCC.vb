@@ -1066,104 +1066,109 @@ Public Class clsMilkSRNMCC
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
             ''"""""""""""""""""End Done by Panch Raj against duplicate inventory movement issue raised in Kwality"""""""""""""""""""""""
 
-            For Each objTr As clsMilkSRNMCCDetail In clsMilkSRNMCC.ObjList
-                intCounter = intCounter + 1
-                Dim strItemType As String = clsItemMaster.GetItemType(objTr.Item_CODE, trans)
-                Dim strItemTypeToSave As String = ""
-                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                    strItemTypeToSave = "RM"
-                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                    strItemTypeToSave = "OT"
-                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                    strItemTypeToSave = "FT"
+            qry = "select AllowAutoMilkIn  from TSPL_MCC_MASTER where MCC_Code='" + obj.MCC_CODE + "'"
+            Dim AllowAutoMilkIn As Boolean = (clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(qry, trans)) = 1)
+            If AllowAutoMilkIn Then
+                For Each objTr As clsMilkSRNMCCDetail In clsMilkSRNMCC.ObjList
+                    intCounter = intCounter + 1
+                    Dim strItemType As String = clsItemMaster.GetItemType(objTr.Item_CODE, trans)
+                    Dim strItemTypeToSave As String = ""
+                    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                        strItemTypeToSave = "RM"
+                    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                        strItemTypeToSave = "OT"
+                    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                        strItemTypeToSave = "FT"
 
-                ElseIf clsCommon.CompairString(strItemType, "A") = CompairStringResult.Equal Then
-                    strItemTypeToSave = "A"
-                Else
-                    strItemTypeToSave = strItemType
-                End If
-
-                Dim objInventoryMovemnt As New clsInventoryMovementNew()
-                objInventoryMovemnt.InOut = "I"
-                objInventoryMovemnt.Location_Code = IIf(settRejectedMilkSendToRejectLocation, strRejectLocation, objTr.MCC_CODE)
-                objInventoryMovemnt.Vendor_Code = obj.VSP_CODE
-                objInventoryMovemnt.Vendor_Name = clsVendorMaster.GetName(obj.VSP_CODE, trans)
-                objInventoryMovemnt.Item_Code = objTr.Item_CODE
-                objInventoryMovemnt.Item_Desc = objTr.Item_Desc
-                objInventoryMovemnt.Qty = objTr.MILK_Qty
-                objInventoryMovemnt.UOM = objTr.UOM
-                objInventoryMovemnt.MRP = 0
-                objInventoryMovemnt.Add_Cost = 0
-                objInventoryMovemnt.FAT_Per = objTr.FAT
-                objInventoryMovemnt.SNF_Per = objTr.SNF
-                objInventoryMovemnt.FAT_KG = objTr.FAT * objTr.ACC_Qty / 100
-                objInventoryMovemnt.SNF_KG = objTr.SNF * objTr.ACC_Qty / 100
-                '-----------------------------------------------
-                objInventoryMovemnt.Net_Cost = objTr.NET_AMOUNT ''objTr.RATE * objTr.MILK_Qty ''VIJ/29/11/19-000084 by balwinder on 24/01/2020
-                objInventoryMovemnt.FIFO_Cost = objTr.NET_AMOUNT
-                objInventoryMovemnt.LIFO_Cost = objTr.NET_AMOUNT
-                objInventoryMovemnt.Avg_Cost = objTr.NET_AMOUNT
-                objInventoryMovemnt.CustomCoversionCLR = objTr.CLR
-                If clsCommon.myLen(objTr.Price_Code) > 0 Then
-                    Dim arr As New clsFatSnfRateCalculator
-                    If objCommonVar.PricePlan = 6 OrElse objCommonVar.PricePlan = 7 Then
-                        qry = "select * from TSPL_MILK_PRICE_MASTER where Price_Code in (select Price_Chart_Code from TSPL_PRICE_CHART_PLANNING where Planning_Code='" & objTr.Price_Code & "')"
+                    ElseIf clsCommon.CompairString(strItemType, "A") = CompairStringResult.Equal Then
+                        strItemTypeToSave = "A"
                     Else
-                        qry = "select * from TSPL_MILK_PRICE_MASTER where Price_Code=" _
-                                      & " (select Distinct Price_Code from tspl_Fat_SNf_Uploader_Master where code='" & objTr.Price_Code & "')"
+                        strItemTypeToSave = strItemType
                     End If
 
-                    Dim dtMilkPrice As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
-                    If objCommonVar.ApplyTransFATSNFRateForCalculateFATSNFRate Then
-                        arr = clsFatSnfRateCalculator.CalculateFATSNFRatefromTransactionPer(objTr.ACC_Qty, (objTr.NET_AMOUNT), objTr.FAT, objTr.SNF, clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Snf_Ratio")))
-                    ElseIf objCommonVar.ApplyStdFATSNFRate Then
-                        arr = clsFatSnfRateCalculator.CalculateStdFATSNFRate(objTr.ACC_Qty, clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Fat_Pers")), clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("SNF_Pers")), clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Snf_Ratio")), clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Milk_Rate")), objTr.FAT, objTr.SNF)
-                    Else
-
-                        If clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Fat_Pers")) = objTr.FAT And clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Snf_Pers")) = objTr.SNF Then
-                            arr = clsFatSnfRateCalculator.CalculateInonSamePercentage(objTr.MILK_Qty, clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Fat_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("SNF_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Snf_Ratio")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Milk_Rate")))
+                    Dim objInventoryMovemnt As New clsInventoryMovementNew()
+                    objInventoryMovemnt.InOut = "I"
+                    objInventoryMovemnt.Location_Code = IIf(settRejectedMilkSendToRejectLocation, strRejectLocation, objTr.MCC_CODE)
+                    objInventoryMovemnt.Vendor_Code = obj.VSP_CODE
+                    objInventoryMovemnt.Vendor_Name = clsVendorMaster.GetName(obj.VSP_CODE, trans)
+                    objInventoryMovemnt.Item_Code = objTr.Item_CODE
+                    objInventoryMovemnt.Item_Desc = objTr.Item_Desc
+                    objInventoryMovemnt.Qty = objTr.MILK_Qty
+                    objInventoryMovemnt.UOM = objTr.UOM
+                    objInventoryMovemnt.MRP = 0
+                    objInventoryMovemnt.Add_Cost = 0
+                    objInventoryMovemnt.FAT_Per = objTr.FAT
+                    objInventoryMovemnt.SNF_Per = objTr.SNF
+                    objInventoryMovemnt.FAT_KG = objTr.FAT * objTr.ACC_Qty / 100
+                    objInventoryMovemnt.SNF_KG = objTr.SNF * objTr.ACC_Qty / 100
+                    '-----------------------------------------------
+                    objInventoryMovemnt.Net_Cost = objTr.NET_AMOUNT ''objTr.RATE * objTr.MILK_Qty ''VIJ/29/11/19-000084 by balwinder on 24/01/2020
+                    objInventoryMovemnt.FIFO_Cost = objTr.NET_AMOUNT
+                    objInventoryMovemnt.LIFO_Cost = objTr.NET_AMOUNT
+                    objInventoryMovemnt.Avg_Cost = objTr.NET_AMOUNT
+                    objInventoryMovemnt.CustomCoversionCLR = objTr.CLR
+                    If clsCommon.myLen(objTr.Price_Code) > 0 Then
+                        Dim arr As New clsFatSnfRateCalculator
+                        If objCommonVar.PricePlan = 6 OrElse objCommonVar.PricePlan = 7 Then
+                            qry = "select * from TSPL_MILK_PRICE_MASTER where Price_Code in (select Price_Chart_Code from TSPL_PRICE_CHART_PLANNING where Planning_Code='" & objTr.Price_Code & "')"
                         Else
-                            Try
-                                arr = clsFatSnfRateCalculator.CalculateIn(objTr.MILK_Qty, clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Fat_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("SNF_Pers")), objTr.FAT, objTr.SNF, clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Milk_Rate")), objTr.RATE)
-                            Catch ex As Exception
-                                If ex.Message.Contains("Same equation repeated") Then
-                                    arr = clsFatSnfRateCalculator.CalculateInonSamePercentage(objTr.MILK_Qty, clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Fat_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("SNF_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Snf_Ratio")), objTr.RATE)
-                                    If objInventoryMovemnt.FAT_KG <> 0 Then
-                                        arr.fatR = arr.FatAmt / objInventoryMovemnt.FAT_KG
-                                    End If
-                                    If objInventoryMovemnt.SNF_KG <> 0 Then
-                                        arr.snfR = arr.snfAmt / objInventoryMovemnt.SNF_KG
-                                    End If
-                                Else
-                                    Throw New Exception(ex.Message)
-                                End If
-                            End Try
+                            qry = "select * from TSPL_MILK_PRICE_MASTER where Price_Code=" _
+                                      & " (select Distinct Price_Code from tspl_Fat_SNf_Uploader_Master where code='" & objTr.Price_Code & "')"
                         End If
-                    End If
-                    objInventoryMovemnt.Fat_Rate = arr.fatR
-                    objInventoryMovemnt.Fat_Amt = arr.FatAmt
-                    objInventoryMovemnt.SNF_Rate = arr.snfR
-                    objInventoryMovemnt.SNF_Amt = arr.snfAmt
-                    dtMilkPrice = Nothing
-                    arr = Nothing
-                End If
-                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-                    objInventoryMovemnt.ItemType = "RM"
-                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-                    objInventoryMovemnt.ItemType = "OT"
-                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-                    objInventoryMovemnt.ItemType = "FT"
-                End If
-                objInventoryMovemnt.ItemType = strItemTypeToSave
-                objInventoryMovemnt.Basic_Cost = objTr.RATE
-                objInventoryMovemnt.CalculateAvgCost = False
-                ArrInventoryMovement.Add(objInventoryMovemnt)
-            Next
-            isSaved = isSaved AndAlso clsInventoryMovementNew.SaveData("MCC-MSRN", obj.DOC_CODE, obj.DOC_DATE, clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MM/yyyy"), ArrInventoryMovement, trans)
 
-            ''By Balwinder on 29/06/2016 for give option to recreate JE .
-            CreateJournalEntry(obj, create_same_voucher_journal_entry, trans)
-            'CreateSMSContent(FormId, obj, create_same_voucher_journal_entry, trans)
+                        Dim dtMilkPrice As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                        If objCommonVar.ApplyTransFATSNFRateForCalculateFATSNFRate Then
+                            arr = clsFatSnfRateCalculator.CalculateFATSNFRatefromTransactionPer(objTr.ACC_Qty, (objTr.NET_AMOUNT), objTr.FAT, objTr.SNF, clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Snf_Ratio")))
+                        ElseIf objCommonVar.ApplyStdFATSNFRate Then
+                            arr = clsFatSnfRateCalculator.CalculateStdFATSNFRate(objTr.ACC_Qty, clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Fat_Pers")), clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("SNF_Pers")), clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Snf_Ratio")), clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Milk_Rate")), objTr.FAT, objTr.SNF)
+                        Else
+
+                            If clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Fat_Pers")) = objTr.FAT And clsCommon.myCdbl(dtMilkPrice.Rows(0).Item("Snf_Pers")) = objTr.SNF Then
+                                arr = clsFatSnfRateCalculator.CalculateInonSamePercentage(objTr.MILK_Qty, clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Fat_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("SNF_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Snf_Ratio")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Milk_Rate")))
+                            Else
+                                Try
+                                    arr = clsFatSnfRateCalculator.CalculateIn(objTr.MILK_Qty, clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Fat_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("SNF_Pers")), objTr.FAT, objTr.SNF, clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Milk_Rate")), objTr.RATE)
+                                Catch ex As Exception
+                                    If ex.Message.Contains("Same equation repeated") Then
+                                        arr = clsFatSnfRateCalculator.CalculateInonSamePercentage(objTr.MILK_Qty, clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Fat_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("SNF_Pers")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Ratio")), clsCommon.myCstr(dtMilkPrice.Rows(0).Item("Snf_Ratio")), objTr.RATE)
+                                        If objInventoryMovemnt.FAT_KG <> 0 Then
+                                            arr.fatR = arr.FatAmt / objInventoryMovemnt.FAT_KG
+                                        End If
+                                        If objInventoryMovemnt.SNF_KG <> 0 Then
+                                            arr.snfR = arr.snfAmt / objInventoryMovemnt.SNF_KG
+                                        End If
+                                    Else
+                                        Throw New Exception(ex.Message)
+                                    End If
+                                End Try
+                            End If
+                        End If
+                        objInventoryMovemnt.Fat_Rate = arr.fatR
+                        objInventoryMovemnt.Fat_Amt = arr.FatAmt
+                        objInventoryMovemnt.SNF_Rate = arr.snfR
+                        objInventoryMovemnt.SNF_Amt = arr.snfAmt
+                        dtMilkPrice = Nothing
+                        arr = Nothing
+                    End If
+                    If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                        objInventoryMovemnt.ItemType = "RM"
+                    ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                        objInventoryMovemnt.ItemType = "OT"
+                    ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                        objInventoryMovemnt.ItemType = "FT"
+                    End If
+                    objInventoryMovemnt.ItemType = strItemTypeToSave
+                    objInventoryMovemnt.Basic_Cost = objTr.RATE
+                    objInventoryMovemnt.CalculateAvgCost = False
+                    ArrInventoryMovement.Add(objInventoryMovemnt)
+                Next
+                isSaved = isSaved AndAlso clsInventoryMovementNew.SaveData("MCC-MSRN", obj.DOC_CODE, obj.DOC_DATE, clsCommon.GetPrintDate(obj.DOC_DATE, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+
+                ''By Balwinder on 29/06/2016 for give option to recreate JE .
+                CreateJournalEntry(obj, create_same_voucher_journal_entry, trans)
+                'CreateSMSContent(FormId, obj, create_same_voucher_journal_entry, trans)
+            End If
+
 
             Dim strRMDANo As String = ""
 

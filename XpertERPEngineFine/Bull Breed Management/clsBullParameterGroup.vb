@@ -95,7 +95,7 @@ Public Class clsBullParameterGroup
         Dim IsSaved As Boolean = True
         Try
             IsSaved = True
-            Dim StrQry As String = "delete from TSPL_BULL_PARAMETER_GROUP_master where Code='" + obj.Code + "'"
+            Dim StrQry As String = "delete from TSPL_BULL_PARAMETER_GROUP_Detail where Code='" + obj.Code + "'"
             clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
 
 

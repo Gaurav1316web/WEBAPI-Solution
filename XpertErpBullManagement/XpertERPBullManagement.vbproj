@@ -418,6 +418,9 @@
     <EmbeddedResource Include="Master\frmBullPenIDMaster.resx">
       <DependentUpon>frmBullPenIDMaster.vb</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBullPurchaseNo.resx">
+      <DependentUpon>frmBullPurchaseNo.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullRating.resx">
       <DependentUpon>frmBullRating.vb</DependentUpon>
     </EmbeddedResource>
@@ -429,6 +432,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullShedParameterMaster.resx">
       <DependentUpon>frmBullShedParameterMaster.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBullSourceName.resx">
+      <DependentUpon>frmBullSourceName.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullSourcePainting.resx">
       <DependentUpon>frmBullSourcePainting.vb</DependentUpon>
@@ -466,6 +472,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmBullInsurance.resx">
       <DependentUpon>frmBullInsurance.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmBullTestParameterEntry.resx">
+      <DependentUpon>frmBullTestParameterEntry.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmBullVaccinationEntry.resx">
       <DependentUpon>frmBullVaccinationEntry.vb</DependentUpon>

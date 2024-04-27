@@ -1154,69 +1154,254 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
     End Function
     Public Shared Function DeleteCollectionData(arrMCC As ArrayList, FromDate As Date, ToDate As Date, strShift As String, DeleteBMCCollection As Boolean, checkForPreviousShift As Boolean) As Boolean
         Try
-            clsCommon.ProgressBarPercentShow()
-            If arrMCC Is Nothing OrElse arrMCC.Count < 0 Then
-                Throw New Exception("Please Provide at least one MCC")
+            clsCommon.ProgressBarShow()
+            Dim strShiftCon As String = ""
+            If checkForPreviousShift Then
+                strShiftCon = " and SHIFT='E'"
+                DeleteCollectionBulk(FromDate.AddDays(-1), FromDate.AddDays(-1), strShiftCon, arrMCC, DeleteBMCCollection)
+
+                strShiftCon = ""
+                DeleteCollectionBulk(FromDate, ToDate.AddDays(-1), strShiftCon, arrMCC, DeleteBMCCollection)
+
+                strShiftCon = " and SHIFT='M'"
+                DeleteCollectionBulk(ToDate, ToDate, strShiftCon, arrMCC, DeleteBMCCollection)
+            Else
+                If Not clsCommon.CompairString(clsCommon.myCstr(strShift), "B") = CompairStringResult.Equal Then
+                    strShiftCon = " and SHIFT='" + clsCommon.myCstr(strShift) + "'"
+                End If
+                DeleteCollectionBulk(FromDate, ToDate, strShiftCon, arrMCC, DeleteBMCCollection)
             End If
-            Dim qry As String = "select  * from ExplodeDates('" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "')"
-            Dim dtDate As DataTable = clsDBFuncationality.GetDataTable(qry)
-            If dtDate Is Nothing OrElse dtDate.Rows.Count <= 0 Then
-                Throw New Exception("No Date found between from and To Date")
-            End If
-            Dim ii As Integer = 0
-            Dim Total As Integer = arrMCC.Count * dtDate.Rows.Count
-            For Each drDate As DataRow In dtDate.Rows
-                Dim TransDate As Date = clsCommon.myCDate(drDate(0))
-                For Each strMCCcode As String In arrMCC
-                    ii = ii + 1
-                    clsCommon.ProgressBarPercentUpdate(((ii) * 100 / (Total)), "Date [" & clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") & "] BMC [" & strMCCcode & "]")
-                    Dim strShiftCon As String = ""
-                    If checkForPreviousShift Then
-                        strShiftCon = " and SHIFT='E'"
-                        DeleteCollection(TransDate.AddDays(-1), strShiftCon, strMCCcode, DeleteBMCCollection)
-                        strShiftCon = " and SHIFT='M'"
-                        DeleteCollection(TransDate, strShiftCon, strMCCcode, DeleteBMCCollection)
-                    Else
-                        If Not clsCommon.CompairString(clsCommon.myCstr(strShift), "B") = CompairStringResult.Equal Then
-                            strShiftCon = " and SHIFT='" + clsCommon.myCstr(strShift) + "'"
-                        End If
-                        DeleteCollection(TransDate, strShiftCon, strMCCcode, DeleteBMCCollection)
-                    End If
-                Next
-            Next
-            clsCommon.ProgressBarPercentHide()
+            clsCommon.ProgressBarHide()
         Catch ex As Exception
-            clsCommon.ProgressBarPercentHide()
+            clsCommon.ProgressBarHide()
             Throw New Exception(ex.Message)
         End Try
         Return True
     End Function
+    'Public Shared Function DeleteCollectionData(arrMCC As ArrayList, FromDate As Date, ToDate As Date, strShift As String, DeleteBMCCollection As Boolean, checkForPreviousShift As Boolean) As Boolean
+    '    Try
+    '        clsCommon.ProgressBarPercentShow()
+    '        If arrMCC Is Nothing OrElse arrMCC.Count < 0 Then
+    '            Throw New Exception("Please Provide at least one MCC")
+    '        End If
+    '        Dim qry As String = "select  * from ExplodeDates('" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "','" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "')"
+    '        Dim dtDate As DataTable = clsDBFuncationality.GetDataTable(qry)
+    '        If dtDate Is Nothing OrElse dtDate.Rows.Count <= 0 Then
+    '            Throw New Exception("No Date found between from and To Date")
+    '        End If
+    '        Dim ii As Integer = 0
+    '        Dim Total As Integer = arrMCC.Count * dtDate.Rows.Count
+    '        For Each drDate As DataRow In dtDate.Rows
+    '            Dim TransDate As Date = clsCommon.myCDate(drDate(0))
+    '            For Each strMCCcode As String In arrMCC
+    '                ii = ii + 1
+    '                clsCommon.ProgressBarPercentUpdate(((ii) * 100 / (Total)), "Date [" & clsCommon.GetPrintDate(TransDate, "dd/MMM/yyyy") & "] BMC [" & strMCCcode & "]")
+    '                Dim strShiftCon As String = ""
+    '                If checkForPreviousShift Then
+    '                    strShiftCon = " and SHIFT='E'"
+    '                    DeleteCollection(TransDate.AddDays(-1), strShiftCon, strMCCcode, DeleteBMCCollection)
+    '                    strShiftCon = " and SHIFT='M'"
+    '                    DeleteCollection(TransDate, strShiftCon, strMCCcode, DeleteBMCCollection)
+    '                Else
+    '                    If Not clsCommon.CompairString(clsCommon.myCstr(strShift), "B") = CompairStringResult.Equal Then
+    '                        strShiftCon = " and SHIFT='" + clsCommon.myCstr(strShift) + "'"
+    '                    End If
+    '                    DeleteCollection(TransDate, strShiftCon, strMCCcode, DeleteBMCCollection)
+    '                End If
+    '            Next
+    '        Next
+    '        clsCommon.ProgressBarPercentHide()
+    '    Catch ex As Exception
+    '        clsCommon.ProgressBarPercentHide()
+    '        Throw New Exception(ex.Message)
+    '    End Try
+    '    Return True
+    'End Function
 
-    Private Shared Sub DeleteCollection(tDate As Date, strShiftCon As String, strMCCcode As String, DeleteBMCCollection As Boolean)
+    '    Private Shared Sub DeleteCollection(tDate As Date, strShiftCon As String, strMCCcode As String, DeleteBMCCollection As Boolean)
+    '        Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
+    '        Try
+    '            DeleteCollection(tDate, strShiftCon, strMCCcode, DeleteBMCCollection, tran)
+    '            tran.Commit()
+    '        Catch ex As Exception
+    '            tran.Rollback()
+    '            Throw New Exception(ex.Message)
+    '        End Try
+    '    End Sub
+    '    Public Shared Sub DeleteCollection(tDate As Date, strShiftCon As String, strMCCcode As String, DeleteBMCCollection As Boolean, tran As SqlTransaction)
+    '        Dim transDate As String = "'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'"
+    '        Dim qry As String = ""
+
+    '        qry = "select * into TEMP_TSPL_MILK_RECEIPT_DETAIL from (select Against_Uploader_TR_No,Against_Shift_Uploader_TR_No from TSPL_MILK_RECEIPT_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")
+    'union all
+    'select null as Against_Uploader_TR_No, TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No as Against_Shift_Uploader_TR_No  from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+    'left outer join TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
+    'where len(isnull( TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,''))>0 and convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD. Shift_Date,103)=" + transDate + " and TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code='" + strMCCcode + "' " + strShiftCon + "
+    'union all
+    'select TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No as Against_Uploader_TR_No,null as Against_Shift_Uploader_TR_No  from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+    'left outer join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No
+    'where len(isnull( TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,''))>0 and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date,103)=" + transDate + " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code='" + strMCCcode + "' " + strShiftCon + "
+    ')xx"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "select * into TEMP_TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL from (
+    'select TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TR_No in (select Against_Uploader_TR_No from TEMP_TSPL_MILK_RECEIPT_DETAIL))X"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "select * into TEMP_TSPL_MILK_SHIFT_UPLOADER_DETAIL from (
+    'select TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No,TR_No,Against_Milk_Collection_DCS_Detail from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TR_No in (select Against_Shift_Uploader_TR_No from TEMP_TSPL_MILK_RECEIPT_DETAIL))X"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "select * into TEMP_TSPL_MILK_COLLECTION_DCS_DETAIL from (  
+    'select Document_No ,PK_Id from TSPL_MILK_COLLECTION_DCS_DETAIL where PK_Id in  (select Against_Milk_Collection_DCS_Detail from TEMP_TSPL_MILK_SHIFT_UPLOADER_DETAIL union all select Against_Milk_Collection_DCS_Detail from TEMP_TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL))X"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "select * into TEMP_TSPL_MILK_COLLECTION_DCS_MCC_DETAIL from (
+    'select TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No as MCCDocument_No,TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No,TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail,TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL
+    'left outer join  TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail
+    'where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No in (
+    'select Document_No from TEMP_TSPL_MILK_COLLECTION_DCS_DETAIL))X"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+    '        qry = "delete from TSPL_MILK_SRN_detail_SYNC where doc_code in (select doc_code from TSPL_MILK_SRN_HEAD_SYNC where mcc_code='" + strMCCcode + "')"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+    '        qry = "delete from TSPL_MILK_SRN_HEAD_SYNC where mcc_code='" + strMCCcode + "'"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+
+    '        qry = "delete from TSPL_PROVISION_ENTRY where Ref_Doc_No in (select DOC_CODE from TSPL_MILK_Shift_End_HEAD where MCC_CODE='" + strMCCcode + "' and convert(date, DOC_DATE,103)=" + transDate + " " + strShiftCon + ") "
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_Shift_End_Route_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_Shift_End_HEAD where MCC_CODE='" + strMCCcode + "' and convert(date, DOC_DATE,103)=" + transDate + " " + strShiftCon + ")"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_Shift_End_DETAIL where DOC_CODE in( select DOC_CODE from TSPL_MILK_Shift_End_HEAD where MCC_CODE='" + strMCCcode + "' and convert(date, DOC_DATE,103)=" + transDate + " " + strShiftCon + ")"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_Shift_End_HEAD where MCC_CODE='" + strMCCcode + "' and convert(date, DOC_DATE,103)=" + transDate + " " + strShiftCon + ""
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        '----Milk Sample
+    '        qry = "delete from TSPL_INVENTORY_MOVEMENT_new where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + "))"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_JOURNAL_DETAILS  where Voucher_No in ( select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")))"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + "))"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_SRN_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + "))"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_SAMPLE_DETAIL where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_SAMPLE_DETAIL_History where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_SAMPLE_READING_LOG where Sample_Code in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_SAMPLE_QC_PARAMETER_DETAIL where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ""
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        '----End of Milk Sample
+
+
+    '        '----Milk Rejection
+    '        qry = "delete from TSPL_INVENTORY_MOVEMENT_new where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + "))"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_JOURNAL_DETAILS  where Voucher_No in ( select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")))"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + "))"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_SRN_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + "))"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_REJECT_Detail where DOC_CODE in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ""
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        '----End of Milk Rejection
+
+
+
+
+    '        qry = "delete from TSPL_MILK_RECEIPT_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ""
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_OPEN_MCC_SHIFT where MCC_CODE='" + strMCCcode + "' and convert(date, MCC_SHIFT_DATE,103)=" + transDate + " " + strShiftCon + ""
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+    '        qry = "delete from TSPL_MILK_PROCUREMENT_UPLOADER_QC_PARAMETER_DETAIL where TR_No in (select Against_Uploader_TR_No from TEMP_TSPL_MILK_RECEIPT_DETAIL)"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TR_No in (select Against_Uploader_TR_No from TEMP_TSPL_MILK_RECEIPT_DETAIL)"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_PROCUREMENT_UPLOADER_HEAD where not exists(select 1 from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No)"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+    '        qry = "delete from TSPL_MILK_SHIFT_UPLOADER_QC_PARAMETER_DETAIL where TR_No in (select Against_Shift_Uploader_TR_No from TEMP_TSPL_MILK_RECEIPT_DETAIL)"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TR_No in (select Against_Shift_Uploader_TR_No from TEMP_TSPL_MILK_RECEIPT_DETAIL)"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_SHIFT_UPLOADER_HEAD where not exists(select 1 from TSPL_MILK_SHIFT_UPLOADER_DETAIL where TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No=TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No)"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+    '        qry = "delete from TSPL_MILK_COLLECTION_DCS_DETAIL where PK_Id in (select PK_Id from TEMP_TSPL_MILK_COLLECTION_DCS_DETAIL)"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where Document_No in (select Document_No from TSPL_MILK_COLLECTION_DCS where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_DETAIL where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No))"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "delete from TSPL_MILK_COLLECTION_DCS where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_DETAIL where TSPL_MILK_COLLECTION_DCS_DETAIL.Document_No=TSPL_MILK_COLLECTION_DCS.Document_No)"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+    '        If DeleteBMCCollection Then
+    '            qry = "select * into TEMP_TSPL_MILK_COLLECTION_MCC_DETAIL from (  
+    'select Against_Milk_Collection_MCC_Detail as PK_ID,TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No from TEMP_TSPL_MILK_COLLECTION_DCS_MCC_DETAIL 
+    'left outer join TSPL_MILK_COLLECTION_MCC_DETAIL on TSPL_MILK_COLLECTION_MCC_DETAIL.PK_Id=TEMP_TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Against_Milk_Collection_MCC_Detail
+    'where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id=TEMP_TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.PK_Id))X"
+    '            clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+    '            qry = "delete from TSPL_MILK_COLLECTION_MCC_DETAIL where PK_Id in (select PK_ID from TEMP_TSPL_MILK_COLLECTION_MCC_DETAIL)"
+    '            clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '            qry = "delete from TSPL_MILK_COLLECTION_MCC where not exists(select 1 from TSPL_MILK_COLLECTION_MCC_DETAIL where TSPL_MILK_COLLECTION_MCC_DETAIL.Document_No=TSPL_MILK_COLLECTION_MCC.Document_No) and TSPL_MILK_COLLECTION_MCC.Document_No in (select Document_No from TEMP_TSPL_MILK_COLLECTION_MCC_DETAIL)"
+    '            clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+    '            qry = "Drop table TEMP_TSPL_MILK_COLLECTION_MCC_DETAIL"
+    '            clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        End If
+
+    '        qry = "Drop table TEMP_TSPL_MILK_RECEIPT_DETAIL "
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "Drop table TEMP_TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "Drop table TEMP_TSPL_MILK_SHIFT_UPLOADER_DETAIL"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "Drop table TEMP_TSPL_MILK_COLLECTION_DCS_DETAIL"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+    '        qry = "Drop table TEMP_TSPL_MILK_COLLECTION_DCS_MCC_DETAIL"
+    '        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+    '    End Sub
+
+    Private Shared Sub DeleteCollectionBulk(FromDate As Date, ToDate As Date, strShiftCon As String, ArrMCC As ArrayList, DeleteBMCCollection As Boolean)
         Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin()
         Try
-            DeleteCollection(tDate, strShiftCon, strMCCcode, DeleteBMCCollection, tran)
+            DeleteCollectionBulk(FromDate, ToDate, strShiftCon, ArrMCC, DeleteBMCCollection, tran)
             tran.Commit()
         Catch ex As Exception
             tran.Rollback()
             Throw New Exception(ex.Message)
         End Try
     End Sub
-    Public Shared Sub DeleteCollection(tDate As Date, strShiftCon As String, strMCCcode As String, DeleteBMCCollection As Boolean, tran As SqlTransaction)
-        Dim transDate As String = "'" + clsCommon.GetPrintDate(tDate, "dd/MMM/yyyy") + "'"
-        Dim qry As String = ""
+    Public Shared Sub DeleteCollectionBulk(FromDate As Date, ToDate As Date, strShiftCon As String, ArrMCC As ArrayList, DeleteBMCCollection As Boolean, tran As SqlTransaction)
+        Dim transDate As String = " between '" + clsCommon.GetPrintDate(FromDate, "dd/MMM/yyyy") + "' and '" + clsCommon.GetPrintDate(ToDate, "dd/MMM/yyyy") + "' "
+        Dim strMCCcode As String = " "
+        If ArrMCC IsNot Nothing AndAlso ArrMCC.Count > 0 Then
+            strMCCcode = " and MCC_CODE in (" + clsCommon.GetMulcallString(ArrMCC) + ") "
+        End If
 
-
-
-        qry = "select * into TEMP_TSPL_MILK_RECEIPT_DETAIL from (select Against_Uploader_TR_No,Against_Shift_Uploader_TR_No from TSPL_MILK_RECEIPT_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")
+        Dim qry As String = "select * into TEMP_TSPL_MILK_RECEIPT_DETAIL from (
+select Against_Uploader_TR_No,Against_Shift_Uploader_TR_No from TSPL_MILK_RECEIPT_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")
 union all
 select null as Against_Uploader_TR_No, TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No as Against_Shift_Uploader_TR_No  from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
 left outer join TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
-where len(isnull( TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,''))>0 and convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD. Shift_Date,103)=" + transDate + " and TSPL_MILK_SHIFT_UPLOADER_HEAD.MCC_Code='" + strMCCcode + "' " + strShiftCon + "
+where len(isnull( TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,''))>0 and convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD. Shift_Date,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "
 union all
 select TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No as Against_Uploader_TR_No,null as Against_Shift_Uploader_TR_No  from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
 left outer join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No
-where len(isnull( TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,''))>0 and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date,103)=" + transDate + " and TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.MCC_Code='" + strMCCcode + "' " + strShiftCon + "
+where len(isnull( TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,''))>0 and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date,103)  " + transDate + "" + strMCCcode + "" + strShiftCon + "
 )xx"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
         qry = "select * into TEMP_TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL from (
@@ -1235,70 +1420,68 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No in (
 select Document_No from TEMP_TSPL_MILK_COLLECTION_DCS_DETAIL))X"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-        qry = "delete from TSPL_MILK_SRN_detail_SYNC where doc_code in (select doc_code from TSPL_MILK_SRN_HEAD_SYNC where mcc_code='" + strMCCcode + "')"
+        qry = "delete from TSPL_MILK_SRN_detail_SYNC where doc_code in (select doc_code from TSPL_MILK_SRN_HEAD_SYNC where 2=2 and MCC_Code='" + strMCCcode + "')"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-        qry = "delete from TSPL_MILK_SRN_HEAD_SYNC where mcc_code='" + strMCCcode + "'"
+        qry = "delete from TSPL_MILK_SRN_HEAD_SYNC where 2=2 and MCC_Code='" + strMCCcode + "'"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
 
-        qry = "delete from TSPL_PROVISION_ENTRY where Ref_Doc_No in (select DOC_CODE from TSPL_MILK_Shift_End_HEAD where MCC_CODE='" + strMCCcode + "' and convert(date, DOC_DATE,103)=" + transDate + " " + strShiftCon + ") "
+        qry = "delete from TSPL_PROVISION_ENTRY where Ref_Doc_No in (select DOC_CODE from TSPL_MILK_Shift_End_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + " " + strShiftCon + ") "
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_Shift_End_Route_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_Shift_End_HEAD where MCC_CODE='" + strMCCcode + "' and convert(date, DOC_DATE,103)=" + transDate + " " + strShiftCon + ")"
+        qry = "delete from TSPL_MILK_Shift_End_Route_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_Shift_End_HEAD where  convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + " " + strShiftCon + ")"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_Shift_End_DETAIL where DOC_CODE in( select DOC_CODE from TSPL_MILK_Shift_End_HEAD where MCC_CODE='" + strMCCcode + "' and convert(date, DOC_DATE,103)=" + transDate + " " + strShiftCon + ")"
+        qry = "delete from TSPL_MILK_Shift_End_DETAIL where DOC_CODE in( select DOC_CODE from TSPL_MILK_Shift_End_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_Shift_End_HEAD where MCC_CODE='" + strMCCcode + "' and convert(date, DOC_DATE,103)=" + transDate + " " + strShiftCon + ""
+        qry = "delete from TSPL_MILK_Shift_End_HEAD where  convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + " " + strShiftCon + ""
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
         '----Milk Sample
-        qry = "delete from TSPL_INVENTORY_MOVEMENT_new where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + "))"
+        qry = "delete from TSPL_INVENTORY_MOVEMENT_new where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_JOURNAL_DETAILS  where Voucher_No in ( select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")))"
+        qry = "delete from TSPL_JOURNAL_DETAILS  where Voucher_No in ( select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")))"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + "))"
+        qry = "delete from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SRN_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + "))"
+        qry = "delete from TSPL_MILK_SRN_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+        'qry = "delete from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
+        qry = "delete from TSPL_MILK_SRN_HEAD where DOC_CODE in ( select DOC_CODE  from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SAMPLE_DETAIL where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+        qry = "delete from TSPL_MILK_SAMPLE_DETAIL where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SAMPLE_DETAIL_History where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+        qry = "delete from TSPL_MILK_SAMPLE_DETAIL_History where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SAMPLE_READING_LOG where Sample_Code in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+        qry = "delete from TSPL_MILK_SAMPLE_READING_LOG where Sample_Code in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SAMPLE_QC_PARAMETER_DETAIL where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+        qry = "delete from TSPL_MILK_SAMPLE_QC_PARAMETER_DETAIL where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ""
+        qry = "delete from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ""
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
         '----End of Milk Sample
 
 
         '----Milk Rejection
-        qry = "delete from TSPL_INVENTORY_MOVEMENT_new where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + "))"
+        qry = "delete from TSPL_INVENTORY_MOVEMENT_new where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_JOURNAL_DETAILS  where Voucher_No in ( select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")))"
+        qry = "delete from TSPL_JOURNAL_DETAILS  where Voucher_No in ( select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")))"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + "))"
+        qry = "delete from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SRN_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + "))"
+        qry = "delete from TSPL_MILK_SRN_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+        qry = "delete from TSPL_MILK_SRN_HEAD where against_reject_no in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_REJECT_Detail where DOC_CODE in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+        qry = "delete from TSPL_MILK_REJECT_Detail where DOC_CODE in (select DOC_CODE from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ""
+        qry = "delete from TSPL_MILK_REJECT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ""
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
         '----End of Milk Rejection
 
-
-
-
-        qry = "delete from TSPL_MILK_RECEIPT_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ")"
+        qry = "delete from TSPL_MILK_RECEIPT_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103)=" + transDate + " and MCC_CODE='" + strMCCcode + "' " + strShiftCon + ""
+        qry = "delete from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ""
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_OPEN_MCC_SHIFT where MCC_CODE='" + strMCCcode + "' and convert(date, MCC_SHIFT_DATE,103)=" + transDate + " " + strShiftCon + ""
+        qry = "delete from TSPL_OPEN_MCC_SHIFT where convert(date, MCC_SHIFT_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ""
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
         qry = "delete from TSPL_MILK_PROCUREMENT_UPLOADER_QC_PARAMETER_DETAIL where TR_No in (select Against_Uploader_TR_No from TEMP_TSPL_MILK_RECEIPT_DETAIL)"
@@ -1538,6 +1721,8 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
 
 
     Public Shared Sub MultipleDateSingleImportDBF(ByRef frm As RadForm)
+        Dim gv As New RadGridView()
+        frm.Controls.Add(gv)
         Try
             Dim dtRejctType As DataTable = clsDBFuncationality.GetDataTable("select Code from TSPL_MILK_REJECT_TYPE")
             Dim arrColumnName As New List(Of String)
@@ -1567,8 +1752,7 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
             Dim SettDBFFATDivideBy As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DBF, clsFixedParameterCode.FATDivideBy, Nothing))
             Dim SettDBFSNFDivideBy As Integer = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.DBF, clsFixedParameterCode.SNFDivideBy, Nothing))
 
-            Dim gv As New RadGridView()
-            frm.Controls.Add(gv)
+
             Dim currentdate As Date = Date.Today
             Dim ii As Integer = 1
             Dim indxSuccess As Integer = 0
@@ -1726,7 +1910,7 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                         ff.dt = dtError
                         ff.ShowDialog()
                     ElseIf arr IsNot Nothing AndAlso arr.Count > 0 Then
-                        qry = "Valid Row [" + clsCommon.myCstr(indxSuccess) + "]" + Environment.NewLine + "Invalid Rows [" + clsCommon.myCstr(indxError) + "] " + Environment.NewLine + "Total Documents To be Generate [" + clsCommon.myCstr(arr.Count) + "]" + Environment.NewLine + "Do You want to Proceed"
+                        qry = "Valid Row [" + clsCommon.myCstr(indxSuccess) + "]" + Environment.NewLine + " " + Environment.NewLine + "Total Documents To be Generate [" + clsCommon.myCstr(arr.Count) + "]" + Environment.NewLine + "Do You want to Proceed"
                         If clsCommon.MyMessageBoxShow(frm, qry, frm.Text, MessageBoxButtons.YesNo) = DialogResult.Yes Then
                             clsCommon.ProgressBarPercentShow()
                             ii = 0
@@ -1750,16 +1934,15 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                     Else
                         Throw New Exception("No Valid Rows Found to Save")
                     End If
-
                 Catch ex As Exception
                     clsCommon.MyMessageBoxShow(frm, ex.Message, frm.Text)
                 End Try
             End If
-            frm.Controls.Remove(gv)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(frm, ex.Message, frm.Text)
+        Finally
+            frm.Controls.Remove(gv)
         End Try
-
     End Sub
 
 End Class

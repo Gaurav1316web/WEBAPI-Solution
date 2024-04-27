@@ -1244,7 +1244,11 @@ Public Class frmPriceMasterPlan
                     End If
 
                     dblTaxAmt = (dblBaseAmt * dblTaxRate) / 100
-                    dblTaxAmt = clsCommon.myRoundOFF(dblTaxAmt, IIf(objCommonVar.IsRoundOffTaxToZeroDecimal, 0, 2), 4)
+                    If PricePlanRoundOffTruncate Then
+                        dblTaxAmt = Math.Truncate(dblTaxAmt * factor) / factor
+                    Else
+                        dblTaxAmt = clsCommon.myRoundOFF(dblTaxAmt, IIf(objCommonVar.IsRoundOffTaxToZeroDecimal, 0, 2), 4)
+                    End If
                     dblTotTaxAmt += dblTaxAmt
                     gv1.CurrentRow.Cells(colTaxAmt + clsCommon.myCstr(ii)).Value = dblTaxAmt
                     If (IsTaxable AndAlso Not arrTaxableAuth.Contains(strTaxCode.ToUpper())) AndAlso (clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colTax + clsCommon.myCstr(ii)).Value), "CGST") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(clsCommon.myCstr(gv1.CurrentRow.Cells(colTax + clsCommon.myCstr(ii)).Value), "SGST") <> CompairStringResult.Equal) Then
