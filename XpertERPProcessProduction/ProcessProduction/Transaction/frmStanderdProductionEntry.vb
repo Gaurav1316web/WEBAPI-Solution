@@ -1688,7 +1688,7 @@ Public Class frmStanderdProductionEntry
                 If clsCommon.CompairString(Product_Type, "MI") = CompairStringResult.Equal Then
                     BalanceQty = clsInventoryMovementNew.getBalance(clsCommon.myCstr(obj2.CONSM_ITEM_CODE), clsLocation.GetMainLocationMilk(clsCommon.myCstr(obj2.LOCATION_CODE), Nothing), clsCommon.myCstr(obj2.LOCATION_CODE), txtCode.Value, dtpDate.Value, Nothing, clsCommon.myCstr(obj2.UNIT_CODE))
                 Else
-                    BalanceQty = clsItemLocationDetails.getBalance(clsCommon.myCstr(obj2.CONSM_ITEM_CODE), clsCommon.myCstr(obj2.LOCATION_CODE), txtCode.Value, dtpDate.Value, Nothing, clsCommon.myCstr(obj2.UNIT_CODE), 0)
+                    BalanceQty = clsItemLocationDetails.getBalance(clsCommon.myCstr(obj2.CONSM_ITEM_CODE), clsCommon.myCstr(obj2.LOCATION_CODE), txtCode.Value, clsCommon.GetDateWithEndTime(dtpDate.Value), Nothing, clsCommon.myCstr(obj2.UNIT_CODE), 0)
                 End If
                 gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty_Stock).Value = BalanceQty
 
@@ -2448,7 +2448,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                         If clsCommon.CompairString(Product_Type, "MI") = CompairStringResult.Equal Then
                             BalanceQty = clsInventoryMovementNew.getBalance(clsCommon.myCstr(objtr.ITEM_CODE), clsLocation.GetMainLocationMilk(clsCommon.myCstr(txtConsmLocOther.Value), Nothing), clsCommon.myCstr(txtConsmLocOther.Value), txtCode.Value, dtpDate.Value, Nothing, clsCommon.myCstr(objtr.UNIT_CODE))
                         Else
-                            BalanceQty = clsItemLocationDetails.getBalance(clsCommon.myCstr(objtr.ITEM_CODE), clsCommon.myCstr(txtConsmLocOther.Value), txtCode.Value, tDate, Nothing, clsCommon.myCstr(objtr.UNIT_CODE), 0)
+                            BalanceQty = clsItemLocationDetails.getBalance(clsCommon.myCstr(objtr.ITEM_CODE), clsCommon.myCstr(txtConsmLocOther.Value), txtCode.Value, clsCommon.GetDateWithEndTime(tDate), Nothing, clsCommon.myCstr(objtr.UNIT_CODE), 0)
                         End If
 
                         gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty_Stock).Value = BalanceQty
@@ -2487,7 +2487,7 @@ where TSPL_SPP_PRODUCTION_CONSUMPTION_DETAIL.PROD_ENTRY_CODE='" + txtCode.Value 
                         If import Then
                             If clsCommon.CompairString(Product_Type, "MI") <> CompairStringResult.Equal AndAlso clsCommon.CompairString(Product_Type, "MP") <> CompairStringResult.Equal Then
                                 gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty).Value = objtr.QUANTITY
-                                Dim availQty As Decimal = clsItemLocationDetails.getBalance(objtr.ITEM_CODE, clsCommon.myCstr(gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colSP_Loaction_Code).Value), txtCode.Value, dtpDate.Value, Nothing, gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colUOM).Value, 0)
+                                Dim availQty As Decimal = clsItemLocationDetails.getBalance(objtr.ITEM_CODE, clsCommon.myCstr(gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colSP_Loaction_Code).Value), txtCode.Value, clsCommon.GetDateWithEndTime(dtpDate.Value), Nothing, gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colUOM).Value, 0)
                                 If objtr.QUANTITY > availQty Then
                                     gvConsumption.Rows(gvConsumption.Rows.Count - 1).Cells(colFINAL_PROD_Qty).Value = availQty
                                 End If
