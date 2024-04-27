@@ -78,6 +78,7 @@
     <Compile Include="Accounts\clsJournalMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullBreedMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullCategoryMaster.vb" />
+    <Compile Include="Bull Breed Management\clsBullInsurance.vb" />
     <Compile Include="Bull Breed Management\clsBullInsuranceMaster.vb" />
     <Compile Include="Bull Breed Management\clsBullInsuranceType.vb" />
     <Compile Include="Bull Breed Management\clsBullMasters.vb" />

@@ -14360,6 +14360,7 @@ Public Class clsCreateAllTable
             coll.Add("Customer_Opening_Clearing_AC", "varchar(50)  NULL")
             coll.Add("Customer_Security_Opening_Clearing_AC", "varchar(50)  NULL")
             coll.Add("Rate_Difference", "varchar(50)  NULL")
+            coll.Add("TDS_Recoverable", "varchar(50)  NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_ACCOUNT_SET", coll, "", True)
 
             'Try
@@ -18362,6 +18363,7 @@ Public Class clsCreateAllTable
             coll.Add("isCardSale", "integer not null default 0")
             coll.Add("Against_RCDF_Loadin", "Varchar(30) null references TSPL_RCDF_LOAD_IN(Document_Code)")
             coll.Add("Online_Transaction_ID", "varchar(50) NULL")
+            coll.Add("TDS_Recoverable_Amt", "decimal (18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_HEADER", coll, Nothing, True, False, "", "Receipt_No", "Receipt_Date", True)
 
             coll = New Dictionary(Of String, String)()
