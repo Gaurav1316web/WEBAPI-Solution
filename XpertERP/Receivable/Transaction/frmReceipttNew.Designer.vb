@@ -22,10 +22,10 @@ Partial Class FrmReceipttNew
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
-        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition8 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.MyLabel16 = New common.Controls.MyLabel()
         Me.MyLabel15 = New common.Controls.MyLabel()
         Me.MyLabel14 = New common.Controls.MyLabel()
@@ -41,6 +41,24 @@ Partial Class FrmReceipttNew
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.txtTDSAmt = New common.MyNumBox()
+        Me.pnlCurrConv = New System.Windows.Forms.Panel()
+        Me.TxtForeignBankCharges = New common.MyNumBox()
+        Me.MyLabel25 = New common.Controls.MyLabel()
+        Me.TxtBankCharges = New common.MyNumBox()
+        Me.MyLabel24 = New common.Controls.MyLabel()
+        Me.txtTotalPaymentBaseCurr = New common.MyNumBox()
+        Me.lblTotalReceived = New common.Controls.MyLabel()
+        Me.txtBaseCurrency = New common.UserControls.txtFinder()
+        Me.MyLabel20 = New common.Controls.MyLabel()
+        Me.txtConversionRate = New common.MyNumBox()
+        Me.txtCurrencyCode = New common.UserControls.txtFinder()
+        Me.lblEffectiveFrom = New common.Controls.MyLabel()
+        Me.txtApplicableFrom = New common.Controls.MyLabel()
+        Me.lblCurrency = New common.Controls.MyLabel()
+        Me.lblConvRate = New common.Controls.MyLabel()
+        Me.tdslbl = New common.Controls.MyLabel()
+        Me.chkDCS = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel39 = New common.Controls.MyLabel()
         Me.txtLoadIn = New common.UserControls.txtFinder()
         Me.chkForCardSale = New Telerik.WinControls.UI.RadCheckBox()
@@ -88,7 +106,6 @@ Partial Class FrmReceipttNew
         Me.lblBalAmt = New common.Controls.MyLabel()
         Me.lblDocumentNo = New common.Controls.MyLabel()
         Me.txtDocumentNo = New common.UserControls.txtFinder()
-        Me.chkCheckPrint = New Telerik.WinControls.UI.RadCheckBox()
         Me.txtBTNo = New common.Controls.MyTextBox()
         Me.RadLabel1 = New common.Controls.MyLabel()
         Me.txtToBank = New common.UserControls.txtFinder()
@@ -99,30 +116,15 @@ Partial Class FrmReceipttNew
         Me.chkCForm = New Telerik.WinControls.UI.RadCheckBox()
         Me.MyLabel18 = New common.Controls.MyLabel()
         Me.txtCFormInvNo = New common.UserControls.txtFinder()
-        Me.pnlCurrConv = New System.Windows.Forms.Panel()
-        Me.TxtForeignBankCharges = New common.MyNumBox()
-        Me.MyLabel25 = New common.Controls.MyLabel()
-        Me.TxtBankCharges = New common.MyNumBox()
-        Me.MyLabel24 = New common.Controls.MyLabel()
-        Me.txtTotalPaymentBaseCurr = New common.MyNumBox()
-        Me.lblTotalReceived = New common.Controls.MyLabel()
-        Me.txtBaseCurrency = New common.UserControls.txtFinder()
-        Me.MyLabel20 = New common.Controls.MyLabel()
-        Me.txtConversionRate = New common.MyNumBox()
-        Me.txtCurrencyCode = New common.UserControls.txtFinder()
-        Me.lblEffectiveFrom = New common.Controls.MyLabel()
-        Me.txtApplicableFrom = New common.Controls.MyLabel()
-        Me.lblCurrency = New common.Controls.MyLabel()
-        Me.lblConvRate = New common.Controls.MyLabel()
         Me.pnlCheque = New System.Windows.Forms.Panel()
         Me.txtChkNo = New common.Controls.MyTextBox()
         Me.dtCheque = New common.Controls.MyDateTimePicker()
         Me.lblChkDate = New common.Controls.MyLabel()
+        Me.chkCheckPrint = New Telerik.WinControls.UI.RadCheckBox()
         Me.lblLoadOutNo = New common.Controls.MyLabel()
         Me.txtLoadOutno = New common.UserControls.txtFinder()
         Me.lblSalesman = New common.Controls.MyLabel()
         Me.chkSalesmanType = New Telerik.WinControls.UI.RadCheckBox()
-        Me.txtsalesmanCode = New common.UserControls.txtFinder()
         Me.txtUnAppliedBal = New common.Controls.MyTextBox()
         Me.lblUnAppliedBal = New common.Controls.MyLabel()
         Me.txtUnApplieadNo = New common.Controls.MyTextBox()
@@ -161,6 +163,7 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt = New common.UserControls.MyRadGridView()
         Me.dgvmiscpayment = New common.UserControls.MyRadGridView()
         Me.pvpCustomFields = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.UcCustomFields1 = New ERP.ucCustomFields()
         Me.Attachments = New Telerik.WinControls.UI.RadPageViewPage()
         Me.UcAttachment1 = New XpertERPEngine.ucAttachment()
         Me.TabForGST = New Telerik.WinControls.UI.RadPageViewPage()
@@ -202,8 +205,7 @@ Partial Class FrmReceipttNew
         Me.MenuClose = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.chkDCS = New Telerik.WinControls.UI.RadCheckBox()
-        Me.UcCustomFields1 = New ERP.ucCustomFields()
+        Me.txtsalesmanCode = New common.UserControls.txtFinder()
         CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -225,6 +227,22 @@ Partial Class FrmReceipttNew
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.txtTDSAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlCurrConv.SuspendLayout()
+        CType(Me.TxtForeignBankCharges, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtBankCharges, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTotalPaymentBaseCurr, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotalReceived, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtConversionRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblEffectiveFrom, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtApplicableFrom, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCurrency, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.tdslbl, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkForCardSale, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -266,7 +284,6 @@ Partial Class FrmReceipttNew
         CType(Me.ddlSecDepositType, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBalAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDocumentNo, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkCheckPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtBTNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblbankcode, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -275,23 +292,11 @@ Partial Class FrmReceipttNew
         Me.pnlCform.SuspendLayout()
         CType(Me.chkCForm, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.pnlCurrConv.SuspendLayout()
-        CType(Me.TxtForeignBankCharges, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.TxtBankCharges, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtTotalPaymentBaseCurr, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblTotalReceived, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtConversionRate, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblEffectiveFrom, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtApplicableFrom, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblCurrency, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.pnlCheque.SuspendLayout()
         CType(Me.txtChkNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.dtCheque, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblChkDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkCheckPrint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblLoadOutNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkSalesmanType, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -371,7 +376,6 @@ Partial Class FrmReceipttNew
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.chkDCS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -519,7 +523,7 @@ Partial Class FrmReceipttNew
         '
         Me.lblcustomer.FieldName = Nothing
         Me.lblcustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblcustomer.Location = New System.Drawing.Point(6, 73)
+        Me.lblcustomer.Location = New System.Drawing.Point(6, 70)
         Me.lblcustomer.Name = "lblcustomer"
         Me.lblcustomer.Size = New System.Drawing.Size(73, 16)
         Me.lblcustomer.TabIndex = 21
@@ -576,10 +580,10 @@ Partial Class FrmReceipttNew
         'RadPageViewPage1
         '
         Me.RadPageViewPage1.Controls.Add(Me.SplitContainer1)
-        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(49.0!, 24.0!)
-        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 33)
+        Me.RadPageViewPage1.ItemSize = New System.Drawing.SizeF(53.0!, 28.0!)
+        Me.RadPageViewPage1.Location = New System.Drawing.Point(10, 37)
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
-        Me.RadPageViewPage1.Size = New System.Drawing.Size(1212, 417)
+        Me.RadPageViewPage1.Size = New System.Drawing.Size(1212, 413)
         Me.RadPageViewPage1.Text = "Receipt"
         '
         'SplitContainer1
@@ -592,6 +596,10 @@ Partial Class FrmReceipttNew
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtsalesmanCode)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.txtTDSAmt)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.pnlCurrConv)
+        Me.SplitContainer1.Panel1.Controls.Add(Me.tdslbl)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkDCS)
         Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel39)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtLoadIn)
@@ -624,19 +632,16 @@ Partial Class FrmReceipttNew
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblBalAmt)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblDocumentNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtDocumentNo)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.chkCheckPrint)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtBTNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtToBank)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkAutoGeneBT)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkParentCust)
         Me.SplitContainer1.Panel1.Controls.Add(Me.pnlCform)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.pnlCurrConv)
         Me.SplitContainer1.Panel1.Controls.Add(Me.pnlCheque)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblLoadOutNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtLoadOutno)
         Me.SplitContainer1.Panel1.Controls.Add(Me.lblSalesman)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkSalesmanType)
-        Me.SplitContainer1.Panel1.Controls.Add(Me.txtsalesmanCode)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtUnAppliedBal)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtUnApplieadNo)
         Me.SplitContainer1.Panel1.Controls.Add(Me.chkSecurityDposit)
@@ -671,15 +676,327 @@ Partial Class FrmReceipttNew
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.dgvReceipt)
         Me.SplitContainer1.Panel2.Controls.Add(Me.dgvmiscpayment)
-        Me.SplitContainer1.Size = New System.Drawing.Size(1212, 417)
+        Me.SplitContainer1.Size = New System.Drawing.Size(1212, 413)
         Me.SplitContainer1.SplitterDistance = 281
         Me.SplitContainer1.TabIndex = 0
+        '
+        'txtTDSAmt
+        '
+        Me.txtTDSAmt.BackColor = System.Drawing.Color.White
+        Me.txtTDSAmt.CalculationExpression = Nothing
+        Me.txtTDSAmt.DecimalPlaces = 2
+        Me.txtTDSAmt.FieldCode = Nothing
+        Me.txtTDSAmt.FieldDesc = Nothing
+        Me.txtTDSAmt.FieldMaxLength = 0
+        Me.txtTDSAmt.FieldName = Nothing
+        Me.txtTDSAmt.isCalculatedField = False
+        Me.txtTDSAmt.IsSourceFromTable = False
+        Me.txtTDSAmt.IsSourceFromValueList = False
+        Me.txtTDSAmt.IsUnique = False
+        Me.txtTDSAmt.Location = New System.Drawing.Point(115, 168)
+        Me.txtTDSAmt.MendatroryField = False
+        Me.txtTDSAmt.MyLinkLable1 = Nothing
+        Me.txtTDSAmt.MyLinkLable2 = Nothing
+        Me.txtTDSAmt.Name = "txtTDSAmt"
+        Me.txtTDSAmt.ReferenceFieldDesc = Nothing
+        Me.txtTDSAmt.ReferenceFieldName = Nothing
+        Me.txtTDSAmt.ReferenceTableName = Nothing
+        Me.txtTDSAmt.Size = New System.Drawing.Size(154, 20)
+        Me.txtTDSAmt.TabIndex = 615
+        Me.txtTDSAmt.Text = "0"
+        Me.txtTDSAmt.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTDSAmt.Value = 0R
+        '
+        'pnlCurrConv
+        '
+        Me.pnlCurrConv.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+        Me.pnlCurrConv.Controls.Add(Me.TxtForeignBankCharges)
+        Me.pnlCurrConv.Controls.Add(Me.MyLabel25)
+        Me.pnlCurrConv.Controls.Add(Me.TxtBankCharges)
+        Me.pnlCurrConv.Controls.Add(Me.MyLabel24)
+        Me.pnlCurrConv.Controls.Add(Me.txtTotalPaymentBaseCurr)
+        Me.pnlCurrConv.Controls.Add(Me.lblTotalReceived)
+        Me.pnlCurrConv.Controls.Add(Me.txtBaseCurrency)
+        Me.pnlCurrConv.Controls.Add(Me.MyLabel20)
+        Me.pnlCurrConv.Controls.Add(Me.txtConversionRate)
+        Me.pnlCurrConv.Controls.Add(Me.txtCurrencyCode)
+        Me.pnlCurrConv.Controls.Add(Me.lblEffectiveFrom)
+        Me.pnlCurrConv.Controls.Add(Me.txtApplicableFrom)
+        Me.pnlCurrConv.Controls.Add(Me.lblCurrency)
+        Me.pnlCurrConv.Controls.Add(Me.lblConvRate)
+        Me.pnlCurrConv.Location = New System.Drawing.Point(7, 208)
+        Me.pnlCurrConv.Name = "pnlCurrConv"
+        Me.pnlCurrConv.Size = New System.Drawing.Size(887, 45)
+        Me.pnlCurrConv.TabIndex = 38
+        '
+        'TxtForeignBankCharges
+        '
+        Me.TxtForeignBankCharges.BackColor = System.Drawing.Color.White
+        Me.TxtForeignBankCharges.CalculationExpression = Nothing
+        Me.TxtForeignBankCharges.DecimalPlaces = 2
+        Me.TxtForeignBankCharges.FieldCode = Nothing
+        Me.TxtForeignBankCharges.FieldDesc = Nothing
+        Me.TxtForeignBankCharges.FieldMaxLength = 0
+        Me.TxtForeignBankCharges.FieldName = Nothing
+        Me.TxtForeignBankCharges.isCalculatedField = False
+        Me.TxtForeignBankCharges.IsSourceFromTable = False
+        Me.TxtForeignBankCharges.IsSourceFromValueList = False
+        Me.TxtForeignBankCharges.IsUnique = False
+        Me.TxtForeignBankCharges.Location = New System.Drawing.Point(603, 2)
+        Me.TxtForeignBankCharges.MendatroryField = False
+        Me.TxtForeignBankCharges.MyLinkLable1 = Nothing
+        Me.TxtForeignBankCharges.MyLinkLable2 = Nothing
+        Me.TxtForeignBankCharges.Name = "TxtForeignBankCharges"
+        Me.TxtForeignBankCharges.ReferenceFieldDesc = Nothing
+        Me.TxtForeignBankCharges.ReferenceFieldName = Nothing
+        Me.TxtForeignBankCharges.ReferenceTableName = Nothing
+        Me.TxtForeignBankCharges.Size = New System.Drawing.Size(94, 20)
+        Me.TxtForeignBankCharges.TabIndex = 614
+        Me.TxtForeignBankCharges.Text = "0"
+        Me.TxtForeignBankCharges.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtForeignBankCharges.Value = 0R
+        '
+        'MyLabel25
+        '
+        Me.MyLabel25.FieldName = Nothing
+        Me.MyLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel25.Location = New System.Drawing.Point(481, 5)
+        Me.MyLabel25.Name = "MyLabel25"
+        Me.MyLabel25.Size = New System.Drawing.Size(120, 16)
+        Me.MyLabel25.TabIndex = 613
+        Me.MyLabel25.Text = "Foreign Bank Charges"
+        '
+        'TxtBankCharges
+        '
+        Me.TxtBankCharges.BackColor = System.Drawing.Color.White
+        Me.TxtBankCharges.CalculationExpression = Nothing
+        Me.TxtBankCharges.DecimalPlaces = 2
+        Me.TxtBankCharges.FieldCode = Nothing
+        Me.TxtBankCharges.FieldDesc = Nothing
+        Me.TxtBankCharges.FieldMaxLength = 0
+        Me.TxtBankCharges.FieldName = Nothing
+        Me.TxtBankCharges.isCalculatedField = False
+        Me.TxtBankCharges.IsSourceFromTable = False
+        Me.TxtBankCharges.IsSourceFromValueList = False
+        Me.TxtBankCharges.IsUnique = False
+        Me.TxtBankCharges.Location = New System.Drawing.Point(603, 22)
+        Me.TxtBankCharges.MendatroryField = False
+        Me.TxtBankCharges.MyLinkLable1 = Nothing
+        Me.TxtBankCharges.MyLinkLable2 = Nothing
+        Me.TxtBankCharges.Name = "TxtBankCharges"
+        Me.TxtBankCharges.ReferenceFieldDesc = Nothing
+        Me.TxtBankCharges.ReferenceFieldName = Nothing
+        Me.TxtBankCharges.ReferenceTableName = Nothing
+        Me.TxtBankCharges.Size = New System.Drawing.Size(94, 20)
+        Me.TxtBankCharges.TabIndex = 612
+        Me.TxtBankCharges.Text = "0"
+        Me.TxtBankCharges.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.TxtBankCharges.Value = 0R
+        '
+        'MyLabel24
+        '
+        Me.MyLabel24.FieldName = Nothing
+        Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel24.Location = New System.Drawing.Point(484, 27)
+        Me.MyLabel24.Name = "MyLabel24"
+        Me.MyLabel24.Size = New System.Drawing.Size(78, 16)
+        Me.MyLabel24.TabIndex = 611
+        Me.MyLabel24.Text = "Bank Charges"
+        '
+        'txtTotalPaymentBaseCurr
+        '
+        Me.txtTotalPaymentBaseCurr.BackColor = System.Drawing.Color.White
+        Me.txtTotalPaymentBaseCurr.CalculationExpression = Nothing
+        Me.txtTotalPaymentBaseCurr.DecimalPlaces = 2
+        Me.txtTotalPaymentBaseCurr.FieldCode = Nothing
+        Me.txtTotalPaymentBaseCurr.FieldDesc = Nothing
+        Me.txtTotalPaymentBaseCurr.FieldMaxLength = 0
+        Me.txtTotalPaymentBaseCurr.FieldName = Nothing
+        Me.txtTotalPaymentBaseCurr.isCalculatedField = False
+        Me.txtTotalPaymentBaseCurr.IsSourceFromTable = False
+        Me.txtTotalPaymentBaseCurr.IsSourceFromValueList = False
+        Me.txtTotalPaymentBaseCurr.IsUnique = False
+        Me.txtTotalPaymentBaseCurr.Location = New System.Drawing.Point(315, 22)
+        Me.txtTotalPaymentBaseCurr.MendatroryField = False
+        Me.txtTotalPaymentBaseCurr.MyLinkLable1 = Nothing
+        Me.txtTotalPaymentBaseCurr.MyLinkLable2 = Nothing
+        Me.txtTotalPaymentBaseCurr.Name = "txtTotalPaymentBaseCurr"
+        Me.txtTotalPaymentBaseCurr.ReferenceFieldDesc = Nothing
+        Me.txtTotalPaymentBaseCurr.ReferenceFieldName = Nothing
+        Me.txtTotalPaymentBaseCurr.ReferenceTableName = Nothing
+        Me.txtTotalPaymentBaseCurr.Size = New System.Drawing.Size(159, 20)
+        Me.txtTotalPaymentBaseCurr.TabIndex = 7
+        Me.txtTotalPaymentBaseCurr.Text = "0"
+        Me.txtTotalPaymentBaseCurr.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtTotalPaymentBaseCurr.Value = 0R
+        '
+        'lblTotalReceived
+        '
+        Me.lblTotalReceived.FieldName = Nothing
+        Me.lblTotalReceived.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblTotalReceived.Location = New System.Drawing.Point(219, 25)
+        Me.lblTotalReceived.Name = "lblTotalReceived"
+        Me.lblTotalReceived.Size = New System.Drawing.Size(82, 16)
+        Me.lblTotalReceived.TabIndex = 6
+        Me.lblTotalReceived.Text = "Total Received"
+        '
+        'txtBaseCurrency
+        '
+        Me.txtBaseCurrency.CalculationExpression = Nothing
+        Me.txtBaseCurrency.Enabled = False
+        Me.txtBaseCurrency.FieldCode = Nothing
+        Me.txtBaseCurrency.FieldDesc = Nothing
+        Me.txtBaseCurrency.FieldMaxLength = 0
+        Me.txtBaseCurrency.FieldName = Nothing
+        Me.txtBaseCurrency.isCalculatedField = False
+        Me.txtBaseCurrency.IsSourceFromTable = False
+        Me.txtBaseCurrency.IsSourceFromValueList = False
+        Me.txtBaseCurrency.IsUnique = False
+        Me.txtBaseCurrency.Location = New System.Drawing.Point(82, 21)
+        Me.txtBaseCurrency.MendatroryField = False
+        Me.txtBaseCurrency.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBaseCurrency.MyLinkLable1 = Nothing
+        Me.txtBaseCurrency.MyLinkLable2 = Nothing
+        Me.txtBaseCurrency.MyReadOnly = False
+        Me.txtBaseCurrency.MyShowMasterFormButton = False
+        Me.txtBaseCurrency.Name = "txtBaseCurrency"
+        Me.txtBaseCurrency.ReferenceFieldDesc = Nothing
+        Me.txtBaseCurrency.ReferenceFieldName = Nothing
+        Me.txtBaseCurrency.ReferenceTableName = Nothing
+        Me.txtBaseCurrency.Size = New System.Drawing.Size(130, 22)
+        Me.txtBaseCurrency.TabIndex = 5
+        Me.txtBaseCurrency.Value = ""
+        '
+        'MyLabel20
+        '
+        Me.MyLabel20.FieldName = Nothing
+        Me.MyLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel20.Location = New System.Drawing.Point(3, 26)
+        Me.MyLabel20.Name = "MyLabel20"
+        Me.MyLabel20.Size = New System.Drawing.Size(78, 16)
+        Me.MyLabel20.TabIndex = 610
+        Me.MyLabel20.Text = "BaseCurrency"
+        '
+        'txtConversionRate
+        '
+        Me.txtConversionRate.BackColor = System.Drawing.Color.White
+        Me.txtConversionRate.CalculationExpression = Nothing
+        Me.txtConversionRate.DecimalPlaces = 4
+        Me.txtConversionRate.FieldCode = Nothing
+        Me.txtConversionRate.FieldDesc = Nothing
+        Me.txtConversionRate.FieldMaxLength = 0
+        Me.txtConversionRate.FieldName = Nothing
+        Me.txtConversionRate.isCalculatedField = False
+        Me.txtConversionRate.IsSourceFromTable = False
+        Me.txtConversionRate.IsSourceFromValueList = False
+        Me.txtConversionRate.IsUnique = False
+        Me.txtConversionRate.Location = New System.Drawing.Point(315, 2)
+        Me.txtConversionRate.MendatroryField = False
+        Me.txtConversionRate.MyLinkLable1 = Nothing
+        Me.txtConversionRate.MyLinkLable2 = Nothing
+        Me.txtConversionRate.Name = "txtConversionRate"
+        Me.txtConversionRate.ReferenceFieldDesc = Nothing
+        Me.txtConversionRate.ReferenceFieldName = Nothing
+        Me.txtConversionRate.ReferenceTableName = Nothing
+        Me.txtConversionRate.Size = New System.Drawing.Size(160, 20)
+        Me.txtConversionRate.TabIndex = 2
+        Me.txtConversionRate.Text = "1"
+        Me.txtConversionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
+        Me.txtConversionRate.Value = 1.0R
+        '
+        'txtCurrencyCode
+        '
+        Me.txtCurrencyCode.CalculationExpression = Nothing
+        Me.txtCurrencyCode.Enabled = False
+        Me.txtCurrencyCode.FieldCode = Nothing
+        Me.txtCurrencyCode.FieldDesc = Nothing
+        Me.txtCurrencyCode.FieldMaxLength = 0
+        Me.txtCurrencyCode.FieldName = Nothing
+        Me.txtCurrencyCode.isCalculatedField = False
+        Me.txtCurrencyCode.IsSourceFromTable = False
+        Me.txtCurrencyCode.IsSourceFromValueList = False
+        Me.txtCurrencyCode.IsUnique = False
+        Me.txtCurrencyCode.Location = New System.Drawing.Point(82, 2)
+        Me.txtCurrencyCode.MendatroryField = False
+        Me.txtCurrencyCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCurrencyCode.MyLinkLable1 = Nothing
+        Me.txtCurrencyCode.MyLinkLable2 = Nothing
+        Me.txtCurrencyCode.MyReadOnly = False
+        Me.txtCurrencyCode.MyShowMasterFormButton = False
+        Me.txtCurrencyCode.Name = "txtCurrencyCode"
+        Me.txtCurrencyCode.ReferenceFieldDesc = Nothing
+        Me.txtCurrencyCode.ReferenceFieldName = Nothing
+        Me.txtCurrencyCode.ReferenceTableName = Nothing
+        Me.txtCurrencyCode.Size = New System.Drawing.Size(130, 18)
+        Me.txtCurrencyCode.TabIndex = 0
+        Me.txtCurrencyCode.TabStop = False
+        Me.txtCurrencyCode.Value = ""
+        '
+        'lblEffectiveFrom
+        '
+        Me.lblEffectiveFrom.FieldName = Nothing
+        Me.lblEffectiveFrom.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblEffectiveFrom.Location = New System.Drawing.Point(702, 5)
+        Me.lblEffectiveFrom.Name = "lblEffectiveFrom"
+        Me.lblEffectiveFrom.Size = New System.Drawing.Size(88, 16)
+        Me.lblEffectiveFrom.TabIndex = 3
+        Me.lblEffectiveFrom.Text = "Applicable From"
+        '
+        'txtApplicableFrom
+        '
+        Me.txtApplicableFrom.AutoSize = False
+        Me.txtApplicableFrom.BorderVisible = True
+        Me.txtApplicableFrom.FieldName = Nothing
+        Me.txtApplicableFrom.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtApplicableFrom.Location = New System.Drawing.Point(796, 3)
+        Me.txtApplicableFrom.Name = "txtApplicableFrom"
+        Me.txtApplicableFrom.Size = New System.Drawing.Size(84, 18)
+        Me.txtApplicableFrom.TabIndex = 4
+        Me.txtApplicableFrom.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+        '
+        'lblCurrency
+        '
+        Me.lblCurrency.FieldName = Nothing
+        Me.lblCurrency.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCurrency.Location = New System.Drawing.Point(3, 4)
+        Me.lblCurrency.Name = "lblCurrency"
+        Me.lblCurrency.Size = New System.Drawing.Size(52, 16)
+        Me.lblCurrency.TabIndex = 137
+        Me.lblCurrency.Text = "Currency"
+        '
+        'lblConvRate
+        '
+        Me.lblConvRate.FieldName = Nothing
+        Me.lblConvRate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblConvRate.Location = New System.Drawing.Point(218, 5)
+        Me.lblConvRate.Name = "lblConvRate"
+        Me.lblConvRate.Size = New System.Drawing.Size(91, 16)
+        Me.lblConvRate.TabIndex = 1
+        Me.lblConvRate.Text = "Conversion Rate"
+        '
+        'tdslbl
+        '
+        Me.tdslbl.FieldName = Nothing
+        Me.tdslbl.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.tdslbl.Location = New System.Drawing.Point(5, 170)
+        Me.tdslbl.Name = "tdslbl"
+        Me.tdslbl.Size = New System.Drawing.Size(97, 16)
+        Me.tdslbl.TabIndex = 616
+        Me.tdslbl.Text = "TDS Recover Amt"
+        '
+        'chkDCS
+        '
+        Me.chkDCS.Location = New System.Drawing.Point(751, 7)
+        Me.chkDCS.Name = "chkDCS"
+        Me.chkDCS.Size = New System.Drawing.Size(41, 18)
+        Me.chkDCS.TabIndex = 12132
+        Me.chkDCS.Text = "DCS"
         '
         'MyLabel39
         '
         Me.MyLabel39.FieldName = Nothing
         Me.MyLabel39.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel39.Location = New System.Drawing.Point(576, 141)
+        Me.MyLabel39.Location = New System.Drawing.Point(576, 133)
         Me.MyLabel39.Name = "MyLabel39"
         Me.MyLabel39.Size = New System.Drawing.Size(40, 16)
         Me.MyLabel39.TabIndex = 12130
@@ -696,7 +1013,7 @@ Partial Class FrmReceipttNew
         Me.txtLoadIn.IsSourceFromTable = False
         Me.txtLoadIn.IsSourceFromValueList = False
         Me.txtLoadIn.IsUnique = False
-        Me.txtLoadIn.Location = New System.Drawing.Point(641, 140)
+        Me.txtLoadIn.Location = New System.Drawing.Point(641, 131)
         Me.txtLoadIn.MendatroryField = True
         Me.txtLoadIn.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtLoadIn.MyLinkLable1 = Me.lblcustomer
@@ -856,7 +1173,7 @@ Partial Class FrmReceipttNew
         Me.pnlbankbranch.Controls.Add(Me.txtReceivedFrom)
         Me.pnlbankbranch.Controls.Add(Me.MyLabel19)
         Me.pnlbankbranch.Controls.Add(Me.txtBranch)
-        Me.pnlbankbranch.Location = New System.Drawing.Point(5, 116)
+        Me.pnlbankbranch.Location = New System.Drawing.Point(5, 109)
         Me.pnlbankbranch.Name = "pnlbankbranch"
         Me.pnlbankbranch.Size = New System.Drawing.Size(569, 22)
         Me.pnlbankbranch.TabIndex = 23
@@ -899,7 +1216,7 @@ Partial Class FrmReceipttNew
         '
         Me.lblchkNo.FieldName = Nothing
         Me.lblchkNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblchkNo.Location = New System.Drawing.Point(216, 1)
+        Me.lblchkNo.Location = New System.Drawing.Point(157, 2)
         Me.lblchkNo.Name = "lblchkNo"
         Me.lblchkNo.Size = New System.Drawing.Size(67, 16)
         Me.lblchkNo.TabIndex = 2
@@ -1029,7 +1346,7 @@ Partial Class FrmReceipttNew
         Me.txtDistr_Code.IsSourceFromTable = False
         Me.txtDistr_Code.IsSourceFromValueList = False
         Me.txtDistr_Code.IsUnique = False
-        Me.txtDistr_Code.Location = New System.Drawing.Point(578, 72)
+        Me.txtDistr_Code.Location = New System.Drawing.Point(578, 65)
         Me.txtDistr_Code.MendatroryField = False
         Me.txtDistr_Code.MyLinkLable1 = Me.lblcustomer
         Me.txtDistr_Code.MyLinkLable2 = Nothing
@@ -1147,7 +1464,7 @@ Partial Class FrmReceipttNew
         '
         Me.LblBookingNo.FieldName = Nothing
         Me.LblBookingNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.LblBookingNo.Location = New System.Drawing.Point(273, 183)
+        Me.LblBookingNo.Location = New System.Drawing.Point(273, 169)
         Me.LblBookingNo.Name = "LblBookingNo"
         Me.LblBookingNo.Size = New System.Drawing.Size(65, 16)
         Me.LblBookingNo.TabIndex = 12118
@@ -1164,7 +1481,7 @@ Partial Class FrmReceipttNew
         Me.fndBookingNo.IsSourceFromTable = False
         Me.fndBookingNo.IsSourceFromValueList = False
         Me.fndBookingNo.IsUnique = False
-        Me.fndBookingNo.Location = New System.Drawing.Point(366, 183)
+        Me.fndBookingNo.Location = New System.Drawing.Point(366, 170)
         Me.fndBookingNo.MendatroryField = False
         Me.fndBookingNo.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndBookingNo.MyLinkLable1 = Me.LblBookingNo
@@ -1190,7 +1507,7 @@ Partial Class FrmReceipttNew
         Me.txtlocation.IsSourceFromTable = False
         Me.txtlocation.IsSourceFromValueList = False
         Me.txtlocation.IsUnique = False
-        Me.txtlocation.Location = New System.Drawing.Point(641, 118)
+        Me.txtlocation.Location = New System.Drawing.Point(641, 111)
         Me.txtlocation.MendatroryField = True
         Me.txtlocation.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtlocation.MyLinkLable1 = Nothing
@@ -1207,7 +1524,7 @@ Partial Class FrmReceipttNew
         '
         'RadLabel18
         '
-        Me.RadLabel18.Location = New System.Drawing.Point(576, 117)
+        Me.RadLabel18.Location = New System.Drawing.Point(576, 112)
         Me.RadLabel18.Name = "RadLabel18"
         Me.RadLabel18.Size = New System.Drawing.Size(49, 18)
         Me.RadLabel18.TabIndex = 612
@@ -1278,7 +1595,7 @@ Partial Class FrmReceipttNew
         '
         Me.lblSalesOrder.FieldName = Nothing
         Me.lblSalesOrder.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSalesOrder.Location = New System.Drawing.Point(7, 184)
+        Me.lblSalesOrder.Location = New System.Drawing.Point(12, 188)
         Me.lblSalesOrder.Name = "lblSalesOrder"
         Me.lblSalesOrder.Size = New System.Drawing.Size(67, 16)
         Me.lblSalesOrder.TabIndex = 615
@@ -1295,7 +1612,7 @@ Partial Class FrmReceipttNew
         Me.FndSalesOrder.IsSourceFromTable = False
         Me.FndSalesOrder.IsSourceFromValueList = False
         Me.FndSalesOrder.IsUnique = False
-        Me.FndSalesOrder.Location = New System.Drawing.Point(115, 183)
+        Me.FndSalesOrder.Location = New System.Drawing.Point(114, 190)
         Me.FndSalesOrder.MendatroryField = True
         Me.FndSalesOrder.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FndSalesOrder.MyLinkLable1 = Me.lblcustomer
@@ -1306,7 +1623,7 @@ Partial Class FrmReceipttNew
         Me.FndSalesOrder.ReferenceFieldDesc = Nothing
         Me.FndSalesOrder.ReferenceFieldName = Nothing
         Me.FndSalesOrder.ReferenceTableName = Nothing
-        Me.FndSalesOrder.Size = New System.Drawing.Size(154, 19)
+        Me.FndSalesOrder.Size = New System.Drawing.Size(152, 16)
         Me.FndSalesOrder.TabIndex = 39
         Me.FndSalesOrder.Value = ""
         '
@@ -1364,7 +1681,7 @@ Partial Class FrmReceipttNew
         '
         Me.lblDocumentNo.FieldName = Nothing
         Me.lblDocumentNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblDocumentNo.Location = New System.Drawing.Point(666, 76)
+        Me.lblDocumentNo.Location = New System.Drawing.Point(671, 76)
         Me.lblDocumentNo.Name = "lblDocumentNo"
         Me.lblDocumentNo.Size = New System.Drawing.Size(75, 16)
         Me.lblDocumentNo.TabIndex = 18
@@ -1396,15 +1713,6 @@ Partial Class FrmReceipttNew
         Me.txtDocumentNo.TabIndex = 19
         Me.txtDocumentNo.Value = ""
         '
-        'chkCheckPrint
-        '
-        Me.chkCheckPrint.CheckAlignment = System.Drawing.ContentAlignment.MiddleRight
-        Me.chkCheckPrint.Location = New System.Drawing.Point(707, 97)
-        Me.chkCheckPrint.Name = "chkCheckPrint"
-        Me.chkCheckPrint.Size = New System.Drawing.Size(77, 18)
-        Me.chkCheckPrint.TabIndex = 23
-        Me.chkCheckPrint.Text = "Check Print"
-        '
         'txtBTNo
         '
         Me.txtBTNo.CalculationExpression = Nothing
@@ -1434,7 +1742,7 @@ Partial Class FrmReceipttNew
         '
         Me.RadLabel1.FieldName = Nothing
         Me.RadLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel1.Location = New System.Drawing.Point(8, 29)
+        Me.RadLabel1.Location = New System.Drawing.Point(8, 25)
         Me.RadLabel1.Name = "RadLabel1"
         Me.RadLabel1.Size = New System.Drawing.Size(63, 16)
         Me.RadLabel1.TabIndex = 13
@@ -1487,7 +1795,7 @@ Partial Class FrmReceipttNew
         '
         'chkParentCust
         '
-        Me.chkParentCust.Location = New System.Drawing.Point(435, 51)
+        Me.chkParentCust.Location = New System.Drawing.Point(435, 44)
         Me.chkParentCust.Name = "chkParentCust"
         Me.chkParentCust.Size = New System.Drawing.Size(104, 18)
         Me.chkParentCust.TabIndex = 14
@@ -1548,282 +1856,16 @@ Partial Class FrmReceipttNew
         Me.txtCFormInvNo.TabIndex = 0
         Me.txtCFormInvNo.Value = ""
         '
-        'pnlCurrConv
-        '
-        Me.pnlCurrConv.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.pnlCurrConv.Controls.Add(Me.TxtForeignBankCharges)
-        Me.pnlCurrConv.Controls.Add(Me.MyLabel25)
-        Me.pnlCurrConv.Controls.Add(Me.TxtBankCharges)
-        Me.pnlCurrConv.Controls.Add(Me.MyLabel24)
-        Me.pnlCurrConv.Controls.Add(Me.txtTotalPaymentBaseCurr)
-        Me.pnlCurrConv.Controls.Add(Me.lblTotalReceived)
-        Me.pnlCurrConv.Controls.Add(Me.txtBaseCurrency)
-        Me.pnlCurrConv.Controls.Add(Me.MyLabel20)
-        Me.pnlCurrConv.Controls.Add(Me.txtConversionRate)
-        Me.pnlCurrConv.Controls.Add(Me.txtCurrencyCode)
-        Me.pnlCurrConv.Controls.Add(Me.lblEffectiveFrom)
-        Me.pnlCurrConv.Controls.Add(Me.txtApplicableFrom)
-        Me.pnlCurrConv.Controls.Add(Me.lblCurrency)
-        Me.pnlCurrConv.Controls.Add(Me.lblConvRate)
-        Me.pnlCurrConv.Location = New System.Drawing.Point(8, 205)
-        Me.pnlCurrConv.Name = "pnlCurrConv"
-        Me.pnlCurrConv.Size = New System.Drawing.Size(987, 51)
-        Me.pnlCurrConv.TabIndex = 38
-        '
-        'TxtForeignBankCharges
-        '
-        Me.TxtForeignBankCharges.BackColor = System.Drawing.Color.White
-        Me.TxtForeignBankCharges.CalculationExpression = Nothing
-        Me.TxtForeignBankCharges.DecimalPlaces = 2
-        Me.TxtForeignBankCharges.FieldCode = Nothing
-        Me.TxtForeignBankCharges.FieldDesc = Nothing
-        Me.TxtForeignBankCharges.FieldMaxLength = 0
-        Me.TxtForeignBankCharges.FieldName = Nothing
-        Me.TxtForeignBankCharges.isCalculatedField = False
-        Me.TxtForeignBankCharges.IsSourceFromTable = False
-        Me.TxtForeignBankCharges.IsSourceFromValueList = False
-        Me.TxtForeignBankCharges.IsUnique = False
-        Me.TxtForeignBankCharges.Location = New System.Drawing.Point(635, 1)
-        Me.TxtForeignBankCharges.MendatroryField = False
-        Me.TxtForeignBankCharges.MyLinkLable1 = Nothing
-        Me.TxtForeignBankCharges.MyLinkLable2 = Nothing
-        Me.TxtForeignBankCharges.Name = "TxtForeignBankCharges"
-        Me.TxtForeignBankCharges.ReferenceFieldDesc = Nothing
-        Me.TxtForeignBankCharges.ReferenceFieldName = Nothing
-        Me.TxtForeignBankCharges.ReferenceTableName = Nothing
-        Me.TxtForeignBankCharges.Size = New System.Drawing.Size(94, 20)
-        Me.TxtForeignBankCharges.TabIndex = 614
-        Me.TxtForeignBankCharges.Text = "0"
-        Me.TxtForeignBankCharges.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtForeignBankCharges.Value = 0R
-        '
-        'MyLabel25
-        '
-        Me.MyLabel25.FieldName = Nothing
-        Me.MyLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel25.Location = New System.Drawing.Point(512, 4)
-        Me.MyLabel25.Name = "MyLabel25"
-        Me.MyLabel25.Size = New System.Drawing.Size(120, 16)
-        Me.MyLabel25.TabIndex = 613
-        Me.MyLabel25.Text = "Foreign Bank Charges"
-        '
-        'TxtBankCharges
-        '
-        Me.TxtBankCharges.BackColor = System.Drawing.Color.White
-        Me.TxtBankCharges.CalculationExpression = Nothing
-        Me.TxtBankCharges.DecimalPlaces = 2
-        Me.TxtBankCharges.FieldCode = Nothing
-        Me.TxtBankCharges.FieldDesc = Nothing
-        Me.TxtBankCharges.FieldMaxLength = 0
-        Me.TxtBankCharges.FieldName = Nothing
-        Me.TxtBankCharges.isCalculatedField = False
-        Me.TxtBankCharges.IsSourceFromTable = False
-        Me.TxtBankCharges.IsSourceFromValueList = False
-        Me.TxtBankCharges.IsUnique = False
-        Me.TxtBankCharges.Location = New System.Drawing.Point(635, 23)
-        Me.TxtBankCharges.MendatroryField = False
-        Me.TxtBankCharges.MyLinkLable1 = Nothing
-        Me.TxtBankCharges.MyLinkLable2 = Nothing
-        Me.TxtBankCharges.Name = "TxtBankCharges"
-        Me.TxtBankCharges.ReferenceFieldDesc = Nothing
-        Me.TxtBankCharges.ReferenceFieldName = Nothing
-        Me.TxtBankCharges.ReferenceTableName = Nothing
-        Me.TxtBankCharges.Size = New System.Drawing.Size(94, 20)
-        Me.TxtBankCharges.TabIndex = 612
-        Me.TxtBankCharges.Text = "0"
-        Me.TxtBankCharges.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.TxtBankCharges.Value = 0R
-        '
-        'MyLabel24
-        '
-        Me.MyLabel24.FieldName = Nothing
-        Me.MyLabel24.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel24.Location = New System.Drawing.Point(512, 26)
-        Me.MyLabel24.Name = "MyLabel24"
-        Me.MyLabel24.Size = New System.Drawing.Size(78, 16)
-        Me.MyLabel24.TabIndex = 611
-        Me.MyLabel24.Text = "Bank Charges"
-        '
-        'txtTotalPaymentBaseCurr
-        '
-        Me.txtTotalPaymentBaseCurr.BackColor = System.Drawing.Color.White
-        Me.txtTotalPaymentBaseCurr.CalculationExpression = Nothing
-        Me.txtTotalPaymentBaseCurr.DecimalPlaces = 2
-        Me.txtTotalPaymentBaseCurr.FieldCode = Nothing
-        Me.txtTotalPaymentBaseCurr.FieldDesc = Nothing
-        Me.txtTotalPaymentBaseCurr.FieldMaxLength = 0
-        Me.txtTotalPaymentBaseCurr.FieldName = Nothing
-        Me.txtTotalPaymentBaseCurr.isCalculatedField = False
-        Me.txtTotalPaymentBaseCurr.IsSourceFromTable = False
-        Me.txtTotalPaymentBaseCurr.IsSourceFromValueList = False
-        Me.txtTotalPaymentBaseCurr.IsUnique = False
-        Me.txtTotalPaymentBaseCurr.Location = New System.Drawing.Point(344, 24)
-        Me.txtTotalPaymentBaseCurr.MendatroryField = False
-        Me.txtTotalPaymentBaseCurr.MyLinkLable1 = Nothing
-        Me.txtTotalPaymentBaseCurr.MyLinkLable2 = Nothing
-        Me.txtTotalPaymentBaseCurr.Name = "txtTotalPaymentBaseCurr"
-        Me.txtTotalPaymentBaseCurr.ReferenceFieldDesc = Nothing
-        Me.txtTotalPaymentBaseCurr.ReferenceFieldName = Nothing
-        Me.txtTotalPaymentBaseCurr.ReferenceTableName = Nothing
-        Me.txtTotalPaymentBaseCurr.Size = New System.Drawing.Size(159, 20)
-        Me.txtTotalPaymentBaseCurr.TabIndex = 7
-        Me.txtTotalPaymentBaseCurr.Text = "0"
-        Me.txtTotalPaymentBaseCurr.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtTotalPaymentBaseCurr.Value = 0R
-        '
-        'lblTotalReceived
-        '
-        Me.lblTotalReceived.FieldName = Nothing
-        Me.lblTotalReceived.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblTotalReceived.Location = New System.Drawing.Point(243, 26)
-        Me.lblTotalReceived.Name = "lblTotalReceived"
-        Me.lblTotalReceived.Size = New System.Drawing.Size(82, 16)
-        Me.lblTotalReceived.TabIndex = 6
-        Me.lblTotalReceived.Text = "Total Received"
-        '
-        'txtBaseCurrency
-        '
-        Me.txtBaseCurrency.CalculationExpression = Nothing
-        Me.txtBaseCurrency.Enabled = False
-        Me.txtBaseCurrency.FieldCode = Nothing
-        Me.txtBaseCurrency.FieldDesc = Nothing
-        Me.txtBaseCurrency.FieldMaxLength = 0
-        Me.txtBaseCurrency.FieldName = Nothing
-        Me.txtBaseCurrency.isCalculatedField = False
-        Me.txtBaseCurrency.IsSourceFromTable = False
-        Me.txtBaseCurrency.IsSourceFromValueList = False
-        Me.txtBaseCurrency.IsUnique = False
-        Me.txtBaseCurrency.Location = New System.Drawing.Point(107, 23)
-        Me.txtBaseCurrency.MendatroryField = False
-        Me.txtBaseCurrency.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtBaseCurrency.MyLinkLable1 = Nothing
-        Me.txtBaseCurrency.MyLinkLable2 = Nothing
-        Me.txtBaseCurrency.MyReadOnly = False
-        Me.txtBaseCurrency.MyShowMasterFormButton = False
-        Me.txtBaseCurrency.Name = "txtBaseCurrency"
-        Me.txtBaseCurrency.ReferenceFieldDesc = Nothing
-        Me.txtBaseCurrency.ReferenceFieldName = Nothing
-        Me.txtBaseCurrency.ReferenceTableName = Nothing
-        Me.txtBaseCurrency.Size = New System.Drawing.Size(130, 22)
-        Me.txtBaseCurrency.TabIndex = 5
-        Me.txtBaseCurrency.Value = ""
-        '
-        'MyLabel20
-        '
-        Me.MyLabel20.FieldName = Nothing
-        Me.MyLabel20.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel20.Location = New System.Drawing.Point(3, 26)
-        Me.MyLabel20.Name = "MyLabel20"
-        Me.MyLabel20.Size = New System.Drawing.Size(78, 16)
-        Me.MyLabel20.TabIndex = 610
-        Me.MyLabel20.Text = "BaseCurrency"
-        '
-        'txtConversionRate
-        '
-        Me.txtConversionRate.BackColor = System.Drawing.Color.White
-        Me.txtConversionRate.CalculationExpression = Nothing
-        Me.txtConversionRate.DecimalPlaces = 4
-        Me.txtConversionRate.FieldCode = Nothing
-        Me.txtConversionRate.FieldDesc = Nothing
-        Me.txtConversionRate.FieldMaxLength = 0
-        Me.txtConversionRate.FieldName = Nothing
-        Me.txtConversionRate.isCalculatedField = False
-        Me.txtConversionRate.IsSourceFromTable = False
-        Me.txtConversionRate.IsSourceFromValueList = False
-        Me.txtConversionRate.IsUnique = False
-        Me.txtConversionRate.Location = New System.Drawing.Point(344, 1)
-        Me.txtConversionRate.MendatroryField = False
-        Me.txtConversionRate.MyLinkLable1 = Nothing
-        Me.txtConversionRate.MyLinkLable2 = Nothing
-        Me.txtConversionRate.Name = "txtConversionRate"
-        Me.txtConversionRate.ReferenceFieldDesc = Nothing
-        Me.txtConversionRate.ReferenceFieldName = Nothing
-        Me.txtConversionRate.ReferenceTableName = Nothing
-        Me.txtConversionRate.Size = New System.Drawing.Size(160, 20)
-        Me.txtConversionRate.TabIndex = 2
-        Me.txtConversionRate.Text = "1"
-        Me.txtConversionRate.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
-        Me.txtConversionRate.Value = 1.0R
-        '
-        'txtCurrencyCode
-        '
-        Me.txtCurrencyCode.CalculationExpression = Nothing
-        Me.txtCurrencyCode.Enabled = False
-        Me.txtCurrencyCode.FieldCode = Nothing
-        Me.txtCurrencyCode.FieldDesc = Nothing
-        Me.txtCurrencyCode.FieldMaxLength = 0
-        Me.txtCurrencyCode.FieldName = Nothing
-        Me.txtCurrencyCode.isCalculatedField = False
-        Me.txtCurrencyCode.IsSourceFromTable = False
-        Me.txtCurrencyCode.IsSourceFromValueList = False
-        Me.txtCurrencyCode.IsUnique = False
-        Me.txtCurrencyCode.Location = New System.Drawing.Point(107, 2)
-        Me.txtCurrencyCode.MendatroryField = False
-        Me.txtCurrencyCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCurrencyCode.MyLinkLable1 = Nothing
-        Me.txtCurrencyCode.MyLinkLable2 = Nothing
-        Me.txtCurrencyCode.MyReadOnly = False
-        Me.txtCurrencyCode.MyShowMasterFormButton = False
-        Me.txtCurrencyCode.Name = "txtCurrencyCode"
-        Me.txtCurrencyCode.ReferenceFieldDesc = Nothing
-        Me.txtCurrencyCode.ReferenceFieldName = Nothing
-        Me.txtCurrencyCode.ReferenceTableName = Nothing
-        Me.txtCurrencyCode.Size = New System.Drawing.Size(130, 18)
-        Me.txtCurrencyCode.TabIndex = 0
-        Me.txtCurrencyCode.TabStop = False
-        Me.txtCurrencyCode.Value = ""
-        '
-        'lblEffectiveFrom
-        '
-        Me.lblEffectiveFrom.FieldName = Nothing
-        Me.lblEffectiveFrom.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblEffectiveFrom.Location = New System.Drawing.Point(732, 1)
-        Me.lblEffectiveFrom.Name = "lblEffectiveFrom"
-        Me.lblEffectiveFrom.Size = New System.Drawing.Size(88, 16)
-        Me.lblEffectiveFrom.TabIndex = 3
-        Me.lblEffectiveFrom.Text = "Applicable From"
-        '
-        'txtApplicableFrom
-        '
-        Me.txtApplicableFrom.AutoSize = False
-        Me.txtApplicableFrom.BorderVisible = True
-        Me.txtApplicableFrom.FieldName = Nothing
-        Me.txtApplicableFrom.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtApplicableFrom.Location = New System.Drawing.Point(826, -1)
-        Me.txtApplicableFrom.Name = "txtApplicableFrom"
-        Me.txtApplicableFrom.Size = New System.Drawing.Size(152, 18)
-        Me.txtApplicableFrom.TabIndex = 4
-        Me.txtApplicableFrom.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
-        '
-        'lblCurrency
-        '
-        Me.lblCurrency.FieldName = Nothing
-        Me.lblCurrency.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblCurrency.Location = New System.Drawing.Point(3, 4)
-        Me.lblCurrency.Name = "lblCurrency"
-        Me.lblCurrency.Size = New System.Drawing.Size(52, 16)
-        Me.lblCurrency.TabIndex = 137
-        Me.lblCurrency.Text = "Currency"
-        '
-        'lblConvRate
-        '
-        Me.lblConvRate.FieldName = Nothing
-        Me.lblConvRate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblConvRate.Location = New System.Drawing.Point(243, 4)
-        Me.lblConvRate.Name = "lblConvRate"
-        Me.lblConvRate.Size = New System.Drawing.Size(91, 16)
-        Me.lblConvRate.TabIndex = 1
-        Me.lblConvRate.Text = "Conversion Rate"
-        '
         'pnlCheque
         '
         Me.pnlCheque.Controls.Add(Me.txtChkNo)
         Me.pnlCheque.Controls.Add(Me.lblchkNo)
         Me.pnlCheque.Controls.Add(Me.dtCheque)
         Me.pnlCheque.Controls.Add(Me.lblChkDate)
-        Me.pnlCheque.Location = New System.Drawing.Point(271, 94)
+        Me.pnlCheque.Controls.Add(Me.chkCheckPrint)
+        Me.pnlCheque.Location = New System.Drawing.Point(271, 85)
         Me.pnlCheque.Name = "pnlCheque"
-        Me.pnlCheque.Size = New System.Drawing.Size(524, 22)
+        Me.pnlCheque.Size = New System.Drawing.Size(398, 22)
         Me.pnlCheque.TabIndex = 22
         '
         'txtChkNo
@@ -1838,7 +1880,7 @@ Partial Class FrmReceipttNew
         Me.txtChkNo.IsSourceFromTable = False
         Me.txtChkNo.IsSourceFromValueList = False
         Me.txtChkNo.IsUnique = False
-        Me.txtChkNo.Location = New System.Drawing.Point(286, 2)
+        Me.txtChkNo.Location = New System.Drawing.Point(227, 2)
         Me.txtChkNo.MaxLength = 6
         Me.txtChkNo.MendatroryField = False
         Me.txtChkNo.MyLinkLable1 = Me.lblchkNo
@@ -1847,7 +1889,7 @@ Partial Class FrmReceipttNew
         Me.txtChkNo.ReferenceFieldDesc = Nothing
         Me.txtChkNo.ReferenceFieldName = Nothing
         Me.txtChkNo.ReferenceTableName = Nothing
-        Me.txtChkNo.Size = New System.Drawing.Size(147, 18)
+        Me.txtChkNo.Size = New System.Drawing.Size(101, 18)
         Me.txtChkNo.TabIndex = 3
         '
         'dtCheque
@@ -1863,7 +1905,7 @@ Partial Class FrmReceipttNew
         Me.dtCheque.IsSourceFromTable = False
         Me.dtCheque.IsSourceFromValueList = False
         Me.dtCheque.IsUnique = False
-        Me.dtCheque.Location = New System.Drawing.Point(84, 1)
+        Me.dtCheque.Location = New System.Drawing.Point(77, 1)
         Me.dtCheque.MendatroryField = False
         Me.dtCheque.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtCheque.MyLinkLable1 = Me.lblChkDate
@@ -1873,7 +1915,7 @@ Partial Class FrmReceipttNew
         Me.dtCheque.ReferenceFieldDesc = Nothing
         Me.dtCheque.ReferenceFieldName = Nothing
         Me.dtCheque.ReferenceTableName = Nothing
-        Me.dtCheque.Size = New System.Drawing.Size(132, 20)
+        Me.dtCheque.Size = New System.Drawing.Size(77, 20)
         Me.dtCheque.TabIndex = 1
         Me.dtCheque.TabStop = False
         Me.dtCheque.Text = "10/06/2011"
@@ -1883,11 +1925,20 @@ Partial Class FrmReceipttNew
         '
         Me.lblChkDate.FieldName = Nothing
         Me.lblChkDate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblChkDate.Location = New System.Drawing.Point(6, 4)
+        Me.lblChkDate.Location = New System.Drawing.Point(2, 4)
         Me.lblChkDate.Name = "lblChkDate"
         Me.lblChkDate.Size = New System.Drawing.Size(73, 16)
         Me.lblChkDate.TabIndex = 0
         Me.lblChkDate.Text = "Cheque Date"
+        '
+        'chkCheckPrint
+        '
+        Me.chkCheckPrint.CheckAlignment = System.Drawing.ContentAlignment.MiddleRight
+        Me.chkCheckPrint.Location = New System.Drawing.Point(330, 2)
+        Me.chkCheckPrint.Name = "chkCheckPrint"
+        Me.chkCheckPrint.Size = New System.Drawing.Size(66, 18)
+        Me.chkCheckPrint.TabIndex = 23
+        Me.chkCheckPrint.Text = "Chk Print"
         '
         'lblLoadOutNo
         '
@@ -1931,7 +1982,7 @@ Partial Class FrmReceipttNew
         '
         Me.lblSalesman.FieldName = Nothing
         Me.lblSalesman.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblSalesman.Location = New System.Drawing.Point(7, 73)
+        Me.lblSalesman.Location = New System.Drawing.Point(7, 67)
         Me.lblSalesman.Name = "lblSalesman"
         Me.lblSalesman.Size = New System.Drawing.Size(87, 16)
         Me.lblSalesman.TabIndex = 22
@@ -1939,37 +1990,11 @@ Partial Class FrmReceipttNew
         '
         'chkSalesmanType
         '
-        Me.chkSalesmanType.Location = New System.Drawing.Point(543, 51)
+        Me.chkSalesmanType.Location = New System.Drawing.Point(543, 44)
         Me.chkSalesmanType.Name = "chkSalesmanType"
         Me.chkSalesmanType.Size = New System.Drawing.Size(118, 18)
         Me.chkSalesmanType.TabIndex = 15
         Me.chkSalesmanType.Text = "Salesman Type-Y/N"
-        '
-        'txtsalesmanCode
-        '
-        Me.txtsalesmanCode.CalculationExpression = Nothing
-        Me.txtsalesmanCode.FieldCode = Nothing
-        Me.txtsalesmanCode.FieldDesc = Nothing
-        Me.txtsalesmanCode.FieldMaxLength = 0
-        Me.txtsalesmanCode.FieldName = Nothing
-        Me.txtsalesmanCode.isCalculatedField = False
-        Me.txtsalesmanCode.IsSourceFromTable = False
-        Me.txtsalesmanCode.IsSourceFromValueList = False
-        Me.txtsalesmanCode.IsUnique = False
-        Me.txtsalesmanCode.Location = New System.Drawing.Point(115, 72)
-        Me.txtsalesmanCode.MendatroryField = True
-        Me.txtsalesmanCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtsalesmanCode.MyLinkLable1 = Me.lblcustomer
-        Me.txtsalesmanCode.MyLinkLable2 = Nothing
-        Me.txtsalesmanCode.MyReadOnly = False
-        Me.txtsalesmanCode.MyShowMasterFormButton = True
-        Me.txtsalesmanCode.Name = "txtsalesmanCode"
-        Me.txtsalesmanCode.ReferenceFieldDesc = Nothing
-        Me.txtsalesmanCode.ReferenceFieldName = Nothing
-        Me.txtsalesmanCode.ReferenceTableName = Nothing
-        Me.txtsalesmanCode.Size = New System.Drawing.Size(154, 19)
-        Me.txtsalesmanCode.TabIndex = 16
-        Me.txtsalesmanCode.Value = ""
         '
         'txtUnAppliedBal
         '
@@ -1983,7 +2008,7 @@ Partial Class FrmReceipttNew
         Me.txtUnAppliedBal.IsSourceFromTable = False
         Me.txtUnAppliedBal.IsSourceFromValueList = False
         Me.txtUnAppliedBal.IsUnique = False
-        Me.txtUnAppliedBal.Location = New System.Drawing.Point(115, 162)
+        Me.txtUnAppliedBal.Location = New System.Drawing.Point(115, 150)
         Me.txtUnAppliedBal.MendatroryField = False
         Me.txtUnAppliedBal.MyLinkLable1 = Me.lblUnAppliedBal
         Me.txtUnAppliedBal.MyLinkLable2 = Nothing
@@ -2002,7 +2027,7 @@ Partial Class FrmReceipttNew
         '
         Me.lblUnAppliedBal.FieldName = Nothing
         Me.lblUnAppliedBal.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblUnAppliedBal.Location = New System.Drawing.Point(8, 163)
+        Me.lblUnAppliedBal.Location = New System.Drawing.Point(8, 151)
         Me.lblUnAppliedBal.Name = "lblUnAppliedBal"
         Me.lblUnAppliedBal.Size = New System.Drawing.Size(101, 16)
         Me.lblUnAppliedBal.TabIndex = 20
@@ -2020,7 +2045,7 @@ Partial Class FrmReceipttNew
         Me.txtUnApplieadNo.IsSourceFromTable = False
         Me.txtUnApplieadNo.IsSourceFromValueList = False
         Me.txtUnApplieadNo.IsUnique = False
-        Me.txtUnApplieadNo.Location = New System.Drawing.Point(366, 161)
+        Me.txtUnApplieadNo.Location = New System.Drawing.Point(366, 151)
         Me.txtUnApplieadNo.MendatroryField = False
         Me.txtUnApplieadNo.MyLinkLable1 = Me.lblUnAppliedNo
         Me.txtUnApplieadNo.MyLinkLable2 = Nothing
@@ -2037,7 +2062,7 @@ Partial Class FrmReceipttNew
         '
         Me.lblUnAppliedNo.FieldName = Nothing
         Me.lblUnAppliedNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblUnAppliedNo.Location = New System.Drawing.Point(273, 162)
+        Me.lblUnAppliedNo.Location = New System.Drawing.Point(273, 151)
         Me.lblUnAppliedNo.Name = "lblUnAppliedNo"
         Me.lblUnAppliedNo.Size = New System.Drawing.Size(76, 16)
         Me.lblUnAppliedNo.TabIndex = 33
@@ -2093,7 +2118,7 @@ Partial Class FrmReceipttNew
         Me.fndPayType.IsSourceFromTable = False
         Me.fndPayType.IsSourceFromValueList = False
         Me.fndPayType.IsUnique = False
-        Me.fndPayType.Location = New System.Drawing.Point(115, 94)
+        Me.fndPayType.Location = New System.Drawing.Point(115, 87)
         Me.fndPayType.MendatroryField = True
         Me.fndPayType.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndPayType.MyLinkLable1 = Me.RadLabel3
@@ -2112,7 +2137,7 @@ Partial Class FrmReceipttNew
         '
         Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel3.Location = New System.Drawing.Point(8, 95)
+        Me.RadLabel3.Location = New System.Drawing.Point(8, 88)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(82, 16)
         Me.RadLabel3.TabIndex = 22
@@ -2129,7 +2154,7 @@ Partial Class FrmReceipttNew
         Me.fndCustomer.IsSourceFromTable = False
         Me.fndCustomer.IsSourceFromValueList = False
         Me.fndCustomer.IsUnique = False
-        Me.fndCustomer.Location = New System.Drawing.Point(115, 72)
+        Me.fndCustomer.Location = New System.Drawing.Point(115, 66)
         Me.fndCustomer.MendatroryField = True
         Me.fndCustomer.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndCustomer.MyLinkLable1 = Me.lblcustomer
@@ -2182,7 +2207,7 @@ Partial Class FrmReceipttNew
         Me.txtRcptAmt.IsSourceFromTable = False
         Me.txtRcptAmt.IsSourceFromValueList = False
         Me.txtRcptAmt.IsUnique = False
-        Me.txtRcptAmt.Location = New System.Drawing.Point(366, 140)
+        Me.txtRcptAmt.Location = New System.Drawing.Point(366, 132)
         Me.txtRcptAmt.MendatroryField = False
         Me.txtRcptAmt.MyLinkLable1 = Me.lblRcptAmt
         Me.txtRcptAmt.MyLinkLable2 = Nothing
@@ -2201,7 +2226,7 @@ Partial Class FrmReceipttNew
         '
         Me.lblRcptAmt.FieldName = Nothing
         Me.lblRcptAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblRcptAmt.Location = New System.Drawing.Point(273, 141)
+        Me.lblRcptAmt.Location = New System.Drawing.Point(273, 132)
         Me.lblRcptAmt.Name = "lblRcptAmt"
         Me.lblRcptAmt.Size = New System.Drawing.Size(86, 16)
         Me.lblRcptAmt.TabIndex = 28
@@ -2220,7 +2245,7 @@ Partial Class FrmReceipttNew
         Me.txtEntrDesc.IsSourceFromTable = False
         Me.txtEntrDesc.IsSourceFromValueList = False
         Me.txtEntrDesc.IsUnique = False
-        Me.txtEntrDesc.Location = New System.Drawing.Point(115, 28)
+        Me.txtEntrDesc.Location = New System.Drawing.Point(115, 25)
         Me.txtEntrDesc.MendatroryField = False
         Me.txtEntrDesc.MyLinkLable1 = Me.RadLabel1
         Me.txtEntrDesc.MyLinkLable2 = Nothing
@@ -2251,7 +2276,7 @@ Partial Class FrmReceipttNew
         '
         Me.lblpaymenttype.FieldName = Nothing
         Me.lblpaymenttype.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblpaymenttype.Location = New System.Drawing.Point(7, 51)
+        Me.lblpaymenttype.Location = New System.Drawing.Point(7, 44)
         Me.lblpaymenttype.Name = "lblpaymenttype"
         Me.lblpaymenttype.Size = New System.Drawing.Size(94, 16)
         Me.lblpaymenttype.TabIndex = 18
@@ -2261,7 +2286,7 @@ Partial Class FrmReceipttNew
         '
         Me.lblpaymentdate.FieldName = Nothing
         Me.lblpaymentdate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblpaymentdate.Location = New System.Drawing.Point(280, 53)
+        Me.lblpaymentdate.Location = New System.Drawing.Point(280, 46)
         Me.lblpaymentdate.Name = "lblpaymentdate"
         Me.lblpaymentdate.Size = New System.Drawing.Size(72, 16)
         Me.lblpaymentdate.TabIndex = 12
@@ -2280,7 +2305,7 @@ Partial Class FrmReceipttNew
         Me.dtRcpt.IsSourceFromTable = False
         Me.dtRcpt.IsSourceFromValueList = False
         Me.dtRcpt.IsUnique = False
-        Me.dtRcpt.Location = New System.Drawing.Point(353, 51)
+        Me.dtRcpt.Location = New System.Drawing.Point(353, 44)
         Me.dtRcpt.MendatroryField = False
         Me.dtRcpt.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.dtRcpt.MyLinkLable1 = Me.lblpaymentdate
@@ -2319,7 +2344,7 @@ Partial Class FrmReceipttNew
         Me.txtUnApplAmt.IsSourceFromTable = False
         Me.txtUnApplAmt.IsSourceFromValueList = False
         Me.txtUnApplAmt.IsUnique = False
-        Me.txtUnApplAmt.Location = New System.Drawing.Point(115, 140)
+        Me.txtUnApplAmt.Location = New System.Drawing.Point(115, 132)
         Me.txtUnApplAmt.MendatroryField = False
         Me.txtUnApplAmt.MyLinkLable1 = Me.lblUnApplyAmt
         Me.txtUnApplAmt.MyLinkLable2 = Nothing
@@ -2336,7 +2361,7 @@ Partial Class FrmReceipttNew
         '
         Me.lblUnApplyAmt.FieldName = Nothing
         Me.lblUnApplyAmt.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblUnApplyAmt.Location = New System.Drawing.Point(8, 141)
+        Me.lblUnApplyAmt.Location = New System.Drawing.Point(8, 133)
         Me.lblUnApplyAmt.Name = "lblUnApplyAmt"
         Me.lblUnApplyAmt.Size = New System.Drawing.Size(87, 16)
         Me.lblUnApplyAmt.TabIndex = 29
@@ -2388,7 +2413,7 @@ Partial Class FrmReceipttNew
         Me.ddlTransType.IsSourceFromTable = False
         Me.ddlTransType.IsSourceFromValueList = False
         Me.ddlTransType.IsUnique = False
-        Me.ddlTransType.Location = New System.Drawing.Point(115, 49)
+        Me.ddlTransType.Location = New System.Drawing.Point(115, 44)
         Me.ddlTransType.MendatroryField = False
         Me.ddlTransType.MyLinkLable1 = Me.lblnarration
         Me.ddlTransType.MyLinkLable2 = Nothing
@@ -2431,7 +2456,7 @@ Partial Class FrmReceipttNew
         Me.txtCusName.IsSourceFromTable = False
         Me.txtCusName.IsSourceFromValueList = False
         Me.txtCusName.IsUnique = False
-        Me.txtCusName.Location = New System.Drawing.Point(271, 73)
+        Me.txtCusName.Location = New System.Drawing.Point(271, 66)
         Me.txtCusName.MendatroryField = False
         Me.txtCusName.MyLinkLable1 = Me.lblcustomer
         Me.txtCusName.MyLinkLable2 = Nothing
@@ -2549,12 +2574,13 @@ Partial Class FrmReceipttNew
         Me.dgvReceipt.MasterTemplate.EnableFiltering = True
         Me.dgvReceipt.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvReceipt.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition5
+        Me.dgvReceipt.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.dgvReceipt.MyStopExport = False
         Me.dgvReceipt.Name = "dgvReceipt"
         Me.dgvReceipt.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvReceipt.ShowGroupPanel = False
         Me.dgvReceipt.ShowHeaderCellButtons = True
-        Me.dgvReceipt.Size = New System.Drawing.Size(1212, 132)
+        Me.dgvReceipt.Size = New System.Drawing.Size(1212, 128)
         Me.dgvReceipt.TabIndex = 2
         Me.dgvReceipt.TabStop = False
         '
@@ -2574,26 +2600,35 @@ Partial Class FrmReceipttNew
         Me.dgvmiscpayment.MasterTemplate.EnableGrouping = False
         Me.dgvmiscpayment.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.dgvmiscpayment.MasterTemplate.ShowHeaderCellButtons = True
-        Me.dgvmiscpayment.MasterTemplate.ViewDefinition = TableViewDefinition6
+        Me.dgvmiscpayment.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.dgvmiscpayment.MyStopExport = False
         Me.dgvmiscpayment.Name = "dgvmiscpayment"
         Me.dgvmiscpayment.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.dgvmiscpayment.ShowHeaderCellButtons = True
-        Me.dgvmiscpayment.Size = New System.Drawing.Size(1212, 132)
+        Me.dgvmiscpayment.Size = New System.Drawing.Size(1212, 128)
         Me.dgvmiscpayment.TabIndex = 4
         '
         'pvpCustomFields
         '
         Me.pvpCustomFields.Controls.Add(Me.UcCustomFields1)
-        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(82.0!, 24.0!)
+        Me.pvpCustomFields.ItemSize = New System.Drawing.SizeF(86.0!, 28.0!)
         Me.pvpCustomFields.Location = New System.Drawing.Point(10, 37)
         Me.pvpCustomFields.Name = "pvpCustomFields"
         Me.pvpCustomFields.Size = New System.Drawing.Size(1212, 413)
         Me.pvpCustomFields.Text = "Custom Fields"
         '
+        'UcCustomFields1
+        '
+        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
+        Me.UcCustomFields1.Name = "UcCustomFields1"
+        Me.UcCustomFields1.Size = New System.Drawing.Size(1212, 413)
+        Me.UcCustomFields1.TabIndex = 1
+        '
         'Attachments
         '
         Me.Attachments.Controls.Add(Me.UcAttachment1)
-        Me.Attachments.ItemSize = New System.Drawing.SizeF(75.0!, 24.0!)
+        Me.Attachments.ItemSize = New System.Drawing.SizeF(79.0!, 28.0!)
         Me.Attachments.Location = New System.Drawing.Point(10, 37)
         Me.Attachments.Name = "Attachments"
         Me.Attachments.Size = New System.Drawing.Size(967, 415)
@@ -2610,7 +2645,7 @@ Partial Class FrmReceipttNew
         'TabForGST
         '
         Me.TabForGST.Controls.Add(Me.SplitContainer3)
-        Me.TabForGST.ItemSize = New System.Drawing.SizeF(32.0!, 24.0!)
+        Me.TabForGST.ItemSize = New System.Drawing.SizeF(36.0!, 28.0!)
         Me.TabForGST.Location = New System.Drawing.Point(10, 37)
         Me.TabForGST.Name = "TabForGST"
         Me.TabForGST.Size = New System.Drawing.Size(1004, 413)
@@ -2911,7 +2946,8 @@ Partial Class FrmReceipttNew
         Me.gvTaxDetail.MasterTemplate.AllowDeleteRow = False
         Me.gvTaxDetail.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvTaxDetail.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvTaxDetail.MasterTemplate.ViewDefinition = TableViewDefinition3
+        Me.gvTaxDetail.MyStopExport = False
         Me.gvTaxDetail.Name = "gvTaxDetail"
         Me.gvTaxDetail.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvTaxDetail.ShowHeaderCellButtons = True
@@ -2936,7 +2972,8 @@ Partial Class FrmReceipttNew
         Me.gvItem.MasterTemplate.AllowDeleteRow = False
         Me.gvItem.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gvItem.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition8
+        Me.gvItem.MasterTemplate.ViewDefinition = TableViewDefinition4
+        Me.gvItem.MyStopExport = False
         Me.gvItem.Name = "gvItem"
         Me.gvItem.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.gvItem.ShowHeaderCellButtons = True
@@ -3150,21 +3187,31 @@ Partial Class FrmReceipttNew
         Me.RadMenuItem2.Name = "RadMenuItem2"
         Me.RadMenuItem2.Text = "Import"
         '
-        'chkDCS
+        'txtsalesmanCode
         '
-        Me.chkDCS.Location = New System.Drawing.Point(751, 7)
-        Me.chkDCS.Name = "chkDCS"
-        Me.chkDCS.Size = New System.Drawing.Size(41, 18)
-        Me.chkDCS.TabIndex = 12132
-        Me.chkDCS.Text = "DCS"
-        '
-        'UcCustomFields1
-        '
-        Me.UcCustomFields1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.UcCustomFields1.Location = New System.Drawing.Point(0, 0)
-        Me.UcCustomFields1.Name = "UcCustomFields1"
-        Me.UcCustomFields1.Size = New System.Drawing.Size(1212, 413)
-        Me.UcCustomFields1.TabIndex = 1
+        Me.txtsalesmanCode.CalculationExpression = Nothing
+        Me.txtsalesmanCode.FieldCode = Nothing
+        Me.txtsalesmanCode.FieldDesc = Nothing
+        Me.txtsalesmanCode.FieldMaxLength = 0
+        Me.txtsalesmanCode.FieldName = Nothing
+        Me.txtsalesmanCode.isCalculatedField = False
+        Me.txtsalesmanCode.IsSourceFromTable = False
+        Me.txtsalesmanCode.IsSourceFromValueList = False
+        Me.txtsalesmanCode.IsUnique = False
+        Me.txtsalesmanCode.Location = New System.Drawing.Point(115, 66)
+        Me.txtsalesmanCode.MendatroryField = True
+        Me.txtsalesmanCode.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtsalesmanCode.MyLinkLable1 = Me.lblcustomer
+        Me.txtsalesmanCode.MyLinkLable2 = Nothing
+        Me.txtsalesmanCode.MyReadOnly = False
+        Me.txtsalesmanCode.MyShowMasterFormButton = True
+        Me.txtsalesmanCode.Name = "txtsalesmanCode"
+        Me.txtsalesmanCode.ReferenceFieldDesc = Nothing
+        Me.txtsalesmanCode.ReferenceFieldName = Nothing
+        Me.txtsalesmanCode.ReferenceTableName = Nothing
+        Me.txtsalesmanCode.Size = New System.Drawing.Size(154, 19)
+        Me.txtsalesmanCode.TabIndex = 12133
+        Me.txtsalesmanCode.Value = ""
         '
         'FrmReceipttNew
         '
@@ -3203,6 +3250,23 @@ Partial Class FrmReceipttNew
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.txtTDSAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.pnlCurrConv.ResumeLayout(False)
+        Me.pnlCurrConv.PerformLayout()
+        CType(Me.TxtForeignBankCharges, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtBankCharges, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTotalPaymentBaseCurr, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotalReceived, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtConversionRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblEffectiveFrom, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtApplicableFrom, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCurrency, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.tdslbl, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkForCardSale, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3247,7 +3311,6 @@ Partial Class FrmReceipttNew
         CType(Me.ddlSecDepositType, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblBalAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblDocumentNo, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkCheckPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtBTNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblbankcode, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3257,25 +3320,12 @@ Partial Class FrmReceipttNew
         Me.pnlCform.PerformLayout()
         CType(Me.chkCForm, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.pnlCurrConv.ResumeLayout(False)
-        Me.pnlCurrConv.PerformLayout()
-        CType(Me.TxtForeignBankCharges, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.TxtBankCharges, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtTotalPaymentBaseCurr, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblTotalReceived, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtConversionRate, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblEffectiveFrom, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtApplicableFrom, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblCurrency, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlCheque.ResumeLayout(False)
         Me.pnlCheque.PerformLayout()
         CType(Me.txtChkNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.dtCheque, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblChkDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkCheckPrint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblLoadOutNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkSalesmanType, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3357,17 +3407,14 @@ Partial Class FrmReceipttNew
         CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnprint, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.chkDCS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
     End Sub
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
-    Friend WithEvents lblSalesman As common.Controls.MyLabel
     Friend WithEvents chkSalesmanType As Telerik.WinControls.UI.RadCheckBox
     Friend WithEvents lblcustomer As common.Controls.MyLabel
-    Friend WithEvents txtsalesmanCode As common.UserControls.txtFinder
     Friend WithEvents txtUnAppliedBal As common.Controls.MyTextBox
     Friend WithEvents lblUnAppliedBal As common.Controls.MyLabel
     Friend WithEvents txtUnApplieadNo As common.Controls.MyTextBox
@@ -3381,7 +3428,6 @@ Partial Class FrmReceipttNew
     Friend WithEvents fndPayType As common.UserControls.txtFinder
     Friend WithEvents RadLabel3 As common.Controls.MyLabel
     Friend WithEvents lblbankcode As common.Controls.MyLabel
-    Friend WithEvents fndCustomer As common.UserControls.txtFinder
     Friend WithEvents fndBankCode As common.UserControls.txtFinder
     Friend WithEvents txtRcptAmt As common.Controls.MyTextBox
     Friend WithEvents lblRcptAmt As common.Controls.MyLabel
@@ -3542,5 +3588,10 @@ Partial Class FrmReceipttNew
     Friend WithEvents MyLabel39 As common.Controls.MyLabel
     Friend WithEvents txtLoadIn As common.UserControls.txtFinder
     Friend WithEvents chkDCS As RadCheckBox
+    Friend WithEvents tdslbl As common.Controls.MyLabel
+    Friend WithEvents txtTDSAmt As common.MyNumBox
+    Friend WithEvents lblSalesman As common.Controls.MyLabel
+    Friend WithEvents fndCustomer As common.UserControls.txtFinder
+    Friend WithEvents txtsalesmanCode As common.UserControls.txtFinder
 End Class
 

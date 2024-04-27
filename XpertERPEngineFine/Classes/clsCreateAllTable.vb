@@ -14360,6 +14360,7 @@ Public Class clsCreateAllTable
             coll.Add("Customer_Opening_Clearing_AC", "varchar(50)  NULL")
             coll.Add("Customer_Security_Opening_Clearing_AC", "varchar(50)  NULL")
             coll.Add("Rate_Difference", "varchar(50)  NULL")
+            coll.Add("TDS_Recoverable", "varchar(50)  NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_ACCOUNT_SET", coll, "", True)
 
             'Try
@@ -18362,6 +18363,7 @@ Public Class clsCreateAllTable
             coll.Add("isCardSale", "integer not null default 0")
             coll.Add("Against_RCDF_Loadin", "Varchar(30) null references TSPL_RCDF_LOAD_IN(Document_Code)")
             coll.Add("Online_Transaction_ID", "varchar(50) NULL")
+            coll.Add("TDS_Recoverable_Amt", "decimal (18,2) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_RECEIPT_HEADER", coll, Nothing, True, False, "", "Receipt_No", "Receipt_Date", True)
 
             coll = New Dictionary(Of String, String)()
@@ -54409,6 +54411,12 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Code", "varchar(30) NOT NULL REFERENCES TSPL_BULL_SHED_PARAMETER_MASTER(Code)")
             coll.Add("PCode", "varchar(30) NOT NULL REFERENCES TSPL_BULL_SHED_PARAMETER (Code)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_SHED_PARAMETER_Detail", coll)
+
+            Try
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_BULL_SHED_PARAMETER_Detail Add PRIMARY KEY (PK_Id)")
+            Catch ex As Exception
+                Throw New Exception(ex.Message)
+            End Try
 
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")

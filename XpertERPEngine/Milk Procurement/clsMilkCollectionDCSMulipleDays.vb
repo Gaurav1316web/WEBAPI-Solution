@@ -372,7 +372,9 @@ where 2=2"
             End If
             If arrShiftDetail IsNot Nothing AndAlso arrShiftDetail.Count > 0 Then
                 For Each objSD As clsTemp In arrShiftDetail
-                    clsMilkShiftUploaderHead.DeleteCollection(objSD.C_Date, " and SHIFT='" + objSD.c_Shift + "'", objSD.MCC_Code, True, trans)
+                    Dim arrMCC As New ArrayList
+                    arrMCC.Add(objSD.MCC_Code)
+                    clsMilkShiftUploaderHead.DeleteCollectionBulk(objSD.C_Date, objSD.C_Date, " and SHIFT='" + objSD.c_Shift + "'", arrMCC, True, trans)
                 Next
             End If
             If changeStatus Then

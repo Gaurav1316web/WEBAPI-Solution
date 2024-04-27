@@ -939,14 +939,21 @@ Public Class frmDemandBooking
                                     If clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value) > 0 Then
                                         If IsRepeatOrder = 1 Then
                                             If clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.ApplyDemandCustomerWise, clsFixedParameterCode.ApplyDemandCustomerWise, Nothing)) = 1 Then
-                                                If clsCommon.CompairString(objTr.Cust_Code, clsDBFuncationality.getSingleValue("Select Cust_Code from TSPL_CUSTOMER_MASTER where cust_code='" + clsCommon.myCstr(objTr.Cust_Code) + "' and IsReorder=1")) = CompairStringResult.Equal Then
+                                                If clsCommon.CompairString(objTr.Cust_Code, clsDBFuncationality.getSingleValue("Select Cust_Code from TSPL_CUSTOMER_MASTER where cust_code='" + clsCommon.myCstr(objTr.Cust_Code) + "' and IsReorder=1 and Status='N'")) = CompairStringResult.Equal Then
                                                     objTr.Qty = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                                Else
+                                                    objTr.Qty = 0
                                                 End If
                                             Else
                                                 objTr.Qty = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
                                             End If
                                         Else
-                                            objTr.Qty = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                            If clsCommon.CompairString(objTr.Cust_Code, clsDBFuncationality.getSingleValue("Select Cust_Code from TSPL_CUSTOMER_MASTER where cust_code='" + clsCommon.myCstr(objTr.Cust_Code) + "' and Status='N'")) = CompairStringResult.Equal Then
+                                                objTr.Qty = clsCommon.myCdbl(gv1.Rows(dblrows).Cells(dblcolumns).Value)
+                                            Else
+                                                objTr.Qty = 0
+                                            End If
+
                                         End If
                                         objTr.Item_Code = clsCommon.myCstr(obj1.itemCode)
                                         objTr.Unit_code = clsCommon.myCstr(obj1.Unit_code)
