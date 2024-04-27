@@ -54413,9 +54413,19 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_SHED_PARAMETER_Detail", coll)
 
             Try
-                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_BULL_SHED_PARAMETER_Detail Add PRIMARY KEY (PK_Id)")
+                Dim sql As String = "SELECT count(1) FROM INFORMATION_SCHEMA.COLUMNS WHERE  TABLE_NAME = 'TSPL_BULL_SHED_PARAMETER_DETAIL' AND COLUMN_NAME = 'PK_Id' "
+                Dim CodeExists = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(sql))
+                If CodeExists = 1 Then
+                    Dim qrys As String = "select count(1) from TSPL_BULL_SHED_PARAMETER_DETAIL"
+                    Dim DataExists = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qrys))
+                    Dim is_Identity As Integer = clsDBFuncationality.getSingleValue("SELECT  is_identity FROM sys.columns WHERE [object_id] = object_id('TSPL_BULL_SHED_PARAMETER_DETAIL') and name = 'PK_Id'")
+                    If is_Identity = 0 Then
+                        clsDBFuncationality.ExecuteNonQuery("alter table TSPL_BULL_SHED_PARAMETER_Detail Add PRIMARY KEY (PK_Id)")
+                    End If
+                End If
+
             Catch ex As Exception
-                Throw New Exception(ex.Message)
+
             End Try
 
             coll = New Dictionary(Of String, String)()
