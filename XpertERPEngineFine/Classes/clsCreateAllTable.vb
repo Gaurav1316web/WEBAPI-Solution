@@ -54410,6 +54410,12 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("PCode", "varchar(30) NOT NULL REFERENCES TSPL_BULL_SHED_PARAMETER (Code)")
             clsCommonFunctionality.CreateOrAlterTable("TSPL_BULL_SHED_PARAMETER_Detail", coll)
 
+            Try
+                clsDBFuncationality.ExecuteNonQuery("alter table TSPL_BULL_SHED_PARAMETER_Detail Add PRIMARY KEY (PK_Id)")
+            Catch ex As Exception
+                Throw New Exception(ex.Message)
+            End Try
+
             coll = New Dictionary(Of String, String)()
             coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
             coll.Add("Name", "Varchar(50) NOT NULL ")

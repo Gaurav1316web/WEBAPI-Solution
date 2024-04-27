@@ -330,6 +330,7 @@ Public Class clsUserMgtCode
     Public Const frmDiseaseMaster As String = "DIZIZ-MST"
     Public Const frmBullTestParameterEntry As String = "BLL-TST-MTR"
     Public Const frmBullVaccinationEntry As String = "BULL-VAC-EN"
+    Public Const frmBullCMUGrouping As String = "BLL-CMU-GRP"
 
     ''============BullManagementReport=======================
     Public Const SubModuleBullManagementReport As String = "MSBullMangR"

@@ -547,6 +547,7 @@ Public Class clsDocType
     Public Const frmBullTestParameter As String = "Bull Test Parameter "
     Public Const frmBullParameterGroup As String = "Bull Parameter Group"
     Public Const frmBullCurlingEntry As String = "Bull Curling Entry "
+    Public Const frmBullCMUGrouping As String = "Bull CMU Grouping "
 
     Public Const Cleaning As String = "Cleaning"
     Public Const MilkCleaning As String = "MilkCleaning"
