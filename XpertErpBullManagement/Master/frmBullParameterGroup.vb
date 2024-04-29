@@ -185,7 +185,7 @@ Public Class frmBullParameterGroup
             Else
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub AddNew()
@@ -341,15 +341,15 @@ Public Class frmBullParameterGroup
                 clsCommon.ProgressBarHide()
 
                 If counter >= 1 Then
-                    clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No data found to transfer", Me.Text)
                 End If
 
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 
@@ -361,5 +361,18 @@ Public Class frmBullParameterGroup
         Me.Close()
     End Sub
 
-
+    Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator
+        Try
+            Dim qry As String = "select count(*) from TSPL_BULL_TEST_PARAMETER where Code='" + txtCode.Value + "' "
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            If count = 0 Then
+                txtCode.MyReadOnly = False
+            Else
+                txtCode.MyReadOnly = True
+            End If
+            LoadData(txtCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

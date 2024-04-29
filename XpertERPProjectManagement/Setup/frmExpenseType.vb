@@ -10,7 +10,7 @@ Public Class FrmExpenseType
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmExpenseType)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -135,7 +135,7 @@ Public Class FrmExpenseType
             Return True
         Catch ex As Exception
 
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -168,14 +168,14 @@ Public Class FrmExpenseType
                 ''End of For Custom Fields
                 clsExpenseType.SaveData(obj, isNewEntry, trans)
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                 LoadData(obj.EXPENSE_CODE, NavigatorType.Current)
 
             End If
 
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -187,21 +187,21 @@ Public Class FrmExpenseType
                 Throw New Exception("  Code not found to delete")
 
             End If
-            If clsCommon.MyMessageBoxShow("Do you want to delete  Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
+            If clsCommon.MyMessageBoxShow(Me, "Do you want to delete  Code '" + txtCode.Value + "'", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
 
                 Dim qry As String = "delete from tspl_expense_master where EXPENSE_CODE='" + txtCode.Value + "'"
                 clsDBFuncationality.ExecuteNonQuery(qry, trans)
                 '' custom fields
                 clsCustomFieldValues.DeleteData(Me.Form_ID, txtCode.Value, trans)
                 trans.Commit()
-                clsCommon.MyMessageBoxShow("Successfully Deleted", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
                 AddNew()
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Expense Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("Current Expense Code is in use")
+                clsCommon.MyMessageBoxShow(Me, "Current Expense Code is in use", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
             trans.Rollback()
         End Try
@@ -274,7 +274,7 @@ Public Class FrmExpenseType
                 trans.Commit()
 
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

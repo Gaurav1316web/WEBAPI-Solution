@@ -41,7 +41,7 @@ Public Class FrmChannelwiseCustomer1
 
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If chkLocSelect.IsChecked = True AndAlso dgvLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Atleast single Location Or Select All")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast single Location Or Select All", Me.Text)
             Exit Sub
         End If
         print()

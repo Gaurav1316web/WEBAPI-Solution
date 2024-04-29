@@ -156,22 +156,7 @@ Public Class frmBullTestParameter
 
 
     Private Sub btnnew_Click(sender As Object, e As EventArgs) Handles btnnew.Click
-        AddNew1()
-    End Sub
-    Sub AddNew1()
-        txtCode.Value = ""
-        txtname.Text = ""
-        txtPeriodcity = Nothing
-        txtType = Nothing
-        txtCode.MyReadOnly = False
-        btnsave.Text = "Save"
-        btnsave.Enabled = True
-        btndelete.Enabled = False
-
-        isNewEntry = True
-
-        txtname.Focus()
-        txtname.Select()
+        AddNew()
     End Sub
 
     Private Sub RadMenuItem2_Click(sender As Object, e As EventArgs) Handles RadMenuItem2.Click
@@ -247,5 +232,20 @@ Public Class frmBullTestParameter
 
     Private Sub SplitContainer1_Panel2_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel2.Paint
 
+    End Sub
+
+    Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator
+        Try
+            Dim qry As String = "select count(*) from TSPL_BULL_TEST_PARAMETER where Code='" + txtCode.Value + "' "
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            If count = 0 Then
+                txtCode.MyReadOnly = False
+            Else
+                txtCode.MyReadOnly = True
+            End If
+            LoadData(txtCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

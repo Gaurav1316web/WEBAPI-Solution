@@ -526,7 +526,7 @@ Public Class frmProductionReceipt
             Dim QryStr As String = "select POSTED from TSPL_MF_BATCH_ORDER where BO_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -582,19 +582,19 @@ Public Class frmProductionReceipt
             If clsCommon.myCBool(grow.Cells(colCheck).Value) = True Then
 
                 If ((clsCommon.myCdbl(grow.Cells(colReceiptQty).Value) + clsCommon.myCdbl(grow.Cells(colBreakageQty).Value) + clsCommon.myCdbl(grow.Cells(colRejQty).Value)) > (IIf(MOActive = True, clsCommon.myCdbl(grow.Cells(colBatchQty).Value), clsCommon.myCdbl(grow.Cells(colBatchQty).Value)))) AndAlso chkTrading.Checked = False Then
-                    clsCommon.MyMessageBoxShow("Entered Quantities are not valid in Line NO- " & clsCommon.myCstr(grow.Cells(colLineNo).Value & "!"))
+                    clsCommon.MyMessageBoxShow(Me, "Entered Quantities are not valid in Line NO- " & clsCommon.myCstr(grow.Cells(colLineNo).Value & "!"))
                     Return False
                 ElseIf ((clsCommon.myCdbl(grow.Cells(colReceiptQty).Value) + clsCommon.myCdbl(grow.Cells(colBreakageQty).Value) + clsCommon.myCdbl(grow.Cells(colRejQty).Value)) > clsCommon.myCdbl(grow.Cells(colBalanceIssueQty).Value)) AndAlso chkTrading.Checked = True Then
-                    clsCommon.MyMessageBoxShow("Entered [Receipt Qty] +[Breakage Qty] + [Reject Qty] not greater then [Balance Issue Qty] valid in Line NO- " & clsCommon.myCstr(grow.Cells(colLineNo).Value & "!"))
+                    clsCommon.MyMessageBoxShow(Me, "Entered [Receipt Qty] +[Breakage Qty] + [Reject Qty] not greater then [Balance Issue Qty] valid in Line NO- " & clsCommon.myCstr(grow.Cells(colLineNo).Value & "!"))
                     Return False
                 ElseIf (clsCommon.myCdbl(grow.Cells(colReceiptQty).Value) + clsCommon.myCdbl(grow.Cells(colBreakageQty).Value) + clsCommon.myCdbl(grow.Cells(colRejQty).Value)) = 0 Then
-                    clsCommon.MyMessageBoxShow("Please Enter Qty in Line NO- " & clsCommon.myCstr(grow.Cells(colLineNo).Value & "!"))
+                    clsCommon.MyMessageBoxShow(Me, "Please Enter Qty in Line NO- " & clsCommon.myCstr(grow.Cells(colLineNo).Value & "!"))
                     Return False
                     'ElseIf clsCommon.myLen(clsCommon.myCstr(grow.Cells(colAttachmentpath).Value)) <= 0 AndAlso chkTrading.Checked = False Then
                     '    clsCommon.MyMessageBoxShow("Attachment can not be blank Line NO- " & clsCommon.myCstr(grow.Cells(colLineNo).Value & "!"))
                     '    Return False
                 ElseIf clsCommon.myLen(clsCommon.myCstr(grow.Cells(colLabTesting).Value)) <= 0 AndAlso chkTrading.Checked = True Then
-                    clsCommon.MyMessageBoxShow("Lab Testing can not be blank Line NO- " & clsCommon.myCstr(grow.Cells(colLineNo).Value & "!"))
+                    clsCommon.MyMessageBoxShow(Me, "Lab Testing can not be blank Line NO- " & clsCommon.myCstr(grow.Cells(colLineNo).Value & "!"))
                     Return False
                 Else
                     ii += 1
@@ -606,7 +606,7 @@ Public Class frmProductionReceipt
                 If clsCommon.myCBool(grow.Cells(colIsSerialseItem).Value) Then
                     Dim arrSerailNo As List(Of clsSerializeInvenotry) = TryCast(grow.Tag, List(Of clsSerializeInvenotry))
                     If arrSerailNo Is Nothing OrElse dblQty <> arrSerailNo.Count Then
-                        common.clsCommon.MyMessageBoxShow("Please provice serial no for item : " + strICode + " . at line no." + clsCommon.myCstr(ii + 1))
+                        common.clsCommon.MyMessageBoxShow(Me, "Please provice serial no for item : " + strICode + " . at line no." + clsCommon.myCstr(ii + 1))
                         Return False
                     End If
                 End If
@@ -615,7 +615,7 @@ Public Class frmProductionReceipt
 
         Next
         If ii = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Item.", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Item.", Me.Text)
             Return False
         End If
         Return True
@@ -625,7 +625,7 @@ Public Class frmProductionReceipt
         Try
             SaveData(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -737,7 +737,7 @@ Public Class frmProductionReceipt
 
             If issaved = True Then
                 If ChekBtnPost = False Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
                 LoadData(obj.RECEIPT_CODE, NavigatorType.Current)
                 Return True
@@ -877,12 +877,12 @@ Public Class frmProductionReceipt
                 'SaveDataProductionEntry(trans)
 
                 trans.Commit()
-                common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                 LoadData(txtCode.Value, NavigatorType.Current)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -963,7 +963,7 @@ Public Class frmProductionReceipt
             If dt.Rows.Count > 0 Then
                 ClsAdjustments.PostData(dt.Rows(0).Item("Adjustment_No"), strCostTransaction, trans)
             Else
-                clsCommon.MyMessageBoxShow("Document not found !")
+                clsCommon.MyMessageBoxShow(Me, "Document not found !", Me.Text)
                 Exit Function
             End If
 
@@ -973,7 +973,7 @@ Public Class frmProductionReceipt
             Return True
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
 
         End Try
@@ -987,7 +987,7 @@ Public Class frmProductionReceipt
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -1009,7 +1009,7 @@ Public Class frmProductionReceipt
                 End If
                 If (clsProductionReceipt.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -1032,7 +1032,7 @@ Public Class frmProductionReceipt
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1078,7 +1078,7 @@ Public Class frmProductionReceipt
             txtLocation.Value = clsCommon.ShowSelectForm("VendorLocFND", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
             lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1178,7 +1178,7 @@ Public Class frmProductionReceipt
                 lblEmpName.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1211,7 +1211,7 @@ Public Class frmProductionReceipt
             dtpBatchDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue(qryDate))
             ShowBatchItems()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub ShowBatchItems()
@@ -1337,7 +1337,7 @@ Public Class frmProductionReceipt
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1386,7 +1386,7 @@ Public Class frmProductionReceipt
             dtpIssueDate.Value = clsCommon.myCDate(clsDBFuncationality.getSingleValue(qryDate))
             ShowIssueItems()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1502,7 +1502,7 @@ Public Class frmProductionReceipt
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

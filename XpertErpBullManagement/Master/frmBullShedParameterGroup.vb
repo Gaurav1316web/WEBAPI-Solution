@@ -195,13 +195,10 @@ Public Class frmBullShedParameterGroup
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btndelete.Enabled = False
-
         isNewEntry = True
-
         txtname.Focus()
         txtname.Select()
         loadBlankGrid()
-
         'gv1.Rows.AddNew()
         'loadBlankGrid()
     End Sub

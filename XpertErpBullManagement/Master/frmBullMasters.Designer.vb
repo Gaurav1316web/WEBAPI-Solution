@@ -26,7 +26,7 @@ Partial Class frmBullMasters
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBullMasters))
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.lblBullSourcePrintStrew = New common.Controls.MyLabel()
         Me.lblDamLocation = New common.Controls.MyLabel()
         Me.lblBullRating = New common.Controls.MyLabel()
@@ -194,16 +194,7 @@ Partial Class frmBullMasters
         Me.txtNoofmalecalves = New common.Controls.MyTextBox()
         Me.txtTotalHeiferAI = New common.Controls.MyTextBox()
         Me.txtTrainingCentre = New common.Controls.MyTextBox()
-        Me.Label41 = New System.Windows.Forms.Label()
-        Me.Label40 = New System.Windows.Forms.Label()
-        Me.Label39 = New System.Windows.Forms.Label()
-        Me.Label38 = New System.Windows.Forms.Label()
         Me.Label37 = New System.Windows.Forms.Label()
-        Me.Label36 = New System.Windows.Forms.Label()
-        Me.Label35 = New System.Windows.Forms.Label()
-        Me.Label34 = New System.Windows.Forms.Label()
-        Me.Label33 = New System.Windows.Forms.Label()
-        Me.Label30 = New System.Windows.Forms.Label()
         Me.txtNoofmalesproduced = New common.Controls.MyTextBox()
         Me.txtDateofnominatedmatinginitiated = New common.Controls.MyTextBox()
         Me.txtTotalAI = New common.Controls.MyTextBox()
@@ -215,6 +206,15 @@ Partial Class frmBullMasters
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
+        Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.MyLabel14 = New common.Controls.MyLabel()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.MyLabel18 = New common.Controls.MyLabel()
+        Me.MyLabel19 = New common.Controls.MyLabel()
+        Me.MyLabel20 = New common.Controls.MyLabel()
+        Me.MyLabel21 = New common.Controls.MyLabel()
         CType(Me.lblBullSourcePrintStrew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDamLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBullRating, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -376,6 +376,15 @@ Partial Class frmBullMasters
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -751,7 +760,7 @@ Partial Class frmBullMasters
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.lblSpecies1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
         Me.RadPageView1.Size = New System.Drawing.Size(996, 470)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -896,7 +905,7 @@ Partial Class frmBullMasters
         '
         Me.lblBullSourcePainting2.FieldName = Nothing
         Me.lblBullSourcePainting2.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblBullSourcePainting2.Location = New System.Drawing.Point(461, 200)
+        Me.lblBullSourcePainting2.Location = New System.Drawing.Point(461, 201)
         Me.lblBullSourcePainting2.Name = "lblBullSourcePainting2"
         Me.lblBullSourcePainting2.Size = New System.Drawing.Size(160, 16)
         Me.lblBullSourcePainting2.TabIndex = 519
@@ -956,7 +965,7 @@ Partial Class frmBullMasters
         '
         Me.lblBullAliasName2.FieldName = Nothing
         Me.lblBullAliasName2.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.lblBullAliasName2.Location = New System.Drawing.Point(20, 389)
+        Me.lblBullAliasName2.Location = New System.Drawing.Point(22, 389)
         Me.lblBullAliasName2.Name = "lblBullAliasName2"
         Me.lblBullAliasName2.Size = New System.Drawing.Size(86, 16)
         Me.lblBullAliasName2.TabIndex = 513
@@ -1094,7 +1103,7 @@ Partial Class frmBullMasters
         Me.txtRemark.IsSourceFromTable = False
         Me.txtRemark.IsSourceFromValueList = False
         Me.txtRemark.IsUnique = False
-        Me.txtRemark.Location = New System.Drawing.Point(625, 351)
+        Me.txtRemark.Location = New System.Drawing.Point(626, 351)
         Me.txtRemark.MaxLength = 200
         Me.txtRemark.MendatroryField = True
         Me.txtRemark.MyLinkLable1 = Me.lblRemark2
@@ -1150,7 +1159,7 @@ Partial Class frmBullMasters
         Me.txtDamLocation.IsSourceFromTable = False
         Me.txtDamLocation.IsSourceFromValueList = False
         Me.txtDamLocation.IsUnique = False
-        Me.txtDamLocation.Location = New System.Drawing.Point(627, 170)
+        Me.txtDamLocation.Location = New System.Drawing.Point(628, 170)
         Me.txtDamLocation.MaxLength = 200
         Me.txtDamLocation.MendatroryField = True
         Me.txtDamLocation.MyLinkLable1 = Me.lblDamLoactionYield2
@@ -1178,7 +1187,7 @@ Partial Class frmBullMasters
         Me.txtBullAlias.IsSourceFromTable = False
         Me.txtBullAlias.IsSourceFromValueList = False
         Me.txtBullAlias.IsUnique = False
-        Me.txtBullAlias.Location = New System.Drawing.Point(154, 389)
+        Me.txtBullAlias.Location = New System.Drawing.Point(155, 389)
         Me.txtBullAlias.MaxLength = 200
         Me.txtBullAlias.MendatroryField = True
         Me.txtBullAlias.MyLinkLable1 = Nothing
@@ -1206,7 +1215,7 @@ Partial Class frmBullMasters
         Me.TXTSSbull.IsSourceFromTable = False
         Me.TXTSSbull.IsSourceFromValueList = False
         Me.TXTSSbull.IsUnique = False
-        Me.TXTSSbull.Location = New System.Drawing.Point(154, 334)
+        Me.TXTSSbull.Location = New System.Drawing.Point(155, 334)
         Me.TXTSSbull.MaxLength = 200
         Me.TXTSSbull.MendatroryField = True
         Me.TXTSSbull.MyLinkLable1 = Nothing
@@ -1234,7 +1243,7 @@ Partial Class frmBullMasters
         Me.txtBullBook.IsSourceFromTable = False
         Me.txtBullBook.IsSourceFromValueList = False
         Me.txtBullBook.IsUnique = False
-        Me.txtBullBook.Location = New System.Drawing.Point(154, 225)
+        Me.txtBullBook.Location = New System.Drawing.Point(155, 225)
         Me.txtBullBook.MaxLength = 200
         Me.txtBullBook.MendatroryField = True
         Me.txtBullBook.MyLinkLable1 = Me.lblBullBookValue2
@@ -1262,7 +1271,7 @@ Partial Class frmBullMasters
         Me.txtBullRFID.IsSourceFromTable = False
         Me.txtBullRFID.IsSourceFromValueList = False
         Me.txtBullRFID.IsUnique = False
-        Me.txtBullRFID.Location = New System.Drawing.Point(154, 149)
+        Me.txtBullRFID.Location = New System.Drawing.Point(155, 149)
         Me.txtBullRFID.MaxLength = 200
         Me.txtBullRFID.MendatroryField = True
         Me.txtBullRFID.MyLinkLable1 = Me.lblBullRFID2
@@ -1290,7 +1299,7 @@ Partial Class frmBullMasters
         Me.TXTExoticBloodPer.IsSourceFromTable = False
         Me.TXTExoticBloodPer.IsSourceFromValueList = False
         Me.TXTExoticBloodPer.IsUnique = False
-        Me.TXTExoticBloodPer.Location = New System.Drawing.Point(154, 122)
+        Me.TXTExoticBloodPer.Location = New System.Drawing.Point(155, 122)
         Me.TXTExoticBloodPer.MaxLength = 200
         Me.TXTExoticBloodPer.MendatroryField = True
         Me.TXTExoticBloodPer.MyLinkLable1 = Me.lblExotic2
@@ -1317,7 +1326,7 @@ Partial Class frmBullMasters
         Me.fndCounty.IsSourceFromTable = False
         Me.fndCounty.IsSourceFromValueList = False
         Me.fndCounty.IsUnique = False
-        Me.fndCounty.Location = New System.Drawing.Point(154, 280)
+        Me.fndCounty.Location = New System.Drawing.Point(155, 280)
         Me.fndCounty.MendatroryField = True
         Me.fndCounty.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndCounty.MyLinkLable1 = Me.lblCountryCode2
@@ -1343,7 +1352,7 @@ Partial Class frmBullMasters
         Me.fndBullSourcePainting.IsSourceFromTable = False
         Me.fndBullSourcePainting.IsSourceFromValueList = False
         Me.fndBullSourcePainting.IsUnique = False
-        Me.fndBullSourcePainting.Location = New System.Drawing.Point(626, 197)
+        Me.fndBullSourcePainting.Location = New System.Drawing.Point(627, 197)
         Me.fndBullSourcePainting.MendatroryField = True
         Me.fndBullSourcePainting.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndBullSourcePainting.MyLinkLable1 = Me.lblBullSourcePainting2
@@ -1369,7 +1378,7 @@ Partial Class frmBullMasters
         Me.fndBullRating.IsSourceFromTable = False
         Me.fndBullRating.IsSourceFromValueList = False
         Me.fndBullRating.IsUnique = False
-        Me.fndBullRating.Location = New System.Drawing.Point(626, 145)
+        Me.fndBullRating.Location = New System.Drawing.Point(627, 145)
         Me.fndBullRating.MendatroryField = True
         Me.fndBullRating.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndBullRating.MyLinkLable1 = Me.lblBullRating2
@@ -1464,7 +1473,7 @@ Partial Class frmBullMasters
         Me.txtRegDate.IsSourceFromTable = False
         Me.txtRegDate.IsSourceFromValueList = False
         Me.txtRegDate.IsUnique = False
-        Me.txtRegDate.Location = New System.Drawing.Point(154, 173)
+        Me.txtRegDate.Location = New System.Drawing.Point(155, 173)
         Me.txtRegDate.MendatroryField = False
         Me.txtRegDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtRegDate.MyLinkLable1 = Me.lblRegistrationDate
@@ -1494,7 +1503,7 @@ Partial Class frmBullMasters
         Me.txtStatusDateChanged.IsSourceFromTable = False
         Me.txtStatusDateChanged.IsSourceFromValueList = False
         Me.txtStatusDateChanged.IsUnique = False
-        Me.txtStatusDateChanged.Location = New System.Drawing.Point(154, 361)
+        Me.txtStatusDateChanged.Location = New System.Drawing.Point(155, 361)
         Me.txtStatusDateChanged.MendatroryField = False
         Me.txtStatusDateChanged.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtStatusDateChanged.MyLinkLable1 = Me.lblStatusChangedDate2
@@ -1521,7 +1530,7 @@ Partial Class frmBullMasters
         Me.fndPenId.IsSourceFromTable = False
         Me.fndPenId.IsSourceFromValueList = False
         Me.fndPenId.IsUnique = False
-        Me.fndPenId.Location = New System.Drawing.Point(626, 121)
+        Me.fndPenId.Location = New System.Drawing.Point(627, 121)
         Me.fndPenId.MendatroryField = True
         Me.fndPenId.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndPenId.MyLinkLable1 = Me.lblPenId2
@@ -1547,7 +1556,7 @@ Partial Class frmBullMasters
         Me.fndShedId.IsSourceFromTable = False
         Me.fndShedId.IsSourceFromValueList = False
         Me.fndShedId.IsUnique = False
-        Me.fndShedId.Location = New System.Drawing.Point(627, 95)
+        Me.fndShedId.Location = New System.Drawing.Point(628, 95)
         Me.fndShedId.MendatroryField = True
         Me.fndShedId.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndShedId.MyLinkLable1 = Me.lblShedId2
@@ -1573,7 +1582,7 @@ Partial Class frmBullMasters
         Me.fndSSCentre.IsSourceFromTable = False
         Me.fndSSCentre.IsSourceFromValueList = False
         Me.fndSSCentre.IsUnique = False
-        Me.fndSSCentre.Location = New System.Drawing.Point(627, 70)
+        Me.fndSSCentre.Location = New System.Drawing.Point(628, 70)
         Me.fndSSCentre.MendatroryField = True
         Me.fndSSCentre.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndSSCentre.MyLinkLable1 = Me.lblSScentre2
@@ -1599,7 +1608,7 @@ Partial Class frmBullMasters
         Me.fndSubStatus.IsSourceFromTable = False
         Me.fndSubStatus.IsSourceFromValueList = False
         Me.fndSubStatus.IsUnique = False
-        Me.fndSubStatus.Location = New System.Drawing.Point(625, 296)
+        Me.fndSubStatus.Location = New System.Drawing.Point(626, 296)
         Me.fndSubStatus.MendatroryField = True
         Me.fndSubStatus.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndSubStatus.MyLinkLable1 = Me.lblBullSubStatus2
@@ -1625,7 +1634,7 @@ Partial Class frmBullMasters
         Me.fndBullStatus.IsSourceFromTable = False
         Me.fndBullStatus.IsSourceFromValueList = False
         Me.fndBullStatus.IsUnique = False
-        Me.fndBullStatus.Location = New System.Drawing.Point(625, 271)
+        Me.fndBullStatus.Location = New System.Drawing.Point(626, 271)
         Me.fndBullStatus.MendatroryField = True
         Me.fndBullStatus.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndBullStatus.MyLinkLable1 = Me.lblBullStatus2
@@ -1651,7 +1660,7 @@ Partial Class frmBullMasters
         Me.fndBreed.IsSourceFromTable = False
         Me.fndBreed.IsSourceFromValueList = False
         Me.fndBreed.IsUnique = False
-        Me.fndBreed.Location = New System.Drawing.Point(154, 253)
+        Me.fndBreed.Location = New System.Drawing.Point(155, 253)
         Me.fndBreed.MendatroryField = True
         Me.fndBreed.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndBreed.MyLinkLable1 = Me.lblBreed
@@ -1677,7 +1686,7 @@ Partial Class frmBullMasters
         Me.fndSubCategory.IsSourceFromTable = False
         Me.fndSubCategory.IsSourceFromValueList = False
         Me.fndSubCategory.IsUnique = False
-        Me.fndSubCategory.Location = New System.Drawing.Point(154, 307)
+        Me.fndSubCategory.Location = New System.Drawing.Point(155, 307)
         Me.fndSubCategory.MendatroryField = True
         Me.fndSubCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndSubCategory.MyLinkLable1 = Me.lblSubCategory2
@@ -1703,7 +1712,7 @@ Partial Class frmBullMasters
         Me.fndCategory.IsSourceFromTable = False
         Me.fndCategory.IsSourceFromValueList = False
         Me.fndCategory.IsUnique = False
-        Me.fndCategory.Location = New System.Drawing.Point(154, 197)
+        Me.fndCategory.Location = New System.Drawing.Point(155, 197)
         Me.fndCategory.MendatroryField = True
         Me.fndCategory.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndCategory.MyLinkLable1 = Me.lblCategory2
@@ -1729,7 +1738,7 @@ Partial Class frmBullMasters
         Me.fndSpecies.IsSourceFromTable = False
         Me.fndSpecies.IsSourceFromValueList = False
         Me.fndSpecies.IsUnique = False
-        Me.fndSpecies.Location = New System.Drawing.Point(154, 95)
+        Me.fndSpecies.Location = New System.Drawing.Point(155, 95)
         Me.fndSpecies.MendatroryField = True
         Me.fndSpecies.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.fndSpecies.MyLinkLable1 = Me.lblspecies2
@@ -2629,7 +2638,7 @@ Partial Class frmBullMasters
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition20
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2650,6 +2659,15 @@ Partial Class frmBullMasters
         '
         'GroupBox4
         '
+        Me.GroupBox4.Controls.Add(Me.MyLabel21)
+        Me.GroupBox4.Controls.Add(Me.MyLabel20)
+        Me.GroupBox4.Controls.Add(Me.MyLabel19)
+        Me.GroupBox4.Controls.Add(Me.MyLabel18)
+        Me.GroupBox4.Controls.Add(Me.MyLabel17)
+        Me.GroupBox4.Controls.Add(Me.MyLabel16)
+        Me.GroupBox4.Controls.Add(Me.MyLabel14)
+        Me.GroupBox4.Controls.Add(Me.MyLabel13)
+        Me.GroupBox4.Controls.Add(Me.MyLabel12)
         Me.GroupBox4.Controls.Add(Me.MyLabel11)
         Me.GroupBox4.Controls.Add(Me.MyLabel10)
         Me.GroupBox4.Controls.Add(Me.MyLabel9)
@@ -2672,16 +2690,7 @@ Partial Class frmBullMasters
         Me.GroupBox4.Controls.Add(Me.txtNoofmalecalves)
         Me.GroupBox4.Controls.Add(Me.txtTotalHeiferAI)
         Me.GroupBox4.Controls.Add(Me.txtTrainingCentre)
-        Me.GroupBox4.Controls.Add(Me.Label41)
-        Me.GroupBox4.Controls.Add(Me.Label40)
-        Me.GroupBox4.Controls.Add(Me.Label39)
-        Me.GroupBox4.Controls.Add(Me.Label38)
         Me.GroupBox4.Controls.Add(Me.Label37)
-        Me.GroupBox4.Controls.Add(Me.Label36)
-        Me.GroupBox4.Controls.Add(Me.Label35)
-        Me.GroupBox4.Controls.Add(Me.Label34)
-        Me.GroupBox4.Controls.Add(Me.Label33)
-        Me.GroupBox4.Controls.Add(Me.Label30)
         Me.GroupBox4.Controls.Add(Me.txtNoofmalesproduced)
         Me.GroupBox4.Controls.Add(Me.txtDateofnominatedmatinginitiated)
         Me.GroupBox4.Controls.Add(Me.txtTotalAI)
@@ -2696,7 +2705,7 @@ Partial Class frmBullMasters
         '
         Me.MyLabel11.FieldName = Nothing
         Me.MyLabel11.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel11.Location = New System.Drawing.Point(31, 101)
+        Me.MyLabel11.Location = New System.Drawing.Point(32, 101)
         Me.MyLabel11.Name = "MyLabel11"
         Me.MyLabel11.Size = New System.Drawing.Size(107, 16)
         Me.MyLabel11.TabIndex = 534
@@ -2706,7 +2715,7 @@ Partial Class frmBullMasters
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel10.Location = New System.Drawing.Point(31, 73)
+        Me.MyLabel10.Location = New System.Drawing.Point(32, 73)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(115, 16)
         Me.MyLabel10.TabIndex = 533
@@ -2716,7 +2725,7 @@ Partial Class frmBullMasters
         '
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel9.Location = New System.Drawing.Point(28, 47)
+        Me.MyLabel9.Location = New System.Drawing.Point(31, 47)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(184, 16)
         Me.MyLabel9.TabIndex = 532
@@ -2787,7 +2796,7 @@ Partial Class frmBullMasters
         Me.txtQuarntine.Location = New System.Drawing.Point(240, 332)
         Me.txtQuarntine.MaxLength = 200
         Me.txtQuarntine.MendatroryField = True
-        Me.txtQuarntine.MyLinkLable1 = Nothing
+        Me.txtQuarntine.MyLinkLable1 = Me.MyLabel21
         Me.txtQuarntine.MyLinkLable2 = Nothing
         Me.txtQuarntine.Name = "txtQuarntine"
         Me.txtQuarntine.ReferenceFieldDesc = Nothing
@@ -2927,7 +2936,7 @@ Partial Class frmBullMasters
         Me.txtNoofelitefemalescurrentlypregnant.Location = New System.Drawing.Point(240, 306)
         Me.txtNoofelitefemalescurrentlypregnant.MaxLength = 200
         Me.txtNoofelitefemalescurrentlypregnant.MendatroryField = True
-        Me.txtNoofelitefemalescurrentlypregnant.MyLinkLable1 = Nothing
+        Me.txtNoofelitefemalescurrentlypregnant.MyLinkLable1 = Me.MyLabel20
         Me.txtNoofelitefemalescurrentlypregnant.MyLinkLable2 = Nothing
         Me.txtNoofelitefemalescurrentlypregnant.Name = "txtNoofelitefemalescurrentlypregnant"
         Me.txtNoofelitefemalescurrentlypregnant.ReferenceFieldDesc = Nothing
@@ -2955,7 +2964,7 @@ Partial Class frmBullMasters
         Me.txtNoofFemaleCalves.Location = New System.Drawing.Point(240, 280)
         Me.txtNoofFemaleCalves.MaxLength = 200
         Me.txtNoofFemaleCalves.MendatroryField = True
-        Me.txtNoofFemaleCalves.MyLinkLable1 = Nothing
+        Me.txtNoofFemaleCalves.MyLinkLable1 = Me.MyLabel19
         Me.txtNoofFemaleCalves.MyLinkLable2 = Nothing
         Me.txtNoofFemaleCalves.Name = "txtNoofFemaleCalves"
         Me.txtNoofFemaleCalves.ReferenceFieldDesc = Nothing
@@ -2983,7 +2992,7 @@ Partial Class frmBullMasters
         Me.txtTotalHeiferConceptions.Location = New System.Drawing.Point(240, 254)
         Me.txtTotalHeiferConceptions.MaxLength = 200
         Me.txtTotalHeiferConceptions.MendatroryField = True
-        Me.txtTotalHeiferConceptions.MyLinkLable1 = Nothing
+        Me.txtTotalHeiferConceptions.MyLinkLable1 = Me.MyLabel18
         Me.txtTotalHeiferConceptions.MyLinkLable2 = Nothing
         Me.txtTotalHeiferConceptions.Name = "txtTotalHeiferConceptions"
         Me.txtTotalHeiferConceptions.ReferenceFieldDesc = Nothing
@@ -3011,7 +3020,7 @@ Partial Class frmBullMasters
         Me.txtNoundersemencollection.Location = New System.Drawing.Point(240, 228)
         Me.txtNoundersemencollection.MaxLength = 200
         Me.txtNoundersemencollection.MendatroryField = True
-        Me.txtNoundersemencollection.MyLinkLable1 = Nothing
+        Me.txtNoundersemencollection.MyLinkLable1 = Me.MyLabel17
         Me.txtNoundersemencollection.MyLinkLable2 = Nothing
         Me.txtNoundersemencollection.Name = "txtNoundersemencollection"
         Me.txtNoundersemencollection.ReferenceFieldDesc = Nothing
@@ -3039,7 +3048,7 @@ Partial Class frmBullMasters
         Me.txtPreQuarantine.Location = New System.Drawing.Point(240, 201)
         Me.txtPreQuarantine.MaxLength = 200
         Me.txtPreQuarantine.MendatroryField = True
-        Me.txtPreQuarantine.MyLinkLable1 = Nothing
+        Me.txtPreQuarantine.MyLinkLable1 = Me.MyLabel16
         Me.txtPreQuarantine.MyLinkLable2 = Nothing
         Me.txtPreQuarantine.Name = "txtPreQuarantine"
         Me.txtPreQuarantine.ReferenceFieldDesc = Nothing
@@ -3067,7 +3076,7 @@ Partial Class frmBullMasters
         Me.txtNoofinseminationcarriedout.Location = New System.Drawing.Point(240, 175)
         Me.txtNoofinseminationcarriedout.MaxLength = 200
         Me.txtNoofinseminationcarriedout.MendatroryField = True
-        Me.txtNoofinseminationcarriedout.MyLinkLable1 = Nothing
+        Me.txtNoofinseminationcarriedout.MyLinkLable1 = Me.MyLabel14
         Me.txtNoofinseminationcarriedout.MyLinkLable2 = Nothing
         Me.txtNoofinseminationcarriedout.Name = "txtNoofinseminationcarriedout"
         Me.txtNoofinseminationcarriedout.ReferenceFieldDesc = Nothing
@@ -3095,7 +3104,7 @@ Partial Class frmBullMasters
         Me.txtNoofmalecalves.Location = New System.Drawing.Point(240, 149)
         Me.txtNoofmalecalves.MaxLength = 200
         Me.txtNoofmalecalves.MendatroryField = True
-        Me.txtNoofmalecalves.MyLinkLable1 = Nothing
+        Me.txtNoofmalecalves.MyLinkLable1 = Me.MyLabel13
         Me.txtNoofmalecalves.MyLinkLable2 = Nothing
         Me.txtNoofmalecalves.Name = "txtNoofmalecalves"
         Me.txtNoofmalecalves.ReferenceFieldDesc = Nothing
@@ -3123,7 +3132,7 @@ Partial Class frmBullMasters
         Me.txtTotalHeiferAI.Location = New System.Drawing.Point(240, 123)
         Me.txtTotalHeiferAI.MaxLength = 200
         Me.txtTotalHeiferAI.MendatroryField = True
-        Me.txtTotalHeiferAI.MyLinkLable1 = Nothing
+        Me.txtTotalHeiferAI.MyLinkLable1 = Me.MyLabel12
         Me.txtTotalHeiferAI.MyLinkLable2 = Nothing
         Me.txtTotalHeiferAI.Name = "txtTotalHeiferAI"
         Me.txtTotalHeiferAI.ReferenceFieldDesc = Nothing
@@ -3164,42 +3173,6 @@ Partial Class frmBullMasters
         Me.txtTrainingCentre.Size = New System.Drawing.Size(155, 20)
         Me.txtTrainingCentre.TabIndex = 486
         '
-        'Label41
-        '
-        Me.Label41.AutoSize = True
-        Me.Label41.Location = New System.Drawing.Point(30, 332)
-        Me.Label41.Name = "Label41"
-        Me.Label41.Size = New System.Drawing.Size(59, 13)
-        Me.Label41.TabIndex = 481
-        Me.Label41.Text = "Quarntine"
-        '
-        'Label40
-        '
-        Me.Label40.AutoSize = True
-        Me.Label40.Location = New System.Drawing.Point(30, 309)
-        Me.Label40.Name = "Label40"
-        Me.Label40.Size = New System.Drawing.Size(202, 13)
-        Me.Label40.TabIndex = 480
-        Me.Label40.Text = "No of elite females currently pregnant"
-        '
-        'Label39
-        '
-        Me.Label39.AutoSize = True
-        Me.Label39.Location = New System.Drawing.Point(30, 258)
-        Me.Label39.Name = "Label39"
-        Me.Label39.Size = New System.Drawing.Size(134, 13)
-        Me.Label39.TabIndex = 479
-        Me.Label39.Text = "Total Heifer Conceptions"
-        '
-        'Label38
-        '
-        Me.Label38.AutoSize = True
-        Me.Label38.Location = New System.Drawing.Point(30, 285)
-        Me.Label38.Name = "Label38"
-        Me.Label38.Size = New System.Drawing.Size(110, 13)
-        Me.Label38.TabIndex = 478
-        Me.Label38.Text = "No of Female Calves"
-        '
         'Label37
         '
         Me.Label37.AutoSize = True
@@ -3207,51 +3180,6 @@ Partial Class frmBullMasters
         Me.Label37.Name = "Label37"
         Me.Label37.Size = New System.Drawing.Size(0, 13)
         Me.Label37.TabIndex = 477
-        '
-        'Label36
-        '
-        Me.Label36.AutoSize = True
-        Me.Label36.Location = New System.Drawing.Point(30, 231)
-        Me.Label36.Name = "Label36"
-        Me.Label36.Size = New System.Drawing.Size(148, 13)
-        Me.Label36.TabIndex = 476
-        Me.Label36.Text = "No. under semen collection"
-        '
-        'Label35
-        '
-        Me.Label35.AutoSize = True
-        Me.Label35.Location = New System.Drawing.Point(30, 205)
-        Me.Label35.Name = "Label35"
-        Me.Label35.Size = New System.Drawing.Size(84, 13)
-        Me.Label35.TabIndex = 475
-        Me.Label35.Text = "Pre Quarantine"
-        '
-        'Label34
-        '
-        Me.Label34.AutoSize = True
-        Me.Label34.Location = New System.Drawing.Point(30, 180)
-        Me.Label34.Name = "Label34"
-        Me.Label34.Size = New System.Drawing.Size(165, 13)
-        Me.Label34.TabIndex = 474
-        Me.Label34.Text = "No of insemination carried out"
-        '
-        'Label33
-        '
-        Me.Label33.AutoSize = True
-        Me.Label33.Location = New System.Drawing.Point(30, 156)
-        Me.Label33.Name = "Label33"
-        Me.Label33.Size = New System.Drawing.Size(107, 13)
-        Me.Label33.TabIndex = 473
-        Me.Label33.Text = "No. Of male calaves"
-        '
-        'Label30
-        '
-        Me.Label30.AutoSize = True
-        Me.Label30.Location = New System.Drawing.Point(30, 127)
-        Me.Label30.Name = "Label30"
-        Me.Label30.Size = New System.Drawing.Size(79, 13)
-        Me.Label30.TabIndex = 472
-        Me.Label30.Text = "Total Heifer AI"
         '
         'txtNoofmalesproduced
         '
@@ -3397,6 +3325,96 @@ Partial Class frmBullMasters
         'OpenFileDialog1
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel12.Location = New System.Drawing.Point(32, 127)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(79, 16)
+        Me.MyLabel12.TabIndex = 535
+        Me.MyLabel12.Text = "Total Heifer AI"
+        '
+        'MyLabel13
+        '
+        Me.MyLabel13.FieldName = Nothing
+        Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel13.Location = New System.Drawing.Point(32, 153)
+        Me.MyLabel13.Name = "MyLabel13"
+        Me.MyLabel13.Size = New System.Drawing.Size(108, 16)
+        Me.MyLabel13.TabIndex = 536
+        Me.MyLabel13.Text = "No. Of male calaves"
+        '
+        'MyLabel14
+        '
+        Me.MyLabel14.FieldName = Nothing
+        Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel14.Location = New System.Drawing.Point(32, 179)
+        Me.MyLabel14.Name = "MyLabel14"
+        Me.MyLabel14.Size = New System.Drawing.Size(157, 16)
+        Me.MyLabel14.TabIndex = 537
+        Me.MyLabel14.Text = "No of insemination carried out"
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel16.Location = New System.Drawing.Point(32, 205)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(83, 16)
+        Me.MyLabel16.TabIndex = 538
+        Me.MyLabel16.Text = "Pre Quarantine"
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel17.Location = New System.Drawing.Point(32, 232)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(143, 16)
+        Me.MyLabel17.TabIndex = 539
+        Me.MyLabel17.Text = "No. under semen collection"
+        '
+        'MyLabel18
+        '
+        Me.MyLabel18.FieldName = Nothing
+        Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel18.Location = New System.Drawing.Point(32, 258)
+        Me.MyLabel18.Name = "MyLabel18"
+        Me.MyLabel18.Size = New System.Drawing.Size(131, 16)
+        Me.MyLabel18.TabIndex = 540
+        Me.MyLabel18.Text = "Total Heifer Conceptions"
+        '
+        'MyLabel19
+        '
+        Me.MyLabel19.FieldName = Nothing
+        Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel19.Location = New System.Drawing.Point(32, 286)
+        Me.MyLabel19.Name = "MyLabel19"
+        Me.MyLabel19.Size = New System.Drawing.Size(112, 16)
+        Me.MyLabel19.TabIndex = 541
+        Me.MyLabel19.Text = "No of Female Calves"
+        '
+        'MyLabel20
+        '
+        Me.MyLabel20.FieldName = Nothing
+        Me.MyLabel20.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel20.Location = New System.Drawing.Point(32, 312)
+        Me.MyLabel20.Name = "MyLabel20"
+        Me.MyLabel20.Size = New System.Drawing.Size(194, 16)
+        Me.MyLabel20.TabIndex = 542
+        Me.MyLabel20.Text = "No of elite females currently pregnant"
+        '
+        'MyLabel21
+        '
+        Me.MyLabel21.FieldName = Nothing
+        Me.MyLabel21.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel21.Location = New System.Drawing.Point(32, 336)
+        Me.MyLabel21.Name = "MyLabel21"
+        Me.MyLabel21.Size = New System.Drawing.Size(56, 16)
+        Me.MyLabel21.TabIndex = 542
+        Me.MyLabel21.Text = "Quarntine"
         '
         'frmBullMasters
         '
@@ -3575,6 +3593,15 @@ Partial Class frmBullMasters
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -3684,16 +3711,7 @@ Partial Class frmBullMasters
     Friend WithEvents txtDateofnominatedmatinginitiated As common.Controls.MyTextBox
     Friend WithEvents txtTotalAI As common.Controls.MyTextBox
     Friend WithEvents txtNoofmalesproduced As common.Controls.MyTextBox
-    Friend WithEvents Label30 As Label
-    Friend WithEvents Label33 As Label
-    Friend WithEvents Label34 As Label
-    Friend WithEvents Label35 As Label
-    Friend WithEvents Label36 As Label
-    Friend WithEvents Label39 As Label
-    Friend WithEvents Label38 As Label
     Friend WithEvents Label37 As Label
-    Friend WithEvents Label40 As Label
-    Friend WithEvents Label41 As Label
     Friend WithEvents txtQuarntine As common.Controls.MyTextBox
     Friend WithEvents txtREARINGCentre As common.Controls.MyTextBox
     Friend WithEvents txtNomalesborn As common.Controls.MyTextBox
@@ -3768,4 +3786,13 @@ Partial Class frmBullMasters
     Friend WithEvents MyLabel9 As common.Controls.MyLabel
     Friend WithEvents MyLabel10 As common.Controls.MyLabel
     Friend WithEvents MyLabel11 As common.Controls.MyLabel
+    Friend WithEvents MyLabel12 As common.Controls.MyLabel
+    Friend WithEvents MyLabel13 As common.Controls.MyLabel
+    Friend WithEvents MyLabel14 As common.Controls.MyLabel
+    Friend WithEvents MyLabel16 As common.Controls.MyLabel
+    Friend WithEvents MyLabel17 As common.Controls.MyLabel
+    Friend WithEvents MyLabel18 As common.Controls.MyLabel
+    Friend WithEvents MyLabel19 As common.Controls.MyLabel
+    Friend WithEvents MyLabel21 As common.Controls.MyLabel
+    Friend WithEvents MyLabel20 As common.Controls.MyLabel
 End Class

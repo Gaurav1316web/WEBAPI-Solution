@@ -70,15 +70,15 @@ Public Class frmBullShedMaster
                 'AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
         If clsCommon.myLen(fndCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Code.")
+            clsCommon.MyMessageBoxShow(Me, "Fill Code.", Me.Text)
         End If
         If clsCommon.myLen(txtname.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Name.")
+            clsCommon.MyMessageBoxShow(Me, "Fill Name.", Me.Text)
             txtname.Focus()
             txtname.Select()
             cmbArea.Focus()
@@ -151,7 +151,7 @@ Public Class frmBullShedMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub AddNew()
@@ -159,15 +159,11 @@ Public Class frmBullShedMaster
         txtname.Text = ""
         txtValue.Text = ""
         cmbArea.Text = ""
-        'txtPeriodcity.Text = ""
-
         fndCode.MyReadOnly = False
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btndelete.Enabled = False
-
         isNewEntry = True
-
         txtname.Focus()
         txtname.Select()
     End Sub
@@ -239,7 +235,7 @@ Public Class frmBullShedMaster
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 
@@ -285,5 +281,20 @@ Public Class frmBullShedMaster
 
     Private Sub lblName_Click(sender As Object, e As EventArgs) Handles lblName.Click
 
+    End Sub
+
+    Private Sub fndCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles fndCode._MYNavigator
+        Try
+            Dim qry As String = "select count(*) from tspl_bull_shed_master where Code='" + fndCode.Value + "' "
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            If count = 0 Then
+                fndCode.MyReadOnly = False
+            Else
+                fndCode.MyReadOnly = True
+            End If
+            LoadData(fndCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

@@ -105,11 +105,11 @@ Public Class frmTimesheet
                 ' ''End of For Custom Fields
 
                 If Arr Is Nothing OrElse Arr.Count <= 0 Then
-                    clsCommon.MyMessageBoxShow("No Data found to save", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No Data found to save", Me.Text)
                 ElseIf clsTimeSheet.SaveData(Arr, colCode, gv1, trans) Then
                     
                     trans.Commit()
-                    clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData("", "")
                 End If
             End If
@@ -154,7 +154,7 @@ Public Class frmTimesheet
             UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -181,7 +181,7 @@ Public Class frmTimesheet
                 clsCommon.MyMessageBoxShow("Current Cost Code is in use")
 
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
             trans.Rollback()
         End Try
@@ -629,7 +629,7 @@ Public Class frmTimesheet
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenJobCodeList(ByVal isButtonClick As Boolean)

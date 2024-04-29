@@ -391,7 +391,7 @@ Public Class FrmCostCenterAnalysisRpt
     '            Return False
     '        End If
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '        Return False
     '    End Try
     'End Function
