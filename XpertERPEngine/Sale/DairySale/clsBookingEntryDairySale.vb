@@ -132,7 +132,6 @@ Public Class clsBookingEntryDairySale
     Public Security_TotalAmt As Decimal = 0
 
 
-
     Public arrBookingDetailDairySalePaymentMode As List(Of clsBookingDetailDairySalePaymentMode) = Nothing
 #End Region
     Public Function SaveData(ByVal obj As clsBookingEntryDairySale, ByVal isNewEntry As Boolean) As Boolean
@@ -1400,6 +1399,7 @@ Public Class clsBookingDetailDairySale
     Public PricePlanNo As String = String.Empty
     Public Item_Price_ID As Integer = 0
     Public Document_No As String = Nothing
+    Public arrBatchItem As List(Of clsBatchInventory) = Nothing
     Public Against_DemandBooking_TR_Code As String = String.Empty
     Public Against_DemandBooking_No As String = String.Empty
     Public Line_No As Integer
@@ -1510,7 +1510,7 @@ Public Class clsBookingDetailDairySale
         Dim dtBookingScheme As DataTable = Nothing
         Dim dtGatePassScheme As DataTable = Nothing
         Dim ArrGPScheme As New List(Of clsGatePassDairySaleDetail)
-
+        Dim IsDairyModule As Boolean = False
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
             For Each obj As clsBookingDetailDairySale In Arr
                 If arrRepeat.Contains(obj.Cust_Code) Then
@@ -1682,7 +1682,15 @@ Public Class clsBookingDetailDairySale
                         End If
                     Next
                 End If
+                'Dim checkstockmrpwise As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.checkstockMRPwise, clsFixedParameterCode.checkstockMRPwise, trans)) = 0, False, True)
+                'If IsDairyModule = False Then
+                '    If checkstockmrpwise Then
+                '        clsBatchInventory.SaveData("PS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, obj.Item_Rate, obj.Unit_code, obj.arrBatchItem, trans)
+                '    Else
+                '        clsBatchInventory.SaveData("PS-SH", strDocNo, Docdate, "O", obj.Item_Code, obj.Loc_Code, obj.Line_No, 0, obj.Unit_code, obj.arrBatchItem, trans)
+                '    End If
 
+                'End If
             Next
 
             'GatePass Entry
