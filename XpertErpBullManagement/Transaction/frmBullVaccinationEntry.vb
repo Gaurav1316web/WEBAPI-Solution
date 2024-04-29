@@ -646,19 +646,24 @@ Public Class frmBullVaccinationEntry
         End Try
     End Sub
     Sub SetGridFocus()
-        If gv1.CurrentCell IsNot Nothing Then
-            Dim setNxtRow As Boolean = False
-            If gv1.CurrentCell.ColumnInfo.Name = colItemCode Then
-                gv1.CurrentColumn = gv1.Columns(colQty)
-            ElseIf gv1.CurrentCell.ColumnInfo.Name = colUnitCode Then
-                setNxtRow = True
-                gv1.CurrentColumn = gv1.Columns(colItemCode)
+        Try
+            If gv1.CurrentCell IsNot Nothing Then
+                Dim setNxtRow As Boolean = False
+                If gv1.CurrentCell.ColumnInfo.Name = colItemCode Then
+                    gv1.CurrentColumn = gv1.Columns(colQty)
+                ElseIf gv1.CurrentCell.ColumnInfo.Name = colUnitCode Then
+                    setNxtRow = True
+                    gv1.CurrentColumn = gv1.Columns(colItemCode)
+                End If
+                If setNxtRow Then
+                    gv1.CurrentRow = gv1.Rows(gv1.CurrentRow.Index + 1)
+                    gv1.CurrentColumn = gv1.Columns(colItemCode)
+                End If
             End If
-            If setNxtRow Then
-                gv1.CurrentRow = gv1.Rows(gv1.CurrentRow.Index + 1)
-                gv1.CurrentColumn = gv1.Columns(colItemCode)
-            End If
-        End If
+        Catch ex As Exception
+
+        End Try
+
     End Sub
 
     Private Sub btnPDF_Click(sender As Object, e As EventArgs) Handles btnPDF.Click
