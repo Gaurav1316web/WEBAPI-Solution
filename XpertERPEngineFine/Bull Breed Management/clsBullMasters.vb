@@ -287,15 +287,15 @@ Public Class clsBullMasters
 from TSPL_BULL_MASTER where 1=1  "
             Select Case NavType
                 Case NavigatorType.First
-                    strQry += " and Bull_Code = (select MIN(Code) from TSPL_BULL_MOVEMENT_TYPE where 1=1  )"
+                    strQry += " and TSPL_BULL_MASTER.Bull_Code = (select MIN(Bull_Code) from TSPL_BULL_MASTER where 1=1  )"
                 Case NavigatorType.Last
-                    strQry += " And Bull_Code = (Select Max(Code) from TSPL_BULL_MOVEMENT_TYPE where 1=1 )"
+                    strQry += " And TSPL_BULL_MASTER.Bull_Code = (Select Max(Bull_Code) from TSPL_BULL_MASTER where 1=1 )"
                 Case NavigatorType.Next
-                    strQry += " And Bull_Code = (Select Min(Code) from TSPL_BULL_MOVEMENT_TYPE where Bull_Code>'" + clsCommon.myCstr(strCode) + "' )"
+                    strQry += " And TSPL_BULL_MASTER.Bull_Code = (Select Min(Bull_Code) from TSPL_BULL_MASTER where Bull_Code>'" + clsCommon.myCstr(strCode) + "' )"
                 Case NavigatorType.Previous
-                    strQry += " and Bull_Code = (select Max(Code) from TSPL_BULL_MOVEMENT_TYPE where Bull_Code<'" + clsCommon.myCstr(strCode) + "' )"
+                    strQry += " and TSPL_BULL_MASTER.Bull_Code = (select Max(Bull_Code) from TSPL_BULL_MASTER where Bull_Code<'" + clsCommon.myCstr(strCode) + "' )"
                 Case NavigatorType.Current
-                    strQry += " and Bull_Code = '" + clsCommon.myCstr(strCode) + "' "
+                    strQry += " and TSPL_BULL_MASTER.Bull_Code = '" + clsCommon.myCstr(strCode) + "' "
             End Select
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(strQry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -314,7 +314,7 @@ from TSPL_BULL_MASTER where 1=1  "
                 obj.Exotic_Blood_Per = clsCommon.myCstr(dt.Rows(0)("Exotic_Blood_Per"))
                 obj.Bull_Rating = clsCommon.myCstr(dt.Rows(0)("Bull_Rating"))
                 obj.Bull_source_Printing_Straws = clsCommon.myCstr(dt.Rows(0)("Bull_source_Printing_Straws"))
-
+                obj.Total_Heifer_Conceptions = clsCommon.myCstr(dt.Rows(0)("Total_Heifer_Conceptions"))
                 obj.Bull_Book_Value = clsCommon.myCstr(dt.Rows(0)("Bull_Book_Value"))
                 obj.Remark = clsCommon.myCstr(dt.Rows(0)("Remark"))
 

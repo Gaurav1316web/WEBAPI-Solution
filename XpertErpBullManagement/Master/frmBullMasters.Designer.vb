@@ -26,7 +26,7 @@ Partial Class frmBullMasters
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBullMasters))
-        Dim TableViewDefinition20 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.lblBullSourcePrintStrew = New common.Controls.MyLabel()
         Me.lblDamLocation = New common.Controls.MyLabel()
         Me.lblBullRating = New common.Controls.MyLabel()
@@ -172,6 +172,15 @@ Partial Class frmBullMasters
         Me.gv2 = New common.UserControls.MyRadGridView()
         Me.RadPageViewPage5 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.GroupBox4 = New System.Windows.Forms.GroupBox()
+        Me.MyLabel21 = New common.Controls.MyLabel()
+        Me.MyLabel20 = New common.Controls.MyLabel()
+        Me.MyLabel19 = New common.Controls.MyLabel()
+        Me.MyLabel18 = New common.Controls.MyLabel()
+        Me.MyLabel17 = New common.Controls.MyLabel()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.MyLabel14 = New common.Controls.MyLabel()
+        Me.MyLabel13 = New common.Controls.MyLabel()
+        Me.MyLabel12 = New common.Controls.MyLabel()
         Me.MyLabel11 = New common.Controls.MyLabel()
         Me.MyLabel10 = New common.Controls.MyLabel()
         Me.MyLabel9 = New common.Controls.MyLabel()
@@ -206,15 +215,6 @@ Partial Class frmBullMasters
         Me.btnSave = New Telerik.WinControls.UI.RadButton()
         Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
-        Me.MyLabel12 = New common.Controls.MyLabel()
-        Me.MyLabel13 = New common.Controls.MyLabel()
-        Me.MyLabel14 = New common.Controls.MyLabel()
-        Me.MyLabel16 = New common.Controls.MyLabel()
-        Me.MyLabel17 = New common.Controls.MyLabel()
-        Me.MyLabel18 = New common.Controls.MyLabel()
-        Me.MyLabel19 = New common.Controls.MyLabel()
-        Me.MyLabel20 = New common.Controls.MyLabel()
-        Me.MyLabel21 = New common.Controls.MyLabel()
         CType(Me.lblBullSourcePrintStrew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblDamLocation, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblBullRating, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -345,6 +345,15 @@ Partial Class frmBullMasters
         CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageViewPage5.SuspendLayout()
         Me.GroupBox4.SuspendLayout()
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -376,15 +385,6 @@ Partial Class frmBullMasters
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -760,7 +760,7 @@ Partial Class frmBullMasters
         Me.RadPageView1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RadPageView1.Location = New System.Drawing.Point(0, 0)
         Me.RadPageView1.Name = "RadPageView1"
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage5
+        Me.RadPageView1.SelectedPage = Me.lblSpecies1
         Me.RadPageView1.Size = New System.Drawing.Size(996, 470)
         Me.RadPageView1.TabIndex = 1
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -1454,7 +1454,7 @@ Partial Class frmBullMasters
         'btnnew
         '
         Me.btnnew.Image = CType(resources.GetObject("btnnew.Image"), System.Drawing.Image)
-        Me.btnnew.Location = New System.Drawing.Point(380, 25)
+        Me.btnnew.Location = New System.Drawing.Point(293, 24)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(20, 21)
         Me.btnnew.TabIndex = 485
@@ -1778,7 +1778,7 @@ Partial Class frmBullMasters
         'fndCode
         '
         Me.fndCode.FieldName = Nothing
-        Me.fndCode.Location = New System.Drawing.Point(151, 25)
+        Me.fndCode.Location = New System.Drawing.Point(64, 24)
         Me.fndCode.MendatroryField = True
         Me.fndCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -2638,7 +2638,7 @@ Partial Class frmBullMasters
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition20
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -2700,6 +2700,96 @@ Partial Class frmBullMasters
         Me.GroupBox4.Size = New System.Drawing.Size(975, 422)
         Me.GroupBox4.TabIndex = 0
         Me.GroupBox4.TabStop = False
+        '
+        'MyLabel21
+        '
+        Me.MyLabel21.FieldName = Nothing
+        Me.MyLabel21.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel21.Location = New System.Drawing.Point(32, 336)
+        Me.MyLabel21.Name = "MyLabel21"
+        Me.MyLabel21.Size = New System.Drawing.Size(56, 16)
+        Me.MyLabel21.TabIndex = 542
+        Me.MyLabel21.Text = "Quarntine"
+        '
+        'MyLabel20
+        '
+        Me.MyLabel20.FieldName = Nothing
+        Me.MyLabel20.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel20.Location = New System.Drawing.Point(32, 312)
+        Me.MyLabel20.Name = "MyLabel20"
+        Me.MyLabel20.Size = New System.Drawing.Size(194, 16)
+        Me.MyLabel20.TabIndex = 542
+        Me.MyLabel20.Text = "No of elite females currently pregnant"
+        '
+        'MyLabel19
+        '
+        Me.MyLabel19.FieldName = Nothing
+        Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel19.Location = New System.Drawing.Point(32, 286)
+        Me.MyLabel19.Name = "MyLabel19"
+        Me.MyLabel19.Size = New System.Drawing.Size(112, 16)
+        Me.MyLabel19.TabIndex = 541
+        Me.MyLabel19.Text = "No of Female Calves"
+        '
+        'MyLabel18
+        '
+        Me.MyLabel18.FieldName = Nothing
+        Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel18.Location = New System.Drawing.Point(32, 258)
+        Me.MyLabel18.Name = "MyLabel18"
+        Me.MyLabel18.Size = New System.Drawing.Size(131, 16)
+        Me.MyLabel18.TabIndex = 540
+        Me.MyLabel18.Text = "Total Heifer Conceptions"
+        '
+        'MyLabel17
+        '
+        Me.MyLabel17.FieldName = Nothing
+        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel17.Location = New System.Drawing.Point(32, 232)
+        Me.MyLabel17.Name = "MyLabel17"
+        Me.MyLabel17.Size = New System.Drawing.Size(143, 16)
+        Me.MyLabel17.TabIndex = 539
+        Me.MyLabel17.Text = "No. under semen collection"
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel16.Location = New System.Drawing.Point(32, 205)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(83, 16)
+        Me.MyLabel16.TabIndex = 538
+        Me.MyLabel16.Text = "Pre Quarantine"
+        '
+        'MyLabel14
+        '
+        Me.MyLabel14.FieldName = Nothing
+        Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel14.Location = New System.Drawing.Point(32, 179)
+        Me.MyLabel14.Name = "MyLabel14"
+        Me.MyLabel14.Size = New System.Drawing.Size(157, 16)
+        Me.MyLabel14.TabIndex = 537
+        Me.MyLabel14.Text = "No of insemination carried out"
+        '
+        'MyLabel13
+        '
+        Me.MyLabel13.FieldName = Nothing
+        Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel13.Location = New System.Drawing.Point(32, 153)
+        Me.MyLabel13.Name = "MyLabel13"
+        Me.MyLabel13.Size = New System.Drawing.Size(108, 16)
+        Me.MyLabel13.TabIndex = 536
+        Me.MyLabel13.Text = "No. Of male calaves"
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!)
+        Me.MyLabel12.Location = New System.Drawing.Point(32, 127)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(79, 16)
+        Me.MyLabel12.TabIndex = 535
+        Me.MyLabel12.Text = "Total Heifer AI"
         '
         'MyLabel11
         '
@@ -3326,96 +3416,6 @@ Partial Class frmBullMasters
         '
         Me.OpenFileDialog1.FileName = "OpenFileDialog1"
         '
-        'MyLabel12
-        '
-        Me.MyLabel12.FieldName = Nothing
-        Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel12.Location = New System.Drawing.Point(32, 127)
-        Me.MyLabel12.Name = "MyLabel12"
-        Me.MyLabel12.Size = New System.Drawing.Size(79, 16)
-        Me.MyLabel12.TabIndex = 535
-        Me.MyLabel12.Text = "Total Heifer AI"
-        '
-        'MyLabel13
-        '
-        Me.MyLabel13.FieldName = Nothing
-        Me.MyLabel13.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel13.Location = New System.Drawing.Point(32, 153)
-        Me.MyLabel13.Name = "MyLabel13"
-        Me.MyLabel13.Size = New System.Drawing.Size(108, 16)
-        Me.MyLabel13.TabIndex = 536
-        Me.MyLabel13.Text = "No. Of male calaves"
-        '
-        'MyLabel14
-        '
-        Me.MyLabel14.FieldName = Nothing
-        Me.MyLabel14.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel14.Location = New System.Drawing.Point(32, 179)
-        Me.MyLabel14.Name = "MyLabel14"
-        Me.MyLabel14.Size = New System.Drawing.Size(157, 16)
-        Me.MyLabel14.TabIndex = 537
-        Me.MyLabel14.Text = "No of insemination carried out"
-        '
-        'MyLabel16
-        '
-        Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel16.Location = New System.Drawing.Point(32, 205)
-        Me.MyLabel16.Name = "MyLabel16"
-        Me.MyLabel16.Size = New System.Drawing.Size(83, 16)
-        Me.MyLabel16.TabIndex = 538
-        Me.MyLabel16.Text = "Pre Quarantine"
-        '
-        'MyLabel17
-        '
-        Me.MyLabel17.FieldName = Nothing
-        Me.MyLabel17.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel17.Location = New System.Drawing.Point(32, 232)
-        Me.MyLabel17.Name = "MyLabel17"
-        Me.MyLabel17.Size = New System.Drawing.Size(143, 16)
-        Me.MyLabel17.TabIndex = 539
-        Me.MyLabel17.Text = "No. under semen collection"
-        '
-        'MyLabel18
-        '
-        Me.MyLabel18.FieldName = Nothing
-        Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel18.Location = New System.Drawing.Point(32, 258)
-        Me.MyLabel18.Name = "MyLabel18"
-        Me.MyLabel18.Size = New System.Drawing.Size(131, 16)
-        Me.MyLabel18.TabIndex = 540
-        Me.MyLabel18.Text = "Total Heifer Conceptions"
-        '
-        'MyLabel19
-        '
-        Me.MyLabel19.FieldName = Nothing
-        Me.MyLabel19.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel19.Location = New System.Drawing.Point(32, 286)
-        Me.MyLabel19.Name = "MyLabel19"
-        Me.MyLabel19.Size = New System.Drawing.Size(112, 16)
-        Me.MyLabel19.TabIndex = 541
-        Me.MyLabel19.Text = "No of Female Calves"
-        '
-        'MyLabel20
-        '
-        Me.MyLabel20.FieldName = Nothing
-        Me.MyLabel20.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel20.Location = New System.Drawing.Point(32, 312)
-        Me.MyLabel20.Name = "MyLabel20"
-        Me.MyLabel20.Size = New System.Drawing.Size(194, 16)
-        Me.MyLabel20.TabIndex = 542
-        Me.MyLabel20.Text = "No of elite females currently pregnant"
-        '
-        'MyLabel21
-        '
-        Me.MyLabel21.FieldName = Nothing
-        Me.MyLabel21.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel21.Location = New System.Drawing.Point(32, 336)
-        Me.MyLabel21.Name = "MyLabel21"
-        Me.MyLabel21.Size = New System.Drawing.Size(56, 16)
-        Me.MyLabel21.TabIndex = 542
-        Me.MyLabel21.Text = "Quarntine"
-        '
         'frmBullMasters
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -3562,6 +3562,15 @@ Partial Class frmBullMasters
         Me.RadPageViewPage5.ResumeLayout(False)
         Me.GroupBox4.ResumeLayout(False)
         Me.GroupBox4.PerformLayout()
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
@@ -3593,15 +3602,6 @@ Partial Class frmBullMasters
         CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
