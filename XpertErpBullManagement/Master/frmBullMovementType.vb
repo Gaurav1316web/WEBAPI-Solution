@@ -110,7 +110,7 @@ Public Class frmBullMovementType
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check > 0 Then
-            qry = "select Code,Name, from TSPL_BULL_MOVEMENT_TYPE"
+            qry = "select Code,Name from TSPL_BULL_MOVEMENT_TYPE"
         Else
             qry = "select '' as Code,'' as Name,'' AS Peridocity"
         End If

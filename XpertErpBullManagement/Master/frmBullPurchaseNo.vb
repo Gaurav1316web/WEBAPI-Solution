@@ -95,7 +95,7 @@ Public Class frmBullPurchaseNo
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check > 0 Then
-            qry = "select Code,Name, from TSPL_BULL_PURCHASE_REQUEST_NO"
+            qry = "select Code,Name from TSPL_BULL_PURCHASE_REQUEST_NO"
         Else
             qry = "select '' as Code,'' as Name"
         End If

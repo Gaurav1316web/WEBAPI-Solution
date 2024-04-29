@@ -304,4 +304,5 @@ Public Class frmBullMovement
             lbleMovementType.Text = ""
         End If
     End Sub
+
 End Class

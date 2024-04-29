@@ -29,7 +29,7 @@ Public Class frmBullParameterGroup
     Private Sub frmBullParameterGroup_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         loadBlankGrid()
         SetUserMgmtNew()
-
+        OpenICodeList(False)
     End Sub
     Private Sub ReStoreGridLayout()
         Try
@@ -64,6 +64,8 @@ Public Class frmBullParameterGroup
             gridcolCode.HeaderText = "Code"
             gridcolCode.Name = ColCode
             gridcolCode.Width = 110
+            gridcolCode.ReadOnly = False
+
             gv1.MasterTemplate.Columns.Add(gridcolCode)
 
             Dim gridcolName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -71,6 +73,8 @@ Public Class frmBullParameterGroup
             gridcolName.HeaderText = "Name"
             gridcolName.Name = ColName
             gridcolName.Width = 110
+            gridcolName.ReadOnly = True
+
             gv1.MasterTemplate.Columns.Add(gridcolName)
 
             Dim gridcoltype As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -78,6 +82,7 @@ Public Class frmBullParameterGroup
             gridcoltype.HeaderText = "Type"
             gridcoltype.Name = ColType
             gridcoltype.Width = 110
+            gridcoltype.ReadOnly = True
             gv1.MasterTemplate.Columns.Add(gridcoltype)
 
 
@@ -303,7 +308,7 @@ Public Class frmBullParameterGroup
         Dim counter As Integer = 0
 
         If transportSql.importExcel(gv_Import, "Code", "Name") Then
-            Dim obj As New clsBullBreedMaster()
+            Dim obj As New clsBullParameterGroup()
 
             Try
                 clsCommon.ProgressBarShow()
