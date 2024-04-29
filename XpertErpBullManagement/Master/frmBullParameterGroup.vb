@@ -206,48 +206,61 @@ Public Class frmBullParameterGroup
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
         SaveData()
     End Sub
-
+    Private Function AllowToSave() As Boolean
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            txtCode.Focus()
+            clsCommon.MyMessageBoxShow(Me, "Bull Code can't be blank", Me.Text)
+            Exit Function
+            Return False
+        End If
+    End Function
     Private Function SaveData() As Boolean
-        Dim obj As New clsBullParameterGroup()
-        obj.Code = txtCode.Value
-        obj.Name = txtname.Text
+        Try
+            If (AllowToSave()) Then
+                Dim obj As New clsBullParameterGroup()
+                obj.Code = txtCode.Value
+                obj.Name = txtname.Text
 
-        obj.Arr = New List(Of clsBullParameterGroupDetail)
-        For Each row As GridViewRowInfo In gv1.Rows
-            Dim objTr As New clsBullParameterGroupDetail()
-            'objTr.TPCode = clsCommon.myCstr(row.Cells(ColTPCode).Value)
-            objTr.Code = clsCommon.myCstr(row.Cells(ColCode).Value)
-            If clsCommon.CompairString(clsCommon.myCstr(row.Cells(ColReqforResult).Value), "True") = CompairStringResult.Equal Then
-                objTr.Required_For_Result = "Y"
-            Else
-                objTr.Required_For_Result = "N"
-            End If
-            objTr.From_Range = clsCommon.myCDecimal(row.Cells(colRangeFrom).Value)
-            objTr.To_Range = clsCommon.myCDecimal(row.Cells(colRangeTo).Value)
+                obj.Arr = New List(Of clsBullParameterGroupDetail)
+                For Each row As GridViewRowInfo In gv1.Rows
+                    Dim objTr As New clsBullParameterGroupDetail()
+                    'objTr.TPCode = clsCommon.myCstr(row.Cells(ColTPCode).Value)
+                    objTr.Code = clsCommon.myCstr(row.Cells(ColCode).Value)
+                    If clsCommon.CompairString(clsCommon.myCstr(row.Cells(ColReqforResult).Value), "True") = CompairStringResult.Equal Then
+                        objTr.Required_For_Result = "Y"
+                    Else
+                        objTr.Required_For_Result = "N"
+                    End If
+                    objTr.From_Range = clsCommon.myCDecimal(row.Cells(colRangeFrom).Value)
+                    objTr.To_Range = clsCommon.myCDecimal(row.Cells(colRangeTo).Value)
 
-            If clsCommon.CompairString(clsCommon.myCstr(row.Cells(colBoolean).Value), "True") = CompairStringResult.Equal Then
-                objTr.R_Boolean = "Y"
-            Else
-                objTr.R_Boolean = "N"
-            End If
-            objTr.Alpha_Numeric = clsCommon.myCstr(row.Cells(colAlphaNumeric).Value)
-            objTr.Range_Selection = clsCommon.myCDecimal(row.Cells(colRangeSelection).Value)
-            If (clsCommon.myLen(objTr.Code) > 0) Then
-                obj.Arr.Add(objTr)
-            End If
-        Next
+                    If clsCommon.CompairString(clsCommon.myCstr(row.Cells(colBoolean).Value), "True") = CompairStringResult.Equal Then
+                        objTr.R_Boolean = "Y"
+                    Else
+                        objTr.R_Boolean = "N"
+                    End If
+                    objTr.Alpha_Numeric = clsCommon.myCstr(row.Cells(colAlphaNumeric).Value)
+                    objTr.Range_Selection = clsCommon.myCDecimal(row.Cells(colRangeSelection).Value)
+                    If (clsCommon.myLen(objTr.Code) > 0) Then
+                        obj.Arr.Add(objTr)
+                    End If
+                Next
 
-        Dim Sqlqry As String = "select count(1) from TSPL_BULL_PARAMETER_GROUP_MASTER where Code ='" + txtCode.Value + "'"
-        Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
-        If count = 0 Then
-            isNewEntry = True
-        Else
-            isNewEntry = False
-        End If
-        If (clsBullParameterGroup.SaveData(obj, isNewEntry)) Then
-            clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
-            'LoadData(obj.Code, NavigatorType.Current)
-        End If
+                Dim Sqlqry As String = "select count(1) from TSPL_BULL_PARAMETER_GROUP_MASTER where Code ='" + txtCode.Value + "'"
+                Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
+                If count = 0 Then
+                    isNewEntry = True
+                Else
+                    isNewEntry = False
+                End If
+                If (clsBullParameterGroup.SaveData(obj, isNewEntry)) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
+                    'LoadData(obj.Code, NavigatorType.Current)
+                End If
+            End If
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
         Return True
     End Function
 

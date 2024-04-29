@@ -100,28 +100,22 @@ Public Class frmBullShedMaster
     Private Sub SaveData()
         Try
             If (AllowToSave()) Then
-                If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmBullTestParameter, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-                    Else
-                        Return
-                    End If
+
+                Dim obj As New clsBullShedMaster()
+                obj.Code = fndCode.Value
+                obj.Name = txtname.Text.Replace("'", "`")
+                obj.AreaValue = txtValue.Text
+                obj.Area = Me.cmbArea.SelectedValue
+                If cmbArea.SelectedText = "m²" Then
+                    obj.Area = 1
+                Else cmbArea.SelectedText = "ft²"
+                    obj.Area = 2
+                End If
+                If (obj.SaveData(obj, isNewEntry)) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
+                    LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
-            Dim obj As New clsBullShedMaster()
-            obj.Code = fndCode.Value
-            obj.Name = txtname.Text.Replace("'", "`")
-            obj.AreaValue = txtValue.Text
-            obj.Area = Me.cmbArea.SelectedValue
-            If cmbArea.SelectedText = "m²" Then
-                obj.Area = 1
-            Else cmbArea.SelectedText = "ft²"
-                obj.Area = 2
-            End If
-            If (obj.SaveData(obj, isNewEntry)) Then
-                clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
-                LoadData(obj.Code, NavigatorType.Current)
-            End If
-            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
