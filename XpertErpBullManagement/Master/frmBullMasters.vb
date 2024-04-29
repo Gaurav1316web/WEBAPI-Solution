@@ -60,12 +60,12 @@ Public Class frmBullMasters
     Function AllowToSave() As Boolean
         If clsCommon.myLen(fndCode.Value) <= 0 Then
             fndCode.Focus()
-            clsCommon.MyMessageBoxShow("Bull Code can't be blank.")
+            clsCommon.MyMessageBoxShow(Me, "Bull Code can't be blank and Fill 12 Digit Code", Me.Text)
             Exit Function
             Return False
         End If
         If clsCommon.myLen(fndBreed.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Enter Breed Name, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Enter Breed Name, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndBreed.Focus()
             ErrorControl.SetError(fndBreed, "Please Enter Breed Name, It is Mandatory")
@@ -74,7 +74,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(fndBreed, "")
         End If
         If clsCommon.myLen(fndSpecies.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Species Name, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Species Name, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndSpecies.Focus()
             ErrorControl.SetError(fndSpecies, "Please Species Name, It is Mandatory")
@@ -83,7 +83,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(fndSpecies, "")
         End If
         If clsCommon.myLen(TXTExoticBloodPer.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Exotic Blood Percen, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Exotic Blood Percen, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             TXTExoticBloodPer.Focus()
             ErrorControl.SetError(TXTExoticBloodPer, "Please Exotic Blood Percent, It is Mandatory")
@@ -92,7 +92,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(TXTExoticBloodPer, "")
         End If
         If clsCommon.myLen(txtBullRFID.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Bull RFID, It is Mandatory ")
+            clsCommon.MyMessageBoxShow(Me, " Please Bull RFID, It is Mandatory ", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtBullRFID.Focus()
             ErrorControl.SetError(txtBullRFID, "Please Bull RFID, It is Mandatory")
@@ -101,7 +101,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtBullRFID, "")
         End If
         If clsCommon.myLen(fndCategory.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Category, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Category, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndCategory.Focus()
             ErrorControl.SetError(fndCategory, "Please Category, It is Mandatory")
@@ -110,7 +110,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(fndCategory, "")
         End If
         If clsCommon.myLen(txtBullBook.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Category, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Category, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtBullBook.Focus()
             ErrorControl.SetError(txtBullBook, "Please Category, It is Mandatory")
@@ -119,7 +119,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtBullBook, "")
         End If
         If clsCommon.myLen(fndCounty.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Select Category, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Select Category, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndCounty.Focus()
             ErrorControl.SetError(fndCounty, "Please Select Category, It is Mandatory")
@@ -128,7 +128,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(fndCounty, "")
         End If
         If clsCommon.myLen(fndSubCategory.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Select Sub Category, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Select Sub Category, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndSubCategory.Focus()
             ErrorControl.SetError(fndSubCategory, "Please Select Sub Category, It is Mandatory")
@@ -137,7 +137,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(fndSubCategory, "")
         End If
         If clsCommon.myLen(TXTSSbull.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Select SS bull ID, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Select SS bull ID, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             TXTSSbull.Focus()
             ErrorControl.SetError(TXTSSbull, "Please Select SS bull ID, It is Mandatory")
@@ -146,7 +146,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(TXTSSbull, "")
         End If
         If clsCommon.myLen(txtBullAlias.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Select Bull Alias Name, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Select Bull Alias Name, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtBullAlias.Focus()
             ErrorControl.SetError(txtBullAlias, "Please Select Bull Alias Name, It is Mandatory")
@@ -155,7 +155,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtBullAlias, "")
         End If
         If clsCommon.myLen(fndSSCentre.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Select SS Centre, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Select SS Centre, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndSSCentre.Focus()
             ErrorControl.SetError(fndSSCentre, "Please Select SS Centre, It is Mandatory")
@@ -164,7 +164,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(fndSSCentre, "")
         End If
         If clsCommon.myLen(fndShedId.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Select Shed Id, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Select Shed Id, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndShedId.Focus()
             ErrorControl.SetError(fndShedId, "Please Select Shed Id, It is Mandatory")
@@ -173,7 +173,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(fndShedId, "")
         End If
         If clsCommon.myLen(fndPenId.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Select Pen Id, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Select Pen Id, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndPenId.Focus()
             ErrorControl.SetError(fndPenId, "Please Select Pen Id, It is Mandatory")
@@ -182,7 +182,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(fndPenId, "")
         End If
         If clsCommon.myLen(fndBullRating.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Fill Bull Rating, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Fill Bull Rating, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndBullRating.Focus()
             ErrorControl.SetError(fndBullRating, "Fill Bull Rating It is Mandatory")
@@ -191,7 +191,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(fndBullRating, "")
         End If
         If clsCommon.myLen(txtDamLocation.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Select Dam Location, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Select Dam Location, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndBullRating.Focus()
             ErrorControl.SetError(txtDamLocation, "Please Select Dam Location, It is Mandatory")
@@ -200,7 +200,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtDamLocation, "")
         End If
         If clsCommon.myLen(fndBullSourcePainting.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Fill Bull Source Painting , It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Fill Bull Source Painting , It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndBullSourcePainting.Focus()
             ErrorControl.SetError(fndBullSourcePainting, "Please Fill Bull Source Painting, It is Mandatory")
@@ -209,7 +209,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(fndBullSourcePainting, "")
         End If
         If clsCommon.myLen(TXTPrevBull.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Fill Prev Bul , It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Fill Prev Bul , It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             TXTPrevBull.Focus()
             ErrorControl.SetError(TXTPrevBull, "Please Fill Prev Bul, It is Mandatory")
@@ -218,7 +218,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(TXTPrevBull, "")
         End If
         If clsCommon.myLen(fndBullStatus.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Fill Bull Status , It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Fill Bull Status , It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndBullStatus.Focus()
             ErrorControl.SetError(fndBullStatus, "Please Fill Bull Status It is Mandatory")
@@ -227,7 +227,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(fndBullStatus, "")
         End If
         If clsCommon.myLen(fndSubStatus.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Fill Bull Sub Status , It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Fill Bull Sub Status , It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndBullStatus.Focus()
             ErrorControl.SetError(fndSubStatus, "Please Fill Bull Sub Status It is Mandatory")
@@ -236,7 +236,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(fndSubStatus, "")
         End If
         If clsCommon.myLen(txtRemark.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Fill Remark , It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Fill Remark , It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtRemark.Focus()
             ErrorControl.SetError(txtRemark, "Please Fill Remark It is Mandatory")
@@ -245,7 +245,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtRemark, "")
         End If
         If clsCommon.myLen(txtPurchaseNo.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Fill Purchase No, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Fill Purchase No, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtPurchaseNo.Focus()
             ErrorControl.SetError(txtPurchaseNo, "Please Fill Purchase No It is Mandatory")
@@ -254,7 +254,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtPurchaseNo, "")
         End If
         If clsCommon.myLen(txtSourceName.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Fill Source Name, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Fill Source Name, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtSourceName.Focus()
             ErrorControl.SetError(txtSourceName, "Please Fill Source Name It is Mandatory")
@@ -263,7 +263,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtSourceName, "")
         End If
         If clsCommon.myLen(txtOwnerName.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Fill Owner Name, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Fill Owner Name, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtOwnerName.Focus()
             ErrorControl.SetError(txtOwnerName, "Please Fill Owner Name It is Mandatory")
@@ -272,7 +272,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtOwnerName, "")
         End If
         If clsCommon.myLen(txtSemenPrice.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Semen Price, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Semen Price, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtSemenPrice.Focus()
             ErrorControl.SetError(txtSemenPrice, "Please Semen Price It is Mandatory")
@@ -281,7 +281,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtSemenPrice, "")
         End If
         If clsCommon.myLen(txtProducedTillDate.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Produced Till Date, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Produced Till Date, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtProducedTillDate.Focus()
             ErrorControl.SetError(txtProducedTillDate, "Please Produced Till Date It is Mandatory")
@@ -290,7 +290,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtProducedTillDate, "")
         End If
         If clsCommon.myLen(txtAveregeDoses.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Averege Doses, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Averege Doses, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtAveregeDoses.Focus()
             ErrorControl.SetError(txtAveregeDoses, "Please Averege Doses It is Mandatory")
@@ -299,7 +299,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtAveregeDoses, "")
         End If
         If clsCommon.myLen(txtBreedingValue.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Breeding, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Breeding, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtBreedingValue.Focus()
             ErrorControl.SetError(txtBreedingValue, "Please Breeding It is Mandatory")
@@ -308,7 +308,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtBreedingValue, "")
         End If
         If clsCommon.myLen(fndSourceName.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Source Nam, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Source Nam, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             fndSourceName.Focus()
             ErrorControl.SetError(fndSourceName, "Please Source Name It is Mandatory")
@@ -317,7 +317,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(fndSourceName, "")
         End If
         If clsCommon.myLen(txtNodaughters.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Entre No Of Daughters , It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Entre No Of Daughters , It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtNodaughters.Focus()
             ErrorControl.SetError(txtNodaughters, "lease Entre No Of Daughters It is Mandatory")
@@ -326,7 +326,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtNodaughters, "")
         End If
         If clsCommon.myLen(txtlDamOrigin.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Dam Origin, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Dam Origin, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtlDamOrigin.Focus()
             ErrorControl.SetError(txtlDamOrigin, "Please Dam Origine It is Mandatory")
@@ -335,7 +335,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtlDamOrigin, "")
         End If
         If clsCommon.myLen(txtBirthWeight.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Birth Weight, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Birth Weight, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtBirthWeight.Focus()
             ErrorControl.SetError(txtBirthWeight, "Please Birth Weight It is Mandatory")
@@ -344,7 +344,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtBirthWeight, "")
         End If
         If clsCommon.myLen(txtWeightAtEntry.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Weight At Entry, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Weight At Entry, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtWeightAtEntry.Focus()
             ErrorControl.SetError(txtWeightAtEntry, "Please Weight At Entry It is Mandatory")
@@ -353,7 +353,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtWeightAtEntry, "")
         End If
         If clsCommon.myLen(txtMilkingDone.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Milking Done, It is Mandatory")
+            clsCommon.MyMessageBoxShow(Me, " Please Milking Done, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtMilkingDone.Focus()
             ErrorControl.SetError(txtMilkingDone, "Please Milking Done It is Mandatory")
@@ -370,7 +370,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_SPECIES_MASTER  "
             fndSpecies.Value = clsCommon.ShowSelectForm("Species", qry, "Code", "", fndSpecies.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -379,7 +379,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_CATEGORY_MASTER  "
             fndCategory.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndCategory.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -392,7 +392,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_SUB_CATEGORY_MASTER  "
             fndSubCategory.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndSubCategory.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -401,7 +401,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_SS_CENTRE_MASTER  "
             fndSSCentre.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndSSCentre.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -410,7 +410,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_BREED_MASTER  "
             fndBreed.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndBreed.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -419,7 +419,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_SHED_MASTER  "
             fndShedId.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndShedId.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -428,7 +428,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_PEN_ID_MASTER  "
             fndPenId.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndPenId.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -437,7 +437,7 @@ Public Class frmBullMasters
             Dim qry As String = " select STSTUS_Code as Code, Name  as Name from TSPL_BULL_STATUS_MASTER  "
             fndBullStatus.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndBullStatus.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -446,7 +446,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_SUB_STATUS_MASTER  "
             fndSubStatus.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndSubStatus.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -466,7 +466,7 @@ Public Class frmBullMasters
                 LoadData(fndCode.Value, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -589,7 +589,7 @@ Public Class frmBullMasters
             'LoadImage1()
             'isInsideLoadData = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -648,7 +648,7 @@ Public Class frmBullMasters
                 If IsNumeric(TXTExoticBloodPer.Text) Then
                     obj.Exotic_Blood_Per = clsCommon.myCdbl(TXTExoticBloodPer.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("Please enter a valid percentage", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Please enter a valid percentage", Me.Text)
                     TXTExoticBloodPer.Focus()
                     TXTExoticBloodPer.Text = ""
                     Exit Sub
@@ -914,7 +914,7 @@ Public Class frmBullMasters
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv2_UserDeletedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv2.UserDeletedRow
@@ -987,15 +987,15 @@ Public Class frmBullMasters
                 clsCommon.ProgressBarHide()
 
                 If counter >= 1 Then
-                    clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No data found to transfer", Me.Text)
                 End If
 
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 
@@ -1008,7 +1008,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_Source_Printing  "
             fndBullSourcePainting.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndBullSourcePainting.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1026,7 +1026,7 @@ Public Class frmBullMasters
             Dim qry As String = " select COUNTRY_CODE as Code, COUNTRY_NAME  as Name from TSPL_COUNTRY_MASTER  "
             fndCounty.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndCounty.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1035,7 +1035,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name as Name from TSPL_BULL_SOURCE_NAME  "
             fndSourceName.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndSourceName.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1248,7 +1248,7 @@ Public Class frmBullMasters
                 PictureBox1.Image = Image.FromFile(OpenFileDialog1.FileName)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

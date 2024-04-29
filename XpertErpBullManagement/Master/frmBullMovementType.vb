@@ -48,7 +48,7 @@ Public Class frmBullMovementType
                 'AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
@@ -56,7 +56,7 @@ Public Class frmBullMovementType
     End Sub
     Private Function AllowToSave() As Boolean
         If clsCommon.myLen(txtname.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Name.")
+            clsCommon.MyMessageBoxShow(Me, "Fill Name.", Me.Text)
             txtname.Focus()
             txtname.Select()
             txtPeriodcity.Focus()
@@ -90,7 +90,7 @@ Public Class frmBullMovementType
                 obj.Peridocity = clsCommon.myCdbl(txtPeriodcity.Text)
             Else
                 ' Display an error message if the input is not a valid number
-                clsCommon.MyMessageBoxShow("Please enter a valid number for Days.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please enter a valid number for Days.", Me.Text)
                 txtPeriodcity.Focus()
                 txtPeriodcity.Text = ""
                 Exit Sub
@@ -164,15 +164,15 @@ Public Class frmBullMovementType
                 clsCommon.ProgressBarHide()
 
                 If counter >= 1 Then
-                    clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(e, "Data transfer successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No data found to transfer", Me.Text)
                 End If
 
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 
@@ -205,7 +205,7 @@ Public Class frmBullMovementType
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub AddNew()

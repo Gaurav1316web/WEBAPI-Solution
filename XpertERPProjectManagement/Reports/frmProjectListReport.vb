@@ -62,7 +62,7 @@ Public Class FrmProjectListReport
         Try
             LoadData(Exporter.Print)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -254,7 +254,7 @@ Public Class FrmProjectListReport
         Try
             LoadData(Exporter.Excel)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -262,7 +262,7 @@ Public Class FrmProjectListReport
         Try
             LoadData(Exporter.PDF)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -270,7 +270,7 @@ Public Class FrmProjectListReport
         Try
             LoadData(Exporter.Refresh)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -278,7 +278,7 @@ Public Class FrmProjectListReport
         Try
             LoadData(Exporter.Print)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

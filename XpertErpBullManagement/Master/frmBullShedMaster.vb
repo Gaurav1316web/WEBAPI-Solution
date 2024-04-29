@@ -70,15 +70,15 @@ Public Class frmBullShedMaster
                 'AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
         If clsCommon.myLen(fndCode.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Code.")
+            clsCommon.MyMessageBoxShow(Me, "Fill Code.", Me.Text)
         End If
         If clsCommon.myLen(txtname.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Name.")
+            clsCommon.MyMessageBoxShow(Me, "Fill Name.", Me.Text)
             txtname.Focus()
             txtname.Select()
             cmbArea.Focus()
