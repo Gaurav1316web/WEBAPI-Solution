@@ -406,6 +406,7 @@ Public Class FrmReceipttNew
             chk = True
         End If
         txtCusName.Text = clsCustomerMaster.GetName(fndCustomer.Value, Nothing)
+
     End Sub
     Sub SetMultiCurrencyVisibility()
         Dim strq As String = ""
@@ -1465,7 +1466,7 @@ Public Class FrmReceipttNew
                 End If
 
                 obj.cheque_in_favour_of = clsCommon.myCstr(txtChkFavOf.Text)
-
+                obj.TDS_Recoverable_Amt = clsCommon.myCdbl(txtTDSAmt.Text)
                 ''For Custom Fields
                 obj.Form_ID = MyBase.Form_ID
                 obj.arrCustomFields = New List(Of clsCustomFieldValues)
@@ -2737,7 +2738,7 @@ Public Class FrmReceipttNew
                     fndBookingNo.Visible = False
                     fndBookingNo.Value = ""
                 End If
-
+                txtTDSAmt.Text = obj.TDS_Recoverable_Amt
                 txttransfer_no.Value = obj.CSATransfer_No
                 txtmemoamt.Text = obj.memorndmamt
                 chkmemorndm.Checked = False
@@ -3452,7 +3453,16 @@ Public Class FrmReceipttNew
         lblOutstanding.Text = "0"
         FndSalesOrder.Value = ""
         TxtBankCharges.Value = 0
+        txtTDSAmt.Text = ""
+
         TxtForeignBankCharges.Value = 0
+        If clsCommon.CompairString(ddlTransType.SelectedValue, "R") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "O") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Then
+            tdslbl.Visible = True
+            txtTDSAmt.Visible = True
+        Else
+            tdslbl.Visible = False
+            txtTDSAmt.Visible = False
+        End If
         If clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Then '-- Advance
             If objCommonVar.IsDemoERP = True Then
                 pnlCform.Visible = True
@@ -4302,25 +4312,25 @@ Public Class FrmReceipttNew
             'chkSecurityDposit.Enabled = True
 
             If clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal Then
-                Pnlmemorandum.Visible = True
-                '-----------------richa 28/08/2014 Against Ticket No .BM00000003667---------
-                lblSalesOrder.Visible = True
-                FndSalesOrder.Visible = True
-                chkSecurityDposit.Enabled = True
-                ''--------------------------
-            Else
-                chkSecurityDposit.Enabled = False
+                    Pnlmemorandum.Visible = True
+                    '-----------------richa 28/08/2014 Against Ticket No .BM00000003667---------
+                    lblSalesOrder.Visible = True
+                    FndSalesOrder.Visible = True
+                    chkSecurityDposit.Enabled = True
+                    ''--------------------------
+                Else
+                    chkSecurityDposit.Enabled = False
+                End If
+
+                If objCommonVar.IsDemoERP = True Then
+                    pnlCform.Visible = True
+                Else
+                    pnlCform.Visible = False
+                End If
+
+
             End If
-
-            If objCommonVar.IsDemoERP = True Then
-                pnlCform.Visible = True
-            Else
-                pnlCform.Visible = False
-            End If
-
-
-        End If
-        If clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "S") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "O") = CompairStringResult.Equal Then
+            If clsCommon.CompairString(ddlTransType.SelectedValue, "F") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "S") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "O") = CompairStringResult.Equal Then
             chkCheckPrint.Visible = True
         Else
             chkCheckPrint.Visible = False
@@ -4387,6 +4397,13 @@ Public Class FrmReceipttNew
                 lblUnAppliedBal.Visible = True
                 txtUnAppliedBal.Visible = True
             End If
+        End If
+        If clsCommon.CompairString(ddlTransType.SelectedValue, "R") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "P") = CompairStringResult.Equal Or clsCommon.CompairString(ddlTransType.SelectedValue, "O") = CompairStringResult.Equal Then '-- Advance
+            txtTDSAmt.Visible = True
+            tdslbl.Visible = True
+        Else
+            txtTDSAmt.Visible = False
+            tdslbl.Visible = False
         End If
         ''---------------
     End Sub
@@ -4738,7 +4755,7 @@ Public Class FrmReceipttNew
         End If
     End Sub
 
-    Private Sub txtsalesmanCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtsalesmanCode._MYValidating
+    Private Sub txtsalesmanCode__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean)
         Dim Qry As String = "Select EMP_CODE, Emp_Name  from TSPL_EMPLOYEE_MASTER "
         Dim strWhrcls As String = " Emp_type='Salesman'"
         txtsalesmanCode.Value = clsCommon.ShowSelectForm("SalesmanView", Qry, "EMP_CODE", strWhrcls, txtsalesmanCode.Value, "EMP_CODE", isButtonClicked)
@@ -8282,6 +8299,16 @@ Public Class FrmReceipttNew
         End Try
 
     End Sub
+
+    Private Sub txtBaseCurrency_Load(sender As Object, e As EventArgs) Handles txtBaseCurrency.Load
+
+    End Sub
+
+    Private Sub SplitContainer1_Panel1_Paint(sender As Object, e As PaintEventArgs) Handles SplitContainer1.Panel1.Paint
+
+    End Sub
+
+
 
 
     'Private Sub fndCustomer_Click(sender As Object, e As EventArgs) Handles fndCustomer.Click

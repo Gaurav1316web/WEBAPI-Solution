@@ -499,16 +499,16 @@ Public Class clsAllStoreProcedure
             strProcedureBody = "(@custacc varchar(6)) as begin delete from TSPL_CUSTOMER_ACCOUNT_SET where Cust_Account =@custacc  end"
             clsCommonFunctionality.CreateStoreProcedure("sp_customeraccountset_delete", strProcedureBody)
 
-            strProcedureBody = "(@custacc varchar(6),@custdesc varchar(50),@receivablecontrolacc varchar(50),@receiptdiscacc varchar(50),@advanceacc varchar(50),@writeoff varchar(50),@createdby varchar(12),@createddate varchar(10),@modifiedby varchar(12),@modofieddate varchar(10),@compcode varchar(12), @containerdeposit varchar(50)=null)" &
+            strProcedureBody = "(@custacc varchar(6),@custdesc varchar(50),@receivablecontrolacc varchar(50),@receiptdiscacc varchar(50),@advanceacc varchar(50),@writeoff varchar(50),@createdby varchar(12),@createddate varchar(10),@modifiedby varchar(12),@modofieddate varchar(10),@compcode varchar(12), @containerdeposit varchar(50)=null,@tdsrecover varchar(50)=null)" &
     " as begin" &
-    " insert into TSPL_CUSTOMER_ACCOUNT_SET (Cust_Account ,Cust_Acct_Desc ,Receivable_Control_acct ,Receipts_Discount_acct ,Advance_acct ,Write_Offs ,Created_By ,Created_Date ,Modify_By ,Modify_Date ,Comp_Code ,Container_Deposit)values(@custacc ,@custdesc ,@receivablecontrolacc ,@receiptdiscacc ,@advanceacc ,@writeoff ,@createdby ,@createddate,@modifiedby ,@modofieddate ,@compcode, @containerdeposit) " &
+    " insert into TSPL_CUSTOMER_ACCOUNT_SET (Cust_Account ,Cust_Acct_Desc ,Receivable_Control_acct ,Receipts_Discount_acct ,Advance_acct ,Write_Offs ,Created_By ,Created_Date ,Modify_By ,Modify_Date ,Comp_Code ,Container_Deposit,TDS_Recoverable)values(@custacc ,@custdesc ,@receivablecontrolacc ,@receiptdiscacc ,@advanceacc ,@writeoff ,@createdby ,@createddate,@modifiedby ,@modofieddate ,@compcode, @containerdeposit,@tdsrecover) " &
     " end"
             clsCommonFunctionality.CreateStoreProcedure("sp_customeraccountset_insert", strProcedureBody)
 
-            strProcedureBody = "(@custacct varchar(6),@custdesc varchar(50),@receivablecontrolacc varchar(50),@receiptdiscacc varchar(50),@advanceacc varchar(50),@writeoff varchar(50),@createdby varchar(12),@createddate varchar(10),@modifiedby varchar(12),@modofieddate varchar(10),@compcode varchar(12), @containerdeposit varchar(50)=null)" &
+            strProcedureBody = "(@custacct varchar(6),@custdesc varchar(50),@receivablecontrolacc varchar(50),@receiptdiscacc varchar(50),@advanceacc varchar(50),@writeoff varchar(50),@createdby varchar(12),@createddate varchar(10),@modifiedby varchar(12),@modofieddate varchar(10),@compcode varchar(12), @containerdeposit varchar(50)=null,@tdsrecover varchar(50)=null)" &
     " as " &
     "         begin " &
-    " update TSPL_CUSTOMER_ACCOUNT_SET set Cust_Acct_Desc =@custdesc ,Receivable_Control_acct =@receivablecontrolacc ,Receipts_Discount_acct =@receiptdiscacc ,Advance_acct =@advanceacc ,Write_Offs =@writeoff ,Created_By =@createdby ,Created_Date =@createddate ,Modify_By =@modifiedby ,Modify_Date =@modofieddate ,Comp_Code =@compcode, Container_Deposit = @containerdeposit  where Cust_Account =@custacct " &
+    " update TSPL_CUSTOMER_ACCOUNT_SET set Cust_Acct_Desc =@custdesc ,Receivable_Control_acct =@receivablecontrolacc ,Receipts_Discount_acct =@receiptdiscacc ,Advance_acct =@advanceacc ,Write_Offs =@writeoff ,Created_By =@createdby ,Created_Date =@createddate ,Modify_By =@modifiedby ,Modify_Date =@modofieddate ,Comp_Code =@compcode, Container_Deposit = @containerdeposit,TDS_Recoverable=@tdsrecover  where Cust_Account =@custacct " &
     " end"
             clsCommonFunctionality.CreateStoreProcedure("sp_customeraccountset_update", strProcedureBody)
 

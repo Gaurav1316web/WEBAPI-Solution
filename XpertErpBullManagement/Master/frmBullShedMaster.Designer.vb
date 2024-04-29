@@ -28,6 +28,8 @@ Partial Class frmBullShedMaster
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtValue = New common.Controls.MyTextBox()
+        Me.lblValue = New common.Controls.MyLabel()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
         Me.cmbArea = New Telerik.WinControls.UI.RadDropDownList()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -46,6 +48,8 @@ Partial Class frmBullShedMaster
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        CType(Me.txtValue, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblValue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -81,6 +85,8 @@ Partial Class frmBullShedMaster
         '
         'Panel1
         '
+        Me.Panel1.Controls.Add(Me.txtValue)
+        Me.Panel1.Controls.Add(Me.lblValue)
         Me.Panel1.Controls.Add(Me.btnnew)
         Me.Panel1.Controls.Add(Me.cmbArea)
         Me.Panel1.Controls.Add(Me.RadMenu1)
@@ -95,10 +101,48 @@ Partial Class frmBullShedMaster
         Me.Panel1.Size = New System.Drawing.Size(800, 400)
         Me.Panel1.TabIndex = 0
         '
+        'txtValue
+        '
+        Me.txtValue.CalculationExpression = Nothing
+        Me.txtValue.FieldCode = Nothing
+        Me.txtValue.FieldDesc = Nothing
+        Me.txtValue.FieldMaxLength = 0
+        Me.txtValue.FieldName = Nothing
+        Me.txtValue.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtValue.isCalculatedField = False
+        Me.txtValue.IsSourceFromTable = False
+        Me.txtValue.IsSourceFromValueList = False
+        Me.txtValue.IsUnique = False
+        Me.txtValue.Location = New System.Drawing.Point(92, 87)
+        Me.txtValue.MaxLength = 200
+        Me.txtValue.MendatroryField = True
+        Me.txtValue.MyLinkLable1 = Me.lblValue
+        Me.txtValue.MyLinkLable2 = Nothing
+        Me.txtValue.Name = "txtValue"
+        Me.txtValue.ReferenceFieldDesc = Nothing
+        Me.txtValue.ReferenceFieldName = Nothing
+        Me.txtValue.ReferenceTableName = Nothing
+        '
+        '
+        '
+        Me.txtValue.RootElement.StretchVertically = True
+        Me.txtValue.Size = New System.Drawing.Size(139, 21)
+        Me.txtValue.TabIndex = 448
+        '
+        'lblValue
+        '
+        Me.lblValue.FieldName = Nothing
+        Me.lblValue.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblValue.Location = New System.Drawing.Point(25, 89)
+        Me.lblValue.Name = "lblValue"
+        Me.lblValue.Size = New System.Drawing.Size(35, 16)
+        Me.lblValue.TabIndex = 449
+        Me.lblValue.Text = "Value"
+        '
         'btnnew
         '
         Me.btnnew.Image = CType(resources.GetObject("btnnew.Image"), System.Drawing.Image)
-        Me.btnnew.Location = New System.Drawing.Point(342, 40)
+        Me.btnnew.Location = New System.Drawing.Point(343, 39)
         Me.btnnew.Name = "btnnew"
         Me.btnnew.Size = New System.Drawing.Size(17, 21)
         Me.btnnew.TabIndex = 0
@@ -112,7 +156,7 @@ Partial Class frmBullShedMaster
         RadListDataItem2.Text = "ft2"
         Me.cmbArea.Items.Add(RadListDataItem1)
         Me.cmbArea.Items.Add(RadListDataItem2)
-        Me.cmbArea.Location = New System.Drawing.Point(92, 90)
+        Me.cmbArea.Location = New System.Drawing.Point(92, 110)
         Me.cmbArea.Name = "cmbArea"
         Me.cmbArea.Size = New System.Drawing.Size(139, 20)
         Me.cmbArea.TabIndex = 447
@@ -148,7 +192,7 @@ Partial Class frmBullShedMaster
         '
         Me.lblType.FieldName = Nothing
         Me.lblType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblType.Location = New System.Drawing.Point(25, 90)
+        Me.lblType.Location = New System.Drawing.Point(25, 112)
         Me.lblType.Name = "lblType"
         Me.lblType.Size = New System.Drawing.Size(30, 16)
         Me.lblType.TabIndex = 65
@@ -157,7 +201,7 @@ Partial Class frmBullShedMaster
         'fndCode
         '
         Me.fndCode.FieldName = Nothing
-        Me.fndCode.Location = New System.Drawing.Point(92, 40)
+        Me.fndCode.Location = New System.Drawing.Point(92, 39)
         Me.fndCode.MendatroryField = True
         Me.fndCode.MyCharacterCasing = System.Windows.Forms.CharacterCasing.Upper
         Me.fndCode.MyFont = New System.Drawing.Font("Segoe UI", 8.25!)
@@ -192,7 +236,7 @@ Partial Class frmBullShedMaster
         Me.txtname.IsSourceFromTable = False
         Me.txtname.IsSourceFromValueList = False
         Me.txtname.IsUnique = False
-        Me.txtname.Location = New System.Drawing.Point(92, 65)
+        Me.txtname.Location = New System.Drawing.Point(92, 64)
         Me.txtname.MaxLength = 200
         Me.txtname.MendatroryField = True
         Me.txtname.MyLinkLable1 = Me.lblName
@@ -265,6 +309,8 @@ Partial Class frmBullShedMaster
         Me.SplitContainer1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.txtValue, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblValue, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -296,4 +342,6 @@ Partial Class frmBullShedMaster
     Friend WithEvents txtname As common.Controls.MyTextBox
     Friend WithEvents lblName As common.Controls.MyLabel
     Friend WithEvents btnnew As Telerik.WinControls.UI.RadButton
+    Friend WithEvents txtValue As common.Controls.MyTextBox
+    Friend WithEvents lblValue As common.Controls.MyLabel
 End Class
