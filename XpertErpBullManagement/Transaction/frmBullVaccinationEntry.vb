@@ -251,7 +251,7 @@ Public Class frmBullVaccinationEntry
 
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Exit Sub
                 End If
                 If (obj.SaveData(obj, isNewEntry, Nothing, False)) Then
@@ -561,7 +561,7 @@ Public Class frmBullVaccinationEntry
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

@@ -37,7 +37,7 @@ Public Class frmBullTestParameter
                 obj.Peridocity = clsCommon.myCdbl(txtPeriodcity.Text)
             Else
                 ' Display an error message if the input is not a valid number
-                clsCommon.MyMessageBoxShow("Please enter a valid number for Days.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please enter a valid number for Days.", Me.Text)
                 txtPeriodcity.Focus()
                 txtPeriodcity.Text = ""
                 Exit Sub
@@ -73,7 +73,7 @@ Public Class frmBullTestParameter
                 AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub AddNew()
@@ -94,7 +94,7 @@ Public Class frmBullTestParameter
     End Sub
     Private Function AllowToSave() As Boolean
         If clsCommon.myLen(txtname.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Name.")
+            clsCommon.MyMessageBoxShow(Me, "Fill Name.", Me.Text)
             txtname.Focus()
             txtname.Select()
             txtPeriodcity.Focus()
@@ -150,7 +150,7 @@ Public Class frmBullTestParameter
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -214,15 +214,15 @@ Public Class frmBullTestParameter
                 clsCommon.ProgressBarHide()
 
                 If counter >= 1 Then
-                    clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No data found to transfer", Me.Text)
                 End If
 
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 

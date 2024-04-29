@@ -164,7 +164,7 @@ Public Class frmBullMovementType
                 clsCommon.ProgressBarHide()
 
                 If counter >= 1 Then
-                    clsCommon.MyMessageBoxShow(e, "Data transfer successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
                 Else
                     clsCommon.MyMessageBoxShow(Me, "No data found to transfer", Me.Text)
                 End If

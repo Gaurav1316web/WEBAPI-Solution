@@ -393,7 +393,7 @@ Public Class frmBullCurlingEntry
         End If
 
         If (ClsBullCurlingEntry.SaveData(obj, isNewEntry)) Then
-            clsCommon.MyMessageBoxShow(Me, "Data save successfully.")
+            clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
             LoadData(obj.Code, NavigatorType.Current)
         End If
 

@@ -149,7 +149,7 @@ Public Class clsBullMasters
             clsCommon.AddColumnsForChange(coll, "Modified_Date", clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm tt"))
             clsCommon.AddColumnsForChange(coll, "Registration_Date", clsCommon.GetPrintDate(obj.Registration_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Date_Of_Birth", clsCommon.GetPrintDate(obj.Date_Of_Birth, "dd/MMM/yyyy"))
-            clsCommon.AddColumnsForChange(coll, "Picture_Upload", obj.Picture_Upload)
+            'clsCommon.AddColumnsForChange(coll, "Picture_Upload", obj.Picture_Upload)
             clsCommon.AddColumnsForChange(coll, "Status_Changed_Date", clsCommon.GetPrintDate(obj.Status_Changed_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Exit_Date", clsCommon.GetPrintDate(obj.Exit_Date, "dd/MMM/yyyy"))
             clsCommon.AddColumnsForChange(coll, "Doses_Produce_Till_Date", obj.Doses_Produce_Till_Date)

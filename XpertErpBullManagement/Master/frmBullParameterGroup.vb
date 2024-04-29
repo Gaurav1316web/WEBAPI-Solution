@@ -146,7 +146,7 @@ Public Class frmBullParameterGroup
             isNewEntry = False
         End If
         If (clsBullParameterGroup.SaveData(obj, isNewEntry)) Then
-            clsCommon.MyMessageBoxShow(Me, "Data save successfully.")
+            clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
             'LoadData(obj.Code, NavigatorType.Current)
 
         End If

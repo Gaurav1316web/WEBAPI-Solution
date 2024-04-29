@@ -5093,7 +5093,7 @@ Public Class frmEXPorformaInvoice
                     SMSSENDONLY(True)
                 End If
 
-                If (common.clsCommon.MyMessageBoxShow("Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
+                If (common.clsCommon.MyMessageBoxShow(Me, "Do you want to print", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes) Then
                     funPrint(txtDocNo.Value)
                 End If
             End If

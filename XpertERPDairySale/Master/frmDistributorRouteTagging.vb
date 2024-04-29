@@ -476,9 +476,9 @@ Public Class frmDistributorRouteTagging
                                 Next
                                 isInsideLoadData = False
                             End If
-                            common.clsCommon.MyMessageBoxShow("Data Load Completed!", Me.Text, MessageBoxButtons.OK)
+                            common.clsCommon.MyMessageBoxShow(Me, "Data Load Completed!", Me.Text, MessageBoxButtons.OK)
                         Else
-                            common.clsCommon.MyMessageBoxShow("Data Load Failed", Me.Text, MessageBoxButtons.OK)
+                            common.clsCommon.MyMessageBoxShow(Me, "Data Load Failed", Me.Text, MessageBoxButtons.OK)
                         End If
                     End If
                     clsCommon.ProgressBarHide()
