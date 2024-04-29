@@ -62,14 +62,14 @@ Public Class FrmBatchReceipt
         'End If
 
         If chkBOSelect.IsChecked AndAlso cbgBO.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast one BatchOrder")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast one BatchOrder", Me.Text)
             Return
         ElseIf chkBOSelect.IsChecked AndAlso cbgBO.CheckedValue.Count > 0 Then
             qry += " and  TSPL_MF_BATCH_ORDER.BO_CODE in (" + clsCommon.GetMulcallString(cbgBO.CheckedValue) + ")"
         End If
 
         If chkReceiptSelect.IsChecked AndAlso cbgReceipt.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast one Receipt")
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast one Receipt", Me.Text)
             Return
         ElseIf chkReceiptSelect.IsChecked AndAlso cbgReceipt.CheckedValue.Count > 0 Then
             qry += " and  TSPL_MF_RECEIPT.RECEIPT_CODE in (" + clsCommon.GetMulcallString(cbgReceipt.CheckedValue) + ")"
@@ -98,7 +98,7 @@ Public Class FrmBatchReceipt
         gv.EnableFiltering = True
 
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         Else
             gv.DataSource = dt

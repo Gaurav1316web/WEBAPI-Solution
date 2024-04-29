@@ -45,7 +45,7 @@ Public Class frmBullPurchaseNo
                 'AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
@@ -53,7 +53,7 @@ Public Class frmBullPurchaseNo
     End Sub
     Private Function AllowToSave() As Boolean
         If clsCommon.myLen(txtname.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Name.")
+            clsCommon.MyMessageBoxShow(Me, "Fill Name.", Me.Text)
             txtname.Focus()
             txtname.Select()
 
@@ -95,7 +95,7 @@ Public Class frmBullPurchaseNo
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check > 0 Then
-            qry = "select Code,Name, from TSPL_BULL_PURCHASE_REQUEST_NO"
+            qry = "select Code,Name from TSPL_BULL_PURCHASE_REQUEST_NO"
         Else
             qry = "select '' as Code,'' as Name"
         End If
@@ -145,15 +145,15 @@ Public Class frmBullPurchaseNo
                 clsCommon.ProgressBarHide()
 
                 If counter >= 1 Then
-                    clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No data found to transfer", Me.Text)
                 End If
 
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 
@@ -186,7 +186,7 @@ Public Class frmBullPurchaseNo
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub AddNew()

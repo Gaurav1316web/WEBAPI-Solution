@@ -80,7 +80,7 @@ Public Class frmIssueReturnItemWiseReport
 
             If chkLocationAll.IsChecked = False Then
                 If chkLocationSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select atleast one Location")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Location", Me.Text)
                     Return
                 ElseIf cbgLocation.CheckedValue.Count > 0 Then
                     qry += " and TSPL_MF_ISSUE.LOCATION_CODE_FROM in (" + clsCommon.GetMulcallString(cbgLocation.CheckedValue) + ")"
@@ -88,7 +88,7 @@ Public Class frmIssueReturnItemWiseReport
             End If
             If chkItemAll.IsChecked = False Then
                 If chkItemSelect.IsChecked = True AndAlso cbgItem.CheckedValue.Count = 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select atleast one ItemCode")
+                    common.clsCommon.MyMessageBoxShow("Me,Please select atleast one ItemCode", Me.Text)
                     Return
                 ElseIf cbgItem.CheckedValue.Count > 0 Then
                     qry += "  and TSPL_MF_ISSUE_DETAIL.ITEM_CODE in (" + clsCommon.GetMulcallString(cbgItem.CheckedValue) + ")"
@@ -102,7 +102,7 @@ Public Class frmIssueReturnItemWiseReport
             gv.Columns.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Record Found")
+                common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
             Else
                 If dt IsNot Nothing And dt.Rows.Count > 0 Then
                     gv.DataSource = dt
@@ -168,7 +168,7 @@ Public Class frmIssueReturnItemWiseReport
                 clsCommon.MyExportToPDF(str, gv, arr, "Issue Return Item Wise Report", False)
             End If
         Else
-            common.clsCommon.MyMessageBoxShow("No Record Found to print.")
+            common.clsCommon.MyMessageBoxShow(Me, "No Record Found to print.", Me.Text)
         End If
     End Sub
 

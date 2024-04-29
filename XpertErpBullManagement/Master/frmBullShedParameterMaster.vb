@@ -228,10 +228,23 @@ Public Class frmBullShedParameterMaster
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btndelete.Enabled = False
-
         isNewEntry = True
-
         txtname.Focus()
         txtname.Select()
+    End Sub
+
+    Private Sub fndCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles fndCode._MYNavigator
+        Try
+            Dim qry As String = "select count(*) from TSPL_BULL_SHED_PARAMETER where Code='" + fndCode.Value + "' "
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            If count = 0 Then
+                fndCode.MyReadOnly = False
+            Else
+                fndCode.MyReadOnly = True
+            End If
+            LoadData(fndCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

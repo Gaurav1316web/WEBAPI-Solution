@@ -21,7 +21,7 @@ Public Class frmVendorPriceChartMapping
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmVendorPriceChartMapping)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
+            common.clsCommon.MyMessageBoxShow("Permission Denied")
             Me.Close()
             Exit Sub
         End If

@@ -23,7 +23,7 @@ Public Class ClsBullCurlingEntry
                 Case NavigatorType.First
                     qry += " and Document_No = (select MIN(Document_No) from TSPL_BULL_CURLING where 1=1  )"
                 Case NavigatorType.Last
-                    qry += " And Document_No = (Select Max(Document_Node) from TSPL_BULL_CURLING where 1=1 )"
+                    qry += " And Document_No = (Select Max(Document_No) from TSPL_BULL_CURLING where 1=1 )"
                 Case NavigatorType.Next
                     qry += " And Document_No = (Select Min(Document_No) from TSPL_BULL_CURLING where Document_No>'" + clsCommon.myCstr(strCode) + "' )"
                 Case NavigatorType.Previous

@@ -17,7 +17,7 @@ Public Class frmBullMasters
             fndSpecies.Value = clsCommon.ShowSelectForm("Species", qry, "Code", "", fndSpecies.Value, "Code", isButtonClicked)
             ' txtSupervisorName.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue(" select  Emp_Name   from TSPL_EMPLOYEE_MASTER where EMP_CODE = '" + fndSupervisorCode.Value + "'"))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -26,7 +26,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_CATEGORY_MASTER  "
             fndCategory.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndCategory.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -39,7 +39,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_SUB_CATEGORY_MASTER  "
             fndSubCategory.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndSubCategory.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -48,7 +48,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_SS_CENTRE_MASTER  "
             fndSSCentre.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndSSCentre.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -57,7 +57,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_BREED_MASTER  "
             fndBreed.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndBreed.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -66,7 +66,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_SHED_MASTER  "
             fndShedId.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndShedId.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -75,7 +75,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_PEN_ID_MASTER  "
             fndPenId.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndPenId.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -84,7 +84,7 @@ Public Class frmBullMasters
             Dim qry As String = " select STSTUS_Code as Code, Name  as Name from TSPL_BULL_STATUS_MASTER  "
             fndBullStatus.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndBullStatus.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -93,7 +93,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_SUB_STATUS_MASTER  "
             fndSubStatus.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndSubStatus.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -137,7 +137,7 @@ Public Class frmBullMasters
     '            'AddNew()
     '        End If
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 End Class

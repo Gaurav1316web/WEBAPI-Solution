@@ -233,7 +233,7 @@ Public Class frmCopyBOM
         Next
 
         If ArrReturn.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one item")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one item", Me.Text)
         Else
             Me.Close()
         End If
@@ -298,7 +298,7 @@ Public Class frmCopyBOM
 
     Private Sub RadButton1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadButton1.Click
         If clsCommon.myLen(txtMainItem.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Item")
+            clsCommon.MyMessageBoxShow(Me, "Please select Item", Me.Text)
             Exit Sub
         End If
 
@@ -347,7 +347,7 @@ Public Class frmCopyBOM
                 Me.lblMainItemName.Text = DT_ITEM.Rows(0).Item("ITEM_DESC")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

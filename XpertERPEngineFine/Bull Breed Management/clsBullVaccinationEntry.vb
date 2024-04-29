@@ -6,13 +6,13 @@ Public Class clsBullVaccinationEntry
 #Region "Variables"
 
     Public Document_Code As String = Nothing
-    Public Document_date As Date? = Nothing
+    Public Document_date As DateTime? = Nothing
     Public Status As Integer = 0
     Public Remarks As String = Nothing
     Public Bull_Code As String = Nothing
     Public BullAliasName As String = Nothing
     Public RegDate As Date? = Nothing
-    Public PreBullId As string = nothing
+    Public PreBullId As String = Nothing
     Public SSBullId As String = Nothing
     Public SSCentre As String = Nothing
     Public DOB As String = Nothing

@@ -102,6 +102,8 @@ Public Class frmBullParameterGroup
             gridcolCode.HeaderText = "Code"
             gridcolCode.Name = ColCode
             gridcolCode.Width = 110
+            gridcolCode.ReadOnly = False
+
             gv1.MasterTemplate.Columns.Add(gridcolCode)
 
             Dim gridcolName As GridViewTextBoxColumn = New GridViewTextBoxColumn()
@@ -109,6 +111,8 @@ Public Class frmBullParameterGroup
             gridcolName.HeaderText = "Name"
             gridcolName.Name = ColName
             gridcolName.Width = 110
+            gridcolName.ReadOnly = True
+
             gv1.MasterTemplate.Columns.Add(gridcolName)
             gridcolName.ReadOnly = True
 
@@ -117,6 +121,7 @@ Public Class frmBullParameterGroup
             gridcoltype.HeaderText = "Type"
             gridcoltype.Name = ColType
             gridcoltype.Width = 110
+            gridcoltype.ReadOnly = True
             gv1.MasterTemplate.Columns.Add(gridcoltype)
             gridcoltype.ReadOnly = True
 
@@ -476,7 +481,7 @@ Public Class frmBullParameterGroup
         Dim counter As Integer = 0
 
         If transportSql.importExcel(gv_Import, "Code", "Name") Then
-            Dim obj As New clsBullBreedMaster()
+            Dim obj As New clsBullParameterGroup()
 
             Try
                 clsCommon.ProgressBarShow()
@@ -529,5 +534,18 @@ Public Class frmBullParameterGroup
         Me.Close()
     End Sub
 
-
+    Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator
+        Try
+            Dim qry As String = "select count(*) from TSPL_BULL_TEST_PARAMETER where Code='" + txtCode.Value + "' "
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            If count = 0 Then
+                txtCode.MyReadOnly = False
+            Else
+                txtCode.MyReadOnly = True
+            End If
+            LoadData(txtCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

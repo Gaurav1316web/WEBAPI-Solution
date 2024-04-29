@@ -4140,7 +4140,7 @@ Public Class frmVendorMaster
 
                             If clsCommon.myLen(msg) > 0 Then
                                 pageCus.SelectedPage = RadPageViewPage4
-                                clsCommon.MyMessageBoxShow(msg, Me.Text)
+                                clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                                 txtpan.Focus()
                                 txtpan.Select()
                                 Return

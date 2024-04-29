@@ -362,6 +362,12 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Master\frmBullCMUGrouping.Designer.vb">
+      <DependentUpon>frmBullCMUGrouping.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmBullCMUGrouping.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Transaction\frmBullCurlingEntry.Designer.vb">
       <DependentUpon>frmBullCurlingEntry.vb</DependentUpon>
     </Compile>
@@ -469,6 +475,9 @@
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
       <CustomToolNamespace>My.Resources</CustomToolNamespace>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBullCMUGrouping.resx">
+      <DependentUpon>frmBullCMUGrouping.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmBullInsurance.resx">
       <DependentUpon>frmBullInsurance.vb</DependentUpon>

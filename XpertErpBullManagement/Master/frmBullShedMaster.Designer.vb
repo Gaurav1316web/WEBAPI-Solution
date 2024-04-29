@@ -28,6 +28,8 @@ Partial Class frmBullShedMaster
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.Panel1 = New System.Windows.Forms.Panel()
+        Me.txtValue = New common.Controls.MyTextBox()
+        Me.lblValue = New common.Controls.MyLabel()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
         Me.cmbArea = New Telerik.WinControls.UI.RadDropDownList()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
@@ -42,12 +44,12 @@ Partial Class frmBullShedMaster
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.txtValue = New common.Controls.MyTextBox()
-        Me.lblValue = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.Panel1.SuspendLayout()
+        CType(Me.txtValue, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblValue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.cmbArea, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -58,8 +60,6 @@ Partial Class frmBullShedMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtValue, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblValue, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -100,6 +100,44 @@ Partial Class frmBullShedMaster
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(800, 400)
         Me.Panel1.TabIndex = 0
+        '
+        'txtValue
+        '
+        Me.txtValue.CalculationExpression = Nothing
+        Me.txtValue.FieldCode = Nothing
+        Me.txtValue.FieldDesc = Nothing
+        Me.txtValue.FieldMaxLength = 0
+        Me.txtValue.FieldName = Nothing
+        Me.txtValue.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtValue.isCalculatedField = False
+        Me.txtValue.IsSourceFromTable = False
+        Me.txtValue.IsSourceFromValueList = False
+        Me.txtValue.IsUnique = False
+        Me.txtValue.Location = New System.Drawing.Point(92, 87)
+        Me.txtValue.MaxLength = 200
+        Me.txtValue.MendatroryField = True
+        Me.txtValue.MyLinkLable1 = Me.lblValue
+        Me.txtValue.MyLinkLable2 = Nothing
+        Me.txtValue.Name = "txtValue"
+        Me.txtValue.ReferenceFieldDesc = Nothing
+        Me.txtValue.ReferenceFieldName = Nothing
+        Me.txtValue.ReferenceTableName = Nothing
+        '
+        '
+        '
+        Me.txtValue.RootElement.StretchVertically = True
+        Me.txtValue.Size = New System.Drawing.Size(139, 21)
+        Me.txtValue.TabIndex = 448
+        '
+        'lblValue
+        '
+        Me.lblValue.FieldName = Nothing
+        Me.lblValue.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblValue.Location = New System.Drawing.Point(25, 89)
+        Me.lblValue.Name = "lblValue"
+        Me.lblValue.Size = New System.Drawing.Size(35, 16)
+        Me.lblValue.TabIndex = 449
+        Me.lblValue.Text = "Value"
         '
         'btnnew
         '
@@ -254,44 +292,6 @@ Partial Class frmBullShedMaster
         Me.btnsave.TabIndex = 9
         Me.btnsave.Text = "Save"
         '
-        'txtValue
-        '
-        Me.txtValue.CalculationExpression = Nothing
-        Me.txtValue.FieldCode = Nothing
-        Me.txtValue.FieldDesc = Nothing
-        Me.txtValue.FieldMaxLength = 0
-        Me.txtValue.FieldName = Nothing
-        Me.txtValue.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtValue.isCalculatedField = False
-        Me.txtValue.IsSourceFromTable = False
-        Me.txtValue.IsSourceFromValueList = False
-        Me.txtValue.IsUnique = False
-        Me.txtValue.Location = New System.Drawing.Point(92, 87)
-        Me.txtValue.MaxLength = 200
-        Me.txtValue.MendatroryField = True
-        Me.txtValue.MyLinkLable1 = Me.lblValue
-        Me.txtValue.MyLinkLable2 = Nothing
-        Me.txtValue.Name = "txtValue"
-        Me.txtValue.ReferenceFieldDesc = Nothing
-        Me.txtValue.ReferenceFieldName = Nothing
-        Me.txtValue.ReferenceTableName = Nothing
-        '
-        '
-        '
-        Me.txtValue.RootElement.StretchVertically = True
-        Me.txtValue.Size = New System.Drawing.Size(139, 21)
-        Me.txtValue.TabIndex = 448
-        '
-        'lblValue
-        '
-        Me.lblValue.FieldName = Nothing
-        Me.lblValue.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblValue.Location = New System.Drawing.Point(25, 89)
-        Me.lblValue.Name = "lblValue"
-        Me.lblValue.Size = New System.Drawing.Size(35, 16)
-        Me.lblValue.TabIndex = 449
-        Me.lblValue.Text = "Value"
-        '
         'frmBullShedMaster
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -309,6 +309,8 @@ Partial Class frmBullShedMaster
         Me.SplitContainer1.ResumeLayout(False)
         Me.Panel1.ResumeLayout(False)
         Me.Panel1.PerformLayout()
+        CType(Me.txtValue, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblValue, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.cmbArea, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -319,8 +321,6 @@ Partial Class frmBullShedMaster
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtValue, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblValue, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

@@ -94,12 +94,12 @@ Public Class FrmCustomerEmptyTrial2
 
         Dim ArrLoc As ArrayList = cbgLocation.CheckedValue
         If (dtpstart.Value > dtpend.Value) Then
-            common.clsCommon.MyMessageBoxShow("'Start Date' Cann't be more than 'End date'")
+            common.clsCommon.MyMessageBoxShow(Me, "'Start Date' Cann't be more than 'End date'", Me.Text)
         ElseIf chkSelect.IsChecked AndAlso cbgCustomer.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Atleast One Customer Code")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Customer Code", Me.Text)
             Return
         ElseIf chkLOcSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Atleast One Location")
+            common.clsCommon.MyMessageBoxShow("Me,Please Select Atleast One Location", Me.Text)
             Return
         Else
             Dim address As String
@@ -160,13 +160,13 @@ Public Class FrmCustomerEmptyTrial2
                 qry += "  And Cust_Code<>'' ORDER BY OrderDrCr"
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
                     Dim frmcrystal As New frmCrystalReportViewer()
                     frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptCustomerEmptyTrial", "Customer Empty Trial")
                 End If
             Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
