@@ -21,37 +21,6 @@ Public Class frmBullInsurance
 #End Region
 
     Private Sub frmBullInsurance_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Dim coll As Dictionary(Of String, String)
-        coll = New Dictionary(Of String, String)()
-
-        coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
-        coll.Add("Policy_Code", "varchar(30) NOT NULL UNIQUE")
-        coll.Add("Policy_Date", "DateTime not NULL")
-        coll.Add("Policy_Start_Date", "Date  NULL")
-        coll.Add("Policy_End__Date", "Date NULL")
-        coll.Add("Ins_Comp_Code", "VARCHAR(30) not NULL UNIQUE REFERENCES TSPL_BULL_INSURANCE_MASTER (Code) ")
-        coll.Add("Ins_Type_Code", "VARCHAR(30) not NULL REFERENCES TSPL_BULL_INSURANCE_TYPE (Code)")
-        coll.Add("Insured_Amount", "Decimal (18,2) Null")
-        coll.Add("Premium_Per", "Decimal (18,2) Null")
-        coll.Add("Premium_Amount", "Decimal (18,2) Null")
-        coll.Add("Ser_Charge_Per", "Decimal (18,2) Null")
-        coll.Add("Ser_Charge_Amount", "Decimal (18,2) Null")
-        coll.Add("Total_Amount", "Decimal (18,2) Null")
-        coll.Add("Status", "integer not null default 0")
-        coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
-        coll.Add("Created_Date", "datetime NOT NULL  ")
-        coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
-        coll.Add("Modified_Date", "datetime NOT NULL ")
-        coll.Add("Posted_By", "varchar(12) NULL")
-        coll.Add("Posted_Date", "datetime NULL")
-        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULL_INSURANCE", coll, Nothing, True, False, Nothing, Nothing, Nothing, False)
-
-        coll = New Dictionary(Of String, String)()
-        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION")
-        coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BULL_INSURANCE(Document_Code)")
-        coll.Add("Tag_No", "varchar(50) NOT NULL UNIQUE ")
-        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULL_INSURANCE_DETAIL", coll, Nothing, True, False, "TSPL_BULL_INSURANCE", "Document_Code", "Policy_Date", False)
-
         SetUserMgmtNew()
         LoadBlankGrid()
         Addnew()
@@ -428,12 +397,12 @@ Public Class frmBullInsurance
     End Sub
 
     Private Sub gv1_UserAddedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserAddedRow
-        'For i As Integer = 0 To gv1.Rows.Count - 1
-        '    gv1.Rows(0).Cells(0).Value = 1
-        '    If i <> 0 Then
-        '        gv1.Rows(i).Cells(colSNo).Value = i + 1
-        '    End If
-        'Next
+        For i As Integer = 0 To gv1.Rows.Count - 1
+            gv1.Rows(0).Cells(0).Value = 1
+            If i <> 0 Then
+                gv1.Rows(i).Cells(colSNo).Value = i + 1
+            End If
+        Next
     End Sub
     Private Sub gv1_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
         If gv1.RowCount > 0 Then
@@ -611,6 +580,41 @@ Public Class frmBullInsurance
     Private Sub txtSerChargePer_Validating(sender As Object, e As EventArgs) Handles txtSerChargePer.Validating
         lblSerChargeAmt.Text = Math.Round(((txtInsAmt.Value * txtPremiumPer.Value) * txtSerChargePer.Value) / 100, 2, MidpointRounding.ToEven)
         lblTotalAmt.Text = Math.Round((txtInsAmt.Value * txtPremiumPer.Value) + (((txtInsAmt.Value * txtPremiumPer.Value) * txtSerChargePer.Value) / 100), 2, MidpointRounding.ToEven)
+    End Sub
+
+    Private Sub gv1_CellValidated(sender As Object, e As CellValidatedEventArgs) Handles gv1.CellValidated
+        Try
+            SetGridFocus()
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
+    Sub SetGridFocus()
+        Try
+            If gv1.CurrentCell IsNot Nothing Then
+                Dim intCurrRow As Integer = gv1.CurrentRow.Index
+                gv1.CurrentRow.Cells(colSNo).Value = clsCommon.myCdbl(intCurrRow + 1)
+                Dim setNxtRow As Boolean = False
+                If gv1.CurrentCell.ColumnInfo.Name = colTagNo Then
+                    setNxtRow = True
+                    gv1.CurrentColumn = gv1.Columns(colTagNo)
+                End If
+                If setNxtRow Then
+                    If gv1.Rows.Count > gv1.CurrentRow.Index + 1 Then
+                        If clsCommon.myLen(gv1.CurrentRow.Cells(colTagNo).Value) > 0 Then
+                            gv1.Rows.AddNew()
+                            gv1.CurrentRow = gv1.Rows(gv1.CurrentRow.Index - 1)
+                            gv1.CurrentColumn = gv1.Columns(colTagNo)
+                        End If
+                    End If
+
+                    End If
+            End If
+        Catch ex As Exception
+
+        End Try
+
+
     End Sub
 
 

@@ -29,7 +29,7 @@ Public Class frmBullTestParameter
             Dim obj As New clsBullTestParameter()
             obj.Code = txtCode.Value
             obj.Name = txtname.Text.Replace("'", "`")
-            obj.Type = txtType.Text
+            obj.Type = clsCommon.myCstr(txtType.Text)
 
             obj.Peridocity = txtPeriodcity.Text
             If IsNumeric(txtPeriodcity.Text) Then
@@ -86,9 +86,7 @@ Public Class frmBullTestParameter
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btndelete.Enabled = False
-
         isNewEntry = True
-
         txtname.Focus()
         txtname.Select()
     End Sub

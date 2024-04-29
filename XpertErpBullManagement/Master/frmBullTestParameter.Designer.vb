@@ -27,9 +27,10 @@ Partial Class frmBullTestParameter
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBullTestParameter))
+        Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -153,12 +154,14 @@ Partial Class frmBullTestParameter
         Me.txtType.AutoCompleteDisplayMember = Nothing
         Me.txtType.AutoCompleteValueMember = Nothing
         Me.txtType.DropDownAnimationEnabled = True
-        RadListDataItem4.Text = "Boolean"
-        RadListDataItem5.Text = "Range"
-        RadListDataItem6.Text = "Alpha Numeric"
+        RadListDataItem1.Text = "Boolean"
+        RadListDataItem2.Text = "Range"
+        RadListDataItem3.Text = "Alpha Numeric"
+        RadListDataItem4.Text = "Range Selection"
+        Me.txtType.Items.Add(RadListDataItem1)
+        Me.txtType.Items.Add(RadListDataItem2)
+        Me.txtType.Items.Add(RadListDataItem3)
         Me.txtType.Items.Add(RadListDataItem4)
-        Me.txtType.Items.Add(RadListDataItem5)
-        Me.txtType.Items.Add(RadListDataItem6)
         Me.txtType.Location = New System.Drawing.Point(80, 88)
         Me.txtType.Name = "txtType"
         Me.txtType.Size = New System.Drawing.Size(139, 20)

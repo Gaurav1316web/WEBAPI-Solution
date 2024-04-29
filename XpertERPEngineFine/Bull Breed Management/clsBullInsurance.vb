@@ -39,7 +39,7 @@ Public Class clsBullInsurance
     Public Function SaveData(ByVal obj As clsBullInsurance, ByVal isNewEntry As Boolean, ByVal strTransType As String, ByVal trans As SqlTransaction, ByVal AutoSave As Boolean) As Boolean
         Dim isSaved As Boolean = True
         Try
-            Dim qry As String = "delete from TSPL_BULL_INSURANCE_DETAIL where Document_Code='" + obj.Document_Code + "'"
+            Dim qry As String = "delete from TSPL_BULL_INSURANCE_TAG where Document_Code='" + obj.Document_Code + "'"
             isSaved = isSaved AndAlso clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             Dim coll As New Hashtable()
@@ -74,7 +74,7 @@ Public Class clsBullInsurance
                 isSaved = isSaved AndAlso clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_INSURANCE", OMInsertOrUpdate.Update, "TSPL_BULL_INSURANCE.Document_Code='" + obj.Document_Code + "'", trans)
             End If
             isSaved = isSaved AndAlso clsBullInsuranceDetail.SaveData(obj.Document_Code, obj.Arr, trans)
-            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BULL_INSURANCE", "Document_Code", "TSPL_BULL_INSURANCE_DETAIL", "Document_Code", trans)
+            clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, obj.Document_Code, "TSPL_BULL_INSURANCE", "Document_Code", "TSPL_BULL_INSURANCE_TAG", "Document_Code", trans)
 
         Catch err As Exception
 
@@ -124,7 +124,7 @@ Public Class clsBullInsurance
             obj.Total_Amount = clsCommon.myCdbl(dt.Rows(0)("Total_Amount"))
             obj.Status = IIf(clsCommon.myCdbl(dt.Rows(0)("Status")) = 1, ERPTransactionStatus.Approved, ERPTransactionStatus.Pending)
 
-            qry = "	select *  from TSPL_BULL_INSURANCE_DETAIL where Document_Code='" + obj.Document_Code + "' order by PK_Id "
+            qry = "	select *  from TSPL_BULL_INSURANCE_TAG where Document_Code='" + obj.Document_Code + "' order by PK_Id "
             dt = clsDBFuncationality.GetDataTable(qry, trans)
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
                 obj.Arr = New List(Of clsBullInsuranceDetail)
@@ -300,7 +300,7 @@ Public Class clsBullInsurance
                 Throw New Exception("Already Posted")
             End If
             Dim qry As String = Nothing
-            qry = "delete from TSPL_BULL_INSURANCE_DETAIL where Document_Code='" + obj.Document_Code + "'"
+            qry = "delete from TSPL_BULL_INSURANCE_TAG where Document_Code='" + obj.Document_Code + "'"
             clsDBFuncationality.ExecuteNonQuery(qry, trans)
 
             qry = "delete from TSPL_BULL_INSURANCE where Document_Code='" + obj.Document_Code + "'"
@@ -330,7 +330,7 @@ Public Class clsBullInsuranceDetail
                 Dim coll As New Hashtable()
                 clsCommon.AddColumnsForChange(coll, "Document_Code", strCode)
                 clsCommon.AddColumnsForChange(coll, "Tag_No", obj.Tag_No)
-                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_INSURANCE_DETAIL", OMInsertOrUpdate.Insert, "", trans)
+                clsCommonFunctionality.UpdateDataTable(coll, "TSPL_BULL_INSURANCE_TAG", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
         Return True
