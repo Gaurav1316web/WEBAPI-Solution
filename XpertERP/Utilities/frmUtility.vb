@@ -15384,7 +15384,7 @@ line1:
 
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_PP_Production_Entry")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -15410,10 +15410,10 @@ line1:
                     clsDBFuncationality.ExecuteNonQuery(QryInsert)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow("Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -15458,7 +15458,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Production_Entry where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -15467,12 +15467,12 @@ line1:
                             transportSql.ExporttoExcelWithoutFilter("select * from TEMP_PP_Production_Entry where [status] is null and  error is not null", "", "", Me)
                         End If
                     Else
-                        clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

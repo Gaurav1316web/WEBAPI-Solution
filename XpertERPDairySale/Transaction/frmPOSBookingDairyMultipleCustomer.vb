@@ -855,7 +855,7 @@ Public Class frmPOSBookingDairyMultipleCustomer
         '    Next
         Return True
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         '    Return False
         'Finally
         '    strCustCode = Nothing
@@ -878,7 +878,7 @@ Public Class frmPOSBookingDairyMultipleCustomer
                 txtLocation.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub CalculateItemRate(ByVal intRow As Integer, ByVal intColumn As Integer)

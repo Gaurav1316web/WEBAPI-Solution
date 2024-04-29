@@ -1017,7 +1017,7 @@ Public Class frmBullMasters
             Dim qry As String = " select Code as Code, Name  as Name from TSPL_BULL_Rating  "
             fndBullRating.Value = clsCommon.ShowSelectForm("Category", qry, "Code", "", fndBullRating.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
