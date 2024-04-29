@@ -146,11 +146,11 @@ Public Class Cash_Register_Details4
 
             Dim dt As DataTable
             If chksalesmanselect.IsChecked AndAlso cbgsalesman.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Salesman")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Salesman", Me.Text)
                 Return
 
             ElseIf chkLocSelect.IsChecked AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one location")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one location", Me.Text)
                 Return
 
             End If
@@ -329,7 +329,7 @@ Public Class Cash_Register_Details4
                 clsCommon.MyExportToPDF("Cash Register Detail", gv1, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -2557,7 +2557,7 @@ Public Class frmWorkEstimationEng
             lstUsers.Add(strEmail)
             SendSMSandEmail(lstUsers, False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

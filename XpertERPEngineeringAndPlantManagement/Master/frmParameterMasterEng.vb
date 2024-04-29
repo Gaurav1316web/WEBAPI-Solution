@@ -56,12 +56,12 @@ Public Class frmParameterMasterEng
                     isNewEntry = False
                 End If
                 If (clsEngParameterMaster.SaveData(obj, isNewEntry)) Then
-                    clsCommon.MyMessageBoxShow("Data saved Successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -87,15 +87,15 @@ Public Class frmParameterMasterEng
             End If
             If myMessages.deleteConfirm() Then
                 If (clsEngParameterMaster.DeleteData(txtCode.Value)) Then
-                    clsCommon.MyMessageBoxShow("Successfully Deleted", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Deleted", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
-                clsCommon.MyMessageBoxShow("This Code is already used, so can’t delete")
+                clsCommon.MyMessageBoxShow(Me, "This Code is already used, so can’t delete", Me.Text)
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -208,10 +208,10 @@ Public Class frmParameterMasterEng
                 Next
                 clsEngParameterMaster.SaveData(objList)
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 

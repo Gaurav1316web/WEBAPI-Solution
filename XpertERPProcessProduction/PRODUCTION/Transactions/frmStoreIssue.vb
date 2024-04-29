@@ -375,7 +375,7 @@ Public Class frmStoreIssue
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -467,7 +467,7 @@ Public Class frmStoreIssue
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -592,18 +592,18 @@ Public Class frmStoreIssue
                     End If
                 Next
                 If (obj.ObjList Is Nothing OrElse obj.ObjList.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
                 If (obj.SaveData(obj, isNewEntry, Nothing)) Then
                     If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.ISSUE_CODE, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -618,7 +618,7 @@ Public Class frmStoreIssue
             Dim QryStr As String = " select POSTED from TSPL_MF_ISSUE where ISSUE_CODE = '" + txtCode.Value + "' "
             Dim chkpost As String = clsDBFuncationality.getSingleValue(QryStr)
             If chkpost = "1" Then
-                clsCommon.MyMessageBoxShow("Transection already posted")
+                clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                 Return False
             End If
         End If
@@ -665,12 +665,12 @@ Public Class frmStoreIssue
                     End If
                 Next
                 If Itemcount > 1 AndAlso chkTrading.Checked = True Then
-                    clsCommon.MyMessageBoxShow("Item Code (" + strICode + ") Duplicate Found in Grid.")
+                    clsCommon.MyMessageBoxShow(Me, "Item Code (" + strICode + ") Duplicate Found in Grid.")
                     Return False
                 End If
                 '======================
                 If clsCommon.myCdbl(dr.Cells(colIssueQty).Value) > clsCommon.myCdbl(dr.Cells(colRequisitionQty).Value) AndAlso chkTrading.Checked = False Then
-                    clsCommon.MyMessageBoxShow("Issue Quantity can not be grater then Requisition Quantity in Row No " + (dr.Index + 1).ToString())
+                    clsCommon.MyMessageBoxShow(Me, "Issue Quantity can not be grater then Requisition Quantity in Row No " + (dr.Index + 1).ToString())
                     Return False
                 End If
 
@@ -731,7 +731,7 @@ Public Class frmStoreIssue
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -754,7 +754,7 @@ Public Class frmStoreIssue
                 End If
                 If (clsProductionIssue.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -799,7 +799,7 @@ Public Class frmStoreIssue
             txtLocation.Value = clsCommon.ShowSelectForm("VendorLocFND", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
             lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -812,7 +812,7 @@ Public Class frmStoreIssue
                 Me.lblIssuedBy.Text = OBJEMP.Emp_Name
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -825,12 +825,12 @@ Public Class frmStoreIssue
             If (myMessages.postConfirm()) Then
                 Save(True)
                 If (clsProductionIssue.PostData(txtCode.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Posted")
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Posted", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -846,7 +846,7 @@ Public Class frmStoreIssue
                         End If
                         If e.Column Is gvIssue.Columns(colIssueQty) Then
                             If clsCommon.myCdbl(gvIssue.CurrentRow.Cells(colIssueQty).Value) > clsCommon.myCdbl(gvIssue.CurrentRow.Cells(colRequisitionQty).Value) Then
-                                clsCommon.MyMessageBoxShow(" Issue Quantity can not be grater then Requisition Quantity.")
+                                clsCommon.MyMessageBoxShow(Me, " Issue Quantity can not be grater then Requisition Quantity.")
                                 gvIssue.CurrentRow.Cells(colIssueQty).Value = 0
                             End If
                         End If
@@ -881,7 +881,7 @@ Public Class frmStoreIssue
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
         End Try
     End Sub
@@ -952,7 +952,7 @@ Public Class frmStoreIssue
     End Sub
 
     Private Sub gvIssue_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gvIssue.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -977,22 +977,22 @@ Public Class frmStoreIssue
     Private Sub btnShowItems_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnShowItems.Click
         Dim qry As String = ""
         If clsCommon.myLen(txtIssuedBy.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please fill issue by detail first.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please fill issue by detail first.", Me.Text)
             Return
         End If
 
         If clsCommon.myLen(txtIssuedTo.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please fill issue to detail first.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please fill issue to detail first.", Me.Text)
             Return
         End If
 
         If clsCommon.myLen(txtFromLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please fill from location detail first.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please fill from location detail first.", Me.Text)
             Return
         End If
 
         If clsCommon.myLen(txtLocation.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please fill location detail first.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please fill location detail first.", Me.Text)
             Return
         End If
 
@@ -1074,7 +1074,7 @@ Public Class frmStoreIssue
             frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "ProductionIssue", "Production Issue")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1087,7 +1087,7 @@ Public Class frmStoreIssue
                 Me.lblIssuedTo.Text = OBJEMP.Emp_Name
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1101,7 +1101,7 @@ Public Class frmStoreIssue
             txtFromLocation.Value = clsCommon.ShowSelectForm("VendorLocFND", qry, "Code", WhrCls, txtFromLocation.Value, "Code", isButtonClicked)
             lblFromLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtFromLocation.Value + "'"))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1109,7 +1109,7 @@ Public Class frmStoreIssue
         Try
             LoadList()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

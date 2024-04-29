@@ -193,7 +193,7 @@ Public Class FrmSourceCode
             myMessages.blankValue(Me, "Source Code", Me.Text)
             fndSourceCode.Focus()
         ElseIf mskSourceCode.Text.Length < 5 Then
-            common.clsCommon.MyMessageBoxShow("Source Code must be fill properly")
+            common.clsCommon.MyMessageBoxShow(Me, "Source Code must be fill properly", Me.Text)
             mskSourceCode.Focus()
         Else
             Dim objStr11 As String
@@ -447,7 +447,7 @@ Public Class FrmSourceCode
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 trans.Rollback()

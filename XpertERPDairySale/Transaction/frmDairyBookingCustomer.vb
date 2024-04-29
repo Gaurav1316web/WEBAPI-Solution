@@ -6042,12 +6042,12 @@ isnull(TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Short_Close,'N')='N' "
     'End Sub
     Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean)
         If clsCommon.myLen(txtLocation.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Location first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Location first", Me.Text)
             txtLocation.Focus()
             Exit Sub
         End If
         If clsCommon.myLen(txtVendorNo.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select Customer first", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select Customer first", Me.Text)
             txtVendorNo.Focus()
             Exit Sub
         End If

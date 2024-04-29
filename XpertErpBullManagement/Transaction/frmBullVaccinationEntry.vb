@@ -251,7 +251,7 @@ Public Class frmBullVaccinationEntry
 
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Exit Sub
                 End If
                 If (obj.SaveData(obj, isNewEntry, Nothing, False)) Then
@@ -561,7 +561,7 @@ Public Class frmBullVaccinationEntry
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -646,19 +646,24 @@ Public Class frmBullVaccinationEntry
         End Try
     End Sub
     Sub SetGridFocus()
-        If gv1.CurrentCell IsNot Nothing Then
-            Dim setNxtRow As Boolean = False
-            If gv1.CurrentCell.ColumnInfo.Name = colItemCode Then
-                gv1.CurrentColumn = gv1.Columns(colQty)
-            ElseIf gv1.CurrentCell.ColumnInfo.Name = colUnitCode Then
-                setNxtRow = True
-                gv1.CurrentColumn = gv1.Columns(colItemCode)
+        Try
+            If gv1.CurrentCell IsNot Nothing Then
+                Dim setNxtRow As Boolean = False
+                If gv1.CurrentCell.ColumnInfo.Name = colItemCode Then
+                    gv1.CurrentColumn = gv1.Columns(colQty)
+                ElseIf gv1.CurrentCell.ColumnInfo.Name = colUnitCode Then
+                    setNxtRow = True
+                    gv1.CurrentColumn = gv1.Columns(colItemCode)
+                End If
+                If setNxtRow Then
+                    gv1.CurrentRow = gv1.Rows(gv1.CurrentRow.Index + 1)
+                    gv1.CurrentColumn = gv1.Columns(colItemCode)
+                End If
             End If
-            If setNxtRow Then
-                gv1.CurrentRow = gv1.Rows(gv1.CurrentRow.Index + 1)
-                gv1.CurrentColumn = gv1.Columns(colItemCode)
-            End If
-        End If
+        Catch ex As Exception
+
+        End Try
+
     End Sub
 
     Private Sub btnPDF_Click(sender As Object, e As EventArgs) Handles btnPDF.Click

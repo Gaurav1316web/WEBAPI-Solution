@@ -201,7 +201,13 @@ Public Class FrmPaymentProcess
         Label1.Visible = AreaWiseBilling
         fndArea.Visible = AreaWiseBilling
         PaymentProcessInHindi = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PaymentProcessPrintInHindi, clsFixedParameterCode.PaymentProcessPrintInHindi, Nothing)) = 1)
-        btnPrintHindi.Visible = PaymentProcessInHindi
+
+        If PaymentProcessInHindi = True Then
+            btnPrintHindi.Visible = PaymentProcessInHindi
+            btnPrint.Enabled = False
+        End If
+
+
         Reset()
         ButtonToolTip.SetToolTip(btnSave, "Press Alt+S for Save/Update ")
         ButtonToolTip.SetToolTip(btnDelete, "Press Alt+D To Delete ")

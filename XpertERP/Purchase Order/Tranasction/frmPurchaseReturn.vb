@@ -5122,7 +5122,7 @@ Public Class frmPurchaseReturn
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6000,7 +6000,7 @@ Public Class frmPurchaseReturn
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6061,7 +6061,7 @@ Public Class frmPurchaseReturn
                 'cell.BackColor = Color.FromArgb(243, 181, 51)
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -6578,7 +6578,7 @@ Public Class frmPurchaseReturn
                 End If
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -7225,7 +7225,7 @@ Public Class frmPurchaseReturn
                 For Each drAcq As DataRow In dtAcquisition.Rows
                     TempAcqNO += Environment.NewLine + clsCommon.myCstr(drAcq("Acquisition_Code"))
                 Next
-                clsCommon.MyMessageBoxShow(TempAcqNO, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, TempAcqNO, Me.Text)
                 Exit Sub
             End If
 

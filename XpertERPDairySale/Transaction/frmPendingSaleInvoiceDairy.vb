@@ -604,7 +604,7 @@ Public Class frmPendingSaleInvoiceDairy
                         LoadDetailData(e.NewValue, strCode)
                     End If
                 Else
-                    common.clsCommon.MyMessageBoxShow("Invoice's Customer should be `" + VendorName)
+                    common.clsCommon.MyMessageBoxShow(Me, "Invoice's Customer should be `" + VendorName)
                     e.Cancel = True
                 End If
             End If

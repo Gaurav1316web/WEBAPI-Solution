@@ -134,17 +134,17 @@ Public Class frmCustomerBillWiseDuesSummary
             Dim frmcrystal As New frmCrystalReportViewer()
             frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "rptCustBillWiseDuesSummary", "Customer Bill Wise Dues Summry")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnPrint_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnPrint.Click
         If dtpFrmDate.Value > dtpToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("Start Date Can Not Be Greater Then End Date")
+            common.clsCommon.MyMessageBoxShow(Me, "Start Date Can Not Be Greater Then End Date", Me.Text)
             dtpFrmDate.Focus()
             Exit Sub
         End If
         If cbgCustomer.CheckedDisplayMember.Count < 1 Then
-            MessageBox.Show("Please Select At least One Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select At least One Customer", Me.Text)
             cbgCustomer.Focus()
             Exit Sub
         End If
@@ -266,7 +266,7 @@ Public Class frmCustomerBillWiseDuesSummary
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 gv1.DataSource = dt
@@ -276,7 +276,7 @@ Public Class frmCustomerBillWiseDuesSummary
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -412,7 +412,7 @@ Public Class frmCustomerBillWiseDuesSummary
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 gv1.DataSource = dt
@@ -424,7 +424,7 @@ Public Class frmCustomerBillWiseDuesSummary
 
         Catch ex As Exception
 
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -513,12 +513,12 @@ Public Class frmCustomerBillWiseDuesSummary
 
     Private Sub btnRefresh_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRefresh.Click
         If dtpFrmDate.Value > dtpToDate.Value Then
-            common.clsCommon.MyMessageBoxShow("Start Date Can Not Be Greater Then End Date")
+            common.clsCommon.MyMessageBoxShow(Me, "Start Date Can Not Be Greater Then End Date", Me.Text)
             dtpFrmDate.Focus()
             Exit Sub
         End If
         If cbgCustomer.CheckedDisplayMember.Count < 1 Then
-            MessageBox.Show("Please Select At least One Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select At least One Customer", Me.Text)
             cbgCustomer.Focus()
             Exit Sub
         End If
@@ -596,7 +596,7 @@ Public Class frmCustomerBillWiseDuesSummary
             obj.GridColumns = gv1.ColumnCount
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
 
             ''richa agarwal regarding memory leakage
@@ -628,7 +628,7 @@ Public Class frmCustomerBillWiseDuesSummary
 
     Private Sub btndeletelayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btndeletelayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub btnexport_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnexport.Click
@@ -638,7 +638,7 @@ Public Class frmCustomerBillWiseDuesSummary
         If gv1.Rows.Count > 0 Then
             clsCommon.MyExportToExcelGrid("Customer Bill Dues Summary", gv1, arr, "Summary")
         Else
-            clsCommon.MyMessageBoxShow("No data found.")
+            clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
         End If
     End Sub
 
@@ -649,7 +649,7 @@ Public Class frmCustomerBillWiseDuesSummary
         If gv1.Rows.Count > 0 Then
             clsCommon.MyExportToPDF("Customer Bill Dues Summary", gv1, arr, "Summary")
         Else
-            clsCommon.MyMessageBoxShow("No data found.")
+            clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
         End If
     End Sub
 End Class

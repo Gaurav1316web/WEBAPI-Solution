@@ -24,7 +24,7 @@ Partial Class frmBullInsurance
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmExport = New Telerik.WinControls.UI.RadMenuItem()
         Me.rmimport = New Telerik.WinControls.UI.RadMenuItem()
@@ -33,6 +33,8 @@ Partial Class frmBullInsurance
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.txtPolicyNo = New common.Controls.MyTextBox()
+        Me.MyLabel12 = New common.Controls.MyLabel()
         Me.txtInsType = New common.UserControls.txtFinder()
         Me.lblSerChargeAmt = New common.Controls.MyLabel()
         Me.lblTotalAmt = New common.Controls.MyLabel()
@@ -70,8 +72,6 @@ Partial Class frmBullInsurance
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
-        Me.MyLabel12 = New common.Controls.MyLabel()
-        Me.txtPolicyNo = New common.Controls.MyTextBox()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
@@ -79,6 +79,8 @@ Partial Class frmBullInsurance
         Me.SplitContainer2.Panel1.SuspendLayout()
         Me.SplitContainer2.Panel2.SuspendLayout()
         Me.SplitContainer2.SuspendLayout()
+        CType(Me.txtPolicyNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblSerChargeAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblTotalAmt, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -111,8 +113,6 @@ Partial Class frmBullInsurance
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtPolicyNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -223,6 +223,39 @@ Partial Class frmBullInsurance
         Me.SplitContainer2.SplitterDistance = 222
         Me.SplitContainer2.TabIndex = 0
         '
+        'txtPolicyNo
+        '
+        Me.txtPolicyNo.CalculationExpression = Nothing
+        Me.txtPolicyNo.FieldCode = Nothing
+        Me.txtPolicyNo.FieldDesc = Nothing
+        Me.txtPolicyNo.FieldMaxLength = 0
+        Me.txtPolicyNo.FieldName = Nothing
+        Me.txtPolicyNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtPolicyNo.isCalculatedField = False
+        Me.txtPolicyNo.IsSourceFromTable = False
+        Me.txtPolicyNo.IsSourceFromValueList = False
+        Me.txtPolicyNo.IsUnique = False
+        Me.txtPolicyNo.Location = New System.Drawing.Point(144, 77)
+        Me.txtPolicyNo.MaxLength = 200
+        Me.txtPolicyNo.MendatroryField = False
+        Me.txtPolicyNo.MyLinkLable1 = Nothing
+        Me.txtPolicyNo.MyLinkLable2 = Nothing
+        Me.txtPolicyNo.Name = "txtPolicyNo"
+        Me.txtPolicyNo.ReferenceFieldDesc = Nothing
+        Me.txtPolicyNo.ReferenceFieldName = Nothing
+        Me.txtPolicyNo.ReferenceTableName = Nothing
+        Me.txtPolicyNo.Size = New System.Drawing.Size(102, 18)
+        Me.txtPolicyNo.TabIndex = 68
+        '
+        'MyLabel12
+        '
+        Me.MyLabel12.FieldName = Nothing
+        Me.MyLabel12.Location = New System.Drawing.Point(11, 79)
+        Me.MyLabel12.Name = "MyLabel12"
+        Me.MyLabel12.Size = New System.Drawing.Size(54, 18)
+        Me.MyLabel12.TabIndex = 67
+        Me.MyLabel12.Text = "Policy No"
+        '
         'txtInsType
         '
         Me.txtInsType.CalculationExpression = Nothing
@@ -254,7 +287,7 @@ Partial Class frmBullInsurance
         Me.lblSerChargeAmt.AutoSize = False
         Me.lblSerChargeAmt.BorderVisible = True
         Me.lblSerChargeAmt.FieldName = Nothing
-        Me.lblSerChargeAmt.Location = New System.Drawing.Point(144, 167)
+        Me.lblSerChargeAmt.Location = New System.Drawing.Point(402, 165)
         Me.lblSerChargeAmt.Name = "lblSerChargeAmt"
         Me.lblSerChargeAmt.Size = New System.Drawing.Size(102, 20)
         Me.lblSerChargeAmt.TabIndex = 66
@@ -264,7 +297,7 @@ Partial Class frmBullInsurance
         Me.lblTotalAmt.AutoSize = False
         Me.lblTotalAmt.BorderVisible = True
         Me.lblTotalAmt.FieldName = Nothing
-        Me.lblTotalAmt.Location = New System.Drawing.Point(390, 165)
+        Me.lblTotalAmt.Location = New System.Drawing.Point(402, 187)
         Me.lblTotalAmt.Name = "lblTotalAmt"
         Me.lblTotalAmt.Size = New System.Drawing.Size(102, 20)
         Me.lblTotalAmt.TabIndex = 65
@@ -283,7 +316,7 @@ Partial Class frmBullInsurance
         '
         Me.MyLabel10.FieldName = Nothing
         Me.MyLabel10.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel10.Location = New System.Drawing.Point(269, 167)
+        Me.MyLabel10.Location = New System.Drawing.Point(269, 189)
         Me.MyLabel10.Name = "MyLabel10"
         Me.MyLabel10.Size = New System.Drawing.Size(74, 16)
         Me.MyLabel10.TabIndex = 61
@@ -303,7 +336,7 @@ Partial Class frmBullInsurance
         '
         Me.MyLabel9.FieldName = Nothing
         Me.MyLabel9.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel9.Location = New System.Drawing.Point(11, 167)
+        Me.MyLabel9.Location = New System.Drawing.Point(269, 167)
         Me.MyLabel9.Name = "MyLabel9"
         Me.MyLabel9.Size = New System.Drawing.Size(126, 16)
         Me.MyLabel9.TabIndex = 59
@@ -314,7 +347,7 @@ Partial Class frmBullInsurance
         Me.lblPremAmt.AutoSize = False
         Me.lblPremAmt.BorderVisible = True
         Me.lblPremAmt.FieldName = Nothing
-        Me.lblPremAmt.Location = New System.Drawing.Point(144, 143)
+        Me.lblPremAmt.Location = New System.Drawing.Point(402, 143)
         Me.lblPremAmt.Name = "lblPremAmt"
         Me.lblPremAmt.Size = New System.Drawing.Size(102, 20)
         Me.lblPremAmt.TabIndex = 64
@@ -338,7 +371,6 @@ Partial Class frmBullInsurance
         Me.txtInsAmt.MyLinkLable1 = Nothing
         Me.txtInsAmt.MyLinkLable2 = Nothing
         Me.txtInsAmt.Name = "txtInsAmt"
-        Me.txtInsAmt.ReadOnly = False
         Me.txtInsAmt.ReferenceFieldDesc = Nothing
         Me.txtInsAmt.ReferenceFieldName = Nothing
         Me.txtInsAmt.ReferenceTableName = Nothing
@@ -362,7 +394,7 @@ Partial Class frmBullInsurance
         Me.txtSerChargePer.IsSourceFromTable = False
         Me.txtSerChargePer.IsSourceFromValueList = False
         Me.txtSerChargePer.IsUnique = False
-        Me.txtSerChargePer.Location = New System.Drawing.Point(390, 143)
+        Me.txtSerChargePer.Location = New System.Drawing.Point(144, 165)
         Me.txtSerChargePer.MendatroryField = False
         Me.txtSerChargePer.MyLinkLable1 = Nothing
         Me.txtSerChargePer.MyLinkLable2 = Nothing
@@ -380,7 +412,7 @@ Partial Class frmBullInsurance
         '
         Me.MyLabel7.FieldName = Nothing
         Me.MyLabel7.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel7.Location = New System.Drawing.Point(11, 145)
+        Me.MyLabel7.Location = New System.Drawing.Point(269, 145)
         Me.MyLabel7.Name = "MyLabel7"
         Me.MyLabel7.Size = New System.Drawing.Size(94, 16)
         Me.MyLabel7.TabIndex = 55
@@ -390,7 +422,7 @@ Partial Class frmBullInsurance
         '
         Me.MyLabel8.FieldName = Nothing
         Me.MyLabel8.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel8.Location = New System.Drawing.Point(269, 145)
+        Me.MyLabel8.Location = New System.Drawing.Point(11, 167)
         Me.MyLabel8.Name = "MyLabel8"
         Me.MyLabel8.Size = New System.Drawing.Size(97, 16)
         Me.MyLabel8.TabIndex = 57
@@ -460,7 +492,7 @@ Partial Class frmBullInsurance
         Me.txtPremiumPer.IsSourceFromTable = False
         Me.txtPremiumPer.IsSourceFromValueList = False
         Me.txtPremiumPer.IsUnique = False
-        Me.txtPremiumPer.Location = New System.Drawing.Point(390, 121)
+        Me.txtPremiumPer.Location = New System.Drawing.Point(144, 143)
         Me.txtPremiumPer.MendatroryField = False
         Me.txtPremiumPer.MyLinkLable1 = Nothing
         Me.txtPremiumPer.MyLinkLable2 = Nothing
@@ -488,7 +520,7 @@ Partial Class frmBullInsurance
         Me.txtInsEndDate.IsSourceFromTable = False
         Me.txtInsEndDate.IsSourceFromValueList = False
         Me.txtInsEndDate.IsUnique = False
-        Me.txtInsEndDate.Location = New System.Drawing.Point(390, 99)
+        Me.txtInsEndDate.Location = New System.Drawing.Point(402, 99)
         Me.txtInsEndDate.MendatroryField = True
         Me.txtInsEndDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtInsEndDate.MyLinkLable1 = Me.MyLabel3
@@ -508,7 +540,7 @@ Partial Class frmBullInsurance
         '
         Me.MyLabel5.FieldName = Nothing
         Me.MyLabel5.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel5.Location = New System.Drawing.Point(269, 123)
+        Me.MyLabel5.Location = New System.Drawing.Point(11, 145)
         Me.MyLabel5.Name = "MyLabel5"
         Me.MyLabel5.Size = New System.Drawing.Size(65, 16)
         Me.MyLabel5.TabIndex = 53
@@ -521,7 +553,7 @@ Partial Class frmBullInsurance
         Me.lblInsType.FieldName = Nothing
         Me.lblInsType.Location = New System.Drawing.Point(334, 55)
         Me.lblInsType.Name = "lblInsType"
-        Me.lblInsType.Size = New System.Drawing.Size(156, 19)
+        Me.lblInsType.Size = New System.Drawing.Size(169, 19)
         Me.lblInsType.TabIndex = 44
         '
         'lblStatus
@@ -541,7 +573,7 @@ Partial Class frmBullInsurance
         Me.lblInsCompName.FieldName = Nothing
         Me.lblInsCompName.Location = New System.Drawing.Point(334, 33)
         Me.lblInsCompName.Name = "lblInsCompName"
-        Me.lblInsCompName.Size = New System.Drawing.Size(156, 19)
+        Me.lblInsCompName.Size = New System.Drawing.Size(169, 19)
         Me.lblInsCompName.TabIndex = 24
         '
         'txtInsCompany
@@ -584,7 +616,7 @@ Partial Class frmBullInsurance
         '
         Me.MyLabel2.FieldName = Nothing
         Me.MyLabel2.Font = New System.Drawing.Font("Arial", 8.25!)
-        Me.MyLabel2.Location = New System.Drawing.Point(11, 79)
+        Me.MyLabel2.Location = New System.Drawing.Point(269, 79)
         Me.MyLabel2.Name = "MyLabel2"
         Me.MyLabel2.Size = New System.Drawing.Size(63, 16)
         Me.MyLabel2.TabIndex = 23
@@ -604,7 +636,7 @@ Partial Class frmBullInsurance
         Me.txtPolicydate.IsSourceFromTable = False
         Me.txtPolicydate.IsSourceFromValueList = False
         Me.txtPolicydate.IsUnique = False
-        Me.txtPolicydate.Location = New System.Drawing.Point(144, 77)
+        Me.txtPolicydate.Location = New System.Drawing.Point(402, 77)
         Me.txtPolicydate.MendatroryField = True
         Me.txtPolicydate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtPolicydate.MyLinkLable1 = Me.MyLabel2
@@ -625,9 +657,9 @@ Partial Class frmBullInsurance
         Me.btnAddNew.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.btnAddNew.Image = Global.XpertErpBullManagement.My.Resources.Resources.new1
         Me.btnAddNew.ImageAlignment = System.Drawing.ContentAlignment.MiddleCenter
-        Me.btnAddNew.Location = New System.Drawing.Point(401, 10)
+        Me.btnAddNew.Location = New System.Drawing.Point(400, 10)
         Me.btnAddNew.Name = "btnAddNew"
-        Me.btnAddNew.Size = New System.Drawing.Size(21, 19)
+        Me.btnAddNew.Size = New System.Drawing.Size(21, 20)
         Me.btnAddNew.TabIndex = 22
         '
         'lblCode
@@ -665,7 +697,7 @@ Partial Class frmBullInsurance
         Me.gv1.MasterTemplate.AllowAddNewRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition7
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -744,39 +776,6 @@ Partial Class frmBullInsurance
         Me.btnsave.TabIndex = 156
         Me.btnsave.Text = "Save"
         '
-        'MyLabel12
-        '
-        Me.MyLabel12.FieldName = Nothing
-        Me.MyLabel12.Location = New System.Drawing.Point(269, 79)
-        Me.MyLabel12.Name = "MyLabel12"
-        Me.MyLabel12.Size = New System.Drawing.Size(54, 18)
-        Me.MyLabel12.TabIndex = 67
-        Me.MyLabel12.Text = "Policy No"
-        '
-        'txtPolicyNo
-        '
-        Me.txtPolicyNo.CalculationExpression = Nothing
-        Me.txtPolicyNo.FieldCode = Nothing
-        Me.txtPolicyNo.FieldDesc = Nothing
-        Me.txtPolicyNo.FieldMaxLength = 0
-        Me.txtPolicyNo.FieldName = Nothing
-        Me.txtPolicyNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtPolicyNo.isCalculatedField = False
-        Me.txtPolicyNo.IsSourceFromTable = False
-        Me.txtPolicyNo.IsSourceFromValueList = False
-        Me.txtPolicyNo.IsUnique = False
-        Me.txtPolicyNo.Location = New System.Drawing.Point(390, 77)
-        Me.txtPolicyNo.MaxLength = 200
-        Me.txtPolicyNo.MendatroryField = False
-        Me.txtPolicyNo.MyLinkLable1 = Nothing
-        Me.txtPolicyNo.MyLinkLable2 = Nothing
-        Me.txtPolicyNo.Name = "txtPolicyNo"
-        Me.txtPolicyNo.ReferenceFieldDesc = Nothing
-        Me.txtPolicyNo.ReferenceFieldName = Nothing
-        Me.txtPolicyNo.ReferenceTableName = Nothing
-        Me.txtPolicyNo.Size = New System.Drawing.Size(102, 18)
-        Me.txtPolicyNo.TabIndex = 68
-        '
         'frmBullInsurance
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -798,6 +797,8 @@ Partial Class frmBullInsurance
         Me.SplitContainer2.Panel1.PerformLayout()
         Me.SplitContainer2.Panel2.ResumeLayout(False)
         Me.SplitContainer2.ResumeLayout(False)
+        CType(Me.txtPolicyNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblSerChargeAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblTotalAmt, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
@@ -830,8 +831,6 @@ Partial Class frmBullInsurance
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtPolicyNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

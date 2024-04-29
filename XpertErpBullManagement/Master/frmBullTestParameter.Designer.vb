@@ -30,6 +30,7 @@ Partial Class frmBullTestParameter
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadMenu1 = New Telerik.WinControls.UI.RadMenu()
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
@@ -47,6 +48,7 @@ Partial Class frmBullTestParameter
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
+        Me.MyLabel1 = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -61,6 +63,7 @@ Partial Class frmBullTestParameter
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -73,6 +76,7 @@ Partial Class frmBullTestParameter
         '
         'SplitContainer1.Panel1
         '
+        Me.SplitContainer1.Panel1.Controls.Add(Me.MyLabel1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.RadMenu1)
         Me.SplitContainer1.Panel1.Controls.Add(Me.btnnew)
         Me.SplitContainer1.Panel1.Controls.Add(Me.txtPeriodcity)
@@ -153,9 +157,11 @@ Partial Class frmBullTestParameter
         RadListDataItem1.Text = "Boolean"
         RadListDataItem2.Text = "Range"
         RadListDataItem3.Text = "Alpha Numeric"
+        RadListDataItem4.Text = "Range Selection"
         Me.txtType.Items.Add(RadListDataItem1)
         Me.txtType.Items.Add(RadListDataItem2)
         Me.txtType.Items.Add(RadListDataItem3)
+        Me.txtType.Items.Add(RadListDataItem4)
         Me.txtType.Location = New System.Drawing.Point(80, 88)
         Me.txtType.Name = "txtType"
         Me.txtType.Size = New System.Drawing.Size(139, 20)
@@ -265,6 +271,16 @@ Partial Class frmBullTestParameter
         Me.btnsave.TabIndex = 7
         Me.btnsave.Text = "Save"
         '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(225, 115)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(56, 16)
+        Me.MyLabel1.TabIndex = 447
+        Me.MyLabel1.Text = "No Of Days"
+        '
         'frmBullTestParameter
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -292,6 +308,7 @@ Partial Class frmBullTestParameter
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -314,4 +331,5 @@ Partial Class frmBullTestParameter
     Friend WithEvents RadMenuItem1 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem2 As Telerik.WinControls.UI.RadMenuItem
     Friend WithEvents RadMenuItem4 As Telerik.WinControls.UI.RadMenuItem
+    Friend WithEvents MyLabel1 As common.Controls.MyLabel
 End Class

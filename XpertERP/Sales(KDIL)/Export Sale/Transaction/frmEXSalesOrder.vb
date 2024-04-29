@@ -521,7 +521,7 @@ Public Class frmEXSalesOrder
                     Me.txtConversionRate.Text = 1
                     Me.txtApplicableFrom.Text = ""
                 Else
-                    clsCommon.MyMessageBoxShow("Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
+                    clsCommon.MyMessageBoxShow(Me, "Conversion rate not entered for currency '" & Me.txtCurrencyCode.Value & "'")
                     Exit Sub
                 End If
             Else
@@ -4072,7 +4072,7 @@ Public Class frmEXSalesOrder
                     End If
                 Next
                 If (obj.Arr Is Nothing OrElse obj.Arr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return False
                 End If
 
@@ -4867,7 +4867,7 @@ Public Class frmEXSalesOrder
                         End If
                     End If
                 End If
-                common.clsCommon.MyMessageBoxShow(msg)
+                common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 LoadData(txtDocNo.Value, NavigatorType.Current)
 
                 If clsSMSAtPost_Sales.SMSATPOST_SALE() Then
@@ -7209,7 +7209,7 @@ Public Class frmEXSalesOrder
             gvAC.Rows.AddNew()
 
             If clsCommon.myLen(arrLoc) <= 0 Then
-                clsCommon.MyMessageBoxShow("No location rights.")
+                clsCommon.MyMessageBoxShow(Me, "No location rights.", Me.Text)
                 Exit Sub
             End If
 

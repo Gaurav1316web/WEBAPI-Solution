@@ -391,7 +391,7 @@ Public Class FrmCostCenterAnalysisRpt
     '            Return False
     '        End If
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '        Return False
     '    End Try
     'End Function
@@ -589,7 +589,7 @@ Public Class FrmCostCenterAnalysisRpt
                 Count += 1
             Next
             If Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No data found.")
+                clsCommon.MyMessageBoxShow(Me, "No data found.", Me.Text)
                 Return False
             Else
                 qry = "Select [Cost Centre], Name, " + ItemString2 + ", (" + strTotal + ") as Total from ( Select [Cost Centre], MAX(Name) as Name, (SUM(Debit) - SUM(Credit)) as charge, MAX([A/c Name]) as [A/c Name]   from ( " + qry + " ) XXX Group by [Cost Centre], [A/c Code] ) Final Pivot (SUM(charge) FOR [A/c Name] IN (" + ItemString1 + ")) AS pvt Order by [Cost Centre]"

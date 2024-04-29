@@ -9839,6 +9839,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullTestParameterEntry
                         frm = New frmBullTestParameterEntry
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmBullCMUGrouping
+                        frm = New frmBullCMUGrouping
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                         '-------------------- MIS Master---------------
 

@@ -27,26 +27,26 @@ Partial Class frmBullSourceName
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(frmBullSourceName))
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
+        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
+        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
+        Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
         Me.fndCode = New common.UserControls.txtNavigator()
         Me.lblCode = New common.Controls.MyLabel()
         Me.txtname = New common.Controls.MyTextBox()
         Me.lblName = New common.Controls.MyLabel()
         Me.btnnew = New Telerik.WinControls.UI.RadButton()
-        Me.RadMenu2 = New Telerik.WinControls.UI.RadMenu()
-        Me.RadMenuItem3 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.RadMenuItem6 = New Telerik.WinControls.UI.RadMenuItem()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnsave = New Telerik.WinControls.UI.RadButton()
         Me.btndelete = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtname, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.lblName, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -77,6 +77,33 @@ Partial Class frmBullSourceName
         Me.SplitContainer1.Size = New System.Drawing.Size(484, 236)
         Me.SplitContainer1.SplitterDistance = 197
         Me.SplitContainer1.TabIndex = 0
+        '
+        'RadMenu2
+        '
+        Me.RadMenu2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
+        Me.RadMenu2.Location = New System.Drawing.Point(0, 0)
+        Me.RadMenu2.Name = "RadMenu2"
+        Me.RadMenu2.Size = New System.Drawing.Size(484, 20)
+        Me.RadMenu2.TabIndex = 452
+        '
+        'RadMenuItem3
+        '
+        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem5, Me.RadMenuItem6})
+        Me.RadMenuItem3.Name = "RadMenuItem3"
+        Me.RadMenuItem3.Text = "File"
+        Me.RadMenuItem3.UseCompatibleTextRendering = False
+        '
+        'RadMenuItem5
+        '
+        Me.RadMenuItem5.Name = "RadMenuItem5"
+        Me.RadMenuItem5.Text = "Export"
+        Me.RadMenuItem5.UseCompatibleTextRendering = False
+        '
+        'RadMenuItem6
+        '
+        Me.RadMenuItem6.Name = "RadMenuItem6"
+        Me.RadMenuItem6.Text = "Import"
+        Me.RadMenuItem6.UseCompatibleTextRendering = False
         '
         'fndCode
         '
@@ -150,33 +177,6 @@ Partial Class frmBullSourceName
         Me.btnnew.Size = New System.Drawing.Size(15, 21)
         Me.btnnew.TabIndex = 451
         '
-        'RadMenu2
-        '
-        Me.RadMenu2.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem3})
-        Me.RadMenu2.Location = New System.Drawing.Point(0, 0)
-        Me.RadMenu2.Name = "RadMenu2"
-        Me.RadMenu2.Size = New System.Drawing.Size(484, 20)
-        Me.RadMenu2.TabIndex = 452
-        '
-        'RadMenuItem3
-        '
-        Me.RadMenuItem3.Items.AddRange(New Telerik.WinControls.RadItem() {Me.RadMenuItem5, Me.RadMenuItem6})
-        Me.RadMenuItem3.Name = "RadMenuItem3"
-        Me.RadMenuItem3.Text = "File"
-        Me.RadMenuItem3.UseCompatibleTextRendering = False
-        '
-        'RadMenuItem5
-        '
-        Me.RadMenuItem5.Name = "RadMenuItem5"
-        Me.RadMenuItem5.Text = "Export"
-        Me.RadMenuItem5.UseCompatibleTextRendering = False
-        '
-        'RadMenuItem6
-        '
-        Me.RadMenuItem6.Name = "RadMenuItem6"
-        Me.RadMenuItem6.Text = "Import"
-        Me.RadMenuItem6.UseCompatibleTextRendering = False
-        '
         'btnclose
         '
         Me.btnclose.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
@@ -223,11 +223,11 @@ Partial Class frmBullSourceName
         Me.SplitContainer1.Panel1.PerformLayout()
         Me.SplitContainer1.Panel2.ResumeLayout(False)
         Me.SplitContainer1.ResumeLayout(False)
+        CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblCode, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtname, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.lblName, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnnew, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.RadMenu2, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnclose, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btnsave, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.btndelete, System.ComponentModel.ISupportInitialize).EndInit()

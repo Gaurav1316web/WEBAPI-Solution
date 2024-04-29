@@ -111,7 +111,7 @@ Public Class FrmSchemeMasterDairy
             gvTS2.ReadOnly = True
             btn_Apply.Visible = False
         Catch ex As Exception
-            Throw New Exception(ex.Message) ''clsCommon.MyMessageBoxShow(ex.Message) comment it because after getting permission denied exception, it still opened the screen due to showmessage propety,so chenage it into throw exception
+            Throw New Exception(ex.Message) ''clsCommon.MyMessageBoxShow(me,ex.Message,me.text) comment it because after getting permission denied exception, it still opened the screen due to showmessage propety,so chenage it into throw exception
         End Try
 
     End Sub
@@ -552,7 +552,7 @@ Public Class FrmSchemeMasterDairy
                 gvTS.Rows.AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''RICHA AGARWAL 13 DEC,2016
@@ -723,7 +723,7 @@ Public Class FrmSchemeMasterDairy
                 SplitContainer3.Panel2Collapsed = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -849,7 +849,7 @@ Public Class FrmSchemeMasterDairy
             End If
             LoadData(fndScheme.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1105,7 +1105,7 @@ Public Class FrmSchemeMasterDairy
         Try
             SaveData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1701,7 +1701,7 @@ Public Class FrmSchemeMasterDairy
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2099,7 +2099,7 @@ Public Class FrmSchemeMasterDairy
             ListImpExpColumnsSuperMandatory = New List(Of String)({"Scheme Code"})
             transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2117,7 +2117,7 @@ Public Class FrmSchemeMasterDairy
             ListImpExpColumnsSuperMandatory = New List(Of String)({"Scheme Code", "Main Item Code", "Main Unit Code"})
             transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "beneficial")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2136,7 +2136,7 @@ Public Class FrmSchemeMasterDairy
             ListImpExpColumnsSuperMandatory = New List(Of String)({"Scheme Code", "Customer Code"})
             transportSql.ExporttoExcel(qry, "", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "Criteria")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2282,7 +2282,7 @@ Public Class FrmSchemeMasterDairy
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2416,7 +2416,7 @@ Public Class FrmSchemeMasterDairy
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2506,7 +2506,7 @@ Public Class FrmSchemeMasterDairy
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2593,7 +2593,7 @@ Public Class FrmSchemeMasterDairy
                 'lblQty.Visible = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2604,7 +2604,7 @@ Public Class FrmSchemeMasterDairy
             ListImpExpColumnsSuperMandatory = New List(Of String)({"Scheme_Code"})
             transportSql.ExporttoExcel(qry, " and tspl_scheme_master_new.Scheme_Type='Discount'", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "WholeSheet")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2804,7 +2804,7 @@ Public Class FrmSchemeMasterDairy
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2917,7 +2917,7 @@ Public Class FrmSchemeMasterDairy
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2999,7 +2999,7 @@ Public Class FrmSchemeMasterDairy
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3019,7 +3019,7 @@ Public Class FrmSchemeMasterDairy
                 gvTS.Rows(gvTS.CurrentRow.Index - 1).Cells(colTo).Value = clsCommon.myCdbl(clsCommon.myCdbl(gvTS.Rows(gvTS.CurrentRow.Index).Cells(colRange).Value) - 1)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -3039,7 +3039,7 @@ Public Class FrmSchemeMasterDairy
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3062,7 +3062,7 @@ Public Class FrmSchemeMasterDairy
             ListImpExpColumnsSuperMandatory = New List(Of String)({"Scheme_Code", "Min_Range", "Value"})
             transportSql.ExporttoExcel(qry, " and tspl_scheme_master_new.Scheme_Code='" & fndScheme.Value & "'", "", Me, ListImpExpColumnsMandatory, ListImpExpColumnsSuperMandatory, MyBase.Form_ID + "Slab")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3291,7 +3291,7 @@ Public Class FrmSchemeMasterDairy
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3302,7 +3302,7 @@ Public Class FrmSchemeMasterDairy
             btnApply.Visible = ChkQuantativeSch.Checked
             gvTS2.Visible = ChkQuantativeSch.Checked
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3352,7 +3352,7 @@ Public Class FrmSchemeMasterDairy
 
             Next
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3368,7 +3368,7 @@ Public Class FrmSchemeMasterDairy
             gvTS2.Rows.Clear()
             QuantativeSchemeWithSlab()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3403,7 +3403,7 @@ Public Class FrmSchemeMasterDairy
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3438,7 +3438,7 @@ Public Class FrmSchemeMasterDairy
                 gvVolumeSlab.Rows(gvVolumeSlab.CurrentRow.Index - 1).Cells(colTo).Value = clsCommon.myCdbl(clsCommon.myCdbl(gvVolumeSlab.Rows(gvVolumeSlab.CurrentRow.Index).Cells(colRange).Value) - 1)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3510,7 +3510,7 @@ Public Class FrmSchemeMasterDairy
             Dim qry = "select distinct Structure_Code as Code, Structure_Descq as Name from tspl_Structure_Master "
             txtItemSturcture.arrValueMember = clsCommon.ShowMultipleSelectForm("FND@Structure", qry, "Code", "Name", txtItemSturcture.arrValueMember, txtItemSturcture.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3624,7 +3624,7 @@ Public Class FrmSchemeMasterDairy
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -76,7 +76,7 @@ Public Class frmSectionConsumptionMapping
                 Next
                 obj.arrListConsumption = templist
                 If (clsSectionConsumptionMapping.SaveData(obj)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
@@ -99,7 +99,7 @@ Public Class frmSectionConsumptionMapping
             End If
         Next
         If TempMappingExist = False Then
-            common.clsCommon.MyMessageBoxShow("Please map at least one comsumption Type.", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please map at least one comsumption Type.", Me.Text)
             Return False
         End If
 
@@ -120,7 +120,7 @@ Public Class frmSectionConsumptionMapping
             txtCode.Focus()
         ElseIf myMessages.deleteConfirm() Then
             If (clsSectionConsumptionMapping.DeleteData(txtCode.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                 funreset()
             End If
         End If
@@ -302,7 +302,7 @@ Public Class frmSectionConsumptionMapping
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

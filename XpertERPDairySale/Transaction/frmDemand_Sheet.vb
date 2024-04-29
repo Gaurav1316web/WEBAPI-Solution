@@ -564,7 +564,7 @@ Public Class frmDemand_Sheet
     Private Sub Export(ByVal exporter As EnumExportTo)
         Try
             If gv1.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Export", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Export", Me.Text)
                 Exit Sub
             End If
             If exporter = EnumExportTo.Excel Then
