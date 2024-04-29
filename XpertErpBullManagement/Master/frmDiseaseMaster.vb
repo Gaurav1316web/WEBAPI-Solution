@@ -24,18 +24,17 @@ Public Class frmDiseaseMaster
         fndCode.Value = Nothing
         txtDisease.Text = Nothing
         btnSave.Text = "Save"
+        isNewEntry = True
     End Sub
 
     Private Sub fndCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCode._MYValidating
         Try
-            Dim Count As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue("Select Count(*) From TSPL_Disease_Master where Code='" + fndCode.Value + "'"))
+            Dim strCode As String = ""
             Qry = ""
             Qry = " Select Code,Name From TSPL_Disease_Master "
-            If Count > 0 Then
-                fndCode.Value = clsCommon.ShowSelectForm("fndrcode", Qry, "Code", "", fndCode.Value, "Code", isButtonClicked)
-            End If
-            If clsCommon.myLen(fndCode.Value) > 0 Then
-                LoadData(fndCode.Value, NavigatorType.Current)
+            strCode = clsCommon.ShowSelectForm("fndrcode", Qry, "Code", "", fndCode.Value, "Code", isButtonClicked)
+            If clsCommon.myLen(strCode) > 0 Then
+                LoadData(strCode, NavigatorType.Current)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -89,11 +88,13 @@ Public Class frmDiseaseMaster
         If clsCommon.myLen(fndCode.Value) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "Code can't be black.", Me.Text)
             Check = False
+            Exit Function
         End If
         If clsCommon.myLen(txtDisease.Text) <= 0 Then
             clsCommon.MyMessageBoxShow(Me, "Name can't be black.", Me.Text)
             txtDisease.Focus()
             Check = False
+            Exit Function
         End If
         Return Check
     End Function

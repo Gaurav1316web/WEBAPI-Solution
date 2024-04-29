@@ -251,6 +251,12 @@
     <Compile Include="Master\frmBullParameterGroup.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Master\frmBullParameterRangeSelection.Designer.vb">
+      <DependentUpon>frmBullParameterRangeSelection.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Master\frmBullParameterRangeSelection.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Master\frmBullPenIDMaster.Designer.vb">
       <DependentUpon>frmBullPenIDMaster.vb</DependentUpon>
     </Compile>
@@ -408,6 +414,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullParameterGroup.resx">
       <DependentUpon>frmBullParameterGroup.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Master\frmBullParameterRangeSelection.resx">
+      <DependentUpon>frmBullParameterRangeSelection.vb</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Master\frmBullPenIDMaster.resx">
       <DependentUpon>frmBullPenIDMaster.vb</DependentUpon>
