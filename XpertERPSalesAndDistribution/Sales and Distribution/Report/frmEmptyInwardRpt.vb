@@ -101,7 +101,7 @@ Public Class FrmEmptyInwardRpt
             frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "crptEmptyInwardRegister", "Empty Inward Register Report")
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

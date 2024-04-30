@@ -120,7 +120,7 @@ Public Class FrmPriceComponantMaster
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -166,7 +166,7 @@ Public Class FrmPriceComponantMaster
                 clsCommon.MyMessageBoxShow("No Customer found to delete.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -218,7 +218,7 @@ Public Class FrmPriceComponantMaster
             End If
             LoadData(txtComponentCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

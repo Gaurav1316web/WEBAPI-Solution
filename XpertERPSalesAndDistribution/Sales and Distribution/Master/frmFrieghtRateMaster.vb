@@ -558,7 +558,7 @@ Public Class frmFrieghtRateMaster
 
                     Catch ex As Exception
                         clsCommon.ProgressBarHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                 Else
                     clsCommon.MyMessageBoxShow(Me, "Excel Sheet is not in expected format", Me.Text)
@@ -571,7 +571,7 @@ Public Class frmFrieghtRateMaster
             Me.Controls.Remove(gv)
         Catch ex As Exception
             'clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
 

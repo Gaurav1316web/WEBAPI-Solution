@@ -123,7 +123,7 @@ Public Class FrmDayWiseLoadOutEntered
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal dtpLoadOutDate As String, ByVal location As String, ByVal type As String)
@@ -149,7 +149,7 @@ Public Class FrmDayWiseLoadOutEntered
                 isNewEntry = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try

@@ -335,7 +335,7 @@ Public Class FrmBulkSalePriceChart
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strCode As String, ByVal NavTyep As NavigatorType)
@@ -397,7 +397,7 @@ Public Class FrmBulkSalePriceChart
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -431,7 +431,7 @@ Public Class FrmBulkSalePriceChart
 
             LoadData(fndcode.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             qry = Nothing
         End Try
@@ -586,7 +586,7 @@ Public Class FrmBulkSalePriceChart
     '    '        End If
     '    '    End If
     '    'Catch ex As Exception
-    '    '    clsCommon.MyMessageBoxShow(ex.Message)
+    '    '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    'End Try
     '    Try
 
@@ -595,7 +595,7 @@ Public Class FrmBulkSalePriceChart
     '        End If
     '        TxtSNFWeightage.Value = (100 - clsCommon.myCdbl(TxtFatWeightage.Value))
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -607,7 +607,7 @@ Public Class FrmBulkSalePriceChart
             TxtSNFWeightage.Value = (100 - clsCommon.myCdbl(TxtFatWeightage.Value))
             CalculateFatandSNFRate()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'CalculateFatandSNFRate()
     End Sub
@@ -629,7 +629,7 @@ Public Class FrmBulkSalePriceChart
     '    '        End If
     '    '    End If
     '    'Catch ex As Exception
-    '    '    clsCommon.MyMessageBoxShow(ex.Message)
+    '    '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    'End Try
     '    Try
     '        If clsCommon.myCdbl(TxtSNFWeightage.Value) > 100 Then
@@ -637,7 +637,7 @@ Public Class FrmBulkSalePriceChart
     '        End If
     '        TxtFatWeightage.Value = (100 - clsCommon.myCdbl(TxtSNFWeightage.Value))
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -649,7 +649,7 @@ Public Class FrmBulkSalePriceChart
             TxtFatWeightage.Value = (100 - clsCommon.myCdbl(TxtSNFWeightage.Value))
             CalculateFatandSNFRate()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         'CalculateFatandSNFRate()
     End Sub
@@ -670,7 +670,7 @@ Public Class FrmBulkSalePriceChart
                 Throw New Exception("Please Select Price Code")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -702,7 +702,7 @@ Public Class FrmBulkSalePriceChart
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptBulkSalePriceChart", "Price Chart")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''=========================================================

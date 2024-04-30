@@ -714,7 +714,7 @@ Public Class frmRouteMaster
             Dim strtype As String = "select Route_Type_Id from TSPL_ROUTE_TYPE"
             transportSql.FillComboBox(strtype, ddltype, "Route_Type_Id", "Route_Type_Id")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'This is fun_ddl_Routeoffday Function Used To Fill rddl_route_offday From TSPL_FIXED_PARAMETER Where Description='Route Off Day'
@@ -1337,7 +1337,7 @@ Public Class frmRouteMaster
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub fndRoutePrice__MYValidating(ByVal sender As Object, ByVal e As System.EventArgs, ByVal isButtonClicked As Boolean) Handles fndRoutePrice._MYValidating
@@ -1353,7 +1353,7 @@ Public Class frmRouteMaster
             Dim qry = "select distinct EMP_CODE as EMPCODE,Emp_Name as EmpName, Designation,Pin_Code as [PinCode],Phone,Card_No as [CardNo],Cash from TSPL_EMPLOYEE_MASTER where Emp_type='SalesMan'"
             fnd_saleman_code.arrValueMember = clsCommon.ShowMultipleSelectForm("CR_fnd_DocNo", qry, "EMPCODE", "EmpName", fnd_saleman_code.arrValueMember, fnd_saleman_code.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub dgv_CellValueChanged(sender As Object, e As GridViewCellEventArgs) Handles dgv.CellValueChanged
@@ -1371,7 +1371,7 @@ Public Class frmRouteMaster
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub dgv_CurrentColumnChanged(sender As Object, e As CurrentColumnChangedEventArgs) Handles dgv.CurrentColumnChanged

@@ -87,7 +87,7 @@ Public Class FrmMerchantPaymentTermsGroup
         Try
             LoadData(fndGroupCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -197,7 +197,7 @@ Public Class FrmMerchantPaymentTermsGroup
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
