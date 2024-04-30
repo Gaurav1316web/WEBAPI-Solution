@@ -21,6 +21,37 @@ Public Class frmBullInsurance
 #End Region
 
     Private Sub frmBullInsurance_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Dim coll As Dictionary(Of String, String)
+        coll = New Dictionary(Of String, String)()
+
+        coll.Add("Document_Code", "varchar(30) NOT NULL Primary Key")
+        coll.Add("Policy_Code", "varchar(30) NOT NULL ")
+        coll.Add("Policy_Date", "DateTime not NULL")
+        coll.Add("Policy_Start_Date", "Date  NULL")
+        coll.Add("Policy_End__Date", "Date NULL")
+        coll.Add("Ins_Comp_Code", "VARCHAR(30) not NULL  REFERENCES TSPL_BULL_INSURANCE_MASTER (Code) ")
+        coll.Add("Ins_Type_Code", "VARCHAR(30) not NULL REFERENCES TSPL_BULL_INSURANCE_TYPE (Code)")
+        coll.Add("Insured_Amount", "Decimal (18,2) Null")
+        coll.Add("Premium_Per", "Decimal (18,2) Null")
+        coll.Add("Premium_Amount", "Decimal (18,2) Null")
+        coll.Add("Ser_Charge_Per", "Decimal (18,2) Null")
+        coll.Add("Ser_Charge_Amount", "Decimal (18,2) Null")
+        coll.Add("Total_Amount", "Decimal (18,2) Null")
+        coll.Add("Status", "integer not null default 0")
+        coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+        coll.Add("Created_Date", "datetime NOT NULL  ")
+        coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE) ")
+        coll.Add("Modified_Date", "datetime NOT NULL ")
+        coll.Add("Posted_By", "varchar(12) NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+        coll.Add("Posted_Date", "datetime NULL")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULL_INSURANCE", coll, "unique(Ins_Comp_Code, Policy_Code)", True, False, Nothing, Nothing, Nothing, False)
+
+        coll = New Dictionary(Of String, String)()
+        coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+        coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BULL_INSURANCE(Document_Code)")
+        coll.Add("Tag_No", "varchar(30) NOT NULL UNIQUE ")
+        clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULL_INSURANCE_TAG", coll, Nothing, True, False, "TSPL_BULL_INSURANCE", "Document_Code", "Policy_Date", False)
+
         SetUserMgmtNew()
         LoadBlankGrid()
         Addnew()

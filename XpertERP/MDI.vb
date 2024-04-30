@@ -9842,6 +9842,9 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullCMUGrouping
                         frm = New frmBullCMUGrouping
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+                    Case clsUserMgtCode.frmInsuranceTagAllocation
+                        frm = New frmInsuranceTagAllocation
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
                         '-------------------- MIS Master---------------
 

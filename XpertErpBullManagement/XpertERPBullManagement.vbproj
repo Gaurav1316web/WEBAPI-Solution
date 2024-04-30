@@ -392,6 +392,12 @@
     <Compile Include="Transaction\frmBullVaccinationEntry.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmInsuranceTagAllocation.Designer.vb">
+      <DependentUpon>frmInsuranceTagAllocation.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmInsuranceTagAllocation.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Master\frmBullBreedMaster.resx">
@@ -484,6 +490,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Transaction\frmBullMovement.resx">
       <DependentUpon>frmBullMovement.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transaction\frmInsuranceTagAllocation.resx">
+      <DependentUpon>frmInsuranceTagAllocation.vb</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

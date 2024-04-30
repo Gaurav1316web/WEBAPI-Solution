@@ -55132,7 +55132,7 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULL_INSURANCE", coll, "unique(Ins_Comp_Code, Policy_Code)", True, False, Nothing, Nothing, Nothing, False)
 
             coll = New Dictionary(Of String, String)()
-            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION")
+            coll.Add("PK_Id", "integer NOT NULL identity NOT FOR REPLICATION primary key")
             coll.Add("Document_Code", "Varchar(30) not null REFERENCES TSPL_BULL_INSURANCE(Document_Code)")
             coll.Add("Tag_No", "varchar(30) NOT NULL UNIQUE ")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_BULL_INSURANCE_TAG", coll, Nothing, True, False, "TSPL_BULL_INSURANCE", "Document_Code", "Policy_Date", False)
