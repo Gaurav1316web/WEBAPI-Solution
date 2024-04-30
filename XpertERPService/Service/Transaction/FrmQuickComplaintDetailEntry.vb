@@ -427,7 +427,7 @@ Public Class FrmQuickComplaintDetailEntry
                 ' clsCommon.MyMessageBoxShow("Data saved successfully.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -564,7 +564,7 @@ Public Class FrmQuickComplaintDetailEntry
                                     common.clsCommon.MyMessageBoxShow("Data Could Not Saved", Me.Text)
                                 End If
                             Catch ex As Exception
-                                clsCommon.MyMessageBoxShow(ex.Message)
+                                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                             End Try
 
                         End If
@@ -646,7 +646,7 @@ Public Class FrmQuickComplaintDetailEntry
                 clsCommon.MyMessageBoxShow("No Data Found.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             IsLoadData = False
         End Try
@@ -675,7 +675,7 @@ Public Class FrmQuickComplaintDetailEntry
                 clsCommon.MyMessageBoxShow("No Row selected.Please Select Row First..")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -749,7 +749,7 @@ Public Class FrmQuickComplaintDetailEntry
                 funReset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

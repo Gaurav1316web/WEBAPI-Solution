@@ -845,7 +845,7 @@ Public Class rptVSPCustomerReco
             transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
             transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1132,7 +1132,7 @@ select Cust_Account as [Code],Cust_Acct_Desc as Name,Receivable_Control_acct as 
             clsCommon.MyExportToPDF("Vendor Reco", Gv1, arrHeader, "Vendor Reco", PageSetupReport_ID, objCommonVar.CurrentUserCode)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

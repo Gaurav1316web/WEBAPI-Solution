@@ -88,7 +88,7 @@ Public Class FrmRequisitSubTypeMaster
                 cboItemType.SelectedValue = clsCommon.myCstr(obj.Type)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
@@ -117,7 +117,7 @@ Public Class FrmRequisitSubTypeMaster
             End If
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

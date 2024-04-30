@@ -42,7 +42,7 @@ Public Class FrmPrimaryReasonMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -57,7 +57,7 @@ Public Class FrmPrimaryReasonMaster
             ButtonToolTip.SetToolTip(rbtnClose, "Press Alt+C Close the Window")
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Reset()
@@ -117,7 +117,7 @@ Public Class FrmPrimaryReasonMaster
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -141,7 +141,7 @@ Public Class FrmPrimaryReasonMaster
                 common.clsCommon.MyMessageBoxShow("Data Could Not Saved")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -160,7 +160,7 @@ Public Class FrmPrimaryReasonMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -175,7 +175,7 @@ Public Class FrmPrimaryReasonMaster
                 lblComplaintGroupDesc.Text = obj.description
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -228,7 +228,7 @@ Public Class FrmPrimaryReasonMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -265,7 +265,7 @@ Public Class FrmPrimaryReasonMaster
             str = "select Reason_Code as 'Reason Code' ,Description, Complaint_Code as 'Complaint Code' from   TSPL_Primary_Reason_MASTER "
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

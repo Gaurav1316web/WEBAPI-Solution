@@ -395,7 +395,7 @@ Public Class frmAssetInstallPullOut
             dr("Status") = "NO"
             dt.Rows.Add(dr)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return dt
     End Function
@@ -930,7 +930,7 @@ Public Class frmAssetInstallPullOut
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1604,7 +1604,7 @@ a:              Next
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         Me.Controls.Remove(gv1)

@@ -166,7 +166,7 @@ Public Class FrmAssetAgreement
             gv1.AddNewRowPosition = Telerik.WinControls.UI.SystemRowPosition.Bottom
             gv1.MasterTemplate.ShowRowHeaderColumn = False
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function loadStatusValues() As DataTable
@@ -181,7 +181,7 @@ Public Class FrmAssetAgreement
             dr("Status") = "NO"
             dt.Rows.Add(dr)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return dt
     End Function
@@ -202,7 +202,7 @@ Public Class FrmAssetAgreement
                 gv1.CurrentRow.Cells("colOutletNo").Value = clsCommon.ShowSelectForm("OUTLETfndnder", qry, "Code", "", clsCommon.myCstr(gv1.CurrentRow.Cells("colOutletNo").Value), "Code", False)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub openAssetList()
@@ -215,7 +215,7 @@ Public Class FrmAssetAgreement
                 gv1.CurrentRow.Cells("colAssetID").Value = clsCommon.ShowSelectForm("ASSETfndnder", qry, "SerialNo", "", clsCommon.myCstr(gv1.CurrentRow.Cells("colAssetID").Value), "Code", False)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub loadData(Optional ByVal navtype As NavigatorType = NavigatorType.Current)
@@ -249,7 +249,7 @@ Public Class FrmAssetAgreement
                 Next
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub blankAllControls()
@@ -271,14 +271,14 @@ Public Class FrmAssetAgreement
             txtRemarks.Text = ""
             LoadBlankGrid()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click
         Try
             Me.Close()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -286,7 +286,7 @@ Public Class FrmAssetAgreement
         Try
             blankAllControls()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function AllowToSave() As Boolean
@@ -374,7 +374,7 @@ Public Class FrmAssetAgreement
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -432,7 +432,7 @@ Public Class FrmAssetAgreement
             trans.Commit()
             clsCommon.MyMessageBoxShow("Data Saved Successfully")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
         txtDocNo.Focus()
@@ -501,7 +501,7 @@ Public Class FrmAssetAgreement
                 lblEMPName.Text = clsDBFuncationality.getSingleValue("select emp_name from tspl_employee_master where emp_code='" & txtEmpNo.Value & "'")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -515,7 +515,7 @@ Public Class FrmAssetAgreement
                 lblLocDesc.Text = clsDBFuncationality.getSingleValue("select Location_desc from tspl_Location_master where Location_code='" & txtLocCode.Value & "'")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -607,7 +607,7 @@ Public Class FrmAssetAgreement
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -620,7 +620,7 @@ Public Class FrmAssetAgreement
             str = "select a.document_no as 'Document No',a.document_date as 'Document Date',a.employee_code as 'Employee Code',c.Emp_Name as 'Employee Name',a.loc_code as 'Location Code',d.Location_Desc as 'Location Description',a.courier_no as 'Courier No',a.courier_comp_name as 'Courier Company Name',a.courier_date as 'Courier Date',b.OUTLET_NO as 'Outlet No',e.Customer_Name as 'Outlet Name',b.Asset_id as 'Asset ID',b.AGREEMENT_NO as 'Agreement No',b.AGREEMENT_DATE as 'Agreement Date',b.AGREEMENT_FROM_DATE as 'Agreement Valid From',b.AGREEMENT_TO_DATE as 'Agreement Valid Till',b.RECEIVED_YN as 'Received Status',b.RECEIVED_DATE as 'Received Date' from TSPL_ASSET_AGREEMENT_HEAD as a left outer join TSPL_ASSET_AGREEMENT_DETAILS as b on a.document_no=b.DOCUMENT_NO left outer join TSPL_EMPLOYEE_MASTER as c on c.EMP_CODE =a.employee_code left outer join TSPL_LOCATION_MASTER as d on d.Location_Code =a.loc_code left outer join TSPL_CUSTOMER_MASTER as e on e.Cust_Code =b.OUTLET_NO "
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -816,7 +816,7 @@ Public Class FrmAssetAgreement
             Next
             'Return False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return False
