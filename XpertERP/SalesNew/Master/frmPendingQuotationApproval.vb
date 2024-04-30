@@ -197,7 +197,7 @@ Public Class FrmPendingQuotationApproval
             frm.StrDocNo = DocNo
             frm.ShowDialog()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

@@ -457,7 +457,7 @@ Public Class frmJWFormulaMaster
                             Dim dblxyz = clsDBFuncationality.getSingleValue("select  " + ChkFormula + "", trans)
                         Catch ex As Exception
                             Throw New Exception("Not a Correct Formula. At Line No. " + clsCommon.myCstr(linno) + ".")
-                            'clsCommon.MyMessageBoxShow(ex.Message)
+                            'clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
                             txtFormula.Focus()
                         End Try
                     End If

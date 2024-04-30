@@ -166,7 +166,7 @@ Public Class RptMTPIInHead
             TemplateGridview = gv1
             Load_Report()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -228,7 +228,7 @@ Public Class RptMTPIInHead
                 common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -248,7 +248,7 @@ Public Class RptMTPIInHead
             TxtMultiLocationFinder4.arrValueMember = clsCommon.ShowMultipleSelectForm("RptMTPIInHeadMultiLocFinder", qry, "Code", "Name", TxtMultiLocationFinder4.arrValueMember, TxtMultiLocationFinder4.arrDispalyMember)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
