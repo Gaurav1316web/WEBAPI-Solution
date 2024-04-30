@@ -369,7 +369,7 @@ Public Class FrmFarmerServiceOrderWithRate
 
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
 
         End Try
@@ -436,7 +436,7 @@ Public Class FrmFarmerServiceOrderWithRate
                 End If
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -516,7 +516,7 @@ Public Class FrmFarmerServiceOrderWithRate
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub FrmFarmerServiceOrderWithRate_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown
@@ -637,7 +637,7 @@ Public Class FrmFarmerServiceOrderWithRate
         'Try
         '    LoadData(txtServiceOrder.Value, NavType)
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -682,7 +682,7 @@ Public Class FrmFarmerServiceOrderWithRate
                 trans.Rollback()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -741,7 +741,7 @@ Public Class FrmFarmerServiceOrderWithRate
                 lblArea.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

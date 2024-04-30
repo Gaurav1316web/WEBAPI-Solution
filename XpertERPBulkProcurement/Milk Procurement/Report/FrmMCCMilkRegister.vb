@@ -4661,7 +4661,7 @@ Public Class FrmMCCMilkRegister
             'txtMCC.arrValueMember
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 End Class

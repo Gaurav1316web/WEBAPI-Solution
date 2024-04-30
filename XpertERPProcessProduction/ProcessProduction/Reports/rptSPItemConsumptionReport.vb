@@ -33,7 +33,7 @@ Public Class rptSPItemConsumptionReport
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Print(ByVal IsPrint As Exporter)
@@ -748,7 +748,7 @@ Public Class rptSPItemConsumptionReport
 
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RptItemConsumptionReport_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown

@@ -161,7 +161,7 @@ Public Class clsBullVaccinationEntry
             If (obj.Status = 1) Then
                 Throw New Exception("Already Posted")
             End If
-            'UpdateInventoryMovement(obj, trans, False)
+            UpdateInventoryMovement(obj, trans, False)
 
             clsDBFuncationality.ExecuteNonQuery("Update TSPL_BULL_VACCINE_ENTRY set Status= 1, Posted_By = '" + objCommonVar.CurrentUserCode + "',Posted_Date = '" + clsCommon.GetPrintDate(clsCommon.GETSERVERDATE(trans), "dd/MMM/yyyy hh:mm:ss tt") + "'  where Document_Code='" & obj.Document_Code & "'", trans)
 
@@ -172,52 +172,52 @@ Public Class clsBullVaccinationEntry
         Return True
     End Function
 
-    'Public Shared Function UpdateInventoryMovement(ByVal obj As clsBullVaccinationEntry, ByVal trans As SqlTransaction, Optional ByVal UpdateInventory As Boolean = False) As Boolean
-    '    Try
-    '        Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
-    '        If UpdateInventory = True Then
-    '            clsDBFuncationality.ExecuteNonQuery("update tspl_batch_item set Against_Inv_Movement_Trans_Id=null where Document_Code='" & obj.Document_Code & "'", trans)
-    '            clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & obj.Document_Code & "'", trans)
-    '        End If
-    '        Dim strRgpNo As String = Nothing
-    '        Dim intCounter As Integer = 0
-    '        For Each objTr As clsBullVaccinationEntryDetail In obj.Arr
-    '            intCounter = intCounter + 1
+    Public Shared Function UpdateInventoryMovement(ByVal obj As clsBullVaccinationEntry, ByVal trans As SqlTransaction, Optional ByVal UpdateInventory As Boolean = False) As Boolean
+        Try
+            Dim ArrInventoryMovement As List(Of clsInventoryMovement) = New List(Of clsInventoryMovement)
+            If UpdateInventory = True Then
+                clsDBFuncationality.ExecuteNonQuery("update tspl_batch_item set Against_Inv_Movement_Trans_Id=null where Document_Code='" & obj.Document_Code & "'", trans)
+                clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_INVENTORY_MOVEMENT where Source_Doc_No='" & obj.Document_Code & "'", trans)
+            End If
+            Dim strRgpNo As String = Nothing
+            Dim intCounter As Integer = 0
+            For Each objTr As clsBullVaccinationEntryDetail In obj.Arr
+                intCounter = intCounter + 1
 
-    '            Dim strItemType As String = clsItemMaster.GetItemType(objTr.Item_Code, trans)
-    '            Dim strItemTypeToSave As String = ""
-    '            If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
-    '                strItemTypeToSave = "RM"
-    '            ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
-    '                strItemTypeToSave = "OT"
-    '            ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
-    '                strItemTypeToSave = "FT"
-    '            Else
-    '                strItemTypeToSave = strItemType
-    '            End If
-    '            Dim objInventoryMovemnt As New clsInventoryMovement()
-    '            objInventoryMovemnt.InOut = "O"
-    '            objInventoryMovemnt.Location_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where User_Code = '" & objCommonVar.CurrentUserCode & "'", trans))
+                Dim strItemType As String = clsItemMaster.GetItemType(objTr.Item_Code, trans)
+                Dim strItemTypeToSave As String = ""
+                If clsCommon.CompairString(strItemType, "R") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "RM"
+                ElseIf clsCommon.CompairString(strItemType, "P") = CompairStringResult.Equal OrElse clsCommon.CompairString(strItemType, "O") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "OT"
+                ElseIf clsCommon.CompairString(strItemType, "F") = CompairStringResult.Equal Then
+                    strItemTypeToSave = "FT"
+                Else
+                    strItemTypeToSave = strItemType
+                End If
+                Dim objInventoryMovemnt As New clsInventoryMovement()
+                objInventoryMovemnt.InOut = "O"
+                objInventoryMovemnt.Location_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Default_Location from tspl_user_master where User_Code = '" & objCommonVar.CurrentUserCode & "'", trans))
 
-    '            'objInventoryMovemnt.Cust_Code = obj.Customer_Code
-    '            'objInventoryMovemnt.Cust_Name = obj.Customer_Name
-    '            objInventoryMovemnt.Item_Code = objTr.Item_Code
-    '            objInventoryMovemnt.Item_Desc = objTr.Item_Desc
-    '            objInventoryMovemnt.Qty = objTr.Qty
-    '            objInventoryMovemnt.UOM = objTr.Unit_code
-    '            'objInventoryMovemnt.Basic_Cost = objTr.Item_Cost
-    '            'objInventoryMovemnt.MRP = objTr.MRP
-    '            'objInventoryMovemnt.Add_Cost = objTr.Total_Tax_Amt
-    '            'objInventoryMovemnt.Net_Cost = objTr.Total_Tax_Amt
-    '            objInventoryMovemnt.ItemType = strItemTypeToSave
-    '            ArrInventoryMovement.Add(objInventoryMovemnt)
-    '        Next
-    '        clsInventoryMovement.SaveData(clsUserMgtCode.frmBullVaccinationEntry, obj.Document_Code, obj.Document_date, clsCommon.GetPrintDate(obj.Document_date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
-    '    Catch ex As Exception
-    '        Throw New Exception(ex.Message)
-    '    End Try
-    '    Return True
-    'End Function
+                'objInventoryMovemnt.Cust_Code = obj.Customer_Code
+                'objInventoryMovemnt.Cust_Name = obj.Customer_Name
+                objInventoryMovemnt.Item_Code = objTr.Item_Code
+                objInventoryMovemnt.Item_Desc = objTr.Item_Desc
+                objInventoryMovemnt.Qty = objTr.Qty
+                objInventoryMovemnt.UOM = objTr.Unit_code
+                'objInventoryMovemnt.Basic_Cost = objTr.Item_Cost
+                'objInventoryMovemnt.MRP = objTr.MRP
+                'objInventoryMovemnt.Add_Cost = objTr.Total_Tax_Amt
+                'objInventoryMovemnt.Net_Cost = objTr.Total_Tax_Amt
+                objInventoryMovemnt.ItemType = strItemTypeToSave
+                ArrInventoryMovement.Add(objInventoryMovemnt)
+            Next
+            clsInventoryMovement.SaveData(clsUserMgtCode.frmBullVaccinationEntry, obj.Document_Code, obj.Document_date, clsCommon.GetPrintDate(obj.Document_date, "dd/MM/yyyy"), ArrInventoryMovement, trans)
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
     Public Shared Function ReverseAndUnpost(ByVal strCode As String) As Boolean
         Dim isResponse As Boolean = False
         Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()

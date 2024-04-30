@@ -191,7 +191,7 @@ Public Class FrmDocumentAcceptance
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub Reset()
@@ -441,7 +441,7 @@ Public Class FrmDocumentAcceptance
             End If
             isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -708,7 +708,7 @@ Public Class FrmDocumentAcceptance
             End If
             LoadData(fndDocumentAcceptance.Value, NavType)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -733,7 +733,7 @@ Public Class FrmDocumentAcceptance
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub UpdateAllTotals()
@@ -748,7 +748,7 @@ Public Class FrmDocumentAcceptance
             lblTotRAmt.Text = clsCommon.myFormat(dblTotAmt)
            
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub UpdateCurrentRow(ByVal IntRowNo As Integer)
@@ -764,7 +764,7 @@ Public Class FrmDocumentAcceptance
             Amount = Qty * rate
             gv1.Rows(IntRowNo).Cells(colAmount).Value = Math.Round(Amount, 2)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -776,7 +776,7 @@ Public Class FrmDocumentAcceptance
                 Throw New Exception("Please Select Acceptance No first")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funAcceptanceLetterPrint()
@@ -802,7 +802,7 @@ Public Class FrmDocumentAcceptance
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptAcceptanceLetterMT", "Acceptance Letter")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -814,7 +814,7 @@ Public Class FrmDocumentAcceptance
                 Throw New Exception("Please Select Acceptance No first")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funTrustReceiptPrint()
@@ -837,7 +837,7 @@ Public Class FrmDocumentAcceptance
             frmCRV.funreport(CrystalReportFolder.KwalitySalesReport, dt, "rptTrustReceiptMT", "Trust Receipt")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -902,7 +902,7 @@ Public Class FrmDocumentAcceptance
                 Throw New Exception("Please Select Acceptance No first")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub funFormA2Print()
@@ -920,7 +920,7 @@ Public Class FrmDocumentAcceptance
             'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
             'KwalitySalesReportViewer.funreport(dt, "rptFormA2MT", "Form A2")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

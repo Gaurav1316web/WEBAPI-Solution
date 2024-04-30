@@ -505,7 +505,7 @@ Public Class FrmLockTransaction1
 
             dgvDetails.CurrentRow = dgvDetails.Rows(0)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -610,7 +610,7 @@ Public Class FrmLockTransaction1
             dgvDetails.CurrentRow = dgvDetails.Rows(0)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -692,7 +692,7 @@ Public Class FrmLockTransaction1
             dgvDetails.CurrentRow = dgvDetails.Rows(0)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     
@@ -751,7 +751,7 @@ Public Class FrmLockTransaction1
             
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -772,7 +772,7 @@ Public Class FrmLockTransaction1
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -993,7 +993,7 @@ Public Class FrmLockTransaction1
             common.clsCommon.MyMessageBoxShow("Locked Successfully")
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -1068,7 +1068,7 @@ Public Class FrmLockTransaction1
                 LoadOriginalDetailMultipleLoc()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -1112,7 +1112,7 @@ Public Class FrmLockTransaction1
                 LoadOriginalDetailMultipleLoc()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1126,7 +1126,7 @@ Public Class FrmLockTransaction1
             clsDBFuncationality.ExecuteNonQuery("Delete from TSPL_LOCK_LOCATION_USER ")
             clsCommon.MyMessageBoxShow("All User Locked successfully")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

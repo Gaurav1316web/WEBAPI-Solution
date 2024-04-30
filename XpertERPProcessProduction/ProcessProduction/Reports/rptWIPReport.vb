@@ -713,7 +713,7 @@ Public Class RptWIPReport
         Try
             print(EnumExportTo.Excel)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -747,7 +747,7 @@ Public Class RptWIPReport
             transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
             clsCommon.MyExportToPDF("WIP Report", gv1, arrHeader, "WIP Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -206,7 +206,7 @@ Public Class frmBullStatus
 
     Private Sub txtCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles txtCode._MYNavigator
         Try
-            Dim qry As String = "select count(*) from TSPL_BULL_STATUS_MASTER where Code='" + txtCode.Value + "' "
+            Dim qry As String = "select count(*) from TSPL_BULL_STATUS_MASTER where STSTUS_Code='" + txtCode.Value + "' "
             Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
             If count = 0 Then
                 txtCode.MyReadOnly = False

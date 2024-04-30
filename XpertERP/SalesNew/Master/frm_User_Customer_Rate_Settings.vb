@@ -228,7 +228,7 @@ Public Class Frm_User_Customer_Rate_Settings
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -254,7 +254,7 @@ Public Class Frm_User_Customer_Rate_Settings
             clsCommon.MyMessageBoxShow("Data deleted Successfully")
             LoadData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub dgvUserCustomer_CurrentColumnChanged(ByVal sender As Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles dgvUserCustomer.CurrentColumnChanged

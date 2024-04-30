@@ -73,10 +73,16 @@ Public Class frmBullParameterRangeSelection
 
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         Try
-            Dim obj As clsBullParameterGroupDeatilRange()
+            Dim obj As New clsBullParameterGroup()
+            obj.arrSelectionRange = New List(Of clsBullParameterGroupDeatilRange)
             If gvRangeDetails IsNot Nothing AndAlso gvRangeDetails.Rows.Count > 0 Then
-
+                Dim objTr As New clsBullParameterGroupDeatilRange()
+                For Each gvRows As GridViewRowInfo In gvRangeDetails.Rows
+                    objTr.Range_Selection = clsCommon.myCstr(gvRows.Cells(colSelection).Value)
+                    obj.arrSelectionRange.Add(objTr)
+                Next
             End If
+            Me.Close()
         Catch ex As Exception
             MessageBox.Show(Me, ex.Message, Me.Text)
         End Try
