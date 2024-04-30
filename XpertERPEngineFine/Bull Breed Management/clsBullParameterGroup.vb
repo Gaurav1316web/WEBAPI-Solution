@@ -123,6 +123,7 @@ Public Class clsBullParameterGroup
             End If
 
             IsSaved = IsSaved AndAlso clsBullParameterGroupDetail.SaveData(clsCommon.myCstr(obj.Code), obj.Arr, trans)
+            IsSaved = IsSaved AndAlso clsBullParameterGroupDeatilRange.SaveData(clsCommon.myCstr(obj.Code), obj.arrSelectionRange, trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -172,12 +173,16 @@ Public Class clsBullParameterGroupDetail
 End Class
 
 Public Class clsBullParameterGroupDeatilRange
+    Public Against_Group_Code As String
+    Public Against_Detail_PK_Id As Decimal
     Public Range_Selection As String
 
-    Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsBullParameterGroupDetail), ByVal trans As SqlTransaction) As Boolean
-        If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
-            For Each obj As clsBullParameterGroupDetail In Arr
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal arrSelection As List(Of clsBullParameterGroupDeatilRange), ByVal trans As SqlTransaction) As Boolean
+        If (arrSelection IsNot Nothing AndAlso arrSelection.Count > 0) Then
+            For Each obj As clsBullParameterGroupDeatilRange In arrSelection
                 Dim colm As New Hashtable()
+                clsCommon.AddColumnsForChange(colm, "Against_Group_Code", obj.Against_Group_Code)
+                'clsCommon.AddColumnsForChange(colm, "Against_Detail_PK_Id", obj.Against_Detail_PK_Id)
                 clsCommon.AddColumnsForChange(colm, "Range_Selection", obj.Range_Selection)
                 clsCommonFunctionality.UpdateDataTable(colm, "TSPL_BULL_PARAMETER_GROUP_DETAIL_RANGE", OMInsertOrUpdate.Insert, "", trans)
             Next
