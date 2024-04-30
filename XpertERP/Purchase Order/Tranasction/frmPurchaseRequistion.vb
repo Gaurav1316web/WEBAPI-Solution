@@ -1789,7 +1789,7 @@ Public Class frmPurchaseRequistion
             ''    e.CellElement.Alignment = ContentAlignment.TopLeft
             ''End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -1940,7 +1940,7 @@ Public Class frmPurchaseRequistion
     '        'End If
 
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
     'Public Sub sendEMailThroughOUTLOOK(ByVal strPath As String, ByVal arrReceivers As List(Of String), ByVal arrUsers As List(Of String), ByVal ReqNo As String, ByVal ReqDate As String)

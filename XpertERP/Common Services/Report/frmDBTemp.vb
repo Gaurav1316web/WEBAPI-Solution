@@ -861,7 +861,7 @@ Public Class frmDBTemp
         '        View(gv_ProductSale)
         '    End If
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
     Sub LoadTransportCharges()
@@ -892,7 +892,7 @@ Public Class frmDBTemp
         '        gvTransportcost.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         '    End If
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
     Sub LoadPO()
@@ -923,7 +923,7 @@ Public Class frmDBTemp
         '        gv_po.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
         '    End If
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -960,7 +960,7 @@ Public Class frmDBTemp
 
         '    End If
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 

@@ -250,7 +250,7 @@ Public Class FrmProgramMappingDetail
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenTable2List(ByVal isButtonClick As Boolean)
@@ -325,7 +325,7 @@ Public Class FrmProgramMappingDetail
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenTable3List(ByVal isButtonClick As Boolean)
@@ -340,7 +340,7 @@ Public Class FrmProgramMappingDetail
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenTable4List(ByVal isButtonClick As Boolean)
@@ -356,7 +356,7 @@ Public Class FrmProgramMappingDetail
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenTable5List(ByVal isButtonClick As Boolean)

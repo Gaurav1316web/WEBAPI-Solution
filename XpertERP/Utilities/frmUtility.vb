@@ -3128,7 +3128,7 @@ Public Class FrmUtility
                 clsCommon.MyMessageBoxShow("Successfully Updated")
             Catch ex As Exception
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -3215,7 +3215,7 @@ Public Class FrmUtility
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -3254,7 +3254,7 @@ Public Class FrmUtility
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -4043,7 +4043,7 @@ Public Class FrmUtility
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4084,7 +4084,7 @@ Public Class FrmUtility
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4123,7 +4123,7 @@ Public Class FrmUtility
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -4162,7 +4162,7 @@ Public Class FrmUtility
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -4201,7 +4201,7 @@ Public Class FrmUtility
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -4240,7 +4240,7 @@ Public Class FrmUtility
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -4281,7 +4281,7 @@ Public Class FrmUtility
         'Catch ex As Exception
         'clsCommon.ProgressBarPercentHide()
         'trans.Rollback()
-        'clsCommon.MyMessageBoxShow(ex.Message)
+        'clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -4319,7 +4319,7 @@ Public Class FrmUtility
         ' Catch ex As Exception
         'clsCommon.ProgressBarPercentHide()
         'trans.Rollback()
-        'clsCommon.MyMessageBoxShow(ex.Message)
+        'clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -4357,7 +4357,7 @@ Public Class FrmUtility
         '' Catch ex As Exception
         ''clsCommon.ProgressBarPercentHide()
         ''trans.Rollback()
-        ''clsCommon.MyMessageBoxShow(ex.Message)
+        ''clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         ''End Try
         clsCommon.MyMessageBoxShow("Under Process")
     End Sub
@@ -5067,7 +5067,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5186,7 +5186,7 @@ Public Class FrmUtility
     '            common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
     '        End If
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    Finally
     '        dt = Nothing
     '    End Try
@@ -5577,7 +5577,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6552,7 +6552,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6617,7 +6617,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6690,7 +6690,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6806,7 +6806,7 @@ Public Class FrmUtility
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6851,7 +6851,7 @@ Public Class FrmUtility
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -7859,7 +7859,7 @@ Public Class FrmUtility
     '    Catch ex As Exception
     '        clsCommon.ProgressBarPercentHide()
     '        trans.Rollback()
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
 
     'End Sub
@@ -8884,7 +8884,7 @@ Public Class FrmUtility
     '                        End Try
     '                    End If
     '                Catch ex As Exception
-    '                    clsCommon.MyMessageBoxShow(ex.Message)
+    '                    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '                End Try
     '            End If
     '        Next
@@ -9269,7 +9269,7 @@ Public Class FrmUtility
             Next
             Return text.ToString
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return ""
     End Function
@@ -9867,7 +9867,7 @@ Public Class FrmUtility
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9953,7 +9953,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10073,7 +10073,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10191,7 +10191,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10308,7 +10308,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10432,7 +10432,7 @@ Public Class FrmUtility
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10563,7 +10563,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10646,7 +10646,7 @@ Public Class FrmUtility
 
     '    Catch ex As Exception
     '        trans.Rollback()
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -10735,7 +10735,7 @@ Public Class FrmUtility
         Catch ex As Exception
             clsCommon.ProgressBarHide()
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10760,7 +10760,7 @@ Public Class FrmUtility
             ''=====5.
             btnWR_FatSNF_Click()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -10783,7 +10783,7 @@ Public Class FrmUtility
 
             clsCommon.MyMessageBoxShow("Production Standardization FAT/SNF updated sucessfully.")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -10809,7 +10809,7 @@ Public Class FrmUtility
 
             clsCommon.MyMessageBoxShow("Production Entry FAT/SNF updated sucessfully.")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -10826,7 +10826,7 @@ Public Class FrmUtility
 
             clsCommon.MyMessageBoxShow("Stage Process FAT/SNF updated sucessfully.")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -10843,7 +10843,7 @@ Public Class FrmUtility
 
             clsCommon.MyMessageBoxShow("Wreckage Booking FAT/SNF updated sucessfully.")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -10988,7 +10988,7 @@ Public Class FrmUtility
         'Catch ex As Exception
         '    clsCommon.ProgressBarHide()
         '    trans.Rollback()
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -11177,7 +11177,7 @@ Public Class FrmUtility
         Catch ex As Exception
             clsCommon.ProgressBarHide()
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -11618,7 +11618,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12061,7 +12061,7 @@ Public Class FrmUtility
                     trans.Commit()
                 Catch ex As Exception
                     trans.Rollback()
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
 
                 '' CREATE TABLE
@@ -12097,7 +12097,7 @@ Public Class FrmUtility
             clsCommon.MyMessageBoxShow("Setting Updated Successfully")
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12177,7 +12177,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12337,7 +12337,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12383,7 +12383,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12421,7 +12421,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12459,7 +12459,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12497,7 +12497,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtMultiDocProd__My_Click(sender As Object, e As EventArgs) Handles txtMultiDocProd._My_Click
@@ -12585,7 +12585,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12654,7 +12654,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12732,7 +12732,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12805,7 +12805,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12876,7 +12876,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12952,7 +12952,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13053,7 +13053,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13171,7 +13171,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '' DELETION OF PAYMENT ENTRY AFTER POSTING
@@ -13243,7 +13243,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13356,7 +13356,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13954,7 +13954,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13992,7 +13992,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14101,7 +14101,7 @@ Public Class FrmUtility
             clsCommon.MyMessageBoxShow("Customer Updated successfully", Me.Text)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -14219,7 +14219,7 @@ Public Class FrmUtility
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14540,7 +14540,7 @@ line1:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14638,7 +14638,7 @@ line1:
             End If
             txtRPLocation.Value = clsCommon.ShowSelectForm("PELoc@u", qry, "Code", WhrCls, txtRPLocation.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14805,7 +14805,7 @@ line1:
                 'End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -15041,7 +15041,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Store_Adjustment where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -15146,7 +15146,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Issue_Entry where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -15250,7 +15250,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Stage_Process where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -15354,7 +15354,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Std_Final_QC where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -16603,7 +16603,7 @@ line1:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -16693,7 +16693,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Issue_Entry_JE where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -16797,7 +16797,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Stage_Process_JE where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -16902,7 +16902,7 @@ line1:
                         clsCommon.ProgressBarPercentHide()
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Std_Final_QC_JE where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -17009,7 +17009,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Production_Entry_JE where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -17276,7 +17276,7 @@ line1:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '' store received note return journal entry recreation BHA/11/10/18-000619
@@ -17492,7 +17492,7 @@ line1:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -17637,7 +17637,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_Assembly_Deassambly where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -17738,7 +17738,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_TransferDoc where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -17856,7 +17856,7 @@ line1:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -18034,7 +18034,7 @@ line1:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -18729,7 +18729,7 @@ line1:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -18855,7 +18855,7 @@ line1:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa 24 Apr,2019 ERO/26/04/19-000574
@@ -18956,7 +18956,7 @@ line1:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RadButton226_Click(sender As Object, e As EventArgs) Handles RadButton226.Click
@@ -21377,7 +21377,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21915,7 +21915,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21986,7 +21986,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa TEC/26/09/19-001023 
@@ -22110,7 +22110,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22279,7 +22279,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22449,7 +22449,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22520,7 +22520,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22645,7 +22645,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23346,7 +23346,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23428,7 +23428,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23589,7 +23589,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23896,7 +23896,7 @@ Recreate:
                 common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23906,7 +23906,7 @@ Recreate:
 
             Dim i As Integer = 0
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23992,7 +23992,7 @@ Recreate:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24457,7 +24457,7 @@ Recreate:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24515,7 +24515,7 @@ Recreate:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24554,7 +24554,7 @@ Recreate:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24640,7 +24640,7 @@ Recreate:
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24722,7 +24722,7 @@ Recreate:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24804,7 +24804,7 @@ Recreate:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24890,7 +24890,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25007,7 +25007,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25124,7 +25124,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25205,7 +25205,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25278,7 +25278,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25461,7 +25461,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25533,7 +25533,7 @@ LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.CUST_CODE=TSPL_CUST
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25617,7 +25617,7 @@ where tspl_booking_matser.From_Screen_Code='BOOK-DS-CU' and tspl_booking_matser.
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

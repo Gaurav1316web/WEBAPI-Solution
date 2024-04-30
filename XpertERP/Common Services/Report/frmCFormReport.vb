@@ -498,7 +498,7 @@ Public Class FrmCFormReport
         '    End If
         '    LoadData(Exporter.Excel)
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
         Export(EnumExportTo.Excel)
     End Sub
@@ -511,7 +511,7 @@ Public Class FrmCFormReport
         '    End If
         '    LoadData(Exporter.PDF)
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
         Export(EnumExportTo.PDF)
     End Sub

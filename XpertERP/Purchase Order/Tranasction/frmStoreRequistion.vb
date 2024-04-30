@@ -1235,7 +1235,7 @@ Public Class frmStoreRequistion
 
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '--------------richa 09/07/2014 Ticket No BM00000003042---------
@@ -1930,7 +1930,7 @@ Public Class frmStoreRequistion
             ''    e.CellElement.Alignment = ContentAlignment.TopLeft
             ''End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -2069,7 +2069,7 @@ Public Class frmStoreRequistion
     '        'End If
 
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
     'Public Sub sendEMailThroughOUTLOOK(ByVal strPath As String, ByVal arrReceivers As List(Of String), ByVal arrUsers As List(Of String), ByVal ReqNo As String, ByVal ReqDate As String)

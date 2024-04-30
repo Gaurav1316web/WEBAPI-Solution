@@ -978,7 +978,7 @@ Public Class rptVendorAccountSetReport
         '        clsCommon.MyExportToExcelGrid("Vendor Account Set Report", Gv1, arrHeader, "Vendor Account Set Report")
         '    End If
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
         Export(EnumExportTo.Excel)
     End Sub
