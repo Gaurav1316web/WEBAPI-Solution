@@ -3076,7 +3076,7 @@ Public Class frmImplementImportExport
                 qry += UOMTotal + " " + UOMConTotal + " " + UOMDefTotal + " " + UOMStockUnitTotal + " " + TotalUOMWeight + " " + TotalUOMGrossWt + ",IsTaxable,TSPL_ITEM_MASTER.HSN_Code as 'HSN Code',Structure_Code as [Structure Code],Structure_Desc as [Structure Desc],TSPL_ITEM_MASTER.IS_SCRAP_ITEM as [IS SCRAP ITEM],TSPL_ITEM_MASTER.SCrap_Item_Code as [Scrap Item Code], " + itemCostForStockingUnit + " as [Item Cost(Stocking Unit)], CSA_TYPE as [Item Group Type], Alies_Name as [Alies Name],isnull(TSPL_ITEM_MASTER.Is_Insurance,0) as Is_Insurance,TSPL_ITEM_MASTER.InsuranceNo,TSPL_ITEM_MASTER.InsuranceFromDate,TSPL_ITEM_MASTER.InsuranceToDate,isnull(TSPL_ITEM_MASTER.Marketing_Seq,0) as [Marketing Seq No] from TSPL_ITEM_MASTER  " + code + ""
                 transportSql.ExporttoExcel(qry, whrcls, Me)
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(ex.Message, "Item Master")
@@ -6280,7 +6280,7 @@ ExitLOOP:
                     clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
                 Catch ex As Exception
                     clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception
@@ -7144,7 +7144,7 @@ ExitLOOP:
                 Catch ex As Exception
                     tran.Rollback()
                     clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception
@@ -8044,7 +8044,7 @@ ExitLOOP:
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Finally
             End Try
         Catch ex As Exception
@@ -8647,7 +8647,7 @@ ExitLOOP:
                     clsCommon.MyMessageBoxShow("Data Transfer Successfully", Me.Text)
                 Catch ex As Exception
                     clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception
@@ -9068,7 +9068,7 @@ ExitLOOP:
                         End Try
                     End If
                 Catch ex As Exception
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         Catch ex As Exception

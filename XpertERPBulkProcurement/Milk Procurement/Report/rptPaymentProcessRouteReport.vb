@@ -1336,7 +1336,7 @@ left outer join TSPL_PRICE_CHART_PLANNING on TSPL_PRICE_CHART_PLANNING.Planning_
         If ShowMixedMilk = True Then
             legerMainQuery += " 'Mixed Milk' as CowBuffalo_Type , max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader  from (  " + sQuery + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE "
         Else
-            legerMainQuery += " CowBuffalo_Type ,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader  from (  " + sQuery + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE , CowBuffalo_Type "
+            legerMainQuery += " CowBuffalo_Type ,max(VLC_Code_VLC_Uploader) as VLC_Code_VLC_Uploader  from (  " + sQuery + " ) XXXFinal group by  XXXFinal.ROUTE_CODE , Route_Name , VSP_CODE , CowBuffalo_Type order by route_code,vlc_code_vlc_uploader "
         End If
 
         dt = clsDBFuncationality.GetDataTable(legerMainQuery)

@@ -20,28 +20,29 @@ Public Class frmBullShedParameterMaster
     Private Sub SaveData()
         Try
             If (AllowToSave()) Then
-                If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmBullTestParameter, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-                    Else
-                        Return
-                    End If
+
+                Dim obj As New clsBullShedParameter()
+                obj.Code = fndCode.Value
+                obj.Name = txtname.Text.Replace("'", "`")
+                obj.Type = txtType.Text
+
+                If (obj.SaveData(obj, isNewEntry)) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
+                    LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
-            Dim obj As New clsBullShedParameter()
-            obj.Code = fndCode.Value
-            obj.Name = txtname.Text.Replace("'", "`")
-            obj.Type = txtType.Text
-
-            If (obj.SaveData(obj, isNewEntry)) Then
-                clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
-                LoadData(obj.Code, NavigatorType.Current)
-            End If
-            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function AllowToSave() As Boolean
+        If clsCommon.myLen(fndCode.Value) <= 0 Then
+            fndCode.Focus()
+            clsCommon.MyMessageBoxShow(Me, "Code can't be blank", Me.Text)
+            Exit Function
+            Return False
+        End If
+        'Return True
         If clsCommon.myLen(txtname.Text) <= 0 Then
             clsCommon.MyMessageBoxShow("Fill Name.")
             txtname.Focus()
@@ -77,7 +78,7 @@ Public Class frmBullShedParameterMaster
                 AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub AddNew()
@@ -134,7 +135,7 @@ Public Class frmBullShedParameterMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -203,15 +204,15 @@ Public Class frmBullShedParameterMaster
                 clsCommon.ProgressBarHide()
 
                 If counter >= 1 Then
-                    clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No data found to transfer", Me.Text)
                 End If
 
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 

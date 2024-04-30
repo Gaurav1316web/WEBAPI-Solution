@@ -776,7 +776,7 @@ Public Class frmJobWorkConsumption
             End If
         Catch ex As Exception
             isCellValueChangedOpen = False
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1158,7 +1158,7 @@ Public Class frmJobWorkConsumption
             End If
 
         Catch ex As Exception
-            '        common.clsCommon.MyMessageBoxShow(ex.Message)
+            '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -1628,7 +1628,7 @@ Public Class frmJobWorkConsumption
                 Return False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return False
@@ -1772,7 +1772,7 @@ Public Class frmJobWorkConsumption
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -1826,7 +1826,7 @@ Public Class frmJobWorkConsumption
         '        End If
         '    End If
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
         '==============Preet Gupta======================
         Try
@@ -1860,7 +1860,7 @@ Public Class frmJobWorkConsumption
             End If
             'isFlag = False
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isFlag = False
         End Try
@@ -1918,7 +1918,7 @@ Public Class frmJobWorkConsumption
             LoadData(txtAdjustmentNo.Value, NavType)
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2970,7 +2970,7 @@ Public Class frmJobWorkConsumption
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return obj
     End Function
@@ -3492,7 +3492,7 @@ Public Class frmJobWorkConsumption
             Catch ex As Exception
                 myMessages.myExceptions(ex)
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
 
         End If
@@ -4111,7 +4111,7 @@ Public Class frmJobWorkConsumption
                 clsCommon.ProgressBarHide()
                 RadMessageBox.Show("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
             End Try

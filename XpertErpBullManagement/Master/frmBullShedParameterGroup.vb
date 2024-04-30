@@ -102,45 +102,58 @@ Public Class frmBullShedParameterGroup
         Catch ex As Exception
             'isInsideLoadData = False
 
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-
+    Function AllowToSave() As Boolean
+        If clsCommon.myLen(fndCode.Value) <= 0 Then
+            fndCode.Focus()
+            clsCommon.MyMessageBoxShow(Me, "Code can't be blank", Me.Text)
+            Exit Function
+            Return False
+        End If
+        Return True
+    End Function
 
 
     Private Function SaveData() As Boolean
-
-        Dim obj As New clsBullShedParameterGroup()
-        obj.Code = fndCode.Value
-        obj.Name = txtname.Text
-        'obj.TYOE = txtRmrks1.Text
-
-
-        obj.Arr = New List(Of clsBullShedParameterGroupDetail)
-        For Each row As GridViewRowInfo In gv1.Rows
-            Dim objTr As New clsBullShedParameterGroupDetail()
-
-            objTr.Code = clsCommon.myCstr(row.Cells(ColCode).Value)
+        Try
+            If (AllowToSave()) Then
+                Dim obj As New clsBullShedParameterGroup()
+                obj.Code = fndCode.Value
+                obj.Name = txtname.Text
+                'obj.TYOE = txtRmrks1.Text
 
 
-            If (clsCommon.myLen(objTr.Code) > 0) Then
-                obj.Arr.Add(objTr)
+                obj.Arr = New List(Of clsBullShedParameterGroupDetail)
+                For Each row As GridViewRowInfo In gv1.Rows
+                    Dim objTr As New clsBullShedParameterGroupDetail()
+
+                    objTr.Code = clsCommon.myCstr(row.Cells(ColCode).Value)
+
+
+                    If (clsCommon.myLen(objTr.Code) > 0) Then
+                        obj.Arr.Add(objTr)
+                    End If
+                Next
+
+                Dim Sqlqry As String = "select count(1) from TSPL_BULL_SHED_PARAMETER_MASTER where Code ='" + fndCode.Value + "'"
+                Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
+                If count = 0 Then
+                    isNewEntry = True
+                Else
+                    isNewEntry = False
+                End If
+                If (clsBullShedParameterGroup.SaveData(obj, isNewEntry)) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
+                    'LoadData(obj.Code, NavigatorType.Current)
+
+                End If
+                Return True
             End If
-        Next
-
-        Dim Sqlqry As String = "select count(1) from TSPL_BULL_SHED_PARAMETER_MASTER where Code ='" + fndCode.Value + "'"
-        Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
-        If count = 0 Then
-            isNewEntry = True
-        Else
-            isNewEntry = False
-        End If
-        If (clsBullShedParameterGroup.SaveData(obj, isNewEntry)) Then
-            clsCommon.MyMessageBoxShow(Me, "Data save successfully.")
-            'LoadData(obj.Code, NavigatorType.Current)
-
-        End If
-        Return True
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Function
 
     Sub OpenICodeList(ByVal isButtonClick As Boolean)
@@ -256,27 +269,33 @@ Public Class frmBullShedParameterGroup
 
     Private Sub fndCode__MYValidating_1(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCode._MYValidating
         Try
-            'Dim Sqlqry As String = "select count(*) from TSPL_BULL_SHED_PARAMETER_MASTER where Code ='" + fndCode.Value + "'"
-            'Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
-            'If count = 0 Then
-            '    fndCode.MyReadOnly = False
-            'Else
-            '    fndCode.MyReadOnly = True
+            Dim qry As String = ""
+            Dim strCode As String = ""
+            Dim count As Double = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(" select count(*) from TSPL_BULL_SHED_PARAMETER_MASTER where Code ='" + fndCode.Value + "'"))
+            'If count <= 0 Then
+            '    Exit Sub
             'End If
-            'If fndCode.MyReadOnly OrElse isButtonClicked Then
-            '    Dim whrClas As String = ""
-            Dim qry As String
-            'qry = " select count(*) from TSPL_BULL_SHED_PARAMETER_MASTER where Code ='" + fndCode.Value + "'"
-            'Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            qry = "select TSPL_BULL_SHED_PARAMETER_MASTER.Code as Code,TSPL_BULL_SHED_PARAMETER_MASTER.Name as [Name] from TSPL_BULL_SHED_PARAMETER_MASTER"
+            strCode = clsCommon.ShowSelectForm("RTY", qry, "Code", "", fndCode.Value, "TSPL_BULL_SHED_PARAMETER_MASTER.Code asc", isButtonClicked, Nothing)
 
-            'If count > 0 Then
-            qry = "select Code as Code,Name as [Name] from TSPL_BULL_SHED_PARAMETER_MASTER"
-                fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", "", fndCode.Value, " Code asc", isButtonClicked, Nothing)
-                LoadData(fndCode.Value, NavigatorType.Current)
-            ' End If
+            If clsCommon.myLen(strCode) > 0 Then
+                LoadData(strCode, NavigatorType.Current)
+            End If
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
+        'Try
+
+        '    Dim qry As String
+
+        '    qry = "select Code as Code,Name as [Name] from TSPL_BULL_SHED_PARAMETER_MASTER"
+        '        fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", "", fndCode.Value, " Code asc", isButtonClicked, Nothing)
+        '        LoadData(fndCode.Value, NavigatorType.Current)
+        '    ' End If
+        'Catch ex As Exception
+        '    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        'End Try
     End Sub
 
     Private Sub btnnew_Click_1(sender As Object, e As EventArgs) Handles btnnew.Click
@@ -361,15 +380,15 @@ Public Class frmBullShedParameterGroup
                 clsCommon.ProgressBarHide()
 
                 If counter >= 1 Then
-                    clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No data found to transfer", Me.Text)
                 End If
 
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 

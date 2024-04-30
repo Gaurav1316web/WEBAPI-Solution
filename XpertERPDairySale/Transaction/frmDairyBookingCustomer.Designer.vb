@@ -22,16 +22,18 @@ Partial Class frmDairyBookingCustomer
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
+        Dim RadListDataItem6 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem7 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
+        Dim RadListDataItem8 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem1 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim RadListDataItem2 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem3 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem4 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim RadListDataItem5 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
-        Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition3 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.lblDCSDemand = New common.Controls.MyLabel()
+        Me.txtDCSDemandNo = New common.Controls.MyLabel()
         Me.chkGhee = New Telerik.WinControls.UI.RadCheckBox()
         Me.rgbTaxNonTax = New Telerik.WinControls.UI.RadGroupBox()
         Me.lblFATPER = New common.Controls.MyLabel()
@@ -289,14 +291,14 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem1 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem4 = New Telerik.WinControls.UI.RadMenuItem()
         Me.RadMenuItem5 = New Telerik.WinControls.UI.RadMenuItem()
-        Me.lblDCSDemand = New common.Controls.MyLabel()
-        Me.txtDCSDemandNo = New common.Controls.MyLabel()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPageView1.SuspendLayout()
         Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.lblDCSDemand, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDCSDemandNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkGhee, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.rgbTaxNonTax.SuspendLayout()
@@ -542,8 +544,6 @@ Partial Class frmDairyBookingCustomer
         CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.Panel2.SuspendLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.lblDCSDemand, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.txtDCSDemandNo, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -562,6 +562,7 @@ Partial Class frmDairyBookingCustomer
         '
         'SplitContainer1.Panel2
         '
+        Me.SplitContainer1.Panel2.Controls.Add(Me.RadLabel10)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrintChallan)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnGatepass)
         Me.SplitContainer1.Panel2.Controls.Add(Me.BtnRecieptEntry)
@@ -573,7 +574,6 @@ Partial Class frmDairyBookingCustomer
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnCreateAndPrintInvoice)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnreverse)
         Me.SplitContainer1.Panel2.Controls.Add(Me.RadPanel3)
-        Me.SplitContainer1.Panel2.Controls.Add(Me.RadLabel10)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnCancel)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnCreateDO)
         Me.SplitContainer1.Panel2.Controls.Add(Me.btnPrint)
@@ -679,6 +679,26 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageViewPage1.Name = "RadPageViewPage1"
         Me.RadPageViewPage1.Size = New System.Drawing.Size(1260, 409)
         Me.RadPageViewPage1.Text = "Booking Order"
+        '
+        'lblDCSDemand
+        '
+        Me.lblDCSDemand.FieldName = Nothing
+        Me.lblDCSDemand.Location = New System.Drawing.Point(1029, 33)
+        Me.lblDCSDemand.Name = "lblDCSDemand"
+        Me.lblDCSDemand.Size = New System.Drawing.Size(91, 18)
+        Me.lblDCSDemand.TabIndex = 1558
+        Me.lblDCSDemand.Text = "DCS Demand No"
+        '
+        'txtDCSDemandNo
+        '
+        Me.txtDCSDemandNo.AutoSize = False
+        Me.txtDCSDemandNo.BorderVisible = True
+        Me.txtDCSDemandNo.FieldName = Nothing
+        Me.txtDCSDemandNo.Location = New System.Drawing.Point(1126, 33)
+        Me.txtDCSDemandNo.Name = "txtDCSDemandNo"
+        Me.txtDCSDemandNo.Size = New System.Drawing.Size(133, 19)
+        Me.txtDCSDemandNo.TabIndex = 1559
+        Me.txtDCSDemandNo.TextWrap = False
         '
         'chkGhee
         '
@@ -1005,12 +1025,12 @@ Partial Class frmDairyBookingCustomer
         Me.cmbGatePassType.IsSourceFromTable = False
         Me.cmbGatePassType.IsSourceFromValueList = False
         Me.cmbGatePassType.IsUnique = False
-        RadListDataItem1.Text = "Select"
-        RadListDataItem2.Text = "AM"
-        RadListDataItem3.Text = "PM"
-        Me.cmbGatePassType.Items.Add(RadListDataItem1)
-        Me.cmbGatePassType.Items.Add(RadListDataItem2)
-        Me.cmbGatePassType.Items.Add(RadListDataItem3)
+        RadListDataItem6.Text = "Select"
+        RadListDataItem7.Text = "AM"
+        RadListDataItem8.Text = "PM"
+        Me.cmbGatePassType.Items.Add(RadListDataItem6)
+        Me.cmbGatePassType.Items.Add(RadListDataItem7)
+        Me.cmbGatePassType.Items.Add(RadListDataItem8)
         Me.cmbGatePassType.Location = New System.Drawing.Point(171, 134)
         Me.cmbGatePassType.MendatroryField = False
         Me.cmbGatePassType.MyLinkLable1 = Nothing
@@ -1456,10 +1476,10 @@ Partial Class frmDairyBookingCustomer
         Me.cmbcashcredit.IsSourceFromTable = False
         Me.cmbcashcredit.IsSourceFromValueList = False
         Me.cmbcashcredit.IsUnique = False
-        RadListDataItem4.Text = "CASH"
-        RadListDataItem5.Text = "CREDIT"
-        Me.cmbcashcredit.Items.Add(RadListDataItem4)
-        Me.cmbcashcredit.Items.Add(RadListDataItem5)
+        RadListDataItem1.Text = "CASH"
+        RadListDataItem2.Text = "CREDIT"
+        Me.cmbcashcredit.Items.Add(RadListDataItem1)
+        Me.cmbcashcredit.Items.Add(RadListDataItem2)
         Me.cmbcashcredit.Location = New System.Drawing.Point(506, 23)
         Me.cmbcashcredit.MendatroryField = False
         Me.cmbcashcredit.MyLinkLable1 = Nothing
@@ -1708,7 +1728,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv1.MasterTemplate.AllowDeleteRow = False
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition3
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -1982,7 +2002,7 @@ Partial Class frmDairyBookingCustomer
         Me.gv2.MasterTemplate.AllowDeleteRow = False
         Me.gv2.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv2.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition2
+        Me.gv2.MasterTemplate.ViewDefinition = TableViewDefinition4
         Me.gv2.MyStopExport = False
         Me.gv2.Name = "gv2"
         Me.gv2.RightToLeft = System.Windows.Forms.RightToLeft.No
@@ -3862,11 +3882,11 @@ Partial Class frmDairyBookingCustomer
         Me.RadLabel10.FieldName = Nothing
         Me.RadLabel10.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.RadLabel10.ForeColor = System.Drawing.SystemColors.Highlight
-        Me.RadLabel10.Location = New System.Drawing.Point(1181, 21)
+        Me.RadLabel10.Location = New System.Drawing.Point(1173, 32)
         Me.RadLabel10.Name = "RadLabel10"
-        Me.RadLabel10.Size = New System.Drawing.Size(158, 16)
+        Me.RadLabel10.Size = New System.Drawing.Size(84, 16)
         Me.RadLabel10.TabIndex = 1485
-        Me.RadLabel10.Text = "Press Alt+S To Save/Update"
+        Me.RadLabel10.Text = "F5- Batch Item"
         Me.RadLabel10.Visible = False
         '
         'btnCancel
@@ -4099,26 +4119,6 @@ Partial Class frmDairyBookingCustomer
         Me.RadMenuItem5.Name = "RadMenuItem5"
         Me.RadMenuItem5.Text = "Footer Setting"
         '
-        'lblDCSDemand
-        '
-        Me.lblDCSDemand.FieldName = Nothing
-        Me.lblDCSDemand.Location = New System.Drawing.Point(1029, 33)
-        Me.lblDCSDemand.Name = "lblDCSDemand"
-        Me.lblDCSDemand.Size = New System.Drawing.Size(91, 18)
-        Me.lblDCSDemand.TabIndex = 1558
-        Me.lblDCSDemand.Text = "DCS Demand No"
-        '
-        'txtDCSDemandNo
-        '
-        Me.txtDCSDemandNo.AutoSize = False
-        Me.txtDCSDemandNo.BorderVisible = True
-        Me.txtDCSDemandNo.FieldName = Nothing
-        Me.txtDCSDemandNo.Location = New System.Drawing.Point(1126, 33)
-        Me.txtDCSDemandNo.Name = "txtDCSDemandNo"
-        Me.txtDCSDemandNo.Size = New System.Drawing.Size(133, 19)
-        Me.txtDCSDemandNo.TabIndex = 1559
-        Me.txtDCSDemandNo.TextWrap = False
-        '
         'frmDairyBookingCustomer
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -4141,6 +4141,8 @@ Partial Class frmDairyBookingCustomer
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
         Me.RadPageViewPage1.PerformLayout()
+        CType(Me.lblDCSDemand, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDCSDemandNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkGhee, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbTaxNonTax.ResumeLayout(False)
@@ -4405,8 +4407,6 @@ Partial Class frmDairyBookingCustomer
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.lblDCSDemand, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.txtDCSDemandNo, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 

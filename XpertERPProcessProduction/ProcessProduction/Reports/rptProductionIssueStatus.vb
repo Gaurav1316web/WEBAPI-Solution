@@ -438,7 +438,7 @@ Public Class RptProductionIssueStatus
             rbtnSummary.IsChecked = False
             rbtnDetail.IsChecked = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -572,7 +572,7 @@ Public Class RptProductionIssueStatus
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -607,7 +607,7 @@ Public Class RptProductionIssueStatus
             transportSql.applyExportTemplate(gv1, PageSetupReport_ID)
             clsCommon.MyExportToPDF("Production Issue Status", gv1, arrHeader, "Production Issue Status", PageSetupReport_ID, objCommonVar.CurrentUserCode)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

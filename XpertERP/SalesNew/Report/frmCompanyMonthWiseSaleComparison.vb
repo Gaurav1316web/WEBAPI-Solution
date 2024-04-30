@@ -59,7 +59,7 @@ Public Class frmCompanyMonthWiseSaleComparison
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -73,7 +73,7 @@ Public Class frmCompanyMonthWiseSaleComparison
                 cbgLocation.Enabled = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadLocation()
@@ -83,7 +83,7 @@ Public Class frmCompanyMonthWiseSaleComparison
             cbgLocation.ValueMember = "Location"
             cbgLocation.DisplayMember = "Location Description"
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -94,7 +94,7 @@ Public Class frmCompanyMonthWiseSaleComparison
             cbgCustomer.ValueMember = "Code"
             cbgCustomer.DisplayMember = "Customer Name"
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadFinYear()
@@ -104,7 +104,7 @@ Public Class frmCompanyMonthWiseSaleComparison
             FinYear.ValueMember = "Year"
             FinYear.DisplayMember = "Year"
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -297,7 +297,7 @@ Public Class frmCompanyMonthWiseSaleComparison
 
             RadPageView1.SelectedPage = RadPageViewPage1
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

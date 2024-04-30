@@ -70,30 +70,31 @@ Public Class frmBullSubCategoryMaster
     Private Sub SaveData()
         Try
             If (AllowToSave()) Then
-                If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmBullSubCategoryMaster, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-                    Else
-                        Return
-                    End If
+
+                Dim obj As New clsBullSubCategoryMaster()
+                obj.Code = txtCode.Value
+                obj.Name = txtname.Text.Replace("'", "`")
+
+                If (obj.SaveData(obj, isNewEntry)) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
+                    LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
-            Dim obj As New clsBullSubCategoryMaster()
-            obj.Code = txtCode.Value
-            obj.Name = txtname.Text.Replace("'", "`")
-
-            If (obj.SaveData(obj, isNewEntry)) Then
-                clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
-                LoadData(obj.Code, NavigatorType.Current)
-            End If
-            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Function AllowToSave() As Boolean
+        If clsCommon.myLen(txtCode.Value) <= 0 Then
+            txtCode.Focus()
+            clsCommon.MyMessageBoxShow(Me, "Code can't be blank", Me.Text)
+            Exit Function
+            Return False
+        End If
+        Return True
         If clsCommon.myLen(txtname.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Name.")
+            clsCommon.MyMessageBoxShow(Me, "Fill Name.", Me.Text)
             txtname.Focus()
             txtname.Select()
             ErrorControl.SetError(txtname, "Fill Name")
@@ -184,9 +185,9 @@ Public Class frmBullSubCategoryMaster
                 clsCommon.ProgressBarHide()
 
                 If counter >= 1 Then
-                    clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No data found to transfer", Me.Text)
                 End If
 
 

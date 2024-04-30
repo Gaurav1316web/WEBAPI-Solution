@@ -300,7 +300,7 @@ Public Class rptDairyTruckSheetReport
     '        RadSplitButton1.Enabled = True
     '        Gv1.BestFitColumns()
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
 
     'End Sub
@@ -2125,7 +2125,7 @@ Public Class rptDairyTruckSheetReport
     '        '=========================================
     '        sw.Close()
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
 
     'End Sub

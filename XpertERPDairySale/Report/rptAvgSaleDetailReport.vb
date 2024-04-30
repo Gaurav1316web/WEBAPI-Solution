@@ -147,7 +147,7 @@ Public Class rptAvgSaleDetailReport
             If ddMonth.SelectedIndex > 0 Then
                 monthName = ddMonth.SelectedItem.Text.Substring(0, 3)
             Else
-                clsCommon.MyMessageBoxShow(Me, "Please select month ")
+                clsCommon.MyMessageBoxShow(Me, "Please select month ", Me.Text)
                 Exit Sub
             End If
             ToDate = clsDBFuncationality.getSingleValue("SELECT RIGHT(CONVERT(VARCHAR(2), EOMONTH('2023-" & monthName & "-01'), 103), 2) + '/' + '" & monthName & "' + '/' + '20' + '" & strEndYear & "' AS LastDate ")

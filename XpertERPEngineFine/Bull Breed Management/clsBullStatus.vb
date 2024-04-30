@@ -47,13 +47,13 @@ Public Class clsBullStatus
             Dim strQry As String = "select * from TSPL_BULL_STATUS_MASTER where 1=1  "
             Select Case NavType
                 Case NavigatorType.First
-                    strQry += " and STSTUS_Code = (select MIN(Code) from TSPL_BULL_STATUS_MASTER where 1=1  )"
+                    strQry += " and STSTUS_Code = (select MIN(STSTUS_Code) from TSPL_BULL_STATUS_MASTER where 1=1  )"
                 Case NavigatorType.Last
-                    strQry += " And STSTUS_Code = (Select Max(Code) from TSPL_BULL_STATUS_MASTER where 1=1 )"
+                    strQry += " And STSTUS_Code = (Select Max(STSTUS_Code) from TSPL_BULL_STATUS_MASTER where 1=1 )"
                 Case NavigatorType.Next
-                    strQry += " And STSTUS_Code = (Select Min(Code) from TSPL_BULL_STATUS_MASTER where STSTUS_Code>'" + clsCommon.myCstr(strCode) + "' )"
+                    strQry += " And STSTUS_Code = (Select Min(STSTUS_Code) from TSPL_BULL_STATUS_MASTER where STSTUS_Code>'" + clsCommon.myCstr(strCode) + "' )"
                 Case NavigatorType.Previous
-                    strQry += " and STSTUS_Code = (select Max(Code) from TSPL_BULL_STATUS_MASTER where STSTUS_Code<'" + clsCommon.myCstr(strCode) + "' )"
+                    strQry += " and STSTUS_Code = (select Max(STSTUS_Code) from TSPL_BULL_STATUS_MASTER where STSTUS_Code<'" + clsCommon.myCstr(strCode) + "' )"
                 Case NavigatorType.Current
                     strQry += " and STSTUS_Code = '" + clsCommon.myCstr(strCode) + "' "
             End Select

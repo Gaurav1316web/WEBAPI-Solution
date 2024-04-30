@@ -217,7 +217,7 @@ Public Class FrmExciseSummaryReport
             End If
             RadPageView1.SelectedPage = RadPageViewPage2
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -352,7 +352,7 @@ Public Class FrmExciseSummaryReport
             End If
             ExportToExcelGV(EnumExportTo.Excel)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -374,7 +374,7 @@ Public Class FrmExciseSummaryReport
 
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try

@@ -112,7 +112,7 @@ Public Class FrmServiceMaster
             Dim qry As String = " select Service_Group_Desc as [Service_Name],Service_Group_Name as [Service Group Name] from TSPL_Paravet_Service_Group "
             txtServiceName.Value = clsCommon.ShowSelectForm("ServiceFND", qry, "Service_Name", " Service_Group_Name='" + txtGroup.Value + "'", txtServiceName.Value, "Service_Name", isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -265,7 +265,7 @@ Public Class FrmServiceMaster
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Service Code not found to delete") <> CompairStringResult.Equal) Then
                 clsCommon.MyMessageBoxShow("Current Service Code is in use")
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -275,7 +275,7 @@ Public Class FrmServiceMaster
         Try
             LoadData(txtServiceCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

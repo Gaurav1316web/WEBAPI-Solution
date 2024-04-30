@@ -299,7 +299,7 @@ Public Class frmBullMasters
             ErrorControl.SetError(txtAveregeDoses, "")
         End If
         If clsCommon.myLen(txtBreedingValue.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow(Me, " Please Breeding, It is Mandatory", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, " Please Breeding1, It is Mandatory", Me.Text)
             'RadPageView1.SelectedPage = lblBreed2
             txtBreedingValue.Focus()
             ErrorControl.SetError(txtBreedingValue, "Please Breeding It is Mandatory")
@@ -476,6 +476,7 @@ Public Class frmBullMasters
             gv2.Refresh()
             isInsideLoadData = True
             fndCode.MyReadOnly = True
+            AddNew()
             Dim obj As clsBullMasters = clsBullMasters.GetData(strCode, NavTyep)
             If obj IsNot Nothing Then
                 isNewEntry = False
@@ -491,7 +492,23 @@ Public Class frmBullMasters
                 fndBullStatus.Value = obj.Status_Code
                 fndSubStatus.Value = obj.Sub_Status_Code
                 fndBullRating.Value = obj.Bull_Rating
+                TXTSSbull.Text = obj.SS_Bull_Id
+                txtBullAlias.Text = obj.Bull_Alia_Name
+                txtDamLocation.Text = obj.Dam_Location_Yeild
+                txtWeightAtEntry.Text = obj.Weight_At_Entry
+                '--date--
+                txtFirstCollectionDate.Value = obj.First_Collection_Date
+                txtLastDateBreeding.Value = obj.Last_Updated_Date_For_Breeding_Value
+                txtPurchaseRequestDate.Value = obj.Purchase_Request_Date
+                txtPurchaseDate.Value = obj.Purchase_Date
+                txtRegDate.Value = obj.Registration_Date
+                txtStatusDateChanged.Value = obj.Status_Changed_Date
+                txtDateOfBirth.Value = obj.Date_Of_Birth
+                TXTEndDate.Value = obj.Exit_Date
+                '--end date
+                txtNoofFemaleCalves.Text = obj.No_of_Female_Calves
                 fndBullSourcePainting.Value = obj.Bull_source_Printing_Straws
+                txtBullRFID.Text = obj.Bull_RFID
                 If obj.is_Semen Then
                     RadioButton2.Checked = True
                 Else
@@ -517,7 +534,6 @@ Public Class frmBullMasters
                 txtNodaughters.Text = obj.NO_OF_Doughters
                 txtlDamOrigin.Text = obj.Dam_Origin
                 txtBirthWeight.Text = obj.Birth_Weight
-                txtWeightAtEntry.Text = obj.Weight_At_Entry
                 txtMilkingDone.Text = obj.No_Milking_Done
                 txtTotalAI.Text = obj.Total_AI
                 txtDateofnominatedmatinginitiated.Text = obj.Date_of_nominated_mating_initiated
@@ -550,14 +566,6 @@ Public Class frmBullMasters
                 isInsideLoadData = True
                 If obj.Arr IsNot Nothing Then
                     For Each objTr As clsBullMastersDetail In obj.Arr
-                        'gv2.Rows.Clear()
-                        'If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
-
-                        'For Each grow As GridViewRowInfo In gv2.Rows
-                        'Dim objTr As New clsBullMastersDetail()
-                        'For Each objTr As clsBullMastersDetail In obj.Arr
-                        'gv2.Rows.AddNew()
-
                         gv2.Rows(gv2.Rows.Count - 1).Cells(ColRelation).Value = objTr.Relation
                         gv2.Rows(gv2.Rows.Count - 1).Cells(ColTaqNo).Value = objTr.Taq_No
                         gv2.Rows(gv2.Rows.Count - 1).Cells(ColFirstStandardLocationYield).Value = objTr.First_Standard_Location_Yield
@@ -573,14 +581,10 @@ Public Class frmBullMasters
                         gv2.Rows(gv2.Rows.Count - 1).Cells(ColLactNo).Value = objTr.Lact_No
                         gv2.Rows(gv2.Rows.Count - 1).Cells(ColSNFINKG).Value = objTr.FAT_IN_KG
                         gv2.Rows(gv2.Rows.Count - 1).Cells(ColFATINKG).Value = objTr.SNF_IN_KG
-                        'obj.Arr.Add(objTr)
-                        'gv2.Rows.AddNew()
-                        'gv2.Rows.AddNew()
+
                         gv2.Rows.AddNew()
                     Next
-                    'fndCode.MyReadOnly = True
-                    ''btnSave.Text = "Save"
-                    'btnDelete.Enabled = True
+
                 End If
                 'AddNew()
                 LoadImage1()
@@ -673,7 +677,7 @@ Public Class frmBullMasters
                 obj.Doses_Produce_Till_Date = txtProducedTillDate.Text
                 obj.Capacity_Of_Averege_Monthly_Doses = txtAveregeDoses.Text
                 obj.Breeding_Value = txtBreedingValue.Text
-                obj.Picture_Upload = PictureBox1.Image
+                'obj.Picture_Upload = PictureBox1.Image
 
                 obj.First_Collection_Date = txtFirstCollectionDate.Value
                 obj.Last_Updated_Date_For_Breeding_Value = txtLastDateBreeding.Value
@@ -737,7 +741,7 @@ Public Class frmBullMasters
                         obj.Arr.Add(objTr)
                     End If
                 Next
-                SaveImage()
+
                 Dim Sqlqry As String = "select count(1) from tspl_bull_master where Bull_code ='" + fndCode.Value + "'"
                 Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
                 'SaveImage()
@@ -748,6 +752,7 @@ Public Class frmBullMasters
                 End If
                 'SaveImage()
                 If (obj.SaveData(obj, isNewEntry)) Then
+                    SaveImage()
                     clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
                     LoadData(obj.Bull_Code, NavigatorType.Current)
                 End If
@@ -842,7 +847,7 @@ Public Class frmBullMasters
         txtNoabortions.Text = ""
         txtNomalesborn.Text = ""
         txtREARINGCentre.Text = ""
-
+        txtBullRFID.Text = ""
         '--end
         '--bull general detail
         txtNodaughters.Text = ""
@@ -1356,5 +1361,18 @@ Public Class frmBullMasters
         End Try
     End Sub
 
-
+    Private Sub fndCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles fndCode._MYNavigator
+        Try
+            Dim qry As String = "select count(*) from TSPL_BULL_MASTER where Bull_Code='" + fndCode.Value + "' "
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            If count = 0 Then
+                fndCode.MyReadOnly = False
+            Else
+                fndCode.MyReadOnly = True
+            End If
+            LoadData(fndCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
+    End Sub
 End Class

@@ -711,7 +711,7 @@ Public Class RptItemConsumptionReport
 
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RptItemConsumptionReport_KeyDown(sender As Object, e As KeyEventArgs) Handles MyBase.KeyDown

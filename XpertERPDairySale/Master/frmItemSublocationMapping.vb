@@ -607,7 +607,7 @@ Public Class frmItemSublocationMapping
     '        'End If
 
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    Finally
     '        isInsideLoadData = False
     '    End Try
@@ -897,7 +897,7 @@ Public Class frmItemSublocationMapping
 
 
                 'clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 'clsCommon.ProgressBarHide()
