@@ -38,7 +38,7 @@ Public Class FrmCanceledSaleInvoice1
             StrLocation = location.Replace("'", "")
         End If
         If rbtnLocationSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select atleast Single location Or Select All")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select atleast Single location Or Select All", Me.Text)
         End If
         Try
 
@@ -72,7 +72,7 @@ Public Class FrmCanceledSaleInvoice1
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

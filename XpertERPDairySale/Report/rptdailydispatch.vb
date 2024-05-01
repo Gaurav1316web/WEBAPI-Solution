@@ -71,15 +71,15 @@ Public Class rptdailydispatch
             Dim qry As String = ""
             Dim GpCode As String = Nothing
             If clsCommon.myLen(txtrouteno.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select route no")
+                clsCommon.MyMessageBoxShow(Me, "Please select route no", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(txtcustomer.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Customer")
+                clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(txtlocation.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Location")
+                clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 Exit Sub
             End If
 
@@ -247,15 +247,15 @@ Public Class rptdailydispatch
             Dim dt As DataTable = Nothing
             Dim qry As String = ""
             If clsCommon.myLen(txtrouteno.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select route no")
+                clsCommon.MyMessageBoxShow(Me, "Please select route no", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(txtcustomer.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Customer")
+                clsCommon.MyMessageBoxShow(Me, "Please select Customer", Me.Text)
                 Exit Sub
             End If
             If clsCommon.myLen(txtlocation.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Please select Location")
+                clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
                 Exit Sub
             End If
 

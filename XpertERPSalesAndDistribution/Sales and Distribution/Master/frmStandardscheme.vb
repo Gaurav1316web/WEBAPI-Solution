@@ -264,7 +264,7 @@ Public Class frmStandardscheme
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
         End Try
     End Sub
@@ -611,7 +611,7 @@ Public Class frmStandardscheme
         Try
             LoadData(fndCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

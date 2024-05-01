@@ -289,7 +289,7 @@ Public Class VisualReportProcurement
         common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
         Process.Start(filePath)
         'Catch ex As Exception
-        'common.clsCommon.MyMessageBoxShow(ex.Message)
+        'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     End Sub
 
     Private Sub txtPlant__My_Click(sender As Object, e As EventArgs) Handles txtPlant._My_Click

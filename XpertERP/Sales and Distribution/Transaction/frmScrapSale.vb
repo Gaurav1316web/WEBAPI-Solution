@@ -1649,7 +1649,7 @@ Public Class frmScrapSale
 
 
     ''Catch ex As Exception
-    ''    common.clsCommon.MyMessageBoxShow(ex.Message)
+    ''    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     ''End Try
     Private Sub setGridFocus()
         Dim intCurrRow As Integer = gv1.CurrentRow.Index
@@ -3386,7 +3386,7 @@ Public Class frmScrapSale
     '            UpdateAllTotals()
     '        End If
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -4328,7 +4328,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
             End If
 
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -5183,7 +5183,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
     '            End If
     '        End If
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -5220,7 +5220,7 @@ left join TSPL_TAX_MASTER on TSPL_TAX_GROUP_DETAILS.Tax_Code=TSPL_TAX_MASTER.Tax
                 cell.BackColor = Color.FromArgb(243, 181, 51)
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 

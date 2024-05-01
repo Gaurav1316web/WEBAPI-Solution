@@ -489,7 +489,7 @@ Public Class frmAssemblies
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -530,7 +530,7 @@ Public Class frmAssemblies
                 clsCommon.MyMessageBoxShow("Current Code is in use")
 
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
             trans.Rollback()
         End Try
@@ -724,7 +724,7 @@ Public Class frmAssemblies
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -751,7 +751,7 @@ Public Class frmAssemblies
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -777,7 +777,7 @@ Public Class frmAssemblies
                 row.Cells(colLocationCode).Value = fndLocation.Value
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -946,7 +946,7 @@ Public Class frmAssemblies
 
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function UpdateInventoryMovement(Optional ByVal trans As SqlTransaction = Nothing) As Boolean
@@ -1263,7 +1263,7 @@ Public Class frmAssemblies
             frmCRV.funreport(CrystalReportFolder.InventoryReport, dt, "rptAssembliesDeassembliesReport", "Assembly Report")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''---------Richa code Ends Here----------------

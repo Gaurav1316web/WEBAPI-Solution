@@ -3406,7 +3406,7 @@ Public Class frmSRN
                 gv1.CurrentRow.Cells(colCapexCode).Value = clsCapexBudget.GetCapexCode(gv1.CurrentRow.Cells(colCapexSubCode).Value, Nothing)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub OpenSerialItem()
@@ -7110,7 +7110,7 @@ Public Class frmSRN
                 lblSubLocation.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtShipToLocation__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtShipToLocation._MYValidating
@@ -8639,7 +8639,7 @@ Public Class frmSRN
                 ''=======================================================
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
     Private Sub btnAddCost_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles btnAddCost.Click
@@ -8674,7 +8674,7 @@ Public Class frmSRN
                 lblDept.Text = ""
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtReqNo__MYValidating(ByVal sender As System.Object, ByVal e As System.EventArgs, ByVal isButtonClicked As System.Boolean) Handles txtPONo._MYValidating
@@ -8770,7 +8770,7 @@ Public Class frmSRN
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub funrejprint()
@@ -9388,7 +9388,7 @@ Public Class frmSRN
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RadMenuItem4_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RadMenuItem4.Click
@@ -9430,7 +9430,7 @@ Public Class frmSRN
                 ''cell.BackColor = Color.FromArgb(243, 181, 51)
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
     Private Sub gv2_CellValueChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewCellEventArgs) Handles gv2.CellValueChanged

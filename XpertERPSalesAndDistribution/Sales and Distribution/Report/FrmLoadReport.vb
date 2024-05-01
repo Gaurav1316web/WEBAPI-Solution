@@ -403,7 +403,7 @@ Public Class FrmLoadReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 
@@ -781,7 +781,7 @@ Public Class FrmLoadReport
             gridformat(IIf(rdbSku.IsChecked, arritemCountSKU, arritemCount))
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return dt1
     End Function
@@ -1287,7 +1287,7 @@ Public Class FrmLoadReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -1318,7 +1318,7 @@ Public Class FrmLoadReport
             RadPageView1.SelectedPage = RadPageViewPage2
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1333,7 +1333,7 @@ Public Class FrmLoadReport
             clsSaleHead.SetTempProvisionSale()
             myMessages.update()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
         ' btnprint.Enabled = True
@@ -1430,7 +1430,7 @@ Public Class FrmLoadReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -186,7 +186,7 @@ Public Class FrmProcessMaster1
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub LoadData(ByVal strDoc As String)
@@ -270,7 +270,7 @@ Public Class FrmProcessMaster1
     End Sub
     Public Sub funDelete()
         If clsCommon.myLen(txtProcessNo.Value) < 1 Then
-            clsCommon.MyMessageBoxShow("Please select Code to Delete.")
+            clsCommon.MyMessageBoxShow(Me, "Please select Code to Delete.", Me.Text)
             Return
         ElseIf myMessages.deleteConfirm Then
             Try

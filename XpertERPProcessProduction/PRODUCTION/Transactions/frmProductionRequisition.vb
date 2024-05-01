@@ -249,7 +249,7 @@ Public Class frmProductionRequisition
                         End If
                         If e.Column Is gv1.Columns(colReqQty) Then
                             If clsCommon.myCdbl(gv1.CurrentRow.Cells(colReqQty).Value) > clsCommon.myCdbl(gv1.CurrentRow.Cells(colBatchQty).Value) Then
-                                clsCommon.MyMessageBoxShow("Requisition Quantity can not be grater then Batch Quantity.")
+                                clsCommon.MyMessageBoxShow(Me, "Requisition Quantity can not be grater then Batch Quantity.")
                                 gv1.CurrentRow.Cells(colReqQty).Value = 0
                             End If
                         End If
@@ -259,7 +259,7 @@ Public Class frmProductionRequisition
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
         End Try
     End Sub
@@ -336,18 +336,18 @@ Public Class frmProductionRequisition
                 Dim strchk As String = " select POSTED from TSPL_MF_REQUISITION where REQ_CODE='" + txtReqNo.Value + "' and ISUSED = 1 "
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If chkpost = "1" Then
-                    clsCommon.MyMessageBoxShow("Transection already posted")
+                    clsCommon.MyMessageBoxShow(Me, "Transection already posted", Me.Text)
                     Return False
                 End If
             End If
 
             If clsCommon.myLen(txtLocation.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Location.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Location.", Me.Text)
                 txtLocation.Focus()
                 Return False
             End If
             If clsCommon.myLen(txtRequestBy.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select Request By.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select Request By.", Me.Text)
                 txtRequestBy.Focus()
                 Return False
             End If
@@ -367,7 +367,7 @@ Public Class frmProductionRequisition
                     '    End If
                     'Next
                     If clsCommon.myCdbl(gv1.Rows(ii).Cells(colReqQty).Value) > clsCommon.myCdbl(gv1.Rows(ii).Cells(colBatchQty).Value) Then
-                        clsCommon.MyMessageBoxShow("Requisition Quantity can not be grater then Batch Quantity in Row No " + (ii + 1).ToString())
+                        clsCommon.MyMessageBoxShow(Me, "Requisition Quantity can not be grater then Batch Quantity in Row No " + (ii + 1).ToString())
                         Return False
                     End If
                     If Not arrICode.Contains(strICode) Then
@@ -377,12 +377,12 @@ Public Class frmProductionRequisition
             Next
 
             If arrICode.Count < 1 Then
-                common.clsCommon.MyMessageBoxShow("Please Choose Batch Items. ")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Choose Batch Items. ", Me.Text)
                 txtLocation.Focus()
                 Return False
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -439,18 +439,18 @@ Public Class frmProductionRequisition
                     End If
                 Next
                 If (obj.ObjList Is Nothing OrElse obj.ObjList.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow("Please Fill at list one Item")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
                     Return
                 End If
                 If (obj.SaveData(obj, isNewEntry, Nothing)) Then
                     If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     End If
                     LoadData(obj.REQ_CODE, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -523,7 +523,7 @@ Public Class frmProductionRequisition
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -568,12 +568,12 @@ Public Class frmProductionRequisition
         Try
             If (myMessages.postConfirm()) Then
                 If (clsProductionRequisition.PostData(txtReqNo.Value, True)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Posted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Posted Successfully ", Me.Text)
                     LoadData(txtReqNo.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -598,12 +598,12 @@ Public Class frmProductionRequisition
                 End If
                 If (clsProductionRequisition.DeleteData(txtReqNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function saveCancelLog(ByVal Reason As String, ByVal Activity_Type As String, Optional ByVal trans As System.Data.SqlClient.SqlTransaction = Nothing) As Boolean
@@ -626,7 +626,7 @@ Public Class frmProductionRequisition
             End If
             LoadData(txtReqNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -662,7 +662,7 @@ Public Class frmProductionRequisition
             txtLocation.Value = clsCommon.ShowSelectForm("VendorLocFND", qry, "Code", WhrCls, txtLocation.Value, "Code", isButtonClicked)
             lblLocation.Text = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select Location_Desc from TSPL_LOCATION_MASTER where Location_Code='" + txtLocation.Value + "'"))
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -715,12 +715,12 @@ Public Class frmProductionRequisition
             frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "ProductionRequisition", "Production Requisition")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Private Sub gv1_UserDeletingRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
-        If common.clsCommon.MyMessageBoxShow("Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
+        If common.clsCommon.MyMessageBoxShow(Me, "Delete The Current Row." + Environment.NewLine + "Are you sure?", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.No Then
             e.Cancel = True
         End If
     End Sub
@@ -824,7 +824,7 @@ Public Class frmProductionRequisition
                 Me.lblRequestedBy.Text = OBJEMP.Emp_Name
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -863,7 +863,7 @@ Public Class frmProductionRequisition
                 'gv1.Rows(gv1.Rows.Count - 1).Cells(colRemarks).Value = clsCommon.myCstr(DR("ITEM_CODE"))
             Next
         Else
-            clsCommon.MyMessageBoxShow("No Data Found to display.")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to display.", Me.Text)
         End If
         ' gv1.Rows.AddNew()
     End Sub

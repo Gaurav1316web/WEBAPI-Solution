@@ -128,32 +128,32 @@ Public Class frmCustomerLedgerVsAgeing
         Dim strLedgerQry As String = String.Empty
         Try
             If chkCustomerSelect.IsChecked AndAlso cbgCustomer.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer", Me.Text)
                 Return
             End If
             If chkCompanySelect.IsChecked AndAlso cbgCompany.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one company")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one company", Me.Text)
                 Return
             End If
             If chkCustGrpSelect.IsChecked AndAlso cbgCustGrp.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer Group")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer Group", Me.Text)
                 Return
             End If
             '' Anubhooti 30-Sep-2014 BM00000003557
             If ChkISParentCust.Checked = True Then
                 If ChkParentCustSelect.IsChecked AndAlso cbgParentCust.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select at least one parent customer")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one parent customer", Me.Text)
                     Return
                 End If
             End If
 
             ''
             If ChkCustTypeSelect.IsChecked AndAlso cbgcusttype.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer Type")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer Type", Me.Text)
                 Return
             End If
             If ChkCustCatSelect.IsChecked AndAlso cbgcustcat.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer Category")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer Category", Me.Text)
                 Return
             End If
 
@@ -319,7 +319,7 @@ Public Class frmCustomerLedgerVsAgeing
 
                 If dtCustomer.Rows.Count <= 0 Then
                     btnPrint.Enabled = False
-                    clsCommon.MyMessageBoxShow("Data not found")
+                    clsCommon.MyMessageBoxShow(Me, "Data not found", Me.Text)
                     Exit Sub
                 Else
                     btnPrint.Enabled = True
@@ -372,7 +372,7 @@ Public Class frmCustomerLedgerVsAgeing
             strFromDate = Nothing
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -514,7 +514,7 @@ Public Class frmCustomerLedgerVsAgeing
                 obj.UserID = objCommonVar.CurrentUserCode
                 obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
                 If obj.SaveData() Then
-                    common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                    common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
                 End If
                 obj.GridLayout.Close()
                 obj.GridLayout.Dispose()
@@ -535,7 +535,7 @@ Public Class frmCustomerLedgerVsAgeing
                 GridSummaryRow()
             End If
 
-            common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+            common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
         End If
     End Sub
     Private Sub GridSummaryRow()
@@ -595,7 +595,7 @@ Public Class frmCustomerLedgerVsAgeing
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -750,7 +750,7 @@ Public Class frmCustomerLedgerVsAgeing
                 chkIncludeApplyDocument.Checked = True
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -769,7 +769,7 @@ Public Class frmCustomerLedgerVsAgeing
                 transportSql.QuickExportToExcel(gvCustomer, "", Me.Text, , arrHeader)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -803,7 +803,7 @@ Public Class frmCustomerLedgerVsAgeing
                 transportSql.QuickExportToExcel(gvCustomer, "", Me.Text, , arrHeader)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -859,7 +859,7 @@ Public Class frmCustomerLedgerVsAgeing
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -907,7 +907,7 @@ Public Class frmCustomerLedgerVsAgeing
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -932,7 +932,7 @@ Public Class frmCustomerLedgerVsAgeing
             pdfExporter.RunExport(FilePath)
             System.Diagnostics.Process.Start(FilePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

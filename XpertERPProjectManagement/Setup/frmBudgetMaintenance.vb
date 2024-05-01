@@ -35,7 +35,7 @@ Public Class FrmBudgetMaintenance
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmBudgetMaintenance)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -58,26 +58,26 @@ Public Class FrmBudgetMaintenance
 
                 If (obj.SaveData(obj, isNewEntry, trans)) Then
                     trans.Commit()
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                 End If
 
             End If
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Function AllowToSave() As Boolean
         If clsCommon.myCDate(txtFromDate.Value) > clsCommon.myCDate(txtToDate.Value) Then
-            clsCommon.MyMessageBoxShow("From date should not be greater than To date")
+            clsCommon.MyMessageBoxShow(Me, "From date should not be greater than To date", Me.Text)
             txtFromDate.Focus()
             Return False
         ElseIf clsCommon.myLen(fndProject.Value) <= 0 Then
-            clsCommon.MyMessageBoxShow("Please select Project Code")
+            clsCommon.MyMessageBoxShow(Me, "Please select Project Code", Me.Text)
             fndProject.Focus()
             Return False
         ElseIf clsCommon.myLen(txtBudget.Text) = 0 Then
-            clsCommon.MyMessageBoxShow("Please enter Budget")
+            clsCommon.MyMessageBoxShow(Me, "Please enter Budget", Me.Text)
             txtBudget.Focus()
             Return False
         End If
@@ -109,7 +109,7 @@ Public Class FrmBudgetMaintenance
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(fndProject.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -118,7 +118,7 @@ Public Class FrmBudgetMaintenance
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsBudgetMaintenace.DeleteData(fndProject.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Budget Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Budget Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -208,7 +208,7 @@ Public Class FrmBudgetMaintenance
                 trans.Commit()
 
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

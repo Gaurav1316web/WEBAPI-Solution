@@ -476,7 +476,7 @@ Public Class FrmProductionAndSaleReport
             TemplateGridview = gv1
             fillGridReport(False)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -621,7 +621,7 @@ Public Class FrmProductionAndSaleReport
             'doc = Nothing
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

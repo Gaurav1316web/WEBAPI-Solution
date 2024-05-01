@@ -87,7 +87,7 @@ Public Class frmSectionParameterMapping
                 Next
 
                 If (clsSectionParameterMapping.SaveData(obj)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadDataMapping(obj.Section_Code, obj.Consumption_Code)
                 End If
             End If
@@ -98,13 +98,13 @@ Public Class frmSectionParameterMapping
 
     Function AllowToSave() As Boolean
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select section code.", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please select section code.", Me.Text)
             txtCode.Focus()
             Return False
         End If
 
         If clsCommon.myLen(txtConsumType.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select consumption type.", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please select consumption type.", Me.Text)
             txtConsumType.Focus()
             Return False
         End If
@@ -117,12 +117,12 @@ Public Class frmSectionParameterMapping
 
                 TempMappingExist = True
                 If clsCommon.myCdbl(dgv.Rows(i).Cells(colCCSEQ).Value) <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please enter parameter squence no At Line No. " & " : " + clsCommon.myCstr(i + 1) + "", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Please enter parameter squence no At Line No. " & " : " + clsCommon.myCstr(i + 1) + "", Me.Text)
                     Return False
                 End If
 
                 If arrSequence.Contains(clsCommon.myCstr(dgv.Rows(i).Cells(colCCSEQ).Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Same parameter sequence no Repeated (" + clsCommon.myCstr(dgv.Rows(i).Cells(colCCSEQ).Value) + ") At Line No. " + clsCommon.myCstr(i + 1) + "", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Same parameter sequence no Repeated (" + clsCommon.myCstr(dgv.Rows(i).Cells(colCCSEQ).Value) + ") At Line No. " + clsCommon.myCstr(i + 1) + "", Me.Text)
                     Return False
                 Else
                     arrSequence.Add(clsCommon.myCstr(dgv.Rows(i).Cells(colCCSEQ).Value))
@@ -138,7 +138,7 @@ Public Class frmSectionParameterMapping
         '    End If
         'Next
         If TempMappingExist = False Then
-            common.clsCommon.MyMessageBoxShow("Please map at least one parameter.", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Please map at least one parameter.", Me.Text)
             Return False
         End If
 
@@ -161,7 +161,7 @@ Public Class frmSectionParameterMapping
             txtConsumType.Focus()
         ElseIf myMessages.deleteConfirm() Then
             If (clsSectionParameterMapping.DeleteData(txtCode.Value, txtConsumType.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                 funreset()
             End If
         End If
@@ -485,7 +485,7 @@ Public Class frmSectionParameterMapping
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -571,7 +571,7 @@ Public Class frmSectionParameterMapping
     Private Sub txtConsumType__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtConsumType._MYValidating
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select section code first.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Please select section code first.", Me.Text)
                 txtCode.Focus()
                 Exit Sub
             End If

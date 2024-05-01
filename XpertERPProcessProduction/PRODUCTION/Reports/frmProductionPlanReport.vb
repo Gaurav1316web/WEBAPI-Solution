@@ -22,7 +22,7 @@ Public Class frmProductionPlanReport
     Sub LoadData()
 
         If isInsideLoadData Then
-            clsCommon.MyMessageBoxShow("Work in Progress Please Wait...")
+            clsCommon.MyMessageBoxShow(Me, "Work in Progress Please Wait...", Me.Text)
             Exit Sub
         End If
 
@@ -55,7 +55,7 @@ Public Class frmProductionPlanReport
             frmCRV.funreport(CrystalReportFolder.PRODUCTION, dt, "crptProductionPlan", "Production Plan")
             frmCRV = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -136,7 +136,7 @@ Public Class frmProductionPlanReport
             obj.GridLayout.Seek(0, System.IO.SeekOrigin.Begin)
             'obj.GridColumns = gv1.ColumnCount
             If obj.SaveData() Then
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information")
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()

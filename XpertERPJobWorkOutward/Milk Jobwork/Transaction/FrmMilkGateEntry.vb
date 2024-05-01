@@ -752,7 +752,7 @@ Public Class FrmMilkGateEntry
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -849,7 +849,7 @@ Public Class FrmMilkGateEntry
             fndGateEntryNO.MyReadOnly = False
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -902,7 +902,7 @@ Public Class FrmMilkGateEntry
             End If
             dt = Nothing
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal strGateEntryNo As String, ByVal docType As String, ByVal nav As NavigatorType)
@@ -1277,7 +1277,7 @@ Public Class FrmMilkGateEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             txtTankerNoBulk.Text = ""
             txtTankerNoBulk.Focus()
         End Try
@@ -1387,7 +1387,7 @@ Public Class FrmMilkGateEntry
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             dtpDateAndTimeBulk.Value = clsCommon.myCDate(clsCommon.GETSERVERDATE(), "dd/MM/yyyy hh:mm:ss tt")
         End Try
     End Sub

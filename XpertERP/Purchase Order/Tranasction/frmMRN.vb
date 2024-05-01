@@ -5430,7 +5430,7 @@ Public Class frmMRN
                 'cell.BackColor = Color.FromArgb(243, 181, 51)
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
     Private Sub gv1_UserDeletedRow(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.GridViewRowEventArgs) Handles gv1.UserDeletedRow
@@ -5702,7 +5702,7 @@ Public Class frmMRN
                 gvAC.CurrentRow = gvAC.Rows(intCurrRow)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_CurrentColumnChanged(ByVal sender As System.Object, ByVal e As Telerik.WinControls.UI.CurrentColumnChangedEventArgs) Handles gv1.CurrentColumnChanged
@@ -5908,7 +5908,7 @@ Public Class frmMRN
                 'cell.BackColor = Color.FromArgb(243, 181, 51)
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
     Sub LoadBlankGridACInsurance()

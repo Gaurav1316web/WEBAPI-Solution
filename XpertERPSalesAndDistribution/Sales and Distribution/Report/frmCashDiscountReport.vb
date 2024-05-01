@@ -10,7 +10,7 @@ Public Class FrmCashDiscountReport
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.mbtnCashDiscountReport)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -99,11 +99,11 @@ Public Class FrmCashDiscountReport
     Public Sub funPrint()
 
         If (dtpstart.Value > dtpend.Value) Then
-            common.clsCommon.MyMessageBoxShow("'Start Date' Cann't be more than 'End date'")
+            common.clsCommon.MyMessageBoxShow(Me, "'Start Date' Cann't be more than 'End date'", Me.Text)
         Else
             Try
                 If chkSelect.IsChecked = True AndAlso cbgRoute.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select at least one route or select ALL")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one route or select ALL", Me.Text)
                     Return
                 End If
                 Dim qry As String
@@ -125,7 +125,7 @@ Public Class FrmCashDiscountReport
                     End If
                     Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                     If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                        common.clsCommon.MyMessageBoxShow("No Record Found")
+                        common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                     Else
                         'dt = clsDBFuncationality.GetDataTable(qry)
                         Dim frmcrystal As New frmCrystalReportViewer()
@@ -158,7 +158,7 @@ Public Class FrmCashDiscountReport
                     End If
                 End If
             Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub

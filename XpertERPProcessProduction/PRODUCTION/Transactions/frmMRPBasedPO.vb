@@ -516,7 +516,7 @@ Public Class FrmMRPBasedPO
                 isinsideLoaddate = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -580,7 +580,7 @@ Public Class FrmMRPBasedPO
             End If
             
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             'clsERPFuncationality.closeForm(Me)
         End Try
@@ -627,7 +627,7 @@ Public Class FrmMRPBasedPO
 
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -646,7 +646,7 @@ Public Class FrmMRPBasedPO
             End If
             If e.Column Is gvMRP.Columns(colVendorcode) Then
                 If clsCommon.myCBool(gvMRP.CurrentRow.Cells(colSelect).Value) = False Then
-                    clsCommon.MyMessageBoxShow("First select the item by checking.")
+                    clsCommon.MyMessageBoxShow(Me, "First select the item by checking.", Me.Text)
                     Exit Sub
                 End If
 
@@ -705,7 +705,7 @@ Public Class FrmMRPBasedPO
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

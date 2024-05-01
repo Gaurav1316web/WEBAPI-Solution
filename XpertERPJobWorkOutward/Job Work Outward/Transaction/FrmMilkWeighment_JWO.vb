@@ -228,7 +228,7 @@ Public Class FrmMilkWeighment_JWO
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -337,7 +337,7 @@ Public Class FrmMilkWeighment_JWO
             fndDocNO.MyReadOnly = False
             'trans.Rollback()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub deleteData()
@@ -419,7 +419,7 @@ Public Class FrmMilkWeighment_JWO
                 loadData(fndDocNO.Value, strDocType, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Sub sendForQC()
@@ -595,7 +595,7 @@ Public Class FrmMilkWeighment_JWO
                 'End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -986,7 +986,7 @@ Public Class FrmMilkWeighment_JWO
             isCellValueChangedOpen = False
         Catch ex As Exception
             isCellValueChangedOpen = False
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1084,7 +1084,7 @@ Public Class FrmMilkWeighment_JWO
                 reset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1115,7 +1115,7 @@ Public Class FrmMilkWeighment_JWO
         '    End If
 
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 

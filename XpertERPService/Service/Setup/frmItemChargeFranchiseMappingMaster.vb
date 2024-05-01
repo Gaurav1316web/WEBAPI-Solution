@@ -77,7 +77,7 @@ Public Class FrmItemChargeFranchiseMappingMaster
             End If
             gv1.Rows.AddNew()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -131,7 +131,7 @@ Public Class FrmItemChargeFranchiseMappingMaster
                 Throw New Exception("Please select at least one item in grid.")
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -165,7 +165,7 @@ Public Class FrmItemChargeFranchiseMappingMaster
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub DeleteData()
@@ -389,7 +389,7 @@ Public Class FrmItemChargeFranchiseMappingMaster
                 isCellValueChangedOpen = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

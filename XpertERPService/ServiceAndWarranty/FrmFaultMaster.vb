@@ -131,7 +131,7 @@ Public Class FrmFaultMaster
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
                 clsCommon.MyMessageBoxShow("Current Code is in use")
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -257,7 +257,7 @@ Public Class FrmFaultMaster
         Try
             LoadData(TxtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

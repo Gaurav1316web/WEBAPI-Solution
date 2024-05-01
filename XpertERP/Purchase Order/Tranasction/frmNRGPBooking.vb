@@ -517,7 +517,7 @@ Public Class frmNRGPBooking
             End If
         Catch ex As Exception
             'clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Function

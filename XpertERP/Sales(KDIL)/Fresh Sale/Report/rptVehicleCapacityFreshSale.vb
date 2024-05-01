@@ -399,7 +399,7 @@ Public Class RptVehicleCapacityFreshSale
             'common.clsCommon.MyMessageBoxShow("Exported Successfully.")
             'Process.Start(filePath)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

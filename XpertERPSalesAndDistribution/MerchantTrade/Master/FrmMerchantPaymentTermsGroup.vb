@@ -87,7 +87,7 @@ Public Class FrmMerchantPaymentTermsGroup
         Try
             LoadData(fndGroupCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -192,12 +192,12 @@ Public Class FrmMerchantPaymentTermsGroup
         Try
             If (deleteConfirm()) Then
                 If (ClsMerchantPaymentTermsGroup.DeleteData(fndGroupCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

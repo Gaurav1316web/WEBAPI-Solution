@@ -13,7 +13,7 @@ Public Class FrmPjcDrilldown
             gv1.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt.Rows.Count = 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
 
                 Exit Sub
             End If

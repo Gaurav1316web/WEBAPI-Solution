@@ -36,9 +36,9 @@ Public Class frmAutoAdditionDeductionReport
     Private Sub btnGo_Click(sender As Object, e As EventArgs) Handles btnGo.Click
         Print(False)
     End Sub
+
     Sub Print(ByVal isPrint As Boolean)
         Try
-            'If SetToDate() Then
             Gv1.MasterTemplate.SummaryRowsBottom.Clear()
             Gv1.DataSource = Nothing
             Gv1.Rows.Clear()
@@ -48,41 +48,43 @@ Public Class frmAutoAdditionDeductionReport
             Gv1.MasterView.Refresh()
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
             TemplateGridview = Gv1
-            Dim Qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code]
-                                    ,TSPL_VLC_MASTER_HEAD.VSP_Code as [Code]
-                                    ,CASE WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=0 THEN 'All'
+            Dim Qry As String = " select (x.[DCS Code])[DCS Code],(x.Code)Code,max(x.[DCS Type])[DCS Type],max(x.[Is Own BMC])[Is Own BMC],([Apply On])[Apply On],([Apply Type])[Apply Type],
+                                 (x.[Formula])Formula,sum(x.[Base Amount/Quantity])[Base Amount/Quantity],sum(x.[Addition/Deduction Amount])[Addition/Deduction Amount],ceiling(SUM(X.[Addition/Deduction Amount])) AS [Addition/Deduction AmountR]
+                                 ,max(x.[Addition/Deduction Description])[Addition/Deduction Description] from (select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code]
+                                 ,TSPL_VLC_MASTER_HEAD.VSP_Code as [Code],CASE WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=0 THEN 'All'
                                     WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=1 THEN 'DCS'
                                     WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=2 THEN 'PDCS'
                                     WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=3 THEN 'BMC'
                                     WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=4 THEN 'Cluster'
-                                    END AS [DCS Type]
-                                    ,case when TSPL_VLC_MASTER_HEAD.isOwnBMC=1 then 'Yes' else 'No' end as [Is Own BMC]
-                                    ,TSPL_VENDOR_INVOICE_HEAD.Description
-                                    ,case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 then 'Amount'
+                                    END AS [DCS Type],case when TSPL_VLC_MASTER_HEAD.isOwnBMC=1 then 'Yes' else 'No' end as [Is Own BMC]
+									  ,case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 then 'Amount'
                                     when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 then 'Quantity' else '' end as [Apply On]
                                     ,case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then 'Percentage'
-                                    when TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then 'Rate' else '' end as [Apply Type]
-                                    ,Applicable_Value as [Formula]
-                                    ,CASE when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then
-                                    cast((TSPL_VENDOR_INVOICE_DETAIL.Total_Amount*100)/TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value as decimal(18,2)) 
+                                    when TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then 'Rate' else '' end as [Apply Type],Applicable_Value as [Formula]
+									   ,CASE when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then
+                                    cast(TSPL_MILK_SRN_DETAIL.NET_AMOUNT as decimal(18,2)) 
                                      when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then
-                                    cast(TSPL_VENDOR_INVOICE_DETAIL.Total_Amount/TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value as decimal(18,2)) 
-                                    else 0 end AS [Base Amount/Quantity]                                    
-                                    ,TSPL_VENDOR_INVOICE_DETAIL.Total_Amount As [Addition/Deduction Amount]
-                                    ,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description]
-                                     from TSPL_VENDOR_INVOICE_DETAIL
-                                    LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
-                                    LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
-                                    left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
-                                    left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
-                                    WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
+                                    cast(TSPL_MILK_SRN_DETAIL.Qty as decimal(18,2)) 
+                                    else 0 end AS [Base Amount/Quantity]
+									,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_MILK_SRN_DETAIL.Qty ,TSPL_MILK_SRN_DETAIL.NET_AMOUNT
+									,TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Amt As [Addition/Deduction Amount]
+									,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description]
 
+                                     from TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED
+                                    LEFT OUTER JOIN TSPL_MILK_PURCHASE_INVOICE_HEAD ON TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.invoiceNo
+                                    --Left outer join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE
+                                    left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.SRN_CODE
+                                    left outer join TSPL_MILK_SRN_DETAIL ON TSPL_MILK_SRN_DETAIL.DOC_CODE = TSPL_MILK_SRN_HEAD.DOC_CODE
+                                    LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Against_DCS_ADDITION_DEDUCTION,'')
+                                    left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VSP_Code=TSPL_MILK_SRN_HEAD.VSP_Code
+                                    left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
+                                    WHERE ISNULL(TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED.Against_DCS_ADDITION_DEDUCTION,'')<>'' and
+                                    CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)>= '" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_DATE,103)<= '" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
             If rbtnAddition.IsChecked = True Then
                 Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=0 "
             ElseIf rbtnDeduction.IsChecked = True Then
                 Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=1 "
             End If
-
             If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
                 Qry += "  and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ")"
             End If
@@ -96,7 +98,7 @@ Public Class frmAutoAdditionDeductionReport
             If clsCommon.myLen(fndArea.Value) > 0 Then
                 Qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
             End If
-
+            Qry += "    )x  group by x.[DCS Code],x.[Code],x.[Apply On],x.[Apply Type],x.Formula "
 
             dt = Nothing
             dt = clsDBFuncationality.GetDataTable(Qry)
@@ -109,12 +111,91 @@ Public Class frmAutoAdditionDeductionReport
             RadPageView1.SelectedPage = RadPageViewPage2
             SetGridFormat(Gv1)
             EnableDisaableControls(False)
-            ReStoreGridLayout()
-            'End If
+            'ReStoreGridLayout()
+
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
+    'Sub Print(ByVal isPrint As Boolean)
+    '    Try
+    '        'If SetToDate() Then
+    '        Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+    '        Gv1.DataSource = Nothing
+    '        Gv1.Rows.Clear()
+    '        Gv1.Columns.Clear()
+    '        Gv1.GroupDescriptors.Clear()
+    '        Gv1.MasterTemplate.SummaryRowsBottom.Clear()
+    '        Gv1.MasterView.Refresh()
+    '        PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
+    '        TemplateGridview = Gv1
+    '        Dim Qry As String = "select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code]
+    '                                ,TSPL_VLC_MASTER_HEAD.VSP_Code as [Code]
+    '                                ,CASE WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=0 THEN 'All'
+    '                                WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=1 THEN 'DCS'
+    '                                WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=2 THEN 'PDCS'
+    '                                WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=3 THEN 'BMC'
+    '                                WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=4 THEN 'Cluster'
+    '                                END AS [DCS Type]
+    '                                ,case when TSPL_VLC_MASTER_HEAD.isOwnBMC=1 then 'Yes' else 'No' end as [Is Own BMC]
+    '                                ,TSPL_VENDOR_INVOICE_HEAD.Description
+    '                                ,case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 then 'Amount'
+    '                                when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 then 'Quantity' else '' end as [Apply On]
+    '                                ,case when TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then 'Percentage'
+    '                                when TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then 'Rate' else '' end as [Apply Type]
+    '                                ,Applicable_Value as [Formula]
+    '                                ,CASE when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=1 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=1 then
+    '                                cast((TSPL_VENDOR_INVOICE_DETAIL.Total_Amount*100)/TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value as decimal(18,2)) 
+    '                                 when TSPL_DCS_ADDITION_DEDUCTION.Applicable_On=0 and TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type=0 then
+    '                                cast(TSPL_VENDOR_INVOICE_DETAIL.Total_Amount/TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value as decimal(18,2)) 
+    '                                else 0 end AS [Base Amount/Quantity]                                    
+    '                                ,TSPL_VENDOR_INVOICE_DETAIL.Total_Amount As [Addition/Deduction Amount]
+    '                                ,TSPL_DCS_ADDITION_DEDUCTION.Description As [Addition/Deduction Description]
+    '                                 from TSPL_VENDOR_INVOICE_DETAIL
+    '                                LEFT OUTER JOIN TSPL_VENDOR_INVOICE_HEAD ON TSPL_VENDOR_INVOICE_DETAIL.Document_No=TSPL_VENDOR_INVOICE_HEAD.Document_No
+    '                                LEFT OUTER JOIN TSPL_DCS_ADDITION_DEDUCTION ON TSPL_DCS_ADDITION_DEDUCTION.CODE=ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')
+    '                                left outer join TSPL_VLC_MASTER_HEAD on VSP_Code=TSPL_VENDOR_INVOICE_HEAD.Vendor_Code
+    '                                left outer join TSPL_MCC_MASTER ON TSPL_VLC_MASTER_HEAD.MCC=TSPL_MCC_MASTER.MCC_Code
+    '                                WHERE ISNULL(TSPL_VENDOR_INVOICE_DETAIL.DCS_Addition_Deduction,'')<>'' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)>='" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MMM/yyyy") + "' and CONVERT(date,TSPL_VENDOR_INVOICE_HEAD.Vendor_Invoice_Date,103)<='" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MMM/yyyy") + "' "
+
+    '        If rbtnAddition.IsChecked = True Then
+    '            Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=0 "
+    '        ElseIf rbtnDeduction.IsChecked = True Then
+    '            Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Nature_Type=1 "
+    '        End If
+
+    '        If txtMultiMCC.arrValueMember IsNot Nothing AndAlso txtMultiMCC.arrValueMember.Count > 0 Then
+    '            Qry += "  and TSPL_VLC_MASTER_HEAD.MCC in (" + clsCommon.GetMulcallString(txtMultiMCC.arrValueMember) + ")"
+    '        End If
+    '        If TxtMultiDCS.arrValueMember IsNot Nothing AndAlso TxtMultiDCS.arrValueMember.Count > 0 Then
+    '            Qry += "and TSPL_VLC_MASTER_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(TxtMultiDCS.arrValueMember) + ")"
+    '        End If
+
+    '        If TxtMultiDeduction.arrValueMember IsNot Nothing AndAlso TxtMultiDeduction.arrValueMember.Count > 0 Then
+    '            Qry += " and TSPL_DCS_ADDITION_DEDUCTION.Code in (" + clsCommon.GetMulcallString(TxtMultiDeduction.arrValueMember) + ")"
+    '        End If
+    '        If clsCommon.myLen(fndArea.Value) > 0 Then
+    '            Qry += " And TSPL_MCC_MASTER.Area_Location_Code = '" + fndArea.Value + "' "
+    '        End If
+
+
+    '        dt = Nothing
+    '        dt = clsDBFuncationality.GetDataTable(Qry)
+    '        If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
+    '            Throw New Exception("No Data Found to Display")
+    '        End If
+
+
+    '        Gv1.DataSource = dt
+    '        RadPageView1.SelectedPage = RadPageViewPage2
+    '        SetGridFormat(Gv1)
+    '        EnableDisaableControls(False)
+    '        ReStoreGridLayout()
+    '        'End If
+    '    Catch ex As Exception
+    '        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+    '    End Try
+    'End Sub
 
     Private Sub ReStoreGridLayout()
         Try
@@ -147,15 +228,25 @@ Public Class frmAutoAdditionDeductionReport
 
         For ii As Integer = 0 To Gv1.Columns.Count - 1
             Gv1.Columns(ii).ReadOnly = True
+            Gv1.Columns(ii).IsVisible = True
             Gv1.Columns(ii).BestFit()
         Next
+
+        Gv1.Columns("Addition/Deduction AmountR").Width = 100
+        Gv1.Columns("Addition/Deduction AmountR").IsVisible = True
+        Gv1.Columns("Addition/Deduction AmountR").HeaderText = "Amount(Round)"
+
+
         Gv1.Columns("Base Amount/Quantity").FormatString = "{0:n2}"
         Gv1.Columns("Addition/Deduction Amount").FormatString = "{0:n2}"
+        Gv1.Columns("Addition/Deduction AmountR").FormatString = "{0:n2}"
         Dim summaryRowItem As New GridViewSummaryRowItem()
         Dim BaseAmount As New GridViewSummaryItem("Base Amount/Quantity", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(BaseAmount)
         Dim Amount As New GridViewSummaryItem("Addition/Deduction Amount", "{0:n2}", GridAggregateFunction.Sum)
         summaryRowItem.Add(Amount)
+        Dim Amounts As New GridViewSummaryItem("Addition/Deduction AmountR", "{0:n2}", GridAggregateFunction.Sum)
+        summaryRowItem.Add(Amounts)
         Gv1.MasterTemplate.SummaryRowsBottom.Add(summaryRowItem)
 
         Gv1.AutoSizeRows = False

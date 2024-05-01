@@ -691,7 +691,7 @@ Public Class FrmMilkQualityCheck_JWO
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
 
@@ -843,7 +843,7 @@ Public Class FrmMilkQualityCheck_JWO
             fndQcNo.MyReadOnly = False
             trans.Rollback()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
 
@@ -1113,7 +1113,7 @@ Public Class FrmMilkQualityCheck_JWO
                 clsCommon.MyMessageBoxShow("Please select a QC No To delete")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -1242,7 +1242,7 @@ Public Class FrmMilkQualityCheck_JWO
                 loadData(fndQcNo.Value, strDocType, NavigatorType.Current)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1509,7 +1509,7 @@ Public Class FrmMilkQualityCheck_JWO
             clsCommon.MyMessageBoxShow("Document Sent For special Approval Successfully", Me.Text)
             loadData(fndQcNo.Value, IIf(chkMccProc.IsChecked, "Sku_Receipt", "Tanker"), NavigatorType.Current)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Timer1_Start()
@@ -1564,7 +1564,7 @@ Public Class FrmMilkQualityCheck_JWO
             LblFAT.Text = "00.00"
             LblSnf.Text = "00.00"
             objSr.ClosePort()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

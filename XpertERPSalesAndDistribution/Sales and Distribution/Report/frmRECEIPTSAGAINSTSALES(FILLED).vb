@@ -204,7 +204,7 @@ Public Class FrmRECEIPTSAGAINSTSALES_FILLED_
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try

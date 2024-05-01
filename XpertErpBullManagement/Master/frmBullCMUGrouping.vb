@@ -388,7 +388,7 @@ Public Class frmBullCMUGrouping
         End If
 
         If (ClsCMUGrouping.SaveData(obj, isNewEntry)) Then
-            clsCommon.MyMessageBoxShow(Me, "Data save successfully.")
+            clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
             LoadData(obj.Code, NavigatorType.Current)
         End If
 

@@ -57,10 +57,10 @@ Public Class FrmCustomerGroupReport
             If f1 = "" And t1 = "" Then
                 ds = connectSql.RunSQLReturnDS("select m.Cust_Group_Code ,m.Tax_Group,m.Cust_Account,m.Terms_Code from TSPL_CUSTOMER_GROUP_MASTER m ")
             ElseIf f1 = "" And t1 <> "" Then
-                common.clsCommon.MyMessageBoxShow("select From CustomerGroup Code")
+                common.clsCommon.MyMessageBoxShow(Me, "select From CustomerGroup Code", Me.Text)
                 Exit Sub
             ElseIf f1 <> "" And t1 = "" Then
-                common.clsCommon.MyMessageBoxShow("select To CustomerGroup Code")
+                common.clsCommon.MyMessageBoxShow(Me, "select To CustomerGroup Code", Me.Text)
                 Exit Sub
             Else
                 Dim qry As String = "select '" + f1 + "' as [FCG],'" + t1 + "' as [TCG],  m.Cust_Group_Code ,m.Tax_Group,m.Cust_Account,m.Terms_Code from TSPL_CUSTOMER_GROUP_MASTER m  where m.Cust_Group_Code between '" + f1 + "'and '" + t1 + "'"
@@ -71,7 +71,7 @@ Public Class FrmCustomerGroupReport
             Dim frmcrystal As New frmCrystalReportViewer()
             frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "CustomerGroupDetails", "Customer Group Details")
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

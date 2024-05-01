@@ -355,7 +355,7 @@ Public Class frmPPStageProcessQCLogSheet
         '    gv.MasterTemplate.ShowRowHeaderColumn = False
 
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
     Private Sub LoadBlankGrid(ByVal columns As String)

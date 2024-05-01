@@ -5,16 +5,13 @@ Public Class clsBullParameterGroup
     Public Name As String = ""
     ' Public PK_ID As String = " "
     Public Arr As List(Of clsBullParameterGroupDetail) = Nothing
+    Public arrSelectionRange As List(Of clsBullParameterGroupDeatilRange) = Nothing
 
 
     Public Shared Function GetData(ByVal strCode As String, ByVal NavType As NavigatorType) As clsBullParameterGroup
         Try
             Dim obj As clsBullParameterGroup = Nothing
-            Dim qry As String = "SELECT 
-                    Code,Name
-                    FROM TSPL_BULL_PARAMETER_GROUP_MASTER                   
-                    WHERE TSPL_BULL_PARAMETER_GROUP_MASTER.Code='" + strCode + "'"
-
+            Dim qry As String = "SELECT Code,Name FROM TSPL_BULL_PARAMETER_GROUP_MASTER WHERE TSPL_BULL_PARAMETER_GROUP_MASTER.Code='" + strCode + "'"
             Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
             If (dt IsNot Nothing AndAlso dt.Rows.Count > 0) Then
@@ -23,7 +20,9 @@ Public Class clsBullParameterGroup
                 obj.Name = clsCommon.myCstr(dt.Rows(0)("Name"))
 
             End If
-            qry = "select Code,TPCode from TSPL_BULL_PARAMETER_GROUP_Detail WHERE TSPL_BULL_PARAMETER_GROUP_Detail.Code='" + strCode + "' "
+            qry = "select TSPL_BULL_PARAMETER_GROUP_Detail.*,TSPL_BULL_TEST_PARAMETER.Name,TSPL_BULL_TEST_PARAMETER.Type from TSPL_BULL_PARAMETER_GROUP_Detail 
+                    left outer join TSPL_BULL_TEST_PARAMETER On TSPL_BULL_TEST_PARAMETER.Code=TSPL_BULL_PARAMETER_GROUP_Detail.TPCode
+                    WHERE TSPL_BULL_PARAMETER_GROUP_Detail.Code='" + strCode + "' "
 
             dt = clsDBFuncationality.GetDataTable(qry)
             If (dt.Rows.Count > 0) Then
@@ -33,11 +32,14 @@ Public Class clsBullParameterGroup
                     objTr = New clsBullParameterGroupDetail
                     objTr.Code = clsCommon.myCstr(dr("Code"))
                     objTr.TPCode = clsCommon.myCstr(dr("TPCode"))
-                    objTr.Name = clsDBFuncationality.getSingleValue("select TSPL_BULL_TEST_PARAMETER.Name As Name from TSPL_BULL_TEST_PARAMETER left outer join TSPL_BULL_PARAMETER_GROUP_Detail on TSPL_BULL_PARAMETER_GROUP_Detail.TPCODE=TSPL_BULL_TEST_PARAMETER.cODE
- where TSPL_BULL_PARAMETER_GROUP_Detail.Code='" + clsCommon.myCstr(dr("Code")) + "'", Nothing)
-                    objTr.Type = clsDBFuncationality.getSingleValue("select TSPL_BULL_TEST_PARAMETER.Type As Type from TSPL_BULL_TEST_PARAMETER left outer join TSPL_BULL_PARAMETER_GROUP_Detail on TSPL_BULL_PARAMETER_GROUP_Detail.TPCODE=TSPL_BULL_TEST_PARAMETER.cODE
- where TSPL_BULL_PARAMETER_GROUP_Detail.Code='" + clsCommon.myCstr(dr("Code")) + "'", Nothing)
-
+                    objTr.Name = clsCommon.myCstr(dr("Name"))
+                    objTr.Type = clsCommon.myCstr(dr("Type"))
+                    objTr.Required_For_Result = clsCommon.myCstr(dr("Required_For_Result"))
+                    objTr.From_Range = clsCommon.myCDecimal(dr("From_Range"))
+                    objTr.To_Range = clsCommon.myCDecimal(dr("To_Range"))
+                    objTr.R_Boolean = clsCommon.myCstr(dr("To_Range"))
+                    objTr.Alpha_Numeric = clsCommon.myCstr(dr("Alpha_Numeric"))
+                    objTr.Range_Selection = clsCommon.myCstr(dr("Range_Selection"))
                     obj.Arr.Add(objTr)
                 Next
             End If
@@ -95,6 +97,7 @@ Public Class clsBullParameterGroup
         Dim IsSaved As Boolean = True
         Try
             IsSaved = True
+
             Dim StrQry As String = "delete from TSPL_BULL_PARAMETER_GROUP_Detail where Code='" + obj.Code + "'"
             clsDBFuncationality.ExecuteNonQuery(StrQry, trans)
 
@@ -120,6 +123,7 @@ Public Class clsBullParameterGroup
             End If
 
             IsSaved = IsSaved AndAlso clsBullParameterGroupDetail.SaveData(clsCommon.myCstr(obj.Code), obj.Arr, trans)
+            IsSaved = IsSaved AndAlso clsBullParameterGroupDeatilRange.SaveData(clsCommon.myCstr(obj.Code), obj.arrSelectionRange, trans)
         Catch err As Exception
             Throw New Exception(err.Message)
         End Try
@@ -142,6 +146,12 @@ Public Class clsBullParameterGroupDetail
     Public TPCode As String = ""
     Public Name As String = ""
     Public Type As String = ""
+    Public Required_For_Result As String = ""
+    Public From_Range As Decimal
+    Public To_Range As Decimal
+    Public R_Boolean As String = ""
+    Public Alpha_Numeric As String = ""
+    Public Range_Selection As Decimal
 
     Public Shared Function SaveData(ByVal strDocNo As String, ByVal Arr As List(Of clsBullParameterGroupDetail), ByVal trans As SqlTransaction) As Boolean
         If (Arr IsNot Nothing AndAlso Arr.Count > 0) Then
@@ -149,9 +159,36 @@ Public Class clsBullParameterGroupDetail
                 Dim colm As New Hashtable()
                 clsCommon.AddColumnsForChange(colm, "Code", strDocNo)
                 clsCommon.AddColumnsForChange(colm, "TPCode", obj.Code)
+                clsCommon.AddColumnsForChange(colm, "Required_For_Result", obj.Required_For_Result)
+                clsCommon.AddColumnsForChange(colm, "From_Range", obj.From_Range)
+                clsCommon.AddColumnsForChange(colm, "To_Range", obj.To_Range)
+                clsCommon.AddColumnsForChange(colm, "R_Boolean", obj.R_Boolean)
+                clsCommon.AddColumnsForChange(colm, "Alpha_Numeric", obj.Alpha_Numeric)
+                clsCommon.AddColumnsForChange(colm, "Range_Selection", obj.Range_Selection)
                 clsCommonFunctionality.UpdateDataTable(colm, "TSPL_BULL_PARAMETER_GROUP_Detail", OMInsertOrUpdate.Insert, "", trans)
             Next
         End If
         Return True
     End Function
+End Class
+
+Public Class clsBullParameterGroupDeatilRange
+    Public Against_Group_Code As String
+    Public Against_Detail_PK_Id As Decimal
+    Public Range_Selection As String
+
+    Public Shared Function SaveData(ByVal strDocNo As String, ByVal arrSelection As List(Of clsBullParameterGroupDeatilRange), ByVal trans As SqlTransaction) As Boolean
+        If (arrSelection IsNot Nothing AndAlso arrSelection.Count > 0) Then
+            For Each obj As clsBullParameterGroupDeatilRange In arrSelection
+                Dim colm As New Hashtable()
+                clsCommon.AddColumnsForChange(colm, "Against_Group_Code", obj.Against_Group_Code)
+                'clsCommon.AddColumnsForChange(colm, "Against_Detail_PK_Id", obj.Against_Detail_PK_Id)
+                clsCommon.AddColumnsForChange(colm, "Range_Selection", obj.Range_Selection)
+                clsCommonFunctionality.UpdateDataTable(colm, "TSPL_BULL_PARAMETER_GROUP_DETAIL_RANGE", OMInsertOrUpdate.Insert, "", trans)
+            Next
+        End If
+        Return True
+    End Function
+
+
 End Class

@@ -880,7 +880,7 @@ Public Class frmAssembDis
                 clsCommon.MyMessageBoxShow(Me, "Current Code is in use", Me.Text)
 
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
             trans.Rollback()
         End Try
@@ -1683,7 +1683,7 @@ Public Class frmAssembDis
 
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Function UpdateInventoryMovement(Optional ByVal trans As SqlTransaction = Nothing) As Boolean
@@ -2296,7 +2296,7 @@ Public Class frmAssembDis
             'cell.GradientStyle = GradientStyles.Solid
             'cell.BackColor = Color.FromArgb(243, 181, 51)
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -2363,7 +2363,7 @@ Public Class frmAssembDis
             clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -2420,7 +2420,7 @@ Public Class frmAssembDis
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' Ticket No : TEC/29/10/18-000347 By Prabhakar

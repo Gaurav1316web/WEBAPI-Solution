@@ -44,15 +44,21 @@ Public Class frmBullSourceName
                 'AddNew()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnsave_Click(sender As Object, e As EventArgs) Handles btnsave.Click
         SaveData()
     End Sub
     Private Function AllowToSave() As Boolean
+        If clsCommon.myLen(fndCode.Value) <= 0 Then
+            fndCode.Focus()
+            clsCommon.MyMessageBoxShow(Me, "Code can't be blank", Me.Text)
+            Exit Function
+            Return False
+        End If
         If clsCommon.myLen(txtname.Text) <= 0 Then
-            clsCommon.MyMessageBoxShow("Fill Name.")
+            clsCommon.MyMessageBoxShow(Me, "Fill Name.", Me.Text)
             txtname.Focus()
             txtname.Select()
 
@@ -66,24 +72,18 @@ Public Class frmBullSourceName
     Private Sub SaveData()
         Try
             If (AllowToSave()) Then
-                If MyBase.isModifyonPasswordFlag Then
-                    If clsPasswordCheckForMasters.CheckMasterPwd(clsUserMgtCode.frmBullSourceName, clsCommon.myCstr(objCommonVar.CurrentCompanyCode)) Then
-                    Else
-                        Return
-                    End If
+
+                Dim obj As New clsBullSourceName()
+                obj.Code = fndCode.Value
+                obj.Name = txtname.Text.Replace("'", "`")
+                'obj.Type = txtType.Text
+
+
+                If (obj.SaveData(obj, isNewEntry)) Then
+                    clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
+                    LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
-            Dim obj As New clsBullSourceName()
-            obj.Code = fndCode.Value
-            obj.Name = txtname.Text.Replace("'", "`")
-            'obj.Type = txtType.Text
-
-
-            If (obj.SaveData(obj, isNewEntry)) Then
-                clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
-                LoadData(obj.Code, NavigatorType.Current)
-            End If
-            'End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -94,7 +94,7 @@ Public Class frmBullSourceName
         Dim check As Integer = clsDBFuncationality.getSingleValue(qry)
 
         If check > 0 Then
-            qry = "select Code,Name, from TSPL_BULL_SOURCE_NAME"
+            qry = "select Code,Name from TSPL_BULL_SOURCE_NAME"
         Else
             qry = "select '' as Code,'' as Name"
         End If
@@ -144,15 +144,15 @@ Public Class frmBullSourceName
                 clsCommon.ProgressBarHide()
 
                 If counter >= 1 Then
-                    clsCommon.MyMessageBoxShow("Data transfer successfully", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Data transfer successfully", Me.Text)
                 Else
-                    clsCommon.MyMessageBoxShow("No data found to transfer", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "No data found to transfer", Me.Text)
                 End If
 
 
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 
@@ -185,7 +185,7 @@ Public Class frmBullSourceName
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub AddNew()
@@ -204,5 +204,20 @@ Public Class frmBullSourceName
 
     Private Sub btnnew_Click(sender As Object, e As EventArgs) Handles btnnew.Click
         AddNew()
+    End Sub
+
+    Private Sub fndCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles fndCode._MYNavigator
+        Try
+            Dim qry As String = "select count(*) from TSPL_BULL_SOURCE_NAME where Code='" + fndCode.Value + "' "
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry))
+            If count = 0 Then
+                fndCode.MyReadOnly = False
+            Else
+                fndCode.MyReadOnly = True
+            End If
+            LoadData(fndCode.Value, NavType)
+        Catch ex As Exception
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 End Class

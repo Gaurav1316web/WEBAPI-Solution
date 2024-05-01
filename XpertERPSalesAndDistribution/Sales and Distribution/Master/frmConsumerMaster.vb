@@ -261,7 +261,7 @@ Public Class frmConsumerMaster
                 FunReset()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -296,7 +296,7 @@ Public Class frmConsumerMaster
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -349,28 +349,28 @@ Public Class frmConsumerMaster
             obj.Details_Date = clsCommon.myCDate(clsCommon.GETSERVERDATE())
 
             If (clsConsumerMaster.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully.")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.", Me.Text)
                 LoadDataConsumerDetails(obj.Consumer_Code, NavigatorType.Current)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
     Sub DeleteConsumerDetails()
         Try
             If clsCommon.myLen(fndConsumerCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Consumer code is not found to delete.")
+                common.clsCommon.MyMessageBoxShow(Me, "Consumer code is not found to delete.", Me.Text)
                 Exit Sub
             End If
             If (myMessages.deleteConfirm()) Then
                 If (clsConsumerMaster.DeleteData(fndConsumerCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     FunReset()
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -595,7 +595,7 @@ Public Class frmConsumerMaster
                     End If
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)
@@ -610,7 +610,7 @@ Public Class frmConsumerMaster
             strCmd = "Select Consumer_Code,Title,First_Name,Middle_Name,Last_Name,convert (varchar,DOB,103 ) as DOB,Father_Name,Marital_Status,Gender,Education,C_Add1,C_Add2,C_Add3,C_Country,C_State,C_City,C_Pin_No,P_Add1,P_Add2,P_Add3,P_Country,P_State,P_City,P_Pin_No,Mobile_No,Land_Line_No,Email,Alternate_Email,Product_Used,Specify_Product_Used,How_To_Know,Specify_How_To_Know,convert (varchar,Details_Date,103 ) as Details_Date from TSPL_CONSUMER_MASTER "
             transportSql.ExporttoExcel(strCmd, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -618,7 +618,7 @@ Public Class frmConsumerMaster
         Try
             LoadDataConsumerDetails(fndConsumerCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -651,7 +651,7 @@ Public Class frmConsumerMaster
                 fndCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -673,7 +673,7 @@ Public Class frmConsumerMaster
                 fndCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -693,7 +693,7 @@ Public Class frmConsumerMaster
                 txtCity.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -757,7 +757,7 @@ Public Class frmConsumerMaster
                 fndPCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -772,7 +772,7 @@ Public Class frmConsumerMaster
                 fndPCity.Value = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -785,7 +785,7 @@ Public Class frmConsumerMaster
                 txtPCity.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

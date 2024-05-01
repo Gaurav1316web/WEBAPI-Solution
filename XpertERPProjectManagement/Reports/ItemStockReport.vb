@@ -204,11 +204,11 @@ Public Class ItemStockReport
                 FormatGrid()
                 'ReStoreGridLayout()
             Else
-                clsCommon.MyMessageBoxShow("No data found to display.", "Item Stock Report")
+                clsCommon.MyMessageBoxShow(Me, "No data found to display.", "Item Stock Report")
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -575,13 +575,13 @@ Public Class ItemStockReport
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
                 clsCommon.MyExportToExcelGrid("Item Stock Report", Gv1, arrHeader, Me.Text)
                 ' transportSql.exportdataChilRows(gv1, filePath, filePath.Substring(filePath.LastIndexOf("\") + 1, filePath.Length - filePath.LastIndexOf("\") - 1), , arrHeader)
-                common.clsCommon.MyMessageBoxShow("Exported Successfully.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Exported Successfully.", Me.Text)
                 'Process.Start(filePath)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -603,10 +603,10 @@ Public Class ItemStockReport
                 transportSql.applyExportTemplate(Gv1, PageSetupReport_ID)
                 clsCommon.MyExportToPDF("Item Stock Report", Gv1, arrHeader, "Item Stock Report", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -709,10 +709,10 @@ Public Class ItemStockReport
                 frmCRV.funreport(CrystalReportFolder.SalesReport, dt, "rptItemStockReport", "")
                 frmCRV = Nothing
             Else
-                clsCommon.MyMessageBoxShow("No Data Found")
+                clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -720,7 +720,7 @@ Public Class ItemStockReport
         Try
             txtItemType.arrValueMember = clsCommon.ShowMultipleSelectForm("ItemTypestoreco", FrmItemMasterRMOther.LoadItemTypeQuery(), "Code", "Name", txtItemType.arrValueMember, txtItemType.arrDispalyMember)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

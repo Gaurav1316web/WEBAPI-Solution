@@ -6307,7 +6307,7 @@ Public Class frmVSPMaster
             txtGST_PanCode.Text = txtpan.Text
             If clsCommon.myLen(msg) > 0 Then
                 pageCus.SelectedPage = RadPageViewPage1
-                clsCommon.MyMessageBoxShow(msg, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 txtpan.Focus()
                 txtpan.Select()
                 Return
@@ -6338,7 +6338,7 @@ Public Class frmVSPMaster
                 MyTextBox2.Text = ""
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message())
+            clsCommon.MyMessageBoxShow(Me, ex.Message(), Me.Text)
         End Try
     End Sub
 

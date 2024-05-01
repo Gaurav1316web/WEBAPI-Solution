@@ -253,8 +253,8 @@ Public Class FrmRGP_Register_NRGP
         End If
 
             Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
-        End Try
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+            End Try
         End If
     End Sub
 
@@ -390,7 +390,7 @@ Public Class FrmRGP_Register_NRGP
 
 
             Catch ex As Exception
-                common.clsCommon.MyMessageBoxShow(ex.Message)
+                common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -430,7 +430,7 @@ Public Class FrmRGP_Register_NRGP
     '        End If
 
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
     Sub print(ByVal exporter As EnumExportTo)
@@ -541,7 +541,7 @@ Public Class FrmRGP_Register_NRGP
 
             'ExporttoMyExcel(qry, Me)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Function ExporttoMyExcel(ByVal sql As String, ByVal frm As RadForm) As Boolean
@@ -635,7 +635,7 @@ Public Class FrmRGP_Register_NRGP
             print(EnumExportTo.Excel)
             ' End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -647,7 +647,7 @@ Public Class FrmRGP_Register_NRGP
             print(EnumExportTo.PDF)
             'End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ' KUNAL > TICKET : BM00000009573 > DATE : 03-NOV-106 
@@ -665,7 +665,7 @@ Public Class FrmRGP_Register_NRGP
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub ItemLoad()
@@ -772,7 +772,7 @@ Public Class FrmRGP_Register_NRGP
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 End Class

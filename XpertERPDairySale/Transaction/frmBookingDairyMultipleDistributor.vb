@@ -109,7 +109,7 @@ Public Class frmBookingDairyMultipleDistributor
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -168,7 +168,7 @@ Public Class frmBookingDairyMultipleDistributor
 
             If clsCommon.myLen(strtotalShort) = 0 Then
                 gv1.DataSource = Nothing
-                clsCommon.MyMessageBoxShow("Please MAP Customer with Location . " & txtLocation.Value, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Please MAP Customer with Location . " & txtLocation.Value, Me.Text)
                 blnPageLoad = False
                 Exit Sub
             End If

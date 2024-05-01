@@ -104,7 +104,7 @@ Public Class FrmSectionMaster
             If (clsCommon.CompairString(clsCommon.myCstr(ex.Message), "Code not found to delete") <> CompairStringResult.Equal) Then
                 clsCommon.MyMessageBoxShow("This Code is already used, so can’t delete")
             Else
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End If
         End Try
     End Sub
@@ -231,7 +231,7 @@ Public Class FrmSectionMaster
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 'trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 

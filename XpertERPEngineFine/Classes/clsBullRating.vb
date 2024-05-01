@@ -72,7 +72,7 @@ Public Class clsBullRating
         Dim obj As clsBullRating = Nothing
 
         Try
-            Dim strQry As String = "select * from TSPL_BULL_BREED_MASTER where 1=1  "
+            Dim strQry As String = "select * from TSPL_BULL_Rating where 1=1  "
             Select Case NavType
                 Case NavigatorType.First
                     strQry += " and Code = (select MIN(Code) from TSPL_BULL_Rating where 1=1  )"

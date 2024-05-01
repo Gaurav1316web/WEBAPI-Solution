@@ -129,7 +129,7 @@ Public Class frmMilkRejectType
 
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         ' Code Ends 
@@ -140,7 +140,7 @@ Public Class frmMilkRejectType
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsMilkRejectType.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If

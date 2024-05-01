@@ -8240,10 +8240,10 @@ Public Class frmSaleReturnDairy
             End If
 
             clsDSSalesReturnHead.CancelData(Me.Form_ID, txtDocNo.Value, NavigatorType.Current)
-            clsCommon.MyMessageBoxShow("Successfully Cancelled", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Successfully Cancelled", Me.Text)
             AddNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function

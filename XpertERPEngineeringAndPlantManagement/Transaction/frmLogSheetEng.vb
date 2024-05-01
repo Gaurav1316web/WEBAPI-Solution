@@ -198,7 +198,7 @@ Public Class frmLogSheetEng
     Private Sub SetUserMgmtNew()
         ''MyBase.SetUserMgmt(clsUserMgtCode.frmLogSheetEng)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -238,7 +238,7 @@ Public Class frmLogSheetEng
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -278,7 +278,7 @@ Public Class frmLogSheetEng
             Next
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -309,9 +309,9 @@ Public Class frmLogSheetEng
             If clsEngLogSheetMaster.SaveData(obj, isNewEntry) Then
                 If isPost = False Then
                     If clsCommon.CompairString(btnsave.Text, "Save") = CompairStringResult.Equal Then
-                        clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Data Updated Successfully", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Data Updated Successfully", Me.Text)
                     End If
                 End If
 
@@ -323,7 +323,7 @@ Public Class frmLogSheetEng
             End If
             obj = Nothing
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -381,12 +381,12 @@ Public Class frmLogSheetEng
             End If
 
             If clsEngLogSheetMaster.DeleteData(txtCode.Value) Then
-                clsCommon.MyMessageBoxShow("Data Deleted Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully", Me.Text)
                 FunReset()
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -510,7 +510,7 @@ Public Class frmLogSheetEng
             '        FillSection()
         Catch ex As Exception
             isNewEntry = True
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         isInsideLoadData = False
     End Sub

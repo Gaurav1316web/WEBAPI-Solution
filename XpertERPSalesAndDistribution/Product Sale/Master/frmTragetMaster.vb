@@ -244,7 +244,7 @@ Public Class FrmTragetMaster
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub LoadCustomerData(ByVal dt As DataTable)
@@ -595,7 +595,7 @@ Public Class FrmTragetMaster
                 clsCommon.MyMessageBoxShow("No Scheme found to delete.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
@@ -615,7 +615,7 @@ Public Class FrmTragetMaster
         Try
             LoadData(fndTragetCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -864,7 +864,7 @@ Public Class FrmTragetMaster
             End If
             Me.Controls.Remove(gv)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

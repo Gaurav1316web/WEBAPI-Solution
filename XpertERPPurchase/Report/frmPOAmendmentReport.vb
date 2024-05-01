@@ -17,7 +17,7 @@ Public Class frmPOAmendmentReport
             SetUserMgmtNew()
             AddNew()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadVendor()
@@ -463,7 +463,7 @@ Public Class frmPOAmendmentReport
             TemplateGridview = gv
             LoadData()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Function ReportId()
@@ -497,7 +497,7 @@ Public Class frmPOAmendmentReport
             btnPrint.Enabled = False
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -3077,7 +3077,7 @@ Public Class FrmMccDispatch
         If clsCommon.myLen(strItemCode) > 0 Then
         Else
             gvManualSeal.CurrentRow.Cells(colSealNo).Value = ""
-            clsCommon.MyMessageBoxShow("No Item Of Seal Type Found", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Item Of Seal Type Found", Me.Text)
             Exit Sub
         End If
         Dim whrCls As String = String.Empty
@@ -3383,7 +3383,7 @@ Public Class FrmMccDispatch
                 Throw New Exception("Update of tanker is Not allowed Due to its Gate-In is Done")
             End If
             If updateTanker() Then
-                clsCommon.MyMessageBoxShow("Tanker Updated Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Tanker Updated Successfully", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
@@ -3422,13 +3422,13 @@ Public Class FrmMccDispatch
                 End If
                 obj.Electronic_Ref_No = txtElectronicRefNo.Text
                 If clsMccDispatch.UpdateAfterPosting(obj, fndChalanNo.Value) Then
-                    clsCommon.MyMessageBoxShow("Information updated successfully.", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Information updated successfully.", Me.Text)
                 End If
             Else
                 Throw New Exception("Document no not found")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3450,7 +3450,7 @@ Public Class FrmMccDispatch
             End If
         End If
         If clsCommon.myLen(fndPlantOrMCCCode.Value) = 0 Then
-            clsCommon.MyMessageBoxShow("Please select location code before sub location", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select location code before sub location", Me.Text)
             Exit Sub
         End If
         txtSubLocation.Value = clsLocation.getFinder("(Main_Location_Code='" & fndPlantOrMCCCode.Value & "' and Is_Jobwork=1 and isnull(Is_Sub_Location,'N')='Y')" & strLocations, txtSubLocation.Value, isButtonClicked)

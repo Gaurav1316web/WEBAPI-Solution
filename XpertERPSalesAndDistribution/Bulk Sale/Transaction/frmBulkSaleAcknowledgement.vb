@@ -102,7 +102,7 @@ Public Class frmBulkSaleAcknowledgement
     '        End If
     '        LoadDataBulkSale(fndBulkSaleNo.Value, NavType)
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    Finally
     '        qry = Nothing
     '    End Try
