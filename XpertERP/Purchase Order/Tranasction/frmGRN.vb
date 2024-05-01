@@ -255,7 +255,7 @@ Public Class frmGRN
     ''==================================================================
     Dim ChkAutoDepOnPurchaseCycle As Boolean = False
     Private isCellValueChangedTaxOpen As Boolean = False
-
+    Public ShowItemAllStructureWise As Boolean = False
     Dim SettPurchaseSlabApplyRange As Boolean = False
     Dim SettPurchaseSlabRangeNotApplicableFrom As Decimal
     Dim SettPurchaseSlabRangeNotApplicableTo As Decimal
@@ -298,6 +298,7 @@ Public Class frmGRN
         RadButton1.Visible = True
         PurchaseModulePickFixTaxRate = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.PurchaseModulePickFixTaxRate, clsFixedParameterCode.PurchaseModulePickFixTaxRate, Nothing)) = 1, True, False)
         AllowPurchaseModulewithUniqueItem = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.AllowPurchaseModulewithUniqueItem, clsFixedParameterCode.AllowPurchaseModulewithUniqueItem, Nothing))
+        ShowItemAllStructureWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = 1, True, False)
 
         SetUserMgmtNew()
         '=============================================================
@@ -493,13 +494,30 @@ Public Class frmGRN
         txtGRNo.MaxLength = 50
         txtGENo.MaxLength = 50
     End Sub
+    Public Shared Function GetItemall() As DataTable
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = "Z"
+        dr("Name") = "All"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        Return dt
+    End Function
 
     Sub LoadItemType()
-        'cboItemType.DataSource = clsItemMaster.GetItemType()
-        Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
-        cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
-        cboItemType.ValueMember = "Code"
-        cboItemType.DisplayMember = "Name"
+        If ShowItemAllStructureWise = True Then
+            cboItemType.DataSource = GetItemall()
+            cboItemType.ValueMember = "Code"
+            cboItemType.DisplayMember = "Name"
+        Else
+            'cboItemType.DataSource = clsItemMaster.GetItemType()
+            Dim Whr = " AND IS_NON_INVENTORY=0   AND ITEM_TYPE_CODE NOT IN('J') "
+            cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
+            cboItemType.ValueMember = "Code"
+            cboItemType.DisplayMember = "Name"
+        End If
     End Sub
 
     Sub LoadGRNType()
@@ -713,7 +731,7 @@ Public Class frmGRN
         repoIName.HeaderText = "HSN No/SAC Code"
         repoIName.Name = colHSNNo
         repoIName.Width = 150
-        repoIName.ReadOnly = True
+        repoIName.ReadOnly = False
         gv1.MasterTemplate.Columns.Add(repoIName)
 
         Dim repoIsSurTax1 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
@@ -2591,6 +2609,7 @@ Public Class frmGRN
                     gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
                     gv1.CurrentRow.Cells(colIName).Value = obj.Item_Desc
                     gv1.CurrentRow.Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
+
                     gv1.CurrentRow.Cells(colItemTaxable).Value = clsItemMaster.IsTaxableItem(obj.Item_Code, Nothing)
                     gv1.CurrentRow.Cells(colUnit).Value = obj.Unit_code
                     gv1.CurrentRow.Cells(colRGPNo).Value = obj.RGP_No
@@ -2600,11 +2619,12 @@ Public Class frmGRN
                     SetBlankOfItemColumns()
                 End If
             Else
-                Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(cboItemType.SelectedValue), True, isButtonClick, txtVendorNo.Value, "", "")
+                Dim obj As clsItemMaster = clsItemMaster.FinderForItemALL(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), clsCommon.myCstr(cboItemType.SelectedValue), True, ShowItemAllStructureWise, isButtonClick, txtVendorNo.Value, "", "")
                 If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
                     gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
                     gv1.CurrentRow.Cells(colIName).Value = obj.Item_Desc
                     gv1.CurrentRow.Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(obj.Item_Code, Nothing)
+
                     gv1.CurrentRow.Cells(colItemTaxable).Value = clsItemMaster.IsTaxableItem(obj.Item_Code, Nothing)
                     gv1.CurrentRow.Cells(colUnit).Value = obj.Unit_Code
                 Else
@@ -3521,15 +3541,17 @@ Public Class frmGRN
             Dim IsSkip As Boolean = False
             IsSkip = clsDBFuncationality.getSingleValue("select case when isnull( Skip_GST,0)=1 then 1 else 0 end as Skip_GST from tspl_item_master where item_code='" & clsCommon.myCstr(gv1.Rows(ii).Cells(colICode).Value) & "'")
             If clsERPFuncationality.GetGSTStatus(txtDate.Value) AndAlso IsSkip = False Then
-                If clsCommon.CompairString(cboItemType.SelectedValue, "N") <> CompairStringResult.Equal Then
-                    Dim taxamt As Decimal = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotTaxAmt).Value)
-                    Dim HSNCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colHSNNo).Value)
+                If ShowItemAllStructureWise = False Then
+                    If clsCommon.CompairString(cboItemType.SelectedValue, "N") <> CompairStringResult.Equal Then
+                        Dim taxamt As Decimal = clsCommon.myCdbl(gv1.Rows(ii).Cells(colTotTaxAmt).Value)
+                        Dim HSNCode As String = clsCommon.myCstr(gv1.Rows(ii).Cells(colHSNNo).Value)
 
-                    If clsCommon.myCdbl(taxamt) > 0 AndAlso clsCommon.myLen(HSNCode) <= 0 Then
-                        clsCommon.MyMessageBoxShow("HSN Code is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
-                        Return False
+                        If clsCommon.myCdbl(taxamt) > 0 AndAlso clsCommon.myLen(HSNCode) <= 0 Then
+                            clsCommon.MyMessageBoxShow("HSN Code is Mandatory. At Line No: " + clsCommon.myCstr(clsCommon.myCdbl(ii + 1)) + " ")
+                            Return False
+                        End If
+
                     End If
-
                 End If
             End If
             '' ===== ENd of code===
@@ -3578,9 +3600,14 @@ Public Class frmGRN
 
 
 
-        '*******************************************
+        If ShowItemAllStructureWise = False Then
+            clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
+        Else
+            Dim itemtype As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select top 1 item_type from TSPL_ITEM_MASTER where Item_Code in (" + clsCommon.GetMulcallString(arrICode) + ") "))
+            cboItemType.SelectedValue = itemtype
 
-        clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
+        End If
+
         clsPurchaseOrderHead.IsValidVendorForPO(arrReqNo, txtVendorNo.Value)
         clsPurchaseOrderHead.IsValidTaxGroupForPO(arrReqNo, txtTaxGroup.Value)
 
@@ -3590,11 +3617,11 @@ Public Class frmGRN
         'clsLocationWiseTax.IsValidTaxGroup(txtTaxGroup.Value, txtBillToLocation.Value, txtVendorNo.Value, "P", txtDate.Value, Nothing)
         ''For GST Skip
         Dim isSkipGST As Boolean = False
-        dt = clsDBFuncationality.GetDataTable("select sum(case when isnull( Skip_GST,0)=1 then 1 else 0 end) as NoOfSkipGSTItem,sum(case when isnull( Skip_GST,0)=0 then 1 else 0 end) as NoOfNonSkipGSTItem from tspl_item_master where item_Code in (" + clsCommon.GetMulcallString(arrICode) + ")")
+        dt = clsDBFuncationality.GetDataTable("Select sum(Case When isnull( Skip_GST, 0) = 1 Then 1 Else 0 End) As NoOfSkipGSTItem, sum(case when isnull( Skip_GST, 0) = 0 Then 1 Else 0 End) As NoOfNonSkipGSTItem from tspl_item_master where item_Code In (" + clsCommon.GetMulcallString(arrICode) + ")")
         If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
             If clsCommon.myCdbl(dt.Rows(0)("NoOfSkipGSTItem")) > 0 Then
                 If clsCommon.myCdbl(dt.Rows(0)("NoOfNonSkipGSTItem")) > 0 Then
-                    clsCommon.MyMessageBoxShow("All Item should be of Skip GST or Not", Me.Text)
+                    clsCommon.MyMessageBoxShow("All Item should be Of Skip GST Or Not", Me.Text)
                     Return False
                 End If
                 isSkipGST = True
@@ -3608,7 +3635,7 @@ Public Class frmGRN
 
         'Check Slab
         If SettPurchaseSlabApplyRange Then
-            Dim qry As String = "select 1 from TSPL_VENDOR_MASTER where vendor_code='" + txtVendorNo.Value + "' and isnull(OEM,0)=1"
+            Dim qry As String = "Select 1 from TSPL_VENDOR_MASTER where vendor_code='" + txtVendorNo.Value + "' and isnull(OEM,0)=1"
             dt = clsDBFuncationality.GetDataTable(qry)
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 If clsCommon.myCDecimal(lblTotRAmt.Text) >= SettPurchaseSlabRangeNotApplicableFrom AndAlso clsCommon.myCDecimal(lblTotRAmt.Text) <= SettPurchaseSlabRangeNotApplicableTo Then
@@ -3673,7 +3700,12 @@ Public Class frmGRN
                 obj.InvoiceDate = clsCommon.GetPrintDate(txt_invdate.Value, "dd/MMM/yyyy")
                 obj.TransporterDocumentBility = clsCommon.myCstr(txt_transporterdocbility.Text)
                 '====end here===
-                obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
+                If ShowItemAllStructureWise = True Then
+                    obj.Item_Type = "A"
+                End If
+                If ShowItemAllStructureWise = False Then
+                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
+                End If
                 obj.Dept = txtDept.Value
                 obj.Dept_Desc = lblDept.Text
 
@@ -3874,12 +3906,22 @@ Public Class frmGRN
                 obj.Arr = New List(Of clsGRNDetail)
                 For Each grow As GridViewRowInfo In gv1.Rows
                     Dim objTr As New clsGRNDetail()
+                    Dim objhsn As New ClsHSNMaster()
                     'done by stuti n 20/10/2016 against purchase points
                     objTr.Category = clsCommon.myCstr(grow.Cells(colCategoryType).Value)
                     objTr.Emergency = CInt(clsCommon.myCdbl(grow.Cells(colEmergency).Value))
                     objTr.Capex_Code = clsCommon.myCstr(grow.Cells(colCapexCode).Value)
                     objTr.Capex_SubCode = clsCommon.myCstr(grow.Cells(colCapexSubCode).Value)
-
+                    Dim hsn As String = Nothing
+                    Dim hsncode As String = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(grow.Cells(colICode).Value), Nothing)
+                    If clsCommon.myLen(hsncode) <= 0 Then
+                        hsn = clsCommon.myCstr(grow.Cells(colHSNNo).Value)
+                        If clsCommon.myLen(hsn) > 0 Then
+                            objhsn.Code = hsn
+                            ClsHSNMaster.SaveData(objhsn, isNewEntry)
+                            clsItemMaster.UpdateHSNCode(hsn, clsCommon.myCstr(grow.Cells(colICode).Value), Nothing)
+                        End If
+                    End If
                     objTr.Line_No = clsCommon.myCdbl(grow.Cells(colLineNo).Value)
                     objTr.Row_Type = clsCommon.myCstr(grow.Cells(colRowType).Value)
                     objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
@@ -4201,8 +4243,12 @@ Public Class frmGRN
                 If (objTaxGrpMaster IsNot Nothing) Then
                     lblTaxGrpName.Text = objTaxGrpMaster.Tax_Group_Desc
                 End If
+                If ShowItemAllStructureWise = False Then
+                    cboItemType.SelectedValue = obj.Item_Type
+                Else
+                    LoadItemType()
+                End If
 
-                cboItemType.SelectedValue = obj.Item_Type
                 txtDept.Value = obj.Dept
                 lblDept.Text = obj.Dept_Desc
 
@@ -5222,7 +5268,7 @@ Public Class frmGRN
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
-   
+
 
     Private Sub btnDelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnDelete.Click
         DeleteData()
@@ -6274,6 +6320,13 @@ Public Class frmGRN
                     gv1.CurrentRow.Cells(colItemInsurancePer).ReadOnly = IIf(clsCommon.CompairString(clsCalculationlApplyON.RowTypeApplyOnPercent, clsCommon.myCstr(gv1.CurrentRow.Cells(colItemInsuranceApplyOn).Value)) = CompairStringResult.Equal, False, True)
                 ElseIf (e.Column Is gv1.Columns(colItemInsuranceAmt)) Then
                     gv1.CurrentRow.Cells(colItemInsuranceAmt).ReadOnly = IIf(clsCommon.CompairString(clsCalculationlApplyON.RowTypeApplyOnAmount, clsCommon.myCstr(gv1.CurrentRow.Cells(colItemInsuranceApplyOn).Value)) = CompairStringResult.Equal, False, True)
+
+                ElseIf gv1.CurrentRow.Cells(colHSNNo).Value = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), Nothing) Then
+                    If clsCommon.myLen(gv1.CurrentRow.Cells(colHSNNo).Value) <= 0 Then
+                        gv1.CurrentRow.Cells(colHSNNo).ReadOnly = False
+                    Else
+                        gv1.CurrentRow.Cells(colHSNNo).ReadOnly = True
+                    End If
                 End If
             End If
         Catch ex As Exception

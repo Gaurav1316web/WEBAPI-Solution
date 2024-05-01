@@ -811,7 +811,7 @@ Public Class frmPurchaseInvoice
         repoIName.HeaderText = "HSN No/SAC Code"
         repoIName.Name = colHSNNo
         repoIName.Width = 150
-        repoIName.ReadOnly = True
+        repoIName.ReadOnly = False
         gv1.MasterTemplate.Columns.Add(repoIName)
 
         Dim repoIsSurTax1 As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
@@ -4355,11 +4355,22 @@ Public Class frmPurchaseInvoice
                 obj.Is_Shortage_Include_In_Landed_Cost = chkShorategeIncludeInLandedCost.Checked
 
                 obj.Arr = New List(Of clsPurchaseInvoiceDetail)
+                Dim objhsn As New ClsHSNMaster()
                 For Each grow As GridViewRowInfo In gv1.Rows
                     Dim objTr As New clsPurchaseInvoiceDetail()
+                    Dim hsn As String = Nothing
 
+                    hsn = clsCommon.myCstr(grow.Cells(colHSNNo).Value)
+                    Dim hsncode As String = clsItemMaster.checkHSNCode(hsn, Nothing)
+                    If clsCommon.CompairString(hsn, hsncode) = CompairStringResult.Equal Then
 
-                    'done by stuti n 20/10/2016 against purchase points
+                    Else
+                        Dim isnew As Boolean = True
+                        objhsn.Code = hsn
+                        ClsHSNMaster.SaveData(objhsn, isnew)
+                        clsItemMaster.UpdateHSNCode(hsn, clsCommon.myCstr(grow.Cells(colICode).Value), Nothing)
+                    End If
+
                     objTr.Category = clsCommon.myCstr(grow.Cells(colCategoryType).Value)
                     objTr.Emergency = CInt(clsCommon.myCdbl(grow.Cells(colEmergency).Value))
                     objTr.Capex_Code = clsCommon.myCstr(grow.Cells(colCapexCode).Value)

@@ -54,6 +54,7 @@ Public Class frmPurchaseRequistion
     Dim repoComplete As GridViewTextBoxColumn
 
     Public AllowModifcationByApprovalUser As Boolean = False
+    Public ShowItemAllStructureWise As Boolean = False
     Public strDocumentNo As String = ""
 
     '--------------richa 14/07/2014 Ticket No BM00000003042---------
@@ -92,6 +93,8 @@ Public Class frmPurchaseRequistion
         IsRGPAfterPO = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.IsRGPAfterPurchaseOrder, clsFixedParameterCode.IsRGPAfterPurchaseOrder, Nothing)) = "1", True, False))
         ShowCapex = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowOptionforSelectingCapex, clsFixedParameterCode.ShowOptionforSelectingCapex, Nothing)) = "1", True, False))
         ShowIndentBasedOnCreatedUser = clsCommon.myCBool(IIf(clsCommon.myCstr(clsFixedParameter.GetData(clsFixedParameterType.ShowIndentBasedOnCreatedUser, clsFixedParameterCode.ShowIndentBasedOnCreatedUser, Nothing)) = "1", True, False))
+        ShowItemAllStructureWise = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.ShowItemAllStructureWise, clsFixedParameterCode.ShowItemAllStructureWise, Nothing)) = 1, True, False)
+
         If ShowCapex Then
             SplitContainer3.Panel1Collapsed = False
             'pnl_capex.Visible = True
@@ -177,14 +180,30 @@ Public Class frmPurchaseRequistion
         cboModeOfTransport.MaxLength = 12
         txtRequestBy.MaxLength = 100
     End Sub
-
+    Public Shared Function GetItemall() As DataTable
+        Dim dt As DataTable = New DataTable()
+        dt.Columns.Add("Code", GetType(String))
+        dt.Columns.Add("Name", GetType(String))
+        Dim dr As DataRow = dt.NewRow()
+        dr("Code") = "Z"
+        dr("Name") = "All"
+        dt.Rows.Add(dr)
+        dr = dt.NewRow()
+        Return dt
+    End Function
     Sub LoadItemType()
-        cboItemType.DataSource = Nothing
+        If ShowItemAllStructureWise = True Then
+            cboItemType.DataSource = GetItemall()
+            cboItemType.ValueMember = "Code"
+            cboItemType.DisplayMember = "Name"
+        Else
+            cboItemType.DataSource = Nothing
         'cboItemType.DataSource = clsItemMaster.GetItemTypeWithNON_Inventory()
         Dim Whr = " AND  ITEM_TYPE_CODE NOT IN('J') "
         cboItemType.DataSource = clsItemMaster.getItemTypeQuery(Whr)
         cboItemType.ValueMember = "Code"
-        cboItemType.DisplayMember = "Name"
+            cboItemType.DisplayMember = "Name"
+        End If
     End Sub
 
     Sub LoadReqType()
@@ -616,7 +635,7 @@ Public Class frmPurchaseRequistion
             Exit Sub
         End If
 
-        Dim obj As clsItemMaster = clsItemMaster.FinderForItem(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), cboItemType.SelectedValue, True, isButtonClick, "", "")
+        Dim obj As clsItemMaster = clsItemMaster.FinderForItemALL(clsCommon.myCstr(gv1.CurrentRow.Cells(colICode).Value), cboItemType.SelectedValue, True, ShowItemAllStructureWise, isButtonClick, "", "")
         If obj IsNot Nothing AndAlso clsCommon.myLen(obj.Item_Code) > 0 Then
             gv1.CurrentRow.Cells(colICode).Value = obj.Item_Code
             gv1.CurrentRow.Cells(colIName).Value = obj.Item_Desc
@@ -861,7 +880,9 @@ Public Class frmPurchaseRequistion
                     End If
                 End If
             Next
-            clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
+            If ShowItemAllStructureWise = False Then
+                clsItemMaster.isItemOfSameType(clsCommon.myCstr(cboItemType.SelectedValue), cboItemType.Text, arrICode)
+            End If
             UcCustomFields1.AllowToSave()
             UcAttachment1.AllowToSave()
             '--------------richa 09/07/2014 Ticket No BM00000003042---------
@@ -915,124 +936,128 @@ Public Class frmPurchaseRequistion
                 obj.Mode_Of_Transport = cboModeOfTransport.Text
                 obj.Comments = txtComment.Text
                 obj.Is_Internal = IIf(chkInternal.Checked, "Y", "N")
-                obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
-                obj.Dept = txtDept.Value
-                obj.Dept_Desc = lblDept.Text
-                obj.Request_By = txtRequestBy.Text
-                obj.Requisition_Type = cboPOType.SelectedValue
-                obj.PROJECT_ID = fndProject.Value
-
-                obj.Category = clsCommon.myCstr(ddl_category.SelectedValue)
-                obj.Capex_Code = clsCommon.myCstr(fndcapexcode.Value)
-                obj.Capex_SubCode = clsCommon.myCstr(fndcapexsubcode.Value)
-                obj.Emergency = IIf(chk_emergency.Checked, 1, 0)
-                obj.Is_Tender = IIf(chkTender.Checked = True, "Y", "N")
-
-                obj.WO_To = clsCommon.myCstr(txtTo.Text)
-                obj.WO_Subject = clsCommon.myCstr(txtSubject.Text)
-                obj.WO_Content = clsCommon.myCstr(txtContent.Text)
-                obj.WO_CopySubmittedTo = clsCommon.myCstr(txtCopySubmit.Text)
-
-                If chkTender.Checked = True Then
-                    obj.EmailID = clsCommon.myCstr(txtEmail.Text)
+                If ShowItemAllStructureWise = False Then
+                    obj.Item_Type = clsCommon.myCstr(cboItemType.SelectedValue)
                 Else
-                    obj.EmailID = ""
+                    obj.Item_Type = "A"
                 End If
+                obj.Dept = txtDept.Value
+                    obj.Dept_Desc = lblDept.Text
+                    obj.Request_By = txtRequestBy.Text
+                    obj.Requisition_Type = cboPOType.SelectedValue
+                    obj.PROJECT_ID = fndProject.Value
 
-                If chkprclose.Checked = True Then
-                    obj.close_yn = "Y"
-                ElseIf chkprclose.Checked = False Then
-                    obj.close_yn = "N"
-                End If
+                    obj.Category = clsCommon.myCstr(ddl_category.SelectedValue)
+                    obj.Capex_Code = clsCommon.myCstr(fndcapexcode.Value)
+                    obj.Capex_SubCode = clsCommon.myCstr(fndcapexsubcode.Value)
+                    obj.Emergency = IIf(chk_emergency.Checked, 1, 0)
+                    obj.Is_Tender = IIf(chkTender.Checked = True, "Y", "N")
 
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Level1, Level2 from TSPL_REQUISITION_APPROVAL")
-                If dt.Rows.Count > 0 Then
-                    If clsCommon.myCdbl(lblTotRAmt.Text) <= clsCommon.myCdbl(dt.Rows(0)("Level1")) Then
-                        obj.Approvel_Level_Required = 1
-                    ElseIf clsCommon.myCdbl(lblTotRAmt.Text) > clsCommon.myCdbl(dt.Rows(0)("Level1")) And clsCommon.myCdbl(lblTotRAmt.Text) <= clsCommon.myCdbl(dt.Rows(0)("Level2")) Then
-                        obj.Approvel_Level_Required = 2
+                    obj.WO_To = clsCommon.myCstr(txtTo.Text)
+                    obj.WO_Subject = clsCommon.myCstr(txtSubject.Text)
+                    obj.WO_Content = clsCommon.myCstr(txtContent.Text)
+                    obj.WO_CopySubmittedTo = clsCommon.myCstr(txtCopySubmit.Text)
+
+                    If chkTender.Checked = True Then
+                        obj.EmailID = clsCommon.myCstr(txtEmail.Text)
                     Else
-                        obj.Approvel_Level_Required = 3
-                    End If
-                End If
-                obj.ArrTr = New List(Of clsRequistionDetail)
-                For Each grow As GridViewRowInfo In gv1.Rows
-                    Dim objTr As New clsRequistionDetail()
-                    objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
-                    objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
-                    objTr.Vendor_Code = clsCommon.myCstr(grow.Cells(colVendorCode).Value)
-                    objTr.Requisition_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                    objTr.Balance_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
-                    objTr.Location = txtLocation.Value 'clsCommon.myCstr(grow.Cells(colLocationCode).Value)
-                    objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colRate).Value)
-                    objTr.Unit_Code = clsCommon.myCstr(grow.Cells(colUnit).Value)
-                    objTr.Item_Net_Amt = clsCommon.myCdbl(grow.Cells(colAmt).Value)
-                    objTr.Vendor_ItemNo = clsCommon.myCstr(grow.Cells(colVendorItemNo).Value)
-                    objTr.Order_No = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
-                    objTr.Status = "N"
-
-                    objTr.Specification = clsCommon.myCstr(grow.Cells(colSpecification).Value)
-                    objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
-                    objTr.Capacity = clsCommon.myCstr(grow.Cells(colCapacity).Value)
-                    objTr.Make = clsCommon.myCstr(grow.Cells(colMake).Value)
-                    objTr.Model = clsCommon.myCstr(grow.Cells(colModel).Value)
-
-                    'objTr.Order_No = clsCommon.myCdbl(grow.Cells(colorderno).Value)
-                    If (clsCommon.myLen(objTr.Item_Code) > 0) Then
-                        obj.ArrTr.Add(objTr)
-
-                        totalqty += clsCommon.myCdbl(objTr.Requisition_Qty)
-                    End If
-                Next
-
-
-                If (obj.ArrTr Is Nothing OrElse obj.ArrTr.Count <= 0) Then
-                    common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
-                    Return
-                End If
-
-                ''For Custom Fields
-                obj.Form_ID = MyBase.Form_ID
-                obj.arrCustomFields = New List(Of clsCustomFieldValues)
-                If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
-                    UcCustomFields1.GetData(obj.arrCustomFields)
-                End If
-                If MyBase.ArrDetailFields IsNot Nothing AndAlso MyBase.ArrDetailFields.Count > 0 Then
-                    clsCustomFieldGrid.GetData(obj.arrCustomFields, gv1, MyBase.ArrDetailFields, colICode)
-                End If
-                ''End of For Custom Fields
-
-                If (obj.SaveData(obj, isNewEntry)) Then
-                    UcAttachment1.SaveData(obj.Requisition_Id)
-                    If ChekBtnPost = False Then
-                        common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                        obj.EmailID = ""
                     End If
 
-                    'If objCommonVar.IsDemoERP Then
-                    '    SendMail()
-                    'End If
+                    If chkprclose.Checked = True Then
+                        obj.close_yn = "Y"
+                    ElseIf chkprclose.Checked = False Then
+                        obj.close_yn = "N"
+                    End If
 
-                    txtReqNo.Value = obj.Requisition_Id
-                    ''BM00000008148 approval work 16/10/2015
-                    Dim xNewDesc As String = ""
-                    ''=====================capex cond==============
-                    If ShowCapex Then
-                        xNewDesc = xNewDesc + Environment.NewLine + "Type : " + ddl_category.SelectedValue
-                        If chk_emergency.Checked Then
-                            xNewDesc = xNewDesc + "       Sub-Type : Emergency"
+                    Dim dt As DataTable = clsDBFuncationality.GetDataTable("Select Level1, Level2 from TSPL_REQUISITION_APPROVAL")
+                    If dt.Rows.Count > 0 Then
+                        If clsCommon.myCdbl(lblTotRAmt.Text) <= clsCommon.myCdbl(dt.Rows(0)("Level1")) Then
+                            obj.Approvel_Level_Required = 1
+                        ElseIf clsCommon.myCdbl(lblTotRAmt.Text) > clsCommon.myCdbl(dt.Rows(0)("Level1")) And clsCommon.myCdbl(lblTotRAmt.Text) <= clsCommon.myCdbl(dt.Rows(0)("Level2")) Then
+                            obj.Approvel_Level_Required = 2
+                        Else
+                            obj.Approvel_Level_Required = 3
                         End If
                     End If
-                    xNewDesc = xNewDesc + Environment.NewLine + "Description : " + obj.Description
-                    If clsCommon.CompairString(obj.Description, "Auto Indent") <> CompairStringResult.Equal Then
-                        clsApply_Approval.CheckApprovalRequired(txtLocation.Value, clsCommon.myCstr(ddl_category.SelectedValue), MyBase.Form_ID, clsCommon.myCstr(txtReqNo.Value), txtDate.Text, clsCommon.myCstr(xNewDesc), clsCommon.myCstr(txtRmks.Text), clsCommon.myCdbl(lblTotRAmt.Text), clsCommon.myCdbl(totalqty), clsCommon.myCstr(txtDept.Value))
+                    obj.ArrTr = New List(Of clsRequistionDetail)
+                    For Each grow As GridViewRowInfo In gv1.Rows
+                        Dim objTr As New clsRequistionDetail()
+                        objTr.Item_Code = clsCommon.myCstr(grow.Cells(colICode).Value)
+                        objTr.Item_Desc = clsCommon.myCstr(grow.Cells(colIName).Value)
+                        objTr.Vendor_Code = clsCommon.myCstr(grow.Cells(colVendorCode).Value)
+                        objTr.Requisition_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                        objTr.Balance_Qty = clsCommon.myCdbl(grow.Cells(colQty).Value)
+                        objTr.Location = txtLocation.Value 'clsCommon.myCstr(grow.Cells(colLocationCode).Value)
+                        objTr.Item_Cost = clsCommon.myCdbl(grow.Cells(colRate).Value)
+                        objTr.Unit_Code = clsCommon.myCstr(grow.Cells(colUnit).Value)
+                        objTr.Item_Net_Amt = clsCommon.myCdbl(grow.Cells(colAmt).Value)
+                        objTr.Vendor_ItemNo = clsCommon.myCstr(grow.Cells(colVendorItemNo).Value)
+                        objTr.Order_No = clsCommon.myCstr(grow.Cells(colOrderNo).Value)
+                        objTr.Status = "N"
+
+                        objTr.Specification = clsCommon.myCstr(grow.Cells(colSpecification).Value)
+                        objTr.Remarks = clsCommon.myCstr(grow.Cells(colRemarks).Value)
+                        objTr.Capacity = clsCommon.myCstr(grow.Cells(colCapacity).Value)
+                        objTr.Make = clsCommon.myCstr(grow.Cells(colMake).Value)
+                        objTr.Model = clsCommon.myCstr(grow.Cells(colModel).Value)
+
+                        'objTr.Order_No = clsCommon.myCdbl(grow.Cells(colorderno).Value)
+                        If (clsCommon.myLen(objTr.Item_Code) > 0) Then
+                            obj.ArrTr.Add(objTr)
+
+                            totalqty += clsCommon.myCdbl(objTr.Requisition_Qty)
+                        End If
+                    Next
+
+
+                    If (obj.ArrTr Is Nothing OrElse obj.ArrTr.Count <= 0) Then
+                        common.clsCommon.MyMessageBoxShow(Me, "Please Fill at list one Item", Me.Text)
+                        Return
                     End If
 
-                    '================================================================
+                    ''For Custom Fields
+                    obj.Form_ID = MyBase.Form_ID
+                    obj.arrCustomFields = New List(Of clsCustomFieldValues)
+                    If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
+                        UcCustomFields1.GetData(obj.arrCustomFields)
+                    End If
+                    If MyBase.ArrDetailFields IsNot Nothing AndAlso MyBase.ArrDetailFields.Count > 0 Then
+                        clsCustomFieldGrid.GetData(obj.arrCustomFields, gv1, MyBase.ArrDetailFields, colICode)
+                    End If
+                    ''End of For Custom Fields
 
-                    LoadData(obj.Requisition_Id, NavigatorType.Current)
+                    If (obj.SaveData(obj, isNewEntry)) Then
+                        UcAttachment1.SaveData(obj.Requisition_Id)
+                        If ChekBtnPost = False Then
+                            common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
+                        End If
+
+                        'If objCommonVar.IsDemoERP Then
+                        '    SendMail()
+                        'End If
+
+                        txtReqNo.Value = obj.Requisition_Id
+                        ''BM00000008148 approval work 16/10/2015
+                        Dim xNewDesc As String = ""
+                        ''=====================capex cond==============
+                        If ShowCapex Then
+                            xNewDesc = xNewDesc + Environment.NewLine + "Type : " + ddl_category.SelectedValue
+                            If chk_emergency.Checked Then
+                                xNewDesc = xNewDesc + "       Sub-Type : Emergency"
+                            End If
+                        End If
+                        xNewDesc = xNewDesc + Environment.NewLine + "Description : " + obj.Description
+                        If clsCommon.CompairString(obj.Description, "Auto Indent") <> CompairStringResult.Equal Then
+                            clsApply_Approval.CheckApprovalRequired(txtLocation.Value, clsCommon.myCstr(ddl_category.SelectedValue), MyBase.Form_ID, clsCommon.myCstr(txtReqNo.Value), txtDate.Text, clsCommon.myCstr(xNewDesc), clsCommon.myCstr(txtRmks.Text), clsCommon.myCdbl(lblTotRAmt.Text), clsCommon.myCdbl(totalqty), clsCommon.myCstr(txtDept.Value))
+                        End If
+
+                        '================================================================
+
+                        LoadData(obj.Requisition_Id, NavigatorType.Current)
+                    End If
+
                 End If
-
-            End If
         Catch ex As Exception
             common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
@@ -1205,104 +1230,108 @@ Public Class frmPurchaseRequistion
                 lblTotRAmt.Text = clsCommon.myFormat(obj.RQ_Detail_Total_Amt)
                 cboModeOfTransport.Text = obj.Mode_Of_Transport
                 txtComment.Text = obj.Comments
-                cboItemType.SelectedValue = obj.Item_Type
+                If ShowItemAllStructureWise = False Then
+                    cboItemType.SelectedValue = obj.Item_Type
+                Else
+                    LoadItemType()
+                End If
                 txtDept.Value = obj.Dept
-                lblDept.Text = obj.Dept_Desc
-                txtRequestBy.Text = obj.Request_By
-                cboPOType.SelectedValue = obj.Requisition_Type
-                fndProject.Value = obj.PROJECT_ID
-                lblProject.Text = clsDBFuncationality.getSingleValue("select SPECIFICATION from TSPL_PJC_PROJECT where PROJECT_CODE='" + fndProject.Value + "'")
-                chkTender.Checked = IIf(obj.Is_Tender = "Y", True, False)
+                    lblDept.Text = obj.Dept_Desc
+                    txtRequestBy.Text = obj.Request_By
+                    cboPOType.SelectedValue = obj.Requisition_Type
+                    fndProject.Value = obj.PROJECT_ID
+                    lblProject.Text = clsDBFuncationality.getSingleValue("select SPECIFICATION from TSPL_PJC_PROJECT where PROJECT_CODE='" + fndProject.Value + "'")
+                    chkTender.Checked = IIf(obj.Is_Tender = "Y", True, False)
 
-                If chkTender.Checked = True Then
-                    lblEmail.Visible = True
-                    txtEmail.Visible = True
-                    txtEmail.Text = clsCommon.myCstr(obj.EmailID)
-                Else
-                    lblEmail.Visible = False
-                    txtEmail.Visible = False
-                    txtEmail.Text = ""
-                End If
-
-                ddl_category.SelectedValue = clsCommon.myCstr(obj.Category)
-                fndcapexcode.Value = obj.Capex_Code
-                If clsCommon.myLen(Me.fndcapexcode.Value) > 0 Then
-                    lbl_capexcode.Text = clsCapexMaster.GetName(Me.fndcapexcode.Value, Nothing)
-                End If
-                fndcapexsubcode.Value = obj.Capex_SubCode
-                If clsCommon.myLen(Me.fndcapexsubcode.Value) > 0 Then
-                    lbl_capexsubcode.Text = clsCapexBudget.GetName(Me.fndcapexsubcode.Value, Nothing)
-                    lbl_budgetamt.Text = clsCapexBudget.GetBudget(Me.fndcapexsubcode.Value, Nothing)
-                    lbl_budgetamtwithtolerence.Text = clsCapexBudget.GetBudgetWithTolerence(Me.fndcapexsubcode.Value, Nothing)
-                    lbl_rebudgetamt.Text = clsCapexBudget.GetReBudget(Me.fndcapexsubcode.Value, obj.Requisition_Id, Nothing)
-                    lbl_rebudgetamtwithtolerence.Text = clsCapexBudget.GetReBudgetWithTolerence(Me.fndcapexsubcode.Value, obj.Requisition_Id, Nothing)
-                End If
-                chk_emergency.Checked = clsCommon.myCBool(obj.Emergency)
-
-                txtTo.Text = obj.WO_To
-                txtSubject.Text = obj.WO_Subject
-                txtContent.Text = obj.WO_Content
-                txtCopySubmit.Text = obj.WO_CopySubmittedTo
-
-                gv1.Rows.Clear()
-                For Each objTr As clsRequistionDetail In obj.ArrTr
-                    gv1.Rows.AddNew()
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = objTr.Line_No
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colComplete).Value = objTr.Status
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objTr.Item_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objTr.Item_Desc
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value), Nothing)
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorCode).Value = objTr.Vendor_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorName).Value = objTr.VendorName
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = objTr.Balance_Qty
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.Requisition_Qty
-                    ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = objTr.Location
-                    ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = objTr.LocationName
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = objTr.Item_Cost
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = objTr.Unit_Code
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = objTr.Item_Net_Amt
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorItemNo).Value = objTr.Vendor_ItemNo
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = objTr.Order_No
-
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colCapacity).Value = objTr.Capacity
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colMake).Value = objTr.Make
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colModel).Value = objTr.Model
-
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colSpecification).Value = objTr.Specification
-                    gv1.Rows(gv1.Rows.Count - 1).Cells(colRemarks).Value = objTr.Remarks
-                Next
-                If obj.Status = ERPTransactionStatus.Pending Then
-                    gv1.Rows.AddNew()
-                End If
-
-                ''For Custom Fields
-                If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
-                    UcCustomFields1.LoadData(obj.Requisition_Id)
-                End If
-                clsCustomFieldGrid.FillDataInGrid(obj.Requisition_Id, MyBase.Form_ID, gv1)
-                ''End of For Custom Fields
-                UcAttachment1.LoadData(obj.Requisition_Id)
-
-                '=====================if document go for approval then no post button visible or if document contain related setting
-                btnPost.Visible = MyBase.isPostFlag
-                If clsCommon.CompairString(obj.Description, "Auto Indent") <> CompairStringResult.Equal Then
-                    If Not clsApply_Approval.Visibility_PostButtonForApproval(txtLocation.Value, clsCommon.myCstr(ddl_category.SelectedValue), MyBase.Form_ID, clsCommon.myCstr(txtReqNo.Value), clsCommon.myCdbl(lblTotRAmt.Text), 0, clsCommon.myCstr(txtDept.Value)) Then
-                        btnPost.Visible = False
-                        If UsLock1.Status = ERPTransactionStatus.Pending Then
-                            UsLock1.Status = clsApply_Approval.ApprovalCondCheck_Doc(MyBase.Form_ID, clsCommon.myCstr(txtReqNo.Value), Nothing)
-                        End If
+                    If chkTender.Checked = True Then
+                        lblEmail.Visible = True
+                        txtEmail.Visible = True
+                        txtEmail.Text = clsCommon.myCstr(obj.EmailID)
+                    Else
+                        lblEmail.Visible = False
+                        txtEmail.Visible = False
+                        txtEmail.Text = ""
                     End If
+
+                    ddl_category.SelectedValue = clsCommon.myCstr(obj.Category)
+                    fndcapexcode.Value = obj.Capex_Code
+                    If clsCommon.myLen(Me.fndcapexcode.Value) > 0 Then
+                        lbl_capexcode.Text = clsCapexMaster.GetName(Me.fndcapexcode.Value, Nothing)
+                    End If
+                    fndcapexsubcode.Value = obj.Capex_SubCode
+                    If clsCommon.myLen(Me.fndcapexsubcode.Value) > 0 Then
+                        lbl_capexsubcode.Text = clsCapexBudget.GetName(Me.fndcapexsubcode.Value, Nothing)
+                        lbl_budgetamt.Text = clsCapexBudget.GetBudget(Me.fndcapexsubcode.Value, Nothing)
+                        lbl_budgetamtwithtolerence.Text = clsCapexBudget.GetBudgetWithTolerence(Me.fndcapexsubcode.Value, Nothing)
+                        lbl_rebudgetamt.Text = clsCapexBudget.GetReBudget(Me.fndcapexsubcode.Value, obj.Requisition_Id, Nothing)
+                        lbl_rebudgetamtwithtolerence.Text = clsCapexBudget.GetReBudgetWithTolerence(Me.fndcapexsubcode.Value, obj.Requisition_Id, Nothing)
+                    End If
+                    chk_emergency.Checked = clsCommon.myCBool(obj.Emergency)
+
+                    txtTo.Text = obj.WO_To
+                    txtSubject.Text = obj.WO_Subject
+                    txtContent.Text = obj.WO_Content
+                    txtCopySubmit.Text = obj.WO_CopySubmittedTo
+
+                    gv1.Rows.Clear()
+                    For Each objTr As clsRequistionDetail In obj.ArrTr
+                        gv1.Rows.AddNew()
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colLineNo).Value = objTr.Line_No
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colComplete).Value = objTr.Status
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value = objTr.Item_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colIName).Value = objTr.Item_Desc
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colHSN).Value = clsItemMaster.GetItemHSNCode(clsCommon.myCstr(gv1.Rows(gv1.Rows.Count - 1).Cells(colICode).Value), Nothing)
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorCode).Value = objTr.Vendor_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorName).Value = objTr.VendorName
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colBalanceQty).Value = objTr.Balance_Qty
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colQty).Value = objTr.Requisition_Qty
+                        ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationCode).Value = objTr.Location
+                        ''gv1.Rows(gv1.Rows.Count - 1).Cells(colLocationName).Value = objTr.LocationName
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRate).Value = objTr.Item_Cost
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colUnit).Value = objTr.Unit_Code
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colAmt).Value = objTr.Item_Net_Amt
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colVendorItemNo).Value = objTr.Vendor_ItemNo
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colOrderNo).Value = objTr.Order_No
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colCapacity).Value = objTr.Capacity
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colMake).Value = objTr.Make
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colModel).Value = objTr.Model
+
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colSpecification).Value = objTr.Specification
+                        gv1.Rows(gv1.Rows.Count - 1).Cells(colRemarks).Value = objTr.Remarks
+                    Next
+                    If obj.Status = ERPTransactionStatus.Pending Then
+                        gv1.Rows.AddNew()
+                    End If
+
+                    ''For Custom Fields
+                    If MyBase.customFieldTabProperty = ElementVisibility.Visible Then
+                        UcCustomFields1.LoadData(obj.Requisition_Id)
+                    End If
+                    clsCustomFieldGrid.FillDataInGrid(obj.Requisition_Id, MyBase.Form_ID, gv1)
+                    ''End of For Custom Fields
+                    UcAttachment1.LoadData(obj.Requisition_Id)
+
+                    '=====================if document go for approval then no post button visible or if document contain related setting
+                    btnPost.Visible = MyBase.isPostFlag
+                    If clsCommon.CompairString(obj.Description, "Auto Indent") <> CompairStringResult.Equal Then
+                        If Not clsApply_Approval.Visibility_PostButtonForApproval(txtLocation.Value, clsCommon.myCstr(ddl_category.SelectedValue), MyBase.Form_ID, clsCommon.myCstr(txtReqNo.Value), clsCommon.myCdbl(lblTotRAmt.Text), 0, clsCommon.myCstr(txtDept.Value)) Then
+                            btnPost.Visible = False
+                            If UsLock1.Status = ERPTransactionStatus.Pending Then
+                                UsLock1.Status = clsApply_Approval.ApprovalCondCheck_Doc(MyBase.Form_ID, clsCommon.myCstr(txtReqNo.Value), Nothing)
+                            End If
+                        End If
+                    Else
+                        btnPost.Visible = True
+                    End If
+
+
+
+
+                    '============================================
+
                 Else
-                    btnPost.Visible = True
-                End If
-
-
-
-
-                '============================================
-
-            Else
-                AddNew()
+                    AddNew()
             End If
 
 
