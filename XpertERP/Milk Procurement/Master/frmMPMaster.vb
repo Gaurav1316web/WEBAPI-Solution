@@ -2684,7 +2684,7 @@ Public Class FrmMPMaster
             saveCancelLog(Reason, "Verified", trans)
             Dim Verified As String = "update tspl_mp_master set Jan_Aadhar_No_Verified = 0 where MP_Code = '" & fndMPCode.Value & "'"
             clsDBFuncationality.ExecuteNonQuery(Verified, trans)
-            clsCommon.MyMessageBoxShow(Me, "This is Unverified Successfully")
+            clsCommon.MyMessageBoxShow(Me, "This is Unverified Successfully", Me.Text)
             clsCommonFunctionality.SaveHistoryData(objCommonVar.CurrentUserCode, fndMPCode.Value, "tspl_mp_master", "MP_Code", trans)
             trans.Commit()
 

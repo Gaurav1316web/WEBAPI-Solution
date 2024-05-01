@@ -390,7 +390,7 @@ Public Class frmVehicleMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsVehicleMaster.DeleteData(fndVehicle_id.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If

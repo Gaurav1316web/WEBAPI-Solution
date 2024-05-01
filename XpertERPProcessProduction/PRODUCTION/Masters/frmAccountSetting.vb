@@ -121,7 +121,7 @@ Public Class FrmAccountSetting
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsMFAccountSet.DeleteData(fndaccountsetcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

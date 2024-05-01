@@ -81,7 +81,7 @@ Public Class FrmLCCreation
                 End If
                 '===========================================================
                 If (ClsLCCreation.DeleteData(fndLCCreationcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

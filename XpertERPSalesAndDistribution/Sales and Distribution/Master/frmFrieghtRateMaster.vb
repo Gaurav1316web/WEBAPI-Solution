@@ -129,7 +129,7 @@ Public Class frmFrieghtRateMaster
         Try
             RefeshSNO()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub gv1_UserDeletingRow(sender As Object, e As GridViewRowCancelEventArgs) Handles gv1.UserDeletingRow
@@ -142,7 +142,7 @@ Public Class frmFrieghtRateMaster
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtLocation__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles txtLocation._MYValidating
@@ -186,7 +186,7 @@ Public Class frmFrieghtRateMaster
             End If
             LoadData(clsCommon.myCDecimal(txtCode.Value), NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(Me, ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal PK_ID As Integer, ByVal NavTyep As NavigatorType)

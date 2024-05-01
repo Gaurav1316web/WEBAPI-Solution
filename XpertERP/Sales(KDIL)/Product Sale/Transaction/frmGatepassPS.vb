@@ -528,7 +528,7 @@ Public Class FrmGatePassPS
             Dim Reason As String = ""
             If (myMessages.deleteConfirm()) Then
                 If (clsGatePassHeadPS.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Addnew()
                 End If
             End If

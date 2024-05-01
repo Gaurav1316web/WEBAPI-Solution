@@ -224,7 +224,7 @@ Public Class FrmServiceEnquiry
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsServiceEnquiry.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     FunReset()
                 End If
             End If

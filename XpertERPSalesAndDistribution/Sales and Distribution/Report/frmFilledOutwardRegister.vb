@@ -87,7 +87,7 @@ Public Class FrmFilledOutwardRegister
                 "TSPL_SALE_INVOICE_HEAD.Sale_Invoice_Date >= convert(date,'" & fromDate.Value & "',103) and " & _
                 "Sale_Invoice_Date <= convert(date,'" & ToDate.Value & "',103) and Is_Post='Y' "
                 If chkLocSelect.IsChecked = True AndAlso chkgv1.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select at least one Location or select ALL")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location or select ALL", Me.Text)
                     Return
                 ElseIf chkLocSelect.IsChecked AndAlso chkgv1.CheckedValue.Count > 0 Then
                     strSql += " and TSPL_SALE_INVOICE_HEAD.Sale_Invoice_No  in (" + clsCommon.GetMulcallString(chkgv1.CheckedValue) + ")"
@@ -129,7 +129,7 @@ Public Class FrmFilledOutwardRegister
 
                 strSql += "   where xxx.Shipment_Date >= convert(date,'" & fromDate.Value & "',103) and Shipment_Date <= convert(date,'" & ToDate.Value & "',103) and Is_Post='Y'"
                 If chkLocSelect.IsChecked = True AndAlso chkgv1.CheckedValue.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("Please select at least one Location or select ALL")
+                    common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location or select ALL", Me.Text)
                     Return
                 ElseIf chkLocSelect.IsChecked AndAlso chkgv1.CheckedValue.Count > 0 Then
                     strSql += " and xxx.shipmennt_no in (" + clsCommon.GetMulcallString(chkgv1.CheckedValue) + ")"

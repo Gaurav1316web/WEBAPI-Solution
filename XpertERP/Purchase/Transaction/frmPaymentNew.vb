@@ -1864,17 +1864,17 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
                 Dim strchk As String = "select Posted from TSPL_PAYMENT_HEADER where Payment_No='" + txtPaymentNo.Value + "'"
                 Dim chkpost As String = clsDBFuncationality.getSingleValue(strchk)
                 If clsCommon.CompairString(chkpost, "1") = CompairStringResult.Equal Then
-                    clsCommon.MyMessageBoxShow("Transaction already posted", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Transaction already posted", Me.Text)
                     Return False
                 End If
             End If
             SaveData2()
             If deadLockCounter < 15 Then
-                clsCommon.MyMessageBoxShow("Data Saved Successfully", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -2229,14 +2229,14 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
                                 obj.EXCHANGE_GAIN_AMT = 0
                             ElseIf diff > 0 Then
                                 If clsCommon.myLen(obj.EXCHANGE_LOSS_ACCOUNT) = 0 Then
-                                    clsCommon.MyMessageBoxShow("Exchange Loss Account not defined.", Me.Text)
+                                    clsCommon.MyMessageBoxShow(Me, "Exchange Loss Account not defined.", Me.Text)
                                     Return False
                                 End If
                                 obj.EXCHANGE_LOSS_AMT = diff
                                 obj.EXCHANGE_GAIN_AMT = 0
                             Else
                                 If clsCommon.myLen(obj.EXCHANGE_GAIN_ACCOUNT) = 0 Then
-                                    clsCommon.MyMessageBoxShow("Exchange Gain Account not defined.", Me.Text)
+                                    clsCommon.MyMessageBoxShow(Me, "Exchange Gain Account not defined.", Me.Text)
                                     Return False
                                 End If
                                 obj.EXCHANGE_LOSS_AMT = 0
@@ -3875,7 +3875,7 @@ left outer join TSPL_REMITTANCE on TSPL_REMITTANCE.Document_No=TSPL_VENDOR_INVOI
                 UsLock1.Status = ERPTransactionStatus.Approved
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return True
     End Function

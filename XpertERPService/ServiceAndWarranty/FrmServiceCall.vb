@@ -533,7 +533,7 @@ Public Class FrmServiceCall
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsServiceCall.DeleteData(txtcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If

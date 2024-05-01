@@ -981,7 +981,7 @@ Public Class FrmCanSale
             If (deleteConfirm()) Then
 
                 If (ClsCanSale.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If
@@ -1091,7 +1091,7 @@ Public Class FrmCanSale
                     End If
                     If (ClsCanSale.PostData(MyBase.Form_ID, arrLoc, txtDocNo.Value)) Then
                         msg = "Successfully posted"
-                        common.clsCommon.MyMessageBoxShow(msg)
+                        common.clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                         LoadData(txtDocNo.Value, NavigatorType.Current)
                     End If
                 End If
@@ -1147,7 +1147,7 @@ Public Class FrmCanSale
             If obj.SaveData() Then
                 gv1.MasterTemplate.FilterDescriptors.Clear()
 
-                common.clsCommon.MyMessageBoxShow("Layout saved successfully", "Information")
+                common.clsCommon.MyMessageBoxShow(Me, "Layout saved successfully", "Information", Me.Text)
             End If
             ''stuti regarding memory leakage
             obj.GridLayout.Close()
@@ -1159,7 +1159,7 @@ Public Class FrmCanSale
     Private Sub RDDeleteLayout_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles RDDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID & "gv1", objCommonVar.CurrentUserCode)
         ReStoreGridLayout()
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub BtnPrintInvoice_Click(sender As Object, e As EventArgs) Handles BtnPrintInvoice.Click

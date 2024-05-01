@@ -4382,7 +4382,7 @@ Public Class frmSNSalesQuotation
                 End If
                 If (clsSNSalesQuotationHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If

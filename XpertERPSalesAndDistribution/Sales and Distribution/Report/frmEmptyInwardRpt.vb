@@ -10,7 +10,7 @@ Public Class FrmEmptyInwardRpt
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt("JRN-ENTRY")
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If

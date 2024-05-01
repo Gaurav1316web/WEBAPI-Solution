@@ -351,7 +351,7 @@ Public Class frmClaimMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsClaimDetails.DeleteData(txtCustCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If

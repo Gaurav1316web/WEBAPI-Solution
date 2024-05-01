@@ -10,7 +10,7 @@ Public Class FrmCreateReceiptAgainstInvoice
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.mbtnCreateReceiptAgainstInvoice)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
         End If
         'btnsave.Visible = MyBase.isModifyFlag
@@ -55,7 +55,7 @@ Public Class FrmCreateReceiptAgainstInvoice
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
             If isShowMsg Then
-                common.clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
             End If
             Exit Sub
         End If
@@ -154,7 +154,7 @@ Public Class FrmCreateReceiptAgainstInvoice
 
             If boolIsSalect Then
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Receipt Created and Posted Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Receipt Created and Posted Successfully", Me.Text)
             End If
         Catch ex As Exception
             clsCommon.ProgressBarHide()

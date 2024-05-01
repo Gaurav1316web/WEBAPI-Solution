@@ -62,10 +62,10 @@ Public Class frmInwardRegister
             strOrderby3 = ""
             strOrderColumn = ""
             If chkLocationSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Location or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location or select ALL", Me.Text)
                 Return
             ElseIf chkRouteSelect.IsChecked = True AndAlso cbgRoute.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Route or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Route or select ALL", Me.Text)
                 Return
             End If
 

@@ -95,15 +95,15 @@ Public Class FrmInvoiceswithoutreceipt
 
     Sub Print(ByVal exporter As EnumExportTo)
         If chkVehicleSelect.IsChecked = True AndAlso cbgVehicle.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Vechile")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Vechile", Me.Text)
             Return
         End If
         If chkCustomerSelect.IsChecked = True AndAlso cbgCustomer.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Customer")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Customer", Me.Text)
             Return
         End If
         If chkReceiptSelect.IsChecked = True AndAlso cbgReceipt.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select atleast one Receipt")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select atleast one Receipt", Me.Text)
             Return
         End If
         Dim fromdate As String = clsCommon.GetPrintDate(dtpfrom.Value, "dd/MM/yyyy")
@@ -150,11 +150,11 @@ Public Class FrmInvoiceswithoutreceipt
 
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No data found to display")
+                clsCommon.MyMessageBoxShow(Me, "No data found to display", Me.Text)
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message.ToString())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message.ToString(), Me.Text)
         End Try
         'PrintData(fromdate, todate, chkReceiptSelect.IsChecked, arrreceipt, chkCustomerSelect.IsChecked, arrcustomer, chkVehicleSelect.IsChecked, arrlocation)
     End Sub

@@ -117,7 +117,7 @@ Public Class FrmMerchantPaymentTerms
         Try
             If (deleteConfirm()) Then
                 If (ClsMerchantPaymentTerms.DeleteData(fndTermsCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

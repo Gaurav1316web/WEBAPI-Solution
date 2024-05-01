@@ -1099,7 +1099,7 @@ Public Class FrmDispatchBulkSaleTradereturn
                     Throw New Exception("You cannot delete this dispatch because it is used in Bulk Milk SRN Trade")
                 Else
                     If (ClsDispatchBulkSaleTradeReturn.DeleteData(txtDocNo.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                         Reset()
                     End If
 

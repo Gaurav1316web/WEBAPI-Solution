@@ -1887,7 +1887,7 @@ Public Class frmJobWorkConsumption
                 End If
                 If (ClsAdjustments.DeleteData(txtAdjustmentNo.Value, AdjustmentEnum.strCostTransaction)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If

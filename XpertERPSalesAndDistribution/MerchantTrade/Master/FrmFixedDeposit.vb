@@ -150,7 +150,7 @@ Public Class FrmFixedDeposit
         Try
             If (deleteConfirm()) Then
                 If (ClsFixedDeposit.DeleteData(fndFixedDepositcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

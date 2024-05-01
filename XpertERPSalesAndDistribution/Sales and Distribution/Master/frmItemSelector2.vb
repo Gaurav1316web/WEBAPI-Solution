@@ -41,7 +41,7 @@ Public Class FrmItemSelector2
                 End If
             Next
             If (Arr Is Nothing OrElse Arr.Count <= 0) Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast Single Item")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast Single Item", Me.Text)
                 Return
             Else
                 Me.Close()

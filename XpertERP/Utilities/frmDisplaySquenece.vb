@@ -244,7 +244,7 @@ Public Class frmDisplaySquenece
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 Next
 
-                common.clsCommon.MyMessageBoxShow("Update Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Update Successfully", Me.Text)
                 btnShow.PerformClick()
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Customer") = CompairStringResult.Equal Then
                 For irow As Integer = 0 To gv1.Rows.Count - 1
@@ -252,7 +252,7 @@ Public Class frmDisplaySquenece
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 Next
 
-                common.clsCommon.MyMessageBoxShow("Update Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Update Successfully", Me.Text)
                 btnShow.PerformClick()
             End If
         Catch ex As Exception

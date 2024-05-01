@@ -142,11 +142,11 @@ Public Class FrmRoute_Shifting
     End Sub
     Private Function validatefun() As Boolean
         If txtRouteId.Value = "" Then
-            common.clsCommon.MyMessageBoxShow("Please select the Route Id")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select the Route Id", Me.Text)
             txtRouteId.Focus()
             Return False
         ElseIf ddlstatus.SelectedIndex = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select the status")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select the status", Me.Text)
             ddlstatus.Focus()
             Return False
         Else
@@ -196,7 +196,7 @@ Public Class FrmRoute_Shifting
                             If Not String.IsNullOrEmpty(visid) Then
                                 Dim strmessage As String = "Customer " + obj.Customer_name + Environment.NewLine
                                 strmessage += "has visi " + visid + " attached"
-                                common.clsCommon.MyMessageBoxShow(strmessage)
+                                common.clsCommon.MyMessageBoxShow(Me, strmessage, Me.Text)
                                 Return
                             Else
                                 arrlst.Add(obj)
@@ -206,10 +206,10 @@ Public Class FrmRoute_Shifting
                 Next
                 If arrlst.Count > 0 Then
                     obj.SaveData(arrlst, obj.route_no, ddlstatus)
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     reset()
                 Else
-                    common.clsCommon.MyMessageBoxShow("Select at least one Customer")
+                    common.clsCommon.MyMessageBoxShow(Me, "Select at least one Customer", Me.Text)
 
                 End If
             Catch ex As Exception

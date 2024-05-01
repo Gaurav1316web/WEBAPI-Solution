@@ -392,7 +392,7 @@ Public Class FrmBulkSalePriceChart
         Try
             If (deleteConfirm()) Then
                 If (ClsBulkSalePriceChart.DeleteData(fndcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

@@ -1086,7 +1086,7 @@ Public Class FrmSalesOrderBS_Pavitra
         Try
             If (deleteConfirm()) Then
                 If (ClsSalesOrderBulkSale_Pavitra.DeleteData(fndSONo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

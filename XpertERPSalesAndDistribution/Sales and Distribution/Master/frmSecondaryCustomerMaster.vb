@@ -2680,7 +2680,7 @@ Public Class FrmSecondaryCustomerMaster
             End If
             If (myMessages.deleteConfirm()) Then
                 If (clsSecondaryCustomerMasterInfo.DeleteData(fndCustomer.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

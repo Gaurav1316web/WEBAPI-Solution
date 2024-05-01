@@ -279,7 +279,7 @@ Public Class frmCanReceived
         Dim strLocation As String = ""
 
         If clsCommon.myLen(fndLocation.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select Location")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select Location", Me.Text)
             fndLocation.Focus()
             Exit Sub
 
@@ -313,7 +313,7 @@ Public Class frmCanReceived
             Next
             SetIDs()
         Else
-            clsCommon.MyMessageBoxShow("No Data Found")
+            clsCommon.MyMessageBoxShow(Me, "No Data Found", Me.Text)
         End If
         isInsideLoadData = False
     End Sub
@@ -757,7 +757,7 @@ Public Class frmCanReceived
                 End If
                 If (clsCrateReceivedHead.DeleteData(txtDocNo.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If
@@ -784,7 +784,7 @@ Public Class frmCanReceived
             If (myMessages.postConfirm()) Then
                 SaveData(True)
                 If (clsCrateReceivedHead.PostData(MyBase.Form_ID, txtDocNo.Value)) Then
-                    clsCommon.MyMessageBoxShow("Successfully Posted ")
+                    clsCommon.MyMessageBoxShow(Me, "Successfully Posted ", Me.Text)
                 End If
                 LoadData(txtDocNo.Value, NavigatorType.Current)
             End If

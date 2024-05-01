@@ -689,7 +689,7 @@ Public Class FrmBulkTradeSRN
         Try
             If (deleteConfirm()) Then
                 If (clsBulkMilkSRNTrade.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

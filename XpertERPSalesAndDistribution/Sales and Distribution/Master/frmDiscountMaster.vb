@@ -133,7 +133,7 @@ Public Class FrmDiscountMaster
                 obj.skuwise = strchk
                 obj.IsOpening = chkIsOpening.Checked
                 If (obj.SaveData(obj, isNewEntry, GetReplecateCompaniesDataBase())) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.Code, NavigatorType.Current)
                 End If
             End If
@@ -233,13 +233,13 @@ Public Class FrmDiscountMaster
     End Sub
     Sub DeleteData()
         If clsCommon.myLen(txtCode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         Dim discCode As String
         discCode = clsDBFuncationality.getSingleValue("select Discount_Code  from TSPL_SHIPMENT_DETAILS  where Discount_Code ='" & txtCode.Value & "'")
         If clsCommon.myLen(discCode) > 0 Then
-            common.clsCommon.MyMessageBoxShow("This record can't be deleted.It is used in another process")
+            common.clsCommon.MyMessageBoxShow(Me, "This record can't be deleted.It is used in another process", Me.Text)
             Exit Sub
         End If
         funDelete()
@@ -249,7 +249,7 @@ Public Class FrmDiscountMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsDiscountMaster.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -533,7 +533,7 @@ Public Class FrmDiscountMaster
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()

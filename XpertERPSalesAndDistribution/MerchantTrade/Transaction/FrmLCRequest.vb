@@ -277,7 +277,7 @@ Public Class FrmLCRequest
         Try
             If (deleteConfirm()) Then
                 If (ClsLCRequest.DeleteData(fndLCRequestcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

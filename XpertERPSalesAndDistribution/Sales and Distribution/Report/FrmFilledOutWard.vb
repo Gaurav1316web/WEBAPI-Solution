@@ -365,16 +365,16 @@ Public Class FrmFilledOutWard
             additional = ""
 
             If chkLocationSelect.IsChecked = True AndAlso cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Location or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Location or select ALL", Me.Text)
                 Return Nothing
             ElseIf chkRouteSelect.IsChecked = True AndAlso cbgRoute.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Route or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Route or select ALL", Me.Text)
                 Return Nothing
             ElseIf chkClassSelect.IsChecked = True AndAlso chkCustomerClass.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Customer Class or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Customer Class or select ALL", Me.Text)
                 Return Nothing
             ElseIf rbtnCompanySelect.IsChecked = True AndAlso cbgCompany.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please select at least one Company or select ALL")
+                common.clsCommon.MyMessageBoxShow(Me, "Please select at least one Company or select ALL", Me.Text)
                 Return Nothing
             End If
 
@@ -632,7 +632,7 @@ Public Class FrmFilledOutWard
                 strmainItemCodeString = strmainItemCodeString.Substring(0, strmainItemCodeString.Length - 1)
                 strsum = strsum.Substring(0, strsum.Length - 1)
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Return Nothing
             End If
 

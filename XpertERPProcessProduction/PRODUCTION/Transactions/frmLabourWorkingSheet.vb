@@ -394,7 +394,7 @@ Public Class FrmLabourWorkingSheet
             Dim Reason As String = ""
             If (myMessages.deleteConfirm()) Then
                 If (clsLabourWorkingSheet.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNew()
                 End If
             End If

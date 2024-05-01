@@ -2215,7 +2215,7 @@ Public Class FrmDispatchBulkSale
                     clsApply_Approval.CheckUpdate_Doc_Valid(clsUserMgtCode.FrmDispatchBulkSale, clsCommon.myCstr(txtDocNo.Value))
                 End If
                 If (ClsDispatchBulkSale.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

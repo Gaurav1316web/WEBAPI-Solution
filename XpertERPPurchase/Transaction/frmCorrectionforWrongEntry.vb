@@ -390,7 +390,7 @@ Public Class frmCorrectionforWrongEntry
                 End If
                 If (clsStanderdProductionEntry.DeleteData(txtCode.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -553,7 +553,7 @@ Public Class frmCorrectionforWrongEntry
                 End If
                 If (clsBillOfMaterial.DeleteData(TxtCodeLCF.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funResetLCF()
                 End If
             End If
@@ -688,7 +688,7 @@ Public Class frmCorrectionforWrongEntry
                 End If
                 If (ClsScrapSaleHead.DeleteData(txtShipment.Value)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNewSH()
                 End If
             End If
@@ -933,7 +933,7 @@ Public Class frmCorrectionforWrongEntry
                 End If
                 If (clsSNInvoiceHead.DeleteData(txtSaleInvoice.Text)) Then
                     saveCancelLog(Reason, "Delete", Nothing)
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     AddNewSI()
                 End If
             End If

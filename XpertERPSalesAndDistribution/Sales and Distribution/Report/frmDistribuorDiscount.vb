@@ -602,7 +602,7 @@ Public Class FrmDistribuorDiscount
                 gvReport.MasterTemplate.SummaryRowsBottom.Clear()
 
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 Else
                     gvReport.DataSource = dt
@@ -632,7 +632,7 @@ Public Class FrmDistribuorDiscount
                 gvReport.MasterTemplate.SummaryRowsBottom.Clear()
 
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                     Exit Sub
                 Else
                     gvReport.DataSource = dt
@@ -673,7 +673,7 @@ Public Class FrmDistribuorDiscount
             gvReport.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             Else
                 gvReport.DataSource = dt
@@ -927,7 +927,7 @@ Public Class FrmDistribuorDiscount
         Dim StrBase As String
         CreateTableDistribution()
         If chkItemSelect.IsChecked = True AndAlso cbgItem.CheckedValue.Count <= 0 Then
-            common.clsCommon.MyMessageBoxShow("Please select at least one item or select ALL")
+            common.clsCommon.MyMessageBoxShow(Me, "Please select at least one item or select ALL", Me.Text)
             Return
         End If
 
@@ -1115,7 +1115,7 @@ Public Class FrmDistribuorDiscount
         If gvReport.Rows.Count > 0 Then
             ExportToExcel()
         Else
-            common.clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
         End If
     End Sub
 End Class

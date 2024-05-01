@@ -314,7 +314,7 @@ Public Class FrmGateEntrySale
                 arr.Add(fndGateEntryNo.Value)
                 If clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.FrmGateEntrySale, Nothing) Then
                     If (clsGateEntrySale.DeleteData(fndGateEntryNo.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                         AddNew()
                     End If
                 End If

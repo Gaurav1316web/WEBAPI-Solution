@@ -425,7 +425,7 @@ Public Class FrmLoadingTanker
                 arr.Add(fndLoadingcode.Value)
                 If clsERPFuncationalityOLD.AddToHistory(arr, clsUserMgtCode.FrmLoadingTanker, Nothing) Then
                     If (ClsLoadingTanker.DeleteData(fndLoadingcode.Value)) Then
-                        common.clsCommon.MyMessageBoxShow("Data deleted successfully ")
+                        common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                         Reset()
                     End If
                 End If

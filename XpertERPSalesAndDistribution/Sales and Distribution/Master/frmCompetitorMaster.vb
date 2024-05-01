@@ -113,7 +113,7 @@ Public Class frmCompetitorMaster
             txtCode.Focus()
         ElseIf myMessages.deleteConfirm() Then
             If (ClsCompetitorMaster.DeleteData(txtCode.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                 funreset()
             End If
         End If

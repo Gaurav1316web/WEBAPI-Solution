@@ -113,7 +113,7 @@ Public Class frmRouteMaster
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.routeMaster)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -177,7 +177,7 @@ Public Class frmRouteMaster
         For irow As Integer = 0 To dgv.Rows.Count - 1
             If clsCommon.myLen(clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerCode).Value)) > 0 Then
                 If arrCustCode.Contains(clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerCode).Value)) Then
-                    clsCommon.MyMessageBoxShow("Same Customer Repeated - " + clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerCode).Value) + " (" + clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerName).Value) + ")", Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, "Same Customer Repeated - " + clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerCode).Value) + " (" + clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerName).Value) + ")", Me.Text)
                     Exit Sub
                 Else
                     arrCustCode.Add(clsCommon.myCstr(dgv.Rows(irow).Cells(colCustomerCode).Value))
@@ -453,7 +453,7 @@ Public Class frmRouteMaster
                     rbtnSave.Text = "Save"
                     rbtnDelete.Enabled = False
                 Else
-                    common.clsCommon.MyMessageBoxShow("This Record Cannot be deleted.It is used by another process")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Record Cannot be deleted.It is used by another process", Me.Text)
                 End If
             End If
         Catch ex As Exception
@@ -669,7 +669,7 @@ Public Class frmRouteMaster
         If (strcheck <> "" Or fndcity_id.Value = "") Then
             fndcity_id.Value = strcheck
         Else
-            common.clsCommon.MyMessageBoxShow("City Id does not exist in master table")
+            common.clsCommon.MyMessageBoxShow(Me, "City Id does not exist in master table", Me.Text)
             fndcity_id.Value = ""
             fndcity_id.Focus()
         End If
@@ -945,7 +945,7 @@ Public Class frmRouteMaster
                 Next
                 trans.Commit()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 trans.Rollback()
                 clsCommon.ProgressBarHide()
@@ -1111,7 +1111,7 @@ Public Class frmRouteMaster
                 If strvalue <> "" Then
                 Else : strprice_code = ""
                     txtpricecodedescription.Text = ""
-                    common.clsCommon.MyMessageBoxShow("Price Code does not exist in the master table")
+                    common.clsCommon.MyMessageBoxShow(Me, "Price Code does not exist in the master table", Me.Text)
                     fndPriceCode.Value = ""
                     fndPriceCode.Focus()
                 End If
@@ -1130,7 +1130,7 @@ Public Class frmRouteMaster
                 If strvalue <> "" Then
                 Else : strprice_code = ""
                     txtvcodedesc.Text = ""
-                    common.clsCommon.MyMessageBoxShow("Vehicle Code does not exist in the master table")
+                    common.clsCommon.MyMessageBoxShow(Me, "Vehicle Code does not exist in the master table", Me.Text)
                     fndvcode.Value = ""
                     fndvcode.Focus()
                 End If
@@ -1170,7 +1170,7 @@ Public Class frmRouteMaster
             If (strcheck <> "") Then
                 fndDepot.Value = strcheck
             Else
-                common.clsCommon.MyMessageBoxShow("Depot Id does not exist in Master Table")
+                common.clsCommon.MyMessageBoxShow(Me, "Depot Id does not exist in Master Table", Me.Text)
                 fndDepot.Value = ""
                 fndDepot.Focus()
             End If
@@ -1315,7 +1315,7 @@ Public Class frmRouteMaster
         Try
             Dim qry As String = Nothing
             If clsCommon.myLen(fndcity_id.ValidateChildren) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Select the Route Code")
+                common.clsCommon.MyMessageBoxShow(Me, "Select the Route Code", Me.Text)
             Else
                 qry = "select Route_No,Route_Desc,Employee_Name,Off_Day,Price_Code_Desc,AcDate,InDate  ,Comp_Name,Add1 from TSPL_ROUTE_MASTER_HISTORY left outer join TSPL_COMPANY_MASTER on TSPL_ROUTE_MASTER_HISTORY.Comp_Code=TSPL_COMPANY_MASTER.Comp_Code where Route_No='" + fndRouteid.Value + "'"
             End If

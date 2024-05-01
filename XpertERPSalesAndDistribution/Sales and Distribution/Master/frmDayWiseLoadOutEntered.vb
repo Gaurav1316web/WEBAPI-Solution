@@ -57,7 +57,7 @@ Public Class FrmDayWiseLoadOutEntered
     Private Sub SetUserMgmtNew()
         'MyBase.SetUserMgmt(clsUserMgtCode.FrmDayWiseLoadOutEntered)
         If Not (MyBase.isReadFlag) Then
-            common.clsCommon.MyMessageBoxShow("Permission Denied")
+            common.clsCommon.MyMessageBoxShow(Me, "Permission Denied", Me.Text)
             Me.Close()
             Exit Sub
         End If
@@ -91,7 +91,7 @@ Public Class FrmDayWiseLoadOutEntered
     Function AllowToSave() As Boolean
 
         If (txtNoOfLoadOutMake.Value) = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Enter No Of Load Out ")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Enter No Of Load Out ", Me.Text)
             txtNoOfLoadOutMake.Focus()
             Return False
         End If
@@ -112,7 +112,7 @@ Public Class FrmDayWiseLoadOutEntered
                 Balance = clsCommon.myCdbl(txtNoOfLoadOutMake.Value) - clsCommon.myCdbl(NoOfLoadOutMade)
                 txtBalance.Value = Balance
                 If (obj.SaveData(obj, isNewEntry)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(obj.LoadOutDate, obj.location, obj.type)
                     btnPrint.Enabled = True
                     btnSave.Enabled = False
@@ -306,13 +306,13 @@ Public Class FrmDayWiseLoadOutEntered
 
     Public Function allowRefresh() As Boolean
         If clsCommon.myLen(FndLocation.Value) = 0 Then
-            common.clsCommon.MyMessageBoxShow("Please Select Location ")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Location ", Me.Text)
             FndLocation.Focus()
             DayPanel.Enabled = True
             Return False
         End If
         If DrpType.Text = "" Then
-            common.clsCommon.MyMessageBoxShow("Please Select Type ")
+            common.clsCommon.MyMessageBoxShow(Me, "Please Select Type ", Me.Text)
             DrpType.Focus()
             DayPanel.Enabled = True
             Return False
@@ -330,7 +330,7 @@ Public Class FrmDayWiseLoadOutEntered
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
 
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
 
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -341,7 +341,7 @@ Public Class FrmDayWiseLoadOutEntered
                 Dim qry As String = "select Convert(varchar(12),LoadOutdate,103)as LoadOutdate,NoOf_loadOuttoBemake as ToBeCount,(select Count(Transfer_No)   from TSPL_TRANSFER_HEAD where To_Location in (select Location_Code  from TSPL_LOCATION_MASTER where Location_Type ='Physical')and  Transfer_Date  = '" & clsCommon.GetPrintDate(dtpLoadoutNo.Value, "dd/MMM/yyyy") & "' and TSPL_TRANSFER_HEAD .To_Location ='" & FndLocation.Value & "' and Transfer_Type ='LI' and Post ='Y')as PostedCount,(select Count(Transfer_No)   from TSPL_TRANSFER_HEAD where To_Location in (select Location_Code  from TSPL_LOCATION_MASTER where Location_Type ='Physical')and  Transfer_Date = '" & clsCommon.GetPrintDate(dtpLoadoutNo.Value, "dd/MMM/yyyy") & "' and TSPL_TRANSFER_HEAD .To_Location ='" & FndLocation.Value & "' and Transfer_Type ='LI')as TotalOfCount,location_code as Location,(select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code =TSPL_DayWiseEnteredLoadOut.Location_Code )as LocationName,TYPE,Remarks  from TSPL_DayWiseEnteredLoadOut where loadOutDate= '" & clsCommon.GetPrintDate(dtpLoadoutNo.Value, "dd/MMM/yyyy") & "'  and Location_Code='" & FndLocation.Value & "' and TYPE = 'Load In' "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
 
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -352,7 +352,7 @@ Public Class FrmDayWiseLoadOutEntered
                 Dim qry As String = "select Convert(varchar(12),LoadOutdate,103)as LoadOutdate,NoOf_loadOuttoBemake as ToBeCount,(select COUNT(Payment_Code ) from TSPL_PAYMENT_HEADER where Payment_Code ='Settlement'and Payment_Date ='" & dtpLoadoutNo.Value & "' and Posted ='P'and Location_Code ='" & FndLocation.Value & "')as PostedCount,(select COUNT(Payment_No) from TSPL_PAYMENT_HEADER where Convert(date,Payment_Date,103) =Convert(date,'" & dtpLoadoutNo.Value & "',103) and Payment_Code ='SETTLEMENT'and Location_Code ='" & FndLocation.Value & "')as TotalOfCount,location_code as Location,(select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code =TSPL_DayWiseEnteredLoadOut.Location_Code )as LocationName,TYPE,Remarks  from TSPL_DayWiseEnteredLoadOut where loadOutDate=Convert(Date,'" & dtpLoadoutNo.Value & "',103) and Location_Code='" & FndLocation.Value & "'and TYPE = 'SETTLEMENT' "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
                     dt = clsDBFuncationality.GetDataTable(qry)
                     Dim frmcrystal As New frmCrystalReportViewer()
@@ -362,7 +362,7 @@ Public Class FrmDayWiseLoadOutEntered
                 Dim qry As String = "select Convert(varchar(12),LoadOutdate,103)as LoadOutdate,NoOf_loadOuttoBemake as ToBeCount,(select COUNT(Adjustment_No ) from TSPL_ADJUSTMENT_HEADER where Convert(Date,Adjustment_Date,103) =Convert(date,'" & dtpLoadoutNo.Value & "',103) and Loc_Code ='" & FndLocation.Value & "' and Reference_Document ='Load Out/Transfer' and ItemType ='E'and  Trans_Type ='In')as TotalOfCount,(select COUNT(Adjustment_No ) from TSPL_ADJUSTMENT_HEADER where Convert(Date,Adjustment_Date,103) =Convert(date,'" & dtpLoadoutNo.Value & "',103) and Loc_Code ='" & FndLocation.Value & "' and Reference_Document ='Load Out/Transfer' and ItemType ='E'and  Trans_Type ='In'and Posted ='Y')as PostedCount,location_code as Location,(select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code =TSPL_DayWiseEnteredLoadOut.Location_Code )as LocationName,TYPE,Remarks  from TSPL_DayWiseEnteredLoadOut where loadOutDate=Convert(Date,'" & dtpLoadoutNo.Value & "',103) and Location_Code='" & FndLocation.Value & "'and TYPE = 'Empty Settlement'  "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
 
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -373,7 +373,7 @@ Public Class FrmDayWiseLoadOutEntered
                 Dim qry As String = " select Convert(varchar(12),LoadOutdate,103)as LoadOutdate,NoOf_loadOuttoBemake as ToBeCount,(select Count(Sale_Invoice_No)   from TSPL_SALE_INVOICE_HEAD where Sale_Invoice_Date = '" & clsCommon.GetPrintDate(dtpLoadoutNo.Value, "dd/MMM/yyyy") & "'  and Location ='" & FndLocation.Value & "'and  is_post='Y')as PostedCount,(select Count(Sale_Invoice_No)   from TSPL_SALE_INVOICE_HEAD where Sale_Invoice_Date = '" & clsCommon.GetPrintDate(dtpLoadoutNo.Value, "dd/MMM/yyyy") & "'  and Location ='" & FndLocation.Value & "' )as TotalOfCount,location_code as Location,(select Location_Desc  from TSPL_LOCATION_MASTER where Location_Code =TSPL_DayWiseEnteredLoadOut.Location_Code )as LocationName,TYPE,Remarks  from TSPL_DayWiseEnteredLoadOut where loadOutDate= '" & clsCommon.GetPrintDate(dtpLoadoutNo.Value, "dd/MMM/yyyy") & "'  and Location_Code='" & FndLocation.Value & "'and TYPE = 'Sale Invoice' "
                 Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
                 If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                    common.clsCommon.MyMessageBoxShow("No Record Found")
+                    common.clsCommon.MyMessageBoxShow(Me, "No Record Found", Me.Text)
                 Else
 
                     dt = clsDBFuncationality.GetDataTable(qry)
