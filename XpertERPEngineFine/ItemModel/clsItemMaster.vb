@@ -305,6 +305,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             WhrCls += " and " + Whrclass
         End If
         'Ravi
+
         If isForFinishedOrOtherFinished Then
             Dim strNewQry As String = "select item_type_code from tspl_item_type_master where item_type_code='" + strItemType + "'"
             Dim strNewVar As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strNewQry))
@@ -332,6 +333,119 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
             If clsCommon.myLen(strItemType) > 0 Then
                 WhrCls += " and item_type ='" + strItemType + "'"
             End If
+        End If
+        If Product_type <> "" Then
+            WhrCls &= " and " & Product_type
+        End If
+        '-----------------------------------------------------
+        '' Anubhooti 21-Aug-2014 On Settings
+        Dim Is_Purchaseable As Integer = clsDBFuncationality.getSingleValue("SELECT Description  FROM TSPL_FIXED_PARAMETER  WHERE Code ='Is_Purchaseable_Item'")
+        If clsCommon.myCdbl(Is_Purchaseable) = 1 Then
+            WhrCls &= " AND TSPL_ITEM_MASTER.Is_Purchaseable='1' "
+        End If
+        If clsCommon.myLen(pivotheader) > 0 Then
+            Dim query As String = qry + " where " + WhrCls
+            qry = ""
+            qry = "select * from (select a.DESCRIPTION,a.cat_value,b.* from (" + query + ")b"
+            qry += " left outer join (select TSPL_ITEM_MASTER_CATEGORY.Item_code,TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code,TSPL_ITEM_CATEGORY_LEVEL.DESCRIPTION,TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values,TSPL_ITEM_CATEGORY_LEVEL_VALUES.DESCRIPTION as cat_value from TSPL_ITEM_MASTER_CATEGORY left outer join TSPL_ITEM_CATEGORY_LEVEL on TSPL_ITEM_CATEGORY_LEVEL.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and ISNULL(TSPL_ITEM_CATEGORY_LEVEL.Form_Type,'item')='item' left outer join TSPL_ITEM_CATEGORY_LEVEL_VALUES on TSPL_ITEM_CATEGORY_LEVEL_VALUES.ITEM_CATEGORY_CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Category_Code and TSPL_ITEM_CATEGORY_LEVEL_VALUES.CODE=TSPL_ITEM_MASTER_CATEGORY.Item_Cagetory_Values  and ISNULL(TSPL_ITEM_CATEGORY_LEVEL_VALUES.Form_Type,'item')='item')a on a.Item_code=b.code) as s pivot(max(cat_value) for description in (" + pivotheader + "))t"
+            WhrCls = ""
+        End If
+        '-----------------------------------------------------------------------
+        strCode = clsCommon.ShowSelectForm("ItemFinder" + IIf(clsCommon.myLen(strVendorCode) > 0, "V", IIf(clsCommon.myLen(strCustomerCode) > 0, "C", "")), qry, "Code", WhrCls, strCode, "Code", isButtonClicked)
+        If clsCommon.myLen(strCode) > 0 Then
+            qry = "select HSN_Code, Item_Code,TSPL_ITEM_MASTER.Weight_UOM as Weight_UOM,TSPL_ITEM_MASTER.Weight_Value as Weight_Value,Item_Desc,Unit_Code,Is_Serial_Item,Is_Pick_Auto_SrNo,Is_MRP,TSPL_ITEM_MASTER.RACK_NO As Rack_No, TSPL_ITEM_MASTER.Cost, TSPL_ITEM_MASTER.Is_Tax_Exempted,Product_Type,TSPL_ITEM_MASTER.Is_Batch_Item,TSPL_ITEM_MASTER.Can,TSPL_ITEM_MASTER.Crate,TSPL_ITEM_MASTER.Item_Type,TSPL_ITEM_MASTER.is_Insurance from TSPL_ITEM_MASTER where Item_Code='" + strCode + "' "
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                obj = New clsItemMaster()
+                obj.Item_Code = clsCommon.myCstr(dt.Rows(0)("Item_Code"))
+                obj.Item_Desc = clsCommon.myCstr(dt.Rows(0)("Item_Desc"))
+                obj.Unit_Code = clsCommon.myCstr(clsDBFuncationality.getSingleValue("Select top 1 isnull(UOM_Code,'') from TSPL_ITEM_UOM_DETAIL where Item_Code ='" & clsCommon.myCstr(dt.Rows(0)("Item_Code")) & "' and Default_UOM =1", Nothing))
+                obj.Is_Serial_Item = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Serial_Item")) = 1, True, False)
+                obj.Is_Pick_Auto_SrNo = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Pick_Auto_SrNo")) = 1, True, False)
+                obj.Is_Batch_Item = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_Batch_Item")) = 1, True, False)
+                obj.Is_MRP = IIf(clsCommon.myCdbl(dt.Rows(0)("Is_MRP")) = 1, True, False)
+                obj.Weight_UOM = clsCommon.myCstr(dt.Rows(0)("Weight_UOM"))
+                obj.Weight_Value = clsCommon.myCdbl(dt.Rows(0)("Weight_Value"))
+                ''richa Ticket No. BM00000003197 on 24/07/2014
+                obj.Rack_No = clsCommon.myCstr(dt.Rows(0)("Rack_No"))
+                obj.Cost = clsCommon.myCdbl(dt.Rows(0)("Cost"))
+                obj.Tax_Exempted = clsCommon.myCdbl(dt.Rows(0)("Is_Tax_Exempted"))
+                obj.Product_Type = clsCommon.myCstr(dt.Rows(0)("Product_Type"))
+                obj.HSNCode = clsCommon.myCstr(dt.Rows(0)("HSN_Code"))
+                obj.Can = IIf(clsCommon.myCdbl(dt.Rows(0)("Can")) = 1, True, False)
+                obj.Crate = IIf(clsCommon.myCdbl(dt.Rows(0)("Crate")) = 1, True, False)
+                '------------------------------------------
+                obj.Item_Type = clsCommon.myCstr(dt.Rows(0)("Item_Type"))
+                obj.Is_Insurance = clsCommon.myCdbl(dt.Rows(0)("Is_Insurance"))
+            End If
+        End If
+        Return obj
+    End Function
+    Public Shared Function FinderForItemALL(ByVal strCode As String, ByVal strItemType As String, ByVal isForFinishedOrOtherFinished As Boolean, ByVal ShowItemAllStructureWise As Boolean, ByVal isButtonClicked As Boolean, ByVal strVendorCode As String, ByVal strCustomerCode As String, Optional ByVal Product_type As String = "", Optional ByVal Whrclass As String = Nothing) As clsItemMaster
+        Dim obj As clsItemMaster = Nothing
+        '------------07/08/2014--------pivot category---------------------------
+        Dim pivotheader As String = ""
+        pivotheader = clsItemMaster.GetNLevelPivotHeader()
+        '---------------------------------------------------------------------
+        '' Anubhooti 21-Aug-2014 (Only fetch Item_Image )
+        Dim qry As String = "select TSPL_ITEM_MASTER.Item_Code as Code,Item_Desc as Name,TSPL_ITEM_MASTER.Short_Description as 'Short Description',Sku_Seq as [Seq. No.],TSPL_ITEM_MASTER.Structure_Code as [Structure Code] ,TSPL_ITEM_MASTER.Structure_Desc as [Structure Desc],TSPL_Item_Category.Category_Name as [Item Category] ,TSPL_ITEM_SUB_CATEGORY.Description as [Sub Category],ITF_CODE as [ITF CODE],Item_Image, TSPL_ITEM_MASTER.Cost "
+        If clsCommon.myLen(pivotheader) <= 0 Then
+            qry += ",category_Level.* "
+        End If
+        If clsCommon.myLen(strVendorCode) > 0 Then
+            qry += ",(select top 1 vendor_item_no from  TSPL_VENDOR_ITEM_DETAIL where TSPL_VENDOR_ITEM_DETAIL.item_no=TSPL_ITEM_MASTER.Item_Code and TSPL_VENDOR_ITEM_DETAIL.vendor_code='" + strVendorCode + "' order by Start_Date desc  ) as [Vendor Item]"
+        ElseIf clsCommon.myLen(strCustomerCode) > 0 Then
+            qry += ",(select top 1 Customer_item_no from  TSPL_CUSTOMER_ITEM_DETAIL where TSPL_CUSTOMER_ITEM_DETAIL.item_no=TSPL_ITEM_MASTER.Item_Code and TSPL_CUSTOMER_ITEM_DETAIL.Customer_Code='" + strCustomerCode + "' order by Start_Date desc  ) as [Customer Item]"
+        End If
+        qry += " from  TSPL_ITEM_MASTER"
+        qry += " left outer join TSPL_Item_Category on TSPL_Item_Category.Category_Code =TSPL_ITEM_MASTER.item_category "
+        qry += "  left outer join TSPL_ITEM_SUB_CATEGORY on TSPL_ITEM_SUB_CATEGORY.Sub_Category_Code  =TSPL_ITEM_MASTER.Sub_item_category "
+        If clsCommon.myLen(pivotheader) <= 0 Then
+            '===============Added By Rohit on June 09,2014 to show item Make,Model,Size,type for each Item===================
+            qry += " Left Join (select Item_Code,MAX(Make) as _Make,MAX(Model) as _Model,MAX(Size) as _Size,MAX(Type) as _Type from(" _
+                & " select Item_code,case when CATEGORY_LEVEL=2 then Item_Cagetory_Values  end AS  'Make',case when CATEGORY_LEVEL=3 then Item_Cagetory_Values end AS 'MODEL',case when CATEGORY_LEVEL=4 then Item_Cagetory_Values end AS  'Size' ,case when CATEGORY_LEVEL=1 then Item_Cagetory_Values end AS 'Type' " _
+                & " from TSPL_ITEM_MASTER_CATEGORY cat inner join TSPL_ITEM_CATEGORY_LEVEL lev on cat.Item_Category_Code=lev.ITEM_CATEGORY_CODE" _
+                & " ) tt group by item_Code) category_Level on category_Level.Item_code=TSPL_ITEM_MASTER.Item_Code"
+            '================================================================================================================
+        End If
+        Dim WhrCls As String = " TSPL_ITEM_MASTER.Active=1 "
+        If clsCommon.myLen(Whrclass) > 0 Then
+            WhrCls += " and " + Whrclass
+        End If
+        'Ravi
+        If ShowItemAllStructureWise = False Then
+
+
+            If isForFinishedOrOtherFinished Then
+                Dim strNewQry As String = "select item_type_code from tspl_item_type_master where item_type_code='" + strItemType + "'"
+                Dim strNewVar As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue(strNewQry))
+                'If clsCommon.myLen(strItemType) > 0 AndAlso clsCommon.CompairString(strItemType, "f") = CompairStringResult.Equal Then
+                '    WhrCls += " and item_type='f'"
+                'ElseIf clsCommon.myLen(strItemType) > 0 AndAlso clsCommon.CompairString(strItemType, "a") = CompairStringResult.Equal Then
+                '    WhrCls += " and item_type='a'"
+                'ElseIf clsCommon.myLen(strItemType) > 0 AndAlso clsCommon.CompairString(strItemType, "r") = CompairStringResult.Equal Then
+                '    WhrCls += " and item_type='r'"
+                'ElseIf clsCommon.myLen(strItemType) > 0 AndAlso clsCommon.CompairString(strItemType, "s") = CompairStringResult.Equal Then
+                '    WhrCls += " and item_type='s'"
+                'ElseIf clsCommon.myLen(strItemType) > 0 AndAlso clsCommon.CompairString(strItemType, "o") = CompairStringResult.Equal Then
+                '    WhrCls += " and item_type = 'o'"
+                'ElseIf clsCommon.myLen(strItemType) > 0 AndAlso clsCommon.CompairString(strItemType, "t") = CompairStringResult.Equal Then
+                '    WhrCls += " and item_type = 't'"
+                'Else
+                '    WhrCls += "item_type<>'f' and tspl_item_master.active=1"
+                'End If
+                If clsCommon.myLen(strNewVar) > 0 Then
+                    WhrCls += " and item_type='" + strItemType + "' "
+                Else
+                    WhrCls += " and item_type<>'f' and tspl_item_master.active=1 "
+                End If
+            Else
+                If clsCommon.myLen(strItemType) > 0 Then
+                    WhrCls += " and item_type ='" + strItemType + "'"
+                End If
+            End If
+        Else
+            WhrCls += " and tspl_item_master.active=1 "
         End If
         If Product_type <> "" Then
             WhrCls &= " and " & Product_type
@@ -607,6 +721,7 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
         End If
         Return True
     End Function
+
     Public Shared Function isItemOfSameExempted(ByVal ArrICode As List(Of String)) As Integer
         Dim qry As String = "select 1 from TSPL_ITEM_MASTER where Is_Tax_Exempted=1 and Item_Code in (" + clsCommon.GetMulcallString(ArrICode) + ")"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
@@ -824,6 +939,14 @@ inner join TSPL_UNIT_MASTER on TSPL_UNIT_MASTER.Unit_Code=TSPL_ITEM_UOM_DETAIL.U
     End Function
     Public Shared Function GetItemHSNCode(ByVal strICode As String, ByVal trans As SqlTransaction) As String
         Dim qry As String = "select HSN_Code from TSPL_ITEM_MASTER where Item_Code='" + strICode + "' "
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+    End Function
+    Public Shared Function checkHSNCode(ByVal strICode As String, ByVal trans As SqlTransaction) As String
+        Dim qry As String = "select code from tspl_hsn_master where code='" + strICode + "' "
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+    End Function
+    Public Shared Function UpdateHSNCode(ByVal HSNCODE As String, ByVal strICode As String, ByVal trans As SqlTransaction) As String
+        Dim qry As String = "Update TSPL_ITEM_MASTER set HSN_Code='" + HSNCODE + "' where Item_Code='" + strICode + "' "
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
     End Function
     Public Shared Function IsTaxableItem(ByVal strICode As String, ByVal trans As SqlTransaction) As Boolean

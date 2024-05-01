@@ -26,6 +26,7 @@ Partial Class frmPurchaseSettings
         Me.rdbtnclose = New Telerik.WinControls.UI.RadButton()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadGroupBox1 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.ChkAutoGenerateMRN = New common.Controls.MyCheckBox()
         Me.chkPI_debitnot_unitcost = New common.Controls.MyCheckBox()
         Me.txtPoLimit = New common.MyNumBox()
         Me.MyLabel6 = New common.Controls.MyLabel()
@@ -109,7 +110,7 @@ Partial Class frmPurchaseSettings
         Me.txtSlab1From = New common.MyNumBox()
         Me.txtSlab1To = New common.MyNumBox()
         Me.txtSlab2From = New common.MyNumBox()
-        Me.ChkAutoGenerateMRN = New common.Controls.MyCheckBox()
+        Me.chkAllstructurewiseItem = New common.Controls.MyCheckBox()
         CType(Me.rdbtnsave, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.rdbtnclose, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
@@ -117,6 +118,7 @@ Partial Class frmPurchaseSettings
         Me.SplitContainer1.SuspendLayout()
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox1.SuspendLayout()
+        CType(Me.ChkAutoGenerateMRN, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkPI_debitnot_unitcost, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtPoLimit, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -202,7 +204,7 @@ Partial Class frmPurchaseSettings
         CType(Me.txtSlab1From, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSlab1To, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.txtSlab2From, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.ChkAutoGenerateMRN, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAllstructurewiseItem, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -249,6 +251,7 @@ Partial Class frmPurchaseSettings
         'RadGroupBox1
         '
         Me.RadGroupBox1.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.RadGroupBox1.Controls.Add(Me.chkAllstructurewiseItem)
         Me.RadGroupBox1.Controls.Add(Me.ChkAutoGenerateMRN)
         Me.RadGroupBox1.Controls.Add(Me.chkPI_debitnot_unitcost)
         Me.RadGroupBox1.Controls.Add(Me.txtPoLimit)
@@ -319,6 +322,17 @@ Partial Class frmPurchaseSettings
         Me.RadGroupBox1.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox1.Size = New System.Drawing.Size(1022, 413)
         Me.RadGroupBox1.TabIndex = 0
+        '
+        'ChkAutoGenerateMRN
+        '
+        Me.ChkAutoGenerateMRN.Location = New System.Drawing.Point(374, 99)
+        Me.ChkAutoGenerateMRN.MyLinkLable1 = Nothing
+        Me.ChkAutoGenerateMRN.MyLinkLable2 = Nothing
+        Me.ChkAutoGenerateMRN.Name = "ChkAutoGenerateMRN"
+        Me.ChkAutoGenerateMRN.Size = New System.Drawing.Size(122, 18)
+        Me.ChkAutoGenerateMRN.TabIndex = 73
+        Me.ChkAutoGenerateMRN.Tag1 = Nothing
+        Me.ChkAutoGenerateMRN.Text = "Auto Generate MRN"
         '
         'chkPI_debitnot_unitcost
         '
@@ -1458,16 +1472,16 @@ Partial Class frmPurchaseSettings
         Me.txtSlab2From.TextAlign = System.Windows.Forms.HorizontalAlignment.Right
         Me.txtSlab2From.Value = 0R
         '
-        'ChkAutoGenerateMRN
+        'chkAllstructurewiseItem
         '
-        Me.ChkAutoGenerateMRN.Location = New System.Drawing.Point(374, 99)
-        Me.ChkAutoGenerateMRN.MyLinkLable1 = Nothing
-        Me.ChkAutoGenerateMRN.MyLinkLable2 = Nothing
-        Me.ChkAutoGenerateMRN.Name = "ChkAutoGenerateMRN"
-        Me.ChkAutoGenerateMRN.Size = New System.Drawing.Size(122, 18)
-        Me.ChkAutoGenerateMRN.TabIndex = 73
-        Me.ChkAutoGenerateMRN.Tag1 = Nothing
-        Me.ChkAutoGenerateMRN.Text = "Auto Generate MRN"
+        Me.chkAllstructurewiseItem.Location = New System.Drawing.Point(374, 369)
+        Me.chkAllstructurewiseItem.MyLinkLable1 = Nothing
+        Me.chkAllstructurewiseItem.MyLinkLable2 = Nothing
+        Me.chkAllstructurewiseItem.Name = "chkAllstructurewiseItem"
+        Me.chkAllstructurewiseItem.Size = New System.Drawing.Size(131, 18)
+        Me.chkAllstructurewiseItem.TabIndex = 74
+        Me.chkAllstructurewiseItem.Tag1 = Nothing
+        Me.chkAllstructurewiseItem.Text = "All structure wise Item"
         '
         'frmPurchaseSettings
         '
@@ -1489,6 +1503,7 @@ Partial Class frmPurchaseSettings
         CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
         Me.RadGroupBox1.PerformLayout()
+        CType(Me.ChkAutoGenerateMRN, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkPI_debitnot_unitcost, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtPoLimit, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
@@ -1578,7 +1593,7 @@ Partial Class frmPurchaseSettings
         CType(Me.txtSlab1From, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSlab1To, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.txtSlab2From, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.ChkAutoGenerateMRN, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAllstructurewiseItem, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
@@ -1671,5 +1686,6 @@ Partial Class frmPurchaseSettings
     Friend WithEvents chkApplySlab As common.Controls.MyCheckBox
     Friend WithEvents RadGroupBox5 As RadGroupBox
     Friend WithEvents ChkAutoGenerateMRN As common.Controls.MyCheckBox
+    Friend WithEvents chkAllstructurewiseItem As common.Controls.MyCheckBox
 End Class
 
