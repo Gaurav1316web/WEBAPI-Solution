@@ -48,9 +48,9 @@ Public Class frmAutoAdditionDeductionReport
             Gv1.MasterView.Refresh()
             PageSetupReport_ID = clsCommon.myCstr(MyBase.Form_ID)
             TemplateGridview = Gv1
-            Dim Qry As String = " select (x.[DCS Code])[DCS Code],(x.Code)Code,max(x.[DCS Type])[DCS Type],max(x.[Is Own BMC])[Is Own BMC],([Apply On])[Apply On],([Apply Type])[Apply Type],
+            Dim Qry As String = " select (x.[DCS Code])[DCS Code],max([DCS Name])[DCS Name],(x.Code)Code,max(x.[DCS Type])[DCS Type],max(x.[Is Own BMC])[Is Own BMC],([Apply On])[Apply On],([Apply Type])[Apply Type],
                                  (x.[Formula])Formula,sum(x.[Base Amount/Quantity])[Base Amount/Quantity],sum(x.[Addition/Deduction Amount])[Addition/Deduction Amount],ceiling(SUM(X.[Addition/Deduction Amount])) AS [Addition/Deduction AmountR]
-                                 ,max(x.[Addition/Deduction Description])[Addition/Deduction Description] from (select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code]
+                                 ,max(x.[Addition/Deduction Description])[Addition/Deduction Description] from (select TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader as [DCS Code],TSPL_VLC_MASTER_HEAD.VLC_Name  as [DCS Name]
                                  ,TSPL_VLC_MASTER_HEAD.VSP_Code as [Code],CASE WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=0 THEN 'All'
                                     WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=1 THEN 'DCS'
                                     WHEN TSPL_DCS_ADDITION_DEDUCTION.Applicable_DCS_Type=2 THEN 'PDCS'

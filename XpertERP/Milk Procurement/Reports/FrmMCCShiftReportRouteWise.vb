@@ -186,33 +186,27 @@ Public Class FrmMCCShiftReportRouteWise
             & " ROUTE_CODE ,Route_Name ,Village_Code ,Village_Name ,MCC_Code ,MCC_NAME ,VLC_UPLOADER,IncentiveEMP,Head_Load_Amount,Rate_Head_Load,EMP_Fixed_Amount from( select DOC_DATE,VSP_CODE,Vsp_name,shift_date," _
             & " Shift_type ,TYPE,SAMPLE_NO ,xx.RATE ,amount ,amount *CF as NewAmount,ROUTE_CODE ,Route_Name ,Village_Code ,Village_Name ,MCC_Code,MCC_NAME ," _
             & " no_of_cans   ,UOM_Code,VLC_CODE,VLC_Name,VLC_Code_VLC_Uploader ,FATQTY*CF as FATQTY,SNFQTY *CF as SNFQTY,Qty*CF as NewQty, Qty,FromUOM,TOUOM," _
-            & " CF,VLC_UPLOADER ,IncentiveEMP,Head_Load_Amount,Rate_Head_Load,EMP_Fixed_Amount  from( select TSPL_MILK_RECEIPT_DETAIL.Item_Code,TSPL_VENDOR_MASTER.Vendor_Code as VSP_CODE,Vendor_Name as Vsp_name,TSPL_MILK_RECEIPT_HEAD.DOC_DATE," _
-            & " TSPL_MILK_RECEIPT_DETAIL.UOM_Code,TSPL_VLC_MASTER_HEAD .VLC_Code_VLC_Uploader+', Name - '+VLC_Name as VLC_UPLOADER ,TSPL_MILK_RECEIPT_DETAIL.VLC_CODE+'," _
-            & " Name - '+VLC_Name as VLC_CODE ,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)" _
-            & " as shift_date,case when TSPL_MILK_RECEIPT_HEAD.SHIFT='M' then 'M'  else 'E' end as  Shift_type,TSPL_MILK_RECEIPT_DETAIL.TYPE," _
-            & " TSPL_MILK_receipt_detail.no_of_cans,TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO,tspl_milk_srn_detail.RATE as RATE ,tspl_milk_srn_detail.amount as amount,TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE +'," _
+            & " CF,VLC_UPLOADER ,IncentiveEMP,Head_Load_Amount,Rate_Head_Load,EMP_Fixed_Amount  from( select TSPL_MILK_SRN_DETAIL.Item_Code,TSPL_VENDOR_MASTER.Vendor_Code as VSP_CODE,Vendor_Name as Vsp_name,TSPL_MILK_SRN_HEAD.DOC_DATE," _
+            & " TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_VLC_MASTER_HEAD .VLC_Code_VLC_Uploader+', Name - '+VLC_Name as VLC_UPLOADER ,TSPL_MILK_SRN_HEAD.VLC_CODE+'," _
+            & " Name - '+VLC_Name as VLC_CODE ,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader ,convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)" _
+            & " as shift_date,case when TSPL_MILK_SRN_HEAD.SHIFT='M' then 'M'  else 'E' end as  Shift_type,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type as Type," _
+            & " TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.no_of_cans,TSPL_MILK_SRN_HEAD.SAMPLE_NO,tspl_milk_srn_detail.RATE as RATE ,tspl_milk_srn_detail.amount as amount,TSPL_MILK_SRN_HEAD.ROUTE_CODE +'," _
             & " Name -'+Route_name as ROUTE_CODE,TSPL_mcc_ROUTE_MASTER.Route_name,TSPL_VLC_MASTER_HEAD.Village_Code,Village_Name," _
-            & " TSPL_MILK_RECEIPT_DETAIL.MCC_Code+' Name- '+MCC_NAME  as MCC_Code ,TSPL_MCC_MASTER .MCC_NAME,  TSPL_MILK_SAMPLE_DETAIL.FAT,(TSPL_MILK_SAMPLE_DETAIL.FAT*" _
-            & " TSPL_MILK_SAMPLE_DETAIL.Qty/100) as FATQTY ,TSPL_MILK_SAMPLE_DETAIL.SNF,(TSPL_MILK_SAMPLE_DETAIL.SNF*TSPL_MILK_SAMPLE_DETAIL.Qty /100) as SNFQTY ," _
-            & " TSPL_MILK_RECEIPT_DETAIL. MILK_WEIGHT  as Qty    ,TSPL_MILK_SRN_DETAIL.EMP_Amount as IncentiveEMP,TSPL_MILK_SRN_DETAIL.Head_Load_AMOUNT,TSPL_VENDOR_MASTER.Rate_Head_Load,TSPL_VENDOR_MASTER.Actual_charges as EMP_Fixed_Amount  from TSPL_MILK_RECEIPT_DETAIL " _
-            & " left outer join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE =TSPL_MILK_RECEIPT_DETAIL.DOC_CODE " _
-            & " left outer join TSPL_MCC_MASTER  on TSPL_MCC_MASTER .MCC_Code =TSPL_MILK_RECEIPT_HEAD .MCC_CODE  left outer join (select " _
-            & " TSPL_MILK_SAMPLE_DETAIL.*,MILK_RECEIPT_CODE from TSPL_MILK_SAMPLE_DETAIL inner join TSPL_MILK_SAMPLE_Head on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE" _
-            & " =TSPL_MILK_SAMPLE_Head.DOC_CODE) TSPL_MILK_SAMPLE_DETAIL  on TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE =TSPL_MILK_RECEIPT_DETAIL.VLC_DOC_CODE " _
-            & " and MILK_RECEIPT_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE " _
-            & " inner join TSPL_VENDOR_MASTER  on TSPL_VENDOR_MASTER.Form_Type='VSP' and TSPL_MILK_RECEIPT_DETAIL .VSP_CODE =TSPL_VENDOR_MASTER .Vendor_Code" _
-            & " left join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_RECEIPT_DETAIL.VLC_CODE" _
-            & " left join TSPL_mcc_ROUTE_MASTER  on TSPL_mcc_ROUTE_MASTER.Route_code=TSPL_MILK_RECEIPT_DETAIL.route_code left join TSPL_VILLAGE_MASTER vlm on " _
+            & " TSPL_MILK_SRN_HEAD.MCC_Code+' Name- '+MCC_NAME  as MCC_Code ,TSPL_MCC_MASTER .MCC_NAME,  TSPL_MILK_SRN_DETAIL.FAT_PER,(TSPL_MILK_SRN_DETAIL.FAT_PER*" _
+            & " TSPL_MILK_SRN_DETAIL.Qty/100) as FATQTY ,TSPL_MILK_SRN_DETAIL.SNF_PER,(TSPL_MILK_SRN_DETAIL.SNF_PER*TSPL_MILK_SRN_DETAIL.Qty /100) as SNFQTY ," _
+            & " TSPL_MILK_SRN_DETAIL. Qty  as Qty    ,TSPL_MILK_SRN_DETAIL.EMP_Amount as IncentiveEMP,TSPL_MILK_SRN_DETAIL.Head_Load_AMOUNT,TSPL_VENDOR_MASTER.Rate_Head_Load,TSPL_VENDOR_MASTER.Actual_charges as EMP_Fixed_Amount  from TSPL_MILK_SRN_DETAIL  Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE 
+             left outer join TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL on TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No = TSPL_MILK_SRN_HEAD.Against_Uploader_TR_No   " _
+            & " left outer join TSPL_MCC_MASTER  on TSPL_MCC_MASTER .MCC_Code =TSPL_MILK_SRN_HEAD .MCC_CODE  " _
+            & " inner join TSPL_VENDOR_MASTER  on TSPL_VENDOR_MASTER.Form_Type='VSP' and TSPL_MILK_SRN_HEAD .VSP_CODE =TSPL_VENDOR_MASTER .Vendor_Code" _
+            & " left join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_HEAD.VLC_CODE" _
+            & " left join TSPL_mcc_ROUTE_MASTER  on TSPL_mcc_ROUTE_MASTER.Route_code=TSPL_MILK_SRN_HEAD.route_code left join TSPL_VILLAGE_MASTER vlm on " _
             & " vlm.Village_Code=TSPL_VLC_MASTER_HEAD.Village_Code " _
-            & "  left join tspl_milk_srn_Head on  tspl_milk_srn_Head.vlc_doc_code=TSPL_MILK_RECEIPT_DETAIL.vlc_doc_code and tspl_milk_srn_Head.sample_No=" _
-            & " TSPL_MILK_RECEIPT_DETAIL.sample_No and tspl_milk_srn_Head.milk_sample_code=TSPL_MILK_sample_DETAIL.doc_code left join tspl_milk_srn_detail " _
-            & " on tspl_milk_srn_detail.doc_code=tspl_milk_srn_Head.doc_code " _
-            & " where 2 = 2  and  convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "',103) and  convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "',103)"
+            & " where 2 = 2  and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) >= convert(date,'" + clsCommon.GetPrintDate(txtFromDate.Value, "dd/MM/yyyy") + "',103) and  convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <= convert(date,'" + clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy") + "',103)"
             If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-                sQuery += " and 2=( case when TSPL_MILK_RECEIPT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.SHIFT='M' then 3 else 2 end  )"
+                sQuery += " and 2=( case when TSPL_MILK_SRN_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
             End If
             If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-                sQuery += " and 2=( case when TSPL_MILK_RECEIPT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.SHIFT='E' then 3 else 2 end  )"
+                sQuery += " and 2=( case when TSPL_MILK_SRN_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
             End If
 
             Dim arr As List(Of String) = Nothing
@@ -227,7 +221,7 @@ Public Class FrmMCCShiftReportRouteWise
             If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
                 arr = cbtMCCRouteVLCC.CheckedValue(2)
                 If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                    sQuery += " and TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
+                    sQuery += " and TSPL_MILK_SRN_HEAD.ROUTE_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
                 Else
                     Throw New Exception("Please select at least one Route")
                 End If
@@ -235,7 +229,7 @@ Public Class FrmMCCShiftReportRouteWise
             If cbtMCCRouteVLCC.CheckedValue.Count > 2 Then
                 arr = cbtMCCRouteVLCC.CheckedValue(3)
                 If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                    sQuery += " and TSPL_MILK_RECEIPT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
+                    sQuery += " and TSPL_MILK_SRN_HEAD.VLC_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
                 Else
                     Throw New Exception("Please select at least one Route")
                 End If
