@@ -45,7 +45,7 @@ Public Class frmPendingReasonMaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -59,7 +59,7 @@ Public Class frmPendingReasonMaster
             ButtonToolTip.SetToolTip(rbtnClose, "Press Alt+C Close the Window")
             Reset()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub Reset()
@@ -105,7 +105,7 @@ Public Class frmPendingReasonMaster
             End If
             'Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -127,7 +127,7 @@ Public Class frmPendingReasonMaster
                 common.clsCommon.MyMessageBoxShow("Data Could Not Saved")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -147,7 +147,7 @@ Public Class frmPendingReasonMaster
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub loadData()
@@ -159,7 +159,7 @@ Public Class frmPendingReasonMaster
                 txtDescription.Text = obj.description
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -208,7 +208,7 @@ Public Class frmPendingReasonMaster
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -231,7 +231,7 @@ Public Class frmPendingReasonMaster
             str = "select Pending_Reason_Code as 'Pending Reason Code' ,Description from   TSPL_Pending_Reason_MASTER "
             transportSql.ExporttoExcel(str, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

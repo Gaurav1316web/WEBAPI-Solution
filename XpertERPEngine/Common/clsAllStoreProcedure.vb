@@ -4162,13 +4162,13 @@ Public Class clsAllSQLTrigger
             clsDBFuncationality.ExecuteNonQuery(qryTrig)
 
 
-            If clsPostCreateTable.CheckTriggerExits("trg_dontdeleteOpenShift", Nothing) = 0 Then
-                CreateAletr = "Create "
-            Else
-                CreateAletr = "Alter "
-                                        End If
-            qryTrig = "" & CreateAletr & "  trigger [dbo].[trg_dontdeleteOpenShift] on [dbo].[TSPL_OPEN_MCC_SHIFT]  for delete  as   begin  declare @POstFlag as integer   declare @Mcc_Code as varchar(30)    declare @Shift as Varchar(1)   declare @Doc_Date as date  Select @Mcc_Code=i.Mcc_code from deleted i;  Select @Shift=i.Shift from deleted i; Select @Doc_Date=i.Mcc_Shift_Date from deleted i;   select @POstFlag=count(*) from TSPL_MILK_Receipt_Head where   (Mcc_code =@Mcc_code and shift =@Shift and doc_date= @Doc_Date)   if  @POstFlag>0         begin   raiserror ('Cannot delete entry',16,1)   Rollback tran;     End end   "
-            clsDBFuncationality.ExecuteNonQuery(qryTrig)
+            'If clsPostCreateTable.CheckTriggerExits("trg_dontdeleteOpenShift", Nothing) = 0 Then
+            '    CreateAletr = "Create "
+            'Else
+            '    CreateAletr = "Alter "
+            '                            End If
+            'qryTrig = "" & CreateAletr & "  trigger [dbo].[trg_dontdeleteOpenShift] on [dbo].[TSPL_OPEN_MCC_SHIFT]  for delete  as   begin  declare @POstFlag as integer   declare @Mcc_Code as varchar(30)    declare @Shift as Varchar(1)   declare @Doc_Date as date  Select @Mcc_Code=i.Mcc_code from deleted i;  Select @Shift=i.Shift from deleted i; Select @Doc_Date=i.Mcc_Shift_Date from deleted i;   select @POstFlag=count(*) from TSPL_MILK_Receipt_Head where   (Mcc_code =@Mcc_code and shift =@Shift and doc_date= @Doc_Date)   if  @POstFlag>0         begin   raiserror ('Cannot delete entry',16,1)   Rollback tran;     End end   "
+            'clsDBFuncationality.ExecuteNonQuery(qryTrig)
 
             If clsPostCreateTable.CheckTriggerExits("TrgBankReverse", Nothing) = 0 Then
                 CreateAletr = "Create "

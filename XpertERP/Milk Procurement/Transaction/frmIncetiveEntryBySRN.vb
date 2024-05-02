@@ -709,7 +709,7 @@ Public Class frmIncetiveEntryBySRN
         Try
             If common.clsCommon.MyMessageBoxShow("Reverse and Unpost the Current Document" + Environment.NewLine + "Are you sure", Me.Text, MessageBoxButtons.YesNo) = System.Windows.Forms.DialogResult.Yes Then
                 If clsIncentiveEntryBySRNHead.ReverseAndUnpost(txtCode.Value) Then
-                    common.clsCommon.MyMessageBoxShow("Successfully Reversed and Recreated", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Successfully Reversed and Recreated", Me.Text)
                     LoadData(txtCode.Value, NavigatorType.Current)
                 End If
             End If
@@ -824,7 +824,7 @@ Public Class frmIncetiveEntryBySRN
     Private Sub btnPrint_VSP_Click(sender As Object, e As EventArgs) Handles btnPrint_VSP.Click
         Try
             If clsCommon.myLen(txtCode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Document No found.", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Document No found.", Me.Text)
                 Return
             End If
             Dim frmCRV As New frmCrystalReportViewer()

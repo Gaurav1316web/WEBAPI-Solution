@@ -3212,7 +3212,7 @@ Public Class rptDairyTruckSheetReport
             '=========================================
             sw.Close()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(ex.Message)
         End Try
 
     End Sub

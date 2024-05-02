@@ -131,7 +131,7 @@ Public Class FrmRptAPInvoiceDetailsReport
         '        clsCommon.MyExportToExcelGrid("AP Invoice Details Report", gv, arrHeader, "AP Invoice Details Report")
         '    End If
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -144,7 +144,7 @@ Public Class FrmRptAPInvoiceDetailsReport
     '            clsCommon.MyExportToPDF("AP Invoice Details Report", gv, arrHeader, "AP Invoice Details Report")
     '        End If
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 

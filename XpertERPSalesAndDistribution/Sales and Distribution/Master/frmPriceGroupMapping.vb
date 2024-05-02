@@ -145,12 +145,12 @@ Public Class FrmPriceGroupMapping
                     End If
                 Next
                 If (clsPriceGroupMapping.SaveData(fndPriceGrp.Value, Arr)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Saved Successfully")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully", Me.Text)
                     LoadData(fndPriceGrp.Value, NavigatorType.Current)
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -215,14 +215,14 @@ Public Class FrmPriceGroupMapping
         Try
             If clsCommon.myLen(strPriceCode) > 0 Then
                 If clsPriceGroupMapping.DeleteData(strPriceCode) Then
-                    clsCommon.MyMessageBoxShow("Data deleted successfully.")
+                    clsCommon.MyMessageBoxShow(Me, "Data deleted successfully.", Me.Text)
                     ResetScreen()
                 End If
             Else
-                clsCommon.MyMessageBoxShow("No Price Group Found To Delete.")
+                clsCommon.MyMessageBoxShow(Me, "No Price Group Found To Delete.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -239,7 +239,7 @@ Public Class FrmPriceGroupMapping
             Dim query As String = "select price_group_code as [Price Group Code],price_group_desc as [Price Group Description],Price_Code as [Price Code],Price_Code_Desc as [Price Code Desc],Remarks,Status,vendor_code as [Principle Code],'' as [Principle Name] from TSPL_PRICE_GROUP_MAPPING"
             transportSql.ExporttoExcel(query, Me)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -358,12 +358,12 @@ Public Class FrmPriceGroupMapping
                 If isSaved Then
                     'trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
                 End If
             Catch ex As Exception
                 'trans.Rollback()
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Error at row no:" + clsCommon.myCstr(ii) + "" + Environment.NewLine + "" + ex.Message, Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Error at row no:" + clsCommon.myCstr(ii) + "" + Environment.NewLine + "" + ex.Message, Me.Text)
             End Try
         End If
         Me.Controls.Remove(dgv)
@@ -400,7 +400,7 @@ Public Class FrmPriceGroupMapping
             End If
             LoadData(fndPriceGrp.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -452,7 +452,7 @@ Public Class FrmPriceGroupMapping
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

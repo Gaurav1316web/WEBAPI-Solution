@@ -127,13 +127,14 @@ Public Class RptVillageSlip
 
         sQuery += "select '" & fromDate & "'  as fromDate ,'" & Todate & "'  as Todate ,'" & objCommonVar.CurrentUser & "' as User_Name , '" & companyADD & "'  as companyADD, '" & CompName & "'  as CompName,'" & CompCode & "'  as CompCode,''  as compLogo1 ,'' as compLogo2,(DOC_DATE),VSP_CODE,Vsp_name,VLC_Uploader+' ,  Agent Name - '+Vsp_name as VLC_Uploader ,VLC+' ,  Agent Name - '+Vsp_name as VLC,VLC_Name,shift_date,Shift_type ,case when [FAT %]<=5 then 'C' else 'B' end as TYPE ,SAMPLE_NO,NO_OF_CANS as [Cans]   ,convert(decimal(18,2),QTY) as QTY,[FAT %]   ,[SNF %]  ,convert(DECIMAL(18,3),[FAT %]  *QTY/100) as [FAT kg],convert(DECIMAL(18,3),[SNF %]  *QTY /100) as [SNF kg],convert(decimal(18,2),ff.RATE) as RATE,convert(decimal(18,2),amount) as amount,convert(decimal(18,2),NewAmount) as NewAmount ,ROUTE_CODE ,Route_Name ,Village_Code ,Village_Name ,MCC_Code as MCC_Code ,MCC_NAME,RANK() over(partition by vlc_name,VSP_NAme order by sample_no) as [SamNO],VLC_CODE_FOR_PRINT    from (select DOC_DATE,VSP_CODE,Vsp_name ,(TOUOM ) as UOM,(VLC_CODE) as VLC,VLC_Uploader,VLC_Name ,shift_date ,Shift_type ,TYPE,SAMPLE_NO ,ttt.RATE ,amount,NewAmount ,convert(DECIMAL(18,1),(FATQTY)/(nullif(NewQty,0))*100) as [FAT %]," & Environment.NewLine &
         " convert(DECIMAL(18,1),(SNFQTY )/(nullif(NewQty,0))*100) as [SNF %] " & Environment.NewLine &
-        " ,(isnull(NewQty,0) ) as QTY,ROUTE_CODE ,Route_Name ,Village_Code ,Village_Name ,MCC_Code ,MCC_NAME,NO_OF_CANS , VLC_CODE_FOR_PRINT from( select DOC_DATE,VSP_CODE,Vsp_name,shift_date,Shift_type ,TYPE,SAMPLE_NO ,xx.RATE ,amount ,amount *CF as NewAmount,ROUTE_CODE ,Route_Name ,Village_Code ,Village_Name ,MCC_Code,MCC_NAME    ,UOM_Code,VLC_Uploader,VLC_CODE,VLC_Name ,FATQTY*CF as FATQTY,SNFQTY *CF as SNFQTY,Qty*CF as NewQty, Qty,FromUOM,TOUOM,CF,NO_OF_CANS , VLC_CODE_FOR_PRINT  from( select TSPL_MILK_RECEIPT_DETAIL.Item_Code ,TSPL_VENDOR_MASTER.Vendor_Code as VSP_CODE,Vendor_Name as Vsp_name,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,TSPL_MILK_RECEIPT_DETAIL.UOM_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader+', Name - '+VLC_Name as VLC_Uploader ,TSPL_MILK_RECEIPT_DETAIL.VLC_CODE+', Name - '+VLC_Name as VLC_CODE ,TSPL_VLC_MASTER_HEAD.VLC_Name,convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) as shift_date,case when TSPL_MILK_RECEIPT_HEAD.SHIFT='M' then 'Morning'  else 'Evening' end as  Shift_type,TSPL_MILK_RECEIPT_DETAIL.TYPE,TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO,convert(DECIMAL(18,2),RATE)as RATE ,convert(DECIMAL(18,2),amount) as amount,TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE +', Name -'+Route_name as ROUTE_CODE,TSPL_mcc_ROUTE_MASTER.Route_name,TSPL_VLC_MASTER_HEAD.Village_Code,Village_Name,TSPL_MILK_RECEIPT_DETAIL.MCC_Code+' Name- '+MCC_NAME  as MCC_Code ,TSPL_MCC_MASTER .MCC_NAME,  TSPL_MILK_SAMPLE_DETAIL.FAT,(TSPL_MILK_SAMPLE_DETAIL.FAT*TSPL_MILK_SAMPLE_DETAIL.Qty/100) as FATQTY ,TSPL_MILK_SAMPLE_DETAIL.SNF,(TSPL_MILK_SAMPLE_DETAIL.SNF*TSPL_MILK_SAMPLE_DETAIL.Qty /100) as SNFQTY ,TSPL_MILK_RECEIPT_DETAIL. MILK_WEIGHT  as Qty,NO_OF_CANS ,TSPL_MILK_RECEIPT_DETAIL.VLC_CODE as VLC_CODE_FOR_PRINT   from TSPL_MILK_RECEIPT_DETAIL" & Environment.NewLine &
-        " left outer join TSPL_MILK_RECEIPT_HEAD on TSPL_MILK_RECEIPT_HEAD.DOC_CODE =TSPL_MILK_RECEIPT_DETAIL.DOC_CODE " & Environment.NewLine &
-        " left outer join TSPL_MCC_MASTER  on TSPL_MCC_MASTER .MCC_Code =TSPL_MILK_RECEIPT_HEAD .MCC_CODE  left outer join (select TSPL_MILK_SAMPLE_DETAIL.*,milk_receipt_code from TSPL_MILK_SAMPLE_DETAIL inner join TSPL_MILK_SAMPLE_Head on TSPL_MILK_SAMPLE_Head.doc_code= TSPL_MILK_SAMPLE_DETAIL.doc_code ) TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE =TSPL_MILK_RECEIPT_DETAIL.VLC_DOC_CODE and TSPL_MILK_SAMPLE_DETAIL.Milk_receipt_CODE=TSPL_MILK_RECEIPT_DETAIL.DOC_CODE and TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO=TSPL_MILK_sample_DETAIL.SAMPLE_NO " & Environment.NewLine &
-        " inner join TSPL_VENDOR_MASTER  on TSPL_VENDOR_MASTER.Form_Type='VSP' and TSPL_MILK_RECEIPT_DETAIL .VSP_CODE =TSPL_VENDOR_MASTER .Vendor_Code" & Environment.NewLine &
-        " left join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_RECEIPT_DETAIL.VLC_CODE" & Environment.NewLine &
-        " left join TSPL_mcc_ROUTE_MASTER  on TSPL_mcc_ROUTE_MASTER.Route_code=TSPL_MILK_RECEIPT_DETAIL.route_code left join TSPL_VILLAGE_MASTER vlm on vlm.Village_Code=TSPL_VLC_MASTER_HEAD.Village_Code " & Environment.NewLine &
-        " where 2 = 2 and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103)" & Environment.NewLine
+        " ,(isnull(NewQty,0) ) as QTY,ROUTE_CODE ,Route_Name ,Village_Code ,Village_Name ,MCC_Code ,MCC_NAME,NO_OF_CANS , VLC_CODE_FOR_PRINT from( select DOC_DATE,VSP_CODE,Vsp_name,shift_date,Shift_type ,TYPE,SAMPLE_NO ,xx.RATE ,amount ,amount *CF as NewAmount,ROUTE_CODE ,Route_Name ,Village_Code ,Village_Name ,MCC_Code,MCC_NAME    ,UOM_Code,VLC_Uploader,VLC_CODE,VLC_Name ,FATQTY*CF as FATQTY,SNFQTY *CF as SNFQTY,Qty*CF as NewQty, Qty,FromUOM,TOUOM,CF,NO_OF_CANS , VLC_CODE_FOR_PRINT  from( select TSPL_MILK_SRN_DETAIL.Item_Code ,TSPL_VENDOR_MASTER.Vendor_Code as VSP_CODE,Vendor_Name as Vsp_name,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.UOM_Code,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader+', Name - '+VLC_Name as VLC_Uploader ,TSPL_MILK_SRN_HEAD.VLC_CODE+', Name - '+VLC_Name as VLC_CODE ,TSPL_VLC_MASTER_HEAD.VLC_Name,convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) as shift_date,case when TSPL_MILK_SRN_HEAD.SHIFT='M' then 'Morning'  else 'Evening' end as  Shift_type,TSPL_MILK_SRN_HEAD.Dock_Collection_Milk_Type AS TYPE,TSPL_MILK_SRN_HEAD.SAMPLE_NO,convert(DECIMAL(18,2),RATE)as RATE ,convert(DECIMAL(18,2),amount) as amount,TSPL_MILK_SRN_HEAD.ROUTE_CODE +', Name -'+Route_name as ROUTE_CODE,TSPL_mcc_ROUTE_MASTER.Route_name,TSPL_VLC_MASTER_HEAD.Village_Code,Village_Name,TSPL_MILK_SRN_HEAD.MCC_Code+' Name- '+MCC_NAME  as MCC_Code ,TSPL_MCC_MASTER .MCC_NAME,  TSPL_MILK_SRN_DETAIL.FAT_PER,(TSPL_MILK_SRN_DETAIL.FAT_PER*TSPL_MILK_SRN_DETAIL.Qty/100) as FATQTY ,TSPL_MILK_SRN_DETAIL.SNF_PER,(TSPL_MILK_SRN_DETAIL.SNF_PER*TSPL_MILK_SRN_DETAIL.Qty /100) as SNFQTY ,TSPL_MILK_SRN_DETAIL.QTY  as Qty,TSPL_MILK_SHIFT_UPLOADER_DETAIL.NO_OF_CANS ,TSPL_MILK_SRN_HEAD.VLC_CODE as VLC_CODE_FOR_PRINT   from TSPL_MILK_SRN_DETAIL" & Environment.NewLine &
+        " left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE =TSPL_MILK_SRN_DETAIL.DOC_CODE " & Environment.NewLine &
+        " Left Outer Join TSPL_MILK_SHIFT_UPLOADER_DETAIL ON TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No=TSPL_MILK_SRN_HEAD.Against_Shift_Uploader_TR_No " & Environment.NewLine &
+        " left outer join TSPL_MCC_MASTER  on TSPL_MCC_MASTER .MCC_Code =TSPL_MILK_SRN_HEAD .MCC_CODE  " & Environment.NewLine &
+        " inner join TSPL_VENDOR_MASTER  on TSPL_VENDOR_MASTER.Form_Type='VSP' and TSPL_MILK_SRN_HEAD .VSP_CODE =TSPL_VENDOR_MASTER .Vendor_Code" & Environment.NewLine &
+        " left join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_HEAD.VLC_CODE" & Environment.NewLine &
+        " left join TSPL_mcc_ROUTE_MASTER  on TSPL_mcc_ROUTE_MASTER.Route_code=TSPL_MILK_SRN_HEAD.route_code left join TSPL_VILLAGE_MASTER vlm on vlm.Village_Code=TSPL_VLC_MASTER_HEAD.Village_Code " & Environment.NewLine &
+        " where 2 = 2 and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>=convert(date,'" + txtFromDate.Value + "',103) and convert(date,TSPL_MILK_SRN_HEAD.DOC_DATE,103) <=convert(date,'" + txtToDate.Value + "' ,103)" & Environment.NewLine
 
         Dim arr As List(Of String) = Nothing
         If cbtMCCRouteVLCC.CheckedValue.Count > 0 Then
@@ -147,7 +148,7 @@ Public Class RptVillageSlip
         If cbtMCCRouteVLCC.CheckedValue.Count > 1 Then
             arr = cbtMCCRouteVLCC.CheckedValue(2)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                sQuery += " and TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
+                sQuery += " and TSPL_MILK_SRN_HEAD.ROUTE_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
             Else
                 Throw New Exception("Please select at least one Route")
             End If
@@ -155,7 +156,7 @@ Public Class RptVillageSlip
         If cbtMCCRouteVLCC.CheckedValue.Count > 2 Then
             arr = cbtMCCRouteVLCC.CheckedValue(3)
             If arr IsNot Nothing AndAlso arr.Count > 0 Then
-                sQuery += " and TSPL_MILK_RECEIPT_DETAIL.VLC_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
+                sQuery += " and TSPL_MILK_SRN_HEAD.VLC_CODE in (" + clsCommon.GetMulcallString(arr) + ")  "
             Else
                 Throw New Exception("Please select at least one Route")
             End If
@@ -165,10 +166,10 @@ Public Class RptVillageSlip
             sQuery += " and TSPL_VENDOR_MASTER.Vendor_Code  in (" + clsCommon.GetMulcallString(cbgVSP.CheckedValue) + ")"
         End If
         If clsCommon.CompairString(txtFromShift.Text, "E") = CompairStringResult.Equal Then
-            sQuery += " and 2=( case when TSPL_MILK_RECEIPT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.SHIFT='M' then 3 else 2 end  )"
+            sQuery += " and 2=( case when TSPL_MILK_SRN_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtFromDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.SHIFT='M' then 3 else 2 end  )"
         End If
         If clsCommon.CompairString(txtToShift.Text, "M") = CompairStringResult.Equal Then
-            sQuery += " and 2=( case when TSPL_MILK_RECEIPT_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_RECEIPT_HEAD.SHIFT='E' then 3 else 2 end  )"
+            sQuery += " and 2=( case when TSPL_MILK_SRN_HEAD.DOC_DATE >= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate.Value), "dd/MMM/yyyy hh:mm tt") + "' and TSPL_MILK_SRN_HEAD.SHIFT='E' then 3 else 2 end  )"
         End If
 
         sQuery += "  ) xx  " & Environment.NewLine & _
@@ -375,11 +376,15 @@ Public Class RptVillageSlip
     End Sub
 
     Private Sub btnGo_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnGo.Click
-        btnReferesh = True
-        PageSetupReport_ID = MyBase.Form_ID
-        TemplateGridview = gv
-        Load_Report()
-        tmpValLoad = False
+        Try
+            btnReferesh = True
+            PageSetupReport_ID = MyBase.Form_ID
+            TemplateGridview = gv
+            Load_Report()
+            tmpValLoad = False
+        Catch ex As Exception
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
+        End Try
     End Sub
 
     Private Sub BtnReset_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles BtnReset.Click

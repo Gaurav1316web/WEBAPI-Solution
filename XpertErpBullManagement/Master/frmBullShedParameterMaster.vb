@@ -24,7 +24,7 @@ Public Class frmBullShedParameterMaster
                 Dim obj As New clsBullShedParameter()
                 obj.Code = fndCode.Value
                 obj.Name = txtname.Text.Replace("'", "`")
-                obj.Type = txtType.Text
+                obj.Type = clsCommon.myCstr(txtType.Text)
 
                 If (obj.SaveData(obj, isNewEntry)) Then
                     clsCommon.MyMessageBoxShow(Me, "Data save successfully.", Me.Text)
@@ -84,21 +84,20 @@ Public Class frmBullShedParameterMaster
     Sub AddNew()
         fndCode.Value = ""
         txtname.Text = ""
-        txtType.Text = Nothing
-        ' txtPeriodcity.Text = ""
+        txtType.Text = ""
 
         fndCode.MyReadOnly = False
         btnsave.Text = "Save"
         btnsave.Enabled = True
         btndelete.Enabled = False
-
         isNewEntry = True
-
         txtname.Focus()
         txtname.Select()
     End Sub
 
     Private Sub fndCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCode._MYValidating
+
+
         Dim Sqlqry As String = "select Code,Name,Type from TSPL_BULL_SHED_PARAMETER where code='" + fndCode.Value + "'"
         Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
         If count = 0 Then
@@ -221,17 +220,7 @@ Public Class frmBullShedParameterMaster
     End Sub
 
     Private Sub btnnew_Click(sender As Object, e As EventArgs) Handles btnnew.Click
-        fndCode.Value = ""
-        txtname.Text = ""
-        'txtPeriodcity = Nothing
-        txtType = Nothing
-        fndCode.MyReadOnly = False
-        btnsave.Text = "Save"
-        btnsave.Enabled = True
-        btndelete.Enabled = False
-        isNewEntry = True
-        txtname.Focus()
-        txtname.Select()
+        AddNew()
     End Sub
 
     Private Sub fndCode__MYNavigator(sender As Object, e As EventArgs, NavType As NavigatorType) Handles fndCode._MYNavigator

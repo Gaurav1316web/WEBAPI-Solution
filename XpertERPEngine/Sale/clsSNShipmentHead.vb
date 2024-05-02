@@ -530,6 +530,39 @@ Public Class clsSNShipmentHead
             Throw New Exception(ex.Message)
         End Try
     End Function
+    Public Shared Function CancelData(ByVal Form_Id As String, ByVal Doc_No As String, ByVal InvoiceNo As String, ByVal NavType As NavigatorType) As Boolean
+        '' created by Sanjay
+        Dim qry As String = ""
+        Dim trans As SqlTransaction = clsDBFuncationality.GetTransactin()
+        Try
+
+            Dim obj As clsSNShipmentHead = clsSNShipmentHead.GetData(Doc_No, NavType, trans)
+
+            If obj Is Nothing OrElse clsCommon.myLen(obj.Document_Code) <= 0 Then
+                Throw New Exception("Document- " & Doc_No & " not found")
+            End If
+
+            ''richa agarwal 24 Dec,2020
+            ''----------
+
+
+
+            qry = "delete from TSPL_SD_SHIPMENT_DETAIL where document_code ='" & Doc_No & "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            qry = "delete from TSPL_SD_SHIPMENT_HEAD where document_code ='" & Doc_No & "' "
+            clsDBFuncationality.ExecuteNonQuery(qry, trans)
+
+            trans.Commit()
+            obj = Nothing
+            qry = Nothing
+
+        Catch ex As Exception
+            trans.Rollback()
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
     Public Shared Function checkSaveNotification(ByVal obj As clsSNShipmentHead, ByVal trans As SqlTransaction) As Boolean
         Try
             Dim Count As Integer = 0

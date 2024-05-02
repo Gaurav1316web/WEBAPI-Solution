@@ -65,7 +65,7 @@ Public Class FrmExciseSummaryReport
             End If
             funSetUserAccess = True
         Catch er As Exception
-            clsCommon.MyMessageBoxShow(er.Message)
+            clsCommon.MyMessageBoxShow(Me, er.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -87,7 +87,7 @@ Public Class FrmExciseSummaryReport
 
         If chkLocSelect.IsChecked Then
             If cbgLocation.CheckedValue.Count <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Please Select Atleast One Location Code.")
+                common.clsCommon.MyMessageBoxShow(Me, "Please Select Atleast One Location Code.", Me.Text)
                 Return
             End If
         End If

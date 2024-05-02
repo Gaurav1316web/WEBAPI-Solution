@@ -349,7 +349,7 @@ Public Class frmConsumerMaster
             obj.Details_Date = clsCommon.myCDate(clsCommon.GETSERVERDATE())
 
             If (clsConsumerMaster.SaveData(obj, isNewEntry)) Then
-                common.clsCommon.MyMessageBoxShow("Data Saved Successfully.")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Saved Successfully.", Me.Text)
                 LoadDataConsumerDetails(obj.Consumer_Code, NavigatorType.Current)
             End If
         Catch ex As Exception
@@ -360,12 +360,12 @@ Public Class frmConsumerMaster
     Sub DeleteConsumerDetails()
         Try
             If clsCommon.myLen(fndConsumerCode.Value) <= 0 Then
-                common.clsCommon.MyMessageBoxShow("Consumer code is not found to delete.")
+                common.clsCommon.MyMessageBoxShow(Me, "Consumer code is not found to delete.", Me.Text)
                 Exit Sub
             End If
             If (myMessages.deleteConfirm()) Then
                 If (clsConsumerMaster.DeleteData(fndConsumerCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     FunReset()
                 End If
             End If
@@ -595,7 +595,7 @@ Public Class frmConsumerMaster
                     End If
                 Next
                 clsCommon.ProgressBarHide()
-                common.clsCommon.MyMessageBoxShow("Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
+                common.clsCommon.MyMessageBoxShow(Me, "Data Transfer Completed!", Me.Text, MessageBoxButtons.OK)
             Catch ex As Exception
                 clsCommon.ProgressBarHide()
                 myMessages.myExceptions(ex)

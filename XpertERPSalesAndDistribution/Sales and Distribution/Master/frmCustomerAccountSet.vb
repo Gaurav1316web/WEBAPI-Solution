@@ -187,7 +187,7 @@ Public Class frmCustomerAccountSet
             clsCommonFunctionality.UpdateDataTable(coll, "TSPL_CUSTOMER_ACCOUNT_SET", OMInsertOrUpdate.Update, "TSPL_CUSTOMER_ACCOUNT_SET.Cust_account='" + fndaccountsetcode.Value + "'", Nothing)
             '' end multicurrency
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text())
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text())
         End Try
     End Sub
     'This function is used to update Data.
@@ -364,7 +364,7 @@ Public Class frmCustomerAccountSet
 
     Private Sub rdbtndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbtndelete.Click
         If clsCommon.myLen(fndaccountsetcode.Value) <= 0 Then
-            common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+            common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             Exit Sub
         End If
         If myMessages.deleteConfirm() Then
@@ -375,7 +375,7 @@ Public Class frmCustomerAccountSet
                 rdbtndelete.Enabled = False
                 funreset()
             Else
-                common.clsCommon.MyMessageBoxShow("You Cannot Delete Record")
+                common.clsCommon.MyMessageBoxShow(Me, "You Cannot Delete Record", Me.Text)
             End If
             'fundelete()
             'myMessages.delete()
@@ -1112,7 +1112,7 @@ Public Class frmCustomerAccountSet
                 Try
                     trans.Commit()
                     clsCommon.ProgressBarHide()
-                    common.clsCommon.MyMessageBoxShow("Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Transferred Completed", Me.Text, MessageBoxButtons.OK)
 
                 Catch ex As Exception
 
@@ -1320,7 +1320,7 @@ Public Class frmCustomerAccountSet
                 Else : query = ""
 
                     rdtxtrecievablecontrol.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Recievable Control Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Recievable Control Account does not exist", Me.Text)
                     fndrecisvablecontrol.Value = ""
 
 
@@ -1352,7 +1352,7 @@ Public Class frmCustomerAccountSet
                 Else : query = ""
 
                     rdtxtrecieptdicount.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Reciept Discount Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Reciept Discount Account does not exist", Me.Text)
                     fndrecieptdiscount.Value = ""
 
 
@@ -1384,7 +1384,7 @@ Public Class frmCustomerAccountSet
                 Else : query = ""
 
                     rdtxtadvance.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Advance Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Advance Account does not exist", Me.Text)
                     fndadvance.Value = ""
 
 
@@ -1416,7 +1416,7 @@ Public Class frmCustomerAccountSet
                 Else : query = ""
 
                     rdtxtwriteoff.Text = ""
-                    common.clsCommon.MyMessageBoxShow("This Write Offs Account does not exist")
+                    common.clsCommon.MyMessageBoxShow(Me, "This Write Offs Account does not exist", Me.Text)
                     fndwriteoffs.Value = ""
 
 
@@ -1756,7 +1756,7 @@ Public Class frmCustomerAccountSet
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndaccountsetcode.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow("Select Account Set", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Select Account Set", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndaccountsetcode.Value, "Cust_Account", "TSPL_CUSTOMER_ACCOUNT_SET")

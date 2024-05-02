@@ -1178,7 +1178,7 @@ Public Class frmMRPForProduction
         '        End If
 
         '    Catch ex As Exception
-        '        clsCommon.MyMessageBoxShow(ex.Message)
+        '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         '    Finally
         '        objPP = Nothing
         '        MergeSimilarItemRows()
@@ -1373,7 +1373,7 @@ Public Class frmMRPForProduction
         '    End If
         'Catch ex As Exception
         '    isCellValueChangedOpen = False
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 

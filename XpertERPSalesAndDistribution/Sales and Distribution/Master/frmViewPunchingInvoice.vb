@@ -117,7 +117,7 @@ Public Class FrmViewPunchingInvoice
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Sub LoadData(ByVal TransferNo As String, ByVal navType As common.NavigatorType)
@@ -137,7 +137,7 @@ Public Class FrmViewPunchingInvoice
                 lblBalance.Text = obj.Balance
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             isInsideLoadData = False
         End Try
@@ -168,7 +168,7 @@ Public Class FrmViewPunchingInvoice
         Try
             LoadData(fndTransferNo.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -1410,7 +1410,7 @@ Public Class FrmDailySaleReport
     '    '        Throw New Exception(ex.Message)
     '    '    End Try
     '    'Catch ex As Exception
-    '    '    clsCommon.MyMessageBoxShow(ex.Message)
+    '    '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    'End Try
 
     'End Sub
@@ -2048,7 +2048,7 @@ Public Class FrmDailySaleReport
             End If
            
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtState__My_Click(sender As Object, e As EventArgs) Handles txtState._My_Click
@@ -2108,7 +2108,7 @@ Public Class FrmDailySaleReport
     '        clsCommon.MyMessageBoxShow("Data exported successfully")
     '    Catch ex As Exception
     '        clsCommon.ProgressBarPercentHide()
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    Finally
     '        clsCommon.ProgressBarPercentHide()
     '    End Try
@@ -2142,7 +2142,7 @@ Public Class FrmDailySaleReport
                 cboFiscalYear.DisplayMember = "FiscalYear"
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

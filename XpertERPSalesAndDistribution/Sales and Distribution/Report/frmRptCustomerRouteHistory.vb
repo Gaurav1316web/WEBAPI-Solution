@@ -114,7 +114,7 @@ Public Class FrmRptCustomerRouteHistory
             'dtpToDate.MinDate = dtpFromDate.Value
             FrmProvionalSalesReport.proShowReport("Customer Route History", fndCustomerCode.Value, dtpFromDate.Value, dtpToDate.Value)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnClose_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnClose.Click

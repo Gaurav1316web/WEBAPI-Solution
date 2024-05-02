@@ -151,7 +151,7 @@ Public Class FrmUserPerformanceDetail
 
 
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
             Throw New Exception(ex.Message)
         End Try
     End Sub
@@ -186,7 +186,7 @@ Public Class FrmUserPerformanceDetail
             clsCommon.MyExportToExcel("User Performance Detail ", gvReport, arrHeader, Me.Text)
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try

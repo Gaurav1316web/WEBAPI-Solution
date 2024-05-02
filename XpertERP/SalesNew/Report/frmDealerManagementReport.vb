@@ -122,7 +122,7 @@ Public Class FrmDealerManagementReport
             
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
    
@@ -244,7 +244,7 @@ Public Class FrmDealerManagementReport
                 clsCommon.MyMessageBoxShow("No Data Found.")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -329,7 +329,7 @@ Public Class FrmDealerManagementReport
                 clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -499,7 +499,7 @@ Public Class FrmDealerManagementReport
                 clsCommon.MyMessageBoxShow("No Data Found", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -652,7 +652,7 @@ Public Class FrmDealerManagementReport
 
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

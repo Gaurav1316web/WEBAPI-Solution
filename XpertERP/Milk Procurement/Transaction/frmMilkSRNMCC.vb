@@ -477,7 +477,7 @@ Public Class frmMilkSRNMCC
             'UcCustomFields1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -1266,7 +1266,7 @@ Public Class frmMilkSRNMCC
             'btnPrint.Text = "Update"
             fndMccCode.Text = obj.MCC_CODE
             lblMccName.Text = clsDBFuncationality.getSingleValue("select mcc_name from tspl_mcc_master where mcc_Code='" & obj.MCC_CODE & "'")
-            fndMccCode.Tag = obj.MILK_SAMPLE_CODE
+            'fndMccCode.Tag = obj.MILK_SAMPLE_CODE
             dtpDocDate.Value = obj.DOC_DATE
             cboShift.SelectedValue = obj.SHIFT
             fndVlcCode.Text = obj.VLC_CODE

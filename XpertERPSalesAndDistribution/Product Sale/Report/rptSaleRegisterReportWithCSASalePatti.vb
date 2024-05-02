@@ -822,7 +822,7 @@ Public Class RptSaleRegisterReportWithCSASalePatti
         '        Throw New Exception(ex.Message)
         '    End Try
         'Catch ex As Exception
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
 
     End Sub
@@ -1426,7 +1426,7 @@ Public Class RptSaleRegisterReportWithCSASalePatti
             'Process.Start(filePath)
             transportSql.QuickExportToExcel(Gv1, "", Me.Text, , arrHeader)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtState__My_Click(sender As Object, e As EventArgs) Handles txtState._My_Click
@@ -1486,7 +1486,7 @@ Public Class RptSaleRegisterReportWithCSASalePatti
             clsCommon.MyMessageBoxShow("Data exported successfully")
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try

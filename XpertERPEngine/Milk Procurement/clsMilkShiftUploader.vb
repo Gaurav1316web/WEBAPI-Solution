@@ -458,7 +458,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
         Return True
     End Function
 
-    Public Shared Function MilkProcurementUploader(ByVal obj As clsMilkShiftUploaderHead, ByVal trans As SqlTransaction) As Boolean
+    Public Shared Function MilkProcurementUploaderOLD(ByVal obj As clsMilkShiftUploaderHead, ByVal trans As SqlTransaction) As Boolean
         Dim DtVSPChargeDetail As DataTable = clsDBFuncationality.GetDataTable("SELECT * FROM  TSPL_MCC_VSP_ChargeCategory_MAPPING ", trans)
         Dim DtPriceChargeDetail As DataTable = clsDBFuncationality.GetDataTable("SELECT * FROM  TSPL_FAT_SNF_UPLOADER_Chart_Detail ", trans)
         Dim dblEmptyCanWeight As Double = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EmptyCanWeight, clsFixedParameterCode.EmptyCanWeight, trans))
@@ -905,7 +905,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
 
                             ''Milk SRN Save
                             Dim objMilkSRNHead As clsMilkSRNMCC = New clsMilkSRNMCC
-                            objMilkSRNHead.MILK_SAMPLE_CODE = MilkSampleNo
+                            'objMilkSRNHead.MILK_SAMPLE_CODE = MilkSampleNo
                             objMilkSRNHead.DOC_DATE = dtShiftDate
                             objMilkSRNHead.SHIFT = strShift
                             objMilkSRNHead.COMM_PORT = ""
@@ -1122,7 +1122,7 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
                                 objPriceChargeList.Add(objPrice_Charge1)
                             Next
                             '===========================================
-                            clsMilkSRNMCC.SaveData(objMilkSRNHead, arrMilkSRNDetail, objVSPChargeList, objPriceChargeList, trans)
+                            clsMilkSRNMCC.SaveData(objMilkSRNHead, arrMilkSRNDetail, trans)
                             ''Milk SRN Save End
                             objtr = Nothing
                         Next
@@ -1148,6 +1148,292 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
         arrShiftEndCode = Nothing
         Return True
     End Function
+
+    Public Shared Function MilkProcurementUploader(ByVal obj As clsMilkShiftUploaderHead, ByVal trans As SqlTransaction) As Boolean
+        Dim dblEmptyCanWeight As Double = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.EmptyCanWeight, clsFixedParameterCode.EmptyCanWeight, trans))
+        Dim dblMinuteInLastVehicleForGateEntry As Double = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MinuteInLastVehicleForGateEntry, clsFixedParameterCode.MinuteInLastVehicleForGateEntry, trans))
+        Dim dblMinuteGateEntryToGrossWeight As Double = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MinuteGateEntryToGrossWeight, clsFixedParameterCode.MinuteGateEntryToGrossWeight, trans))
+        Dim dblMinuteGrossWeightToTareWeight As Double = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MinuteGrossWeightToTareWeight, clsFixedParameterCode.MinuteGrossWeightToTareWeight, trans))
+        Dim CreateNewDocumentOnUploader As Boolean = True
+        Dim WeighmentNotMandatoryInMCC As Boolean = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.WeighmentNotMandatoryInMCC, clsFixedParameterCode.WeighmentNotMandatoryInMCC, trans)) = 1
+        Dim IsRoundOffPaiseAmount As Boolean = clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.RoundOffPaiseAmount, clsFixedParameterCode.RoundOffPaiseAmount, trans)) = 1
+        Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, trans)) > 0)
+        Dim settMilkCollectionPickBulkRoute As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkCollectionPickBulkRoute, clsFixedParameterCode.MilkCollectionPickBulkRoute, trans)) = 1)
+        Dim PickPriceFromFATAndSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.PickPriceFromFATAndSNF, trans)) > 0)
+        Try
+            Dim qry As String
+            Dim dt As DataTable
+            Dim corrFactor As Double = clsFixedParameter.GetData(clsFixedParameterType.defaultCorrectionFactor, clsFixedParameterCode.MilkSetting, trans)
+            Dim strICode = clsFixedParameter.GetData(clsFixedParameterType.MCCDefaultMilkItem, clsFixedParameterCode.MilkSetting, trans)
+            Dim strShift As String = obj.Shift
+            Dim strShiftDate As String = clsCommon.GetPrintDate(obj.Shift_Date, "dd/MMM/yyyy")
+            Dim dtShiftDate As DateTime = obj.Shift_Date
+
+            If obj.Arr IsNot Nothing AndAlso obj.Arr.Count > 0 Then
+                For Each objtr As clsMilkShiftUploaderDetail In obj.Arr
+                    Dim strDockCollectionMilkType As String = objtr.Dock_Collection_Milk_Type
+                    If objCommonVar.DisplayTypeInMilkReceipt Then
+                        strDockCollectionMilkType = "M"
+                    End If
+                    If clsCommon.myLen(objtr.Reject_Type) > 0 Then
+                        Continue For
+                    End If
+                    qry = " select TSPL_Primary_Vehicle_Master.Vehicle_Weight,TSPL_VLC_MASTER_HEAD.Route_Code,TSPL_VLC_MASTER_HEAD.VSP_Code,TSPL_MCC_ROUTE_MASTER.Vehicle_Code,TSPL_VENDOR_MASTER.EMP_Type,TSPL_VENDOR_MASTER.EMP_Fixed_Amount ,TSPL_VENDOR_MASTER.Actual_charges_Slab,TSPL_VENDOR_MASTER.Actual_charges,TSPL_VENDOR_MASTER.Actual_charges_Slab2,TSPL_VENDOR_MASTER.Actual_charges2,TSPL_VENDOR_MASTER.Actual_charges_Slab3,TSPL_VENDOR_MASTER.Actual_charges3,TSPL_VENDOR_MASTER.Actual_charges_Slab4,TSPL_VENDOR_MASTER.Actual_charges4 ,TSPL_VENDOR_MASTER.Actual_charges_Slab5,TSPL_VENDOR_MASTER.Actual_charges5,TSPL_VENDOR_MASTER.Service_Charge_Per_Unit,coalesce(TSPL_VENDOR_MASTER.Rate_Head_Load,0) as Rate_Head_Load,coalesce(TSPL_VENDOR_MASTER.Rate_Own_Asset,0) as Rate_Own_Asset,TSPL_VENDOR_MASTER.Service_Basis_Head_Load,TSPL_VENDOR_MASTER.Service_Basis_Own_Asset,TSPL_Primary_Vehicle_Master.Vendor_Code as TransporterCode,TSPL_VENDOR_MASTER.Service_Charge_Type,TSPL_VENDOR_MASTER.TIP_Buffalo,TSPL_VENDOR_MASTER.TIP_Cow,TSPL_VENDOR_MASTER.TIP_Mix,TSPL_VLC_MASTER_HEAD.Milk_Receive_UOM,TSPL_VENDOR_MASTER.DistanceKM_Head_Load " + Environment.NewLine +
+                            " from TSPL_VLC_MASTER_HEAD " + Environment.NewLine +
+                            " left outer join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_VLC_MASTER_HEAD.Route_Code " + Environment.NewLine +
+                            " left join TSPL_VENDOR_MASTER on   TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_CODE " + Environment.NewLine +
+                            " left outer join TSPL_Primary_Vehicle_Master on TSPL_Primary_Vehicle_Master.Vehicle_Code=TSPL_MCC_ROUTE_MASTER.Vehicle_Code " + Environment.NewLine +
+                            " where TSPL_VLC_MASTER_HEAD.VLC_Code='" + objtr.VLC_Code + "'"
+                    Dim dtVLC As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+                    If dtVLC Is Nothing OrElse dtVLC.Rows.Count <= 0 Then
+                        Throw New Exception("VLC Code not found :" + objtr.VLC_Code)
+                    End If
+                    If objtr.Against_Milk_Collection_DCS_Detail > 0 OrElse settMilkCollectionPickBulkRoute Then
+                        Dim dttemp As DataTable = clsMilkCollectionDCS.GetRouteDetails(objtr.Against_Milk_Collection_DCS_Detail, trans, settMilkCollectionPickBulkRoute)
+                        If dttemp IsNot Nothing AndAlso dttemp.Rows.Count > 0 Then
+                            If clsCommon.myLen(dtVLC.Rows(0)("Route_Code")) <= 0 Then
+                                dtVLC.Rows(0)("Route_Code") = dttemp.Rows(0)("Route_Code")
+                            End If
+                            If clsCommon.myLen(dtVLC.Rows(0)("TransporterCode")) <= 0 Then
+                                dtVLC.Rows(0)("TransporterCode") = dttemp.Rows(0)("Tanker_Transporter_Code")
+                            End If
+                            If clsCommon.myLen(dtVLC.Rows(0)("Vehicle_Code")) <= 0 Then
+                                dtVLC.Rows(0)("Vehicle_Code") = dttemp.Rows(0)("Vehicle_No")
+                            End If
+                            dtVLC.AcceptChanges()
+                        End If
+                    End If
+
+                    If clsCommon.myLen(dtVLC.Rows(0)("Route_Code")) <= 0 Then
+                        Throw New Exception("Route not defined for VLC Code [" + objtr.VLC_Code + "]")
+                    End If
+                    If clsCommon.myLen(dtVLC.Rows(0)("TransporterCode")) <= 0 Then
+                        Throw New Exception("Transporter not defined for VLC Code [" + objtr.VLC_Code + "]")
+                    End If
+
+                    ''Check no purhcase invoice found for that day if found means bills are generated
+                    qry = "select distinct TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE 
+from  TSPL_MILK_PURCHASE_INVOICE_DETAIL 
+left outer join TSPL_MILK_PURCHASE_INVOICE_HEAD on TSPL_MILK_PURCHASE_INVOICE_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE 
+left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE 
+where TSPL_MILK_SRN_HEAD.MCC_CODE='" + obj.MCC_Code + "' and TSPL_MILK_SRN_HEAD.SHIFT='" + strShift + "' and convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,103)=convert(date, '" + strShiftDate + "',103) 
+and TSPL_MILK_PURCHASE_INVOICE_HEAD.VSP_CODE='" + clsCommon.myCstr(dtVLC.Rows(0)("VSP_Code")) + "'"
+                    dt = clsDBFuncationality.GetDataTable(qry, trans)
+                    If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                        Throw New Exception("Milk Purchase invoice :" + clsCommon.myCstr(dt.Rows(0)("DOC_CODE")) + " created for VSP:" + clsCommon.myCstr(dtVLC.Rows(0)("VSP_Code")) + " .For Payment Cycle Date :" + strShiftDate + " Shift :" + strShift)
+                    End If
+
+                    qry = "select UOM_Code from TSPL_Mcc_UOM_DETAIL where stocking_unit='Y' and MCC_CODE='" & obj.MCC_Code & "' "
+                    Dim Unit_Code As String = clsDBFuncationality.getSingleValue(qry, trans)
+                    If Unit_Code = "" Then
+                        Throw New Exception("Fill UOM of Mcc" + obj.MCC_Code)
+                    End If
+                    qry = "select UOM_Code from TSPL_Item_UOM_DETAIL where Item_CODE='" & strICode & "' and UOM_code='" & Unit_Code & "' "
+                    Dim Item_Unit_Code As String = clsDBFuncationality.getSingleValue(qry, trans)
+                    If Item_Unit_Code = "" Then
+                        Throw New Exception("Fill " & Unit_Code & " UOM of Item " + strICode)
+                    End If
+                    Dim conv_fac As Double = clsWeightConversionInfo.GetConversion_factor(Unit_Code, IIf(clsCommon.CompairString(Unit_Code, "KG") = CompairStringResult.Equal, "LTR", "KG"), trans)
+
+                    ''Milk SRN Save
+                    Dim objMilkSRNHead As clsMilkSRNMCC = New clsMilkSRNMCC
+                    'objMilkSRNHead.MILK_SAMPLE_CODE = MilkSampleNo
+                    objMilkSRNHead.DOC_DATE = dtShiftDate
+                    objMilkSRNHead.SHIFT = strShift
+                    objMilkSRNHead.COMM_PORT = ""
+                    objMilkSRNHead.MCC_CODE = obj.MCC_Code
+                    objMilkSRNHead.SAMPLE_NO = 1
+                    objMilkSRNHead.VLC_DOC_CODE = objtr.VLC_Code
+                    objMilkSRNHead.VEHICLE_CODE = clsCommon.myCstr(dtVLC.Rows(0)("Vehicle_Code"))
+                    objMilkSRNHead.VLC_CODE = objtr.VLC_Code
+                    objMilkSRNHead.ROUTE_CODE = clsCommon.myCstr(dtVLC.Rows(0)("Route_Code"))
+                    objMilkSRNHead.VSP_CODE = clsCommon.myCstr(dtVLC.Rows(0)("VSP_Code"))
+                    objMilkSRNHead.TransPorter = clsCommon.myCstr(dtVLC.Rows(0)("TransporterCode"))
+                    objMilkSRNHead.Dock_Collection_Milk_Type = strDockCollectionMilkType
+                    objMilkSRNHead.Against_Shift_Uploader_TR_No = objtr.TR_No
+
+                    Dim objMilkSRNDetail As clsMilkSRNMCCDetail = New clsMilkSRNMCCDetail()
+                    objMilkSRNDetail.Item_CODE = strICode
+                    Dim Unit_CodeApply As String = Unit_Code
+                    Dim conv_facApply As String = conv_fac
+                    If clsCommon.myLen(clsCommon.myCstr(dtVLC.Rows(0)("Milk_Receive_UOM"))) > 0 Then
+                        Unit_CodeApply = clsCommon.myCstr(dtVLC.Rows(0)("Milk_Receive_UOM"))
+                        conv_facApply = clsWeightConversionInfo.GetConversion_factor(Unit_CodeApply, IIf(clsCommon.CompairString(Unit_CodeApply, "KG") = CompairStringResult.Equal, "LTR", "KG"), trans)
+                    End If
+                    objMilkSRNDetail.MILK_Qty = objtr.Milk_Weight
+                    objMilkSRNDetail.UOM = Unit_CodeApply
+                    If clsCommon.CompairString(Unit_CodeApply, "KG") = CompairStringResult.Equal Then
+                        objMilkSRNDetail.ACC_Qty = clsCommon.myCdbl(objtr.Milk_Weight)
+                        objMilkSRNDetail.ACC_Qty_LTR = clsCommon.myCdbl(objtr.Milk_Weight * conv_facApply)
+                    Else
+                        objMilkSRNDetail.ACC_Qty_LTR = clsCommon.myCdbl(objtr.Milk_Weight)
+                        objMilkSRNDetail.ACC_Qty = clsCommon.myCdbl(objtr.Milk_Weight * conv_facApply)
+                    End If
+                    objMilkSRNDetail.FAT = objtr.FAT
+                    If isPickCLRInsteadOfSNF Then
+                        objMilkSRNDetail.CLR = Math.Truncate(objtr.SNF * 10) / 10
+                        objMilkSRNDetail.SNF = clsEkoPro.getSnfOnCalculation(objtr.FAT, objMilkSRNDetail.CLR, corrFactor)
+                        If PickPriceFromFATAndSNF Then
+                            objMilkSRNDetail.SNF = clsCommon.myRoundOFF(objtr.SNF, 1, 4)
+                            objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objMilkSRNDetail.VlC_Code, objMilkSRNHead.SHIFT, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.QAT_Rate, objMilkSRNDetail.Negative_Rate)
+                        Else
+                            objMilkSRNDetail.SNF = clsCommon.myRoundOFF(objMilkSRNDetail.SNF, 2, 9)
+                            objMilkSRNDetail.RATE = clsEkoPro.getRateFromUploaderShiftWiseCLR(objMilkSRNDetail.FAT, objMilkSRNDetail.CLR, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.Price_Code)
+                        End If
+                    Else
+                        objMilkSRNDetail.SNF = objtr.SNF
+                        objMilkSRNDetail.CLR = clsEkoPro.getClrOnCalculation(objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, corrFactor)
+                        objMilkSRNDetail.RATE = clsEkoPro.getRateAndPriceCodeFromUploaderShiftWise(objMilkSRNDetail.MILK_Qty, objMilkSRNDetail.Price_Code, objMilkSRNDetail.FAT, objMilkSRNDetail.SNF, obj.MCC_Code, objtr.VLC_Code, obj.Shift, dtShiftDate, trans, strDockCollectionMilkType, objMilkSRNDetail.QAT_Rate, objMilkSRNDetail.Negative_Rate)
+                    End If
+                    objMilkSRNDetail.MCC_CODE = obj.MCC_Code
+                    objMilkSRNDetail.Correction_Factor = corrFactor
+
+                    objMilkSRNDetail.AMOUNT = Math.Round(clsCommon.myCdbl(objMilkSRNDetail.RATE * objMilkSRNDetail.MILK_Qty), 2, MidpointRounding.AwayFromZero)
+                    objMilkSRNDetail.Own_Asset_Rate = clsCommon.myCdbl(dtVLC.Rows(0)("Rate_Own_Asset"))
+                    objMilkSRNDetail.QAT_Amt = clsCommon.myRoundOFF(objMilkSRNDetail.QAT_Rate * objMilkSRNDetail.MILK_Qty, 2, 4)
+
+                    objMilkSRNDetail.Negative_Amount = clsCommon.myRoundOFF(objMilkSRNDetail.Negative_Rate * objMilkSRNDetail.MILK_Qty, 2, 4)
+
+
+                    objMilkSRNDetail.Commission = 0 ' because nature is always E and it is never C 'clsCommon.myCdbl(dr(0)("Actual_charges"))
+                    objMilkSRNDetail.Commission_Amount = Math.Round(objMilkSRNDetail.AMOUNT * objMilkSRNDetail.Commission / 100, 2)
+                    objMilkSRNDetail.Std_Qty = clsInventoryMovementNew.GetStdQty(trans, Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.FAT / 100, 2), Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.SNF / 100, 2), objMilkSRNHead.DOC_DATE)
+
+                    If clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("EMP_Type")), "FP") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("EMP_Type")), "FAFP") = CompairStringResult.Equal Then
+                        objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges"))
+                        If clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Charge_Type")), "%(Percentage)") = CompairStringResult.Equal Then
+                            objMilkSRNDetail.Emp_Amount = Math.Round(objMilkSRNDetail.AMOUNT * objMilkSRNDetail.Payment_Commission / 100, 2)
+                        ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Charge_Type")), "Rate/Kg") = CompairStringResult.Equal Then
+                            objMilkSRNDetail.Emp_Amount = Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.Payment_Commission, 2)
+                        ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Charge_Type")), "Rate/Ltr") = CompairStringResult.Equal Then
+                            objMilkSRNDetail.Emp_Amount = Math.Round(objMilkSRNDetail.MILK_Qty * objMilkSRNDetail.Payment_Commission, 2)
+                        End If
+                        If clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("EMP_Type")), "FAFP") = CompairStringResult.Equal Then
+                            objMilkSRNDetail.Emp_Amount += clsCommon.myCdbl(dtVLC.Rows(0)("EMP_Fixed_Amount"))
+                        End If
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("EMP_Type")), "SWP") = CompairStringResult.Equal OrElse clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("EMP_Type")), "FASWP") = CompairStringResult.Equal Then
+                        If clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Charge_Type")), "%(Percentage)") = CompairStringResult.Equal Then
+                            If clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab5")) > 0 AndAlso objMilkSRNDetail.AMOUNT >= clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab5")) Then
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges5"))
+                            ElseIf clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab4")) > 0 AndAlso objMilkSRNDetail.AMOUNT >= clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab4")) Then
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges4"))
+                            ElseIf clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab3")) > 0 AndAlso objMilkSRNDetail.AMOUNT >= clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab3")) Then
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges3"))
+                            ElseIf clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab2")) > 0 AndAlso objMilkSRNDetail.AMOUNT >= clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab2")) Then
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges2"))
+                            Else
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges"))
+                            End If
+                            objMilkSRNDetail.Emp_Amount = Math.Round(objMilkSRNDetail.AMOUNT * objMilkSRNDetail.Payment_Commission / 100, 2)
+                        ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Charge_Type")), "Rate/Kg") = CompairStringResult.Equal Then
+                            If clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab5")) > 0 AndAlso objMilkSRNDetail.ACC_Qty >= clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab5")) Then
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges5"))
+                            ElseIf clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab4")) > 0 AndAlso objMilkSRNDetail.ACC_Qty >= clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab4")) Then
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges4"))
+                            ElseIf clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab3")) > 0 AndAlso objMilkSRNDetail.ACC_Qty >= clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab3")) Then
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges3"))
+                            ElseIf clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab2")) > 0 AndAlso objMilkSRNDetail.ACC_Qty >= clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab2")) Then
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges2"))
+                            Else
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges"))
+                            End If
+                            objMilkSRNDetail.Emp_Amount = Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.Payment_Commission, 2)
+                        ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Charge_Type")), "Rate/Ltr") = CompairStringResult.Equal Then
+                            If clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab5")) > 0 AndAlso objMilkSRNDetail.MILK_Qty >= clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab5")) Then
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges5"))
+                            ElseIf clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab4")) > 0 AndAlso objMilkSRNDetail.MILK_Qty >= clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab4")) Then
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges4"))
+                            ElseIf clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab3")) > 0 AndAlso objMilkSRNDetail.MILK_Qty >= clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab3")) Then
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges3"))
+                            ElseIf clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab2")) > 0 AndAlso objMilkSRNDetail.MILK_Qty >= clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges_Slab2")) Then
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges2"))
+                            Else
+                                objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC.Rows(0)("Actual_charges"))
+                            End If
+                            objMilkSRNDetail.Emp_Amount = Math.Round(objMilkSRNDetail.MILK_Qty * objMilkSRNDetail.Payment_Commission, 2)
+                        End If
+                        If clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("EMP_Type")), "FASWP") = CompairStringResult.Equal Then
+                            objMilkSRNDetail.Emp_Amount += clsCommon.myCdbl(dtVLC.Rows(0)("EMP_Fixed_Amount"))
+                        End If
+
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVLC(0)("EMP_Type")), "FPSP") = CompairStringResult.Equal Then
+                        objMilkSRNDetail.Payment_Commission = clsCommon.myCdbl(dtVLC(0)("Actual_charges"))
+                        Dim objSPR As clsStandardPrice = clsStandardPrice.GetStandartPrice(objMilkSRNDetail.Price_Code, trans)
+                        If objSPR IsNot Nothing Then
+                            If (objSPR.Std_Percent_FAT <> 0 AndAlso objSPR.Std_Percent_SNF <> 0) Then
+                                If clsCommon.CompairString(clsCommon.myCstr(dtVLC(0)("Service_Charge_Type")), "Rate/Kg") = CompairStringResult.Equal Then
+                                    objMilkSRNDetail.Emp_Amount = Math.Round((Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.FAT / 100, 3) * objMilkSRNDetail.Payment_Commission * objSPR.Weightage_FAT / objSPR.Std_Percent_FAT) + (Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.SNF / 100, 3) * objMilkSRNDetail.Payment_Commission * objSPR.Weightage_SNF / objSPR.Std_Percent_SNF), 2)
+                                ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVLC(0)("Service_Charge_Type")), "Rate/Ltr") = CompairStringResult.Equal Then
+                                    Dim qty As Decimal = objMilkSRNDetail.ACC_Qty
+                                    If conv_facApply <> 0 Then
+                                        qty = objMilkSRNDetail.ACC_Qty / conv_facApply
+                                    End If
+                                    objMilkSRNDetail.Emp_Amount = Math.Round((Math.Round(qty * objMilkSRNDetail.FAT / 100, 3) * objMilkSRNDetail.Payment_Commission * objSPR.Weightage_FAT / objSPR.Std_Percent_FAT) + (Math.Round(qty * objMilkSRNDetail.SNF / 100, 3) * objMilkSRNDetail.Payment_Commission * objSPR.Weightage_SNF / objSPR.Std_Percent_SNF), 2)
+                                Else
+                                    objMilkSRNDetail.Emp_Amount = 0
+                                End If
+                            End If
+                        End If
+                    Else
+                        Throw New Exception("EMP Type is Not a valid")
+                    End If
+
+                    If clsCommon.CompairString(strDockCollectionMilkType, "C") = CompairStringResult.Equal Then
+                        objMilkSRNDetail.TIP_Amount = Math.Round(clsCommon.myCdbl(dtVLC(0)("TIP_Cow")) * (objMilkSRNDetail.FAT + objMilkSRNDetail.SNF) * objMilkSRNDetail.ACC_Qty / 100, 2, MidpointRounding.AwayFromZero)
+                    ElseIf clsCommon.CompairString(strDockCollectionMilkType, "B") = CompairStringResult.Equal Then
+                        objMilkSRNDetail.TIP_Amount = Math.Round(clsCommon.myCdbl(dtVLC(0)("TIP_Buffalo")) * objMilkSRNDetail.FAT * objMilkSRNDetail.ACC_Qty / 100, 2, MidpointRounding.AwayFromZero)
+                    Else
+                        objMilkSRNDetail.TIP_Amount = Math.Round(clsCommon.myCdbl(dtVLC(0)("TIP_Mix")) * objMilkSRNDetail.FAT * objMilkSRNDetail.ACC_Qty / 100, 2, MidpointRounding.AwayFromZero)
+                    End If
+
+                    objMilkSRNDetail.Service_Charge_Type = clsCommon.myCstr(dtVLC.Rows(0)("Service_Charge_Type"))
+                    '==================Head Load==========================
+                    Dim MinimumQtyForHeadLoad As Decimal = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.MinimumQtyForHeadLoad, clsFixedParameterCode.MinimumQtyForHeadLoad, trans))
+                    Dim dclDistanceKM As Decimal = clsCommon.myCdbl(dtVLC.Rows(0)("DistanceKM_Head_Load"))
+                    If dclDistanceKM = 0 Then
+                        dclDistanceKM = 1
+                    End If
+                    Dim objHeadLoad As New clsHeadLoadDCS()
+                    objHeadLoad = clsHeadLoadDCS.GetDcsData(objMilkSRNDetail.VlC_Code, dtShiftDate, trans)
+                    objMilkSRNDetail.Head_Load_Rate = clsCommon.myCdbl(objHeadLoad.Head_Load_Rate)
+
+                    If clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "K") = CompairStringResult.Equal Then
+                        If objMilkSRNDetail.ACC_Qty >= MinimumQtyForHeadLoad Then
+                            objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                        End If
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(objHeadLoad.Head_Load_Basis), "L") = CompairStringResult.Equal Then
+                        If objMilkSRNDetail.ACC_Qty_LTR >= MinimumQtyForHeadLoad Then
+                            objMilkSRNDetail.Head_Load_Amount = Math.Round(objMilkSRNDetail.ACC_Qty_LTR * objHeadLoad.Head_Load_Rate * dclDistanceKM, 2)
+                        End If
+                    End If
+                    objMilkSRNDetail.Head_Load_Type = clsCommon.myCstr(objHeadLoad.Head_Load_Basis)
+                    '============================================
+                    '==================Own Asset==========================
+                    If clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Basis_Own_Asset")), "K") = CompairStringResult.Equal Then
+                        objMilkSRNDetail.Own_Asset_Amount = Math.Round(objMilkSRNDetail.ACC_Qty * objMilkSRNDetail.Own_Asset_Rate, 2)
+                    ElseIf clsCommon.CompairString(clsCommon.myCstr(dtVLC.Rows(0)("Service_Basis_Own_Asset")), "L") = CompairStringResult.Equal Then
+                        objMilkSRNDetail.Own_Asset_Amount = Math.Round(objMilkSRNDetail.MILK_Qty * objMilkSRNDetail.Own_Asset_Rate, 2)
+                    End If
+                    objMilkSRNDetail.Own_Asset_Type = clsCommon.myCstr(dtVLC.Rows(0)("Service_Basis_Own_Asset"))
+                    '============================================
+                    objMilkSRNDetail.Service_Charge_Amount = Math.Round(objMilkSRNDetail.MILK_Qty * clsCommon.myCdbl(dtVLC.Rows(0)("Service_Charge_Per_Unit")), 2)
+                    objMilkSRNDetail.NET_AMOUNT = Math.Round(objMilkSRNDetail.AMOUNT + objMilkSRNDetail.Emp_Amount + objMilkSRNDetail.TIP_Amount - objMilkSRNDetail.Service_Charge_Amount, 2)
+                    If IsRoundOffPaiseAmount Then
+                        objMilkSRNDetail.Round_Off = (objMilkSRNDetail.NET_AMOUNT Mod 1)
+                        objMilkSRNDetail.NET_AMOUNT = objMilkSRNDetail.NET_AMOUNT - (objMilkSRNDetail.NET_AMOUNT Mod 1)
+                    End If
+                    objMilkSRNDetail.COMM_PORT = ""
+                    Dim arrMilkSRNDetail As New List(Of clsMilkSRNMCCDetail)
+                    arrMilkSRNDetail.Add(objMilkSRNDetail)
+                    clsMilkSRNMCC.SaveData(objMilkSRNHead, arrMilkSRNDetail, trans)
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return True
+    End Function
+
 
     Public Shared Function DeleteCollectionData(arrMCC As ArrayList, FromDate As Date, ToDate As Date, strShift As String) As Boolean
         Return DeleteCollectionData(arrMCC, FromDate, ToDate, strShift, True, True)
@@ -1391,18 +1677,17 @@ isnull (convert(decimal(18,2), ( sum( [Good SNFKG]) * 100/ nullif((sum([Good Qty
         If ArrMCC IsNot Nothing AndAlso ArrMCC.Count > 0 Then
             strMCCcode = " and MCC_CODE in (" + clsCommon.GetMulcallString(ArrMCC) + ") "
         End If
-
         Dim qry As String = "select * into TEMP_TSPL_MILK_RECEIPT_DETAIL from (
-select Against_Uploader_TR_No,Against_Shift_Uploader_TR_No from TSPL_MILK_RECEIPT_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")
-union all
-select null as Against_Uploader_TR_No, TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No as Against_Shift_Uploader_TR_No  from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
-left outer join TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
-where len(isnull( TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,''))>0 and convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD. Shift_Date,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "
-union all
-select TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No as Against_Uploader_TR_No,null as Against_Shift_Uploader_TR_No  from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
-left outer join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No
-where len(isnull( TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,''))>0 and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date,103)  " + transDate + "" + strMCCcode + "" + strShiftCon + "
-)xx"
+        select Against_Uploader_TR_No,Against_Shift_Uploader_TR_No from TSPL_MILK_SRN_HEAD where ( Against_Uploader_TR_No is not null or Against_Shift_Uploader_TR_No is not null) and convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "
+        union all
+        select null as Against_Uploader_TR_No, TSPL_MILK_SHIFT_UPLOADER_DETAIL.TR_No as Against_Shift_Uploader_TR_No  from TSPL_MILK_SHIFT_UPLOADER_DETAIL 
+        left outer join TSPL_MILK_SHIFT_UPLOADER_HEAD on TSPL_MILK_SHIFT_UPLOADER_HEAD.Document_No=TSPL_MILK_SHIFT_UPLOADER_DETAIL.Document_No
+        where len(isnull( TSPL_MILK_SHIFT_UPLOADER_DETAIL.Reject_Type,''))>0 and convert(date,TSPL_MILK_SHIFT_UPLOADER_HEAD. Shift_Date,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "
+        union all
+        select TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No as Against_Uploader_TR_No,null as Against_Shift_Uploader_TR_No  from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL
+        left outer join TSPL_MILK_PROCUREMENT_UPLOADER_HEAD on TSPL_MILK_PROCUREMENT_UPLOADER_HEAD.Document_No=TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No
+        where len(isnull( TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Reject_Type,''))>0 and convert(date,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Shift_Date,103)  " + transDate + "" + strMCCcode + "" + strShiftCon + "
+        )xx"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
         qry = "select * into TEMP_TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL from (
 select TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Document_No,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.TR_No,TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL.Against_Milk_Collection_DCS_Detail from TSPL_MILK_PROCUREMENT_UPLOADER_DETAIL where TR_No in (select Against_Uploader_TR_No from TEMP_TSPL_MILK_RECEIPT_DETAIL))X"
@@ -1420,43 +1705,43 @@ where TSPL_MILK_COLLECTION_DCS_MCC_DETAIL.Document_No in (
 select Document_No from TEMP_TSPL_MILK_COLLECTION_DCS_DETAIL))X"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-        qry = "delete from TSPL_MILK_SRN_detail_SYNC where doc_code in (select doc_code from TSPL_MILK_SRN_HEAD_SYNC where 2=2 and MCC_Code='" + strMCCcode + "')"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_SRN_detail_SYNC where doc_code in (select doc_code from TSPL_MILK_SRN_HEAD_SYNC where 2=2 and MCC_Code='" + strMCCcode + "')"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
-        qry = "delete from TSPL_MILK_SRN_HEAD_SYNC where 2=2 and MCC_Code='" + strMCCcode + "'"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_SRN_HEAD_SYNC where 2=2 and MCC_Code='" + strMCCcode + "'"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
 
-        qry = "delete from TSPL_PROVISION_ENTRY where Ref_Doc_No in (select DOC_CODE from TSPL_MILK_Shift_End_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + " " + strShiftCon + ") "
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_Shift_End_Route_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_Shift_End_HEAD where  convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + " " + strShiftCon + ")"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_Shift_End_DETAIL where DOC_CODE in( select DOC_CODE from TSPL_MILK_Shift_End_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_Shift_End_HEAD where  convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + " " + strShiftCon + ""
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_PROVISION_ENTRY where Ref_Doc_No in (select DOC_CODE from TSPL_MILK_Shift_End_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + " " + strShiftCon + ") "
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_Shift_End_Route_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_Shift_End_HEAD where  convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + " " + strShiftCon + ")"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_Shift_End_DETAIL where DOC_CODE in( select DOC_CODE from TSPL_MILK_Shift_End_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_Shift_End_HEAD where  convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + " " + strShiftCon + ""
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
         '----Milk Sample
-        qry = "delete from TSPL_INVENTORY_MOVEMENT_new where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
+        qry = "delete from TSPL_INVENTORY_MOVEMENT_new where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where ( Against_Uploader_TR_No is not null or Against_Shift_Uploader_TR_No is not null) and convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + " )"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_JOURNAL_DETAILS  where Voucher_No in ( select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")))"
+        qry = "delete from TSPL_JOURNAL_DETAILS  where Voucher_No in ( select Voucher_No from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where ( Against_Uploader_TR_No is not null or Against_Shift_Uploader_TR_No is not null) and convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + " ))"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
+        qry = "delete from TSPL_JOURNAL_MASTER  where Source_Doc_No in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where ( Against_Uploader_TR_No is not null or Against_Shift_Uploader_TR_No is not null) and convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + " )"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SRN_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
+        qry = "delete from TSPL_MILK_SRN_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where ( Against_Uploader_TR_No is not null or Against_Shift_Uploader_TR_No is not null) and convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + " )"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        'qry = "delete from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
-        qry = "delete from TSPL_MILK_SRN_HEAD where DOC_CODE in ( select DOC_CODE  from TSPL_MILK_SRN_HEAD where MILK_SAMPLE_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + "))"
+        qry = "delete from TSPL_MILK_SRN_HEAD where DOC_CODE in ( select DOC_CODE from TSPL_MILK_SRN_HEAD where ( Against_Uploader_TR_No is not null or Against_Shift_Uploader_TR_No is not null) and convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + " )"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SAMPLE_DETAIL where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SAMPLE_DETAIL_History where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SAMPLE_READING_LOG where Sample_Code in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SAMPLE_QC_PARAMETER_DETAIL where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ""
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+
+        'qry = "delete from TSPL_MILK_SAMPLE_DETAIL where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_SAMPLE_DETAIL_History where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_SAMPLE_READING_LOG where Sample_Code in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_SAMPLE_QC_PARAMETER_DETAIL where DOC_CODE in (select DOC_CODE from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_SAMPLE_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ""
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
         '----End of Milk Sample
 
 
@@ -1477,12 +1762,12 @@ select Document_No from TEMP_TSPL_MILK_COLLECTION_DCS_DETAIL))X"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
         '----End of Milk Rejection
 
-        qry = "delete from TSPL_MILK_RECEIPT_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ""
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
-        qry = "delete from TSPL_OPEN_MCC_SHIFT where convert(date, MCC_SHIFT_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ""
-        clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_RECEIPT_DETAIL where DOC_CODE in ( select DOC_CODE from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ")"
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_MILK_RECEIPT_HEAD where convert(date, DOC_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ""
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
+        'qry = "delete from TSPL_OPEN_MCC_SHIFT where convert(date, MCC_SHIFT_DATE,103) " + transDate + "" + strMCCcode + "" + strShiftCon + ""
+        'clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
         qry = "delete from TSPL_MILK_PROCUREMENT_UPLOADER_QC_PARAMETER_DETAIL where TR_No in (select Against_Uploader_TR_No from TEMP_TSPL_MILK_RECEIPT_DETAIL)"
         clsDBFuncationality.ExecuteNonQuery(qry, tran)
@@ -1539,9 +1824,13 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
             Dim isPickCLRInsteadOfSNF As Boolean = (clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.MilkProcuremntPickCLRInsteadOfSNF, clsFixedParameterCode.MilkProcuremntPickCLRInsteadOfSNF, Nothing)) > 0)
             Dim qry As String = "select REPLACE( convert(varchar, GETDATE(),106),' ','/') as Date,'' as [Shift],'' as Route,'' as DCSNo,"
 
-            If objCommonVar.DisplayTypeInMilkReceipt Then
-                qry += " '' As [Mix/Cow],"
+            If Not isPickCLRInsteadOfSNF Then
+                If objCommonVar.DisplayTypeInMilkReceipt Then
+                    qry += " '' As [Mix/Cow],"
+                End If
             End If
+
+
             qry += "'Good' as MilkType,0.00 as Qty,0.0 as FAT"
 
             Dim ListImpExpColumnsMandatory As List(Of String) = New List(Of String)({"Date", "Shift", "DCSNo", "Qty", "FAT"})
@@ -1576,7 +1865,6 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
             Else
                 flag = transportSql.importExcel(gv, "Date", "Shift", "Route", "DCSNo", "MilkType", "Qty", "FAT", "SNF")
             End If
-
         End If
         If flag Then
             Try
@@ -1666,7 +1954,7 @@ where not exists(select 1 from TSPL_MILK_COLLECTION_DCS_MCC_DETAIL where TSPL_MI
                             objtr.FAT = objtemp.FAT
                             objtr.SNF = objtemp.SNF
                             If objCommonVar.DisplayTypeInMilkReceipt Then
-                                objtr.Dock_Collection_Milk_Type = clsCommon.myCstr(grow.Cells("Milk/Cow").Value)
+                                objtr.Dock_Collection_Milk_Type = clsCommon.myCstr(grow.Cells("Mix/Cow").Value)
                             Else
                                 objtr.Dock_Collection_Milk_Type = "M"
                             End If

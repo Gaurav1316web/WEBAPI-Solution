@@ -404,6 +404,12 @@
     <Compile Include="Transaction\frmInsuranceTagAllocation.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Transaction\frmCMUChecklistEntry.Designer.vb">
+      <DependentUpon>frmCMUChecklistEntry.vb</DependentUpon>
+    </Compile>
+    <Compile Include="Transaction\frmCMUChecklistEntry.vb">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Master\frmBullBreedMaster.resx">

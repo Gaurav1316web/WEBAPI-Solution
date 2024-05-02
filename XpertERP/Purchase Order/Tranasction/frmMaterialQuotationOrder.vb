@@ -634,7 +634,7 @@ Public Class frmMaterialQuotationOrder
         Try
           
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
 
         End Try
     End Sub

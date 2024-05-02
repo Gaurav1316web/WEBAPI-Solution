@@ -196,7 +196,7 @@ Public Class rptDCSSaleRegister
             Dim ToDate As String = clsCommon.GetPrintDate(txtToDate.Value, "dd/MM/yyyy")
             '  GridData(FromDate, ToDate, chkGRNNoSelect.IsChecked, cbgGRNNo.CheckedValue, chkVendorSelect.IsChecked, cbgVendor.CheckedValue, chkLocationSelect.IsChecked, cbgLocation.CheckedValue)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Load_DCS_Sale_Report()
     End Sub

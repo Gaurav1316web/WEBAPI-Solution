@@ -82,7 +82,7 @@ Public Class FrmCostCentreGroupStores
         Try
             If (deleteConfirm()) Then
                 If (ClsCostCentreGroupStores.DeleteData(fndCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
