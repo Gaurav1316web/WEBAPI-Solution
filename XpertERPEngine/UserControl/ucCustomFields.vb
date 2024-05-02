@@ -1,6 +1,8 @@
 ﻿Imports common
 Imports Telerik.WinControls.UI
 Imports System.Windows.Forms
+Imports System.Data.SqlClient
+
 Public Class ucCustomFields
 #Region "Variables"
     Public Report_ID As String = ""
@@ -324,7 +326,7 @@ Public Class ucCustomFields
             'clsCommon.MyMessageBoxShow("Loading Screen Controls")
             Dim control As System.Windows.Forms.Control = Me
             While True
-                parent = control.parent
+                parent = control.Parent
                 If (TypeOf parent Is RadForm OrElse TypeOf parent Is System.Windows.Forms.Form OrElse TypeOf parent Is FrmMainTranScreen) Then
                     Exit While
                 End If
@@ -414,7 +416,7 @@ Public Class ucCustomFields
                     If TypeOf ctr Is MyNumBox Then
                         value = TryCast(ctr, MyNumBox).Value
                     End If
-                    If TypeOf ctr Is Common.Controls.MyTextBox Then
+                    If TypeOf ctr Is common.Controls.MyTextBox Then
                         value = TryCast(ctr, common.Controls.MyTextBox).Text
                     End If
                     If TypeOf ctr Is common.UserControls.txtFinder Then
@@ -536,7 +538,7 @@ Public Class ucCustomFields
                 Dim parent As Object = Nothing
                 Dim control As System.Windows.Forms.Control = Me
                 While True
-                    parent = control.parent
+                    parent = control.Parent
                     If (TypeOf parent Is RadForm OrElse TypeOf parent Is System.Windows.Forms.Form OrElse TypeOf parent Is FrmMainTranScreen) Then
                         Exit While
                     End If
@@ -762,7 +764,44 @@ Public Class ucCustomFields
 
 
     End Function
+    Public Shared Function getControlInvolvedInCalculation(programCode As String, ByVal trans As SqlTransaction) As List(Of String)
+        Dim rValue As New List(Of String)
+        Try
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable("select calculationExpression from TSPL_CUSTOM_FIELD_MAPPING where Program_Code='" & programCode & "' and isnull(calculationExpression,'')<>''", trans)
+            If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+                For i As Integer = 0 To dt.Rows.Count - 1
+                    Dim expr As String = clsCommon.myCstr(dt.Rows(i)("calculationExpression"))
+                    If clsCommon.myLen(expr) > 0 AndAlso expr.Contains("#") Then
+                        Dim isFieldRead As Boolean = True
+                        Dim temp As String = String.Empty
+                        Dim temp2 As String = String.Empty
+                        For j As Integer = 1 To expr.Length
+                            If Microsoft.VisualBasic.Mid(expr, j, 1) = "#" AndAlso isFieldRead Then
+                                temp = String.Empty
+                                j = j + 1
+                                If j <= expr.Length Then
+                                    Dim k As Integer = j
+                                    While Microsoft.VisualBasic.Mid(expr, k, 1) <> "#"
+                                        temp = temp & Microsoft.VisualBasic.Mid(expr, k, 1)
+                                        k = k + 1
+                                    End While
+                                    j = k + 1
+                                    If clsCommon.myLen(temp) > 0 Then
+                                        rValue.Add(temp)
+                                    End If
+                                End If
+                            End If
+                        Next
+                    End If
+                Next
+            End If
+        Catch ex As Exception
+            Throw New Exception(ex.Message)
+        End Try
+        Return rValue
 
+
+    End Function
     Public Shared Function FindStringInList(arr As List(Of String), value As String) As Boolean
         Dim rValue As Boolean = False
         Try

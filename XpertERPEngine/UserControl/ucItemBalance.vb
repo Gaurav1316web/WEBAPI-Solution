@@ -1,4 +1,5 @@
 ﻿'-------------------BM00000003620--------------------
+Imports System.Data.SqlClient
 Imports common
 Public Class ucItemBalance
     Private _ICode As String = ""
@@ -128,7 +129,7 @@ Public Class ucItemBalance
             Label4.Visible = _LblVisible
         End Set
     End Property
-    Public Sub RefreshData()
+    Public Sub RefreshData(Optional ByVal trans As SqlTransaction = Nothing)
         RadGroupBox1.Text = ""
         lblLocationName.Text = _LName
         lblUOM.Text = _UOM
@@ -149,8 +150,8 @@ Public Class ucItemBalance
         If clsCommon.myLen(_ICode) > 0 Then
             RadGroupBox1.Text = _ICode + " ( " + _IName + " )"
             Dim qry As String = "select Is_MRP  from TSPL_ITEM_MASTER where Item_Code='" + _ICode + "'"
-            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry)) = 1 Then
-                Dim IsMRPWiseBalance As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsMRPWiseBalance, clsFixedParameterCode.IsMRPWiseBalance, Nothing)) > 0, True, False)
+            If clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans)) = 1 Then
+                Dim IsMRPWiseBalance As Boolean = IIf(clsCommon.myCdbl(clsFixedParameter.GetData(clsFixedParameterType.IsMRPWiseBalance, clsFixedParameterCode.IsMRPWiseBalance, trans)) > 0, True, False)
                 If IsMRPWiseBalance Then
                     _IsMRPMandatory = True
                 End If
@@ -162,7 +163,7 @@ Public Class ucItemBalance
                 lblMrp.Text = clsCommon.myFormat(_MRP)
             End If
             qry = "select ICode,SUM(Qty * case when TransType='' then 1 else 0 end)as BalanceQty,SUM(Qty * case when TransType='' then 0 else 1 end)as CommitQty,SUM(Qty *RI )as ActualBalanceQty from (" + qry + ")FinalQry group by ICode"
-            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+            Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
             If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                 lblBalance.Text = clsCommon.myFormat(dt.Rows(0)("BalanceQty"))
                 Label4.Text = clsCommon.myFormat(dt.Rows(0)("CommitQty"))
@@ -180,7 +181,7 @@ Public Class ucItemBalance
                 ElseIf _ShowCSADOQty Then
                     qry = "select Sum(Qty) as Qty from(" + getBaseQryForSales() + ") as final "
                 End If
-                lblOrderQty.Text = clsCommon.myFormat(clsDBFuncationality.getSingleValue(qry))
+                lblOrderQty.Text = clsCommon.myFormat(clsDBFuncationality.getSingleValue(qry, trans))
             End If
         End If
     End Sub
