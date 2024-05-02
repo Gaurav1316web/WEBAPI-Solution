@@ -464,12 +464,68 @@ Public Class clsCSATransfer
 
         Return Ret_Dt
     End Function
+    Public Shared Function GetProvisionCharge(ByVal Loc_Code As String, ByVal Cust_Code As String, ByVal gross_wt As Decimal, ByVal Capacity As Decimal, ByVal trans As SqlTransaction, Optional ByVal Transport_Id As String = Nothing) As DataTable
+        Dim value As Decimal = 0
+        Dim Ret_Dt As New DataTable()
+        Ret_Dt.Columns.Add("FixedCharge", GetType(Decimal))
+        Ret_Dt.Columns.Add("EmptyCharge", GetType(Decimal))
+        Ret_Dt.Columns.Add("FreightCharge", GetType(Decimal))
+        Ret_Dt.Columns.Add("FreightType", GetType(String))
+        Dim dr As DataRow = Nothing
+
+        Dim city As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select city_code from tspl_customer_master where cust_code='" + Cust_Code + "'", trans))
+
+        Dim qry As String = "select top 1 capacitymt,freight,Fixed,Type from TSPL_ROUTE_FREIGHT_DETAILS where location_code='" + Loc_Code + "' and city_code='" + city + "' and capacitymt='" + clsCommon.myCstr(Capacity) + "' and transport_id='" + Transport_Id + "' and TransType='P' order by effective_date desc"
+        Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
+
+        If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
+            Dim capacitymt As Decimal = clsCommon.myCdbl(dt.Rows(0)("capacitymt"))
+            Dim charge As Decimal = clsCommon.myCdbl(dt.Rows(0)("freight"))
+            Dim Fixed As Decimal = clsCommon.myCdbl(dt.Rows(0)("Fixed"))
+            Dim Freight_Type As String = clsCommon.myCstr(dt.Rows(0)("Type"))
+            Dim FixedCharge As Double = Fixed
+            Dim EmptyCharge As Double = charge
+
+            'DONE FOR mt TO kg CONVERSION
+            Dim Weight_MT_Unit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select description from TSPL_FIXED_PARAMETER where code='" + clsFixedParameterCode.VehicleCapacityUnit + "' and type='" + clsFixedParameterType.VehicleCapacityUnit + "'", trans))
+            Dim Gross_Weight_Unit As String = clsCommon.myCstr(clsDBFuncationality.getSingleValue("select description from TSPL_FIXED_PARAMETER where code='" + clsFixedParameterCode.GrossWeightUnit + "' and type='" + clsFixedParameterType.GrossWeightUnit + "'", trans))
+            qry = "select top 1 CF from (select (case when (Container_UOM='" & Gross_Weight_Unit & "' and Contained_UOM='" & Weight_MT_Unit & "') then round(Contained_Qty/Container_Qty,4) else case when (Container_UOM='" & Weight_MT_Unit & "' and Contained_UOM='" & Gross_Weight_Unit & "') then round(Container_Qty/Contained_Qty,4) end end) as CF,product_type from TSPL_WEIGHT_CONVERSION where product_type in ('ALL'))aa where isnull(cast(CF as varchar),'')<>'' order by Product_Type desc"
+            Dim gross_uom_cnvrsn As Decimal = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(qry, trans))
+            If clsCommon.CompairString(Weight_MT_Unit, Gross_Weight_Unit) = CompairStringResult.Equal Then
+                gross_uom_cnvrsn = 1
+            End If
+            If gross_uom_cnvrsn <= 0 Then
+                Throw New Exception("Provide weight conversion of unit [" + Gross_Weight_Unit + "] to [" + Weight_MT_Unit + "] at Weight conversion screen.")
+            End If
+            gross_wt = gross_wt * gross_uom_cnvrsn
+            ''====================================================
+
+            If gross_wt > capacitymt Then
+                If charge > 0 Then
+                    value = System.Math.Round((charge / capacitymt) * gross_wt, 2)
+                Else
+                    value = System.Math.Round(Fixed, 2)
+                End If
+            ElseIf gross_wt <= capacitymt Then
+                value = charge + Fixed
+            End If
+
+            dr = Ret_Dt.NewRow()
+            dr("FreightType") = Freight_Type
+            dr("FixedCharge") = FixedCharge
+            dr("FreightCharge") = value
+            dr("EmptyCharge") = EmptyCharge
+            Ret_Dt.Rows.Add(dr)
+        End If
+
+        Return Ret_Dt
+    End Function
     Private Shared Function ConvertProvision(ByVal objTrans As clsCSATransfer, ByVal trans As SqlTransaction) As Boolean
         Dim obj As New clsProvisionEntry()
         Try
-            Dim Qry As String = "select max(TSPL_PROVISION_ENTRY.Doc_No) from TSPL_PROVISION_ENTRY left outer join TSPL_CSA_TRANSFER_HEAD on " & _
-         "TSPL_PROVISION_ENTRY.Ref_Doc_No=TSPL_CSA_TRANSFER_HEAD.DOC_CODE where Prog_Code='CSA_Transfer' and " & _
-         "convert(date,Doc_Date,103)='" & clsCommon.GetPrintDate(objTrans.Transfer_Date, "dd/MMM/yyyy") & "' and TSPL_CSA_TRANSFER_HEAD.Vehicle_Id='" & objTrans.Vehicle_code & "' and " & _
+            Dim Qry As String = "select max(TSPL_PROVISION_ENTRY.Doc_No) from TSPL_PROVISION_ENTRY left outer join TSPL_CSA_TRANSFER_HEAD on " &
+         "TSPL_PROVISION_ENTRY.Ref_Doc_No=TSPL_CSA_TRANSFER_HEAD.DOC_CODE where Prog_Code='CSA_Transfer' and " &
+         "convert(date,Doc_Date,103)='" & clsCommon.GetPrintDate(objTrans.Transfer_Date, "dd/MMM/yyyy") & "' and TSPL_CSA_TRANSFER_HEAD.Vehicle_Id='" & objTrans.Vehicle_code & "' and " &
          "TSPL_PROVISION_ENTRY.Loc_Code='" & objTrans.From_Location_Code & "' and TSPL_PROVISION_ENTRY.Vendor_Code='" & objTrans.Transport_Id & "' "
             Dim strProvisionNo = clsDBFuncationality.getSingleValue(Qry, trans)
 

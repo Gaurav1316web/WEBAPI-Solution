@@ -354,6 +354,26 @@ Public Class clsItemWiseTaxAuthority
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
 
     End Function
+    Public Shared Function GetTaxGroupItemWise(ByVal strLocalORInterstate As String, ByVal strTaxType As String, ByVal strDocDate As Date, ByVal ICode As String, ByVal trans As SqlTransaction) As String
+        Dim qry As String = "select  TOP 1 TSPL_ITEM_WISE_TAX_GROUP.TAX_GROUP_CODE from " &
+    " TSPL_ITEM_WISE_TAX left outer join TSPL_ITEM_WISE_TAX_GROUP on TSPL_ITEM_WISE_TAX.HCODE=TSPL_ITEM_WISE_TAX_GROUP.HCODE " &
+    " left outer join TSPL_ITEM_WISE_TAX_AUTHORITY on TSPL_ITEM_WISE_TAX.HCODE=TSPL_ITEM_WISE_TAX_AUTHORITY.HCODE And TSPL_ITEM_WISE_TAX_GROUP.DCODE=TSPL_ITEM_WISE_TAX_AUTHORITY.DCODE " &
+    " where Status=1 And TSPL_ITEM_WISE_TAX_GROUP.Item_Code='" + ICode + "' And DOC_DATE < ='" & clsCommon.GetPrintDate(strDocDate, "dd/MMM/yyyy") & "' and Type='" & strTaxType & "' " &
+    " And   Tax_Group_Code IN (select  TSPL_TAX_GROUP_MASTER.Tax_group_code from TSPL_TAX_GROUP_DETAILS " &
+    " Left OUTER JOIN TSPL_TAX_GROUP_MASTER On TSPL_TAX_GROUP_MASTER.TAX_GROUP_CODE=TSPL_TAX_GROUP_DETAILS.TAX_GROUP_CODE" &
+    " left outer join TSPL_TAX_MASTER on  TSPL_TAX_MASTER.tax_code=TSPL_TAX_GROUP_DETAILS.Tax_Code  " &
+    " where 1=1 "
+        If clsCommon.CompairString(strLocalORInterstate, "L") = CompairStringResult.Equal Then
+            qry += " AND TSPL_TAX_MASTER.Type IN ('CGST','SGST') "
+        Else
+            qry += " AND TSPL_TAX_MASTER.Type IN ('IGST')"
+        End If
+        qry += "   AND TSPL_TAX_GROUP_mASTER.tAX_GROUP_TYPE='" & strTaxType & "' AND TSPL_TAX_GROUP_mASTER.IS_TAX_EXEMPTED=0" &
+" )order by DOC_DATE desc "
+
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+
+    End Function
 #End Region
 End Class
 
