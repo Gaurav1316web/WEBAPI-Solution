@@ -2894,9 +2894,26 @@ Public Class ProgramCodeNew
         InsertDefaultValue(clsUserMgtCode.frmBullInsurance, "Bull Insurance", "1.50.02.04", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmBullTestParameterEntry, "Bull Test Parameter Entry", "1.50.02.05", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
         InsertDefaultValue(clsUserMgtCode.frmInsuranceTagAllocation, "Insurance Tag Allocation", "1.50.02.06", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
+        InsertDefaultValue(clsUserMgtCode.frmCMUChecklistEntry, "Bull CMU CheckList Entry", "1.50.02.08", clsUserMgtCode.SubModuleBullManagementTransaction, 8)
 
         ''----------------------------------------------REPORT---------------------------------------------------------
         InsertDefaultValue(clsUserMgtCode.SubModuleBullManagementReport, "Report", "1.50.03", clsUserMgtCode.ModuleBullManagement, "SM", 30)
+
+
+        ''=======================================SHEED=============================================
+        InsertDefaultValue(clsUserMgtCode.ModuleSheed, "Sheed", "1.51", clsUserMgtCode.ExpertERP, "M", 23)
+
+        ''---------------------------------------SETUP--------------------------------
+        InsertDefaultValue(clsUserMgtCode.SubModuleSheedSetUp, "Setup", "1.51.01", clsUserMgtCode.ModuleSheed, "SM", 24)
+        InsertDefaultValue(clsUserMgtCode.frmSheedGrowerMaster, "Sheed Grower Master", "1.51.01.01", clsUserMgtCode.SubModuleSheedSetUp, 27)
+
+        ''--------------------------------------TRANSACTION--------------------------------------------------------
+        InsertDefaultValue(clsUserMgtCode.SubModuleSheedTransaction, "Transaction", "1.51.02", clsUserMgtCode.ModuleSheed, "SM", 26)
+
+
+        ''---------------------------------------REPORT---------------------------------------------------------
+        InsertDefaultValue(clsUserMgtCode.SubModuleSheedReport, "Report", "1.51.03", clsUserMgtCode.ModuleSheed, "SM", 30)
+
         Try
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.BankCashBook, "Bank Cash Book")
             clsDashBoard.InsertDefaultValueDashBoard(clsDashBoard.VehicleUtili, "Vehicle Utilization")

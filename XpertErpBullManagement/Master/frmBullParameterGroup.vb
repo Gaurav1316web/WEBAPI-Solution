@@ -348,10 +348,14 @@ Public Class frmBullParameterGroup
             'If count <= 0 Then
             '    Exit Sub
             'End If
-            qry = "select TSPL_BULL_PARAMETER_GROUP_MASTER.Code as Code,TSPL_BULL_PARAMETER_GROUP_MASTER.Name as [Name] from TSPL_BULL_PARAMETER_GROUP_MASTER"
-            strCode = clsCommon.ShowSelectForm("RTY", qry, "Code", "", txtCode.Value, "TSPL_BULL_PARAMETER_GROUP_MASTER.Code asc", isButtonClicked, Nothing)
-
-            If clsCommon.myLen(strCode) > 0 Then
+            If count = 0 Then
+                txtCode.MyReadOnly = False
+            Else
+                txtCode.MyReadOnly = True
+            End If
+            If txtCode.MyReadOnly OrElse isButtonClicked Then
+                qry = "select TSPL_BULL_PARAMETER_GROUP_MASTER.Code as Code,TSPL_BULL_PARAMETER_GROUP_MASTER.Name as [Name] from TSPL_BULL_PARAMETER_GROUP_MASTER"
+                strCode = clsCommon.ShowSelectForm("RTY", qry, "Code", "", txtCode.Value, "TSPL_BULL_PARAMETER_GROUP_MASTER.Code asc", isButtonClicked, Nothing)
                 LoadData(strCode, NavigatorType.Current)
             End If
 
@@ -412,6 +416,7 @@ Public Class frmBullParameterGroup
             If clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value) > 0 Then
                 Dim frmP As New frmBullParameterRangeSelection()
                 frmP.AddGridView(clsCommon.myCDecimal(gv1.CurrentRow.Cells(colRangeSelection).Value))
+
                 frmP.Show()
                 'formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
             End If

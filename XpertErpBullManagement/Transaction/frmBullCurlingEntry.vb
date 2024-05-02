@@ -350,11 +350,20 @@ Public Class frmBullCurlingEntry
 
     Private Sub fndCode__MYValidating(sender As Object, e As EventArgs, isButtonClicked As Boolean) Handles fndCode._MYValidating
         Try
-
-            Dim qry As String = ""
-            qry = "select Document_No as Code,Remarks as [Remarks],Document_Date as Date from TSPL_BULL_CURLING"
-            fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", "", fndCode.Value, " Code asc", isButtonClicked, Nothing)
-            LoadData(fndCode.Value, NavigatorType.Current)
+            Dim Sqlqry As String = "select count(*) from TSPL_BULL_CURLING where Document_No ='" + fndCode.Value + "'"
+            Dim count As Integer = clsCommon.myCdbl(clsDBFuncationality.getSingleValue(Sqlqry))
+            If count = 0 Then
+                fndCode.MyReadOnly = False
+            Else
+                fndCode.MyReadOnly = True
+            End If
+            If fndCode.MyReadOnly OrElse isButtonClicked Then
+                Dim whrClas As String = ""
+                Dim qry As String = ""
+                qry = "select Document_No as Code,Remarks as [Remarks],Document_Date as Date from TSPL_BULL_CURLING"
+                fndCode.Value = clsCommon.ShowSelectForm("RTY", qry, "Code", "", fndCode.Value, " Code asc", isButtonClicked, Nothing)
+                LoadData(fndCode.Value, NavigatorType.Current)
+            End If
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try

@@ -228,6 +228,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Purchase\" />
+    <Folder Include="Sheed\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

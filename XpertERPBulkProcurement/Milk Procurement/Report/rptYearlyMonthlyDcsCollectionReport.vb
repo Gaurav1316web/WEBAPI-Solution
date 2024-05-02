@@ -31,28 +31,24 @@ Public Class rptYearlyMonthlyDcsCollectionReport
             Dim dt As New DataTable
             Dim strQry As String = "SELECT XXX.*,xxxMPCount.[Count of Farmers],xxxMPCount.[Farmers Milk Qty
 ] FROM (Select 
-TSPL_MILK_SRN_HEAD.VSP_Code,MAX(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as [BMC Uploader code],MAX(TSPL_VLC_MASTER_HEAD.VLC_Name) as [BMC Name],max(TSPL_VLC_MASTER_HEAD.MCC) as [DCS],MAX(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) As [Vlc Uploader Code],MAX(TSPL_MILK_RECEIPT_DETAIL.Route_code) AS [Route Code],
-Sum(TSPL_MILK_RECEIPT_DETAIL.MILK_WEIGHT)AS [MILK WEIGHT],sum(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT) As [Milk Weight(KG)], 
-sum(TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR) As [Milk Weight(LTR)],sum(TSPL_MILK_SAMPLE_DETAIL.FAT) As [FAT(%)], sum(TSPL_MILK_SAMPLE_DETAIL.SNF) As [SNF(%)],
+TSPL_MILK_SRN_HEAD.VSP_Code,MAX(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) as [BMC Uploader code],MAX(TSPL_VLC_MASTER_HEAD.VLC_Name) as [BMC Name],max(TSPL_VLC_MASTER_HEAD.MCC) as [DCS],MAX(TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader) As [Vlc Uploader Code],MAX(TSPL_MILK_SRN_HEAD.Route_code) AS [Route Code],
+Sum(TSPL_MILK_SRN_DETAIL.Qty)AS [MILK WEIGHT],sum(TSPL_MILK_SRN_DETAIL.ACC_Qty) As [Milk Weight(KG)], 
+sum(TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR) As [Milk Weight(LTR)],sum(TSPL_MILK_SRN_DETAIL.FAT_PER) As [FAT(%)], sum(TSPL_MILK_SRN_DETAIL.SNF_PER) As [SNF(%)],
 sum(TSPL_MILK_SRN_DETAIL.FAT_kg) As [FAT(KG)], sum(TSPL_MILK_SRN_DETAIL.SNF_kg) As [SNF(KG)]
 
-from TSPL_MILK_RECEIPT_DETAIL
-Left Outer Join TSPL_MILK_RECEIPT_HEAD On TSPL_MILK_RECEIPT_HEAD.Doc_Code=TSPL_MILK_RECEIPT_DETAIL.Doc_Code
-Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_RECEIPT_DETAIL.VLC_CODE
-Left Outer Join TSPL_MILK_SAMPLE_HEAD On TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE = TSPL_MILK_RECEIPT_HEAD.DOC_CODE
-Left Outer Join TSPL_MILK_SAMPLE_DETAIL On TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO = TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO And TSPL_MILK_SAMPLE_DETAIL.DOC_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE  
-Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE = TSPL_MILK_SAMPLE_HEAD.DOC_CODE And TSPL_MILK_SRN_HEAD.SAMPLE_NO = TSPL_MILK_SAMPLE_DETAIL.SAMPLE_NO 
-Left Outer Join TSPL_MILK_SRN_DETAIL On TSPL_MILK_SRN_HEAD.DOC_CODE = TSPL_MILK_SRN_DETAIL.DOC_CODE
+from TSPL_MILK_SRN_DETAIL
+Left Outer Join TSPL_MILK_SRN_HEAD On TSPL_MILK_SRN_HEAD.Doc_Code=TSPL_MILK_SRN_DETAIL.Doc_Code
+Left Outer Join TSPL_VLC_MASTER_HEAD On TSPL_VLC_MASTER_HEAD.VLC_Code = TSPL_MILK_SRN_HEAD.VLC_CODE
 Left Outer Join(Select TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code,Sum(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty)Qty from TSPL_MP_INCENTIVE_ENTRY_DETAIL
 Left Outer Join TSPL_MP_INCENTIVE_ENTRY_HEAD On TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Code=TSPL_MP_INCENTIVE_ENTRY_DETAIL.Document_Code
 left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.MCC=TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code
 where 2=2 and  Convert(Date,TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Date,103)>=Convert(Date,'" + Slot1 + "',103)
 And            Convert(Date,TSPL_MP_INCENTIVE_ENTRY_HEAD.Document_Date,103)<=Convert(Date,'" + Slot2 + "',103)
-Group By TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code) xxxQty On xxxQty.MCC_Code=TSPL_MILK_RECEIPT_HEAD.MCC_CODE
+Group By TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code) xxxQty On xxxQty.MCC_Code=TSPL_MILK_SRN_HEAD.MCC_CODE
 
-where 2=2 and  Convert(Date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)>=Convert(Date,'" + Slot1 + "',103) And Convert(Date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)<=Convert(Date,'" + Slot2 + "',103)"
+where 2=2 and  Convert(Date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)>=Convert(Date,'" + Slot1 + "',103) And Convert(Date,TSPL_MILK_SRN_HEAD.DOC_DATE,103)<=Convert(Date,'" + Slot2 + "',103)"
             If txtMultRoute.arrValueMember IsNot Nothing AndAlso txtMultRoute.arrValueMember.Count > 0 Then
-                strQry += "  and TSPL_MILK_RECEIPT_DETAIL.ROUTE_CODE in (" + clsCommon.GetMulcallString(txtMultRoute.arrValueMember) + ")"
+                strQry += "  and TSPL_MILK_SRN_HEAD.ROUTE_CODE in (" + clsCommon.GetMulcallString(txtMultRoute.arrValueMember) + ")"
             End If
             If txtMultBmc.arrValueMember IsNot Nothing AndAlso txtMultBmc.arrValueMember.Count > 0 Then
                 strQry += "and MCC in (" + clsCommon.GetMulcallString(txtMultBmc.arrValueMember) + ")"
@@ -61,7 +57,7 @@ where 2=2 and  Convert(Date,TSPL_MILK_RECEIPT_HEAD.DOC_DATE,103)>=Convert(Date,'
             If txtMultDCS.arrValueMember IsNot Nothing AndAlso txtMultDCS.arrValueMember.Count > 0 Then
                 strQry += " and  TSPL_MILK_SRN_HEAD.VSP_Code in (" + clsCommon.GetMulcallString(txtMultDCS.arrValueMember) + ")"
             End If
-            strQry += " Group By TSPL_MILK_RECEIPT_HEAD.MCC_CODE,TSPL_MILK_SRN_HEAD.VSP_Code)XXX
+            strQry += " Group By TSPL_MILK_SRN_HEAD.MCC_CODE,TSPL_MILK_SRN_HEAD.VSP_Code)XXX
 lEFT oUTER JOIN TSPL_VLC_MASTER_HEAD oN TSPL_VLC_MASTER_HEAD.VSP_Code=xxx.VSP_CODE"
             strQry += " Left Outer Join(select TSPL_MP_INCENTIVE_ENTRY_DETAIL.VLC_Code,sum(TSPL_MP_INCENTIVE_ENTRY_DETAIL.Qty)AS [Farmers Milk Qty
 ],COUNT(Distinct TSPL_MP_MASTER.MP_Code_VLC_Uploader)AS [Count of Farmers],TSPL_MP_INCENTIVE_ENTRY_HEAD.MCC_Code from TSPL_MP_MASTER
@@ -106,7 +102,7 @@ where 2=2  AND TSPL_MILK_SRN_HEAD.MCC_CODE IN   (" + clsCommon.GetMulcallString(
 
     Private Sub txtMultBmc__My_Click(sender As Object, e As EventArgs) Handles txtMultBmc._My_Click
         Try
-            Dim qry As String = "select DISTINCT MCC_CODE as [MCC Code] from TSPL_MILK_RECEIPT_HEAD"
+            Dim qry As String = "select DISTINCT MCC_CODE as [MCC Code] from TSPL_MILK_SRN_HEAD"
             txtMultBmc.arrValueMember = clsCommon.ShowMultipleSelectForm("@TSDSR1", qry, "MCC Code", "", txtMultBmc.arrValueMember, Nothing)
         Catch ex As Exception
             clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)

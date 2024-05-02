@@ -388,6 +388,7 @@ Public Class clsCustomerMaster
     Public TDMCode As String
     Public DistributorCode As String
     Public IsDistributor As Char
+    Public Is_Default_Grower As Integer = 0
 
     Public Transaction_Type As String
     Public isCustRouteType As Boolean
@@ -464,7 +465,7 @@ Public Class clsCustomerMaster
         Dim str As String = ""
         ',Tax_Group as [Tax Group],TAX1,TAX1_Rate as [Tax1 Rate],TAX2,TAX2_Rate as [Tax2 Rate],TAX3,TAX3_Rate as [Tax3 Rate],TAX4,TAX4_Rate as [Tax4 Rate],TAX5,TAX5_Rate as [Tax5 Rate],TAX6,TAX6_Rate as [Tax6 Rate],TAX7,TAX7_Rate as [Tax7 Rate],TAX8,TAX8_Rate as [Tax8 Rate],TAX9,TAX9_Rate as [Tax9 Rate],TAX10,TAX10_Rate as [Tax10 Rate],,Cust_Spouse_DOB as [Customer Spouse DOB],Anniversary_Date as [Anniversary Date],Gender
         Dim qry As String = " select Cust_Code as [Code],Customer_Name as [Customer Name],ISNULL(TSPL_CUSTOMER_MASTER.Alies_Name,'') As [Alies Name],Add1 ,Add2,Add3,City_Code as [City],Closing_Date as [Closing Date],Cust_Category_Code as [Customer Category Code],Cust_Group_Code as [Customer Group Code],Cust_Type_Code as [Customer Type Code],Route_No as [Route No],Route_Desc as [Route Description],Price_Code as [Price Code],CSA_Type as [CSA Type],Phone1,Phone2,Fax,Email,WebSite,Contact_Person_Name as [Contact Person Name],Contact_Person_Phone as [Contact Person Phone],Contact_Person_Fax as [Contact Person Fax],Contact_Person_Website as [Contact Person Website],Contact_Person_Email as [Contact Person Email],Terms_Code as [Terms Code],Cust_Account as [Customer Account]" _
-                 & " ,Payment_Code as [Payment Code],Service_Tax_No as [Service Tax No],Tin_No as [Tin No],Lst_No as [LST No],Form_Type as [Form Type],Channel_Code as [Channel Code],Channel_Desc as [Channel Description],(select case when Status='N' then 'Active' else 'In Active' end ) as [Status],OnHold as [On Hold],Remarks1,Remarks2,Additional1,Additional2,Additional3,Salesman_Code as [Salesman Code],Salesman_Desc as [Salesman Description],Visi_Id as [Visi ID],Visi_Desc as [Visi Description],OutLet_Commossion as [Outlet Commission], Balance_ToDate as [Balance To Date],Credit_Limit as [Credit Limit],TempCreditLimit as [Temp Credit Limit],TempCreditLimitFrom as [Temp Credit Limit From],TempCreditLimitTo as [Temp Credit Limit To],Created_By as [Created By],Created_Date as [Created Date],Modify_By as[Modify By],Modify_Date as [Modify Date],Comp_Code as [Company Code],Route_Group as [Route Group],CST,ECC,Range,Collectorate,PAN,Division,Parent_Customer_No as [Parent Customer No],Customer_Class as [Customer Class],Credit_Customer as [Credit Customer],LastInvoice_No as [Last Invoice No],LastInvoice_Date as [Last Invoice Date],price_CodeNon as [Price Code Non],Inter_Branch as [Inter Branch],TRANSACTION_TYPE as [Transaction Type],Credit_Limit_Alert_Type as [Credit Limit alert Type],PIN_Code as [Pin Code],Cust_DOB as [Customer DOB],Occation,Agg_Made_Date as [Agg Made Date],Agg_Close_Date as [Agg Close Date],CURRENCY_CODE as [Currency Code],Parent_Customer_YN as [Is Parent Customer],Service_Dealer_Code as [Service Dealer Code],TDM_Code as [TDM Code],Distributor_Code as [Distributor Code],IsDistributor as [Is Distributor],Price_Group_Code as [Price Group Code],Franchise_COde as [Franchise Code],isnull(CUSTOMER_CATEGORY,'') as [Customer Category] from tspl_customer_master"
+                 & " ,Payment_Code as [Payment Code],Service_Tax_No as [Service Tax No],Tin_No as [Tin No],Lst_No as [LST No],Form_Type as [Form Type],Channel_Code as [Channel Code],Channel_Desc as [Channel Description],(select case when Status='N' then 'Active' else 'In Active' end ) as [Status],OnHold as [On Hold],Remarks1,Remarks2,Additional1,Additional2,Additional3,Salesman_Code as [Salesman Code],Salesman_Desc as [Salesman Description],Visi_Id as [Visi ID],Visi_Desc as [Visi Description],OutLet_Commossion as [Outlet Commission], Balance_ToDate as [Balance To Date],Credit_Limit as [Credit Limit],TempCreditLimit as [Temp Credit Limit],TempCreditLimitFrom as [Temp Credit Limit From],TempCreditLimitTo as [Temp Credit Limit To],Created_By as [Created By],Created_Date as [Created Date],Modify_By as[Modify By],Modify_Date as [Modify Date],Comp_Code as [Company Code],Route_Group as [Route Group],CST,ECC,Range,Collectorate,PAN,Division,Parent_Customer_No as [Parent Customer No],Customer_Class as [Customer Class],Credit_Customer as [Credit Customer],LastInvoice_No as [Last Invoice No],LastInvoice_Date as [Last Invoice Date],price_CodeNon as [Price Code Non],Inter_Branch as [Inter Branch],TRANSACTION_TYPE as [Transaction Type],Credit_Limit_Alert_Type as [Credit Limit alert Type],PIN_Code as [Pin Code],Cust_DOB as [Customer DOB],Occation,Agg_Made_Date as [Agg Made Date],Agg_Close_Date as [Agg Close Date],CURRENCY_CODE as [Currency Code],Parent_Customer_YN as [Is Parent Customer],Service_Dealer_Code as [Service Dealer Code],TDM_Code as [TDM Code],Distributor_Code as [Distributor Code],IsDistributor as [Is Distributor],Is_Default_Grower as [Is Default Grower],Price_Group_Code as [Price Group Code],Franchise_COde as [Franchise Code],isnull(CUSTOMER_CATEGORY,'') as [Customer Category] from tspl_customer_master"
         str = clsCommon.ShowSelectForm("RPTCUSTFND", qry, "Code", whrcls, curcode, "Code", isButtonClicked)
         Return str
     End Function
@@ -482,7 +483,7 @@ Public Class clsCustomerMaster
                      " ,[Contact_Person_Website],[Contact_Person_Email],[Terms_Code],[Cust_Account],[Tax_Group],[TAX1],[TAX1_Rate],[TAX2],[TAX2_Rate],[TAX3],[TAX3_Rate],[TAX4],[TAX4_Rate],[TAX5],[TAX5_Rate],[TAX6],[TAX6_Rate] " &
                      " ,[TAX7],[TAX7_Rate],[TAX8],[TAX8_Rate],[TAX9],[TAX9_Rate],[TAX10],[TAX10_Rate],[Payment_Code],[Service_Tax_No] " &
                      " ,[Tin_No],[Lst_No],[Form_Type],[Channel_Code],[Status],[OnHold],[Remarks1],[Remarks2],[Additional1],[Additional2],[Additional3],[Salesman_Code],[Visi_Id] " &
-                     " ,[Credit_Limit],[Channel_Desc],[Visi_Desc],[Salesman_Desc],[Route_Group],[CST],[ECC],[Range],[Collectorate],[PAN],[Division], [Parent_Customer_No],Customer_Class,credit_customer,Price_CodeNon,Price_CodeFOR,Inter_branch,transaction_type,Agg_Made_Date,Agg_Close_Date,CURRENCY_CODE,parent_customer_yn,Service_Dealer_Code,TDM_Code,Distributor_Code,IsDistributor,Price_Group_Code,CSA_Type,Category_Struct_Code,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Alies_Name,Zone_Code,[PIN_NO],Crate_Opening ,Crate_Opening_Date,Franchise_Code,Other_For_PAN,OldName,VehicleNo,Driver_Name,Driver_Mobile_No,Manual_Customer,GSTNO,GSTEntity,GSTBlank,GSTDigit,Region_Type,GST_Registered,GST_COMPOSITION,[Priority_Level],FSSAI_NO,SubsidyAmount,RSM,ASM,ASO,ZSM,Booking_Type,Customer_Category,isnull(Bank_Name,'') as Bank_Name,isnull(IFSC_Code,'') as IFSC_Code,isnull(Branch_Name,'') as Branch_Name,isnull(Account_No,'') as Account_No,isnull(IsTCSnotApplicable,0) as IsTCSnotApplicable,isnull(IsTurnoverMorethan10CR,0) as IsTurnoverMorethan10CR,isnull(IsTCSGreaterthan50K,0) as IsTCSGreaterthan50K,isnull(IsITRfilledinLast2Years,0) as IsITRfilledinLast2Years " &
+                     " ,[Credit_Limit],[Channel_Desc],[Visi_Desc],[Salesman_Desc],[Route_Group],[CST],[ECC],[Range],[Collectorate],[PAN],[Division], [Parent_Customer_No],Customer_Class,credit_customer,Price_CodeNon,Price_CodeFOR,Inter_branch,transaction_type,Agg_Made_Date,Agg_Close_Date,CURRENCY_CODE,parent_customer_yn,Service_Dealer_Code,TDM_Code,Distributor_Code,IsDistributor,Is_Default_Grower,Price_Group_Code,CSA_Type,Category_Struct_Code,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Alies_Name,Zone_Code,[PIN_NO],Crate_Opening ,Crate_Opening_Date,Franchise_Code,Other_For_PAN,OldName,VehicleNo,Driver_Name,Driver_Mobile_No,Manual_Customer,GSTNO,GSTEntity,GSTBlank,GSTDigit,Region_Type,GST_Registered,GST_COMPOSITION,[Priority_Level],FSSAI_NO,SubsidyAmount,RSM,ASM,ASO,ZSM,Booking_Type,Customer_Category,isnull(Bank_Name,'') as Bank_Name,isnull(IFSC_Code,'') as IFSC_Code,isnull(Branch_Name,'') as Branch_Name,isnull(Account_No,'') as Account_No,isnull(IsTCSnotApplicable,0) as IsTCSnotApplicable,isnull(IsTurnoverMorethan10CR,0) as IsTurnoverMorethan10CR,isnull(IsTCSGreaterthan50K,0) as IsTCSGreaterthan50K,isnull(IsITRfilledinLast2Years,0) as IsITRfilledinLast2Years " &
                      " ,isnull(F_H_Name,'') as F_H_Name,isnull(Education,'') as Education,isnull(ResidentialAdd1,'') as ResidentialAdd1,isnull(ResidentialAdd2,'') as ResidentialAdd2,DOB,MaritalStatus,CustStatus,Area_Code " &
                      " ,[Customer_Name_Hindi],IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code from TSPL_CUSTOMER_MASTER  where CUSTOMER_FORM_TYPE='ALL' and Cust_Code = '" + strCustCode + "'"
         Return qry
@@ -552,6 +553,11 @@ Public Class clsCustomerMaster
         Dim obj2 As New clsLocation
         'Dim trans As SqlTransaction = Nothing
         Try
+            If (obj.Is_Default_Grower = 1) Then
+                Dim qry As String = "update TSPL_CUSTOMER_MASTER set Is_Default_Grower=0 where Is_Default_Grower=1"
+                clsDBFuncationality.ExecuteNonQuery(qry, trans)
+            End If
+
             If SaveHistory(obj.Cust_Code, isNewEntry, trans) Then
                 '' Anubhooti 18-July-2014
                 'trans = clsDBFuncationality.GetTransactin()
@@ -691,6 +697,7 @@ Public Class clsCustomerMaster
                 clsCommon.AddColumnsForChange(coll, "TDM_Code", obj.TDMCode, True)
                 clsCommon.AddColumnsForChange(coll, "Distributor_Code", obj.DistributorCode, True)
                 clsCommon.AddColumnsForChange(coll, "IsDistributor", obj.IsDistributor)
+                clsCommon.AddColumnsForChange(coll, "Is_Default_Grower", obj.Is_Default_Grower)
                 clsCommon.AddColumnsForChange(coll, "Parent_customer_yn", obj.prntcustyn)
                 clsCommon.AddColumnsForChange(coll, "CSA_Type", obj.CSA_Type)
                 clsCommon.AddColumnsForChange(coll, "Manual_Customer", obj.ManualCustomer)
@@ -907,14 +914,198 @@ Public Class clsCustomerMaster
 
     Public Shared Function GetData(ByVal strCode As String, ByVal trans As SqlTransaction) As clsCustomerMaster
         Dim obj As clsCustomerMaster = Nothing
-        Dim qry As String = "select Customer_Name,Cust_Account from TSPL_CUSTOMER_MASTER where cust_code='" + strCode + " ' "
+        Dim qry As String = "Select [Customer_Name],[Add1],[Add2],[Add3],[Closing_Date],[Cust_Category_Code],[Cust_Group_Code],[Cust_Type_Code]" &
+                     "  ,[Route_No],[Route_Desc],[Price_Code],[City_Code],[State],[Country],[Phone1],[Phone2],[Fax],[Email],[WebSite],[Contact_Person_Name],[Contact_Person_Phone],[Contact_Person_Fax]" &
+                     " ,[Contact_Person_Website],[Contact_Person_Email],[Terms_Code],[Cust_Account],[Tax_Group],[TAX1],[TAX1_Rate],[TAX2],[TAX2_Rate],[TAX3],[TAX3_Rate],[TAX4],[TAX4_Rate],[TAX5],[TAX5_Rate],[TAX6],[TAX6_Rate] " &
+                     " ,[TAX7],[TAX7_Rate],[TAX8],[TAX8_Rate],[TAX9],[TAX9_Rate],[TAX10],[TAX10_Rate],[Payment_Code],[Service_Tax_No] " &
+                     " ,[Tin_No],[Lst_No],[Form_Type],[Channel_Code],[Status],[OnHold],[Remarks1],[Remarks2],[Additional1],[Additional2],[Additional3],[Salesman_Code],[Visi_Id] " &
+                     " ,[Credit_Limit],[Channel_Desc],[Visi_Desc],[Salesman_Desc],[Route_Group],[CST],[ECC],[Range],[Collectorate],[PAN],[Division], [Parent_Customer_No],Customer_Class,credit_customer,Price_CodeNon,Price_CodeFOR,Inter_branch,transaction_type,Agg_Made_Date,Agg_Close_Date,CURRENCY_CODE,parent_customer_yn,Service_Dealer_Code,TDM_Code,Distributor_Code,IsDistributor,Is_Default_Grower,Price_Group_Code,CSA_Type,Category_Struct_Code,TempCreditLimit,TempCreditLimitFrom,TempCreditLimitTo,CheckCreditLimit,Alies_Name,Zone_Code,[PIN_NO],Crate_Opening ,Crate_Opening_Date,Franchise_Code,Other_For_PAN,OldName,VehicleNo,Driver_Name,Driver_Mobile_No,Manual_Customer,GSTNO,GSTEntity,GSTBlank,GSTDigit,Region_Type,GST_Registered,GST_COMPOSITION,[Priority_Level],FSSAI_NO,SubsidyAmount,RSM,ASM,ASO,ZSM,Booking_Type,Customer_Category,isnull(Bank_Name,'') as Bank_Name,isnull(IFSC_Code,'') as IFSC_Code,isnull(Branch_Name,'') as Branch_Name,isnull(Account_No,'') as Account_No,isnull(IsTCSnotApplicable,0) as IsTCSnotApplicable,isnull(IsTurnoverMorethan10CR,0) as IsTurnoverMorethan10CR,isnull(IsTCSGreaterthan50K,0) as IsTCSGreaterthan50K,isnull(IsITRfilledinLast2Years,0) as IsITRfilledinLast2Years " &
+                     " ,isnull(F_H_Name,'') as F_H_Name,isnull(Education,'') as Education,isnull(ResidentialAdd1,'') as ResidentialAdd1,isnull(ResidentialAdd2,'') as ResidentialAdd2,DOB,MaritalStatus,CustStatus,Area_Code " &
+                     " ,[Customer_Name_Hindi],IsReorder,Cast_Category_Code,Distict_Code,Block_Code,Revenue_Village_Code,Grampanchayat_Code,Panchayat_Samiti_Code,Vidhan_Sabha_Code from TSPL_CUSTOMER_MASTER  where CUSTOMER_FORM_TYPE='ALL' and Cust_Code = '" + strCode + "'"
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry, trans)
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
             Throw New Exception("Customer Code -" + strCode + ". Not Exist")
         End If
         obj = New clsCustomerMaster()
         obj.Customer_Name = clsCommon.myCstr(dt.Rows(0)("Customer_Name"))
+        obj.Add1 = clsCommon.myCstr(dt.Rows(0)("Add1"))
+        obj.Add2 = clsCommon.myCstr(dt.Rows(0)("Add2"))
+        obj.Add3 = clsCommon.myCstr(dt.Rows(0)("Add3"))
+        If dt.Rows(0)("Closing_Date") Is DBNull.Value Then
+            obj.Closing_Date = Nothing
+        Else
+            obj.Closing_Date = clsCommon.myCstr(dt.Rows(0)("Closing_Date"))
+        End If
+        obj.Cust_Category_Code = clsCommon.myCstr(dt.Rows(0)("Cust_Category_Code"))
+        obj.Cust_Group_Code = clsCommon.myCstr(dt.Rows(0)("Cust_Group_Code"))
+        obj.Cust_Type_Code = clsCommon.myCstr(dt.Rows(0)("Cust_Type_Code"))
+        obj.Route_No = clsCommon.myCstr(dt.Rows(0)("Route_No"))
+        ''  obj.Route_Desc = clsCommon.myCstr(dt.Rows(0)("Route_Desc"))
+        obj.Price_Code = clsCommon.myCstr(dt.Rows(0)("Price_Code"))
+        obj.City_Code = clsCommon.myCstr(dt.Rows(0)("City_Code"))
+        obj.State = clsCommon.myCstr(dt.Rows(0)("State"))
+        obj.Country = clsCommon.myCstr(dt.Rows(0)("Country"))
+        obj.Phone1 = clsCommon.myCstr(dt.Rows(0)("Phone1"))
+        obj.Phone2 = clsCommon.myCstr(dt.Rows(0)("Phone2"))
+        obj.Fax = clsCommon.myCstr(dt.Rows(0)("Fax"))
+        obj.Email = clsCommon.myCstr(dt.Rows(0)("Email"))
+        obj.WebSite = clsCommon.myCstr(dt.Rows(0)("WebSite"))
+        obj.Contact_Person_Name = clsCommon.myCstr(dt.Rows(0)("Contact_Person_Name"))
+        obj.Contact_Person_Phone = clsCommon.myCstr(dt.Rows(0)("Contact_Person_Phone"))
+        obj.Contact_Person_Fax = clsCommon.myCstr(dt.Rows(0)("Contact_Person_Fax"))
+        obj.Contact_Person_Website = clsCommon.myCstr(dt.Rows(0)("Contact_Person_Website"))
+        obj.Contact_Person_Email = clsCommon.myCstr(dt.Rows(0)("Contact_Person_Email"))
+        obj.Terms_Code = clsCommon.myCstr(dt.Rows(0)("Terms_Code"))
         obj.Cust_Account = clsCommon.myCstr(dt.Rows(0)("Cust_Account"))
+        obj.Tax_Group = clsCommon.myCstr(dt.Rows(0)("Tax_Group"))
+        obj.TAX1 = clsCommon.myCstr(dt.Rows(0)("TAX1"))
+        obj.TAX1_Rate = clsCommon.myCstr(dt.Rows(0)("TAX1_Rate"))
+        obj.TAX2 = clsCommon.myCstr(dt.Rows(0)("TAX2"))
+        obj.TAX2_Rate = clsCommon.myCstr(dt.Rows(0)("TAX2_Rate"))
+        obj.TAX3 = clsCommon.myCstr(dt.Rows(0)("TAX3"))
+        obj.TAX3_Rate = clsCommon.myCstr(dt.Rows(0)("TAX3_Rate"))
+        obj.TAX4 = clsCommon.myCstr(dt.Rows(0)("TAX4"))
+        obj.TAX4_Rate = clsCommon.myCstr(dt.Rows(0)("TAX4_Rate"))
+        obj.TAX5 = clsCommon.myCstr(dt.Rows(0)("TAX5"))
+        obj.TAX5_Rate = clsCommon.myCstr(dt.Rows(0)("TAX5_Rate"))
+        obj.TAX6 = clsCommon.myCstr(dt.Rows(0)("TAX6"))
+        obj.TAX6_Rate = clsCommon.myCstr(dt.Rows(0)("TAX6_Rate"))
+        obj.TAX7 = clsCommon.myCstr(dt.Rows(0)("TAX7"))
+        obj.TAX7_Rate = clsCommon.myCstr(dt.Rows(0)("TAX7_Rate"))
+        obj.TAX8 = clsCommon.myCstr(dt.Rows(0)("TAX8"))
+        obj.TAX8_Rate = clsCommon.myCstr(dt.Rows(0)("TAX8_Rate"))
+        obj.TAX9 = clsCommon.myCstr(dt.Rows(0)("TAX9"))
+        obj.TAX9_Rate = clsCommon.myCstr(dt.Rows(0)("TAX9_Rate"))
+        obj.TAX10 = clsCommon.myCstr(dt.Rows(0)("TAX10"))
+        obj.TAX10_Rate = clsCommon.myCstr(dt.Rows(0)("TAX10_Rate"))
+        obj.Payment_Code = clsCommon.myCstr(dt.Rows(0)("Payment_Code"))
+        obj.Service_Tax_No = clsCommon.myCstr(dt.Rows(0)("Service_Tax_No"))
+        obj.Tin_No = clsCommon.myCstr(dt.Rows(0)("Tin_No"))
+        obj.Lst_No = clsCommon.myCstr(dt.Rows(0)("Lst_No"))
+        obj.Form_Type = clsCommon.myCstr(dt.Rows(0)("Form_Type"))
+        obj.Channel_Code = clsCommon.myCstr(dt.Rows(0)("Channel_Code"))
+        obj.Status = clsCommon.myCstr(dt.Rows(0)("Status"))
+        obj.OnHold = clsCommon.myCstr(dt.Rows(0)("OnHold"))
+        obj.Remarks1 = clsCommon.myCstr(dt.Rows(0)("Remarks1"))
+        obj.Remarks2 = clsCommon.myCstr(dt.Rows(0)("Remarks2"))
+        obj.Additional1 = clsCommon.myCstr(dt.Rows(0)("Additional1"))
+        obj.Additional2 = clsCommon.myCstr(dt.Rows(0)("Additional2"))
+        obj.Additional3 = clsCommon.myCstr(dt.Rows(0)("Additional3"))
+        obj.Salesman_Code = clsCommon.myCstr(dt.Rows(0)("Salesman_Code"))
+        '' obj.Visi_Id = clsCommon.myCstr(dt.Rows(0)("Visi_Id"))
+        obj.Credit_Limit = clsCommon.myCstr(dt.Rows(0)("Credit_Limit"))
+        '' obj.Channel_Desc = clsCommon.myCstr(dt.Rows(0)("Channel_Desc"))
+        '' obj.Visi_Desc = clsCommon.myCstr(dt.Rows(0)("Visi_Desc"))
+        ''obj.Salesman_Desc = clsCommon.myCstr(dt.Rows(0)("Salesman_Desc"))
+        obj.Route_Group = clsCommon.myCstr(dt.Rows(0)("Route_Group"))
+        obj.CST = clsCommon.myCstr(dt.Rows(0)("CST"))
+        obj.ECC = clsCommon.myCstr(dt.Rows(0)("ECC"))
+        obj.Range = clsCommon.myCstr(dt.Rows(0)("Range"))
+        obj.Collectorate = clsCommon.myCstr(dt.Rows(0)("Collectorate"))
+        obj.PAN = clsCommon.myCstr(dt.Rows(0)("PAN"))
+        obj.Division = clsCommon.myCstr(dt.Rows(0)("Division"))
+        obj.Parent_Customer_No = clsCommon.myCstr(dt.Rows(0)("Parent_Customer_No"))
+        obj.Customer_Class = clsCommon.myCstr(dt.Rows(0)("Customer_Class"))
+        obj.Credit_Customer = clsCommon.myCstr(dt.Rows(0)("credit_customer"))
+        obj.Price_CodeNon = clsCommon.myCstr(dt.Rows(0)("Price_CodeNon"))
+        obj.Price_CodeFOR = clsCommon.myCstr(dt.Rows(0)("Price_CodeFOR"))
+        obj.Inter_Branch = clsCommon.myCstr(dt.Rows(0)("Inter_branch"))
+        obj.Transaction_Type = clsCommon.myCstr(dt.Rows(0)("transaction_type"))
+        If dt.Rows(0)("Agg_Made_Date") Is DBNull.Value Then
+            obj.Agg_Made_Date = Nothing
+        Else
+            obj.Agg_Made_Date = clsCommon.myCstr(dt.Rows(0)("Agg_Made_Date"))
+        End If
+        If dt.Rows(0)("Agg_Close_Date") Is DBNull.Value Then
+            obj.Agg_Close_Date = Nothing
+        Else
+            obj.Agg_Close_Date = clsCommon.myCstr(dt.Rows(0)("Agg_Close_Date"))
+        End If
+        obj.CURRENCY_CODE = clsCommon.myCstr(dt.Rows(0)("CURRENCY_CODE"))
+        obj.prntcustyn = clsCommon.myCstr(dt.Rows(0)("parent_customer_yn"))
+        obj.ServiceDealerCode = clsCommon.myCstr(dt.Rows(0)("Service_Dealer_Code"))
+        obj.TDMCode = clsCommon.myCstr(dt.Rows(0)("TDM_Code"))
+        obj.DistributorCode = clsCommon.myCstr(dt.Rows(0)("Distributor_Code"))
+        obj.IsDistributor = clsCommon.myCstr(dt.Rows(0)("IsDistributor"))
+        obj.Is_Default_Grower = clsCommon.myCstr(dt.Rows(0)("Is_Default_Grower"))
+        obj.Price_Group_Code = clsCommon.myCstr(dt.Rows(0)("Price_Group_Code"))
+        obj.CSA_Type = clsCommon.myCstr(dt.Rows(0)("CSA_Type"))
+        obj.cat_struct_code = clsCommon.myCstr(dt.Rows(0)("Category_Struct_Code"))
+        obj.TempCreditLimit = clsCommon.myCdbl(dt.Rows(0)("TempCreditLimit"))
+        If dt.Rows(0)("TempCreditLimitFrom") Is DBNull.Value Then
+            obj.TempCreditLimitFrom = Nothing
+        Else
+            obj.TempCreditLimitFrom = clsCommon.myCstr(dt.Rows(0)("TempCreditLimitFrom"))
+
+        End If
+        If dt.Rows(0)("TempCreditLimitTo") Is DBNull.Value Then
+            obj.TempCreditLimitTo = Nothing
+        Else
+            obj.TempCreditLimitTo = clsCommon.myCstr(dt.Rows(0)("TempCreditLimitTo"))
+
+        End If
+        obj.CheckCreditLimit = clsCommon.myCstr(dt.Rows(0)("CheckCreditLimit"))
+        obj.Alies_Name = clsCommon.myCstr(dt.Rows(0)("Alies_Name"))
+        obj.Zone_Code = clsCommon.myCstr(dt.Rows(0)("Zone_Code"))
+        obj.PIN_NO = clsCommon.myCstr(dt.Rows(0)("PIN_NO"))
+        obj.Crate_Opening = clsCommon.myCstr(dt.Rows(0)("Crate_Opening"))
+        If dt.Rows(0)("Crate_Opening_Date") Is DBNull.Value Then
+            obj.Crate_Opening_Date = Nothing
+        Else
+            obj.Crate_Opening_Date = clsCommon.myCstr(dt.Rows(0)("Crate_Opening_Date"))
+        End If
+        obj.Franchise_CODE = clsCommon.myCstr(dt.Rows(0)("Franchise_Code"))
+        obj.Other_For_PAN = clsCommon.myCstr(dt.Rows(0)("Other_For_PAN"))
+        obj.OldName = clsCommon.myCstr(dt.Rows(0)("OldName"))
+        obj.Vehicle_No = clsCommon.myCstr(dt.Rows(0)("VehicleNo"))
+        obj.Driver_Name = clsCommon.myCstr(dt.Rows(0)("Driver_Name"))
+        obj.Driver_Mobile_No = clsCommon.myCstr(dt.Rows(0)("Driver_Mobile_No"))
+        obj.ManualCustomer = clsCommon.myCstr(dt.Rows(0)("Manual_Customer"))
+        obj.GSTNO = clsCommon.myCstr(dt.Rows(0)("GSTNO"))
+        obj.GSTEntity = clsCommon.myCstr(dt.Rows(0)("GSTEntity"))
+        obj.GSTBlank = clsCommon.myCstr(dt.Rows(0)("GSTBlank"))
+        obj.GSTDigit = clsCommon.myCstr(dt.Rows(0)("GSTDigit"))
+        obj.Region_Type = clsCommon.myCstr(dt.Rows(0)("Region_Type"))
+        obj.GST_Registered = clsCommon.myCstr(dt.Rows(0)("GST_Registered"))
+        obj.GST_COMPOSITION = clsCommon.myCstr(dt.Rows(0)("GST_COMPOSITION"))
+        obj.Priority_Level = clsCommon.myCstr(dt.Rows(0)("Priority_Level"))
+        obj.FSSAI_NO = clsCommon.myCstr(dt.Rows(0)("FSSAI_NO"))
+        obj.SubsidyAmount = clsCommon.myCstr(dt.Rows(0)("SubsidyAmount"))
+        obj.RSM = clsCommon.myCstr(dt.Rows(0)("RSM"))
+        obj.ASM = clsCommon.myCstr(dt.Rows(0)("ASM"))
+        obj.ASO = clsCommon.myCstr(dt.Rows(0)("ASO"))
+        obj.ZSM = clsCommon.myCstr(dt.Rows(0)("ZSM"))
+        obj.Booking_Type = clsCommon.myCstr(dt.Rows(0)("Booking_Type"))
+        obj.Customer_Category = clsCommon.myCstr(dt.Rows(0)("Customer_Category"))
+        obj.Bank_Name = clsCommon.myCstr(dt.Rows(0)("Bank_Name"))
+        obj.IFSC_Code = clsCommon.myCstr(dt.Rows(0)("IFSC_Code"))
+        obj.Branch_Name = clsCommon.myCstr(dt.Rows(0)("Branch_Name"))
+        obj.Account_No = clsCommon.myCstr(dt.Rows(0)("Account_No"))
+        obj.IsTCSnotApplicable = clsCommon.myCstr(dt.Rows(0)("IsTCSnotApplicable"))
+        obj.IsTurnoverMorethan10CR = clsCommon.myCstr(dt.Rows(0)("IsTurnoverMorethan10CR"))
+        obj.IsTCSGreaterthan50K = clsCommon.myCstr(dt.Rows(0)("IsTCSGreaterthan50K"))
+        obj.IsITRfilledinLast2Years = clsCommon.myCstr(dt.Rows(0)("IsITRfilledinLast2Years"))
+        obj.F_H_Name = clsCommon.myCstr(dt.Rows(0)("F_H_Name"))
+        obj.Education = clsCommon.myCstr(dt.Rows(0)("Education"))
+        obj.ResidentialAdd1 = clsCommon.myCstr(dt.Rows(0)("ResidentialAdd1"))
+        obj.ResidentialAdd2 = clsCommon.myCstr(dt.Rows(0)("ResidentialAdd2"))
+        If dt.Rows(0)("DOB") Is DBNull.Value Then
+            obj.DOB = Nothing
+        Else
+            obj.DOB = clsCommon.myCstr(dt.Rows(0)("DOB"))
+        End If
+        obj.MaritalStatus = clsCommon.myCstr(dt.Rows(0)("MaritalStatus"))
+        obj.CustStatus = clsCommon.myCstr(dt.Rows(0)("CustStatus"))
+        obj.Area_Code = clsCommon.myCstr(dt.Rows(0)("Area_Code"))
+        obj.Customer_Name_Hindi = clsCommon.myCstr(dt.Rows(0)("Customer_Name_Hindi"))
+        obj.IsReorder = clsCommon.myCstr(dt.Rows(0)("IsReorder"))
+        obj.Cast_Category_Code = clsCommon.myCstr(dt.Rows(0)("Cast_Category_Code"))
+        obj.Distict_Code = clsCommon.myCstr(dt.Rows(0)("Distict_Code"))
+        obj.Block_Code = clsCommon.myCstr(dt.Rows(0)("Block_Code"))
+        obj.Revenue_Village_Code = clsCommon.myCstr(dt.Rows(0)("Revenue_Village_Code"))
+        obj.Grampanchayat_Code = clsCommon.myCstr(dt.Rows(0)("Grampanchayat_Code"))
+        obj.Panchayat_Samiti_Code = clsCommon.myCstr(dt.Rows(0)("Panchayat_Samiti_Code"))
+        obj.Vidhan_Sabha_Code = clsCommon.myCstr(dt.Rows(0)("Vidhan_Sabha_Code"))
         Return obj
     End Function
     Public Shared Function GetName(ByVal strCode As String, ByVal trans As SqlTransaction) As String

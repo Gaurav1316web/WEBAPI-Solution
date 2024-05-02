@@ -447,6 +447,7 @@
     <Compile Include="Milk Procurement\clsMilkCollectionMCCMulipleDays.vb" />
     <Compile Include="Milk Procurement\clsMilkPurchaseInvoiceProvision.vb" />
     <Compile Include="Milk Procurement\clsMilkShiftUploader.vb" />
+    <Compile Include="Milk Procurement\clsMilkSRN.vb" />
     <Compile Include="Milk Procurement\clsMPDCSInsentiveReco.vb" />
     <Compile Include="Milk Procurement\clsMPIncentiveEntry.vb" />
     <Compile Include="Milk Procurement\clsMPIncetiveSlab.vb" />
@@ -532,6 +533,7 @@
     <Compile Include="Shared Form\RptBulkMilkMultiplePurchaseInvoice.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Sheed\clsSheedGrowerMaster.vb" />
     <Compile Include="UserControl\ucCustomFields.Designer.vb">
       <DependentUpon>ucCustomFields.vb</DependentUpon>
     </Compile>

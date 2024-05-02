@@ -22,6 +22,7 @@ Imports XpertERPTDS
 Imports XpertERPPurchase
 Imports XpertERPMIS
 Imports XpertErpBullManagement
+Imports XpertERPSheed
 
 Public Class MDI
 #Region "Varaibles"
@@ -9842,10 +9843,22 @@ Public Class MDI
                     Case clsUserMgtCode.frmBullCMUGrouping
                         frm = New frmBullCMUGrouping
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
                     Case clsUserMgtCode.frmInsuranceTagAllocation
                         frm = New frmInsuranceTagAllocation
                         formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
 
+                    Case clsUserMgtCode.frmCMUChecklistEntry
+                        frm = New frmCMUChecklistEntry
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
+
+
+
+
+                        '------------- SHEED  -----------
+                    Case clsUserMgtCode.frmSheedGrowerMaster
+                        frm = New frmSheedGrowerMaster
+                        formShow(frm, strProgramCode, strProgramName, isOpenInMDI, strDocNo, IFTrueShowFormElseShowDialog)
                         '-------------------- MIS Master---------------
 
                         'Case clsUserMgtCode.MISitemGroups

@@ -668,7 +668,132 @@ Public Class clsCustomFieldGrid
         End If
 
     End Sub
+    Public Shared Sub LoadBlankGrid(ByVal gv1 As RadGridView, ByVal ArrDetailFields As List(Of clsCustomFieldMapping), ByVal trans As SqlTransaction, Optional Report_Id As String = "")
+        If ArrDetailFields IsNot Nothing AndAlso ArrDetailFields.Count > 0 AndAlso clsCommon.myLen(Report_Id) > 0 Then
 
+            ControlsInvolvedinCalculation = ucCustomFields.getControlInvolvedInCalculation(Report_Id, trans)
+            If ControlsInvolvedinCalculation IsNot Nothing AndAlso ControlsInvolvedinCalculation.Count > 0 Then
+                FormId = Report_Id
+                ArrCustomFields = ArrDetailFields
+                grid = gv1
+                AddHandler gv1.CellValueChanged, AddressOf clsCustomFieldGrid.Grid_CellValueChanged
+            End If
+            For Each obj As clsCustomFieldMapping In ArrDetailFields
+                If obj.Is_Validate Then
+                    'Dim qry As String = "select Value,Description from TSPL_CUSTOM_FIELD_DETAIL where Custom_Field_Code='" + obj.Custom_Field_Code + "' order by SNo"
+                    'Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
+                    'Dim dr As DataRow = dt.NewRow()
+                    'dr("Value") = ""
+                    'dt.Rows.InsertAt(dr, 0)
+
+                    'Dim repoItem As GridViewMultiComboBoxColumn = New GridViewMultiComboBoxColumn()
+                    'repoItem.FormatString = ""
+                    'repoItem.HeaderText = obj.Custom_Field_Name
+                    'repoItem.Name = obj.Custom_Field_Code
+                    'repoItem.Width = 100
+                    'repoItem.ReadOnly = False
+                    'repoItem.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+                    'repoItem.DataSource = dt
+                    'repoItem.ValueMember = "Value"
+                    'repoItem.DisplayMember = "Description"
+                    'gv1.MasterTemplate.Columns.Add(repoItem)
+
+                    Dim repoItem As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+                    repoItem.FormatString = ""
+                    repoItem.HeaderText = obj.Custom_Field_Name
+                    repoItem.Name = obj.Custom_Field_Code
+                    repoItem.Width = 100
+                    repoItem.ReadOnly = False
+                    repoItem.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+                    repoItem.HeaderImage = Global.XpertERPEngine.My.Resources.search4
+                    repoItem.TextImageRelation = TextImageRelation.TextBeforeImage
+                    'repoItem.Tag=obj.Custom_Field_Field_Name 
+                    If obj.Is_CalCulated_Column = 1 Then
+                        repoItem.ReadOnly = True
+                    End If
+                    gv1.MasterTemplate.Columns.Add(repoItem)
+                    ' gv1.MasterTemplate.Columns(obj.Custom_Field_Code).Tag = "CFLD"
+                    gv1.MasterTemplate.Columns(obj.Custom_Field_Code).FieldName = "_CFLD_" & obj.Custom_Field_Code
+
+                    Dim repoItemDesc As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+                    repoItemDesc.FormatString = ""
+                    repoItemDesc.HeaderText = obj.Custom_Field_Name & " Description"
+                    repoItemDesc.Name = obj.Custom_Field_Code & "DESC"
+                    repoItemDesc.Width = 100
+                    repoItemDesc.ReadOnly = True
+                    repoItemDesc.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+                    If obj.Is_CalCulated_Column = 1 Then
+                        repoItemDesc.ReadOnly = True
+                    End If
+                    gv1.MasterTemplate.Columns.Add(repoItemDesc)
+
+
+                    'Dim repoItem As GridViewComboBoxColumn = New GridViewComboBoxColumn()
+                    'repoItem.FormatString = ""
+                    'repoItem.HeaderText = obj.Custom_Field_Name
+                    'repoItem.Name = obj.Custom_Field_Code
+                    'repoItem.Width = 100
+                    'repoItem.ReadOnly = False
+                    'repoItem.TextAlignment = System.Drawing.ContentAlignment.MiddleLeft
+                    'repoItem.DataSource = dt
+                    'repoItem.ValueMember = "Value"
+                    'repoItem.DisplayMember = "Description"
+                    'gv1.MasterTemplate.Columns.Add(repoItem)
+                ElseIf obj.Type = EnumCustomFieldType.TextType Then
+                    Dim repoItem As GridViewTextBoxColumn = New GridViewTextBoxColumn()
+                    repoItem.HeaderText = obj.Custom_Field_Name
+                    repoItem.Name = obj.Custom_Field_Code
+                    repoItem.Width = 100
+                    repoItem.ReadOnly = False
+                    If obj.Is_CalCulated_Column = 1 Then
+                        repoItem.ReadOnly = True
+                    End If
+                    gv1.MasterTemplate.Columns.Add(repoItem)
+                ElseIf obj.Type = EnumCustomFieldType.NumberType Then
+                    Dim repoItem As GridViewDecimalColumn = New GridViewDecimalColumn()
+                    repoItem.WrapText = True
+                    repoItem.ReadOnly = False
+                    repoItem.FormatString = ""
+                    repoItem.HeaderText = obj.Custom_Field_Name
+                    repoItem.Name = obj.Custom_Field_Code
+                    repoItem.Width = 100
+                    repoItem.Minimum = 0
+                    If obj.Is_CalCulated_Column = 1 Then
+                        repoItem.ReadOnly = True
+                    End If
+                    repoItem.TextAlignment = System.Drawing.ContentAlignment.MiddleRight
+                    gv1.MasterTemplate.Columns.Add(repoItem)
+                ElseIf obj.Type = EnumCustomFieldType.DateType Then
+                    Dim repoItem As GridViewDateTimeColumn = New GridViewDateTimeColumn()
+                    repoItem.Format = DateTimePickerFormat.Custom
+                    repoItem.CustomFormat = "dd-MM-yyyy"
+                    repoItem.HeaderText = obj.Custom_Field_Name
+                    repoItem.FormatString = "{0:d}"
+                    repoItem.Name = obj.Custom_Field_Code
+                    repoItem.WrapText = True
+                    repoItem.ReadOnly = False
+                    If obj.Is_CalCulated_Column = 1 Then
+                        repoItem.ReadOnly = True
+                    End If
+                    repoItem.Width = 100
+                    gv1.MasterTemplate.Columns.Add(repoItem)
+                ElseIf obj.Type = EnumCustomFieldType.CheckType Then
+                    Dim repoItem As GridViewCheckBoxColumn = New GridViewCheckBoxColumn()
+                    repoItem.HeaderText = obj.Custom_Field_Name
+                    repoItem.Name = obj.Custom_Field_Code
+                    repoItem.ReadOnly = False
+                    repoItem.IsVisible = True
+                    If obj.Is_CalCulated_Column = 1 Then
+                        repoItem.ReadOnly = True
+                    End If
+                    repoItem.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter
+                    repoItem.Width = 100
+                    gv1.MasterTemplate.Columns.Add(repoItem)
+                End If
+            Next
+        End If
+
+    End Sub
     Public Shared Sub GetData(ByRef arr As List(Of clsCustomFieldValues), ByVal gv1 As RadGridView, ByVal ArrDetailFields As List(Of clsCustomFieldMapping), ByVal strConditionalCol As String)
         If ArrDetailFields IsNot Nothing AndAlso ArrDetailFields.Count > 0 Then
             For Each objSetting As clsCustomFieldMapping In ArrDetailFields

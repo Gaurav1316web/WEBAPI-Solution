@@ -1,4 +1,5 @@
-﻿Imports common
+﻿Imports System.Data.SqlClient
+Imports common
 Public Class clsGetKeys
     Public Shared Function GetUniqueKeyName(ByVal TableName As String, ByVal ArrColumns As ArrayList) As String
         Dim UKName As String = ""
@@ -20,6 +21,17 @@ AND c.name IN (" + clsCommon.GetMulcallString(ArrColumns) + ")
             Throw New Exception(ex.ToString)
         End Try
         Return UKName
+    End Function
+
+    Public Shared Function GetForeignKeyName(ByVal strTableName As String, ByVal strColumnsName As String, ByVal tran As SqlTransaction) As String
+        Dim FKName As String = ""
+        Try
+            Dim sQuery = " SELECT  A.CONSTRAINT_NAME FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS A, INFORMATION_SCHEMA.CONSTRAINT_COLUMN_USAGE B WHERE CONSTRAINT_TYPE = 'FOREIGN KEY' AND A.CONSTRAINT_NAME = B.CONSTRAINT_NAME and a.TABLE_NAME='" + strTableName + "' and b.COLUMN_NAME='" + strColumnsName + "' ORDER BY A.TABLE_NAME"
+            FKName = clsCommon.myCstr(clsDBFuncationality.getSingleValue(sQuery, tran))
+        Catch ex As Exception
+            Throw New Exception(ex.ToString)
+        End Try
+        Return FKName
     End Function
 End Class
 

@@ -44,6 +44,7 @@ Partial Class frmVendorMaster
         Dim RadListDataItem16 As Telerik.WinControls.UI.RadListDataItem = New Telerik.WinControls.UI.RadListDataItem()
         Dim TableViewDefinition2 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.vendorgrpbox = New Telerik.WinControls.UI.RadGroupBox()
+        Me.chkDefaultGrower = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkProvisional = New Telerik.WinControls.UI.RadCheckBox()
         Me.chkOEM = New Telerik.WinControls.UI.RadCheckBox()
         Me.TxtOldname = New common.Controls.MyTextBox()
@@ -302,6 +303,7 @@ Partial Class frmVendorMaster
         Me.btnHistory = New Telerik.WinControls.UI.RadButton()
         CType(Me.vendorgrpbox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.vendorgrpbox.SuspendLayout()
+        CType(Me.chkDefaultGrower, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkProvisional, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.chkOEM, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.TxtOldname, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -548,6 +550,7 @@ Partial Class frmVendorMaster
         'vendorgrpbox
         '
         Me.vendorgrpbox.AccessibleRole = System.Windows.Forms.AccessibleRole.Grouping
+        Me.vendorgrpbox.Controls.Add(Me.chkDefaultGrower)
         Me.vendorgrpbox.Controls.Add(Me.chkProvisional)
         Me.vendorgrpbox.Controls.Add(Me.chkOEM)
         Me.vendorgrpbox.Controls.Add(Me.TxtOldname)
@@ -590,6 +593,15 @@ Partial Class frmVendorMaster
         Me.vendorgrpbox.Size = New System.Drawing.Size(1003, 490)
         Me.vendorgrpbox.TabIndex = 0
         Me.vendorgrpbox.ThemeName = "ControlDefault"
+        '
+        'chkDefaultGrower
+        '
+        Me.chkDefaultGrower.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.chkDefaultGrower.Location = New System.Drawing.Point(901, 31)
+        Me.chkDefaultGrower.Name = "chkDefaultGrower"
+        Me.chkDefaultGrower.Size = New System.Drawing.Size(96, 16)
+        Me.chkDefaultGrower.TabIndex = 1373
+        Me.chkDefaultGrower.Text = "Default Grower"
         '
         'chkProvisional
         '
@@ -4777,6 +4789,7 @@ Partial Class frmVendorMaster
         CType(Me.vendorgrpbox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.vendorgrpbox.ResumeLayout(False)
         Me.vendorgrpbox.PerformLayout()
+        CType(Me.chkDefaultGrower, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkProvisional, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.chkOEM, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.TxtOldname, System.ComponentModel.ISupportInitialize).EndInit()
@@ -5295,5 +5308,6 @@ Partial Class frmVendorMaster
     Friend WithEvents txtContPhone As common.Controls.MyTextBox
     Friend WithEvents chkProvisional As RadCheckBox
     Friend WithEvents InActiveCF As RadCheckBox
+    Friend WithEvents chkDefaultGrower As RadCheckBox
 End Class
 
