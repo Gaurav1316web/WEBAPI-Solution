@@ -390,7 +390,7 @@ Public Class frmVehicleMaster
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsVehicleMaster.DeleteData(fndVehicle_id.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If
@@ -1060,7 +1060,7 @@ Public Class frmVehicleMaster
             End If
             LoadData(fndVehicle_id.Value, NavigatorType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -1196,7 +1196,7 @@ Public Class frmVehicleMaster
                 funReset()
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
 
         End Try
     End Sub
@@ -1384,7 +1384,7 @@ Public Class frmVehicleMaster
             gv.ShowGroupPanel = False
             gv.AddNewRowPosition = SystemRowPosition.Bottom
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 

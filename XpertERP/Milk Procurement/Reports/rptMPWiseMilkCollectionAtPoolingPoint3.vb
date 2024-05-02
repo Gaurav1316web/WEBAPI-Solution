@@ -400,7 +400,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             gv.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             txtReportType.Text = "DateWise"
@@ -880,7 +880,7 @@ Public Class RptMPWiseMilkCollectionAtPoolingPoint3
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -948,7 +948,7 @@ select [MCC Code],max([MCC Name]) as [MCC Name],[VLC Code],max([VLC Uploader]) a
             gv.MasterTemplate.SummaryRowsBottom.Clear()
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
             txtReportType.Text = "MP Polling Count"
@@ -1097,7 +1097,7 @@ where [VLC Code]='" + clsCommon.myCstr(gv.CurrentRow.Cells("VLC Code").Value) + 
                 frmCRV = Nothing
             End If
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-                clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
                 Exit Sub
             End If
 

@@ -311,7 +311,7 @@ Public Class FrmMaterialSalePriceChart
             LoadData()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Me.Controls.Remove(gv1)
     End Sub
@@ -455,7 +455,7 @@ Public Class FrmMaterialSalePriceChart
             LoadData()
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

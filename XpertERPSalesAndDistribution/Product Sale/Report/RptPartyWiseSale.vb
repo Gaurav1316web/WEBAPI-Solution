@@ -357,7 +357,7 @@ Public Class RptPartyWiseSale
                 clsCommon.MyExportToPDF("Party Wise Sale Register", Gv1, arrHeader, "Party Wise Sale Register", PageSetupReport_ID, objCommonVar.CurrentUserCode)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

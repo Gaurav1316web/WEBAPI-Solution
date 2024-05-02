@@ -30,7 +30,7 @@ Public Class frmCustomerTargetReport
             SetupMasterForAutoGenerateHierarchy()
             btnGenrate.Enabled = True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             btnGenrate.Enabled = True
         End Try
     End Sub

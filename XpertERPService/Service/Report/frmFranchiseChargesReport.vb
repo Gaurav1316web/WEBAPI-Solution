@@ -136,7 +136,7 @@ Public Class FrmFranchiseChargesReport
                 clsCommon.MyExportToPDF("Franchise Charges Report", GV, arrHeader, "Call Basis Rate For Franchisee", True)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

@@ -690,7 +690,7 @@ Public Class frmOutgoingQCEntry
             Dim Reason As String = ""
             If (myMessages.deleteConfirm()) Then
                 If (ClsOutgoingQcEntry.DeleteData(txtDocNo.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Addnew()
                 End If
             End If

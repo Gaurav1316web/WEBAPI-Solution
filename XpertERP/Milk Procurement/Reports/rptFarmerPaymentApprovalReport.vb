@@ -246,7 +246,7 @@ Public Class rptFarmerPaymentApprovalReport
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, Me.Text)
         End Try
     End Sub
 

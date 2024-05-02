@@ -153,7 +153,7 @@ Public Class FrmCommissionMaster
 
             Next
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -293,7 +293,7 @@ Public Class FrmCommissionMaster
 
             'Return True
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
         Return True
@@ -414,7 +414,7 @@ Public Class FrmCommissionMaster
             End If
 
                 Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -449,7 +449,7 @@ Public Class FrmCommissionMaster
             Dim str As String = "delete from TSPL_Commission_Master where item_code='" + fndItemCode.Value + "' and  uom='" + fndunit.Value + "'  and Hierarchy='" + ddlhier.Text + "'"
             clsDBFuncationality.ExecuteNonQuery(str)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Public Sub funexport()
@@ -590,7 +590,7 @@ Public Class FrmCommissionMaster
             funfill()
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -622,7 +622,7 @@ Public Class FrmCommissionMaster
 
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -649,7 +649,7 @@ Public Class FrmCommissionMaster
                 End If
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

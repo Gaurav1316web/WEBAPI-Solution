@@ -150,7 +150,7 @@ Public Class frmDisplaySquenece
             FillData()
             gv1Format()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -222,7 +222,7 @@ Public Class frmDisplaySquenece
             txtRouteNo.Value = clsCommon.ShowSelectForm("DSeqRouteFin", qry, "Code", "", txtRouteNo.Value, "", isButtonClicked)
             lblRouteDesc.Text = clsCommon.myCstr(clsRouteMaster.GetName(txtRouteNo.Value, Nothing))
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -244,7 +244,7 @@ Public Class frmDisplaySquenece
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 Next
 
-                common.clsCommon.MyMessageBoxShow("Update Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Update Successfully", Me.Text)
                 btnShow.PerformClick()
             ElseIf clsCommon.CompairString(clsCommon.myCstr(cboModule.SelectedValue), "Customer") = CompairStringResult.Equal Then
                 For irow As Integer = 0 To gv1.Rows.Count - 1
@@ -252,11 +252,11 @@ Public Class frmDisplaySquenece
                     clsDBFuncationality.ExecuteNonQuery(qry)
                 Next
 
-                common.clsCommon.MyMessageBoxShow("Update Successfully")
+                common.clsCommon.MyMessageBoxShow(Me, "Update Successfully", Me.Text)
                 btnShow.PerformClick()
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
          
 
@@ -278,7 +278,7 @@ Public Class frmDisplaySquenece
 
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

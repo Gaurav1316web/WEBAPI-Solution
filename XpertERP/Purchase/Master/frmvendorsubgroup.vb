@@ -119,7 +119,7 @@ Public Class frmVendorsubGroup
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsVendorSubGroup.DeleteData(fndgroupcode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If

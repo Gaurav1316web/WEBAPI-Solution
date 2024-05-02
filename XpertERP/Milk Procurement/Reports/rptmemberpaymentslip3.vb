@@ -261,12 +261,12 @@ Public Class Rptmemberpaymentslip3
     Private Sub LoadData()
         If clsCommon.myCDate(txtFromDate.Value) > clsCommon.myCDate(txtToDate.Value) Then
             txtFromDate.Focus()
-            clsCommon.MyMessageBoxShow("From date can not be greater then to Date", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "From date can not be greater then to Date", Me.Text)
             Exit Sub
         End If
 
         If chkMCCSelect.IsChecked AndAlso cbgMCC.CheckedValue.Count = 0 Then
-            clsCommon.MyMessageBoxShow("Please select atleast single MCC or select all.", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Please select atleast single MCC or select all.", Me.Text)
             Exit Sub
         End If
         Dim companyADD, CompName, CompCode As String
@@ -407,7 +407,7 @@ Public Class Rptmemberpaymentslip3
 
         End If
         If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
-            clsCommon.MyMessageBoxShow("No Data Found to Display", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "No Data Found to Display", Me.Text)
             Exit Sub
         End If
         gv.BestFitColumns()
@@ -492,10 +492,10 @@ Public Class Rptmemberpaymentslip3
                     clsCommon.MyExportToPDF("Member Payment Slip", gv, arrHeader, Me.Text, PageSetupReport_ID, objCommonVar.CurrentUserCode)
                 End If
             Else
-                common.clsCommon.MyMessageBoxShow("No Data Found to Export.", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "No Data Found to Export.", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error, Me.Text)
         End Try
     End Sub
 
@@ -587,7 +587,7 @@ Public Class Rptmemberpaymentslip3
     End Sub
     Private Sub rmDeleteLayout_Click(sender As Object, e As EventArgs) Handles rmDeleteLayout.Click
         clsGridLayout.DeleteData(MyBase.Form_ID, objCommonVar.CurrentUserCode)
-        common.clsCommon.MyMessageBoxShow("Layout Delete successfully", "Information")
+        common.clsCommon.MyMessageBoxShow(Me, "Layout Delete successfully", "Information", Me.Text)
     End Sub
 
     Private Sub chkVLCAll_ToggleStateChanged(sender As Object, args As StateChangedEventArgs) Handles chkVLCAll.ToggleStateChanged

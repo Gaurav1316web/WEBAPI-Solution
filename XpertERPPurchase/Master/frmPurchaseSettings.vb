@@ -44,6 +44,9 @@ Public Class frmPurchaseSettings
         chkRemarkReasononPO.Tag1 = clsFixedParameterCode.IsRemarkReasonMandatoryOnPO
         chkRemarkReasononPO.Tag = clsFixedParameterType.IsRemarkReasonMandatoryOnPO
 
+        chkAllstructurewiseItem.Tag1 = clsFixedParameterCode.ShowItemAllStructureWise
+        chkAllstructurewiseItem.Tag = clsFixedParameterType.ShowItemAllStructureWise
+
         ChkShowCostCenterAndHierarchyLevelInPurchaseModule.Tag1 = clsFixedParameterCode.ShowCostCenterAndHierarchyLevelInPurchaseModule
         ChkShowCostCenterAndHierarchyLevelInPurchaseModule.Tag = clsFixedParameterType.ShowCostCenterAndHierarchyLevelInPurchaseModule
 

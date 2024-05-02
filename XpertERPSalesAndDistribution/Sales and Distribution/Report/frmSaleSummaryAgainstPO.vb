@@ -86,7 +86,7 @@ Public Class frmSaleSummaryAgainstPO
             frmcrystal.funreport(CrystalReportFolder.SalesReport, dt, "rptSaleSummaryAgainstPO", "Sale Summary Against PO")
         Catch ex As Exception
 
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
 

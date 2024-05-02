@@ -193,7 +193,7 @@ Public Class frmTankerMasterSale
             End If
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -251,7 +251,7 @@ Public Class frmTankerMasterSale
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Function
 
@@ -371,7 +371,7 @@ Public Class frmTankerMasterSale
     Private Sub btnGO_Click(sender As Object, e As EventArgs) Handles btnGO.Click
         Try
             If clsCommon.myCdbl(txtChamborNo.Text) = 0 Then
-                clsCommon.MyMessageBoxShow("Value of No of Chamber must be >0")
+                clsCommon.MyMessageBoxShow(Me, "Value of No of Chamber must be >0", Me.Text)
                 txtChamborNo.Focus()
                 Exit Sub
             End If

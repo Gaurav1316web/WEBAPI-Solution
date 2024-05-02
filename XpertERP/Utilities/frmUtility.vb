@@ -110,7 +110,7 @@ Public Class FrmUtility
                 common.clsCommon.MyMessageBoxShow("No item found with Negative balance", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -332,7 +332,7 @@ Public Class FrmUtility
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarHide()
         End Try
@@ -389,7 +389,7 @@ Public Class FrmUtility
             gvShipment.Columns.Clear()
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -540,7 +540,7 @@ Public Class FrmUtility
     ''        gvShipment.Columns.Clear()
     ''    Catch ex As Exception
     ''        trans.Rollback()
-    ''        common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+    ''        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     ''    End Try
 
     ''End Sub
@@ -555,7 +555,7 @@ Public Class FrmUtility
                 common.clsCommon.MyMessageBoxShow("Balance Amount of Sale Invoice Updated Successfully", Me.Text)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'Public Shared Function UpdateSaleInvoiceBalanceAmt() As Boolean
@@ -2223,7 +2223,7 @@ Public Class FrmUtility
                         trans.Rollback()
                     End Try
                 Next
-                common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             End If
         End If
     End Sub
@@ -2259,7 +2259,7 @@ Public Class FrmUtility
                         trans.Rollback()
                     End Try
                 Next
-                common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             End If
         End If
     End Sub
@@ -2947,7 +2947,7 @@ Public Class FrmUtility
             common.clsCommon.MyMessageBoxShow("Successfully Deleted ", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2971,7 +2971,7 @@ Public Class FrmUtility
             common.clsCommon.MyMessageBoxShow("Successfully Created ", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -2992,7 +2992,7 @@ Public Class FrmUtility
             common.clsCommon.MyMessageBoxShow("Successfully Created ", Me.Text)
         Catch ex As Exception
             trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3015,7 +3015,7 @@ Public Class FrmUtility
             common.clsCommon.MyMessageBoxShow("Successfully Created ", Me.Text)
         Catch ex As Exception
             ' trans.Rollback()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3113,9 +3113,9 @@ Public Class FrmUtility
         '        End Try
         '    Next
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'Finally
-        '    common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+        '    common.clsCommon.MyMessageBoxShow(me,"Task Completed", Me.Text)
         'End Try
     End Sub
 
@@ -3128,7 +3128,7 @@ Public Class FrmUtility
                 clsCommon.MyMessageBoxShow("Successfully Updated")
             Catch ex As Exception
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
     End Sub
@@ -3210,12 +3210,12 @@ Public Class FrmUtility
             End If
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -3249,12 +3249,12 @@ Public Class FrmUtility
             End If
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -3290,7 +3290,7 @@ Public Class FrmUtility
                         trans.Rollback()
                     End Try
                 Next
-                common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             End If
         End If
     End Sub
@@ -3398,7 +3398,7 @@ Public Class FrmUtility
                 clsCommon.MyMessageBoxShow("Recereated successfully")
             Catch ex As Exception
                 trans.Rollback()
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         End If
 
@@ -3483,7 +3483,7 @@ Public Class FrmUtility
                     clsCommon.ProgressBarPercentHide()
                 Catch ex As Exception
                     clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     Exit Sub
                 End Try
 
@@ -3697,7 +3697,7 @@ Public Class FrmUtility
     '                clsCommon.MyMessageBoxShow("Database blanked successfully", Me.Text)
     '            Catch ex As Exception
     '                tran.Rollback()
-    '                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+    '                clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '            End Try
     '        End If
     '    End If
@@ -3750,7 +3750,7 @@ Public Class FrmUtility
                     End If
                 Catch ex As Exception
                     clsCommon.ProgressBarPercentHide()
-                    clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
             End If
         End If
@@ -3805,9 +3805,9 @@ Public Class FrmUtility
             End If
         Catch ex As Exception
             trans.Commit()
-            common.clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
-            common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+            common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         End Try
     End Sub
 
@@ -3895,7 +3895,7 @@ Public Class FrmUtility
 
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4003,7 +4003,7 @@ Public Class FrmUtility
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4038,12 +4038,12 @@ Public Class FrmUtility
             End If ''end dt
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4079,12 +4079,12 @@ Public Class FrmUtility
             End If ''end dt
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4118,12 +4118,12 @@ Public Class FrmUtility
             End If
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -4157,12 +4157,12 @@ Public Class FrmUtility
             End If
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -4196,12 +4196,12 @@ Public Class FrmUtility
             End If
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -4235,12 +4235,12 @@ Public Class FrmUtility
             End If
 
             If counter > 0 Then
-                common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
                 common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             dt = Nothing
         End Try
@@ -4281,7 +4281,7 @@ Public Class FrmUtility
         'Catch ex As Exception
         'clsCommon.ProgressBarPercentHide()
         'trans.Rollback()
-        'clsCommon.MyMessageBoxShow(ex.Message)
+        'clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -4319,7 +4319,7 @@ Public Class FrmUtility
         ' Catch ex As Exception
         'clsCommon.ProgressBarPercentHide()
         'trans.Rollback()
-        'clsCommon.MyMessageBoxShow(ex.Message)
+        'clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -4357,7 +4357,7 @@ Public Class FrmUtility
         '' Catch ex As Exception
         ''clsCommon.ProgressBarPercentHide()
         ''trans.Rollback()
-        ''clsCommon.MyMessageBoxShow(ex.Message)
+        ''clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         ''End Try
         clsCommon.MyMessageBoxShow("Under Process")
     End Sub
@@ -4370,7 +4370,7 @@ Public Class FrmUtility
             clsCommon.MyMessageBoxShow("Successfully Updated")
         Catch ex As Exception
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4613,7 +4613,7 @@ Public Class FrmUtility
                 If clsCommon.myLen(strERROR) > 0 Then
                     clsCommon.MyMessageBoxShow(strERROR, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
 
             End If
@@ -4680,7 +4680,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETE_SRN")
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_CREATE_SRN_TRANS")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4695,7 +4695,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4761,7 +4761,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5062,12 +5062,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5181,12 +5181,12 @@ Public Class FrmUtility
     '        End If ''dt cond.
 
     '        If counter > 0 Then
-    '            common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+    '            common.clsCommon.MyMessageBoxShow(me,"Task Completed", Me.Text)
     '        Else
     '            common.clsCommon.MyMessageBoxShow("No record found.", Me.Text)
     '        End If
     '    Catch ex As Exception
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    Finally
     '        dt = Nothing
     '    End Try
@@ -5474,7 +5474,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -5572,12 +5572,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6511,7 +6511,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6547,12 +6547,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6577,7 +6577,7 @@ Public Class FrmUtility
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6612,12 +6612,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6641,7 +6641,7 @@ Public Class FrmUtility
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6685,12 +6685,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6711,7 +6711,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6801,12 +6801,12 @@ Public Class FrmUtility
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6846,12 +6846,12 @@ Public Class FrmUtility
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -6882,7 +6882,7 @@ Public Class FrmUtility
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table Temp_BSSale_Done(DocumentNo varchar(30) not null)")
     End Sub
@@ -6937,7 +6937,7 @@ Public Class FrmUtility
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -7859,7 +7859,7 @@ Public Class FrmUtility
     '    Catch ex As Exception
     '        clsCommon.ProgressBarPercentHide()
     '        trans.Rollback()
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
 
     'End Sub
@@ -8469,7 +8469,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -8884,7 +8884,7 @@ Public Class FrmUtility
     '                        End Try
     '                    End If
     '                Catch ex As Exception
-    '                    clsCommon.MyMessageBoxShow(ex.Message)
+    '                    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '                End Try
     '            End If
     '        Next
@@ -9269,7 +9269,7 @@ Public Class FrmUtility
             Next
             Return text.ToString
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         Return ""
     End Function
@@ -9764,7 +9764,7 @@ Public Class FrmUtility
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -9775,7 +9775,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Delete_TranferReturn")
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Created_TranferReturn")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9794,7 +9794,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9862,12 +9862,12 @@ Public Class FrmUtility
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9905,7 +9905,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -9948,12 +9948,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10027,7 +10027,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10068,12 +10068,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10151,7 +10151,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10186,12 +10186,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10268,7 +10268,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10303,12 +10303,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10355,7 +10355,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_DELETE_MILK_PI")
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_CREATE_MILK_PI")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10375,7 +10375,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10427,12 +10427,12 @@ Public Class FrmUtility
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10494,7 +10494,7 @@ Public Class FrmUtility
                 Throw New Exception("No Data found to Recreate")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10503,7 +10503,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Delete_IssueReturnTranfer")
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Created_IssueReturnTranfer")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10524,7 +10524,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10559,11 +10559,11 @@ Public Class FrmUtility
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10625,7 +10625,7 @@ Public Class FrmUtility
                             dtSRN = Nothing
                         End If
                     Catch ex As Exception
-                        clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     clsCommon.ProgressBarPercentUpdate(((i + 1) * 100) / dtInvenory.Rows.Count, " " + clsCommon.myCstr(i + 1) + "/" + clsCommon.myCstr(dtInvenory.Rows.Count))
                 Next
@@ -10634,7 +10634,7 @@ Public Class FrmUtility
             End If
         Catch ex As Exception
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10646,7 +10646,7 @@ Public Class FrmUtility
 
     '    Catch ex As Exception
     '        trans.Rollback()
-    '        clsCommon.MyMessageBoxShow(ex.Message)
+    '        clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -10666,7 +10666,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Delete_Inv_Sumry")
             'clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Created_Inv_Sumry")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10719,7 +10719,7 @@ Public Class FrmUtility
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10735,7 +10735,7 @@ Public Class FrmUtility
         Catch ex As Exception
             clsCommon.ProgressBarHide()
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10760,7 +10760,7 @@ Public Class FrmUtility
             ''=====5.
             btnWR_FatSNF_Click()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -10783,7 +10783,7 @@ Public Class FrmUtility
 
             clsCommon.MyMessageBoxShow("Production Standardization FAT/SNF updated sucessfully.")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -10809,7 +10809,7 @@ Public Class FrmUtility
 
             clsCommon.MyMessageBoxShow("Production Entry FAT/SNF updated sucessfully.")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -10826,7 +10826,7 @@ Public Class FrmUtility
 
             clsCommon.MyMessageBoxShow("Stage Process FAT/SNF updated sucessfully.")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -10843,7 +10843,7 @@ Public Class FrmUtility
 
             clsCommon.MyMessageBoxShow("Wreckage Booking FAT/SNF updated sucessfully.")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         Finally
             clsCommon.ProgressBarPercentHide()
         End Try
@@ -10859,7 +10859,7 @@ Public Class FrmUtility
             clsCommonFunctionality.CreateOrAlterTable("TEMP_Delete_Cust_Sumry", coll)
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Delete_Cust_Sumry")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10971,7 +10971,7 @@ Public Class FrmUtility
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -10988,7 +10988,7 @@ Public Class FrmUtility
         'Catch ex As Exception
         '    clsCommon.ProgressBarHide()
         '    trans.Rollback()
-        '    clsCommon.MyMessageBoxShow(ex.Message)
+        '    clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
     End Sub
 
@@ -11001,7 +11001,7 @@ Public Class FrmUtility
             clsCommonFunctionality.CreateOrAlterTable("TEMP_Delete_Vend_Sumry", coll)
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Delete_Vend_Sumry")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -11161,7 +11161,7 @@ Public Class FrmUtility
         Catch ex As Exception
             trans.Rollback()
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -11177,7 +11177,7 @@ Public Class FrmUtility
         Catch ex As Exception
             clsCommon.ProgressBarHide()
             trans.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -11258,7 +11258,7 @@ Public Class FrmUtility
             clsCommon.MyMessageBoxShow("Document No Created successfully", Me.Text)
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -11393,11 +11393,11 @@ Public Class FrmUtility
             'Throw New Exception("Balwinder singh premi")
             tran.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         Catch ex As Exception
             tran.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -11487,7 +11487,7 @@ Public Class FrmUtility
             clsCommon.MyMessageBoxShow("Document No Created successfully", Me.Text)
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -11516,11 +11516,11 @@ Public Class FrmUtility
             Throw New Exception("Balwinder singh premi")
             tran.Commit()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         Catch ex As Exception
             tran.Rollback()
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -11567,7 +11567,7 @@ Public Class FrmUtility
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -11613,12 +11613,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12061,7 +12061,7 @@ Public Class FrmUtility
                     trans.Commit()
                 Catch ex As Exception
                     trans.Rollback()
-                    clsCommon.MyMessageBoxShow(ex.Message)
+                    clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                 End Try
 
                 '' CREATE TABLE
@@ -12097,7 +12097,7 @@ Public Class FrmUtility
             clsCommon.MyMessageBoxShow("Setting Updated Successfully")
         Catch ex As Exception
             clsCommon.ProgressBarHide()
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12135,7 +12135,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12172,12 +12172,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12332,12 +12332,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12345,7 +12345,7 @@ Public Class FrmUtility
         Try
             clsCreateAllTables.CreateAllTable()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12378,12 +12378,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12416,12 +12416,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12454,12 +12454,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12492,12 +12492,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub txtMultiDocProd__My_Click(sender As Object, e As EventArgs) Handles txtMultiDocProd._My_Click
@@ -12514,7 +12514,7 @@ Public Class FrmUtility
             clsFixedParameter.FixedParameterValues()
             objCommonVar.RefreshCommonVar()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12545,7 +12545,7 @@ Public Class FrmUtility
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12580,12 +12580,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12609,7 +12609,7 @@ Public Class FrmUtility
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12649,12 +12649,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12692,7 +12692,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12727,12 +12727,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12765,7 +12765,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12800,12 +12800,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12838,7 +12838,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12871,12 +12871,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12906,7 +12906,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -12947,12 +12947,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13010,7 +13010,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13048,12 +13048,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13095,7 +13095,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13166,12 +13166,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '' DELETION OF PAYMENT ENTRY AFTER POSTING
@@ -13191,7 +13191,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13238,12 +13238,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13315,7 +13315,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13351,12 +13351,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13387,10 +13387,10 @@ Public Class FrmUtility
             qry = "ENABLE TRIGGER dbo.TRG_JD_FiscaYearEndNoUpdateNoDelete ON dbo.TSPL_JOURNAL_DETAILS"
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
             tran.Commit()
-            clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RadButton122_Click(sender As Object, e As EventArgs) Handles RadButton122.Click
@@ -13457,10 +13457,10 @@ Public Class FrmUtility
 
 
             tran.Commit()
-            clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13545,10 +13545,10 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
             tran.Commit()
-            clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13781,10 +13781,10 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
             tran.Commit()
-            clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13904,10 +13904,10 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
             tran.Commit()
-            clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13916,7 +13916,7 @@ Public Class FrmUtility
             Dim qry As String = "update TSPL_MILK_TRANSFER_IN set Document_Amount=(select sum(abs(Amount)) from TSPL_JOURNAL_DETAILS where Reco_Control_Account='P' and Voucher_No in (select Voucher_No from TSPL_JOURNAL_MASTER where Source_Doc_No=TSPL_MILK_TRANSFER_IN.Receipt_Challan_No))"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13949,12 +13949,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -13987,12 +13987,12 @@ Public Class FrmUtility
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14007,7 +14007,7 @@ Public Class FrmUtility
             "where TSPL_JOURNAL_DETAILS.reco_control_account='P' and  TSPL_JOURNAL_MASTER.source_doc_no=TSPL_MILK_TRANSFER_IN.Receipt_Challan_No)"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14020,7 +14020,7 @@ Public Class FrmUtility
             "inner join TSPL_PAYMENT_HEADER on TSPL_PAYMENT_HEADER.Payment_No=x.Payment_No"
             clsDBFuncationality.ExecuteNonQuery(qry)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14101,7 +14101,7 @@ Public Class FrmUtility
             clsCommon.MyMessageBoxShow("Customer Updated successfully", Me.Text)
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             trans.Rollback()
         End Try
     End Sub
@@ -14127,7 +14127,7 @@ Public Class FrmUtility
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Delete_MCCMateialSale")
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Created_MCCMateialSale")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14152,7 +14152,7 @@ Public Class FrmUtility
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     'done by priti TEC/08/10/18-000334
@@ -14215,11 +14215,11 @@ Public Class FrmUtility
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14322,7 +14322,7 @@ Public Class FrmUtility
                     Catch ex As Exception
 
                         tran.Rollback()
-                        clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                 End If
             End If
@@ -14432,7 +14432,7 @@ line1:
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14535,12 +14535,12 @@ line1:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14576,7 +14576,7 @@ line1:
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14638,7 +14638,7 @@ line1:
             End If
             txtRPLocation.Value = clsCommon.ShowSelectForm("PELoc@u", qry, "Code", WhrCls, txtRPLocation.Value, "Code", isButtonClicked)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14688,12 +14688,12 @@ line1:
                     If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
                         clsCommon.MyMessageBoxShow("Problem in " + clsCommon.myCstr(dt.Rows.Count) + " transaction", Me.Text)
                     Else
-                        clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14805,7 +14805,7 @@ line1:
                 'End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14967,7 +14967,7 @@ line1:
 
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_PP_Store_Adjustment")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -14993,7 +14993,7 @@ line1:
                     clsDBFuncationality.ExecuteNonQuery(QryInsert)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
             clsCommon.MyMessageBoxShow("Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
@@ -15041,7 +15041,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Store_Adjustment where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -15050,12 +15050,12 @@ line1:
                             transportSql.ExporttoExcelWithoutFilter("select * from TEMP_PP_Store_Adjustment where [status] is null and  error is not null", "", "", Me)
                         End If
                     Else
-                        clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -15071,7 +15071,7 @@ line1:
 
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_PP_Issue_Entry")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -15098,7 +15098,7 @@ line1:
                     clsDBFuncationality.ExecuteNonQuery(QryInsert)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
             clsCommon.MyMessageBoxShow("Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
@@ -15146,7 +15146,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Issue_Entry where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -15155,12 +15155,12 @@ line1:
                             transportSql.ExporttoExcelWithoutFilter("select * from TEMP_PP_Issue_Entry where [status] is null and  error is not null", "", "", Me)
                         End If
                     Else
-                        clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -15176,7 +15176,7 @@ line1:
 
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_PP_Stage_Process")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -15202,7 +15202,7 @@ line1:
                     clsDBFuncationality.ExecuteNonQuery(QryInsert)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
             clsCommon.MyMessageBoxShow("Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
@@ -15250,7 +15250,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Stage_Process where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -15259,12 +15259,12 @@ line1:
                             transportSql.ExporttoExcelWithoutFilter("select * from TEMP_PP_Stage_Process where [status] is null and  error is not null", "", "", Me)
                         End If
                     Else
-                        clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -15280,7 +15280,7 @@ line1:
 
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_PP_Std_Final_QC")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -15306,7 +15306,7 @@ line1:
                     clsDBFuncationality.ExecuteNonQuery(QryInsert)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
             clsCommon.MyMessageBoxShow("Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
@@ -15354,7 +15354,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Std_Final_QC where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -15363,12 +15363,12 @@ line1:
                             transportSql.ExporttoExcelWithoutFilter("select * from TEMP_PP_Std_Final_QC where [status] is null and  error is not null", "", "", Me)
                         End If
                     Else
-                        clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -15506,7 +15506,7 @@ line1:
             txtFullProductionToDate.Value = txtFullProductionFromDate.Value
             MyDateTimePicker4.Value = txtFullProductionFromDate.Value
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -15611,7 +15611,7 @@ line1:
                     End Try
                 Next
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
                 clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow("No Document Found Completed", Me.Text)
@@ -15619,7 +15619,7 @@ line1:
         Catch ex As Exception
             flag = False
             clsCommon.ProgressBarPercentHide()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             If flag Then
                 LoadFullProduControl()
@@ -16431,7 +16431,7 @@ line1:
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table TEMP_CREATED_CAN_SALE_Done(DocumentNo varchar(30) not null)")
     End Sub
@@ -16471,12 +16471,12 @@ line1:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -16563,7 +16563,7 @@ line1:
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -16598,12 +16598,12 @@ line1:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -16619,7 +16619,7 @@ line1:
 
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_PP_Issue_Entry_JE")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -16645,7 +16645,7 @@ line1:
                     clsDBFuncationality.ExecuteNonQuery(QryInsert)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
             clsCommon.MyMessageBoxShow("Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
@@ -16693,7 +16693,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Issue_Entry_JE where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -16702,12 +16702,12 @@ line1:
                             transportSql.ExporttoExcelWithoutFilter("select * from TEMP_PP_Issue_Entry_JE where [status] is null and  error is not null", "", "", Me)
                         End If
                     Else
-                        clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -16723,7 +16723,7 @@ line1:
 
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_PP_Stage_Process_JE")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -16750,7 +16750,7 @@ line1:
                     clsDBFuncationality.ExecuteNonQuery(QryInsert)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
             clsCommon.MyMessageBoxShow("Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
@@ -16797,7 +16797,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Stage_Process_JE where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -16806,12 +16806,12 @@ line1:
                             transportSql.ExporttoExcelWithoutFilter("select * from TEMP_PP_Stage_Process_JE where [status] is null and  error is not null", "", "", Me)
                         End If
                     Else
-                        clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -16827,7 +16827,7 @@ line1:
 
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_PP_Std_Final_QC_JE")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -16853,7 +16853,7 @@ line1:
                     clsDBFuncationality.ExecuteNonQuery(QryInsert)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
             clsCommon.MyMessageBoxShow("Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
@@ -16902,7 +16902,7 @@ line1:
                         clsCommon.ProgressBarPercentHide()
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Std_Final_QC_JE where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -16911,12 +16911,12 @@ line1:
                             transportSql.ExporttoExcelWithoutFilter("select * from TEMP_PP_Std_Final_QC_JE where [status] is null and  error is not null", "", "", Me)
                         End If
                     Else
-                        clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -16932,7 +16932,7 @@ line1:
 
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_PP_Production_Entry_JE")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -16958,7 +16958,7 @@ line1:
                     clsDBFuncationality.ExecuteNonQuery(QryInsert)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
             clsCommon.MyMessageBoxShow("Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
@@ -17009,7 +17009,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_PP_Production_Entry_JE where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -17018,12 +17018,12 @@ line1:
                             transportSql.ExporttoExcelWithoutFilter("select * from TEMP_PP_Production_Entry_JE where [status] is null and  error is not null", "", "", Me)
                         End If
                     Else
-                        clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''RICHA bulk milk purchase invoice JOURNAL ENTRY RECREATION   ''richa BHA/09/10/18-000612
@@ -17054,7 +17054,7 @@ line1:
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table TEMP_CREATED_BMPI_JE_Done(DocumentNo varchar(30) not null)")
     End Sub
@@ -17153,12 +17153,12 @@ line1:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -17200,7 +17200,7 @@ line1:
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -17271,12 +17271,12 @@ line1:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '' store received note return journal entry recreation BHA/11/10/18-000619
@@ -17305,7 +17305,7 @@ line1:
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table TEMP_CREATED_SRN_RETURN_Done(DocumentNo varchar(30) not null)")
     End Sub
@@ -17369,12 +17369,12 @@ line1:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -17416,7 +17416,7 @@ line1:
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -17487,12 +17487,12 @@ line1:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -17512,7 +17512,7 @@ line1:
 
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Assembly_Deassambly")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -17542,7 +17542,7 @@ line1:
                     clsDBFuncationality.ExecuteNonQuery(QryInsert)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
             clsCommon.MyMessageBoxShow("Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
@@ -17637,7 +17637,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_Assembly_Deassambly where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -17646,12 +17646,12 @@ line1:
                             transportSql.ExporttoExcelWithoutFilter("select * from TEMP_Assembly_Deassambly where [status] is null and  error is not null", "", "", Me)
                         End If
                     Else
-                        clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RadButton199_Click(sender As Object, e As EventArgs) Handles RadButton199.Click
@@ -17666,7 +17666,7 @@ line1:
 
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_TransferDoc")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -17692,7 +17692,7 @@ line1:
                     clsDBFuncationality.ExecuteNonQuery(QryInsert)
                 End If
             Catch ex As Exception
-                clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             End Try
         Catch ex As Exception
             clsCommon.MyMessageBoxShow("Error at Row No " + clsCommon.myCstr(counter) + Environment.NewLine + ex.Message, Me.Text)
@@ -17738,7 +17738,7 @@ line1:
 
                     Catch ex As Exception
                         clsCommon.ProgressBarPercentHide()
-                        clsCommon.MyMessageBoxShow(ex.Message)
+                        clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
                     End Try
                     qry = "select * from TEMP_TransferDoc where Status is null"
                     dt = clsDBFuncationality.GetDataTable(qry)
@@ -17747,12 +17747,12 @@ line1:
                             transportSql.ExporttoExcelWithoutFilter("select * from TEMP_TransferDoc where [status] is null and  error is not null", "", "", Me)
                         End If
                     Else
-                        clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -17775,7 +17775,7 @@ line1:
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Delete_MCCMateialSaleReturn")
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Created_MCCMateialSaleReturn")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -17798,7 +17798,7 @@ line1:
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -17852,11 +17852,11 @@ line1:
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -17986,7 +17986,7 @@ line1:
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -18029,12 +18029,12 @@ line1:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -18226,10 +18226,10 @@ line1:
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
             tran.Commit()
-            clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -18281,10 +18281,10 @@ line1:
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
             tran.Commit()
-            clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -18329,7 +18329,7 @@ line1:
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table Temp_PSSale_Return_Done(DocumentNo varchar(30) not null)")
     End Sub
@@ -18381,7 +18381,7 @@ line1:
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -18423,7 +18423,7 @@ line1:
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table Temp_FSSale_Return_Done(DocumentNo varchar(30) not null)")
     End Sub
@@ -18475,7 +18475,7 @@ line1:
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -18517,7 +18517,7 @@ line1:
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table Temp_DSSale_Return_Done(DocumentNo varchar(30) not null)")
     End Sub
@@ -18567,9 +18567,9 @@ line1:
                     clsCommon.ProgressBarPercentHide()
                 End Try
                 If clsCommon.myLen(strErro) > 0 Then
-                    common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -18607,7 +18607,7 @@ line1:
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table Temp_MaterialSale_Return_Done(DocumentNo varchar(30) not null)")
     End Sub
@@ -18659,7 +18659,7 @@ line1:
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -18681,7 +18681,7 @@ line1:
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -18724,12 +18724,12 @@ line1:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -18806,7 +18806,7 @@ line1:
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -18848,14 +18848,14 @@ line1:
                     Next
                     clsCommon.ProgressBarPercentHide()
                     If clsCommon.myLen(strErro) > 0 Then
-                        common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa 24 Apr,2019 ERO/26/04/19-000574
@@ -18897,7 +18897,7 @@ line1:
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -18951,12 +18951,12 @@ line1:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub RadButton226_Click(sender As Object, e As EventArgs) Handles RadButton226.Click
@@ -21231,10 +21231,10 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             clsDBFuncationality.ExecuteNonQuery(qry, tran)
 
             tran.Commit()
-            clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+            clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
         Catch ex As Exception
             tran.Rollback()
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21280,7 +21280,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21372,12 +21372,12 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21505,7 +21505,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsCommon.MyMessageBoxShow("Successfully reverse and unposted", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21550,7 +21550,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsCommon.MyMessageBoxShow("Successfully reverse and unposted", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21595,7 +21595,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsCommon.MyMessageBoxShow("Successfully reverse and unposted", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21638,7 +21638,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsCommon.MyMessageBoxShow("Successfully reverse and unposted", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21682,7 +21682,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsCommon.MyMessageBoxShow("Successfully reverse and unposted", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21725,7 +21725,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsCommon.MyMessageBoxShow("Successfully reverse and unposted ", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21768,7 +21768,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsCommon.MyMessageBoxShow("Successfully reverse and unposted", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21842,7 +21842,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Delete_ProductionEntryWithoutBatch")
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Created_ProductionEntryWithoutBatch")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21858,7 +21858,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21911,11 +21911,11 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21947,7 +21947,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -21980,13 +21980,13 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     ''richa TEC/26/09/19-001023 
@@ -22020,7 +22020,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22105,12 +22105,12 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22140,7 +22140,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22274,12 +22274,12 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22351,7 +22351,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsCommon.MyMessageBoxShow("Successfully reverse and unposted", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22378,7 +22378,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsCommon.MyMessageBoxShow("Successfully reverse and unposted", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22411,7 +22411,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22443,13 +22443,13 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22478,7 +22478,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22515,12 +22515,12 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22578,7 +22578,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Delete_MCCMateialSale_Farmer")
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Created_MCCMateialSale_Farmer")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22598,7 +22598,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -22641,11 +22641,11 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22674,7 +22674,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table Temp_BSSale_Done(DocumentNo varchar(30) not null)")
     End Sub
@@ -22710,12 +22710,12 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22809,7 +22809,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             MyDateTimePicker1.Value = MyDateTimePicker2.Value
             MyDateTimePicker3.Value = MyDateTimePicker2.Value
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -22924,13 +22924,13 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     End Try
                 Next
                 clsCommon.ProgressBarPercentHide()
-                clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             Else
                 clsCommon.ProgressBarPercentHide()
                 clsCommon.MyMessageBoxShow("No Document Found Completed", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         Finally
             LoadFullTankerDispatch()
         End Try
@@ -23131,7 +23131,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
         Try
             clsCreateAllTables.ExecuteAfterCreateTable()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     '' richa 23 June 2020, day wise recreation of Dairy sale
@@ -23175,7 +23175,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsDBFuncationality.ExecuteNonQuery("delete from TEMP_UNPOSTED_DAIRYReceipt_DayWise")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23226,7 +23226,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23343,10 +23343,10 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
             If clsCommon.myLen(strErro) > 0 Then
                 common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23387,7 +23387,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23423,12 +23423,12 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23463,7 +23463,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23584,12 +23584,12 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23628,7 +23628,7 @@ WHERE TSPL_JOURNAL_MASTER.Source_Code IN ('NRGPR')  and convert(date,TSPL_JOURNA
                 clsCommon.MyMessageBoxShow("Successfully reverse and unposted", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23893,10 +23893,10 @@ Recreate:
             If clsCommon.myLen(strErro) > 0 Then
                 common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
             Else
-                common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23906,7 +23906,7 @@ Recreate:
 
             Dim i As Integer = 0
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23943,7 +23943,7 @@ Recreate:
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -23987,12 +23987,12 @@ Recreate:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24062,7 +24062,7 @@ Recreate:
                 clsCommon.MyMessageBoxShow("Successfully reverse and unposted", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24152,7 +24152,7 @@ Recreate:
 
             clsCommon.MyMessageBoxShow("Successfully Updated", Me.Text)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24183,7 +24183,7 @@ Recreate:
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table TEMP_CREATED_RGP_JE_Done(DocumentNo varchar(30) not null)")
     End Sub
@@ -24228,12 +24228,12 @@ Recreate:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24299,12 +24299,12 @@ Recreate:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24374,12 +24374,12 @@ Recreate:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24412,7 +24412,7 @@ Recreate:
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24452,12 +24452,12 @@ Recreate:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24475,7 +24475,7 @@ Recreate:
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -24510,12 +24510,12 @@ Recreate:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24549,12 +24549,12 @@ Recreate:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24602,7 +24602,7 @@ Recreate:
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24634,13 +24634,13 @@ Recreate:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24676,7 +24676,7 @@ Recreate:
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24717,12 +24717,12 @@ Recreate:
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24742,7 +24742,7 @@ Recreate:
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Delete_MCCMateialSale_Farmer_Inv")
             clsDBFuncationality.ExecuteNonQuery("delete from TEMP_Created_MCCMateialSale_Farmer_INV")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24761,7 +24761,7 @@ Recreate:
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24800,11 +24800,11 @@ Recreate:
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24851,7 +24851,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24885,12 +24885,12 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -24968,7 +24968,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25002,12 +25002,12 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25083,7 +25083,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25119,12 +25119,12 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25160,7 +25160,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                 clsDBFuncationality.ExecuteNonQuery(QryInsert)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25200,12 +25200,12 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25237,7 +25237,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25272,13 +25272,13 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25346,7 +25346,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                 If clsCommon.myLen(strErro) > 0 Then
                     common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                 Else
-                    common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                    common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                 End If
             End If
         End If
@@ -25388,7 +25388,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table Temp_DSSale_Return_Done(DocumentNo varchar(30) not null)")
     End Sub
@@ -25421,7 +25421,7 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25455,13 +25455,13 @@ and TSPL_DELIVERY_NOTE_MASTER_FRESHSALE.Document_no not in (Select distinct TSPL
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25493,7 +25493,7 @@ LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.CUST_CODE=TSPL_CUST
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25527,13 +25527,13 @@ LEFT OUTER JOIN TSPL_CUSTOMER_MASTER ON TSPL_CUSTOMER_MASTER.CUST_CODE=TSPL_CUST
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25578,7 +25578,7 @@ where tspl_booking_matser.From_Screen_Code='BOOK-DS-CU' and tspl_booking_matser.
                 clsDBFuncationality.ExecuteNonQuery(qry)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25612,12 +25612,12 @@ where tspl_booking_matser.From_Screen_Code='BOOK-DS-CU' and tspl_booking_matser.
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -25731,7 +25731,7 @@ where Prog_Code='MCC-DISP'"
             clsDBFuncationality.ExecuteNonQuery("delete from TEMPD_Created_Multiple_deduction")
             clsDBFuncationality.ExecuteNonQuery("delete from TEMPD_Delete_Multiple_deduction")
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -26125,7 +26125,7 @@ select Source_Doc_No,sum(Avg_Cost) as Avg_Cost  from TSPL_INVENTORY_MOVEMENT whe
                 clsCommon.MyMessageBoxShow("Successfully Created", Me.Text)
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub btnUpdateEInvoiceHead_Click(sender As Object, e As EventArgs) Handles btnUpdateEInvoiceHead.Click
@@ -26161,7 +26161,7 @@ where ISNULL( TSPL_SD_SALE_INVOICE_HEAD.Status,0)=1"
                 Throw New Exception("Please select at least one transaction")
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
         clsDBFuncationality.ExecuteNonQuery("create table Temp_RCDFCF_Sale_Done(DocumentNo varchar(30) not null)")
     End Sub
@@ -26220,12 +26220,12 @@ where TSPL_SD_SHIPMENT_HEAD.Document_Code in (select Shipment_Code  from TSPL_SD
                     If clsCommon.myLen(strErro) > 0 Then
                         common.clsCommon.MyMessageBoxShow(strErro, Me.Text)
                     Else
-                        common.clsCommon.MyMessageBoxShow("Task Completed", Me.Text)
+                        common.clsCommon.MyMessageBoxShow(Me, "Task Completed", Me.Text)
                     End If
                 End If
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message, Me.Text)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

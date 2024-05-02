@@ -568,7 +568,7 @@ Public Class frmRptMCCProvision
             Next
             Fnd.arrDispalyMember = arrList
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
     

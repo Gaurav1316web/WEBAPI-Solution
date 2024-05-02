@@ -113,7 +113,7 @@ Public Class frmCompetitorMaster
             txtCode.Focus()
         ElseIf myMessages.deleteConfirm() Then
             If (ClsCompetitorMaster.DeleteData(txtCode.Value)) Then
-                common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                 funreset()
             End If
         End If
@@ -236,7 +236,7 @@ Public Class frmCompetitorMaster
         Try
             LoadData(txtCode.Value, NavType)
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub

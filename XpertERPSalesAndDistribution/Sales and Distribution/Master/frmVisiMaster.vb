@@ -194,7 +194,7 @@ Public Class frmvisimaster
             End If
 
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
     Private Sub rdbtndelete_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles rdbtndelete.Click
@@ -246,7 +246,7 @@ Public Class frmvisimaster
             Dim query As String = "Select visi_id as 'Visi Id',visimake as 'Visi Make', Asset_No as 'Asset No', Visi_Size as 'Visi Size', Model_No as 'Model No',Serial_No as 'Serial No',Tag_No as 'Tag No' from tspl_visi_master "
             transportSql.ExporttoExcel(query, Me)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

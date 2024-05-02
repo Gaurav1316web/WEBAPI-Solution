@@ -18,7 +18,7 @@ Public Class FrmTemplateExport3
             dgvTemplate.DataSource = dt
             FormatGrid()
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -49,7 +49,7 @@ Public Class FrmTemplateExport3
             End If
 
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 

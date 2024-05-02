@@ -2053,7 +2053,7 @@ Public Class frmMilkShiftClosingMCC
                 isInsideLoadData = False
             End If
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
 
     End Sub
@@ -2313,13 +2313,13 @@ Public Class frmMilkShiftClosingMCC
         End Try
     End Sub
 
- 
+
 
     'Private Sub TxtClosing_TextChanged(ByVal sender As Object, ByVal e As System.EventArgs)
     '    Try
     '        txtTotalKM.Text = clsCommon.myCdbl(TxtClosing.Text) - clsCommon.myCdbl(txtOpening.Text)
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 
@@ -2327,7 +2327,7 @@ Public Class frmMilkShiftClosingMCC
     '    Try
     '        TxtDiff.Text = clsCommon.myCdbl(txtTotalKM.Text) - clsCommon.myCdbl(txtActualKm.Text)
     '    Catch ex As Exception
-    '        common.clsCommon.MyMessageBoxShow(ex.Message)
+    '        common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
     '    End Try
     'End Sub
 

@@ -384,7 +384,7 @@ Public Class FrmCapexBudget
         Try
             If (myMessages.deleteConfirm()) Then
                 If (clsCapexBudget.DeleteData(txtCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     funReset()
                 End If
             End If

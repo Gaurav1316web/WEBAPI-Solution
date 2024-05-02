@@ -57,7 +57,7 @@ Public Class FrmToolType
         Try
             If (myMessages.deleteConfirm()) Then
                 If (ClsMFToolType.DeleteData(fndToolCode.Value)) Then
-                    common.clsCommon.MyMessageBoxShow("Data Deleted Successfully ")
+                    common.clsCommon.MyMessageBoxShow(Me, "Data Deleted Successfully ", Me.Text)
                     Reset()
                 End If
             End If

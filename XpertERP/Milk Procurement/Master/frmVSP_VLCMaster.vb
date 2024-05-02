@@ -4514,7 +4514,7 @@ Public Class frmVSP_VLCMaster
         Try
             GetPaymentCycleData(isButtonClicked)
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.ToString)
+            clsCommon.MyMessageBoxShow(Me, ex.ToString, Me.Text)
         End Try
     End Sub
 
@@ -4597,7 +4597,7 @@ Public Class frmVSP_VLCMaster
         Try
             'ImportChargeDetails()
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(Me, ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4814,7 +4814,7 @@ Public Class frmVSP_VLCMaster
             txtGST_PanCode.Text = txtpan.Text
             If clsCommon.myLen(msg) > 0 Then
                 pageCus.SelectedPage = RadPageViewPage1
-                clsCommon.MyMessageBoxShow(msg, Me.Text)
+                clsCommon.MyMessageBoxShow(Me, msg, Me.Text)
                 txtpan.Focus()
                 txtpan.Select()
                 Return
@@ -6371,7 +6371,7 @@ Public Class frmVSP_VLCMaster
     Private Sub btnHistory_Click(sender As Object, e As EventArgs) Handles btnHistory.Click
         Try
             If clsCommon.myLen(fndvendorNo.Value) <= 0 Then
-                clsCommon.MyMessageBoxShow(Me, "Select VSP Code")
+                clsCommon.MyMessageBoxShow(Me, "Select VSP Code", Me.Text)
                 Exit Sub
             End If
             clsERPFuncationalityOLD.ShowHistoryData(fndvendorNo.Value, "Vendor_Code", "TSPL_Vendor_MASTER")

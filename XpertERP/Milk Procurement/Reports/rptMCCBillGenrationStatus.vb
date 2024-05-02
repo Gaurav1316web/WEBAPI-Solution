@@ -1139,7 +1139,7 @@ Public Class rptMCCBillGenrationStatus
                 clsCommon.MyExportToPDF("MCC Milk Register", gv, arrHeader, Me.Text, True)
             End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error)
+            common.clsCommon.MyMessageBoxShow(me,ex.Message, "Error", MessageBoxButtons.OK, RadMessageIcon.Error,Me.text)
         End Try
     End Sub
 

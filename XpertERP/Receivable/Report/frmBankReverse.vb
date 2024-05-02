@@ -224,7 +224,7 @@ Public Class FrmBankReverse
 
         'Catch ex As Exception
         '    clsCommon.ProgressBarHide()
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'Finally
         '    clsCommon.ProgressBarHide()
         'End Try

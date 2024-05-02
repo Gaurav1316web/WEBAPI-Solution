@@ -743,7 +743,7 @@ Public Class FrmVendorService
             Me.txtCurrencyCode.Value = ""
             Me.txtConversionRate.Text = 1
             Me.txtApplicableFrom.Text = ""
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -3173,7 +3173,7 @@ Public Class FrmVendorService
             UcAttachment1.AllowToSave()
             Return True
         Catch ex As Exception
-            clsCommon.MyMessageBoxShow(ex.Message)
+            clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
             Return False
         End Try
     End Function
@@ -4194,7 +4194,7 @@ Public Class FrmVendorService
             objRemittance = frm.ObjReturn
             'End If
         Catch ex As Exception
-            common.clsCommon.MyMessageBoxShow(ex.Message)
+            common.clsCommon.MyMessageBoxShow(Me, ex.Message, Me.Text)
         End Try
     End Sub
 
@@ -4791,7 +4791,7 @@ Public Class FrmVendorService
             'cell.GradientStyle = GradientStyles.Solid
             'cell.BackColor = Color.FromArgb(243, 181, 51)
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -4990,7 +4990,7 @@ Public Class FrmVendorService
                 'cell.BackColor = Color.FromArgb(243, 181, 51)
             End If
         Catch ex As Exception
-            'common.clsCommon.MyMessageBoxShow(ex.Message)
+            'common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         End Try
     End Sub
 
@@ -5060,7 +5060,7 @@ Public Class FrmVendorService
         ''        End If
         ''    End If
         ''Catch ex As Exception
-        ''    common.clsCommon.MyMessageBoxShow(ex.Message)
+        ''    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         ''End Try
     End Sub
 
@@ -5700,7 +5700,7 @@ Public Class FrmVendorService
 
 
         'Catch ex As Exception
-        '    common.clsCommon.MyMessageBoxShow(ex.Message)
+        '    common.clsCommon.MyMessageBoxShow(me,ex.Message,me.text)
         'End Try
 
 
