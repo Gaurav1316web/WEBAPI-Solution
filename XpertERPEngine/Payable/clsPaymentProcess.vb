@@ -1855,10 +1855,15 @@ group by code,Sequence_No,Description order by  Sequence_No,code asc"
 
             sQuery = "select 
 Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
-,max(Milk_Qty) as Milk_Qty,max(Milk_Amount) as Milk_Amount,max(Date1) as Date1,max(Date2) as Date2,max(comp_add1) as comp_add1,max(comp_add2) as comp_add2,max(comp_add3) as comp_add3,max(comp_Fax) as comp_Fax,max(comp_Email) as comp_Email,max(CompPhone) as CompPhone,max(Pincode) as Pincode,max(Tcan_No) as Tcan_No,max(Doc_Date) as Doc_Date,min(from_date) as from_date, max(to_date) as to_date,max(Milk_Qty) as Milk_Qty,max(Milk_Amount) as Milk_Amount,max(DebitAmount) as DebitAmount,max(CreditAmount) as CreditAmount,max(Hold_Payable_Amount) as Hold_Payable_Amount,sum(HeadLoadAmount) as HeadLoadAmount
-                        from (select TSPL_PAYMENT_PROCESS_HEAD.doc_no
+,max(Milk_Qty) as Milk_Qty,max(Milk_Amount) as Milk_Amount,max(Date1) as Date1,max(Date2) as Date2,max(comp_add1) as comp_add1,max(comp_add2) as comp_add2,max(comp_add3) as comp_add3,max(comp_Fax) as comp_Fax,max(comp_Email) as comp_Email,max(CompPhone) as CompPhone,max(Pincode) as Pincode,max(Tcan_No) as Tcan_No,max(Doc_Date) as Doc_Date,min(from_date) as from_date, max(to_date) as to_date,max(Milk_Qty) as Milk_Qty,max(Milk_Amount) as Milk_Amount,max(DebitAmount) as DebitAmount,max(CreditAmount) as CreditAmount,max(Hold_Payable_Amount) as Hold_Payable_Amount,sum(HeadLoadAmount) as HeadLoadAmount"
+
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal OrElse clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                sQuery += " , sum(TotalOutStandingAmt) as TotalOutStandingAmt "
+            End If
+
+            sQuery += "  from (select TSPL_PAYMENT_PROCESS_HEAD.doc_no
                         ,TSPL_COMPANY_MASTER.Comp_Code ,TSPL_COMPANY_MASTER.Comp_Name,"
-            If AreaWiseBilling = True Then
+                If AreaWiseBilling = True Then
                 sQuery += " xxxSetLocation.Location_Desc as MCC_NAME, "
             Else
                 sQuery += " TSPL_MCC_MASTER.MCC_NAME,"
@@ -1868,15 +1873,20 @@ Comp_Code,Comp_Name,max(MCC_NAME) as MCC_NAME,Regn_No
                     ,TSPL_COMPANY_MASTER.Add3 as comp_add3 ,TSPL_COMPANY_MASTER.Fax as comp_Fax ,TSPL_COMPANY_MASTER.Email as comp_Email, case when ISNULL(TSPL_COMPANY_MASTER.Phone1,'')='(+__)__________' then '' else TSPL_COMPANY_MASTER.Phone1 end +  Case When ISNULL (TSPL_COMPANY_MASTER.Phone2,'')<>'(+__)__________' Then ', '+ TSPL_COMPANY_MASTER.Phone2 Else'' End as CompPhone , cast(TSPL_COMPANY_MASTER.logo_img as image) as logo_img,tspl_company_master.Pincode,tspl_company_master.Tcan_No
                                         ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.Doc_Date,103) as Doc_Date
                     ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.from_date,103) as from_date
-                    ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.to_date,103) as to_date
-                    ,(SELECT sum(TSPL_PAYMENT_PROCESS_DETAIL.Milk_Qty) FROM TSPL_PAYMENT_PROCESS_DETAIL WHERE Doc_no in (" + strDocNo + ")) AS Milk_Qty
+                    ,convert(varchar(12),TSPL_PAYMENT_PROCESS_HEAD.to_date,103) as to_date"
+            If clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                	sQuery +=  ",(Select SUM(case when TSPL_PAYMENT_PROCESS_DETAIL.Payee_Joint_Account_No='' then (ISNULL(TSPL_PAYMENT_PROCESS_DETAIL.Payable_Amount, 0) - ISNULL(TSPL_PAYMENT_PROCESS_DETAIL.Saving_Amount, 0))end)
+					From TSPL_PAYMENT_PROCESS_DETAIL Where Doc_No In (" + strDocNo + "))AS TotalOutStandingAmt "
+            End If
+
+            sQuery += "  ,(SELECT sum(TSPL_PAYMENT_PROCESS_DETAIL.Milk_Qty) FROM TSPL_PAYMENT_PROCESS_DETAIL WHERE Doc_no in (" + strDocNo + ")) AS Milk_Qty
                     ,(SELECT sum(TSPL_PAYMENT_PROCESS_DETAIL.Milk_Amount) FROM TSPL_PAYMENT_PROCESS_DETAIL WHERE Doc_no in (" + strDocNo + ")) AS Milk_Amount                 
                     ,(SELECT sum(TSPL_PAYMENT_PROCESS_DEDUCTION.Amount) FROM TSPL_PAYMENT_PROCESS_DEDUCTION WHERE TSPL_PAYMENT_PROCESS_DEDUCTION.Doc_no in (" + strDocNo + ")) AS DebitAmount
                     ,(SELECT sum(TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Amount) FROM TSPL_PAYMENT_PROCESS_CREDIT_NOTE WHERE TSPL_PAYMENT_PROCESS_CREDIT_NOTE.Doc_No in (" + strDocNo + ")) AS CreditAmount
                     ,(SELECT sum(Payable_Amount) FROM TSPL_PAYMENT_PROCESS_DETAIL WHERE TSPL_PAYMENT_PROCESS_DETAIL.is_Hold_Payment_Process=1 and TSPL_PAYMENT_PROCESS_DETAIL.Doc_No in (" + strDocNo + ")) AS Hold_Payable_Amount
                     from TSPL_PAYMENT_PROCESS_HEAD
                     left outer join TSPL_COMPANY_MASTER  on TSPL_COMPANY_MASTER.Comp_Code =TSPL_PAYMENT_PROCESS_HEAD.Comp_Code"
-            If AreaWiseBilling = True Then
+                If AreaWiseBilling = True Then
                 sQuery += "	  Left Outer Join( 
 					  SELECT TSPL_LOCATION_MASTER.Location_Desc, TSPL_LOCATION_MASTER.Location_Code,TSPL_MCC_MASTER.MCC_Code FROM TSPL_PAYMENT_PROCESS_HEAD 
 										  LEFT OUTER JOIN TSPL_MCC_MASTER ON TSPL_MCC_MASTER.Area_Location_Code=TSPL_PAYMENT_PROCESS_HEAD.Area_Location_Code
@@ -2008,6 +2018,8 @@ where  TSPL_PAYMENT_PROCESS_HEAD.From_Date>=convert(date,('" + CycleFromDate + "
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreJDH", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "RJS") = CompairStringResult.Equal Then
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreRJS", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
+                ElseIf clsCommon.CompairString(objCommonVar.CurrComp_Code1, "UDP") = CompairStringResult.Equal Then
+                    frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCreUDP", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 Else
                     frmCRV.funsubreportWithdt(False, CrystalReportFolder.MilkProcurement, dt, dtDebit, "rptPaymentProcessDebCre", "rptPaymentProcessDebCre.rpt", clsCommon.myCDate(CycleFromDate), "SubPaymentProcessDebit.rpt", "SubPaymentProcessCredit.rpt", dtCredit, "rptPRMilkType.rpt", dtMilkType)
                 End If
