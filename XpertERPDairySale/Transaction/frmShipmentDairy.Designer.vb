@@ -29,6 +29,7 @@ Partial Class frmShipmentDairy
         Dim TableViewDefinition4 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Dim TableViewDefinition6 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition7 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.RadMenuItem2 = New Telerik.WinControls.UI.RadDropDownMenu()
         Me.RadThemeManager1 = New Telerik.WinControls.RadThemeManager()
         Me.Panel1 = New System.Windows.Forms.Panel()
@@ -342,29 +343,36 @@ Partial Class frmShipmentDairy
         Me.RadButton1 = New Telerik.WinControls.UI.RadButton()
         Me.TxtEInvoiceUpdateQCCode = New common.Controls.MyTextBox()
         Me.RadPageViewPage9 = New Telerik.WinControls.UI.RadPageViewPage()
+        Me.SplitContainer5 = New System.Windows.Forms.SplitContainer()
+        Me.gvCC = New Telerik.WinControls.UI.RadGridView()
+        Me.txtTransNo = New common.Controls.MyTextBox()
+        Me.MyLabel16 = New common.Controls.MyLabel()
+        Me.MyLabel39 = New common.Controls.MyLabel()
+        Me.MyLabel53 = New common.Controls.MyLabel()
+        Me.txtSalesmanName = New common.Controls.MyTextBox()
+        Me.txtManualCustomer = New common.Controls.MyTextBox()
+        Me.txtSalesman = New common.UserControls.txtFinder()
+        Me.MyLabel1 = New common.Controls.MyLabel()
+        Me.MyLabel55 = New common.Controls.MyLabel()
+        Me.txtDriverName = New common.Controls.MyTextBox()
+        Me.MyLabel54 = New common.Controls.MyLabel()
         Me.MyLabel18 = New common.Controls.MyLabel()
+        Me.lblAlternateVehicleCode = New common.Controls.MyLabel()
         Me.ddlDispatchTerms = New common.Controls.MyComboBox()
+        Me.lblAlternateVehicleName = New common.Controls.MyLabel()
         Me.MyLabel12 = New common.Controls.MyLabel()
+        Me.txtBarCode = New common.Controls.MyTextBox()
         Me.txtPONo = New common.Controls.MyTextBox()
         Me.RadLabel14 = New common.Controls.MyLabel()
+        Me.ddlInvoiceType = New common.Controls.MyComboBox()
         Me.RadLabel3 = New common.Controls.MyLabel()
+        Me.lblInvoiceType = New common.Controls.MyLabel()
         Me.txtComment = New common.Controls.MyTextBox()
+        Me.txtCustPODate = New common.Controls.MyDateTimePicker()
+        Me.MyLabel25 = New common.Controls.MyLabel()
         Me.txtDesc = New common.Controls.MyTextBox()
         Me.txtInvoiceDate = New common.Controls.MyDateTimePicker()
         Me.MyLabel27 = New common.Controls.MyLabel()
-        Me.MyLabel25 = New common.Controls.MyLabel()
-        Me.txtCustPODate = New common.Controls.MyDateTimePicker()
-        Me.lblInvoiceType = New common.Controls.MyLabel()
-        Me.ddlInvoiceType = New common.Controls.MyComboBox()
-        Me.MyLabel16 = New common.Controls.MyLabel()
-        Me.txtBarCode = New common.Controls.MyTextBox()
-        Me.lblAlternateVehicleName = New common.Controls.MyLabel()
-        Me.lblAlternateVehicleCode = New common.Controls.MyLabel()
-        Me.MyLabel54 = New common.Controls.MyLabel()
-        Me.MyLabel1 = New common.Controls.MyLabel()
-        Me.txtSalesman = New common.UserControls.txtFinder()
-        Me.MyLabel39 = New common.Controls.MyLabel()
-        Me.txtManualCustomer = New common.Controls.MyTextBox()
         Me.btnPrintsvl = New Telerik.WinControls.UI.RadButton()
         Me.RadSplitExp = New Telerik.WinControls.UI.RadSplitButton()
         Me.rmChalan = New Telerik.WinControls.UI.RadMenuItem()
@@ -400,378 +408,380 @@ Partial Class frmShipmentDairy
         Me.Export_Head = New Telerik.WinControls.UI.RadMenuItem()
         Me.Export_details = New Telerik.WinControls.UI.RadMenuItem()
         Me.Import = New Telerik.WinControls.UI.RadMenuItem()
-        Me.MyLabel53 = New common.Controls.MyLabel()
-        Me.txtSalesmanName = New common.Controls.MyTextBox()
-        Me.MyLabel55 = New common.Controls.MyLabel()
-        Me.txtDriverName = New common.Controls.MyTextBox()
-        CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.Panel1.SuspendLayout
-        CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.radScrollablePanel1.PanelContainer.SuspendLayout
-        Me.radScrollablePanel1.SuspendLayout
-        Me.SplitContainer1.Panel1.SuspendLayout
-        Me.SplitContainer1.Panel2.SuspendLayout
-        Me.SplitContainer1.SuspendLayout
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadPageView1.SuspendLayout
-        Me.RadPageViewPage1.SuspendLayout
-        CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.rgbTaxNonTax.SuspendLayout
-        CType(Me.txtMBRTHours, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblMBRT, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblFATPER, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtTemp, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtFATPER, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblTEMP, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblSNFPER, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtAcidity, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtSNFPER, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblAcidity, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.rbtn_Fresh, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.rbtn_Ambient, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnDeliveredTo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkReplacement, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnPrintBatchWise, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtManualVehicle, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblManualVehicle, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtInvoiceNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkSampling, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkOnHold, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtPriceCode, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtInsuranceNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ParentAddress, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblParentAddress, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.ItemTypePanel.SuspendLayout
-        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.cmbDisItemType, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txt9nrNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtBox, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtJaali, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtCrate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TxtTransportorMName, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.lblRouteNo.SuspendLayout
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadGroupBox5.SuspendLayout
-        CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtCLKM, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtOPKM, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtElecttefNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtEWayBillNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtEWayBillDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtRoadPermitNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtGRNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtGRDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtRoadPermitDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblRemovalDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtRemovalDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblPriceCode, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.lblPriceCode.SuspendLayout
-        Me.Panel2.SuspendLayout
-        CType(Me.txtShippedCan, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel52, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TxtTotalCAN, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel51, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel50, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtCrateQty, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkownVehicle, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtGross_Wt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TxtRoundoff, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblFreightCharges, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblVhicleNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkCommApply, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtVehicleCapacity, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblInvoiceNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkCreateAutoInvoice, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblShipToLocation, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadGroupBox2.SuspendLayout
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.gv1.SuspendLayout
-        CType(Me.lblFromLoc, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtWayBillno, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.dtpChallan, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtFreightDistance, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkInternal, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.dtpInvoice, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.dtpInvoice.SuspendLayout
-        CType(Me.txtAdvance, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkAutoTransfer, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.chkAutoTransfer.SuspendLayout
-        Me.pnlPCJ.SuspendLayout
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblProject, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtRefNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtInvNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtSOvalidity, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblKMReading, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtCarrier, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtDispatchDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtWaybillDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtDispatchPeriod, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtGEDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtForm38, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtPriceGroupCode, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel28, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblDept, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtpodate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ddlPaymentTerms, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkCreateAutoReceipt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnDrillDown, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadPageViewPage8.SuspendLayout
-        Me.SplitContainer3.Panel1.SuspendLayout
-        Me.SplitContainer3.Panel2.SuspendLayout
-        Me.SplitContainer3.SuspendLayout
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtToDateDistributor, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel70, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtFromDateDistributor, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel69, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.gvDistributor, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.gvDistributor.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadPageViewPage2.SuspendLayout
-        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblTaxGroupScheme, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox1.SuspendLayout
-        CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadGroupBox1.SuspendLayout
-        CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblTermName, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtDueDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel17, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadPageViewPage3.SuspendLayout
-        Me.SplitContainer2.Panel1.SuspendLayout
-        Me.SplitContainer2.Panel2.SuspendLayout
-        Me.SplitContainer2.SuspendLayout
-        CType(Me.gvAC, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.gvAC.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel31, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblAddCharges, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.pvpCustomFields.SuspendLayout
-        Me.Attachments.SuspendLayout
-        Me.RadPageViewPage4.SuspendLayout
-        CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtSecurity, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblSecuirty, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtDCAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblDCAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblActualTCSTaxBaseAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txttcstaxbaseamount, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnUpdateCustomerWithRoute, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtCustomerComplaintNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtPrintDiscountAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblPrintDisAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblCommAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.pnlMannualInvoiceNo.SuspendLayout
-        CType(Me.TxtInvoiceManualNoWithPrefix, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtMannaulInvoiceNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblInvoiceDiscAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadGroupBox3.SuspendLayout
-        CType(Me.chkDiscountOnAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkDiscountOnRate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtDiscAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtDiscPer, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.pnlCurrConv.SuspendLayout
-        CType(Me.txtConversionRate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblEffectiveFrom, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtApplicableFrom, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblCurrency, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel32, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblAddCharges1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkVendorGrossReceipt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel27, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblTotRAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblTaxAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblAmtAfterDiscount, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblDiscountAmt, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadPageViewPage5.SuspendLayout
-        Me.SplitContainer4.Panel1.SuspendLayout
-        Me.SplitContainer4.Panel2.SuspendLayout
-        Me.SplitContainer4.SuspendLayout
-        CType(Me.btnApplyScheme, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtUploaderTotal, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnUploaderSave, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnCalculation, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadGroupBox6.SuspendLayout
-        CType(Me.gv_Uploader_Temp, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.gv_Uploader_Temp.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.gv_Uploader, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.gv_Uploader.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadPageViewPage6.SuspendLayout
-        CType(Me.btnReversewithSameNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox16.SuspendLayout
-        CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtFdate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnPickDocNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnARReset, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnCreateJEAR, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadPageViewPage7.SuspendLayout
-        Me.GroupBox3.SuspendLayout
-        CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TxtEWayBillUpdateBillRemarks, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TxtEWayBillUpdateValidDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel66, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TxtEWayBillUpdateBillDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel65, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TxtEWayBillUpdateBillNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.GroupBox2.SuspendLayout
-        CType(Me.TxtEInvoiceUpdateAckDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TxtEInvoiceUpdateAckNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TxtEInvoiceUpdateIRNNo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.TxtEInvoiceUpdateQCCode, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadPageViewPage9.SuspendLayout
-        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ddlDispatchTerms, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtPONo, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtComment, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtCustPODate, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblInvoiceType, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.ddlInvoiceType, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtBarCode, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblAlternateVehicleName, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.lblAlternateVehicleCode, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtManualCustomer, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnPrintsvl, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnUpdateCustomer, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.BtnPrintChallan, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.chkRateUserCustomer, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.chkRateUserCustomer.SuspendLayout
-        CType(Me.chkRateDefaultSetting, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.RadMenu1.SuspendLayout
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel53, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtSalesmanName, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.MyLabel55, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).BeginInit
-        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit
-        Me.SuspendLayout
+        CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.Panel1.SuspendLayout()
+        CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.radScrollablePanel1.PanelContainer.SuspendLayout()
+        Me.radScrollablePanel1.SuspendLayout()
+        Me.SplitContainer1.Panel1.SuspendLayout()
+        Me.SplitContainer1.Panel2.SuspendLayout()
+        Me.SplitContainer1.SuspendLayout()
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageView1.SuspendLayout()
+        Me.RadPageViewPage1.SuspendLayout()
+        CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.rgbTaxNonTax.SuspendLayout()
+        CType(Me.txtMBRTHours, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblMBRT, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblFATPER, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTemp, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFATPER, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTEMP, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSNFPER, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtAcidity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSNFPER, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblAcidity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtn_Fresh, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtn_Ambient, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDeliveredTo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkReplacement, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintBatchWise, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtManualVehicle, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblManualVehicle, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtInvoiceNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkSampling, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkOnHold, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPriceCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtInsuranceNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ParentAddress, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblParentAddress, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.ItemTypePanel.SuspendLayout()
+        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cmbDisItemType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txt9nrNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBox, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtJaali, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCrate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtTransportorMName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.lblRouteNo.SuspendLayout()
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox5.SuspendLayout()
+        CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCLKM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtOPKM, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtElecttefNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEWayBillNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtEWayBillDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRoadPermitNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtGRNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtGRDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRoadPermitDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRemovalDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRemovalDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPriceCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.lblPriceCode.SuspendLayout()
+        Me.Panel2.SuspendLayout()
+        CType(Me.txtShippedCan, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel52, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtTotalCAN, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel51, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel50, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCrateQty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkownVehicle, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtGross_Wt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtRoundoff, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblFreightCharges, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVhicleNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkCommApply, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtVehicleCapacity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblInvoiceNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkCreateAutoInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblShipToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox2.SuspendLayout()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.gv1.SuspendLayout()
+        CType(Me.lblFromLoc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtWayBillno, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpChallan, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFreightDistance, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkInternal, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.dtpInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.dtpInvoice.SuspendLayout()
+        CType(Me.txtAdvance, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkAutoTransfer, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.chkAutoTransfer.SuspendLayout()
+        Me.pnlPCJ.SuspendLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblProject, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtRefNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtInvNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSOvalidity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblKMReading, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCarrier, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDispatchDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtWaybillDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDispatchPeriod, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtGEDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtForm38, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPriceGroupCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel28, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDept, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtpodate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddlPaymentTerms, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkCreateAutoReceipt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDrillDown, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage8.SuspendLayout()
+        Me.SplitContainer3.Panel1.SuspendLayout()
+        Me.SplitContainer3.Panel2.SuspendLayout()
+        Me.SplitContainer3.SuspendLayout()
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToDateDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel70, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFromDateDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel69, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvDistributor, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvDistributor.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage2.SuspendLayout()
+        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTaxGroupScheme, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1.SuspendLayout()
+        CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox1.SuspendLayout()
+        CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTermName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDueDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel17, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv2, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage3.SuspendLayout()
+        Me.SplitContainer2.Panel1.SuspendLayout()
+        Me.SplitContainer2.Panel2.SuspendLayout()
+        Me.SplitContainer2.SuspendLayout()
+        CType(Me.gvAC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvAC.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel31, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblAddCharges, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pvpCustomFields.SuspendLayout()
+        Me.Attachments.SuspendLayout()
+        Me.RadPageViewPage4.SuspendLayout()
+        CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSecurity, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblSecuirty, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDCAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblActualTCSTaxBaseAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txttcstaxbaseamount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdateCustomerWithRoute, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCustomerComplaintNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPrintDiscountAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblPrintDisAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCommAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlMannualInvoiceNo.SuspendLayout()
+        CType(Me.TxtInvoiceManualNoWithPrefix, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtMannaulInvoiceNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblInvoiceDiscAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox3.SuspendLayout()
+        CType(Me.chkDiscountOnAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkDiscountOnRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDiscAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDiscPer, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.pnlCurrConv.SuspendLayout()
+        CType(Me.txtConversionRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblEffectiveFrom, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtApplicableFrom, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblCurrency, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel32, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblAddCharges1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkVendorGrossReceipt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTotRAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblTaxAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblAmtAfterDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblDiscountAmt, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage5.SuspendLayout()
+        Me.SplitContainer4.Panel1.SuspendLayout()
+        Me.SplitContainer4.Panel2.SuspendLayout()
+        Me.SplitContainer4.SuspendLayout()
+        CType(Me.btnApplyScheme, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtUploaderTotal, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUploaderSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnCalculation, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadGroupBox6.SuspendLayout()
+        CType(Me.gv_Uploader_Temp, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv_Uploader_Temp.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv_Uploader, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gv_Uploader.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage6.SuspendLayout()
+        CType(Me.btnReversewithSameNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox16.SuspendLayout()
+        CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtFdate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPickDocNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnARReset, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnCreateJEAR, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage7.SuspendLayout()
+        Me.GroupBox3.SuspendLayout()
+        CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtEWayBillUpdateBillRemarks, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtEWayBillUpdateValidDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel66, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtEWayBillUpdateBillDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel65, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtEWayBillUpdateBillNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox2.SuspendLayout()
+        CType(Me.TxtEInvoiceUpdateAckDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtEInvoiceUpdateAckNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtEInvoiceUpdateIRNNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.TxtEInvoiceUpdateQCCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadPageViewPage9.SuspendLayout()
+        Me.SplitContainer5.Panel1.SuspendLayout()
+        Me.SplitContainer5.Panel2.SuspendLayout()
+        Me.SplitContainer5.SuspendLayout()
+        CType(Me.gvCC, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.gvCC.MasterTemplate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtTransNo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel53, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtSalesmanName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtManualCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel55, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblAlternateVehicleCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddlDispatchTerms, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblAlternateVehicleName, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtBarCode, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtPONo, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.ddlInvoiceType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.lblInvoiceType, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtComment, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtCustPODate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintsvl, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnUpdateCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.BtnPrintChallan, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.chkRateUserCustomer, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.chkRateUserCustomer.SuspendLayout()
+        CType(Me.chkRateDefaultSetting, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.RadMenu1.SuspendLayout()
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SuspendLayout()
         '
         'RadMenuItem2
         '
@@ -887,7 +897,7 @@ Partial Class frmShipmentDairy
         '
         '
         Me.RadPageView1.RootElement.MinSize = New System.Drawing.Size(0, 0)
-        Me.RadPageView1.SelectedPage = Me.RadPageViewPage1
+        Me.RadPageView1.SelectedPage = Me.RadPageViewPage4
         Me.RadPageView1.Size = New System.Drawing.Size(1110, 462)
         Me.RadPageView1.TabIndex = 0
         CType(Me.RadPageView1.GetChildAt(0), Telerik.WinControls.UI.RadPageViewStripElement).StripButtons = Telerik.WinControls.UI.StripViewButtons.None
@@ -5942,48 +5952,276 @@ Partial Class frmShipmentDairy
         '
         'RadPageViewPage9
         '
-        Me.RadPageViewPage9.Controls.Add(Me.MyLabel53)
-        Me.RadPageViewPage9.Controls.Add(Me.txtSalesmanName)
-        Me.RadPageViewPage9.Controls.Add(Me.MyLabel55)
-        Me.RadPageViewPage9.Controls.Add(Me.txtDriverName)
-        Me.RadPageViewPage9.Controls.Add(Me.MyLabel18)
-        Me.RadPageViewPage9.Controls.Add(Me.ddlDispatchTerms)
-        Me.RadPageViewPage9.Controls.Add(Me.MyLabel12)
-        Me.RadPageViewPage9.Controls.Add(Me.txtPONo)
-        Me.RadPageViewPage9.Controls.Add(Me.RadLabel14)
-        Me.RadPageViewPage9.Controls.Add(Me.RadLabel3)
-        Me.RadPageViewPage9.Controls.Add(Me.txtComment)
-        Me.RadPageViewPage9.Controls.Add(Me.txtDesc)
-        Me.RadPageViewPage9.Controls.Add(Me.txtInvoiceDate)
-        Me.RadPageViewPage9.Controls.Add(Me.MyLabel27)
-        Me.RadPageViewPage9.Controls.Add(Me.MyLabel25)
-        Me.RadPageViewPage9.Controls.Add(Me.txtCustPODate)
-        Me.RadPageViewPage9.Controls.Add(Me.lblInvoiceType)
-        Me.RadPageViewPage9.Controls.Add(Me.ddlInvoiceType)
-        Me.RadPageViewPage9.Controls.Add(Me.MyLabel16)
-        Me.RadPageViewPage9.Controls.Add(Me.txtBarCode)
-        Me.RadPageViewPage9.Controls.Add(Me.lblAlternateVehicleName)
-        Me.RadPageViewPage9.Controls.Add(Me.lblAlternateVehicleCode)
-        Me.RadPageViewPage9.Controls.Add(Me.MyLabel54)
-        Me.RadPageViewPage9.Controls.Add(Me.MyLabel1)
-        Me.RadPageViewPage9.Controls.Add(Me.txtSalesman)
-        Me.RadPageViewPage9.Controls.Add(Me.MyLabel39)
-        Me.RadPageViewPage9.Controls.Add(Me.txtManualCustomer)
+        Me.RadPageViewPage9.Controls.Add(Me.SplitContainer5)
         Me.RadPageViewPage9.ItemSize = New System.Drawing.SizeF(50.0!, 26.0!)
         Me.RadPageViewPage9.Location = New System.Drawing.Point(10, 35)
         Me.RadPageViewPage9.Name = "RadPageViewPage9"
         Me.RadPageViewPage9.Size = New System.Drawing.Size(1089, 416)
         Me.RadPageViewPage9.Text = "Others"
         '
+        'SplitContainer5
+        '
+        Me.SplitContainer5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer5.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer5.Name = "SplitContainer5"
+        Me.SplitContainer5.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer5.Panel1
+        '
+        Me.SplitContainer5.Panel1.Controls.Add(Me.gvCC)
+        '
+        'SplitContainer5.Panel2
+        '
+        Me.SplitContainer5.Panel2.Controls.Add(Me.txtTransNo)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.MyLabel39)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.MyLabel53)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.txtSalesmanName)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.txtManualCustomer)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.txtSalesman)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.MyLabel55)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.MyLabel1)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.txtDriverName)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.MyLabel54)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.MyLabel18)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.lblAlternateVehicleCode)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.ddlDispatchTerms)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.lblAlternateVehicleName)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.MyLabel12)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.txtBarCode)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.txtPONo)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.MyLabel16)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.RadLabel14)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.ddlInvoiceType)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.RadLabel3)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.lblInvoiceType)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.txtComment)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.txtCustPODate)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.txtDesc)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.MyLabel25)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.txtInvoiceDate)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.MyLabel27)
+        Me.SplitContainer5.Size = New System.Drawing.Size(1089, 416)
+        Me.SplitContainer5.SplitterDistance = 318
+        Me.SplitContainer5.TabIndex = 1486
+        '
+        'gvCC
+        '
+        Me.gvCC.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.gvCC.Location = New System.Drawing.Point(0, 0)
+        '
+        '
+        '
+        Me.gvCC.MasterTemplate.ViewDefinition = TableViewDefinition7
+        Me.gvCC.Name = "gvCC"
+        Me.gvCC.Size = New System.Drawing.Size(1089, 318)
+        Me.gvCC.TabIndex = 0
+        '
+        'txtTransNo
+        '
+        Me.txtTransNo.CalculationExpression = Nothing
+        Me.txtTransNo.FieldCode = Nothing
+        Me.txtTransNo.FieldDesc = Nothing
+        Me.txtTransNo.FieldMaxLength = 0
+        Me.txtTransNo.FieldName = Nothing
+        Me.txtTransNo.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtTransNo.isCalculatedField = False
+        Me.txtTransNo.IsSourceFromTable = False
+        Me.txtTransNo.IsSourceFromValueList = False
+        Me.txtTransNo.IsUnique = False
+        Me.txtTransNo.Location = New System.Drawing.Point(841, 38)
+        Me.txtTransNo.MaxLength = 200
+        Me.txtTransNo.MendatroryField = False
+        Me.txtTransNo.MyLinkLable1 = Me.MyLabel16
+        Me.txtTransNo.MyLinkLable2 = Nothing
+        Me.txtTransNo.Name = "txtTransNo"
+        Me.txtTransNo.ReferenceFieldDesc = Nothing
+        Me.txtTransNo.ReferenceFieldName = Nothing
+        Me.txtTransNo.ReferenceTableName = Nothing
+        Me.txtTransNo.Size = New System.Drawing.Size(108, 18)
+        Me.txtTransNo.TabIndex = 1486
+        '
+        'MyLabel16
+        '
+        Me.MyLabel16.FieldName = Nothing
+        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel16.Location = New System.Drawing.Point(555, 62)
+        Me.MyLabel16.Name = "MyLabel16"
+        Me.MyLabel16.Size = New System.Drawing.Size(54, 16)
+        Me.MyLabel16.TabIndex = 1469
+        Me.MyLabel16.Text = "Bar Code"
+        '
+        'MyLabel39
+        '
+        Me.MyLabel39.FieldName = Nothing
+        Me.MyLabel39.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel39.Location = New System.Drawing.Point(22, 3)
+        Me.MyLabel39.Name = "MyLabel39"
+        Me.MyLabel39.Size = New System.Drawing.Size(85, 16)
+        Me.MyLabel39.TabIndex = 1439
+        Me.MyLabel39.Text = "Cash Customer"
+        '
+        'MyLabel53
+        '
+        Me.MyLabel53.FieldName = Nothing
+        Me.MyLabel53.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel53.Location = New System.Drawing.Point(380, 53)
+        Me.MyLabel53.Name = "MyLabel53"
+        Me.MyLabel53.Size = New System.Drawing.Size(57, 16)
+        Me.MyLabel53.TabIndex = 1485
+        Me.MyLabel53.Text = "Salesman"
+        Me.MyLabel53.Visible = False
+        '
+        'txtSalesmanName
+        '
+        Me.txtSalesmanName.CalculationExpression = Nothing
+        Me.txtSalesmanName.FieldCode = Nothing
+        Me.txtSalesmanName.FieldDesc = Nothing
+        Me.txtSalesmanName.FieldMaxLength = 0
+        Me.txtSalesmanName.FieldName = Nothing
+        Me.txtSalesmanName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSalesmanName.isCalculatedField = False
+        Me.txtSalesmanName.IsSourceFromTable = False
+        Me.txtSalesmanName.IsSourceFromValueList = False
+        Me.txtSalesmanName.IsUnique = False
+        Me.txtSalesmanName.Location = New System.Drawing.Point(437, 52)
+        Me.txtSalesmanName.MaxLength = 50
+        Me.txtSalesmanName.MendatroryField = False
+        Me.txtSalesmanName.MyLinkLable1 = Me.MyLabel53
+        Me.txtSalesmanName.MyLinkLable2 = Nothing
+        Me.txtSalesmanName.Name = "txtSalesmanName"
+        Me.txtSalesmanName.ReferenceFieldDesc = Nothing
+        Me.txtSalesmanName.ReferenceFieldName = Nothing
+        Me.txtSalesmanName.ReferenceTableName = Nothing
+        Me.txtSalesmanName.Size = New System.Drawing.Size(90, 18)
+        Me.txtSalesmanName.TabIndex = 1484
+        Me.txtSalesmanName.Visible = False
+        '
+        'txtManualCustomer
+        '
+        Me.txtManualCustomer.CalculationExpression = Nothing
+        Me.txtManualCustomer.Enabled = False
+        Me.txtManualCustomer.FieldCode = Nothing
+        Me.txtManualCustomer.FieldDesc = Nothing
+        Me.txtManualCustomer.FieldMaxLength = 0
+        Me.txtManualCustomer.FieldName = Nothing
+        Me.txtManualCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtManualCustomer.isCalculatedField = False
+        Me.txtManualCustomer.IsSourceFromTable = False
+        Me.txtManualCustomer.IsSourceFromValueList = False
+        Me.txtManualCustomer.IsUnique = False
+        Me.txtManualCustomer.Location = New System.Drawing.Point(119, 2)
+        Me.txtManualCustomer.MaxLength = 200
+        Me.txtManualCustomer.MendatroryField = False
+        Me.txtManualCustomer.MyLinkLable1 = Me.RadLabel6
+        Me.txtManualCustomer.MyLinkLable2 = Nothing
+        Me.txtManualCustomer.Name = "txtManualCustomer"
+        Me.txtManualCustomer.ReferenceFieldDesc = Nothing
+        Me.txtManualCustomer.ReferenceFieldName = Nothing
+        Me.txtManualCustomer.ReferenceTableName = Nothing
+        Me.txtManualCustomer.Size = New System.Drawing.Size(430, 18)
+        Me.txtManualCustomer.TabIndex = 1438
+        '
+        'txtSalesman
+        '
+        Me.txtSalesman.CalculationExpression = Nothing
+        Me.txtSalesman.FieldCode = Nothing
+        Me.txtSalesman.FieldDesc = Nothing
+        Me.txtSalesman.FieldMaxLength = 0
+        Me.txtSalesman.FieldName = Nothing
+        Me.txtSalesman.isCalculatedField = False
+        Me.txtSalesman.IsSourceFromTable = False
+        Me.txtSalesman.IsSourceFromValueList = False
+        Me.txtSalesman.IsUnique = False
+        Me.txtSalesman.Location = New System.Drawing.Point(119, 47)
+        Me.txtSalesman.MendatroryField = False
+        Me.txtSalesman.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtSalesman.MyLinkLable1 = Me.MyLabel1
+        Me.txtSalesman.MyLinkLable2 = Me.lblSalesman
+        Me.txtSalesman.MyReadOnly = False
+        Me.txtSalesman.MyShowMasterFormButton = False
+        Me.txtSalesman.Name = "txtSalesman"
+        Me.txtSalesman.ReferenceFieldDesc = Nothing
+        Me.txtSalesman.ReferenceFieldName = Nothing
+        Me.txtSalesman.ReferenceTableName = Nothing
+        Me.txtSalesman.Size = New System.Drawing.Size(143, 22)
+        Me.txtSalesman.TabIndex = 1461
+        Me.txtSalesman.Value = ""
+        '
+        'MyLabel1
+        '
+        Me.MyLabel1.FieldName = Nothing
+        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel1.Location = New System.Drawing.Point(22, 47)
+        Me.MyLabel1.Name = "MyLabel1"
+        Me.MyLabel1.Size = New System.Drawing.Size(57, 16)
+        Me.MyLabel1.TabIndex = 1462
+        Me.MyLabel1.Text = "Salesman"
+        '
+        'MyLabel55
+        '
+        Me.MyLabel55.FieldName = Nothing
+        Me.MyLabel55.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel55.Location = New System.Drawing.Point(754, 4)
+        Me.MyLabel55.Name = "MyLabel55"
+        Me.MyLabel55.Size = New System.Drawing.Size(70, 16)
+        Me.MyLabel55.TabIndex = 1483
+        Me.MyLabel55.Text = "Driver Name"
+        Me.MyLabel55.Visible = False
+        '
+        'txtDriverName
+        '
+        Me.txtDriverName.CalculationExpression = Nothing
+        Me.txtDriverName.FieldCode = Nothing
+        Me.txtDriverName.FieldDesc = Nothing
+        Me.txtDriverName.FieldMaxLength = 0
+        Me.txtDriverName.FieldName = Nothing
+        Me.txtDriverName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtDriverName.isCalculatedField = False
+        Me.txtDriverName.IsSourceFromTable = False
+        Me.txtDriverName.IsSourceFromValueList = False
+        Me.txtDriverName.IsUnique = False
+        Me.txtDriverName.Location = New System.Drawing.Point(826, 3)
+        Me.txtDriverName.MaxLength = 50
+        Me.txtDriverName.MendatroryField = False
+        Me.txtDriverName.MyLinkLable1 = Me.MyLabel55
+        Me.txtDriverName.MyLinkLable2 = Nothing
+        Me.txtDriverName.Name = "txtDriverName"
+        Me.txtDriverName.ReferenceFieldDesc = Nothing
+        Me.txtDriverName.ReferenceFieldName = Nothing
+        Me.txtDriverName.ReferenceTableName = Nothing
+        Me.txtDriverName.Size = New System.Drawing.Size(123, 18)
+        Me.txtDriverName.TabIndex = 1482
+        Me.txtDriverName.Visible = False
+        '
+        'MyLabel54
+        '
+        Me.MyLabel54.FieldName = Nothing
+        Me.MyLabel54.Location = New System.Drawing.Point(22, 25)
+        Me.MyLabel54.Name = "MyLabel54"
+        Me.MyLabel54.Size = New System.Drawing.Size(91, 18)
+        Me.MyLabel54.TabIndex = 1464
+        Me.MyLabel54.Text = "Alternate Vehicle"
+        '
         'MyLabel18
         '
         Me.MyLabel18.FieldName = Nothing
         Me.MyLabel18.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel18.Location = New System.Drawing.Point(5, 124)
+        Me.MyLabel18.Location = New System.Drawing.Point(24, 124)
         Me.MyLabel18.Name = "MyLabel18"
         Me.MyLabel18.Size = New System.Drawing.Size(85, 16)
         Me.MyLabel18.TabIndex = 1480
         Me.MyLabel18.Text = "Dispatch Terms"
+        '
+        'lblAlternateVehicleCode
+        '
+        Me.lblAlternateVehicleCode.AutoSize = False
+        Me.lblAlternateVehicleCode.BorderVisible = True
+        Me.lblAlternateVehicleCode.FieldName = Nothing
+        Me.lblAlternateVehicleCode.Location = New System.Drawing.Point(121, 25)
+        Me.lblAlternateVehicleCode.Name = "lblAlternateVehicleCode"
+        Me.lblAlternateVehicleCode.Size = New System.Drawing.Size(143, 19)
+        Me.lblAlternateVehicleCode.TabIndex = 1463
+        Me.lblAlternateVehicleCode.TextWrap = False
         '
         'ddlDispatchTerms
         '
@@ -6000,7 +6238,7 @@ Partial Class frmShipmentDairy
         Me.ddlDispatchTerms.IsSourceFromTable = False
         Me.ddlDispatchTerms.IsSourceFromValueList = False
         Me.ddlDispatchTerms.IsUnique = False
-        Me.ddlDispatchTerms.Location = New System.Drawing.Point(110, 122)
+        Me.ddlDispatchTerms.Location = New System.Drawing.Point(129, 122)
         Me.ddlDispatchTerms.MendatroryField = False
         Me.ddlDispatchTerms.MyLinkLable1 = Me.MyLabel7
         Me.ddlDispatchTerms.MyLinkLable2 = Nothing
@@ -6011,15 +6249,50 @@ Partial Class frmShipmentDairy
         Me.ddlDispatchTerms.Size = New System.Drawing.Size(126, 20)
         Me.ddlDispatchTerms.TabIndex = 1481
         '
+        'lblAlternateVehicleName
+        '
+        Me.lblAlternateVehicleName.AutoSize = False
+        Me.lblAlternateVehicleName.BorderVisible = True
+        Me.lblAlternateVehicleName.FieldName = Nothing
+        Me.lblAlternateVehicleName.Location = New System.Drawing.Point(265, 25)
+        Me.lblAlternateVehicleName.Name = "lblAlternateVehicleName"
+        Me.lblAlternateVehicleName.Size = New System.Drawing.Size(111, 18)
+        Me.lblAlternateVehicleName.TabIndex = 1465
+        Me.lblAlternateVehicleName.TextWrap = False
+        '
         'MyLabel12
         '
         Me.MyLabel12.FieldName = Nothing
         Me.MyLabel12.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel12.Location = New System.Drawing.Point(3, 102)
+        Me.MyLabel12.Location = New System.Drawing.Point(22, 102)
         Me.MyLabel12.Name = "MyLabel12"
         Me.MyLabel12.Size = New System.Drawing.Size(92, 16)
         Me.MyLabel12.TabIndex = 1479
         Me.MyLabel12.Text = "Customer PO No"
+        '
+        'txtBarCode
+        '
+        Me.txtBarCode.CalculationExpression = Nothing
+        Me.txtBarCode.FieldCode = Nothing
+        Me.txtBarCode.FieldDesc = Nothing
+        Me.txtBarCode.FieldMaxLength = 0
+        Me.txtBarCode.FieldName = Nothing
+        Me.txtBarCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtBarCode.isCalculatedField = False
+        Me.txtBarCode.IsSourceFromTable = False
+        Me.txtBarCode.IsSourceFromValueList = False
+        Me.txtBarCode.IsUnique = False
+        Me.txtBarCode.Location = New System.Drawing.Point(640, 61)
+        Me.txtBarCode.MaxLength = 200
+        Me.txtBarCode.MendatroryField = False
+        Me.txtBarCode.MyLinkLable1 = Me.MyLabel16
+        Me.txtBarCode.MyLinkLable2 = Nothing
+        Me.txtBarCode.Name = "txtBarCode"
+        Me.txtBarCode.ReferenceFieldDesc = Nothing
+        Me.txtBarCode.ReferenceFieldName = Nothing
+        Me.txtBarCode.ReferenceTableName = Nothing
+        Me.txtBarCode.Size = New System.Drawing.Size(108, 18)
+        Me.txtBarCode.TabIndex = 1468
         '
         'txtPONo
         '
@@ -6033,7 +6306,7 @@ Partial Class frmShipmentDairy
         Me.txtPONo.IsSourceFromTable = False
         Me.txtPONo.IsSourceFromValueList = False
         Me.txtPONo.IsUnique = False
-        Me.txtPONo.Location = New System.Drawing.Point(109, 101)
+        Me.txtPONo.Location = New System.Drawing.Point(128, 101)
         Me.txtPONo.MaxLength = 200
         Me.txtPONo.MendatroryField = False
         Me.txtPONo.MyLinkLable1 = Me.MyLabel12
@@ -6049,21 +6322,59 @@ Partial Class frmShipmentDairy
         '
         Me.RadLabel14.FieldName = Nothing
         Me.RadLabel14.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel14.Location = New System.Drawing.Point(5, 145)
+        Me.RadLabel14.Location = New System.Drawing.Point(24, 145)
         Me.RadLabel14.Name = "RadLabel14"
         Me.RadLabel14.Size = New System.Drawing.Size(55, 16)
         Me.RadLabel14.TabIndex = 1478
         Me.RadLabel14.Text = "Comment"
         '
+        'ddlInvoiceType
+        '
+        Me.ddlInvoiceType.AutoCompleteDisplayMember = Nothing
+        Me.ddlInvoiceType.AutoCompleteValueMember = Nothing
+        Me.ddlInvoiceType.CalculationExpression = Nothing
+        Me.ddlInvoiceType.DropDownAnimationEnabled = True
+        Me.ddlInvoiceType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
+        Me.ddlInvoiceType.FieldCode = Nothing
+        Me.ddlInvoiceType.FieldDesc = Nothing
+        Me.ddlInvoiceType.FieldMaxLength = 0
+        Me.ddlInvoiceType.FieldName = Nothing
+        Me.ddlInvoiceType.isCalculatedField = False
+        Me.ddlInvoiceType.IsSourceFromTable = False
+        Me.ddlInvoiceType.IsSourceFromValueList = False
+        Me.ddlInvoiceType.IsUnique = False
+        Me.ddlInvoiceType.Location = New System.Drawing.Point(640, 39)
+        Me.ddlInvoiceType.MendatroryField = True
+        Me.ddlInvoiceType.MyLinkLable1 = Me.MyLabel7
+        Me.ddlInvoiceType.MyLinkLable2 = Nothing
+        Me.ddlInvoiceType.Name = "ddlInvoiceType"
+        Me.ddlInvoiceType.ReferenceFieldDesc = Nothing
+        Me.ddlInvoiceType.ReferenceFieldName = Nothing
+        Me.ddlInvoiceType.ReferenceTableName = Nothing
+        Me.ddlInvoiceType.Size = New System.Drawing.Size(108, 20)
+        Me.ddlInvoiceType.TabIndex = 1467
+        Me.ddlInvoiceType.Visible = False
+        '
         'RadLabel3
         '
         Me.RadLabel3.FieldName = Nothing
         Me.RadLabel3.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.RadLabel3.Location = New System.Drawing.Point(3, 80)
+        Me.RadLabel3.Location = New System.Drawing.Point(22, 80)
         Me.RadLabel3.Name = "RadLabel3"
         Me.RadLabel3.Size = New System.Drawing.Size(63, 16)
         Me.RadLabel3.TabIndex = 1476
         Me.RadLabel3.Text = "Description"
+        '
+        'lblInvoiceType
+        '
+        Me.lblInvoiceType.FieldName = Nothing
+        Me.lblInvoiceType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblInvoiceType.Location = New System.Drawing.Point(555, 41)
+        Me.lblInvoiceType.Name = "lblInvoiceType"
+        Me.lblInvoiceType.Size = New System.Drawing.Size(70, 16)
+        Me.lblInvoiceType.TabIndex = 1466
+        Me.lblInvoiceType.Text = "Invoice Type"
+        Me.lblInvoiceType.Visible = False
         '
         'txtComment
         '
@@ -6077,7 +6388,7 @@ Partial Class frmShipmentDairy
         Me.txtComment.IsSourceFromTable = False
         Me.txtComment.IsSourceFromValueList = False
         Me.txtComment.IsUnique = False
-        Me.txtComment.Location = New System.Drawing.Point(111, 144)
+        Me.txtComment.Location = New System.Drawing.Point(130, 144)
         Me.txtComment.MaxLength = 200
         Me.txtComment.MendatroryField = False
         Me.txtComment.MyLinkLable1 = Me.RadLabel14
@@ -6088,6 +6399,47 @@ Partial Class frmShipmentDairy
         Me.txtComment.ReferenceTableName = Nothing
         Me.txtComment.Size = New System.Drawing.Size(125, 18)
         Me.txtComment.TabIndex = 1477
+        '
+        'txtCustPODate
+        '
+        Me.txtCustPODate.CalculationExpression = Nothing
+        Me.txtCustPODate.CustomFormat = "dd/MM/yyyy"
+        Me.txtCustPODate.FieldCode = Nothing
+        Me.txtCustPODate.FieldDesc = Nothing
+        Me.txtCustPODate.FieldMaxLength = 0
+        Me.txtCustPODate.FieldName = Nothing
+        Me.txtCustPODate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.txtCustPODate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
+        Me.txtCustPODate.isCalculatedField = False
+        Me.txtCustPODate.IsSourceFromTable = False
+        Me.txtCustPODate.IsSourceFromValueList = False
+        Me.txtCustPODate.IsUnique = False
+        Me.txtCustPODate.Location = New System.Drawing.Point(640, 2)
+        Me.txtCustPODate.MendatroryField = False
+        Me.txtCustPODate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtCustPODate.MyLinkLable1 = Me.MyLabel25
+        Me.txtCustPODate.MyLinkLable2 = Nothing
+        Me.txtCustPODate.Name = "txtCustPODate"
+        Me.txtCustPODate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
+        Me.txtCustPODate.ReferenceFieldDesc = Nothing
+        Me.txtCustPODate.ReferenceFieldName = Nothing
+        Me.txtCustPODate.ReferenceTableName = Nothing
+        Me.txtCustPODate.ShowCheckBox = True
+        Me.txtCustPODate.Size = New System.Drawing.Size(108, 18)
+        Me.txtCustPODate.TabIndex = 1470
+        Me.txtCustPODate.TabStop = False
+        Me.txtCustPODate.Text = "13/06/2011"
+        Me.txtCustPODate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
+        '
+        'MyLabel25
+        '
+        Me.MyLabel25.FieldName = Nothing
+        Me.MyLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.MyLabel25.Location = New System.Drawing.Point(555, 3)
+        Me.MyLabel25.Name = "MyLabel25"
+        Me.MyLabel25.Size = New System.Drawing.Size(74, 16)
+        Me.MyLabel25.TabIndex = 1471
+        Me.MyLabel25.Text = "Cust Po Date"
         '
         'txtDesc
         '
@@ -6101,7 +6453,7 @@ Partial Class frmShipmentDairy
         Me.txtDesc.IsSourceFromTable = False
         Me.txtDesc.IsSourceFromValueList = False
         Me.txtDesc.IsUnique = False
-        Me.txtDesc.Location = New System.Drawing.Point(109, 79)
+        Me.txtDesc.Location = New System.Drawing.Point(128, 79)
         Me.txtDesc.MaxLength = 200
         Me.txtDesc.MendatroryField = False
         Me.txtDesc.MyLinkLable1 = Me.RadLabel3
@@ -6127,7 +6479,7 @@ Partial Class frmShipmentDairy
         Me.txtInvoiceDate.IsSourceFromTable = False
         Me.txtInvoiceDate.IsSourceFromValueList = False
         Me.txtInvoiceDate.IsUnique = False
-        Me.txtInvoiceDate.Location = New System.Drawing.Point(621, 20)
+        Me.txtInvoiceDate.Location = New System.Drawing.Point(640, 20)
         Me.txtInvoiceDate.MendatroryField = False
         Me.txtInvoiceDate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
         Me.txtInvoiceDate.MyLinkLable1 = Me.MyLabel27
@@ -6147,226 +6499,11 @@ Partial Class frmShipmentDairy
         '
         Me.MyLabel27.FieldName = Nothing
         Me.MyLabel27.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel27.Location = New System.Drawing.Point(536, 21)
+        Me.MyLabel27.Location = New System.Drawing.Point(555, 21)
         Me.MyLabel27.Name = "MyLabel27"
         Me.MyLabel27.Size = New System.Drawing.Size(69, 16)
         Me.MyLabel27.TabIndex = 1472
         Me.MyLabel27.Text = "Invoice Date"
-        '
-        'MyLabel25
-        '
-        Me.MyLabel25.FieldName = Nothing
-        Me.MyLabel25.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel25.Location = New System.Drawing.Point(536, 3)
-        Me.MyLabel25.Name = "MyLabel25"
-        Me.MyLabel25.Size = New System.Drawing.Size(74, 16)
-        Me.MyLabel25.TabIndex = 1471
-        Me.MyLabel25.Text = "Cust Po Date"
-        '
-        'txtCustPODate
-        '
-        Me.txtCustPODate.CalculationExpression = Nothing
-        Me.txtCustPODate.CustomFormat = "dd/MM/yyyy"
-        Me.txtCustPODate.FieldCode = Nothing
-        Me.txtCustPODate.FieldDesc = Nothing
-        Me.txtCustPODate.FieldMaxLength = 0
-        Me.txtCustPODate.FieldName = Nothing
-        Me.txtCustPODate.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtCustPODate.Format = System.Windows.Forms.DateTimePickerFormat.Custom
-        Me.txtCustPODate.isCalculatedField = False
-        Me.txtCustPODate.IsSourceFromTable = False
-        Me.txtCustPODate.IsSourceFromValueList = False
-        Me.txtCustPODate.IsUnique = False
-        Me.txtCustPODate.Location = New System.Drawing.Point(621, 2)
-        Me.txtCustPODate.MendatroryField = False
-        Me.txtCustPODate.MinDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtCustPODate.MyLinkLable1 = Me.MyLabel25
-        Me.txtCustPODate.MyLinkLable2 = Nothing
-        Me.txtCustPODate.Name = "txtCustPODate"
-        Me.txtCustPODate.NullDate = New Date(1753, 1, 1, 0, 0, 0, 0)
-        Me.txtCustPODate.ReferenceFieldDesc = Nothing
-        Me.txtCustPODate.ReferenceFieldName = Nothing
-        Me.txtCustPODate.ReferenceTableName = Nothing
-        Me.txtCustPODate.ShowCheckBox = True
-        Me.txtCustPODate.Size = New System.Drawing.Size(108, 18)
-        Me.txtCustPODate.TabIndex = 1470
-        Me.txtCustPODate.TabStop = False
-        Me.txtCustPODate.Text = "13/06/2011"
-        Me.txtCustPODate.Value = New Date(2011, 6, 13, 11, 29, 49, 421)
-        '
-        'lblInvoiceType
-        '
-        Me.lblInvoiceType.FieldName = Nothing
-        Me.lblInvoiceType.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.lblInvoiceType.Location = New System.Drawing.Point(536, 41)
-        Me.lblInvoiceType.Name = "lblInvoiceType"
-        Me.lblInvoiceType.Size = New System.Drawing.Size(70, 16)
-        Me.lblInvoiceType.TabIndex = 1466
-        Me.lblInvoiceType.Text = "Invoice Type"
-        Me.lblInvoiceType.Visible = False
-        '
-        'ddlInvoiceType
-        '
-        Me.ddlInvoiceType.AutoCompleteDisplayMember = Nothing
-        Me.ddlInvoiceType.AutoCompleteValueMember = Nothing
-        Me.ddlInvoiceType.CalculationExpression = Nothing
-        Me.ddlInvoiceType.DropDownAnimationEnabled = True
-        Me.ddlInvoiceType.DropDownStyle = Telerik.WinControls.RadDropDownStyle.DropDownList
-        Me.ddlInvoiceType.FieldCode = Nothing
-        Me.ddlInvoiceType.FieldDesc = Nothing
-        Me.ddlInvoiceType.FieldMaxLength = 0
-        Me.ddlInvoiceType.FieldName = Nothing
-        Me.ddlInvoiceType.isCalculatedField = False
-        Me.ddlInvoiceType.IsSourceFromTable = False
-        Me.ddlInvoiceType.IsSourceFromValueList = False
-        Me.ddlInvoiceType.IsUnique = False
-        Me.ddlInvoiceType.Location = New System.Drawing.Point(621, 39)
-        Me.ddlInvoiceType.MendatroryField = True
-        Me.ddlInvoiceType.MyLinkLable1 = Me.MyLabel7
-        Me.ddlInvoiceType.MyLinkLable2 = Nothing
-        Me.ddlInvoiceType.Name = "ddlInvoiceType"
-        Me.ddlInvoiceType.ReferenceFieldDesc = Nothing
-        Me.ddlInvoiceType.ReferenceFieldName = Nothing
-        Me.ddlInvoiceType.ReferenceTableName = Nothing
-        Me.ddlInvoiceType.Size = New System.Drawing.Size(108, 20)
-        Me.ddlInvoiceType.TabIndex = 1467
-        Me.ddlInvoiceType.Visible = False
-        '
-        'MyLabel16
-        '
-        Me.MyLabel16.FieldName = Nothing
-        Me.MyLabel16.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel16.Location = New System.Drawing.Point(536, 62)
-        Me.MyLabel16.Name = "MyLabel16"
-        Me.MyLabel16.Size = New System.Drawing.Size(54, 16)
-        Me.MyLabel16.TabIndex = 1469
-        Me.MyLabel16.Text = "Bar Code"
-        '
-        'txtBarCode
-        '
-        Me.txtBarCode.CalculationExpression = Nothing
-        Me.txtBarCode.FieldCode = Nothing
-        Me.txtBarCode.FieldDesc = Nothing
-        Me.txtBarCode.FieldMaxLength = 0
-        Me.txtBarCode.FieldName = Nothing
-        Me.txtBarCode.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtBarCode.isCalculatedField = False
-        Me.txtBarCode.IsSourceFromTable = False
-        Me.txtBarCode.IsSourceFromValueList = False
-        Me.txtBarCode.IsUnique = False
-        Me.txtBarCode.Location = New System.Drawing.Point(621, 61)
-        Me.txtBarCode.MaxLength = 200
-        Me.txtBarCode.MendatroryField = False
-        Me.txtBarCode.MyLinkLable1 = Me.MyLabel16
-        Me.txtBarCode.MyLinkLable2 = Nothing
-        Me.txtBarCode.Name = "txtBarCode"
-        Me.txtBarCode.ReferenceFieldDesc = Nothing
-        Me.txtBarCode.ReferenceFieldName = Nothing
-        Me.txtBarCode.ReferenceTableName = Nothing
-        Me.txtBarCode.Size = New System.Drawing.Size(108, 18)
-        Me.txtBarCode.TabIndex = 1468
-        '
-        'lblAlternateVehicleName
-        '
-        Me.lblAlternateVehicleName.AutoSize = False
-        Me.lblAlternateVehicleName.BorderVisible = True
-        Me.lblAlternateVehicleName.FieldName = Nothing
-        Me.lblAlternateVehicleName.Location = New System.Drawing.Point(246, 25)
-        Me.lblAlternateVehicleName.Name = "lblAlternateVehicleName"
-        Me.lblAlternateVehicleName.Size = New System.Drawing.Size(111, 18)
-        Me.lblAlternateVehicleName.TabIndex = 1465
-        Me.lblAlternateVehicleName.TextWrap = False
-        '
-        'lblAlternateVehicleCode
-        '
-        Me.lblAlternateVehicleCode.AutoSize = False
-        Me.lblAlternateVehicleCode.BorderVisible = True
-        Me.lblAlternateVehicleCode.FieldName = Nothing
-        Me.lblAlternateVehicleCode.Location = New System.Drawing.Point(102, 25)
-        Me.lblAlternateVehicleCode.Name = "lblAlternateVehicleCode"
-        Me.lblAlternateVehicleCode.Size = New System.Drawing.Size(143, 19)
-        Me.lblAlternateVehicleCode.TabIndex = 1463
-        Me.lblAlternateVehicleCode.TextWrap = False
-        '
-        'MyLabel54
-        '
-        Me.MyLabel54.FieldName = Nothing
-        Me.MyLabel54.Location = New System.Drawing.Point(3, 25)
-        Me.MyLabel54.Name = "MyLabel54"
-        Me.MyLabel54.Size = New System.Drawing.Size(91, 18)
-        Me.MyLabel54.TabIndex = 1464
-        Me.MyLabel54.Text = "Alternate Vehicle"
-        '
-        'MyLabel1
-        '
-        Me.MyLabel1.FieldName = Nothing
-        Me.MyLabel1.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel1.Location = New System.Drawing.Point(3, 47)
-        Me.MyLabel1.Name = "MyLabel1"
-        Me.MyLabel1.Size = New System.Drawing.Size(57, 16)
-        Me.MyLabel1.TabIndex = 1462
-        Me.MyLabel1.Text = "Salesman"
-        '
-        'txtSalesman
-        '
-        Me.txtSalesman.CalculationExpression = Nothing
-        Me.txtSalesman.FieldCode = Nothing
-        Me.txtSalesman.FieldDesc = Nothing
-        Me.txtSalesman.FieldMaxLength = 0
-        Me.txtSalesman.FieldName = Nothing
-        Me.txtSalesman.isCalculatedField = False
-        Me.txtSalesman.IsSourceFromTable = False
-        Me.txtSalesman.IsSourceFromValueList = False
-        Me.txtSalesman.IsUnique = False
-        Me.txtSalesman.Location = New System.Drawing.Point(100, 47)
-        Me.txtSalesman.MendatroryField = False
-        Me.txtSalesman.MyFont = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSalesman.MyLinkLable1 = Me.MyLabel1
-        Me.txtSalesman.MyLinkLable2 = Me.lblSalesman
-        Me.txtSalesman.MyReadOnly = False
-        Me.txtSalesman.MyShowMasterFormButton = False
-        Me.txtSalesman.Name = "txtSalesman"
-        Me.txtSalesman.ReferenceFieldDesc = Nothing
-        Me.txtSalesman.ReferenceFieldName = Nothing
-        Me.txtSalesman.ReferenceTableName = Nothing
-        Me.txtSalesman.Size = New System.Drawing.Size(143, 22)
-        Me.txtSalesman.TabIndex = 1461
-        Me.txtSalesman.Value = ""
-        '
-        'MyLabel39
-        '
-        Me.MyLabel39.FieldName = Nothing
-        Me.MyLabel39.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel39.Location = New System.Drawing.Point(3, 3)
-        Me.MyLabel39.Name = "MyLabel39"
-        Me.MyLabel39.Size = New System.Drawing.Size(85, 16)
-        Me.MyLabel39.TabIndex = 1439
-        Me.MyLabel39.Text = "Cash Customer"
-        '
-        'txtManualCustomer
-        '
-        Me.txtManualCustomer.CalculationExpression = Nothing
-        Me.txtManualCustomer.Enabled = False
-        Me.txtManualCustomer.FieldCode = Nothing
-        Me.txtManualCustomer.FieldDesc = Nothing
-        Me.txtManualCustomer.FieldMaxLength = 0
-        Me.txtManualCustomer.FieldName = Nothing
-        Me.txtManualCustomer.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtManualCustomer.isCalculatedField = False
-        Me.txtManualCustomer.IsSourceFromTable = False
-        Me.txtManualCustomer.IsSourceFromValueList = False
-        Me.txtManualCustomer.IsUnique = False
-        Me.txtManualCustomer.Location = New System.Drawing.Point(100, 2)
-        Me.txtManualCustomer.MaxLength = 200
-        Me.txtManualCustomer.MendatroryField = False
-        Me.txtManualCustomer.MyLinkLable1 = Me.RadLabel6
-        Me.txtManualCustomer.MyLinkLable2 = Nothing
-        Me.txtManualCustomer.Name = "txtManualCustomer"
-        Me.txtManualCustomer.ReferenceFieldDesc = Nothing
-        Me.txtManualCustomer.ReferenceFieldName = Nothing
-        Me.txtManualCustomer.ReferenceTableName = Nothing
-        Me.txtManualCustomer.Size = New System.Drawing.Size(430, 18)
-        Me.txtManualCustomer.TabIndex = 1438
         '
         'btnPrintsvl
         '
@@ -6652,78 +6789,6 @@ Partial Class frmShipmentDairy
         Me.Import.Text = "Import"
         Me.Import.Visibility = Telerik.WinControls.ElementVisibility.Hidden
         '
-        'MyLabel53
-        '
-        Me.MyLabel53.FieldName = Nothing
-        Me.MyLabel53.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel53.Location = New System.Drawing.Point(933, 4)
-        Me.MyLabel53.Name = "MyLabel53"
-        Me.MyLabel53.Size = New System.Drawing.Size(57, 16)
-        Me.MyLabel53.TabIndex = 1485
-        Me.MyLabel53.Text = "Salesman"
-        Me.MyLabel53.Visible = False
-        '
-        'txtSalesmanName
-        '
-        Me.txtSalesmanName.CalculationExpression = Nothing
-        Me.txtSalesmanName.FieldCode = Nothing
-        Me.txtSalesmanName.FieldDesc = Nothing
-        Me.txtSalesmanName.FieldMaxLength = 0
-        Me.txtSalesmanName.FieldName = Nothing
-        Me.txtSalesmanName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtSalesmanName.isCalculatedField = False
-        Me.txtSalesmanName.IsSourceFromTable = False
-        Me.txtSalesmanName.IsSourceFromValueList = False
-        Me.txtSalesmanName.IsUnique = False
-        Me.txtSalesmanName.Location = New System.Drawing.Point(990, 3)
-        Me.txtSalesmanName.MaxLength = 50
-        Me.txtSalesmanName.MendatroryField = False
-        Me.txtSalesmanName.MyLinkLable1 = Me.MyLabel53
-        Me.txtSalesmanName.MyLinkLable2 = Nothing
-        Me.txtSalesmanName.Name = "txtSalesmanName"
-        Me.txtSalesmanName.ReferenceFieldDesc = Nothing
-        Me.txtSalesmanName.ReferenceFieldName = Nothing
-        Me.txtSalesmanName.ReferenceTableName = Nothing
-        Me.txtSalesmanName.Size = New System.Drawing.Size(90, 18)
-        Me.txtSalesmanName.TabIndex = 1484
-        Me.txtSalesmanName.Visible = False
-        '
-        'MyLabel55
-        '
-        Me.MyLabel55.FieldName = Nothing
-        Me.MyLabel55.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.MyLabel55.Location = New System.Drawing.Point(735, 4)
-        Me.MyLabel55.Name = "MyLabel55"
-        Me.MyLabel55.Size = New System.Drawing.Size(70, 16)
-        Me.MyLabel55.TabIndex = 1483
-        Me.MyLabel55.Text = "Driver Name"
-        Me.MyLabel55.Visible = False
-        '
-        'txtDriverName
-        '
-        Me.txtDriverName.CalculationExpression = Nothing
-        Me.txtDriverName.FieldCode = Nothing
-        Me.txtDriverName.FieldDesc = Nothing
-        Me.txtDriverName.FieldMaxLength = 0
-        Me.txtDriverName.FieldName = Nothing
-        Me.txtDriverName.Font = New System.Drawing.Font("Arial", 8.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.txtDriverName.isCalculatedField = False
-        Me.txtDriverName.IsSourceFromTable = False
-        Me.txtDriverName.IsSourceFromValueList = False
-        Me.txtDriverName.IsUnique = False
-        Me.txtDriverName.Location = New System.Drawing.Point(807, 3)
-        Me.txtDriverName.MaxLength = 50
-        Me.txtDriverName.MendatroryField = False
-        Me.txtDriverName.MyLinkLable1 = Me.MyLabel55
-        Me.txtDriverName.MyLinkLable2 = Nothing
-        Me.txtDriverName.Name = "txtDriverName"
-        Me.txtDriverName.ReferenceFieldDesc = Nothing
-        Me.txtDriverName.ReferenceFieldName = Nothing
-        Me.txtDriverName.ReferenceTableName = Nothing
-        Me.txtDriverName.Size = New System.Drawing.Size(123, 18)
-        Me.txtDriverName.TabIndex = 1482
-        Me.txtDriverName.Visible = False
-        '
         'frmShipmentDairy
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -6737,400 +6802,406 @@ Partial Class frmShipmentDairy
         '
         Me.RootElement.ApplyShapeToControl = True
         Me.Text = "Shipment"
-        CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadMenuItem2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.Panel1.ResumeLayout(False)
         Me.radScrollablePanel1.PanelContainer.ResumeLayout(False)
-        CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.radScrollablePanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.radScrollablePanel1.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
-        Me.SplitContainer1.Panel2.PerformLayout
+        Me.SplitContainer1.Panel2.PerformLayout()
         Me.SplitContainer1.ResumeLayout(False)
-        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadPageView1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageView1.ResumeLayout(False)
         Me.RadPageViewPage1.ResumeLayout(False)
-        Me.RadPageViewPage1.PerformLayout
-        CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RadPageViewPage1.PerformLayout()
+        CType(Me.rgbTaxNonTax, System.ComponentModel.ISupportInitialize).EndInit()
         Me.rgbTaxNonTax.ResumeLayout(False)
-        Me.rgbTaxNonTax.PerformLayout
-        CType(Me.txtMBRTHours, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblMBRT, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblFATPER, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtTemp, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtFATPER, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblTEMP, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblSNFPER, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtAcidity, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtSNFPER, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblAcidity, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.rbtn_Fresh, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.rbtn_Ambient, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnDeliveredTo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkReplacement, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnPrintBatchWise, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtManualVehicle, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblManualVehicle, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtInvoiceNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkSampling, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkOnHold, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtPriceCode, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtInsuranceNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ParentAddress, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblParentAddress, System.ComponentModel.ISupportInitialize).EndInit
+        Me.rgbTaxNonTax.PerformLayout()
+        CType(Me.txtMBRTHours, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblMBRT, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblFATPER, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTemp, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFATPER, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTEMP, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSNFPER, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtAcidity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSNFPER, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblAcidity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbShift, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtn_Fresh, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblShiftType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtn_Ambient, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDeliveredTo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSubLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel60, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkReplacement, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintBatchWise, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtManualVehicle, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel38, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblManualVehicle, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtInvoiceNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkSampling, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkOnHold, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPriceCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtInsuranceNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel45, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ParentAddress, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblParentAddress, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ItemTypePanel.ResumeLayout(False)
-        Me.ItemTypePanel.PerformLayout
-        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.cmbDisItemType, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txt9nrNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtBox, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtJaali, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtCrate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TxtTransportorMName, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).EndInit
+        Me.ItemTypePanel.PerformLayout()
+        CType(Me.txtSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSupplyDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cmbDisItemType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel40, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txt9nrNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel37, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBox, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel36, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtJaali, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel35, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCrate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtTransportorMName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRouteNo, System.ComponentModel.ISupportInitialize).EndInit()
         Me.lblRouteNo.ResumeLayout(False)
-        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadGroupBox5, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox5.ResumeLayout(False)
-        Me.RadGroupBox5.PerformLayout
-        CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtCLKM, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtOPKM, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtElecttefNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtEWayBillNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtEWayBillDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtRoadPermitNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtGRNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtGRDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtRoadPermitDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblRemovalDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtRemovalDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblPriceCode, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RadGroupBox5.PerformLayout()
+        CType(Me.MyLabel49, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCLKM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel48, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtOPKM, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtElecttefNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel41, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEWayBillNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel42, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtEWayBillDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel43, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel22, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRoadPermitNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtGRNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtGRDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel28, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRoadPermitDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel29, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRemovalDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRemovalDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPriceCode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.lblPriceCode.ResumeLayout(False)
         Me.Panel2.ResumeLayout(False)
-        Me.Panel2.PerformLayout
-        CType(Me.txtShippedCan, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel52, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TxtTotalCAN, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel51, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel50, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtCrateQty, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkownVehicle, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtGross_Wt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TxtRoundoff, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblFreightCharges, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblVhicleNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkCommApply, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtVehicleCapacity, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblInvoiceNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkCreateAutoInvoice, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblShipToLocation, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit
+        Me.Panel2.PerformLayout()
+        CType(Me.txtShippedCan, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel52, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtTotalCAN, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel51, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel50, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCrateQty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkownVehicle, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtGross_Wt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel30, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel33, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtRoundoff, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel34, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotalWtMetric, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel32, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblFreightCharges, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTransporterName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel31, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtGENo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel21, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVhicleNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkCommApply, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtVehicleCapacity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel19, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblInvoiceNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotRAmt1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblVendorName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel5, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkCreateAutoInvoice, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel2, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblShipToLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblBillToLocation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
-        Me.RadGroupBox2.PerformLayout
-        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RadGroupBox2.PerformLayout()
+        CType(Me.gv1.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.gv1.ResumeLayout(False)
-        Me.gv1.PerformLayout
-        CType(Me.lblFromLoc, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtWayBillno, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.dtpChallan, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtFreightDistance, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkInternal, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.dtpInvoice, System.ComponentModel.ISupportInitialize).EndInit
+        Me.gv1.PerformLayout()
+        CType(Me.lblFromLoc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtWayBillno, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel23, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpChallan, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFreightDistance, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkInternal, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel7, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.dtpInvoice, System.ComponentModel.ISupportInitialize).EndInit()
         Me.dtpInvoice.ResumeLayout(False)
-        Me.dtpInvoice.PerformLayout
-        CType(Me.txtAdvance, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkAutoTransfer, System.ComponentModel.ISupportInitialize).EndInit
+        Me.dtpInvoice.PerformLayout()
+        CType(Me.txtAdvance, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkAutoTransfer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.chkAutoTransfer.ResumeLayout(False)
         Me.pnlPCJ.ResumeLayout(False)
-        Me.pnlPCJ.PerformLayout
-        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblProject, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtRefNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtInvNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtSOvalidity, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblKMReading, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtCarrier, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtDispatchDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtWaybillDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtDispatchPeriod, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtGEDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtForm38, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtPriceGroupCode, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel28, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblDept, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtpodate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ddlPaymentTerms, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkCreateAutoReceipt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnDrillDown, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit
+        Me.pnlPCJ.PerformLayout()
+        CType(Me.MyLabel4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblProject, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtRefNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtInvNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSOvalidity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblKMReading, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCarrier, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel15, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel26, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDispatchDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtWaybillDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel24, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDispatchPeriod, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtGEDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel20, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtForm38, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel13, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel8, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPriceGroupCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel28, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDept, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtpodate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddlPaymentTerms, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblRouteDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel59, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSalesman, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkCreateAutoReceipt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel29, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.cboItemType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDrillDown, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddNew, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage8.ResumeLayout(False)
         Me.SplitContainer3.Panel1.ResumeLayout(False)
-        Me.SplitContainer3.Panel1.PerformLayout
+        Me.SplitContainer3.Panel1.PerformLayout()
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         Me.SplitContainer3.ResumeLayout(False)
-        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtToDateDistributor, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel70, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtFromDateDistributor, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel69, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.gvDistributor.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.gvDistributor, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadButton3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToDateDistributor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel70, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFromDateDistributor, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel69, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvDistributor.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvDistributor, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage2.ResumeLayout(False)
-        Me.RadPageViewPage2.PerformLayout
-        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblTaxGroupScheme, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RadPageViewPage2.PerformLayout()
+        CType(Me.MyLabel44, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTaxGroupScheme, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox1.ResumeLayout(False)
-        Me.GroupBox1.PerformLayout
-        CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox1.PerformLayout()
+        CType(Me.rbtnTaxCalManual, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.rbtnTaxCalAutomatic, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTaxGrpName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel10, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox1.ResumeLayout(False)
-        Me.RadGroupBox1.PerformLayout
-        CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblTermName, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtDueDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel17, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RadGroupBox1.PerformLayout()
+        CType(Me.RadLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTermName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDueDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel17, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv2.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage3.ResumeLayout(False)
         Me.SplitContainer2.Panel1.ResumeLayout(False)
         Me.SplitContainer2.Panel2.ResumeLayout(False)
-        Me.SplitContainer2.Panel2.PerformLayout
+        Me.SplitContainer2.Panel2.PerformLayout()
         Me.SplitContainer2.ResumeLayout(False)
-        CType(Me.gvAC.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.gvAC, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel31, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblAddCharges, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.gvAC.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvAC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel31, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblAddCharges, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pvpCustomFields.ResumeLayout(False)
         Me.Attachments.ResumeLayout(False)
         Me.RadPageViewPage4.ResumeLayout(False)
-        Me.RadPageViewPage4.PerformLayout
-        CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtSecurity, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblSecuirty, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtDCAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblDCAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblActualTCSTaxBaseAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txttcstaxbaseamount, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnUpdateCustomerWithRoute, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtCustomerComplaintNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtPrintDiscountAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblPrintDisAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblCommAmt, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RadPageViewPage4.PerformLayout()
+        CType(Me.txtTCAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTCAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSecurity, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblSecuirty, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDCAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDCAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTCSTaxRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel57, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblActualTCSTaxBaseAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel58, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txttcstaxbaseamount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdateCustomerWithRoute, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel56, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCustomerComplaintNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnCancel, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPrintDiscountAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblPrintDisAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel21, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCommAmt, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlMannualInvoiceNo.ResumeLayout(False)
-        Me.pnlMannualInvoiceNo.PerformLayout
-        CType(Me.TxtInvoiceManualNoWithPrefix, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtMannaulInvoiceNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblInvoiceDiscAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit
+        Me.pnlMannualInvoiceNo.PerformLayout()
+        CType(Me.TxtInvoiceManualNoWithPrefix, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtMannaulInvoiceNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel11, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblInvoiceDiscAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel6, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox3.ResumeLayout(False)
-        Me.RadGroupBox3.PerformLayout
-        CType(Me.chkDiscountOnAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkDiscountOnRate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtDiscAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtDiscPer, System.ComponentModel.ISupportInitialize).EndInit
+        Me.RadGroupBox3.PerformLayout()
+        CType(Me.chkDiscountOnAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkDiscountOnRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDiscAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDiscPer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlCurrConv.ResumeLayout(False)
-        Me.pnlCurrConv.PerformLayout
-        CType(Me.txtConversionRate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblEffectiveFrom, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtApplicableFrom, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblCurrency, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel32, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblAddCharges1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkVendorGrossReceipt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel27, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblTotRAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblTaxAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblAmtAfterDiscount, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblDiscountAmt, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit
+        Me.pnlCurrConv.PerformLayout()
+        CType(Me.txtConversionRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblEffectiveFrom, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtApplicableFrom, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblCurrency, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblConvRate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel32, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblAddCharges1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkVendorGrossReceipt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel9, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel27, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTotRAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel25, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblTaxAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblAmtAfterDiscount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblDiscountAmt, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblAmtWithDiscount, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel22, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel19, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage5.ResumeLayout(False)
         Me.SplitContainer4.Panel1.ResumeLayout(False)
-        Me.SplitContainer4.Panel1.PerformLayout
+        Me.SplitContainer4.Panel1.PerformLayout()
         Me.SplitContainer4.Panel2.ResumeLayout(False)
         Me.SplitContainer4.ResumeLayout(False)
-        CType(Me.btnApplyScheme, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtUploaderTotal, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnUploaderSave, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnCalculation, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnApplyScheme, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtUploaderTotal, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUploaderSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnCalculation, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnValidate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadGroupBox6, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox6.ResumeLayout(False)
-        CType(Me.gv_Uploader_Temp.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.gv_Uploader_Temp, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.gv_Uploader.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.gv_Uploader, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.gv_Uploader_Temp.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv_Uploader_Temp, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv_Uploader.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gv_Uploader, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage6.ResumeLayout(False)
-        CType(Me.btnReversewithSameNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.btnReversewithSameNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnReverseAndUnpost, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox16.ResumeLayout(False)
-        Me.GroupBox16.PerformLayout
-        CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtFdate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnPickDocNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnARReset, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnCreateJEAR, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox16.PerformLayout()
+        CType(Me.MyLabel47, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtFdate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtToDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel46, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPickDocNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnARReset, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnCreateJEAR, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage7.ResumeLayout(False)
         Me.GroupBox3.ResumeLayout(False)
-        Me.GroupBox3.PerformLayout
-        CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TxtEWayBillUpdateBillRemarks, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TxtEWayBillUpdateValidDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel66, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TxtEWayBillUpdateBillDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel65, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TxtEWayBillUpdateBillNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox3.PerformLayout()
+        CType(Me.MyLabel68, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtEWayBillUpdateBillRemarks, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtEWayBillUpdateValidDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel66, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtEWayBillUpdateBillDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel65, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel67, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtEWayBillUpdateBillNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.GroupBox2.ResumeLayout(False)
-        Me.GroupBox2.PerformLayout
-        CType(Me.TxtEInvoiceUpdateAckDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TxtEInvoiceUpdateAckNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TxtEInvoiceUpdateIRNNo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.TxtEInvoiceUpdateQCCode, System.ComponentModel.ISupportInitialize).EndInit
+        Me.GroupBox2.PerformLayout()
+        CType(Me.TxtEInvoiceUpdateAckDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel64, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel63, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtEInvoiceUpdateAckNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel62, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtEInvoiceUpdateIRNNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel61, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadButton1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.TxtEInvoiceUpdateQCCode, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPageViewPage9.ResumeLayout(False)
-        Me.RadPageViewPage9.PerformLayout
-        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ddlDispatchTerms, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtPONo, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtComment, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtCustPODate, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblInvoiceType, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.ddlInvoiceType, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtBarCode, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblAlternateVehicleName, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.lblAlternateVehicleCode, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtManualCustomer, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnPrintsvl, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnUpdateCustomer, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.BtnPrintChallan, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.chkRateUserCustomer, System.ComponentModel.ISupportInitialize).EndInit
+        Me.SplitContainer5.Panel1.ResumeLayout(False)
+        Me.SplitContainer5.Panel2.ResumeLayout(False)
+        Me.SplitContainer5.Panel2.PerformLayout()
+        Me.SplitContainer5.ResumeLayout(False)
+        CType(Me.gvCC.MasterTemplate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.gvCC, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtTransNo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel16, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel39, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel53, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtSalesmanName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtManualCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel1, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel55, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel54, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel18, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblAlternateVehicleCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddlDispatchTerms, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblAlternateVehicleName, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel12, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtBarCode, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtPONo, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel14, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.ddlInvoiceType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadLabel3, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.lblInvoiceType, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtComment, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtCustPODate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel25, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtDesc, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.txtInvoiceDate, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.MyLabel27, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintsvl, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadSplitExp, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnShowInventory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnInvoiceJE, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnUpdateCustomer, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.BtnPrintChallan, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnHistory, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnsetting, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrintInvoice, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.chkRateUserCustomer, System.ComponentModel.ISupportInitialize).EndInit()
         Me.chkRateUserCustomer.ResumeLayout(False)
-        Me.chkRateUserCustomer.PerformLayout
-        CType(Me.chkRateDefaultSetting, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit
+        Me.chkRateUserCustomer.PerformLayout()
+        CType(Me.chkRateDefaultSetting, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnAddCost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPrint, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnDelete, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnPost, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnClose, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.btnSave, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.RadMenu1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadMenu1.ResumeLayout(False)
-        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel53, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtSalesmanName, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.MyLabel55, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me.txtDriverName, System.ComponentModel.ISupportInitialize).EndInit
-        CType(Me, System.ComponentModel.ISupportInitialize).EndInit
+        CType(Me.RadGroupBox4, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
-        Me.PerformLayout
+        Me.PerformLayout()
 
     End Sub
     Friend WithEvents SplitContainer1 As System.Windows.Forms.SplitContainer
@@ -7508,5 +7579,8 @@ Partial Class frmShipmentDairy
     Friend WithEvents txtSalesmanName As common.Controls.MyTextBox
     Friend WithEvents MyLabel55 As common.Controls.MyLabel
     Friend WithEvents txtDriverName As common.Controls.MyTextBox
+    Friend WithEvents SplitContainer5 As SplitContainer
+    Friend WithEvents gvCC As RadGridView
+    Friend WithEvents txtTransNo As common.Controls.MyTextBox
 End Class
 

@@ -13795,6 +13795,7 @@ Public Class clsCreateAllTable
             coll.Add("IsAllowSkipPurchaseQC", "Integer not null default 0")
             coll.Add("OEM", "integer null")
             coll.Add("Is_Provisional", "Integer not null default 0")
+            coll.Add("Is_Default_Grower", "Integer null default 0")
 
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_VENDOR_MASTER", coll, "", True)
 
@@ -14547,6 +14548,7 @@ Public Class clsCreateAllTable
             coll.Add("Latitude", "varchar(20) NULL")
             coll.Add("Longitude", "varchar(20) NULL")
             coll.Add("File_Info", "bigint NULL")
+            coll.Add("Is_Default_Grower", "Integer null default 0")
             Try
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", False)
                 clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_CUSTOMER_MASTER", coll, "", True)
@@ -24285,9 +24287,13 @@ where TSPL_MILK_REJECT_DETAIL.Against_Shift_Uploader_TR_No is null"
             coll.Add("Description_Hindi", "nvarchar(100) NULL ")
             clsCommonFunctionality.CreateOrAlterTable(False, "TSPL_MILK_REJECT_TYPE", coll, "", True)
 
+            coll = New Dictionary(Of String, String)()
+            coll.Add("ACC_Qty_LTR", "DECIMAL(18,3) NOT NULL DEFAULT 0")
+            clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_MILK_SRN_DETAIL", coll, "Primary Key (DOC_CODE,PK_Id)", True, False, "TSPL_MILK_SRN_HEAD", "DOC_CODE", "")
 
             qry = "select 1 from INFORMATION_SCHEMA.COLUMNS where TABLE_NAME='TSPL_MILK_SRN_HEAD' and COLUMN_NAME='Against_Uploader_TR_No'"
             dt = clsDBFuncationality.GetDataTable(qry)
+
 
             If dt Is Nothing OrElse dt.Rows.Count <= 0 Then
                 Dim tran As SqlTransaction = clsDBFuncationality.GetTransactin
@@ -29613,6 +29619,8 @@ inner join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE=TSPL_MI
             coll.Add("Temperature", "decimal(18,2) null")
             coll.Add("MBRT_Hours", "decimal(18,2) null")
             coll.Add("Gross_Amount", "decimal(18, 2) NULL")
+            coll.Add("ParentDocNo", "varchar(30) NULL")
+
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_HEAD", coll, Nothing, True, True, "", "Document_Code", "Document_Date")
             'Try
             '    clsDBFuncationality.ExecuteNonQuery("alter table TSPL_SD_SHIPMENT_HEAD alter column Insurance varchar(30)")
@@ -29792,6 +29800,7 @@ inner join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE=TSPL_MI
             coll.Add("Security_Rate", "decimal(18,2) NULL")
             coll.Add("Security_Amt", "decimal(18,2) NULL")
             coll.Add("PK_ID", "integer NOT NULL identity NOT FOR REPLICATION primary key")
+            coll.Add("Transporter", "varchar(12) NULL")
             clsCommonFunctionality.CreateOrAlterTable(True, False, "TSPL_SD_SHIPMENT_DETAIL", coll, Nothing, True, True, "TSPL_SD_SHIPMENT_HEAD", "DOCUMENT_CODE", "")
 
             coll = New Dictionary(Of String, String)()
@@ -29806,6 +29815,7 @@ inner join TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE=TSPL_MI
             coll = New Dictionary(Of String, String)()
             coll.Add("DOCUMENT_CODE", "Varchar(30) not null References TSPL_SD_SHIPMENT_HEAD(DOCUMENT_CODE)")
             coll.Add("Booking_TR_Code", "varchar(30) NOT NULL Unique REFERENCES TSPL_DEMAND_BOOKING_DETAIL(TR_Code)")
+            coll.Add("Booth_Code", "varchar(12) NULL")
             coll.Add("Qty", "decimal(18,2) null")
             coll.Add("Item_Code", "varchar(50) NULL")
             coll.Add("Unit_code", "varchar(12) NULL")
@@ -55239,6 +55249,24 @@ select Against_TenderNo,Against_Tender_Schedule_PK_Id,SRN_No,Item_Code,Qty,Again
             coll.Add("Posted_By", "varchar(12) NULL  REFERENCES TSPL_USER_MASTER (USER_CODE)")
             coll.Add("Posted_Date", "datetime NULL")
             clsCommonFunctionality.CreateOrAlterTable(False, False, "TSPL_INS_TAG_ALLOCATION", coll, Nothing, True, False, Nothing, Nothing, Nothing, False)
+
+            coll = New Dictionary(Of String, String)()
+            coll.Add("Code", "VARCHAR(30) NOT NULL PRIMARY KEY ")
+            coll.Add("Name", "Varchar(50) NOT NULL ")
+            coll.Add("Father_Name", "varchar(100) NULL")
+            coll.Add("Village_Code", "varchar(30)  NULL REFERENCES TSPL_VILLAGE_MASTER(Village_code)")
+            coll.Add("Tehsil", "varchar(50) NULL")
+            coll.Add("DISTRICT_Code", "Varchar(30) null references TSPL_DISTRICT_MASTER (Code)")
+            coll.Add("Mobile_No", "VARCHAR(20) NULL")
+            coll.Add("Own_Land", "decimal(18,2)  NULL")
+            coll.Add("Family_Land", "decimal(18,2) NULL ")
+            coll.Add("Lease_Land", "decimal(18,2)  NULL")
+            coll.Add("Total_Land", "decimal(18,2)  NULL")
+            coll.Add("Created_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Created_Date", "Datetime NOT NULL")
+            coll.Add("Modified_By", "varchar(12) NOT NULL REFERENCES TSPL_USER_MASTER (USER_CODE)")
+            coll.Add("Modified_Date", "Datetime NOT NULL")
+            clsCommonFunctionality.CreateOrAlterTable("TSPL_SHEED_GROWER_MASTER", coll)
 
             clsCommon.ProgressBarPercentHide()
         Catch ex As Exception

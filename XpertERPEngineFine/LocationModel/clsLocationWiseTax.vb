@@ -349,11 +349,42 @@ Public Class clsLocationWiseTax
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
 
     End Function
+    Public Shared Function GetDefaultTaxGroup(ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal tranDate As Date?, ByVal trans As SqlTransaction) As String
+        Dim qry As String = " Select Tax_Group_Code"
+        qry += " from TSPL_LOCATION_WISE_TAX_MASTER "
+        qry += " where 2=2 and  Location_Code = '" + strTransLocation + "' and Tax_Type='" + strTaxType + "'  "
+        If clsERPFuncationality.GetGSTStatus(tranDate) Then
+            qry += " and TSPL_LOCATION_WISE_TAX_MASTER.Is_Default_Tax_Group_GST=1 "
+        Else
+            qry += " and TSPL_LOCATION_WISE_TAX_MASTER.Is_Default_Tax_Group=1 "
+        End If
+        qry += " and TSPL_LOCATION_WISE_TAX_MASTER.Tax_Category in (select case when MIN(x.State)=MAX(x.State) then 'L' else 'I' end  from  (select State   from TSPL_LOCATION_MASTER where Location_Code='" + strTransLocation + "' union all   "
+
+
+        If clsCommon.CompairString("S", strTaxType) = CompairStringResult.Equal Then
+            qry += "  select   State from TSPL_CUSTOMER_MASTER where Cust_Code='" + strVendorCustomerCode + "' "
+        ElseIf clsCommon.CompairString("P", strTaxType) = CompairStringResult.Equal Then
+            qry += "   select  State_Code as State from TSPL_VENDOR_MASTER where Vendor_Code='" + strVendorCustomerCode + "' "
+        Else
+            Throw New Exception("Please enter valid Tax Type it should be 'P' or 'S'")
+        End If
+        qry += " )x) "
+        qry += " group by Tax_Group_Code"
+
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
+
+    End Function
     Public Shared Function GetExempedDefaultTaxGroup(ByVal IsExempted As Boolean, ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal tranDate As Date?) As String
         Dim qry As String = " select TSPL_LOCATION_WISE_TAX_MASTER.Tax_Group_Code from TSPL_LOCATION_WISE_TAX_MASTER left outer join " &
             "TSPL_TAX_GROUP_MASTER on TSPL_LOCATION_WISE_TAX_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " &
             "where Location_Code='" & strTransLocation & "' and TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted=1 and Tax_Type='" & strTaxType & "'"
         Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry))
+    End Function
+    Public Shared Function GetExempedDefaultTaxGroup(ByVal IsExempted As Boolean, ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal tranDate As Date?, ByVal trans As SqlTransaction) As String
+        Dim qry As String = " select TSPL_LOCATION_WISE_TAX_MASTER.Tax_Group_Code from TSPL_LOCATION_WISE_TAX_MASTER left outer join " &
+            "TSPL_TAX_GROUP_MASTER on TSPL_LOCATION_WISE_TAX_MASTER.Tax_Group_Code=TSPL_TAX_GROUP_MASTER.Tax_Group_Code " &
+            "where Location_Code='" & strTransLocation & "' and TSPL_TAX_GROUP_MASTER.Is_Tax_Exempted=1 and Tax_Type='" & strTaxType & "'"
+        Return clsCommon.myCstr(clsDBFuncationality.getSingleValue(qry, trans))
     End Function
     Public Shared Function GetExempedDefaultTaxGroup(ByVal IsExempted As Boolean, ByVal strTransLocation As String, ByVal strVendorCustomerCode As String, ByVal strTaxType As String, ByVal tranDate As Date?, ByVal IsTCS As String) As String
         Dim qry As String = " select TSPL_LOCATION_WISE_TAX_MASTER.Tax_Group_Code from TSPL_LOCATION_WISE_TAX_MASTER left outer join " &

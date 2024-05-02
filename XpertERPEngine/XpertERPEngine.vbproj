@@ -533,6 +533,7 @@
     <Compile Include="Shared Form\RptBulkMilkMultiplePurchaseInvoice.vb">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Sheed\clsSheedGrowerMaster.vb" />
     <Compile Include="UserControl\ucCustomFields.Designer.vb">
       <DependentUpon>ucCustomFields.vb</DependentUpon>
     </Compile>

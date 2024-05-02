@@ -360,7 +360,7 @@
     </Reference>
     <Reference Include="XpertERPEngine, Version=7.1.1.73, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\XpertERPEngine\bin\Debug\XpertERPEngine.dll</HintPath>
+      <HintPath>..\XpertERPEngine\obj\Debug\XpertERPEngine.dll</HintPath>
     </Reference>
     <Reference Include="XpertERPEngineeringAndPlantManagement">
       <HintPath>..\XpertERPEngineeringAndPlantManagement\bin\Debug\XpertERPEngineeringAndPlantManagement.dll</HintPath>
@@ -7853,7 +7853,12 @@
       <CachedSettingsPropName>ERP_BSWS_BSWS</CachedSettingsPropName>
     </WebReferenceUrl>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\XpertERPSheed\XpertERPSheed.vbproj">
+      <Project>{9173c5b6-b599-4b71-aecd-5351313a00dc}</Project>
+      <Name>XpertERPSheed</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
       <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
