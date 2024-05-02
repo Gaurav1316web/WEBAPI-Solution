@@ -630,7 +630,7 @@ Public Class clsMilkRejectHead
                         End If
                         objPriceChargeList.Add(objPrice_Charge1)
                     Next
-                    If Not clsMilkSRNMCC.SaveData(objHead, objList, objVSPChargeList, objPriceChargeList, trans) Then
+                    If Not clsMilkSRNMCC.SaveData(objHead, objList, trans) Then
                         Return False
                     Else
                         objHead = Nothing

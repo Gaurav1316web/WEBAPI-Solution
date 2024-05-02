@@ -447,6 +447,7 @@
     <Compile Include="Milk Procurement\clsMilkCollectionMCCMulipleDays.vb" />
     <Compile Include="Milk Procurement\clsMilkPurchaseInvoiceProvision.vb" />
     <Compile Include="Milk Procurement\clsMilkShiftUploader.vb" />
+    <Compile Include="Milk Procurement\clsMilkSRN.vb" />
     <Compile Include="Milk Procurement\clsMPDCSInsentiveReco.vb" />
     <Compile Include="Milk Procurement\clsMPIncentiveEntry.vb" />
     <Compile Include="Milk Procurement\clsMPIncetiveSlab.vb" />

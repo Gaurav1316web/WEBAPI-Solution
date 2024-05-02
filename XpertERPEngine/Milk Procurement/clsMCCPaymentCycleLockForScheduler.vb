@@ -60,7 +60,6 @@ End Class
 Public Class clsVSPBillAndIncentiveCalculation
     Public Function BillGenerationMCCWise(ByVal frmBillGen As RadForm, ByVal strMCCCode As String, ByVal txtFromDate As DateTime, ByVal txtToDate As DateTime, ByVal Formcode As String, ByVal arrVSP As ArrayList, ByVal PaymentType As String, ByVal PaymentValue As Integer) As Boolean
         UpdateSTDQtyOFSRN(txtFromDate, strMCCCode)
-        Dim isStopVSPBillIfSomethingWrong As Boolean = (clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.StopVSPBillIfSomethingWrong, clsFixedParameterCode.StopVSPBillIfSomethingWrong, Nothing)) = 1)
         Dim strMCCName As String = clsMccMaster.GetName(strMCCCode, Nothing)
         If clsCommon.myLen(strMCCCode) <= 0 Then
             Throw New Exception("Please Select MCC To Generate Bill")
@@ -68,7 +67,6 @@ Public Class clsVSPBillAndIncentiveCalculation
         If arrVSP Is Nothing OrElse arrVSP.Count <= 0 Then
             Throw New Exception("Please Select VSP To Generate Bill")
         End If
-        'CreateMCCChillingProvision(strMCCCode, strMCCName, txtFromDate, txtToDate)
         Dim qry As String = "update TSPL_DCS_ADDITION_DEDUCTION set TSPL_DCS_ADDITION_DEDUCTION.Mapping_Matching=xx.MappingCode from (
 select Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where len(isnull( MappingCode,''))>0 and TSPL_DCS_ADDITION_DEDUCTION.Posted=1
 union all
@@ -87,58 +85,6 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
             Generate_Vsp_Issue_Debit_Note(strMCCCode, arrVSP, "D", txtToDate)
             Generate_Vsp_Issue_Debit_Note(strMCCCode, arrVSP, "C", txtToDate)
         Else
-            If isStopVSPBillIfSomethingWrong Then
-                qry = "select DOC_CODE,FAT_PER,SNF_PER,VLC_Code_VLC_Uploader as VLCUploaderCode  from (" + Environment.NewLine +
-                " select TSPL_MILK_SRN_DETAIL.DOC_CODE,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER ,TSPL_MILK_SRN_HEAD.VLC_CODE," + Environment.NewLine +
-                "(select top 1 Rate" + Environment.NewLine +
-                 " from TSPL_FAT_SNF_UPLOADER_MASTER" + Environment.NewLine +
-                "inner join TSPL_FAT_SNF_UPLOADER_MCC on TSPL_FAT_SNF_UPLOADER_MCC.MCC_Code=TSPL_MILK_SRN_HEAD.MCC_CODE and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_MCC.Code " + Environment.NewLine +
-                " inner join TSPL_FAT_SNF_UPLOADER_VLC on VLC_Code=TSPL_MILK_SRN_HEAD.VLC_CODE  and  TSPL_FAT_SNF_UPLOADER_MASTER.Code=TSPL_FAT_SNF_UPLOADER_VLC.Code " + Environment.NewLine +
-                " where  posted='1' and  fat=TSPL_MILK_SRN_DETAIL.FAT_PER and SNF=TSPL_MILK_SRN_DETAIL.SNF_PER and (date< convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,103) or (date= convert(date, TSPL_MILK_SRN_HEAD.DOC_DATE,103) and Price_code_shift>=TSPL_MILK_SRN_HEAD.SHIFT)) " + Environment.NewLine +
-                " order by date desc ,TSPL_FAT_SNF_UPLOADER_MASTER.code desc) as RATE,TSPL_VLC_MASTER_HEAD.VLC_Code_VLC_Uploader " + Environment.NewLine +
-                " from TSPL_MILK_SRN_DETAIL" + Environment.NewLine +
-                " left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE" + Environment.NewLine +
-                " left outer join TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL on TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.MILK_SRN_Code=TSPL_MILK_SRN_DETAIL.DOC_CODE" + Environment.NewLine +
-                " left outer join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE" + Environment.NewLine +
-                " left outer join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_HEAD.VLC_CODE " + Environment.NewLine +
-                " where TSPL_MILK_SRN_DETAIL.AMOUNT <= 0 And Against_Reject_No Is null" + Environment.NewLine +
-                " and TSPL_MILK_PURCHASE_INVOICE_INCENTIVEDETAIL.Incentive_Amount is null" + Environment.NewLine +
-                " and TSPL_MILK_PURCHASE_INVOICE_DETAIL.DOC_CODE  is null" + Environment.NewLine +
-                " and TSPL_MILK_SRN_HEAD.MCC_CODE = '" + strMCCCode + "' " + Environment.NewLine +
-                " and TSPL_MILK_SRN_HEAD.DOC_DATE <= '" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine +
-                " and TSPL_MILK_SRN_HEAD.VSP_coDE in (" + clsCommon.GetMulcallString(arrVSP) + ")" + Environment.NewLine +
-                " )xxx where isnull(RATE,0)>0 "
-                Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    If frmBillGen Is Nothing Then
-                        Throw New Exception("There are some SRN With Wrong Price")
-                    Else
-                        If clsCommon.MyMessageBoxShow("There are some SRN With Wrong Price.Do You want to export these documents", frmBillGen.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-                            transportSql.ExporttoExcelWithoutFilter(qry, "", "", frmBillGen)
-                        End If
-                        Return False
-                    End If
-                End If
-                qry = "select TSPL_MILK_REJECT_HEAD.DOC_CODE,TSPL_MILK_REJECT_DETAIL.SAMPLE_NO,TSPL_MILK_REJECT_DETAIL.Defaulter from TSPL_MILK_REJECT_DETAIL " + Environment.NewLine +
-                " left outer join TSPL_MILK_REJECT_HEAD on TSPL_MILK_REJECT_HEAD.DOC_CODE=TSPL_MILK_REJECT_DETAIL.DOC_CODE " + Environment.NewLine +
-                " where " + Environment.NewLine +
-                " TSPL_MILK_REJECT_HEAD.MCC_CODE='" + strMCCCode + "' " + Environment.NewLine +
-                " and TSPL_MILK_REJECT_HEAD.DOC_DATE>='" + clsCommon.GetPrintDate(clsCommon.GetDateWithStartTime(txtFromDate), "dd/MMM/yyyy hh:mm tt") + "'  " + Environment.NewLine +
-                " and TSPL_MILK_REJECT_HEAD.DOC_DATE<='" + clsCommon.GetPrintDate(clsCommon.GetDateWithEndTime(txtToDate), "dd/MMM/yyyy hh:mm tt") + "' " + Environment.NewLine +
-                " and TSPL_MILK_REJECT_DETAIL.VSP_CODE in (" + clsCommon.GetMulcallString(arrVSP) + ")" + Environment.NewLine +
-                " and TSPL_MILK_REJECT_DETAIL.Amount<=0 "
-                dt = clsDBFuncationality.GetDataTable(qry)
-                If dt IsNot Nothing AndAlso dt.Rows.Count > 0 Then
-                    If frmBillGen Is Nothing Then
-                        Throw New Exception("There are some Wrong Milk rejection having amount zero")
-                    Else
-                        If clsCommon.MyMessageBoxShow("There are some Wrong Milk rejection having amount zero.Do You want to export these documents", frmBillGen.Text, MessageBoxButtons.YesNo, RadMessageIcon.Question) = System.Windows.Forms.DialogResult.Yes Then
-                            transportSql.ExporttoExcelWithoutFilter(qry, "", "", frmBillGen)
-                        End If
-                        Return False
-                    End If
-                End If
-            End If
             Generate_Bill_Payment_cycle_wise(frmBillGen, strMCCCode, txtFromDate, txtToDate, arrVSP, PaymentType, PaymentValue, True, Formcode)
         End If
         Return True
@@ -222,12 +168,13 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
                     Try
                         Srn_No_List.Clear()
                         'aaaaaaaaaaaaaaaaaa()
-                        qry = "select Distinct TSPL_MILK_SRN_Head. DOC_CODE from TSPL_MILK_SRN_Head inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_Head.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE " _
-                               & " left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE " _
-                               & " and TSPL_MILK_PURCHASE_INVOICE_DETAIL.item_code=TSPL_MILK_srn_DETAIL.Item_Code where  Coalesce(Is_Incentive_Created,'N')='N' and " _
-                               & " VSP_coDE='" & VSP & "' "
+                        qry = "select Distinct TSPL_MILK_SRN_Head. DOC_CODE 
+from TSPL_MILK_SRN_Head 
+inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_Head.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE 
+left join TSPL_MILK_PURCHASE_INVOICE_DETAIL on TSPL_MILK_PURCHASE_INVOICE_DETAIL.SRN_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE  and TSPL_MILK_PURCHASE_INVOICE_DETAIL.item_code=TSPL_MILK_srn_DETAIL.Item_Code 
+where  Coalesce(Is_Incentive_Created,'N')='N' and  VSP_CODE='" & VSP & "' "
                         If Not MultipleFinderFillAuto Then
-                            qry += " And TSPL_MILK_SRN_Head.mcc_coDE='" & strMCCCode & "' "
+                            qry += " And TSPL_MILK_SRN_Head.MCC_CODE='" & strMCCCode & "' "
                         End If
                         If Not isPickPendingMilkSRNinNextPaymentCycle Then
                             qry += " AND convert(date,DOC_DATE,103) >=convert(date,'" & txtFromDate.Date & "',103) "
@@ -1527,16 +1474,13 @@ select MappingCode as Code,MappingCode from TSPL_DCS_ADDITION_DEDUCTION where le
     End Sub
     Public Sub SelectMilkSRNItemsForVspPayment(ByVal strMCCCode As String, ByVal strSRN_No As List(Of String), ByVal Vsp_Name As String, ByVal frm_date As Date, ByVal End_date As Date, ByVal Is_With_Bill As Boolean, ByVal trans As SqlTransaction, ByVal Formcode As String, ByVal IsRoundOffPaiseAmount As Boolean, ByVal CompanyVSPDeduction As Decimal, ByVal NonCompanyVSPDeduction As Decimal, ByVal settDoNotIncludeIncentiveInMilkPurchaseInvoice As Boolean)
         Dim isPickPendingMilkSRNinNextPaymentCycle As Boolean = clsCommon.myCDecimal(clsFixedParameter.GetData(clsFixedParameterType.PickPendingMilkSRNinNextPaymentCycle, clsFixedParameterCode.PickPendingMilkSRNinNextPaymentCycle, trans)) = 1
-        Dim qry As String = "select CAST(0 as bit) as Sel, TSPL_MILK_SRN_DETAIL.DOC_CODE as Code,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Item_Code as ICode,TSPL_MILK_SRN_HEAD.MCC_code,TSPL_VLC_MASTER_HEAD.VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_SRN_HEAD.VSP_CODE as Vendor,Vendor_name,TSPL_ITEM_MASTER.Item_Desc as IName,TSPL_MILK_SRN_DETAIL.UOM_Code as Unit,TSPL_MILK_SRN_DETAIL.Qty as POQty,TSPL_MILK_SRN_DETAIL.ACC_Qty ,TSPL_MILK_SRN_DETAIL.Qty as GRNQty,TSPL_MILK_SRN_DETAIL.Qty as PedningQty,TSPL_MILK_SRN_DETAIL.RATE,TSPL_VENDOR_MASTER.Vendor_Name as VendorName,0 as Assessable,TSPL_MILK_SRN_DETAIL.Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SAMPLE_DETAIL.CLR,NO_OF_CANS as cans,TSPL_MILK_SRN_HEAD.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name,TSPL_MILK_SRN_HEAD.VEHICLE_CODE,TSPL_VEHICLE_MASTER.Vehicle_Name,tspl_Milk_Srn_Detail.Correction_factor,case when TSPL_MILK_SRN_HEAD.SHIFT='M' then 'Morning' else 'Evening' end as shift,TSPL_MILK_SRN_DETAIL.Head_Load_Amount,TSPL_MILK_SRN_DETAIL.Own_Asset_Amount,TSPL_MILK_SRN_DETAIL.EMP_Amount 
+        Dim qry As String = "select CAST(0 as bit) as Sel, TSPL_MILK_SRN_DETAIL.DOC_CODE as Code,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Item_Code as ICode,TSPL_MILK_SRN_HEAD.MCC_code,TSPL_VLC_MASTER_HEAD.VLC_CODE,TSPL_VLC_MASTER_HEAD.VLC_Name,TSPL_MILK_SRN_HEAD.VSP_CODE as Vendor,Vendor_name,TSPL_ITEM_MASTER.Item_Desc as IName,TSPL_MILK_SRN_DETAIL.UOM_Code as Unit,TSPL_MILK_SRN_DETAIL.Qty as POQty,TSPL_MILK_SRN_DETAIL.ACC_Qty ,TSPL_MILK_SRN_DETAIL.Qty as GRNQty,TSPL_MILK_SRN_DETAIL.Qty as PedningQty,TSPL_MILK_SRN_DETAIL.RATE,TSPL_VENDOR_MASTER.Vendor_Name as VendorName,0 as Assessable,TSPL_MILK_SRN_DETAIL.Amount,TSPL_MILK_SRN_DETAIL.Service_Charge_Amount,TSPL_MILK_SRN_DETAIL.FAT_PER,TSPL_MILK_SRN_DETAIL.SNF_PER,TSPL_MILK_SRN_DETAIL.CLR ,TSPL_MILK_SRN_HEAD.Route_Code,TSPL_MCC_ROUTE_MASTER.Route_Name,TSPL_MILK_SRN_HEAD.VEHICLE_CODE,TSPL_VEHICLE_MASTER.Vehicle_Name,tspl_Milk_Srn_Detail.Correction_factor,case when TSPL_MILK_SRN_HEAD.SHIFT='M' then 'Morning' else 'Evening' end as shift,TSPL_MILK_SRN_DETAIL.Head_Load_Amount,TSPL_MILK_SRN_DETAIL.Own_Asset_Amount,TSPL_MILK_SRN_DETAIL.EMP_Amount 
 ,TSPL_VENDOR_MASTER.Service_Charge_Type,Case when Nature='C' then TSPL_VENDOR_MASTER.Actual_charges end as  Commission, Case when Nature='E' then TSPL_VENDOR_MASTER.Actual_charges end as Payment_Commission
 from TSPL_MILK_SRN_DETAIL 
 left outer join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE =TSPL_MILK_SRN_DETAIL.DOC_CODE  
 Left join TSPL_ITEM_MASTER on tspl_item_Master.Item_Code=TSPL_MILK_SRN_DETAIL.Item_Code 
 left join TSPL_VLC_MASTER_HEAD  on TSPL_VLC_MASTER_HEAD.VLC_Code =TSPL_MILK_SRN_HEAD.VLC_CODE 
 left join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.vendor_Code=TSPL_MILK_SRN_HEAD.Vsp_CODE  
-left join TSPL_MILK_SAMPLE_DETAIL on TSPL_MILK_SAMPLE_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE and TSPL_MILK_SAMPLE_DETAIL.Item_Code =TSPL_MILK_SRN_DETAIL.Item_Code and TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE =TSPL_MILK_SRN_HEAD.VLC_DOC_CODE and TSPL_MILK_SAMPLE_DETAIL.Sample_No =TSPL_MILK_SRN_HEAD.sample_No  
-Left join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE=TSPL_MILK_SAMPLE_DETAIL.DOC_CODE 
-left join  TSPL_MILK_Receipt_DETAIL on TSPL_MILK_Receipt_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE and TSPL_MILK_Receipt_DETAIL.Item_Code=TSPL_MILK_SAMPLE_Detail.Item_Code  and TSPL_MILK_Receipt_DETAIL.VLC_DOC_CODE=TSPL_MILK_SAMPLE_DETAIL.VLC_DOC_CODE and TSPL_MILK_Receipt_DETAIL.sample_No=TSPL_MILK_SAMPLE_DETAIL.sample_No 
 left join TSPL_VEHICLE_MASTER on TSPL_VEHICLE_MASTER.Vehicle_Id=TSPL_MILK_SRN_HEAD.VEHICLE_CODE 
 left join TSPL_MCC_ROUTE_MASTER on TSPL_MCC_ROUTE_MASTER.Route_Code=TSPL_MILK_SRN_HEAD.ROUTE_CODE 
 left outer join TSPL_MCC_MASTER on TSPL_MCC_MASTER.mcc_code=TSPL_MILK_SRN_HEAD.mcc_code 
@@ -1582,9 +1526,9 @@ where  TSPL_MILK_SRN_HEAD.Posted=1 and tspl_Milk_Srn_Head.is_incentive_Created='
 
             Dim objList As New List(Of clsMilkPurchaseInvoiceMCCDetail)
             Dim objDetail As clsMilkPurchaseInvoiceMCCDetail = Nothing
-            Dim sQuery As String = "select TSPL_MILK_Shift_End_DETAIL.*,TSPL_MILK_SRN_HEAD.doc_code as srn_code from TSPL_MILK_Shift_End_DETAIL inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_head.VLC_DOC_CODE=TSPL_MILK_Shift_End_DETAIL.VLC_DOC_CODE where  TSPL_MILK_Shift_End_DETAIL.MCC_CODE='" & clsCommon.myCstr(obj_SRN.MCC_CODE) & "' " _
-                & "and convert(date,TSPL_MILK_Shift_End_DETAIL.DOC_DATE,103)='" & clsCommon.GetPrintDate(obj_SRN.DOC_DATE, "dd-MMM-yyyy") & "' and TSPL_MILK_Shift_End_DETAIL.SHIFT='" & IIf(clsCommon.myCstr(obj_SRN.SHIFT) = "M", "Morning", "Evening") & "'"
-            Dim DtShiftEnd As DataTable = clsDBFuncationality.GetDataTable(sQuery, trans)
+            'Dim sQuery As String = "select TSPL_MILK_Shift_End_DETAIL.*,TSPL_MILK_SRN_HEAD.doc_code as srn_code from TSPL_MILK_Shift_End_DETAIL inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_head.VLC_DOC_CODE=TSPL_MILK_Shift_End_DETAIL.VLC_DOC_CODE where  TSPL_MILK_Shift_End_DETAIL.MCC_CODE='" & clsCommon.myCstr(obj_SRN.MCC_CODE) & "' " _
+            '    & "and convert(date,TSPL_MILK_Shift_End_DETAIL.DOC_DATE,103)='" & clsCommon.GetPrintDate(obj_SRN.DOC_DATE, "dd-MMM-yyyy") & "' and TSPL_MILK_Shift_End_DETAIL.SHIFT='" & IIf(clsCommon.myCstr(obj_SRN.SHIFT) = "M", "Morning", "Evening") & "'"
+            'Dim DtShiftEnd As DataTable = clsDBFuncationality.GetDataTable(sQuery, trans)
             Dim totAmount As Double = 0
             Dim totCommssion As Double = 0
             objHead.Total_PaymentCommission = 0
@@ -1597,16 +1541,16 @@ where  TSPL_MILK_SRN_HEAD.Posted=1 and tspl_Milk_Srn_Head.is_incentive_Created='
                 objDetail = New clsMilkPurchaseInvoiceMCCDetail
                 objDetail.DOC_CODE = ""
                 objDetail.AMOUNT = clsCommon.myCDecimal(drPendingSRN("Amount"))
-                objDetail.Cans = clsCommon.myCDecimal(drPendingSRN("Cans"))
+                objDetail.Cans = 1
                 objDetail.CLR = clsCommon.myCDecimal(drPendingSRN("CLR"))
                 objDetail.COMMISSION = clsCommon.myCDecimal(drPendingSRN("Commission"))
                 objDetail.Payment_COMMISSION = clsCommon.myCDecimal(drPendingSRN("Payment_Commission"))
-                If DtShiftEnd.Rows.Count > 0 Then
-                    Dim dr() As DataRow = DtShiftEnd.Select("vlc_code='" & clsCommon.myCstr(drPendingSRN("VLC_Code")) & "' and srn_code='" & clsCommon.myCstr(drPendingSRN("code")) & "'")
-                    If dr.Length > 0 Then
-                        objDetail.Deduction = IIf(clsCommon.myCstr(dr(0)("A_Or_R")) = "R", clsCommon.myCDecimal(drPendingSRN("Amount")) * clsCommon.myCDecimal(dr(0)("Deduction_of_VSP")) / 100, clsCommon.myCDecimal(dr(0)("Deduction_of_VSP")))
-                    End If
-                End If
+                'If DtShiftEnd.Rows.Count > 0 Then
+                '    Dim dr() As DataRow = DtShiftEnd.Select("vlc_code='" & clsCommon.myCstr(drPendingSRN("VLC_Code")) & "' and srn_code='" & clsCommon.myCstr(drPendingSRN("code")) & "'")
+                '    If dr.Length > 0 Then
+                '        objDetail.Deduction = IIf(clsCommon.myCstr(dr(0)("A_Or_R")) = "R", clsCommon.myCDecimal(drPendingSRN("Amount")) * clsCommon.myCDecimal(dr(0)("Deduction_of_VSP")) / 100, clsCommon.myCDecimal(dr(0)("Deduction_of_VSP")))
+                '    End If
+                'End If
                 objDetail.Own_Asset_Amount = clsCommon.myCDecimal(drPendingSRN("Own_Asset_Amount"))
                 objDetail.Correction_Factor = clsCommon.myCDecimal(drPendingSRN("Correction_Factor"))
                 objDetail.FAT_PER = clsCommon.myCDecimal(drPendingSRN("FAT_per"))
@@ -1699,7 +1643,7 @@ where  TSPL_MILK_SRN_HEAD.Posted=1 and tspl_Milk_Srn_Head.is_incentive_Created='
             objHead.Program_Code = Formcode
             objHead.No_Of_Asset = 0
             If CompanyVSPDeduction > 0 Or NonCompanyVSPDeduction > 0 Then
-                sQuery = "select Issue_To,sum(Issued_Qty*RI) as NoOFAsset from (" + Environment.NewLine +
+                Dim sQuery As String = "select Issue_To,sum(Issued_Qty*RI) as NoOFAsset from (" + Environment.NewLine +
                             "select TSPL_VSPAsset_HEAD.Doc_No,TSPL_VSPAsset_HEAD.Issue_To,TSPL_VSPAsset_detail.Item_Code,case when Doc_Type='Issue' then Issued_Qty else Issued_Qty_againstret end as Issued_Qty,case when Doc_Type='Issue' then 1 else -1 end as RI from TSPL_VSPAsset_detail" + Environment.NewLine +
                             "left outer join TSPL_VSPAsset_HEAD on TSPL_VSPAsset_HEAD.Doc_No=TSPL_VSPAsset_detail.Doc_No" + Environment.NewLine +
                             "where convert(date ,Doc_Date,103)<='" + clsCommon.GetPrintDate(objHead.DOC_DATE, "dd/MMM/yyyy") + "' and Issue_To='" + objHead.VSP_CODE + "' and Status=1" + Environment.NewLine +
@@ -1714,43 +1658,43 @@ where  TSPL_MILK_SRN_HEAD.Posted=1 and tspl_Milk_Srn_Head.is_incentive_Created='
 
             totAmount = 0
             If clsMilkPurchaseInvoiceMCC.SaveData(objHead, objList, trans) Then
-                clsMilkPurchaseInvoiceMCC.SaveMPData(objHead.DOC_CODE, objHead.FROM_DATE, objHead.TO_DATE, objHead.MCC_CODE, objHead.VSP_CODE, trans)
-                If Not settDoNotIncludeIncentiveInMilkPurchaseInvoice Then
-                    Dim incentive As ArrayList = clsMilkPurchaseInvoiceMCC.LoadDataQuery_For_Incentive(objHead.DOC_CODE, objHead.VSP_CODE, objHead.MCC_CODE, frm_date, Today.Date, False, trans, (End_date.Day - frm_date.Day) + 1)
-                    clsMilkPurchaseInvoiceMCC.LoadDataQuery_For_Incentive_MP(objHead.DOC_CODE, objHead.VSP_CODE, objHead.MCC_CODE, frm_date, Today.Date, False, trans, (End_date.Day - frm_date.Day) + 1)
-                    Dim totincentiveEMP As Double = 0
-                    Dim totincentive As Double = 0
-                    totAmount = 0
-                    totBasicAmount = 0
-                    totAmountwithPaymentCommssion = 0
-                    Dim is_processed As Integer = 0
-                    Dim is_Emp_On_Amount_Only As String = clsDBFuncationality.getSingleValue("select EmpOnAMountOnly from tspl_Mcc_Master where Mcc_Code='" & objDetail.MCC_CODE & "'", trans)
-                    If incentive.Count > 0 Then
-                        If incentive(1) > 0 Then
-                            For Each drPendingSRN As DataRow In dtPendingSRN.Rows
-                                If is_processed = 0 Then
-                                    totincentiveEMP = Math.Round(clsCommon.myCDecimal(incentive(1)) * clsCommon.myCDecimal(drPendingSRN("Payment_Commission")) / 100, 2)
-                                    totAmount += objDetail.AMOUNT + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
-                                    totBasicAmount += objDetail.AMOUNT + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
-                                    objDetail.Net_AMOUNT += +IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
-                                    totAmountwithPaymentCommssion += objDetail.Net_AMOUNT '+ totincentiveEMP '+ incentive(1)
-                                    sQuery = "Update tspl_Milk_Purchase_Invoice_Detail set Total_Amount='" & clsCommon.myCDecimal(objDetail.AMOUNT) & "',Total_Amount_Acc='" & clsCommon.myCDecimal(objDetail.Net_AMOUNT) & "',Net_Amount='" & clsCommon.myCDecimal(objDetail.Net_AMOUNT) & "',incentive='" & incentive(1) & "' , incentiveEMP='" & totincentiveEMP & "' where srn_code='" & objDetail.SRN_CODE & "'"
-                                    clsDBFuncationality.ExecuteNonQuery(sQuery, trans)
-                                    is_processed = 1
-                                End If
-                                'Exit For
-                            Next
-                            is_processed = 0
-                            totAmount = objHead.Amount + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
-                            totAmountwithPaymentCommssion = objHead.Total_Amount_Acc + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
+                'clsMilkPurchaseInvoiceMCC.SaveMPData(objHead.DOC_CODE, objHead.FROM_DATE, objHead.TO_DATE, objHead.MCC_CODE, objHead.VSP_CODE, trans)
+                'If Not settDoNotIncludeIncentiveInMilkPurchaseInvoice Then
+                '    Dim incentive As ArrayList = clsMilkPurchaseInvoiceMCC.LoadDataQuery_For_Incentive(objHead.DOC_CODE, objHead.VSP_CODE, objHead.MCC_CODE, frm_date, Today.Date, False, trans, (End_date.Day - frm_date.Day) + 1)
+                '    clsMilkPurchaseInvoiceMCC.LoadDataQuery_For_Incentive_MP(objHead.DOC_CODE, objHead.VSP_CODE, objHead.MCC_CODE, frm_date, Today.Date, False, trans, (End_date.Day - frm_date.Day) + 1)
+                '    Dim totincentiveEMP As Double = 0
+                '    Dim totincentive As Double = 0
+                '    totAmount = 0
+                '    totBasicAmount = 0
+                '    totAmountwithPaymentCommssion = 0
+                '    Dim is_processed As Integer = 0
+                '    Dim is_Emp_On_Amount_Only As String = clsDBFuncationality.getSingleValue("select EmpOnAMountOnly from tspl_Mcc_Master where Mcc_Code='" & objDetail.MCC_CODE & "'", trans)
+                '    If incentive.Count > 0 Then
+                '        If incentive(1) > 0 Then
+                '            For Each drPendingSRN As DataRow In dtPendingSRN.Rows
+                '                If is_processed = 0 Then
+                '                    totincentiveEMP = Math.Round(clsCommon.myCDecimal(incentive(1)) * clsCommon.myCDecimal(drPendingSRN("Payment_Commission")) / 100, 2)
+                '                    totAmount += objDetail.AMOUNT + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
+                '                    totBasicAmount += objDetail.AMOUNT + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
+                '                    objDetail.Net_AMOUNT += +IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
+                '                    totAmountwithPaymentCommssion += objDetail.Net_AMOUNT '+ totincentiveEMP '+ incentive(1)
+                '                    sQuery = "Update tspl_Milk_Purchase_Invoice_Detail set Total_Amount='" & clsCommon.myCDecimal(objDetail.AMOUNT) & "',Total_Amount_Acc='" & clsCommon.myCDecimal(objDetail.Net_AMOUNT) & "',Net_Amount='" & clsCommon.myCDecimal(objDetail.Net_AMOUNT) & "',incentive='" & incentive(1) & "' , incentiveEMP='" & totincentiveEMP & "' where srn_code='" & objDetail.SRN_CODE & "'"
+                '                    clsDBFuncationality.ExecuteNonQuery(sQuery, trans)
+                '                    is_processed = 1
+                '                End If
+                '                'Exit For
+                '            Next
+                '            is_processed = 0
+                '            totAmount = objHead.Amount + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
+                '            totAmountwithPaymentCommssion = objHead.Total_Amount_Acc + IIf(is_Emp_On_Amount_Only = "1", 0, totincentiveEMP) + incentive(1)
 
-                            sQuery = "Update tspl_Milk_Purchase_Invoice_Head set Total_Amount='" & clsCommon.myCDecimal(totAmount) & "',Total_Amount_Acc='" & clsCommon.myCDecimal(totAmountwithPaymentCommssion) & "' ,incentive_Head='" & incentive(1) & "' , incentiveEMP_Head='" & totincentiveEMP & "' where doc_code='" & clsCommon.myCstr(objHead.DOC_CODE) & "'"
-                            clsDBFuncationality.ExecuteNonQuery(sQuery, trans)
-                        End If
-                    End If
-                End If
+                '            sQuery = "Update tspl_Milk_Purchase_Invoice_Head set Total_Amount='" & clsCommon.myCDecimal(totAmount) & "',Total_Amount_Acc='" & clsCommon.myCDecimal(totAmountwithPaymentCommssion) & "' ,incentive_Head='" & incentive(1) & "' , incentiveEMP_Head='" & totincentiveEMP & "' where doc_code='" & clsCommon.myCstr(objHead.DOC_CODE) & "'"
+                '            clsDBFuncationality.ExecuteNonQuery(sQuery, trans)
+                '        End If
+                '    End If
+                'End If
 
-                sQuery = "select Total_Amount_Acc from tspl_Milk_Purchase_Invoice_Head where doc_code='" & objHead.DOC_CODE & "'"
+                Dim sQuery As String = "select Total_Amount_Acc from tspl_Milk_Purchase_Invoice_Head where doc_code='" & objHead.DOC_CODE & "'"
                 totAmount = clsCommon.myCDecimal(clsDBFuncationality.getSingleValue(sQuery, trans))
 
 
@@ -1759,7 +1703,6 @@ where  TSPL_MILK_SRN_HEAD.Posted=1 and tspl_Milk_Srn_Head.is_incentive_Created='
                 'UpdateTDSAmount(objRemittance, objHead.DOC_CODE, objHead.DOC_DATE, dblPreviousTDSAmt, objHead.VSP_CODE, totAmount, totAmount, trans)
                 Dim objPIRemittance As clsPIRemittance = clsPIRemittance.Convert(objRemittance, dblPreviousTDSAmt)
                 clsPIRemittance.SaveData(objPIRemittance, objHead.DOC_CODE, objHead.DOC_DATE, trans)
-
                 clsMilkPurchaseInvoiceMCC.PostData("M-PURINVOICE", objHead.DOC_CODE, trans)
                 'CreateHandlingCharges(objHead, trans) ''GKD/02/05/18-000126.By Balwinder On 03/05/2018 .No Need To make adjustment Entry of Handling Charges 
                 CreateDebitNoteForDeductionMapping(objHead, objList, trans)
@@ -4259,11 +4202,9 @@ where  TSPL_MILK_SRN_HEAD.MCC_CODE='" + objHead.MCC_CODE + "' and TSPL_MILK_SRN_
 #Region "Create DCS Addition/Deduction"
                 qry = "insert into TSPL_MILK_PURCHASE_INVOICE_DCS_ADD_DED (InvoiceNo,Against_DCS_ADDITION_DEDUCTION,SRN_CODE,Against_Milk_Collection_MCC_Detail,Amt)
 select '" + objHead.DOC_CODE + "' as InvoiceNo,Code, DOC_CODE,null as Against_Milk_Collection_MCC_Detail,((((case when Applicable_On=0 then (case when Qty_UOM=2 then ACC_Qty else (case when Qty_UOM=1 then ACC_WEIGHT_LTR else Qty end) end) else AMOUNT end) * Applicable_Value) / (case when Applicable_Type=0 then 1 else 100 end ))*Conversion) as Amt from ( 
-select  TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty,(case when len(isnull(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))<=2 then TSPL_MILK_RECEIPT_DETAIL.ACC_WEIGHT_LTR else TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_LTR end) as ACC_WEIGHT_LTR,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Qty_UOM,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value,TSPL_DCS_ADDITION_DEDUCTION.Conversion 
+select  TSPL_MILK_SRN_HEAD.DOC_CODE,TSPL_MILK_SRN_HEAD.DOC_DATE,TSPL_MILK_SRN_DETAIL.Qty,TSPL_MILK_SRN_DETAIL.ACC_Qty,(case when len(isnull(TSPL_MILK_SRN_HEAD.Against_Reject_No,''))<=2 then TSPL_MILK_SRN_DETAIL.ACC_Qty_LTR else TSPL_MILK_REJECT_DETAIL.ACC_WEIGHT_LTR end) as ACC_WEIGHT_LTR,TSPL_MILK_SRN_DETAIL.AMOUNT, TSPL_DCS_ADDITION_DEDUCTION.Code,TSPL_DCS_ADDITION_DEDUCTION.Applicable_On,TSPL_DCS_ADDITION_DEDUCTION.Qty_UOM,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Type,TSPL_DCS_ADDITION_DEDUCTION.Applicable_Value,TSPL_DCS_ADDITION_DEDUCTION.Conversion 
 from TSPL_MILK_SRN_DETAIL 
 inner join TSPL_MILK_SRN_HEAD on TSPL_MILK_SRN_HEAD.DOC_CODE=TSPL_MILK_SRN_DETAIL.DOC_CODE
-left outer join TSPL_MILK_SAMPLE_HEAD on TSPL_MILK_SAMPLE_HEAD.DOC_CODE=TSPL_MILK_SRN_HEAD.MILK_SAMPLE_CODE
-left outer join  TSPL_MILK_RECEIPT_DETAIL on TSPL_MILK_RECEIPT_DETAIL.DOC_CODE=TSPL_MILK_SAMPLE_HEAD.MILK_RECEIPT_CODE and TSPL_MILK_RECEIPT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
 left outer join  TSPL_MILK_REJECT_DETAIL on TSPL_MILK_REJECT_DETAIL.DOC_CODE=TSPL_MILK_SRN_HEAD.Against_Reject_No and TSPL_MILK_REJECT_DETAIL.SAMPLE_NO=TSPL_MILK_SRN_HEAD.SAMPLE_NO
 inner join TSPL_VLC_MASTER_HEAD on TSPL_VLC_MASTER_HEAD.VLC_Code=TSPL_MILK_SRN_HEAD.VLC_CODE
 inner join TSPL_VENDOR_MASTER on TSPL_VENDOR_MASTER.Vendor_Code=TSPL_VLC_MASTER_HEAD.VSP_Code
@@ -6036,15 +5977,6 @@ a:      Next
             " )xx " +
             " )xxxx inner join TSPL_MILK_SRN_DETAIL on TSPL_MILK_SRN_DETAIL.DOC_CODE=xxxx.DOC_CODE"
             clsDBFuncationality.ExecuteNonQuery(qry)
-
-
-            '            If clsCommon.myLen(clsFixedParameter.GetData(clsFixedParameterType.BholeBabaPaymentProcessProPrintStartDate, clsFixedParameterCode.BholeBabaPaymentProcessProPrintStartDate, Nothing)) > 0 Then
-            '                qry = "delete from TSPL_VLC_DATA_UPLOADER where Doc_No in (select distinct MinDoc  from (
-            'select MIN(Doc_No) AS  MinDoc,MAX(Doc_No) as MaxDoc,MCC_Code,File_Date,shift,VLC_CODE,MP_CODE,qty,fat,snf,SUM(1) as a from TSPL_VLC_DATA_UPLOADER 
-            'WHERE File_Date>='" + clsCommon.GetPrintDate(txtFromDate, "dd/MMM/yyyy") + "' and MCC_Code='" + strMCCCode + "'  group by MCC_Code,File_Date,shift,VLC_CODE,MP_CODE,qty,fat,snf HAVING SUM(1)>1
-            ')x where MinDoc<>MaxDoc)"
-            '                clsDBFuncationality.ExecuteNonQuery(qry)
-            '            End If
         Catch ex As Exception
         End Try
     End Sub
