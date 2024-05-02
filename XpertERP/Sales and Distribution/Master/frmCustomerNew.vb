@@ -1440,6 +1440,11 @@ Public Class frmCustomer
             Else
                 obj.IsDistributor = "N"
             End If
+            If chkDefaultGrower.Checked = True Then
+                obj.Is_Default_Grower = 1
+            Else
+                obj.Is_Default_Grower = 0
+            End If
             obj.ServiceDealerCode = txtServiceDealerCode.Value.ToString
             obj.TDMCode = txtTDMCode.Value.ToString
             obj.DistributorCode = txtDistributorCode.Value.ToString
@@ -2111,6 +2116,12 @@ Public Class frmCustomer
                 Else
                     Me.chkIsDistributor.Checked = False
                 End If
+                Dim IsDefaultGrower As Double = clsCommon.myCdbl(myDr("Is_Default_Grower"))
+                If IsDefaultGrower > 0 Then
+                    Me.chkDefaultGrower.Checked = True
+                Else
+                    Me.chkDefaultGrower.Checked = False
+                End If
                 Dim strServiceDealerCode As String = myDr("Service_Dealer_Code").ToString()
                 Dim strTDMCode As String = myDr("TDM_Code").ToString()
                 Dim strDistributorCode As String = myDr("Distributor_Code").ToString()
@@ -2482,6 +2493,7 @@ Public Class frmCustomer
         Me.chkInterBranch.Checked = False
         Me.Chkparntcutmr.Checked = False
         chkIsDistributor.Checked = False
+        chkDefaultGrower.Checked = False
         txtServiceDealerCode.Value = ""
         txtServiceDealerName.Text = ""
         txtTDMCode.Value = ""
@@ -2812,6 +2824,7 @@ Public Class frmCustomer
         Me.Chkparntcutmr.Checked = False
         Me.fndCustCurrency.Value = Nothing
         Me.chkIsDistributor.Checked = False
+        Me.chkDefaultGrower.Checked = False
         Me.txtServiceDealerCode.Value = ""
         Me.txtServiceDealerName.Text = ""
         Me.txtTDMCode.Value = ""

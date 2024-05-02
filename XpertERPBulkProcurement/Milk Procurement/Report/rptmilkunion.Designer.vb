@@ -22,12 +22,14 @@ Partial Class rptmilkunion
     'Do not modify it using the code editor.
     <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
-        Dim TableViewDefinition1 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
+        Dim TableViewDefinition5 As Telerik.WinControls.UI.TableViewDefinition = New Telerik.WinControls.UI.TableViewDefinition()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.RadPageView1 = New Telerik.WinControls.UI.RadPageView()
         Me.RadPageViewPage1 = New Telerik.WinControls.UI.RadPageViewPage()
         Me.RadPanel1 = New Telerik.WinControls.UI.RadPanel()
+        Me.chkRJSBNS = New Telerik.WinControls.UI.RadCheckBox()
         Me.RadGroupBox2 = New Telerik.WinControls.UI.RadGroupBox()
+        Me.rbdAllTrans = New System.Windows.Forms.RadioButton()
         Me.rdbPosted = New System.Windows.Forms.RadioButton()
         Me.rdbUnposted = New System.Windows.Forms.RadioButton()
         Me.txtFromDate = New common.Controls.MyDateTimePicker()
@@ -40,7 +42,6 @@ Partial Class rptmilkunion
         Me.btngo = New Telerik.WinControls.UI.RadButton()
         Me.btnclose = New Telerik.WinControls.UI.RadButton()
         Me.btnPrint = New Telerik.WinControls.UI.RadButton()
-        Me.rbdAllTrans = New System.Windows.Forms.RadioButton()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
@@ -49,6 +50,7 @@ Partial Class rptmilkunion
         Me.RadPageViewPage1.SuspendLayout()
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadPanel1.SuspendLayout()
+        CType(Me.chkRJSBNS, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.RadGroupBox2.SuspendLayout()
         CType(Me.txtFromDate, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -109,6 +111,7 @@ Partial Class rptmilkunion
         '
         'RadPanel1
         '
+        Me.RadPanel1.Controls.Add(Me.chkRJSBNS)
         Me.RadPanel1.Controls.Add(Me.RadGroupBox2)
         Me.RadPanel1.Controls.Add(Me.txtFromDate)
         Me.RadPanel1.Controls.Add(Me.txtToDate)
@@ -119,6 +122,14 @@ Partial Class rptmilkunion
         Me.RadPanel1.Name = "RadPanel1"
         Me.RadPanel1.Size = New System.Drawing.Size(779, 363)
         Me.RadPanel1.TabIndex = 15
+        '
+        'chkRJSBNS
+        '
+        Me.chkRJSBNS.Location = New System.Drawing.Point(583, 21)
+        Me.chkRJSBNS.Name = "chkRJSBNS"
+        Me.chkRJSBNS.Size = New System.Drawing.Size(58, 18)
+        Me.chkRJSBNS.TabIndex = 443
+        Me.chkRJSBNS.Text = "RJS & BNS"
         '
         'RadGroupBox2
         '
@@ -132,6 +143,16 @@ Partial Class rptmilkunion
         Me.RadGroupBox2.Padding = New System.Windows.Forms.Padding(10, 20, 10, 10)
         Me.RadGroupBox2.Size = New System.Drawing.Size(269, 29)
         Me.RadGroupBox2.TabIndex = 442
+        '
+        'rbdAllTrans
+        '
+        Me.rbdAllTrans.AutoSize = True
+        Me.rbdAllTrans.Location = New System.Drawing.Point(165, 6)
+        Me.rbdAllTrans.Name = "rbdAllTrans"
+        Me.rbdAllTrans.Size = New System.Drawing.Size(95, 17)
+        Me.rbdAllTrans.TabIndex = 439
+        Me.rbdAllTrans.Text = "All Transation"
+        Me.rbdAllTrans.UseVisualStyleBackColor = True
         '
         'rdbPosted
         '
@@ -254,7 +275,7 @@ Partial Class rptmilkunion
         Me.gv1.MasterTemplate.SelectionMode = Telerik.WinControls.UI.GridViewSelectionMode.CellSelect
         Me.gv1.MasterTemplate.ShowGroupedColumns = True
         Me.gv1.MasterTemplate.ShowHeaderCellButtons = True
-        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition1
+        Me.gv1.MasterTemplate.ViewDefinition = TableViewDefinition5
         Me.gv1.MyStopExport = False
         Me.gv1.Name = "gv1"
         Me.gv1.ShowHeaderCellButtons = True
@@ -297,16 +318,6 @@ Partial Class rptmilkunion
         Me.btnPrint.TabIndex = 330
         Me.btnPrint.Text = "Print"
         '
-        'rbdAllTrans
-        '
-        Me.rbdAllTrans.AutoSize = True
-        Me.rbdAllTrans.Location = New System.Drawing.Point(165, 6)
-        Me.rbdAllTrans.Name = "rbdAllTrans"
-        Me.rbdAllTrans.Size = New System.Drawing.Size(95, 17)
-        Me.rbdAllTrans.TabIndex = 439
-        Me.rbdAllTrans.Text = "All Transation"
-        Me.rbdAllTrans.UseVisualStyleBackColor = True
-        '
         'rptmilkunion
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -328,6 +339,7 @@ Partial Class rptmilkunion
         CType(Me.RadPanel1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadPanel1.ResumeLayout(False)
         Me.RadPanel1.PerformLayout()
+        CType(Me.chkRJSBNS, System.ComponentModel.ISupportInitialize).EndInit()
         CType(Me.RadGroupBox2, System.ComponentModel.ISupportInitialize).EndInit()
         Me.RadGroupBox2.ResumeLayout(False)
         Me.RadGroupBox2.PerformLayout()
@@ -365,4 +377,5 @@ Partial Class rptmilkunion
     Friend WithEvents rdbPosted As RadioButton
     Friend WithEvents rdbUnposted As RadioButton
     Friend WithEvents rbdAllTrans As RadioButton
+    Friend WithEvents chkRJSBNS As RadCheckBox
 End Class

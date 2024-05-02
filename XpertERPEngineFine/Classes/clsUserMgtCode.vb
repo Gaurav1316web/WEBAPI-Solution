@@ -2659,6 +2659,20 @@ Public Class clsUserMgtCode
     Public Const SubModuleMilkUnion As String = "RPT_MLK_UNN"
 
 
+    ''==================Sheed Module start here ===============
+    Public Const ModuleSheed As String = "MSHEED"
+    Public Const SubModuleSheedSetUp As String = "SMSHEED"
+    Public Const frmSheedGrowerMaster As String = "SHEED-GRWR-M"
+
+
+    ''=========== sheed transactions=====
+    Public Const SubModuleSheedTransaction As String = "SMSHEED-T"
+
+
+    ''============sheed MODULE  Report=======================
+    Public Const SubModuleSheedReport As String = "SMSHEED-R"
+
+
     Private Shared Function InsertDefaultValue(ByVal strProgramCode As String, ByVal strProgramName As String, ByVal strLevel1 As String, ByVal strLevel2 As String, ByVal CurrentUserCode As String, ByVal CurrentCompanyCode As String) As Boolean
         Dim qry As String = "select PROGRAM_NAME from TSPL_PROGRAM_MASTER where Program_Code='" + strProgramCode + "' "
         Dim dt As DataTable = clsDBFuncationality.GetDataTable(qry)
